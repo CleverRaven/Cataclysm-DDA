@@ -39,7 +39,8 @@ float get_collision_factor(float delta_v);
 
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 constexpr int SCATTER_DISTANCE = 3;
-constexpr int k_mvel = 200; //adjust this to balance collision damage
+//adjust this to balance collision damage
+constexpr int k_mvel = 200;
 
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
@@ -236,20 +237,37 @@ public:
     /** parts are considered broken at zero health */
     bool is_broken() const;
 
-    int blood        = 0;         // how much blood covers part (in turns).
-    bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vpart_position::is_inside() instead
-    bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
-                                  // so our indices can remain consistent.
-    bool enabled     = true;      //
-    int flags        = 0;         //
-    int passenger_id = 0;         // carrying passenger
+    /** how much blood covers part (in turns). */
+    int blood = 0;
 
-    bool open = false;            // door is open
-    int direction = 0;            // direction the part is facing
+    /**
+     * if tile provides cover.
+     * WARNING: do not read it directly, use vpart_position::is_inside() instead
+     */
+    bool inside = false;
 
-    // Coordinates for some kind of target; jumper cables and turrets use this
-    // Two coordinate pairs are stored: actual target point, and target vehicle center.
-    // Both cases use absolute coordinates (relative to world origin)
+    /**
+     * true if this part is removed. The part won't disappear until the end of the turn
+     * so our indices can remain consistent.
+     */
+    bool removed = false;
+    bool enabled = true;
+    int flags = 0;
+
+    /** ID of player passenger */
+    int passenger_id = 0;
+
+    /** door is open */
+    bool open = false;
+
+    /** direction the part is facing */
+    int direction = 0;
+
+    /**
+     * Coordinates for some kind of target; jumper cables and turrets use this
+     * Two coordinate pairs are stored: actual target point, and target vehicle center.
+     * Both cases use absolute coordinates (relative to world origin)
+     */
     std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
 private:
@@ -990,7 +1008,8 @@ public:
     // Process the trap beneath
     void handle_trap( const tripoint &p, int part );
 
-    units::volume max_volume(int part) const; // stub for per-vpart limit
+    // stub for per-vpart limit
+    units::volume max_volume(int part) const;
     units::volume free_volume(int part) const;
     units::volume stored_volume(int part) const;
     /**
@@ -1234,7 +1253,8 @@ public:
     std::vector<int> speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<int> floating;         // List of parts that provide buoyancy to boats
     std::set<std::string> tags;        // Properties of the vehicle
-    std::map<itype_id,float> fuel_remainder; // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
+    // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
+    std::map<itype_id,float> fuel_remainder;
     active_item_cache active_items;
 
     /**
@@ -1275,42 +1295,68 @@ public:
      */
     int posx = 0;
     int posy = 0;
-    tileray face;       // frame direction
-    tileray move;       // direction we are moving
-    int velocity = 0;       // vehicle current velocity, mph * 100
-    int cruise_velocity = 0; // velocity vehicle's cruise control trying to achieve
-    int vertical_velocity = 0; // Only used for collisions, vehicle falls instantly
-    int om_id;          // id of the om_vehicle struct corresponding to this vehicle
-    int turn_dir = 0;       // direction, to which vehicle is turning (player control). will rotate frame on next move
+    // frame direction
+    tileray face;
+    // direction we are moving
+    tileray move;
+    // vehicle current velocity, mph * 100
+    int velocity = 0;
+    // velocity vehicle's cruise control trying to achieve
+    int cruise_velocity = 0;
+    // Only used for collisions, vehicle falls instantly
+    int vertical_velocity = 0;
+    // id of the om_vehicle struct corresponding to this vehicle
+    int om_id;
+    // direction, to which vehicle is turning (player control). will rotate frame on next move
+    int turn_dir = 0;
 
-    std::array<point, 2> pivot_anchor; // points used for rotation of mount precalc values
-    std::array<int, 2> pivot_rotation = {{ 0, 0 }}; // rotation used for mount precalc values
+    // points used for rotation of mount precalc values
+    std::array<point, 2> pivot_anchor;
+    // rotation used for mount precalc values
+    std::array<int, 2> pivot_rotation = {{ 0, 0 }};
 
-    int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
-    float of_turn;      // goes from ~1 to ~0 while proceeding every turn
-    float of_turn_carry;// leftover from previous turn
+    // amount of last turning (for calculate skidding due to handbrake)
+    int last_turn = 0;
+    // goes from ~1 to ~0 while proceeding every turn
+    float of_turn;
+    // leftover from previous turn
+    float of_turn_carry;
 
-    int tracking_epower     = 0; // total power consumed by tracking devices (why would you use more than one?)
+    // total power consumed by tracking devices (why would you use more than one?)
+    int tracking_epower     = 0;
     int alarm_epower        = 0;
-    int camera_epower       = 0; // power consumed by camera system
+    // power consumed by camera system
+    int camera_epower       = 0;
     int extra_drag          = 0;
     // TODO: change these to a bitset + enum?
-    bool cruise_on                  = true;  // cruise control on/off
-    bool engine_on                  = false; // at least one engine is on, of any type
-    bool tracking_on                = false; // vehicle tracking on/off
-    bool is_locked                  = false; // vehicle has no key
-    bool is_alarm_on                = false; // vehicle has alarm on
+    // cruise control on/off
+    bool cruise_on                  = true;
+    // at least one engine is on, of any type
+    bool engine_on                  = false;
+    // vehicle tracking on/off
+    bool tracking_on                = false;
+    // vehicle has no key
+    bool is_locked                  = false;
+    // vehicle has alarm on
+    bool is_alarm_on                = false;
     bool camera_on                  = false;
-    bool skidding                   = false; // skidding mode
-    bool check_environmental_effects= false; // has bloody or smoking parts
-    bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
-    bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
+    // skidding mode
+    bool skidding                   = false;
+    // has bloody or smoking parts
+    bool check_environmental_effects= false;
+    // "inside" flags are outdated and need refreshing
+    bool insides_dirty              = true;
+    // Is the vehicle hanging in the air and expected to fall down in the next turn?
+    bool falling                    = false;
 
 private:
-    void refresh_pivot() const;                // refresh pivot_cache, clear pivot_dirty
+    // refresh pivot_cache, clear pivot_dirty
+    void refresh_pivot() const;
 
-    mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
-    mutable point pivot_cache;                 // cached pivot point
+    // if true, pivot_cache needs to be recalculated
+    mutable bool pivot_dirty;
+    // cached pivot point
+    mutable point pivot_cache;
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;
