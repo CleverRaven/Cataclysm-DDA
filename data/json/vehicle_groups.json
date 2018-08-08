@@ -216,15 +216,6 @@
         ]
     },
     {
-        "id": "bandit_vehicles",
-        "type": "vehicle_group",
-        "//": "Vehicles used by Hell's Raiders for scouting and assaults",
-        "vehicles": [
-            [ "quad_bike", 150 ],
-            [ "motorcycle", 300 ]
-        ]
-    },
-    {
         "id": "warehouse_vehicles",
         "type": "vehicle_group",
         "//": "Lifting and hauling vehicles for warehouses, loading bays, and similar locations",
@@ -245,6 +236,12 @@
         ]
     },
     {
+    "id": "bandit_vehicles",
+    "type": "vehicle_group",
+    "//": "Vehicles used by Hell's Raiders for scouting and assaults",
+    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ] ]
+  },
+  {
     "type": "vehicle_group",
     "id": "junkyard_vehicles",
     "vehicles": [
