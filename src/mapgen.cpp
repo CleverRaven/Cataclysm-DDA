@@ -2897,7 +2897,7 @@ ___DEEE|.R.|...,,...|sss\n",
         } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    ter_set(i, j, t_rock_floor);
+                    ter_set(i, j, t_thconc_floor);
                     if (((i < lw || i > SEEX * 2 - 1 - rw) && j > SEEY - 3 && j < SEEY + 2) ||
                         ((j < tw || j > SEEY * 2 - 1 - bw) && i > SEEX - 3 && i < SEEX + 2)) {
                         ter_set(i, j, t_sewage);
@@ -2966,7 +2966,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 } else {
                     debugmsg("Error: Tried to generate 1-sided lab but no lab_1side json exists.");
                 }
-                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_rock_floor; };
+                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_thconc_floor; };
                 const auto range = points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } );
                 if (is_ot_subtype("stairs", t_above)) {
                     if( const auto p = random_point( range, predicate ) ) {
@@ -3033,12 +3033,12 @@ ___DEEE|.R.|...,,...|sss\n",
                         }
 
                         if (is_ot_subtype("stairs", t_above)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                                 ter_set( *p, t_stairs_up );
                             }
                         }
                         if (is_ot_subtype("stairs", terrain_type)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                                 ter_set( *p, t_stairs_down );
                             }
                         }
@@ -3060,7 +3060,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                            ((i < SEEX - 1 || i > SEEX) && (j == SEEY - 2 || j == SEEY + 1))) {
                                     ter_set(i, j, t_concrete_wall);
                                 } else {
-                                    ter_set(i, j, t_rock_floor);
+                                    ter_set(i, j, t_thconc_floor);
                                 }
                             }
                         }
@@ -3157,7 +3157,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 } else if (j < lw || j > SEEY * 2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3) {
                                     ter_set(i, j, t_concrete_wall);
                                 } else {
-                                    ter_set(i, j, t_rock_floor);
+                                    ter_set(i, j, t_thconc_floor);
                                 }
                             }
                         }
@@ -3209,14 +3209,14 @@ ___DEEE|.R.|...,,...|sss\n",
                                 } else if (j < tw || j >= SEEY * 2 - 1 - bw) {
                                     ter_set(i, j, t_concrete_wall);
                                 } else {
-                                    ter_set(i, j, t_rock_floor);
+                                    ter_set(i, j, t_thconc_floor);
                                 }
                             }
                         }
                         science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                      zlevel, rng(0, 3));
                         if (is_ot_subtype("stairs", t_above)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                                 ter_set( *p, t_stairs_up );
                             }
                         }
@@ -3229,7 +3229,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                         }
                         if (is_ot_subtype("stairs", terrain_type)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                                 ter_set( *p, t_stairs_down );
                             }
                         }
@@ -3263,9 +3263,9 @@ ___DEEE|.R.|...,,...|sss\n",
                         (i > rw &&          (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
                         (j > tw &&          (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5))) ||
                         (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
-                        ter_set(i, j, t_rock_floor);
+                        ter_set(i, j, t_thconc_floor);
                         if (one_in(5)) {
-                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_rock_floor);
+                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_thconc_floor);
                         }
                     }
                 }
@@ -3299,7 +3299,7 @@ ___DEEE|.R.|...,,...|sss\n",
         if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j)) {
+                    if (t_thconc_floor == ter(i, j)) {
                         ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
                     } else if (t_rock == ter(i, j)) {
                         ter_set(i, j, t_concrete_wall);
@@ -3311,7 +3311,7 @@ ___DEEE|.R.|...,,...|sss\n",
         } else if (central_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 )) {
+                    if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 )) {
                         ter_set(i, j, t_utility_light);
                     }
                 }
@@ -3321,7 +3321,7 @@ ___DEEE|.R.|...,,...|sss\n",
             if (one_in(2)) {
                 for (int i = 0; i < SEEX * 2; i++) {
                     for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_rock_floor == ter(i, j) && one_in(150)) {
+                        if (t_thconc_floor == ter(i, j) && one_in(150)) {
                             ter_set(i, j, t_utility_light);
                         }
                     }
@@ -3365,7 +3365,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
                 // borders and have to be caught in code. We determine if a border isn't handled by checking
                 // the east-facing border space where the door normally is -- it should not be a floor.
-                if( ter(tripoint(23, 11, abs_sub.z)) == t_rock_floor ) {
+                if( ter(tripoint(23, 11, abs_sub.z)) == t_thconc_floor ) {
                     // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
                     for( int i = 0; i <= 23; i++ ) {
                         ter_set( 23, i, t_concrete_wall );
@@ -3412,7 +3412,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     } else if (j < tw || j > SEEY * 2 - 1 - bw) {
                         ter_set(i, j, t_concrete_wall);
                     } else {
-                        ter_set(i, j, t_rock_floor);
+                        ter_set(i, j, t_thconc_floor);
                     }
                 }
             }
@@ -3595,12 +3595,12 @@ ___DEEE|.R.|...,,...|sss\n",
 
         // Handle stairs in the unlikely case they are needed.
         if (is_ot_subtype("stairs", t_above)) {
-            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                 ter_set( *p, t_stairs_up );
             }
         }
         if (is_ot_subtype("stairs", terrain_type)) {
-            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                 ter_set( *p, t_stairs_down );
             }
         }
@@ -3611,7 +3611,7 @@ ___DEEE|.R.|...,,...|sss\n",
         if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j)) {
+                    if (t_thconc_floor == ter(i, j)) {
                         ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
                     } else if (t_rock == ter(i, j)) {
                         ter_set(i, j, t_concrete_wall);
@@ -3622,7 +3622,7 @@ ___DEEE|.R.|...,,...|sss\n",
         } else if (central_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) ) {
+                    if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) ) {
                         ter_set(i, j, t_utility_light);
                     }
                 }
@@ -3632,7 +3632,7 @@ ___DEEE|.R.|...,,...|sss\n",
             if (one_in(2)) {
                 for (int i = 0; i < SEEX * 2; i++) {
                     for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_rock_floor == ter(i, j) && one_in(200)) {
+                        if (t_thconc_floor == ter(i, j) && one_in(200)) {
                             ter_set(i, j, t_utility_light);
                         }
                     }
