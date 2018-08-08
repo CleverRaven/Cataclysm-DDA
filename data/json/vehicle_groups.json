@@ -328,6 +328,6 @@
   {
     "type": "vehicle_group",
     "id": "golf_carts",
-    "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ],
+    "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ]
   }
 ]
