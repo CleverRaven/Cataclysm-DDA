@@ -486,30 +486,23 @@
   {
     "result": "badge_deputy",
     "type": "uncraft",
-    "time": 500,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 20 ] ] ]
+    "copy-from": "badge_cybercop"
   },
   {
     "result": "badge_detective",
     "type": "uncraft",
-    "time": 500,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "copy-from": "badge_cybercop",
     "components": [ [ [ "gold_small", 20 ] ] ]
   },
   {
     "result": "badge_marshal",
     "type": "uncraft",
-    "time": 500,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 20 ] ] ]
+    "copy-from": "badge_cybercop"
   },
   {
     "result": "badge_swat",
     "type": "uncraft",
-    "time": 500,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 20 ] ] ]
+    "copy-from": "badge_cybercop"
   },
   {
     "result": "baseball",
