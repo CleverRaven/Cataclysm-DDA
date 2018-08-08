@@ -2,7 +2,7 @@
   {
     "id": "basketlg_external",
     "type": "vehicle_part",
-    "name": "shopping cart basket",
+    "name": "external shopping cart basket",
     "item": "basket",
     "location": "structure",
     "symbol": "o",
@@ -19,8 +19,8 @@
   {
     "id": "basketsm_external",
     "type": "vehicle_part",
-    "name": "wire bike basket",
-    "item": "wire",
+    "name": "external wire bike basket",
+    "item": "bike_basket",
     "location": "structure",
     "symbol": "o",
     "broken_symbol": "#",
@@ -36,7 +36,7 @@
   {
     "id": "cargo_space_external",
     "type": "vehicle_part",
-    "name": "cargo rack",
+    "name": "external cargo rack",
     "item": "cargo_rack",
     "location": "structure",
     "symbol": "=",
