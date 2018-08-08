@@ -395,7 +395,7 @@
     }
   },
   {
-    "//": "electricity malfunction",
+    "//": "electricity room, 50% chance of shock malfunction",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -417,7 +417,7 @@
         "..........F....|       |",
         "..........F....----?---|",
         "......%%..F.............",
-        "......xT..F.............",
+        "......xP..F.............",
         "..........F....----+---|",
         "..........H....|       |",
         "..........F....|       |",
@@ -445,9 +445,6 @@
         "H": "t_chaingate_c",
         "C": "t_gates_control_concrete"
       },
-      "place_fields": [
-        { "field": "fd_shock_vent", "x": 7, "y": 12 }
-      ],
       "mapping": {
         "r": {
           "items": [
@@ -457,10 +454,23 @@
         }
       },
       "place_nested": [
+        { "chunks": [ "null", "sub_fd_shock_vent" ], "x": 7, "y": 12},
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [0,2], "y": [0,2], "repeat": 5},
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [4,6], "y": [0,2], "repeat": 5}
+        { "chunks": [ "sub_f_crate_utility_room" ], "x": [0,2], "y": [0,2], "repeat": 4},
+        { "chunks": [ "sub_f_crate_utility_room" ], "x": [4,6], "y": [0,2], "repeat": 4}
+      ]
+    }
+  },
+  {
+    "//": "Shock vent which spews electricity every ~10th turn.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sub_fd_shock_vent",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [
+        { "field": "fd_shock_vent", "x": 0, "y": 0 }
       ]
     }
   },
