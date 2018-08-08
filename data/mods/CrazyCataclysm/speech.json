@@ -572,6 +572,12 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
+    "sound": "\"What is your major malfunction, numbnut?\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
     "sound": "\"Leeeeeeeeeeeeeroy!  Jenkins rebuild!\"",
     "volume": 60
   }
