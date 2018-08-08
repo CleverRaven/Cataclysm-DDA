@@ -237,7 +237,7 @@
     "symbol": ",",
     "color": "light_green",
     "use_action": { "target": "atomic_lamp_off", "msg": "You close the lamp's cover.", "menu_text": "Close cover", "type": "transform" },
-    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_lamp_off",
@@ -255,7 +255,7 @@
     "symbol": ",",
     "color": "light_green",
     "use_action": { "target": "atomic_lamp", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light",
@@ -277,7 +277,7 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light_off",
@@ -295,7 +295,7 @@
     "symbol": ",",
     "color": "light_green",
     "use_action": { "target": "atomic_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "ax",
@@ -974,7 +974,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "charcoal",
-    "max_charges": 1000
+    "max_charges": 1000,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "kiln",
@@ -990,7 +991,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "max_charges": 1000
+    "max_charges": 1000,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "broadfire_off",
@@ -1464,7 +1466,8 @@
     "color": "dark_gray",
     "ammo": "charcoal",
     "sub": "forge",
-    "max_charges": 500
+    "max_charges": 500,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "char_kiln",
@@ -1513,7 +1516,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "charcoal",
-    "max_charges": 200
+    "max_charges": 200,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "charcoal_cooker",
@@ -3081,7 +3085,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 500
+    "max_charges": 500,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "funnel",
@@ -3242,7 +3247,8 @@
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "gasoline_lantern_on",
@@ -3264,7 +3270,7 @@
     "turns_per_charge": 20,
     "revert_to": "gasoline_lantern",
     "use_action": { "target": "gasoline_lantern", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_15", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "geiger_off",
@@ -3901,7 +3907,8 @@
       "need_fire_msg": "You need something to light it with!",
       "menu_text": "Light wood",
       "type": "transform"
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "kiln_lit",
@@ -3924,7 +3931,7 @@
       "transform_age": 3600,
       "not_ready_msg": "The kiln is still burning."
     },
-    "flags": [ "LIGHT_8", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "knife_butcher",
@@ -5123,7 +5130,8 @@
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "oil_lamp_on",
@@ -5145,7 +5153,7 @@
     "turns_per_charge": 20,
     "revert_to": "oil_lamp",
     "use_action": { "target": "oil_lamp", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "oxygen_tank",
@@ -7937,7 +7945,8 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER"
+    "use_action": "WATER_PURIFIER",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "weather_reader",
