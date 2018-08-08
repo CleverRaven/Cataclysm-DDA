@@ -330,6 +330,7 @@ static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -5351,12 +5352,6 @@ void player::suffer()
                     }
                     done_effect = true;
                 }
-                // Sleep
-                if( !done_effect && one_in( to_turns<int>( 8_hours ) ) ) {
-                    add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
-                    add_effect( effect_lying_down, 20_minutes );
-                    done_effect = true;
-                }
                 // Bad feeling
                 if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
                     add_msg( m_warning, _( "You get a bad feeling." ) );
@@ -5435,6 +5430,13 @@ void player::suffer()
                     }
                     done_effect = true;
                 }
+            }
+        }
+
+        if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+            if( one_in( to_turns<int>( 8_hours ) ) ) {
+                add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
+                add_effect( effect_lying_down, 20_minutes );
             }
         }
 
