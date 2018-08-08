@@ -463,7 +463,7 @@
         ".ht...th.",
         ".ht...th.",
         ".ht...th.",
-        "....r....",
+        "....c....",
         "........."
       ],
       "palettes": [
@@ -471,10 +471,38 @@
       ],
       "mapping": {
         "t": { "items": [{"item": "office", "chance": 10}]},
-        "r": { "item": [{"item": "television", "chance": 10}]}
+        "c": { "item": [{"item": "television", "chance": 10}]}
       }
     }
-  },  {
+  },
+  {
+    "//": "9x9 circle-conference room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".........",
+        "...hhh...",
+        "..ttttt..",
+        ".ht...th.",
+        ".ht...th.",
+        ".ht...th.",
+        "..ttttt..",
+        "...hhh...",
+        "........."
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "t": { "items": [{"item": "office", "chance": 10}]}
+      }
+    }
+  },
+  {
     "//": "7x7 security desk",
     "type": "mapgen",
     "method": "json",
