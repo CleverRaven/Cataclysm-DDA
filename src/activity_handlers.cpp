@@ -290,6 +290,25 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             act.set_to_null();
             return;
     }
+
+    if( action == QUARTER ) {
+        if( corpse_item.get_mtype()->size == MS_TINY ) {
+            u.add_msg_if_player( m_bad, _("This corpse is too small to quarter without damaging."), corpse->nname().c_str() );
+            act.set_to_null();
+            return;
+        }
+        if( corpse_item.has_flag( "QUARTERED" ) ) {
+            u.add_msg_if_player( m_bad, _("This is already quartered."), corpse->nname().c_str() );
+            act.set_to_null();
+            return;
+        }
+        if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
+            u.add_msg_if_player( m_bad, _("You need to perform field dressing before quartering."), corpse->nname().c_str() );
+            act.set_to_null();
+            return;
+        }
+    }
+
     // applies to all butchery actions
     bool is_human = corpse == nullptr || corpse->id == mtype_id::NULL_ID() || ( corpse->in_species( HUMAN ) && !corpse->in_species( ZOMBIE ) );
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) || u.has_trait_flag( "SAPIOVORE" ) ) ) {
@@ -302,7 +321,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             case 2:
                 u.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
             case 3:
-                    u.add_msg_if_player( m_bad, _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
+                u.add_msg_if_player( m_bad, _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
             }
         } else {
             u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
@@ -821,20 +840,6 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 
 void butchery_quarter( item *corpse_item, player &p )
 {   
-    const mtype *corpse = corpse_item->get_mtype();
-    if( corpse_item->get_mtype()->size == MS_TINY ) {
-        p.add_msg_if_player( m_bad, _("This corpse is too small to quarter without damaging."), corpse->nname().c_str() );
-        return;
-    }
-    if( corpse_item->has_flag( "QUARTERED" ) ) {
-        p.add_msg_if_player( m_bad, _("This is already quartered."), corpse->nname().c_str() );
-        return;
-    }
-    if( !( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
-        p.add_msg_if_player( m_bad, _("You need to perform field dressing before quartering."), corpse->nname().c_str() );
-        return;
-    }
-
     corpse_item->set_flag( "QUARTERED" );
     p.add_msg_if_player( m_good, _("You roughly slice the corpse of %s into four parts and set them aside."), corpse->nname().c_str() );
     for( int i = 1; i <= 3; i++ ) { // 4 quarters (one exists, add 3, flag does the rest)
@@ -876,7 +881,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     const field_id type_gib = corpse->gibType();
 
     if( action == QUARTER ) {
-        if( query_yn( _( "Quarter corpse of %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() )  ) {
+        if( query_yn( _( "Quarter corpse of %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() ) ) {
             butchery_quarter( &corpse_item, *p );
             act->set_to_null();
             return;
