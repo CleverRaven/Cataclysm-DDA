@@ -208,6 +208,12 @@
       ["fan", 10],
       ["pipe_glass", 5],
       ["coke", 8],
+      ["hat_golf", 15],
+      ["gloves_golf", 15],
+      ["golf_bag", 10],
+      ["golf_tee", 15],
+      ["golf_ball", 30],
+      ["golf_club", 15],
       ["meth", 2],
       ["sneakers", 80],
       ["boots", 70],
@@ -2057,6 +2063,11 @@
       ["puck", 30],
       ["basketball", 25],
       ["golf_club", 35],
+      ["hat_golf", 20],
+      ["gloves_golf", 20],
+      ["golf_bag", 10],
+      ["golf_tee", 30],
+      ["golf_ball", 40],
       ["glasses_safety", 40],
       ["armguard_soft", 40],
       ["armguard_hard", 20],
@@ -2301,6 +2312,11 @@
       ["jersey", 20],
       ["puck", 30],
       ["golf_club", 35],
+      ["hat_golf", 30],
+      ["gloves_golf", 25],
+      ["golf_bag", 20],
+      ["golf_tee", 30],
+      ["golf_ball", 40],
       ["manual_brawl", 30],
       ["manual_melee", 6],
       ["manual_throw", 12],
@@ -2594,6 +2610,7 @@
       ["dress_shoes", 50],
       ["dance_shoes", 5],
       ["heels", 50],
+      ["golf_shoes", 20],
       ["boots_combat", 10],
       ["boots_hiking", 20],
       ["boots_western", 10],
@@ -2745,6 +2762,7 @@
       ["straw_fedora", 100],
       ["hat_chef", 10],
       ["maid_hat", 30],
+      ["hat_golf", 50],
       ["hat_ball", 100],
       ["postman_hat", 10],
       ["tophat", 50],
@@ -2783,6 +2801,7 @@
       ["dress_shoes", 50],
       ["dance_shoes", 20],
       ["heels", 100],
+      ["golf_shoes", 40],
       ["boots_hiking", 40],
       ["boots_western", 60],
       ["clogs", 60],
@@ -2918,6 +2937,7 @@
       ["gloves_leather", 45],
       ["gloves_work", 5],
       ["scarf", 45],
+	  ["hat_golf", 30],
       ["knit_scarf", 35],
       ["long_knit_scarf", 5],
       ["scarf_long", 1],
@@ -9375,5 +9395,23 @@
       [ "cookies", 25 ],
       [ "candy", 20 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "golf_cart",
+    "items": [
+      [ "hat_golf", 50 ],
+      [ "gloves_golf", 40 ],
+      [ "golf_bag", 25 ],
+      [ "golf_tee", 80 ],
+      [ "golf_ball", 90 ],
+      [ "towel", 40 ],
+      [ "golf_club", 75 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "golf_green",
+    "items": [ [ "golf_tee", 100 ], [ "golf_ball", 65 ], [ "golf_club", 3 ] ]
   }
 ]
