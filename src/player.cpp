@@ -7721,7 +7721,7 @@ public:
         if( !style_selected.str().empty() ) {
             const martialart &ma = style_selected.obj();
             std::ostringstream buffer;
-            buffer << _( ma.name.c_str() ) << "\n\n \n\n";
+            buffer << ma.name << "\n\n \n\n";
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
                 buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
