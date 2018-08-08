@@ -104,4 +104,12 @@ constexpr double accuracy_grazing  = 1.0;
 /** Minimum size of a horde to show up on the minimap.  */
 #define HORDE_VISIBILITY_SIZE 3
 
+/** Average annual temperature in F used for climate, weather and temperature calculation */
+/** Average New England temperature = 43F/6C rounded to int */
+#define AVERAGE_ANNUAL_TEMPERATURE 43
+
+/** Base starting spring temperature in F used for climate, weather and temperature calculation */
+/** New England base spring temperature = 65F/18C rounded to int */
+#define SPRING_TEMPERATURE 65
+
 #endif

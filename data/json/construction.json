@@ -1137,7 +1137,7 @@
         ],
         "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
-        "post_terrain" : "t_floor"
+        "post_terrain" : "t_floor_primitive"
     },{
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
@@ -2096,12 +2096,59 @@
         "post_terrain" : "t_dock"
     },{
         "type" : "construction",
-        "description" : "Cut Down Grass",
+        "description" : "Cut Grass",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 6,
-        "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_long",
+        "post_terrain" : "t_grass",
+        "tools": [
+        [ [ "scythe", -1 ], [ "sickle", -1 ] ]
+        ]
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_long",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_dead",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_golf",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_white",
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
@@ -2271,6 +2318,24 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
+    },{
+        "type" : "construction",
+        "description" : "Build Root Cellar",
+        "category" : "CONSTRUCT",
+        "required_skills" : [ [ "survival", 4 ], [ "fabrication", 4 ] ],
+        "time" : 130,
+        "qualities": [
+            [ { "id": "DIG", "level": 2 } ],
+            [ { "id": "HAMMER", "level": 2 } ]
+        ],
+        "components" : [
+            [ [ "rock", 40 ], [ "brick", 40] ],
+            [ [ "2x4", 6 ], [ "stick", 6 ] ],
+            [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
+        ],
+        "pre_note":  "You need a deep pit to construct a root cellar.",
+        "pre_terrain": "t_pit",
+        "post_terrain": "t_rootcellar"
     },{
         "type" : "construction",
         "description" : "Mark firewood source",
