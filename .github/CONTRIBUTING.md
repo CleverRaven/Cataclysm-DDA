@@ -92,12 +92,21 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
         $ git clone https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
         # Clones your fork of the repository into the current directory in terminal
 
-3. Add this repository as a remote.
+3. Set commit message template.
+
+        $ git config --local commit.template .gitmessage
+
+4. Add this repository as a remote.
 
         $ cd Cataclysm-DDA
         # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
+
+For futher details about commit messae guidlines please visit:
+- [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
+- [chris.beams.io](https://chris.beams.io/posts/git-commit/)
+- [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
 
 #### Update your `master` branch
 
