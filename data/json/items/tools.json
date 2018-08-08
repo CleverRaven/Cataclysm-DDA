@@ -4222,7 +4222,7 @@
     "ammo": "battery",
     "max_charges": 1000,
     "charges_per_use": 1,
-    "techniques": [ "WBLOCK_1", "RAPID", "SHEATH_SPEAR" ],
+    "techniques": [ "WBLOCK_1", "RAPID" ],
     "use_action": {
       "target": "l-stick_on",
       "msg": "The L-stick(tm) lights up.",
@@ -4231,7 +4231,7 @@
       "need_charges_msg": "The L-stick(tm)'s batteries are empty.",
       "type": "transform"
     },
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ]
   },
   {
     "id": "l-stick_on",
