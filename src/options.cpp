@@ -818,10 +818,10 @@ std::vector<std::pair<std::string, std::string>> options_manager::load_soundpack
     std::map<std::string, std::string> local_soundpacks;
     auto soundpack_names = build_resource_list(local_soundpacks, "soundpack", path, "soundpack-conf");
 
-    // Copy over found shoundpacks
+    // Copy over found soundpacks
     SOUNDPACKS.insert(local_soundpacks.begin(), local_soundpacks.end());
 
-    // Return found soundpack names for fruther processing
+    // Return found soundpack names for further processing
     return soundpack_names;
 }
 
@@ -831,7 +831,7 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_soundpac
     SOUNDPACKS.clear();
     std::vector<std::pair<std::string, std::string>> result;
 
-    // Search user direcotry for sound packs
+    // Search user directory for sound packs
     auto user_soundpacks = load_soundpack_from("user_sound");
     result.insert(result.end(), user_soundpacks.begin(), user_soundpacks.end());
 
@@ -839,7 +839,7 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_soundpac
         return result;
     }
 
-    // Search data direcotry for sound packs
+    // Search data directory for sound packs
     auto data_soundpacks = load_soundpack_from("data_sound");
     result.insert(result.end(), data_soundpacks.begin(), data_soundpacks.end());
 
