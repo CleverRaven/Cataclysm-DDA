@@ -512,6 +512,66 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
+    "sound": "\"Don't call me Shirley.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I have had it with these motherfucking snakes!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Back up, put down the gun, and gimme some tropical flavored bubblicious.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"And some skittles.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"You'll shoot your eye out, kid.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Cocainum!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I am your father.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Who said that?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"WHO THE FUCK SAID THAT?!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Bullshit!  You didn't conviced me!  Show me your real war face!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
     "sound": "\"Leeeeeeeeeeeeeroy!  Jenkins rebuild!\"",
     "volume": 60
   }
