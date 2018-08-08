@@ -716,7 +716,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "TORSO" ],
+    "//": "should cover TORSO but give no encumbrance penalties",
     "coverage": 2,
     "material_thickness": 2,
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
