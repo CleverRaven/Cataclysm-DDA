@@ -841,7 +841,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 void butchery_quarter( item *corpse_item, player &p )
 {   
     corpse_item->set_flag( "QUARTERED" );
-    p.add_msg_if_player( m_good, _("You roughly slice the corpse of %s into four parts and set them aside."), corpse->nname().c_str() );
+    p.add_msg_if_player( m_good, _("You roughly slice the corpse of %s into four parts and set them aside."), corpse_item->get_mtype()->nname().c_str() );
     for( int i = 1; i <= 3; i++ ) { // 4 quarters (one exists, add 3, flag does the rest)
         g->m.add_item_or_charges( p.pos(), *corpse_item, true );
     }
