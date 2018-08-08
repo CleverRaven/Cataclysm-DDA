@@ -1,6 +1,7 @@
 #include "mapgen.h"
 
 #include "coordinate_conversions.h"
+#include "drawing_primitives.h"
 #include "omdata.h"
 #include "output.h"
 #include "game.h"
@@ -3321,10 +3322,139 @@ ___DEEE|.R.|...,,...|sss\n",
             if (one_in(2)) {
                 for (int i = 0; i < SEEX * 2; i++) {
                     for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_thconc_floor == ter(i, j) && one_in(150)) {
+                        if( t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(20) ) {
                             ter_set(i, j, t_utility_light);
                         }
                     }
+                }
+            }
+        }
+
+        // Lab special effects.
+        if( one_in(10) ) {
+            switch( rng(1, 6) ) {
+                // full flooding/sewage
+                case 1: {
+                    if (is_ot_subtype("stairs", terrain_type) || is_ot_subtype("ice", terrain_type)) {
+                        // don't flood if stairs because the floor below will not be flooded.
+                        // don't flood if ice lab because there's no mechanic for freezing liquid floors.
+                        break;
+                    }
+                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    for (int i = 0; i < SEEX * 2 - 1; i++) {
+                        for (int j = 0; j < SEEY * 2 - 1; j++) {
+                            // We spare some terrain to make it look better visually.
+                            if( t_rock_floor == ter(i, j) && !one_in(10) ) {
+                                ter_set(i, j, fluid_type);
+                            } else if (has_flag_ter("DOOR", i, j) && !one_in(3) ) {
+                                // We want the actual debris, but not the rubble marker or dirt.
+                                make_rubble( { i, j, abs_sub.z } );
+                                ter_set(i, j, fluid_type);
+                                furn_set(i, j, f_null);
+                            }
+                        }
+                    }
+                    break;
+                }
+                // minor flooding/sewage
+                case 2: {
+                    if (is_ot_subtype("stairs", terrain_type) || is_ot_subtype("ice", terrain_type)) {
+                        // don't flood if stairs because the floor below will not be flooded.
+                        // don't flood if ice lab because there's no mechanic for freezing liquid floors.
+                        break;
+                    }
+                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    for (int i = 0; i < 2; ++i) {
+                        draw_rough_circle( [this, fluid_type]( int x, int y ) {
+                                if( t_rock_floor == ter(x, y) ) {
+                                    ter_set(x, y, fluid_type);
+                                } else if (has_flag_ter("DOOR", x, y) ) {
+                                    // We want the actual debris, but not the rubble marker or dirt.
+                                    make_rubble( { x,  y, abs_sub.z } );
+                                    ter_set(x, y, fluid_type);
+                                    furn_set(x, y, f_null);
+                                }
+                            }, rng(1, SEEX * 2 - 2), rng(1, SEEY * 2 - 2 ), rng(3, 6) );
+                    }
+                    break;
+                }
+                // toxic gas leaks and smoke-filled rooms.
+                case 3:
+                case 4: {
+                    bool is_toxic = one_in(2);
+                    for (int i = 0; i < SEEX * 2; i++) {
+                        for (int j = 0; j < SEEY * 2; j++) {
+                            if( t_rock_floor == ter(i, j) && one_in(200) ) {
+                                if (is_toxic) {
+                                    add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
+                                } else {
+                                    add_field( {i, j, abs_sub.z}, fd_smoke_vent, 2 );
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+                // portal with an artifact effect.
+                case 5: {
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    std::vector<artifact_natural_property> valid_props = {
+                        ARTPROP_BREATHING,
+                        ARTPROP_CRACKLING,
+                        ARTPROP_WARM,
+                        ARTPROP_SCALED,
+                        ARTPROP_WHISPERING,
+                        ARTPROP_GLOWING
+                    };
+                    draw_rough_circle( [this]( int x, int y ) {
+                            if ( has_flag_ter( "GOES_DOWN", x, y ) ||
+                                 has_flag_ter( "GOES_UP", x, y ) ||
+                                 has_flag_ter( "CONSOLE", x, y ) ) {
+                                return; // spare stairs and consoles.
+                            }
+                            make_rubble( {x, y, abs_sub.z } );
+                            ter_set( x, y, t_rock_floor);
+                        }, center.x, center.y, 4 );
+                    furn_set( center.x, center.y, f_null );
+                    trap_set( center, tr_portal );
+                    create_anomaly( center, random_entry( valid_props ), false );
+                    break;
+                }
+                // damaged mininuke accident.
+                case 6: {
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    if( has_flag_ter("WALL", center.x, center.y) ) {
+                        return;  // just skip it, we don't want to risk embedding radiation out of sight.
+                    }
+                    draw_rough_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 10);
+                        }, center.x, center.y, rng(7, 12) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 20);
+                        }, center.x, center.y, rng(5, 8) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 30);
+                        }, center.x, center.y, rng(2, 4) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 50);
+                        }, center.x, center.y, 1 );
+                    draw_circle( [this]( int x, int y ) {
+                        if ( has_flag_ter( "GOES_DOWN", x, y ) ||
+                             has_flag_ter( "GOES_UP", x, y ) ||
+                             has_flag_ter( "CONSOLE", x, y ) ) {
+                            return; // spare stairs and consoles.
+                        }
+                        make_rubble( {x, y, abs_sub.z } );
+                        ter_set( x, y, t_rock_floor);
+                        }, center.x, center.y, 1 );
+                    add_spawn( mon_hazmatbot, 1, center.x - 1, center.y );
+                    if (one_in(2)) {
+                        add_spawn( mon_hazmatbot, 1, center.x + 1, center.y );
+                    }
+                    // damaged mininuke thrown past edge of rubble so the player can see it.
+                    spawn_item(center.x - 2 + 4 * rng(0, 1), center.y + rng(-2, 2),
+                        "mininuke", 1, 1, 0, rng (2, 4) );
+                    break;
                 }
             }
         }
@@ -4526,7 +4656,7 @@ ___DEEE|.R.|...,,...|sss\n",
             case 1: { // Toxic gas
                 int cx = rng(9, 14), cy = rng(9, 14);
                 ter_set(cx, cy, t_rock);
-                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 1 );
+                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
             }
             break;
 
@@ -7827,14 +7957,16 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     create_anomaly( tripoint( cx, cy, abs_sub.z ), prop );
 }
 
-void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
+void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bool create_rubble)
 {
     // TODO: Z
     int cx = cp.x;
     int cy = cp.y;
-    rough_circle(this, t_dirt, cx, cy, 11);
-    rough_circle_furn(this, f_rubble, cx, cy, 5);
-    furn_set(cx, cy, f_null);
+    if (create_rubble) {
+        rough_circle(this, t_dirt, cx, cy, 11);
+        rough_circle_furn(this, f_rubble, cx, cy, 5);
+        furn_set(cx, cy, f_null);
+    }
     switch (prop) {
     case ARTPROP_WRIGGLING:
     case ARTPROP_MOVING:
