@@ -4574,6 +4574,26 @@ void map::make_active( item_location &loc )
     current_submap->active_items.add( iter, point(lx, ly) );
 }
 
+void map::update_lum( item_location &loc, bool add )
+{
+    item *target = loc.get_item();
+
+    // if the item is not emissive, do nothing
+    if( !target->is_emissive() ) {
+        return;
+    }
+
+    int lx = 0;
+    int ly = 0;
+    submap *const current_submap = get_submap_at( loc.position(), lx, ly );
+
+    if( add ) {
+        current_submap->update_lum_add( *target, lx, ly );
+    } else {
+        current_submap->update_lum_rem( *target, lx, ly );
+    }
+}
+
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
 void map::apply_in_fridge( item &it, int temp )
