@@ -9,23 +9,23 @@
 
 class vehicle;
 enum vpart_bitflags : int;
-    class vpart_reference;
+class vpart_reference;
 
-    /**
-     * Reference to a position (a point) of the @ref vehicle.
-     * It does not refer to a specific vehicle part, but to a mount point of a
-     * vehicle that contains one or more vehicle parts.
-     *
-     * It's supposed to be the basic vehicle interface for the @ref map.
-     * Another class shall be used to get a reference to a specific part of the
-     * vehicle.
-     *
-     * Note that it must be created with a valid vehicle reference and a valid
-     * part index. An instance can become invalid when the referenced vehicle is
-     * changed (parts added / removed or whole vehicle removed). There is no way
-     * to detect this (it behaves like C++ references).
-     */
-    class vpart_position
+/**
+ * Reference to a position (a point) of the @ref vehicle.
+ * It does not refer to a specific vehicle part, but to a mount point of a
+ * vehicle that contains one or more vehicle parts.
+ *
+ * It's supposed to be the basic vehicle interface for the @ref map.
+ * Another class shall be used to get a reference to a specific part of the
+ * vehicle.
+ *
+ * Note that it must be created with a valid vehicle reference and a valid
+ * part index. An instance can become invalid when the referenced vehicle is
+ * changed (parts added / removed or whole vehicle removed). There is no way
+ * to detect this (it behaves like C++ references).
+ */
+class vpart_position
 {
     private:
         std::reference_wrapper<::vehicle> vehicle_;
