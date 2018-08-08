@@ -164,6 +164,6 @@
       "draw_cost": 30,
       "flags": [ "GRENADE" ]
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+      "flags": [ "WATER_FRIENDLY", "BELTED" ]
 	}
 ]
