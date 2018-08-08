@@ -416,8 +416,8 @@
         "FFFHFFFFFFFFHFF|       |",
         "..........F....|       |",
         "..........F....----?---|",
-        "......%%..F.............",
-        "......xP..F.............",
+        ".....PPP..F.............",
+        ".....PPP..F.............",
         "..........F....----+---|",
         "..........H....|       |",
         "..........F....|       |",
@@ -439,7 +439,6 @@
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
         "P": "t_generator_broken",
-        "%": "t_machinery_heavy",
         "F": "t_chainfence_h",
         "f": "t_chainfence_v",
         "H": "t_chaingate_c",
