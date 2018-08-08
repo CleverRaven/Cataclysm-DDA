@@ -153,6 +153,49 @@
     }
   },
   {
+    "//": "7x7 teleporter room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_traps": [ { "trap": "tr_telepad", "x": [ 1, 5 ], "y": [ 1, 5 ] } ],
+      "place_nested": [ { "chunks": [ "lab_telepad_counter_2x2" ], "x": [2, 3], "y": [2, 3] } ]
+    }
+  },
+  {
+    "//": "9x9 teleporter room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_traps": [ { "trap": "tr_telepad", "x": [ 1, 7 ], "y": [ 1, 7 ] } ],
+      "place_nested": [ { "chunks": [ "lab_telepad_counter_2x2" ], "x": [3, 4], "y": [3, 4] } ]
+    }
+  },
+  {
+    "//": "2x2 counter with teleporter loot on it",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_telepad_counter_2x2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "cc",
+        "cc"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "c": {
+          "items": [ {"item": "teleport", "chance": 20} ]
+        }
+      }
+    }
+  },
+  {
     "//": "7x7 desks",
     "type": "mapgen",
     "method": "json",
