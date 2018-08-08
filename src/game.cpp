@@ -6682,23 +6682,63 @@ void game::smash()
     }
 }
 
+static void make_active( item_location loc )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.make_active( loc );
+            break;
+        case item_location::type::vehicle:
+            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
+            break;
+    }
+}
+
+static void update_lum( item_location loc, bool add )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.update_lum( loc, add );
+            break;
+    }
+}
+
 void game::use_item( int pos )
 {
+    bool use_loc = false;
+    item_location loc;
+
     if( pos == INT_MIN ) {
-        auto loc = game_menus::inv::use( u );
+        loc = game_menus::inv::use( u );
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
             return;
         }
-        int obtain_cost = loc.obtain_cost( u );
-        pos = loc.obtain( u );
-        // This method only handles items in te inventory, so refund the obtain cost.
-        u.moves += obtain_cost;
+
+        const item &it = *loc.get_item();
+        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
+            use_loc = true;
+        } else {
+            int obtain_cost = loc.obtain_cost( u );
+            pos = loc.obtain( u );
+            // This method only handles items in te inventory, so refund the obtain cost.
+            u.moves += obtain_cost;
+        }
     }
 
     refresh_all();
-    u.use( pos );
+
+    if( use_loc ) {
+        update_lum( loc.clone(), false );
+        u.use( loc.clone() );
+        update_lum( loc.clone(), true );
+
+        make_active( loc.clone() );
+    } else {
+        u.use( pos );
+    };
+
     u.invalidate_crafting_inventory();
 }
 
@@ -10430,7 +10470,12 @@ void game::reload( int pos, bool prompt )
 
 void game::reload( item_location &loc, bool prompt )
 {
-    item *it = &u.i_at( loc.obtain( u ) );
+    item *it = loc.get_item();
+    bool use_loc = true;
+    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+        it = &u.i_at( loc.obtain( u ) );
+        use_loc = false;
+    }
 
     // bows etc do not need to reload.
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -10485,7 +10530,11 @@ void game::reload( item_location &loc, bool prompt )
 
     if ( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-        u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+        if( use_loc ) {
+            u.activity.targets.emplace_back( loc.clone() );
+        } else {
+            u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+        }
         u.activity.targets.push_back( std::move( opt.ammo ) );
     }
 
