@@ -7721,11 +7721,11 @@ public:
         if( !style_selected.str().empty() ) {
             const martialart &ma = style_selected.obj();
             std::ostringstream buffer;
-            buffer << ma.name << "\n\n \n\n";
+            buffer << _( ma.name ) << "\n\n \n\n";
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
                 buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
-                    return mid.obj().name;
+                    return string_format( "%s: %s", _( mid.obj().name ), _( mid.obj().description ) );
                 } );
             }
             if( ma.force_unarmed ) {
