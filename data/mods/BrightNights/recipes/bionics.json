@@ -1,0 +1,64 @@
+[
+  {
+    "type": "recipe",
+    "result": "bn_bio_nether_stun",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_CBMS",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 8,
+    "time": 50000,
+    "decomp_learn": 8,
+    "book_learn": [ [ "recipe_nether_cbms", 6 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "nether_extract", 5 ] ],
+      [ [ "slime_scrap", 5 ] ],
+      [ [ "amplifier", 6 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "transponder", 5 ] ],
+      [ [ "burnt_out_bionic", 1 ], [ "processor", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bn_bio_nether_carry",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_CBMS",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 8,
+    "time": 50000,
+    "book_learn": [ [ "recipe_nether_cbms", 6 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "nether_extract", 3 ] ],
+      [ [ "mutagen_beast", 3 ] ],
+      [ [ "meat", 10 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "burnt_out_bionic", 1 ], [ "processor", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bn_bio_nether_heal",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_CBMS",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 7 ],
+    "difficulty": 7,
+    "time": 50000,
+    "book_learn": [ [ "recipe_nether_cbms", 7 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "nether_organ", 5 ] ],
+      [ [ "nether_extract", 2 ] ],
+      [ [ "blood", 5 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ], [ "processor", 2 ] ]
+    ]
+  }
+]
