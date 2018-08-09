@@ -4011,5 +4011,27 @@
       [ [ "chain", 1 ] ],
       [ [ "spike", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "tourist_table",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 8000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "scrap", 6 ] ],
+      [ [ "pipe", 6 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "sheet_metal", 2 ] ]
+    ]
   }
 ]

@@ -270,7 +270,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                 return;
             }
             if ( !has_table_nearby ) {
-                u.add_msg_if_player( m_info, _( "You need a table nearby to perform a full butchery." ) );
+                u.add_msg_if_player( m_info, _( "You need a table nearby or something else with a flat surface to perform a full butchery." ) );
                 act.set_to_null();
                 return;
             }
@@ -318,10 +318,13 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             switch( rng( 1, 3 ) ) {
             case 1:
                 u.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
+                break;
             case 2:
                 u.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
+                break;
             case 3:
                 u.add_msg_if_player( m_bad, _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
+                break;
             }
         } else {
             u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );

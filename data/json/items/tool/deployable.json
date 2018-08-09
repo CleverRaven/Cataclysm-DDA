@@ -17,10 +17,10 @@
   {
     "id": "metal_butcher_rack",
     "type": "TOOL",
-    "name": "folded metal butchering rack",
-    "description": "Metal butchering rack designed to hang the carcass in the air.  It is folded for easy transportation and can be mounted as a furniture.",
+    "name": "metal butchering rack",
+    "description": "Metal butchering rack designed to hang the carcass in the air.  It is folded for easy transportation and can be deployed as a furniture.",
     "weight": 5000,
-    "volume": 10,
+    "volume": 40,
     "price": 5000,
     "to_hit": -4,
     "bashing": 7,
@@ -28,5 +28,20 @@
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
+  },
+  {
+    "id": "tourist_table",
+    "type": "TOOL",
+    "name": "tourist table",
+    "description": "Metal tourist table for off-road trips.  It is folded for easy transportation and can be deployed as a furniture.",
+    "weight": 6000,
+    "volume": 100,
+    "price": 5000,
+    "to_hit": -3,
+    "bashing": 5,
+    "material": [ "steel" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" }
   }
 ]
