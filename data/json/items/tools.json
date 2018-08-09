@@ -1445,7 +1445,7 @@
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": "CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -1783,7 +1783,7 @@
     "turns_per_charge": 1,
     "revert_to": "combatsaw_off",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "qualities": [ [ "AXE", 1 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": "COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
@@ -2455,7 +2455,7 @@
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -4176,7 +4176,7 @@
       "need_charges_msg": "The L-stick(tm)'s batteries are empty.",
       "type": "transform"
     },
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ]
   },
   {
     "id": "l-stick_on",
@@ -4198,8 +4198,18 @@
     "turns_per_charge": 40,
     "revert_to": "l-stick",
     "techniques": [ "WBLOCK_1", "RAPID" ],
+<<<<<<< HEAD
     "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ]
+=======
+    "use_action": {
+      "target": "l-stick",
+      "msg": "The l-stick(tm)'s light fades away.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
+>>>>>>> upstream/master
   },
   {
     "id": "landmine",
@@ -4458,7 +4468,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "makeshift_hammer",
@@ -6342,7 +6352,7 @@
     "charges_per_use": 100,
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "shocktonfa_off",

@@ -725,6 +725,31 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_floor_primitive",
+        "name": "primitive floor",
+        "description": "Timber floor and supports, holding up a sod roof.",
+        "symbol": ".",
+        "color": "brown",
+        "move_cost": 2,
+        "roof": "t_flat_roof",
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ],
+        "bash": {
+            "sound": "SMASH!",
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
+            "items": [
+                { "item": "log", "count": [0, 1] },
+                { "item": "stick", "count": [1, 4] },
+                { "item": "splinter", "charges": [1, 4] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_scrap_floor",
         "name": "simple metal floor",
         "description": "A crudely welded together floor of metal with steel trusses and supporting girders.",
@@ -6969,5 +6994,49 @@
               { "item": "stick", "count": [8, 12] }
           ]
       }
-  }   
+  },
+  {
+    "type": "terrain",
+    "id": "t_grass_long",
+    "name": "long grass",
+    "description": "Long shaggy grass that hasn't been cut recently.",
+    "symbol": ",",
+    "color": "green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grass_dead",
+    "name": "dead grass",
+    "description": "Long shaggy grass that hasn't been cut recently.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grass_golf",
+    "name": "golf green",
+    "description": "Grass mowed very short and neat.",
+    "symbol": ".",
+    "color": "light_green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_golf_hole",
+    "name": "golf hole",
+    "description": "A small plastic cup embedded in the grass.",
+    "symbol": "o",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  }
 ]

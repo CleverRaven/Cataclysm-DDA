@@ -53,12 +53,7 @@
         "t": "t_tree_deadpine",
         "|": "t_chainfence_h"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "B": "f_bench",
-        "b": "f_bluebell",
-        "f": "f_dandelion"
-      },
+      "furniture": { "&": "f_trashcan", "B": "f_bench", "b": "f_bluebell", "f": "f_dandelion" },
       "add": [
         { "item": "rock", "x": 4, "y": 4 },
         { "item": "log", "x": 18, "y": 5 },
@@ -66,9 +61,7 @@
         { "item": "log", "x": 14, "y": 17 },
         { "item": "rock", "x": 20, "y": 18 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 21 ], "y": [ 5, 19 ], "repeat": 4 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 21 ], "y": [ 5, 19 ], "repeat": 4 } ]
     }
   }
 ]

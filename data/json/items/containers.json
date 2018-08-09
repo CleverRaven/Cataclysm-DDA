@@ -944,5 +944,20 @@
     "color": "light_gray",
     "contains": 10,
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "basket_laundry",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "laundry basket",
+    "name_plural": "laundry baskets",
+    "description": "A pastic basket meant for storing and hauling clothing.",
+    "weight": 410,
+    "volume": 140,
+    "price": 100,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "light_gray",
+    "contains": 190
   }
 ]
