@@ -551,6 +551,31 @@
     }
   },
   {
+    "//": "7x7 u-conference room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".......",
+        "..hhhh.",
+        "..tttt.",
+        "..t....",
+        "..tttt.",
+        "..hhhh.",
+        ".......",
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "t": { "items": [{"item": "office", "chance": 15}]},
+      }
+    }
+  },
+  {
     "//": "9x9 u-conference room",
     "type": "mapgen",
     "method": "json",
