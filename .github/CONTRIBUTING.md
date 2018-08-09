@@ -103,7 +103,7 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
         $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
 
-For futher details about commit messae guidlines please visit:
+For further details about commit message guidelines please visit:
 - [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
 - [chris.beams.io](https://chris.beams.io/posts/git-commit/)
 - [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
