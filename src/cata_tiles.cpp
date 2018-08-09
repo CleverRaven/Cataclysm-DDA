@@ -1620,6 +1620,26 @@ const tile_type *cata_tiles::find_monster_looks_like( std::string id )
     return nullptr;
 }
 
+const tile_type *cata_tiles::find_vpart_looks_like( std::string id )
+{
+    std::string looks_like = id;
+    int cnt = 0;
+    while( !looks_like.empty() && cnt < 10 ) {
+        const tile_type *lltt = find_tile_with_season( "vp_" + looks_like );
+        if( lltt ) {
+            return lltt;
+        }
+        const vpart_id new_vpid( looks_like );
+        if( !new_vpid.is_valid() ) {
+            return nullptr;
+        }
+        const vpart_info &new_vpi = new_vpid.obj();
+        looks_like = new_vpi.looks_like;
+        cnt += 1;
+    }
+    return nullptr;
+}
+
 const tile_type *cata_tiles::find_tile_with_season( std::string id )
 {
     constexpr size_t suffix_len = 15;
@@ -1693,17 +1713,20 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                     col = mt.color;
                 }
             }
-        } else if (category == C_VEHICLE_PART) {
-            const vpart_id vpid( id.substr( 3 ) );
-            if( vpid.is_valid() ) {
-                const vpart_info &v = vpid.obj();
-                sym = v.sym;
-                if (!subcategory.empty()) {
-                    sym = special_symbol(subcategory[0]);
-                    rota = 0;
-                    subtile = -1;
+        } else if( category == C_VEHICLE_PART ) {
+            tt = find_vpart_looks_like( id.substr( 3 ) );
+            if( !tt ) {
+                const vpart_id vpid( id.substr( 3 ) );
+                if( vpid.is_valid() ) {
+                    const vpart_info &v = vpid.obj();
+                    sym = v.sym;
+                    if( !subcategory.empty() ) {
+                        sym = special_symbol( subcategory[0] );
+                        rota = 0;
+                        subtile = -1;
+                    }
+                    col = v.color;
                 }
-                col = v.color;
             }
         } else if (category == C_FIELD) {
             const field_id fid = field_from_ident( id );
