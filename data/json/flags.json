@@ -77,6 +77,12 @@
     "inherit": false
   },
   {
+    "id": "DIG_TOOL",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ],
+    "info": "While wielded, this item allows you to mine thorough rocks and other hard obstacles by moving into tiles with them."
+  },
+  {
     "id": "DURABLE_MELEE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
