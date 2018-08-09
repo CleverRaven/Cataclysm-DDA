@@ -18,12 +18,12 @@
         "..............sssssss.#.",
         "..............sssssss.#.",
         "..............sssssss.#.",
-        "..............sssssss.#.",
+        "...........p..sssssss.#.",
         ".|-----v;;v-----+-----|.",
         ".|B  S|    |D        f|.",
-        ".vB  t|    |  nnh    Ov.",
+        ".vB  t|Y   |  nnh    Ov.",
         ".v    |    +  nnh    cv.",
-        ".|    +    |         c|.",
+        ".|    +    |l        c|.",
         ".-----|o   |-----+----|.",
         ".q    |o      +      n|.",
         ".q   h|o   n h|     @@|.",
@@ -45,6 +45,7 @@
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_grass",
+        "p": "t_grass",
         ";": "t_door_locked",
         "@": "t_floor",
         "B": "t_floor",
@@ -56,6 +57,8 @@
         "c": "t_floor",
         "d": "t_floor",
         "f": "t_floor",
+        "l": "t_floor",
+        "Y": "t_floor",
         "h": "t_floor",
         "k": "t_floor",
         "n": "t_floor",
@@ -70,7 +73,10 @@
         "B": "f_bathtub",
         "D": "f_trashcan",
         "O": "f_oven",
+        "p": "f_mailbox",
+        "Y": "f_rack_coat",
         "S": "f_sink",
+        "l": "f_stool",
         "c": "f_counter",
         "d": "f_dresser",
         "f": "f_fridge",
@@ -79,9 +85,8 @@
         "n": "f_table",
         "o": "f_bookcase"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
+      "items": {  "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }, "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] } },
       "place_loot": [
         { "group": "bed", "x": [ 20, 21 ], "y": [ 19, 20 ], "chance": 90, "repeat": [ 1, 3 ] },
         { "group": "bedroom", "x": [ 15, 21 ], "y": [ 18, 21 ], "chance": 80, "repeat": [ 1, 4 ] },
@@ -98,12 +103,8 @@
         { "group": "cleaning", "x": [ 2, 4 ], "y": [ 13, 16 ], "chance": 90, "repeat": [ 1, 2 ] },
         { "item": "american_flag", "x": [ 4, 4 ], "y": [ 5, 5 ], "chance": 2 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "suburban_home", "x": 17, "y": 6, "chance": 10, "rotation": 270 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 17, "y": 6, "chance": 10, "rotation": 270 } ]
     }
   }
 ]

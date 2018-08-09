@@ -11,7 +11,7 @@
         "  --:::::::++:::::::--  ",
         "  |..................|  ",
         "  |..........--------|  ",
-        "  |{............#....|  ",
+        "  |{............#.s..|  ",
         "  |{............#....|  ",
         "  |{............#....|  ",
         "  |{............###..|  ",
@@ -41,15 +41,13 @@
         "#": "t_floor",
         "+": "t_door_glass_c",
         "-": "t_wall",
+        "s": "t_floor",
         ".": "t_floor",
         ":": "t_wall_glass",
         "{": "t_floor",
         "|": "t_wall"
       },
-      "furniture": {
-        "#": "f_counter",
-        "{": "f_rack"
-      },
+      "furniture": { "#": "f_counter", "s": "f_stool", "{": "f_rack" },
       "place_items": [
         { "item": "shoes", "x": [ 7, 12 ], "y": 10, "chance": 70 },
         { "item": "pants", "x": [ 5, 12 ], "y": 14, "chance": 88 },
@@ -67,12 +65,8 @@
         { "item": "shirts", "x": 20, "y": [ 10, 19 ], "chance": 75 },
         { "item": "jackets", "x": 20, "y": [ 10, 19 ], "chance": 75 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] }
-      ],
-      "vehicles": {
-        ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 }
-      }
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
+      "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
     }
   }
 ]

@@ -57,8 +57,6 @@
         { "item": "pizza_trash", "x": 14, "y": 13, "chance": 30 },
         { "item": "pizza_trash", "x": 3, "y": 6, "chance": 30 },
         { "item": "pizza_trash", "x": 16, "y": 2, "chance": 30 }
-      ],
-      "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 12, "chance": 4 } ]
-    }
+      ], "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 12, "chance": 4 } ] }
   }
 ]
