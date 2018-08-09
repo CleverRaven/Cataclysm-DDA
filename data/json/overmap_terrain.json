@@ -855,7 +855,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mil_surplus",
-        "name" : "mil. surplus",
+        "name" : "military surplus",
         "sym": 77,
         "copy-from" : "generic_city_building",
         "color" : "i_light_gray"
