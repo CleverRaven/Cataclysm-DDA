@@ -557,7 +557,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bn_bio_nether_stun" ) {
         add_msg_player_or_npc( m_info, _( "Cold blue fire briefly envelops your head!" ),
-                                  _( "<npcname> makes a high-pitched keening sound, their head briefly cloaked in blue fire!" ) );
+                               _( "<npcname> makes a high-pitched keening sound, their head briefly cloaked in blue fire!" ) );
         sounds::sound( pos(), 15, _( "EEEEEEEEEEEEEEEEEEEEEEEEE!" ) );
         int stuns = 0;
         for( const tripoint &dest : g->m.points_in_radius( pos(), 7 ) ) {
@@ -567,7 +567,8 @@ bool player::activate_bionic( int b, bool eff_only )
             }
             monster &critter = *mon_ptr;
             if( critter.type->in_species( ZOMBIE ) ) {
-                critter.add_effect( effect_stunned, rng( 5_turns, 10_turns ) ); // Zombies are stunned less thanks to their human shells
+                critter.add_effect( effect_stunned, rng( 5_turns,
+                                    10_turns ) ); // Zombies are stunned less thanks to their human shells
                 stuns++;
             } else if( critter.type->in_species( NETHER ) ) {
                 critter.add_effect( effect_stunned, rng( 10_turns, 15_turns ) );
