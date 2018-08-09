@@ -598,7 +598,7 @@ void game::init_ui( const bool resized )
         hpW = 14;
         statH = 7;
         statW = sidebarWidth - MINIMAP_WIDTH - hpW;
-        locH = 2;
+        locH = 3;
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
@@ -632,7 +632,7 @@ void game::init_ui( const bool resized )
         pixelminimapY = messY + messHshort;
     } else {
         // standard sidebar style
-        locH = 2;
+        locH = 3;
         statX = 0;
         statH = 4;
         minimapX = 0;
@@ -645,7 +645,7 @@ void game::init_ui( const bool resized )
         if (pixel_minimap_custom_height && pixelminimapH > get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) ) {
             pixelminimapH = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
         }
-        messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 3 for w_location + 4 for w_stat, w_messages starts at 0
         if (messHshort < 9) {
             pixelminimapH -= 9 - messHshort;
             messHshort = 9;
@@ -4702,12 +4702,12 @@ void game::draw_sidebar()
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
     werase(w_location);
-    mvwprintz( w_location, 0, 0, cur_ter->get_color(), utf8_truncate( cur_ter->get_name(), 14 ) );
+    mvwprintz( w_location, 0, 0, cur_ter->get_color(), utf8_truncate( cur_ter->get_name(), getmaxx(w_location) ) );
 
     if (get_levz() < 0) {
-        mvwprintz(w_location, 0, 18, c_light_gray, _("Underground"));
+        mvwprintz(w_location, 1, 18, c_light_gray, _("Underground"));
     } else {
-        mvwprintz( w_location, 0, 18, weather_data( weather ).color, weather_data( weather ).name );
+        mvwprintz( w_location, 1, 18, weather_data( weather ).color, weather_data( weather ).name );
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
@@ -4725,10 +4725,10 @@ void game::draw_sidebar()
         sPhase.insert(5 - ((iPhase < 4) ? iPhase+1 : 5), "<color_" + string_from_color(i_black) + ">");
     }
 
-    trim_and_print( w_location, 1, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
+    trim_and_print( w_location, 2, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
-    mvwprintz(w_location, 1, 15, c_light_gray, "%s ", _("Lighting:"));
+    mvwprintz(w_location, 2, 15, c_light_gray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
     wrefresh(w_location);
