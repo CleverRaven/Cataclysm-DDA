@@ -930,6 +930,37 @@ bool game::start_game()
     }
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
+        bool success = false;
+        for(auto v : m.get_vehicles())
+        {
+            for(auto pv : v.v->get_parts(VPFLAG_CONTROLS))
+            {
+                auto pos = v.v->global_part_pos3(*pv);
+                u.setpos(pos);
+                
+                auto mons = critter_tracker->find(pos);
+                if(mons != nullptr)
+                {
+                    critter_tracker->remove(*mons);
+                }
+
+                /*
+                for(auto mons : all_monsters())
+                {
+                    if(mons.pos() == pos)
+                    {
+                        mons.death_drops = false;
+                        mons.no_extra_death_drops = true;
+                        mons.die(nullptr);
+
+                        break;
+                    }
+                }*/
+                success = true;
+                break;
+            }
+            if (success) break;
+        }
     }
 
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map

@@ -18,6 +18,7 @@
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
+#include "veh_type.h"
 
 namespace MapExtras
 {
@@ -78,41 +79,49 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     
     int x_offset = veh.get()->dir_vec().x * (x_length / 2);
     int y_offset = veh.get()->dir_vec().y * (y_length / 2);
-    
-    //bbox.p1.x += x_length;
-    //bbox.p1.y += y_length;
-    //bbox.p2.x += x_length;
-    //bbox.p2.y += y_length;
-
-
-    //bbox.p1.x = std::min(bbox.p1.x, bbox.p1.y);
-    //bbox.p1.y = std::min(bbox.p1.x, bbox.p1.y);
-    //bbox.p2.x = std::max(bbox.p2.x, bbox.p2.y);
-    //bbox.p2.y = std::max(bbox.p2.x, bbox.p2.y);
 
     int x_min = abs(bbox.p1.x) + 0;
     int y_min = abs(bbox.p1.y) + 0;
     
-    int x_max = (SEEX * 2) - (bbox.p2.x + 1);
-    int y_max = (SEEX * 2) - (bbox.p2.y + 1);
+    int x_max = (SEEX * 2) - (bbox.p2.x + 0);
+    int y_max = (SEEX * 2) - (bbox.p2.y + 0);
 
     int x1 = clamp(cx + x_offset, x_min, x_max);
     int y1 = clamp(cy + y_offset, y_min, y_max);
 
+    vehicle* wreckage = nullptr;
 
     switch(crash_type)
     {
         case 1:
-            m.add_vehicle( vproto_id( "helicopter_wreck_1a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_1a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
             break;
         case 2:
-            m.add_vehicle( vproto_id( "helicopter_wreck_2a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
             break;
         case 3:
-            m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
             break;
         default:
             break;
+    }
+
+    if(wreckage != nullptr)
+    {
+        /*for(auto p : wreckage->get_parts(VPFLAG_CONTROLS))
+        {
+            auto pos = wreckage->global_part_pos3(*p);
+            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );            
+        }*/
+        for(auto p : wreckage->get_parts(VPFLAG_SEATBELT))
+        {
+            auto pos = wreckage->global_part_pos3(*p);
+            if(!one_in(6) || true)
+            {
+                m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y ); 
+            }
+        }
+        //wreckage->smash();
     }
     
     for( int x = 0; x < SEEX * 2; x++ ) {
