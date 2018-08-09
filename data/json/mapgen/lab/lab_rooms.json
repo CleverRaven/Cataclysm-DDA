@@ -445,6 +445,66 @@
     }
   },
   {
+    "//": "7x7 hydroponics",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".......",
+        ".c~~~~.",
+        ".c.....",
+        ".c~~~~.",
+        ".c.....",
+        ".c~~~~.",
+        "......."
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "terrain": {
+        "~": [ "t_water_sh" ]
+      },
+      "mapping": {
+        "c": { "items": [{"item": "chem_lab", "chance": 10}]},
+        "~": { "items": [{"item": "hydro", "chance": 20}]}
+      }
+    }
+  },
+  {
+    "//": "9x9 hydroponics",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".........",
+        ".ccccccc.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        "........."
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "terrain": {
+        "~": [ "t_water_sh" ]
+      },
+      "mapping": {
+        "c": { "items": [{"item": "chem_lab", "chance": 10}]},
+        "~": { "items": [{"item": "hydro", "chance": 20}]}
+      }
+    }
+  },
+  {
     "//": "7x7 chem_storage and office",
     "type": "mapgen",
     "method": "json",
