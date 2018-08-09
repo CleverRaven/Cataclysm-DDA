@@ -993,15 +993,15 @@
     "type": "item_action",
     "id": "DISASSEMBLE",
     "name": "Get content"
-  }
-  {
-    "type" : "item_action",
-    "id" : "STRONG_ANTIBIOTIC",
-    "name" : "Take"
   },
   {
-    "type" : "item_action",
-    "id" : "PANACEA",
-    "name" : "Take"
-    }
+    "type": "item_action",
+    "id": "STRONG_ANTIBIOTIC",
+    "name": "Take"
+  },
+  {
+    "type": "item_action",
+    "id": "PANACEA",
+    "name": "Take"
+  }
 ]
