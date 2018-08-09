@@ -403,6 +403,7 @@ class cata_tiles
         void get_window_tile_counts( const int width, const int height, int &columns, int &rows ) const;
 
         const tile_type *find_furniture_looks_like( std::string id );
+        const tile_type *find_terrain_looks_like( std::string id );
         const tile_type *find_tile_with_season( std::string id );
         bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
