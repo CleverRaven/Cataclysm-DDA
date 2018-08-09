@@ -810,8 +810,17 @@
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
         "name" : "Schizophrenic",
-        "points" : -5,
+        "points" : -2,
         "description" : "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "NARCOLEPTIC",
+        "name" : "Narcoleptic",
+        "points" : -3,
+        "description" : "You randomly fall asleep without any reason.",
         "starting_trait" : true,
         "valid" : false,
         "category" : ["MEDICAL"]
@@ -5051,6 +5060,13 @@
         "prereqs" : ["ACIDPROOF"],
         "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"],
         "category" : ["INSECT", "CHIMERA", "MEDICAL", "SLIME"]
+    },{
+        "type" : "mutation",
+        "id" : "PYROMANIA",
+        "name" : "Pyromania",
+        "starting_trait" : true,
+        "points" : -2,
+        "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often. However, you gain a mood bonus from doing so."
     },{
         "type" : "mutation",
         "id" : "PROF_POLICE",
