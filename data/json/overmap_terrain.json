@@ -8973,5 +8973,121 @@
     "name": "landscaping supply co",
     "sym": 76,
     "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_1",
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_2",
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_00",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_01",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_02",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_10",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_11",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_12",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_20",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_21",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_22",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_30",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course parking lot",
+    "sym": 71,
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_31",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course service building",
+    "sym": 71,
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_32",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green"
   }
 ]

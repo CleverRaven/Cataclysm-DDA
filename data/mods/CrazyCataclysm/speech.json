@@ -250,5 +250,335 @@
     "speaker": "aperture_potato",
     "sound": "Are you even listening to me?",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I've got a feeling we're not in Kansas anymore.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Go ahead, make my day.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"You talkin' to me?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Then who the hell else are you talkin' to?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Well I'm the only one here.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Who the fuck do you think you're talking to?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"What we've got here is failure to communicate.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"E.T. phone home.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I'm as mad as hell, and I'm not going to take this anymore!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"There's no place like home.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Badges?  We ain't got no badges!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"We don't need no badges!  I don't have to show you any stinking badges!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I'll be back.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I see dead people.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"It's alive! It's alive!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Say hello to my little friend!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Here's Johnny!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Open the pod bay doors, HAL.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"They may take our lives, but they'll never take our freedom!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"If you let my daughter go now, that'll be the end of it.  I will not look for you, I will not pursue you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"If you don't, I will look for you, I will find you, and I will kill you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Roads?  Where we're going, we don't need roads.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Fasten your seatbelts. It's going to be a bumpy night.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"You've got to ask yourself one question:  'Do I feel lucky?'  Well, do ya punk?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"You had me at hello.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Houston, we have a problem.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Yippie-ki-yay, motherfucker!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"The first rule of The Lab is:  You do not talk about The Lab.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Don't be afraid.  It's just a big, big lap dog.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Bring me everyone.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"What do you mean everyone?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"EVERYONE!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I'm going to make him an offer he can't refuse.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"This is the beginning of a beautiful friendship.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"You can’t handle the truth!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"If you built it, he will come.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Hasta la vista, baby.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"They’re here!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Tis but a scratch!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Frankly, my dear, I don't give a damn.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"All work and no play makes Jack a dull boy.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Remember: all I'm offering is the truth.  Nothing more.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Don't call me Shirley.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Don't call me Shirley.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I have had it with these motherfucking snakes!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Back up, put down the gun, and gimme some tropical flavored bubblicious.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"And some skittles.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"You'll shoot your eye out, kid.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Cocainum!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I am your father.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Who said that?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"WHO THE FUCK SAID THAT?!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Bullshit!  You didn't conviced me!  Show me your real war face!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"What is your major malfunction, numbnut?\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Leeeeeeeeeeeeeroy!  Jenkins rebuild!\"",
+    "volume": 60
   }
 ]

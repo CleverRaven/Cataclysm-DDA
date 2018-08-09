@@ -1,0 +1,35 @@
+[
+  {
+    "id": "rebar_plate",
+    "type": "vehicle_part",
+    "name": "rebar reinforcement",
+    "item": "rebar_plate",
+    "location": "armor",
+    "symbol": "X",
+    "broken_symbol": "*",
+    "color": "dark_gray",
+    "broken_color": "light_gray",
+    "difficulty": 2,
+    "durability": 150,
+    "folded_volume": 4,
+    "description": "Improvised armor plate.  Will partially protect other components on the same frame from damage.",
+    "breaks_into": [ { "item": "rebar", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
+    "flags": [ "ARMOR", "FOLDABLE" ]
+  },
+  {
+    "id": "spring_plate",
+    "type": "vehicle_part",
+    "name": "shock absorber",
+    "item": "spring_plate",
+    "location": "armor",
+    "symbol": "X",
+    "broken_symbol": "*",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "difficulty": 4,
+    "durability": 1500,
+    "description": "A mounting frame on springs, intended to cushion the effects of collisions on the interior of your vehicle.",
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "spring", "count": [ 0, 4 ] } ],
+    "flags": [ "ARMOR" ]
+  }
+]

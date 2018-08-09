@@ -455,7 +455,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     body_part bp_hit;
-    double hit_value = missed_by + rng_float(-0.5, 0.5);
+    double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
     if( hit_value <= 0.4 ) {
         bp_hit = bp_torso;

@@ -32,14 +32,8 @@
         "      ^^    ss    ^^   s ",
         "      ^^    ss    ^^   s "
       ],
-      "palettes": [
-        "church"
-      ],
-      "mapping": {
-        "b": {
-          "furniture": "f_brazier"
-        }
-      },
+      "palettes": [ "church" ],
+      "mapping": { "b": { "furniture": "f_brazier" } },
       "items": {
         "#": { "item": "church", "chance": 40 },
         ".": { "item": "church", "chance": 5 },

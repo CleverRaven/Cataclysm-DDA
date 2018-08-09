@@ -13,7 +13,7 @@
         "  *___*___*______*___*  ",
         "  *___*___*______*___*  ",
         "  ---:::--------:::---  ",
-        "  |{....#...........{|  ",
+        "  |{.S..#...........{|  ",
         "  |{....#...........{|  ",
         "  |{....#...{{..{...{|  ",
         "  |{....#...{{..{...{|  ",
@@ -45,6 +45,7 @@
         ":": "t_window_bars_alarm",
         "=": "t_strconc_wall",
         "_": "t_pavement",
+        "S": "t_floor",
         "l": "t_floor",
         "s": "t_floor",
         "{": "t_floor",
@@ -52,6 +53,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "S": "f_stool",
         "l": "f_locker",
         "s": "f_sandbag_wall",
         "{": "f_rack"
@@ -94,9 +96,7 @@
         { "item": "ear_plugs", "x": 2, "y": 14, "chance": 50, "repeat": 2 },
         { "item": "powered_earmuffs", "x": 2, "y": 14, "chance": 30 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   }
 ]

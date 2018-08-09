@@ -37,7 +37,6 @@
 
 const efftype_id effect_contacts( "contacts" );
 
-void remove_from_component_lookup( recipe *r );
 void drop_or_handle( const item &newit, player &p );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -1327,6 +1326,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     std::vector<item> components = dis_item.components;
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
+        const bool uncraft_liquids_contained = dis.has_flag( "UNCRAFT_LIQUIDS_CONTAINED" );
         for( const auto &altercomps : dis_requirements.get_components() ) {
             const item_comp &comp = altercomps.front();
             int compcount = comp.count;
@@ -1336,16 +1336,25 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
             }
-            // Compress liquids and counted-by-charges items into one item,
-            // they are added together on the map anyway and handle_liquid
-            // should only be called once to put it all into a container at once.
-            if( newit.count_by_charges() || newit.made_of( LIQUID ) ) {
-                newit.charges = compcount;
-                compcount = 1;
-            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                // tools that can be unloaded should be created unloaded,
-                // tools that can't be unloaded will keep their default charges.
-                newit.charges = 0;
+            const bool is_liquid = newit.made_of( LIQUID );
+            if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
+                // Spawn liquid item in its default container
+                compcount = compcount / newit.charges;
+                if( compcount != 0 ) {
+                    newit = newit.in_its_container();
+                }
+            } else {
+                // Compress liquids and counted-by-charges items into one item,
+                // they are added together on the map anyway and handle_liquid
+                // should only be called once to put it all into a container at once.
+                if( newit.count_by_charges() || is_liquid ) {
+                    newit.charges = compcount;
+                    compcount = 1;
+                } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
+                    // tools that can be unloaded should be created unloaded,
+                    // tools that can't be unloaded will keep their default charges.
+                    newit.charges = 0;
+                }
             }
 
             for( ; compcount > 0; compcount-- ) {

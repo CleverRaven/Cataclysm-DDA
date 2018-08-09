@@ -84,6 +84,18 @@
     "conflicts": [ "FRAGILE_MELEE" ]
   },
   {
+    "id": "EATEN_COLD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This tastes <good>better</good> while <color_light_cyan>cold</color>."
+  },
+  {
+    "id": "EATEN_HOT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This tastes <good>better</good> while <color_red>hot</color>."
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -222,6 +234,12 @@
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
+    "id": "POWERED",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "description": "If turned ON, it uses its own source of power, instead of relying on power of the user."
+  },
+  {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -272,6 +290,12 @@
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "description": "This item can be stored in a sling of the appropriate size."
+  },
+  {
+    "id": "SHEATH_GOLF",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a bag of the appropriate size."
   },
   {
     "id": "SKINTIGHT",

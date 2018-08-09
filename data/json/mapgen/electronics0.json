@@ -11,7 +11,7 @@
         "                        ",
         "   -------::-+--:::---  ",
         "   |{{{{{........#...|  ",
-        "   |{............#...|  ",
+        "   |{............#S..|  ",
         "   |{............#...|  ",
         "   |{............###.|  ",
         "   |{................|  ",
@@ -34,6 +34,7 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "#": "t_floor",
+        "S": "t_floor",
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_floor",
@@ -41,7 +42,7 @@
         "{": "t_floor",
         "|": "t_wall"
       },
-      "furniture": { "#": "f_counter", "{": "f_rack" },
+      "furniture": { "#": "f_counter", "{": "f_rack", "S": "f_stool" },
       "place_items": [
         { "item": "consumer_electronics", "x": [ 4, 20 ], "y": 20, "chance": 85, "repeat": [ 1, 5 ] },
         { "item": "consumer_electronics", "x": 4, "y": [ 15, 19 ], "chance": 85, "repeat": [ 1, 5 ] },
