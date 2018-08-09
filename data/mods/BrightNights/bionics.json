@@ -1,12 +1,50 @@
-{
-  "id": "bn_bio_solar",
-  "type": "bionic",
-  "name": "Solar Panels",
-  "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
-  "occupied_bodyparts": [
-    [ "TORSO", 20 ]
-  ],
-  "flags": [
-    "BIONIC_POWER_SOURCE"
-  ]
-}
+[
+  {
+    "id": "bn_bio_solar",
+    "type": "bionic",
+    "name": "Solar Panels",
+    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "occupied_bodyparts": [ [ "TORSO", 20 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE" ]
+  },
+  {
+    "id": "bn_bio_nether_stun",
+    "type": "bionic",
+    "name": "037-OVLD",
+    "description": "Technoxenobiological processors replacing much of your frontal lobe and vocal chords allows you to make a sound that overloads the senses of alien creatures in range, briefly stunning them at the cost of bionic power.  Constant use brings a risk of side effects.",
+    "occupied_bodyparts": [ [ "HEAD", 5 ] ],
+    "act_cost": 50
+  },
+  {
+    "id": "bn_bio_nether_carry",
+    "type": "bionic",
+    "name": "GozUp B33fI-B01",
+    "description": "Artificial muscles and neural fibers developed off of the gozu's physiology have been implanted alongside your own and wired into your nervous system, increasing your weight capacity by 50%.  Very rarely, you also feel... more aggressive.",
+    "occupied_bodyparts": [ [ "ARM_L", 5 ], [ "ARM_R", 5 ] ]
+  },
+  {
+    "id": "bn_bio_nether_heal",
+    "type": "bionic",
+    "name": "POLY-HEMO",
+    "description": "Your blood has been replaced with a thick, gray hemolymph derived from the circulatory systems of nether creatures.  The substance is extremely effective at clotting wounds, which makes you immune to bleeding and greatly increases the speed that bandages heal you.",
+    "occupied_bodyparts": [ [ "TORSO", 3 ] ]
+  },
+  {
+    "id": "bn_bio_nether_shadow",
+    "type": "bionic",
+    "name": "Fromlight-Noself v1.0",
+    "description": "Your epidermis has been replaced with a metaphysical substance that reacts to darkness while electrical current passes through it.  While active, low light levels will cause your skin to shift to black, rendering you undetectable, but sunlight will burn you horribly.",
+    "occupied_bodyparts": [ [ "HEAD", 2 ], [ "TORSO", 2 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": 10,
+    "react_cost": 1,
+    "time": 5
+  },
+  {
+    "id": "bn_bio_nether_psyshield",
+    "type": "bionic",
+    "name": "Psychic Shield Mk. I",
+    "description": "Your amygdalae have been interwoven with fibers from the hunting horror's cerebral structure, making you immune to hostile psychic effects.",
+    "occupied_bodyparts": [ [ "HEAD", 1 ] ]
+  }
+]

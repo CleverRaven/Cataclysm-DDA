@@ -19,6 +19,7 @@
 #include "sounds.h"
 #include "translations.h"
 #include "monster.h"
+#include "mtype.h"
 #include "overmap.h"
 #include "options.h"
 #include "effect.h"
@@ -40,6 +41,9 @@ const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
 const skill_id skilll_computer( "computer" );
+
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id NETHER( "NETHER" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
@@ -64,6 +68,7 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_stung( "stung" );
+const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
@@ -550,8 +555,37 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
                                           " system, if you unfold it." ) );
         }
+    } else if( bio.id == "bn_bio_nether_stun" ) {
+        add_msg_player_or_npc( m_info, _( "Cold blue fire briefly envelops your head!" ),
+                                  _( "<npcname> makes a high-pitched keening sound, their head briefly cloaked in blue fire!" ) );
+        sounds::sound( pos(), 15, _( "EEEEEEEEEEEEEEEEEEEEEEEEE!" ) );
+        int stuns = 0;
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 7 ) ) {
+            monster *const mon_ptr = g->critter_at<monster>( dest, true );
+            if( !mon_ptr ) {
+                continue;
+            }
+            monster &critter = *mon_ptr;
+            if( critter.type->in_species( ZOMBIE ) ) {
+                critter.add_effect( effect_stunned, rng( 5_turns, 10_turns ) ); // Zombies are stunned less thanks to their human shells
+                stuns++;
+            } else if( critter.type->in_species( NETHER ) ) {
+                critter.add_effect( effect_stunned, rng( 10_turns, 15_turns ) );
+                stuns++;
+            }
+        }
+        if( stuns == 1 ) {
+            add_msg( m_good, _( "A nearby creature abruptly stops in place and shakes violently!" ) );
+        } else if( stuns != 0 ) {
+            add_msg( m_good, _( "Several nearby creatures abruptly stop in place and shake violently!" ) );
+        }
+        if( !has_effect( effect_teleglow ) ) {
+            add_effect( effect_teleglow, 2_minutes ); // small amount of teleglow caused by nether ability
+        } else if( one_in( 6 ) ) { // punish constant use by causing a large amount of teleglow instead!
+            add_msg( m_mixed, _( "Your vision swims with violet nebulae..." ) );
+            add_effect( effect_teleglow, rng( 20_minutes, 40_minutes ) );
+        }
     }
-
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     reset();
 
@@ -772,6 +806,12 @@ void player::process_bionic( int b )
             wants_power_amt > 0 &&
             x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
             charge_power( 1 );
+        }
+    } else if( bio.id == "bn_bio_nether_shadow" ) {
+        if( g->is_in_sunlight( pos() ) ) {
+            add_msg_if_player( m_bad, _( "The sunlight burns you horribly!" ) );
+            mod_pain( 15 );
+            hurtall( 10, nullptr ); // about 9 turns for the average survivor before they die from full health
         }
     }
 }

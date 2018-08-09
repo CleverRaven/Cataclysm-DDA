@@ -1045,6 +1045,9 @@ units::mass Character::weight_capacity() const
     if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
         ret = ret * .60;
     }
+    if( has_bionic( bionic_id( "bn_bio_nether_carry" ) ) ) {
+        ret = ret * 1.5;
+    }
     if (has_artifact_with(AEP_CARRY_MORE)) {
         ret += 22500_gram;
     }
@@ -2706,6 +2709,10 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     // increase healing if character has both effects
     if( !e_bandaged.is_null() && !e_disinfected.is_null() ){
         rate_medicine *= 2;
+    }
+    // nether blood massively increases healing speed
+    if( has_bionic( bionic_id( "bn_bio_nether_heal" ) ) ) {
+        rate_medicine *= 10;
     }
 
     if( get_healthy() > 0.0f ) {

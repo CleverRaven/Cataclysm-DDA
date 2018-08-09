@@ -2,15 +2,11 @@
   {
     "id": "behindcounter",
     "type": "item_group",
-    "magazine": 100,
-    "ammo": 50,
     "items": [ [ "rechargeable_battery", 50 ] ]
   },
   {
     "id" : "bionics",
     "type": "item_group",
-    "magazine": 100,
-    "ammo": 50,
     "items": [
       [ "bn_bio_solar", 10 ]
     ]
@@ -18,8 +14,6 @@
   {
     "id" : "bionics_common",
     "type": "item_group",
-    "magazine": 100,
-    "ammo": 50,
     "items": [
       [ "bn_bio_solar", 10 ]
     ]
@@ -27,19 +21,22 @@
   {
     "id" : "bionics_sci",
     "type": "item_group",
-    "magazine": 100,
-    "ammo": 50,
     "items": [
-      [ "bn_bio_solar", 5 ]
+      [ "bn_bio_solar", 5 ],
+      [ "bn_bio_nether_psyshield", 5 ],
+      [ "bn_bio_nether_carry", 5 ],
+      [ "bn_bio_nether_heal", 3 ],
+      [ "bn_bio_nether_shadow", 2 ],
+      [ "bn_bio_nether_stun", 2 ]
     ]
   },
   {
     "id" : "bionics_op",
     "type": "item_group",
-    "magazine": 100,
-    "ammo": 50,
     "items": [
-      [ "bn_bio_solar", 15 ]
+      [ "bn_bio_solar", 15 ],
+      [ "bn_bio_nether_carry", 5 ],
+      [ "bn_bio_nether_psyshield", 5 ]
     ]
   },
   {
@@ -124,6 +121,14 @@
   {
     "id": "chem_lab",
     "type": "item_group",
-    "items": [ [ "panacea", 1 ] ]
+    "items": [ 
+      [ "panacea", 1 ], 
+      [ "recipe_nether_cbms", 3 ] 
+    ]
+  },
+  {
+    "id": "teleport",
+    "type": "item_group",
+    "items": [ [ "recipe_nether_cbms", 3 ] ]
   }
 ]
