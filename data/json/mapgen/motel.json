@@ -3,10 +3,7 @@
     "type" : "item_group",
     "id" : "book_motel",
     "subtype": "collection",
-    "items":[
-      { "item": "phonebook", "prob": 2 },
-      { "item": "holybook_bible3", "prob": 2 }
-    ]
+    "items":[ { "item": "phonebook", "prob": 2 }, { "item": "holybook_bible3", "prob": 2 } ]
   },
   {
     "name": "GROUP_ZOMBIE_POOL",
@@ -107,7 +104,7 @@
         "F": "f_fridge",
         "G": "f_oven"
       },
-      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [ { "item": "traveler", "x": [ 6, 6 ], "y": [ 6, 6 ], "chance": 90 } ],
       "add": [
         { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
