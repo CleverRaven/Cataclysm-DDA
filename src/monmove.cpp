@@ -1128,6 +1128,14 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
+            if( one_in( 4 ) ) {
+                g->m.add_field( pos(), fd_fire, 2 );
+                if( g->u.sees( p ) ) {
+                    add_msg( m_warning,
+                             _( "The burning end of the %1$s's flamethrower accidentally touches puddle of napalm, and it flares up!" ),
+                             name() );
+                }
+            }
         }
     }
 

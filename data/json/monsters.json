@@ -1023,7 +1023,7 @@
     },
     "death_function": [ "FIREBALL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "BLEED", "PUSH_MON", "DRIPS_NAPALM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "BLEED", "PUSH_MON", "DRIPS_NAPALM", "FIREPROOF" ]
   },
   {
     "id": "mon_flaming_eye",
