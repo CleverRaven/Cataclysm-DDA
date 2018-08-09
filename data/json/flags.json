@@ -87,13 +87,13 @@
     "id": "EATEN_COLD",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "info": "This item tastes <good>better</good> while <info>cold</info>."
+    "info": "This tastes <good>better</good> while <color_light_cyan>cold</color>."
   },
   {
     "id": "EATEN_HOT",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "info": "This item tastes <good>better</good> while <info>hot</info>."
+    "info": "This tastes <good>better</good> while <color_red>hot</color>."
   },
   {
     "id": "ELECTRIC_IMMUNE",
