@@ -7725,7 +7725,7 @@ public:
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
                 buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
-                    return mid.obj().name;
+                    return string_format( "%s: %s", _( mid.obj().name.c_str() ), _( mid.obj().description.c_str() ) );
                 } );
             }
             if( ma.force_unarmed ) {

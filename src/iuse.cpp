@@ -3740,6 +3740,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
                     case fd_tear_gas:
                     case fd_toxic_gas:
                     case fd_gas_vent:
+                    case fd_smoke_vent:
                     case fd_relax_gas:
                     case fd_fungal_haze:
                         it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 15 );

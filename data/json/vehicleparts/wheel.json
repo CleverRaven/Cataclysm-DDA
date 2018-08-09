@@ -32,7 +32,8 @@
       { "item": "steel_chunk", "count": [ 30, 90 ] },
       { "item": "scrap", "count": [ 50, 150 ] }
     ],
-    "flags": [ "OBSTACLE", "WHEEL", "STEERABLE" ]
+    "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "STEERABLE" ],
+    "damage_reduction": { "all": 10000 }
   },
   {
     "id": "wheel",
