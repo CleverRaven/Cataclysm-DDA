@@ -980,6 +980,7 @@ void iexamine::pit( player &p, const tripoint &examp )
             g->m.ter_set( examp, t_pit_glass_covered );
         }
         add_msg( _( "You place a plank of wood over the pit." ) );
+        p.mod_moves( -100 );
     }
 }
 
@@ -1004,6 +1005,7 @@ void iexamine::pit_covered(player &p, const tripoint &examp)
     } else if( g->m.ter(examp) == t_pit_glass_covered ) {
         g->m.ter_set(examp, t_pit_glass);
     }
+    p.mod_moves( -100 );
 }
 
 /**
