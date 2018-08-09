@@ -5062,6 +5062,13 @@
         "category" : ["INSECT", "CHIMERA", "MEDICAL", "SLIME"]
     },{
         "type" : "mutation",
+        "id" : "PYROMANIA",
+        "name" : "Pyromania",
+        "starting_trait" : true,
+        "points" : -2,
+        "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often. However, you gain a mood bonus from doing so."
+    },{
+        "type" : "mutation",
         "id" : "PROF_POLICE",
         "name" : "Police Officer",
         "points" : 0,

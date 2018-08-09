@@ -25,6 +25,7 @@
 #include "emit.h"
 #include "scent_map.h"
 #include "map_iterator.h"
+#include "morale_types.h"
 
 #include <queue>
 #include <algorithm>
