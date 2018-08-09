@@ -148,7 +148,10 @@
         "|tllls|          |lcccc|",
         "|-----|          |-----|"
       ],
-      "set": [ { "point": "terrain", "id": "t_pavement", "x": 10, "y": 21 }, { "point": "terrain", "id": "t_pavement", "x": 11, "y": 21 } ],
+      "set": [
+        { "point": "terrain", "id": "t_pavement", "x": 10, "y": 21 },
+        { "point": "terrain", "id": "t_pavement", "x": 11, "y": 21 }
+      ],
       "terrain": {
         " ": "t_pavement",
         "&": "t_linoleum_gray",

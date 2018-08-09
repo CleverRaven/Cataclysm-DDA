@@ -43,7 +43,12 @@
         "w": "t_window_domestic",
         "|": "t_wall"
       },
-      "furniture": { "b": "f_bookcase", "c": "f_counter", "s": [ "f_stool", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null" ], "t": "f_stool" },
+      "furniture": {
+        "b": "f_bookcase",
+        "c": "f_counter",
+        "s": [ "f_stool", "f_null", "f_null", "f_null", "f_null", "f_null", "f_null" ],
+        "t": "f_stool"
+      },
       "place_items": [
         { "item": "magazines", "x": [ 3, 9 ], "y": 4, "chance": 70, "repeat": [ 1, 6 ] },
         { "item": "magazines", "x": 20, "y": [ 8, 16 ], "chance": 70, "repeat": [ 1, 6 ] },

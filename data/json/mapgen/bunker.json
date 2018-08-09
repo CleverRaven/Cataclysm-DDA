@@ -314,7 +314,11 @@
   {
     "type": "item_group",
     "id": "bunker_basement_books",
-    "items": [ { "group": "book_military", "prob": 50 }, { "group": "book_survival", "prob": 50 }, { "group": "magazines", "prob": 80 } ]
+    "items": [
+      { "group": "book_military", "prob": 50 },
+      { "group": "book_survival", "prob": 50 },
+      { "group": "magazines", "prob": 80 }
+    ]
   },
   {
     "type": "item_group",

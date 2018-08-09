@@ -88,12 +88,12 @@
         "n": "f_table",
         "o": "f_bookcase"
       },
-      "toilets": { "t": { } },
-      "items": { 
+      "toilets": { "t": {  } },
+      "items": {
         "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
-	  },
+      },
       "place_loot": [
         { "group": "dining", "x": [ 18, 19 ], "y": [ 15, 16 ], "chance": 75, "repeat": [ 1, 4 ] },
         { "group": "oven", "x": [ 14, 14 ], "y": [ 13, 13 ], "chance": 75, "repeat": [ 1, 3 ] },
