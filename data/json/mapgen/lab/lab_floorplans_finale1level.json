@@ -7,21 +7,21 @@
     "weight": 25,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "..cccccc.|...|,,,|..|,,,",
         "c........|...|,,,|.6|,,,",
         "c..Ccxc..|...|,,,g..g,,,",
         "c........g...|,,,g..g,,,",
-        "c........g...|,,,D..D,,,",
+        "c........g...|,,,L..L,,,",
         "......llS|...|---|..|---",
-        "--gg-+---|...|,,,|..|,,,",
+        "--gg-G---|...|,,,|..|,,,",
         ".............|,,,g..g,,,",
         ".............|,,,g..g,,,",
-        ".............|,,,D..D,,,",
+        ".............|,,,L..L,,,",
         "........|-ggg----|..|---",
-        "........|r,,,r|t--+-|...",
-        "........g,,/,,D.....+...",
+        "........|r,,,r|t--G-|...",
+        "........g,,/,,L.....G...",
         "........g,,?,,|-ggg-|...",
         "........|r,,,r|.........",
         "........|-ggg-|.........",
@@ -34,13 +34,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "lab_palette", "lab_loot_generic"
-      ],
-      "furniture": {
-        "?": "f_autodoc",
-        "/": "f_autodoc_couch"
-      },
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch" },
       "terrain": {
         "C": "t_centrifuge",
         "?": "t_floor_blue",
@@ -48,9 +43,7 @@
         "7": "t_console",
         "r": "t_floor_blue"
       },
-      "place_loot": [
-        { "item": "anesthesia", "x": 15, "y": 11, "repeat": [4,9] }
-      ],
+      "place_loot": [ { "item": "anesthesia", "x": 15, "y": 11, "repeat": [4,9] } ],
       "mapping": {
         "r": {
           "items": [
@@ -63,16 +56,16 @@
       },
       "computers": {
         "6": {
-          "name": "Operating Theatre Access Control", "security": 0, "options": [ { "name": "EMERGENCY EVAC - OPEN ALL DOORS", "action": "open", "security": 0 } ], "failures": [
-            { "action": "damage" },
-            { "action": "shutdown" }
-          ]
+          "name": "Operating Theatre Access Control",
+          "security": 0,
+          "options": [ { "name": "EMERGENCY EVAC - OPEN ALL DOORS", "action": "open", "security": 0 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         },
         "7": {
-          "name": "Operating Theatre Access Control", "security": 2, "options": [ { "name": "UNLOCK AUTODOC DOOR", "action": "unlock", "security": 6 } ], "failures": [
-            { "action": "damage" },
-            { "action": "shutdown" }
-          ]
+          "name": "Operating Theatre Access Control",
+          "security": 2,
+          "options": [ { "name": "UNLOCK AUTODOC DOOR", "action": "unlock", "security": 6 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
       "place_monster": [

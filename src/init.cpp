@@ -64,6 +64,7 @@
 #include "morale_types.h"
 #include "anatomy.h"
 #include "loading_ui.h"
+#include "recipe_groups.h"
 
 #include <assert.h>
 #include <string>
@@ -225,6 +226,7 @@ void DynamicDataLoader::initialize()
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
+    add( "recipe_group",  &recipe_group::load );
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
@@ -373,6 +375,7 @@ void DynamicDataLoader::unload_data()
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     recipe_dictionary::reset();
+    recipe_group::reset();
     faction_template::reset();
     quality::reset();
     trap::reset();
@@ -435,6 +438,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
         { _( "Monster factions" ), &monfactions::finalize },
         { _( "Crafting recipes" ), &recipe_dictionary::finalize },
+        { _( "Recipe groups" ), &recipe_group::check },
         { _( "Martial arts" ), &finialize_martial_arts },
         { _( "Constructions" ), &finalize_constructions },
         { _( "NPC classes" ), &npc_class::finalize_all },

@@ -98,9 +98,7 @@
         "u": "f_trashcan",
         "y": "f_indoor_plant_y"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "place_items": [
         { "item": "wedding_suits", "x": 2, "y": [ 6, 8 ], "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "wedding_suits", "x": 6, "y": 6, "chance": 60 },

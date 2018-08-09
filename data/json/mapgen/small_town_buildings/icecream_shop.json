@@ -84,9 +84,7 @@
         "v": "f_vending_c",
         "{": "f_fridge"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "place_items": [
         { "item": "vending_drink", "x": 20, "y": 13, "chance": 75 },
         { "item": "vending_food", "x": 20, "y": 12, "chance": 75 },

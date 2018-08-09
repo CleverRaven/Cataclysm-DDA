@@ -9,6 +9,7 @@
 #include "int_id.h"
 #include "cursesdef.h"
 #include "pimpl.h"
+#include "item_location.h"
 
 #include <array>
 #include <vector>
@@ -117,6 +118,22 @@ class scent_map;
 class loading_ui;
 
 typedef std::function<bool( const item & )> item_filter;
+
+enum liquid_dest : int {
+    LD_NULL,
+    LD_CONSUME,
+    LD_ITEM,
+    LD_VEH,
+    LD_KEG,
+    LD_GROUND
+};
+
+struct liquid_dest_opt {
+    liquid_dest dest_opt = LD_NULL;
+    item_location item_loc;
+    vehicle *veh = nullptr;
+    tripoint pos;
+};
 
 class game
 {
@@ -230,14 +247,14 @@ class game
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
-        std::unordered_map<tripoint, std::pair<int, int>> explosion(
-                    const tripoint &p, float power, float factor = 0.8f,
-                    bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
-                );
+        void explosion(
+            const tripoint &p, float power, float factor = 0.8f,
+            bool fire = false, int casing_mass = 0, float fragment_mass = 0.05
+        );
 
-        std::unordered_map<tripoint, std::pair<int, int>> explosion(
-                    const tripoint &p, const explosion_data &ex
-                );
+        void explosion(
+            const tripoint &p, const explosion_data &ex
+        );
 
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
@@ -246,13 +263,13 @@ class game
          * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
          * @param src source from which shrapnel radiates outwards in a uniformly random distribution
          * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
-         * @param count arbitrary measure of quantity shrapnel emitted affecting number of hits
-         * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
+         * @param casing_mass total mass of bomb casing, determines fragment velocity.
+         * @param fragment_mass mass of individual fragments, affects range, damage and coverage.
          * @param range maximum distance shrapnel may travel
-         * @return map containing all tiles considered with value being sum of damage received (if any)
+         * @return vector containing all tiles that took damage.
          */
-        std::unordered_map<tripoint, int> shrapnel( const tripoint &src, int power, int count, int mass,
-                int range = -1 );
+        std::vector<tripoint> shrapnel( const tripoint &src, int power, int casing_mass,
+                                        float fragment_mass, int range = -1 );
 
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );
@@ -317,8 +334,8 @@ class game
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
-        /** Spawns a hallucination close to the player. */
-        bool spawn_hallucination();
+        /** Spawns a hallucination at a determined position (or random position close to the player). */
+        bool spawn_hallucination( const tripoint &p = tripoint_min );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
@@ -588,7 +605,7 @@ class game
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
-        // Returns outdoor or indoor temperature of given location
+        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
@@ -748,6 +765,18 @@ class game
                             const tripoint *source_pos = nullptr,
                             const vehicle *source_veh = nullptr,
                             const monster *source_mon = nullptr );
+        /**
+             * These are helper functions for transfer liquid, for times when you just want to
+             * get the target of the transfer, or know the target and just want to transfer the
+             * liquid. They take the same arguments as handle_liquid, plus
+             * @param liquid_target structure containing information about the target
+             */
+        bool get_liquid_target( item &liquid, item *const source, const int radius,
+                                const tripoint *source_pos, const vehicle *const source_veh,
+                                const monster *const source_mon, liquid_dest_opt &target );
+        bool perform_liquid_transfer( item &liquid,
+                                      const tripoint *source_pos, const vehicle *const source_veh,
+                                      const monster *const source_mon, liquid_dest_opt &target );
         /**@}*/
 
         void open_gate( const tripoint &p );

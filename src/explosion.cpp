@@ -1,8 +1,12 @@
 #include "explosion.h"
+
+#include "fragment_cloud.h"
 #include "cata_utility.h"
 #include "game.h"
+#include "item_factory.h"
 #include "map.h"
 #include "projectile.h"
+#include "shadowcasting.h"
 #include "json.h"
 #include "creature.h"
 #include "character.h"
@@ -16,18 +20,15 @@
 #include "sounds.h"
 #include "vehicle.h"
 #include "field.h"
-#include <queue>
 #include <algorithm>
+#include <chrono>
+// For M_PI
+#define _USE_MATH_DEFINES
 #include <cmath>
+#include <queue>
+#include <random>
 
 static const itype_id null_itype( "null" );
-
-tripoint random_perimeter( const tripoint &src, const int radius )
-{
-    tripoint dst;
-    calc_ray_end( rng( 1, 360 ), radius, src, dst );
-    return dst;
-}
 
 explosion_data load_explosion_data( JsonObject &jo )
 {
@@ -38,8 +39,7 @@ explosion_data load_explosion_data( JsonObject &jo )
     ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
     ret.fire = jo.get_bool( "fire", false );
     if( jo.has_int( "shrapnel" ) ) {
-        ret.shrapnel.count = jo.get_int( "shrapnel" );
-        ret.shrapnel.mass = 10;
+        ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
         ret.shrapnel.recovery = 0;
         ret.shrapnel.drop = null_itype;
     } else if( jo.has_object( "shrapnel" ) ) {
@@ -53,10 +53,10 @@ explosion_data load_explosion_data( JsonObject &jo )
 shrapnel_data load_shrapnel_data( JsonObject &jo )
 {
     shrapnel_data ret;
-    // Count is mandatory
-    jo.read( "count", ret.count );
+    // Casing mass is mandatory
+    jo.read( "casing_mass", ret.casing_mass );
     // Rest isn't
-    ret.mass = jo.get_int( "mass", 10 );
+    ret.fragment_mass = jo.get_float( "fragment_mass", 0.05 );
     ret.recovery = jo.get_int( "recovery", 0 );
     ret.drop = itype_id( jo.get_string( "drop", "null" ) );
     return ret;
@@ -123,7 +123,7 @@ void game::do_blast( const tripoint &p, const float power,
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
             tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
-            if( closed.count( dest ) != 0 ) {
+            if( closed.count( dest ) != 0 || !m.inbounds( dest ) ) {
                 continue;
             }
 
@@ -268,24 +268,20 @@ void game::do_blast( const tripoint &p, const float power,
     }
 }
 
-std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoint &p, float power,
-        float factor, bool fire, int shrapnel_count, int shrapnel_mass )
+void game::explosion( const tripoint &p, float power, float factor, bool fire,
+                      int casing_mass, float fragment_mass )
 {
     explosion_data data;
     data.power = power;
     data.distance_factor = factor;
     data.fire = fire;
-    data.shrapnel.count = shrapnel_count;
-    data.shrapnel.mass = shrapnel_mass;
-    return explosion( p, data );
+    data.shrapnel.casing_mass = casing_mass;
+    data.shrapnel.fragment_mass = fragment_mass;
+    explosion( p, data );
 }
 
-std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoint &p,
-        const explosion_data &ex )
+void game::explosion( const tripoint &p, const explosion_data &ex )
 {
-    // contains all tiles considered plus sum of damage received by each from shockwave and/or shrapnel
-    std::unordered_map<tripoint, std::pair<int, int>> distrib;
-
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, _( "a huge explosion!" ) );
@@ -301,37 +297,29 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
     if( ex.distance_factor >= 1.0f ) {
         debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
     } else if( ex.distance_factor > 0.0f && ex.power > 0.0f ) {
-        // @todo: return map containing distribution of damage
-        do_blast( p, ex.power, ex.distance_factor, ex.fire );
+        // Power rescaled to mean grams of TNT equivalent, this scales it roughly back to where
+        // it was before until we re-do blasting power to be based on TNT-equivalent directly.
+        do_blast( p, ex.power / 15.0, ex.distance_factor, ex.fire );
     }
 
     const auto &shr = ex.shrapnel;
-    if( shr.count > 0 ) {
-        int shrapnel_power = ( log( ex.power ) + 1 ) * shr.mass;
-        auto res = shrapnel( p, shrapnel_power, shr.count, shr.mass );
-        for( const auto &e : res ) {
-            if( distrib.count( e.first ) ) {
-                // If tile was already affected by blast just update the shrapnel field
-                distrib[ e.first ].second = e.second;
-            } else {
-                // Otherwise add the tile but mark is as unaffected by the blast (-1)
-                distrib[ e.first ] = std::make_pair( -1, e.second );
-            }
-        }
+    if( shr.casing_mass > 0 ) {
+        auto shrapnel_locations = shrapnel( p, ex.power, shr.casing_mass, shr.fragment_mass );
 
         // If explosion drops shrapnel...
         if( shr.recovery > 0 && shr.drop != "null" ) {
 
             // Extract only passable tiles affected by shrapnel
             std::vector<tripoint> tiles;
-            for( const auto &e : distrib ) {
-                if( g->m.passable( e.first ) && e.second.second >= 0 ) {
-                    tiles.push_back( e.first );
+            for( const auto &e : shrapnel_locations ) {
+                if( g->m.passable( e ) ) {
+                    tiles.push_back( e );
                 }
             }
-
+            const itype *fragment_drop = item_controller->find_template( shr.drop );
+            int qty = shr.casing_mass * std::min( 1.0, shr.recovery / 100.0 ) /
+                      to_gram( fragment_drop->weight );
             // Truncate to a random selection
-            int qty = shr.count * std::min( shr.recovery, 100 ) / 100;
             std::random_shuffle( tiles.begin(), tiles.end() );
             tiles.resize( std::min( int( tiles.size() ), qty ) );
 
@@ -340,82 +328,200 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
             }
         }
     }
-
-    return distrib;
 }
 
-std::unordered_map<tripoint, int> game::shrapnel( const tripoint &src, int power, int count,
-        int mass, int range )
+int ballistic_damage( float velocity, float mass )
 {
-    if( range < 0 ) {
-        range = std::max( ( 2 * log( power / 2 ) ) + 2, 0.0 );
-    }
+    // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
+    // converting mass from grams to kg. 5 is simply a scaling factor.
+    return 5.0 * std::sqrt( ( velocity * velocity  * mass ) / 2000.0 );
+}
 
-    // contains of all tiles considered with value being sum of damage received (if any)
-    std::unordered_map<tripoint, int> distrib;
+// This is only ever used to zero the cloud values, which is what makes it work.
+fragment_cloud &fragment_cloud::operator=( const float &value )
+{
+    velocity = value;
+    density = value;
+
+    return *this;
+}
+
+bool fragment_cloud::operator==( const fragment_cloud &that )
+{
+    return velocity == that.velocity && density == that.density;
+}
+
+bool operator<( const fragment_cloud &us, const fragment_cloud &them )
+{
+    return us.density < them.density && us.velocity < them.velocity;
+}
+
+// Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
+// Mass in kg
+float fragment_mass = 0.0001;
+// Cross-sectional area in cm^2
+float fragment_area = 0.00001;
+
+// Projectile velocity in air. See https://fas.org/man/dod-101/navy/docs/es310/warheads/Warheads.htm
+// for a writeup of this exact calculation.
+fragment_cloud shrapnel_calc( const fragment_cloud &initial,
+                              const fragment_cloud &cloud,
+                              const int &distance )
+{
+    // SWAG coefficient of drag.
+    constexpr float Cd = 0.5;
+    fragment_cloud new_cloud;
+    new_cloud.velocity = initial.velocity * exp( -cloud.velocity * ( ( Cd * fragment_area * distance ) /
+                         ( 2.0 * fragment_mass ) ) );
+    // Two effects, the accumulated proportion of blocked fragments,
+    // and the inverse-square dilution of fragments with distance.
+    new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance / 2.5 );
+    return new_cloud;
+}
+// Minimum velocity resulting in skin perforation according to https://www.ncbi.nlm.nih.gov/pubmed/7304523
+constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
+// Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
+constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
+bool shrapnel_check( const fragment_cloud &cloud, const fragment_cloud &intensity )
+{
+    return cloud.density > 0.0 && intensity.velocity > MIN_EFFECTIVE_VELOCITY &&
+           intensity.density > MIN_FRAGMENT_DENSITY;
+}
+
+fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud,
+        const fragment_cloud &current_cloud, const int &distance )
+{
+    // Velocity is the cumulative and continuous decay of speed,
+    // so it is accumulated the same way as light attentuation.
+    // Density is the accumulation of discrete attenuaton events encountered in the traversed squares,
+    // so each term is added to the series via multiplication.
+    return fragment_cloud( ( ( distance - 1 ) * cumulative_cloud.velocity + current_cloud.velocity ) /
+                           distance,
+                           cumulative_cloud.density * current_cloud.density );
+}
+
+// Approximate Gurney constant for Composition B and C (in m/s instead of the usual km/s).
+// Source: https://en.wikipedia.org/wiki/Gurney_equations#Gurney_constant_and_detonation_velocity
+constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
+static float gurney_spherical( const double charge, const double mass )
+{
+    return ( float )( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ), -0.5 ) * TYPICAL_GURNEY_CONSTANT );
+}
+
+// Calculate cross-sectional area of a steel sphere in cm^2 based on mass of fragment.
+static float mass_to_area( const float mass )
+{
+    // Density of steel in g/cm^3
+    constexpr float steel_density = 7.85;
+    float fragment_volume = ( mass / 1000.0 ) / steel_density;
+    float fragment_radius = cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
+    return fragment_radius * fragment_radius * M_PI;
+}
+
+std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
+                                      int casing_mass, float per_fragment_mass, int range )
+{
+    // The gurney equation wants the total mass of the casing.
+    const float fragment_velocity = gurney_spherical( power, casing_mass );
+    fragment_mass = per_fragment_mass;
+    fragment_area = mass_to_area( fragment_mass );
+    int fragment_count = casing_mass / fragment_mass;
+
+    // Contains all tiles reached by fragments.
+    std::vector<tripoint> distrib;
 
     projectile proj;
-    proj.speed = 1000; // no dodging shrapnel
+    proj.speed = fragment_velocity;
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
-    proj.proj_effects.insert( "WIDE" ); // suppress MF_HARDTOSHOOT
 
-    auto func = [this, &distrib, &mass, &proj]( const tripoint & e, int &kinetic ) {
-        distrib[ e ] += 0; // add this tile to the distribution
-
-        auto critter = critter_at( e );
-        if( critter && !critter->is_dead_state() ) {
-            dealt_projectile_attack frag;
-            frag.proj = proj;
-            frag.missed_by = rng_float( 0.2, 0.6 );
-            frag.proj.impact = damage_instance::physical( 0, kinetic * 3, 0, std::min( kinetic, mass ) );
-
-            distrib[ e ] += kinetic; // increase received damage for tile in distribution
-
-            critter->deal_projectile_attack( nullptr, frag );
-            return false;
-        }
-
-        if( m.impassable( e ) ) {
-            // massive shrapnel can smash a path through obstacles
-            int force = std::min( kinetic, mass );
-            int resistance;
-
-            if( optional_vpart_position vp = m.veh_at( e ) ) {
-                resistance = force - vp->vehicle().damage( vp->part_index(), force );
-
-            } else {
-                resistance = std::max( m.bash_resistance( e ), 0 );
-                m.bash( e, force, true );
-            }
-
-            if( m.passable( e ) ) {
-                distrib[ e ] += resistance; // obstacle absorbed only some of the force
-                kinetic -= resistance;
-            } else {
-                distrib[ e ] += kinetic; // obstacle absorbed all of the force
-                return false;
-            }
-        }
-
-        // @todo: apply effects of soft cover
-        return kinetic > 0;
-    };
-
-    for( auto i = 0; i != count; ++i ) {
-        int kinetic = power;
-
-        // special case critter at epicenter to have equivalent chance to adjacent tile
-        if( one_in( 8 ) && !func( src, kinetic ) ) {
-            continue;
-        }
-
-        // shrapnel otherwise expands randomly in all directions
-        bresenham( src, random_perimeter( src, range ), 0, 0, [&func, &kinetic]( const tripoint & e ) {
-            return func( e, kinetic );
-        } );
+    std::array<fragment_cloud( * )[ MAPSIZE *SEEX ][ MAPSIZE *SEEY ], OVERMAP_LAYERS> obstacle_caches;
+    std::array<fragment_cloud( * )[ MAPSIZE *SEEX ][ MAPSIZE *SEEY ], OVERMAP_LAYERS> visited_caches;
+    std::array<const bool ( * )[ MAPSIZE *SEEX ][ MAPSIZE *SEEY ], OVERMAP_LAYERS> floor_caches;
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        const level_cache &cur_cache = m.get_cache_ref( z );
+        // Have to fake out the allocation since you can't 'new' a 2D array whose first dimension is dynamic.
+        obstacle_caches[z + OVERMAP_DEPTH] = ( fragment_cloud( * )[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ] ) new
+                                             fragment_cloud[ MAPSIZE * SEEX * MAPSIZE * SEEY ];
+        visited_caches[z + OVERMAP_DEPTH] = ( fragment_cloud( * )[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ] ) new
+                                            fragment_cloud[ MAPSIZE * SEEX * MAPSIZE * SEEY ];
+        floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
     }
 
+    // TODO: Calculate range based on max effective range for projectiles.
+    // Basically bisect between 0 and map diameter using shrapnel_calc().
+    // Need to update shadowcasting to support limiting range without adjusting initial distance.
+    const tripoint start = { 0, 0, -OVERMAP_DEPTH };
+    const tripoint end = { m.getmapsize() *SEEX, m.getmapsize() *SEEY, OVERMAP_HEIGHT };
+
+    m.build_obstacle_cache( start, end, obstacle_caches );
+
+    std::array<const fragment_cloud( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS>
+    *readonly_obstacle_caches =
+        ( std::array<const fragment_cloud( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> * )
+        &obstacle_caches;
+
+    // Shadowcasting normally ignores the origin square,
+    // so apply it manually to catch monsters standing on the explosive.
+    // This "blocks" some fragments, but does not apply deceleration.
+    fragment_cloud initial_cloud = accumulate_fragment_cloud(
+                                       ( *obstacle_caches[src.z + OVERMAP_DEPTH] )[src.x][src.y],
+    { fragment_velocity, static_cast<float>( fragment_count ) }, 1 );
+    ( *visited_caches[src.z + OVERMAP_DEPTH] )[src.x][src.y] = initial_cloud;
+
+    cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>
+    ( visited_caches, *readonly_obstacle_caches,
+      floor_caches, src, 0, initial_cloud );
+
+    // Now visited_caches are populated with density and velocity of fragments.
+    for( int z = start.z; z <= end.z; z++ ) {
+        for( int x = start.x; x <= end.x; x++ ) {
+            for( int y = start.y; y <= end.y; y++ ) {
+                fragment_cloud &cloud = ( *visited_caches[z + OVERMAP_DEPTH] )[x][y];
+                if( cloud.density <= MIN_FRAGMENT_DENSITY ||
+                    cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
+                    continue;
+                }
+                distrib.emplace_back( x, y, z );
+                tripoint target( x, y, z );
+                int damage = ballistic_damage( cloud.velocity, fragment_mass );
+                auto critter = critter_at( target );
+                if( damage > 0 && critter && !critter->is_dead_state() ) {
+                    static std::default_random_engine eng(
+                        std::chrono::system_clock::now().time_since_epoch().count() );
+                    std::poisson_distribution<> d( cloud.density );
+                    int hits = d( eng );
+                    dealt_projectile_attack frag;
+                    frag.proj = proj;
+                    frag.proj.speed = cloud.velocity;
+                    frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
+                    for( int i = 0; i < hits; ++i ) {
+                        frag.missed_by = rng_float( 0.05, 1.0 );
+                        critter->deal_projectile_attack( nullptr, frag );
+                        add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
+                                 critter->disp_name().c_str(),
+                                 frag.proj.speed, rl_dist( src, target ) );
+                        add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                        if( critter->is_dead_state() ) {
+                            break;
+                        }
+                    }
+                }
+                if( m.impassable( target ) ) {
+                    if( optional_vpart_position vp = m.veh_at( target ) ) {
+                        vp->vehicle().damage( vp->part_index(), damage );
+                    } else {
+                        m.bash( target, damage / 10, true );
+                    }
+                }
+            }
+        }
+    }
+
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        delete [] obstacle_caches[z + OVERMAP_DEPTH];
+        delete [] visited_caches[z + OVERMAP_DEPTH];
+    }
     return distrib;
 }
 

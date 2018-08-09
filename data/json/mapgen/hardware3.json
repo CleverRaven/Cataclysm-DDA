@@ -76,9 +76,7 @@
         "l": { "item": "cleaning", "chance": 35 },
         "o": { "item": "home_hw", "chance": 15 }
       },
-      "item": {
-        "M": { "item": "lawnmower", "chance": 5 }
-      },
+      "item": { "M": { "item": "lawnmower", "chance": 5 } },
       "vehicles": {
         "T": { "vehicle": "handjack", "chance": 2, "status": 1 },
         "V": { "vehicle": "flatbed_truck", "chance": 50, "status": 1, "rotation": 270 },

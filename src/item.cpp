@@ -523,6 +523,10 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
+    if ( ammo_type() == "money" && charges != 0 && rhs.charges != 0) {
+        // Dealing with nonempty cash cards
+        return true;
+    }
     // This function is also used to test whether items counted by charges should be merged, for that
     // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
     if( !count_by_charges() && charges != rhs.charges ) {
@@ -1069,18 +1073,17 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         if (parts->test(iteminfo_parts::GUN_USEDSKILL))
             info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill.name() + "</info>" ) );
 
-        if( mod->magazine_integral() ) {
+        if( mod->magazine_integral() || mod->magazine_current() ) {
+            if( mod->magazine_current() && parts->test(iteminfo_parts::GUN_MAGAZINE)) {
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
+            }
             if( mod->ammo_capacity() && parts->test(iteminfo_parts::GUN_CAPACITY)) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
                                                   mod->ammo_type()->name().c_str() ), mod->ammo_capacity(), true );
             }
-        } else {
-            if (parts->test(iteminfo_parts::GUN_TYPE))
-                info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
-            if( mod->magazine_current() && parts->test(iteminfo_parts::GUN_MAGAZINE)) {
-                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
-            }
+        } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
+            info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
         }
 
         if( mod->ammo_data() && parts->test(iteminfo_parts::AMMO_REMAINING)) {
@@ -1553,9 +1556,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( is_container() && parts->test(iteminfo_parts::CONTAINER_DETAILS)) {
         const auto &c = *type->container;
 
-        // @todo: check *why* this is here - makes no sense.....
-        info.push_back( iteminfo( "ARMOR", temp1.str() ) );
-
         temp1.str( "" );
         temp1 << _( "This container " );
 
@@ -2004,6 +2004,8 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
             if( !contents.front().type->mod ) {
+                insert_separation_line();
+                info.emplace_back( "DESCPIPTION", _( "<bold>Content of this item</bold>:" ) );
                 info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
             }
         }
@@ -2530,6 +2532,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 }
 
+std::string item::display_money(unsigned int quantity, unsigned long amount) const {
+	//~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
+    return string_format( "%s %s", tname(quantity).c_str(), format_money(amount));
+}
+
 std::string item::display_name( unsigned int quantity ) const
 {
     std::string name = tname( quantity );
@@ -2551,7 +2558,6 @@ std::string item::display_name( unsigned int quantity ) const
     bool has_ammo = is_ammo_container() && !contents.empty();
     bool contains = has_item || has_ammo;
     bool show_amt = false;
-
     // We should handle infinite charges properly in all cases.
     if( contains ) {
         amount = contents.front().charges;
@@ -2569,11 +2575,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( ammo_type() == "money" ) {
-            amt = string_format( " (%s)", format_money( amount ) );
-        } else {
-            amt = string_format( " (%i)", amount );
-        }
+        amt = string_format( " (%i)", amount );
     }
 
     return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );

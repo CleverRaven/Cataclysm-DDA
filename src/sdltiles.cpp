@@ -851,6 +851,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     WINDOW *const win = w.get<WINDOW>();
     bool update = false;
     if (g && w == g->w_terrain && use_tiles) {
+        // Strings with colors do be drawn with map_font on top of tiles.
+        std::multimap<point, formatted_text> overlay_strings;
+
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
@@ -858,7 +861,59 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             win->y * fontheight,
             tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
-            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
+            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
+            overlay_strings );
+
+        point prev_coord;
+        int x_offset = 0;
+        int alignment_offset = 0;
+        for( const auto &iter : overlay_strings ) {
+            const point coord = iter.first;
+            const formatted_text ft = iter.second;
+            const utf8_wrapper text( ft.text );
+
+            // Strings at equal coords are displayed sequentially.
+            if( coord != prev_coord ) {
+                x_offset = 0;
+            }
+
+            // Calculate length of all strings in sequence to align them.
+            if ( x_offset == 0 ) {
+                int full_text_length = 0;
+                const auto range = overlay_strings.equal_range( coord );
+                for( auto ri = range.first; ri != range.second; ++ri ) {
+                    utf8_wrapper rt(ri->second.text);
+                    full_text_length += rt.display_width();
+                }
+
+                alignment_offset = 0;
+                if( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
+                    alignment_offset = full_text_length / 2;
+                }
+                else if( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
+                    alignment_offset = full_text_length - 1;
+                }
+            }
+
+            for( size_t i = 0; i < text.display_width(); ++i ) {
+                const int x0 = win->x * fontwidth;
+                const int y0 = win->y * fontheight;
+                const int x = x0 + ( x_offset - alignment_offset + i ) * map_font->fontwidth + coord.x;
+                const int y = y0 + coord.y;                
+
+                // Clip to window bounds.
+                if( x < x0 || x > x0 + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->fontwidth
+                    || y < y0 || y > y0 + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->fontheight ) {
+                    continue;
+                }
+
+                // TODO: draw with outline / BG color for better readability
+                map_font->OutputChar( text.substr_display( i, 1 ).str(), x, y, ft.color, win->FS );
+            }
+
+            prev_coord = coord;
+            x_offset = text.display_width();
+        }
 
         invalidate_framebuffer(terminal_framebuffer, win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
 
@@ -1370,8 +1425,14 @@ void CheckMessages()
                 if( !add_alt_code( *ev.text.text ) ) {
                     const char *c = ev.text.text;
                     int len = strlen(ev.text.text);
-                    const unsigned lc = UTF8_getch( &c, &len );
-                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    if( len > 0 ) {
+                        const unsigned lc = UTF8_getch( &c, &len );
+                        last_input = input_event( lc, CATA_INPUT_KEYBOARD );   
+                    } else {
+                        // no key pressed in this event
+                        last_input = input_event();
+                        last_input.type = CATA_INPUT_KEYBOARD;
+                    }
                     last_input.text = ev.text.text;
                     text_refresh = true;
                 }
@@ -1380,8 +1441,14 @@ void CheckMessages()
             {
                 const char *c = ev.edit.text;
                 int len = strlen( ev.edit.text );
-                const unsigned lc = UTF8_getch( &c, &len );
-                last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                if( len > 0 ) {
+                    const unsigned lc = UTF8_getch( &c, &len );
+                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                } else {
+                    // no key pressed in this event
+                    last_input = input_event();
+                    last_input.type = CATA_INPUT_KEYBOARD;
+                }
                 last_input.edit = ev.edit.text;
                 last_input.edit_refresh = true;
                 text_refresh = true;

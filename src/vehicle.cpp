@@ -707,6 +707,52 @@ void vehicle::add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector
     } );
 }
 
+void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
+                                   std::vector<std::function<void()>> &actions )
+{
+    auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
+        add_toggle_to_opts( options, actions, name, key, flag );
+    };
+    add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
+    add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
+    add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
+    add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
+    add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
+    add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
+    add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
+    add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
+    add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+    add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
+    add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
+    add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
+    add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+    add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
+    add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+    add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+
+    if( has_part( "DOOR_MOTOR" ) ) {
+        options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
+        actions.push_back( [&] { control_doors(); refresh(); } );
+    }
+
+    if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
+        options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
+                              keybind( "TOGGLE_CAMERA" ) );
+        actions.push_back( [&] {
+            if( camera_on ) {
+                camera_on = false;
+                add_msg( _( "Camera system disabled" ) );
+            } else if( fuel_left( fuel_type_battery, true ) ) {
+                camera_on = true;
+                add_msg( _( "Camera system enabled" ) );
+            } else {
+                add_msg( _( "Camera system won't turn on" ) );
+            }
+            refresh();
+        } );
+    }
+}
+
 void vehicle::control_electronics()
 {
     // exit early if you can't control the vehicle
@@ -718,48 +764,9 @@ void vehicle::control_electronics()
     do {
         std::vector<uimenu_entry> options;
         std::vector<std::function<void()>> actions;
-        auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
-            add_toggle_to_opts( options, actions, name, key, flag );
-        };
-        add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
-        add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
-        add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
-        add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
-        add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
-        add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
-        add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
-        add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
-        add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-        add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-        add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-        add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-        add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
-        if( has_part( "DOOR_MOTOR" ) ) {
-            options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
-            actions.push_back( [&] { control_doors(); refresh(); } );
-        }
+        set_electronics_menu_options( options, actions );
 
-        if( camera_on ||
-            ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
-                                  keybind( "TOGGLE_CAMERA" ) );
-            actions.push_back( [&] {
-                if( camera_on )
-                {
-                    camera_on = false;
-                    add_msg( _( "Camera system disabled" ) );
-                } else if( fuel_left( fuel_type_battery, true ) )
-                {
-                    camera_on = true;
-                    add_msg( _( "Camera system enabled" ) );
-                } else {
-                    add_msg( _( "Camera system won't turn on" ) );
-                }
-                refresh();
-            } );
-        }
         options.emplace_back( _( "Quit controlling electronics" ), "q" );
 
         uimenu menu;
@@ -1083,61 +1090,16 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&] { honk_horn(); refresh(); } );
     }
 
-    auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
-        add_toggle_to_opts( options, actions, name, key, flag );
-    };
-
-    add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
+    options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
+                          keybind( "TOGGLE_CRUISE_CONTROL" ) );
+    actions.emplace_back( [&] {
+        cruise_on = !cruise_on;
+        add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
+        refresh();
+    } );
 
     if( has_electronic_controls ) {
-        add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
-        add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
-        add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
-        add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
-        add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
-        add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
-        add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
-        add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
-        add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-        add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-        add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
-        add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-        add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-        add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
-
-        if( has_part( "DOOR_MOTOR" ) ) {
-            options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
-            actions.push_back( [&] { control_doors(); refresh(); } );
-        }
-
-        options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
-                              keybind( "TOGGLE_CRUISE_CONTROL" ) );
-
-        actions.emplace_back( [&] {
-            cruise_on = !cruise_on;
-            add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
-            refresh();
-        } );
-        if( camera_on ||
-            ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
-                                  keybind( "TOGGLE_CAMERA" ) );
-            actions.push_back( [&] {
-                if( camera_on )
-                {
-                    camera_on = false;
-                    add_msg( _( "Camera system disabled" ) );
-                } else if( fuel_left( fuel_type_battery, true ) )
-                {
-                    camera_on = true;
-                    add_msg( _( "Camera system enabled" ) );
-                } else {
-                    add_msg( _( "Camera system won't turn on" ) );
-                }
-                refresh();
-            } );
-        }
+        set_electronics_menu_options( options, actions );
         options.emplace_back( _( "Control multiple electronics" ), keybind( "CONTROL_MANY_ELECTRONICS" ) );
         actions.push_back( [&] { control_electronics(); refresh(); } );
     }
@@ -1525,9 +1487,9 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
 
     const vehicle_part& vp = parts[ index ];
 
-    int pwr = vp.base.engine_displacement();
+    int pwr = vp.info().power;
     if( pwr == 0 ) {
-        pwr = vp.info().power;
+        pwr = vp.base.engine_displacement();
     }
 
     if (part_info(index).fuel_type == fuel_type_muscle) {
@@ -1727,7 +1689,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
 
     // curtains must be installed on (reinforced)windshields
     // TODO: do this automatically using "location":"on_mountpoint"
-    if (part.has_flag("CURTAIN")) {
+    if ( part.has_flag( "WINDOW_CURTAIN" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "WINDOW" ) ) {
@@ -2814,22 +2776,22 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
  */
-int vehicle::print_part_desc( const catacurses::window &win, int y1, const int max_y, int width, int p, int hl /*= -1*/ ) const
+int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
+                              int p, int hl /*= -1*/ ) const
 {
-    if (p < 0 || p >= (int)parts.size()) {
+    if( p < 0 || p >= ( int )parts.size() ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative(parts[p].mount.x, parts[p].mount.y);
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
     int y = y1;
-    for (size_t i = 0; i < pl.size(); i++)
-    {
-        if ( y >= max_y ) {
+    for( size_t i = 0; i < pl.size(); i++ ) {
+        if( y >= max_y ) {
             mvwprintz( win, y, 1, c_yellow, _( "More parts here..." ) );
             ++y;
             break;
         }
 
-        const vehicle_part& vp = parts[ pl [ i ] ];
+        const vehicle_part &vp = parts[ pl [ i ] ];
         nc_color col_cond = vp.is_broken() ? c_dark_gray : vp.base.damage_color();
 
         std::string partname = vp.name();
@@ -2840,21 +2802,24 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format( _(" (vol: %s/%s %s)"),
+            partname += string_format( _( " (vol: %s/%s %s)" ),
                                        format_volume( stored_volume( pl[i] ) ).c_str(),
                                        format_volume( max_volume( pl[i] ) ).c_str(),
                                        volume_units_abbr() );
         }
 
-        bool armor = part_flag(pl[i], "ARMOR");
+        bool armor = part_flag( pl[i], "ARMOR" );
         std::string left_sym;
         std::string right_sym;
-        if(armor) {
-            left_sym = "("; right_sym = ")";
-        } else if(part_info(pl[i]).location == part_location_structure) {
-            left_sym = "["; right_sym = "]";
+        if( armor ) {
+            left_sym = "(";
+            right_sym = ")";
+        } else if( part_info( pl[i] ).location == part_location_structure ) {
+            left_sym = "[";
+            right_sym = "]";
         } else {
-            left_sym = "-"; right_sym = "-";
+            left_sym = "-";
+            right_sym = "-";
         }
         nc_color sym_color = ( int )i == hl ? hilite( c_light_gray ) : c_light_gray;
         mvwprintz( win, y, 1, sym_color, left_sym );
@@ -2862,23 +2827,90 @@ int vehicle::print_part_desc( const catacurses::window &win, int y1, const int m
                         ( int )i == hl ? hilite( col_cond ) : col_cond, partname );
         wprintz( win, sym_color, right_sym );
 
-        if( i == 0 && vpart_position( const_cast<vehicle&>( *this ), pl[i] ).is_inside() ) {
+        if( i == 0 && vpart_position( const_cast<vehicle &>( *this ), pl[i] ).is_inside() ) {
             //~ indicates that a vehicle part is inside
-            mvwprintz(win, y, width-2-utf8_width(_("Interior")), c_light_gray, _("Interior"));
-        } else if (i == 0) {
+            mvwprintz( win, y, width - 2 - utf8_width( _( "Interior" ) ), c_light_gray, _( "Interior" ) );
+        } else if( i == 0 ) {
             //~ indicates that a vehicle part is outside
-            mvwprintz(win, y, width-2-utf8_width(_("Exterior")), c_light_gray, _("Exterior"));
+            mvwprintz( win, y, width - 2 - utf8_width( _( "Exterior" ) ), c_light_gray, _( "Exterior" ) );
         }
         y++;
     }
 
     // print the label for this location
-    const cata::optional<std::string> label = vpart_position( const_cast<vehicle&>( *this ), p ).get_label();
+    const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
+            p ).get_label();
     if( label && y <= max_y ) {
-        mvwprintz(win, y++, 1, c_light_red, _("Label: %s"), label->c_str());
+        mvwprintz( win, y++, 1, c_light_red, _( "Label: %s" ), label->c_str() );
     }
 
     return y;
+}
+
+/**
+ * Prints a list of descriptions for all parts to the screen inside of a boxed window
+ * @param win The window to draw in.
+ * @param max_y Draw no further than this y-coordinate.
+ * @param width The width of the window.
+ * @param &p The index of the part being examined.
+ * @param start_at Which vehicle part to start printing at.
+ * @param start_limit the part index beyond which the display is full
+ */
+void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
+                                  int &start_at, int &start_limit ) const
+{
+    if( p < 0 || p >= ( int )parts.size() ) {
+        return;
+    }
+
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    std::ostringstream msg;
+
+    int lines = 0;
+    /*
+     * start_at and start_limit interaction is little tricky
+     * start_at and start_limit start at 0 when moving to a new frame
+     * if all the descriptions are displayed in the window, start_limit stays at 0 and
+     *    start_at is capped at 0 - so no scrolling at all.
+     * if all the descriptions aren't displayed, start_limit jumps to the last displayed part
+     *    and the next scrollthrough can start there - so scrolling down happens.
+     * when the scroll reaches the point where all the remaining descriptions are displayed in
+     *    the window, start_limit is set to start_at again.
+     * on the next attempted scrolldown, start_limit is set to the nth item, and start_at is
+     *    capped to the nth item, so no more scrolling down.
+     * start_at can always go down, but never below 0, so scrolling up is only possible after
+     *    some scrolling down has occurred.
+     * important! the calling function needs to track p, start_at, and start_limit, and set
+     *    start_limit to 0 if p changes.
+     */
+    start_at = std::max( 0, std::min( start_at, start_limit ) );
+    if( start_at ) {
+           msg << "<color_yellow>" << "<  " << _( "More parts here..." ) << "</color>\n";
+           lines += 1;
+    }
+    for( size_t i = start_at; i < pl.size(); i++ ) {
+        const vehicle_part &vp = parts[ pl [ i ] ];
+        std::ostringstream possible_msg;
+        std::string name_color = string_format( "<color_%1$s>",
+                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_green ) );
+        possible_msg << name_color << vp.name() << "</color>\n";
+        std::string desc_color = string_format( "<color_%1$s>",
+                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
+        int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 2 );
+        possible_msg << "</color>\n";
+        if( lines + new_lines <= max_y ) {
+           msg << possible_msg.str();
+           lines += new_lines;
+	   start_limit = start_at;
+        } else {
+           msg << "<color_yellow>" << _( "More parts here..." ) << "  >" << "</color>\n";
+           start_limit = i;
+           break;
+        }
+    }
+    werase( win );
+    fold_and_print( win, 0, 1, width, c_light_gray, msg.str() );
+    wrefresh( win );
 }
 
 /**
@@ -5998,6 +6030,11 @@ void vehicle::close(int part_index)
   } else {
     open_or_close(part_index, false);
   }
+}
+
+bool vehicle::is_open(int part_index) const
+{
+  return parts[part_index].open;
 }
 
 void vehicle::open_all_at(int p)

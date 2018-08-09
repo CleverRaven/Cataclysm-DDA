@@ -3348,7 +3348,7 @@ void talk_function::start_training( npc &p )
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
-void parse_tags( std::string &phrase, const player &u, const npc &me )
+void parse_tags( std::string &phrase, const player &u, const player &me )
 {
     phrase = remove_color_tags( phrase );
 
