@@ -1560,6 +1560,26 @@ bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile,
                                             ll, apply_night_vision_goggles, height_3d );
 }
 
+const tile_type *cata_tiles::find_furniture_looks_like( std::string id )
+{
+    std::string looks_like = id;
+    int cnt = 0;
+    while( !looks_like.empty() && cnt < 10 ) {
+        const tile_type *lltt = find_tile_with_season( looks_like );
+        if( lltt ) {
+            return lltt;
+        }
+        const furn_str_id fid( looks_like );
+        if( !fid.is_valid() ) {
+            return nullptr;
+        }
+        const furn_t &furn = fid.obj();
+        looks_like = furn.looks_like;
+        cnt += 1;
+    }
+    return nullptr;
+}
+
 const tile_type *cata_tiles::find_tile_with_season( std::string id )
 {
     constexpr size_t suffix_len = 15;
@@ -1601,12 +1621,15 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     if( !tt ) {
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
-        if (category == C_FURNITURE) {
-            const furn_str_id fid( id );
-            if( fid.is_valid() ) {
-                const furn_t &f = fid.obj();
-                sym = f.symbol();
-                col = f.color();
+        if( category == C_FURNITURE ) {
+            tt = find_furniture_looks_like( id );
+            if( !tt ) {
+                const furn_str_id fid( id );
+                if( fid.is_valid() ) {
+                    const furn_t &f = fid.obj();
+                    sym = f.symbol();
+                    col = f.color();
+                }
             }
         } else if (category == C_TERRAIN) {
             const ter_str_id tid( id );
