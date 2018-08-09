@@ -7,7 +7,8 @@
     "nested_mapgen_id": "lab_spawn_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
-      "place_nested": [ { "chunks": [ [ "lab_room_7x7", 97 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0} ]
+      "place_nested": [ { "chunks": [ [ "lab_room_7x7", 97 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0},
+                        { "chunks": [ "lab_maybe_effects_7x7" ], "x": 0, "y": 0} ]
     }
   },
   {
@@ -17,17 +18,19 @@
     "nested_mapgen_id": "lab_spawn_7x7_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ [ "lab_room_7x7", 33 ], [ "lab_room_7x7_crossdoors", 63 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0} ]
+      "place_nested": [ { "chunks": [ [ "lab_room_7x7", 33 ], [ "lab_room_7x7_crossdoors", 63 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0},
+                        { "chunks": [ "lab_maybe_effects_7x7" ], "x": 0, "y": 0} ]
     }
   },
   {
-    "//": "Spawn for a room at least 9x9, walls often but not guarnateed.",
+    "//": "Spawn for a room at least 9x9, walls often but not guaranteed.",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_spawn_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ [ "lab_room_9x9", 97 ], [ "lab_room_9x9_rare", 3 ] ], "x": 0, "y": 0} ]
+      "place_nested": [ { "chunks": [ [ "lab_room_9x9", 97 ], [ "lab_room_9x9_rare", 3 ] ], "x": 0, "y": 0},
+                        { "chunks": [ "lab_maybe_effects_9x9" ], "x": 0, "y": 0} ]
     }
   },
   {
@@ -37,7 +40,8 @@
     "nested_mapgen_id": "lab_spawn_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ [ "lab_room_9x9", 33 ], [ "lab_room_9x9_crossdoors", 64 ], [ "lab_room_9x9_rare", 3 ] ], "x": 0, "y": 0} ]
+      "place_nested": [ { "chunks": [ [ "lab_room_9x9", 33 ], [ "lab_room_9x9_crossdoors", 64 ], [ "lab_room_9x9_rare", 3 ] ], "x": 0, "y": 0},
+                        { "chunks": [ "lab_maybe_effects_9x9" ], "x": 0, "y": 0} ]
     }
   },
   {
@@ -1118,4 +1122,49 @@
         }
       }
     }
-  }]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_maybe_effects_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [ { "chunks": [ [ "null", 98 ], [ "lab_add_spiders_7x7", 2 ] ], "x": 0, "y": 0} ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_maybe_effects_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_nested": [ { "chunks": [ [ "null", 98 ], [ "lab_add_spiders_9x9", 2 ] ], "x": 0, "y": 0} ]
+    }
+  },
+  {
+    "//": "7x7 spider overlay",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_add_spiders_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_monsters": [ { "monster": "GROUP_SPIDER", "x": [ 0, 6 ], "y": [ 0, 6 ], "density": 0.10 } ],
+      "place_fields": [
+        { "field": "fd_web", "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": 40 }
+      ]
+    }
+  },
+  {
+    "//": "9x9 spider overlay",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_add_spiders_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_monsters": [ { "monster": "GROUP_SPIDER", "x": [ 0, 8 ], "y": [ 0, 8 ], "density": 0.10 } ],
+      "place_fields": [
+        { "field": "fd_web", "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": 60 }
+      ]
+    }
+  }
+]
