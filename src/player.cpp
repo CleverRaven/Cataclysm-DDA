@@ -5435,7 +5435,7 @@ void player::suffer()
 
         if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
             if( one_in( to_turns<int>( 8_hours ) ) ) {
-                add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
+                add_msg( m_bad, _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
                 add_effect( effect_lying_down, 20_minutes );
             }
         }
