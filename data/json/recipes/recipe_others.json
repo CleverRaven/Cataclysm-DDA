@@ -4022,16 +4022,7 @@
     "time": 8000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "DRILL", "level": 1 },
-      { "id": "SCREW", "level": 1 }
-    ],
-    "components": [
-      [ [ "scrap", 6 ] ],
-      [ [ "pipe", 6 ] ],
-      [ [ "nail", 12 ] ],
-      [ [ "sheet_metal", 2 ] ]
-    ]
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 2 ] ] ]
   }
 ]
