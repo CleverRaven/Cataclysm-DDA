@@ -56,7 +56,8 @@
     "name": "Arms Alloy Plating CBM",
     "description": "The flesh on your arms has been replaced by a strong armor, protecting you greatly.",
     "price": 350000,
-    "difficulty": 3
+    "difficulty": 3,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_armor_eyes",
@@ -65,7 +66,8 @@
     "name": "Protective Lenses CBM",
     "description": "Your eye sockets have been sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "price": 550000,
-    "difficulty": 5
+    "difficulty": 5,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_armor_head",
@@ -74,7 +76,8 @@
     "name": "Head Alloy Plating CBM",
     "description": "The flesh on your head has been replaced by a strong armor, protecting both your head and jaw regions.",
     "price": 350000,
-    "difficulty": 5
+    "difficulty": 5,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_armor_legs",
@@ -83,7 +86,8 @@
     "name": "Legs Alloy Plating CBM",
     "description": "The flesh on your legs has been replaced by a strong armor, protecting you greatly.",
     "price": 350000,
-    "difficulty": 3
+    "difficulty": 3,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_armor_torso",
@@ -92,7 +96,8 @@
     "name": "Torso Alloy Plating CBM",
     "description": "The flesh on your torso has been replaced by a strong armor, protecting you greatly.",
     "price": 350000,
-    "difficulty": 4
+    "difficulty": 4,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_batteries",
@@ -155,7 +160,8 @@
     "name": "Subdermal Carbon Filament CBM",
     "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This reduces bashing damage by 2 and cutting damage by 4.",
     "price": 750000,
-    "difficulty": 9
+    "difficulty": 9,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_chain_lightning",
@@ -209,7 +215,8 @@
     "name": "Wired Reflexes CBM",
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
     "price": 800000,
-    "difficulty": 11
+    "difficulty": 11,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_digestion",
@@ -218,7 +225,8 @@
     "name": "Expanded Digestive System CBM",
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
     "price": 550000,
-    "difficulty": 6
+    "difficulty": 6,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_ears",
@@ -245,7 +253,8 @@
     "name": "Ethanol Burner CBM",
     "description": "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance.",
     "price": 120000,
-    "difficulty": 4
+    "difficulty": 4,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_evap",
@@ -263,7 +272,8 @@
     "name": "Diamond Cornea CBM",
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception.",
     "price": 800000,
-    "difficulty": 11
+    "difficulty": 11,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_eye_optic",
@@ -398,7 +408,8 @@
     "name": "Cerebral Booster CBM",
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
     "price": 800000,
-    "difficulty": 11
+    "difficulty": 11,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_laser",
@@ -452,7 +463,8 @@
     "name": "Nictating Membrane CBM",
     "description": "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties.",
     "price": 450000,
-    "difficulty": 6
+    "difficulty": 6,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_memory",
@@ -560,7 +572,8 @@
     "name": "Power Storage CBM",
     "description": "Compact Bionics Module that upgrades your power capacity by 100 units.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in another CBM.",
     "price": 380000,
-    "difficulty": 1
+    "difficulty": 1,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_power_storage_mkII",
@@ -570,7 +583,8 @@
     "name_plural": "Power Storage CBMs Mk. II",
     "description": "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful Power Storage CBM.  Increases your power capacity by 250 units.",
     "price": 1000000,
-    "difficulty": 1
+    "difficulty": 1,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_probability_travel",
@@ -588,7 +602,8 @@
     "name": "Air Filtration System CBM",
     "description": "Implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.  Reducing the toxic effects.",
     "price": 450000,
-    "difficulty": 4
+    "difficulty": 4,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_radscrubber",
@@ -615,7 +630,8 @@
     "name": "Fingertip Razors CBM",
     "description": "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
     "price": 450000,
-    "difficulty": 4
+    "difficulty": 4,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_reactor",
@@ -643,7 +659,8 @@
     "name": "Recycler Unit CBM",
     "description": "Your digestive system has been outfitted with a series of filters and processors, allowing you to reclaim waste liquid and, to a lesser degree, nutrients.  The net effect is a greatly reduced need to eat and drink.",
     "price": 850000,
-    "difficulty": 6
+    "difficulty": 6,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_remote",
@@ -706,7 +723,8 @@
     "name": "Synaptic Accelerator CBM",
     "description": "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed.",
     "price": 10000,
-    "difficulty": 12
+    "difficulty": 12,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_storage",
@@ -715,7 +733,8 @@
     "name": "Internal Storage CBM",
     "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
     "price": 400000,
-    "difficulty": 7
+    "difficulty": 7,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_str_enhancer",
@@ -724,7 +743,8 @@
     "name": "Muscle Augmentation CBM",
     "description": "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "price": 800000,
-    "difficulty": 11
+    "difficulty": 11,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_sunglasses",
@@ -742,7 +762,8 @@
     "name": "Targeting System CBM",
     "description": "Your eyes are equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range.",
     "price": 650000,
-    "difficulty": 5
+    "difficulty": 5,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_teleport",
@@ -778,7 +799,8 @@
     "name": "Joint Torsion Ratchet CBM",
     "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move.",
     "price": 380000,
-    "difficulty": 4
+    "difficulty": 4,
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_uncanny_dodge",
