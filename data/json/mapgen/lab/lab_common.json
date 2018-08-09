@@ -1,0 +1,216 @@
+[
+  {
+    "type": "palette",
+    "id": "lab_palette",
+    "furniture": {
+      "b": "f_bed",
+      "l": "f_locker",
+      "X": "f_crate_c",
+      "r": "f_rack",
+      "d": "f_desk",
+      "s": "f_dresser",
+      "h": "f_chair",
+      "f": "f_fridge",
+      "t": "f_table",
+      "c": "f_counter",
+      "S": "f_sink",
+      "T": "f_toilet",
+      "#": "f_null",
+      "]": "f_bookcase"
+    },
+    "terrain": {
+      "6": "t_console",
+      "x": "t_console_broken",
+      "g": "t_reinforced_glass",
+      "G": "t_reinforced_door_glass_c",
+      ".": "t_thconc_floor",
+      ",": "t_floor_blue",
+      "-": "t_concrete_wall",
+      "|": "t_concrete_wall",
+      "+": "t_door_glass_frosted_c",
+      "W": "t_door_c",
+      "M": "t_door_metal_c",
+      "L": "t_door_metal_locked",
+      "#": "t_rock"
+    },
+    "toilets": { "T": {} }
+  },
+  {
+    "type": "palette",
+    "id": "lab_loot_research",
+    "mapping": {
+      "c": { "items": [ { "item": "dissection", "chance": 10 }, { "item": "chem_lab", "chance": 10 }, { "item": "mut_lab", "chance": 2 } ] },
+      "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
+      "X": {
+        "items": [
+          { "item": "chem_lab", "chance": 10 },
+          { "item": "mut_lab", "chance": 2 },
+          { "item": "robots", "chance": 5 },
+          { "item": "science", "chance": 5 },
+          { "item": "sewage_plant", "chance": 5 },
+          { "item": "harddrugs", "chance": 5 },
+          { "item": "softdrugs", "chance": 5 }
+        ]
+      },
+      "d": { "items": [ { "item": "office", "chance": 20 }, { "item": "science", "chance": 5 } ] },
+      "h": { "item": [ {"item": "coat_lab", "chance": 10} ] },
+      "]": { "items": [ { "item": "manuals", "chance": 10 }, { "item": "textbooks", "chance": 10 } ]
+      },
+      "l": {
+        "items": [
+          { "item": "office", "chance": 10 },
+          { "item": "science", "chance": 10 },
+          { "item": "harddrugs", "chance": 3 },
+          { "item": "softdrugs", "chance": 3 },
+          { "item": "dresser", "chance": 3 },
+          { "item": "lab_torso", "chance": 3 },
+          { "item": "lab_pants", "chance": 3 }
+        ]
+      }
+    }
+  },
+  {
+    "//": "Office supplies, home, bathroom, and kitchen.",
+    "type": "palette",
+    "id": "lab_loot_home_office",
+    "mapping": {
+      "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "science", "chance": 2 } ] },
+      "d": { "items": [ { "item": "office", "chance": 25 }, { "item": "stash_drugs", "chance": 5 }, { "item": "science", "chance": 3 } ] },
+      "f": { "items": [ { "item": "fridge", "chance": 60, "repeat": 2 } ] },
+      "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
+      "X": {
+        "items": [
+          { "item": "chem_lab", "chance": 10 },
+          { "item": "robots", "chance": 5 },
+          { "item": "science", "chance": 5 },
+          { "item": "sewage_plant", "chance": 5 },
+          { "item": "harddrugs", "chance": 5 },
+          { "item": "softdrugs", "chance": 5 }
+        ]
+      },
+      "h": { "item": [ {"item": "coat_lab", "chance": 5} ] },
+      "s": {
+        "items": [
+          { "item": "dresser", "chance": 30 },
+          { "item": "lab_shoes", "chance": 20 },
+          { "item": "lab_torso", "chance": 10 },
+          { "item": "lab_pants", "chance": 10 }
+        ]
+      },
+      "b": { "items": [ { "item": "bed", "chance": 50 } ] },
+      "]": {
+        "items": [
+          { "item": "manuals", "chance": 5 },
+          { "item": "textbooks", "chance": 10 },
+          { "item": "novels", "chance": 5 },
+          { "item": "magazines", "chance": 5 }
+        ]
+      },
+      "l": {
+        "items": [
+          { "item": "office", "chance": 10 },
+          { "item": "stash_drugs", "chance": 5 },
+          { "item": "science", "chance": 3 },
+          { "item": "dresser", "chance": 3 },
+          { "item": "lab_torso", "chance": 3 },
+          { "item": "lab_pants", "chance": 3 }
+        ]
+      }
+    }
+  },
+  {
+    "//": "Creates border walls for a lab based on its neighboring tiles.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_border_walls",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 11, "y": 23, "neighbors": { "south": ["lab"] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 12, "y": 23, "neighbors": { "south": ["lab"] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["lab"] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["lab"] } },
+        { "else_chunks": [ "lab_north_wall" ], "x": 0, "y": 0, "neighbors": { "north": ["lab"] } },
+        { "else_chunks": [ "lab_west_wall" ], "x": 0, "y": 0, "neighbors": { "west": ["lab"] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_north_wall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_terrain": [
+        { "ter": "t_concrete_wall", "x": 0, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 1, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 2, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 3, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 4, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 5, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 6, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 7, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 8, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 9, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 10, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 11, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 12, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 13, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 14, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 15, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 16, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 17, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 18, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 19, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 20, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 21, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 22, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 23, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_west_wall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_terrain": [
+        { "ter": "t_concrete_wall", "x": 0, "y": 0 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 1 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 2 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 3 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 4 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 5 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 6 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 7 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 8 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 9 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 10 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 11 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 12 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 13 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 14 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 15 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 16 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 17 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 18 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 19 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 20 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 21 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 22 },
+        { "ter": "t_concrete_wall", "x": 0, "y": 23 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sub_t_concrete_wall",
+    "object": {
+      "rows": [ "-" ],
+      "palettes": [ "lab_palette" ],
+      "mapgensize": [ 1, 1 ]
+    }
+  }
+]

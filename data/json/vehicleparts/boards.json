@@ -30,7 +30,7 @@
     "copy-from": "clothboard",
     "type": "vehicle_part",
     "name": "cloth quarterpanel",
-    "description": "A half-height cloth wall.  Keeps zombies outside the vehiclebut allows people to see over it.",
+    "description": "A half-height cloth wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
@@ -39,7 +39,7 @@
     "copy-from": "board",
     "type": "vehicle_part",
     "name": "quarterpanel",
-    "description": "A half-height metal wall.  Keeps zombies outside the vehiclebut allows people to see over it.",
+    "description": "A half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
@@ -54,7 +54,7 @@
     "broken_color": "light_gray",
     "difficulty": 2,
     "durability": 200,
-    "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.  Can also be used to store items.",
+    "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": 250,
     "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED" ]
   },
@@ -87,7 +87,7 @@
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "name": "heavy duty quarterpanel",
-    "description": "A half-height strong metal wall.  Keeps zombies outside the vehiclebut allows people to see over it.",
+    "description": "A half-height strong metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
@@ -110,7 +110,7 @@
     "copy-from": "woodboard",
     "type": "vehicle_part",
     "name": "wooden quarterpanel",
-    "description": "A half-height wooden wall.  Keeps zombies outside the vehiclebut allows people to see over it.",
+    "description": "A half-height wooden wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
@@ -122,7 +122,7 @@
     "location": "center",
     "difficulty": 1,
     "durability": 100,
-    "description": "A half-height thin metal wall.  Keeps zombies outside the vehiclebut allows people to see over it.",
+    "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
     "flags": [ "OBSTACLE" ]
   },

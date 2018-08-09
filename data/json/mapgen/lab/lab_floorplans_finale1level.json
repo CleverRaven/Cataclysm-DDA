@@ -1,0 +1,81 @@
+[
+  {
+    "//": "autodoc operating theatre",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_finale_1level" ],
+    "weight": 25,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "..cccccc.|...|,,,|..|,,,",
+        "c........|...|,,,|.6|,,,",
+        "c..Ccxc..|...|,,,g..g,,,",
+        "c........g...|,,,g..g,,,",
+        "c........g...|,,,L..L,,,",
+        "......llS|...|---|..|---",
+        "--gg-G---|...|,,,|..|,,,",
+        ".............|,,,g..g,,,",
+        ".............|,,,g..g,,,",
+        ".............|,,,L..L,,,",
+        "........|-ggg----|..|---",
+        "........|r,,,r|t--G-|...",
+        "........g,,/,,L.....G...",
+        "........g,,?,,|-ggg-|...",
+        "........|r,,,r|.........",
+        "........|-ggg-|.........",
+        "........................",
+        "........................",
+        "..........dd7dd.........",
+        "..........d.h.d.........",
+        "...ddxdd.........ddxdd..",
+        "...d.h.d.........d.h.d..",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch" },
+      "terrain": {
+        "C": "t_centrifuge",
+        "?": "t_floor_blue",
+        "/": "t_floor_blue",
+        "7": "t_console",
+        "r": "t_floor_blue"
+      },
+      "place_loot": [ { "item": "anesthesia", "x": 15, "y": 11, "repeat": [4,9] } ],
+      "mapping": {
+        "r": {
+          "items": [
+            { "item": "bionics_common", "chance": 40 },
+            { "item": "bionics", "chance": 20 },
+            { "item": "hospital_medical_items", "chance": 80 },
+            { "item": "dissection", "chance": 60 }
+          ]
+        }
+      },
+      "computers": {
+        "6": {
+          "name": "Operating Theatre Access Control",
+          "security": 0,
+          "options": [ { "name": "EMERGENCY EVAC - OPEN ALL DOORS", "action": "open", "security": 0 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "7": {
+          "name": "Operating Theatre Access Control",
+          "security": 2,
+          "options": [ { "name": "UNLOCK AUTODOC DOOR", "action": "unlock", "security": 6 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      },
+      "place_monster": [
+        { "monster": [ "mon_broken_cyborg", "mon_zombie_electric" ], "x": [ 14, 16 ], "y": [ 1, 4 ], "chance": 90 },
+        { "monster": "mon_broken_cyborg", "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
+        { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": "mon_zombie_scientist", "x": [15, 19], "y": 12, "chance": 90, "repeat": [1,2] },
+        { "monster": "mon_zombie_brute_shocker", "x": [ 9, 10 ], "y": [ 12, 13 ]}
+      ]
+    }
+  }
+]

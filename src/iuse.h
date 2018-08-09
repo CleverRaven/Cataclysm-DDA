@@ -90,6 +90,8 @@ class iuse
         int crowbar( player *, item *, bool, const tripoint & );
         int makemound( player *, item *, bool, const tripoint & );
         int dig( player *, item *, bool, const tripoint & );
+        int fill_pit( player *, item *, bool, const tripoint & );
+        int clear_rubble( player *, item *, bool, const tripoint & );
         int siphon( player *, item *, bool, const tripoint & );
         int chainsaw_off( player *, item *, bool, const tripoint & );
         int chainsaw_on( player *, item *, bool, const tripoint & );
@@ -111,6 +113,7 @@ class iuse
         int can_goo( player *, item *, bool, const tripoint & );
         int throwable_extinguisher_act( player *, item *, bool, const tripoint & );
         int directional_hologram( player *, item *, bool, const tripoint & );
+        int capture_monster_veh( player *, item *, bool, const tripoint & );
         int capture_monster_act( player *, item *, bool, const tripoint & );
         int pipebomb_act( player *, item *, bool, const tripoint & );
         int granade( player *, item *, bool, const tripoint & );
@@ -197,6 +200,10 @@ class iuse
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
         int break_stick( player *, item *, bool, const tripoint & );
+        int weak_antibiotic( player *, item *, bool, const tripoint & );
+        int strong_antibiotic( player *, item *, bool, const tripoint & );
+        int instant_antibiotic( player *, item *, bool, const tripoint & );
+        int panacea( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 
@@ -207,6 +214,8 @@ class iuse
         int multicooker( player *, item *, bool, const tripoint & );
 
         int remoteveh( player *, item *, bool, const tripoint & );
+
+        int disassemble( player *, item *, bool, const tripoint & );
 
         // ARTIFACTS
         /* This function is used when an artifact is activated.

@@ -107,7 +107,7 @@
     "name": "L2037 Backup",
     "name_plural": "L2037 Backups",
     "//": "Most real-life autorevolvers use 6-7.5 inch barrel, but this one's mentioned to be particularly massive.",
-    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result.  It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder.",
+    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result.  It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder.  Holographics and laser sights built in for additional accuracy.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 2370,
     "volume": 3,
     "price": 267000,
@@ -122,7 +122,8 @@
     "dispersion": 380,
     "durability": 8,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "built_in_mods": [ "lead_holo_sight", "lead_laser_sight"],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "l_base_223",
@@ -139,21 +140,22 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": "-1",
-    "dispersion": 90,
+    "dispersion": 140,
     "durability": 3,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "AUTO", "auto", 3 ]
     ],
     "valid_mod_locations": [ [ "accessories", 2 ] ],
-    "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ]
+    "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "l_car_223",
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-CAR carbine",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes an integral laser sight, but like the rest of the family, doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes a read-dot sight and an integral laser sight.  Additionally it comes with underslung shotgun for close range encounters.  Like the rest of the family, doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
     "modes": [
@@ -161,9 +163,10 @@
       [ "AUTO", "auto", 5 ]
     ],
     "relative": {
-      "weight": 400,
-      "range": -6
-    }
+      "weight": 400
+    },
+    "built_in_mods": [ "lead_red_dot_sight", "lead_barrel_small", "lead_laser_sight", "lead_u_shotgun", "lead_stabilizer" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_dsr_223",
@@ -172,53 +175,55 @@
     "name": "L523-DSR rifle",
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The designated-shootist rifle incorporates a specially-designed extended barrel with integral bipod and foregrip, along with an integral 8x optic, and trades selective-fire for the Leadworks gyro-stabilization system.  Like the rest of the family, though, it doesn't accept third-party modifications.",
     "price": 580000,
-    "sight_dispersion": 0,
     "durability": 9,
     "barrel_length": 3,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ]
     ],
-    "delete": { "modes": [ [ "AUTO", "auto", 3 ] ] },
     "relative": {
       "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
       "weight": 1200,
-      "volume": 4,
-      "range": 3,
-      "ranged_damage": 3
-    }
+      "volume": 4
+    },
+    "delete": { "modes": [ [ "AUTO", "auto", 3 ] ] },
+    "built_in_mods": [ "lead_rifle_scope", "lead_barrel_big", "lead_bipod", "lead_grip",  "lead_stabilizer" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_lmg_223",
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-LMG",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip as well as the Leadworks gyro system.  Unlike the other configurations, the L523 LMG can be loaded with ammo belts.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates ACOG scope, a heavy-duty barrel, foregrip, bipod and as well as the Leadworks gyro system.  Unlike the other configurations, the L523 LMG can be loaded with ammo belts.",
     "price": 620000,
     "durability": 9,
     "modes": [
       [ "DEFAULT", "low auto", 3 ],
       [ "AUTO", "high auto", 14 ]
     ],
-    "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
     "relative": {
       "weight": 2000,
       "volume": 7,
-      "ranged_damage": 2,
-      "dispersion": 60
-    }
+      "dispersion": 50
+    },
+    "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
+    "built_in_mods": [ "lead_acog_scope", "lead_barrel_heavy_duty", "lead_bipod", "lead_grip", "lead_stabilizer" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "barrel", 1 ] , [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "l_mbr_223",
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-MBR rifle",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with a foregrip available for greater control.  Like the rest of the family, though, it doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with Leadworks gyro-stabilization system system and foregrip available for greater control.  Additionally it comes with grenade launcher module for dealing with hard targets.  Like the rest of the family, though, it doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
     "relative": {
       "weight": 1200,
       "volume": 2
-    }
+    },
+    "built_in_mods": [ "lead_acog_scope", "lead_red_dot_sight", "lead_grip", "lead_glm", "lead_stabilizer" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 2 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
   },
   {
     "id": "m249",
@@ -397,9 +402,9 @@
     "id": "surv_carbine_223",
     "copy-from": "rifle_semi",
     "type": "GUN",
-    "name": "survivor carbine",
+    "name": "handmade carbine",
     "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
-    "description": "A well designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines this is one of the better homemade weapons.",
+    "description": "A well-designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines, this is one of the better homemade weapons.",
     "weight": 1950,
     "volume": 6,
     "price": 10000,

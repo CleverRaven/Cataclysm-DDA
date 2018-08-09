@@ -1,6 +1,7 @@
 #include "mapgen.h"
 
 #include "coordinate_conversions.h"
+#include "drawing_primitives.h"
 #include "omdata.h"
 #include "output.h"
 #include "game.h"
@@ -464,6 +465,7 @@ mapgen_function_json::mapgen_function_json( const std::string s, const int w,
 
 mapgen_function_json_nested::mapgen_function_json_nested( const std::string s )
 : mapgen_function_json_base( s )
+, rotation( 0 )
 {
 }
 
@@ -963,13 +965,26 @@ public:
  * "monster": id of the monster.
  * "friendly": whether the new monster is friendly to the player character.
  * "name": the name of the monster (if it has one).
+ * "chance": the percentage chance of a monster, affected by spawn density
+ *     If high density means greater than one hundred percent, can place multiples. 
+ * "repeat": roll this many times for creatures, potentially spawning multiples.
+ * "pack_size": place this many creatures each time a roll is successful.
+ * "one_or_none": place max of 1 (or pack_size) monsters, even if spawn density > 1.
+ *     Defaults to true if repeat and pack_size are unset, false if one is set.
  */
 class jmapgen_monster : public jmapgen_piece {
 public:
     weighted_int_list<mtype_id> ids;
+    jmapgen_int chance;
+    jmapgen_int pack_size;
+    bool one_or_none;
     bool friendly;
     std::string name;
     jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
+    , chance( jsi, "chance", 100, 100 )
+    , pack_size( jsi, "pack_size", 1, 1 )
+    , one_or_none ( jsi.get_bool( "one_or_none",
+                    !(jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
     , friendly( jsi.get_bool( "friendly", false ) )
     , name( jsi.get_string( "name", "NONE" ) )
     {
@@ -1000,7 +1015,32 @@ public:
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
-        dat.m.add_spawn( *(ids.pick()), 1, x.get(), y.get(), friendly, -1, -1, name );
+        int raw_odds = chance.get();
+
+        // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
+        // Instead, apply a multipler to the number of monsters for really high densities.
+        // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
+        int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" ) ;
+        int max_odds = 100 - (100 - raw_odds)/2;
+        float density_multiplier = 1;
+        if( odds_after_density > max_odds ) {
+            density_multiplier = 1.0f * odds_after_density / max_odds;
+            odds_after_density = max_odds;
+        }
+
+        if( !x_in_y( odds_after_density, 100 ) ) {
+            return;
+        }
+        int spawn_count = roll_remainder( density_multiplier );
+
+        if( one_or_none ) { // don't let high spawn density alone cause more than 1 to spawn.
+            spawn_count = std::min(spawn_count, 1);
+        }
+        if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
+            spawn_count = std::max(spawn_count, 1);
+        }
+
+        dat.m.add_spawn( *(ids.pick()), spawn_count * pack_size.get(), x.get(), y.get(), friendly, -1, -1, name );
     }
 };
 
@@ -1132,6 +1172,14 @@ public:
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         dat.m.ter_set( x.get(), y.get(), id );
+        // Delete furniture if a wall was just placed over it.  TODO: need to do anything for fluid, monsters?
+        if( dat.m.has_flag_ter("WALL", x.get(), y.get() ) ) {
+            dat.m.furn_set( x.get(), y.get(), f_null);
+            // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
+            if( !dat.m.has_flag_ter("PLACE_ITEM", x.get(), y.get() ) ) {
+                dat.m.i_clear(tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+            }
+        }
     }
 };
 /**
@@ -1207,6 +1255,18 @@ public:
     }
 };
 
+static void load_weighted_entries(JsonObject &jsi, std::string json_key, weighted_int_list<std::string>& list) {
+        JsonArray jarr = jsi.get_array( json_key );
+        while( jarr.has_more() ) {
+            if( jarr.test_array() ) {
+                JsonArray inner = jarr.next_array();
+                list.add( inner.get_string( 0 ), inner.get_int( 1 ) );
+            } else {
+                list.add( jarr.next_string(), 100 );
+            }
+        }
+    }
+
 /**
  * Calls another mapgen call inside the current one.
  * Note: can't use regular overmap ids.
@@ -1233,40 +1293,39 @@ private:
                     return true;
                 }
 
+                bool all_directions_match  = true;
                 for( om_direction::type dir : om_direction::all ) {
                     int index = static_cast<int>( dir );
                     const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
-                    if( !allowed_neighbors.empty() && allowed_neighbors.count( dat.neighbor_at( dir ).id() ) == 0 ) {
-                        return false;
-                    }
-                }
 
-                return true;
+                    if (allowed_neighbors.empty()) {
+                        continue;  // no constraints on this direction, skip.
+                    }
+
+                    bool this_direction_matches = false;
+                    for( oter_str_id allowed_neighbor : allowed_neighbors ) {
+                        this_direction_matches |= is_ot_subtype(allowed_neighbor.c_str(), dat.neighbor_at( dir ).id() );
+                    }
+                    all_directions_match &= this_direction_matches;
+                }
+                return all_directions_match;
             }
     };
+
 public:
     weighted_int_list<std::string> entries;
+    weighted_int_list<std::string> else_entries;
     neighborhood_check neighbors;
     jmapgen_nested( JsonObject &jsi ) : jmapgen_piece(), neighbors( jsi.get_object( "neighbors" ) )
     {
-        JsonArray jarr = jsi.get_array( "chunks" );
-        while( jarr.has_more() ) {
-            if( jarr.test_array() ) {
-                JsonArray inner = jarr.next_array();
-                entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
-            } else {
-                entries.add( jarr.next_string(), 100 );
-            }
-        }
+        load_weighted_entries(jsi, "chunks", entries);
+        load_weighted_entries(jsi, "else_chunks", else_entries);
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float d ) const override
     {
-        const std::string *res = entries.pick();
+        const std::string *res = neighbors.test( dat ) ? entries.pick() : else_entries.pick();
         if( res == nullptr || res->empty() || *res == "null" ) {
-            return;
-        }
-
-        if( !neighbors.test( dat ) ) {
+            // This will be common when neighbors.test(...) is false, since else_entires is often empty.
             return;
         }
 
@@ -1687,6 +1746,10 @@ bool mapgen_function_json_nested::setup_internal( JsonObject &jo )
         jo.throw_error( "Nested mapgen must have \"mapgensize\" set" );
     }
 
+    if( jo.has_member( "rotation" ) ) {
+        rotation = jmapgen_int( jo, "rotation" );
+    }
+
     // Nested mapgen is always halal because it can assume underlying map is.
     return true;
 }
@@ -1962,6 +2025,9 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const
 {
+    // TODO: Make rotation work for submaps, then pass this value into elem & objects apply.
+    //int chosen_rotation = rotation.get() % 4;
+
     if( do_format ) {
         formatted_set_incredibly_simple( dat.m, offset_x, offset_y );
     }
@@ -2048,6 +2114,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                    const int zlevel, const regional_settings * rsettings)
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+    static const mongroup_id GROUP_TOWER_LAB( "GROUP_TOWER_LAB" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
@@ -2078,6 +2145,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     // To distinguish between types of labs
     bool ice_lab = true;
+    bool central_lab = false;
+    bool tower_lab = false;
 
     std::array<oter_id, 8> t_nesw = {{ t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest }};
     std::array<int, 8> nesw_fac = {{ 0, 0, 0, 0, 0, 0, 0, 0 }};
@@ -2757,13 +2826,16 @@ ___DEEE|.R.|...,,...|sss\n",
                terrain_type == "lab_core" ||
                terrain_type == "ice_lab" ||
                terrain_type == "ice_lab_stairs" ||
-               terrain_type == "ice_lab_core") {
+               terrain_type == "ice_lab_core" ||
+               terrain_type == "central_lab" ||
+               terrain_type == "central_lab_stairs" ||
+               terrain_type == "central_lab_core" ||
+               terrain_type == "tower_lab" ||
+               terrain_type == "tower_lab_stairs") {
 
-        if (is_ot_type("ice_lab", terrain_type)) {
-            ice_lab = true;
-        } else {
-            ice_lab = false;
-        }
+        ice_lab = is_ot_type("ice_lab", terrain_type);
+        central_lab = is_ot_type("central_lab", terrain_type);
+        tower_lab = is_ot_type("tower_lab", terrain_type);
 
         if (ice_lab) {
             int temperature = -20 + 30 * (zlevel);
@@ -2824,24 +2896,14 @@ ___DEEE|.R.|...,,...|sss\n",
                 rotate(3);
             }
         } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
-            // @todo: This checks if id is a laboratory the hard-coded way. Get rid of the hardcode.
-            const auto is_lab = []( const oter_id &id ) {
-                return is_ot_type( "lab", id ) ||
-                       is_ot_type( "lab_stairs", id ) ||
-                       is_ot_type( "lab_core", id ) ||
-                       is_ot_type( "ice_lab", id ) ||
-                       is_ot_type( "ice_lab_stairs", id ) ||
-                       is_ot_type( "ice_lab_core", id );
-            };
-
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    ter_set(i, j, t_rock_floor);
+                    ter_set(i, j, t_thconc_floor);
                     if (((i < lw || i > SEEX * 2 - 1 - rw) && j > SEEY - 3 && j < SEEY + 2) ||
                         ((j < tw || j > SEEY * 2 - 1 - bw) && i > SEEX - 3 && i < SEEX + 2)) {
                         ter_set(i, j, t_sewage);
                     }
-                    if( ( i == 0 && is_lab( t_east ) ) || i == SEEX * 2 - 1 ) {
+                    if( ( i == 0 && is_ot_subtype( "lab", t_east ) ) || i == SEEX * 2 - 1 ) {
                         if (ter(i, j) == t_sewage) {
                             ter_set(i, j, t_bars);
                         } else if (j == SEEY - 1 || j == SEEY) {
@@ -2849,7 +2911,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         } else {
                             ter_set(i, j, t_concrete_wall);
                         }
-                    } else if( ( j == 0 && is_lab( t_north ) ) || j == SEEY * 2 - 1 ) {
+                    } else if( ( j == 0 && is_ot_subtype( "lab", t_north ) ) || j == SEEY * 2 - 1 ) {
                         if (ter(i, j) == t_sewage) {
                             ter_set(i, j, t_bars);
                         } else if (i == SEEX - 1 || i == SEEX) {
@@ -2862,18 +2924,11 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         } else { // We're below ground, and no sewers
             // Set up the boundaries of walls (connect to adjacent lab squares)
-            // Are we in an ice lab?
-            if ( ice_lab ) {
-                tw = is_ot_type("ice_lab", t_north) ? 0 : 2;
-                rw = is_ot_type("ice_lab", t_east) ? 1 : 2;
-                bw = is_ot_type("ice_lab", t_south) ? 1 : 2;
-                lw = is_ot_type("ice_lab", t_west) ? 0 : 2;
-            } else {
-                tw = is_ot_type("lab", t_north) ? 0 : 2;
-                rw = is_ot_type("lab", t_east) ? 1 : 2;
-                bw = is_ot_type("lab", t_south) ? 1 : 2;
-                lw = is_ot_type("lab", t_west) ? 0 : 2;
-            }
+            tw = is_ot_subtype("lab", t_north) ? 0 : 2;
+            rw = is_ot_subtype("lab", t_east) ? 1 : 2;
+            bw = is_ot_subtype("lab", t_south) ? 1 : 2;
+            lw = is_ot_subtype("lab", t_west) ? 0 : 2;
+
             int boarders = 0;
             if (tw == 0 ) {
                 boarders++;
@@ -2889,657 +2944,302 @@ ___DEEE|.R.|...,,...|sss\n",
             }
             //A lab area with only one entrance
             if (boarders == 1) {
-                fill_background(this, t_rock_floor);
-                if (one_in(2)) { //armory and military barracks
-                    mapf::formatted_set_simple(this, 0, 0,
-                                               "\
-|----------------------|\n\
-|r....................r|\n\
-|r..rr..rr....rr..rr..r|\n\
-|r..rr..rr....rr..rr..r|\n\
-|r..rr..rr....rr..rr..r|\n\
-|r..rr..rr....rr..rr..r|\n\
-|r..rr..rr....rr..rr..r|\n\
-|......................|\n\
-|......................|\n\
-|..rrrrrr..........rrr.|\n\
-|-----|----DD-|--+|--|-|\n\
-|b.ddd|.......gc..|T.|T|\n\
-|b..h.+.......g6h.|-+|+|\n\
-|l....|.......gc..|....|\n\
-|-----|.......|--D|...S|\n\
-|b....+...........|...S|\n\
-|b...l|...........|-+--|\n\
-|-----|................|\n\
-|b....+...x............|\n\
-|b...l|..|-DD-|+-|+-|+-|\n\
-|-----|..|....|.l|.l|.l|\n\
-|b....+..|6...|..|..|..|\n\
-|b...l|..|....|bb|bb|bb|\n\
-|-----|--|-..-|--|--|--|\n",
-                                               mapf::ter_bind("b l A r d C h 6 x g G , . - | + D t c S T", t_rock_floor, t_rock_floor, t_floor,
-                                                       t_rock_floor, t_rock_floor, t_centrifuge, t_rock_floor, t_console, t_console_broken,
-                                                       t_reinforced_glass, t_reinforced_glass, t_floor_blue, t_rock_floor, t_concrete_wall, t_concrete_wall,
-                                                       t_door_metal_c, t_door_metal_locked, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor),
-                                               mapf::furn_bind("b l A r d C h 6 x g G , . - | + D t c S T", f_bed,        f_locker,     f_crate_c,
-                                                       f_rack,       f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,
-                                                       f_null,               f_null,       f_null,       f_null,       f_null,       f_null,
-                                                       f_null,              f_table,      f_counter,    f_sink,       f_toilet));
-                    for (int i = 0; i <= 23; i++) {
-                        for (int j = 0; j <= 23; j++) {
-                            if (this->furn(i, j) == f_locker) {
-                                place_items( "clothing_soldier_set", 100,  i, j, i, j, false, 0 );
-                                if( one_in( 2 ) ) {
-                                    place_items( "gear_soldier_sidearm", 100,  i, j, i, j, false, 0, 100, 100 );
-                                } else {
-                                    place_items( "book_military", 100,  i, j, i, j, false, 0 );
-                                }
-                            } else if (this->furn(i, j) == f_desk) {
-                                place_items("office", 50,  i,  j, i,  j, false, 0);
-                            } else if (this->furn(i, j) == f_rack) {
-                                if (one_in(3)) {
-                                    place_items( "military", 30,  i,  j, i,  j, false, 0 );
-                                } else if (one_in(2)) {
-                                    place_items( "ammo_milspec", 30,  i,  j, i,  j, false, 0 );
-                                } else if (one_in(4)) {
-                                    place_items( "mags_milspec", 30,  i,  j, i,  j, false, 0 );
-                                } else {
-                                    place_items( "guns_milspec", 30,  i,  j, i,  j, false, 0, 100 );
-                                }
-                            } else if (this->furn(i, j) == f_bed) {
-                                place_items("bed", 50,  i,  j, i,  j, false, 0);
-                            }
-                        }
+                const std::string function_key = "lab_1side"; // terrain_type->get_mapgen_id();
+                const auto fmapit = oter_mapgen.find( function_key );
+
+                if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
+                    std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
+                    const int rlast = weightit->second.rbegin()->first;
+                    const int roll = rng(1, rlast);
+
+                    const int fidx = weightit->second.lower_bound( roll )->second;
+
+                    fmapit->second[fidx]->generate(this, terrain_type, dat, when, density);
+                    if (tw == 2) {
+                        rotate(2);
                     }
-                    computer *tmpcomp2 = NULL;
-                    tmpcomp2 = add_computer( tripoint( 10,  21, abs_sub.z ), _("Barracks Entrance"), 4);
-                    tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 6);
-                    tmpcomp2->add_failure(COMPFAIL_DAMAGE);
-                    tmpcomp2->add_failure(COMPFAIL_SHUTDOWN);
-                    tmpcomp = add_computer( tripoint( 15,  12, abs_sub.z ), _("Magazine Entrance"), 6);
-                    tmpcomp->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 7);
-                    tmpcomp->add_failure(COMPFAIL_DAMAGE);
-                    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-                    if (one_in(2)) {
-                        add_spawn(mon_zombie_soldier, rng(1, 4), 12, 12);
-                    } else if (one_in(5)) {
-                        add_spawn(mon_zombie_bio_op, rng(1, 2), 12, 12);
-                    } else if (one_in(5)) {
-                        add_spawn(mon_zombie_grenadier, rng(1, 2), 12, 12);
+                    if (rw == 2) {
+                        rotate(1);
                     }
-                } else { //human containment
-                    mapf::formatted_set_simple(this, 0, 0,
-                                               "\
-|----|-|----|----|-|---|\n\
-|b.T.|.|.T.b|b.T.|.|A.A|\n\
-|b...D.D...b|b...D.|..A|\n\
-|....|.|....|....|.|...|\n\
-|....|.|....|....|.|l..|\n\
-|-GG-|+|-GG-|-GG-|.|-D-|\n\
-|................+.....|\n\
-|................|--D--|\n\
-|................|...bb|\n\
-|................g.....|\n\
-|-GGGGGG-|.......g....T|\n\
-|..cc6c..g.......|.....|\n\
-|..ch.c..|-GGDGG-|-GGG-|\n\
-|........g.............|\n\
-|^.......|.............|\n\
-|-GGG+GG-|.............|\n\
-|ddd.....|.............|\n\
-|.hd.....+....|-G+GGGG-|\n\
-|........|...x|.......c|\n\
-|.......r|-DD-|l......S|\n\
-|ddd....r|...6|l......c|\n\
-|.hd....r|....|........|\n\
-|........|....|..cxcC..|\n\
-|--------|-..-|--------|\n",
-                                               mapf::ter_bind("b l A r d C h 6 x g G , . - | + D t c S T", t_rock_floor, t_rock_floor, t_floor,
-                                                       t_rock_floor, t_rock_floor, t_centrifuge, t_rock_floor, t_console, t_console_broken,
-                                                       t_reinforced_glass, t_reinforced_glass, t_floor_blue, t_rock_floor, t_concrete_wall, t_concrete_wall,
-                                                       t_door_metal_c, t_door_metal_locked, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor),
-                                               mapf::furn_bind("b l A r d C h 6 x g G , . - | + D t c S T", f_bed,        f_locker,     f_crate_c,
-                                                       f_rack,       f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,
-                                                       f_null,               f_null,       f_null,       f_null,       f_null,       f_null,
-                                                       f_null,              f_table,      f_counter,    f_sink,       f_toilet));
-                    for (int i = 0; i <= 23; i++) {
-                        for (int j = 0; j <= 23; j++) {
-                            if (this->furn(i, j) == f_locker) {
-                                place_items("science", 60,  i,  j, i,  j, false, 0);
-                            }
-                            if (this->furn(i, j) == f_desk) {
-                                place_items("office", 60,  i,  j, i,  j, false, 0);
-                            }
-                            if (this->furn(i, j) == f_counter) {
-                                place_items("office", 40,  i,  j, i,  j, false, 0);
-                            }
-                            if (this->furn(i, j) == f_rack || this->furn(i, j) == f_crate_c) {
-                                place_items("softdrugs", 40,  i,  j, i,  j, false, 0);
-                                place_items("harddrugs", 30,  i,  j, i,  j, false, 0);
-                            }
-                            if (this->furn(i, j) == f_bed) {
-                                place_items("bed", 50,  i,  j, i,  j, false, 0);
-                            }
-                        }
+                    if (lw == 2) {
+                        rotate(3);
                     }
-                    computer *tmpcomp2 = NULL;
-                    tmpcomp2 = add_computer( tripoint( 13,  20, abs_sub.z ), _("Prisoner Containment Entrance"), 4);
-                    tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 4);
-                    tmpcomp = add_computer( tripoint( 5,  11, abs_sub.z ), _("Containment Control"), 4);
-                    tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
-                    mtrap_set( this, 19, 19, tr_dissector);
-                    item body = item::make_corpse();
-                    if (one_in(2)) {
-                        add_item(1, 1, body);
-                    } else {
-                        add_spawn(mon_zombie_shrieker, 1, 1, 1);
-                    }
-                    if (one_in(2)) {
-                        add_item(9, 3, body);
-                    } else {
-                        add_spawn(mon_zombie_brute, 1, 9, 3);
-                    }
-                    if (one_in(2)) {
-                        add_item(14, 4, body);
-                    } else {
-                        add_spawn(mon_zombie_child, 1, 14, 4);
-                    }
-                    if (one_in(2)) {
-                        add_item(19, 9, body);
-                    } else {
-                        add_spawn(mon_zombie_grabber, 1, 19, 9);
-                    }
-                    if (one_in(2)) {
-                        add_spawn(mon_zombie_scientist, rng(1, 2), 12, 14);
-                    }
+                } else {
+                    debugmsg("Error: Tried to generate 1-sided lab but no lab_1side json exists.");
                 }
-                if (bw == 2) {
-                    rotate(2);
-                }
-                if (rw == 2) {
-                    rotate(3);
-                }
-                if (lw == 2) {
-                    rotate(1);
-                }
-                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_rock_floor || has_furn( p ); };
+                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_thconc_floor; };
                 const auto range = points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } );
-                if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
+                if (is_ot_subtype("stairs", t_above)) {
                     if( const auto p = random_point( range, predicate ) ) {
                         remove_trap( *p );
                         ter_set( *p, t_stairs_up );
                     }
                 }
 
-                if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
+                if (is_ot_subtype("stairs", terrain_type)) {
                     if( const auto p = random_point( range, predicate ) ) {
                         remove_trap( *p );
                         ter_set( *p, t_stairs_down );
                     }
                 }
-            } else switch (rng(1, 4)) { // Pick a random lab layout
-                case 1: // Cross shaped
-                    for (int i = 0; i < SEEX * 2; i++) {
-                        for (int j = 0; j < SEEY * 2; j++) {
-                            if ((i < lw || i > SEEX * 2 - 1 - rw) ||
-                                ((j < SEEY - 1 || j > SEEY) && (i == SEEX - 2 || i == SEEX + 1))) {
-                                ter_set(i, j, t_concrete_wall);
-                            } else if ((j < tw || j > SEEY * 2 - 1 - bw) ||
-                                       ((i < SEEX - 1 || i > SEEX) && (j == SEEY - 2 || j == SEEY + 1))) {
-                                ter_set(i, j, t_concrete_wall);
-                            } else {
-                                ter_set(i, j, t_rock_floor);
+            } else {
+                const std::string function_key = "lab_4side";
+                const auto fmapit = oter_mapgen.find( function_key );
+                const int hardcoded_4side_map_weight = 1500; // weight of all hardcoded maps.
+                bool use_hardcoded_4side_map = false;
+
+                if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
+                    std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
+                    const int rlast = weightit->second.rbegin()->first;
+                    const int roll = rng(1, rlast + hardcoded_4side_map_weight);
+
+                    if (roll <= rlast) {
+                        const int fidx = weightit->second.lower_bound( roll )->second;
+                        fmapit->second[fidx]->generate(this, terrain_type, dat, when, density);
+
+                        // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
+                        // borders and have to be caught in code. We determine if a border isn't handled by checking
+                        // the east-facing border space where the door normally is -- it should be a wall or door.
+                        tripoint east_border(23, 11, abs_sub.z);
+                        if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
+                            // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
+                            for( int i = 0; i <= 23; i++ ) {
+                                ter_set( 23, i, t_concrete_wall );
+                                furn_set( 23, i, f_null );
+                                i_clear( tripoint( 23, i, get_abs_sub().z ));
+
+                                ter_set( i, 23, t_concrete_wall );
+                                furn_set( i, 23, f_null );
+                                i_clear( tripoint( i, 23, get_abs_sub().z ));
+
+                                if( lw == 2 ) {
+                                    ter_set( 0, i, t_concrete_wall );
+                                    furn_set( 0, i, f_null );
+                                    i_clear( tripoint( 0, i, get_abs_sub().z ));
+                                }
+                                if( tw == 2 ) {
+                                    ter_set( i, 0, t_concrete_wall );
+                                    furn_set( i, 0, f_null );
+                                    i_clear( tripoint( i, 0, get_abs_sub().z ));
+                                }
+                                if( rw != 2 ) {
+                                    ter_set( 23, 11, t_door_metal_c );
+                                    ter_set( 23, 12, t_door_metal_c );
+                                }
+                                if( bw != 2 ) {
+                                    ter_set( 11, 23, t_door_metal_c );
+                                    ter_set( 12, 23, t_door_metal_c );
+                                }
                             }
                         }
-                    }
-                    if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
-                        ter_set(rng(SEEX - 1, SEEX), rng(SEEY - 1, SEEY), t_stairs_up);
-                    }
-                    // Top left
-                    if (one_in(2)) {
-                        ter_set(SEEX - 2, int(SEEY / 2), t_door_metal_c);
-                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 1);
-                    } else {
-                        ter_set(int(SEEX / 2), SEEY - 2, t_door_metal_c);
-                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 2);
-                    }
-                    // Top right
-                    if (one_in(2)) {
-                        ter_set(SEEX + 1, int(SEEY / 2), t_door_metal_c);
-                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 3);
-                    } else {
-                        ter_set(SEEX + int(SEEX / 2), SEEY - 2, t_door_metal_c);
-                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 2);
-                    }
-                    // Bottom left
-                    if (one_in(2)) {
-                        ter_set(int(SEEX / 2), SEEY + 1, t_door_metal_c);
-                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 0);
-                    } else {
-                        ter_set(SEEX - 2, SEEY + int(SEEY / 2), t_door_metal_c);
-                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 1);
-                    }
-                    // Bottom right
-                    if (one_in(2)) {
-                        ter_set(SEEX + int(SEEX / 2), SEEY + 1, t_door_metal_c);
-                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
-                                     zlevel, 0);
-                    } else {
-                        ter_set(SEEX + 1, SEEY + int(SEEY / 2), t_door_metal_c);
-                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
-                                     zlevel, 3);
-                    }
-                    if (rw == 1) {
-                        ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
-                        ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
-                    }
-                    if (bw == 1) {
-                        ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
-                        ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
-                    }
-                    if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") { // Stairs going down
-                        std::vector<point> stair_points;
-                        if (tw != 0) {
-                            stair_points.push_back(point(SEEX - 1, 2));
-                            stair_points.push_back(point(SEEX - 1, 2));
-                            stair_points.push_back(point(SEEX    , 2));
-                            stair_points.push_back(point(SEEX    , 2));
-                        }
-                        if (rw != 1) {
-                            stair_points.push_back(point(SEEX * 2 - 3, SEEY - 1));
-                            stair_points.push_back(point(SEEX * 2 - 3, SEEY - 1));
-                            stair_points.push_back(point(SEEX * 2 - 3, SEEY    ));
-                            stair_points.push_back(point(SEEX * 2 - 3, SEEY    ));
-                        }
-                        if (bw != 1) {
-                            stair_points.push_back(point(SEEX - 1, SEEY * 2 - 3));
-                            stair_points.push_back(point(SEEX - 1, SEEY * 2 - 3));
-                            stair_points.push_back(point(SEEX    , SEEY * 2 - 3));
-                            stair_points.push_back(point(SEEX    , SEEY * 2 - 3));
-                        }
-                        if (lw != 0) {
-                            stair_points.push_back(point(2, SEEY - 1));
-                            stair_points.push_back(point(2, SEEY - 1));
-                            stair_points.push_back(point(2, SEEY    ));
-                            stair_points.push_back(point(2, SEEY    ));
-                        }
-                        stair_points.push_back(point(int(SEEX / 2)       , SEEY    ));
-                        stair_points.push_back(point(int(SEEX / 2)       , SEEY - 1));
-                        stair_points.push_back(point(int(SEEX / 2) + SEEX, SEEY    ));
-                        stair_points.push_back(point(int(SEEX / 2) + SEEX, SEEY - 1));
-                        stair_points.push_back(point(SEEX    , int(SEEY / 2)       ));
-                        stair_points.push_back(point(SEEX + 2, int(SEEY / 2)       ));
-                        stair_points.push_back(point(SEEX    , int(SEEY / 2) + SEEY));
-                        stair_points.push_back(point(SEEX + 2, int(SEEY / 2) + SEEY));
-                        const point p = random_entry( stair_points );
-                        ter_set(p.x, p.y, t_stairs_down);
-                    }
 
-                    break;
-
-                case 2: // tic-tac-toe # layout
-                    for (int i = 0; i < SEEX * 2; i++) {
-                        for (int j = 0; j < SEEY * 2; j++) {
-                            if (i < lw || i > SEEX * 2 - 1 - rw || i == SEEX - 4 || i == SEEX + 3) {
-                                ter_set(i, j, t_concrete_wall);
-                            } else if (j < lw || j > SEEY * 2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3) {
-                                ter_set(i, j, t_concrete_wall);
-                            } else {
-                                ter_set(i, j, t_rock_floor);
+                        if (is_ot_subtype("stairs", t_above)) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
+                                ter_set( *p, t_stairs_up );
                             }
                         }
-                    }
-                    if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
-                        ter_set(SEEX - 1, SEEY - 1, t_stairs_up);
-                        ter_set(SEEX    , SEEY - 1, t_stairs_up);
-                        ter_set(SEEX - 1, SEEY    , t_stairs_up);
-                        ter_set(SEEX    , SEEY    , t_stairs_up);
-                    }
-                    ter_set(SEEX - rng(0, 1), SEEY - 4, t_door_metal_c);
-                    ter_set(SEEX - rng(0, 1), SEEY + 3, t_door_metal_c);
-                    ter_set(SEEX - 4, SEEY + rng(0, 1), t_door_metal_c);
-                    ter_set(SEEX + 3, SEEY + rng(0, 1), t_door_metal_c);
-                    ter_set(SEEX - 4, int(SEEY / 2), t_door_metal_c);
-                    ter_set(SEEX + 3, int(SEEY / 2), t_door_metal_c);
-                    ter_set(int(SEEX / 2), SEEY - 4, t_door_metal_c);
-                    ter_set(int(SEEX / 2), SEEY + 3, t_door_metal_c);
-                    ter_set(SEEX + int(SEEX / 2), SEEY - 4, t_door_metal_c);
-                    ter_set(SEEX + int(SEEX / 2), SEEY + 3, t_door_metal_c);
-                    ter_set(SEEX - 4, SEEY + int(SEEY / 2), t_door_metal_c);
-                    ter_set(SEEX + 3, SEEY + int(SEEY / 2), t_door_metal_c);
-                    science_room(this, lw, tw, SEEX - 5, SEEY - 5, zlevel, rng(1, 2));
-                    science_room(this, SEEX - 3, tw, SEEX + 2, SEEY - 5, zlevel, 2);
-                    science_room(this, SEEX + 4, tw, SEEX * 2 - 1 - rw, SEEY - 5, zlevel, rng(2, 3));
-                    science_room(this, lw, SEEY - 3, SEEX - 5, SEEY + 2, zlevel, 1);
-                    science_room(this, SEEX + 4, SEEY - 3, SEEX * 2 - 1 - rw, SEEY + 2, zlevel, 3);
-                    science_room(this, lw, SEEY + 4, SEEX - 5, SEEY * 2 - 1 - bw, zlevel, rng(0, 1));
-                    science_room(this, SEEX - 3, SEEY + 4, SEEX + 2, SEEY * 2 - 1 - bw, zlevel, 0);
-                    science_room(this, SEEX + 4, SEEX + 4, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
-                                 zlevel, 3 * rng(0, 1));
-                    if (rw == 1) {
-                        ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
-                        ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
-                    }
-                    if (bw == 1) {
-                        ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
-                        ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
-                    }
-                    if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
-                        ter_set(SEEX - 3 + 5 * rng(0, 1), SEEY - 3 + 5 * rng(0, 1), t_stairs_down);
-                    }
-                    break;
-
-                case 3: // Big room
-                    for (int i = 0; i < SEEX * 2; i++) {
-                        for (int j = 0; j < SEEY * 2; j++) {
-                            if (i < lw || i >= SEEX * 2 - 1 - rw) {
-                                ter_set(i, j, t_concrete_wall);
-                            } else if (j < tw || j >= SEEY * 2 - 1 - bw) {
-                                ter_set(i, j, t_concrete_wall);
-                            } else {
-                                ter_set(i, j, t_rock_floor);
+                        if (is_ot_subtype("stairs", terrain_type)) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
+                                ter_set( *p, t_stairs_down );
                             }
                         }
-                    }
-                    science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
-                                 zlevel, rng(0, 3));
-                    if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
-                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
-                            ter_set( *p, t_stairs_up );
+                    } else { // then weighted roll was in the hardcoded section
+                        use_hardcoded_4side_map = true;
+                    } // end json maps
+                } else { // then no json maps for lab_4side were found
+                        use_hardcoded_4side_map = true;
+                } // end if no lab_4side was found.
+                if (use_hardcoded_4side_map) {
+                    switch (rng(1, 3)) {
+                    case 1: // Cross shaped
+                        for (int i = 0; i < SEEX * 2; i++) {
+                            for (int j = 0; j < SEEY * 2; j++) {
+                                if ((i < lw || i > SEEX * 2 - 1 - rw) ||
+                                    ((j < SEEY - 1 || j > SEEY) && (i == SEEX - 2 || i == SEEX + 1))) {
+                                    ter_set(i, j, t_concrete_wall);
+                                } else if ((j < tw || j > SEEY * 2 - 1 - bw) ||
+                                           ((i < SEEX - 1 || i > SEEX) && (j == SEEY - 2 || j == SEEY + 1))) {
+                                    ter_set(i, j, t_concrete_wall);
+                                } else {
+                                    ter_set(i, j, t_thconc_floor);
+                                }
+                            }
                         }
-                    }
-                    if (rw == 1) {
-                        ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
-                        ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
-                    }
-                    if (bw == 1) {
-                        ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
-                        ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
-                    }
-                    if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
-                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
-                            ter_set( *p, t_stairs_down );
+                        if (is_ot_subtype("stairs", t_above)) {
+                            ter_set(rng(SEEX - 1, SEEX), rng(SEEY - 1, SEEY), t_stairs_up);
                         }
-                    }
-                    break;
-
-                case 4: // alien containment
-                    fill_background(this, t_rock_floor);
-                    if (one_in(4)) {
-                        mapf::formatted_set_simple(this, 0, 0,
-                                                   "\
-.....|..|.....|........|\n\
-.....|6.|.....|..cxcC..|\n\
-.....g..g.....g.......l|\n\
-.....g..g.....g.......l|\n\
-.....D..g.....|.......S|\n\
------|..|.....|-GG+-GG-|\n\
-.....D..g..............|\n\
-.....g..g..............|\n\
-.....g..g..............|\n\
-.....|..|-GGGG-|.......|\n\
-----||+-|,,,,,,|.......|\n\
-....+...D,,,,,,g.......+\n\
-....|-G-|,,,,,,g.......+\n\
-........|,,,,,,|.......|\n\
-........|-GGGG-|.......|\n\
-.......................|\n\
-.........cxc6cc........|\n\
-.........ch.h.c........|\n\
-.......................|\n\
-.ccxcc............ccxcc|\n\
-.c.h.c............c.h.c|\n\
-.......................|\n\
-.......................|\n\
------------++----------|\n",
-                                                   mapf::ter_bind("l A r d C h 6 x g G , . - | + D t c S", t_rock_floor, t_floor,   t_rock_floor,
-                                                           t_rock_floor, t_centrifuge, t_rock_floor, t_console, t_console_broken, t_reinforced_glass,
-                                                           t_reinforced_glass, t_floor_blue, t_rock_floor, t_concrete_wall, t_concrete_wall, t_door_metal_c,
-                                                           t_door_metal_locked, t_rock_floor, t_rock_floor, t_rock_floor),
-                                                   mapf::furn_bind("l A r d C h 6 x g G , . - | + D t c S", f_locker,     f_crate_c, f_rack,
-                                                           f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,               f_null,
-                                                           f_null,       f_null,       f_null,       f_null,       f_null,         f_null ,
-                                                           f_table,      f_counter,    f_sink));
-                        mtrap_set( this, 19, 3, tr_dissector);
-                        if (one_in(3)) {
-                            add_spawn(mon_mi_go, 1, 12, 12);
-                        } else {
-                            add_spawn(mon_zombie_brute, 1 , 12, 12);
-                        }
-                        if (one_in(3)) {
-                            add_spawn(mon_kreck, 1, 2, 2);
-                        }
-                        if (one_in(3)) {
-                            add_spawn(mon_crawler, 1, 2, 7);
-                        } else if (one_in(3)) {
-                            add_spawn(mon_shoggoth, 1, 2, 7);
-                        }
+                        // Top left
                         if (one_in(2)) {
-                            add_spawn(mon_zombie_scientist, rng(1, 3), 12, 18);
+                            ter_set(SEEX - 2, int(SEEY / 2), t_door_glass_frosted_c);
+                            science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 1);
+                        } else {
+                            ter_set(int(SEEX / 2), SEEY - 2, t_door_glass_frosted_c);
+                            science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 2);
                         }
-                        for (int i = 0; i <= 23; i++) {
-                            for (int j = 0; j <= 23; j++) {
-                                if (this->furn(i, j) == f_counter) {
-                                    place_items("office", 30,  i,  j, i,  j, false, 0);
-                                } else if (this->furn(i, j) == f_locker) {
-                                    place_items("science", 60,  i,  j, i,  j, false, 0);
-                                }
-                                if (one_in(500) && this->ter(i, j) == t_rock_floor) {
-                                    add_item( i, j, item::make_corpse() );
-                                }
+                        // Top right
+                        if (one_in(2)) {
+                            ter_set(SEEX + 1, int(SEEY / 2), t_door_glass_frosted_c);
+                            science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 3);
+                        } else {
+                            ter_set(SEEX + int(SEEX / 2), SEEY - 2, t_door_glass_frosted_c);
+                            science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 2);
+                        }
+                        // Bottom left
+                        if (one_in(2)) {
+                            ter_set(int(SEEX / 2), SEEY + 1, t_door_glass_frosted_c);
+                            science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 0);
+                        } else {
+                            ter_set(SEEX - 2, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
+                            science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 1);
+                        }
+                        // Bottom right
+                        if (one_in(2)) {
+                            ter_set(SEEX + int(SEEX / 2), SEEY + 1, t_door_glass_frosted_c);
+                            science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                         zlevel, 0);
+                        } else {
+                            ter_set(SEEX + 1, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
+                            science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                         zlevel, 3);
+                        }
+                        if (rw == 1) {
+                            ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
+                            ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
+                        }
+                        if (bw == 1) {
+                            ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
+                            ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
+                        }
+                        if (is_ot_subtype("stairs", terrain_type)) { // Stairs going down
+                            std::vector<point> stair_points;
+                            if (tw != 0) {
+                                stair_points.push_back(point(SEEX - 1, 2));
+                                stair_points.push_back(point(SEEX - 1, 2));
+                                stair_points.push_back(point(SEEX    , 2));
+                                stair_points.push_back(point(SEEX    , 2));
                             }
-                        }
-                        computer *tmpcomp2 = NULL;
-                        tmpcomp2 = add_computer( tripoint( 6,  1, abs_sub.z ), _("Containment Terminal"), 4);
-                        tmpcomp2->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
-                        tmpcomp2->add_failure(COMPFAIL_DAMAGE);
-                        tmpcomp2->add_failure(COMPFAIL_SHUTDOWN);
-                        tmpcomp = add_computer( tripoint( 12,  16, abs_sub.z ), _("Containment Control"), 4);
-                        tmpcomp->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
-                        tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
-                        tmpcomp->add_failure(COMPFAIL_DAMAGE);
-                        tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-                        lw = lw > 0 ? 1 : 0; // only a single row (not two) of walls on the left
-                    } else if (one_in(3)) { //operations or utility
-                        mapf::formatted_set_simple(this, 0, 0,
-                                                   "\
-.....|...........f.....|\n\
-.lll.|...........f.rrrr|\n\
-.....+...........H.....|\n\
-.ll..|...........fAA..r|\n\
------|FFFF|---|..fAA..r|\n\
-.....f....|...|..f....r|\n\
-.pSp.f.PP.|.&.|..fAA..A|\n\
-.pSp.f.PP.|.x.|..fAA..A|\n\
-.....f.PP.|...|..f.....|\n\
-.....H....|-+-|..fFFHFF|\n\
-FFHFFf........f........|\n\
-.....f........f........+\n\
-.....fFFFHFFFFf........+\n\
-.......................|\n\
-.................|-G-G-|\n\
--------|.........|^....|\n\
-AA..A..D.........+.....|\n\
-AA.....D.........|..ddd|\n\
-AAA....D.........g..dh.|\n\
--------|M........g.....|\n\
-A.AA...D.........g.....|\n\
-A......D.........|dh...|\n\
-.A.AA..D.........|dxd.^|\n\
--------|---++----|-----|\n",
-                                                   mapf::ter_bind("M D & P S p l H O f F A r d C h 6 x g G , . - | + D t c ^",
-                                                           t_gates_control_concrete, t_door_metal_locked, t_radio_tower, t_generator_broken, t_sewage_pump,
-                                                           t_sewage_pipe, t_floor,  t_chaingate_c, t_column, t_chainfence, t_chainfence, t_floor,
-                                                           t_floor, t_floor, t_centrifuge, t_null,  t_console, t_console_broken, t_wall_glass,
-                                                           t_wall_glass, t_rock_blue, t_rock_floor, t_concrete_wall, t_concrete_wall, t_door_metal_c,
-                                                           t_door_metal_locked, t_floor,  t_floor,   t_floor),
-                                                   mapf::furn_bind("M D & P S p l H O f F A r d C h 6 x g G , . - | + D t c ^", f_null,
-                                                           f_null,              f_null,        f_null,             f_null,        f_null,        f_locker,
-                                                           f_null,        f_null,   f_null,         f_null,         f_crate_c, f_rack,  f_desk,  f_null,
-                                                           f_chair, f_null,    f_null,           f_null,         f_null,         f_null,      f_null,
-                                                           f_null,       f_null,       f_null,         f_null,              f_table,  f_counter,
-                                                           f_indoor_plant));
-                        for (int i = 0; i <= 23; i++) {
-                            for (int j = 0; j <= 23; j++) {
-                                if (this->furn(i, j) == f_crate_c) {
-                                    if (one_in(2)) {
-                                        place_items("robots", 60,  i,  j, i,  j, false, 0);
-                                    } else if (one_in(2)) {
-                                        place_items("science", 60,  i,  j, i,  j, false, 0);
-                                    } else {
-                                        place_items("sewage_plant", 30,  i,  j, i,  j, false, 0);
-                                    }
-                                } else if (this->furn(i, j) == f_locker) {
-                                    place_items("cleaning", 60,  i,  j, i,  j, false, 0);
-                                } else if (this->furn(i, j) == f_rack) {
-                                    place_items("mine_equipment", 30,  i,  j, i,  j, false, 0);
-                                }
-                                if (one_in(500) && this->ter(i, j) == t_rock_floor) {
-                                    add_spawn(mon_zombie, 1, i, j);
-                                }
-                                if (one_in(500) && this->ter(i, j) == t_rock_floor) {
-                                    add_item( i, j, item::make_corpse() );
-                                }
+                            if (rw != 1) {
+                                stair_points.push_back(point(SEEX * 2 - 3, SEEY - 1));
+                                stair_points.push_back(point(SEEX * 2 - 3, SEEY - 1));
+                                stair_points.push_back(point(SEEX * 2 - 3, SEEY    ));
+                                stair_points.push_back(point(SEEX * 2 - 3, SEEY    ));
                             }
-                        }
-                        lw = 0; // no wall on the left
-                    } else if (one_in(2)) { //tribute
-                        mapf::formatted_set_simple(this, 0, 0,
-                                                   "\
-%%%%%%%%%|....|%%%%%%%%|\n\
-%|-|-|%%%|....|%%%|-|--|\n\
-%|T|T|---|....|---|T|.T|\n\
-%|.|.|EEE+....+EEE|.|..|\n\
-%|=|=|EEE+....+EEE|=|=-|\n\
-%|...|EEe|....|eEE|....|\n\
-%|...|---|....|---|....|\n\
-%|...+............+....|\n\
-%|ScS|............|cScS|\n\
--|---|............|----|\n\
-.......................|\n\
-.......................+\n\
-.................w.....+\n\
-................www....|\n\
---GGG+GG-|....|-GGGGGG-|\n\
-ff.......|....|WWWWWWWW|\n\
-...htth..g....gWWWWWWWl|\n\
-...htth..g....gWWWcWWWl|\n\
-.........+....DWWWcWWWW|\n\
-.........g....gWWWCWWWW|\n\
-...htth..g....gWWWcWWWW|\n\
-...htth..g....gWWWWWWhd|\n\
-........^|....|rrrWWdxd|\n\
----------|-++-|--------|\n",
-                                                   mapf::ter_bind("D l H O f A r d C h 6 x g G , . - | + D t c ^ w W e E % T S =",
-                                                           t_door_metal_locked, t_floor,  t_chaingate_c, t_column, t_floor,  t_floor,   t_floor, t_floor,
-                                                           t_centrifuge, t_floor, t_console, t_console_broken, t_reinforced_glass, t_reinforced_glass,
-                                                           t_rock_blue, t_rock_floor, t_concrete_wall, t_concrete_wall, t_door_metal_c, t_door_metal_locked, t_floor,
-                                                           t_floor,   t_floor,        t_water_sh, t_water_dp, t_elevator_control_off, t_elevator, t_rock,
-                                                           t_floor,  t_floor, t_door_c),
-                                                   mapf::furn_bind("D l H O f A r d C h 6 x g G , . - | + D t c ^ w W e E % T S =", f_null,
-                                                           f_locker, f_null,        f_null,   f_fridge, f_crate_c, f_rack,  f_desk,  f_null,       f_chair,
-                                                           f_null,    f_null,           f_null,               f_null,               f_null,      f_null,
-                                                           f_null,       f_null,       f_null,         f_null,              f_table, f_counter, f_indoor_plant,
-                                                           f_null,     f_null,     f_null,                 f_null,     f_null, f_toilet, f_sink,  f_null));
-                        for (int i = 0; i <= 23; i++) {
-                            for (int j = 0; j <= 23; j++) {
-                                if (this->furn(i, j) == f_locker) {
-                                    place_items("science", 60,  i,  j, i,  j, false, 0);
-                                } else if (this->furn(i, j) == f_fridge) {
-                                    place_items("fridge", 50,  i,  j, i,  j, false, 0);
-                                }
-                                if (one_in(500) && this->ter(i, j) == t_rock_floor) {
-                                    add_spawn(mon_zombie, 1, i, j);
-                                }
+                            if (bw != 1) {
+                                stair_points.push_back(point(SEEX - 1, SEEY * 2 - 3));
+                                stair_points.push_back(point(SEEX - 1, SEEY * 2 - 3));
+                                stair_points.push_back(point(SEEX    , SEEY * 2 - 3));
+                                stair_points.push_back(point(SEEX    , SEEY * 2 - 3));
                             }
-                        }
-                        item body = item::make_corpse();
-                        add_item(17, 15, body);
-                        add_item(8, 3, body);
-                        add_item(10, 3, body);
-                        spawn_item(18, 15, "fire_ax");
-                        lw = 0; // no wall on the left
-                    }
-                    else { //analyzer
-                        mapf::formatted_set_simple(this, 0, 0,
-                                                   "\
-.......................|\n\
-.......................|\n\
-.......................|\n\
-.......................|\n\
-....|-GGGGGGGGGGG-|....|\n\
-....|.............|....|\n\
-....g.....&.&.....g....|\n\
-....g......,......g....|\n\
-....g.....&6&.....g....|\n\
-....g.............g....|\n\
-....grrr.rrrrr.rrrg....|\n\
-....gcxc..cxc..cxcg....+\n\
-....gch....h....hcg....+\n\
-....|.............|....|\n\
-....|-+|..cxc..|+-|....|\n\
-....+..g...h...g..+....|\n\
-....g..g.......g..g....|\n\
-....|..|.......|..|....|\n\
-....|-G|GGGGGGG|G-|....|\n\
-.......................|\n\
-.......................|\n\
-.......................|\n\
-.......................|\n\
------------++----------|\n",
-                                                   mapf::ter_bind("r d h 6 x g G , . - | + D t c ^ % = &", t_railing, t_rock_floor, t_rock_floor,
-                                                           t_console, t_console_broken, t_wall_glass, t_wall_glass, t_floor_blue, t_rock_floor,
-                                                           t_concrete_wall, t_concrete_wall, t_door_metal_c, t_door_metal_locked, t_rock_floor, t_rock_floor,
-                                                           t_floor,        t_rock, t_door_c, t_radio_tower),
-                                                   mapf::furn_bind("r d h 6 x g G , . - | + D t c ^ % = &", f_null,      f_desk,       f_chair,
-                                                           f_null,    f_null,           f_null,         f_null,         f_null,       f_null,       f_null,
-                                                           f_null,       f_null,         f_null,              f_table,      f_counter,    f_indoor_plant,
-                                                           f_null, f_null,   f_null));
-                        for (int i = 0; i <= 23; i++) {
-                            for (int j = 0; j <= 23; j++) {
-                                if (this->furn(i, j) == f_counter) {
-                                    place_items("cubical_office", 30,  i,  j, i,  j, false, 0);
-                                }
-                                if (one_in(500) && this->ter(i, j) == t_rock_floor) {
-                                    add_spawn(mon_zombie, 1, i, j);
-                                }
-                                if (one_in(400) && this->ter(i, j) == t_rock_floor) {
-                                    add_item(i, j, item::make_corpse() );
-                                }
+                            if (lw != 0) {
+                                stair_points.push_back(point(2, SEEY - 1));
+                                stair_points.push_back(point(2, SEEY - 1));
+                                stair_points.push_back(point(2, SEEY    ));
+                                stair_points.push_back(point(2, SEEY    ));
                             }
+                            stair_points.push_back(point(int(SEEX / 2)       , SEEY    ));
+                            stair_points.push_back(point(int(SEEX / 2)       , SEEY - 1));
+                            stair_points.push_back(point(int(SEEX / 2) + SEEX, SEEY    ));
+                            stair_points.push_back(point(int(SEEX / 2) + SEEX, SEEY - 1));
+                            stair_points.push_back(point(SEEX    , int(SEEY / 2)       ));
+                            stair_points.push_back(point(SEEX + 2, int(SEEY / 2)       ));
+                            stair_points.push_back(point(SEEX    , int(SEEY / 2) + SEEY));
+                            stair_points.push_back(point(SEEX + 2, int(SEEY / 2) + SEEY));
+                            const point p = random_entry( stair_points );
+                            ter_set(p.x, p.y, t_stairs_down);
                         }
-                        tmpcomp = add_computer( tripoint( 11,  8, abs_sub.z ), _("Mk IV Algorithmic Data Analyzer"), 4);
-                        tmpcomp->add_option(_("Run Decryption Algorithm"), COMPACT_DATA_ANAL, 4);
-                        tmpcomp->add_option(_("Upload Data to Melchior"), COMPACT_DISCONNECT, 7);
-                        tmpcomp->add_option(_("Access Melchior"), COMPACT_DISCONNECT, 12);
-                        tmpcomp->add_failure(COMPFAIL_DAMAGE);
-                        tmpcomp->add_failure(COMPFAIL_MANHACKS);
-                        tmpcomp->add_failure(COMPFAIL_DESTROY_DATA);
-                    }
 
-                    for (int i = 0; i < SEEX * 2; i++) {
-                        for (int j = 0; j < SEEY * 2; j++) {
-                            if (i < lw || i >= SEEX * 2 - rw + 1) {
-                                ter_set(i, j, t_concrete_wall);
-                            } else if (j < (tw - 1) || j >= SEEY * 2 - bw + 1) {
-                                ter_set(i, j, t_concrete_wall);
+                        break;
+
+                    case 2: // tic-tac-toe # layout
+                        for (int i = 0; i < SEEX * 2; i++) {
+                            for (int j = 0; j < SEEY * 2; j++) {
+                                if (i < lw || i > SEEX * 2 - 1 - rw || i == SEEX - 4 || i == SEEX + 3) {
+                                    ter_set(i, j, t_concrete_wall);
+                                } else if (j < lw || j > SEEY * 2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3) {
+                                    ter_set(i, j, t_concrete_wall);
+                                } else {
+                                    ter_set(i, j, t_thconc_floor);
+                                }
                             }
                         }
-                    }
-                    if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
-                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
-                            ter_set( *p, t_stairs_up );
+                        if (is_ot_subtype("stairs", t_above)) {
+                            ter_set(SEEX - 1, SEEY - 1, t_stairs_up);
+                            ter_set(SEEX    , SEEY - 1, t_stairs_up);
+                            ter_set(SEEX - 1, SEEY    , t_stairs_up);
+                            ter_set(SEEX    , SEEY    , t_stairs_up);
                         }
-                    }
-                    if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
-                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
-                            ter_set( *p, t_stairs_down );
+                        ter_set(SEEX - rng(0, 1), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(SEEX - rng(0, 1), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, SEEY + rng(0, 1), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, SEEY + rng(0, 1), t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(int(SEEX / 2), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(int(SEEX / 2), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX + int(SEEX / 2), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(SEEX + int(SEEX / 2), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
+                        science_room(this, lw, tw, SEEX - 5, SEEY - 5, zlevel, rng(1, 2));
+                        science_room(this, SEEX - 3, tw, SEEX + 2, SEEY - 5, zlevel, 2);
+                        science_room(this, SEEX + 4, tw, SEEX * 2 - 1 - rw, SEEY - 5, zlevel, rng(2, 3));
+                        science_room(this, lw, SEEY - 3, SEEX - 5, SEEY + 2, zlevel, 1);
+                        science_room(this, SEEX + 4, SEEY - 3, SEEX * 2 - 1 - rw, SEEY + 2, zlevel, 3);
+                        science_room(this, lw, SEEY + 4, SEEX - 5, SEEY * 2 - 1 - bw, zlevel, rng(0, 1));
+                        science_room(this, SEEX - 3, SEEY + 4, SEEX + 2, SEEY * 2 - 1 - bw, zlevel, 0);
+                        science_room(this, SEEX + 4, SEEX + 4, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                     zlevel, 3 * rng(0, 1));
+                        if (rw == 1) {
+                            ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
+                            ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
                         }
-                    }
-                    break;
+                        if (bw == 1) {
+                            ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
+                            ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
+                        }
+                        if (is_ot_subtype("stairs", terrain_type)) {
+                            ter_set(SEEX - 3 + 5 * rng(0, 1), SEEY - 3 + 5 * rng(0, 1), t_stairs_down);
+                        }
+                        break;
 
-                }
-        }
+                    case 3: // Big room
+                        for (int i = 0; i < SEEX * 2; i++) {
+                            for (int j = 0; j < SEEY * 2; j++) {
+                                if (i < lw || i >= SEEX * 2 - 1 - rw) {
+                                    ter_set(i, j, t_concrete_wall);
+                                } else if (j < tw || j >= SEEY * 2 - 1 - bw) {
+                                    ter_set(i, j, t_concrete_wall);
+                                } else {
+                                    ter_set(i, j, t_thconc_floor);
+                                }
+                            }
+                        }
+                        science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                     zlevel, rng(0, 3));
+                        if (is_ot_subtype("stairs", t_above)) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
+                                ter_set( *p, t_stairs_up );
+                            }
+                        }
+                        if (rw == 1) {
+                            ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
+                            ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
+                        }
+                        if (bw == 1) {
+                            ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
+                            ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
+                        }
+                        if (is_ot_subtype("stairs", terrain_type)) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
+                                ter_set( *p, t_stairs_down );
+                            }
+                        }
+                        break;
+                    }
+                } // endif use_hardcoded_4side_map
+            }  // end 1 vs 4 sides
+        } // end aboveground vs belowground
+
         // Ants will totally wreck up the place
         tw = 0;
         rw = 0;
@@ -3564,9 +3264,9 @@ ff.......|....|WWWWWWWW|\n\
                         (i > rw &&          (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
                         (j > tw &&          (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5))) ||
                         (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
-                        ter_set(i, j, t_rock_floor);
+                        ter_set(i, j, t_thconc_floor);
                         if (one_in(5)) {
-                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_rock_floor);
+                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_thconc_floor);
                         }
                     }
                 }
@@ -3593,233 +3293,478 @@ ff.......|....|WWWWWWWW|\n\
             }
         }
 
-        // Chance of adding occasional lighting through the area.
-        if (one_in(2)) {
+        // Tower lab effects:
+        // - Checkerboard lighting everywhere
+        // - Change rock features to match above-ground theme.
+        // - Add more monsters the higher the z-level is.
+        if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && one_in(150)) {
+                    if (t_thconc_floor == ter(i, j)) {
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                    } else if (t_rock == ter(i, j)) {
+                        ter_set(i, j, t_concrete_wall);
+                    }
+                }
+            }
+            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
+        // central lab gets lighting but not other effects.
+        } else if (central_lab) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 )) {
                         ter_set(i, j, t_utility_light);
                     }
+                }
+            }
+        // Chance of adding occasional lighting through the area.
+        } else {
+            if (one_in(2)) {
+                for (int i = 0; i < SEEX * 2; i++) {
+                    for (int j = 0; j < SEEY * 2; j++) {
+                        if( t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(20) ) {
+                            ter_set(i, j, t_utility_light);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Lab special effects.
+        if( one_in(10) ) {
+            switch( rng(1, 6) ) {
+                // full flooding/sewage
+                case 1: {
+                    if (is_ot_subtype("stairs", terrain_type) || is_ot_subtype("ice", terrain_type)) {
+                        // don't flood if stairs because the floor below will not be flooded.
+                        // don't flood if ice lab because there's no mechanic for freezing liquid floors.
+                        break;
+                    }
+                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    for (int i = 0; i < SEEX * 2 - 1; i++) {
+                        for (int j = 0; j < SEEY * 2 - 1; j++) {
+                            // We spare some terrain to make it look better visually.
+                            if( t_rock_floor == ter(i, j) && !one_in(10) ) {
+                                ter_set(i, j, fluid_type);
+                            } else if (has_flag_ter("DOOR", i, j) && !one_in(3) ) {
+                                // We want the actual debris, but not the rubble marker or dirt.
+                                make_rubble( { i, j, abs_sub.z } );
+                                ter_set(i, j, fluid_type);
+                                furn_set(i, j, f_null);
+                            }
+                        }
+                    }
+                    break;
+                }
+                // minor flooding/sewage
+                case 2: {
+                    if (is_ot_subtype("stairs", terrain_type) || is_ot_subtype("ice", terrain_type)) {
+                        // don't flood if stairs because the floor below will not be flooded.
+                        // don't flood if ice lab because there's no mechanic for freezing liquid floors.
+                        break;
+                    }
+                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    for (int i = 0; i < 2; ++i) {
+                        draw_rough_circle( [this, fluid_type]( int x, int y ) {
+                                if( t_rock_floor == ter(x, y) ) {
+                                    ter_set(x, y, fluid_type);
+                                } else if (has_flag_ter("DOOR", x, y) ) {
+                                    // We want the actual debris, but not the rubble marker or dirt.
+                                    make_rubble( { x,  y, abs_sub.z } );
+                                    ter_set(x, y, fluid_type);
+                                    furn_set(x, y, f_null);
+                                }
+                            }, rng(1, SEEX * 2 - 2), rng(1, SEEY * 2 - 2 ), rng(3, 6) );
+                    }
+                    break;
+                }
+                // toxic gas leaks and smoke-filled rooms.
+                case 3:
+                case 4: {
+                    bool is_toxic = one_in(2);
+                    for (int i = 0; i < SEEX * 2; i++) {
+                        for (int j = 0; j < SEEY * 2; j++) {
+                            if( t_rock_floor == ter(i, j) && one_in(200) ) {
+                                if (is_toxic) {
+                                    add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
+                                } else {
+                                    add_field( {i, j, abs_sub.z}, fd_smoke_vent, 2 );
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+                // portal with an artifact effect.
+                case 5: {
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    std::vector<artifact_natural_property> valid_props = {
+                        ARTPROP_BREATHING,
+                        ARTPROP_CRACKLING,
+                        ARTPROP_WARM,
+                        ARTPROP_SCALED,
+                        ARTPROP_WHISPERING,
+                        ARTPROP_GLOWING
+                    };
+                    draw_rough_circle( [this]( int x, int y ) {
+                            if ( has_flag_ter( "GOES_DOWN", x, y ) ||
+                                 has_flag_ter( "GOES_UP", x, y ) ||
+                                 has_flag_ter( "CONSOLE", x, y ) ) {
+                                return; // spare stairs and consoles.
+                            }
+                            make_rubble( {x, y, abs_sub.z } );
+                            ter_set( x, y, t_rock_floor);
+                        }, center.x, center.y, 4 );
+                    furn_set( center.x, center.y, f_null );
+                    trap_set( center, tr_portal );
+                    create_anomaly( center, random_entry( valid_props ), false );
+                    break;
+                }
+                // damaged mininuke accident.
+                case 6: {
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    if( has_flag_ter("WALL", center.x, center.y) ) {
+                        return;  // just skip it, we don't want to risk embedding radiation out of sight.
+                    }
+                    draw_rough_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 10);
+                        }, center.x, center.y, rng(7, 12) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 20);
+                        }, center.x, center.y, rng(5, 8) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 30);
+                        }, center.x, center.y, rng(2, 4) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 50);
+                        }, center.x, center.y, 1 );
+                    draw_circle( [this]( int x, int y ) {
+                        if ( has_flag_ter( "GOES_DOWN", x, y ) ||
+                             has_flag_ter( "GOES_UP", x, y ) ||
+                             has_flag_ter( "CONSOLE", x, y ) ) {
+                            return; // spare stairs and consoles.
+                        }
+                        make_rubble( {x, y, abs_sub.z } );
+                        ter_set( x, y, t_rock_floor);
+                        }, center.x, center.y, 1 );
+                    add_spawn( mon_hazmatbot, 1, center.x - 1, center.y );
+                    if (one_in(2)) {
+                        add_spawn( mon_hazmatbot, 1, center.x + 1, center.y );
+                    }
+                    // damaged mininuke thrown past edge of rubble so the player can see it.
+                    spawn_item(center.x - 2 + 4 * rng(0, 1), center.y + rng(-2, 2),
+                        "mininuke", 1, 1, 0, rng (2, 4) );
+                    break;
                 }
             }
         }
 
     } else if (terrain_type == "lab_finale" ||
-               terrain_type == "ice_lab_finale") {
+               terrain_type == "ice_lab_finale" ||
+               terrain_type == "central_lab_finale" ||
+               terrain_type == "tower_lab_finale") {
 
-        if (is_ot_type("ice_lab", terrain_type)) {
-            ice_lab = true;
-        } else {
-            ice_lab = false;
-        }
+        ice_lab = is_ot_type("ice_lab", terrain_type);
+        central_lab = is_ot_type("central_lab", terrain_type);
+        tower_lab = is_ot_type("tower_lab", terrain_type);
 
         if ( ice_lab ) {
             int temperature = -20 + 30 * zlevel;
             set_temperature(x, y, temperature);
-
-            tw = is_ot_type("ice_lab", t_north) ? 0 : 2;
-            rw = is_ot_type("ice_lab", t_east) ? 1 : 2;
-            bw = is_ot_type("ice_lab", t_south) ? 1 : 2;
-            lw = is_ot_type("ice_lab", t_west) ? 0 : 2;
-        } else {
-            tw = is_ot_type("lab", t_north) ? 0 : 2;
-            rw = is_ot_type("lab", t_east) ? 1 : 2;
-            bw = is_ot_type("lab", t_south) ? 1 : 2;
-            lw = is_ot_type("lab", t_west) ? 0 : 2;
         }
 
-        // Start by setting up a large, empty room.
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (i < lw || i > SEEX * 2 - 1 - rw) {
-                    ter_set(i, j, t_concrete_wall);
-                } else if (j < tw || j > SEEY * 2 - 1 - bw) {
-                    ter_set(i, j, t_concrete_wall);
-                } else {
-                    ter_set(i, j, t_rock_floor);
-                }
-            }
-        }
-        if (rw == 1) {
-            ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
-            ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
-        }
-        if (bw == 1) {
-            ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
-            ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
-        }
+        tw = is_ot_subtype("lab", t_north) ? 0 : 2;
+        rw = is_ot_subtype("lab", t_east) ? 1 : 2;
+        bw = is_ot_subtype("lab", t_south) ? 1 : 2;
+        lw = is_ot_subtype("lab", t_west) ? 0 : 2;
 
-        int loot_variant; //only used for weapons testing variant.
-        switch (rng(1, 4)) {
+        const std::string function_key = "lab_finale_1level";
+        const auto fmapit = oter_mapgen.find( function_key );
+        const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
+        bool use_hardcoded_finale_map = false;
 
-        // Weapons testing
-        case 1:
-            loot_variant = rng(1, 100); //The variants have a 67/22/7/4 split.
-            add_spawn(mon_secubot, 1,            6,            6);
-            add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
-            add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
-            add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
-            spawn_item( SEEX - 4, SEEY - 2, "id_science" );
-            if(loot_variant <= 96) {
-                mtrap_set( this, SEEX - 3, SEEY - 3, tr_dissector);
-                mtrap_set( this, SEEX + 2, SEEY - 3, tr_dissector);
-                mtrap_set( this, SEEX - 3, SEEY + 2, tr_dissector);
-                mtrap_set( this, SEEX + 2, SEEY + 2, tr_dissector);
-                line(this, t_reinforced_glass, SEEX + 1, SEEY + 1, SEEX - 2, SEEY + 1);
-                line(this, t_reinforced_glass, SEEX - 2, SEEY    , SEEX - 2, SEEY - 2);
-                line(this, t_reinforced_glass, SEEX - 1, SEEY - 2, SEEX + 1, SEEY - 2);
-                ter_set (SEEX + 1, SEEY - 1, t_reinforced_glass);
-                ter_set (SEEX + 1, SEEY    , t_reinforced_door_glass_c);
-                furn_set(SEEX - 1, SEEY - 1, f_table);
-                furn_set(SEEX    , SEEY - 1, f_table);
-                furn_set(SEEX - 1, SEEY    , f_table);
-                furn_set(SEEX    , SEEY    , f_table);
-                if (loot_variant <= 67 ) {
-                    spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
-                    spawn_item(SEEX    , SEEY - 1, "UPS_off");
-                    spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
-                    spawn_item(SEEX - 1, SEEY    , "v29");
-                    spawn_item(SEEX - 1, SEEY    , "laser_rifle", dice (1, 0));
-                    spawn_item(SEEX    , SEEY    , "ftk93");
-                    spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
-                    spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 6 panels in one!
-                } else if (loot_variant > 67 && loot_variant < 89) {
-                    spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
-                    spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
-                    spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
-                    spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
-                    spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
-                    spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
-                }  else { // loot_variant between 90 and 96.
-                    spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
-                    spawn_item(SEEX    , SEEY - 1, "plut_cell");
-                    spawn_item(SEEX - 1, SEEY    , "plut_cell");
-                    spawn_item(SEEX    , SEEY    , "recipe_caseless");
-                }
-            } else { // 4% of the lab ends will be this weapons testing end.
-                mtrap_set( this, SEEX - 4, SEEY - 3, tr_dissector);
-                mtrap_set( this, SEEX + 3, SEEY - 3, tr_dissector);
-                mtrap_set( this, SEEX - 4, SEEY + 2, tr_dissector);
-                mtrap_set( this, SEEX + 3, SEEY + 2, tr_dissector);
+        if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
+            std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
+            const int rlast = weightit->second.rbegin()->first;
+            const int roll = rng(1, rlast + hardcoded_finale_map_weight);
 
-                furn_set(SEEX - 2, SEEY - 1, f_rack);
-                furn_set(SEEX - 1, SEEY - 1, f_rack);
-                furn_set(SEEX    , SEEY - 1, f_rack);
-                furn_set(SEEX + 1, SEEY - 1, f_rack);
-                furn_set(SEEX - 2, SEEY    , f_rack);
-                furn_set(SEEX - 1, SEEY    , f_rack);
-                furn_set(SEEX    , SEEY    , f_rack);
-                furn_set(SEEX + 1, SEEY    , f_rack);
-                line(this, t_reinforced_door_glass_c, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
-                line(this, t_reinforced_door_glass_c, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
-                line(this, t_reinforced_glass, SEEX - 3, SEEY - 2, SEEX - 3, SEEY + 1);
-                line(this, t_reinforced_glass, SEEX + 2, SEEY - 2, SEEX + 2, SEEY + 1);
-                place_items("ammo_rare", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
-                place_items("guns_rare", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
-                spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
-            }
-            break;
+            if (roll <= rlast) {
+                const int fidx = weightit->second.lower_bound( roll )->second;
+                fmapit->second[fidx]->generate(this, terrain_type, dat, when, density);
 
-        // Netherworld access
-        case 2: {
-            bool monsters_end = false;
-            if (!one_in(4)) { // Trapped netherworld monsters
-                monsters_end = true;
-                static const std::array<mtype_id, 11> nethercreatures = { {
-                    mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
-                    mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shoggoth,
-                } };
-                tw = rng(SEEY + 3, SEEY + 5);
-                bw = tw + 4;
-                lw = rng(SEEX - 6, SEEX - 2);
-                rw = lw + 6;
-                for (int i = lw; i <= rw; i++) {
-                    for (int j = tw; j <= bw; j++) {
-                        if (j == tw || j == bw) {
-                            if ((i - lw) % 2 == 0) {
-                                ter_set(i, j, t_concrete_wall);
-                            } else {
-                                ter_set(i, j, t_reinforced_glass);
-                            }
-                        } else if ((i - lw) % 2 == 0) {
-                            ter_set(i, j, t_concrete_wall);
-                        } else if (j == tw + 2) {
-                            ter_set(i, j, t_concrete_wall);
-                        } else { // Empty space holds monsters!
-                            const mtype_id& type = random_entry( nethercreatures );
-                            add_spawn(type, 1, i, j);
+                // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
+                // borders and have to be caught in code. We determine if a border isn't handled by checking
+                // the east-facing border space where the door normally is -- it should not be a floor.
+                if( ter(tripoint(23, 11, abs_sub.z)) == t_thconc_floor ) {
+                    // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
+                    for( int i = 0; i <= 23; i++ ) {
+                        ter_set( 23, i, t_concrete_wall );
+                        furn_set( 23, i, f_null );
+                        i_clear( tripoint( 23, i, get_abs_sub().z ));
+
+                        ter_set( i, 23, t_concrete_wall );
+                        furn_set( i, 23, f_null );
+                        i_clear( tripoint( i, 23, get_abs_sub().z ));
+
+                        if( lw == 2 ) {
+                            ter_set( 0, i, t_concrete_wall );
+                            furn_set( 0, i, f_null );
+                            i_clear( tripoint( 0, i, get_abs_sub().z ));
+                        }
+                        if( tw == 2 ) {
+                            ter_set( i, 0, t_concrete_wall );
+                            furn_set( i, 0, f_null );
+                            i_clear( tripoint( i, 0, get_abs_sub().z ));
+                        }
+                        if( rw != 2 ) {
+                            ter_set( 23, 11, t_door_metal_c );
+                            ter_set( 23, 12, t_door_metal_c );
+                        }
+                        if( bw != 2 ) {
+                            ter_set( 11, 23, t_door_metal_c );
+                            ter_set( 12, 23, t_door_metal_c );
                         }
                     }
                 }
-            }
+            } else { // then weighted roll was in the hardcoded section
+                use_hardcoded_finale_map = true;
+            } // end json maps
+        } else { // then no json maps for lab_finale_1level were found
+                use_hardcoded_finale_map = true;
+        } // end if no lab_4side was found.
 
-            spawn_item( SEEX - 1, 8, "id_science" );
-            tmpcomp = add_computer( tripoint( SEEX,  8, abs_sub.z ), _("Sub-prime contact console"), 7);
-            if(monsters_end) { //only add these options when there are monsters.
-                tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
-                tmpcomp->add_option(_("Release Specimens"), COMPACT_RELEASE, 3);
-            }
-            tmpcomp->add_option(_("Toggle Portal"), COMPACT_PORTAL, 8);
-            tmpcomp->add_option(_("Activate Resonance Cascade"), COMPACT_CASCADE, 10);
-            tmpcomp->add_failure(COMPFAIL_MANHACKS);
-            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
-            ter_set(SEEX - 2, 4, t_radio_tower);
-            ter_set(SEEX + 1, 4, t_radio_tower);
-            ter_set(SEEX - 2, 7, t_radio_tower);
-            ter_set(SEEX + 1, 7, t_radio_tower);
-        }
-        break;
-
-        // Bionics
-        case 3: {
-            add_spawn(mon_secubot, 1,            6,            6);
-            add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
-            add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
-            add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
-            mtrap_set( this, SEEX - 2, SEEY - 2, tr_dissector);
-            mtrap_set( this, SEEX + 1, SEEY - 2, tr_dissector);
-            mtrap_set( this, SEEX - 2, SEEY + 1, tr_dissector);
-            mtrap_set( this, SEEX + 1, SEEY + 1, tr_dissector);
-            square_furn(this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
-            int item_count = 0;
-            while (item_count < 5) {
-                item_count += place_items( "bionics", 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0 ).size();
-            }
-            line(this, t_reinforced_glass, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
-            line(this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
-            line(this, t_reinforced_glass, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
-            line(this, t_reinforced_glass, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
-            spawn_item( SEEX - 4, SEEY - 3, "id_science" );
-            ter_set(SEEX - 3, SEEY - 3, t_console);
-            tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ), _("Bionic access"), 3);
-            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
-            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 5);
-            tmpcomp->add_failure(COMPFAIL_MANHACKS);
-            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
-            }
-        break;
-
-        // CVD Forge
-        case 4:
-            add_spawn(mon_secubot, 1,            6,            6);
-            add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
-            add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
-            add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
-            line(this, t_cvdbody, SEEX - 2, SEEY - 2, SEEX - 2, SEEY + 1);
-            line(this, t_cvdbody, SEEX - 1, SEEY - 2, SEEX - 1, SEEY + 1);
-            line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);
-            line(this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1);
-            ter_set(SEEX   , SEEY - 2, t_cvdmachine);
-            spawn_item( SEEX, SEEY - 3, "id_science" );
-            break;
-        }
-
-        // Chance of adding occasional lighting through the finale room.
-        if (one_in(2)) {
+        if (use_hardcoded_finale_map) {
+            // Start by setting up a large, empty room.
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && one_in(200)) {
+                    if (i < lw || i > SEEX * 2 - 1 - rw) {
+                        ter_set(i, j, t_concrete_wall);
+                    } else if (j < tw || j > SEEY * 2 - 1 - bw) {
+                        ter_set(i, j, t_concrete_wall);
+                    } else {
+                        ter_set(i, j, t_thconc_floor);
+                    }
+                }
+            }
+            if (rw == 1) {
+                ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
+                ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
+            }
+            if (bw == 1) {
+                ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
+                ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
+            }
+
+            int loot_variant; //only used for weapons testing variant.
+            switch (rng(1, 5)) {
+
+            // Weapons testing - twice as common because it has 4 variants.
+            case 1:
+            case 2:
+                loot_variant = rng(1, 100); //The variants have a 67/22/7/4 split.
+                add_spawn(mon_secubot, 1,            6,            6);
+                add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
+                add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
+                add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
+                spawn_item( SEEX - 4, SEEY - 2, "id_science" );
+                if(loot_variant <= 96) {
+                    mtrap_set( this, SEEX - 3, SEEY - 3, tr_dissector);
+                    mtrap_set( this, SEEX + 2, SEEY - 3, tr_dissector);
+                    mtrap_set( this, SEEX - 3, SEEY + 2, tr_dissector);
+                    mtrap_set( this, SEEX + 2, SEEY + 2, tr_dissector);
+                    line(this, t_reinforced_glass, SEEX + 1, SEEY + 1, SEEX - 2, SEEY + 1);
+                    line(this, t_reinforced_glass, SEEX - 2, SEEY    , SEEX - 2, SEEY - 2);
+                    line(this, t_reinforced_glass, SEEX - 1, SEEY - 2, SEEX + 1, SEEY - 2);
+                    ter_set (SEEX + 1, SEEY - 1, t_reinforced_glass);
+                    ter_set (SEEX + 1, SEEY    , t_reinforced_door_glass_c);
+                    furn_set(SEEX - 1, SEEY - 1, f_table);
+                    furn_set(SEEX    , SEEY - 1, f_table);
+                    furn_set(SEEX - 1, SEEY    , f_table);
+                    furn_set(SEEX    , SEEY    , f_table);
+                    if (loot_variant <= 67 ) {
+                        spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
+                        spawn_item(SEEX    , SEEY - 1, "UPS_off");
+                        spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
+                        spawn_item(SEEX - 1, SEEY    , "v29");
+                        spawn_item(SEEX - 1, SEEY    , "laser_rifle", dice (1, 0));
+                        spawn_item(SEEX    , SEEY    , "ftk93");
+                        spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
+                        spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 6 panels in one!
+                    } else if (loot_variant > 67 && loot_variant < 89) {
+                        spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
+                        spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
+                        spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
+                        spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
+                        spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
+                        spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
+                    }  else { // loot_variant between 90 and 96.
+                        spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
+                        spawn_item(SEEX    , SEEY - 1, "plut_cell");
+                        spawn_item(SEEX - 1, SEEY    , "plut_cell");
+                        spawn_item(SEEX    , SEEY    , "recipe_caseless");
+                    }
+                } else { // 4% of the lab ends will be this weapons testing end.
+                    mtrap_set( this, SEEX - 4, SEEY - 3, tr_dissector);
+                    mtrap_set( this, SEEX + 3, SEEY - 3, tr_dissector);
+                    mtrap_set( this, SEEX - 4, SEEY + 2, tr_dissector);
+                    mtrap_set( this, SEEX + 3, SEEY + 2, tr_dissector);
+
+                    furn_set(SEEX - 2, SEEY - 1, f_rack);
+                    furn_set(SEEX - 1, SEEY - 1, f_rack);
+                    furn_set(SEEX    , SEEY - 1, f_rack);
+                    furn_set(SEEX + 1, SEEY - 1, f_rack);
+                    furn_set(SEEX - 2, SEEY    , f_rack);
+                    furn_set(SEEX - 1, SEEY    , f_rack);
+                    furn_set(SEEX    , SEEY    , f_rack);
+                    furn_set(SEEX + 1, SEEY    , f_rack);
+                    line(this, t_reinforced_door_glass_c, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
+                    line(this, t_reinforced_door_glass_c, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
+                    line(this, t_reinforced_glass, SEEX - 3, SEEY - 2, SEEX - 3, SEEY + 1);
+                    line(this, t_reinforced_glass, SEEX + 2, SEEY - 2, SEEX + 2, SEEY + 1);
+                    place_items("ammo_rare", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
+                    place_items("guns_rare", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
+                    spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
+                }
+                break;
+
+            // Netherworld access
+            case 3: {
+                bool monsters_end = false;
+                if (!one_in(4)) { // Trapped netherworld monsters
+                    monsters_end = true;
+                    static const std::array<mtype_id, 11> nethercreatures = { {
+                        mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
+                        mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shoggoth,
+                    } };
+                    tw = rng(SEEY + 3, SEEY + 5);
+                    bw = tw + 4;
+                    lw = rng(SEEX - 6, SEEX - 2);
+                    rw = lw + 6;
+                    for (int i = lw; i <= rw; i++) {
+                        for (int j = tw; j <= bw; j++) {
+                            if (j == tw || j == bw) {
+                                if ((i - lw) % 2 == 0) {
+                                    ter_set(i, j, t_concrete_wall);
+                                } else {
+                                    ter_set(i, j, t_reinforced_glass);
+                                }
+                            } else if ((i - lw) % 2 == 0) {
+                                ter_set(i, j, t_concrete_wall);
+                            } else if (j == tw + 2) {
+                                ter_set(i, j, t_concrete_wall);
+                            } else { // Empty space holds monsters!
+                                const mtype_id& type = random_entry( nethercreatures );
+                                add_spawn(type, 1, i, j);
+                            }
+                        }
+                    }
+                }
+
+                spawn_item( SEEX - 1, 8, "id_science" );
+                tmpcomp = add_computer( tripoint( SEEX,  8, abs_sub.z ), _("Sub-prime contact console"), 7);
+                if(monsters_end) { //only add these options when there are monsters.
+                    tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
+                    tmpcomp->add_option(_("Release Specimens"), COMPACT_RELEASE, 3);
+                }
+                tmpcomp->add_option(_("Toggle Portal"), COMPACT_PORTAL, 8);
+                tmpcomp->add_option(_("Activate Resonance Cascade"), COMPACT_CASCADE, 10);
+                tmpcomp->add_failure(COMPFAIL_MANHACKS);
+                tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+                ter_set(SEEX - 2, 4, t_radio_tower);
+                ter_set(SEEX + 1, 4, t_radio_tower);
+                ter_set(SEEX - 2, 7, t_radio_tower);
+                ter_set(SEEX + 1, 7, t_radio_tower);
+            }
+            break;
+
+            // Bionics
+            case 4: {
+                add_spawn(mon_secubot, 1,            6,            6);
+                add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
+                add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
+                add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
+                mtrap_set( this, SEEX - 2, SEEY - 2, tr_dissector);
+                mtrap_set( this, SEEX + 1, SEEY - 2, tr_dissector);
+                mtrap_set( this, SEEX - 2, SEEY + 1, tr_dissector);
+                mtrap_set( this, SEEX + 1, SEEY + 1, tr_dissector);
+                square_furn(this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
+                int item_count = 0;
+                while (item_count < 5) {
+                    item_count += place_items( "bionics", 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0 ).size();
+                }
+                line(this, t_reinforced_glass, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
+                line(this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
+                line(this, t_reinforced_glass, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
+                line(this, t_reinforced_glass, SEEX + 1, SEEY - 1, SEEX + 1, SEEY);
+                spawn_item( SEEX - 4, SEEY - 3, "id_science" );
+                ter_set(SEEX - 3, SEEY - 3, t_console);
+                tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ), _("Bionic access"), 3);
+                tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+                tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 5);
+                tmpcomp->add_failure(COMPFAIL_MANHACKS);
+                tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+                }
+            break;
+
+            // CVD Forge
+            case 5:
+                add_spawn(mon_secubot, 1,            6,            6);
+                add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
+                add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
+                add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
+                line(this, t_cvdbody, SEEX - 2, SEEY - 2, SEEX - 2, SEEY + 1);
+                line(this, t_cvdbody, SEEX - 1, SEEY - 2, SEEX - 1, SEEY + 1);
+                line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);
+                line(this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1);
+                ter_set(SEEX   , SEEY - 2, t_cvdmachine);
+                spawn_item( SEEX, SEEY - 3, "id_science" );
+                break;
+            }
+
+        } // end use_hardcoded_lab_finale
+
+        // Handle stairs in the unlikely case they are needed.
+        if (is_ot_subtype("stairs", t_above)) {
+            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
+                ter_set( *p, t_stairs_up );
+            }
+        }
+        if (is_ot_subtype("stairs", terrain_type)) {
+            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
+                ter_set( *p, t_stairs_down );
+            }
+        }
+
+        // Tower lab effects:
+        // - Checkerboard lighting everywhere
+        // - Change rock features to match above-ground theme.
+        if (tower_lab) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_thconc_floor == ter(i, j)) {
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                    } else if (t_rock == ter(i, j)) {
+                        ter_set(i, j, t_concrete_wall);
+                    }
+                }
+            }
+        // central lab gets lighting but not other effects.
+        } else if (central_lab) {
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) ) {
                         ter_set(i, j, t_utility_light);
+                    }
+                }
+            }
+        // Chance of adding occasional lighting through the area.
+        } else {
+            if (one_in(2)) {
+                for (int i = 0; i < SEEX * 2; i++) {
+                    for (int j = 0; j < SEEY * 2; j++) {
+                        if (t_thconc_floor == ter(i, j) && one_in(200)) {
+                            ter_set(i, j, t_utility_light);
+                        }
                     }
                 }
             }
@@ -4711,7 +4656,7 @@ ff.......|....|WWWWWWWW|\n\
             case 1: { // Toxic gas
                 int cx = rng(9, 14), cy = rng(9, 14);
                 ter_set(cx, cy, t_rock);
-                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 1 );
+                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
             }
             break;
 
@@ -7577,8 +7522,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                 m->ter_set(w1, y, t_concrete_wall);
                 m->ter_set(w2, y, t_concrete_wall);
             }
-            m->ter_set(w1, int((y1 + y2) / 2), t_door_metal_c);
-            m->ter_set(w2, int((y1 + y2) / 2), t_door_metal_c);
+            m->ter_set(w1, int((y1 + y2) / 2), t_door_glass_frosted_c);
+            m->ter_set(w2, int((y1 + y2) / 2), t_door_glass_frosted_c);
             science_room(m, x1, y1, w1 - 1, y2, z, 1);
             science_room(m, w2 + 1, y1, x2, y2, z, 3);
         } else {
@@ -7587,8 +7532,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                 m->ter_set(x, w1, t_concrete_wall);
                 m->ter_set(x, w2, t_concrete_wall);
             }
-            m->ter_set(int((x1 + x2) / 2), w1, t_door_metal_c);
-            m->ter_set(int((x1 + x2) / 2), w2, t_door_metal_c);
+            m->ter_set(int((x1 + x2) / 2), w1, t_door_glass_frosted_c);
+            m->ter_set(int((x1 + x2) / 2), w2, t_door_glass_frosted_c);
             science_room(m, x1, y1, x2, w1 - 1, z, 2);
             science_room(m, x1, w2 + 1, x2, y2, z, 0);
         }
@@ -8012,14 +7957,16 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     create_anomaly( tripoint( cx, cy, abs_sub.z ), prop );
 }
 
-void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
+void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bool create_rubble)
 {
     // TODO: Z
     int cx = cp.x;
     int cy = cp.y;
-    rough_circle(this, t_dirt, cx, cy, 11);
-    rough_circle_furn(this, f_rubble, cx, cy, 5);
-    furn_set(cx, cy, f_null);
+    if (create_rubble) {
+        rough_circle(this, t_dirt, cx, cy, 11);
+        rough_circle_furn(this, f_rubble, cx, cy, 5);
+        furn_set(cx, cy, f_null);
+    }
     switch (prop) {
     case ARTPROP_WRIGGLING:
     case ARTPROP_MOVING:

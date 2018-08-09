@@ -135,6 +135,7 @@
       ],
       "terrain": {
         " ": "t_grass",
+        "d": "t_dirt",
         "#": "t_shrub",
         "%": "t_wall_glass",
         "+": "t_door_glass_c",
@@ -170,9 +171,7 @@
         "l": "f_locker",
         "r": "f_oven"
       },
-      "toilets": {
-        "P": {}
-      },
+      "toilets": { "P": {} },
       "place_items": [
         { "item": "fast_table", "x": 8, "y": 3, "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "fast_table", "x": 15, "y": 3, "chance": 20, "repeat": [ 1, 2 ] },

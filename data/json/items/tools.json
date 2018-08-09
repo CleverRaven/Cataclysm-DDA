@@ -311,6 +311,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -357,17 +358,11 @@
   },
   {
     "id": "bag_hflesh_vac",
+	"copy-from": "bag_meat_vac",
     "type": "GENERIC",
-    "category": "food",
     "name": "vacuum-packed salted simpleton slice",
     "description": "This is a bag of vacuum packed human flesh slices in plastic packaging.  Use to open and eat to enjoy.",
-    "weight": 240,
-    "volume": 1,
-    "price": 0,
-    "bashing": 8,
     "material": [ "plastic", "hflesh" ],
-    "symbol": "%",
-    "color": "red",
     "use_action": {
       "target": "hflesh_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
@@ -483,6 +478,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
@@ -902,9 +898,9 @@
     "id": "bot_mininuke_hack",
     "type": "TOOL",
     "name": "inactive mininuke hack",
-    "description": "This is an inactive mininuke hack.  Twice as large as a normal manhack, mininuke hacks contain a mininuke and attack by flying at their target and detonating.  Use this item to reprogram and activate the mininuke hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": 12670,
-    "volume": 4,
+    "description": "This is an inactive mininuke hack.  Many times as large as a normal manhack, a mininuke hack contains a mininuke and attack by flying at their target and detonating.  Use this item to reprogram and activate the mininuke hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": 53524,
+    "volume": 64,
     "price": 2677500,
     "to_hit": -3,
     "bashing": 6,
@@ -1081,7 +1077,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -1143,8 +1139,7 @@
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
       "explosion": {
-        "power": 65,
-        "shrapnel": 3
+        "power": 2000
       }
     },
     "flags": [ "TRADER_AVOID" ]
@@ -1469,7 +1464,7 @@
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": "CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -1794,7 +1789,8 @@
     "color": "light_gray",
     "ammo": "gasoline",
     "max_charges": 1000,
-    "use_action": "COMBATSAW_OFF"
+    "use_action": "COMBATSAW_OFF",
+    "techniques": [ "WBLOCK_1", "SWEEP" ]
   },
   {
     "id": "combatsaw_on",
@@ -1816,8 +1812,8 @@
     "max_charges": 1000,
     "turns_per_charge": 1,
     "revert_to": "combatsaw_off",
-    "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 1 ] ],
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": "COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
@@ -1871,6 +1867,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "AXE", 1 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP"],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -2016,6 +2013,7 @@
     "color": "dark_gray",
     "qualities": [ [ "PRY", 2 ] ],
     "use_action": "CROWBAR",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -2096,7 +2094,7 @@
     "max_charges": 800,
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
-    "techniques": [ "WBLOCK_1", "SPIN" ],
+    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_OFF",
     "flags": [ "NONCONDUCTIVE" ]
   },
@@ -2139,7 +2137,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -2186,6 +2184,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "DIG", 1 ] ]
   },
   {
@@ -2281,10 +2280,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": {
-      "power": 50,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 200 },
     "use_action": {
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
@@ -2313,16 +2309,13 @@
     "color": "red",
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": {
-      "power": 50,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 200 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 50 }
+      "explosion": { "power": 250 }
     },
     "flags": [ "TRADER_AVOID" ]
   },
@@ -2342,10 +2335,7 @@
     "color": "green",
     "max_charges": 1,
     "explode_in_fire": true,
-    "explosion": {
-      "power": 50,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 200 },
     "use_action": {
       "target": "dynamite_radio_act",
       "msg": "You arm your radio-detonated dynamite.",
@@ -2371,14 +2361,11 @@
     "initial_charges": 1,
     "max_charges": 1,
     "explode_in_fire": true,
-    "explosion": {
-      "power": 50,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 200 },
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You can't disarm your %s.  Place it, get away and use the remote control to detonate.",
-      "explosion": { "power": 50 }
+      "explosion": { "power": 250 }
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
   },
@@ -2501,7 +2488,7 @@
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -2607,10 +2594,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": {
-      "power": 80,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 125 },
     "use_action": {
       "target": "fertilizer_bomb_act",
       "msg": "You light the %s.",
@@ -2640,16 +2624,13 @@
     "max_charges": 10,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": {
-      "power": 35,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 125 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 35 }
+      "explosion": { "power": 175 }
     },
     "flags": [ "TRADER_AVOID" ]
   },
@@ -2667,7 +2648,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
@@ -2860,7 +2841,7 @@
     "color": "dark_gray",
     "ammo": "gasoline",
     "max_charges": 50,
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "firemachete_on",
@@ -2893,7 +2874,7 @@
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firemachete_off",
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_2" ],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -3459,7 +3440,7 @@
     "material": [ "cotton", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "techniques": [ "RAPID", "SPIN" ],
+    "techniques": [ "SPIN", "WRAP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -3468,7 +3449,7 @@
     "category": "weapons",
     "name": "grenade",
     "description": "This is a military grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
-    "weight": 180,
+    "weight": 397,
     "volume": 1,
     "price": 1500,
     "to_hit": -1,
@@ -3492,7 +3473,7 @@
     "category": "weapons",
     "name": "active grenade",
     "description": "This is an active grenade, and will explode any second now.  Better throw it!",
-    "weight": 180,
+    "weight": 397,
     "volume": 1,
     "price": 0,
     "to_hit": -1,
@@ -3509,8 +3490,8 @@
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
       "explosion": {
-        "power": 12,
-        "shrapnel": 28
+        "power": 185,
+        "shrapnel": 212
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -3591,7 +3572,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "techniques": [ "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
     "use_action": "CROWBAR",
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
@@ -3665,7 +3646,7 @@
     "id": "hoe",
     "type": "TOOL",
     "name": "hoe",
-    "description": "This is a farming implement.  Use it to turn tillable land into a slow-to-cross pile of dirt.",
+    "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": 1088,
     "volume": 14,
     "price": 2000,
@@ -3675,6 +3656,8 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
+    "qualities": [ [ "DIG", 1 ] ],
+    "techniques": "WBLOCK_1",
     "use_action": "MAKEMOUND"
   },
   {
@@ -4198,7 +4181,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "RAPID", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -4217,7 +4200,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
@@ -4248,7 +4231,7 @@
       "need_charges_msg": "The L-stick(tm)'s batteries are empty.",
       "type": "transform"
     },
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ]
   },
   {
     "id": "l-stick_on",
@@ -4276,7 +4259,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
     "id": "landmine",
@@ -4456,6 +4439,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
+    "techniques": ["WBLOCK_1", "BRUTAL", "SWEEP"],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -4473,7 +4457,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -4548,11 +4532,11 @@
     "to_hit": 2,
     "bashing": 6,
     "cutting": 20,
-    "material": "steel",
+    "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "flags": [ "REACH_ATTACK" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "makeshift_hammer",
@@ -4604,6 +4588,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ]
   },
   {
@@ -4636,6 +4621,8 @@
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_red",
+    "explode_in_fire": true,
+    "explosion": { "power": 100 },
     "use_action": {
       "target": "matchbomb_act",
       "msg": "You light the match head bomb.",
@@ -4664,12 +4651,14 @@
     "initial_charges": 1,
     "max_charges": 1,
     "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 100 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 24 }
+      "explosion": { "power": 120 }
     },
     "flags": [ "TRADER_AVOID" ]
   },
@@ -4796,9 +4785,10 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "mininuke",
-    "description": "This is an extremely powerful weapon--essentially a hand-held nuclear bomb.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
-    "weight": 4071,
-    "volume": 3,
+    "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
+    "description": "This is an extremely powerful weapon, a portable nuclear bomb.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
+    "weight": 53524,
+    "volume": 64,
     "price": 180000,
     "to_hit": -2,
     "bashing": 8,
@@ -4814,9 +4804,10 @@
     "category": "weapons",
     "name": "mininuke",
     "name_plural": "mininukes",
+    "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
     "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode.  You should probably get far, far away from it.",
-    "weight": 4071,
-    "volume": 3,
+    "weight": 53524,
+    "volume": 64,
     "price": 0,
     "to_hit": -2,
     "bashing": 8,
@@ -4827,13 +4818,13 @@
     "use_action": {
       "type": "explosion",
       "fields_type": "fd_nuke_gas",
-      "fields_radius": 6,
+      "fields_radius": 18,
       "fields_min_density": 3,
       "fields_max_density": 3,
       "sound_volume": 2,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-      "explosion": { "power": 450 }
+      "explosion": { "power": 9000000 }
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
   },
@@ -5122,7 +5113,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -5338,7 +5329,7 @@
     "id": "pet_carrier",
     "type": "TOOL",
     "name": "pet carrier",
-    "description": "A plastic container meant to hold pets for transport.",
+    "description": "A plastic container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": 1000,
     "volume": 20,
     "price": 1000,
@@ -5348,6 +5339,23 @@
     "symbol": "#",
     "color": "light_gray",
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "use_action": "CAPTURE_MONSTER_ACT",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "chicken_cage",
+    "type": "TOOL",
+    "name": "chicken cage",
+    "description": "A wire container made for transporting chickens, but you can use it to hold any tiny animal.  Use it on a suitable animal to capture, use it on an empty tile to release.",
+    "weight": 250,
+    "volume": 10,
+    "price": 100,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "properties": [ [ "monster_size_capacity", "TINY" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -5383,6 +5391,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "use_action": "PICKAXE",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -5441,7 +5450,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "pipe_glass",
@@ -5561,8 +5570,11 @@
       "type": "explosion",
       "no_deactivate_msg": "You can't disarm your %s.  Place it, get away, and use the remote control to detonate.",
       "explosion": {
-        "power": 12,
-        "shrapnel": 4
+        "power": 500,
+        "shrapnel": {
+          "casing_mass": 500,
+          "fragment_mass": 1.0
+        }
       }
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
@@ -6386,6 +6398,7 @@
       "failure_message": "Aw, dangit.  It fails to start!",
       "lacks_fuel_message": "This thing needs some fuel!"
     },
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "SHEATH_SWORD" ]
   },
   {
@@ -6424,6 +6437,7 @@
         "moves": 30
       }
     ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -6444,9 +6458,9 @@
     "ammo": "battery",
     "max_charges": 500,
     "charges_per_use": 100,
-    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "shocktonfa_off",
@@ -6530,6 +6544,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 3 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -6547,6 +6562,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {
@@ -6698,10 +6714,10 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "knife spear",
-    "description": "This is a simple wood pole made much more deadly by the blade tied to it.",
+    "description": "A crude pole made of wood with an equally crude metal spike tied to it.  It's long enough to slice from a distance, but its crude construction means it won't last long.",
     "weight": 1487,
-    "volume": 6,
-    "price": 1400,
+    "volume": 5,
+    "price": 700,
     "to_hit": 1,
     "bashing": 4,
     "cutting": 16,
@@ -6710,7 +6726,24 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ]
+  },
+  {
+    "id": "spear_homemade_halfpike",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "homemade halfpike",
+    "description": "A short do-it-yourself spear made of a smooth wooden shaft with a shaped metal shape seated and bound into place at its tip.  Its functional grip and decent construction makes it a usable, if not effective, weapon.",
+    "weight": 1814,
+    "volume": 6,
+    "price": 1400,
+    "to_hit": 1,
+    "bashing": 2,
+    "cutting": 19,
+    "material": [ "wood", "iron" ],
+    "symbol": "/",
+    "color": "brown",
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {
     "id": "spray_can",
@@ -6810,7 +6843,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1", "PRECISE" ],
+    "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -6923,6 +6956,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
+    "techniques": [ "RAPID" ],
     "flags": [ "STAB" ]
   },
   {
@@ -7278,14 +7312,14 @@
     "color": "red",
     "explode_in_fire": true,
     "explosion": {
-      "power": 90,
-      "shrapnel": 20,
-      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger."
+      "power": 25000,
+      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
+      "shrapnel": 12600
     },
     "use_action": {
       "target": "tool_anfo_charge_act",
       "msg": "You light the fuse on the ANFO charge.  Run survivor, run!",
-      "target_charges": 20,
+      "target_charges": 100,
       "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
@@ -7307,23 +7341,20 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_red",
-    "initial_charges": 20,
-    "max_charges": 20,
+    "initial_charges": 100,
+    "max_charges": 100,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": {
-      "power": 90,
-      "shrapnel": 20,
-      "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger."
-    },
+    "explosion": { "power": 25000, "shrapnel": 12600 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
       "explosion": {
-        "power": 400,
-        "shrapnel": 50
+        "power": 48900,
+        "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "shrapnel": 12600
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -7334,18 +7365,16 @@
     "category": "weapons",
     "name": "black gunpowder bomb",
     "description": "This is a tin can filled to the brim with black gunpowder and with a bit of fuse sticking out of it.",
-    "weight": 500,
-    "volume": 2,
+    "//": "400g of tin can and 250ml/412g of gunpowder",
+    "weight": 812,
+    "volume": 1,
     "price": 2500,
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": {
-      "power": 11,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 100, "shrapnel": 400 },
     "use_action": {
       "target": "tool_black_powder_bomb_act",
       "msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!",
@@ -7374,19 +7403,13 @@
     "max_charges": 2,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": {
-      "power": 11,
-      "shrapnel": 0
-    },
+    "explosion": { "power": 100, "shrapnel": 400 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - throw it!",
-      "explosion": {
-        "power": 11,
-        "shrapnel": 5
-      }
+      "explosion": { "power": 100, "shrapnel": 400 }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -7395,7 +7418,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "black gunpowder charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in no more than five turns...",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in a few minutes...",
     "weight": 5000,
     "volume": 16,
     "price": 20000,
@@ -7405,10 +7428,10 @@
     "color": "red",
     "explode_in_fire": true,
     "explosion": {
-      "power": 60,
+      "power": 250,
       "shrapnel": {
-        "count": 30,
-        "mass": 10,
+        "casing_mass": 2500,
+        "fragment_mass": 2.0,
         "drop": "scrap",
         "recovery": 20
       }
@@ -7436,15 +7459,15 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_red",
-    "initial_charges": 5,
-    "max_charges": 5,
+    "initial_charges": 20,
+    "max_charges": 20,
     "turns_per_charge": 1,
     "explode_in_fire": true,
     "explosion": {
-      "power": 60,
+      "power": 250,
       "shrapnel": {
-        "count": 30,
-        "mass": 10,
+        "casing_mass": 2500,
+        "fragment_mass": 2.0,
         "drop": "scrap",
         "recovery": 20
       }
@@ -7455,10 +7478,10 @@
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
       "explosion": {
-        "power": 60,
+        "power": 500,
         "shrapnel": {
-          "count": 30,
-          "mass": 10,
+          "casing_mass": 2500,
+          "fragment_mass": 2.0,
           "drop": "scrap",
           "recovery": 20
         }
@@ -7482,19 +7505,19 @@
     "color": "red",
     "explode_in_fire": true,
     "explosion": {
-      "power": 175,
+      "power": 6700,
       "shrapnel": {
-        "count": 60,
-        "mass": 10,
+        "casing_mass": 50000,
+        "fragment_mass": 0.1,
         "drop": "scrap",
-        "recovery": 40
+        "recovery": 1
       },
       "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
     },
     "use_action": {
       "target": "tool_rdx_charge_act",
       "msg": "You light the fuse on the explosive charge.  Clear the area!",
-      "target_charges": 30,
+      "target_charges": 100,
       "active": true,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -7515,17 +7538,17 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_red",
-    "initial_charges": 30,
-    "max_charges": 30,
+    "initial_charges": 100,
+    "max_charges": 100,
     "turns_per_charge": 1,
     "explode_in_fire": true,
     "explosion": {
-      "power": 175,
+      "power": 6700,
       "shrapnel": {
-        "count": 60,
-        "mass": 10,
+        "casing_mass": 50000,
+        "fragment_mass": 0.1,
         "drop": "scrap",
-        "recovery": 40
+        "recovery": 1
       },
       "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
     },
@@ -7535,12 +7558,12 @@
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
       "explosion": {
-        "power": 800,
+        "power": 67000,
         "shrapnel": {
-          "count": 200,
-          "mass": 10,
+          "casing_mass": 50000,
+          "fragment_mass": 0.1,
           "drop": "shrapnel",
-          "recovery": 15
+          "recovery": 1
         }
       }
     },
@@ -7562,9 +7585,12 @@
     "color": "red",
     "explode_in_fire": true,
     "explosion": {
-      "power": 6,
-      "shrapnel": 5,
-      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast."
+      "power": 300,
+      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
+      "shrapnel": {
+        "casing_mass": 1000,
+        "fragment_mass": 0.01
+      }
     },
     "use_action": {
       "target": "tool_rdx_sand_bomb_act",
@@ -7595,9 +7621,12 @@
     "turns_per_charge": 1,
     "explode_in_fire": true,
     "explosion": {
-      "power": 6,
-      "shrapnel": 5,
-      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast."
+      "power": 300,
+      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
+      "shrapnel": {
+        "casing_mass": 1000,
+        "fragment_mass": 0.01
+      }
     },
     "use_action": {
       "type": "explosion",
@@ -7605,8 +7634,11 @@
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "explosion": {
-        "power": 12,
-        "shrapnel": 30
+        "power": 1340,
+        "shrapnel": {
+          "casing_mass": 1000,
+          "fragment_mass": 0.01
+        }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -7696,6 +7728,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
@@ -7727,6 +7760,7 @@
     "turns_per_charge": 20,
     "revert_to": "torch_done",
     "use_action": "TORCH_LIT",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -8056,7 +8090,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WBLOCK_1" ],
+    "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -8280,7 +8314,7 @@
     "color": "light_gray",
     "ammo": "gasoline",
     "max_charges": 50,
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "zweifire_on",
@@ -8311,7 +8345,7 @@
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -8343,7 +8377,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {

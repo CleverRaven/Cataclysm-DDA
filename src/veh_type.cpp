@@ -14,6 +14,7 @@
 #include "output.h"
 #include "generic_factory.h"
 #include "character.h"
+#include "flag.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -183,6 +184,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "flags", def.flags );
+    assign( jo, "description", def.description );
 
     if( jo.has_member( "requirements" ) ) {
         auto reqs = jo.get_object( "requirements" );
@@ -512,6 +514,71 @@ std::string vpart_info::name() const
         name_ = item::nname( item ); // cache on first request
     }
     return name_;
+}
+
+int vpart_info::format_description( std::ostringstream &msg, std::string format_color,
+                                    int width ) const
+{
+    int lines = 1;
+    msg << _( "<color_white>Description</color>\n" );
+    msg << "> " << format_color;
+
+    class::item base( item );
+    std::ostringstream long_descrip;
+    if( ! description.empty() ) {
+        long_descrip << description;
+    }
+    for( const auto &flagid : flags ) {
+        if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
+            continue;
+        }
+        json_flag flag = json_flag::get( flagid );
+        if( ! flag.info().empty() ) {
+            if( ! long_descrip.str().empty() ) {
+                long_descrip << "  ";
+            }
+            long_descrip << flag.info();
+        }
+    }
+    if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && ! has_flag( "BELTABLE" ) ) {
+        json_flag nobelt = json_flag::get( "NONBELTABLE" );
+        long_descrip << "  " << nobelt.info();
+    }
+    if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
+        json_flag nobelt = json_flag::get( "DOOR" );
+        long_descrip << "  " << nobelt.info();
+    }
+    if( has_flag( "TURRET" ) ) {
+        long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
+                                       base.gun_range( true ),
+                                       base.gun_damage().total_damage() );
+    }
+
+    if( ! long_descrip.str().empty() ) {
+        const auto wrap_descrip = foldstring( long_descrip.str(), width );
+        msg << wrap_descrip[0];
+        for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
+            msg << "\n  " << wrap_descrip[i];
+        }
+        msg << "</color>\n";
+        lines += wrap_descrip.size();
+    }
+
+    // borrowed from item.cpp and adjusted
+    const quality_id quality_jack( "JACK" );
+    const quality_id quality_lift( "LIFT" );
+    for( const auto &qual : qualities ) {
+        msg << "> " << format_color << string_format( _( "Has level %1$d %2$s quality" ),
+                qual.second, qual.first.obj().name.c_str() );
+        if( qual.first == quality_jack || qual.first == quality_lift ) {
+            msg << string_format( _( " and is rated at %1$d %2$s" ),
+                                  ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ),
+                                  weight_units() );
+        }
+        msg << ".</color>\n";
+        lines += 1;
+    }
+    return lines;
 }
 
 requirement_data vpart_info::install_requirements() const
