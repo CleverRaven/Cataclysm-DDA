@@ -129,9 +129,7 @@
         "l": "f_locker",
         "r": "f_rack"
       },
-      "toilets": {
-        "P": {}
-      },
+      "toilets": { "P": {} },
       "place_items": [
         { "item": "coffee_locker", "x": [ 10, 9 ], "y": 22, "chance": 75, "repeat": [ 1, 3 ] },
         { "item": "coffee_display", "x": [ 19, 15 ], "y": 22, "chance": 80, "repeat": [ 1, 2 ] },

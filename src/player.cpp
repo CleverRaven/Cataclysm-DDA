@@ -330,6 +330,7 @@ static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -354,6 +355,7 @@ static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PRETTY( "PRETTY" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
@@ -1132,9 +1134,18 @@ void player::update_bodytemp()
         if( has_heatsink ) {
             blister_count -= 20;
         }
+
+        const bool pyromania = has_trait( trait_PYROMANIA );
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if( blister_count - get_env_resist( bp ) > 10 ) {
             add_effect( effect_blisters, 1_turns, bp );
+            if( pyromania ) {
+                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours, 30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
+        } else if( pyromania && fire_warmth >= 1 ) { // Only give us fire bonus if there's actually fire
+            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes, 15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
+            rem_morale( MORALE_PYROMANIA_NOFIRE );
         }
 
         temp_conv[bp] += fire_warmth;
@@ -5370,12 +5381,6 @@ void player::suffer()
                     }
                     done_effect = true;
                 }
-                // Sleep
-                if( !done_effect && one_in( to_turns<int>( 8_hours ) ) ) {
-                    add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
-                    add_effect( effect_lying_down, 20_minutes );
-                    done_effect = true;
-                }
                 // Bad feeling
                 if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
                     add_msg( m_warning, _( "You get a bad feeling." ) );
@@ -5454,6 +5459,13 @@ void player::suffer()
                     }
                     done_effect = true;
                 }
+            }
+        }
+
+        if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+            if( one_in( to_turns<int>( 8_hours ) ) ) {
+                add_msg( m_bad, _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
+                add_effect( effect_lying_down, 20_minutes );
             }
         }
 
@@ -5664,6 +5676,14 @@ void player::suffer()
     }
     if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600)) {
         g->teleport(this);
+    }
+    const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) && !has_morale( MORALE_PYROMANIA_STARTFIRE );
+    if( has_trait( trait_PYROMANIA ) && needs_fire && !in_sleep_state() && calendar::once_every( 2_hours ) ) {
+        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours );
+        if( calendar::once_every( 4_hours ) ) {
+            std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
+            add_msg_if_player( m_bad, _( smokin_hot_fiyah.c_str() ) );
+        }
     }
 
     // checking for radioactive items in inventory
@@ -7725,7 +7745,7 @@ public:
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
                 buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
-                    return mid.obj().name;
+                    return string_format( "%s: %s", _( mid.obj().name.c_str() ), _( mid.obj().description.c_str() ) );
                 } );
             }
             if( ma.force_unarmed ) {

@@ -137,7 +137,7 @@
         "_|.CCCC..CCCC.^.^|rrrr8_",
         "_8r.............r|L---|_",
         "_8r..CCCCrr......x....8_",
-        "_8r..###rr1......#....8_",
+        "_8r..###rr1......#q...8_",
         "_|r..............#...r|_",
         "_|...######......#c..r|_",
         "_|r..######..-------I-|_",
@@ -176,6 +176,7 @@
         "c": "t_linoleum_gray",
         "d": "t_pavement",
         "l": "t_linoleum_gray",
+        "q": "t_linoleum_gray",
         "r": "t_linoleum_gray",
         "s": "t_sidewalk",
         "t": "t_linoleum_gray",
@@ -195,14 +196,13 @@
         "c": "f_chair",
         "d": "f_dumpster",
         "l": "f_locker",
+        "q": "f_stool",
         "r": "f_rack",
         "t": "f_trashcan",
         "w": "f_washer",
         "y": "f_dryer"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "place_items": [
         { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "elecsto_cameras", "x": [ 3, 6 ], "y": 8, "chance": 60, "repeat": 1 },

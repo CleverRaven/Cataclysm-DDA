@@ -10,7 +10,7 @@
         ".....#ss#......sssssss..",
         "......ss.......sssssss..",
         ".....#ss#......sssssss..",
-        "......ss.......sssssss..",
+        "......ssp......sssssss..",
         ".....#ssssssssssssssss..",
         "..igigssgigi...sssssss..",
         ".IAAAI  IAAAI..sssssss..",
@@ -44,6 +44,7 @@
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_grass",
+        "p": "t_grass",
         "0": "t_floor",
         "1": "t_tree_pine",
         "6": "t_console_broken",
@@ -90,6 +91,7 @@
         "S": "f_sink",
         "U": "f_sink",
         "b": "f_bench",
+        "p": "f_mailbox",
         "c": "f_counter",
         "d": "f_dresser",
         "f": "f_fridge",
@@ -100,6 +102,7 @@
         "o": "f_bookcase"
       },
       "toilets": { "t": {  } },
+      "items": { "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] } },
       "place_loot": [
         { "group": "bedroom", "x": [ 18, 21 ], "y": [ 18, 21 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "group": "bed", "x": [ 20, 21 ], "y": [ 19, 20 ], "chance": 90, "repeat": [ 1, 3 ] },

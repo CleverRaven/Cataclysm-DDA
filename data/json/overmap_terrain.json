@@ -8391,6 +8391,145 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_1",
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_2",
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_00",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_01",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_02",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_10",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_11",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_12",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_20",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_21",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_22",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_30",
+    "name": "golf course parking lot",
+    "sym": 71,
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_31",
+    "name": "golf course service building",
+    "sym": 71,
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_32",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
   }
 ]
-
