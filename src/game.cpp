@@ -6691,6 +6691,8 @@ static void make_active( item_location loc )
         case item_location::type::vehicle:
             g->m.veh_at( loc.position() )->vehicle().make_active( loc );
             break;
+        default:
+            break;
     }
 }
 
@@ -6699,6 +6701,8 @@ static void update_lum( item_location loc, bool add )
     switch( loc.where() ) {
         case item_location::type::map:
             g->m.update_lum( loc, add );
+            break;
+        default:
             break;
     }
 }
