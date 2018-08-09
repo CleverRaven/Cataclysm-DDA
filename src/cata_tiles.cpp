@@ -1640,6 +1640,22 @@ const tile_type *cata_tiles::find_vpart_looks_like( std::string id )
     return nullptr;
 }
 
+const tile_type *cata_tiles::find_item_looks_like( std::string id )
+{
+    std::string looks_like = id;
+    int cnt = 0;
+    while( !looks_like.empty() && cnt < 10 ) {
+        const tile_type *lltt = find_tile_with_season( looks_like );
+        if( lltt ) {
+            return lltt;
+        }
+        item it = item( looks_like, 0 );
+        looks_like = it.type->looks_like;
+        cnt += 1;
+    }
+    return nullptr;
+}
+
 const tile_type *cata_tiles::find_tile_with_season( std::string id )
 {
     constexpr size_t suffix_len = 15;
@@ -1740,10 +1756,13 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 sym = t.sym;
                 col = t.color;
             }
-        } else if (category == C_ITEM) {
-            const auto tmp = item( id, 0 );
-            sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
-            col = tmp.color();
+        } else if( category == C_ITEM ) {
+            tt = find_item_looks_like( id );
+            if( !tt ) {
+                const auto tmp = item( id, 0 );
+                sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
+                col = tmp.color();
+            }
         }
         // Special cases for walls
         switch(sym) {
