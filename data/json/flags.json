@@ -84,6 +84,18 @@
     "conflicts": [ "FRAGILE_MELEE" ]
   },
   {
+    "id": "EATEN_COLD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This tastes <good>better</good> while <color_light_cyan>cold</color>."
+  },
+  {
+    "id": "EATEN_HOT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This tastes <good>better</good> while <color_red>hot</color>."
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
