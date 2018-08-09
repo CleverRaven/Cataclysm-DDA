@@ -81,6 +81,12 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 
 char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
 
+struct bounding_box
+{
+    point p1;
+    point p2;
+};
+
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
@@ -1235,6 +1241,8 @@ public:
     std::set<std::string> tags;        // Properties of the vehicle
     std::map<itype_id,float> fuel_remainder; // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
     active_item_cache active_items;
+
+    bounding_box get_bounding_box();
 
     /**
      * Submap coordinates of the currently loaded submap (see game::m)

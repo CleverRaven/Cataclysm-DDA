@@ -17,6 +17,7 @@
 #include "trap.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "vpart_position.h"
 
 namespace MapExtras
 {
@@ -49,14 +50,56 @@ void mx_null( map &, const tripoint & )
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    int cx = rng( 4, SEEX * 2 - 5 ), cy = rng( 4, SEEY * 2 - 5 );
+    int cx = rng( 6, SEEX * 2 - 7 ), cy = rng( 6, SEEY * 2 - 7 );
 
-    int x1 = cx + rng(1, 8) - 3;
-    int y1 = cy + rng(1, 8) - 3;
     int dir1 = rng(0, 359);
 
     int crash_type = dice(1, 3);
+    std::enable_if<true, std::unique_ptr<vehicle>>::type veh;
+    switch (crash_type)
+    {
+        case 1:
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_1a"), rng(1, 33), 1);
+            break;
+        case 2:
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_2a"), rng(1, 33), 1);
+            break;
+        case 3:
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_3a"), rng(1, 33), 1);
+            break;
+        default:
+            break;
+    }
+    veh.get()->turn(dir1);
     
+    bounding_box bbox = veh.get()->get_bounding_box();
+    int x_length = (bbox.p2.x - bbox.p1.x);
+    int y_length = (bbox.p2.y - bbox.p1.y);
+    
+    int x_offset = veh.get()->dir_vec().x * (x_length / 2);
+    int y_offset = veh.get()->dir_vec().y * (y_length / 2);
+    
+    //bbox.p1.x += x_length;
+    //bbox.p1.y += y_length;
+    //bbox.p2.x += x_length;
+    //bbox.p2.y += y_length;
+
+
+    //bbox.p1.x = std::min(bbox.p1.x, bbox.p1.y);
+    //bbox.p1.y = std::min(bbox.p1.x, bbox.p1.y);
+    //bbox.p2.x = std::max(bbox.p2.x, bbox.p2.y);
+    //bbox.p2.y = std::max(bbox.p2.x, bbox.p2.y);
+
+    int x_min = abs(bbox.p1.x) + 0;
+    int y_min = abs(bbox.p1.y) + 0;
+    
+    int x_max = (SEEX * 2) - (bbox.p2.x + 1);
+    int y_max = (SEEX * 2) - (bbox.p2.y + 1);
+
+    int x1 = clamp(cx + x_offset, x_min, x_max);
+    int y1 = clamp(cy + y_offset, y_min, y_max);
+
+
     switch(crash_type)
     {
         case 1:
@@ -71,18 +114,49 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
         default:
             break;
     }
-
+    
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            if( x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4 ) {
-                if( !one_in( 5 ) ) {
-                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
-                } else if( m.is_bashable( x, y ) ) {
-                    m.destroy( tripoint( x,  y, abs_sub.z ), true );
-                }
-            } else if( one_in( 10 ) ) { // 1 in 10 chance of being wreckage anyway
-                m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+            if(m.veh_at(tripoint( x,  y, abs_sub.z )) && m.ter(tripoint(x, y, abs_sub.z))->has_flag(TFLAG_DIGGABLE))
+            {
+                m.ter_set(tripoint(x, y, abs_sub.z), t_dirtmound);
             }
+            else
+            {
+                if (x >= cx - dice(1, 5) && x <= cx + dice(1, 5) && y >= cy - dice(1, 5) && y <= cy + dice(1, 5))
+                {
+                    if(one_in(7) && m.ter(tripoint(x, y, abs_sub.z))->has_flag(TFLAG_DIGGABLE))
+                    {
+                        m.ter_set(tripoint(x, y, abs_sub.z), t_dirtmound);
+                    }
+                }
+                if( x >= cx - dice(1,6) && x <= cx + dice(1,6) && y >= cy - dice(1,6) && y <= cy + dice(1,6) ) {
+                    if( !one_in( 5 ) ) {
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        if(m.ter(tripoint(x, y, abs_sub.z))->has_flag(TFLAG_DIGGABLE))
+                        {
+                            m.ter_set(tripoint(x, y, abs_sub.z), t_dirtmound);
+                        }
+                    } else if( m.is_bashable( x, y ) ) {
+                        m.destroy( tripoint( x,  y, abs_sub.z ), true );
+                        if(m.ter(tripoint(x, y, abs_sub.z))->has_flag(TFLAG_DIGGABLE))
+                        {
+                            m.ter_set(tripoint(x, y, abs_sub.z), t_dirtmound);
+                        }
+                    }
+                    
+                } else if( one_in( 4 + (abs(x - cx) + (abs(y - cy))))) { // 1 in 10 chance of being wreckage anyway
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    if(!one_in(3))
+                    {
+                        if(m.ter(tripoint(x, y, abs_sub.z))->has_flag(TFLAG_DIGGABLE))
+                        {
+                            m.ter_set(tripoint(x, y, abs_sub.z), t_dirtmound);
+                        }
+                    }
+                }
+            }
+            
         }
     }
 

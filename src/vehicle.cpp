@@ -6863,3 +6863,37 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     */
     parts[part].set_base( base );
 }
+
+bounding_box vehicle::get_bounding_box()
+{
+    int min_x = INT_MAX;
+    int max_x = INT_MIN;
+    int min_y = INT_MAX;
+    int max_y = INT_MIN;
+
+    get_points(true);
+    for (const auto p : occupied_points)
+    {
+        
+        if(p.x < min_x)
+        {
+            min_x = p.x;
+        }
+        if(p.x > max_x)
+        {
+            max_x = p.x;
+        }
+        if(p.y < min_y)
+        {
+            min_y = p.y;
+        }
+        if(p.y > max_y)
+        {
+            max_y = p.y;
+        }
+    }
+    bounding_box b;
+    b.p1 = point(min_x, min_y);
+    b.p2 = point(max_x, max_y);
+    return b;
+}
