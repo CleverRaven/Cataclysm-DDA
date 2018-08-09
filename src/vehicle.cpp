@@ -1263,7 +1263,7 @@ int vehicle::engine_start_time( const int e ) const
     if( !is_engine_on( e ) || is_engine_type( e, fuel_type_muscle ) ||
         !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
 
-    const double dmg = 1.0 - double( parts[engines[e]].hp() ) / part_info( engines[e] ).durability;
+    const double dmg = parts[engines[e]].damage_percent();
 
     // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
@@ -1289,7 +1289,7 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
-    const double dmg = 1.0 - ((double)parts[engines[e]].hp() / einfo.durability);
+    const double dmg = parts[engines[e]].damage_percent();
     const int engine_power = part_power( engines[e], true );
     const double cold_factor = engine_cold_factor( e );
 
@@ -1510,11 +1510,12 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
         return pwr; // Assume full hp
     }
     // Damaged engines give less power, but gas/diesel handle it better
+    double health = parts[index].health_percent();
     if( part_info(index).fuel_type == fuel_type_gasoline ||
         part_info(index).fuel_type == fuel_type_diesel ) {
-        return pwr * (0.25 + (0.75 * ((double)parts[index].hp() / part_info(index).durability)));
+        return pwr * (0.25 + 0.75 * health );
     } else {
-        return double( pwr * parts[index].hp() ) / part_info(index).durability;
+        return pwr * health;
     }
  }
 
@@ -1526,7 +1527,7 @@ int vehicle::part_epower(int const index) const
     if( e < 0 ) {
         return e; // Consumers always draw full power, even if broken
     }
-    return e * parts[ index ].hp() / part_info(index).durability;
+    return e * parts[ index ].health_percent();
 }
 
 int vehicle::epower_to_power(int const epower)
@@ -3405,8 +3406,8 @@ void vehicle::noise_and_smoke( double load, double time )
     double m = 0.0;
     int exhaust_part = -1;
     for( size_t p = 0; p < parts.size(); p++ ) {
-        if( part_flag(p, "MUFFLER") ) {
-            m = 1.0 - (1.0 - part_info(p).bonus / 100.0) * double( parts[p].hp() ) / part_info(p).durability;
+        if( part_flag( p, "MUFFLER" ) ) {
+            m = 1.0 - ( 1.0 - part_info( p ).bonus / 100.0 ) * parts[p].health_percent();
             if( m < muffle ) {
                 muffle = m;
                 exhaust_part = int(p);
@@ -3425,9 +3426,8 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-
                 if( is_engine_type( e, fuel_type_gasoline ) ) {
-                    double dmg = 1.0 - double( parts[p].hp() ) / part_info( p ).durability;
+                    double dmg = parts[p].damage_percent();
                     if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
                         dmg = 1.0;
                     }
@@ -4292,8 +4292,8 @@ void vehicle::slow_leak()
 {
     // for each badly damaged tanks (lower than 50% health), leak a small amount
     for( auto &p : parts ) {
-        auto dmg = double( p.hp() ) / p.info().durability;
-        if( dmg > 0.5 || p.ammo_remaining() <= 0 ) {
+        auto health = p.health_percent();
+        if( health > 0.5 || p.ammo_remaining() <= 0 ) {
             continue;
         }
 
@@ -4303,7 +4303,7 @@ void vehicle::slow_leak()
             continue; // not a liquid fuel or battery
         }
 
-        int qty = std::max( ( 0.5 - dmg ) * ( 0.5 - dmg) * p.ammo_remaining() / 10, 1.0 );
+        int qty = std::max( ( 0.5 - health ) * ( 0.5 - health ) * p.ammo_remaining() / 10, 1.0 );
 
         // damaged batteries self-discharge without leaking
         if( fuel != fuel_type_battery ) {
@@ -6390,12 +6390,22 @@ std::string vehicle_part::name() const
 int vehicle_part::hp() const
 {
     double dur = info().durability;
-    return dur - ( dur * base.damage() / base.max_damage() );
+    return dur * health_percent();
 }
 
 float vehicle_part::damage() const
 {
     return base.damage();
+}
+
+double vehicle_part::health_percent() const
+{
+    return ( double )( 1.0 - base.damage() / base.max_damage() );
+}
+
+double vehicle_part::damage_percent() const
+{
+    return ( double )( base.damage() / base.max_damage() );
 }
 
 /** parts are considered broken at zero health */

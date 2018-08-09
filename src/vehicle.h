@@ -240,6 +240,11 @@ struct vehicle_part {
         /** Current part damage in same units as item::damage. */
         float damage() const;
 
+        /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
+        double damage_percent() const;
+        /** Current part health as a percentage of maximum, with 1.0 being perfect condition */
+        double health_percent() const;
+
         /** parts are considered broken at zero health */
         bool is_broken() const;
 
