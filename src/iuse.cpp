@@ -4065,6 +4065,19 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
     return it->type->charges_to_use();
 }
 
+static int chop_moves( player *p, item *it )
+{
+    // quality of tool
+    const int quality = it->get_quality( AXE );
+
+    // attribute; regular tools - based on STR, powered tools - based on DEX
+    const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
+
+    const int moves = MINUTES( 60 - attr ) / std::pow( 2, quality - 1 ) * 100;
+
+    return moves;
+}
+
 int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !p || t ) {
@@ -4084,8 +4097,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
     int moves;
 
     if( g->m.has_flag( "TREE", dirp ) ) {
-        /** @EFFECT_STR reduces time required to chop down a tree */
-        moves = MINUTES( 70 - p->str_cur ) / it->get_quality( AXE ) * 100;
+        moves = chop_moves( p, it );
     } else {
         add_msg( m_info, _( "You can't chop down that." ) );
         return 0;
@@ -4112,8 +4124,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
 
     const ter_id ter = g->m.ter( dirp );
     if( ter == t_trunk ) {
-        /** @EFFECT_STR reduces time required to chop down a tree */
-        moves = MINUTES( 70 - p->str_cur ) * 2 / it->get_quality( AXE ) * 100;
+        moves = chop_moves( p, it );
     } else {
         add_msg( m_info, _( "You can't chop that." ) );
         return 0;
