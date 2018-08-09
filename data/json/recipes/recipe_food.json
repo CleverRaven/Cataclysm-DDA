@@ -6561,7 +6561,7 @@
     "tools":[ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
         [ [ "meat_tainted", 12 ] ],
-        [ [ "hard_liquor_chem", 7, "LIST" ] ]
+        [ [ "hard_liquor_chem", 1, "LIST" ] ]
     ]
 },{
   "type" : "recipe",
@@ -9397,12 +9397,11 @@
   "time": 30000,
   "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
   "batch_time_factors":[50, 4],
-  "using": [ [ "filament", 2 ] ],
+  "using": [ [ "sewing_standard", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1},
-    {"id":"SEW","level":1}
+    {"id":"CUT","level":1}
   ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
@@ -9436,12 +9435,11 @@
   "time": 30000,
   "book_learn": [[ "cookbook_human", 3 ]],
   "batch_time_factors":[50, 4],
-  "using": [ [ "filament", 2 ] ],
+  "using": [ [ "sewing_standard", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1},
-    {"id":"SEW","level":1}
+    {"id":"CUT","level":1}
   ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [

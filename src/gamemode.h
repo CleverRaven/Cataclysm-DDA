@@ -116,7 +116,8 @@ enum defense_location {
 enum caravan_category {
     CARAVAN_CART = 0,
     CARAVAN_MELEE,
-    CARAVAN_GUNS,
+    CARAVAN_RANGED,
+    CARAVAN_AMMUNITION,
     CARAVAN_COMPONENTS,
     CARAVAN_FOOD,
     CARAVAN_CLOTHES,

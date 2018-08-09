@@ -2,6 +2,7 @@
 
 #include "coordinate_conversions.h"
 #include "drawing_primitives.h"
+#include "fragment_cloud.h"
 #include "lightmap.h"
 #include "output.h"
 #include "rng.h"
@@ -3488,6 +3489,9 @@ bash_params map::bash( const tripoint &p, const int str,
     bash_params bsh{
         str, silent, destroy, bash_floor, (float)rng_float( 0, 1.0f ), false, false, false
     };
+    if( !inbounds( p ) ) {
+        return bsh;
+    }
 
     bash_field( p, bsh );
     bash_items( p, bsh );
@@ -3812,8 +3816,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( impassable( p ) && !trans( p ) ) {
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
-    } else {
-        dam -= proj.momentum_loss;
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4)) {
@@ -3935,6 +3937,12 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         if(!check_only) {
             sounds::sound( p, 6, "", true, "open_door", ter.id.str() );
             ter_set(p, ter.open );
+
+            if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
+                && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
+                tripoint mp = p + tripoint( ( p.x - g->u.pos().x ) * 2, ( p.y - g->u.pos().y ) * 2, p.z );
+                g->spawn_hallucination( mp );
+            }
         }
 
         return true;
@@ -4932,36 +4940,30 @@ long remove_charges_in_list(const itype *type, map_stack stack, long quantity)
 void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
                             map *m, const tripoint &p, std::list<item> &ret )
 {
-    if( type == "water" && f.examine == &iexamine::toilet ) {
-        auto items = m->i_at( p );
-        auto water = items.begin();
-        for( ; water != items.end(); ++water ) {
-            if( water->typeId() == "water" ) {
-                break;
+    if( m->has_flag( "LIQUIDCONT", p ) ) {
+        auto item_list = m->i_at( p );
+        auto current_item = item_list.begin();
+        for( ; current_item != item_list.end(); ++current_item ) {
+            // looking for a liquid that matches
+            if( current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
+                ret.push_back( *current_item );
+                if( current_item->charges - quantity > 0 ) {
+                    // Update the returned liquid amount to match the requested amount
+                    ret.back().charges = quantity;
+                    // Update the liquid item in the world to contain the leftover liquid
+                    current_item->charges -= quantity;
+                    // All the liquid needed was found, no other sources will be needed
+                    quantity = 0;
+                } else {
+                    // The liquid copy in ret already contains how much was available
+                    // The leftover quantity returned will check other sources
+                    quantity -= current_item->charges;
+                    // Remove liquid item from the world
+                    item_list.erase( current_item );
+                }
+                return;
             }
         }
-
-        // If the toilet is not empty
-        if( water != items.end() ) {
-            // There is water, copy it to report back to the outer method
-            ret.push_back( *water );
-            if( water->charges - quantity > 0 ) {
-                // Update the returned water amount to match the requested amount
-                ret.back().charges = quantity;
-                // Update the water item in the world to contain the leftover water
-                water->charges -= quantity;
-                // All the water needed was found, no other sources will be needed
-                quantity = 0;
-            } else {
-                // The water copy in ret already contains how much was available
-                // The leftover quantity returned will check other sources
-                quantity -= water->charges;
-                // Remove water item from the world
-                items.erase( water );
-            }
-        }
-
-        return;
     }
 
     const itype *itt = f.crafting_pseudo_item_type();
@@ -7253,6 +7255,11 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue;
             }
             monster tmp( spawn_details.name );
+
+            // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
+            if( group.horde ) {
+                tmp.set_horde_attraction( MHA_ALWAYS );
+            }
             for( int i = 0; i < spawn_details.pack_size; i++) {
                 group.monsters.push_back( tmp );
             }
@@ -7522,10 +7529,8 @@ void map::build_outside_cache( const int zlev )
                         const int x = sx + ( smx * SEEX );
                         const int y = sy + ( smy * SEEY );
                         // Add 1 to both coordinates, because we're operating on the padded cache
-                        for( int dx = 0; dx <= 2; dx++ )
-                        {
-                            for( int dy = 0; dy <= 2; dy++ )
-                            {
+                        for( int dx = 0; dx <= 2; dx++ ) {
+                            for( int dy = 0; dy <= 2; dy++ ) {
                                 padded_cache[x + dx][y + dy] = false;
                             }
                         }
@@ -7541,6 +7546,75 @@ void map::build_outside_cache( const int zlev )
     }
 
     ch.outside_cache_dirty = false;
+}
+
+void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
+    std::array<fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &obstacle_caches )
+{
+    const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
+    const point max_submap{ std::min( my_MAPSIZE - 1, end.x / SEEX ),
+                            std::min( my_MAPSIZE - 1, end.y / SEEY ) };
+    // Find and cache all the map obstacles.
+    // For now setting obstacles to be extremely dense and fill their squares.
+    // In future, scale effective obstacle density by the thickness of the obstacle.
+    // Also consider modelling partial obstacles.
+    for( int sz = start.z; sz <= end.z; sz++ ) {
+        for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
+            for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
+                auto const cur_submap = get_submap_at_grid( smx, smy, sz );
+                const int z = sz + OVERMAP_DEPTH;
+
+                // TODO: Init indices to prevent iterating over unused submap sections.
+                for( int sx = 0; sx < SEEX; ++sx ) {
+                    for( int sy = 0; sy < SEEY; ++sy ) {
+                        int ter_move = cur_submap->get_ter( sx, sy ).obj().movecost;
+                        int furn_move = cur_submap->get_furn( sx, sy ).obj().movecost;
+                        const int x = sx + ( smx * SEEX );
+                        const int y = sy + ( smy * SEEY );
+                        if( ter_move == 0 || furn_move < 0 || ter_move + furn_move == 0 ) {
+                            (*obstacle_caches[z])[x][y].velocity = 1000.0f;
+                            (*obstacle_caches[z])[x][y].density = 0.0f;
+                        } else {
+                             // Magic number warning, this is the density of air at sea level at
+			     // some nominal temp and humidity.
+                             // TODO: figure out if our temp/altitude/humidity variation is
+                             // sufficient to bother setting this differently.
+                            (*obstacle_caches[z])[x][y].velocity = 1.2f;
+                            (*obstacle_caches[z])[x][y].density = 1.0f;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    VehicleList vehs = get_vehicles( start, end );
+    // Cache all the vehicle stuff in one loop
+    for( auto &v : vehs ) {
+        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
+            int px = v.x + v.v->parts[part].precalc[0].x;
+            int py = v.y + v.v->parts[part].precalc[0].y;
+            int pz = v.z + OVERMAP_DEPTH;
+            if( px < start.x || py < start.y || v.z < start.z ||
+                px > end.x || py > end.y || v.z > end.z ) {
+                continue;
+            }
+
+            if( vpart_position( *v.v, part ).obstacle_at_part() ) {
+                (*obstacle_caches[pz])[px][py].velocity = 1000.0f;
+                (*obstacle_caches[pz])[px][py].density = 0.0f;
+            }
+        }
+    }
+    // Iterate over creatures and set them to block their squares relative to their size.
+    for( Creature &critter : g->all_creatures() ) {
+         const tripoint &loc = critter.pos();
+         int z = loc.z + OVERMAP_DEPTH;
+         // TODO: scale this with expected creature "thickness".
+         (*obstacle_caches[z])[loc.x][loc.y].velocity = 1000.0f;
+         // ranged_target_size is "proportion of square that is blocked", and density needs to be
+         // "transmissivity of square", so we need the reciprocal.
+         (*obstacle_caches[z])[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
+    }
 }
 
 void map::build_floor_cache( const int zlev )

@@ -109,9 +109,11 @@
     "time": 1000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+    "components": [ 
+      [ [ "filament", 20, "LIST" ] ],
+      [ [ "leather", 1 ], [ "fur", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -209,6 +211,24 @@
   },
   {
     "type": "recipe",
+    "result": "spear_homemade_halfpike",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ], [ "stabbing", 1 ] ],
+    "difficulty": 3,
+    "time": 30000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
+    "components": [
+      [ [ "stick", 2 ], [ "2x4", 2 ] ],
+      [ [ "spike", 1 ] ],
+      [ [ "rag", 3 ], [ "felt_patch", 3 ], [ "leather", 3 ], [ "fur", 3 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "filament", 75, "LIST" ], [ "duct_tape", 75 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "javelin",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -245,8 +265,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "time": 600,
+    "time": 1000,
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -316,6 +335,72 @@
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "bone", 3 ], [ "bone_human", 3 ] ],
       [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "compositebow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 2 ] ],
+    "difficulty": 4,
+    "time": 15000,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "stick", 3 ], [ "2x4", 2 ] ],
+      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "recurbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 2 ] ],
+    "difficulty": 5,
+    "time": 30000,
+    "book_learn": [ [ "recipe_bows", 6 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [
+      [ [ "stick", 3 ], [ "2x4", 2 ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "adhesive", 2, "LIST" ] ],
+      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "compbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 4 ] ],
+    "using": [ [ "forging_standard", 4 ] ],
+    "difficulty": 7,
+    "time": 240000,
+    "book_learn": [ [ "recipe_bows", 8 ], [ "welding_book", 7 ], [ "textbook_mechanics", 7 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "CUT", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "stick", 5 ], [ "2x4", 3 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
+      [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ]
     ]
   },
   {
@@ -1050,8 +1135,7 @@
     "time": 65000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 4 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
   },
   {
@@ -2819,7 +2903,6 @@
   "difficulty": 8,
   "time": 480000,
   "book_learn": [[ "textbook_armschina", 7 ]],
-  "using": [ [ "filament", 100 ] ],
   "qualities": [
     { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
@@ -2834,6 +2917,7 @@
     ]
   ],
   "components": [
+    [ [ "filament", 100, "LIST" ] ],
     [
       [ "steel_lump", 3 ],
       [ "steel_chunk", 12 ],
@@ -3656,10 +3740,9 @@
   "difficulty": 7,
   "time": 460000,
   "book_learn": [[ "textbook_armschina", 6 ]],
-  "using": [ [ "filament", 100 ] ],
   "qualities" : [
     { "id": "ANVIL", "level": 3 },
-    {"id":"HAMMER","level":3},
+    { "id": "HAMMER", "level":3 },
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -3671,6 +3754,7 @@
     ]
   ],
   "components": [
+    [ [ "filament", 100, "LIST" ] ],
     [
       [ "steel_lump", 1 ],
       [ "steel_chunk", 4 ],

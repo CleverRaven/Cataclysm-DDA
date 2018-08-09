@@ -1,0 +1,146 @@
+[
+  {
+    "id": "ALTERNATOR",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "An alternator.  When mounted on a gasoline or diesel engine and the engine is on, will produce electrical power that can be stored in a battery."
+  },
+  {
+    "id": "AISLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "You can move through this vehicle frame without being slowed down."
+  },
+  {
+    "id": "AISLE_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "A bright light that illuminates several squares inside the vehicle."
+  },
+  {
+    "id": "ARMOR",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Armor plate.  Will partially protect other components on the same frame from damage."
+  },
+  {
+    "id": "BED",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "You can sleep here comfortably."
+  },
+  {
+    "id": "BELTABLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "You can install a seat belt or five part harness here to help keep you in your seat during a collision."
+  },
+  {
+    "id": "CARGO",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "You can store items here."
+  },
+  {
+    "id": "CTRL_ELECTRONIC",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "You can 'e'xamine the tile or attempt to pick-up items (default ',') to access the controls, or use the vehicle control key (default '^')."
+  },
+  {
+    "id": "CONTROLS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "With a seat or saddle, you drive from here.  You can 'e'xamine the tile or attempt to pick-up items (default ',') to access the controls, or use the vehicle control key (default '^')."
+  },
+  {
+    "id": "COVERED",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Illuminated items in this space will not illuminate nearby squares."
+  },
+  {
+    "id": "CURTAIN",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Closed, it prevents people from seeing through the curtain.  A door motor allows you to remotely open or close it from the vehicle controls."
+  },
+  {
+    "id": "DOOR",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "When open, this part lets you move from inside the vehicle to outside or vice versa.  When closed, it prevents people from entering or leaving the vehicle."
+  },
+  {
+    "id": "ENABLED_DRAINS_EPOWER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "When turned on, this devices drains power from the vehicle's batteries."
+  },
+  {
+    "id": "ENGINE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Provides motive power to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  If it drains power, also requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on at the cost of some motive power."
+  },
+  {
+    "id": "EXTRA_DRAG",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "When turned on, it will stop the vehicle unless it has a strong engine."
+  },
+  {
+    "id": "FLOATS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "If the center of balance of your vehicle is between all the boat boards and you have no wheels, the vehicle will be able to float and move over water, provided it has an active engine or motor with enough power to move the vehicle."
+  },
+  {
+    "id": "NONBELTABLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "There's no place to attach a seat belt, so you get thrown from the vehicle in a crash."
+  },
+  {
+    "id": "ROOF",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Keeps the rain out of the interior of the vehicle."
+  },
+  {
+    "id": "SEAT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "You need to be in a seat or saddle to operate vehicle controls."
+  },
+  {
+    "id": "SEATBELT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "This part will help prevent you from being thrown from the vehicle in a collision.  You will automaticlly enable this part when you move into a tile with it."
+  },
+  {
+    "id": "STABLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "If your vehicle consists of a single tile, this wheel is enough to allow it to move."
+  },
+  {
+    "id": "STEERABLE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Your vehicle needs at least one set of steerable wheels to turn."
+  },
+  {
+    "id": "TURRET",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "A heavy weapon mounted in a turret.  It can be fired from the vehicle controls."
+  },
+  {
+    "id": "WHEEL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "If the center of balance of your vehicle is between all the wheels, the vehicle will be able to move, provided it has an active engine or motor with enough power to move the vehicle."
+  }
+]

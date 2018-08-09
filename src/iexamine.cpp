@@ -70,6 +70,7 @@ static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -677,10 +678,10 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                 open = true;
             }
         }
-        //@todo only despawn turrets "behind" the door
         for( monster &critter : g->all_monsters() ) {
-            if( ( critter.type->id == mon_turret ) ||
-                ( critter.type->id == mon_turret_rifle ) ) {
+            if( ( critter.type->id == mon_turret ||
+                critter.type->id == mon_turret_rifle ) &&
+                critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
@@ -725,7 +726,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
 }
 
 /**
- * Prompt removal of rubble. Select best shovel and invoke "DIG" on tile.
+ * Prompt removal of rubble. Select best shovel and invoke "CLEAR_RUBBLE" on tile.
  */
 void iexamine::rubble(player &p, const tripoint &examp)
 {
@@ -754,7 +755,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
         return lhs->get_quality( quality_dig ) < rhs->get_quality( quality_dig );
     } );
 
-    p.invoke_item( *it, "DIG", examp );
+    p.invoke_item( *it, "CLEAR_RUBBLE", examp );
 }
 
 /**
@@ -1460,7 +1461,7 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "poppy_bud", 1, 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "poppy_bud", 1, 0, calendar::turn );
 }
 
 /**
@@ -1505,7 +1506,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     }
 
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "dahlia_root", 1, 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "dahlia_root", 1, 0, calendar::turn );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -1608,7 +1609,7 @@ void iexamine::flower_marloss(player &p, const tripoint &examp)
         return;
     }
     g->m.furn_set(examp, f_null);
-    g->m.spawn_item( examp, "marloss_seed", 1, 3, calendar::turn );
+    g->m.spawn_item( p.pos(), "marloss_seed", 1, 3, calendar::turn );
 }
 
 /**
@@ -1627,7 +1628,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
         none( p, examp );
         return;
     }
-    g->m.spawn_item( examp, "spider_egg", rng( 1, 4 ), 0, calendar::turn );
+    g->m.spawn_item( p.pos(), "spider_egg", rng( 1, 4 ), 0, calendar::turn );
     g->m.furn_set( examp, f_egg_sacke );
     if( one_in( 2 ) ) {
         int monster_count = 0;
@@ -1827,10 +1828,10 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
         } else if (seedType == "marloss_seed") {
             fungus(p, examp);
             g->m.i_clear(examp);
-            if (p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() > 500) || p.get_thirst() > 300 )) {
+            if(p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() + p.get_starvation() > 500) || p.get_thirst() > 300 )) {
                 g->m.ter_set(examp, t_marloss);
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
-            } else if ( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
+            } else if( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
                 one_in(2)) ) {
                 g->summon_mon( mon_fungal_blossom, examp );
                 add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
@@ -2618,7 +2619,7 @@ void iexamine::shrub_marloss(player &p, const tripoint &examp)
     if (p.has_trait(trait_THRESH_MYCUS)) {
         pick_plant(p, examp, "mycus_fruit", t_shrub_fungal);
     } else if (p.has_trait(trait_THRESH_MARLOSS)) {
-        g->m.spawn_item( examp, "mycus_fruit", 1, 0, calendar::turn );
+        g->m.spawn_item( p.pos(), "mycus_fruit", 1, 0, calendar::turn );
         g->m.ter_set(examp, t_fungus);
         add_msg( m_info, _("The shrub offers up a fruit, then crumbles into a fungal bed."));
     } else {
@@ -3486,6 +3487,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     bool adjacent_couch = false;
     bool in_position = false;
+    bool needs_anesthesia = true;
     for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
         const furn_str_id couch( "f_autodoc_couch" );
         if( g->m.furn( couch_loc ) == couch ) {
@@ -3503,6 +3505,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     if( !in_position ) {
         popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
         return;
+    }
+    if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+        needs_anesthesia = false;
     }
 
     const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
@@ -3547,14 +3552,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            if( !has_anesthesia ) {
-                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+            if( !has_anesthesia && needs_anesthesia ) {
+                popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
                 return;
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            if( p.install_bionics( *itemtype ) ) {
-                p.introduce_into_anesthesia( duration );
+            if( p.install_bionics( ( *itemtype ), -1, true ) ) {
+                p.introduce_into_anesthesia( duration, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps );
@@ -3569,8 +3574,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            if( !has_anesthesia ) {
-                popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+            if( !has_anesthesia && needs_anesthesia ) {
+                popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
                 return;
             }
 
@@ -3602,8 +3607,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
-            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ) ) ) {
-                p.introduce_into_anesthesia( duration );
+            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
+                p.introduce_into_anesthesia( duration, needs_anesthesia );
             }
             break;
         }

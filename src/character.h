@@ -198,6 +198,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Getter for need values exclusive to characters */
         virtual int get_hunger() const;
+        virtual int get_starvation() const;
         virtual int get_thirst() const;
         virtual int get_fatigue() const;
         virtual int get_stomach_food() const;
@@ -205,6 +206,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_hunger( int nhunger );
+        virtual void mod_starvation( int nstarvation );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_stomach_food( int n_stomach_food );
@@ -212,6 +214,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Setters for need values exclusive to characters */
         virtual void set_hunger( int nhunger );
+        virtual void set_starvation( int nstarvation );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_stomach_food( int n_stomach_food );
@@ -344,7 +347,7 @@ class Character : public Creature, public visitable<Character>
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             bool bleed, bool bite, bool infect ) const;
+                             bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
@@ -629,6 +632,10 @@ class Character : public Creature, public visitable<Character>
          * Average hit points healed per turn.
          */
         float healing_rate( float at_rest_quality ) const;
+        /**
+         * Average hit points healed per turn from healing effects.
+         */
+        float healing_rate_medicine( float at_rest_quality, const body_part bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name
@@ -667,7 +674,7 @@ class Character : public Creature, public visitable<Character>
         bool male;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> hp_cur, hp_max;
+        std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
         bool nv_cached;
 
         inventory inv;
@@ -755,8 +762,9 @@ class Character : public Creature, public visitable<Character>
         mutable pimpl<pathfinding_settings> path_settings;
 
     private:
-        /** Needs (hunger, thirst, fatigue, etc.) */
+        /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int hunger;
+        int starvation;
         int thirst;
         int fatigue;
 

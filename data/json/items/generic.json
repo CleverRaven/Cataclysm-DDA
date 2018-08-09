@@ -238,6 +238,7 @@
         "type": "GENERIC",
         "category": "spare_parts",
         "name": "bundle of rags",
+        "name_plural": "bundles of rags",
         "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
         "weight": 800,
         "volume": 3,
@@ -251,6 +252,7 @@
         "type": "GENERIC",
         "category": "spare_parts",
         "name": "bundle of leather",
+        "name_plural": "bundles of leather",
         "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
         "weight": 1000,
         "volume": 4,
@@ -264,6 +266,7 @@
         "type": "GENERIC",
         "category": "spare_parts",
         "name": "bundle of felt",
+        "name_plural": "bundles of felt",
         "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
         "weight": 1000,
         "volume": 4,
@@ -343,6 +346,34 @@
         "weight": 18,
         "volume": 0,
         "to_hit": -3
+    },
+	{
+		"id": "golf_tee",
+		"type": "GENERIC",
+		"category": "other",
+		"name": "golf tee",
+		"description": "A pin shaped piece of wood meant for holding a golf ball slightly off the ground.",
+		"weight": 3,
+		"volume": 1,
+		"price": 1000,
+		"material": "wood",
+		"symbol": "-",
+		"color": "white"
+	},
+    {
+		"id": "golf_ball",
+		"type": "GENERIC",
+		"category": "other",
+		"name": "golf ball",
+		"description": "A small ball with round indentations on it.",
+		"weight": 50,
+		"volume": 1,
+		"price": 2000,
+		"material": "stone",
+		"symbol": "*",
+		"color": "white",
+		"bashing": 5,
+		"to_hit": -3
     },
     {
         "type":"GENERIC",
@@ -591,6 +622,20 @@
         "material": "iron",
         "weight": 3220,
         "volume": 3
+    },
+    {
+        "type":"GENERIC",
+        "id": "leaf_spring",
+        "symbol": ",",
+        "color": "light_gray",
+        "name": "leaf spring",
+        "category" : "spare_parts",
+        "description": "A large, heavy-duty leaf spring.  Probably from some car or truck, and looks an awful lot like a bow.  You can barely bend it...",
+        "price": 5000,
+        "price_postapoc": 500,
+        "material": "steel",
+        "weight": 8440,
+        "volume": 20
     },
     {
         "type":"GENERIC",
@@ -2109,7 +2154,7 @@
         "name": "pile of straw",
         "name_plural": "piles of straw",
         "category": "spare_parts",
-        "description": "A pile of dry grass.  Can be used if there is nothing else to sleep on.",
+        "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
         "material": ["paper"],
         "flags": "TRADER_AVOID",
         "weight": 20,
@@ -2399,18 +2444,5 @@
         "symbol": ".",
         "color": "white",
         "ammo_type": "components"
-    },
-    {
-        "id": "anesthesia",
-        "type": "GENERIC",
-        "name": "anesthetic kit",
-        "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
-        "weight": 100,
-        "volume": 1,
-        "price": 50000,
-        "material": "plastic",
-        "symbol": "!",
-        "color": "cyan",
-        "flags": [ "ANESTHESIA" ]
     }
 ]

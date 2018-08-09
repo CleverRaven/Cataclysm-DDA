@@ -316,13 +316,6 @@ class overmap
     static bool inbounds( const tripoint &loc, int clearance = 0 );
     static bool inbounds( int x, int y, int z, int clearance = 0 ); /// @todo: This one should be obsoleted
     /**
-     * Display a list of all notes on this z-level. Let the user choose
-     * one or none of them.
-     * @returns The location of the chosen note (absolute overmap terrain
-     * coordinates), or invalid_point if the user did not choose a note.
-     */
-    static point display_notes(int z);
-    /**
      * Dummy value, used to indicate that a point returned by a function is invalid.
      */
     static const tripoint invalid_tripoint;
@@ -333,40 +326,6 @@ class overmap
      * coordinates), or empty vector if no matching notes are found.
      */
      std::vector<point> find_notes(int const z, std::string const& text);
-    /**
-     * Interactive point choosing; used as the map screen.
-     * The map is initially center at the players position.
-     * @returns The absolute coordinates of the chosen point or
-     * invalid_point if canceled with Escape (or similar key).
-     */
-    static tripoint draw_overmap();
-    /**
-     * Draw overmap like with @ref draw_overmap() and display hordes.
-     */
-    static tripoint draw_hordes();
-    /**
-     * Draw overmap like with @ref draw_overmap() and display the weather.
-     */
-    static tripoint draw_weather();
-    /**
-     * Draw overmap like with @ref draw_overmap() and display scent traces.
-     */
-    static tripoint draw_scents();
-    /**
-     * Draw overmap like with @ref draw_overmap() and display the given zone.
-     */
-    static tripoint draw_zones( tripoint const &center, tripoint const &select, int const iZoneIndex );
-    /**
-     * Same as @ref draw_overmap() but starts at select if set.
-     * Otherwise on players location.
-     */
-    /**
-     * Same as above but start at z-level z instead of players
-     * current z-level, x and y are taken from the players position.
-     */
-    static tripoint draw_overmap(int z);
-
-    static tripoint draw_editor();
 
     /** Returns the (0, 0) corner of the overmap in the global coordinates. */
     point global_base_point() const;
@@ -420,13 +379,6 @@ public:
     std::array<map_layer, OVERMAP_LAYERS> layer;
     std::unordered_map<tripoint, scent_trace> scents;
 
-    /**
-     * When monsters despawn during map-shifting they will be added here.
-     * map::spawn_monsters will load them and place them into the reality bubble
-     * (adding it to the creature tracker and putting it onto the map).
-     * This stores each submap worth of monsters in a different bucket of the multimap.
-     */
-    std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
     oter_id get_default_terrain( int z ) const;
@@ -436,6 +388,15 @@ public:
     // open existing overmap, or generate a new one
     void open( overmap_special_batch &enabled_specials );
  public:
+
+    /**
+     * When monsters despawn during map-shifting they will be added here.
+     * map::spawn_monsters will load them and place them into the reality bubble
+     * (adding it to the creature tracker and putting it onto the map).
+     * This stores each submap worth of monsters in a different bucket of the multimap.
+     */
+    std::unordered_multimap<tripoint, monster> monster_map;
+
   // parse data in an opened overmap file
   void unserialize(std::istream &fin);
   // Parse per-player overmap view data.
@@ -462,40 +423,6 @@ public:
     static bool obsolete_terrain( const std::string &ter );
     void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
 
-    // drawing relevant data, e.g. what to draw.
-    struct draw_data_t {
-        // draw monster groups on the overmap.
-        bool debug_mongroup = false;
-        // draw weather, e.g. clouds etc.
-        bool debug_weather = false;
-        // draw editor.
-        bool debug_editor = false;
-        // draw scent traces.
-        bool debug_scent = false;
-        // draw zone location.
-        tripoint select = tripoint(-1, -1, -1);
-        int iZoneIndex = -1;
-    };
-    static tripoint draw_overmap(const tripoint& center, const draw_data_t &data);
-    /**
-     * Draws the overmap terrain.
-     * @param w The window to draw map in.
-     * @param wbar Window containing status bar
-     * @param center The global overmap terrain coordinate of the center
-     * of the view. The z-component is used to determine the z-level.
-     * @param orig The global overmap terrain coordinates of the player.
-     * It will be marked specially.
-     * @param blink Whether blinking is enabled
-     * @param showExplored Whether display of explored territory is enabled
-     * @param inp_ctxt Input context in this screen
-     * @param data Various other drawing flags, largely regarding debug information
-     */
-    static void draw( const catacurses::window &w, const catacurses::window &wbar,
-                      const tripoint &center, const tripoint &orig, bool blink, bool showExplored,
-                      input_context *inp_ctxt, const draw_data_t &data );
-
-    static void draw_city_labels( const catacurses::window &w, const tripoint &center );
-
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
@@ -507,7 +434,7 @@ public:
   void place_building( const tripoint &p, om_direction::type dir, const city &town );
 
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
-  bool build_lab(int x, int y, int z, int s, bool ice = false);
+  bool build_lab(int x, int y, int z, int s, std::vector<point> *lab_train_points, const std::string prefix, int train_odds);
   void build_anthill(int x, int y, int z, int s);
   void build_acid_anthill(int x, int y, int z, int s);
   void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
@@ -585,5 +512,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
+// Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
+bool is_ot_subtype(const char* otype, const oter_id &oter);
 
 #endif

@@ -114,4 +114,6 @@ void load_artifacts( const std::string &filename );
 // save artifact definitions to json, path must be the same as for loading.
 bool save_artifacts( const std::string &path );
 
+bool check_art_charge_req( item &it );
+
 #endif

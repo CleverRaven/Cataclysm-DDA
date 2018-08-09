@@ -9,9 +9,9 @@
       "rows": [
         "...ss...................",
         ".#.ss.#.................",
-        "...ss...................",
+        "...ssp..................",
         ".--;;---................",
-        ".|   +d|................",
+        ".|Y  +d|................",
         ".|   ----wwww---ww-ww-..",
         ".|   h   ???? |d   kk|..",
         ".wc  nn       +     h|..",
@@ -46,11 +46,13 @@
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_grass",
+        "p": "t_grass",
         ";": "t_door_locked",
         "?": "t_floor",
         "@": "t_floor",
         "B": "t_floor",
         "C": "t_floor",
+        "Y": "t_floor",
         "K": "t_floor",
         "O": "t_floor",
         "Q": "t_fence_h",
@@ -75,6 +77,8 @@
         "$": "f_shower",
         "?": "f_sofa",
         "@": "f_bed",
+        "p": "f_mailbox",
+        "Y": "f_rack_coat",
         "B": "f_bathtub",
         "C": "f_cupboard",
         "K": "f_armchair",
@@ -90,6 +94,10 @@
         "r": "f_rack"
       },
       "toilets": { "t": {  } },
+      "items": {
+        "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+      },
       "place_loot": [
         { "group": "hydro", "x": [ 5, 5 ], "y": [ 16, 20 ], "chance": 90, "repeat": [ 1, 7 ] },
         { "group": "hydro", "x": [ 7, 7 ], "y": [ 16, 20 ], "chance": 90, "repeat": [ 1, 7 ] },

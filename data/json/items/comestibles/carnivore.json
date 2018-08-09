@@ -110,7 +110,7 @@
     "name": "raw offal",
     "description": "Uncooked internal organs and entrails.  Unappealing to eat but filled with essential vitamins.",
     "proportional": { "calories": 0.5, "parasites": 2.0 },
-    "relative": { "vitamins": [ [ "vitA", 5 ] ], "fun": -5 }
+    "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
   {
     "id": "offal_cooked",
@@ -120,6 +120,7 @@
     "name_plural": "cooked offal",
     "description": "Freshly cooked entrails.  Unappetizing, but filled with essential vitamins.",
     "parasites": 0,
+    "healthy": 1,
     "fun": -5,
     "proportional": { "calories": 2 },
     "flags": [ "EATEN_HOT" ]
@@ -134,6 +135,7 @@
     "volume": 2,
     "stack_size": 2,
     "parasites": 0,
+    "healthy": 1,
     "container": "jar_glass",
     "spoils_in": 36,
     "quench": -1,
@@ -150,6 +152,7 @@
     "volume": 2,
     "stack_size": 2,
     "parasites": 0,
+    "healthy": 1,
     "container": "can_food",
     "fun": -2,
     "proportional": { "calories": 0.5 }
@@ -225,6 +228,7 @@
     "weight": 56,
     "color": "brown",
     "spoils_in": 1008,
+    "healthy": 0,
     "charges": 3,
     "stack_size": 3,
     "parasites": 0,
@@ -265,7 +269,6 @@
     "stack_size": 6,
     "parasites": 0,
     "spoils_in": 1008,
-    "healthy": 1,
     "fun": 6,
     "proportional": { "price": 2, "calories": 0.95 },
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
@@ -282,9 +285,11 @@
     "stack_size": 1,
     "parasites": 0,
     "spoils_in": 1008,
+    "healthy": 0,
     "quench": -1,
     "fun": 5,
     "proportional": { "price": 20, "calories": 0.95 },
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
   }
 ]
+
