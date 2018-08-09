@@ -957,7 +957,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     // quick & full butcher only
     // reveal hidden items / hidden content
-    if( action!= F_DRESS ){
+    if( action != F_DRESS ) {
         for( auto &content : contents  ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -969,9 +969,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             }
         }
     }
-   
+
     //end messages and effects
-    switch( action ){
+    switch( action ) {
     case QUARTER:
         break;
     case BUTCHER:
@@ -1007,7 +1007,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             }
 
         } else { // success
-            
+
             switch( rng( 1, 3 ) ) {
                 case 1:
                     p->add_msg_if_player( m_good, _("You field dress the %s."), corpse->nname().c_str() );

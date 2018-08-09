@@ -6178,10 +6178,10 @@ std::string item::type_name( unsigned int quantity ) const
             if( f_dressed && !quartered ){
                 return string_format( npgettext( "item name", "%s carcass of %s",
                                 "%s carcasses of %s", quantity ),
-                    corpse->nname().c_str() );
+                    corpse->nname().c_str(), corpse_name.c_str() );
             } else if( f_dressed && quartered ){
-                return string_format( npgettext( "item name", "%s quartered carcass of %s",
-                                        "%s quartered carcasses of %s", quantity ),
+                return string_format( npgettext( "item name", "quartered %s carcass",
+                                        "quartered %s carcasses", quantity ),
                             corpse->nname().c_str() );        
             }
             return string_format( npgettext( "item name", "%s corpse of %s",
