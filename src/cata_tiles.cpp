@@ -1600,6 +1600,26 @@ const tile_type *cata_tiles::find_terrain_looks_like( std::string id )
     return nullptr;
 }
 
+const tile_type *cata_tiles::find_monster_looks_like( std::string id )
+{
+    std::string looks_like = id;
+    int cnt = 0;
+    while( !looks_like.empty() && cnt < 10 ) {
+        const tile_type *lltt = find_tile_with_season( looks_like );
+        if( lltt ) {
+            return lltt;
+        }
+        const mtype_id mid( looks_like );
+        if( !mid.is_valid() ) {
+            return nullptr;
+        }
+        const mtype &mt = mid.obj();
+        looks_like = mt.looks_like;
+        cnt += 1;
+    }
+    return nullptr;
+}
+
 const tile_type *cata_tiles::find_tile_with_season( std::string id )
 {
     constexpr size_t suffix_len = 15;
@@ -1661,14 +1681,17 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                     col = t.color();
                 }
             }
-        } else if (category == C_MONSTER) {
-            const mtype_id mid( id );
-            if( mid.is_valid() ) {
-                const mtype &mt = mid.obj();
-                int len = mt.sym.length();
-                const char *s = mt.sym.c_str();
-                sym = UTF8_getch(&s, &len);
-                col = mt.color;
+        } else if( category == C_MONSTER ) {
+            tt = find_monster_looks_like( id );
+            if( !tt ) {
+                const mtype_id mid( id );
+                if( mid.is_valid() ) {
+                    const mtype &mt = mid.obj();
+                    int len = mt.sym.length();
+                    const char *s = mt.sym.c_str();
+                    sym = UTF8_getch( &s, &len );
+                    col = mt.color;
+                }
             }
         } else if (category == C_VEHICLE_PART) {
             const vpart_id vpid( id.substr( 3 ) );
