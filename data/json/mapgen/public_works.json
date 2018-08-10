@@ -107,13 +107,8 @@
         "r": "f_rack",
         "t": "f_table"
       },
-      "toilets": {
-        "T": {}
-      },
-      "items": {
-        "P": { "item": "pool_table", "chance": 80 },
-        "e": { "item": "fridge", "chance": 80 }
-      },
+      "toilets": { "T": {} },
+      "items": { "P": { "item": "pool_table", "chance": 80 }, "e": { "item": "fridge", "chance": 80 } },
       "place_items": [
         { "item": "hardware", "x": [ 2, 2 ], "y": [ 3, 8 ], "chance": 85 },
         { "item": "hardware", "x": [ 6, 13 ], "y": [ 2, 2 ], "chance": 85 },
@@ -149,9 +144,7 @@
         { "monster": "GROUP_PUBLICWORKERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.3 },
         { "monster": "GROUP_PUBLICWORKERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.1 }
       ],
-      "place_vehicles": [
-        { "vehicle": "industrial_vehicles", "x": 24, "y": 10, "chance": 50, "fuel": 0, "status": 0, "rotation": 90 }
-      ]
+      "place_vehicles": [ { "vehicle": "industrial_vehicles", "x": 24, "y": 10, "chance": 50, "fuel": 0, "status": 0, "rotation": 90 } ]
     }
   }
 ]

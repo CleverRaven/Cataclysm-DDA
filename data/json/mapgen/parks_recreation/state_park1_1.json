@@ -65,13 +65,8 @@
         "f": "f_dandelion",
         "i": "f_cattails"
       },
-      "place_item": [
-        { "item": "rock", "x": 2, "y": 6 },
-        { "item": "rock", "x": 18, "y": 21 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_PARK_ANIMAL", "x": [ 7, 19 ], "y": [ 6, 21 ], "repeat": 2 }
-      ]
+      "place_item": [ { "item": "rock", "x": 2, "y": 6 }, { "item": "rock", "x": 18, "y": 21 } ],
+      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 7, 19 ], "y": [ 6, 21 ], "repeat": 2 } ]
     }
   }
 ]

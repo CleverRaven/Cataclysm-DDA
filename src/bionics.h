@@ -36,6 +36,9 @@ struct bionic_data {
     int charge_time = 0;
     /** Power bank size **/
     int capacity = 0;
+
+    /** True if a bionic can be used by an NPC and installed on them */
+    bool npc_usable = false;
     /** True if a bionic is a "faulty" bionic */
     bool faulty = false;
     bool power_source = false;

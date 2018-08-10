@@ -96,9 +96,7 @@
         "H": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      }
+      "furniture": { "H": "f_bench" }
     }
   },
   {
@@ -143,12 +141,8 @@
         "H": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      },
-      "place_items": [
-        { "item": "football_items", "x": [ 14, 23 ], "y": [ 11, 13 ], "chance": 60, "repeat": [ 1, 2 ] }
-      ]
+      "furniture": { "H": "f_bench" },
+      "place_items": [ { "item": "football_items", "x": [ 14, 23 ], "y": [ 11, 13 ], "chance": 60, "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -193,18 +187,10 @@
         "H": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      },
-      "place_items": [
-        { "item": "football_items", "x": [ 0, 23 ], "y": [ 11, 13 ], "chance": 80, "repeat": [ 1, 2 ] }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_FOOTBALL", "x": [ 0, 23 ], "y": [ 11, 13 ], "chance": 1 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "football_vehicles", "x": 11, "y": 12, "chance": 60 }
-      ]
+      "furniture": { "H": "f_bench" },
+      "place_items": [ { "item": "football_items", "x": [ 0, 23 ], "y": [ 11, 13 ], "chance": 80, "repeat": [ 1, 2 ] } ],
+      "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 0, 23 ], "y": [ 11, 13 ], "chance": 1 } ],
+      "place_vehicles": [ { "vehicle": "football_vehicles", "x": 11, "y": 12, "chance": 60 } ]
     }
   },
   {
@@ -249,12 +235,8 @@
         "H": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      },
-      "place_items": [
-        { "item": "football_items", "x": [ 0, 8 ], "y": [ 11, 13 ], "chance": 60, "repeat": [ 1, 2 ] }
-      ]
+      "furniture": { "H": "f_bench" },
+      "place_items": [ { "item": "football_items", "x": [ 0, 8 ], "y": [ 11, 13 ], "chance": 60, "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -311,10 +293,7 @@
         "R": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench",
-        "R": "f_trashcan"
-      }
+      "furniture": { "H": "f_bench", "R": "f_trashcan" }
     }
   },
   {
@@ -360,9 +339,7 @@
         "o": "t_little_column",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      }
+      "furniture": { "H": "f_bench" }
     }
   },
   {
@@ -399,9 +376,7 @@
         "   %   %   %   %   %   %",
         "   %   %   %   %   %   %"
       ],
-      "terrain": {
-        "%": "t_grass_white"
-      }
+      "terrain": { "%": "t_grass_white" }
     }
   },
   {
@@ -438,15 +413,9 @@
         "   %   %   %   %   %   %",
         "   %   %   %   %   %   %"
       ],
-      "terrain": {
-        "%": "t_grass_white"
-      },
-      "place_item": [
-        { "item": "football", "x": 11, "y": 11, "repeat": 1 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_FOOTBALL", "x": [ 7, 15 ], "y": [ 3, 19 ], "chance": 1, "repeat": [ 3, 4 ] }
-      ]
+      "terrain": { "%": "t_grass_white" },
+      "place_item": [ { "item": "football", "x": 11, "y": 11, "repeat": 1 } ],
+      "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 7, 15 ], "y": [ 3, 19 ], "chance": 1, "repeat": [ 3, 4 ] } ]
     }
   },
   {
@@ -483,9 +452,7 @@
         "   %   %   %   %   %   %",
         "   %   %   %   %   %   %"
       ],
-      "terrain": {
-        "%": "t_grass_white"
-      }
+      "terrain": { "%": "t_grass_white" }
     }
   },
   {
@@ -531,9 +498,7 @@
         "o": "t_little_column",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      }
+      "furniture": { "H": "f_bench" }
     }
   },
   {
@@ -589,9 +554,7 @@
         "H": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      }
+      "furniture": { "H": "f_bench" }
     }
   },
   {
@@ -636,12 +599,8 @@
         "H": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      },
-      "place_items": [
-        { "item": "football_items", "x": [ 14, 23 ], "y": [ 9, 11 ], "chance": 60, "repeat": [ 1, 2 ] }
-      ]
+      "furniture": { "H": "f_bench" },
+      "place_items": [ { "item": "football_items", "x": [ 14, 23 ], "y": [ 9, 11 ], "chance": 60, "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -686,18 +645,10 @@
         "H": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      },
-      "place_items": [
-        { "item": "football_items", "x": [ 0, 23 ], "y": [ 9, 11 ], "chance": 80, "repeat": [ 1, 2 ] }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_FOOTBALL", "x": [ 0, 23 ], "y": [ 9, 11 ], "chance": 1 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "football_vehicles", "x": 11, "y": 10, "chance": 60 }
-      ]
+      "furniture": { "H": "f_bench" },
+      "place_items": [ { "item": "football_items", "x": [ 0, 23 ], "y": [ 9, 11 ], "chance": 80, "repeat": [ 1, 2 ] } ],
+      "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 0, 23 ], "y": [ 9, 11 ], "chance": 1 } ],
+      "place_vehicles": [ { "vehicle": "football_vehicles", "x": 11, "y": 10, "chance": 60 } ]
     }
   },
   {
@@ -742,12 +693,8 @@
         "H": "t_dirt",
         "p": "t_pavement"
       },
-      "furniture": {
-        "H": "f_bench"
-      },
-      "place_items": [
-        { "item": "football_items", "x": [ 0, 8 ], "y": [ 9, 11 ], "chance": 60, "repeat": [ 1, 2 ] }
-      ]
+      "furniture": { "H": "f_bench" },
+      "place_items": [ { "item": "football_items", "x": [ 0, 8 ], "y": [ 9, 11 ], "chance": 60, "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -822,12 +769,8 @@
         "I": "f_sink",
         "R": "f_trashcan"
       },
-      "vendingmachines": {
-        "V": { "item_group": "vending_drink" }
-      },
-      "toilets": {
-        ";": {}
-      }
+      "vendingmachines": { "V": { "item_group": "vending_drink" } },
+      "toilets": { ";": {} }
     }
   }
 ]

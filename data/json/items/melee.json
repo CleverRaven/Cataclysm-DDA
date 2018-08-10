@@ -110,7 +110,7 @@
     "price": 4000,
     "material": "wood",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
     "weight": 1400,
     "volume": 12,
     "bashing": 19,
@@ -128,7 +128,7 @@
     "price": 6000,
     "material": [ "wood", "iron" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weight": 2200,
     "volume": 12,
     "bashing": 25,
@@ -724,7 +724,7 @@
     "description": "This is a versatile polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 50000,
     "material": [ "wood", "steel" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": 3175,
     "volume": 15,
@@ -742,7 +742,7 @@
     "description": "This is a dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 5000,
     "material": [ "wood", "aluminum" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": 1644,
     "volume": 15,
@@ -760,7 +760,7 @@
     "description": "A sturdy polearm with a sizable, single-edged blade on the end.",
     "price": 50000,
     "material": [ "steel", "wood" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": 2100,
     "volume": 10,
@@ -783,7 +783,7 @@
     "volume": 10,
     "bashing": 6,
     "cutting": 37,
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 80000
   },
   {
@@ -1164,7 +1164,8 @@
     "weight": 300,
     "volume": 4,
     "bashing": 14,
-    "to_hit": 1
+    "to_hit": 1,
+    "flags": [ "SHEATH_GOLF" ]
   },
   {
     "type": "GENERIC",

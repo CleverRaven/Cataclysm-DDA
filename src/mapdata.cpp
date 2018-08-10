@@ -320,6 +320,13 @@ std::string map_data_common_t::name() const
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
+    if( jo.has_member( "copy-from" ) ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
+    }
+
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string &str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;
@@ -426,7 +433,7 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_thconc_floor,
+    t_thconc_floor, t_thconc_floor_olight,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -455,7 +462,7 @@ ter_id t_null,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
-    t_door_glass_c, t_door_glass_o,
+    t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
@@ -494,6 +501,7 @@ ter_id t_null,
     t_centrifuge,
     t_column,
     t_vat,
+    t_rootcellar,
     t_cvdbody, t_cvdmachine,
     t_water_pump,
     t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
@@ -541,6 +549,7 @@ void set_ter_ids() {
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
     t_thconc_floor = ter_id( "t_thconc_floor" );
+    t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
     t_floor = ter_id( "t_floor" );
     t_floor_waxed = ter_id( "t_floor_waxed" );
     t_dirtfloor = ter_id( "t_dirtfloor" );
@@ -616,6 +625,8 @@ void set_ter_ids() {
     t_door_bar_locked = ter_id( "t_door_bar_locked" );
     t_door_glass_c = ter_id( "t_door_glass_c" );
     t_door_glass_o = ter_id( "t_door_glass_o" );
+    t_door_glass_frosted_c = ter_id( "t_door_glass_frosted_c" );
+    t_door_glass_frosted_o = ter_id( "t_door_glass_frosted_o" );
     t_portcullis = ter_id( "t_portcullis" );
     t_recycler = ter_id( "t_recycler" );
     t_window = ter_id( "t_window" );
@@ -732,6 +743,7 @@ void set_ter_ids() {
     t_centrifuge = ter_id( "t_centrifuge" );
     t_column = ter_id( "t_column" );
     t_vat = ter_id( "t_vat" );
+    t_rootcellar = ter_id( "t_rootcellar" );
     t_cvdbody = ter_id( "t_cvdbody" );
     t_cvdmachine = ter_id( "t_cvdmachine" );
     t_stairs_down = ter_id( "t_stairs_down" );

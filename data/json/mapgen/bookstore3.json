@@ -18,7 +18,7 @@
         "***********~**|].].]|***",
         "***********~**|].].]|***",
         "****|------+-O|....]|***",
-        "****|]]]]]..#....T.]|***",
+        "****|]]]]]..#a...T.]|***",
         "****|]......#%#..T.]|***",
         "****|].]]].........]|***",
         "****|].]]].TT..TT..]|***",
@@ -43,12 +43,13 @@
         "T": "t_floor",
         "]": "t_floor",
         "^": "t_tree",
+        "a": "t_floor",
         "o": "t_dirt",
         "q": "t_dirt",
         "|": "t_wall",
         "~": "t_sidewalk"
       },
-      "furniture": { "#": "f_counter", "S": "f_statue", "T": "f_table", "]": "f_bookcase", "q": "f_dahlia" },
+      "furniture": { "#": "f_counter", "S": "f_statue", "T": "f_table", "]": "f_bookcase", "q": "f_dahlia", "a": "f_stool" },
       "place_items": [
         { "item": "novels", "x": [ 5, 9 ], "y": 12, "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "homebooks", "x": [ 5, 9 ], "y": 12, "chance": 30, "repeat": [ 2, 3 ] },

@@ -475,6 +475,14 @@ def extract_recipes(item):
             if len(arr) >= 3 and len(arr[2]) > 0:
                 writestr(outfile, arr[2])
 
+
+def extract_recipe_group(item):
+    outfile = get_outfile("recipe_group")
+    if "recipes" in item:
+        for i in item.get("recipes"):
+            writestr(outfile, i.get("description"))
+
+
 def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
         extract_dynamic_line(line[member], outfile)
@@ -654,6 +662,7 @@ extract_specials = {
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
+    "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
     "talk_topic": extract_talk_topic,
     "gate": extract_gate,

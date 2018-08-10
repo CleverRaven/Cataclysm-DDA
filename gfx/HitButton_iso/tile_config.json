@@ -212,7 +212,7 @@
           "fg": 65
         },
         {
-          "id": ["t_concrete", "t_sidewalk", "t_sidewalk_bg_dp", "t_flat_roof", "t_strconc_floor", "t_strconc_floor_halfway", "t_thconc_floor" ],
+          "id": ["t_concrete", "t_sidewalk", "t_sidewalk_bg_dp", "t_flat_roof", "t_strconc_floor", "t_strconc_floor_halfway", "t_thconc_floor", "t_thconc_floor_olight" ],
           "fg": 66
         },
         {
@@ -2077,12 +2077,12 @@
           "fg": 591
         },
         {
-          "id": ["t_door_glass_c" ],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "multitile": true,
           "fg": [ 592 , 593 ]
         },
         {
-          "id": ["t_door_glass_o" ],
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "multitile": true,
           "fg": [ 594 , 595 ]
         },

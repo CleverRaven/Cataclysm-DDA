@@ -56,9 +56,7 @@
         "f": "f_dandelion",
         "i": "f_cattails"
       },
-      "place_monsters": [
-        { "monster": "GROUP_POND_BIRD", "x": 14, "y": 14 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_POND_BIRD", "x": 14, "y": 14 } ]
     }
   }
 ]
