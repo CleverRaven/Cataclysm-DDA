@@ -2529,7 +2529,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "DIG_TOOL" ]
   },
   {
     "id": "electrohack",
@@ -3818,7 +3818,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "DIG_TOOL" ]
   },
   {
     "id": "jar_pickles_pickled",
@@ -5392,7 +5392,7 @@
     "color": "dark_gray",
     "use_action": "PICKAXE",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL" ]
   },
   {
     "id": "picklocks",
