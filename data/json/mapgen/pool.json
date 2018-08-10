@@ -45,12 +45,8 @@
         "n": "t_concrete",
         "w": "t_water_dp"
       },
-      "furniture": {
-        "n": "f_dive_block"
-      },
-      "place_monsters": [
-        { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 6 ] }
-      ]
+      "furniture": { "n": "f_dive_block" },
+      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 6 ] } ]
     }
   },
   {
@@ -93,13 +89,8 @@
         "o": [ "t_chaingate_c", "t_chaingate_o" ],
         "w": "t_water_dp"
       },
-      "furniture": {
-        "c": "f_chair",
-        "n": "f_dive_block"
-      },
-      "place_monsters": [
-        { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 7 ] }
-      ]
+      "furniture": { "c": "f_chair", "n": "f_dive_block" },
+      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 7 ] } ]
     }
   }
 ]

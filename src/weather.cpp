@@ -17,6 +17,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "player.h"
+#include "game_constants.h"
 
 #include <vector>
 #include <sstream>
@@ -71,16 +72,20 @@ void weather_effect::glare()
 
 int get_hourly_rotpoints_at_temp( int temp );
 
-time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &location )
+time_duration get_rot_since( const time_point &start, const time_point &end,
+                             const tripoint &location )
 {
     time_duration ret = 0;
-
     const auto &wgen = g->get_cur_weather_gen();
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( location, i, g->get_seed() );
-
         //Use weather if above ground, use map temp if below
+
         double temperature = ( location.z >= 0 ? w.temperature : g->get_temperature( location ) ) + ( g->new_game ? 0 : g->m.temperature( g->m.getlocal( location ) ) );
+        
+        if( !g->new_game && g->m.ter( g->m.getlocal( location ) ) == t_rootcellar ) {
+            temperature = AVERAGE_ANNUAL_TEMPERATURE;
+        }
 
         ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
     }

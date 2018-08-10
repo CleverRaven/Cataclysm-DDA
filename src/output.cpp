@@ -1934,9 +1934,7 @@ void scrollingcombattext::removeCreatureHP()
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
 {
     static std::map<game_message_type, std::pair<nc_color, nc_color>> const colors {
-        {
-            m_good,     {c_light_green, c_green}
-        },
+        {m_good,     {c_light_green, c_green}},
         {m_bad,      {c_light_red,   c_red}},
         {m_mixed,    {c_pink,    c_magenta}},
         {m_warning,  {c_yellow,  c_brown}},

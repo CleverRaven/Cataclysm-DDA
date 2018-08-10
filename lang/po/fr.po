@@ -1,19 +1,20 @@
 # Translators:
 # Mickaël Falck <lastmikoi+github@lastmikoi.net>, 2018
+# _hickop, 2018
 # Julien Maitre <julienm86230@hotmail.fr>, 2018
 # Brett Dong <brett.browning.dong@gmail.com>, 2018
 # Argasm Voragz <argasm@gmail.com>, 2018
 # Jazz <jazzzz@gmail.com>, 2018
-# _hickop, 2018
 # 0a12861a88fd8e19ef9d434658b16f47, 2018
 # masterzu, 2018
+# Pierre de Sahb <pierre@sahb.me>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-27 21:54+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: masterzu, 2018\n"
+"Last-Translator: Pierre de Sahb <pierre@sahb.me>, 2018\n"
 "Language-Team: French (https://www.transifex.com/cataclysm-dda-translators/teams/2217/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22982,7 +22983,7 @@ msgstr[1] "Saucisses italienne douces"
 #. ~ Description for sweet sausage
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A sweet and delicious sausage.  Better eat it fresh."
-msgstr ""
+msgstr "Une délicieuse saucisse. Mieux vaut la manger fraîche."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mushroom"
@@ -27813,7 +27814,7 @@ msgstr ""
 #. ~ Description for makeshift bandage
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Simple cloth bandages.  Better than nothing."
-msgstr ""
+msgstr "De simples bandages en tissu. Mieux que rien."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "bleached makeshift bandage"
@@ -29931,6 +29932,9 @@ msgid ""
 "Some damned fool put honey on this peanut butter sandwich, who in their "
 "right mind- oh wait this is pretty good. Gluten free too!"
 msgstr ""
+" Un abruti a ajouté du miel à ce sandwich au beurre de cacahuètes, on se "
+"demande ce qu'il lui est passé par la tête - ah mais en fait c'est super "
+"bon. Et sans gluten!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "gluten free PB&M sandwich"
@@ -34878,8 +34882,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "fencing foil"
 msgid_plural "fencing foils"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fleurets"
+msgstr[1] "fleurets"
 
 #. ~ Description for fencing foil
 #: lang/json/GENERIC_from_json.py
@@ -34888,6 +34892,9 @@ msgid ""
 "fencing foil is rather useless as a weapon, due to its flexible shaft and "
 "dull tip."
 msgstr ""
+"Une arme faite pour l'escrime, le plus noble des sports. Malheureusement le "
+"fleuret fait une piètre arme à cause de sa lame flexible et de sa pointe "
+"plate."
 
 #: lang/json/GENERIC_from_json.py
 msgid "fencing epee"
@@ -108621,7 +108628,7 @@ msgstr ""
 
 #: src/consumption.cpp
 msgid "This is rotten and smells awful!"
-msgstr ""
+msgstr "C'est moisi et dégage une odeur insupportable!"
 
 #: src/consumption.cpp
 msgid "The thought of eating human flesh makes you feel sick."
@@ -109110,7 +109117,7 @@ msgstr "Vous échouez à récupérer %1$s à partir de %2$s."
 #: src/crafting.cpp
 #, c-format
 msgid "You learned a recipe for %s from disassembling it!"
-msgstr ""
+msgstr "Vous avez appris comment faire un(e) %s en le(a) démontant!"
 
 #: src/crafting.cpp
 #, c-format
@@ -115023,11 +115030,11 @@ msgstr "Crier"
 
 #: src/game.cpp
 msgid "Yell a sentence"
-msgstr ""
+msgstr "Crier quelque chose"
 
 #: src/game.cpp
 msgid "Enter a sentence to yell"
-msgstr ""
+msgstr "Saisissez une phrase à crier"
 
 #: src/game.cpp
 #, c-format
@@ -115049,6 +115056,8 @@ msgstr ""
 #: src/game.cpp
 msgid "This vehicle has no steering system installed, you can't turn it."
 msgstr ""
+"Le véhicule n'a pas de système de guidage installé, vous ne pouvez pas le "
+"tourner."
 
 #: src/game.cpp
 msgid "The steering is completely broken!"
@@ -115489,7 +115498,7 @@ msgstr "Vous remontez à la surface."
 
 #: src/game.cpp
 msgid "You try to surface but can't!"
-msgstr ""
+msgstr "Vous essayez de de remonter à la surface, sans succès!"
 
 #: src/game.cpp
 msgid "You can't climb here - there's a ceiling above your head"
@@ -115527,6 +115536,8 @@ msgid ""
 "There is a LOT of heat coming out of there, even the stairs have melted "
 "away.  Jump down?  You won't be able to get back up."
 msgstr ""
+"BEAUCOUP de chaleur sort de là, tellement que même les escaliers ont fondu. "
+"Sauter? Vous ne pourrez pas remonter."
 
 #: src/game.cpp
 msgid ""
@@ -118669,7 +118680,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You have no tool to dig with..."
-msgstr ""
+msgstr "Vous n'avez pas d'outils pour creuser..."
 
 #: src/iexamine.cpp
 #, c-format
@@ -120358,7 +120369,7 @@ msgstr "Vous pourriez l'utiliser pour fabriquer: %s"
 #: src/item.cpp
 #, c-format
 msgid "It takes you an extremely long time to wield your %s."
-msgstr ""
+msgstr "Il vous faut énormément de temps pour équiper votre %s"
 
 #: src/item.cpp
 #, c-format
@@ -120617,19 +120628,19 @@ msgstr "%1$s ne peut pas être utilisé sur %2$s"
 
 #: src/item.cpp
 msgid "is already waterproof"
-msgstr ""
+msgstr "est déjà imperméable"
 
 #: src/item.cpp
 msgid "is already eminently reliable"
-msgstr ""
+msgstr "est déjà totalement fiable"
 
 #: src/item.cpp
 msgid "cannot have a brass catcher"
-msgstr ""
+msgstr "ne supporte pas de sac à douille"
 
 #: src/item.cpp
 msgid "must be unloaded before installing this mod"
-msgstr ""
+msgstr "doit être déchargé avant d'installer ce mod"
 
 #: src/item.cpp
 #, c-format
@@ -120699,7 +120710,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid "Oh dear god, a robot you're carrying has started moving!"
-msgstr ""
+msgstr "Oh mon dieu, un robot que vous transportez a commencé à bouger! "
 
 #: src/item.cpp
 msgid "Oh dear god, a corpse you're carrying has started moving!"
@@ -120713,12 +120724,12 @@ msgstr "Vous tirez une taffe de votre %s."
 #: src/item.cpp
 #, c-format
 msgid "Your shaking hand causes you to drop your %s."
-msgstr ""
+msgstr "Vos tremblements vous font faire tomber votre %s"
 
 #: src/item.cpp
 #, c-format
 msgid "You fall asleep and drop your %s."
-msgstr ""
+msgstr "Vous vous endormez et laissez tomber votre %s"
 
 #: src/item.cpp
 #, c-format
@@ -120727,15 +120738,15 @@ msgstr "Vous terminez votre %s."
 
 #: src/item.cpp src/iuse.cpp
 msgid "You notice the cable has come loose!"
-msgstr ""
+msgstr "Vous remarquez que le câble a lâché!"
 
 #: src/item.cpp
 msgid "The over-extended cable breaks loose!"
-msgstr ""
+msgstr "Le câble sur-tendu casse!"
 
 #: src/item.cpp
 msgid "You reel in the cable."
-msgstr ""
+msgstr "Vous remontez le câble."
 
 #: src/item.cpp
 #, c-format
@@ -121485,13 +121496,15 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You want to feed it the dog food, but it bites your fingers!"
-msgstr ""
+msgstr "Vous essayez de nourrir le chien mais il vous mord les doigts!"
 
 #: src/iuse.cpp
 msgid ""
 "Apparently it's more interested in your flesh than the dog food in your "
 "hand!"
 msgstr ""
+"Il semble apparemment plus intéressé par votre main que par la nourriture "
+"dedans!"
 
 #: src/iuse.cpp
 #, c-format
@@ -121848,7 +121861,7 @@ msgstr "Radio: Kssssssssssssh."
 #: src/iuse.cpp
 #, c-format
 msgid "radio: %s"
-msgstr ""
+msgstr "radio: %s"
 
 #: src/iuse.cpp
 msgid "Radio:"
@@ -124006,15 +124019,15 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Put the ladder where?"
-msgstr ""
+msgstr "Où placer l'échelle?"
 
 #: src/iuse.cpp
 msgid "Can't place it there."
-msgstr ""
+msgstr "Impossible de placer ça là."
 
 #: src/iuse.cpp
 msgid "You set down the ladder."
-msgstr ""
+msgstr "Vous posez l'échelle."
 
 #: src/iuse.cpp
 msgid "You're carrying too much to clean anything."
