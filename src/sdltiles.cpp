@@ -330,7 +330,7 @@ bool WinCreate()
     int window_flags = 0;
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
-    window_flags |= SDL_WINDOW_RESIZABLE;
+    window_flags |= SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 
     if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
