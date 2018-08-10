@@ -706,64 +706,58 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
-    "id": "badge_cybercop",
+    "abstract": "badge_abstract",
     "type": "ARMOR",
-    "name": "cybercop shield",
-    "description": "A chromed silver shield identifies the wearer as an authority even the cop-killers couldn't kill.",
+    "name": "badge template",
+    "description": "This is a template for police badges.  If found in a game it is a bug.",
     "weight": 60,
     "volume": 0,
     "price": 5000,
     "material": [ "silver" ],
     "symbol": "[",
-    "color": "yellow"
+    "color": "yellow",
+    "//": "should cover TORSO but give no encumbrance penalties",
+    "coverage": 2,
+    "material_thickness": 2,
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "badge_cybercop",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": "cybercop badge",
+    "description": "A chromed silver shield identifies the wearer as an authority even the cop-killers couldn't kill."
   },
   {
     "id": "badge_deputy",
+    "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": "deputy badge",
-    "description": "A tarnished silver star gives an air of authority to the wearer.",
-    "weight": 60,
-    "volume": 0,
-    "price": 5000,
-    "material": [ "silver" ],
-    "symbol": "[",
-    "color": "yellow"
+    "description": "A tarnished silver star gives an air of authority to the wearer."
   },
   {
     "id": "badge_detective",
+    "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": "detective badge",
     "description": "A tarnished golden shield gives an air of authority to the wearer.",
-    "weight": 60,
-    "volume": 0,
-    "price": 5000,
     "material": [ "gold" ],
-    "symbol": "[",
-    "color": "yellow"
+    "proportional": { "weight": 2 }
   },
   {
     "id": "badge_marshal",
+    "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": "marshal badge",
     "description": "A bright silver star strikes fear into the eyes of ne'er-do-wells.",
-    "weight": 60,
-    "volume": 0,
-    "price": 10000,
-    "material": [ "silver" ],
-    "symbol": "[",
-    "color": "yellow"
+    "proportional": { "price": 2 }
   },
   {
     "id": "badge_swat",
+    "copy-from": "badge_abstract",
     "type": "ARMOR",
-    "name": "SWAT ID",
-    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough.",
-    "weight": 60,
-    "volume": 0,
-    "price": 5000,
-    "material": [ "silver" ],
-    "symbol": "[",
-    "color": "yellow"
+    "name": "SWAT badge",
+    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough."
   },
   {
     "id": "balclava",
@@ -3014,12 +3008,7 @@
     "coverage": 75,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 25000,
-      "need_sunlight": true
-    },
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FIX_FARSIGHT" ]
   },
   {
@@ -3058,12 +3047,7 @@
     "coverage": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 25000,
-      "need_sunlight": true
-    },
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
   },
   {
@@ -3083,12 +3067,7 @@
     "coverage": 75,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 25000,
-      "need_sunlight": true
-    },
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "WATER_FRIENDLY", "FIX_FARSIGHT" ]
   },
   {
@@ -5194,11 +5173,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 2,
-    "container_data": {
-      "contains": 40,
-      "seals": true,
-      "watertight": true
-    },
+    "container_data": { "contains": 40, "seals": true, "watertight": true },
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -5262,7 +5237,7 @@
     "abstract": "judo_belt_abstract",
     "type": "ARMOR",
     "name": "judo belt template",
-    "description": "This is a template for judo belts. If found in a game it is a bug.",
+    "description": "This is a template for judo belts.  If found in a game it is a bug.",
     "weight": 200,
     "volume": 1,
     "price": 1000,
@@ -7030,10 +7005,7 @@
     "power_armor": true,
     "material_thickness": 11,
     "environmental_protection": 10,
-    "use_action": {
-      "type": "ups_based_armor",
-      "activate_msg": "Your power armor engages."
-    },
+    "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
@@ -7079,10 +7051,7 @@
     "power_armor": true,
     "material_thickness": 12,
     "environmental_protection": 16,
-    "use_action": {
-      "type": "ups_based_armor",
-      "activate_msg": "Your power armor engages."
-    },
+    "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
@@ -7179,10 +7148,7 @@
     "power_armor": true,
     "material_thickness": 9,
     "environmental_protection": 8,
-    "use_action": {
-      "type": "ups_based_armor",
-      "activate_msg": "Your power armor engages."
-    },
+    "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
@@ -7221,12 +7187,7 @@
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 20,
-      "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 20
-    },
+    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -7245,12 +7206,7 @@
     "coverage": 5,
     "encumbrance": 10,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 20,
-      "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 20
-    },
+    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
     "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -7269,12 +7225,7 @@
     "coverage": 15,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 60,
-      "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 20
-    },
+    "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -7293,12 +7244,7 @@
     "coverage": 15,
     "encumbrance": 14,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 60,
-      "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 20
-    },
+    "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {

@@ -4,11 +4,9 @@ data/json/construction.json
 data/json/doll_speech.json
 data/json/dreams.json
 data/json/effects.json
-data/json/faults.json
 data/json/furniture.json
 data/json/gates.json
 data/json/health_msgs.json
-data/json/hints.json
 data/json/itemgroups/ammo.json
 data/json/itemgroups/books.json
 data/json/itemgroups/clothing.json
@@ -20,6 +18,7 @@ data/json/item_groups.json
 data/json/itemgroups/locations.json
 data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
+data/json/itemgroups/map_extras.json
 data/json/itemgroups/mansion.json
 data/json/itemgroups/misc.json
 data/json/itemgroups/monster_drops.json
@@ -32,7 +31,6 @@ data/json/items/archery.json
 data/json/items/armor/bandolier.json
 data/json/items/armor/boots.json
 data/json/items/armor/holster.json
-data/json/items/armor.json
 data/json/items/chemicals_and_resources.json
 data/json/items/comestibles/brewing.json
 data/json/items/comestibles/carnivore.json
@@ -45,7 +43,6 @@ data/json/items/crossbows.json
 data/json/items/fake.json
 data/json/items/fuel.json
 data/json/items/generic/ammolink.json
-data/json/items/generic.json
 data/json/items/generic/string.json
 data/json/items/grenades.json
 data/json/items/gun/223.json
@@ -74,10 +71,8 @@ data/json/items/resources/metals.json
 data/json/items/software.json
 data/json/items/tool_armor.json
 data/json/items/tool/lighting.json
-data/json/items/tools.json
 data/json/items/vehicle_parts.json
 data/json/lab_notes.json
-data/json/map_extra_items.json
 data/json/mapgen/abandoned01.json
 data/json/mapgen/ags_station.json
 data/json/mapgen/apartment_con.json
@@ -220,13 +215,12 @@ data/json/monsters.json
 data/json/monsters/military.json
 data/json/monsters/zed_children.json
 data/json/monsters/zed_explosive.json
-data/json/multitile_buildings_terrain.json
-data/json/multitile_city_buildings.json
 data/json/mutation_category.json
 data/json/mutation_ordering.json
 data/json/mutations.json
 data/json/npcs/classes.json
 data/json/npcs/epilogues.json
+data/json/npcs/hints.json
 data/json/npcs/items_generic.json
 data/json/npcs/missiondef.json
 data/json/npcs/NC_ARSONIST.json
@@ -256,9 +250,11 @@ data/json/npcs/TALK_EVAC_MERCHANT.json
 data/json/npcs/TALK_OLD_GUARD_REP.json
 data/json/npcs/TALK_SCAVENGER_MERC.json
 data/json/npcs/talk_tags.json
+data/json/overmap/multitile_buildings_terrain.json
+data/json/overmap/multitile_city_buildings.json
+data/json/overmap/specials.json
 data/json/overmap_connections.json
 data/json/overmap_locations.json
-data/json/overmap_specials.json
 data/json/overmap_terrain.json
 data/json/professions.json
 data/json/recipes/ammo/pistol.json
@@ -284,7 +280,6 @@ data/json/recipes/other/medical.json
 data/json/recipes/other/tool.json
 data/json/recipes/other/vehicle.json
 data/json/recipes/recipe_ammo.json
-data/json/recipes/recipe_deconstruction.json
 data/json/recipes/recipe_electronics.json
 data/json/recipes/recipe_food.json
 data/json/recipes/recipe_medsandchemicals.json
@@ -322,6 +317,7 @@ data/json/vehicle_groups.json
 data/json/vehicleparts/alternator.json
 data/json/vehicleparts/battery.json
 data/json/vehicleparts/combustion.json
+data/json/vehicleparts/faults.json
 data/json/vehicleparts/frames.json
 data/json/vehicle_parts.json
 data/json/vehicleparts/lights.json

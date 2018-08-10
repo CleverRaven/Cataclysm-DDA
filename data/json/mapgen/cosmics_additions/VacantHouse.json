@@ -2078,7 +2078,7 @@
         "s": "t_sidewalk",
         "t": "t_floor",
         "{": "t_floor",
-        "|": "t_palisade"
+        "|": "t_wall_log"
       }
     },
     "om_terrain": "house",
@@ -2203,7 +2203,7 @@
         "s": "t_sidewalk",
         "t": "t_floor",
         "{": "t_floor",
-        "|": "t_palisade"
+        "|": "t_wall_log"
       }
     },
     "om_terrain": "house",
