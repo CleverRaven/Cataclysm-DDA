@@ -4705,12 +4705,14 @@ void game::draw_sidebar()
     mvwprintz( w_location, 0, 0, cur_ter->get_color(), utf8_truncate( cur_ter->get_name(), getmaxx(w_location) ) );
 
     if (get_levz() < 0) {
-        mvwprintz(w_location, 1, 18, c_light_gray, _("Underground"));
+        mvwprintz(w_location, 1, 0, c_light_gray, _("Underground"));
     } else {
-        mvwprintz( w_location, 1, 18, weather_data( weather ).color, weather_data( weather ).name );
+        mvwprintz( w_location, 1, 0, c_light_gray, _("Weather:") );
+        wprintz( w_location, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        mvwprintz( w_location, 1, 19, c_light_gray, _("Temperature:") );
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str());
     }
 
@@ -4728,7 +4730,7 @@ void game::draw_sidebar()
     trim_and_print( w_location, 2, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
-    mvwprintz(w_location, 2, 15, c_light_gray, "%s ", _("Lighting:"));
+    mvwprintz(w_location, 2, 22, c_light_gray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
     wrefresh(w_location);
