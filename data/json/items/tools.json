@@ -4199,8 +4199,6 @@
     "revert_to": "l-stick",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ],
-    "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
