@@ -1,39 +1,36 @@
 [
   {
-	"result": "gloopletread",
-	"type": "recipe",
-	"category": "CC_OTHER",
-	"subcategory": "CSC_OTHER_MATERIALS",
-	"skill_used": "cooking",
-	"difficulty": 6,
-	"time": 15000,
-	"autolearn": true,
-	"components": [ [ [ "gloople", 1 ] ] ]
-	
+    "result": "gloopletread",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 15000,
+    "autolearn": true,
+    "components": [ [ [ "gloople", 1 ] ] ]
   },
   {
-	"result": "oozletread",
-	"type": "recipe",
-	"category": "CC_OTHER",
-	"subcategory": "CSC_OTHER_MATERIALS",
-	"skill_used": "cooking",
-	"difficulty": 6,
-	"time": 15000,
-	"autolearn": true,
-	"components": [ [ [ "oozle", 1 ] ] ]
-	
+    "result": "oozletread",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 15000,
+    "autolearn": true,
+    "components": [ [ [ "oozle", 1 ] ] ]
   },
   {
-	"result": "graytread",
-	"type": "recipe",
-	"category": "CC_OTHER",
-	"subcategory": "CSC_OTHER_MATERIALS",
-	"skill_used": "cooking",
-	"difficulty": 6,
-	"time": 15000,
-	"autolearn": true,
-	"components": [ [ [ "gray", 1 ] ] ]
-	
+    "result": "graytread",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 15000,
+    "autolearn": true,
+    "components": [ [ [ "gray", 1 ] ] ]
   },
   {
     "result": "bfeedfuel",
@@ -44,10 +41,7 @@
     "difficulty": 6,
     "time": 1000,
     "autolearn": true,
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bfeed", 1 ] ]
-    ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bfeed", 1 ] ] ]
   },
   {
     "result": "bfeed",
@@ -58,11 +52,23 @@
     "difficulty": 6,
     "time": 2000,
     "autolearn": true,
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 1 }
-    ],
-    "components": [ [ [ "bone", 4 ], [ "bone_tainted", 4 ], [ "bone_human", 4 ], [ "meat", 4 ], [ "meat_tainted", 4 ], [ "human_flesh", 4 ], [ "chitin_piece", 1 ], [ "slime_scrap", 1 ], [ "stomach", 2 ], [ "stomach_large", 1 ], [ "hstomach", 2 ], [ "hstomach_large", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [
+        [ "bone", 4 ],
+        [ "bone_tainted", 4 ],
+        [ "bone_human", 4 ],
+        [ "meat", 4 ],
+        [ "meat_tainted", 4 ],
+        [ "human_flesh", 4 ],
+        [ "chitin_piece", 1 ],
+        [ "slime_scrap", 1 ],
+        [ "stomach", 2 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 2 ],
+        [ "hstomach_large", 1 ]
+      ]
+    ]
   },
   {
     "result": "bfeed",
@@ -75,7 +81,22 @@
     "time": 1000,
     "autolearn": true,
     "tools": [ [ [ "gloople", -1 ], [ "oozle", -1 ], [ "gray", -1 ] ] ],
-    "components": [ [ [ "corpse", 1 ], [ "bone_tainted", 4 ], [ "bone_human", 4 ], [ "meat", 4 ], [ "meat_tainted", 4 ], [ "human_flesh", 4 ], [ "chitin_piece", 1 ], [ "slime_scrap", 1 ], [ "stomach", 2 ], [ "stomach_large", 1 ], [ "hstomach", 2 ], [ "hstomach_large", 1 ] ] ]
+    "components": [
+      [
+        [ "corpse", 1 ],
+        [ "bone_tainted", 4 ],
+        [ "bone_human", 4 ],
+        [ "meat", 4 ],
+        [ "meat_tainted", 4 ],
+        [ "human_flesh", 4 ],
+        [ "chitin_piece", 1 ],
+        [ "slime_scrap", 1 ],
+        [ "stomach", 2 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 2 ],
+        [ "hstomach_large", 1 ]
+      ]
+    ]
   },
   {
     "result": "bframegrow",
@@ -140,11 +161,7 @@
     "time": 60000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "gray", 1 ] ],
-      [ [ "bfeed", 1000 ] ],
-      [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "gray", 1 ] ], [ [ "bfeed", 1000 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
   },
   {
     "result": "freeziegrow",
@@ -157,12 +174,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "clutter", 1 ] ],
-      [ [ "bfeed", 500 ] ],
-      [ [ "frostie", 1 ] ],
-      [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "clutter", 1 ] ], [ [ "bfeed", 500 ] ], [ [ "frostie", 1 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
   },
   {
     "result": "frostie",
@@ -201,12 +213,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "biter", 1 ] ],
-      [ [ "bfeed", 250 ] ],
-      [ [ "raw_fur", 3 ], [ "fur", 24 ] ],
-      [ [ "mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "biter", 1 ] ], [ [ "bfeed", 250 ] ], [ [ "raw_fur", 3 ], [ "fur", 24 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
     "result": "gloople",
@@ -237,10 +244,7 @@
     "time": 15000,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "gloople", 1 ] ],
-      [ [ "water", 100 ] ]
-    ]
+    "components": [ [ [ "gloople", 1 ] ], [ [ "water", 100 ] ] ]
   },
   {
     "result": "glowie",
@@ -260,12 +264,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "gloople", 1 ] ],
-      [ [ "bfeed", 250 ] ],
-      [ [ "plut_cell", 1 ] ],
-      [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "gloople", 1 ] ], [ [ "bfeed", 250 ] ], [ [ "plut_cell", 1 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
   },
   {
     "result": "gray",
@@ -296,10 +295,7 @@
     "time": 15000,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "gray", 1 ] ],
-      [ [ "water", 200 ] ]
-    ]
+    "components": [ [ [ "gray", 1 ] ], [ [ "water", 200 ] ] ]
   },
   {
     "result": "graygrow",
@@ -310,11 +306,7 @@
     "difficulty": 6,
     "time": 30000,
     "autolearn": true,
-    "components": [
-      [ [ "oozle", 1 ] ],
-      [ [ "bfeed", 1000 ] ],
-      [ [ "mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "oozle", 1 ] ], [ [ "bfeed", 1000 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
     "result": "grinder",
@@ -327,16 +319,8 @@
     "time": 30000,
     "autolearn": true,
     "using": [ [ "adhesive", 10 ] ],
-    "qualities": [
-      { "id": "CHEM", "level": 2 },
-      { "id": "HAMMER", "level": 1 }
-    ],
-    "components": [
-      [ [ "pebble", 500 ] ],
-      [ [ "gray", 1 ] ],
-      [ [ "bfeed", 500 ] ],
-      [ [ "mutagen", 1 ] ]
-    ]
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pebble", 500 ] ], [ [ "gray", 1 ] ], [ [ "bfeed", 500 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
     "result": "horrorgrow",
@@ -394,7 +378,7 @@
       [ [ "mutagen", 1 ] ]
     ]
   },
-    {
+  {
     "result": "meltie",
     "type": "uncraft",
     "difficulty": 0,
@@ -430,10 +414,7 @@
     "time": 15000,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "oozle", 1 ] ],
-      [ [ "water", 200 ] ]
-    ]
+    "components": [ [ [ "oozle", 1 ] ], [ [ "water", 200 ] ] ]
   },
   {
     "result": "oozlegrow",
@@ -444,11 +425,7 @@
     "difficulty": 6,
     "time": 30000,
     "autolearn": true,
-    "components": [
-      [ [ "gloople", 1 ] ],
-      [ [ "bfeed", 500 ] ],
-      [ [ "mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "gloople", 1 ] ], [ [ "bfeed", 500 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
     "result": "queengrow",
@@ -459,11 +436,7 @@
     "difficulty": 6,
     "time": 30000,
     "autolearn": true,
-    "components": [
-      [ [ "gray", 1 ] ],
-      [ [ "bfeed", 2000 ] ],
-      [ [ "mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "gray", 1 ] ], [ [ "bfeed", 2000 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
     "result": "razorqueengrow",
@@ -484,6 +457,42 @@
     ]
   },
   {
+    "result": "queen",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 30000,
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "components": [ [ [ "spouterqueen", 1 ], [ "razorqueen", 1 ] ] ]
+  },
+  {
+    "result": "razorqueen",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 30000,
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "components": [ [ [ "spouterqueen", 1 ], [ "queen", 1 ] ] ]
+  },
+  {
+    "result": "spouterqueen",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 30000,
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "components": [ [ [ "queen", 1 ], [ "razorqueen", 1 ] ] ]
+  },
+  {
     "result": "sharpgrow",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -494,12 +503,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "clutter", 1 ] ],
-      [ [ "biter", 1 ] ],
-      [ [ "bfeed", 500 ] ],
-      [ [ "mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "clutter", 1 ] ], [ [ "biter", 1 ] ], [ [ "bfeed", 500 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
     "result": "sicklegrow",
@@ -530,12 +534,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "glowie", 1 ] ],
-      [ [ "clutter", 1 ] ],
-      [ [ "bfeed", 250 ] ],
-      [ [ "mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "glowie", 1 ] ], [ [ "clutter", 1 ] ], [ [ "bfeed", 250 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
     "result": "stickiegrow",
@@ -586,10 +585,6 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "sparkie", 1 ] ],
-      [ [ "bfeed", 1000 ] ],
-      [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
-    ]
+    "components": [ [ [ "sparkie", 1 ] ], [ [ "bfeed", 1000 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
   }
 ]

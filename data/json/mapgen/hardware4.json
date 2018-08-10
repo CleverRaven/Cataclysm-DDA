@@ -31,7 +31,7 @@
         "*|[.[......[[[[[[[[[[[|*",
         "*|[.[.................|*",
         "*|[.[.#%###...........|*",
-        "*|[...#......[[[[[[[[[|*",
+        "*|[...#l.....[[[[[[[[[|*",
         "*|---------.----------|*",
         "*****|]]]]].]]]]]]]]|***",
         "*****|..............|***",
@@ -60,10 +60,11 @@
         "_": "t_pavement",
         "d": "t_floor",
         "h": "t_floor",
+        "l": "t_floor",
         "|": "t_wall",
         "~": "t_sidewalk"
       },
-      "furniture": { "#": "f_counter", "@": "f_locker", "[": "f_bookcase", "]": "f_rack", "d": "f_desk", "h": "f_chair" },
+      "furniture": { "#": "f_counter", "@": "f_locker", "[": "f_bookcase", "]": "f_rack", "d": "f_desk", "h": "f_chair", "l": "f_stool" },
       "place_items": [
         { "item": "plumbing_bulk", "x": [ 6, 10 ], "y": 13, "chance": 35, "repeat": [ 2, 4 ] },
         { "item": "plumbing_bulk", "x": [ 12, 19 ], "y": 13, "chance": 35, "repeat": [ 2, 6 ] },

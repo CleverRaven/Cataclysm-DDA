@@ -58,9 +58,7 @@
         "O": "f_oven",
         "S": "f_sink"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "place_loot": [
         { "group": "trash", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 75, "repeat": [ 2, 5 ] },
         { "group": "stash_drugs", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 10 }

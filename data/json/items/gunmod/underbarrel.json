@@ -363,7 +363,7 @@
     "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": "LW underslung shotgun",
-    "description": "Leadworks built in minimalist pump action shotgun module. It allows 4 shotgun shells to be loaded and fired.",
+    "description": "Leadworks built in minimalist pump action shotgun module.  It allows 4 shotgun shells to be loaded and fired.",
     "weight": 0,
     "volume": 0,
     "price": 0,

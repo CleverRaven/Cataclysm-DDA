@@ -713,6 +713,20 @@
             "multitile":false
         },
         {
+            "id": "t_door_glass_frosted_c",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id": "t_door_glass_frosted_o",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id": "t_portcullis",
             "fg":-1,
             "bg":-1,

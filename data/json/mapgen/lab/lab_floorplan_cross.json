@@ -6,7 +6,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "          |..|         |",
         "          |..|         |",
@@ -19,8 +19,8 @@
         "          |..|         |",
         "          |..|         |",
         "-----+----|..|----?----|",
-        ".......................+",
-        ".......................+",
+        ".......................M",
+        ".......................M",
         "-----?----|..|----+----|",
         "          |..|         |",
         "          |..|         |",
@@ -31,14 +31,10 @@
         "          |..|         |",
         "          |..|         |",
         "          |..|         |",
-        "-----------++----------|"
+        "-----------MM----------|"
       ],
-      "palettes": [
-        "lab_palette"
-      ],
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c"]
-      },
+      "palettes": [ "lab_palette" ],
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
       "place_nested": [
         { "chunks": [ ["null", 100], ["lab_cross_windows", 25] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
@@ -56,7 +52,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "          |..|         |",
         "          |..|         |",
@@ -69,8 +65,8 @@
         "          |..|         |",
         "          |..|         |",
         "-----?----|..|----+----|",
-        ".......................+",
-        ".......................+",
+        ".......................M",
+        ".......................M",
         "-----+----|..|----?----|",
         "          |..|         |",
         "          |..|         |",
@@ -81,14 +77,10 @@
         "          |..|         |",
         "          |..|         |",
         "          |..|         |",
-        "-----------++----------|"
+        "-----------MM----------|"
       ],
-      "palettes": [
-        "lab_palette"
-      ],
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c"]
-      },
+      "palettes": [ "lab_palette" ],
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
       "place_nested": [
         { "chunks": [ ["null", 100], ["lab_cross_windows", 25] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
@@ -106,7 +98,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         ".......................|",
         "...............hhhhhhh.|",
@@ -119,8 +111,8 @@
         "..|       |.......c...h|",
         "..|       |...........h|",
         "..|---?---|..|----+----|",
-        ".......................+",
-        ".......................+",
+        ".......................M",
+        ".......................M",
         "-----+----|............|",
         "          |.....htth.12|",
         "          |....--------|",
@@ -131,19 +123,11 @@
         "          |....|       |",
         "          |...l|       |",
         "          |....|       |",
-        "-----------++----------|"
+        "-----------MM----------|"
       ],
-      "palettes": [
-        "lab_palette"
-      ],
-      "vendingmachines": {
-        "1": { "item_group": "vending_drink" },
-        "2": { "item_group": "vending_food" }
-      },
-      "mapping": {
-        "t": {
-          "items": [ { "item": "fridge", "chance": 30 } ]
-        },
+      "palettes": [ "lab_palette" ],
+      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "mapping": { "t": { "items": [ { "item": "fridge", "chance": 30 } ] },
         "l": {
           "items": [
             { "item": "office", "chance": 20 },
@@ -157,9 +141,7 @@
           ]
         }
       },
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_metal_c"]
-      },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 3, "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
@@ -200,9 +182,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        "g": [ "t_wall_glass" ]
-      }
+      "terrain": { "g": [ "t_wall_glass" ] }
     }
   },
   {
@@ -279,9 +259,7 @@
         { "line": "terrain", "id": "t_concrete_wall", "x": 10, "x2": 10, "y": 0, "y2": 10 },
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 10, "y": 10, "y2": 10 }
       ],
-      "place_nested": [
-        { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 }
-      ]
+      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ]
     }
   },
   {
@@ -295,9 +273,7 @@
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 0, "y": 9, "y2": 0 },
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 9, "y": 10, "y2": 10 }
       ],
-      "place_nested": [
-        { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 }
-      ]
+      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ]
     }
   },
   {
@@ -311,9 +287,7 @@
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 10, "y": 0, "y2": 0 },
         { "line": "terrain", "id": "t_concrete_wall", "x": 10, "x2": 10, "y": 0, "y2": 9 }
       ],
-      "place_nested": [
-        { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 }
-      ]
+      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ]
     }
   },
   {
@@ -326,9 +300,7 @@
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 9, "y": 0, "y2": 0 },
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 0, "y": 1, "y2": 9 }
       ],
-      "place_nested": [
-        { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 }
-      ]
+      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ]
     }
   },
   {
@@ -363,9 +335,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [
-        "lab_palette"
-      ]
+      "palettes": [ "lab_palette" ]
     }
   },
   {
@@ -400,9 +370,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [
-        "lab_palette"
-      ]
+      "palettes": [ "lab_palette" ]
     }
   },
   {
@@ -437,9 +405,7 @@
         "          ####          ",
         "########################"
       ],
-      "palettes": [
-        "lab_palette"
-      ]
+      "palettes": [ "lab_palette" ]
     }
   },
   {
@@ -474,24 +440,15 @@
         "                       #",
         "                       #"
       ],
-      "palettes": [
-        "lab_palette"
-      ]
+      "palettes": [ "lab_palette" ]
     }
   },
   {
     "type": "palette",
     "id": "lab_loot_bionic_vault",
-    "mapping": {
-      "c": {
-        "items": [
-          { "item": "bionics_common", "chance": 50 },
-          { "item": "bionics", "chance": 10 }        ]
-      }
+    "mapping": { "c": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] }
     },
-    "terrain": {
-      "c": "t_floor_blue"
-    },
+    "terrain": { "c": "t_floor_blue" },
     "computers": {
         "6": {
           "name": "Bionic Vault", "security": 6,
@@ -499,11 +456,7 @@
             { "name": "MANIFEST", "action": "list_bionics", "security": 0 },
             { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 7 }
           ],
-          "failures": [
-              { "action": "damage" },
-              { "action": "secubots" },
-              { "action": "shutdown" }
-           ]
+          "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
         }
     }
   },
@@ -523,7 +476,7 @@
         "         |-,,-|         ",
         "          |,,|          ",
         "          |,,|          ",
-        "         --DD--         ",
+        "         --LL--         ",
         "         |...6|         ",
         "                        ",
         "                        ",
@@ -539,9 +492,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [
-        "lab_palette", "lab_loot_bionic_vault"
-      ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
   },
   {
@@ -562,8 +513,8 @@
         "                        ",
         " ------  --             ",
         "#|cccc|--|6  -          ",
-        "#|,,,,,,,D.             ",
-        "#|,,,,,,,D.             ",
+        "#|,,,,,,,L.             ",
+        "#|,,,,,,,L.             ",
         "#|cccc|--|.  -          ",
         " ------  --             ",
         "                        ",
@@ -576,9 +527,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [
-        "lab_palette", "lab_loot_bionic_vault"
-      ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
   },
   {
@@ -602,7 +551,7 @@
         "                        ",
         "                        ",
         "         |6...|         ",
-        "         --DD--         ",
+        "         --LL--         ",
         "          |,,|          ",
         "          |,,|          ",
         "         |-,,-|         ",
@@ -613,9 +562,7 @@
         "         ------         ",
         "####################### "
       ],
-      "palettes": [
-        "lab_palette", "lab_loot_bionic_vault"
-      ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
   },
   {
@@ -636,8 +583,8 @@
         "                       #",
         "             --  ------#",
         "          -  .|--|cccc|#",
-        "             .D,,,,,,,|#",
-        "             .D,,,,,,,|#",
+        "             .L,,,,,,,|#",
+        "             .L,,,,,,,|#",
         "          -  6|--|cccc|#",
         "             --  ------#",
         "                       #",
@@ -650,9 +597,7 @@
         "                       #",
         "                        "
       ],
-      "palettes": [
-        "lab_palette", "lab_loot_bionic_vault"
-      ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
   }
 ]
