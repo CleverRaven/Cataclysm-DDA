@@ -2613,7 +2613,9 @@ bool game::handle_action()
         if( !evt.sequence.empty() ) {
             const long ch = evt.get_first_input();
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
-            add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+            if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
+                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+            }
         }
         return false;
     }
@@ -12793,7 +12795,7 @@ void game::update_map(int &x, int &y)
     // get_levz() should later be removed, when there is no longer such a thing
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
-    
+
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();

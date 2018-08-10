@@ -1039,6 +1039,11 @@ void options_manager::init()
         true
         );
 
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", _( "Suppress \"unknown command\" messages" ),
+        _( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
+        );
+
     mOptionsSort["interface"]++;
 
     add("VEHICLE_ARMOR_COLOR", "interface", _("Vehicle plating changes part color"),
@@ -1320,9 +1325,9 @@ void options_manager::init()
         _("If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users."),
         true
         );
-    
+
     mOptionsSort["debug"]++;
-    
+
     add("OVERMAP_GENERATION_TRIES", "debug", _("Overmap generation attempt count"),
         _("Maximum number of retries in overmap generation due to inability to place mandatory special locations.  High numbers and strange world settings will lead to VERY slow generation!"),
         1, 20, 2

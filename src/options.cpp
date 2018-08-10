@@ -1107,6 +1107,11 @@ void options_manager::init()
         true
         );
 
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", translate_marker( "Suppress \"unknown command\" messages" ),
+        translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
+        );
+
     mOptionsSort["interface"]++;
 
     add( "DIAG_MOVE_WITH_MODIFIERS", "interface", translate_marker( "Diagonal movement with cursor keys and modifiers" ),
