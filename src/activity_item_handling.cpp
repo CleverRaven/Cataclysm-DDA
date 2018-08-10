@@ -650,7 +650,21 @@ void activity_on_turn_move_items()
     }
 }
 
-static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
+static double get_capacity_fraction( int capacity, int volume )
+{
+    // fration of capacity the item would occupy
+    // fr = 1 is for capacity smaller than is size of item
+    // in such case, let's assume player does the trip for full cost with item in hands
+    double fr = 1;
+
+    if( capacity > volume ) {
+        fr = ( double )volume / capacity;
+    }
+
+    return fr;
+}
+
+static int move_cost_inv( const item &it, const tripoint &src, const tripoint &dest )
 {
     // to prevent potentially ridiculous number
     const int MAX_COST = 500;
@@ -674,20 +688,60 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
 
     const int item_volume = units::to_milliliter( it.volume() );
 
-    // fration of inventory the item would occupy
-    // fr = 1 is for player with inventory space smaller than is size of item
-    // or if he does not have any inventory space at all
-    // in such case, let's assume he does the trip for full cost with item in hands
-    double fr = 1;
-
-    if( inventory_capacity > item_volume ) {
-        fr = ( double )item_volume / inventory_capacity;
-    }
+    const double fr = get_capacity_fraction( inventory_capacity, item_volume );
 
     // approximation of movement cost between source and destination
     const int move_cost = mc_per_tile * rl_dist( src, dest ) * fr;
 
     return std::min( pickup_cost + drop_cost + move_cost, MAX_COST );
+}
+
+static int move_cost_cart( const item &it, const tripoint &src, const tripoint &dest,
+                           const units::volume &capacity )
+{
+    // to prevent potentially ridiculous number
+    const int MAX_COST = 500;
+
+    // cost to move item into the cart
+    const int pickup_cost = Pickup::cost_to_move_item( g->u, it );
+
+    // cost to move item out of the cart
+    const int drop_cost = pickup_cost;
+
+    // typical flat ground move cost
+    const int mc_per_tile = 100;
+
+    // only free cart capacity
+    const int cart_capacity = units::to_milliliter( capacity );
+
+    const int item_volume = units::to_milliliter( it.volume() );
+
+    const double fr = get_capacity_fraction( cart_capacity, item_volume );
+
+    // approximation of movement cost between source and destination
+    const int move_cost = mc_per_tile * rl_dist( src, dest ) * fr;
+
+    return std::min( pickup_cost + drop_cost + move_cost, MAX_COST );
+}
+
+static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
+{
+    if( g->u.grab_type == OBJECT_VEHICLE ) {
+        tripoint cart_position = g->u.pos() + g->u.grab_point;
+
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                    cart_position ).part_with_feature( "CARGO", false ) ) {
+            auto veh = vp->vehicle();
+            auto vstor = vp->part_index();
+
+            if( vstor >= 0 ) {
+                auto capacity = veh.free_volume( vstor );
+                return move_cost_cart( it, src, dest, capacity );
+            }
+        }
+    }
+
+    return move_cost_inv( it, src, dest );
 }
 
 static void move_item( item &it, int quantity, const tripoint &src, const tripoint &dest )
