@@ -32,7 +32,6 @@ data/json/items/archery.json
 data/json/items/armor/bandolier.json
 data/json/items/armor/boots.json
 data/json/items/armor/holster.json
-data/json/items/armor.json
 data/json/items/chemicals_and_resources.json
 data/json/items/comestibles/brewing.json
 data/json/items/comestibles/carnivore.json
@@ -284,7 +283,6 @@ data/json/recipes/other/medical.json
 data/json/recipes/other/tool.json
 data/json/recipes/other/vehicle.json
 data/json/recipes/recipe_ammo.json
-data/json/recipes/recipe_deconstruction.json
 data/json/recipes/recipe_electronics.json
 data/json/recipes/recipe_food.json
 data/json/recipes/recipe_medsandchemicals.json
