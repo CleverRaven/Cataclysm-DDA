@@ -320,6 +320,13 @@ std::string map_data_common_t::name() const
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
+    if( jo.has_member( "copy-from" ) ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
+    }
+
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string &str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;

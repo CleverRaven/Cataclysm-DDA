@@ -220,6 +220,8 @@ public:
     std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
 
+    std::string looks_like;
+    
     iexamine_function examine; //What happens when the terrain/furniture is examined
 
     /**
