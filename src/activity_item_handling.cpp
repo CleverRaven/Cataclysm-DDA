@@ -668,7 +668,8 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     // typical flat ground move cost
     const int mc_per_tile = 100;
 
-    const int inventory_capacity = units::to_milliliter( g->u.volume_capacity() );
+    // only free inventory capacity
+    const int inventory_capacity = units::to_milliliter( g->u.volume_capacity() - g->u.volume_carried() );
 
     const int item_volume = units::to_milliliter( it.volume() );
 
