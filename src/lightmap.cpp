@@ -602,8 +602,21 @@ void cast_zlight_segment(
                     continue;
                 }
 
-                // We split the block into 4 sub-blocks (sub-frustums actually):
-
+                // We split the block into 4 sub-blocks (sub-frustums actually, this is the view from the origin looking out):
+                // +-------+ <- end major
+                // |   D   |
+                // +---+---+ <- ???
+                // | B | C |
+                // +---+---+ <- major mid
+                // |   A   |
+                // +-------+ <- start major
+                // ^       ^
+                // |       end minor
+                // start minor
+                // A is previously processed row(s).
+                // B is already-processed tiles from current row.
+                // C is remainder of current row.
+                // D is not yet processed row(s).
                 // One we processed fully in 2D and only need to extend in last D
                 // Only cast recursively horizontally if previous span was not opaque.
                 if( check( current_transparency, last_intensity ) ) {
@@ -705,11 +718,13 @@ void cast_zlight(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     cast_zlight_segment<-1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate>(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+
+    // Up
     cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // Up
+
     cast_zlight_segment<0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     cast_zlight_segment<-1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
