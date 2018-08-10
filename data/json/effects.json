@@ -625,7 +625,7 @@
         "desc": ["You have an infected wound."],
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
-        "apply_message": "Your bite wound feels infected",
+        "apply_message": "Your bite wound feels infected.",
         "resist_traits": ["INFRESIST"],
         "main_parts_only": true,
         "rating": "bad",
@@ -1839,5 +1839,31 @@
             "per_mod": [-0.071]
         },
         "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
+    },
+    {
+        "type": "effect_type",
+        "id": "weak_antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "strong_antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "panacea",
+        "name": [ "Panacea" ],
+        "desc": [ "You feel incredible! You could take on the world!" ],
+        "max_duration": 10,
+        "base_mods": {
+            "speed_mod": [20],
+            "str_mod": [2],
+            "dex_mod": [2],
+            "int_mod": [2],
+            "per_mod": [2]
+        }
     }
 ]

@@ -10,7 +10,7 @@
         "*W^^^WW|-=--:---:---:-|*",
         "*w~~~%~|..............|*",
         "*w~~~v~|..............|*",
-        "*w~~~v~|...%...%...%..|*",
+        "*w~~~v~|..l%..l%..l%..|*",
         "*w~~~~~|...#...#...#..|*",
         "*w~~~~~|...#...#...#..|*",
         "*w~~~~~|..............|*",
@@ -43,6 +43,7 @@
         "W": "t_chainfence_h",
         "]": "t_floor",
         "^": "t_chaingate_c",
+        "l": "t_floor",
         "r": "t_sidewalk",
         "s": "t_floor",
         "t": "t_floor",
@@ -55,18 +56,14 @@
       "furniture": {
         "#": "f_counter",
         "]": "f_rack",
+        "l": "f_stool",
         "r": "f_rack",
         "s": "f_sink",
         "u": "f_trashcan",
         "v": "f_counter"
       },
-      "place_vendingmachines": [
-        { "x": 8, "y": 2 },
-        { "x": 8, "y": 3 }
-      ],
-      "toilets": {
-        "t": {}
-      },
+      "place_vendingmachines": [ { "x": 8, "y": 2 }, { "x": 8, "y": 3 } ],
+      "toilets": { "t": {} },
       "place_items": [
         { "item": "hardware_bulk", "x": 2, "y": [ 2, 7 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "tools_carpentry", "x": 20, "y": [ 10, 14 ], "chance": 50, "repeat": [ 1, 4 ] },

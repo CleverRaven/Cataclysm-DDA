@@ -1,6 +1,7 @@
 #include "mapgen.h"
 
 #include "coordinate_conversions.h"
+#include "drawing_primitives.h"
 #include "omdata.h"
 #include "output.h"
 #include "game.h"
@@ -1174,7 +1175,10 @@ public:
         // Delete furniture if a wall was just placed over it.  TODO: need to do anything for fluid, monsters?
         if( dat.m.has_flag_ter("WALL", x.get(), y.get() ) ) {
             dat.m.furn_set( x.get(), y.get(), f_null);
-            dat.m.i_clear(tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+            // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
+            if( !dat.m.has_flag_ter("PLACE_ITEM", x.get(), y.get() ) ) {
+                dat.m.i_clear(tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+            }
         }
     }
 };
@@ -2894,7 +2898,7 @@ ___DEEE|.R.|...,,...|sss\n",
         } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    ter_set(i, j, t_rock_floor);
+                    ter_set(i, j, t_thconc_floor);
                     if (((i < lw || i > SEEX * 2 - 1 - rw) && j > SEEY - 3 && j < SEEY + 2) ||
                         ((j < tw || j > SEEY * 2 - 1 - bw) && i > SEEX - 3 && i < SEEX + 2)) {
                         ter_set(i, j, t_sewage);
@@ -2963,7 +2967,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 } else {
                     debugmsg("Error: Tried to generate 1-sided lab but no lab_1side json exists.");
                 }
-                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_rock_floor; };
+                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_thconc_floor; };
                 const auto range = points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } );
                 if (is_ot_subtype("stairs", t_above)) {
                     if( const auto p = random_point( range, predicate ) ) {
@@ -2995,8 +2999,9 @@ ___DEEE|.R.|...,,...|sss\n",
 
                         // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
                         // borders and have to be caught in code. We determine if a border isn't handled by checking
-                        // the east-facing border space where the door normally is -- it should not be a floor.
-                        if( ter(tripoint(23, 11, abs_sub.z)) == t_rock_floor ) {
+                        // the east-facing border space where the door normally is -- it should be a wall or door.
+                        tripoint east_border(23, 11, abs_sub.z);
+                        if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                             // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
                             for( int i = 0; i <= 23; i++ ) {
                                 ter_set( 23, i, t_concrete_wall );
@@ -3029,12 +3034,12 @@ ___DEEE|.R.|...,,...|sss\n",
                         }
 
                         if (is_ot_subtype("stairs", t_above)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                                 ter_set( *p, t_stairs_up );
                             }
                         }
                         if (is_ot_subtype("stairs", terrain_type)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                                 ter_set( *p, t_stairs_down );
                             }
                         }
@@ -3056,7 +3061,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                            ((i < SEEX - 1 || i > SEEX) && (j == SEEY - 2 || j == SEEY + 1))) {
                                     ter_set(i, j, t_concrete_wall);
                                 } else {
-                                    ter_set(i, j, t_rock_floor);
+                                    ter_set(i, j, t_thconc_floor);
                                 }
                             }
                         }
@@ -3065,35 +3070,35 @@ ___DEEE|.R.|...,,...|sss\n",
                         }
                         // Top left
                         if (one_in(2)) {
-                            ter_set(SEEX - 2, int(SEEY / 2), t_door_metal_c);
+                            ter_set(SEEX - 2, int(SEEY / 2), t_door_glass_frosted_c);
                             science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 1);
                         } else {
-                            ter_set(int(SEEX / 2), SEEY - 2, t_door_metal_c);
+                            ter_set(int(SEEX / 2), SEEY - 2, t_door_glass_frosted_c);
                             science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 2);
                         }
                         // Top right
                         if (one_in(2)) {
-                            ter_set(SEEX + 1, int(SEEY / 2), t_door_metal_c);
+                            ter_set(SEEX + 1, int(SEEY / 2), t_door_glass_frosted_c);
                             science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 3);
                         } else {
-                            ter_set(SEEX + int(SEEX / 2), SEEY - 2, t_door_metal_c);
+                            ter_set(SEEX + int(SEEX / 2), SEEY - 2, t_door_glass_frosted_c);
                             science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 2);
                         }
                         // Bottom left
                         if (one_in(2)) {
-                            ter_set(int(SEEX / 2), SEEY + 1, t_door_metal_c);
+                            ter_set(int(SEEX / 2), SEEY + 1, t_door_glass_frosted_c);
                             science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 0);
                         } else {
-                            ter_set(SEEX - 2, SEEY + int(SEEY / 2), t_door_metal_c);
+                            ter_set(SEEX - 2, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
                             science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 1);
                         }
                         // Bottom right
                         if (one_in(2)) {
-                            ter_set(SEEX + int(SEEX / 2), SEEY + 1, t_door_metal_c);
+                            ter_set(SEEX + int(SEEX / 2), SEEY + 1, t_door_glass_frosted_c);
                             science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                          zlevel, 0);
                         } else {
-                            ter_set(SEEX + 1, SEEY + int(SEEY / 2), t_door_metal_c);
+                            ter_set(SEEX + 1, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
                             science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                          zlevel, 3);
                         }
@@ -3153,7 +3158,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 } else if (j < lw || j > SEEY * 2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3) {
                                     ter_set(i, j, t_concrete_wall);
                                 } else {
-                                    ter_set(i, j, t_rock_floor);
+                                    ter_set(i, j, t_thconc_floor);
                                 }
                             }
                         }
@@ -3163,18 +3168,18 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set(SEEX - 1, SEEY    , t_stairs_up);
                             ter_set(SEEX    , SEEY    , t_stairs_up);
                         }
-                        ter_set(SEEX - rng(0, 1), SEEY - 4, t_door_metal_c);
-                        ter_set(SEEX - rng(0, 1), SEEY + 3, t_door_metal_c);
-                        ter_set(SEEX - 4, SEEY + rng(0, 1), t_door_metal_c);
-                        ter_set(SEEX + 3, SEEY + rng(0, 1), t_door_metal_c);
-                        ter_set(SEEX - 4, int(SEEY / 2), t_door_metal_c);
-                        ter_set(SEEX + 3, int(SEEY / 2), t_door_metal_c);
-                        ter_set(int(SEEX / 2), SEEY - 4, t_door_metal_c);
-                        ter_set(int(SEEX / 2), SEEY + 3, t_door_metal_c);
-                        ter_set(SEEX + int(SEEX / 2), SEEY - 4, t_door_metal_c);
-                        ter_set(SEEX + int(SEEX / 2), SEEY + 3, t_door_metal_c);
-                        ter_set(SEEX - 4, SEEY + int(SEEY / 2), t_door_metal_c);
-                        ter_set(SEEX + 3, SEEY + int(SEEY / 2), t_door_metal_c);
+                        ter_set(SEEX - rng(0, 1), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(SEEX - rng(0, 1), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, SEEY + rng(0, 1), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, SEEY + rng(0, 1), t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(int(SEEX / 2), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(int(SEEX / 2), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX + int(SEEX / 2), SEEY - 4, t_door_glass_frosted_c);
+                        ter_set(SEEX + int(SEEX / 2), SEEY + 3, t_door_glass_frosted_c);
+                        ter_set(SEEX - 4, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
+                        ter_set(SEEX + 3, SEEY + int(SEEY / 2), t_door_glass_frosted_c);
                         science_room(this, lw, tw, SEEX - 5, SEEY - 5, zlevel, rng(1, 2));
                         science_room(this, SEEX - 3, tw, SEEX + 2, SEEY - 5, zlevel, 2);
                         science_room(this, SEEX + 4, tw, SEEX * 2 - 1 - rw, SEEY - 5, zlevel, rng(2, 3));
@@ -3205,14 +3210,14 @@ ___DEEE|.R.|...,,...|sss\n",
                                 } else if (j < tw || j >= SEEY * 2 - 1 - bw) {
                                     ter_set(i, j, t_concrete_wall);
                                 } else {
-                                    ter_set(i, j, t_rock_floor);
+                                    ter_set(i, j, t_thconc_floor);
                                 }
                             }
                         }
                         science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                      zlevel, rng(0, 3));
                         if (is_ot_subtype("stairs", t_above)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                                 ter_set( *p, t_stairs_up );
                             }
                         }
@@ -3225,7 +3230,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                         }
                         if (is_ot_subtype("stairs", terrain_type)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                                 ter_set( *p, t_stairs_down );
                             }
                         }
@@ -3259,9 +3264,9 @@ ___DEEE|.R.|...,,...|sss\n",
                         (i > rw &&          (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
                         (j > tw &&          (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5))) ||
                         (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
-                        ter_set(i, j, t_rock_floor);
+                        ter_set(i, j, t_thconc_floor);
                         if (one_in(5)) {
-                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_rock_floor);
+                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_thconc_floor);
                         }
                     }
                 }
@@ -3295,32 +3300,159 @@ ___DEEE|.R.|...,,...|sss\n",
         if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j)) {
-                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                    if (t_thconc_floor == ter(i, j)) {
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_thconc_floor_olight );
                     } else if (t_rock == ter(i, j)) {
                         ter_set(i, j, t_concrete_wall);
                     }
                 }
             }
             place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
-        // central lab gets lighting but not other effects.
-        } else if (central_lab) {
-            for (int i = 0; i < SEEX * 2; i++) {
-                for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 )) {
-                        ter_set(i, j, t_utility_light);
+        } else {
+            int light_odds = 0;
+            // central lab is always fully lit, other labs have half chance of some lights.
+            if( central_lab ) {
+                light_odds = 1;
+            } else if( one_in(2) ) {
+                // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
+                light_odds = pow( rng(1,12), 1.6 );
+            }
+            if (light_odds > 0) {
+                for (int i = 0; i < SEEX * 2; i++) {
+                    for (int j = 0; j < SEEY * 2; j++) {
+                        if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                            ter_set(i, j, t_thconc_floor_olight);
+                        }
                     }
                 }
             }
-        // Chance of adding occasional lighting through the area.
-        } else {
-            if (one_in(2)) {
-                for (int i = 0; i < SEEX * 2; i++) {
-                    for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_rock_floor == ter(i, j) && one_in(150)) {
-                            ter_set(i, j, t_utility_light);
+        }
+
+        // Lab special effects.
+        if( one_in(10) ) {
+            switch( rng(1, 6) ) {
+                // full flooding/sewage
+                case 1: {
+                    if (is_ot_subtype("stairs", terrain_type) || is_ot_subtype("ice", terrain_type)) {
+                        // don't flood if stairs because the floor below will not be flooded.
+                        // don't flood if ice lab because there's no mechanic for freezing liquid floors.
+                        break;
+                    }
+                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    for (int i = 0; i < SEEX * 2 - 1; i++) {
+                        for (int j = 0; j < SEEY * 2 - 1; j++) {
+                            // We spare some terrain to make it look better visually.
+                            if( t_thconc_floor == ter(i, j) && !one_in(10) ) {
+                                ter_set(i, j, fluid_type);
+                            } else if (has_flag_ter("DOOR", i, j) && !one_in(3) ) {
+                                // We want the actual debris, but not the rubble marker or dirt.
+                                make_rubble( { i, j, abs_sub.z } );
+                                ter_set(i, j, fluid_type);
+                                furn_set(i, j, f_null);
+                            }
                         }
                     }
+                    break;
+                }
+                // minor flooding/sewage
+                case 2: {
+                    if (is_ot_subtype("stairs", terrain_type) || is_ot_subtype("ice", terrain_type)) {
+                        // don't flood if stairs because the floor below will not be flooded.
+                        // don't flood if ice lab because there's no mechanic for freezing liquid floors.
+                        break;
+                    }
+                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    for (int i = 0; i < 2; ++i) {
+                        draw_rough_circle( [this, fluid_type]( int x, int y ) {
+                                if( t_thconc_floor == ter(x, y) ) {
+                                    ter_set(x, y, fluid_type);
+                                } else if (has_flag_ter("DOOR", x, y) ) {
+                                    // We want the actual debris, but not the rubble marker or dirt.
+                                    make_rubble( { x,  y, abs_sub.z } );
+                                    ter_set(x, y, fluid_type);
+                                    furn_set(x, y, f_null);
+                                }
+                            }, rng(1, SEEX * 2 - 2), rng(1, SEEY * 2 - 2 ), rng(3, 6) );
+                    }
+                    break;
+                }
+                // toxic gas leaks and smoke-filled rooms.
+                case 3:
+                case 4: {
+                    bool is_toxic = one_in(2);
+                    for (int i = 0; i < SEEX * 2; i++) {
+                        for (int j = 0; j < SEEY * 2; j++) {
+                            if( t_thconc_floor == ter(i, j) && one_in(200) ) {
+                                if (is_toxic) {
+                                    add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
+                                } else {
+                                    add_field( {i, j, abs_sub.z}, fd_smoke_vent, 2 );
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+                // portal with an artifact effect.
+                case 5: {
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    std::vector<artifact_natural_property> valid_props = {
+                        ARTPROP_BREATHING,
+                        ARTPROP_CRACKLING,
+                        ARTPROP_WARM,
+                        ARTPROP_SCALED,
+                        ARTPROP_WHISPERING,
+                        ARTPROP_GLOWING
+                    };
+                    draw_rough_circle( [this]( int x, int y ) {
+                            if ( has_flag_ter( "GOES_DOWN", x, y ) ||
+                                 has_flag_ter( "GOES_UP", x, y ) ||
+                                 has_flag_ter( "CONSOLE", x, y ) ) {
+                                return; // spare stairs and consoles.
+                            }
+                            make_rubble( {x, y, abs_sub.z } );
+                            ter_set( x, y, t_thconc_floor);
+                        }, center.x, center.y, 4 );
+                    furn_set( center.x, center.y, f_null );
+                    trap_set( center, tr_portal );
+                    create_anomaly( center, random_entry( valid_props ), false );
+                    break;
+                }
+                // damaged mininuke accident.
+                case 6: {
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    if( has_flag_ter("WALL", center.x, center.y) ) {
+                        return;  // just skip it, we don't want to risk embedding radiation out of sight.
+                    }
+                    draw_rough_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 10);
+                        }, center.x, center.y, rng(7, 12) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 20);
+                        }, center.x, center.y, rng(5, 8) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 30);
+                        }, center.x, center.y, rng(2, 4) );
+                    draw_circle( [this]( int x, int y ) {
+                        set_radiation( x, y, 50);
+                        }, center.x, center.y, 1 );
+                    draw_circle( [this]( int x, int y ) {
+                        if ( has_flag_ter( "GOES_DOWN", x, y ) ||
+                             has_flag_ter( "GOES_UP", x, y ) ||
+                             has_flag_ter( "CONSOLE", x, y ) ) {
+                            return; // spare stairs and consoles.
+                        }
+                        make_rubble( {x, y, abs_sub.z } );
+                        ter_set( x, y, t_thconc_floor);
+                        }, center.x, center.y, 1 );
+                    add_spawn( mon_hazmatbot, 1, center.x - 1, center.y );
+                    if (one_in(2)) {
+                        add_spawn( mon_hazmatbot, 1, center.x + 1, center.y );
+                    }
+                    // damaged mininuke thrown past edge of rubble so the player can see it.
+                    spawn_item(center.x - 2 + 4 * rng(0, 1), center.y + rng(-2, 2),
+                        "mininuke", 1, 1, 0, rng (2, 4) );
+                    break;
                 }
             }
         }
@@ -3361,7 +3493,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
                 // borders and have to be caught in code. We determine if a border isn't handled by checking
                 // the east-facing border space where the door normally is -- it should not be a floor.
-                if( ter(tripoint(23, 11, abs_sub.z)) == t_rock_floor ) {
+                if( ter(tripoint(23, 11, abs_sub.z)) == t_thconc_floor ) {
                     // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
                     for( int i = 0; i <= 23; i++ ) {
                         ter_set( 23, i, t_concrete_wall );
@@ -3408,7 +3540,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     } else if (j < tw || j > SEEY * 2 - 1 - bw) {
                         ter_set(i, j, t_concrete_wall);
                     } else {
-                        ter_set(i, j, t_rock_floor);
+                        ter_set(i, j, t_thconc_floor);
                     }
                 }
             }
@@ -3591,12 +3723,12 @@ ___DEEE|.R.|...,,...|sss\n",
 
         // Handle stairs in the unlikely case they are needed.
         if (is_ot_subtype("stairs", t_above)) {
-            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                 ter_set( *p, t_stairs_up );
             }
         }
         if (is_ot_subtype("stairs", terrain_type)) {
-            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_rock_floor; } ) ) {
+            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
                 ter_set( *p, t_stairs_down );
             }
         }
@@ -3607,29 +3739,27 @@ ___DEEE|.R.|...,,...|sss\n",
         if (tower_lab) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j)) {
-                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                    if (t_thconc_floor == ter(i, j)) {
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_thconc_floor_olight );
                     } else if (t_rock == ter(i, j)) {
                         ter_set(i, j, t_concrete_wall);
                     }
                 }
             }
-        // central lab gets lighting but not other effects.
-        } else if (central_lab) {
-            for (int i = 0; i < SEEX * 2; i++) {
-                for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_rock_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) ) {
-                        ter_set(i, j, t_utility_light);
-                    }
-                }
-            }
-        // Chance of adding occasional lighting through the area.
         } else {
-            if (one_in(2)) {
+            int light_odds = 0;
+            // central lab is always fully lit, other labs have half chance of some lights.
+            if( central_lab ) {
+                light_odds = 1;
+            } else if( one_in(2) ) {
+                // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
+                light_odds = pow( rng(1,12), 1.6 );
+            }
+            if (light_odds > 0) {
                 for (int i = 0; i < SEEX * 2; i++) {
                     for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_rock_floor == ter(i, j) && one_in(200)) {
-                            ter_set(i, j, t_utility_light);
+                        if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                            ter_set(i, j, t_thconc_floor_olight);
                         }
                     }
                 }
@@ -4522,7 +4652,7 @@ ___DEEE|.R.|...,,...|sss\n",
             case 1: { // Toxic gas
                 int cx = rng(9, 14), cy = rng(9, 14);
                 ter_set(cx, cy, t_rock);
-                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 1 );
+                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
             }
             break;
 
@@ -7104,7 +7234,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
     }
     for (int i = x1; i <= x2; i++) {
         for (int j = y1; j <= y2; j++) {
-            m->ter_set(i, j, t_rock_floor);
+            m->ter_set(i, j, t_thconc_floor);
         }
     }
     int area = height * width;
@@ -7388,8 +7518,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                 m->ter_set(w1, y, t_concrete_wall);
                 m->ter_set(w2, y, t_concrete_wall);
             }
-            m->ter_set(w1, int((y1 + y2) / 2), t_door_metal_c);
-            m->ter_set(w2, int((y1 + y2) / 2), t_door_metal_c);
+            m->ter_set(w1, int((y1 + y2) / 2), t_door_glass_frosted_c);
+            m->ter_set(w2, int((y1 + y2) / 2), t_door_glass_frosted_c);
             science_room(m, x1, y1, w1 - 1, y2, z, 1);
             science_room(m, w2 + 1, y1, x2, y2, z, 3);
         } else {
@@ -7398,8 +7528,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                 m->ter_set(x, w1, t_concrete_wall);
                 m->ter_set(x, w2, t_concrete_wall);
             }
-            m->ter_set(int((x1 + x2) / 2), w1, t_door_metal_c);
-            m->ter_set(int((x1 + x2) / 2), w2, t_door_metal_c);
+            m->ter_set(int((x1 + x2) / 2), w1, t_door_glass_frosted_c);
+            m->ter_set(int((x1 + x2) / 2), w2, t_door_glass_frosted_c);
             science_room(m, x1, y1, x2, w1 - 1, z, 2);
             science_room(m, x1, w2 + 1, x2, y2, z, 0);
         }
@@ -7823,14 +7953,16 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     create_anomaly( tripoint( cx, cy, abs_sub.z ), prop );
 }
 
-void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
+void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bool create_rubble)
 {
     // TODO: Z
     int cx = cp.x;
     int cy = cp.y;
-    rough_circle(this, t_dirt, cx, cy, 11);
-    rough_circle_furn(this, f_rubble, cx, cy, 5);
-    furn_set(cx, cy, f_null);
+    if (create_rubble) {
+        rough_circle(this, t_dirt, cx, cy, 11);
+        rough_circle_furn(this, f_rubble, cx, cy, 5);
+        furn_set(cx, cy, f_null);
+    }
     switch (prop) {
     case ARTPROP_WRIGGLING:
     case ARTPROP_MOVING:
