@@ -3098,6 +3098,7 @@
     "id": "f_stool",
     "name": "stool",
     "symbol": "#",
+    "looks_like": "f_chair",
     "description": "Sit down, have a drink.",
     "color": "brown",
     "move_cost_mod": 1,
