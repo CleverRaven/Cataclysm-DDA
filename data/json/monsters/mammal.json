@@ -855,7 +855,7 @@
     "description": "It's a tiny Chihuahua.  How it has managed to survive is a miracle; although it's small size and aggressive nature may been useful.",
     "diff": 5,
     "size": "TINY",
-    "hp": 4,
+    "hp": 6,
     "speed": 135,
     "aggression": 4,
     "morale": 8,
