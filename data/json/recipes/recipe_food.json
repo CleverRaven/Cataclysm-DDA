@@ -8133,6 +8133,7 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [

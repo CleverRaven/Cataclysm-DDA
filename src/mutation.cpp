@@ -181,53 +181,29 @@ void Character::mutation_effect( const trait_id &mut )
         recalc_hp();
 
     } else if (mut == trait_STR_ALPHA) {
-        ///\EFFECT_STR_MAX determines bonus from STR mutation
-        if (str_max <= 6) {
-            str_max = 8;
-        } else if (str_max <= 7) {
-            str_max = 11;
-        } else if (str_max <= 14) {
-            str_max = 15;
-        } else {
-            str_max = 18;
+        if (str_max < 16) {
+            str_max = 8 + str_max / 2;
         }
+        apply_mods(mut, true);
         recalc_hp();
     } else if (mut == trait_DEX_ALPHA) {
-        ///\EFFECT_DEX_MAX determines bonus from DEX mutation
-        if (dex_max <= 6) {
-            dex_max = 8;
-        } else if (dex_max <= 7) {
-            dex_max = 11;
-        } else if (dex_max <= 14) {
-            dex_max = 15;
-        } else {
-            dex_max = 18;
+        if (dex_max < 16) {
+            dex_max = 8 + dex_max / 2;
         }
+        apply_mods(mut, true);
     } else if (mut == trait_INT_ALPHA) {
-        ///\EFFECT_INT_MAX determines bonus from INT mutation
-        if (int_max <= 6) {
-            int_max = 8;
-        } else if (int_max <= 7) {
-            int_max = 11;
-        } else if (int_max <= 14) {
-            int_max = 15;
-        } else {
-            int_max = 18;
+        if (int_max < 16) {
+            int_max = 8 + int_max / 2;
         }
+        apply_mods(mut, true);
     } else if (mut == trait_INT_SLIME) {
         int_max *= 2; // Now, can you keep it? :-)
 
     } else if (mut == trait_PER_ALPHA) {
-        ///\EFFECT_PER_MAX determines bonus from PER mutation
-        if (per_max <= 6) {
-            per_max = 8;
-        } else if (per_max <= 7) {
-            per_max = 11;
-        } else if (per_max <= 14) {
-            per_max = 15;
-        } else {
-            per_max = 18;
+        if (per_max < 16) {
+            per_max = 8 + per_max / 2;
         }
+        apply_mods(mut, true);
     } else {
         apply_mods(mut, true);
     }
@@ -277,52 +253,28 @@ void Character::mutation_loss_effect( const trait_id &mut )
         recalc_hp();
 
     } else if (mut == trait_STR_ALPHA) {
-        ///\EFFECT_STR_MAX determines penalty from STR mutation loss
-        if (str_max == 18) {
-            str_max = 15;
-        } else if (str_max == 15) {
-            str_max = 8;
-        } else if (str_max == 11) {
-            str_max = 7;
-        } else {
-            str_max = 4;
+        apply_mods(mut, false);
+        if (str_max < 16) {
+            str_max = 2 * (str_max - 8);
         }
         recalc_hp();
     } else if (mut == trait_DEX_ALPHA) {
-        ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
-        if (dex_max == 18) {
-            dex_max = 15;
-        } else if (dex_max == 15) {
-            dex_max = 8;
-        } else if (dex_max == 11) {
-            dex_max = 7;
-        } else {
-            dex_max = 4;
+        apply_mods(mut, false);
+        if (dex_max < 16) {
+            dex_max = 2 * (dex_max - 8);
         }
     } else if (mut == trait_INT_ALPHA) {
-        ///\EFFECT_INT_MAX determines penalty from INT mutation loss
-        if (int_max == 18) {
-            int_max = 15;
-        } else if (int_max == 15) {
-            int_max = 8;
-        } else if (int_max == 11) {
-            int_max = 7;
-        } else {
-            int_max = 4;
+        apply_mods(mut, false);
+        if (int_max < 16) {
+            int_max = 2 * (int_max - 8);
         }
     } else if (mut == trait_INT_SLIME) {
         int_max /= 2; // In case you have a freak accident with the debug menu ;-)
 
     } else if (mut == trait_PER_ALPHA) {
-        ///\EFFECT_PER_MAX determines penalty from PER mutation loss
-        if (per_max == 18) {
-            per_max = 15;
-        } else if (per_max == 15) {
-            per_max = 8;
-        } else if (per_max == 11) {
-            per_max = 7;
-        } else {
-            per_max = 4;
+        apply_mods(mut, false);
+        if (per_max < 16) {
+            per_max = 2 * (per_max - 8);
         }
     } else {
         apply_mods(mut, false);
@@ -350,7 +302,7 @@ void player::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
+    if((mdata.hunger && get_hunger() + get_starvation() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
       (mdata.fatigue && get_fatigue() >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
