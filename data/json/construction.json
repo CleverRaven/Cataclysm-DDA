@@ -1391,17 +1391,6 @@
   },
   {
     "type": "construction",
-    "description": "paint wall red",
-    "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 40,
-    "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "r_paint", 25 ] ] ],
-    "pre_terrain": "t_wall",
-    "post_terrain": "t_wall_r"
-  },
-  {
-    "type": "construction",
     "description": "paint wall blue",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1410,17 +1399,6 @@
     "components": [ [ [ "b_paint", 25 ] ] ],
     "pre_terrain": "t_wall",
     "post_terrain": "t_wall_b"
-  },
-  {
-    "type": "construction",
-    "description": "paint wall white",
-    "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 40,
-    "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "w_paint", 25 ] ] ],
-    "pre_terrain": "t_wall",
-    "post_terrain": "t_wall_w"
   },
   {
     "type": "construction",
@@ -1446,6 +1424,28 @@
   },
   {
     "type": "construction",
+    "description": "paint wall red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "r_paint", 25 ] ] ],
+    "pre_terrain": "t_wall",
+    "post_terrain": "t_wall_r"
+  },
+  {
+    "type": "construction",
+    "description": "paint wall white",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "w_paint", 25 ] ] ],
+    "pre_terrain": "t_wall",
+    "post_terrain": "t_wall_w"
+  },
+  {
+    "type": "construction",
     "description": "paint wall yellow",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1457,7 +1457,7 @@
   },
   {
     "type": "construction",
-    "description": "take paint off wall",
+    "description": "remove paint",
     "//": "For vertical walls",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1468,24 +1468,14 @@
   },
   {
     "type": "construction",
-    "description": "remove carpet",
-    "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 30,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_flags": "RUG",
-    "post_terrain": "t_floor"
-  },
-  {
-    "type": "construction",
-    "description": "carpet floor red",
+    "description": "carpet floor green",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 30,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_red"
+    "post_terrain": "t_carpet_green"
   },
   {
     "type": "construction",
@@ -1500,6 +1490,17 @@
   },
   {
     "type": "construction",
+    "description": "carpet floor red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor",
+    "post_terrain": "t_carpet_red"
+  },
+  {
+    "type": "construction",
     "description": "carpet floor yellow",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -1511,14 +1512,13 @@
   },
   {
     "type": "construction",
-    "description": "carpet floor green",
+    "description": "remove carpet",
     "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": 30,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
-    "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_green"
+    "pre_flags": "RUG",
+    "post_terrain": "t_floor"
   },
   {
     "type": "construction",
