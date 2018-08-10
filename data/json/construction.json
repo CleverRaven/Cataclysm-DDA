@@ -168,7 +168,7 @@
   {
     "type": "construction",
     "description": "board up wood door",
-    "//": "regular door",
+    "//": "Regular door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 20,
@@ -180,7 +180,7 @@
   {
     "type": "construction",
     "description": "board up wood door",
-    "//": "peephole door",
+    "//": "Peephole door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 20,
@@ -192,7 +192,7 @@
   {
     "type": "construction",
     "description": "board up wood door",
-    "//": "boarded damaged door",
+    "//": "Boarded damaged door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 20,
@@ -204,7 +204,7 @@
   {
     "type": "construction",
     "description": "board up wood door",
-    "//": "boarded damaged peephole door",
+    "//": "Boarded damaged peephole door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 20,
@@ -216,7 +216,7 @@
   {
     "type": "construction",
     "description": "board up wood door",
-    "//": "the reinforced doors",
+    "//": "The reinforced doors",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 20,
@@ -228,7 +228,7 @@
   {
     "type": "construction",
     "description": "board up wood door",
-    "//": "damaged reinforced doors",
+    "//": "Damaged reinforced doors",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 20,
@@ -251,7 +251,7 @@
   {
     "type": "construction",
     "description": "build metal door",
-    "//": "step 1: door frame",
+    "//": "Step 1: door frame",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": 90,
@@ -492,7 +492,7 @@
   {
     "type": "construction",
     "description": "armor reinforced window",
-    "//": "Armo up regular reinforced window",
+    "//": "Armor up regular reinforced window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": 60,
@@ -564,7 +564,7 @@
   {
     "type": "construction",
     "description": "repair wood wall",
-    "//": "fix a chip",
+    "//": "Fix a chip",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 30,
@@ -576,7 +576,7 @@
   {
     "type": "construction",
     "description": "repair wood wall",
-    "//": "fix the broken to chipped",
+    "//": "Fix the broken to chipped",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 60,
@@ -600,7 +600,7 @@
   {
     "type": "construction",
     "description": "build log wall",
-    "//": "Step 2: Finish the log wall",
+    "//": "Step 2: finish the log wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": 60,
@@ -1331,7 +1331,7 @@
   {
     "type": "construction",
     "description": "build standing tank",
-    "//": "a freestanding metal tank, useful for holding liquids",
+    "//": "A freestanding metal tank, useful for holding liquids",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "cooking", 1 ] ],
     "time": 180,
@@ -1582,7 +1582,7 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 0 ] ],
     "time": 10,
-    "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
+    "//": "No components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
     "pre_special": "check_empty",
     "post_special": "done_vehicle",
     "vehicle_start": true
