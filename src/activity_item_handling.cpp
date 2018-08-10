@@ -733,11 +733,9 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
                     cart_position ).part_with_feature( "CARGO", false ) ) {
             auto veh = vp->vehicle();
             auto vstor = vp->part_index();
+            auto capacity = veh.free_volume( vstor );
 
-            if( vstor >= 0 ) {
-                auto capacity = veh.free_volume( vstor );
-                return move_cost_cart( it, src, dest, capacity );
-            }
+            return move_cost_cart( it, src, dest, capacity );
         }
     }
 
