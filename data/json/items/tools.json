@@ -173,6 +173,22 @@
     }
   },
   {
+    "id": "alarmclock",
+    "type": "TOOL",
+    "name": "alarm clock",
+    "description": "A wind-up alarm clock.  Though the noise it makes is unpleasant to wake up to, it's always good to get an early start to your day.  Can also be disassembled into some useful parts.",
+    "weight": 562,
+    "volume": 1,
+    "price": 5000,
+    "price_postapoc": 100,
+    "to_hit": -3,
+    "bashing": 3,
+    "material": [ "aluminum", "glass" ],
+    "symbol": ",",
+    "color": "yellow",
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
     "id": "anvil",
     "type": "TOOL",
     "name": "anvil",
@@ -220,12 +236,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": {
-      "target": "atomic_lamp_off",
-      "msg": "You close the lamp's cover.",
-      "menu_text": "Close cover",
-      "type": "transform"
-    },
+    "use_action": { "target": "atomic_lamp_off", "msg": "You close the lamp's cover.", "menu_text": "Close cover", "type": "transform" },
     "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
@@ -243,12 +254,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": {
-      "target": "atomic_lamp",
-      "msg": "You open the lamp's cover.",
-      "menu_text": "Open cover",
-      "type": "transform"
-    },
+    "use_action": { "target": "atomic_lamp", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
@@ -288,12 +294,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": {
-      "target": "atomic_light",
-      "msg": "You open the nightlight's cover.",
-      "menu_text": "Open cover",
-      "type": "transform"
-    },
+    "use_action": { "target": "atomic_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
@@ -358,7 +359,7 @@
   },
   {
     "id": "bag_hflesh_vac",
-	"copy-from": "bag_meat_vac",
+    "copy-from": "bag_meat_vac",
     "type": "GENERIC",
     "name": "vacuum-packed salted simpleton slice",
     "description": "This is a bag of vacuum packed human flesh slices in plastic packaging.  Use to open and eat to enjoy.",
@@ -551,12 +552,7 @@
       "type": "place_trap",
       "allow_underwater": true,
       "bury_question": "Bury the beartrap?",
-      "bury": {
-        "trap": "tr_beartrap_buried",
-        "moves": 275,
-        "practice": 7,
-        "done_message": "You bury the beartrap."
-      },
+      "bury": { "trap": "tr_beartrap_buried", "moves": 275, "practice": 7, "done_message": "You bury the beartrap." },
       "trap": "tr_beartrap",
       "moves": 200,
       "practice": 4,
@@ -1055,10 +1051,7 @@
         "charges_extinguish_message": "Thy strength fades!",
         "water_extinguish_message": "Your sword hisses in the water and goes out."
       },
-      {
-        "type": "firestarter",
-        "moves": 30
-      }
+      { "type": "firestarter", "moves": 30 }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
@@ -1138,9 +1131,7 @@
       "sound_volume": 0,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-      "explosion": {
-        "power": 2000
-      }
+      "explosion": { "power": 2000 }
     },
     "flags": [ "TRADER_AVOID" ]
   },
@@ -1263,12 +1254,7 @@
     "max_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 50,
-    "use_action": {
-      "target": "candle",
-      "msg": "The candle winks out.",
-      "menu_text": "Extinguish",
-      "type": "transform"
-    },
+    "use_action": { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" },
     "flags": [ "LIGHT_8", "TRADER_AVOID" ]
   },
   {
@@ -1416,12 +1402,7 @@
     "name_plural": "cell phones - Flashlight",
     "turns_per_charge": 30,
     "revert_to": "cell_phone",
-    "use_action": {
-      "target": "cell_phone",
-      "msg": "You deactivate the flashlight app.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": { "target": "cell_phone", "msg": "You deactivate the flashlight app.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
@@ -1638,12 +1619,7 @@
     "initial_charges": 50,
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": {
-      "target": "circsaw_on",
-      "msg": "You turn on the circular saw.",
-      "active": true,
-      "type": "transform"
-    },
+    "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -1713,10 +1689,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": {
-      "contains": 8,
-      "watertight": true
-    },
+    "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -1747,10 +1720,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": {
-      "contains": 3,
-      "watertight": true
-    },
+    "container_data": { "contains": 3, "watertight": true },
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -1867,7 +1837,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "AXE", 1 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP"],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -2071,10 +2041,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "use_action": {
-      "type": "picklock",
-      "pick_quality": 3
-    }
+    "use_action": { "type": "picklock", "pick_quality": 3 }
   },
   {
     "id": "cs_lajatang_off",
@@ -2431,7 +2398,7 @@
   {
     "id": "eink_tablet_pc",
     "type": "TOOL",
-    "name": "E-Ink Tablet PC",
+    "name": "e-ink tablet PC",
     "description": "A tablet PC using an efficient color e-ink display.  Before the cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
     "weight": 250,
     "volume": 1,
@@ -2666,11 +2633,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 500,
-      "moves_slow": 25000
-    }
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 }
   },
   {
     "id": "fire_drill_large",
@@ -2683,11 +2646,7 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
-    "use_action": {
-      "type": "firestarter",
-      "moves": 200,
-      "moves_slow": 10000
-    }
+    "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 }
   },
   {
     "id": "firecracker",
@@ -2816,10 +2775,7 @@
         "charges_extinguish_message": "The Light Fades.",
         "water_extinguish_message": "Your sword hisses in the water and goes out."
       },
-      {
-        "type": "firestarter",
-        "moves": 30
-      }
+      { "type": "firestarter", "moves": 30 }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
@@ -2888,10 +2844,7 @@
         "charges_extinguish_message": "Out of ammo!",
         "water_extinguish_message": "Your No. 9 hisses in the water and goes out."
       },
-      {
-        "type": "firestarter",
-        "moves": 30
-      }
+      { "type": "firestarter", "moves": 30 }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
@@ -3310,12 +3263,7 @@
     "max_charges": 500,
     "turns_per_charge": 20,
     "revert_to": "gasoline_lantern",
-    "use_action": {
-      "target": "gasoline_lantern",
-      "msg": "The lantern is extinguished.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": { "target": "gasoline_lantern", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_15", "TRADER_AVOID" ]
   },
   {
@@ -3489,10 +3437,7 @@
       "sound_volume": 0,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-      "explosion": {
-        "power": 185,
-        "shrapnel": 212
-      }
+      "explosion": { "power": 185, "shrapnel": 212 }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -4253,12 +4198,7 @@
     "turns_per_charge": 40,
     "revert_to": "l-stick",
     "techniques": [ "WBLOCK_1", "RAPID" ],
-    "use_action": {
-      "target": "l-stick",
-      "msg": "The l-stick(tm)'s light fades away.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
@@ -4277,12 +4217,7 @@
     "use_action": {
       "type": "place_trap",
       "bury_question": "Bury the land mine?",
-      "bury": {
-        "trap": "tr_landmine_buried",
-        "moves": 275,
-        "practice": 7,
-        "done_message": "You bury the land mine."
-      },
+      "bury": { "trap": "tr_landmine_buried", "moves": 275, "practice": 7, "done_message": "You bury the land mine." },
       "trap": "tr_landmine",
       "moves": 200,
       "practice": 4,
@@ -4359,10 +4294,7 @@
     "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 50
-    }
+    "use_action": { "type": "firestarter", "moves": 50 }
   },
   {
     "id": "lightstrip",
@@ -4417,12 +4349,7 @@
     "color": "white",
     "initial_charges": 900,
     "max_charges": 900,
-    "use_action": {
-      "target": "lightstrip",
-      "msg": "You irreversibly activate the lightstrip.",
-      "active": true,
-      "type": "transform"
-    }
+    "use_action": { "target": "lightstrip", "msg": "You irreversibly activate the lightstrip.", "active": true, "type": "transform" }
   },
   {
     "id": "lobotomizer",
@@ -4439,7 +4366,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
-    "techniques": ["WBLOCK_1", "BRUTAL", "SWEEP"],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -4474,12 +4401,7 @@
     "material": [ "glass", "plastic" ],
     "symbol": "o",
     "color": "green",
-    "use_action": {
-      "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 25000,
-      "need_sunlight": true
-    }
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
   },
   {
     "id": "makeshift_crowbar",
@@ -4676,11 +4598,7 @@
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 40,
-      "moves_slow": 1000
-    }
+    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 }
   },
   {
     "id": "mess_kit",
@@ -5226,12 +5144,7 @@
     "max_charges": 800,
     "turns_per_charge": 20,
     "revert_to": "oil_lamp",
-    "use_action": {
-      "target": "oil_lamp",
-      "msg": "The lantern is extinguished.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": { "target": "oil_lamp", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE" ]
   },
   {
@@ -5281,10 +5194,7 @@
     "material": "iron",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": {
-      "contains": 4,
-      "watertight": true
-    },
+    "container_data": { "contains": 4, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -5317,13 +5227,7 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "inscribe",
-      "verb": "Write",
-      "gerund": "Written",
-      "on_terrain": true,
-      "material_restricted": false
-    }
+    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false }
   },
   {
     "id": "pet_carrier",
@@ -5405,10 +5309,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "use_action": {
-      "type": "picklock",
-      "pick_quality": 5
-    }
+    "use_action": { "type": "picklock", "pick_quality": 5 }
   },
   {
     "id": "pickles_ferment",
@@ -5569,13 +5470,7 @@
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You can't disarm your %s.  Place it, get away, and use the remote control to detonate.",
-      "explosion": {
-        "power": 500,
-        "shrapnel": {
-          "casing_mass": 500,
-          "fragment_mass": 1.0
-        }
-      }
+      "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1.0 } }
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_1", "RADIOCARITEM", "BOMB", "TRADER_AVOID" ]
   },
@@ -5608,6 +5503,21 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 1 ] ],
     "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "pocketwatch",
+    "type": "TOOL",
+    "name": "pocket watch",
+    "description": "An old fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
+    "weight": 65,
+    "volume": 0,
+    "price": 25000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "gold", "glass" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "WATCH", "FANCY" ]
   },
   {
     "id": "pockknife",
@@ -5712,10 +5622,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "container_data": {
-      "contains": 8,
-      "watertight": true
-    },
+    "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -5733,10 +5640,7 @@
     "material": "copper",
     "symbol": ")",
     "color": "light_red",
-    "container_data": {
-      "contains": 8,
-      "watertight": true
-    },
+    "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -5847,10 +5751,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "picklock",
-      "pick_quality": 40
-    }
+    "use_action": { "type": "picklock", "pick_quality": 40 }
   },
   {
     "id": "puller",
@@ -5878,13 +5779,7 @@
     "material": "cotton",
     "symbol": ",",
     "color": "white",
-    "use_action": {
-      "type": "heal",
-      "move_cost": 200,
-      "used_up_item": "rag_bloody",
-      "bleed": 0.5,
-      "limb_power": 0
-    },
+    "use_action": { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 },
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -5931,10 +5826,7 @@
         "menu_text": "Light up",
         "type": "transform"
       },
-      {
-        "type": "firestarter",
-        "moves": 50
-      }
+      { "type": "firestarter", "moves": 50 }
     ]
   },
   {
@@ -5956,11 +5848,7 @@
     "turns_per_charge": 10,
     "revert_to": "ref_lighter",
     "use_action": [
-      {
-        "type": "firestarter",
-        "moves": 40,
-        "moves_slow": 500
-      },
+      { "type": "firestarter", "moves": 40, "moves_slow": 500 },
       {
         "target": "ref_lighter",
         "msg": "You extinguish the lighter.",
@@ -6025,10 +5913,7 @@
     "material": "stone",
     "symbol": ";",
     "color": "dark_gray",
-    "container_data": {
-      "contains": 6,
-      "watertight": true
-    },
+    "container_data": { "contains": 6, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -6432,10 +6317,7 @@
         "charges_extinguish_message": "Uncool, outta gas!  Your shishkebab's flame goes out.",
         "water_extinguish_message": "Your shishkebab hisses in the water and goes out."
       },
-      {
-        "type": "firestarter",
-        "moves": 30
-      }
+      { "type": "firestarter", "moves": 30 }
     ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
@@ -6650,12 +6532,7 @@
     "max_charges": 100,
     "turns_per_charge": 25,
     "revert_to": "smart_lamp",
-    "use_action": {
-      "target": "smart_lamp",
-      "msg": "Your smart lamp turned off",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
@@ -6702,10 +6579,7 @@
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
-      {
-        "flame": false,
-        "type": "cauterize"
-      }
+      { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "SPEAR", "BELT_CLIP" ]
   },
@@ -6805,13 +6679,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "inscribe",
-      "verb": "Write",
-      "gerund": "Written",
-      "on_terrain": true,
-      "material_restricted": false
-    }
+    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false }
   },
   {
     "id": "survivor_hairtrimmer",
@@ -6880,12 +6748,7 @@
     "material": [ "glass", "plastic" ],
     "symbol": "o",
     "color": "green",
-    "use_action": {
-      "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 25000,
-      "need_sunlight": true
-    },
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "ZOOM" ]
   },
   {
@@ -7148,10 +7011,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": {
-      "contains": 2,
-      "watertight": true
-    },
+    "container_data": { "contains": 2, "watertight": true },
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -7168,13 +7028,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": {
-      "type": "place_trap",
-      "trap": "tr_telepad",
-      "moves": 350,
-      "practice": 10,
-      "done_message": "You place the telepad."
-    }
+    "use_action": { "type": "place_trap", "trap": "tr_telepad", "moves": 350, "practice": 10, "done_message": "You place the telepad." }
   },
   {
     "id": "teleporter",
@@ -7427,15 +7281,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": {
-      "power": 250,
-      "shrapnel": {
-        "casing_mass": 2500,
-        "fragment_mass": 2.0,
-        "drop": "scrap",
-        "recovery": 20
-      }
-    },
+    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "target": "tool_black_powder_charge_act",
       "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
@@ -7463,29 +7309,13 @@
     "max_charges": 20,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": {
-      "power": 250,
-      "shrapnel": {
-        "casing_mass": 2500,
-        "fragment_mass": 2.0,
-        "drop": "scrap",
-        "recovery": 20
-      }
-    },
+    "explosion": { "power": 250, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
-      "explosion": {
-        "power": 500,
-        "shrapnel": {
-          "casing_mass": 2500,
-          "fragment_mass": 2.0,
-          "drop": "scrap",
-          "recovery": 20
-        }
-      }
+      "explosion": { "power": 500, "shrapnel": { "casing_mass": 2500, "fragment_mass": 2.0, "drop": "scrap", "recovery": 20 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -7506,12 +7336,7 @@
     "explode_in_fire": true,
     "explosion": {
       "power": 6700,
-      "shrapnel": {
-        "casing_mass": 50000,
-        "fragment_mass": 0.1,
-        "drop": "scrap",
-        "recovery": 1
-      },
+      "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
       "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
     },
     "use_action": {
@@ -7544,12 +7369,7 @@
     "explode_in_fire": true,
     "explosion": {
       "power": 6700,
-      "shrapnel": {
-        "casing_mass": 50000,
-        "fragment_mass": 0.1,
-        "drop": "scrap",
-        "recovery": 1
-      },
+      "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
       "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
     },
     "use_action": {
@@ -7557,15 +7377,7 @@
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
-      "explosion": {
-        "power": 67000,
-        "shrapnel": {
-          "casing_mass": 50000,
-          "fragment_mass": 0.1,
-          "drop": "shrapnel",
-          "recovery": 1
-        }
-      }
+      "explosion": { "power": 67000, "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "shrapnel", "recovery": 1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -7587,10 +7399,7 @@
     "explosion": {
       "power": 300,
       "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
-      "shrapnel": {
-        "casing_mass": 1000,
-        "fragment_mass": 0.01
-      }
+      "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 }
     },
     "use_action": {
       "target": "tool_rdx_sand_bomb_act",
@@ -7623,23 +7432,14 @@
     "explosion": {
       "power": 300,
       "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
-      "shrapnel": {
-        "casing_mass": 1000,
-        "fragment_mass": 0.01
-      }
+      "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 }
     },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
-      "explosion": {
-        "power": 1340,
-        "shrapnel": {
-          "casing_mass": 1000,
-          "fragment_mass": 0.01
-        }
-      }
+      "explosion": { "power": 1340, "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -7711,7 +7511,19 @@
     "material": "steel",
     "symbol": ";",
     "color": "red",
-    "qualities": [ [ "CUT", 1 ], [ "HAMMER", 3 ], [ "SAW_M", 2 ], [ "SAW_W", 2 ], [ "WRENCH", 2 ], [ "SCREW", 1 ], [ "HAMMER_FINE", 1 ], [ "SAW_M_FINE", 1 ], [ "WRENCH_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [
+      [ "CUT", 1 ],
+      [ "HAMMER", 3 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 2 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "BUTCHER", 12 ]
+    ],
     "use_action": [ "HAMMER" ]
   },
   {
@@ -8174,10 +7986,7 @@
         "cost_scaling": 0.1,
         "move_cost": 500
       },
-      {
-        "flame": false,
-        "type": "cauterize"
-      }
+      { "flame": false, "type": "cauterize" }
     ]
   },
   {
@@ -8207,10 +8016,7 @@
         "cost_scaling": 0.1,
         "move_cost": 1000
       },
-      {
-        "flame": false,
-        "type": "cauterize"
-      }
+      { "flame": false, "type": "cauterize" }
     ]
   },
   {
@@ -8355,10 +8161,7 @@
         "charges_extinguish_message": "Deinem Flammenschwert ist der Brennstoff ausgegangen!",
         "water_extinguish_message": "Dein Schwert zischt und erlischt."
       },
-      {
-        "type": "firestarter",
-        "moves": 30
-      }
+      { "type": "firestarter", "moves": 30 }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
@@ -8470,7 +8273,12 @@
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
     "ammo": "battery",
-    "magazines": [ [ "battery", [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ] ] ],
-    "magazine_well" : 0
+    "magazines": [
+      [
+        "battery",
+        [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
+      ]
+    ],
+    "magazine_well": 0
   }
 ]

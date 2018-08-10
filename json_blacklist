@@ -44,7 +44,6 @@ data/json/items/crossbows.json
 data/json/items/fake.json
 data/json/items/fuel.json
 data/json/items/generic/ammolink.json
-data/json/items/generic.json
 data/json/items/generic/string.json
 data/json/items/grenades.json
 data/json/items/gun/223.json
@@ -73,7 +72,6 @@ data/json/items/resources/metals.json
 data/json/items/software.json
 data/json/items/tool_armor.json
 data/json/items/tool/lighting.json
-data/json/items/tools.json
 data/json/items/vehicle_parts.json
 data/json/lab_notes.json
 data/json/mapgen/abandoned01.json
