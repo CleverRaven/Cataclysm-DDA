@@ -785,8 +785,12 @@ void player::consume_effects( const item &food )
     mod_thirst( -comest.quench );
     mod_stomach_food( nutr );
     mod_stomach_water( comest.quench );
-    if( comest.healthy != 0 ) {
+    int effective_health = comest.healthy;
+    if( effective_health != 0 ) {
         // Effectively no cap on health modifiers from food
+        if( has_trait( trait_id( "PROJUNK2" ) ) && effective_health < 0 ) {
+            effective_health = 0; // Our digestive system is built around crappy food, so it can handle it just fine
+        }
         mod_healthy_mod( comest.healthy, ( comest.healthy >= 0 ) ? 200 : -200 );
     }
 

@@ -46,8 +46,6 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
-static const trait_id trait_SMALL2( "SMALL2" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -154,9 +152,6 @@ void Character::apply_mods( const trait_id &mut, bool add_remove )
 bool mutation_branch::conflicts_with_item( const item &it ) const
 {
     if( allow_soft_gear && it.is_soft() ) {
-        return false;
-    }
-    if( g->u.has_trait( trait_SMALL2 ) || g->u.has_trait( trait_SMALL_OK ) ) { // we're half our normal size, it'll fit!
         return false;
     }
 

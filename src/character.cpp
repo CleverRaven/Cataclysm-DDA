@@ -1393,10 +1393,10 @@ void Character::reset_stats()
         mod_dodge_bonus(4);
     }
     if( has_trait( trait_SMALL2 ) ) {
-        mod_dodge_bonus(3);
+        mod_dodge_bonus(2);
     }
     if( has_trait( trait_SMALL_OK ) ) {
-        mod_dodge_bonus(4);
+        mod_dodge_bonus(2);
     }
     if (has_trait( trait_WINGS_BAT )) {
         mod_dodge_bonus(-3);

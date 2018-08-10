@@ -383,9 +383,6 @@ static const trait_id trait_SLOWHEALER( "SLOWHEALER" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SLOWREADER( "SLOWREADER" );
 static const trait_id trait_SLOWRUNNER( "SLOWRUNNER" );
-static const trait_id trait_SMALL( "SMALL" );
-static const trait_id trait_SMALL2( "SMALL2" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_SMELLY2( "SMELLY2" );
 static const trait_id trait_SORES( "SORES" );
@@ -1798,13 +1795,7 @@ void player::recalc_speed_bonus()
     if( has_bionic( bio_speed ) ) { // multiply by 1.1
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
-    if( has_trait( trait_SMALL ) ) { // multiply by 1.05
-        set_speed_bonus( int( get_speed() * 1.05 ) - get_speed_base() );
-    }
-    if( has_trait( trait_SMALL2 ) ) { // multiply by 1.1
-        set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
-    }
-    if( has_trait( trait_SMALL_OK ) ) { // multiply by 1.15
+    if( has_trait( trait_CRAFTY ) ) { // multiply by 1.15
         set_speed_bonus( int( get_speed() * 1.15 ) - get_speed_base() );
     }
 
@@ -1899,13 +1890,7 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_PONDEROUS3 ) ) {
         movecost *= 1.3f;
     }
-    if( has_trait( trait_SMALL ) ) {
-        movecost *= 0.9f;
-    }
-    if( has_trait( trait_SMALL2 ) ) {
-        movecost *= 0.8f;
-    }
-    if( has_trait( trait_SMALL_OK ) ) {
+    if( has_trait( trait_CRAFTY ) ) {
         movecost *= 0.75f;
     }
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
@@ -7585,7 +7570,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( _( "Mutation %s prevents from wearing %s." ),
+                return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
                              branch.name.c_str(), it.type_name().c_str() );
             }
         }
@@ -8233,6 +8218,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     }
 
     const bool was_deaf = is_deaf();
+    const bool supertinymouse = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     last_item = to_wear.typeId();
     worn.push_back(to_wear);
 
@@ -8254,6 +8240,11 @@ bool player::wear_item( const item &to_wear, bool interactive )
         }
         if( !was_deaf && is_deaf() ) {
             add_msg_if_player( m_info, _( "You're deafened!" ) );
+        }
+        if( supertinymouse && to_wear.has_flag( "UNDERSIZE" ) ) {
+            add_msg_if_player( m_warning, _( "This %s is too big to wear comfortably! Maybe it could be refitted..."), to_wear.tname().c_str() );
+        } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
+            add_msg_if_player( m_warning, _( "This %s is too small to wear comfortably! Maybe it could be refitted..."), to_wear.tname().c_str() );
         }
     } else {
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );

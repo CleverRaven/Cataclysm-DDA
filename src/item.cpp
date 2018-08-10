@@ -2472,6 +2472,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _( " (fits)" );
     }
 
+    if( has_flag( "UNDERSIZE" ) ) {
+        ret << _( " (undersized)" );
+    }
+
+
     if( is_filthy() ) {
         ret << _( " (filthy)" );
     }
@@ -3189,10 +3194,12 @@ int item::get_encumber() const
     if( item_tags.count("FIT") && has_flag( "VARSIZE" ) ) {
         encumber = std::max( encumber / 2, encumber - 10 );
     }
-    if( g->u.has_trait( trait_id( "SMALL2" ) ) ) { // smol mousefolk have more encumbrance
-        encumber *= 2;
-    } else if( g->u.has_trait( trait_id( "SMALL_OK" ) ) ) {
-        encumber *= 1.5;
+
+    const bool tiniest = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
+    if( !has_flag( "UNDERSIZE" ) && tiniest ) {
+        encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
+    } else if( !tiniest ) {
+        encumber *= 3; // normal humans have a HARD time wearing undersized clothing
     }
 
     const int thickness = get_thickness();
@@ -3265,12 +3272,6 @@ int item::get_warmth() const
 
     if( item_tags.count("wooled") > 0 ) {
         wool_lined = 20 * get_coverage() / 100;
-    }
-
-    if( g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) ) ) { // half size = double warmth!
-        result *= 2;
-        fur_lined *= 2;
-        wool_lined *= 2;
     }
 
     return result + fur_lined + wool_lined;

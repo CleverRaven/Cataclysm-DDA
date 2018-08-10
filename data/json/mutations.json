@@ -306,7 +306,6 @@
         "points" : 1,
         "description" : "You can handle intoxicants well.  Their effects clear up more quickly for you.",
         "starting_trait" : true,
-        "category" : ["MOUSE"],
         "leads_to" : ["ALCMET", "EATPOISON"],
         "cancels" : ["LIGHTWEIGHT"]
     },{
@@ -417,7 +416,7 @@
         "points" : 1,
         "description" : "You make less noise while walking.  You're also less likely to set off traps.",
         "starting_trait" : true,
-        "category" : ["BIRD", "ELFA", "FELINE", "MOUSE"],
+        "category" : ["BIRD", "ELFA", "FELINE"],
         "cancels" : ["CLUMSY"]
     },{
         "type" : "mutation",
@@ -509,7 +508,7 @@
         "points" : 1,
         "description" : "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
         "starting_trait" : true,
-        "category" : ["ALPHA", "MOUSE"],
+        "category" : ["ALPHA"],
         "cancels" : ["SMELLY"]
     },{
         "type" : "mutation",
@@ -790,7 +789,7 @@
         "points" : -3,
         "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
         "starting_trait" : true,
-        "category" : ["BEAST", "MEDICAL", "CHIMERA"],
+        "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE"],
         "cancels" : ["GOODMEMORY"]
     },{
         "type" : "mutation",
@@ -809,7 +808,7 @@
         "description" : "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MEDICAL"],
+        "category" : ["MEDICAL", "MOUSE"],
         "cancels" : ["NONADDICTIVE"]
     },{
         "type" : "mutation",
@@ -828,7 +827,7 @@
         "starting_trait" : true,
         "changes_to" : ["SMELLY2"],
         "cancels" : ["WEAKSCENT"],
-        "category" : ["FELINE", "LUPINE"]
+        "category" : ["FELINE", "LUPINE", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "CHEMIMBALANCE",
@@ -845,7 +844,17 @@
         "description" : "Most animals don't like you, and aggressive animals are more likely to attack you.  This only applies to natural animals such as woodland creatures.",
         "starting_trait" : true,
         "cancels" : ["ANIMALEMPATH"],
+        "changes_to" : ["ANIMALDISCORD2"],
         "category" : ["LUPINE", "BEAST", "RAPTOR"]
+    },{
+        "type" : "mutation",
+        "id" : "ANIMALDISCORD2",
+        "name" : "Prey Animal",
+        "points" : -3,
+        "description" : "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
+        "cancels" : ["ANIMALEMPATH"],
+        "prereqs" : ["ANIMALDISCORD"],
+        "category" : ["MOUSE"]
     },{
         "type" : "mutation",
         "id" : "SLOWREADER",
@@ -880,7 +889,7 @@
         "description" : "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your dexterity.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MEDICAL"]
+        "category" : ["MEDICAL", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "HOARDER",
@@ -970,7 +979,7 @@
         "description" : "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and a sunglasses when going out in the sun.",
         "starting_trait" : true,
         "changes_to" : ["SUNBURN"],
-        "category" : ["TROGLOBITE"]
+        "category" : ["TROGLOBITE", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "FLIMSY",
@@ -2388,7 +2397,7 @@
         "points" : 4,
         "description" : "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
         "prereqs" : ["EATPOISON"],
-        "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT"],
+        "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE"],
         "category" : ["RAT", "CHIMERA", "MOUSE"],
         "valid" : false
     },{
@@ -3076,13 +3085,13 @@
     },{
         "type" : "mutation",
         "id" : "MOUSE_EARS",
-        "name" : "Mouse Ears",
+        "name" : "Rodent Ears",
         "points" : 1,
         "visibility" : 8,
         "ugliness" : 1,
-        "description" : "Your ears are huge and round!  They're rather unwieldy, but help you hear from a much greater distance.",
+        "description" : "Your ears are huge, round, and gray!  They're rather fascinating, and help you hear from a much greater distance.",
         "valid" : false,
-        "category" : ["MOUSE"],
+        "category" : ["MOUSE", "RAT"],
         "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS", "ELFA_EARS"]
     },{
         "type" : "mutation",
@@ -3334,7 +3343,7 @@
         "description" : "You are nimbler.  Dexterity + 2",
         "prereqs" : ["DEX_UP"],
         "changes_to" : ["DEX_UP_3"],
-        "category" : ["LIZARD", "SPIDER", "CHIMERA", "RAPTOR"],
+        "category" : ["LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE"],
         "passive_mods" : {
             "dex_mod" : 2
         }
@@ -3357,8 +3366,8 @@
         "points" : 4,
         "description" : "You are much nimbler than before.  Dexterity + 7",
         "prereqs" : ["DEX_UP_3"],
-        "threshreq" : ["THRESH_CEPHALOPOD", "THRESH_FISH", "THRESH_MOUSE"],
-        "category" : ["CEPHALOPOD", "FISH", "MOUSE"],
+        "threshreq" : ["THRESH_CEPHALOPOD", "THRESH_FISH"],
+        "category" : ["CEPHALOPOD", "FISH"],
         "passive_mods" : {
             "dex_mod" : 7
         }
@@ -3479,7 +3488,7 @@
         "description" : "Your senses are much keener.  Perception + 4",
         "prereqs" : ["PER_UP_2"],
         "changes_to" : ["PER_UP_4"],
-        "category" : ["ELFA", "RAPTOR", "MOUSE"],
+        "category" : ["ELFA", "RAPTOR"],
         "passive_mods" : {
             "per_mod" : 4
         }
@@ -3560,7 +3569,7 @@
         "points" : -4,
         "visibility" : 8,
         "mixed_effect" : true,
-        "description" : "You're only half as tall as you used to be!  While your speed has been increased, the weight of things you once found easy to carry is now unbearable.  Additionally, clothes are twice as warm and twice as encumbering for you (since you're half their size) and mutations won't hinder wearing them, your movement is silent, your hit points are heavily reduced, and your dodge skill is substantially higher.",
+        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you (since you're half their size), and your hit points are heavily reduced. However, your movement is silent, and your dodge skill is a little higher.",
         "prereqs" : ["SMALL"],
         "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
         "changes_to": ["SMALL_OK"],
@@ -3571,20 +3580,21 @@
         "id" : "SMALL_OK",
         "name" : "Unassuming",
         "points" : 3,
-        "description" : "You've mastered your tiny form!  Item encumbrance and carry weight penalties are reduced, you move just a little faster than before, and you've learned to use your increased nimbleness to offset your reduced capacity to absorb damage.  Your dodge skill is also tremendously increased from back when you were so tall.",
+        "mixed_effect" : true,
+        "description" : "You've mastered your tiny form!  Item encumbrance and carry weight penalties are reduced, and you've learned to use your increased nimbleness to offset your reduced capacity to absorb damage.",
         "prereqs" : ["SMALL2"],
         "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
         "valid" : false,
         "purifiable" : false,
         "threshreq" : ["THRESH_MOUSE"],
         "category" : ["MOUSE"],
-        "hp_modifier" : -0.1
+        "hp_modifier" : -0.25
     },{
         "type" : "mutation",
         "id" : "CRAFTY",
         "name" : "Crafty",
         "points" : 5,
-        "description" : "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures.",
+        "description" : "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["SMALL_OK"],
@@ -3867,7 +3877,7 @@
         "description" : "Your face and jaw have extended, giving you an alert and attentive appearance.",
         "prereqs" : ["SNOUT"],
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
-        "category" : ["RAT", "MOUSE"],
+        "category" : ["RAT"],
         "restricts_gear" : [ "MOUTH" ]
     },{
         "type" : "mutation",
@@ -3999,6 +4009,7 @@
         "description" : "Your body dries out easily; you need to drink more water.",
         "starting_trait" : true,
         "changes_to" : ["THIRST2"],
+        "cancels" : ["NO_THIRST" ],
         "category" : ["SLIME", "CEPHALOPOD", "CHIMERA", "ELFA"],
         "thirst_modifier": 0.5
     },{
@@ -4009,6 +4020,7 @@
         "description" : "Ugh, out of water already?  You need about twice the fluids of an average human.",
         "prereqs" : ["THIRST"],
         "changes_to" :["THIRST3"],
+        "cancels" : ["NO_THIRST" ],
         "category" : ["FISH", "SLIME", "CEPHALOPOD"],
         "thirst_modifier": 1.0
     },{
@@ -4017,8 +4029,19 @@
         "name" : "Extremely Thirsty",
         "points" : -5,
         "description" : "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
+        "cancels" : ["NO_THIRST" ],
         "prereqs" : ["THIRST2"],
         "thirst_modifier": 2.0
+    },{
+        "type" : "mutation",
+        "id" : "NO_THIRST",
+        "name" : "Metabolic Rehydration",
+        "points" : 6,
+        "description" : "Your body gets all the hydration it needs from the food that you eat!  You no longer need to drink water.",
+        "threshreq" : ["THRESH_MOUSE"],
+        "cancels" : ["THIRST", "THIRST2", "THIRST3"],
+        "purifiable": false,
+        "thirst_modifier": -1.0
     },{
         "type" : "mutation",
         "id" : "HEAVYSLEEPER2",
@@ -4156,7 +4179,7 @@
         "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "changes_to" : ["PAWS_LARGE"],
-        "category" : ["LUPINE", "RAT", "FELINE", "MOUSE"]
+        "category" : ["LUPINE", "RAT", "FELINE"]
     },{
         "type" : "mutation",
         "id" : "PAWS_LARGE",
@@ -5136,7 +5159,7 @@
         "id" : "THRESH_MOUSE",
         "name" : "Diminutive",
         "points" : 1,
-        "description" : "You might be small, but with the people who walked all over you extinct, who's the colossus now?",
+        "description" : "So much food, everywhere!  And nobody's even guarding it anymore!  These are good times.",
         "valid": false,
         "purifiable": false,
         "threshold": true
