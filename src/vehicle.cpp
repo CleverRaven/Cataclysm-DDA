@@ -1534,15 +1534,14 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
     if( at_full_hp ) {
         return pwr; // Assume full hp
     }
-    // Damaged engines give less power, but gas/diesel handle it better
+    // Damaged engines give less power, but some engines handle it better
     double health = parts[index].health_percent();
-    if( part_info(index).fuel_type == fuel_type_gasoline ||
-        part_info(index).fuel_type == fuel_type_diesel ) {
-        return pwr * (0.25 + 0.75 * health );
-    } else {
-        return pwr * health;
-    }
- }
+    // dpf is 0 for engines that scale power linearly with damage and
+    // provides a floor otherwise
+    float dpf = part_info( index ).engine_damaged_power_factor();
+    double effective_percent = dpf + ( ( 1 - dpf ) * health );
+    return ( int )( pwr * effective_percent );
+}
 
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.

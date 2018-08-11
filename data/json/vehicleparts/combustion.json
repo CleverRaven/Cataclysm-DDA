@@ -10,6 +10,7 @@
     "backfire_threshold": 0.25,
     "backfire_freq": 20,
     "flags": [ "ENGINE", "TOOL_WRENCH" ],
+    "damaged_power_factor": 0.25,
     "m2c": 50,
     "description": "A combustion engine.  Burns fuel from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels."
   },
