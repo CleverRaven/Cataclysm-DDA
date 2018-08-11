@@ -57,7 +57,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BARRICADABLE_WINDOW_CURTAINS```
 - ```BASHABLE``` Players + Monsters can bash this.
-- ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses
+- ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
 - ```COLLAPSES``` Has a roof that can collapse.
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.

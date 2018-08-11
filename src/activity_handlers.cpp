@@ -274,7 +274,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                 act.set_to_null();
                 return;
             }
-            if( ( !u.has_quality( quality_id( "CUT" ) ) || !u.has_quality( quality_id( "CUT_FINE" ) ) ) &&
+            if( !u.has_quality( quality_id( "CUT" ) &&
                 ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
                 u.add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
                 act.set_to_null();
@@ -313,7 +313,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     bool is_human = corpse == nullptr || corpse->id == mtype_id::NULL_ID() || ( corpse->in_species( HUMAN ) && !corpse->in_species( ZOMBIE ) );
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) || u.has_trait_flag( "SAPIOVORE" ) ) ) {
 
-        if( query_yn( "Would you do this to mortal remains of a fellow human?" ) ) {
+        if( query_yn( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) {
             g->u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             switch( rng( 1, 3 ) ) {
             case 1:
@@ -688,7 +688,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
                 ( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) ||
                 corpse->has_flag( MF_CBM_TECH ) || corpse->has_flag( MF_CBM_SUBS ) ||
                 corpse->has_flag( MF_CBM_OP ) || corpse->has_flag( MF_CBM_POWER ) ) ) {
-        p->add_msg_if_player( m_bad, _( "You found bionics implanted in this corpse, but without fine cutting tools you ruin them completly." ) );
+        p->add_msg_if_player( m_bad, _( "You found bionics implanted in this corpse, but without fine cutting tools you ruin them completely." ) );
     }
 
     //now handle the meat, if there is any
@@ -884,7 +884,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     const field_id type_gib = corpse->gibType();
 
     if( action == QUARTER ) {
-        if( query_yn( _( "Quarter corpse of %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse->nname().c_str() ) ) {
+        if( query_yn( _( "Quarter corpse of %s to reduce it's weight and volume?  This will ruin the hide or pelt." ), corpse->nname().c_str() ) ) {
             butchery_quarter( &corpse_item, *p );
             act->set_to_null();
             return;
@@ -937,7 +937,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 p->add_msg_if_player(m_warning, _( "You wanted to cut the corpse, but instead you hacked the meat, spilled the guts all over it, and made a bloody mess." ) );
                 break;
             case 3:
-                p->add_msg_if_player(m_warning, _( "You made so many mistakes during the process that you doubt even vultures will be intrested in what's left of it." ) );
+                p->add_msg_if_player(m_warning, _( "You made so many mistakes during the process that you doubt even vultures will be interested in what's left of it." ) );
                 break;
         g->m.i_rem( p->pos(), act->index );
         g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
@@ -978,7 +978,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     case QUARTER:
         break;
     case BUTCHER:
-        p->add_msg_if_player( m_good, _("After quick attempt to harvest flesh from %s you leave the rest for the vultures."), corpse_item.tname().c_str() );
+        p->add_msg_if_player( m_good, _("You apply few quick cuts to the %s and leave what's left of it for scavengers."), corpse_item.tname().c_str() );
         g->m.i_rem( p->pos(), act->index );
         break; //no set_to_null here, for multibutchering
     case BUTCHER_FULL:
@@ -991,7 +991,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if ( roll_butchery() < 0 ) { // partial failure
             switch( rng( 1, 3 ) ) {
                 case 1:
-                    p->add_msg_if_player(m_warning, _( "You unskilfully hack the corpse and chop off some excess body parts.  You think this was not a job well done." ) );
+                    p->add_msg_if_player(m_warning, _( "You unskillfully hack up the corpse and chop off some excess body parts. You're left wondering how you did so poorly." ) );
                     break;
                 case 2:
                     p->add_msg_if_player(m_warning, _( "Your unskilled hands slip and damage the corpse. You still hope it's not a total waste though." ) );
@@ -1033,7 +1033,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
         }
         if( corpse->size > MS_TINY &&
-            query_yn( _( "Quarter %s to reduce it's weight and volume?  This will ruin it's skin." ), corpse_item.tname().c_str() ) ) {
+            query_yn( _( "Quarter %s to reduce it's weight and volume?  This will ruin the hide or pelt." ), corpse_item.tname().c_str() ) ) {
             butchery_quarter( &corpse_item, *p );
         }
         act->set_to_null();
