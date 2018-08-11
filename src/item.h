@@ -980,6 +980,8 @@ class item : public visitable<item>
 
         /** Returns energy of one charge of this item as fuel for an engine. */
         float fuel_energy() const;
+        /** Returns the string of the id of the terrain that pumps this fuel, if any. */
+        std::string fuel_pump_terrain() const;
 
         /**
          * Can this item have given item/itype as content?

@@ -42,7 +42,6 @@ data/json/items/comestibles/protein.json
 data/json/items/containers.json
 data/json/items/crossbows.json
 data/json/items/fake.json
-data/json/items/fuel.json
 data/json/items/generic/ammolink.json
 data/json/items/generic/string.json
 data/json/items/grenades.json

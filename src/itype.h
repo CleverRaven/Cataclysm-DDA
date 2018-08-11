@@ -383,11 +383,11 @@ struct islot_wheel
         int width = 0;
 };
 
-struct islot_fuel
-{
+struct islot_fuel {
     public:
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
+        std::string pump_terrain = "t_null";
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?

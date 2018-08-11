@@ -1282,6 +1282,9 @@ void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &sr
     bool strict = src == "dda";
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
+    if( jo.has_member( "pump_terrain" ) ) {
+        slot.pump_terrain = jo.get_string( "pump_terrain" );
+    }
 }
 
 void Item_factory::load_fuel( JsonObject &jo, const std::string &src )
