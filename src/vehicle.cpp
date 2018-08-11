@@ -1521,12 +1521,8 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
         pwr = vp.base.engine_displacement();
     }
 
-    if (part_info(index).fuel_type == fuel_type_muscle) {
-        int pwr_factor = (part_flag(index, "MUSCLE_LEGS") ? 5 : 0) +
-                         (part_flag(index, "MUSCLE_ARMS") ? 2 : 0);
-        ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += int(((g->u).str_cur - 8) * pwr_factor);
-    }
+    ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
+    pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
 
     if( pwr < 0 ) {
         return pwr; // Consumers always draw full power, even if broken

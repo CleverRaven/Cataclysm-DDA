@@ -23,6 +23,7 @@
     "durability": 50,
     "description": "A set of bicycle style foot pedals.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
     "power": 64,
+    "muscle_power_factor": 5,
     "folded_volume": 2,
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH" ] }
@@ -36,6 +37,7 @@
     "durability": 50,
     "description": "A set of wheelchair style wheels.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
     "power": 32,
+    "muscle_power_factor": 2,
     "damage_modifier": 50,
     "folded_volume": 2,
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
