@@ -8280,7 +8280,7 @@
   {
     "type": "overmap_terrain",
     "id": "lancenter",
-    "name": "lan center",
+    "name": "LAN center",
     "sym": 76,
     "color": "light_gray",
     "see_cost": 5,
