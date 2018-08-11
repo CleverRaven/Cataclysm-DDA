@@ -6061,7 +6061,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
