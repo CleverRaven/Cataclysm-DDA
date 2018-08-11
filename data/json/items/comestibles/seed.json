@@ -279,14 +279,7 @@
     "weight": 310,
     "stack_size": 10,
     "charges": 1,
-    "seed_data": {
-      "plant_name": "onion",
-      "fruit": "onion",
-      "fruit_count": 0,
-      "seed": "seed_onion",
-      "seed_count": 5,
-      "grow": 65
-    }
+    "seed_data": { "plant_name": "onion", "fruit": "onion", "fruit_count": 0, "seed": "seed_onion", "seed_count": 5, "grow": 65 }
   },
   {
     "type": "COMESTIBLE",
@@ -404,7 +397,7 @@
     "name": "potato seed",
     "name_plural": "potato seeds",
     "description": "Some potato seeds.",
-    "seed_data": { 
+    "seed_data": {
       "plant_name": "potatoes",
       "fruit": "potato_raw",
       "fruit_count": 10,
@@ -424,7 +417,7 @@
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
     "weight": 20,
     "stack_size": 10,
-    "seed_data": { 
+    "seed_data": {
       "plant_name": "potatoes",
       "fruit": "potato_raw",
       "fruit_count": 10,
