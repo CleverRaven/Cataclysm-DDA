@@ -219,7 +219,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
     "components": [
-      [ [ "stick", 2 ], [ "2x4", 2 ] ],
+      [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
       [ [ "spike", 1 ] ],
       [ [ "rag", 3 ], [ "felt_patch", 3 ], [ "leather", 3 ], [ "fur", 3 ] ],
       [ [ "cordage", 2, "LIST" ], [ "filament", 75, "LIST" ], [ "duct_tape", 75 ] ]
