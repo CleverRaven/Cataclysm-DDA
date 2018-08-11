@@ -2557,18 +2557,10 @@
   {
     "type": "COMESTIBLE",
     "id": "mannwurst_raw",
-    "copy-from": "mannwurst",
+    "copy-from": "sausage_raw",
     "name": "raw Mannwurst",
-    "weight": 220,
-    "color": "red",
-    "spoils_in": 24,
-    "quench": -1,
-    "healthy": -1,
-    "nutrition": 32,
     "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.",
-    "material": "hflesh",
-    "flags": [ "SMOKABLE" ],
-    "fun": -10
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",

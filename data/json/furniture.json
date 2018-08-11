@@ -2661,7 +2661,7 @@
     "type" : "furniture",
     "id" : "f_smoking_rack_active",
     "name": "active smoking rack",
-    "description": "A special rack designed to smoke food for better preservation and taste. It is lit and smoking.",
+    "description": "A special rack designed to smoke food for better preservation and taste.  It is lit and smoking.",
     "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,

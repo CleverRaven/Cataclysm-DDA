@@ -3790,6 +3790,10 @@ void smoker_load_food( player &p, const tripoint &examp )
     std::vector<item_comp> comps;
     std::list<item> moved;
 
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
+        p.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
+        return;
+    }
     // filter SMOKABLE food
     inventory inv = p.crafting_inventory();
     inv.remove_items_with( []( const item & it ) {
