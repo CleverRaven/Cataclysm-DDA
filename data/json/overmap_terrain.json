@@ -6847,43 +6847,6 @@
     "flags": [ "SIDEWALK" ]
   },
   {
-    "id": "state_park_0_0",
-    "type": "overmap_terrain",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "id": "state_park_0_1",
-    "type": "overmap_terrain",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "id": "state_park_1_0",
-    "type": "overmap_terrain",
-    "name": "state park parking",
-    "sym": 36,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "state_park_1_1",
-    "type": "overmap_terrain",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
     "id": "fishing_pond_0_0",
     "type": "overmap_terrain",
     "name": "fishing pond",
@@ -7269,17 +7232,6 @@
     "flags": [ "SIDEWALK" ]
   },
   {
-    "id": "dispensary",
-    "type": "overmap_terrain",
-    "name": "dispensary",
-    "sym": 68,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
     "id": "skate_park",
     "type": "overmap_terrain",
     "name": "skate park",
@@ -7368,43 +7320,6 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "fishing_pond_0_0",
-    "type": "overmap_terrain",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "id": "fishing_pond_0_1",
-    "type": "overmap_terrain",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "id": "fishing_pond_1_0",
-    "type": "overmap_terrain",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "fishing_pond_1_1",
-    "type": "overmap_terrain",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
   },
   {
     "id": "hunting_blind",
