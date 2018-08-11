@@ -6836,18 +6836,10 @@ void map::grow_plant( const tripoint &p )
         return;
     }
 
+    get_crops_grow( p );
     item &seed_item = i_at( p ).front();
-    const time_point seed_bday = seed_item.birthday();
-    time_duration seed_age = time_duration::from_turns( seed_item.get_var( "seed_age", 1 ) );
-
     const time_duration plantEpoch = seed_item.get_plant_epoch();
-    const time_point since = time_point::from_turn( seed_item.get_var( "last_grow_check",
-                             to_turn<int>( seed_bday ) ) );
-
-    const time_point until = calendar::turn;
-    seed_age += get_crops_grow_since( since, until, p );
-    seed_item.set_var( "last_grow_check", to_turn<int>( until ) );
-    seed_item.set_var( "seed_age", to_turns<int>( seed_age ) );
+    time_duration seed_age = time_duration::from_turns( seed_item.get_var( "seed_age", 1 ) );
 
     furn_id cur_furn = this->furn(p).id();
 
@@ -6868,16 +6860,13 @@ void map::grow_plant( const tripoint &p )
             if( seed_age >= plantEpoch && seed_age < plantEpoch * 3  ) {
                 furn_set(p, furn_str_id( "f_mushroom_seedling" ) );
             } else if( seed_age >= plantEpoch * 3 ) {
-                seed_item.set_birthday( until );
                 furn_set(p, furn_str_id( "f_mushroom_mature_harvest" ) );
                 seed_item.set_var( "is_mature", 1 );
                 seed_item.set_var( "can_be_harvested", 1 );
             }
         }
         // Mushrooms grow on beds
-        if( cur_furn == furn_str_id( "f_mushroom_mature" ) &&
-            seed_age > ( seed_item.type->seed->grow_secondary * calendar::season_ratio() ) ){
-            seed_item.set_var( "can_be_harvested", 1 );
+        if( seed_item.get_var( "is_mature", 0 ) && seed_item.get_var( "can_be_harvested", 0 ) ) {
             furn_set(p, furn_str_id( "f_mushroom_mature_harvest" ) );
         }
         return;
@@ -6885,8 +6874,7 @@ void map::grow_plant( const tripoint &p )
 
     // Grow berries on shrubs
     if( seed_item.type->seed->is_shrub && seed_item.get_var( "is_mature", 0 ) &&
-        seed_age > seed_item.type->seed->grow_secondary * calendar::season_ratio() ) {
-            seed_item.set_var( "can_be_harvested", 1 );
+        seed_item.get_var( "can_be_harvested", 0 ) ) {
             const auto &furn_obj = this->furn( p ).obj();
             furn_set( p, furn_obj.transforms_into );
             return;
