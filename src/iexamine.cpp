@@ -3878,7 +3878,7 @@ void smoker_load_food( player &p, const tripoint &examp )
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
     moved = p.consume_items( selected, 1 );
 
-    // hack, becouse consume_items doesn't seem to care of what item is consumed despite filters
+    // hack, because consume_items doesn't seem to care of what item is consumed despite filters
     // TODO: find a way to filter out rotten items from those actualy consumed
     bool rotted = false;
     for( item m : moved ) {
