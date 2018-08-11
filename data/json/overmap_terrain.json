@@ -7918,14 +7918,6 @@
     "color": "i_green"
   },
   {
-    "id": "dispensary",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "dispensary",
-    "sym": 68,
-    "color": "i_green"
-  },
-  {
     "id": "skate_park",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
@@ -7959,76 +7951,12 @@
     "extras": "field"
   },
   {
-    "id": "state_park_0_0",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green"
-  },
-  {
-    "id": "state_park_0_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green"
-  },
-  {
-    "id": "state_park_1_0",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "state park parking",
-    "sym": 36,
-    "color": "i_green"
-  },
-  {
-    "id": "state_park_1_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green"
-  },
-  {
     "id": "pavilion",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "pavilion",
     "sym": 65,
     "color": "i_green"
-  },
-  {
-    "id": "fishing_pond_0_0",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue"
-  },
-  {
-    "id": "fishing_pond_0_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue"
-  },
-  {
-    "id": "fishing_pond_1_0",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue"
-  },
-  {
-    "id": "fishing_pond_1_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue"
   },
   {
     "id": "hunting_blind",
