@@ -2,12 +2,12 @@
   {
     "type": "item_action",
     "id": "repair_fabric",
-    "name": "Repair cotton/leather/wool/Nomex/fur"
+    "name": "Repair cotton/fur/leather/wool/Nomex"
   },
   {
     "type": "item_action",
     "id": "repair_metal",
-    "name": "Repair metal/plastic/kevlar"
+    "name": "Repair metal/plastic/Kevlar"
   },
   {
     "type": "item_action",
@@ -37,7 +37,7 @@
   {
     "type": "item_action",
     "id": "CROWBAR",
-    "name": "Pry crate, window or door"
+    "name": "Pry crate/door/window"
   },
   {
     "type": "item_action",
@@ -52,7 +52,7 @@
   {
     "type": "item_action",
     "id": "GEIGER",
-    "name": "Use geiger counter"
+    "name": "Use Geiger counter"
   },
   {
     "type": "item_action",
@@ -62,7 +62,7 @@
   {
     "type": "item_action",
     "id": "BOLTCUTTERS",
-    "name": "Cut bolts or wires"
+    "name": "Cut bolts/wires"
   },
   {
     "type": "item_action",
@@ -72,7 +72,7 @@
   {
     "type": "item_action",
     "id": "MISC_REPAIR",
-    "name": "Repair wood/paper/bone/chitin"
+    "name": "Repair bone/chitin/paper/wood"
   },
   {
     "type": "item_action",
