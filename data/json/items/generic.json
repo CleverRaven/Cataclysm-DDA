@@ -315,7 +315,8 @@
     "weight": 907,
     "volume": 1,
     "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -330,7 +331,8 @@
     "weight": 493,
     "volume": 1,
     "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -511,7 +513,8 @@
     "weight": 908,
     "volume": 6,
     "bashing": 12,
-    "to_hit": 2
+    "to_hit": 2,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -545,6 +548,7 @@
     "volume": 40,
     "bashing": 10,
     "to_hit": -10,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -1266,7 +1270,8 @@
     "material": "ceramic",
     "weight": 362,
     "volume": 1,
-    "bashing": 1
+    "bashing": 1,
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1294,7 +1299,8 @@
     "material": "glass",
     "weight": 452,
     "volume": 1,
-    "bashing": 1
+    "bashing": 1,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1307,7 +1313,8 @@
     "price_postapoc": 0,
     "material": "steel",
     "weight": 525,
-    "volume": 1
+    "volume": 1,
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1822,7 +1829,8 @@
     "weight": 969,
     "volume": 2,
     "bashing": 8,
-    "to_hit": -2
+    "to_hit": -2,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",

@@ -62,7 +62,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "cutting": 8,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
   {
     "id": "bokken",
@@ -134,6 +134,7 @@
     "bashing": 25,
     "category": "weapons",
     "to_hit": 3
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -150,7 +151,8 @@
     "volume": 26,
     "bashing": 4,
     "cutting": 26,
-    "to_hit": 2
+    "to_hit": 2,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ]
   },
   {
     "type": "GENERIC",
@@ -231,7 +233,8 @@
     "volume": 1,
     "bashing": 5,
     "cutting": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [ [ "BUTCHER", -66 ] ]
   },
   {
     "type": "GENERIC",
@@ -350,6 +353,7 @@
     "cutting": 14,
     "to_hit": -1,
     "flags": [ "SHEATH_SWORD" ],
+    "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -503,6 +507,7 @@
     "volume": 5,
     "bashing": 28,
     "cutting": 2,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "STAB", "NONCONDUCTIVE" ],
     "price": 8000
   },
@@ -535,6 +540,7 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
+    "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "volume": 4,
     "bashing": 12,
@@ -600,6 +606,7 @@
     "symbol": "/",
     "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
     "volume": 7,
     "bashing": 20,
@@ -732,7 +739,7 @@
     "bashing": 16,
     "cutting": 36,
     "to_hit": 2,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ]
   },
   {
     "id": "halberd_fake",
@@ -761,6 +768,7 @@
     "description": "A sturdy polearm with a sizable, single-edged blade on the end.",
     "price": 50000,
     "material": [ "steel", "wood" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": 2100,
@@ -784,6 +792,7 @@
     "volume": 10,
     "bashing": 6,
     "cutting": 37,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ]
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 80000
   },
@@ -805,7 +814,7 @@
     "flags": [ "STAB", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "CUT", 1 ], [ "BUTCHER", -24 ] ]
   },
   {
     "type": "GENERIC",
@@ -972,6 +981,7 @@
     "bashing": 2,
     "cutting": 6,
     "flags": [ "STAB" ],
+    "qualities": [ [ "BUTCHER", -42 ] ],
     "price_postapoc": 500
   },
   {
@@ -1026,7 +1036,7 @@
     "bashing": 8,
     "cutting": 16,
     "flags": [ "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
-    "qualities": [ [ "BUTCHER", 12 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   },
   {
     "type": "GENERIC",
@@ -1076,7 +1086,7 @@
     "cutting": 6,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "price": 20000,
-    "qualities": [ [ "BUTCHER", 14 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
     "type": "GENERIC",
@@ -1090,6 +1100,7 @@
     "volume": 1,
     "weight": 430,
     "bashing": 8,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
@@ -1104,6 +1115,7 @@
     "weight": 1150,
     "cutting": 16,
     "to_hit": 2,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "UNARMED_WEAPON" ],
     "techniques": [ "WBLOCK_1" ]
   },
@@ -1119,6 +1131,7 @@
     "volume": 2,
     "weight": 970,
     "bashing": 12,
+    "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -1182,7 +1195,8 @@
     "weight": 1007,
     "volume": 2,
     "bashing": 8,
-    "to_hit": 1
+    "to_hit": 1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1532,7 +1546,8 @@
     "bashing": 13,
     "cutting": 35,
     "to_hit": 1,
-    "category": "weapons"
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ]
   },
   {
     "id": "broadsword_fake",
@@ -1686,7 +1701,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [ [ "AXE", 2 ] ]
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ]
   },
   {
     "id": "nodachi_fake",
@@ -1722,6 +1737,7 @@
     "volume": 7,
     "bashing": 5,
     "cutting": 18,
+    "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 2000
   },
@@ -1873,7 +1889,8 @@
     "bashing": 4,
     "cutting": 38,
     "to_hit": 2,
-    "category": "weapons"
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "estoc_fake",

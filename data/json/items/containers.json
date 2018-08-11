@@ -40,7 +40,8 @@
     "color": "light_blue",
     "contains": 450,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "30gal_drum",
@@ -60,7 +61,7 @@
     "contains": 400,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "55gal_drum",
@@ -80,7 +81,7 @@
     "contains": 800,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bag_canvas",
@@ -219,7 +220,7 @@
     "color": "light_cyan",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bowl_plastic",
@@ -236,7 +237,8 @@
     "color": "light_cyan",
     "contains": 1,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "box_cigarette",
@@ -283,7 +285,7 @@
     "color": "light_gray",
     "contains": 20,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "camelbak",
@@ -327,8 +329,7 @@
     "contains": 1,
     "watertight": true,
     "preserves": true,
-    "unseals_into": "can_drink_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "unseals_into": "can_drink_unsealed"
   },
   {
     "id": "can_drink_unsealed",
@@ -339,7 +340,8 @@
     "symbol": ")",
     "color": "light_blue",
     "preserves": false,
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "can_food",
@@ -356,8 +358,7 @@
     "contains": 1,
     "watertight": true,
     "preserves": true,
-    "unseals_into": "can_food_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "unseals_into": "can_food_unsealed"
   },
   {
     "id": "can_food_unsealed",
@@ -368,7 +369,8 @@
     "symbol": ")",
     "color": "blue",
     "preserves": false,
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "canteen",
@@ -409,7 +411,7 @@
     "color": "yellow",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "ceramic_cup",
@@ -426,7 +428,7 @@
     "color": "yellow",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_canister",
@@ -444,7 +446,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_hydria",
@@ -462,7 +464,8 @@
     "color": "brown",
     "contains": 60,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_watercont",
@@ -479,7 +482,8 @@
     "color": "brown",
     "contains": 150,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "cup_plastic",
@@ -506,7 +510,8 @@
     "description": "A small, vacuum formed cup, essentially trash.",
     "symbol": ")",
     "color": "light_cyan",
-    "unseals_into": "null"
+    "unseals_into": "null",
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "flask_glass",
@@ -568,7 +573,7 @@
     "color": "cyan",
     "contains": 2,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "glass_bowl",
@@ -585,7 +590,7 @@
     "color": "cyan",
     "contains": 1,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "jar_3l_glass",
@@ -616,7 +621,8 @@
     "color": "light_cyan",
     "seals": false,
     "preserves": true,
-    "unseals_into": "jar_3l_glass"
+    "unseals_into": "jar_3l_glass",
+    "qualities": [ ]
   },
   {
     "id": "jar_glass",
@@ -647,7 +653,8 @@
     "color": "light_cyan",
     "seals": false,
     "preserves": true,
-    "unseals_into": "jar_glass"
+    "unseals_into": "jar_glass",
+    "qualities": [ ]
   },
   {
     "id": "jerrycan",
@@ -700,7 +707,8 @@
     "color": "brown",
     "contains": 4,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "jug_plastic",
@@ -736,7 +744,7 @@
     "contains": 200,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "keg_steel",
@@ -755,7 +763,7 @@
     "contains": 200,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "large_stomach_sealed",
@@ -794,7 +802,7 @@
     "contains": "60L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "metal_tank_little",
@@ -814,7 +822,7 @@
     "contains": "2L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "stomach_sealed",
@@ -926,7 +934,8 @@
     "color": "brown",
     "contains": 400,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "wrapper",
