@@ -3116,7 +3116,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
                     popup(_("The screams were terrifying, there was nothing anyone could do."));
                 } else {
                     popup(_("Pieces of %s were found strewn across a few bushes."), comp->name.c_str());
-                    popup(_("(You wander if your companions are fit to work on their own...)"));
+                    popup(_("(You wonder if your companions are fit to work on their own...)"));
                 }
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
