@@ -573,7 +573,7 @@
         "bashing" : 5,
         "category" : "veh_parts",
         "price" : 6000,
-        "qualities": [ [ "COOK", 1 ] ],
+        "qualities": [ [ "COOK", 1 ] ]
     },
     {
         "type":"GENERIC",

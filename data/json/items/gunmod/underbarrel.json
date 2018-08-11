@@ -233,7 +233,7 @@
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     },
-    "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -16 ] ],
+    "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "id": "masterkey",

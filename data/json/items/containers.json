@@ -621,8 +621,7 @@
     "color": "light_cyan",
     "seals": false,
     "preserves": true,
-    "unseals_into": "jar_3l_glass",
-    "qualities": [ ]
+    "unseals_into": "jar_3l_glass"
   },
   {
     "id": "jar_glass",
@@ -653,8 +652,7 @@
     "color": "light_cyan",
     "seals": false,
     "preserves": true,
-    "unseals_into": "jar_glass",
-    "qualities": [ ]
+    "unseals_into": "jar_glass"
   },
   {
     "id": "jerrycan",

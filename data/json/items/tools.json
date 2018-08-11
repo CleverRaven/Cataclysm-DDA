@@ -4880,7 +4880,7 @@
     "material": "stone",
     "symbol": ":",
     "color": "light_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "mp3",

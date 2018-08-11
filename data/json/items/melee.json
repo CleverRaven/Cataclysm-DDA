@@ -133,7 +133,7 @@
     "volume": 12,
     "bashing": 25,
     "category": "weapons",
-    "to_hit": 3
+    "to_hit": 3,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -792,7 +792,7 @@
     "volume": 10,
     "bashing": 6,
     "cutting": 37,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 80000
   },
