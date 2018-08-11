@@ -335,43 +335,6 @@ void player::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
-    } else if (mut == "BURROW"){
-        if( is_underwater() ) {
-            add_msg_if_player(m_info, _("You can't do that while underwater."));
-            tdata.powered = false;
-            return;
-        }
-        tripoint dirp;
-        if (!choose_adjacent(_("Burrow where?"), dirp)) {
-            tdata.powered = false;
-            return;
-        }
-
-        if( dirp == pos() ) {
-            add_msg_if_player(_("You've got places to go and critters to beat."));
-            add_msg_if_player(_("Let the lesser folks eat their hearts out."));
-            tdata.powered = false;
-            return;
-        }
-        time_duration time_to_do = 0_turns;
-        if (g->m.is_bashable(dirp) && g->m.has_flag("SUPPORTS_ROOF", dirp) &&
-            g->m.ter(dirp) != t_tree) {
-            // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
-            time_to_do = 30_minutes;
-        } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
-                   g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
-            time_to_do = 10_minutes;
-        } else {
-            add_msg_if_player(m_info, _("You can't burrow there."));
-            tdata.powered = false;
-            return;
-        }
-        assign_activity( activity_id( "ACT_BURROW" ), to_moves<int>( time_to_do ), -1, 0 );
-        activity.placement = dirp;
-        add_msg_if_player(_("You tear into the %s with your teeth and claws."),
-                          g->m.tername(dirp).c_str());
-        tdata.powered = false;
-        return; // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
         for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {

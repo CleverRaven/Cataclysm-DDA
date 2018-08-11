@@ -883,7 +883,8 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```BOMB``` It can be a remote controlled bomb.
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
-- ```DIG_TOOL``` If wielded, item is automatically activated when player tries to move onto map tile with ```MINEABLE``` flag.
+- ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them.
+- ```DIG_TOOL_POWERED``` If wielded, digs thorough terrain like rock and walls, as player walks into them.  Faster than ```DIG_TOOL``` and uses up power.
 - ```FIRE``` Counts as a fire for crafting purposes.
 - ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
@@ -901,6 +902,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MOD``` The item has been made into a radio-activated item.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
+- ```TILL_TOOL``` If wielded, automatically churns up the suitable terrain as player steps on it.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 

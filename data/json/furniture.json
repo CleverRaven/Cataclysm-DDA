@@ -130,7 +130,7 @@
         "move_cost_mod": -1,
         "description": "A few stacked sandbags.",
         "required_str": -1,
-        "flags": ["NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT"],
+        "flags": ["NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE"],
         "deconstruct": {
             "items": [
                 { "item": "bag_canvas", "count": 4 },
@@ -418,7 +418,7 @@
         "bgcolor": "white",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE"],
         "bash": {
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
@@ -1016,7 +1016,7 @@
         "move_cost_mod": -1,
         "required_str": 12,
         "max_volume": 4000,
-        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE"],
         "deconstruct": {
             "items": [
                 { "item": "pipe", "count": 1 },
@@ -1052,7 +1052,7 @@
         "move_cost_mod": -1,
         "required_str": 12,
         "max_volume": 4000,
-        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE"],
         "deconstruct": {
             "items": [
                 { "item": "scrap", "count": [2, 6] },
@@ -1122,7 +1122,7 @@
         "color": "light_cyan",
         "move_cost_mod": -1,
         "required_str": 12,
-        "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
+        "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE"],
         "examine_action": "vending",
         "bash": {
             "str_min": 20, "str_max": 40,
@@ -1144,7 +1144,7 @@
         "color": "dark_gray",
         "move_cost_mod": -1,
         "required_str": 12,
-        "flags": ["PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
+        "flags": ["PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE"],
         "bash": {
             "str_min": 30, "str_max": 50,
             "sound": "metal screeching!",
@@ -1628,7 +1628,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE"],
         "open": "f_safe_o",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -1649,7 +1649,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE"],
         "examine_action": "safe",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -1670,7 +1670,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE"],
         "examine_action": "gunsafe_ml",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -1691,7 +1691,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE"],
         "bash": {
             "str_min": 40, "str_max": 200,
             "sound": "screeching metal!",
@@ -1711,7 +1711,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE"],
         "examine_action": "gunsafe_el",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -1732,7 +1732,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE"],
         "close": "f_safe_c",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -2182,7 +2182,7 @@
         "color": "light_red",
         "move_cost_mod": -1,
         "required_str": 30,
-        "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD"],
+        "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE"],
         "examine_action": "vending",
         "bash": {
             "str_min": 150, "str_max": 520,
@@ -2460,7 +2460,7 @@
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
-        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT"],
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }
@@ -2484,7 +2484,7 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "examine_action": "kiln_full",
-        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT"],
+        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }
@@ -2639,7 +2639,7 @@
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
+    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE"],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "reload_furniture",
     "deconstruct": {
@@ -2667,7 +2667,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": ["SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
+    "flags": ["SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE"],
     "deconstruct": {
       "items": [
         { "item": "rock", "count": 40 }
@@ -2692,7 +2692,7 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "brick_kiln",
-        "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
+        "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": 40 }
@@ -2794,7 +2794,7 @@
         "move_cost_mod": 2,
         "required_str": 12,
         "crafting_pseudo_item": "boulder_anvil",
-        "flags": ["PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
+        "flags": ["PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT", "MINEABLE"],
         "bash": {
             "str_min": 20, "str_max": 40,
             "sound": "smash!",

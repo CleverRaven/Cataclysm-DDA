@@ -2152,7 +2152,8 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "DIG", 1 ] ]
+    "qualities": [ [ "DIG", 1 ] ],
+    "flags": [ "TILL_TOOL" ]
   },
   {
     "id": "directional_antenna",
@@ -2371,7 +2372,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ] ],
-    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
+    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP", "TILL_TOOL" ]
   },
   {
     "id": "eggs_ferment",
@@ -2496,7 +2497,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL" ]
+    "flags": [ "STAB", "DIG_TOOL_POWERED" ]
   },
   {
     "id": "electrohack",
@@ -3140,7 +3141,8 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ] ]
+    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ] ],
+    "flags": [ "TILL_TOOL" ]
   },
   {
     "id": "gasbomb_makeshift",
@@ -3520,7 +3522,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
     "use_action": "CROWBAR",
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TILL_TOOL" ]
   },
   {
     "id": "hammer",
@@ -3603,7 +3605,8 @@
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
     "techniques": "WBLOCK_1",
-    "use_action": "MAKEMOUND"
+    "use_action": "MAKEMOUND",
+    "flags": [ "TILL_TOOL" ]
   },
   {
     "id": "honey_scraper",
@@ -3763,7 +3766,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL" ]
+    "flags": [ "STAB", "DIG_TOOL_POWERED" ]
   },
   {
     "id": "jar_pickles_pickled",
@@ -4367,7 +4370,7 @@
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD" ]
+    "flags": [ "NEEDS_UNFOLD", "TILL_TOOL" ]
   },
   {
     "id": "machete",
@@ -5737,7 +5740,8 @@
     "material": [ "stone", "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 2 ] ]
+    "qualities": [ [ "DIG", 2 ] ],
+    "flags": [ "TILL_TOOL" ]
   },
   {
     "id": "pseuso_bio_picklock",
@@ -6427,7 +6431,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 3 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "TILL_TOOL" ]
   },
   {
     "id": "sickle",

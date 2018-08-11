@@ -11101,11 +11101,47 @@ bool game::plmove(int dx, int dy, int dz)
         // Well that sure was easy
         return true;
     }
-
-    if( u.weapon.has_flag("DIG_TOOL") && m.has_flag( "MINEABLE", dest_loc ) && !u.has_effect( effect_stunned ) ) {
-        // TODO: Handle moving-and-digging via Burrower mutation.
-        // TODO 2: Prevent player from being asked twice about which tile to mine.
-        u.use_wielded();
+    if( !u.has_effect( effect_stunned) && !u.is_underwater() ) {
+        if( get_option<bool>( "AUTO_MINING" ) && m.has_flag( "MINEABLE", dest_loc ) ) {
+            if( u.weapon.has_flag("DIG_TOOL_POWERED") ) {
+                if( u.weapon.ammo_sufficient() ) {
+                    u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
+                    u.assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( 30_minutes ) * 100, -1, u.get_item_position( &u.weapon ) );
+                    u.activity.placement = dest_loc;
+                    add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                        m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                } else {
+                    add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
+                }
+            } else if( u.has_active_mutation( trait_BURROW ) ) {
+                int turns;
+                if( m.move_cost( dest_loc ) == 2 ) {
+                    turns = MINUTES( 10 );
+                } else {
+                    turns = MINUTES( 30 );
+                }
+                u.assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
+                u.activity.placement = dest_loc;
+                add_msg( _( "You start tearing into the %s with your teeth and claws." ), m.tername( dest_loc ).c_str() );
+            } else if( u.weapon.has_flag("DIG_TOOL") ) {
+                int turns;
+                if( m.move_cost( dest_loc ) == 2 ) {
+                    turns = MINUTES( 20 );
+                } else {
+                    turns = ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
+                }
+                u.assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1, u.get_item_position( &u.weapon ) );
+                u.activity.placement = dest_loc;
+                add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+            }
+        } else if( get_option<bool>( "AUTO_TILLING" ) && m.has_flag( "DIGGABLE", dest_loc ) &&
+            !m.has_flag( "PLANT", dest_loc ) && m.ter( dest_loc ) != t_dirtmound &&
+            ( u.weapon.has_flag( "TILL_TOOL" ) || u.has_active_mutation( trait_BURROW ) ) ) {
+            add_msg( _( "You churn up the earth here." ) );
+            u.moves = -300;
+            m.ter_set( dest_loc, t_dirtmound );
+        }
     }
 
     if( dz == 0 && ramp_move( dest_loc ) ) {

@@ -2828,19 +2828,12 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    const time_duration duration = 30_minutes;
-    const bool mineable = g->m.is_bashable( dirp ) &&
-                          ( g->m.has_flag( "SUPPORTS_ROOF", dirp ) || g->m.has_flag( "MINEABLE", dirp ) ) &&
-                          !g->m.has_flag( "TREE", dirp );
-    const bool not_dirt_or_grass = g->m.move_cost( dirp ) == 2 && g->get_levz() != -1 &&
-                                   g->m.ter( dirp ) != t_dirt && g->m.ter( dirp ) != t_grass;
-
-    if( !( mineable || not_dirt_or_grass ) ) {
+    if( !g->m.has_flag( "MINEABLE", dirp ) ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( duration ) * 100, -1,
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( 30_minutes ) * 100, -1,
                         p->get_item_position( it ) );
     p->activity.placement = dirp;
 
@@ -2873,16 +2866,13 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
     }
 
     int turns;
-    if( g->m.is_bashable( dirx, diry ) && g->m.ter( dirx, diry ) != t_tree &&
-        ( g->m.has_flag( "SUPPORTS_ROOF", dirx, diry ) || g->m.has_flag( "MINEABLE", dirx, diry ) ) ) {
-
-        /** @EFFECT_STR speeds up mining with a pickaxe */
-        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
-    } else if( g->m.move_cost( dirx, diry ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( dirx, diry ) != t_dirt && g->m.ter( dirx, diry ) != t_grass ) {
-
-        turns = MINUTES( 20 );
-
+    if( g->m.has_flag( "MINEABLE", dirx, diry ) ) {
+        if( g->m.move_cost( dirx, diry ) == 2 ) {
+            // We're breaking up some flat surface like pavement, which is much easier
+            turns = MINUTES( 20 );
+        } else {
+            turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
+        }
     } else {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return 0;
