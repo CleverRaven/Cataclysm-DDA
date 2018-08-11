@@ -19095,6 +19095,12 @@
           "bg": 993
         },
         {
+          "id": "t_thconc_floor_olight",
+          "fg": 134,
+          "bg": 993,
+          "rotates": false
+        },
+        {
           "id": "t_thconc_floor",
           "fg": 993,
           "rotates": false

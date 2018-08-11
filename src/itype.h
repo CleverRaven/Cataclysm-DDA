@@ -702,6 +702,9 @@ public:
         melee.fill( 0 );
     }
 
+    // a hint for tilesets: if it doesn't have a tile, what does it look like?
+    std::string looks_like;
+
     std::string snippet_category;
     std::string description; // Flavor text
 

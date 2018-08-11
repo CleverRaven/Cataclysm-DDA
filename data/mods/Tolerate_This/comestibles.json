@@ -25,7 +25,7 @@
     "type": "COMESTIBLE",
     "id": "gfsandwich_veggy",
     "name": "gluten free vegetable sandwich",
-    "name_plural": "vegetable sandwiches",
+    "name_plural": "gluten free vegetable sandwiches",
     "weight": 190,
     "color": "light_gray",
     "spoils_in": 48,
