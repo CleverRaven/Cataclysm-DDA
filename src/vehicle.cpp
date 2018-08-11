@@ -1273,20 +1273,24 @@ bool vehicle::fold_up() {
 
 double vehicle::engine_cold_factor( const int e ) const
 {
-    if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
+    if( !part_info( engines[e] ).has_flag( "E_COLD_START" ) ) {
+        return 0.0;
+    }
 
     int eff_temp = g->get_temperature( g->u.pos() );
     if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
 
-    return 1.0 - (std::max( 0, std::min( 30, eff_temp ) ) / 30.0);
+    return 1.0 - ( std::max( 0, std::min( 30, eff_temp ) ) / 30.0 );
 }
 
 int vehicle::engine_start_time( const int e ) const
 {
-    if( !is_engine_on( e ) || is_engine_type( e, fuel_type_muscle ) ||
-        !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
+    if( !is_engine_on( e ) || part_info( engines[e] ).has_flag( "E_STARTS_INSTANTLY" ) ||
+        !fuel_left( part_info( engines[e] ).fuel_type ) ) {
+        return 0;
+    }
 
     const double dmg = parts[engines[e]].damage_percent();
 
@@ -1299,17 +1303,19 @@ int vehicle::engine_start_time( const int e ) const
 
 bool vehicle::start_engine( const int e )
 {
-    if( !is_engine_on( e ) ) { return false; }
+    if( !is_engine_on( e ) ) {
+        return false;
+    }
 
     const vpart_info &einfo = part_info( engines[e] );
     const vehicle_part &eng = parts[ engines[ e ] ];
 
     if( fuel_left( einfo.fuel_type ) <= 0 && einfo.fuel_type != fuel_type_none ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
-            add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
+            add_msg( _( "The %s's mechanism is out of reach!" ), name.c_str() );
         } else {
-            add_msg( _("Looks like the %1$s is out of %2$s."), eng.name().c_str(),
-                item::nname( einfo.fuel_type ).c_str() );
+            add_msg( _( "Looks like the %1$s is out of %2$s." ), eng.name().c_str(),
+                     item::nname( einfo.fuel_type ).c_str() );
         }
         return false;
     }
@@ -1381,7 +1387,8 @@ void vehicle::start_engines( const bool take_control )
     bool has_starting_engine_position = false;
     tripoint starting_engine_position;
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() && parts[ engines[ e ] ].enabled ) {
+        if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() &&
+            parts[ engines[ e ] ].enabled ) {
             starting_engine_position = global_part_pos3( engines[ e ] );
             has_starting_engine_position = true;
         }
@@ -1389,18 +1396,18 @@ void vehicle::start_engines( const bool take_control )
         start_time = std::max( start_time, engine_start_time( e ) );
     }
 
-    if(!has_starting_engine_position){
+    if( !has_starting_engine_position ) {
         starting_engine_position = global_pos3();
     }
 
     if( !has_engine ) {
-        add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
+        add_msg( m_info, _( "The %s doesn't have an engine!" ), name.c_str() );
         return;
     }
 
     if( take_control && !g->u.controlling_vehicle ) {
         g->u.controlling_vehicle = true;
-        add_msg( _("You take control of the %s."), name.c_str() );
+        add_msg( _( "You take control of the %s." ), name.c_str() );
     }
 
     g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
@@ -1413,7 +1420,7 @@ void vehicle::backfire( const int e ) const
     const int power = part_power( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     //~ backfire sound
-    sounds::ambient_sound( pos, 40 + (power / 30), _( "BANG!" ) );
+    sounds::ambient_sound( pos, 40 + ( power / 30 ), _( "BANG!" ) );
 }
 
 void vehicle::honk_horn()
