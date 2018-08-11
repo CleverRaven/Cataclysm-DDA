@@ -41,10 +41,11 @@ def getVehicleInstances(mapPath):
                 if argsDict["vehicle"] != None:
                     if argsDict["vehicle"] == vehicle["name"]:
                         vehicles.append(vehicle)
-                        print("Found '{}'".format(vehicle["name"]))
+                        print(f"Found \"{vehicle['name']}\"")
                 else:
                     vehicles.append(vehicle)
-                    print("Found '{}'".format(vehicle["name"]))
+                    print(f"Found \"{vehicle['name']}\"")
+
     return vehicles
 
 def buildVehicleDef(vehicle):
