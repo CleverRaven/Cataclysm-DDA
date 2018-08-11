@@ -8,6 +8,7 @@
 #include "damage.h"
 #include "calendar.h"
 #include "units.h"
+#include "optional.h"
 
 #include <vector>
 #include <bitset>
@@ -80,11 +81,17 @@ enum vpart_bitflags : int {
  * OVER - Can be mounted over other parts
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
+
+struct vpslot_engine {
+};
+
 class vpart_info
 {
     private:
         /** Unique identifier for this part */
         vpart_id id;
+
+        cata::optional<vpslot_engine> engine_info;
 
     public:
         /** Translated name of a part */
@@ -207,6 +214,10 @@ class vpart_info
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;
 
+        /**
+         * @name Engine specific functions
+         *
+         */
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;
@@ -232,6 +243,7 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
+        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo );
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

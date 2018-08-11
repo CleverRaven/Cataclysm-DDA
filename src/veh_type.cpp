@@ -145,6 +145,19 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 };
 
 /**
+ * Reads engine info from a JsonObject.
+ */
+void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo )
+{
+    vpslot_engine e_info;
+    if( eptr ) {
+        e_info = *eptr;
+    }
+    eptr = e_info;
+    assert( eptr );
+}
+
+/**
  * Reads in a vehicle part from a JsonObject.
  */
 void vpart_info::load( JsonObject &jo, const std::string &src )
@@ -239,6 +252,10 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
         def.damage_reduction = load_damage_array( dred );
     } else {
         def.damage_reduction.fill( 0.0f );
+    }
+
+    if( def.has_flag( "ENGINE" ) ) {
+        load_engine( def.engine_info, jo );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -648,6 +665,10 @@ int vpart_info::repair_time( const Character &ch ) const
     return scale_time( repair_skills, repair_moves, ch );
 }
 
+/**
+ * @name Engine specific functions
+ *
+ */
 /** @relates string_id */
 template<>
 const vehicle_prototype &string_id<vehicle_prototype>::obj() const
