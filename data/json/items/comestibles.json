@@ -10196,20 +10196,11 @@
    {
     "type": "COMESTIBLE",
     "id": "hflesh_pemmican",
-    "name": "Peasant Pemmican",
-    "weight": 113,
-    "color": "brown",
-    "spoils_in": 8640,
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -2,
-    "nutrition": 37,
+    "name": "prepper pemmican",
+    "copy-from": pemmican
     "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of tallow,  edible plants, and an unfortunate prepper.",
     "price": 600,
     "material": [ "hflesh", "veggy" ],
-    "volume": 2,
-    "charges": 8,
     "//": "About 4 meats, depending on which gets used.",
     "fun": 3
   }
