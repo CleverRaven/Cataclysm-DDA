@@ -317,12 +317,10 @@ data/json/uncraft/weapon/explosive.json
 data/json/vehicle_groups.json
 data/json/vehicleparts/alternator.json
 data/json/vehicleparts/battery.json
-data/json/vehicleparts/combustion.json
 data/json/vehicleparts/faults.json
 data/json/vehicleparts/frames.json
 data/json/vehicle_parts.json
 data/json/vehicleparts/lights.json
-data/json/vehicleparts/motor.json
 data/json/vehicleparts/tanks.json
 data/json/vehicleparts/turret.json
 data/json/vehicleparts/wheel.json

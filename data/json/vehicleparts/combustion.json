@@ -10,9 +10,9 @@
     "backfire_threshold": 0.25,
     "backfire_freq": 20,
     "noise_factor": 15,
-    "flags": [ "ENGINE", "TOOL_WRENCH" ],
     "damaged_power_factor": 0.25,
     "m2c": 50,
+    "flags": [ "ENGINE", "TOOL_WRENCH", "E_COMBUSTION", "E_ALTERNATOR", "E_HIGHER_SKILL" ],
     "description": "A combustion engine.  Burns fuel from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels."
   },
   {
@@ -20,8 +20,12 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "diesel",
-    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels."
+    "cold_affects_start": true,
     "m2c": 65,
+    "extend": {
+      "flags": [ "E_COLD_START" ],
+      "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle to move the vehicle if the vehicle has sufficient wheels."
+    }
   },
   {
     "abstract": "gasoline_engine",

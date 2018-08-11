@@ -542,16 +542,14 @@ bool veh_interact::can_install_part() {
         }
     }
 
-    bool is_engine = sel_vpart_info->has_flag("ENGINE");
-    bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
-    //count current engines, muscle engines don't require higher skill
+    bool is_engine = sel_vpart_info->has_flag( "ENGINE" );
+    //count current engines, some engines don't require higher skill
     int engines = 0;
     int dif_eng = 0;
-    if (is_engine && !install_muscle_engine) {
-        for (size_t p = 0; p < veh->parts.size(); p++) {
-            if (veh->part_flag (p, "ENGINE") &&
-                veh->part_info(p).fuel_type != "muscle")
-            {
+    if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
+        for( size_t p = 0; p < veh->parts.size(); p++ ) {
+            if( veh->part_flag( p, "ENGINE" ) &&
+                veh->part_flag( p, "E_HIGHER_SKILL" ) ) {
                 engines++;
                 dif_eng = dif_eng / 2 + 8;
             }

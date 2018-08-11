@@ -1671,17 +1671,14 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
     }
 
     // Alternators must be installed on a gas engine
-    if(part.has_flag(VPFLAG_ALTERNATOR)) {
+    if( part.has_flag( VPFLAG_ALTERNATOR ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( VPFLAG_ENGINE ) &&
-                ( part_info( elem ).fuel_type == fuel_type_gasoline ||
-                  part_info( elem ).fuel_type == fuel_type_diesel ||
-                  part_info( elem ).fuel_type == fuel_type_muscle)) {
+            if( part_info( elem ).has_flag( "E_ALTERNATOR" ) ) {
                 anchor_found = true;
             }
         }
-        if(!anchor_found) {
+        if( !anchor_found ) {
             return false;
         }
     }
@@ -3440,7 +3437,7 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_epwr = load * max_epwr;
             double part_noise = cur_epwr * part_info( p ).engine_noise_factor();
 
-            if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
+            if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
                 double health = parts[p].health_percent();
                 if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
                     health = 0.0;
