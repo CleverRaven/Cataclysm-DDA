@@ -1500,7 +1500,8 @@
     "initial_charges": 150,
     "max_charges": 150,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER"
+    "use_action": "WATER_PURIFIER",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "char_smoker",
@@ -2141,7 +2142,8 @@
     "color": "blue",
     "ammo": "battery",
     "initial_charges": 100,
-    "max_charges": 200
+    "max_charges": 200,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "digging_stick",
@@ -4534,7 +4536,8 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "max_charges": 200
+    "max_charges": 200,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "matchbomb",
@@ -7761,7 +7764,8 @@
     "color": "white",
     "ammo": "battery",
     "initial_charges": 100,
-    "max_charges": 200
+    "max_charges": 200,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "vacutainer",
@@ -7996,7 +8000,8 @@
         "move_cost": 500
       },
       { "flame": false, "type": "cauterize" }
-    ]
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "welder_crude",
@@ -8026,7 +8031,8 @@
         "move_cost": 1000
       },
       { "flame": false, "type": "cauterize" }
-    ]
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "wood_smoother",
@@ -8208,7 +8214,8 @@
     "color": "white",
     "ammo": "battery",
     "initial_charges": 100,
-    "max_charges": 100
+    "max_charges": 100,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "cattlefodder",
