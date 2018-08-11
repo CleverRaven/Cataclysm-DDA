@@ -54,6 +54,7 @@
     "fuel": {
       "energy": 35.8,
       "pump_terrain": "t_diesel_pump",
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
   },
   {
@@ -82,6 +83,7 @@
     "fuel": {
       "energy": 34.2,
       "pump_terrain": "t_gas_pump",
+      "explosion_data": { "chance_hot": 2, "chance_cold": 5, "factor": 1.0, "fiery": true, "size_factor": 0.1 }
     }
   },
   {

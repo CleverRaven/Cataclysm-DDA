@@ -5854,39 +5854,26 @@ int vehicle::break_off( int p, int dmg )
 
 bool vehicle::explode_fuel( int p, damage_type type )
 {
-    const itype_id &ft = part_info(p).fuel_type;
-    struct fuel_explosion {
-        // TODO: Move the values below to jsons
-        int explosion_chance_hot ;
-        int explosion_chance_cold;
-        float explosion_factor;
-        bool fiery_explosion;
-        float fuel_size_factor;
-    };
-
-    static const std::map<itype_id, fuel_explosion> explosive_fuels = {{
-        { fuel_type_gasoline,   { 2, 5, 1.0f, true, 0.1f } },
-        { fuel_type_diesel,     { 20, 1000, 0.2f, false, 0.1f } }
-    }};
-
-    const auto iter = explosive_fuels.find( ft );
-    if( iter == explosive_fuels.end() ) {
-        // Not on the list means not explosive
+    const itype_id &ft = part_info( p ).fuel_type;
+    item fuel = item( ft );
+    if( !fuel.has_explosion_data() ) {
         return false;
     }
+    fuel_explosion data = fuel.get_explosion_data();
 
-    const fuel_explosion &data = iter->second;
-    const int pow = 120 * (1 - exp(data.explosion_factor / -5000 * (parts[p].ammo_remaining() * data.fuel_size_factor)));
-    //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
     if( parts[ p ].is_broken() ) {
         leak_fuel( parts[ p ] );
     }
 
     int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
     if( one_in( explosion_chance ) ) {
-        g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
-            pgettext("memorial_female", "The fuel tank of the %s exploded!"),
-            name.c_str());
+        g->u.add_memorial_log( pgettext( "memorial_male", "The fuel tank of the %s exploded!" ),
+                               pgettext( "memorial_female", "The fuel tank of the %s exploded!" ),
+                               name.c_str() );
+        const int pow = 120 * ( 1 - exp( data.explosion_factor / -5000 * 
+                                         ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
+       //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
+
         g->explosion( global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
         mod_hp( parts[p], 0 - parts[ p ].hp(), DT_HEAT );
         parts[p].ammo_unset();

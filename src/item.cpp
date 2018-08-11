@@ -4011,6 +4011,17 @@ std::string item::fuel_pump_terrain() const
     return is_fuel() ? type->fuel->pump_terrain : "t_null";
 }
 
+bool item::has_explosion_data() const
+{
+    return is_fuel() ? type->fuel->has_explode_data : false;
+}
+
+struct fuel_explosion item::get_explosion_data()
+{
+    static struct fuel_explosion null_data;
+    return has_explosion_data() ? type->fuel->explosion_data : null_data;
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();

@@ -383,10 +383,20 @@ struct islot_wheel
         int width = 0;
 };
 
+struct fuel_explosion {
+    int explosion_chance_hot ;
+    int explosion_chance_cold;
+    float explosion_factor;
+    bool fiery_explosion;
+    float fuel_size_factor;
+};
+
 struct islot_fuel {
     public:
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
+        struct fuel_explosion explosion_data;
+        bool has_explode_data;
         std::string pump_terrain = "t_null";
 };
 
