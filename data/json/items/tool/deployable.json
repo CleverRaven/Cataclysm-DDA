@@ -18,7 +18,7 @@
     "id": "metal_butcher_rack",
     "type": "TOOL",
     "name": "metal butchering rack",
-    "description": "Metal butchering rack designed to hang the carcass in the air.  It is folded for easy transportation and can be deployed as a furniture.",
+    "description": "Metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation and can be deployed as a furniture.",
     "weight": 5000,
     "volume": 40,
     "price": 5000,
