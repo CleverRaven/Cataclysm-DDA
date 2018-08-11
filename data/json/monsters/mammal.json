@@ -220,7 +220,7 @@
     "id": "mon_cougar",
     "type": "MONSTER",
     "name": "cougar",
-    "description": "The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population. Fast and silent, this predator can cover long distances with powerful leaps and pounces, catching its prey with its deadly claws before delivering the finishing blow with its enormous fangs.“",
+    "description": "The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population. Fast and silent, this predator can cover long distances with powerful leaps and pounces, catching its prey with its deadly claws before delivering the finishing blow with its enormous fangs.",
     "default_faction": "big_cat",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
