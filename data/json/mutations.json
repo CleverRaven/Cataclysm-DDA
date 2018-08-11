@@ -3257,7 +3257,10 @@
         "valid" : false,
         "prereqs" : ["STR_UP_2"],
         "threshreq" : ["THRESH_ALPHA"],
-        "category" : ["ALPHA"]
+        "category" : ["ALPHA"],
+        "passive_mods" : {
+            "str_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "DEX_UP",
@@ -3314,7 +3317,10 @@
         "valid" : false,
         "prereqs" : ["DEX_UP"],
         "threshreq" : ["THRESH_ALPHA"],
-        "category" : ["ALPHA"]
+        "category" : ["ALPHA"],
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "INT_UP",
@@ -3374,7 +3380,10 @@
         "valid" : false,
         "prereqs" : ["INT_UP"],
         "threshreq" : ["THRESH_ALPHA"],
-        "category" : ["ALPHA"]
+        "category" : ["ALPHA"],
+        "passive_mods" : {
+            "int_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "INT_SLIME",
@@ -3447,7 +3456,10 @@
         "valid" : false,
         "prereqs" : ["PER_UP_2"],
         "threshreq" : ["THRESH_ALPHA"],
-        "category" : ["ALPHA"]
+        "category" : ["ALPHA"],
+        "passive_mods" : {
+            "per_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "PER_SLIME",

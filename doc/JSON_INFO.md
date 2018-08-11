@@ -559,6 +559,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
 "symbol": "0",                // ASCII character displayed when part is working
+"looks_like": "small_wheel",  // hint to tilesets if this part has no tile, use the looks_like tile
 "color": "dark_gray",         // Color used when part is working
 "broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
@@ -661,6 +662,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
+"looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
 "weight" : 350,                   // Weight of the item in grams
@@ -1419,6 +1421,7 @@ Array of dictionaries defining possible items produced on butchering and their l
     "id": "f_toilet",
     "name": "toilet",
     "symbol": "&",
+    "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
     "required_str": 18,
@@ -1437,7 +1440,7 @@ Array of dictionaries defining possible items produced on butchering and their l
 
 Fixed string, must be `furniture` to identify the JSON object as such.
 
-`"id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
 
 Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
@@ -1461,6 +1464,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "id": "t_spiked_pit",
     "name": "spiked pit",
     "symbol": "0",
+    "looks_like": "pit",
     "color": "ltred",
     "move_cost": 10,
     "trap": "spike_pit",
@@ -1483,7 +1487,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 Fixed string, must be "terrain" to identify the JSON object as such.
 
-`"id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
 
 Same as for furniture, see below in the chapter "Common to furniture and terrain".
 
@@ -1555,6 +1559,10 @@ Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` 
 #### `symbol`
 
 ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
+
+#### `looks_like`
+
+id of a similar item that this item looks like. The tileset loader will try to load the tile for that item if this item doesn't have a tile. looks_like entries are implicitly chained, so if 'throne' has looks_like 'big_chair' and 'big_chair' has looks_like 'chair', a throne will be displayed using the chair tile if tiles for throne and big_chair do not exist. If a tileset can't find a tile for any item in the looks_like chain, it will default to the ascii symbol.
 
 #### `color` or `bgcolor`
 
