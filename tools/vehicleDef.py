@@ -2,7 +2,6 @@
 
 import json
 import argparse
-from collections import OrderedDict
 from math import hypot
 import re
 import os
@@ -52,19 +51,19 @@ def buildVehicleDef(vehicle):
     partsDef = []
     itemsDef = []
     for part in vehicle["parts"]:
-        partsDef.append(OrderedDict([
-            ("x", part["mount_dx"]),
-            ("y", part["mount_dy"]), 
-            ("part", part["id"])
-        ]))
+        partsDef.append({
+            "x": part["mount_dx"],
+            "y": part["mount_dy"], 
+            "part": part["id"]
+        })
 
         for item in part["items"]:
-            itemsDef.append(OrderedDict([
-                ("x", part["mount_dx"]),
-                ("y", part["mount_dy"]), 
-                ("chance", 100), 
-                ("items", [item["typeid"]])
-            ]))
+            itemsDef.append({
+                "x": part["mount_dx"],
+                "y": part["mount_dy"],
+                "chance": 100,
+                "items": [item["typeid"]]
+            })
 
     frames = [p for p in partsDef if re.match(r'(xl|hd|folding_)?frame', p["part"]) != None]
     everythingElse = [p for p in partsDef if re.match(r'(xl|hd|folding_)?frame', p["part"]) == None]
@@ -73,13 +72,13 @@ def buildVehicleDef(vehicle):
 
     itemsDef.sort(key=lambda i: (i["x"], i["y"])) 
 
-    vehicleDef = OrderedDict([
-        ("id", vehicle["name"]),
-        ("type", "vehicle"),
-        ("name", vehicle["name"]),
-        ("parts", frames + everythingElse),
-        ("items", itemsDef)
-    ])
+    vehicleDef = {
+        "id": vehicle["name"],
+        "type": "vehicle",
+        "name": vehicle["name"],
+        "parts": frames + everythingElse,
+        "items": itemsDef
+    }
 
     return vehicleDef
 
