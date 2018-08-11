@@ -3975,7 +3975,9 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     } else {
             smenu.addentry( 5, false, 'c', "%s", _( "Remove charcoal from rack (none inside)" ) );
     }
-
+    if ( active ) {
+        smenu.addentry( 7, true, 'q', "%s", _( "Quench burning charcoal" ) );
+    }
     smenu.addentry( 6, true, 'x', "%s", _( "Cancel" ) );
     smenu.query();
 
@@ -4052,6 +4054,10 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             break;
         case 6:
             add_msg( m_info, _( "Never mind." ) );
+            break;
+        case 7:
+            g->m.furn_set( examp, f_smoking_rack );
+            add_msg( m_info, _( "You stop the smoking process." ) );
             break;
     }
 }
