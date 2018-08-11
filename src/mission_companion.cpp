@@ -3074,7 +3074,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
         int skill_1 = comp->get_skill_level( skill_survival );
         int skill_2 = comp->get_skill_level( skill_speech );
         if( skill_1 > rng( -2, 8 ) ){
-            popup(_("%s notices the antlered horror and slips away before if gets too close."), comp->name.c_str());
+            popup(_("%s notices the antlered horror and slips away before it gets too close."), comp->name.c_str());
         } else if( skill_2 > rng( -2, 8 ) ) {
             popup(_("The survivor approaches %s asking for directions."), comp->name.c_str());
             popup(_("Fearful that he may be an agent of some hostile faction, %s doesn't mention the camp."), comp->name.c_str());
