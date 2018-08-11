@@ -33,6 +33,10 @@
 #include <stdexcept>
 #include <limits>
 
+#ifdef __linux__
+#   include <cstdlib> // getenv()/setenv()
+#endif
+
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
 #   include <shlwapi.h>
@@ -269,6 +273,16 @@ bool InitSDL()
 
 #ifdef SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING
     SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
+#endif
+
+#ifdef __linux__
+    // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
+    if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
+        const char *xmod = getenv( "XMODIFIERS" );
+        if( xmod && strstr( xmod, "@im=ibus" ) != NULL ) {
+            setenv( "XMODIFIERS", "@im=none", 1 );
+        }
+    }
 #endif
 
     ret = SDL_Init( init_flags );
@@ -1398,11 +1412,6 @@ void CheckMessages()
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.
                     break;
-#ifdef __linux__
-                } else if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) && ev.key.repeat ) {
-                    // https://bugzilla.libsdl.org/show_bug.cgi?id=3637
-                    break;
-#endif
                 } else if( add_alt_code( lc ) ) {
                     // key was handled
                 } else {
