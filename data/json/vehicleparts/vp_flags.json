@@ -75,7 +75,7 @@
     "id": "ENABLED_DRAINS_EPOWER",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "When turned on, this devices drains power from the vehicle's batteries."
+    "info": "When turned on, this device drains power from the vehicle's batteries."
   },
   {
     "id": "ENGINE",
