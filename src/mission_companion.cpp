@@ -3108,7 +3108,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
                     popup(_("The jabberwock grabbed %s by the arm from behind and began to scream."), comp->name.c_str());
                     popup(_("Terrified, %s spun around and delivered a massive kick to the creature's torso..."), comp->name.c_str());
                     popup(_("Collapsing into a pile of gore, %s walked away unscathed..."), comp->name.c_str());
-                    popup(_("(Sounds like bullshit, you wander what really happened.)"));
+                    popup(_("(Sounds like bullshit, you wonder what really happened.)"));
                 }
             } else {
                 if (one_in(2)){
