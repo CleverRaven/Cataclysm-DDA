@@ -4044,7 +4044,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                         i--;
                     }
                 }
-                if ( active ) {
+                if ( active && rem_f_opt ) {
                     g->m.furn_set( examp, f_smoking_rack );
                     add_msg( m_info, _( "You stop the smoking process." ) );
                 }
