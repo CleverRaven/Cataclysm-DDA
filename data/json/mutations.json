@@ -810,8 +810,17 @@
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
         "name" : "Schizophrenic",
-        "points" : -5,
+        "points" : -2,
         "description" : "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "NARCOLEPTIC",
+        "name" : "Narcoleptic",
+        "points" : -3,
+        "description" : "You randomly fall asleep without any reason.",
         "starting_trait" : true,
         "valid" : false,
         "category" : ["MEDICAL"]
@@ -3248,7 +3257,10 @@
         "valid" : false,
         "prereqs" : ["STR_UP_2"],
         "threshreq" : ["THRESH_ALPHA"],
-        "category" : ["ALPHA"]
+        "category" : ["ALPHA"],
+        "passive_mods" : {
+            "str_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "DEX_UP",
@@ -3305,7 +3317,10 @@
         "valid" : false,
         "prereqs" : ["DEX_UP"],
         "threshreq" : ["THRESH_ALPHA"],
-        "category" : ["ALPHA"]
+        "category" : ["ALPHA"],
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "INT_UP",
@@ -3365,7 +3380,10 @@
         "valid" : false,
         "prereqs" : ["INT_UP"],
         "threshreq" : ["THRESH_ALPHA"],
-        "category" : ["ALPHA"]
+        "category" : ["ALPHA"],
+        "passive_mods" : {
+            "int_mod" : 1
+        }
     },{
         "type" : "mutation",
         "id" : "INT_SLIME",
@@ -3438,7 +3456,10 @@
         "valid" : false,
         "prereqs" : ["PER_UP_2"],
         "threshreq" : ["THRESH_ALPHA"],
-        "category" : ["ALPHA"]
+        "category" : ["ALPHA"],
+        "passive_mods" : {
+            "per_mod" : 2
+        }
     },{
         "type" : "mutation",
         "id" : "PER_SLIME",
@@ -5053,6 +5074,13 @@
         "category" : ["INSECT", "CHIMERA", "MEDICAL", "SLIME"]
     },{
         "type" : "mutation",
+        "id" : "PYROMANIA",
+        "name" : "Pyromania",
+        "starting_trait" : true,
+        "points" : -2,
+        "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often. However, you gain a mood bonus from doing so."
+    },{
+        "type" : "mutation",
         "id" : "PROF_POLICE",
         "name" : "Police Officer",
         "points" : 0,
@@ -5298,6 +5326,14 @@
         "points" : 99,
         "valid" : false,
         "description" : "Lets you carry 15 bugs worth of your body weight in your mandibles.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_BIONICS",
+        "name" : "Debug Bionic Installation",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Lets you instantly install torsion ratchets for your eight legs.",
         "threshold" : true
     },{
         "type" : "mutation",

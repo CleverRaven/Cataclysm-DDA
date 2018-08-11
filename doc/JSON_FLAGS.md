@@ -31,6 +31,7 @@
 - ```BLIND_EASY``` Easy to craft with little to no light
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+- ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 
 ## Furniture & Terrain
 
@@ -882,6 +883,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```BOMB``` It can be a remote controlled bomb.
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
+- ```DIG_TOOL``` If wielded, item is automatically activated when player tries to move onto map tile with ```MINEABLE``` flag.
 - ```FIRE``` Counts as a fire for crafting purposes.
 - ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
@@ -922,6 +924,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
+- ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM and it can be installed on an NPC.
 
 ## Books
 

@@ -1848,7 +1848,6 @@ classes = {
             { name = "note", rval = "string", args = { "int", "int", "int" } },
             { name = "add_note", rval = nil, args = { "int", "int", "int", "string" } },
             { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
-            { name = "display_notes", rval = "point", args = { "int" } },
             { name = "global_base_point", rval = "point", args = { } },
             { name = "clear_mon_groups", rval = nil, args = { } },
         }

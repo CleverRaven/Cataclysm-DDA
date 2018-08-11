@@ -373,7 +373,7 @@ void check_consistency();
 void finalize();
 void reset();
 
-size_t count();
+const std::vector<oter_t> &get_all();
 
 }
 
@@ -384,6 +384,9 @@ void load( JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
+
+const std::vector<overmap_special> &get_all();
+
 overmap_special_batch get_default_batch( const point &origin );
 /**
  * Generates a simple special from a building id.
