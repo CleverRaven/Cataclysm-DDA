@@ -274,7 +274,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                 act.set_to_null();
                 return;
             }
-            if( !u.has_quality( quality_id( "CUT" ) &&
+            if( !u.has_quality( quality_id( "CUT" ) ) &&
                 ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
                 u.add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
                 act.set_to_null();
