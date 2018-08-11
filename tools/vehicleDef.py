@@ -22,7 +22,13 @@ def getVehicleTemplates():
             path = os.path.join(root,filename)
             if path.endswith(".map"):
                 vehicles += getVehicleInstances(path)
-    allTemplates = [buildVehicleDef(vehicle) for vehicle in vehicles]
+
+    allTemplates = []
+    for vehicle in vehicles:
+        vehicleDef = buildVehicleDef(vehicle)
+        if not vehicleDef in allTemplates:
+            allTemplates.append(vehicleDef)
+    
     return allTemplates
 
 def getVehicleInstances(mapPath):
