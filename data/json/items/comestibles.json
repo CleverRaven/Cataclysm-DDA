@@ -10200,7 +10200,6 @@
     "copy-from": "pemmican",
     "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of tallow,  edible plants, and an unfortunate prepper.",
     "material": [ "hflesh", "veggy" ],
-    "//": "About 4 meats, depending on which gets used.",
   }
 ]
 
