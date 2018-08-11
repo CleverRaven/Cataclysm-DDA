@@ -60,7 +60,7 @@
     "luminance": 200,
     "revert_to_itype": "bot_turret",
     "starting_ammo": { "9mm": 100 },
-    "special_attacks": [ [
+    "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
@@ -69,8 +69,7 @@
           [ 0, 6, "AUTO" ],
           [ 7, 12, "DEFAULT" ]
         ]
-      }
-    ], [ "PARROT", 40 ] ],
+      }, [ "PARROT", 40 ] ],
     "death_drops": {
       "groups": [
         [ "robots", 10 ],
