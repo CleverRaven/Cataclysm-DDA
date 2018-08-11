@@ -6096,7 +6096,7 @@ std::string item::get_plant_name() const
     return type->seed->plant_name;
 }
 
-bool item::is_warm_enought( int temperature ) const
+bool item::is_warm_enough( int temperature ) const
 {
     return temp_to_celsius( temperature ) >= type->seed->comfortable_temperature;
 }
