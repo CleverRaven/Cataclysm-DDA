@@ -3861,6 +3861,10 @@ void smoker_load_food( player &p, const tripoint &examp )
         add_msg(m_info, _( "Never mind." ) );
         return;
     }
+    if( amount > count ) {
+        add_msg(m_info, _( "You can't place that many." ) );
+        return;
+    }
 
     // reload comps with chosen items and quantity
     comps.clear();
@@ -3869,10 +3873,29 @@ void smoker_load_food( player &p, const tripoint &examp )
     // select from where to get the items from and place them
     inv.form_from_map( g->u.pos(), PICKUP_RANGE );
     inv.remove_items_with( []( const item & it ) {
-    return it.rotten();
+        return it.rotten();
     } );
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
     moved = p.consume_items( selected, 1 );
+
+    // hack, becouse consume_items doesn't seem to care of what item is consumed despite filters
+    // TODO: find a way to filter out rotten items from those actualy consumed
+    bool rotted = false;
+    for( item m : moved ) {
+        if( m.rotten() ) {
+            rotted = true;
+        }
+    }
+    if( rotted ) {
+        add_msg(m_info, _( "You have rotten food mixed with fresh.  Get rid of it first." ) );
+        for( item m : moved ) {
+           g->m.add_item( p.pos(), m );
+           p.mod_moves( -p.item_handling_cost( m ) );
+        }
+        p.invalidate_crafting_inventory();
+        return;
+    }
+
     for( item m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
