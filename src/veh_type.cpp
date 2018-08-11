@@ -153,6 +153,8 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
     if( eptr ) {
         e_info = *eptr;
     }
+    assign( jo, "backfire_threshold", e_info.backfire_threshold );
+    assign( jo, "backfire_freq", e_info.backfire_freq );
     assign( jo, "m2c", e_info.m2c );
     auto excludes = jo.get_array( "exclusions" );
     if( !excludes.empty() ) {
@@ -677,6 +679,16 @@ int vpart_info::repair_time( const Character &ch ) const
  * @name Engine specific functions
  *
  */
+float vpart_info::engine_backfire_threshold() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_threshold : false;
+}
+
+int  vpart_info::engine_backfire_freq() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_freq : false;
+}
+
 int  vpart_info::engine_m2c() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;

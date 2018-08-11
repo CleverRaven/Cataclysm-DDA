@@ -83,6 +83,8 @@ enum vpart_bitflags : int {
  * Other flags are self-explanatory in their names. */
 
 struct vpslot_engine {
+    float backfire_threshold = 0;
+    int  backfire_freq = 1;
     int  m2c = 1;
     std::vector<std::string> exclusions;
 };
@@ -222,6 +224,8 @@ class vpart_info
          */
         std::vector<std::string> engine_excludes() const;
         int  engine_m2c() const;
+        float engine_backfire_threshold() const;
+        int  engine_backfire_freq() const;
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;

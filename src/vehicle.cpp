@@ -1318,8 +1318,8 @@ bool vehicle::start_engine( const int e )
     const int engine_power = part_power( engines[e], true );
     const double cold_factor = engine_cold_factor( e );
 
-    if( einfo.fuel_type != fuel_type_muscle ) {
-        if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
+    if( einfo.engine_backfire_threshold() ) {
+        if( ( 1 - dmg ) < einfo.engine_backfire_threshold() && one_in( einfo.engine_backfire_freq() ) ) {
             backfire( e );
         } else {
             const tripoint pos = global_part_pos3( engines[e] );
@@ -3441,16 +3441,14 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-                if( is_engine_type( e, fuel_type_gasoline ) ) {
-                    double dmg = parts[p].damage_percent();
-                    if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
-                        dmg = 1.0;
-                    }
-                    if( dmg > 0.75 && one_in( 200 - ( 150 * dmg ) ) ) {
-                        backfire( e );
-                    }
+                double health = parts[p].health_percent();
+                if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
+                    health = 0.0;
                 }
-                double j = power_to_epower(part_power(p, true)) * load * time * muffle;
+                if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
+                    backfire( e );
+                }
+                double j = power_to_epower( part_power( p, true ) ) * load * time * muffle;
 
                 if( parts[ p ].base.faults.count( fault_filter_air ) ) {
                     bad_filter = true;
@@ -6402,12 +6400,12 @@ float vehicle_part::damage() const
 
 double vehicle_part::health_percent() const
 {
-    return ( double )( 1.0 - base.damage() / base.max_damage() );
+    return ( 1.0 - ( double )base.damage() / base.max_damage() );
 }
 
 double vehicle_part::damage_percent() const
 {
-    return ( double )( base.damage() / base.max_damage() );
+    return ( double )base.damage() / base.max_damage();
 }
 
 /** parts are considered broken at zero health */

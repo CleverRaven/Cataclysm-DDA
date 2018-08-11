@@ -659,7 +659,7 @@ Vehicle components when installed on a vehicle.
 },
                               // The following optional fields are specific to ENGINEs.
 "m2c": 50,                    // Mandatory field for parts with the ENGINE flag, indicates ratio of cruise power to maximum power
-"backfire_threshold": 0.5,    // Optional field, defaults to 0. If greater than 0, indicates minimum ratio of damaged to max HP to trigger backfires
+"backfire_threshold": 0.5,    // Optional field, defaults to 0. Indicates maximum ratio of damaged HP to max HP to trigger backfires
 "backfire_freq": 20,          // Optional field unless backfire threshold > 0, then mandatory, defaults to 0. One in X chance of a backfire.
 "noise_factor": 15,           // Optional field, defaults to 0. Multiple engine power by this number to declare noise.
 "damaged_power_factor": 0.5,  // Optional field, defaults to 0. If more than 0, power when damaged is scaled to power * ( damaged_power_factor + ( 1 - damaged_power_factor ) * ( damaged HP / max HP )
