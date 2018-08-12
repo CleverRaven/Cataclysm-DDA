@@ -4230,7 +4230,7 @@
     "nutrition": 1,
     "description": "A hard casing filled with coffee seeds ready for roasting. The seeds create a dark black, bitter, caffinated liquid not too much unlike coffee.  ",
     "price": 100,
-    "material": [ "veggy", "cotton" ],
+    "material": [ "veggy" ],
     "volume": 1,
     "charges": 4,
     "fun": -10
