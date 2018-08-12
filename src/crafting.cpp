@@ -56,7 +56,7 @@ static bool crafting_allowed( const player &p, const recipe &rec )
     }
 
     if( rec.category == "CC_BUILDING" ) {
-        add_msg( m_info, _( "Overmap terrain building recipies are not implemented yet!" ) );
+        add_msg( m_info, _( "Overmap terrain building recipes are not implemented yet!" ) );
         return false;
     }
     return true;

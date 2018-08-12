@@ -109,7 +109,7 @@
     "power": -25,
     "damage_modifier": 500,
     "breaks_into": [  ],
-    "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increased the damage the vehicle delivers in collisisons.  Mount on the edges of the vehicle, preferably the front.",
+    "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",
     "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ]
   }
 ]
