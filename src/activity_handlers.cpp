@@ -648,7 +648,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
     //As long as the factor is above -4 (the sinew cutoff), you will be able to extract CBMs
-    if( action == F_DRESS && p->has_quality( quality_id( "CUT_FINE" ) ) ) {
+    if( action == BUTCHER_FULL && !corpse_item->has_flag( "QUARTERED" ) && p->has_quality( quality_id( "CUT_FINE" ) ) ) {
 
         if( corpse->has_flag( MF_CBM_CIV ) ) {
             butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
@@ -684,11 +684,31 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         if( corpse->has_flag( MF_CBM_POWER ) ) {
             butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
         }
-    } else if( action == F_DRESS &&
-                ( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) ||
+    } else if( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) ||
                 corpse->has_flag( MF_CBM_TECH ) || corpse->has_flag( MF_CBM_SUBS ) ||
-                corpse->has_flag( MF_CBM_OP ) || corpse->has_flag( MF_CBM_POWER ) ) ) {
-        p->add_msg_if_player( m_bad, _( "You found bionics implanted in this corpse, but without fine cutting tools you ruin them completely." ) );
+                corpse->has_flag( MF_CBM_OP ) || corpse->has_flag( MF_CBM_POWER ) ) {
+        if( action == BUTCHER_FULL && !corpse_item->has_flag( "QUARTERED" ) && !p->has_quality( quality_id( "CUT_FINE" ) ) ) {
+            p->add_msg_if_player( m_bad, _( "You found bionics implanted in this corpse, but without fine cutting tools you ruin them completely." ) );
+        }
+        if( action == BUTCHER_FULL && corpse_item->has_flag( "QUARTERED" ) ) {
+            p->add_msg_if_player( m_bad, _( "You found traces of bionics implanted in this corpse, but quartering ruined them completely." ) );
+        }
+        if( action == F_DRESS ) {
+            p->add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that a careful butchery might reveal." ) );
+        }
+        if( action == BUTCHER ) {
+            switch( rng( 1, 3 ) ) {
+            case 1:
+                p->add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
+                break;
+            case 2:
+                p->add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
+                break;
+            case 3:
+                p->add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require a more careful butchery." ) );
+                break;
+            }
+        }
     }
 
     //now handle the meat, if there is any
@@ -752,10 +772,39 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 
         const itype *drop = item::find_type( entry.drop );
 
+        // BIONIC handling
+        if( drop->bionic.has_value() ) {
+            if( action == BUTCHER_FULL && !corpse_item->has_flag( "QUARTERED" ) && !p.has_quality( quality_id( "CUT_FINE" ) ) ) {
+                p.add_msg_if_player( m_bad, _( "You found bionics implanted in this corpse, but without fine cutting tools you ruin them completely." ) );
+                roll = 0;
+            }
+            if( action == BUTCHER_FULL && corpse_item->has_flag( "QUARTERED" ) ) {
+                p.add_msg_if_player( m_bad, _( "You found traces of bionics implanted in this corpse, but quartering ruined them completely." ) );
+                roll = 0;
+            }
+            if( action == F_DRESS ) {
+                p.add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that a careful butchery might reveal." ) );
+                continue;
+            }
+            if( action == BUTCHER ) {
+                switch( rng( 1, 3 ) ) {
+                case 1:
+                    p.add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
+                    break;
+                case 2:
+                    p.add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
+                    break;
+                case 3:
+                    p.add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require a more careful butchery." ) );
+                    break;
+                }
+            }
+        }
+
         // QUICK BUTCHERY aims for meat and doesn't care about the rest
         if( action == BUTCHER ) {
             if( entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "veggy" || entry.drop == "veggy_tainted" ) {
+                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ) {
                 roll = roll / 4;
             } else {
                 continue; 
