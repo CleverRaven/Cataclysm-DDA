@@ -10180,11 +10180,12 @@ void game::butcher()
     case BUTCHER_CORPSE:
         {
             uimenu smenu;
+            smenu.desc_enabled = true;
             smenu.text = _("Choose type of butchery:");
-            smenu.addentry( BUTCHER, true, 'B' , _("Quick butchery") );
-            smenu.addentry( BUTCHER_FULL, true, 'b' , _("Full butchery") );
-            smenu.addentry( F_DRESS, true, 'f' , _("Field dress corpse") );
-            smenu.addentry( QUARTER, true, 'k' , _("Quarter corpse") );
+            smenu.addentry_desc( BUTCHER, true, 'B' , _("Quick butchery"), _( "This techinque is used when you are in a hurry, but still want to harvest some flesh. You aim for major muscles (or equivalents) and don't care for the rest, so be prepared for low yields and no variety. Prevents zombies from raising." ) );
+            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a butchering rack, a flat surface (for ex. a table) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
+            smenu.addentry_desc( F_DRESS, true, 'f' , _("Field dress corpse"), _( "Technique that involves removing internal organs and viscera to protect the meat from rotting from inside. Yields internal organs. Carcass will be lighter and flesh harvested from it will be more fresh.  Can be combined with other methods for better effects." ) );
+            smenu.addentry_desc( QUARTER, true, 'k' , _("Quarter corpse"), _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin/hide/pelt/etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry( CANCEL, true, 'q', _("Cancel"));
             smenu.return_invalid = true;
             smenu.query();
