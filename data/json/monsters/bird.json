@@ -101,7 +101,7 @@
     "type": "MONSTER",
     "copy-from": "mon_duck",
     "name": "goose",
-    "description": "A canadian goose, a common waterfowl that regrets leaving Canada.",
+    "description": "A Canadian goose, a common waterfowl that regrets leaving Canada.",
     "hp": 8,
     "dodge": 3,
     "reproduction": { "baby_egg": "egg_goose_canadian", "baby_count": 3, "baby_timer": 10 },
