@@ -3305,7 +3305,7 @@
     },{
         "type" : "terrain",
         "id" : "t_tree_coffee_harvested",
-        "name": "pear tree",
+        "name": "coffee tree",
         "description": "This is 'gymnocladus dioicus', or the kent coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  Looks like all the ripe pods have been picked.  You could also cut it down with the right tools.",
         "symbol": "7",
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
