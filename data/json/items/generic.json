@@ -2283,6 +2283,19 @@
     "volume": 4
   },
   {
+    "type": "GENERIC",
+    "id": "tobacco_raw",
+    "symbol": "%",
+    "color": "light_green",
+    "name": "raw tobacco",
+    "name_plural": "handfuls of raw tobacco",
+    "description": "Various parts of tobacco plant, full of nicotine.  They need to be dried to become smokable.",
+    "price": 300,
+    "material": "veggy",
+    "weight": 100,
+    "volume": 1
+  },
+  {
     "id": "cash_card",
     "type": "TOOL",
     "symbol": ",",

@@ -137,6 +137,20 @@
   ]
 },{
   "type" : "recipe",
+  "result": "tobacco",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "autolearn": true,
+  "batch_time_factors": [ 67, 5 ],
+  "tools": [
+    [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+  ],
+  "components": [ [ [ "tobacco_raw", 1 ] ] ]
+},{
+  "type" : "recipe",
   "result": "joint",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
