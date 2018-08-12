@@ -337,7 +337,7 @@ void player::activate_mutation( const trait_id &mut )
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
         int choice = menu( true, _( "Perform which function:" ), _( "Turn on digging mode" ),
-                           _( "Dig pit" ), _( "Fill pit" ), _( "Clear rubble" ), NULL );
+                           _( "Dig pit" ), _( "Fill pit/tamp ground" ), _( "Clear rubble" ), NULL );
         if( choice <= 0 ) {
             tdata.powered = false;
             return;
