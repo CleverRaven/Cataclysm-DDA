@@ -256,7 +256,7 @@
     "id": "surv_levershotgun",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": "makeshift lever shotgun",
+    "name": "handmade lever shotgun",
     "description": "A well designed homemade lever-action shotgun.  With a 8 round magazine, this is one of the better homemade weapons.",
     "weight": 3934,
     "volume": 10,

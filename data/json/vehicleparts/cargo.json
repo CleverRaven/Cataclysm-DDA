@@ -1,0 +1,53 @@
+[
+  {
+    "id": "basketlg_external",
+    "type": "vehicle_part",
+    "name": "external shopping cart basket",
+    "item": "basket",
+    "location": "structure",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 1,
+    "durability": 75,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": 200,
+    "damage_modifier": 60,
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
+  },
+  {
+    "id": "basketsm_external",
+    "type": "vehicle_part",
+    "name": "external wire bike basket",
+    "item": "bike_basket",
+    "location": "structure",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 1,
+    "durability": 75,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": 60,
+    "damage_modifier": 60,
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
+  },
+  {
+    "id": "cargo_space_external",
+    "type": "vehicle_part",
+    "name": "external cargo rack",
+    "item": "cargo_rack",
+    "location": "structure",
+    "symbol": "=",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "difficulty": 3,
+    "durability": 250,
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": 1000,
+    "breaks_into": [  ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
+  }
+]

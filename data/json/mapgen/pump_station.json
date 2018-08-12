@@ -96,12 +96,8 @@
         { "group": "home_hw", "x": [ 21, 21 ], "y": [ 2, 10 ], "chance": 85, "repeat": [ 1, 3 ] },
         { "group": "home_hw", "x": [ 17, 20 ], "y": [ 2, 10 ], "chance": 55, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 5, 21 ], "y": [ 8, 23 ], "chance": 3 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "pump_station_vehicles", "x": [ 7, 9 ], "y": [ 4, 6 ], "chance": 20, "rotation": 90 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 5, 21 ], "y": [ 8, 23 ], "chance": 3 } ],
+      "place_vehicles": [ { "vehicle": "pump_station_vehicles", "x": [ 7, 9 ], "y": [ 4, 6 ], "chance": 20, "rotation": 90 } ]
     }
   },
   {
@@ -159,11 +155,7 @@
         "|": "t_wall",
         "}": "t_manhole_cover"
       },
-      "furniture": {
-        "L": "f_locker",
-        "r": "f_rack",
-        "z": "f_crate_c"
-      },
+      "furniture": { "L": "f_locker", "r": "f_rack", "z": "f_crate_c" },
       "place_loot": [
         { "group": "home_hw", "x": [ 10, 11 ], "y": [ 13, 13 ], "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "sewage_plant", "x": [ 4, 5 ], "y": [ 0, 2 ], "chance": 70, "repeat": [ 1, 3 ] },
@@ -175,9 +167,7 @@
         { "item": "pipe", "x": [ 12, 13 ], "y": [ 1, 2 ], "chance": 75, "repeat": [ 1, 5 ] },
         { "item": "steel_plate", "x": [ 12, 13 ], "y": [ 1, 2 ], "chance": 40, "repeat": [ 1, 3 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 21 ], "y": [ 0, 13 ], "chance": 3 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 21 ], "y": [ 0, 13 ], "chance": 3 } ]
     }
   },
   {
@@ -222,9 +212,7 @@
         "x": "t_bridge",
         "~": "t_sewage"
       },
-      "place_monsters": [
-        { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
   {
@@ -267,9 +255,7 @@
         "x": "t_bridge",
         "~": "t_sewage"
       },
-      "place_monsters": [
-        { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
   {
@@ -318,16 +304,9 @@
         "x": "t_bridge",
         "~": "t_sewage"
       },
-      "furniture": {
-        "L": "f_locker",
-        "c": "f_counter"
-      },
-      "place_loot": [
-        { "group": "sewage_plant", "x": [ 10, 10 ], "y": [ 15, 16 ], "chance": 85, "repeat": [ 1, 3 ] }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "furniture": { "L": "f_locker", "c": "f_counter" },
+      "place_loot": [ { "group": "sewage_plant", "x": [ 10, 10 ], "y": [ 15, 16 ], "chance": 85, "repeat": [ 1, 3 ] } ],
+      "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   }
 ]

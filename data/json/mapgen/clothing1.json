@@ -25,7 +25,7 @@
         "***|..u|.@........#..|**",
         "***O...|..........%..|**",
         "***|.h.+..........#..|**",
-        "***|U..|U.........#..|**",
+        "***|U..|U.........#S.|**",
         "***|---|h..@.@..y|--+|**",
         "***|..U|h.......h|]..|**",
         "***O.h.|........h|dh.|**",
@@ -53,6 +53,7 @@
         ";": "t_door_locked",
         "=": "t_wall_glass",
         "@": "t_floor",
+        "S": "t_floor",
         "O": "t_window",
         "U": "t_floor",
         "]": "t_floor",
@@ -72,15 +73,14 @@
         "U": "f_bigmirror",
         "]": "f_bookcase",
         "d": "f_desk",
+        "S": "f_stool",
         "f": "f_indoor_plant",
         "h": "f_chair",
         "s": "f_sink",
         "u": "f_trashcan",
         "y": "f_indoor_plant_y"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "place_items": [
         { "item": "tailorbooks", "x": 13, "y": 18, "chance": 50 },
         { "item": "tailorbooks", "x": 18, "y": 11, "chance": 50 },

@@ -52,18 +52,9 @@
         "u": "t_underbrush_harvested_autumn",
         "|": "t_chainfence_v"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "b": "f_bench"
-      },
-      "add": [
-        { "item": "rock", "x": 13, "y": 9 },
-        { "item": "rock", "x": 2, "y": 13 },
-        { "item": "rock", "x": 22, "y": 19 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 15 ], "y": [ 5, 13 ], "repeat": 2 }
-      ]
+      "furniture": { "&": "f_trashcan", "b": "f_bench" },
+      "add": [ { "item": "rock", "x": 13, "y": 9 }, { "item": "rock", "x": 2, "y": 13 }, { "item": "rock", "x": 22, "y": 19 } ],
+      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 15 ], "y": [ 5, 13 ], "repeat": 2 } ]
     }
   },
   {
@@ -125,17 +116,9 @@
         "w": "t_water_sh",
         "|": "t_chainfence_v"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "b": "f_bench"
-      },
-      "add": [
-        { "item": "rock", "x": 2, "y": 13 },
-        { "item": "rock", "x": 22, "y": 19 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_PARK_ANIMAL", "x": 2, "y": 5 }
-      ]
+      "furniture": { "&": "f_trashcan", "b": "f_bench" },
+      "add": [ { "item": "rock", "x": 2, "y": 13 }, { "item": "rock", "x": 22, "y": 19 } ],
+      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": 2, "y": 5 } ]
     }
   }
 ]

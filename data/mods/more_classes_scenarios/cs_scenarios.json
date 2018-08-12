@@ -26,7 +26,7 @@
     "ident": "last_crime",
     "name": "The Last Gig",
     "points": -6,
-    "description": "You were on your way to another routine job, it might of been a target to kill, an item to steal or intel to gather.  Whatever it was doesn't matter anymore; you did your best to avoid the horde and when you arrive, the place is sorrounded, not by cops as you might expected, but by the dead. Worse, you got a cut somewhere along the way and it's looking infected.",
+    "description": "You were on your way to another routine job, it might of been a target to kill, an item to steal or intel to gather.  Whatever it was doesn't matter anymore; you did your best to avoid the horde and when you arrive, the place is surrounded, not by cops as you might expected, but by the dead. Worse, you got a cut somewhere along the way and it's looking infected.",
     "allowed_locs": ["house","bank","pawn","s_gun","s_gas_s"],
     "professions": ["convict", "scoundrel", "gangster", "burglar", "bionic_thief", "razorgirl", "bionic_hitman", "bio_gangster"],
     "start_name": "Intended Crime Scene",

@@ -153,9 +153,7 @@
         { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 6 },
         { "monster": "GROUP_DOMESTIC", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 12 }
       ],
-      "place_vehicles": [
-        { "vehicle": "suburban_home", "x": 4, "y": 17, "chance": 50, "rotation": -90 }
-      ]
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 4, "y": 17, "chance": 50, "rotation": -90 } ]
     }
   },
   {
