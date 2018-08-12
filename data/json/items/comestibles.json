@@ -3374,6 +3374,14 @@
     "//": "About 4 meats, depending on which gets used.",
     "fun": 3
   },
+   {
+    "type": "COMESTIBLE",
+    "id": "hflesh_pemmican",
+    "name": "prepper pemmican",
+    "copy-from": "pemmican",
+    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of tallow, edible plants, and an unfortunate prepper.",
+    "material": [ "hflesh", "veggy" ]
+  },
   {
     "type": "COMESTIBLE",
     "id": "sandwich_veggy",
