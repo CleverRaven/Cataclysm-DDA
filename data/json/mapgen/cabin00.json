@@ -17,7 +17,7 @@
         "|......................|",
         "|......................|",
         "|..######+###ww######..|",
-        "|..# RRR        DBBD#..|",
+        "|..# RRR   Y    DBBD#..|",
         "|..# RSR         BB #..|",
         "|..# rrr            #..|",
         "|..#                #..|",
@@ -32,12 +32,7 @@
         "|......................|",
         "-----------GG-----------"
       ],
-      "mapping": {
-        "S": {
-          "terrain": "t_rock_floor",
-          "furniture": "f_woodstove"
-        }
-      },
+      "mapping": { "S": { "terrain": "t_rock_floor", "furniture": "f_woodstove" } },
       "terrain": {
         "#": "t_wall_log",
         "+": "t_door_c",
@@ -45,6 +40,7 @@
         ".": "t_grass",
         "G": "t_fencegate_c",
         "R": "t_rock",
+        "Y": "t_floor",
         "W": "t_window_boarded",
         "r": "t_rock_floor",
         "w": "t_window_domestic",
@@ -56,9 +52,11 @@
         "D": "f_dresser",
         "L": "f_locker",
         "O": "f_sofa",
+        "Y": "f_rack_coat",
         "c": "f_chair",
         "t": "f_table"
       },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [
         { "item": "livingroom", "x": [ 4, 8 ], "y": [ 13, 18 ], "chance": 60 },
         { "item": "dining", "x": [ 11, 12 ], "y": [ 14, 15 ], "chance": 60 },
@@ -68,9 +66,7 @@
         { "item": "tools_earthworking", "x": [ 5, 9 ], "y": 3, "chance": 70 },
         { "item": "bed", "x": [ 17, 18 ], "y": [ 10, 11 ], "chance": 60 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ]
     }
   },
   {
@@ -106,12 +102,7 @@
         "........................",
         "........................"
       ],
-      "mapping": {
-        "S": {
-          "terrain": "t_rock_floor",
-          "furniture": "f_woodstove"
-        }
-      },
+      "mapping": { "S": { "terrain": "t_rock_floor", "furniture": "f_woodstove" } },
       "terrain": {
         "#": "t_wall_log",
         "+": "t_door_c",
@@ -157,9 +148,7 @@
         { "x": 21, "y": 4, "items": true },
         { "x": 21, "y": 5, "items": true }
       ],
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "place_items": [
         { "item": "fridge", "x": 4, "y": 15, "chance": 65 },
         { "item": "homeguns", "x": 7, "y": 9, "chance": 30 },
@@ -179,9 +168,7 @@
         { "item": "livingroom", "x": [ 14, 17 ], "y": [ 12, 15 ], "chance": 50 },
         { "item": "bed", "x": [ 17, 18 ], "y": [ 4, 5 ], "chance": 60 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": 11, "y": 12 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 11, "y": 12 } ]
     }
   }
 ]

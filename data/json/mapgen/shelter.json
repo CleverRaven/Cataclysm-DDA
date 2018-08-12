@@ -41,12 +41,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [
-        "shelter"
-      ],
-      "items": {
-        "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] }
-      },
+      "palettes": [ "shelter" ],
+      "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
       "computers": {
         "6": {
           "name": "Evac shelter computer", "options": [
@@ -90,12 +86,8 @@
         "########################",
         "########################"
       ],
-      "palettes": [
-        "shelter"
-      ],
-      "items": {
-        "_": { "item": "shelter", "chance": 1 }
-      }
+      "palettes": [ "shelter" ],
+      "items": { "_": { "item": "shelter", "chance": 1 } }
     }
   },
   {
@@ -130,15 +122,9 @@
         "########################",
         "########################"
       ],
-      "palettes": [
-        "shelter"
-      ],
-      "items": {
-        "_": { "item": "shelter", "chance": 10 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 5, 18 ], "y": [ 5, 18 ], "density": 0.2 }
-      ]
+      "palettes": [ "shelter" ],
+      "items": { "_": { "item": "shelter", "chance": 10 } },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 5, 18 ], "y": [ 5, 18 ], "density": 0.2 } ]
     }
   }
 ]

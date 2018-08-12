@@ -68,9 +68,7 @@
         { "item": "pasta", "x": [ 16, 4 ], "y": [ 21, 7 ], "chance": 75 },
         { "item": "camping", "x": [ 10, 8 ], "y": [ 15, 13 ], "chance": 75 }
       ],
-      "place_monsters": [
-        { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] }
-      ]
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] } ]
     }
   },
   {
@@ -136,9 +134,7 @@
         { "item": "stash_wood", "x": [ 20, 17 ], "y": [ 3, 7 ], "chance": 80 },
         { "item": "field", "x": [ 15, 3 ], "y": [ 15, 3 ], "chance": 40, "repeat": [ 1, 3 ] }
       ],
-      "place_monsters": [
-        { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 40, "repeat": [ 1, 3 ] }
-      ]
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 40, "repeat": [ 1, 3 ] } ]
     }
   },
   {
@@ -198,9 +194,7 @@
         { "item": "pasta", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 75 },
         { "item": "camping", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 75 }
       ],
-      "place_monsters": [
-        { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] }
-      ],
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] } ],
       "place_vehicles": [
         { "vehicle": "motorcycle", "x": 3, "y": 3, "chance": 90, "rotation": 0 },
         { "vehicle": "motorcycle", "x": 17, "y": 3, "chance": 75, "rotation": 180 },
@@ -266,9 +260,7 @@
         { "item": "map_extra_college_lake", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 75, "repeat": [ 3, 5 ] },
         { "item": "camping", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 75 }
       ],
-      "place_monsters": [
-        { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] }
-      ],
+      "place_monsters":  [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] } ],
       "place_vehicles": [
         { "vehicle": "motorcycle", "x": 3, "y": 3, "chance": 50, "rotation": 0 },
         { "vehicle": "motorcycle", "x": 17, "y": 3, "chance": 25, "rotation": 180 },
@@ -345,12 +337,8 @@
         { "item": "pasta", "x": 7, "y": 20, "chance": 75 },
         { "item": "camping", "x": 20, "y": 16, "chance": 75 }
       ],
-      "add": [
-        { "item": "log", "x": 17, "y": 3, "amount": [ 3, 8 ] }
-      ],
-      "place_monsters": [
-        { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 40, "repeat": [ 1, 3 ] }
-      ]
+      "add": [ { "item": "log", "x": 17, "y": 3, "amount": [ 3, 8 ] } ],
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 40, "repeat": [ 1, 3 ] } ]
     }
   }
 ]

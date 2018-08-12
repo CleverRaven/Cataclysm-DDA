@@ -44,15 +44,9 @@
         "r": "t_console_broken",
         "~": "t_water_sh"
       },
-      "furniture": {
-        "#": "f_wreckage"
-      },
-      "items": {
-        "D": { "item": "office", "chance": 70 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_RAZORCLAW", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.4 }
-      ]
+      "furniture": { "#": "f_wreckage" },
+      "items": { "D": { "item": "office", "chance": 70 } },
+      "place_monsters": [ { "monster": "GROUP_RAZORCLAW", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.4 } ]
     }
   },
   {
@@ -97,16 +91,9 @@
         "C": "t_dirtmound",
         "~": "t_water_sh"
       },
-      "furniture": {
-        "#": "f_wreckage",
-        "A": "f_safe_l"
-      },
-      "place_loot": [
-        { "group": "guns_pistol_rare", "x": 0, "y": 9, "chance": 70, "ammo": 95, "magazine": 100 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_RAZORCLAW", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.4 }
-      ]
+      "furniture": { "#": "f_wreckage", "A": "f_safe_l" },
+      "place_loot": [ { "group": "guns_pistol_rare", "x": 0, "y": 9, "chance": 70, "ammo": 95, "magazine": 100 } ],
+      "place_monsters": [ { "monster": "GROUP_RAZORCLAW", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.4 } ]
     }
   },
   {
@@ -152,18 +139,10 @@
         "e": "t_machinery_heavy",
         "~": "t_water_sh"
       },
-      "furniture": {
-        "#": "f_wreckage"
-      },
-      "items": {
-        "C": { "item": "razorclaw_nest", "chance": 80 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_RAZORCLAW", "x": [ 12, 21 ], "y": [ 9, 13 ], "density": 0.2 }
-      ],
-      "place_monster": [
-        { "monster": "mon_alpha_razorclaw", "x": 13, "y": 11 }
-      ]
+      "furniture": { "#": "f_wreckage" },
+      "items": { "C": { "item": "razorclaw_nest", "chance": 80 } },
+      "place_monsters": [ { "monster": "GROUP_RAZORCLAW", "x": [ 12, 21 ], "y": [ 9, 13 ], "density": 0.2 } ],
+      "place_monster": [ { "monster": "mon_alpha_razorclaw", "x": 13, "y": 11 } ]
     }
   },
   {
@@ -211,18 +190,9 @@
         "e": "t_machinery_heavy",
         "~": "t_water_sh"
       },
-      "furniture": {
-        "#": "f_wreckage",
-        "9": "f_locker",
-        "A": "f_standing_tank"
-      },
-      "items": {
-        "9": { "item": "plumber_gear", "chance": 90 },
-        "C": { "item": "razorclaw_nest", "chance": 70 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_RAZORCLAW", "x": [ 0, 9 ], "y": [ 9, 13 ], "density": 0.05 }
-      ]
+      "furniture": { "#": "f_wreckage", "9": "f_locker", "A": "f_standing_tank" },
+      "items": { "9": { "item": "plumber_gear", "chance": 90 }, "C": { "item": "razorclaw_nest", "chance": 70 } },
+      "place_monsters": [ { "monster": "GROUP_RAZORCLAW", "x": [ 0, 9 ], "y": [ 9, 13 ], "density": 0.05 } ]
     }
   }
 ]

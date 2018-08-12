@@ -203,6 +203,7 @@ static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
+static const trait_id trait_BURROW( "BURROW" );
 
 void advanced_inv(); // player_activity.cpp
 void intro();
@@ -890,7 +891,11 @@ bool game::start_game()
     get_safemode().clear_character_rules();
 
     //Put some NPCs in there!
-    create_starting_npcs();
+    if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
+        ( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
+        !g->scen->has_flag( "LONE_START" ) ) ) {
+        create_starting_npcs();
+    }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     // Spawn the monsters
@@ -1012,14 +1017,15 @@ void game::reload_npcs()
 
 void game::create_starting_npcs()
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ) {
+    if( !get_option<bool>( "STATIC_NPC" ) ||
+        get_option<std::string>( "STARTING_NPC" ) == "never" ) {
         return; //Do not generate a starting npc.
     }
 
-    //We don't want more than one starting npc per shelter
+    //We don't want more than one starting npc per starting location
     const int radius = 1;
     if( !overmap_buffer.get_npcs_near_player( radius ).empty() ) {
-        return; //There is already an NPC in this shelter
+        return; //There is already an NPC in this starting location
     }
 
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
@@ -1029,10 +1035,10 @@ void game::create_starting_npcs()
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
-    //This sets the npc mission. This NPC remains in the shelter.
+    //This sets the NPC mission. This NPC remains in the starting location.
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
-    //one random shelter mission.
+    //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(), tmp->getID() ) );
 }
 
@@ -11101,6 +11107,12 @@ bool game::plmove(int dx, int dy, int dz)
         return true;
     }
 
+    if( u.weapon.has_flag("DIG_TOOL") && m.has_flag( "MINEABLE", dest_loc ) && !u.has_effect( effect_stunned ) ) {
+        // TODO: Handle moving-and-digging via Burrower mutation.
+        // TODO 2: Prevent player from being asked twice about which tile to mine.
+        u.use_wielded();
+    }
+
     if( dz == 0 && ramp_move( dest_loc ) ) {
         // TODO: Make it work nice with automove (if it doesn't do so already?)
         return false;
@@ -12793,7 +12805,7 @@ void game::update_map(int &x, int &y)
     // get_levz() should later be removed, when there is no longer such a thing
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
-    
+
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();

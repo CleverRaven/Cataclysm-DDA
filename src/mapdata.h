@@ -220,6 +220,8 @@ public:
     std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
 
+    std::string looks_like;
+    
     iexamine_function examine; //What happens when the terrain/furniture is examined
 
     /**
@@ -349,7 +351,7 @@ extern ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_thconc_floor,
+    t_thconc_floor, t_thconc_floor_olight,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
