@@ -168,7 +168,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         }
 
     } else if( type->comestible ) {
-        active = goes_bad() && !rotten();
+        active = true;
 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
@@ -3086,7 +3086,7 @@ void item::set_relative_rot( double val )
         last_rot_check = calendar::turn;
         fridge = calendar::before_time_starts;
         freezer = calendar::before_time_starts;
-        active = !rotten();
+        active = true;
     }
 }
 
@@ -3151,10 +3151,6 @@ void item::calc_rot(const tripoint &location)
         if( fridge != calendar::before_time_starts ) {
             rot += ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
             fridge = calendar::before_time_starts;
-        }
-        // item stays active to let the item counter work
-        if( item_counter == 0 && rotten() ) {
-            active = false;
         }
     }
 }
@@ -5704,8 +5700,7 @@ bool item::needs_processing() const
 {
     return active || has_flag("RADIO_ACTIVATION") ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact(); //||
-           //( is_food() && g->get_temperature( this*->item_location() ) <= FRIDGE_TEMPERATURE );
+           is_artifact() || ( is_food() );
 }
 
 int item::processing_speed() const
@@ -5714,6 +5709,8 @@ int item::processing_speed() const
         // Hot and cold food need turn-by-turn updates.
         // If they ever become a performance problem, update process_food to handle them occasionally.
         return 600;
+    } else {
+        return 100;
     }
     if( is_corpse() ) {
         return 100;
@@ -5753,8 +5750,8 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
         item_tags.insert( "NO_PARASITES" );
     }
     // environment temperature applies COLD/FROZEN flags to food
-    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE
-        && g->get_temperature( pos ) > FREEZING_TEMPERATURE ) {
+    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE &&
+        g->get_temperature( pos ) > FREEZING_TEMPERATURE ) {
         g->m.apply_in_fridge( *this, false);
         add_msg( m_info, "Debug 2.1: %s", this->tname(1).c_str() );
     } else if( g->get_temperature( pos ) <= FREEZING_TEMPERATURE ) {
