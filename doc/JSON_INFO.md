@@ -33,9 +33,9 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | monster_factions.json       | monster factions
 | monstergroups.json          | monster spawn groups
 | monstergroups_egg.json      | monster spawn groups from eggs
-| monsters.json               | zombie descriptions
+| monsters.json               | monster descriptions, mostly zombies
 | morale_types.json           | morale modifier messages
-| mutation_category.json      | messages for mutation_categories
+| mutation_category.json      | messages for mutation categories
 | mutation_ordering.json      | draw order for mutation overlays in tiles mode
 | mutations.json              | traits/mutations
 | names.json                  | names used for NPC/player name generation
