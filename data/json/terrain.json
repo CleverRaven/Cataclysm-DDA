@@ -3290,7 +3290,7 @@
         "transforms_into": "t_tree_coffee_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "entries": [ { "drop": "coffee_pod", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "coffee_pod", "base_num": [ 4, 10 ], "scaled_num": [ 0, 0.5 ] }, { "drop": "tea_raw", "base_num": [4, 10], "scaled_num": [ 0, 0.5] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
