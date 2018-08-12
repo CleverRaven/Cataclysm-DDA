@@ -1418,7 +1418,7 @@
     "id": "mon_gozu",
     "type": "MONSTER",
     "name": "gozu",
-    "description": "This is some sort of unnatural cross between a bull and a man.  Quite different from the minotaur of legend, it possesses a shaggy white bull’s head on an otherwise unremarkable human body. Clad in sagging socks and stained jockey shorts, it grunts and snuffles, drooling ropey strands of white slobber down its chest.  Its mere presence fills you with an unfathomable dread.",
+    "description": "This is some sort of unnatural cross between a bull and a man.  Quite different from the minotaur of legend, it possesses a shaggy white bull’s head on an otherwise unremarkable human body.  Clad in sagging socks and stained jockey shorts, it grunts and snuffles, drooling ropey strands of white slobber down its chest.  Its mere presence fills you with an unfathomable dread.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 20,
