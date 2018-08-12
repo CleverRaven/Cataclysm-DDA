@@ -7,7 +7,8 @@
     "nested_mapgen_id": "lab_spawn_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
-      "place_nested": [ { "chunks": [ [ "lab_room_7x7", 100 ] ], "x": 0, "y": 0} ]
+      "place_nested": [ { "chunks": [ [ "lab_room_7x7", 97 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0},
+                        { "chunks": [ "lab_maybe_effects_7x7" ], "x": 0, "y": 0} ]
     }
   },
   {
@@ -17,17 +18,19 @@
     "nested_mapgen_id": "lab_spawn_7x7_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ [ "lab_room_7x7", 50 ], [ "lab_room_7x7_crossdoors", 100 ] ], "x": 0, "y": 0} ]
+      "place_nested": [ { "chunks": [ [ "lab_room_7x7", 33 ], [ "lab_room_7x7_crossdoors", 63 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0},
+                        { "chunks": [ "lab_maybe_effects_7x7" ], "x": 0, "y": 0} ]
     }
   },
   {
-    "//": "Spawn for a room at least 9x9, walls often but not guarnateed.",
+    "//": "Spawn for a room at least 9x9, walls often but not guaranteed.",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_spawn_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ [ "lab_room_9x9", 100 ] ], "x": 0, "y": 0} ]
+      "place_nested": [ { "chunks": [ [ "lab_room_9x9", 97 ], [ "lab_room_9x9_rare", 3 ] ], "x": 0, "y": 0},
+                        { "chunks": [ "lab_maybe_effects_9x9" ], "x": 0, "y": 0} ]
     }
   },
   {
@@ -37,7 +40,8 @@
     "nested_mapgen_id": "lab_spawn_9x9_crossdoors",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ [ "lab_room_9x9", 50 ], [ "lab_room_9x9_crossdoors", 100 ] ], "x": 0, "y": 0} ]
+      "place_nested": [ { "chunks": [ [ "lab_room_9x9", 33 ], [ "lab_room_9x9_crossdoors", 64 ], [ "lab_room_9x9_rare", 3 ] ], "x": 0, "y": 0},
+                        { "chunks": [ "lab_maybe_effects_9x9" ], "x": 0, "y": 0} ]
     }
   },
   {
@@ -82,7 +86,7 @@
         "......."
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "place_traps": [ { "trap": "tr_dissector", "x": [ 3, 3 ], "y": [ 4, 5 ] } ],
+      "place_traps": [ { "trap": "tr_dissector", "x": [ 1, 5 ], "y": [ 2, 5 ] } ],
       "place_monster": [ { "monster": "mon_broken_cyborg", "x": [0, 6], "y": [ 0, 6 ], "chance": 33 } ]
     }
   },
@@ -140,6 +144,49 @@
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
       "place_monster": [ { "monster": "mon_turret", "x": [4, 4], "y": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "//": "7x7 teleporter room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_traps": [ { "trap": "tr_telepad", "x": [ 1, 5 ], "y": [ 1, 5 ] } ],
+      "place_nested": [ { "chunks": [ "lab_telepad_counter_2x2" ], "x": [2, 3], "y": [2, 3] } ]
+    }
+  },
+  {
+    "//": "9x9 teleporter room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_traps": [ { "trap": "tr_telepad", "x": [ 1, 7 ], "y": [ 1, 7 ] } ],
+      "place_nested": [ { "chunks": [ "lab_telepad_counter_2x2" ], "x": [3, 4], "y": [3, 4] } ]
+    }
+  },
+  {
+    "//": "2x2 counter with teleporter loot on it",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_telepad_counter_2x2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "cc",
+        "cc"
+      ],
+      "palettes": [
+        "lab_palette"
+      ],
+      "mapping": {
+        "c": {
+          "items": [ {"item": "teleport", "chance": 20} ]
+        }
+      }
     }
   },
   {
@@ -286,29 +333,29 @@
     }
   },
   {
-    "//": "7x7 glass brute cage",
+    "//": "7x7 glass monster cage",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_room_7x7",
+    "nested_mapgen_id": "lab_room_7x7_rare",
     "object": {
       "mapgensize": [ 7, 7 ],
-      "place_nested": [ { "chunks": [ "glass_brute_cage" ], "x": 1, "y": 1 } ]
+      "place_nested": [ { "chunks": [ "glass_monster_cage" ], "x": 1, "y": 1 } ]
     }
   },
   {
-    "//": "9x9 glass brute cage",
+    "//": "9x9 glass monster cage",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_room_9x9",
+    "nested_mapgen_id": "lab_room_9x9_rare",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ "glass_brute_cage" ], "x": 2, "y": 2 } ]
+      "place_nested": [ { "chunks": [ "glass_monster_cage" ], "x": 2, "y": 2 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "glass_brute_cage",
+    "nested_mapgen_id": "glass_monster_cage",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -320,7 +367,31 @@
         "ggGgg"
       ],
       "palettes": [ "lab_palette" ],
-      "place_monster": [ { "monster": "mon_zombie_brute", "x": [ 2, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+      "place_monster": [{
+          "monster": [ "mon_zombie_brute", "mon_zombie_screecher", "mon_zombie_hollow", "mon_zombie_master", "mon_zombie_necro" ],
+          "x": [ 2, 3 ], "y": [ 1, 3 ], "chance": 80
+        }]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "glass_monster_cage",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ggggg",
+        "g,,,g",
+        "g,,,G",
+        "g,,,g",
+        "ggggg"
+      ],
+      "palettes": [ "lab_palette" ],
+      "place_monster": [{
+          "monster": [ "mon_zombie_pig", "mon_zombear", "mon_zoose", "mon_zolf" ],
+          "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80
+        }]
     }
   },
   {
@@ -341,6 +412,58 @@
         "c.c.c.c"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ]
+    }
+  },
+  {
+    "//": "7x7 hydroponics",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".......",
+        ".c~~~~.",
+        ".c.....",
+        ".c~~~~.",
+        ".c.....",
+        ".c~~~~.",
+        "......."
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": { "~": [ "t_water_sh" ] },
+      "mapping": {
+        "c": { "items": [{"item": "chem_lab", "chance": 10}]},
+        "~": { "items": [{"item": "hydro", "chance": 20}]}
+      }
+    }
+  },
+  {
+    "//": "9x9 hydroponics",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".........",
+        ".ccccccc.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        ".~.~.~.~.",
+        "........."
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": { "~": [ "t_water_sh" ] },
+      "mapping": {
+        "c": { "items": [{"item": "chem_lab", "chance": 10}]},
+        "~": { "items": [{"item": "hydro", "chance": 20}]}
+      }
     }
   },
   {
@@ -383,6 +506,80 @@
         "c.c...c.c"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ]
+    }
+  },
+  {
+    "//": "7x7 u-conference room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".......",
+        "..hhhh.",
+        "..tttt.",
+        "..t....",
+        "..tttt.",
+        "..hhhh.",
+        "......."
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "t": { "items": [{"item": "office", "chance": 15}]}
+      }
+    }
+  },
+  {
+    "//": "9x9 u-conference room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".........",
+        "...hhh...",
+        "..ttttt..",
+        ".ht...th.",
+        ".ht...th.",
+        ".ht...th.",
+        ".ht...th.",
+        "....c....",
+        "........."
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "t": { "items": [{"item": "office", "chance": 10}]},
+        "c": { "item": [{"item": "television", "chance": 10}]}
+      }
+    }
+  },
+  {
+    "//": "9x9 circle-conference room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".........",
+        "...hhh...",
+        "..ttttt..",
+        ".ht...th.",
+        ".ht...th.",
+        ".ht...th.",
+        "..ttttt..",
+        "...hhh...",
+        "........."
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "t": { "items": [{"item": "office", "chance": 10}]}
+      }
     }
   },
   {
@@ -618,7 +815,7 @@
     "//": "library",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_room_9x9",
+    "nested_mapgen_id": "lab_room_9x9_rare",
     "object": {
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
@@ -762,6 +959,50 @@
         "c": { "items": [ { "item": "kitchen", "chance": 50 } ] },
         "O": { "items": [ { "item": "oven", "chance": 70 } ] }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_maybe_effects_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [ { "chunks": [ [ "null", 98 ], [ "lab_add_spiders_7x7", 2 ] ], "x": 0, "y": 0} ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_maybe_effects_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_nested": [ { "chunks": [ [ "null", 98 ], [ "lab_add_spiders_9x9", 2 ] ], "x": 0, "y": 0} ]
+    }
+  },
+  {
+    "//": "7x7 spider overlay",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_add_spiders_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_monsters": [ { "monster": "GROUP_SPIDER", "x": [ 0, 6 ], "y": [ 0, 6 ], "density": 0.10 } ],
+      "place_fields": [
+        { "field": "fd_web", "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": 40 }
+      ]
+    }
+  },
+  {
+    "//": "9x9 spider overlay",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_add_spiders_9x9",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_monsters": [ { "monster": "GROUP_SPIDER", "x": [ 0, 8 ], "y": [ 0, 8 ], "density": 0.10 } ],
+      "place_fields": [
+        { "field": "fd_web", "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": 60 }
+      ]
     }
   }
 ]

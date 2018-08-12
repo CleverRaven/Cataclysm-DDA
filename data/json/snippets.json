@@ -1449,7 +1449,7 @@
       "LEAVE TO THE EXPERTS -- GENERAL: \"Do not attempt to deal with invaders yourself, our troops have the technology and the training for military action.  Loud gunfire may attract more enemy attention than you have ammo!\"",
       "TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend your property in towns: invaders use advanced tracking, perhaps scent.  Please retreat to your nearest evacuation center outside town and await extraction.\"",
       "PUBLIC SERVICE ANNOUNCEMENT: \"Beware Acid Rain\".  Several caustic chemicals in the air react with rain clouds to cause deadly acid rain.  No word yet on if this is a deliberate tactic or a side effect of the earlier bombings.",
-      "EDITOR SAYS \"DESTROY THE DEAD\".  Recognisable enemy dead left lying in the street may give away militia positions!  If you kill an enemy combatant, smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect our troops!",
+      "EDITOR SAYS \"DESTROY THE DEAD\".  Recognizable enemy dead left lying in the street may give away militia positions!  If you kill an enemy combatant, smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect our troops!",
       "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker."
     ]
   },
@@ -1558,7 +1558,7 @@
   {
     "type": "snippet",
     "category": "pyromania_withdrawal",
-    "text": [ "You feel cold. You need the warmth of a fire." ]
+    "text": [ "You feel cold.  You need the warmth of a fire." ]
   },
   {
     "type": "snippet",
@@ -1578,7 +1578,7 @@
   {
     "type": "snippet",
     "category": "pyromania_withdrawal",
-    "text": [ "You shiver. A fire would be great right now." ]
+    "text": [ "You shiver.  A fire would be great right now." ]
   },
   {
     "type": "snippet",

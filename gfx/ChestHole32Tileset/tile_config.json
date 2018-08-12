@@ -42842,6 +42842,12 @@
           "rotates": false
         },
         {
+          "id": "t_thconc_floor_olight",
+          "fg": 658,
+          "bg": 659,
+          "rotates": false
+        },
+        {
           "id": "t_thconc_floor",
           "bg": 659,
           "rotates": false

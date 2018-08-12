@@ -203,6 +203,7 @@ static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
+static const trait_id trait_BURROW( "BURROW" );
 
 void advanced_inv(); // player_activity.cpp
 void intro();
@@ -11101,6 +11102,12 @@ bool game::plmove(int dx, int dy, int dz)
         return true;
     }
 
+    if( u.weapon.has_flag("DIG_TOOL") && m.has_flag( "MINEABLE", dest_loc ) && !u.has_effect( effect_stunned ) ) {
+        // TODO: Handle moving-and-digging via Burrower mutation.
+        // TODO 2: Prevent player from being asked twice about which tile to mine.
+        u.use_wielded();
+    }
+
     if( dz == 0 && ramp_move( dest_loc ) ) {
         // TODO: Make it work nice with automove (if it doesn't do so already?)
         return false;
@@ -12793,7 +12800,7 @@ void game::update_map(int &x, int &y)
     // get_levz() should later be removed, when there is no longer such a thing
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
-    
+
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();

@@ -3301,29 +3301,27 @@ ___DEEE|.R.|...,,...|sss\n",
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (t_thconc_floor == ter(i, j)) {
-                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_thconc_floor_olight );
                     } else if (t_rock == ter(i, j)) {
                         ter_set(i, j, t_concrete_wall);
                     }
                 }
             }
             place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
-        // central lab gets lighting but not other effects.
-        } else if (central_lab) {
-            for (int i = 0; i < SEEX * 2; i++) {
-                for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 )) {
-                        ter_set(i, j, t_utility_light);
-                    }
-                }
-            }
-        // Chance of adding occasional lighting through the area.
         } else {
-            if (one_in(2)) {
+            int light_odds = 0;
+            // central lab is always fully lit, other labs have half chance of some lights.
+            if( central_lab ) {
+                light_odds = 1;
+            } else if( one_in(2) ) {
+                // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
+                light_odds = pow( rng(1,12), 1.6 );
+            }
+            if (light_odds > 0) {
                 for (int i = 0; i < SEEX * 2; i++) {
                     for (int j = 0; j < SEEY * 2; j++) {
-                        if( t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(20) ) {
-                            ter_set(i, j, t_utility_light);
+                        if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                            ter_set(i, j, t_thconc_floor_olight);
                         }
                     }
                 }
@@ -3344,7 +3342,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     for (int i = 0; i < SEEX * 2 - 1; i++) {
                         for (int j = 0; j < SEEY * 2 - 1; j++) {
                             // We spare some terrain to make it look better visually.
-                            if( t_rock_floor == ter(i, j) && !one_in(10) ) {
+                            if( t_thconc_floor == ter(i, j) && !one_in(10) ) {
                                 ter_set(i, j, fluid_type);
                             } else if (has_flag_ter("DOOR", i, j) && !one_in(3) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3366,7 +3364,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
                     for (int i = 0; i < 2; ++i) {
                         draw_rough_circle( [this, fluid_type]( int x, int y ) {
-                                if( t_rock_floor == ter(x, y) ) {
+                                if( t_thconc_floor == ter(x, y) ) {
                                     ter_set(x, y, fluid_type);
                                 } else if (has_flag_ter("DOOR", x, y) ) {
                                     // We want the actual debris, but not the rubble marker or dirt.
@@ -3384,7 +3382,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     bool is_toxic = one_in(2);
                     for (int i = 0; i < SEEX * 2; i++) {
                         for (int j = 0; j < SEEY * 2; j++) {
-                            if( t_rock_floor == ter(i, j) && one_in(200) ) {
+                            if( t_thconc_floor == ter(i, j) && one_in(200) ) {
                                 if (is_toxic) {
                                     add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
                                 } else {
@@ -3413,7 +3411,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 return; // spare stairs and consoles.
                             }
                             make_rubble( {x, y, abs_sub.z } );
-                            ter_set( x, y, t_rock_floor);
+                            ter_set( x, y, t_thconc_floor);
                         }, center.x, center.y, 4 );
                     furn_set( center.x, center.y, f_null );
                     trap_set( center, tr_portal );
@@ -3445,7 +3443,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {x, y, abs_sub.z } );
-                        ter_set( x, y, t_rock_floor);
+                        ter_set( x, y, t_thconc_floor);
                         }, center.x, center.y, 1 );
                     add_spawn( mon_hazmatbot, 1, center.x - 1, center.y );
                     if (one_in(2)) {
@@ -3742,28 +3740,26 @@ ___DEEE|.R.|...,,...|sss\n",
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (t_thconc_floor == ter(i, j)) {
-                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
+                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_thconc_floor_olight );
                     } else if (t_rock == ter(i, j)) {
                         ter_set(i, j, t_concrete_wall);
                     }
                 }
             }
-        // central lab gets lighting but not other effects.
-        } else if (central_lab) {
-            for (int i = 0; i < SEEX * 2; i++) {
-                for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) ) {
-                        ter_set(i, j, t_utility_light);
-                    }
-                }
-            }
-        // Chance of adding occasional lighting through the area.
         } else {
-            if (one_in(2)) {
+            int light_odds = 0;
+            // central lab is always fully lit, other labs have half chance of some lights.
+            if( central_lab ) {
+                light_odds = 1;
+            } else if( one_in(2) ) {
+                // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
+                light_odds = pow( rng(1,12), 1.6 );
+            }
+            if (light_odds > 0) {
                 for (int i = 0; i < SEEX * 2; i++) {
                     for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_thconc_floor == ter(i, j) && one_in(200)) {
-                            ter_set(i, j, t_utility_light);
+                        if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                            ter_set(i, j, t_thconc_floor_olight);
                         }
                     }
                 }
@@ -7238,7 +7234,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
     }
     for (int i = x1; i <= x2; i++) {
         for (int j = y1; j <= y2; j++) {
-            m->ter_set(i, j, t_rock_floor);
+            m->ter_set(i, j, t_thconc_floor);
         }
     }
     int area = height * width;

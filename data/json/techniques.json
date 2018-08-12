@@ -398,7 +398,7 @@
             "You throw %s",
             "<npcname> throws %s"
         ],
-        "description" : "Down 1 turns, knockback 1 tile, min 3 unarmed"
+        "description" : "Down 1 turn, knockback 1 tile, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_judo_grab",
