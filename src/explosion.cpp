@@ -435,93 +435,70 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
 
-    std::array<fragment_cloud( * )[ MAPSIZE *SEEX ][ MAPSIZE *SEEY ], OVERMAP_LAYERS> obstacle_caches;
-    std::array<fragment_cloud( * )[ MAPSIZE *SEEX ][ MAPSIZE *SEEY ], OVERMAP_LAYERS> visited_caches;
-    std::array<const bool ( * )[ MAPSIZE *SEEX ][ MAPSIZE *SEEY ], OVERMAP_LAYERS> floor_caches;
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        const level_cache &cur_cache = m.get_cache_ref( z );
-        // Have to fake out the allocation since you can't 'new' a 2D array whose first dimension is dynamic.
-        obstacle_caches[z + OVERMAP_DEPTH] = ( fragment_cloud( * )[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ] ) new
-                                             fragment_cloud[ MAPSIZE * SEEX * MAPSIZE * SEEY ];
-        visited_caches[z + OVERMAP_DEPTH] = ( fragment_cloud( * )[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ] ) new
-                                            fragment_cloud[ MAPSIZE * SEEX * MAPSIZE * SEEY ];
-        floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
-    }
+    fragment_cloud obstacle_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
+    fragment_cloud visited_cache[ MAPSIZE * SEEX ][ MAPSIZE * SEEY ];
 
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint start = { 0, 0, -OVERMAP_DEPTH };
-    const tripoint end = { m.getmapsize() *SEEX, m.getmapsize() *SEEY, OVERMAP_HEIGHT };
+    const tripoint start = { 0, 0, src.z };
+    const tripoint end = { m.getmapsize() *SEEX, m.getmapsize() *SEEY, src.z };
 
-    m.build_obstacle_cache( start, end, obstacle_caches );
-
-    std::array<const fragment_cloud( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS>
-    *readonly_obstacle_caches =
-        ( std::array<const fragment_cloud( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> * )
-        &obstacle_caches;
+    m.build_obstacle_cache( start, end, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
     // This "blocks" some fragments, but does not apply deceleration.
-    fragment_cloud initial_cloud = accumulate_fragment_cloud(
-                                       ( *obstacle_caches[src.z + OVERMAP_DEPTH] )[src.x][src.y],
+    fragment_cloud initial_cloud = accumulate_fragment_cloud( obstacle_cache[src.x][src.y],
     { fragment_velocity, static_cast<float>( fragment_count ) }, 1 );
-    ( *visited_caches[src.z + OVERMAP_DEPTH] )[src.x][src.y] = initial_cloud;
+    visited_cache[src.x][src.y] = initial_cloud;
 
-    cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>
-    ( visited_caches, *readonly_obstacle_caches,
-      floor_caches, src, 0, initial_cloud );
+    castLightAll<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>
+    ( visited_cache, obstacle_cache, src.x, src.y, 0, initial_cloud );
 
     // Now visited_caches are populated with density and velocity of fragments.
-    for( int z = start.z; z <= end.z; z++ ) {
-        for( int x = start.x; x <= end.x; x++ ) {
-            for( int y = start.y; y <= end.y; y++ ) {
-                fragment_cloud &cloud = ( *visited_caches[z + OVERMAP_DEPTH] )[x][y];
-                if( cloud.density <= MIN_FRAGMENT_DENSITY ||
-                    cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
-                    continue;
-                }
-                distrib.emplace_back( x, y, z );
-                tripoint target( x, y, z );
-                int damage = ballistic_damage( cloud.velocity, fragment_mass );
-                auto critter = critter_at( target );
-                if( damage > 0 && critter && !critter->is_dead_state() ) {
-                    static std::default_random_engine eng(
-                        std::chrono::system_clock::now().time_since_epoch().count() );
-                    std::poisson_distribution<> d( cloud.density );
-                    int hits = d( eng );
-                    dealt_projectile_attack frag;
-                    frag.proj = proj;
-                    frag.proj.speed = cloud.velocity;
-                    frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
-                    for( int i = 0; i < hits; ++i ) {
-                        frag.missed_by = rng_float( 0.05, 1.0 );
-                        critter->deal_projectile_attack( nullptr, frag );
-                        add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
-                                 critter->disp_name().c_str(),
-                                 frag.proj.speed, rl_dist( src, target ) );
-                        add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
-                        if( critter->is_dead_state() ) {
-                            break;
-                        }
+    for( int x = start.x; x <= end.x; x++ ) {
+        for( int y = start.y; y <= end.y; y++ ) {
+            fragment_cloud &cloud = visited_cache[x][y];
+            if( cloud.density <= MIN_FRAGMENT_DENSITY ||
+                cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
+                continue;
+            }
+            distrib.emplace_back( x, y, src.z );
+            tripoint target( x, y, src.z );
+            int damage = ballistic_damage( cloud.velocity, fragment_mass );
+            auto critter = critter_at( target );
+            if( damage > 0 && critter && !critter->is_dead_state() ) {
+                static std::default_random_engine eng(
+                    std::chrono::system_clock::now().time_since_epoch().count() );
+                std::poisson_distribution<> d( cloud.density );
+                int hits = d( eng );
+                dealt_projectile_attack frag;
+                frag.proj = proj;
+                frag.proj.speed = cloud.velocity;
+                frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
+                for( int i = 0; i < hits; ++i ) {
+                    frag.missed_by = rng_float( 0.05, 1.0 );
+                    critter->deal_projectile_attack( nullptr, frag );
+                    add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
+                             critter->disp_name().c_str(),
+                             frag.proj.speed, rl_dist( src, target ) );
+                    add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                    if( critter->is_dead_state() ) {
+                        break;
                     }
                 }
-                if( m.impassable( target ) ) {
-                    if( optional_vpart_position vp = m.veh_at( target ) ) {
-                        vp->vehicle().damage( vp->part_index(), damage );
-                    } else {
-                        m.bash( target, damage / 10, true );
-                    }
+            }
+            if( m.impassable( target ) ) {
+                if( optional_vpart_position vp = m.veh_at( target ) ) {
+                    vp->vehicle().damage( vp->part_index(), damage );
+                } else {
+                    m.bash( target, damage / 10, true );
                 }
             }
         }
     }
 
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        delete [] obstacle_caches[z + OVERMAP_DEPTH];
-        delete [] visited_caches[z + OVERMAP_DEPTH];
-    }
     return distrib;
 }
 
