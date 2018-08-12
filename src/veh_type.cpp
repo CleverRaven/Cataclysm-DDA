@@ -687,12 +687,12 @@ float vpart_info::engine_backfire_threshold() const
     return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_threshold : false;
 }
 
-int  vpart_info::engine_backfire_freq() const
+int vpart_info::engine_backfire_freq() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_freq : false;
 }
 
-int  vpart_info::engine_muscle_power_factor() const
+int vpart_info::engine_muscle_power_factor() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->muscle_power_factor : false;
 }
@@ -702,12 +702,12 @@ float vpart_info::engine_damaged_power_factor() const
     return has_flag( VPFLAG_ENGINE ) ? engine_info->damaged_power_factor : false;
 }
 
-int  vpart_info::engine_noise_factor() const
+int vpart_info::engine_noise_factor() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->noise_factor : false;
 }
 
-int  vpart_info::engine_m2c() const
+int vpart_info::engine_m2c() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
 }

@@ -384,7 +384,7 @@ struct islot_wheel
 };
 
 struct fuel_explosion {
-    int explosion_chance_hot ;
+    int explosion_chance_hot;
     int explosion_chance_cold;
     float explosion_factor;
     bool fiery_explosion;
