@@ -457,14 +457,14 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, const t
             }
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
-                std::array<std::pair<int, ter_id>, 15> tree_chances = {{
+                std::array<std::pair<int, ter_id>, 16> tree_chances = {{
                         // @todo: JSONize this array!
                         // Ensure that these one_in chances
                         // (besides the last) don't add up to more than 1 in 1
                         // Reserve the last one (1 in 1) for simple trees that fill up the rest.
                         { 250, t_tree_apple },
                         { 300, t_tree_pear },
-						{ 300, t_tree_coffee },
+                        { 300, t_tree_coffee },
                         { 300, t_tree_cherry },
                         { 350, t_tree_apricot },
                         { 350, t_tree_peach },
