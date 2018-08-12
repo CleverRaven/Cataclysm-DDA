@@ -332,6 +332,14 @@
             { "method": "builtin", "name": "house_generic_center_hallway" }
         ]
     },{
+        "type": "overmap_terrain",
+        "id": "duplex",
+        "name": "duplex",
+        "copy-from" : "generic_city_building",
+        "color": "light_green",
+        "see_cost": 2,
+        "flags" : [ "SIDEWALK" ]
+    },{
         "type" : "overmap_terrain",
         "id" : "s_lot",
         "name" : "parking lot",
