@@ -993,7 +993,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // The naive solution of making the mirrors act like a second player
         // at an offset appears to give reasonable results though.
         castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
-            camera_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+          camera_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
     }
 }
 

@@ -7251,7 +7251,7 @@ void map::build_outside_cache( const int zlev )
 }
 
 void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
-    std::array<fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &obstacle_caches )
+                                fragment_cloud (&obstacle_cache)[MAPSIZE *SEEX][MAPSIZE *SEEY] )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{ std::min( my_MAPSIZE - 1, end.x / SEEX ),
@@ -7260,30 +7260,29 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // For now setting obstacles to be extremely dense and fill their squares.
     // In future, scale effective obstacle density by the thickness of the obstacle.
     // Also consider modelling partial obstacles.
-    for( int sz = start.z; sz <= end.z; sz++ ) {
-        for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
-            for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
-                auto const cur_submap = get_submap_at_grid( smx, smy, sz );
-                const int z = sz + OVERMAP_DEPTH;
+    // TODO: Support z-levels.
+    const int sz = start.z + OVERMAP_DEPTH;
+    for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
+        for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
+            auto const cur_submap = get_submap_at_grid( smx, smy, sz );
 
-                // TODO: Init indices to prevent iterating over unused submap sections.
-                for( int sx = 0; sx < SEEX; ++sx ) {
-                    for( int sy = 0; sy < SEEY; ++sy ) {
-                        int ter_move = cur_submap->get_ter( sx, sy ).obj().movecost;
-                        int furn_move = cur_submap->get_furn( sx, sy ).obj().movecost;
-                        const int x = sx + ( smx * SEEX );
-                        const int y = sy + ( smy * SEEY );
-                        if( ter_move == 0 || furn_move < 0 || ter_move + furn_move == 0 ) {
-                            (*obstacle_caches[z])[x][y].velocity = 1000.0f;
-                            (*obstacle_caches[z])[x][y].density = 0.0f;
-                        } else {
-                             // Magic number warning, this is the density of air at sea level at
-			     // some nominal temp and humidity.
-                             // TODO: figure out if our temp/altitude/humidity variation is
-                             // sufficient to bother setting this differently.
-                            (*obstacle_caches[z])[x][y].velocity = 1.2f;
-                            (*obstacle_caches[z])[x][y].density = 1.0f;
-                        }
+            // TODO: Init indices to prevent iterating over unused submap sections.
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    int ter_move = cur_submap->get_ter( sx, sy ).obj().movecost;
+                    int furn_move = cur_submap->get_furn( sx, sy ).obj().movecost;
+                    const int x = sx + ( smx * SEEX );
+                    const int y = sy + ( smy * SEEY );
+                    if( ter_move == 0 || furn_move < 0 || ter_move + furn_move == 0 ) {
+                        obstacle_cache[x][y].velocity = 1000.0f;
+                        obstacle_cache[x][y].density = 0.0f;
+                    } else {
+                         // Magic number warning, this is the density of air at sea level at
+                         // some nominal temp and humidity.
+                         // TODO: figure out if our temp/altitude/humidity variation is
+                         // sufficient to bother setting this differently.
+                         obstacle_cache[x][y].velocity = 1.2f;
+                         obstacle_cache[x][y].density = 1.0f;
                     }
                 }
             }
@@ -7295,15 +7294,17 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
-            int pz = v.z + OVERMAP_DEPTH;
+            if( v.z != sz ) {
+                break;
+            }
             if( px < start.x || py < start.y || v.z < start.z ||
                 px > end.x || py > end.y || v.z > end.z ) {
                 continue;
             }
 
             if( vpart_position( *v.v, part ).obstacle_at_part() ) {
-                (*obstacle_caches[pz])[px][py].velocity = 1000.0f;
-                (*obstacle_caches[pz])[px][py].density = 0.0f;
+                obstacle_cache[px][py].velocity = 1000.0f;
+                obstacle_cache[px][py].density = 0.0f;
             }
         }
     }
@@ -7311,11 +7312,14 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     for( Creature &critter : g->all_creatures() ) {
          const tripoint &loc = critter.pos();
          int z = loc.z + OVERMAP_DEPTH;
+         if( z != sz ) {
+             continue;
+         }
          // TODO: scale this with expected creature "thickness".
-         (*obstacle_caches[z])[loc.x][loc.y].velocity = 1000.0f;
+         obstacle_cache[loc.x][loc.y].velocity = 1000.0f;
          // ranged_target_size is "proportion of square that is blocked", and density needs to be
          // "transmissivity of square", so we need the reciprocal.
-         (*obstacle_caches[z])[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
+         obstacle_cache[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
     }
 }
 
