@@ -294,6 +294,7 @@ static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GOODCARDIO( "GOODCARDIO" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
+static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HOARDER( "HOARDER" );
@@ -318,6 +319,7 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_EARS( "LUPINE_EARS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
@@ -9065,8 +9067,26 @@ bool player::fun_to_read( const item &book ) const
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
     } else {
-        return book.type->book->fun > 0;
+        return book_fun_for( book ) > 0;
     }
+}
+
+int player::book_fun_for(const item &book) const
+{
+    if( !book.is_book() ) {
+        debugmsg( "called player::book_fun_for with non-book" );
+        return 0;
+    }
+    if( has_trait( trait_LOVES_BOOKS ) ) {
+        return ( book.type->book->fun + 1 );
+    } else if ( has_trait( trait_HATES_BOOKS ) ) {
+        if( ( book.type->book->fun > 0 ) ) {
+            return 0;
+        } else {
+            return ( book.type->book->fun - 1 );
+        }
+    }
+    return book.type->book->fun;
 }
 
 /**
@@ -9354,8 +9374,8 @@ void player::do_read( item &book )
         if (reading->intel != 0) {
             add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
         }
-        if (reading->fun != 0) {
-            add_msg(m_info, _("Reading this book affects your morale by %d"), reading->fun);
+        if (book_fun_for( book ) != 0) {
+            add_msg(m_info, _("Reading this book affects your morale by %d"), book_fun_for( book ) );
         }
         add_msg(m_info, ngettext("A chapter of this book takes %d minute to read.",
                          "A chapter of this book takes %d minutes to read.", reading->time),
@@ -9403,7 +9423,7 @@ void player::do_read( item &book )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if( reading->fun != 0 ) {
+        if( book_fun_for( book ) != 0 ) {
             int fun_bonus = 0;
             const int chapters = book.get_chapters();
             const int remain = book.get_remaining_chapters( *this );
@@ -9417,9 +9437,9 @@ void player::do_read( item &book )
                     out_of_chapters.push_back( learner->disp_name() );
                 }
                 //50% penalty
-                fun_bonus = ( reading->fun * 5 ) / 2;
+                fun_bonus = ( book_fun_for( book ) * 5 ) / 2;
             } else {
-                fun_bonus = reading->fun * 5;
+                fun_bonus = book_fun_for( book ) * 5;
             }
             // If you don't have a problem with eating humans, To Serve Man becomes rewarding
             if( ( learner->has_trait( trait_CANNIBAL ) || learner->has_trait( trait_PSYCHOPATH ) ||
@@ -9431,7 +9451,7 @@ void player::do_read( item &book )
                 fun_bonus = 15;
                 learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 9_minutes, 9_minutes, true, book.type );
             } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 6_minutes, 3_minutes, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, book_fun_for( book ) * 15, 6_minutes, 3_minutes, true, book.type );
             }
         }
 
