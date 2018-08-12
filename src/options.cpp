@@ -1543,6 +1543,13 @@ void options_manager::init()
         false
         );
 
+    add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
+        translate_marker( "Determines whether starting NPCs should spawn, and if they do, how exactly." ),
+        { { "never", translate_marker( "Never" ) }, { "always", translate_marker( "Always" ) }, { "scenario", translate_marker( "Scenario-based" ) } }, "scenario"
+        );
+
+    get_option( "STARTING_NPC" ).setPrerequisite( "STATIC_NPC" );
+
     add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
         translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
         false
