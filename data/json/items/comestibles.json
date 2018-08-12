@@ -4218,7 +4218,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_pod",
-    "name": "coffee pod",
+    "name": "coffee pods",
     "name_plural": "coffee pod",
     "category": "other",
     "weight": 26,
@@ -4228,7 +4228,7 @@
     "quench": -6,
     "healthy": -2,
     "nutrition": 1,
-    "description": "A hard casing filled with coffee seeds ready for roasting. The seeds create a dark black, bitter, caffinated liquid not too much unlike coffee.",
+    "description": "A hard casing filled with coffee seeds ready for roasting. The seeds create a dark black, bitter, caffinated liquid not too much unlike coffee.  ",
     "price": 100,
     "material": [ "veggy", "cotton" ],
     "volume": 1,
