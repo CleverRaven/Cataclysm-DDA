@@ -56,6 +56,15 @@
     "volume": "9ml"
   },
   {
+    "id": "762_51_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "7.62x51mm M80 casing",
+    "description": "An empty casing from a 7.62x51mm M80 round.",
+    "weight": 6,
+    "volume": "9ml"
+  },
+  {
     "id": "32_casing",
     "copy-from": "casing",
     "type": "GENERIC",
