@@ -73,6 +73,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_BURROW( "BURROW" );
 
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType, ter_id new_ter,
                         bool seeds = false );
@@ -728,32 +729,23 @@ void iexamine::cardreader( player &p, const tripoint &examp )
  */
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    static quality_id quality_dig( "DIG" );
-    auto shovels = p.items_with( []( const item &e ) {
-        return e.get_quality( quality_dig ) >= 2;
-    } );
-
-    if( shovels.empty() ) {
-        add_msg(m_info, _("If only you had a shovel..."));
+    int moves;
+    if( p.has_quality( quality_id( "DIG" ), 3 ) || p.has_trait( trait_BURROW ) ) {
+        moves = 1250;
+    } else if( p.has_quality( quality_id( "DIG" ), 2 ) ) {
+        moves = 2500;
+    } else {
+        add_msg( m_info, _("If only you had a shovel...") );
         return;
     }
-
-    // Ask if there's something possibly more interesting than this rubble here
-    std::string xname = g->m.furnname(examp);
-    if( ( g->m.veh_at( examp ) ||
-          !g->m.tr_at( examp ).is_null() ||
+    if( ( g->m.veh_at( examp ) || !g->m.tr_at( examp ).is_null() ||
           g->critter_at( examp ) != nullptr ) &&
-          !query_yn(_("Clear up that %s?"), xname.c_str() ) ) {
-        none( p, examp );
+          !query_yn(_("Clear up that %s?"), g->m.furnname( examp ).c_str() ) ) {
         return;
     }
-
-    // Select our best shovel
-    auto it = std::max_element( shovels.begin(), shovels.end(), []( const item *lhs, const item *rhs ) {
-        return lhs->get_quality( quality_dig ) < rhs->get_quality( quality_dig );
-    } );
-
-    p.invoke_item( *it, "CLEAR_RUBBLE", examp );
+    p.assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), moves, -1, 0 );
+    p.activity.placement = examp;
+    return;
 }
 
 /**

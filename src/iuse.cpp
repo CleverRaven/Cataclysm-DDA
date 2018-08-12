@@ -2603,24 +2603,20 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::clear_rubble( player *p, item *it, bool, const tripoint &pos )
 {
-    for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
-            // DIG 2 = 150  seconds
-            // DIG 3 = 75   seconds
-            // DIG 4 = 50   seconds
-            // DIG 5 = 37.5 seconds
-            int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
-            act.coords.push_back( pt );
-            p->assign_activity( act );
-
-            return it->type->charges_to_use();
-        }
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
+        return 0;
     }
-
-    p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
-    return 0;
+    if( g->m.has_flag( "RUBBLE", dirp ) ) {
+        int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
+        player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
+        p->assign_activity( act );
+        p->activity.placement = dirp;
+        return it->type->charges_to_use();
+    } else {
+        p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
+        return 0;
+    }
 }
 
 void act_vehicle_siphon( vehicle * ); // veh_interact.cpp

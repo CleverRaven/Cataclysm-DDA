@@ -29,7 +29,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-                  "SEALED", "ALLOW_FIELD_EFFECT", "TINY"],
+                  "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -42,7 +42,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-                  "SEALED", "ALLOW_FIELD_EFFECT", "SHORT"],
+                  "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -55,7 +55,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE",
-                  "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT"],
+                  "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -66,7 +66,7 @@
         "color": "light_gray",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM", "RUBBLE" ],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -3019,7 +3019,7 @@
     "move_cost_mod": 8,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT" ],
+    "flags": [ "TRANSPARENT", "UNSTABLE", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
     "examine_action": "rubble"
   },
   {
@@ -3050,7 +3050,7 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY" ],
+    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
     "examine_action": "rubble"
   },
   {
