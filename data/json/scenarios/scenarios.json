@@ -234,13 +234,8 @@
     "ident": "cyberpunk",
     "name": "High Tech, Low Life",
     "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthesic smuggled out of hospitals, and desperate people with little to lose got you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
-<<<<<<< HEAD
-    "flags": [ "CITY_START" ],
-    "points" : 2,
-=======
     "flags": [ "CITY_START", "LONE_START" ],
-    "points" : 0,
->>>>>>> master
+    "points" : 2,
     "start_name": "Shady Basement",
     "allowed_locs": [ "basement_bionic" ],
     "professions": [  "cyberjunkie", "faulty_bionic", "cykotic", "razorgirl", "bionic_installer" ]
