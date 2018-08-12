@@ -551,6 +551,7 @@
   {
     "id": "armor_plate",
     "type": "ARMOR",
+    "category": "armor",
     "name": "ornamental plate armor",
     "description": "An extremely heavy ornamental suit of armor.",
     "weight": 18000,
