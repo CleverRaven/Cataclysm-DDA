@@ -132,7 +132,7 @@ void talk_function::bionic_install(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if ( g->u.install_bionics( it, 20, false ) ){
+    if ( g->u.install_bionics( it, p, false, 20 ) ){
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
@@ -189,7 +189,7 @@ void talk_function::bionic_remove(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), 20, false)){
+    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), p, false)){
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
