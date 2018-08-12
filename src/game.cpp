@@ -10161,7 +10161,11 @@ void game::butcher()
             u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
             break;
         case MULTIBUTCHER:
-            u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            if( g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
+                u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+            } else {
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            }
             for( int i : corpses ) {
                 u.activity.values.push_back( i );
             }

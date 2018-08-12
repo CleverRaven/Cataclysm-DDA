@@ -1033,8 +1033,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     case BUTCHER_FULL:
         p->add_msg_if_player( m_good, _("You finish butchering the %s."), corpse_item.tname().c_str() );
         g->m.i_rem( p->pos(), act->index );
-        act->set_to_null();
-        return;
         break;
     case F_DRESS:
         if ( roll_butchery() < 0 ) { // partial failure
@@ -1089,7 +1087,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
         break;
     }
-    // multibutchering (== quick BUTCHER)
+    // multibutchering
     if( act->values.empty() ) {
         act->set_to_null();
     } else {
