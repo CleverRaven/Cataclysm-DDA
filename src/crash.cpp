@@ -202,6 +202,8 @@ extern "C" {
     } catch( std::exception const &e ) {
         type = typeid( e ).name();
         msg = e.what();
+        log_crash( type, msg );
+        std::exit( EXIT_FAILURE );
     } catch( ... ) {
         type = "Unknown exception";
         msg = "Not derived from std::exception";
