@@ -2290,6 +2290,7 @@
     "name": "raw tobacco",
     "name_plural": "handfuls of raw tobacco",
     "description": "Various parts of tobacco plant, full of nicotine.  They need to be dried to become smokable.",
+    "looks_like": "wild_herbs",
     "price": 300,
     "material": "veggy",
     "weight": 100,
