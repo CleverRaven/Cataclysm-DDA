@@ -202,10 +202,10 @@
         { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "west": ["lab", "open_air"] } },
         { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "south": ["lab", "open_air"] } },
         { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "east": ["lab", "open_air"] } },
-        { "else_chunks": [ [ "lab_n_rock", 100 ], [ "lab_n_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
-        { "else_chunks": [ [ "lab_w_rock", 100 ], [ "lab_w_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "open_air"] } },
-        { "else_chunks": [ [ "lab_s_rock", 100 ], [ "lab_s_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "south": ["lab", "open_air"] } },
-        { "else_chunks": [ [ "lab_e_rock", 100 ], [ "lab_e_vault", 30 ] ], "x": 0, "y": 0, "neighbors": { "east": ["lab", "open_air"] } }
+        { "else_chunks": [ [ "lab_n_rock", 85 ], [ "lab_n_vault", 15 ] ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_w_rock", 85 ], [ "lab_w_vault", 15 ] ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_s_rock", 85 ], [ "lab_s_vault", 15 ] ], "x": 0, "y": 0, "neighbors": { "south": ["lab", "open_air"] } },
+        { "else_chunks": [ [ "lab_e_rock", 85 ], [ "lab_e_vault", 15 ] ], "x": 0, "y": 0, "neighbors": { "east": ["lab", "open_air"] } }
       ]
     }
   },

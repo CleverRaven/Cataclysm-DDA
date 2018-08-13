@@ -532,6 +532,12 @@ void mtype::load( JsonObject &jo, const std::string &src )
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
     }
+    if( was_loaded && jo.has_member( "copy-from" ) ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
+    }
 
     assign( jo, "color", color );
     const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };

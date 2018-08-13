@@ -58,6 +58,7 @@ const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
@@ -577,7 +578,11 @@ void npc::talk_to_u()
 
     // Needs
     if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ) {
-        d.add_topic( "TALK_WAKE_UP" );
+        if( has_effect( effect_narcosis ) ) {
+            d.add_topic( "TALK_SEDATED" );
+        } else {
+            d.add_topic( "TALK_WAKE_UP" );
+        }
     }
 
     if( d.topic_stack.back().id == "TALK_NONE" ) {
@@ -653,6 +658,10 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return string_format(
                    _( "&You are deaf and can't talk. When you don't respond, %s becomes angry!" ),
                    beta->name.c_str() );
+    }
+    if( topic == "TALK_SEDATED" ) {
+        return string_format( _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off." ),
+                              beta->name.c_str() );
     }
 
     const auto &p = beta; // for compatibility, later replace it in the code below

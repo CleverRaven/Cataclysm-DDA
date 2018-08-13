@@ -210,6 +210,8 @@ struct mtype {
         /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         nc_color color = c_white;
+        /** hint for tilesets that don't have a tile for this monster */
+        std::string looks_like;
         m_size size;
         std::vector<material_id> mat;
         phase_id phase;

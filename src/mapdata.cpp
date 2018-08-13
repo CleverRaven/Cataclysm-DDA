@@ -320,6 +320,13 @@ std::string map_data_common_t::name() const
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
+    if( jo.has_member( "copy-from" ) ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
+    }
+
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string &str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;
@@ -426,7 +433,7 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_thconc_floor,
+    t_thconc_floor, t_thconc_floor_olight,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -542,6 +549,7 @@ void set_ter_ids() {
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
     t_thconc_floor = ter_id( "t_thconc_floor" );
+    t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
     t_floor = ter_id( "t_floor" );
     t_floor_waxed = ter_id( "t_floor_waxed" );
     t_dirtfloor = ter_id( "t_dirtfloor" );
