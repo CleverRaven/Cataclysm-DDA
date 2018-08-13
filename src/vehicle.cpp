@@ -3407,9 +3407,10 @@ void vehicle::noise_and_smoke( double load, double time )
 {
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
     const std::array<std::string, 8> sound_msgs = {{
-        "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
-        _("BRRROARRR!"), _("BRUMBRUMBRUMBRUM!")
-    }};
+            "", _( "hummm!" ), _( "whirrr!" ), _( "vroom!" ), _( "roarrr!" ), _( "ROARRR!" ),
+            _( "BRRROARRR!" ), _( "BRUMBRUMBRUMBRUM!" )
+        }
+    };
     double noise = 0.0;
     double mufflesmoke = 0.0;
     double muffle = 1.0;
@@ -3420,7 +3421,7 @@ void vehicle::noise_and_smoke( double load, double time )
             m = 1.0 - ( 1.0 - part_info( p ).bonus / 100.0 ) * parts[p].health_percent();
             if( m < muffle ) {
                 muffle = m;
-                exhaust_part = int(p);
+                exhaust_part = int( p );
             }
         }
     }
@@ -3429,11 +3430,15 @@ void vehicle::noise_and_smoke( double load, double time )
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( is_engine_on(e) &&
-                (is_engine_type(e, fuel_type_muscle) || fuel_left (part_info(p).fuel_type)) ) {
-            double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
-            double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
-            double cur_pwr = load * max_pwr;
+        // FIXME: fuel_left should be called with the vehicle_part's fuel_type for flexfuel support
+        if( is_engine_on( e ) &&
+            ( is_engine_type( e, fuel_type_muscle ) || fuel_left( part_info( p ).fuel_type ) ) ) {
+            // convert current engine load to units of watts/40K
+            // then spew more smoke and make more noise as the engine load increases
+            int part_watts = power_to_epower( part_power( p, true ) );
+            double max_epwr = double( part_watts / 40000.0 );
+            double cur_epwr = load * max_epwr;
+            double part_noise = cur_epwr * part_info( p ).engine_noise_factor();
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
                 double health = parts[p].health_percent();
@@ -3443,40 +3448,36 @@ void vehicle::noise_and_smoke( double load, double time )
                 if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
                     backfire( e );
                 }
-                double j = power_to_epower( part_power( p, true ) ) * load * time * muffle;
+                double j = part_watts * load * time * muffle;
 
                 if( parts[ p ].base.faults.count( fault_filter_air ) ) {
                     bad_filter = true;
                     j *= j;
                 }
 
-                if( (exhaust_part == -1) && engine_on ) {
+                if( ( exhaust_part == -1 ) && engine_on ) {
                     spew_smoke( j, p, bad_filter ? MAX_FIELD_DENSITY : 1 );
                 } else {
                     mufflesmoke += j;
                 }
-                pwr = (cur_pwr*15 + max_pwr*3 + 5) * muffle;
-            } else if(is_engine_type(e, fuel_type_battery)) {
-                pwr = cur_pwr*3;
-            } else if(is_engine_type(e, fuel_type_muscle)) {
-                pwr = cur_pwr*5;
+                part_noise = ( part_noise + max_epwr * 3 + 5 ) * muffle;
             }
-            noise = std::max(noise, pwr); // Only the loudest engine counts.
+            noise = std::max( noise, part_noise ); // Only the loudest engine counts.
         }
     }
 
-    if( (exhaust_part != -1) && engine_on &&
-        has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
+    if( ( exhaust_part != -1 ) && engine_on &&
+        has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
     }
     // Even a vehicle with engines off will make noise traveling at high speeds
-    noise = std::max( noise, double(fabs(velocity/500.0)) );
+    noise = std::max( noise, double( fabs( velocity / 500.0 ) ) );
     int lvl = 0;
-    if( one_in(4) && rng(0, 30) < noise &&
-        has_engine_type_not(fuel_type_muscle, true)) {
-       while( noise > sound_levels[lvl] ) {
-           lvl++;
-       }
+    if( one_in( 4 ) && rng( 0, 30 ) < noise &&
+        has_engine_type_not( fuel_type_muscle, true ) ) {
+        while( noise > sound_levels[lvl] ) {
+            lvl++;
+        }
     }
     sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
 }

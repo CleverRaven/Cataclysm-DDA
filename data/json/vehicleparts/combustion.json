@@ -9,6 +9,7 @@
     "damage_modifier": 80,
     "backfire_threshold": 0.25,
     "backfire_freq": 20,
+    "noise_factor": 15,
     "flags": [ "ENGINE", "TOOL_WRENCH" ],
     "damaged_power_factor": 0.25,
     "m2c": 50,

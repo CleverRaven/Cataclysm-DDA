@@ -155,6 +155,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
     }
     assign( jo, "backfire_threshold", e_info.backfire_threshold );
     assign( jo, "backfire_freq", e_info.backfire_freq );
+    assign( jo, "noise_factor", e_info.noise_factor );
     assign( jo, "damaged_power_factor", e_info.damaged_power_factor );
     assign( jo, "m2c", e_info.m2c );
     assign( jo, "muscle_power_factor", e_info.muscle_power_factor );
@@ -699,6 +700,11 @@ int  vpart_info::engine_muscle_power_factor() const
 float vpart_info::engine_damaged_power_factor() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->damaged_power_factor : false;
+}
+
+int  vpart_info::engine_noise_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->noise_factor : false;
 }
 
 int  vpart_info::engine_m2c() const

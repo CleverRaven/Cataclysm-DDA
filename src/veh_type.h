@@ -87,6 +87,7 @@ struct vpslot_engine {
     int  backfire_freq = 1;
     int  muscle_power_factor = 0;
     float damaged_power_factor = 0;
+    int  noise_factor = 0;
     int  m2c = 1;
     std::vector<std::string> exclusions;
 };
@@ -230,6 +231,7 @@ class vpart_info
         int  engine_backfire_freq() const;
         int  engine_muscle_power_factor() const;
         float engine_damaged_power_factor() const;
+        int  engine_noise_factor() const;
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;
