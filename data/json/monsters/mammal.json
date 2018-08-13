@@ -854,7 +854,7 @@
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": "chihuahua",
-    "description": "It's a tiny Chihuahua.  How it has managed to survive is a miracle; although it's small size and aggressive nature may been useful.",
+    "description": "It's a tiny Chihuahua.  How it has managed to survive is a miracle; although its small size and aggressive nature may been useful.",
     "diff": 5,
     "size": "TINY",
     "hp": 6,
