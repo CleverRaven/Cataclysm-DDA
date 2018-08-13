@@ -5672,7 +5672,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "warehouse",
-        "name" : "small warehouse",
+        "name" : "warehouse",
         "sym" : 119,
         "color" : "light_blue",
         "see_cost" : 5,
@@ -8253,16 +8253,6 @@
     "name": "empty residential lot",
     "sym": 79,
     "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abandonedwarehouse",
-    "name": "abandoned warehouse",
-    "sym": 119,
-    "color": "brown",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
