@@ -98,7 +98,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
 
     if( effects.count( "FRAG" ) > 0 ) {
         // Same as a standard thrown frag grenade.
-        g->explosion( p, 185, 1.0, false, 212, 0.05 );
+        g->explosion( p, 185, 0.8, false, 212, 0.05 );
     }
 
     if( effects.count( "NAPALM" ) > 0 ) {

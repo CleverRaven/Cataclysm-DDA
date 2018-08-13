@@ -27,6 +27,7 @@
 #include "submap.h"
 #include "monster.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "calendar.h"
 #include "field.h"
 #include "ui.h"
@@ -1839,7 +1840,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
 {
     if( r > 0 ) {
         popup( _( "Select a tile up to %d tiles away." ), r );
-        const tripoint where( overmap::draw_overmap() );
+        const tripoint where( ui::omap::choose_point() );
         if( where == overmap::invalid_tripoint ) {
             return false;
         }
@@ -2110,7 +2111,7 @@ int editmap::edit_mapgen()
     gmenu.callback = &cb;
     gmenu.return_invalid = true;
 
-    for( size_t i = 0; i < overmap_terrains::count(); i++ ) {
+    for( size_t i = 0; i < overmap_terrains::get_all().size(); i++ ) {
         const oter_id id( i );
 
         gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", ( int )id, id.id().c_str() );

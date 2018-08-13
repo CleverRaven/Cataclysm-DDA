@@ -220,6 +220,8 @@ public:
     std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
 
+    std::string looks_like;
+    
     iexamine_function examine; //What happens when the terrain/furniture is examined
 
     /**
@@ -349,7 +351,7 @@ extern ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_thconc_floor,
+    t_thconc_floor, t_thconc_floor_olight,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -377,7 +379,7 @@ extern ter_id t_null,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
-    t_door_glass_c, t_door_glass_o,
+    t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded, t_window_boarded_noglass, t_window_bars_alarm, t_window_bars,

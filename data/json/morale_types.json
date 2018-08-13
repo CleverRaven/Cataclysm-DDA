@@ -275,6 +275,21 @@
     "text": "Barfed"
   },
   {
+    "id": "morale_pyromania_startfire",
+    "type": "morale_type",
+    "text": "Lit a fire"
+  },
+  {
+    "id": "morale_pyromania_nearfire",
+    "type": "morale_type",
+    "text": "Spent time close to fire"
+  },
+  {
+    "id": "morale_pyromania_nofire",
+    "type": "morale_type",
+    "text": "Craving fire"
+  },
+  {
     "id": "morale_perm_filthy",
     "type": "morale_type",
     "text": "Filthy Gear"

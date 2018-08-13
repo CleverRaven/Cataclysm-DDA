@@ -33,53 +33,32 @@
         "  ^                 ^   "
       ],
       "mapping": {
-        ".": {
-          "items": {
-            "item": "subway",
-            "chance": 10
-          }
+        ".": { 
+          "items": { "item": "subway", "chance": 10 }
         },
         "L": {
           "furniture": "f_locker",
-          "items": [
-            { "item": "bed", "chance": 60 },
-            { "item": "dresser", "chance": 40 }
-          ]
+          "items": [ { "item": "bed", "chance": 60 }, { "item": "dresser", "chance": 40 } ]
         },
         "d": {
           "furniture": "f_dresser",
-          "items": {
-            "item": "dresser",
-            "chance": 40
-          }
+          "items": { "item": "dresser", "chance": 40 }
         },
         "e": {
           "furniture": "f_fridge",
-          "items": {
-            "item": "fridgesnacks",
-            "chance": 30
-          }
+          "items": { "item": "fridgesnacks", "chance": 30 }
         },
         "o": {
           "furniture": "f_bookcase",
-          "items": {
-            "item": "novels",
-            "chance": 40
-          }
+          "items": { "item": "novels", "chance": 40 }
         },
         "r": {
           "furniture": "f_rack",
-          "items": {
-            "item": "dresser",
-            "chance": 40
-          }
+          "items": { "item": "dresser", "chance": 40 }
         },
         "u": {
           "furniture": "f_cupboard",
-          "items": {
-            "item": "cannedfood",
-            "chance": 30
-          }
+          "items": { "item": "cannedfood", "chance": 30 }
         }
       },
       "terrain": {
@@ -110,12 +89,8 @@
         "h": "f_chair",
         "t": "f_table"
       },
-      "toilets": {
-        "T": {}
-      },
-      "place_monster": [
-        { "monster": "mon_darkman", "x": 8, "y": 10 }
-      ]
+      "toilets": { "T": {} },
+      "place_monster": [ { "monster": "mon_darkman", "x": 8, "y": 10 } ]
     }
   },
   {
@@ -153,10 +128,7 @@
       ],
       "mapping": {
         ".": {
-          "items": {
-            "item": "subway",
-            "chance": 10
-          }
+          "items": { "item": "subway", "chance": 10 }
         },
         "S": {
           "furniture": "f_table",
@@ -164,24 +136,15 @@
         },
         "c": {
           "furniture": "f_crate_o",
-          "items": {
-            "item": "dresser",
-            "chance": 20
-          }
+          "items": { "item": "dresser", "chance": 20 }
         },
         "o": {
           "furniture": "f_bookcase",
-          "items": {
-            "item": "novels",
-            "chance": 40
-          }
+          "items": { "item": "novels", "chance": 40 }
         },
         "r": {
           "furniture": "f_rack",
-          "items": {
-            "item": "cannedfood",
-            "chance": 30
-          }
+          "items": { "item": "cannedfood", "chance": 30 }
         }
       },
       "terrain": {
@@ -203,9 +166,7 @@
         "h": "f_chair",
         "t": "f_table"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "place_monster": [
         { "monster": "mon_dementia", "x": 4, "y": 12, "repeat": [ 3, 6 ] },
         { "monster": "mon_dementia", "x": 19, "y": 2, "repeat": [ 1, 4 ] },

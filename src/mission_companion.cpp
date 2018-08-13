@@ -15,6 +15,7 @@
 #include "ammo.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "skill.h"
 #include "translations.h"
@@ -131,7 +132,7 @@ void talk_function::bionic_install(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if ( g->u.install_bionics( it, 20, false ) ){
+    if ( g->u.install_bionics( it, p, false, 20 ) ){
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
@@ -188,7 +189,7 @@ void talk_function::bionic_remove(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), 20, false)){
+    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), p, false)){
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
@@ -3073,7 +3074,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
         int skill_1 = comp->get_skill_level( skill_survival );
         int skill_2 = comp->get_skill_level( skill_speech );
         if( skill_1 > rng( -2, 8 ) ){
-            popup(_("%s notices the antlered horror and slips away before if gets too close."), comp->name.c_str());
+            popup(_("%s notices the antlered horror and slips away before it gets too close."), comp->name.c_str());
         } else if( skill_2 > rng( -2, 8 ) ) {
             popup(_("The survivor approaches %s asking for directions."), comp->name.c_str());
             popup(_("Fearful that he may be an agent of some hostile faction, %s doesn't mention the camp."), comp->name.c_str());
@@ -3107,7 +3108,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
                     popup(_("The jabberwock grabbed %s by the arm from behind and began to scream."), comp->name.c_str());
                     popup(_("Terrified, %s spun around and delivered a massive kick to the creature's torso..."), comp->name.c_str());
                     popup(_("Collapsing into a pile of gore, %s walked away unscathed..."), comp->name.c_str());
-                    popup(_("(Sounds like bullshit, you wander what really happened.)"));
+                    popup(_("(Sounds like bullshit, you wonder what really happened.)"));
                 }
             } else {
                 if (one_in(2)){
@@ -3115,7 +3116,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
                     popup(_("The screams were terrifying, there was nothing anyone could do."));
                 } else {
                     popup(_("Pieces of %s were found strewn across a few bushes."), comp->name.c_str());
-                    popup(_("(You wander if your companions are fit to work on their own...)"));
+                    popup(_("(You wonder if your companions are fit to work on their own...)"));
                 }
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
@@ -4770,9 +4771,9 @@ tripoint talk_function::om_target_tile( tripoint omt_pos, int min_range, int ran
     om_range_mark( omt_pos, range );
     om_range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
     if( source == tripoint(-999,-999,-999) ){
-        where = overmap::draw_overmap();
+        where = ui::omap::choose_point();
     } else {
-        where = overmap::draw_overmap( source );
+        where = ui::omap::choose_point( source );
     }
     om_range_mark( omt_pos, range, false );
     om_range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );

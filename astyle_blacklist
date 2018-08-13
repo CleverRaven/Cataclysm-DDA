@@ -23,7 +23,6 @@ src/init.cpp
 src/inventory.cpp
 src/inventory_ui.cpp
 src/item.cpp
-src/item_factory.cpp
 src/json.cpp
 src/lightmap.cpp
 src/line.cpp
@@ -76,7 +75,6 @@ src/mission.h
 src/overmapbuffer.h
 src/overmap.h
 src/player.h
-src/vehicle.h
 src/wcwidth.h
 src/wdirent.h
 tests/invlet_test.cpp
