@@ -6,6 +6,7 @@
     "item": "motor",
     "location": "engine_block",
     "description": "An electric motor.",
+    "m2c": 90,
     "fuel_type": "battery",
     "symbol": "*",
     "color": "yellow",

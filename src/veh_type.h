@@ -83,6 +83,7 @@ enum vpart_bitflags : int {
  * Other flags are self-explanatory in their names. */
 
 struct vpslot_engine {
+    int  m2c = 1;
 };
 
 class vpart_info
@@ -218,6 +219,7 @@ class vpart_info
          * @name Engine specific functions
          *
          */
+        int  engine_m2c() const;
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;

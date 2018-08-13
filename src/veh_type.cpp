@@ -153,6 +153,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
     if( eptr ) {
         e_info = *eptr;
     }
+    assign( jo, "m2c", e_info.m2c );
     eptr = e_info;
     assert( eptr );
 }
@@ -669,6 +670,11 @@ int vpart_info::repair_time( const Character &ch ) const
  * @name Engine specific functions
  *
  */
+int  vpart_info::engine_m2c() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
+}
+
 /** @relates string_id */
 template<>
 const vehicle_prototype &string_id<vehicle_prototype>::obj() const

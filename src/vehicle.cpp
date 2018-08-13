@@ -3333,43 +3333,33 @@ bool vehicle::do_environmental_effects()
     return needed;
 }
 
-int vehicle::safe_velocity(bool const fueled) const
+int vehicle::safe_velocity( bool const fueled ) const
 {
     int pwrs = 0;
     int cnt = 0;
-    for (size_t e = 0; e < engines.size(); e++){
-        if (is_engine_on(e) &&
-            (!fueled || is_engine_type(e, fuel_type_muscle) ||
-            fuel_left (part_info(engines[e]).fuel_type))) {
-            int m2c = 100;
+    for( size_t e = 0; e < engines.size(); e++ ) {
+        if( is_engine_on( e ) &&
+            ( !fueled || is_engine_type( e, fuel_type_muscle ) ||
+              fuel_left( part_info( engines[e] ).fuel_type ) ) ) {
+            int m2c = part_info( engines[e] ).engine_m2c();
 
-            if (is_engine_type(e, fuel_type_gasoline)) {
-                m2c = 60;
-            } else if(is_engine_type(e, fuel_type_diesel)) {
-                m2c = 65;
-            } else if(is_engine_type(e, fuel_type_battery)) {
-                m2c = 90;
-            } else if(is_engine_type(e, fuel_type_muscle)) {
-                m2c = 45;
-            }
-
-            if( parts[ engines[ e ] ].faults().count( fault_filter_fuel ) ) {
+            if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
                 m2c *= 0.6;
             }
 
-            pwrs += part_power(engines[e]) * m2c / 100;
+            pwrs += part_power( engines[e] ) * m2c / 100;
             cnt++;
         }
     }
-    for (int a = 0; a < (int)alternators.size(); a++){
-         if (is_alternator_on(a)){
-            pwrs += part_power(alternators[a]); // alternator parts have negative power
-         }
+    for( int a = 0; a < ( int )alternators.size(); a++ ) {
+        if( is_alternator_on( a ) ) {
+            pwrs += part_power( alternators[a] ); // alternator parts have negative power
+        }
     }
-    if (cnt > 0) {
-        pwrs = pwrs * 4 / (4 + cnt -1);
+    if( cnt > 0 ) {
+        pwrs = pwrs * 4 / ( 4 + cnt - 1 );
     }
-    return (int) (pwrs * k_dynamics() * k_mass()) * 80;
+    return ( int )( pwrs * k_dynamics() * k_mass() ) * 80;
 }
 
 void vehicle::spew_smoke( double joules, int part, int density )
