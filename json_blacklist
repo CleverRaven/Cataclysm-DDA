@@ -174,7 +174,7 @@ data/json/mapgen/s_clothing.json
 data/json/mapgen/s_coffee.json
 data/json/mapgen/s_electronics.json
 data/json/mapgen/s_grocery.json
-data/json/mapgen/s_gun0.json
+data/json/mapgen/s_gun.json
 data/json/mapgen/s_liquor.json
 data/json/mapgen/school_1.json
 data/json/mapgen/shelter.json
