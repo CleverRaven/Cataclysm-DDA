@@ -11,6 +11,7 @@
     "damage_modifier": 50,
     "difficulty": 1,
     "m2c": 45,
+    "exclusions": [ "manual" ],
     "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_ALTERNATOR" ]
   },
   {

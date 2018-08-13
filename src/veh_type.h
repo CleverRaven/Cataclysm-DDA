@@ -84,6 +84,7 @@ enum vpart_bitflags : int {
 
 struct vpslot_engine {
     int  m2c = 1;
+    std::vector<std::string> exclusions;
 };
 
 class vpart_info
@@ -219,6 +220,7 @@ class vpart_info
          * @name Engine specific functions
          *
          */
+        std::vector<std::string> engine_excludes() const;
         int  engine_m2c() const;
     private:
         /** Name from vehicle part definition which if set overrides the base item name */

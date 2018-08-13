@@ -1223,6 +1223,9 @@ class vehicle
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type_not( const itype_id &ft, bool enabled ) const;
+        //returns true if there's another engine with the same exclusion list; conflict_type holds
+        //the exclusion
+        bool has_engine_conflict( const vpart_info *possible_engine, std::string &conflict_type ) const;
         //prints message relating to vehicle start failure
         void msg_start_engine_fail();
         //if necessary, damage this engine

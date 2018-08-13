@@ -154,6 +154,13 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
         e_info = *eptr;
     }
     assign( jo, "m2c", e_info.m2c );
+    auto excludes = jo.get_array( "exclusions" );
+    if( !excludes.empty() ) {
+        e_info.exclusions.clear();
+        while( excludes.has_more() ) {
+            e_info.exclusions.push_back( excludes.next_string() );
+        }
+    }
     eptr = e_info;
     assert( eptr );
 }
@@ -673,6 +680,11 @@ int vpart_info::repair_time( const Character &ch ) const
 int  vpart_info::engine_m2c() const
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
+}
+
+std::vector<std::string> vpart_info::engine_excludes() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->exclusions : std::vector<std::string>();
 }
 
 /** @relates string_id */

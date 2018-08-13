@@ -878,6 +878,31 @@ bool vehicle::has_engine_type_not( const itype_id &ft, bool const enabled ) cons
     return false;
 }
 
+bool vehicle::has_engine_conflict( const vpart_info *possible_conflict,
+                                   std::string &conflict_type ) const
+{
+    std::vector<std::string> new_excludes = possible_conflict->engine_excludes();
+    // skip expensive string comparisons if there are no exclusions
+    if( new_excludes.empty() ) {
+       return false;
+    }
+
+    bool has_conflict = false;
+
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        std::vector<std::string> install_excludes = part_info( engines[e] ).engine_excludes();
+        std::vector<std::string> conflicts;
+        std::set_intersection( new_excludes.begin(), new_excludes.end(), install_excludes.begin(),
+                               install_excludes.end(), back_inserter( conflicts ) );
+        if( !conflicts.empty() ) {
+            has_conflict = true;
+            conflict_type = conflicts.front();
+            break;
+        }
+    }
+    return has_conflict;
+}
+
 bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
 {
     return part_info( engines[e] ).fuel_type == ft;
@@ -1644,9 +1669,9 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         }
     }
 
-    // only one muscle engine allowed
-    if( part.has_flag(VPFLAG_ENGINE) && part.fuel_type == fuel_type_muscle &&
-        has_engine_type(fuel_type_muscle, false) ) {
+    // only one exclusive engine allowed
+    std::string empty;
+    if( has_engine_conflict( &part, empty ) ) {
         return false;
     }
 
