@@ -90,12 +90,11 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
                 }
             }
-
         }
     }
 
     int dir1 = rng( 0, 359 );
-    int crash_type = dice( 1, 6 );
+    int crash_type = dice( 1, 9 );
 
     std::enable_if<true, std::unique_ptr<vehicle>>::type veh;
     switch( crash_type ) {
@@ -103,19 +102,28 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_1a" ), rng( 1, 33 ), 1 );
             break;
         case 2:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_2a" ), rng( 1, 33 ), 1 );
+            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_1b" ), rng( 1, 33 ), 1 );
             break;
         case 3:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_3a" ), rng( 1, 33 ), 1 );
+            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_1c" ), rng( 1, 33 ), 1 );
             break;
         case 4:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_4a" ), rng( 1, 33 ), 1 );
+            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_2a" ), rng( 1, 33 ), 1 );
             break;
         case 5:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_5a" ), rng( 1, 33 ), 1 );
+            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_2b" ), rng( 1, 33 ), 1 );
             break;
         case 6:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_6a" ), rng( 1, 33 ), 1 );
+            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_2c" ), rng( 1, 33 ), 1 );
+            break;
+        case 7:
+            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_3a" ), rng( 1, 33 ), 1 );
+            break;
+        case 8:
+            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_3b" ), rng( 1, 33 ), 1 );
+            break;
+        case 9:
+            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_3c" ), rng( 1, 33 ), 1 );
             break;
         default:
             break;
@@ -151,23 +159,35 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                                       rng( 1, 33 ), 1 );
             break;
         case 2:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2a" ), tripoint( x1, y1, abs_sub.z ), dir1,
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_1b" ), tripoint( x1, y1, abs_sub.z ), dir1,
                                       rng( 1, 33 ), 1 );
             break;
         case 3:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1,
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_1c" ), tripoint( x1, y1, abs_sub.z ), dir1,
                                       rng( 1, 33 ), 1 );
             break;
         case 4:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_4a" ), tripoint( x1, y1, abs_sub.z ), dir1,
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2a" ), tripoint( x1, y1, abs_sub.z ), dir1,
                                       rng( 1, 33 ), 1 );
             break;
         case 5:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_5a" ), tripoint( x1, y1, abs_sub.z ), dir1,
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2b" ), tripoint( x1, y1, abs_sub.z ), dir1,
                                       rng( 1, 33 ), 1 );
             break;
         case 6:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_6a" ), tripoint( x1, y1, abs_sub.z ), dir1,
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2c" ), tripoint( x1, y1, abs_sub.z ), dir1,
+                                      rng( 1, 33 ), 1 );
+            break;
+        case 7:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1,
+                                      rng( 1, 33 ), 1 );
+            break;
+        case 8:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3b" ), tripoint( x1, y1, abs_sub.z ), dir1,
+                                      rng( 1, 33 ), 1 );
+            break;
+        case 9:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3c" ), tripoint( x1, y1, abs_sub.z ), dir1,
                                       rng( 1, 33 ), 1 );
             break;
         default:
@@ -218,7 +238,14 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             default:
                 break;
         }
-        wreckage->smash( 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        if(!one_in(4))
+        {
+            wreckage->smash( 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        }
+        else
+        {
+            wreckage->smash( 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        }
     }
 }
 
