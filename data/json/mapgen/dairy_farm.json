@@ -142,9 +142,7 @@
         "_": "t_floor",
         "|": "t_wall"
       },
-      "furniture": {
-        "H": "f_hay"
-      }
+      "furniture": { "H": "f_hay" }
     }
   },
   {
@@ -165,7 +163,7 @@
         ".$......................",
         ".$......................",
         ".$...||*||+||*||||......",
-        ".$...|A{{_______{|......",
+        ".$...|A{{__Y____{|......",
         ".$...|w_________{*......",
         ".$...*______HHH__|......",
         ".$...|__||'||||'||......",
@@ -188,6 +186,7 @@
         ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "O": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "X": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
+        "Y": "t_floor",
         "_": "t_floor",
         "a": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "f": "t_door_metal_c",
@@ -204,6 +203,7 @@
         "O": "f_crate_o",
         "T": "f_table",
         "X": "f_crate_c",
+        "Y": "f_rack_coat",
         "a": "f_dumpster",
         "b": "f_toilet",
         "c": "f_cupboard",
@@ -215,6 +215,7 @@
         "w": "f_washer",
         "{": "f_bookcase"
       },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [
         { "item": "bed", "x": 12, "y": 16, "chance": 70 },
         { "item": "bed", "x": 11, "y": 17, "chance": 90 },

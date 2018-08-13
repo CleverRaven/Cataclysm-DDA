@@ -23,35 +23,24 @@
       "x": "t_console_broken",
       "g": "t_reinforced_glass",
       "G": "t_reinforced_door_glass_c",
-      ".": "t_rock_floor",
+      ".": "t_thconc_floor",
       ",": "t_floor_blue",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
-      "+": "t_door_metal_c",
-      "D": "t_door_metal_locked",
+      "+": "t_door_glass_frosted_c",
+      "W": "t_door_c",
+      "M": "t_door_metal_c",
+      "L": "t_door_metal_locked",
       "#": "t_rock"
     },
-    "toilets": {
-        "T": {}
-    }
+    "toilets": { "T": {} }
   },
   {
     "type": "palette",
     "id": "lab_loot_research",
     "mapping": {
-      "c": {
-        "items": [
-          { "item": "dissection", "chance": 10 },
-          { "item": "chem_lab", "chance": 10 },
-          { "item": "mut_lab", "chance": 2 }
-        ]
-      },
-      "S": {
-        "items": [
-          { "item": "drugs_heal_simple", "chance": 10 },
-          { "item": "harddrugs", "chance": 5 }
-        ]
-      },
+      "c": { "items": [ { "item": "dissection", "chance": 10 }, { "item": "chem_lab", "chance": 10 }, { "item": "mut_lab", "chance": 2 } ] },
+      "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
       "X": {
         "items": [
           { "item": "chem_lab", "chance": 10 },
@@ -63,20 +52,9 @@
           { "item": "softdrugs", "chance": 5 }
         ]
       },
-      "d": {
-        "items": [
-          { "item": "office", "chance": 20 },
-          { "item": "science", "chance": 5 }
-        ]
-      },
-      "h": {
-        "item": [ {"item": "coat_lab", "chance": 10} ]
-      },
-      "]": {
-        "items": [
-          { "item": "manuals", "chance": 10 },
-          { "item": "textbooks", "chance": 10 }
-        ]
+      "d": { "items": [ { "item": "office", "chance": 20 }, { "item": "science", "chance": 5 } ] },
+      "h": { "item": [ {"item": "coat_lab", "chance": 10} ] },
+      "]": { "items": [ { "item": "manuals", "chance": 10 }, { "item": "textbooks", "chance": 10 } ]
       },
       "l": {
         "items": [
@@ -96,28 +74,10 @@
     "type": "palette",
     "id": "lab_loot_home_office",
     "mapping": {
-      "c": {
-        "items": [
-          { "item": "office", "chance": 30 },
-          { "item": "science", "chance": 2 }
-        ]
-      },
-      "d": {
-        "items": [
-          { "item": "office", "chance": 25 },
-          { "item": "stash_drugs", "chance": 5 },
-          { "item": "science", "chance": 3 }
-        ]
-      },
-      "f": {
-        "items": [ { "item": "fridge", "chance": 60, "repeat": 2 } ]
-      },
-      "S": {
-        "items": [
-          { "item": "drugs_heal_simple", "chance": 10 },
-          { "item": "harddrugs", "chance": 5 }
-        ]
-      },
+      "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "science", "chance": 2 } ] },
+      "d": { "items": [ { "item": "office", "chance": 25 }, { "item": "stash_drugs", "chance": 5 }, { "item": "science", "chance": 3 } ] },
+      "f": { "items": [ { "item": "fridge", "chance": 60, "repeat": 2 } ] },
+      "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
       "X": {
         "items": [
           { "item": "chem_lab", "chance": 10 },
@@ -128,9 +88,7 @@
           { "item": "softdrugs", "chance": 5 }
         ]
       },
-      "h": {
-        "item": [ {"item": "coat_lab", "chance": 5} ]
-      },
+      "h": { "item": [ {"item": "coat_lab", "chance": 5} ] },
       "s": {
         "items": [
           { "item": "dresser", "chance": 30 },
@@ -139,9 +97,7 @@
           { "item": "lab_pants", "chance": 10 }
         ]
       },
-      "b": { 
-        "items": [ { "item": "bed", "chance": 50 } ]
-      },
+      "b": { "items": [ { "item": "bed", "chance": 50 } ] },
       "]": {
         "items": [
           { "item": "manuals", "chance": 5 },
@@ -253,9 +209,7 @@
     "nested_mapgen_id": "sub_t_concrete_wall",
     "object": {
       "rows": [ "-" ],
-      "palettes": [
-        "lab_palette"
-      ],
+      "palettes": [ "lab_palette" ],
       "mapgensize": [ 1, 1 ]
     }
   }

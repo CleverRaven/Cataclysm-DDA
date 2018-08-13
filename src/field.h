@@ -106,6 +106,7 @@ enum field_id : int {
  fd_hot_air3,
  fd_hot_air4,
  fd_fungicidal_gas,
+ fd_smoke_vent,
  num_fields
 };
 

@@ -54,7 +54,7 @@
     "broken_color": "light_gray",
     "difficulty": 2,
     "durability": 200,
-    "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.  Can also be used to store items.",
+    "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": 250,
     "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED" ]
   },

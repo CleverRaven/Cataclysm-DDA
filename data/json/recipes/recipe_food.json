@@ -8133,6 +8133,7 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -9365,12 +9366,11 @@
   "time": 30000,
   "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
   "batch_time_factors":[50, 4],
-  "using": [ [ "filament", 2 ] ],
+  "using": [ [ "sewing_standard", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1},
-    {"id":"SEW","level":1}
+    {"id":"CUT","level":1}
   ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
@@ -9404,12 +9404,11 @@
   "time": 30000,
   "book_learn": [[ "cookbook_human", 3 ]],
   "batch_time_factors":[50, 4],
-  "using": [ [ "filament", 2 ] ],
+  "using": [ [ "sewing_standard", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1},
-    {"id":"SEW","level":1}
+    {"id":"CUT","level":1}
   ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
@@ -9978,5 +9977,45 @@
       [ "water_clean", 2 ]
       ]
     ]
-  }
+  },
+  {
+  "type" : "recipe",
+  "result": "hflesh_pemmican",
+  "copy-from": "pemmican",
+    "autolearn": false,
+  "book_learn": [[ "cookbook_human", 5 ]],
+  "qualities" : [
+    {"id":"CUT","level":1}
+  ],
+  "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+  "components": [
+    [
+      [ "tallow", 2 ],
+      [ "lard", 2 ]
+    ],
+    [
+      [ "jerky_human", 6 ],
+      [ "dry_hflesh", 2 ],
+      [ "human_smoked", 2 ]
+    ],
+    [
+      [ "dry_veggy", 2 ],
+      [ "dry_fruit", 2 ],
+      [ "dry_mushroom", 2 ],
+      [ "juice_pulp", 4 ],
+      [ "irradiated_strawberries", 1 ],
+      [ "strawberries", 1 ],
+      [ "irradiated_blueberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "irradiated_cherries", 1 ],
+      [ "cherries", 1 ],
+      [ "irradiated_cranberries", 3 ],
+      [ "cranberries", 3 ],
+      [ "irradiated_raspberries", 1 ],
+      [ "raspberries", 1 ],
+      [ "irradiated_blackberries", 1 ],
+      [ "blackberries", 1 ]
+    ]
+  ]
+}
 ]

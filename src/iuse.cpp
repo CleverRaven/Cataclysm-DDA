@@ -126,6 +126,7 @@ const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_recover( "recover" );
@@ -135,6 +136,7 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_smoke( "smoke" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stimpack( "stimpack" );
+const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
@@ -3738,6 +3740,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
                     case fd_tear_gas:
                     case fd_toxic_gas:
                     case fd_gas_vent:
+                    case fd_smoke_vent:
                     case fd_relax_gas:
                     case fd_fungal_haze:
                         it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 15 );
@@ -4062,6 +4065,19 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
     return it->type->charges_to_use();
 }
 
+static int chop_moves( player *p, item *it )
+{
+    // quality of tool
+    const int quality = it->get_quality( AXE );
+
+    // attribute; regular tools - based on STR, powered tools - based on DEX
+    const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
+
+    const int moves = MINUTES( 60 - attr ) / std::pow( 2, quality - 1 ) * 100;
+
+    return moves;
+}
+
 int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !p || t ) {
@@ -4081,8 +4097,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
     int moves;
 
     if( g->m.has_flag( "TREE", dirp ) ) {
-        /** @EFFECT_STR reduces time required to chop down a tree */
-        moves = MINUTES( 70 - p->str_cur ) / it->get_quality( AXE ) * 100;
+        moves = chop_moves( p, it );
     } else {
         add_msg( m_info, _( "You can't chop down that." ) );
         return 0;
@@ -4109,8 +4124,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
 
     const ter_id ter = g->m.ter( dirp );
     if( ter == t_trunk ) {
-        /** @EFFECT_STR reduces time required to chop down a tree */
-        moves = MINUTES( 70 - p->str_cur ) * 2 / it->get_quality( AXE ) * 100;
+        moves = chop_moves( p, it );
     } else {
         add_msg( m_info, _( "You can't chop that." ) );
         return 0;
@@ -5163,39 +5177,39 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix.tname().c_str() );
         return 0;
     }
-    if( fix.damage() == fix.min_damage() ) {
+    if( fix.precise_damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.damage() == 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
+    if( fix.precise_damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
         p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname().c_str() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return 0;
     }
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
-    if( fix.damage() == 0 && p->get_skill_level( skill_mechanics ) >= 8 ) {
+    if( fix.precise_damage() <= 0 ) {
         sounds::sound( p->pos(), 6, "" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -1 );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname().c_str() );
+        fix.mod_damage( -1 );
 
-    } else if( fix.damage() >= 2 ) {
+    } else if( fix.precise_damage() > 1 ) {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -1 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+        fix.mod_damage( -1 );
 
     } else {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -1 );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
                               fix.tname().c_str() );
+        fix.set_damage( 0 );
     }
     return it->type->charges_to_use();
 }
@@ -5294,33 +5308,33 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    if( fix.damage() == fix.min_damage() ) {
+    if( fix.precise_damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.damage() == 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( fix.precise_damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.damage() == 0 ) {
-        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
+    if( fix.precise_damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
+        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
         fix.mod_damage( -1 );
 
-    } else if( fix.damage() >= 2 ) {
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+    } else if( fix.precise_damage() > 1 ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
+        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
         fix.mod_damage( -1 );
 
     } else {
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
         p->moves -= 250 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        fix.mod_damage( -1 );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
+        fix.set_damage( 0 );
     }
     return it->type->charges_to_use();
 }
@@ -7645,6 +7659,26 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes. Slightly." ) );
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
+    return it->type->charges_to_use();
+}
+
+int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
+    if( p->has_effect( effect_infected ) && !p->has_effect( effect_strong_antibiotic ) ) {
+        p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
+    }
+    p->add_effect( effect_strong_antibiotic, 12_hours );
+    return it->type->charges_to_use();
+}
+
+int iuse::panacea( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
+    if( !p->has_effect( effect_panacea ) ) {
+        p->add_msg_if_player( m_good, _( "You feel AMAZING!" ) );
+    }
+    p->add_effect( effect_panacea, 1_minutes );
     return it->type->charges_to_use();
 }
 
