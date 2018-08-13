@@ -644,7 +644,7 @@
         { "chance": 10, "item": "toy_box", "x": 14, "y": 13 }
       ],
       "place_toilets": [ { "x": 21, "y": 3 }, { "x": 21, "y": 5 } ],
-      "place_monsters": [ { "monster": "GROUP_PARK_SCENIC", "x": [ 0, 18 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_PARK_SCENIC", "x": [ 0, 18 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 3 ] } ],
       "rows": [
         "..0.d.O.O.O.0.0......_..",
         "_......s.s.._.........._",
@@ -726,7 +726,7 @@
         { "chance": 20, "item": "trash", "x": 13, "y": 21 },
         { "chance": 20, "repeat": [ 1, 3 ], "item": "trash", "x": 19, "y": 13 }
       ],
-      "place_monsters": [ { "monster": "GROUP_PARK_SCENIC", "x": [ 9, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_PARK_SCENIC", "x": [ 9, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 3 ] } ],
       "rows": [
         "...___.......s..d..s....",
         "...___...*.......*.....s",

@@ -87,7 +87,7 @@
       },
       "place_signs": [ { "signage": "NO lifeguard on duty!", "x": 3, "y": 2 }, { "signage": "NO running!", "x": 20, "y": 2 } ]
     },
-    "om_terrain": "pool",           "//": "Outdoor pool"
+    "om_terrain": "pool",           "//": "Outdoor pool",
     "type": "mapgen"
   },
   {
@@ -175,7 +175,7 @@
         "|": "t_brick_wall"
       }
     },
-    "om_terrain": "pool",           "//": "Indoor pool"
+    "om_terrain": "pool",           "//": "Indoor pool",
     "type": "mapgen"
   },
   {
@@ -278,7 +278,7 @@
         { "signage": "NO diving in the shallow end!", "x": 21, "y": 13 }
       ]
     },
-    "om_terrain": "pool",           "//": "Indoor pool"
+    "om_terrain": "pool",           "//": "Indoor pool",
     "type": "mapgen"
   },
   {
@@ -365,7 +365,7 @@
       },
       "place_signs": [ { "signage": "Women", "x": 9, "y": 19 }, { "signage": "Men", "x": 14, "y": 19 } ]
     },
-    "om_terrain": "pool",           "//": "Outdoor pool"
+    "om_terrain": "pool",           "//": "Outdoor pool",
     "type": "mapgen"
   },
   {
@@ -458,7 +458,7 @@
       },
       "place_signs": [ { "signage": "NO Running!", "x": 3, "y": 14 }, { "signage": "NO Diving!", "x": 20, "y": 14 } ]
     },
-    "om_terrain": "pool",           "//": "Indoor pool"
+    "om_terrain": "pool",           "//": "Indoor pool",
     "type": "mapgen"
   },
   {
@@ -473,7 +473,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "pool",           "//": "Outdoor pool"
+    "om_terrain": "pool",           "//": "Outdoor pool",
     "object": {
       "rows": [
         "........................",
@@ -514,7 +514,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "pool",           "//": "Outdoor pool"
+    "om_terrain": "pool",           "//": "Outdoor pool",
     "object": {
       "rows": [
         "........................",
@@ -567,7 +567,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "pool",           "//": "Outdoor pool"
+    "om_terrain": "pool",           "//": "Outdoor pool",
     "object": {
       "rows": [
         "........................",
@@ -608,7 +608,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "pool",       "//": "Outdoor pool"
+    "om_terrain": "pool",       "//": "Outdoor pool",
     "object": {
       "rows": [
         "........................",
