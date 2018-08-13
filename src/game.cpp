@@ -940,6 +940,15 @@ bool game::start_game()
                     auto pos = v.v->global_part_pos3( *pv );
                     u.setpos( pos );
 
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : v.v->parts_at_relative( pv->mount.x, pv->mount.y ) ) {
+                        vehicle_stack here = v.v->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+
                     auto mons = critter_tracker->find( pos );
                     if( mons != nullptr ) {
                         critter_tracker->remove( *mons );
