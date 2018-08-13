@@ -100,7 +100,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     }
 
     int dir1 = rng(0, 359);
-    int crash_type = dice(1, 3);
+    int crash_type = dice(1, 6);
 
     std::enable_if<true, std::unique_ptr<vehicle>>::type veh;
     switch (crash_type)
@@ -114,17 +114,26 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
         case 3:
             veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_3a"), rng(1, 33), 1);
             break;
+        case 4:
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_4a"), rng(1, 33), 1);
+            break;
+        case 5:
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_5a"), rng(1, 33), 1);
+            break;
+        case 6:
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_6a"), rng(1, 33), 1);
+            break;
         default:
             break;
     }
 
     veh.get()->turn( dir1 );
     
-    bounding_box bbox = veh.get()->get_bounding_box();
-    int x_length = std::abs(bbox.p2.x - bbox.p1.x);
-    int y_length = std::abs(bbox.p2.y - bbox.p1.y);
+    bounding_box bbox = veh.get()->get_bounding_box();          // Get the bounding box, centered on mount(0,0)
+    int x_length = std::abs(bbox.p2.x - bbox.p1.x);             // Move the wreckage forward/backward half it's length
+    int y_length = std::abs(bbox.p2.y - bbox.p1.y);             // so that it spawns more over the center of the debris area
     
-    int x_offset = veh.get()->dir_vec().x * (x_length / 2);
+    int x_offset = veh.get()->dir_vec().x * (x_length / 2);     // cont.
     int y_offset = veh.get()->dir_vec().y * (y_length / 2);
 
     int x_min = abs(bbox.p1.x) + 0;
@@ -133,8 +142,8 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     int x_max = (SEEX * 2) - (bbox.p2.x + 1);
     int y_max = (SEEX * 2) - (bbox.p2.y + 1);
 
-    int x1 = clamp(cx + x_offset, x_min, x_max);
-    int y1 = clamp(cy + y_offset, y_min, y_max);
+    int x1 = clamp(cx + x_offset, x_min, x_max);                // Clamp x1 & y1 such that no parts of the vehicle extend
+    int y1 = clamp(cy + y_offset, y_min, y_max);                // over the border of the submap.
 
     vehicle* wreckage = nullptr;
 
@@ -149,21 +158,69 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
         case 3:
             wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
             break;
+        case 4:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_4a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            break;
+        case 5:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_5a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            break;
+        case 6:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_6a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            break;
         default:
             break;
     }
 
     if(wreckage != nullptr)
     {
-        for(auto p : wreckage->get_parts(VPFLAG_SEATBELT))
+        const int clowncar_factor = dice(1, 6);
+
+        switch(clowncar_factor)
         {
-            auto pos = wreckage->global_part_pos3(*p);
-            if(!one_in(6) || true)
-            {
-                m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y ); 
-            }
+            case 1:
+            case 2:
+            case 3: // Full clown car
+                for(auto p : wreckage->get_parts(VPFLAG_SEATBELT))
+                {
+                    auto pos = wreckage->global_part_pos3(*p);
+                    m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+
+                    for(auto sp : wreckage->parts_at_relative(p->mount.x, p->mount.y))
+                    {
+                        vehicle_stack here = wreckage->get_items(sp);
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 4: 
+            case 5: // 2/3rds clown car
+                for(auto p : wreckage->get_parts(VPFLAG_SEATBELT))
+                {
+                    if(!one_in(3))
+                    {
+                        auto pos = wreckage->global_part_pos3(*p);
+                        m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+
+                        for(auto sp : wreckage->parts_at_relative(p->mount.x, p->mount.y))
+                        {
+                            vehicle_stack here = wreckage->get_items(sp);
+
+                            for( auto iter = here.begin(); iter != here.end(); ) {
+                                iter = here.erase( iter );
+                            }
+                        }
+                    }
+                }
+                break;
+            case 6: // Empty clown car
+                break;
+            default:
+                break;
         }
-        //wreckage->smash();
+        wreckage->smash();
     }
 }
 
