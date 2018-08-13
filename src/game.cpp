@@ -934,33 +934,26 @@ bool game::start_game()
         bool success = false;
         for(auto v : m.get_vehicles())
         {
-            for(auto pv : v.v->get_parts(VPFLAG_CONTROLS))
+            std::string name = v.v->type.str();
+            std::string search = std::string("helicopter");
+            if(name.find(search) != std::string::npos)
             {
-                auto pos = v.v->global_part_pos3(*pv);
-                u.setpos(pos);
+                for(auto pv : v.v->get_parts(VPFLAG_CONTROLS))
+                {
+                    auto pos = v.v->global_part_pos3(*pv);
+                    u.setpos(pos);
                 
-                auto mons = critter_tracker->find(pos);
-                if(mons != nullptr)
-                {
-                    critter_tracker->remove(*mons);
-                }
-
-                /*
-                for(auto mons : all_monsters())
-                {
-                    if(mons.pos() == pos)
+                    auto mons = critter_tracker->find(pos);
+                    if(mons != nullptr)
                     {
-                        mons.death_drops = false;
-                        mons.no_extra_death_drops = true;
-                        mons.die(nullptr);
-
-                        break;
+                        critter_tracker->remove(*mons);
                     }
-                }*/
-                success = true;
-                break;
+
+                    success = true;
+                    break;
+                }
+                if (success) break;
             }
-            if (success) break;
         }
     }
 

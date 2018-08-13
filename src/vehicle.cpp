@@ -6833,25 +6833,30 @@ bounding_box vehicle::get_bounding_box()
     int min_y = INT_MAX;
     int max_y = INT_MIN;
 
-    get_points(true);
-    for (const auto p : occupied_points)
+    face.init(turn_dir);
+    
+    precalc_mounts(0, turn_dir, point());
+
+    int i_use = 0;
+    for (const auto p : get_points(true))
     {
-        
-        if(p.x < min_x)
+        point pv = parts[part_at(p.x, p.y)].precalc[i_use];
+        point pt = pv;// (p.x + pv.x, p.y + pv.y);
+        if(pt.x < min_x)
         {
-            min_x = p.x;
+            min_x = pt.x;
         }
-        if(p.x > max_x)
+        if(pt.x > max_x)
         {
-            max_x = p.x;
+            max_x = pt.x;
         }
-        if(p.y < min_y)
+        if(pt.y < min_y)
         {
-            min_y = p.y;
+            min_y = pt.y;
         }
-        if(p.y > max_y)
+        if(pt.y > max_y)
         {
-            max_y = p.y;
+            max_y = pt.y;
         }
     }
     bounding_box b;

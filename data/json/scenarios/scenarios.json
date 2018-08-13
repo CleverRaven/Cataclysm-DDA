@@ -193,7 +193,7 @@
     "description": "You've crashed your precious helicopter, it'll never fly again.  Monsters don't bother you, life without your Loach is worthless anyway.",
     "start_name": "Crash site",
     "professions" : ["soldier", "national_guard", "specops", "bio_soldier", "bio_sniper"],
-    "allowed_locs" : ["field"],
+    "allowed_locs" : ["field", "forest"],
     "map_special": "mx_helicopter",
     "flags": ["HELI_CRASH"]
   },{

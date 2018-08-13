@@ -51,79 +51,9 @@ void mx_null( map &, const tripoint & )
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    int cx = rng( 6, SEEX * 2 - 7 ), cy = rng( 6, SEEY * 2 - 7 );
+    int cx = rng(6, SEEX * 2 - 7);
+    int cy = rng(6, SEEY * 2 - 7);
 
-    int dir1 = rng(0, 359);
-
-    int crash_type = dice(1, 3);
-    std::enable_if<true, std::unique_ptr<vehicle>>::type veh;
-    switch (crash_type)
-    {
-        case 1:
-            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_1a"), rng(1, 33), 1);
-            break;
-        case 2:
-            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_2a"), rng(1, 33), 1);
-            break;
-        case 3:
-            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_3a"), rng(1, 33), 1);
-            break;
-        default:
-            break;
-    }
-    veh.get()->turn(dir1);
-    
-    bounding_box bbox = veh.get()->get_bounding_box();
-    int x_length = (bbox.p2.x - bbox.p1.x);
-    int y_length = (bbox.p2.y - bbox.p1.y);
-    
-    int x_offset = veh.get()->dir_vec().x * (x_length / 2);
-    int y_offset = veh.get()->dir_vec().y * (y_length / 2);
-
-    int x_min = abs(bbox.p1.x) + 0;
-    int y_min = abs(bbox.p1.y) + 0;
-    
-    int x_max = (SEEX * 2) - (bbox.p2.x + 0);
-    int y_max = (SEEX * 2) - (bbox.p2.y + 0);
-
-    int x1 = clamp(cx + x_offset, x_min, x_max);
-    int y1 = clamp(cy + y_offset, y_min, y_max);
-
-    vehicle* wreckage = nullptr;
-
-    switch(crash_type)
-    {
-        case 1:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_1a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
-            break;
-        case 2:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
-            break;
-        case 3:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
-            break;
-        default:
-            break;
-    }
-
-    if(wreckage != nullptr)
-    {
-        /*for(auto p : wreckage->get_parts(VPFLAG_CONTROLS))
-        {
-            auto pos = wreckage->global_part_pos3(*p);
-            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );            
-        }*/
-        for(auto p : wreckage->get_parts(VPFLAG_SEATBELT))
-        {
-            auto pos = wreckage->global_part_pos3(*p);
-            if(!one_in(6) || true)
-            {
-                m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y ); 
-            }
-        }
-        //wreckage->smash();
-    }
-    
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             if(m.veh_at(tripoint( x,  y, abs_sub.z )) && m.ter(tripoint(x, y, abs_sub.z))->has_flag(TFLAG_DIGGABLE))
@@ -169,26 +99,72 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
         }
     }
 
-    m.spawn_item( rng( 5, 18 ), rng( 5, 18 ), "black_box" );
-    m.place_items( "helicopter", 90, cx - 4, cy - 4, cx + 4, cy + 4, true, 0 );
-    m.place_items( "helicopter", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
-    items_location extra_items = "helicopter";
-    switch( rng( 1, 4 ) ) {
+    int dir1 = rng(0, 359);
+    int crash_type = dice(1, 3);
+
+    std::enable_if<true, std::unique_ptr<vehicle>>::type veh;
+    switch (crash_type)
+    {
         case 1:
-            extra_items = "military";
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_1a"), rng(1, 33), 1);
             break;
         case 2:
-            extra_items = "science";
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_2a"), rng(1, 33), 1);
             break;
         case 3:
-            extra_items = "guns_milspec";
+            veh = std::make_unique<vehicle>(vproto_id("helicopter_wreck_3a"), rng(1, 33), 1);
             break;
-        case 4:
-            extra_items = "bionics";
+        default:
             break;
     }
-    m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f ); //0.1 = 1-5
-    m.place_items( extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0, 100, 20 );
+
+    veh.get()->turn( dir1 );
+    
+    bounding_box bbox = veh.get()->get_bounding_box();
+    int x_length = std::abs(bbox.p2.x - bbox.p1.x);
+    int y_length = std::abs(bbox.p2.y - bbox.p1.y);
+    
+    int x_offset = veh.get()->dir_vec().x * (x_length / 2);
+    int y_offset = veh.get()->dir_vec().y * (y_length / 2);
+
+    int x_min = abs(bbox.p1.x) + 0;
+    int y_min = abs(bbox.p1.y) + 0;
+    
+    int x_max = (SEEX * 2) - (bbox.p2.x + 1);
+    int y_max = (SEEX * 2) - (bbox.p2.y + 1);
+
+    int x1 = clamp(cx + x_offset, x_min, x_max);
+    int y1 = clamp(cy + y_offset, y_min, y_max);
+
+    vehicle* wreckage = nullptr;
+
+    switch(crash_type)
+    {
+        case 1:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_1a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            break;
+        case 2:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            break;
+        case 3:
+            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1, rng(1, 33), 1 );
+            break;
+        default:
+            break;
+    }
+
+    if(wreckage != nullptr)
+    {
+        for(auto p : wreckage->get_parts(VPFLAG_SEATBELT))
+        {
+            auto pos = wreckage->global_part_pos3(*p);
+            if(!one_in(6) || true)
+            {
+                m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y ); 
+            }
+        }
+        //wreckage->smash();
+    }
 }
 
 void mx_military( map &m, const tripoint & )
