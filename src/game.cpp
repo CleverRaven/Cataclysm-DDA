@@ -6758,12 +6758,71 @@ void game::smash()
 
 void game::loot()
 {
-    if( !check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ) {
-        add_msg( m_info, _( "There is no unsorted loot pile nearby." ) );
+    enum ZoneFlags {
+        None = 1,
+        SortLoot = 2,
+        TillPlots = 4
+    };
+
+    auto just_one = []( int flags ) {
+        return flags && !( flags & ( flags - 1 ) );
+    };
+
+    int flags = 0;
+    const auto &mgr = zone_manager::get_manager();
+    const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
+
+    flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
+    flags |= check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ? TillPlots : 0;
+
+    if( flags == 0 ) {
+        add_msg( m_info, _( "There is no compatible zone nearby." ) );
+        add_msg( m_info, _( "Compatible zones are %s and %s" ),
+                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
+                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
         return;
     }
 
-    u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    if( !just_one( flags ) ) {
+        uimenu menu;
+        menu.text = _( "Pick action:" );
+        menu.desc_enabled = true;
+
+        if( flags & SortLoot ) {
+            menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
+                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+        }
+
+        if( flags & TillPlots ) {
+            menu.addentry_desc( TillPlots, has_hoe, 't',
+                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with." ),
+                                _( "Tills nearby Farm: Plot zones" ) );
+        }
+
+        menu.addentry( None, true, 'q',  _( "Cancel" ) );
+
+        menu.query();
+        flags = ( menu.ret >= 0 ) ? menu.ret : None;
+    }
+
+    switch( flags ) {
+        case None:
+            add_msg( _( "Never mind." ) );
+            break;
+        case SortLoot:
+            u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+            break;
+        case TillPlots:
+            if( has_hoe ) {
+                u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
+            } else {
+                add_msg( _( "You need a tool to dig with." ) );
+            }
+            break;
+        default:
+            debugmsg( "Unsupported flag" );
+            break;
+    }
 }
 
 static void make_active( item_location loc )
