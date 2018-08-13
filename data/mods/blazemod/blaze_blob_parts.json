@@ -165,7 +165,6 @@
     "broken_color": "light_blue",
     "difficulty": 1,
     "durability": 500,
-    "power": 10,
     "damage_modifier": 200,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],

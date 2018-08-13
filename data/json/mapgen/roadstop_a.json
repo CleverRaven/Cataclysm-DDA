@@ -57,21 +57,14 @@
         "i": "f_sign",
         "o": "f_crate_c"
       },
-      "signs": {
-        "i": { "signage": "This was once an information map for the <city> area, but it has long since eroded beyond usefullness.  There are small holders for tourist maps attached." }
-      },
-      "toilets": {
-        "7": {},
-        "9": { "amount": 500 }
-      },
+      "signs": { "i": { "signage": "This was once an information map for the <city> area, but it has long since eroded beyond usefullness.  There are small holders for tourist maps attached." } },
+      "toilets": { "7": {}, "9": { "amount": 500 } },
       "place_items": [
         { "item": "trash", "x": [ 11, 12 ], "y": 14, "chance": 80 },
         { "item": "trash", "x": [ 6, 18 ], "y": [ 8, 15 ], "chance": 60 },
         { "item": "methlab", "x": [ 6, 18 ], "y": [ 8, 15 ], "chance": 50 }
       ],
-      "add": [
-        { "item": "touristmap", "x": [ 11, 12 ], "y": 22, "chance": 50, "amount": 1 }
-      ]
+      "add": [ { "item": "touristmap", "x": [ 11, 12 ], "y": 22, "chance": 50, "amount": 1 } ]
     }
   }
 ]

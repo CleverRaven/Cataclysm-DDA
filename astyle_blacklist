@@ -75,7 +75,6 @@ src/mission.h
 src/overmapbuffer.h
 src/overmap.h
 src/player.h
-src/vehicle.h
 src/wcwidth.h
 src/wdirent.h
 tests/invlet_test.cpp

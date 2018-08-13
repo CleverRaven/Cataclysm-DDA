@@ -88,9 +88,7 @@
         "t": "f_table",
         "{": "f_rack"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "place_items": [
         { "item": "sugar_house_kitchen_items", "x": 14, "y": 17, "chance": 35 },
         { "item": "sugar_house_kitchen_items", "x": 4, "y": 16, "chance": 35 },
@@ -192,9 +190,7 @@
         "g": "f_chamomile",
         "{": "f_rack"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "place_items": [
         { "item": "magazines", "x": 19, "y": 5, "chance": 35 },
         { "item": "vending_drink", "x": 19, "y": 9, "chance": 75 },

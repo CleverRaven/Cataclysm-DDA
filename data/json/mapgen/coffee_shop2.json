@@ -180,9 +180,7 @@
         "l": "f_rack",
         "r": "f_rack"
       },
-      "toilets": {
-        ";": {}
-      },
+      "toilets": { ";": {} },
       "items": {
         "#": { "item": "coffee_counter", "chance": 10 },
         "6": { "item": "coffee_table", "chance": 35 },
@@ -202,15 +200,9 @@
         "l": { "item": "coffee_prep", "chance": 50 },
         "r": { "item": "coffee_condiments", "chance": 80 }
       },
-      "monsters": {
-        "!": { "monster": "GROUP_COFFEE_SHOP_SPITTER", "chance": 1 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 1 }
-      ],
-      "vehicles": {
-        "c": { "vehicle": "swivel_chair", "chance": 100, "status": 1 }
-      }
+      "monsters": { "!": { "monster": "GROUP_COFFEE_SHOP_SPITTER", "chance": 1 } },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 1 } ],
+      "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
     }
   }
 ]

@@ -950,7 +950,8 @@ class map
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
-        void create_anomaly( const tripoint &p, artifact_natural_property prop );
+
+        void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
 
         /**
          * Fetch an item from this map location, with sanity checks to ensure it still exists.

@@ -1178,12 +1178,14 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     auto base = m_templates.find( jo.get_string( "copy-from" ) );
     if( base != m_templates.end() ) {
         def = base->second;
+        def.looks_like = jo.get_string( "copy-from" );
         return true;
     }
 
     auto abstract = m_abstracts.find( jo.get_string( "copy-from" ) );
     if( abstract != m_abstracts.end() ) {
         def = abstract->second;
+        def.looks_like = jo.get_string( "copy-from" );
         return true;
     }
 
@@ -1930,6 +1932,10 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     } else if( jo.has_object( "drop_action" ) ) {
         auto tmp = jo.get_object( "drop_action" );
         def.drop_action = usage_from_object( tmp ).second;
+    }
+
+    if( jo.has_string( "looks_like" ) ) {
+        def.looks_like = jo.get_string( "looks_like" );
     }
 
     load_slot_optional( def.container, jo, "container_data", src );

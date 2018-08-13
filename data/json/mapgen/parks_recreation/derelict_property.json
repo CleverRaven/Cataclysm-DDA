@@ -147,9 +147,7 @@
         "r": "f_rubble",
         "{": "f_bookcase"
       },
-      "toilets": {
-        "a": {}
-      },
+      "toilets": { "a": {} },
       "place_items": [
         { "item": "bar_trash", "x": 7, "y": 9, "chance": 30 },
         { "item": "bar_trash", "x": 14, "y": 8, "chance": 30 },
@@ -226,9 +224,7 @@
         { "item": "bar_trash", "x": 3, "y": 10, "chance": 30 },
         { "item": "bar_trash", "x": 6, "y": 5, "chance": 30 }
       ],
-      "place_vehicles": [
-        { "vehicle": "pickup", "x": 8, "y": 19, "chance": 6, "status": 1, "rotation": 180 }
-      ]
+      "place_vehicles": [ { "vehicle": "pickup", "x": 8, "y": 19, "chance": 6, "status": 1, "rotation": 180 } ]
     }
   },
   {

@@ -27,6 +27,7 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
+#include "morale_types.h"
 
 #include <algorithm>
 #include <vector>
@@ -45,6 +46,7 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 static const trait_id trait_TRIGGERHAPPY( "TRIGGERHAPPY" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
@@ -257,6 +259,15 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         sfx::generate_gun_sound( *this, gun );
 
         cycle_action( gun, pos() );
+
+        if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+            if( gun.ammo_type() == ammotype( "flammable" ) || gun.ammo_type() == ammotype( "66mm" ) ||
+                gun.ammo_type() == ammotype( "84x246mm" ) || gun.ammo_type() == ammotype( "m235" ) ) {
+                add_msg_if_player( m_good, string_format( _( "You feel a surge of euphoria as flames roar out of the %s!" ), gun.tname().c_str() ) );
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 25, 25, 24_hours, 4_hours );
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
+        }
 
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
