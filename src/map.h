@@ -897,10 +897,9 @@ class map
          * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
          * and sets item's fridge/freezer status variables.
          * @param it Item processed.
-         * @param freezer If true it's a freezer if false it's a fridge, for temperature calculation.
-         * It can also be applied to discern above/below freezing temperatures.
+         * @param temperature Temperature affecting item.
          */
-        void apply_in_fridge( item &it, bool freezer );
+        void apply_in_fridge( item &it, int temperature );
 
         /**
          * @name Consume items on the map

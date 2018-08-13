@@ -5749,14 +5749,20 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
         item_tags.insert( "NO_PARASITES" );
     }
+    unsigned int diff_freeze = abs( g->get_temperature( pos ) - FREEZING_TEMPERATURE );
+    diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
+    diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
+
+    unsigned int diff_cold = abs( g->get_temperature( pos ) - FRIDGE_TEMPERATURE );
+    diff_cold = diff_cold < 1 ? 1 : diff_cold;
+    diff_cold = diff_cold > 10 ? 10 : diff_cold;
     // environment temperature applies COLD/FROZEN flags to food
-    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE &&
-        g->get_temperature( pos ) > FREEZING_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, false);
-        add_msg( m_info, "Debug 2.1: %s", this->tname(1).c_str() );
-    } else if( g->get_temperature( pos ) <= FREEZING_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, true);
-        add_msg( m_info, "Debug 2.2: %s", this->tname(1).c_str() );
+    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, g->get_temperature( pos ) );
+    } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
+        item_counter -= diff_freeze;
+    } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
+        item_counter -= diff_cold;
     }
     return false;
 }

@@ -4576,35 +4576,45 @@ void map::make_active( item_location &loc )
 
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
-void map::apply_in_fridge( item &it, bool freezer )
+void map::apply_in_fridge( item &it, int temp )
 {
+    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
+    diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
+    diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
+
+    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
+    diff_cold = diff_cold < 1 ? 1 : diff_cold;
+    diff_cold = diff_cold > 10 ? 10 : diff_cold;
+
     if( it.is_food() ) {
-        if( !freezer ) {
-            if( it.fridge == calendar::before_time_starts ) {
-                it.fridge = calendar::turn;
-            }
-        } else {
+        if( temp <= FREEZING_TEMPERATURE ) {
             if( it.freezer == calendar::before_time_starts ) {
                 it.freezer = calendar::turn;
             }
+        } else if( temp <= FRIDGE_TEMPERATURE ) {
+            if( it.fridge == calendar::before_time_starts ) {
+                it.fridge = calendar::turn;
+            }
         }
         // cool down of the HOT flag, is unsigned, don't go below 1
-        if( it.item_tags.count( "HOT" ) && it.item_counter > 5 ) {
-            it.item_counter -= 5;
+        if( it.item_tags.count( "HOT" ) && it.item_counter > diff_cold ) {
+            it.item_counter -= diff_cold;
+        } else if ( it.item_tags.count( "HOT" ) ) {
+            it.item_tags.erase( "HOT" );
+            it.item_counter = 0;
         }
         // This sets the COLD flag, and doesn't go above 600
-        if( it.has_flag( "EATEN_COLD" ) && !( it.item_tags.count( "COLD" ) || it.item_tags.count( "FROZEN" ) ) ) {
-            add_msg( m_info, "Debug 1 true: %s", it.tname(1).c_str() );
+        if( it.has_flag( "EATEN_COLD" ) && !( it.item_tags.count( "COLD" ) ||
+            it.item_tags.count( "FROZEN" ) || it.item_tags.count( "HOT" ) ) ) {
+
             it.item_tags.insert( "COLD" );
             it.active = true;
-        } else {
-            add_msg( m_info, "Debug 1 false: %s", it.tname(1).c_str() );
         }
-        if( it.item_tags.count( "COLD" ) && it.item_counter <= 598 ) {
-            it.item_counter += 2;
+        if( it.item_tags.count( "COLD" ) && it.item_counter <= ( 600 - diff_cold ) ) {
+            it.item_counter += diff_cold;
         }
         // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
-        if ( freezer && it.item_tags.count( "COLD" ) && it.item_counter == 600 ) {
+        if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "COLD" ) && it.item_counter >= 600 ) {
             it.item_tags.erase( "COLD" );
             it.item_tags.insert( "FROZEN" );
             it.active = true;
@@ -4615,13 +4625,14 @@ void map::apply_in_fridge( item &it, bool freezer )
             it.item_tags.insert( "FROZEN" );
             it.active = true;
         }
-        if ( freezer && it.item_tags.count( "FROZEN" ) && it.item_counter <= 598 ) {
-            it.item_counter += 2;
+        if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "FROZEN" ) && it.item_counter <= 600 ) {
+            it.item_counter += diff_freeze;
+            it.item_counter = it.item_counter > 600 ? 600 : it.item_counter;
         }
     }
     if( it.is_container() ) {
         for( auto &elem : it.contents ) {
-            apply_in_fridge( elem, freezer );
+            apply_in_fridge( elem, temp );
         }
     }
 }
@@ -4658,14 +4669,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, false);
+            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE);
         }
     }
 
     const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) && cur_veh.has_part( "FREEZER", true );
     if( freezer_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, true );
+            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE );
         }
     }
 
