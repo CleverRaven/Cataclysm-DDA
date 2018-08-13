@@ -180,11 +180,12 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 1:
             case 2:
             case 3: // Full clown car
-                for(auto p : wreckage->get_parts(VPFLAG_SEATBELT))
+                for(auto p : wreckage->get_parts(VPFLAG_SEATBELT, false, true))
                 {
                     auto pos = wreckage->global_part_pos3(*p);
                     m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
-
+                    
+                    // Delete the items that would have spawned here from a "corpse"
                     for(auto sp : wreckage->parts_at_relative(p->mount.x, p->mount.y))
                     {
                         vehicle_stack here = wreckage->get_items(sp);
@@ -197,13 +198,14 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                 break;
             case 4: 
             case 5: // 2/3rds clown car
-                for(auto p : wreckage->get_parts(VPFLAG_SEATBELT))
+                for(auto p : wreckage->get_parts(VPFLAG_SEATBELT, false, true))
                 {
                     if(!one_in(3))
                     {
                         auto pos = wreckage->global_part_pos3(*p);
                         m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
 
+                        // Delete the items that would have spawned here from a "corpse"
                         for(auto sp : wreckage->parts_at_relative(p->mount.x, p->mount.y))
                         {
                             vehicle_stack here = wreckage->get_items(sp);
@@ -220,7 +222,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             default:
                 break;
         }
-        wreckage->smash();
+        wreckage->smash(0.8f, 1.2f, 1.0f, point(dice(1,8)-5,dice(1,8)-5), 6+dice(1,10));
     }
 }
 

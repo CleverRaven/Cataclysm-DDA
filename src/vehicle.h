@@ -604,7 +604,7 @@ class vehicle
         void init_state( int veh_init_fuel, int veh_init_status );
 
         // damages all parts of a vehicle by a random amount
-        void smash();
+        void smash(float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f, float percent_of_parts_to_affect = 1.0f, point damage_origin = point(0,0), float damage_size = 0);
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -706,9 +706,10 @@ class vehicle
          *  Get all unbroken vehicle parts with cached with a given bitflag
          *  @param flag Flag to check for
          *  @param enabled if set part must also be enabled to be considered
+         *  @param set true if you want to get broken parts too
          */
-        std::vector<vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false );
-        std::vector<const vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false ) const;
+        std::vector<vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false, bool include_broken_parts = false );
+        std::vector<const vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false, bool include_broken_parts = false ) const;
 
         /**
          *  Get all unbroken vehicle parts at specified position

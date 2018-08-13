@@ -517,13 +517,14 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
     invalidate_mass();
 }
+
 /**
  * Smashes up a vehicle that has already been placed; used for generating
  * very damaged vehicles. Additionally, any spot where two vehicles overlapped
  * (ie, any spot with multiple frames) will be completely destroyed, as that
  * was the collision point.
  */
-void vehicle::smash() {
+void vehicle::smash(float hp_percent_loss_min, float hp_percent_loss_max, float percent_of_parts_to_affect, point damage_origin, float damage_size) {
     for( auto &part : parts ) {
         //Skip any parts already mashed up or removed.
         if( part.is_broken() || part.removed ) {
@@ -547,10 +548,24 @@ void vehicle::smash() {
             continue;
         }
 
-        //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
-        if( mod_hp( part, 0 - ( rng_float( 0.1f, 1.2f ) * part.info().durability ), DT_BASH ) ) {
-            part.ammo_unset();
+        int roll = dice(1, 1000);
+        int pct_af = (percent_of_parts_to_affect * 1000.0f);
+        if(roll < pct_af)
+        {
+            point line = (damage_origin - part.precalc[0]);
+            float dist = 1.0f - (std::sqrt(line.x * line.x + line.y * line.y) / damage_size);
+            dist = clamp(dist, 0.0f, 1.0f);
+            if(damage_size == 0)
+            {
+                dist = 1.0f;
+            }
+            //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
+            if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist, hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
+                part.ammo_unset();
+            }
         }
+
+        
     }
 }
 
@@ -2343,10 +2358,10 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
 
 // All 4 functions below look identical except for flag type and consts
 template<typename Vehicle, typename Flag, typename Vector>
-void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled )
+void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled, bool return_broken_parts_too = false)
 {
     for( auto &e : veh.parts ) {
-        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && (!e.is_broken() || return_broken_parts_too) && e.info().has_flag( flag ) ) {
             ret.emplace_back( &e );
         }
     }
@@ -2366,17 +2381,17 @@ std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, b
     return res;
 }
 
-std::vector<vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled )
+std::vector<vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled, bool include_broken_parts)
 {
     std::vector<vehicle_part *> res;
-    get_parts_helper( *this, flag, res, enabled );
+    get_parts_helper( *this, flag, res, enabled, include_broken_parts );
     return res;
 }
 
-std::vector<const vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled ) const
+std::vector<const vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled, bool include_broken_parts) const
 {
     std::vector<const vehicle_part *> res;
-    get_parts_helper( *this, flag, res, enabled );
+    get_parts_helper( *this, flag, res, enabled, include_broken_parts );
     return res;
 }
 

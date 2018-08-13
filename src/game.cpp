@@ -938,7 +938,7 @@ bool game::start_game()
             std::string search = std::string("helicopter");
             if(name.find(search) != std::string::npos)
             {
-                for(auto pv : v.v->get_parts(VPFLAG_CONTROLS))
+                for(auto pv : v.v->get_parts(VPFLAG_CONTROLS, false, true))
                 {
                     auto pos = v.v->global_part_pos3(*pv);
                     u.setpos(pos);
@@ -952,7 +952,11 @@ bool game::start_game()
                     success = true;
                     break;
                 }
-                if (success) break;
+                if (success)
+                {
+                    v.v->name = "Loach Wreckage";
+                    break;
+                }
             }
         }
     }
