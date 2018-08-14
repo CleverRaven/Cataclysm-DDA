@@ -2152,8 +2152,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "DIG", 1 ] ],
-    "flags": [ "TILL_TOOL" ]
+    "qualities": [ [ "DIG", 1 ] ]
   },
   {
     "id": "directional_antenna",
@@ -2372,7 +2371,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ] ],
-    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP", "TILL_TOOL" ]
+    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
     "id": "eggs_ferment",
@@ -3141,8 +3140,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ] ],
-    "flags": [ "TILL_TOOL" ]
+    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ] ]
   },
   {
     "id": "gasbomb_makeshift",
@@ -3522,7 +3520,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
     "use_action": "CROWBAR",
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TILL_TOOL" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "id": "hammer",
@@ -3605,8 +3603,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
     "techniques": "WBLOCK_1",
-    "use_action": "MAKEMOUND",
-    "flags": [ "TILL_TOOL" ]
+    "use_action": "MAKEMOUND"
   },
   {
     "id": "honey_scraper",
@@ -4370,7 +4367,7 @@
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD", "TILL_TOOL" ]
+    "flags": [ "NEEDS_UNFOLD" ]
   },
   {
     "id": "machete",
@@ -5740,8 +5737,7 @@
     "material": [ "stone", "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 2 ] ],
-    "flags": [ "TILL_TOOL" ]
+    "qualities": [ [ "DIG", 2 ] ]
   },
   {
     "id": "pseuso_bio_picklock",
@@ -6431,7 +6427,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 3 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE", "TILL_TOOL" ]
+    "flags": [ "NONCONDUCTIVE" ]
   },
   {
     "id": "sickle",

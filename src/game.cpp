@@ -11135,12 +11135,6 @@ bool game::plmove(int dx, int dy, int dz)
                 add_msg( _( "You start breaking the %1$s with your %2$s." ),
                               m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
             }
-        } else if( get_option<bool>( "AUTO_TILLING" ) && m.has_flag( "DIGGABLE", dest_loc ) &&
-            !m.has_flag( "PLANT", dest_loc ) && m.ter( dest_loc ) != t_dirtmound &&
-            ( u.weapon.has_flag( "TILL_TOOL" ) || u.has_active_mutation( trait_BURROW ) ) ) {
-            add_msg( _( "You churn up the earth here." ) );
-            u.moves = -300;
-            m.ter_set( dest_loc, t_dirtmound );
         }
     }
 

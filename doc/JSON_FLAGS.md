@@ -902,7 +902,6 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MOD``` The item has been made into a radio-activated item.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
-- ```TILL_TOOL``` If wielded, automatically churns up the suitable terrain as player steps on it.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
