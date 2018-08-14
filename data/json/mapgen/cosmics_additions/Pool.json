@@ -21,7 +21,7 @@
         "{": "f_locker",
         "|": "f_null"
       },
-      "add": [ { "chance": 10, "repeat": 3, "item": "goggles_swim", "x": [ 15, 19 ], "y": 2 } ],
+      "place_item": [ { "chance": 10, "repeat": 3, "item": "goggles_swim", "x": [ 15, 19 ], "y": 2 } ],
       "place_items": [
         { "chance": 25, "repeat": 2, "item": "allclothes", "x": 14, "y": 18 },
         { "chance": 25, "repeat": 2, "item": "allclothes", "x": 15, "y": 18 },
@@ -203,7 +203,7 @@
         "{": "f_locker",
         "|": "f_null"
       },
-      "add": [
+      "place_item": [
         { "chance": 10, "repeat": [ 1, 4 ], "item": "goggles_swim", "x": 2, "y": [ 6, 11 ] },
         { "chance": 10, "repeat": [ 1, 4 ], "item": "goggles_swim", "x": 21, "y": [ 6, 11 ] }
       ],
@@ -397,7 +397,7 @@
         "{": "f_locker",
         "|": "f_null"
       },
-      "add": [ { "item": "goggles_swim", "chance": 10, "x": 13, "y": 11 } ],
+      "place_item": [ { "item": "goggles_swim", "chance": 10, "x": 13, "y": 11 } ],
       "place_items": [
         { "chance": 40, "item": "male_underwear_bottom", "x": 18, "y": 6 },
         { "chance": 25, "repeat": 2, "item": "clothing_female", "x": 5, "y": 6 },
