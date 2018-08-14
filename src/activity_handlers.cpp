@@ -969,6 +969,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
+    
+    // corpse decays at 75% factor, but meat shares age and not relative_rot so this takes care of it
+    // no FIELD_DRESS_FAILED here as it gets no benefit
+    if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
+        age = time_point::from_turn( to_turn<int>( age ) + ( (calendar::turn - to_turn<int>( age ) ) * 3 / 4 ) );
+    }
 
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
