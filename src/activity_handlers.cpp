@@ -833,13 +833,15 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                     p.add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
                     break;
                 case 3:
-                    p.add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require more surgical butchery." ) );
+                    p.add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
                     break;
                 }
                 continue;
             }
+        } else if( action == DISSECT ) {
+            continue;
         }
-
+        
         // QUICK BUTCHERY aims for meat and doesn't care about the rest
         if( action == BUTCHER ) {
             if( entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
@@ -994,6 +996,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         skill_level = p->get_skill_level( skill_firstaid );
         skill_level += p->max_quality( quality_id( "CUT_FINE" ) );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
+        factor = 0;
     }
 
     auto roll_butchery = [&]() {
