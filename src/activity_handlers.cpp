@@ -969,13 +969,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( round( skill_shift ) );
     };
 
-    // age of field dressed corpse does not change, but age of butchered elements does
-    // to simulate reduced decay of a field dressed corpse - its 1/4 of original
-    // no FIELD_DRESS_FAILED here as it gets no benefit
-    if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
-        age = time_point::from_turn( to_turn<int>( age ) + ( (calendar::turn - to_turn<int>( age ) ) * 3 / 4 ) );
-    }
-    
+   
     //all action types - FATAL FAILURE
     if( roll_butchery() <= ( -15 ) && one_in( 2 ) ) {
         switch( rng( 1, 3 ) ) {
