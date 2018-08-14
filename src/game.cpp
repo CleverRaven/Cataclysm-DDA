@@ -10139,7 +10139,8 @@ void game::butcher()
         BUTCHER,            // quick butchery
         BUTCHER_FULL,       // full workshop butchery
         F_DRESS,            // field dressing a corpse
-        QUARTER,             // quarter corpse
+        QUARTER,            // quarter corpse
+        DISSECT,            // dissect corpse for CBMs
         CANCEL
     };
     // What are we butchering (ie. which vector to pick indices from)
@@ -10266,6 +10267,7 @@ void game::butcher()
             smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a butchering rack, a flat surface (for ex. a table) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
             smenu.addentry_desc( F_DRESS, true, 'f' , _("Field dress corpse"), _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
             smenu.addentry_desc( QUARTER, true, 'k' , _("Quarter corpse"), _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin/hide/pelt/etc., so don't use it if you want to harvest them later." ) );
+            smenu.addentry_desc( DISSECT, true, 'd' , _("Dissect corpse"), _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible. Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time. Your medical knowledge is most useful here." ) );
             smenu.addentry( CANCEL, true, 'q', _("Cancel"));
             smenu.return_invalid = true;
             smenu.query();
@@ -10281,6 +10283,9 @@ void game::butcher()
                 break;
             case QUARTER:
                 u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+                break;
+            case DISSECT:
+                u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
                 break;
             case CANCEL:
                 return;

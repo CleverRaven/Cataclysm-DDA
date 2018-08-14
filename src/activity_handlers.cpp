@@ -43,6 +43,7 @@
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
+const skill_id skill_electronics( "electronics" );
 
 const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
@@ -74,7 +75,10 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CRACKING" ), cracking_do_turn },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
+    { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
+    { activity_id( "ACT_QUARTER" ), butcher_do_turn },
+    { activity_id( "ACT_DISSECT" ), butcher_do_turn },
     { activity_id( "ACT_HACKSAW" ), hacksaw_do_turn },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_do_turn },
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
@@ -90,6 +94,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_finish },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_finish },
     { activity_id( "ACT_QUARTER" ), butcher_finish },
+    { activity_id( "ACT_DISSECT" ), butcher_finish },
     { activity_id( "ACT_FIRSTAID" ), firstaid_finish },
     { activity_id( "ACT_FISH" ), fish_finish },
     { activity_id( "ACT_FORAGE" ), forage_finish },
@@ -188,17 +193,18 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 }
 
 enum butcher_type : int {
-    BUTCHER,         // quick butchery
+    BUTCHER,        // quick butchery
     BUTCHER_FULL,   // full workshop butchery
     F_DRESS,        // field dressing a corpse
-    QUARTER         // quarter a corpse
+    QUARTER,        // quarter a corpse
+    DISSECT         // dissect a corpse for CBMs
 };
 
 bool check_butcher_cbm( const int roll )
 {
     // 2/3 chance of failure with a roll of 0, 2/6 with a roll of 1, 2/9 etc.
-    // The roll is usually b/t 0 and survival-3, so survival 4 will succeed
-    // 50%, survival 5 will succeed 61%, survival 6 will succeed 67%, etc.
+    // The roll is usually b/t 0 and first_aid-3, so first_aid 4 will succeed
+    // 50%, first_aid 5 will succeed 61%, first_aid 6 will succeed 67%, etc.
     bool failed = x_in_y( 2, 3 + roll * 3 );
     return !failed;
 }
@@ -248,12 +254,36 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
-    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
+    int factor = u.max_quality( quality_id( "BUTCHER" ) );
     auto items = g->m.i_at( u.pos() );
     if( ( size_t )act.index >= items.size() || factor == INT_MIN ) {
         // Let it print a msg for lack of corpses
         act.index = INT_MAX;
         return;
+    }
+
+    if( action != DISSECT && u.max_quality( quality_id( "BUTCHER" ) ) < 0 && one_in( 3 ) ) {
+        u.add_msg_if_player( m_bad, _( "You don't trust the quality of your tools, but carry on anyway." ) );
+    }
+
+    if( action == DISSECT ) {
+        factor = u.max_quality( quality_id( "CUT_FINE" ) );
+        switch( factor ) {
+            case INT_MIN:
+                u.add_msg_if_player( m_info, _( "None of your tools are sharp and precise enough to do that." ) );
+                act.set_to_null();
+                return;
+                break;
+            case 1:
+                u.add_msg_if_player( m_info, _( "You could use a better tool, but this will do." ) );
+                break;
+            case 2:
+                u.add_msg_if_player( m_info, _( "This tool is great, but you still would like a scalpel." ) );
+                break;
+            case 3:
+                u.add_msg_if_player( m_info, _( "You dissect the corpse with a trusty scalpel." ) );
+                break;
+        }
     }
 
     bool has_table_nearby = false;
@@ -284,6 +314,12 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
 
     item corpse_item = items[act.index];
     const mtype *corpse = corpse_item.get_mtype();
+
+    if( action == DISSECT && ( corpse_item.has_flag( "QUARTERED" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
+            u.add_msg_if_player( m_info, _( "It would be futile to search for implants inside this badly damaged corpse." ) );
+            act.set_to_null();
+            return;
+    }
 
     if( action == F_DRESS && ( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
@@ -372,12 +408,16 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         }
         break;
     case F_DRESS:
+        time_to_cut *= 2;
         break;
     case QUARTER:
         time_to_cut /= 4;
         if( time_to_cut < 200 ) {
             time_to_cut = 200;
         }
+        break;
+    case DISSECT:
+        time_to_cut *= 6;
         break;
     }
 
@@ -483,12 +523,12 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     }
 
     // field dressing removed innards and bones from meatless limbs
-    if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS" ) ) {
+    if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS" ) ) {
         stomach = 0;
         bones = ( bones / 2 ) + rng( bones / 2 , bones);
     }
     // unskillfull field dressing damaged the skin, meat, and other parts
-    if( ( action == BUTCHER_FULL ) && corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
+    if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
         pieces = rng( 0, pieces );
         skins = rng( 0, skins );
         bones = ( bones / 2 ) + rng( bones / 2 , bones);
@@ -506,10 +546,23 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         feathers /= 4;
         wool /= 4;
     }
+    if( action == DISSECT ) {
+        pieces = 0;
+        skins = 0;
+        bones = 0;
+        fats = 0;
+        sinews = 0;
+        feathers = 0;
+        wool = 0;
+        stomach = false;
+    }
 
     int practice = std::max( 0, 4 + pieces + roll_butchery() );
-
-    p->practice( skill_survival, practice, max_practice );
+    if( action == DISSECT ) {
+        p->practice( skill_firstaid, practice, max_practice );
+    } else {
+        p->practice( skill_survival, practice, max_practice );
+    }
 
     if( bones > 0 ) {
         if( corpse->made_of( material_id( "veggy" ) ) ) {
@@ -646,9 +699,9 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         }
     }
 
-    //Add a chance of CBM recovery. For shocker and cyborg corpses.
+    //Add a chance of CBM recovery.
     //As long as the factor is above -4 (the sinew cutoff), you will be able to extract CBMs
-    if( action == BUTCHER_FULL && !corpse_item->has_flag( "QUARTERED" ) && p->has_quality( quality_id( "CUT_FINE" ) ) ) {
+    if( action == DISSECT ) {
 
         if( corpse->has_flag( MF_CBM_CIV ) ) {
             butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
@@ -684,30 +737,23 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         if( corpse->has_flag( MF_CBM_POWER ) ) {
             butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
         }
-    } else if( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) ||
-                corpse->has_flag( MF_CBM_TECH ) || corpse->has_flag( MF_CBM_SUBS ) ||
-                corpse->has_flag( MF_CBM_OP ) || corpse->has_flag( MF_CBM_POWER ) ) {
-        if( action == BUTCHER_FULL && !corpse_item->has_flag( "QUARTERED" ) && !p->has_quality( quality_id( "CUT_FINE" ) ) ) {
-            p->add_msg_if_player( m_bad, _( "You found bionics implanted in this corpse, but without fine cutting tools you ruin them completely." ) );
-        }
-        if( action == BUTCHER_FULL && corpse_item->has_flag( "QUARTERED" ) ) {
-            p->add_msg_if_player( m_bad, _( "You found traces of bionics implanted in this corpse, but quartering ruined them completely." ) );
-        }
-        if( action == F_DRESS ) {
-            p->add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that a careful butchery might reveal." ) );
-        }
-        if( action == BUTCHER ) {
-            switch( rng( 1, 3 ) ) {
-            case 1:
-                p->add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
-                break;
-            case 2:
-                p->add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
-                break;
-            case 3:
-                p->add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require a more careful butchery." ) );
-                break;
-            }
+    } 
+
+    // feedback that this type of corpse has implants that can be potentialy removed
+    if( action == F_DRESS ) {
+        p->add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
+    }
+    if( action == BUTCHER || action == BUTCHER_FULL ) {
+        switch( rng( 1, 3 ) ) {
+        case 1:
+            p->add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
+            break;
+        case 2:
+            p->add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
+            break;
+        case 3:
+            p->add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
+            break;
         }
     }
 
@@ -772,21 +818,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
 
         const itype *drop = item::find_type( entry.drop );
 
-        // BIONIC handling
+        // BIONIC handling - no code for DISSECT to let the bionic drop fall through 
         if( drop->bionic.has_value() ) {
-            if( action == BUTCHER_FULL && !corpse_item->has_flag( "QUARTERED" ) && !p.has_quality( quality_id( "CUT_FINE" ) ) ) {
-                p.add_msg_if_player( m_bad, _( "You found bionics implanted in this corpse, but without fine cutting tools you ruin them completely." ) );
-                roll = 0;
-            }
-            if( action == BUTCHER_FULL && corpse_item->has_flag( "QUARTERED" ) ) {
-                p.add_msg_if_player( m_bad, _( "You found traces of bionics implanted in this corpse, but quartering ruined them completely." ) );
-                roll = 0;
-            }
             if( action == F_DRESS ) {
-                p.add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that a careful butchery might reveal." ) );
+                p.add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
                 continue;
             }
-            if( action == BUTCHER ) {
+            if( action == BUTCHER || action == BUTCHER_FULL ) {
                 switch( rng( 1, 3 ) ) {
                 case 1:
                     p.add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
@@ -795,9 +833,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                     p.add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
                     break;
                 case 3:
-                    p.add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require a more careful butchery." ) );
+                    p.add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require more surgical butchery." ) );
                     break;
                 }
+                continue;
             }
         }
 
@@ -885,9 +924,11 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
         practice++;
     }
-
-    p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
-    
+    if ( action == DISSECT ) {
+        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+    } else {
+        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+    }
 }
 
 void butchery_quarter( item *corpse_item, player &p )
@@ -910,6 +951,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         action = F_DRESS;
     } else if( act->id() == activity_id( "ACT_QUARTER" ) ) {
         action = QUARTER;
+    } else if( act->id() == activity_id( "ACT_DISSECT" ) ) {
+        action = DISSECT;
     }
 
     if( act->index < 0 ) {
@@ -943,16 +986,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
     }
 
-    const int skill_level = p->get_skill_level( skill_survival );
+    int skill_level = p->get_skill_level( skill_survival );
     int factor = p->max_quality( quality_id( "BUTCHER" ) );
 
-    //bonus for having fine cutting tools
-    if( p->max_quality( quality_id( "CUT_FINE" ) ) ) {
-        factor += rng( 0, 10 ); 
-    }
-
-    if( factor < 0 && one_in( 3 ) ) {
-        p->add_msg_if_player( m_bad, _("You don't trust the quality of your tools, but carry on anyway." ) );
+    // DISSECT has special case factor calculation and results.
+    if( action == DISSECT ) {
+        skill_level = p->get_skill_level( skill_firstaid );
+        skill_level += p->max_quality( quality_id( "CUT_FINE" ) );
+        skill_level += p->get_skill_level( skill_electronics ) / 2;
     }
 
     auto roll_butchery = [&]() {
@@ -969,9 +1010,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( round( skill_shift ) );
     };
 
-   
-    //all action types - FATAL FAILURE
-    if( roll_butchery() <= ( -15 ) && one_in( 2 ) ) {
+    //all BUTCHERY types - FATAL FAILURE
+    if( action != DISSECT && roll_butchery() <= ( -15 ) && one_in( 2 ) ) {
         switch( rng( 1, 3 ) ) {
             case 1:
                 p->add_msg_if_player(m_warning, _( "You hack up the corpse so unskillfully, that there is nothing left to salvage from this bloody mess." ) );
@@ -1001,7 +1041,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         butchery_drops_harvest( &corpse_item, *corpse, *p, age, roll_butchery, action );
     }
 
-    // quick & full butcher only
     // reveal hidden items / hidden content
     if( action != F_DRESS ) {
         for( auto &content : contents  ) {
@@ -1079,6 +1118,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
         act->set_to_null();
         return;
+        break;
+    case DISSECT:
+        p->add_msg_if_player( m_good, _("You finish dissecting the %s."), corpse_item.tname().c_str() );
+        g->m.i_rem( p->pos(), act->index );
         break;
     }
     // multibutchering

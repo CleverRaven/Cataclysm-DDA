@@ -76,6 +76,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_DISSECT",
+    "type": "activity_type",
+    "stop_phrase": "Stop dissecting?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_LONGSALVAGE",
     "type": "activity_type",
     "stop_phrase": "Stop salvaging?",
