@@ -3280,6 +3280,53 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_tree_coffee",
+        "name": "coffee tree",
+        "description": "This is 'gymnocladus dioicus', or the kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  If you examined the branches more closely, you could probably find a few mature ones.  You could also cut it down with the right tools.",
+        "symbol": "7",
+        "color": [ "light_green", "light_green", "light_green_green", "brown" ], "//": "barren in winter, fruits in autumn",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "transforms_into": "t_tree_coffee_harvested",
+		"looks_like": "t_tree_plum",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "coffee_pod", "base_num": [ 4, 10 ], "scaled_num": [ 0, 0.5 ] }, { "drop": "tea_raw", "base_num": [1, 3], "scaled_num": [ 0, 0.5] } ] }
+        ],
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick_long", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_coffee_harvested",
+        "name": "coffee tree",
+        "description": "This is 'gymnocladus dioicus', or the kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  Looks like all the ripe pods have been picked.  You could also cut it down with the right tools.",
+        "symbol": "7",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
+        "examine_action": "harvested_plant",
+        "transforms_into": "t_tree_coffee",
+		"looks_like": "t_tree_plum_harvested",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick_long", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_tree_cherry",
         "name": "cherry tree",
         "description": "One of the several species of 'Prunus' trees found in New England, it bears cherries in the summer.  If you examined the foliage more closely, you could probably find some viable clusters.  You could also cut it down with the right tools.",

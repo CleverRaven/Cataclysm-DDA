@@ -1823,7 +1823,7 @@
   "batch_time_factors": [ 80, 4 ],
   "qualities": [ { "id": "COOK","level": 2 } ],
   "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-  "components": [ [ [ "coffee_bean", 1 ] ] ]
+  "components": [ [ [ "coffee_bean", 1 ], [ "coffee_pod", 2] ] ]
 },{
   "type" : "recipe",
   "result": "coffee",
