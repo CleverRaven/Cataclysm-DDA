@@ -142,7 +142,7 @@
         "_": "t_floor",
         "|": "t_wall"
       },
-      "add": [
+      "place_item": [
         { "item": "cattlefodder", "x": 13, "y": 15, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 14, "y": 6, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 14, "y": 10, "amount": [ 0, 4 ] },
