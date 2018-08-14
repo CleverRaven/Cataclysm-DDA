@@ -100,7 +100,6 @@ data/json/mapgen/fire_station.json
 data/json/mapgen/garage_gas.json
 data/json/mapgen/garage.json
 data/json/mapgen/gardening_store.json
-data/json/mapgen/gas_station.json
 data/json/mapgen/hardware.json
 data/json/mapgen/homeimprovement_superstore.json
 data/json/mapgen/hospital.json
@@ -173,6 +172,7 @@ data/json/mapgen/roadstop.json
 data/json/mapgen/s_clothing.json
 data/json/mapgen/s_coffee.json
 data/json/mapgen/s_electronics.json
+data/json/mapgen/s_gas.json
 data/json/mapgen/s_grocery.json
 data/json/mapgen/s_gun.json
 data/json/mapgen/s_liquor.json
