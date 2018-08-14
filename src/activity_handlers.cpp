@@ -87,7 +87,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
-    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn }
+    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
+    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -2857,6 +2858,69 @@ void activity_handlers::till_plot_do_turn( player_activity*, player *p )
             if( p->moves <= 0 ) {
                 // Restart activity and break from cycle.
                 p->assign_activity( activity_id( "ACT_TILL_PLOT" ) );
+                return;
+            }
+        }
+    }
+
+    // If we got here without restarting the activity, it means we're done
+}
+
+void activity_handlers::plant_plot_do_turn( player_activity *act, player *p )
+{
+    const auto &mgr = zone_manager::get_manager();
+    const auto abspos = g->m.getabs( p->pos() );
+    auto &unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+
+    std::vector<item *> seed_inv = p->items_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
+
+    // cleanup unwanted tiles
+    auto cleanup = [&]( const tripoint &tile ) {
+        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound ) {
+            return true;
+        }
+
+        const auto &subtypes = mgr.get_subtypes( zone_type_id( "FARM_PLOT" ), g->m.getabs( tile ) );
+
+        return std::all_of( subtypes.begin(), subtypes.end(), [&](std::string subtype) { 
+            return std::all_of( seed_inv.begin(), seed_inv.end(), [subtype](item *it) {  
+                return it->typeId() != itype_id( subtype );
+            } );
+        } );
+    };
+    cleanup_tiles( unsorted_tiles, cleanup );
+
+    // sort remaining tiles by distance
+    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+
+    for( auto &tile : tiles ) {
+        const auto &tile_loc = g->m.getlocal( tile );
+
+        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
+        if( route.size() > 1 ) {
+            route.pop_back();
+            p->set_destination( route, player_activity( activity_id( "ACT_PLANT_PLOT" ) ) );
+            return;
+        } else { // we are at destination already
+            const auto &subtypes = mgr.get_subtypes( zone_type_id( "FARM_PLOT" ), tile );
+            std::vector<item *> seed_inv = p->items_with( [subtypes]( const item &itm ) {
+                return itm.is_seed() && std::any_of( subtypes.begin() , subtypes.end(), [itm]( std::string subtype ) {
+                    return itm.typeId() == itype_id( subtype );
+                } );
+            } );
+            if( seed_inv.size() > 0 ) {
+                auto it = seed_inv.front();
+                iexamine::plant_seed( *p, tile_loc, seed_tuple( it->typeId(), item::nname( it->typeId() ), 0 ) );
+            }
+
+            if( p->moves <= 0 ) {
+                // Restart activity and break from cycle.
+                p->assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
                 return;
             }
         }
