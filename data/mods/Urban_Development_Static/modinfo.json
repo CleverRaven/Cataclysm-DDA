@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Urban_Development_Static",
+    "name": "Urban Development Prototype City",
+    "authors": [ "acidia" ],
+    "description": "Spawns all of the urban development buildings in a single prototype city, no where else.",
+    "category": "buildings",
+    "dependencies": [ "dda", "Urban_Development" ]
+  }
+]
