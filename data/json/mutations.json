@@ -298,7 +298,7 @@
         "id" : "LOVES_BOOKS",
         "name" : "Bookworm",
         "points" : 1,
-        "description" : "There's nothing quite like the smell of a good book! Books are more fun (or less boring) for you!",
+        "description" : "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["ILLITERATE","HATES_BOOKS"]
@@ -709,7 +709,7 @@
         "id" : "HATES_BOOKS",
         "name" : "Hates Books",
         "points" : -1,
-        "description" : "Reading is for nerds! Boring books are more boring, and you can't have fun by reading books.",
+        "description" : "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["ILLITERATE","LOVES_BOOKS"]
