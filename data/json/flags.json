@@ -366,6 +366,12 @@
     "info": "This gear is equipped with an <info>accurate thermometer</info>."
   },
   {
+    "id": "TILL_TOOL",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ],
+    "info": "While wielded, this item allows you to till soil automatically by moving over suitable terrain.  Note that automatic tilling option should be set to true for this to work."
+  },
+  {
     "id": "VARSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

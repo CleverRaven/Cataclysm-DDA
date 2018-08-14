@@ -337,8 +337,12 @@ void player::activate_mutation( const trait_id &mut )
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
         int choice = menu( true, _( "Perform which function:" ), _( "Turn on digging mode" ),
-                           _( "Dig pit" ), _( "Fill pit/tamp ground" ), _( "Clear rubble" ),
-                           _( "Churn up ground" ), NULL );
+                           _( "Dig pit" ), _( "Fill pit/tamp ground" ), _( "Clear rubble" ), NULL );
+        if( choice <= 0 ) {
+            tdata.powered = false;
+            return;
+        }
+        std::string message;
         tripoint dirp;
         if( choice != 1 ) {
             tdata.powered = false;
@@ -399,18 +403,8 @@ void player::activate_mutation( const trait_id &mut )
                         add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
                         return;
                     }
-                } else if (choice == 5 ) {
-                    if( !choose_adjacent( _( "Churn up ground where?" ), dirp ) ) {
-                        return;
-                    }
-                    if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) &&
-                        g->m.ter( dirp ) != t_dirtmound ) {
-                        add_msg_if_player( _( "You churn up the earth here." ) );
-                        moves = -300;
-                        g->m.ter_set( dirp, t_dirtmound );
-                    } else {
-                        add_msg_if_player( _( "You can't churn up this ground." ) );
-                    }
+                } else {
+                    return;
                 }
             }
         }

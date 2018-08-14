@@ -921,8 +921,13 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add( "AUTO_MINING", "general", _( "Automatic mining" ),
-        _("If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain."),
+    add( "AUTO_MINING", "general", translate_marker( "Automatic mining" ),
+        translate_marker("If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain."),
+        true
+        );
+
+    add( "AUTO_TILLING", "general", translate_marker( "Automatic tilling" ),
+        translate_marker("If true, enables automatic use of digging tools to make a dirt mound whenever trying to move into diggable terrain."),
         true
         );
 

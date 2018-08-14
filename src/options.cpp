@@ -995,6 +995,11 @@ void options_manager::init()
         true
         );
 
+    add( "AUTO_TILLING", "general", translate_marker( "Automatic tilling" ),
+        translate_marker("If true, enables automatic use of digging tools to make a dirt mound whenever trying to move into diggable terrain."),
+        true
+        );
+
     mOptionsSort["general"]++;
 
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
