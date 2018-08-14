@@ -6834,7 +6834,8 @@ void game::loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
-        TillPlots = 4
+        TillPlots = 4,
+        PlantPlots = 8
     };
 
     auto just_one = []( int flags ) {
@@ -6846,7 +6847,10 @@ void game::loot()
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
 
     flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
-    flags |= check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ? TillPlots : 0;
+    if( check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
+        flags |= TillPlots;
+        flags |= PlantPlots;
+    }
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -6868,8 +6872,14 @@ void game::loot()
 
         if( flags & TillPlots ) {
             menu.addentry_desc( TillPlots, has_hoe, 't',
-                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with." ),
-                                _( "Tills nearby Farm: Plot zones" ) );
+                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
+                                _( "Tills nearby Farm: Plot zones." ) );
+        }
+
+        if( flags & PlantPlots ) {
+            menu.addentry_desc( PlantPlots, warm_enough_to_plant(), 'p', 
+                                warm_enough_to_plant() ? _( "Plant seeds" ) : _( "Plant seeds... it is too cold for planting" ),
+                                _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
 
         menu.addentry( None, true, 'q',  _( "Cancel" ) );
@@ -6890,6 +6900,13 @@ void game::loot()
                 u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
             } else {
                 add_msg( _( "You need a tool to dig with." ) );
+            }
+            break;
+        case PlantPlots:
+            if( warm_enough_to_plant() ) {
+                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
+            } else {
+                add_msg(m_info, _("It is too cold to plant anything now."));
             }
             break;
         default:
@@ -8125,11 +8142,13 @@ void game::zones_manager()
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
 
             const auto id = zones.query_type();
-            const auto name = zones.query_name( zones.get_name_from_type( id ) );
+            const auto subtype = zones.query_subtype( id );
+            const auto name = zones.query_name( subtype == "" ?
+                                                zones.get_name_from_type( id ) : zones.get_name_from_subtype( id, subtype ) );
             const auto position = query_position();
 
             if( position.first != tripoint_min ) {
-                zones.add( name, id, false, true, position.first, position.second );
+                zones.add( name, id, false, true, position.first, position.second, subtype );
 
                 zone_num = zones.size();
                 active_index = zone_num - 1;
@@ -8186,8 +8205,9 @@ void game::zones_manager()
                 as_m.text = _("What do you want to change:");
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
-                as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Edit position")));
-                as_m.entries.emplace_back(uimenu_entry(4, true, 'q', _("Cancel")));
+                as_m.entries.emplace_back(uimenu_entry(3, zones.has_subtype(zones.zones[active_index].get_type()), '3', _("Edit subtype")));
+                as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Edit position")));
+                as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
@@ -8200,6 +8220,10 @@ void game::zones_manager()
                     stuff_changed = true;
                     break;
                 case 3:
+                    zones.zones[active_index].set_subtype();
+                    stuff_changed = true;
+                    break;
+                case 4:
                     zones.zones[active_index].set_position( query_position() );
                     stuff_changed = true;
                     break;
