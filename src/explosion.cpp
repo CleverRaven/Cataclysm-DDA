@@ -56,7 +56,7 @@ shrapnel_data load_shrapnel_data( JsonObject &jo )
     // Casing mass is mandatory
     jo.read( "casing_mass", ret.casing_mass );
     // Rest isn't
-    ret.fragment_mass = jo.get_float( "fragment_mass", 0.05 );
+    ret.fragment_mass = jo.get_float( "fragment_mass", 0.005 );
     ret.recovery = jo.get_int( "recovery", 0 );
     ret.drop = itype_id( jo.get_string( "drop", "null" ) );
     return ret;
@@ -334,7 +334,7 @@ int ballistic_damage( float velocity, float mass )
 {
     // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
     // converting mass from grams to kg. 5 is simply a scaling factor.
-    return 5.0 * std::sqrt( ( velocity * velocity  * mass ) / 2000.0 );
+    return 2.0 * std::sqrt( ( velocity * velocity  * mass ) / 2000.0 );
 }
 
 // This is only ever used to zero the cloud values, which is what makes it work.

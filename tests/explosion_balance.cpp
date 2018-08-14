@@ -72,5 +72,5 @@ void check_lethality( std::string explosive_id, int range, float lethality )
 TEST_CASE( "grenade_lethal_at_5m", "[grenade],[explosion],[balance]" )
 {
     check_lethality( "grenade_act", 5, 0.95 );
-    check_lethality( "grenade_act", 15, 0.5 );
+    check_lethality( "grenade_act", 15, 0.45 );
 }
