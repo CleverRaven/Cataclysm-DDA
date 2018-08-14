@@ -200,7 +200,7 @@
       "place_item": [
         { "item": "shotgun_s", "x": 3, "y": 20 },
         { "item": "pot", "x": 18, "y": 21 },
-        { "item": "shot_00", "x": 7, "y": 19, "chance": 2 }
+        { "item": "shot_00", "x": 7, "y": 19, "chance": 50 }
       ]
     }
   }

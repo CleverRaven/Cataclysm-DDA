@@ -82,7 +82,7 @@
         { "item": "coffee_fridge", "x": 2, "y": 4, "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "bookstore_misc", "x": [ 13, 21 ], "y": 3, "chance": 50, "repeat": [ 3, 6 ] }
       ],
-      "place_item": [ { "item": "coffeemaker", "x": 4, "y": 7, "chance": 1, "repeat": 1, "amount": 1 } ]
+      "place_item": [ { "item": "coffeemaker", "x": 4, "y": 7 } ]
     }
   },
   {
@@ -174,8 +174,8 @@
         { "item": "coffee_table", "x": 8, "y": 13, "chance": 20 }
       ],
       "place_item": [
-        { "item": "coffeemaker", "x": 4, "y": 7, "chance": 1, "repeat": 1, "amount": 1 },
-        { "item": "coffeemaker", "x": 4, "y": 12, "chance": 1, "repeat": 1, "amount": 1 }
+        { "item": "coffeemaker", "x": 4, "y": 7 },
+        { "item": "coffeemaker", "x": 4, "y": 12 }
       ]
     }
   },

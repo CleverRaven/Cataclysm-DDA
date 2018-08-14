@@ -356,8 +356,8 @@
         { "item": "coffee_bathroom", "x": [ 3, 2 ], "y": [ 22, 21 ], "chance": 20, "repeat": [ 1, 2 ] }
       ],
       "place_item": [
-        { "item": "coffeemaker", "x": 21, "y": 22, "chance": 1, "repeat": 1, "amount": 1 },
-        { "item": "atomic_coffeepot", "x": 21, "y": 22, "chance": 5, "repeat": 1, "amount": 1 }
+        { "item": "coffeemaker", "x": 21, "y": 22 },
+        { "item": "atomic_coffeepot", "x": 21, "y": 22, "chance": 20 }
       ]
     }
   }
