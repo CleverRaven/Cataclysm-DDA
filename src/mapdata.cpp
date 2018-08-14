@@ -320,7 +320,7 @@ std::string map_data_common_t::name() const
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
-    if( jo.has_member( "copy-from" ) ) {
+    if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
     if( jo.has_member( "looks_like" ) ) {
