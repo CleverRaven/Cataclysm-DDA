@@ -143,6 +143,7 @@ extern "C" {
             }
             append_ch( file, &beg, end, '\n' );
         }
+        *beg = '\0';
 #ifdef TILES
         if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error", buf, NULL ) != 0 ) {
             append_str( file, &beg, end, "Error creating SDL message box: " );
@@ -150,7 +151,6 @@ extern "C" {
             append_ch( file, &beg, end, '\n' );
         }
 #endif
-        *beg = '\0';
         if( file ) {
             fclose( file );
         }

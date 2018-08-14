@@ -415,9 +415,6 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
-  ifndef BACKTRACE
-    BACKTRACE = 0
-  endif
   CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
@@ -639,9 +636,6 @@ else
 endif # TILES
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
-  ifndef BACKTRACE
-    BACKTRACE = 0
-  endif
   ifeq ($(LOCALIZE),1)
     # Work around Cygwin not including gettext support in glibc
     LDFLAGS += -lintl -liconv
@@ -767,7 +761,7 @@ $(TARGET): $(ODIR) $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
   ifndef DEBUG_SYMBOLS
-    ifeq ($(BACKTRACE),0)
+    ifneq ($(BACKTRACE),1)
 	$(STRIP) $(TARGET)
     endif
   endif
