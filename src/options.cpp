@@ -831,17 +831,13 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_soundpac
     SOUNDPACKS.clear();
     std::vector<std::pair<std::string, std::string>> result;
 
-    // Search user directory for sound packs
-    auto user_soundpacks = load_soundpack_from("user_sound");
-    result.insert(result.end(), user_soundpacks.begin(), user_soundpacks.end());
-
-    if( !result.empty() ) {
-        return result;
-    }
-
     // Search data directory for sound packs
     auto data_soundpacks = load_soundpack_from("data_sound");
     result.insert(result.end(), data_soundpacks.begin(), data_soundpacks.end());
+
+    // Search user directory for sound packs
+    auto user_soundpacks = load_soundpack_from("user_sound");
+    result.insert(result.end(), user_soundpacks.begin(), user_soundpacks.end());
 
     // Select default built-in sound pack
     if( result.empty() ) {
