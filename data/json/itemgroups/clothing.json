@@ -258,8 +258,6 @@
     "//": "Pants often worn by technicians and tradesmen.",
     "subtype": "distribution",
     "entries": [
-        { "item": "technician_pants_blue", "prob": 100 },
-        { "item": "technician_pants_ltblue", "prob": 100 },
         { "item": "technician_pants_gray", "prob": 100 }
     ]
   },
@@ -269,11 +267,7 @@
     "//": "Shirts and jackets often worn by technicians and labourers.",
     "items": [
       { "collection": [
-        { "distribution": [
-          { "item": "technician_shirt_blue", "prob": 100 },
-          { "item": "technician_shirt_ltblue", "prob": 100 },
-          { "item": "technician_shirt_gray", "prob": 100 }
-        ] },
+        { "item": "technician_shirt_gray", "prob": 100 },
         { "distribution": [
           { "item": "coat_rain", "prob": 30 },
           { "item": "jacket_jean", "prob": 20 },

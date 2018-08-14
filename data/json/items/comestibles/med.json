@@ -1279,7 +1279,7 @@
         "comestible_type" : "MED",
         "name" : "disinfectant soaked rag",
         "name_plural" : "disinfectant soaked rags",
-        "description" : "A rag soaked in disinfectant.  Not as effective as pouring it on the wound, but useful to optimize the bottle contents.",
+        "description" : "A rag soaked in disinfectant.",
         "weight" : 80, "//" : "Can't copy-from rag, it breaks the stacking for some reason!",
         "volume" : 1,
         "price" : 250,
@@ -1329,6 +1329,24 @@
         "color" : "white",
         "healthy" : -2,
         "use_action" : "WEAK_ANTIBIOTIC",
+        "flags" : "NPC_SAFE"
+    },
+    {
+        "id" : "panacea",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "Panaceus",
+        "name_plural" : "Panaceii",
+        "description" : "An apple-red gel capsule the size of your thumbnail, filled with a thick oily liquid that shifts from black to purple at unpredictable intervals, flecked with tiny gray dots.  Given the place you got it from, it's either very potent, or highly experimental.  Holding it, all the little aches and pains seem to fade, just for a moment...",
+        "weight" : 15,
+        "volume" : 1,
+        "price" : 1000000,
+        "stack_size" : 5,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "red",
+        "healthy" : 25,
+        "use_action" : "PANACEA",
         "flags" : "NPC_SAFE"
     }
 ]

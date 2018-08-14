@@ -528,8 +528,14 @@ ifdef TILES
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
+			ifdef SOUND
+				OSX_INC += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
+			endif
       LDFLAGS += -F$(FRAMEWORKSDIR) \
 		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
+		 ifdef SOUND
+		 	LDFLAGS += -framework SDL2_mixer
+		 endif
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
@@ -538,6 +544,9 @@ ifdef TILES
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
+      ifdef SOUND
+        LDFLAGS += -lSDL2_mixer
+    	endif
     endif
   else # not osx
     CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
@@ -961,6 +970,9 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
+ifdef SOUND
+	cp $(SDLLIBSDIR)/libSDL2_mixer.dylib $(APPRESOURCESDIR)/
+endif  # ifdef SOUND
 endif  # ifdef FRAMEWORK
 
 endif  # ifdef TILES

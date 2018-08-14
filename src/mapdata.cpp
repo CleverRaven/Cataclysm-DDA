@@ -320,6 +320,13 @@ std::string map_data_common_t::name() const
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
+    if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
+    }
+
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string &str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;
@@ -426,7 +433,7 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_thconc_floor,
+    t_thconc_floor, t_thconc_floor_olight,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -455,7 +462,7 @@ ter_id t_null,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
-    t_door_glass_c, t_door_glass_o,
+    t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
@@ -466,7 +473,7 @@ ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
+    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_coffee, t_tree_coffee_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
     t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
     t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
@@ -542,6 +549,7 @@ void set_ter_ids() {
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
     t_thconc_floor = ter_id( "t_thconc_floor" );
+    t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
     t_floor = ter_id( "t_floor" );
     t_floor_waxed = ter_id( "t_floor_waxed" );
     t_dirtfloor = ter_id( "t_dirtfloor" );
@@ -617,6 +625,8 @@ void set_ter_ids() {
     t_door_bar_locked = ter_id( "t_door_bar_locked" );
     t_door_glass_c = ter_id( "t_door_glass_c" );
     t_door_glass_o = ter_id( "t_door_glass_o" );
+    t_door_glass_frosted_c = ter_id( "t_door_glass_frosted_c" );
+    t_door_glass_frosted_o = ter_id( "t_door_glass_frosted_o" );
     t_portcullis = ter_id( "t_portcullis" );
     t_recycler = ter_id( "t_recycler" );
     t_window = ter_id( "t_window" );
@@ -652,6 +662,8 @@ void set_ter_ids() {
     t_tree_young = ter_id( "t_tree_young" );
     t_tree_apple = ter_id( "t_tree_apple" );
     t_tree_apple_harvested = ter_id( "t_tree_apple_harvested" );
+    t_tree_coffee = ter_id( "t_tree_coffee" );
+    t_tree_coffee_harvested = ter_id( "t_tree_coffee_harvested" );
     t_tree_pear = ter_id( "t_tree_pear" );
     t_tree_pear_harvested = ter_id( "t_tree_pear_harvested" );
     t_tree_cherry = ter_id( "t_tree_cherry" );

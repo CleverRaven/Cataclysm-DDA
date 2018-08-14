@@ -1024,15 +1024,14 @@ void options_manager::init()
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
           { "en", R"( English )" },
-          { "fr",  R"( Français )" },
           { "de", R"( Deutsch )" },
-          { "it_IT", R"( Italiano )" },
           { "es_AR", R"( Español ( Argentina ) )" },
           { "es_ES", R"( Español ( España ) )" },
+          { "fr", R"( Français )" },
+          { "hu", R"( magyar nyelv )"},
           { "ja", R"( 日本語 )" },
           { "ko", R"( 한국어 )" },
-          { "pl", R"( Polskie )" },
-          { "pt_BR", R"( Português ( Brasil ) )" },
+          { "pl", R"( Polski )" },
           { "ru", R"( Русский )" },
           { "zh_CN", R"( 中文( 天朝 ) )" },
           { "zh_TW", R"( 中文( 台灣 ) )" },
@@ -1237,8 +1236,8 @@ void options_manager::init()
 
     get_option("ANIMATION_SCT").setPrerequisite("ANIMATIONS");
 
-    add( "ANIMATION_SCT_USE_FONT", "graphics", translate_marker( "SCT with unicode font" ),
-        translate_marker( "If true, will display scrolling combat text with unicode font." ),
+    add( "ANIMATION_SCT_USE_FONT", "graphics", translate_marker( "SCT with Unicode font" ),
+        translate_marker( "If true, will display scrolling combat text with Unicode font." ),
         true
         );
 
@@ -1542,6 +1541,13 @@ void options_manager::init()
         translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
         false
         );
+
+    add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
+        translate_marker( "Determines whether starting NPCs should spawn, and if they do, how exactly." ),
+        { { "never", translate_marker( "Never" ) }, { "always", translate_marker( "Always" ) }, { "scenario", translate_marker( "Scenario-based" ) } }, "scenario"
+        );
+
+    get_option( "STARTING_NPC" ).setPrerequisite( "STATIC_NPC" );
 
     add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
         translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),

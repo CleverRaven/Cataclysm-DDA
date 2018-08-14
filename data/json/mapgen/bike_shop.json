@@ -22,7 +22,7 @@
         "  _#......r#.......D#_  ",
         "  _#......r#..cc...r#_  ",
         "  _#..........%....r#_  ",
-        "  _#..........c....r#_  ",
+        "  _#..........cq...r#_  ",
         "  _#..........c....r#_  ",
         "  _#########..c.....#_  ",
         "  _________;..c.rrr.#_  ",
@@ -75,7 +75,7 @@
         "_#.....................#_",
         "_#.....................#_",
         "_#..................cc.#_",
-        "_#..................%..#_",
+        "_#..................%q.#_",
         "_#..................c..#_",
         "_#..................c..#_",
         "_#rrrrrrrrrr^..^rrrrrrr#_",
@@ -100,7 +100,7 @@
         { "vehicle": "bikeshop", "x": 6, "y": 7, "chance": 60, "status": 0, "rotation": 270 },
         { "vehicle": "bikeshop", "x": 21, "y": 7, "chance": 90, "rotation": 270 },
         { "vehicle": "bikeshop", "x": 6, "y": 14, "chance": 60, "status": 0 },
-        { "vehicle": "bikeshop", "x": 22, "y": 14, "chance": 60, "status": 0 }
+        { "vehicle": "bikeshop", "x": 17, "y": 13, "chance": 60, "status": 0 }
       ]
     }
   },
@@ -226,7 +226,8 @@
       "l": "t_floor",
       "r": "t_floor",
       "s": "t_floor",
-      "t": "t_floor"
+      "t": "t_floor",
+      "q": "t_floor"
     },
     "furniture": {
       "c": "f_counter",
@@ -240,6 +241,7 @@
       "l": "f_locker",
       "r": "f_rack",
       "t": "f_table",
+      "q": "f_stool",
       "&": "f_trashcan",
       "@": "f_dumpster",
       "^": "f_indoor_plant"

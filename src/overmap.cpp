@@ -1763,7 +1763,7 @@ bool overmap::generate_sub(int const z)
             } else if (oter_above == "central_lab_stairs") {
                 ter(i, j, z) = oter_id( "central_lab" );
             } else if (is_ot_subtype("hidden_lab_stairs", oter_above)) {
-                (one_in(2) ? lab_points : ice_lab_points).push_back(city(i, j, rng(1, 5 + z)));
+                (one_in(10) ? ice_lab_points : lab_points).push_back(city(i, j, rng(1, 5 + z)));
             } else if (oter_above == "mine_entrance") {
                 shaft_points.push_back( point(i, j) );
             } else if (oter_above == "mine_shaft" ||
@@ -2553,7 +2553,16 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         }
     }
     if( generate_stairs && !generated_lab.empty() ) {
-        const point p = random_entry( generated_lab );
+        std::random_shuffle( generated_lab.begin(), generated_lab.end() );
+
+        // we want a spot where labs are above, but we'll settle for the last element if necessary.
+        point p;
+        for( auto elem : generated_lab) {
+            p = elem;
+            if( ter( p.x, p.y, z + 1 ) == labt ) {
+                break;
+            }
+        }
         ter( p.x, p.y, z + 1 ) = labt_stairs;
     }
 

@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "chainsaw_off", "chance": 20, "x": 3, "y": 10 }, { "item": "saw", "chance": 70, "x": 3, "y": 10 } ],
+      "place_item": [ { "item": "chainsaw_off", "chance": 20, "x": 3, "y": 10 }, { "item": "saw", "chance": 70, "x": 3, "y": 10 } ],
       "furniture": {
         "#": "f_table",
         "&": "f_trashcan",

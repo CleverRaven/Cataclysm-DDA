@@ -32,14 +32,8 @@
         "s WWWWW    ss    WWWWW s",
         "ssssssssssssssssssssssss"
       ],
-      "palettes": [
-        "church"
-      ],
-      "mapping": {
-        "b": {
-          "furniture": "f_brazier"
-        }
-      },
+      "palettes": [ "church" ],
+      "mapping": { "b": { "furniture": "f_brazier" } },
       "terrain": {
         "#": "t_rock_floor",
         "$": "t_shrub",

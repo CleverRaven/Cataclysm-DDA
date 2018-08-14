@@ -39,7 +39,7 @@
       * 2.3.1.1 "amount"
       * 2.3.1.2 "chance"
       * 2.3.1.3 "repeat"
-  * 2.4 "add": []
+  * 2.4 "place_item": []
     * 2.4.0 "item":
       * 2.4.0.0 "x" / "y"
       * 2.4.0.1 "amount"
@@ -185,7 +185,7 @@ This form allows for multiple overmap terrains to be defined using a single json
 
 Characters mapped using the "terrain", "furniture", or any of the special mappings ("items", "monsters", etc) will be applied universally to all of the listed overmap terrains.
 
-Placing things using x/y coordinates ("place_monsters", "place_loot", "add", etc) works using the full extended coordinates beyond 24x24. An important limitation is that ranged random coordinates (such as "x": [ 10, 18 ]) must not cross the 24x24 terrain boundaries. Ranges such as [ 0, 23 ] and [ 50, 70 ] are valid, but [ 0, 47 ] and [ 15, 35 ] are not because they extend beyond a single 24x24 block.
+Placing things using x/y coordinates ("place_monsters", "place_loot", "place_item", etc) works using the full extended coordinates beyond 24x24. An important limitation is that ranged random coordinates (such as "x": [ 10, 18 ]) must not cross the 24x24 terrain boundaries. Ranges such as [ 0, 23 ] and [ 50, 70 ] are valid, but [ 0, 47 ] and [ 15, 35 ] are not because they extend beyond a single 24x24 block.
 
 ##### Example:
 
@@ -426,7 +426,7 @@ These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 1
 **required** unlike everything else, this is a percentage. Maybe
 > Value: *number*
 
-## 2.4 "add"
+## 2.4 "place_item"
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
 > Value: [ array of {objects} ]: [ { "item", ... }, ... ]
 
@@ -434,7 +434,7 @@ These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 1
 **required** A valid itype ID. see everything in data/json/items
 > Value: "string"
 
-Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 2 }
+Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 20 }
 
 #### 2.4.0.0 "x" / "y"
 **required** Spawn coordinates ( specific or random )
@@ -611,12 +611,12 @@ Places a specific item. Values:
 - "chance": (optional, integer or min/max array) one in x chance that the item will spawn. Default is 1, meaning it will always spawn.
 - "amount": (optional, integer or min/max array) the number of items to spawn, default is 1.
 
-To use this type with explicit coordinates use the name "add" (this if for backwards compatibility) like this:
+To use this type with explicit coordinates use the name "place_item" (this if for backwards compatibility) like this:
 ```
 "item": {
     "x": { "item": "rock" }
 },
-"add": [
+"place_item": [
     { "x": 10, "y": 1, "item": "rock" }
 ]
 ```
@@ -669,7 +669,7 @@ Example for dropping a default amount of gasoline (200 units) on the ground:
 ```
 
 ### 2.6.16 "loot"
-Places item(s) from an item group, or an individual item. An important distinction between this and `add` and `item`/`items` is that `loot` can spawn a single item from a distribution group (without looping), and it uses a different calculation for the chance of the item(s) spawning. It can also spawn a matching magazine and ammo for guns.
+Places item(s) from an item group, or an individual item. An important distinction between this and `place_item` and `item`/`items` is that `loot` can spawn a single item from a distribution group (without looping). It can also spawn a matching magazine and ammo for guns.
 - Either `group` or `item` must be specified, but not both
   - "group": (string) the item group to use (see `ITEM_SPAWN.md` for notes on collection vs distribution groups)
   - "item": (string) the type id of the item to spawn
