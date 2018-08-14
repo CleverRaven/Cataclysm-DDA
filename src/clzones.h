@@ -20,9 +20,12 @@ class zone_type
 {
     private:
         std::string name_;
+        bool has_subtype_;
     public:
-        explicit zone_type( const std::string name ) : name_( name ) {}
+        explicit zone_type( const std::string name, bool has_subtype = false ) : name_( name ),
+            has_subtype_( has_subtype ) {}
         std::string name() const;
+        bool has_subtype() const;
 };
 using zone_type_id = string_id<zone_type>;
 
@@ -58,6 +61,7 @@ class zone_manager
             private:
                 std::string name;
                 zone_type_id type;
+                std::string subtype;
                 bool invert;
                 bool enabled;
                 tripoint start;
@@ -65,10 +69,12 @@ class zone_manager
 
             public:
                 zone_data( const std::string &_name, const zone_type_id &_type,
-                           const bool _invert, const bool _enabled,
-                           const tripoint &_start, const tripoint &_end ) {
+                           bool _invert, const bool _enabled,
+                           const tripoint &_start, const tripoint &_end,
+                           const std::string &_subtype = "" ) {
                     name = _name;
                     type = _type;
+                    subtype = _subtype;
                     invert = _invert;
                     enabled = _enabled;
                     start = _start;
@@ -77,6 +83,7 @@ class zone_manager
 
                 void set_name();
                 void set_type();
+                void set_subtype();
                 void set_position( const std::pair<tripoint, tripoint> position );
                 void set_enabled( const bool enabled );
 
@@ -85,6 +92,9 @@ class zone_manager
                 }
                 const zone_type_id &get_type() const {
                     return type;
+                }
+                std::string get_subtype() const {
+                    return subtype;
                 }
                 bool get_invert() const {
                     return invert;
@@ -105,7 +115,8 @@ class zone_manager
 
         void add( const std::string &name, const zone_type_id &type,
                   const bool invert, const bool enabled,
-                  const tripoint &start, const tripoint &end );
+                  const tripoint &start, const tripoint &end,
+                  const std::string &subtype = "" );
 
         bool remove( const size_t index ) {
             if( index < zones.size() ) {
@@ -123,14 +134,19 @@ class zone_manager
             return types;
         }
         std::string get_name_from_type( const zone_type_id &type ) const;
+        std::string get_name_from_subtype( const zone_type_id &type, const std::string &subtype ) const;
+        bool has_subtype( const zone_type_id &type ) const;
         bool has_type( const zone_type_id &type ) const;
         void cache_data();
         bool has( const zone_type_id &type, const tripoint &where ) const;
         bool has_near( const zone_type_id &type, const tripoint &where ) const;
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
-        std::string query_name( std::string default_name = "" );
-        zone_type_id query_type();
+        std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
+        std::vector<std::string> get_subtypes( const zone_type_id &type, const tripoint &where ) const;
+        std::string query_name( std::string default_name = "" ) const;
+        zone_type_id query_type() const;
+        std::string query_subtype( const zone_type_id &type ) const;
 
         bool save_zones();
         void load_zones();
