@@ -211,7 +211,7 @@
         { "item": "floor_trash", "x": 6, "y": 7, "chance": 35 },
         { "item": "hardware_trash", "x": [ 13, 14 ], "y": 21, "chance": 35 }
       ],
-      "add": [
+      "place_item": [
         { "item": "2x4", "x": 9, "y": 16 },
         { "item": "2x4", "x": 10, "y": 16 },
         { "item": "2x4", "x": 11, "y": 16 }
