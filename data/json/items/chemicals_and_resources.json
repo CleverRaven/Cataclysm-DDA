@@ -13,6 +13,7 @@
     "material": "plastic",
     "symbol": "!",
     "color": "cyan",
+    "looks_like": "1st_aid",
     "flags": [ "ANESTHESIA" ]
 },
 {

@@ -35,7 +35,7 @@
       "palettes": [ "lab_palette" ],
       "computers": {
         "6": {
-          "name": "Labratory Train Controls", "security": 2,
+          "name": "Laboratory Train Controls", "security": 2,
           "options": [
             { "name": "Request Subway Train", "action": "disconnect", "security": 0 },
             { "name": "Download Subway Routes", "action": "map_subway", "security": 0 }

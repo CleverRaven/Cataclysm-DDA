@@ -149,6 +149,7 @@
   {
     "type": "recipe",
     "result": "livestock_carrier",
+    "id_suffix": "repurpose_cargo_rack",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -159,5 +160,29 @@
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "cargo_rack", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "animal_locker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "rope_natural", 2 ], [ "welding_standard", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "wire", 40 ] ], [ [ "pipe", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "animal_locker",
+    "copy-from": "animal_locker",
+    "id_suffix": "repurpose_wire_basket",
+    "time": 25000,
+    "using": [ [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 6 ] ], [ [ "basket", 1 ] ] ]
   }
 ]

@@ -155,7 +155,7 @@
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-CAR carbine",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes a read-dot sight and an integral laser sight.  Additionally it comes with underslung shotgun for close range encounters.  Like the rest of the family, doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes a red-dot sight and an integral laser sight.  Additionally it comes with underslung shotgun for close range encounters.  Like the rest of the family, doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
     "modes": [

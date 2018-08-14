@@ -892,6 +892,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item)
 - ```NO_UNLOAD``` Cannot be unloaded.
+- ```POWERED``` If turned ON, item uses its own source of power, instead of relying on power of the user
 - ```RADIOCARITEM``` Item can be put into a remote controlled car.
 - ```RADIOSIGNAL_1``` Activated per radios signal 1.
 - ```RADIOSIGNAL_2``` Activated per radios signal 2.

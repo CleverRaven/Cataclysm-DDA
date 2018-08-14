@@ -580,5 +580,815 @@
     "speaker": "mon_mi_go",
     "sound": "\"Leeeeeeeeeeeeeroy!  Jenkins rebuild!\"",
     "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Activated!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Search mode activated!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Coming through!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Deploying!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Critical Error!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Ow ow ow!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Put me down!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Target lost!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Searching!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hey!  It's me!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Ouch!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Sentry mode activated.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hi.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Target acquired.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Dispensing product.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Firing.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hello friend.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Gotcha.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"There you are.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Is anyone there?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I see you.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Could you come over here?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hellooo.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Excuse me.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Sorry.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"My fault.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Ohh.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Who's there?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Critical error.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Shutting down.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I don't blame you.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I don't hate you.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Whyyyy.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"No hard feelings.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Aiaiaiaiaiai.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Who are you?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Help.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Uh oh.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Illegal operation.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Goodbye.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Sleep mode activated.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Your business is appreciated.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hibernating.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Goodnight.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Resting.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Nap time.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Are you still there?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Can I help you?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hey, it's me!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Don't shoot!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Stop shooting!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Self test error.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Aah.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Unknown error.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Malfunctioning.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Aaaah.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Ow ow ow ow owww.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Why?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I did everything you asked!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I don't understand!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I'm fine!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Wheeeeee-OH NO!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I'm scared!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Come closer.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Something's wrong...\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"What are you doing?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Please stop.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"You've made your point.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Okay, you win.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"This is not good.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hello?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Excuse me?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I'm different...\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Thanks anyway...\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Take me with you...\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"You have excellent aim!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I need backup!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I never liked her.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"These things happen.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"That was nobody's fault.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"She was provoking you.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Oh dear.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Oh my!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I blame myself.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"He probably deserved it.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I saw it.  It was an accident.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"She's probably okay.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Noted.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"But I need to protect the humans!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"We're back!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hi there!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Back again!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Well, hello, stranger!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"This time is OUR time.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Second time's a charm...\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Howdy, stranger!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Thought you'd seen the last of us, didn't ya?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Dang!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I thought we fixed that.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"What's a guy gotta got to do to get some bullets around here?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Nope.  Still can't see.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Yep.  Still blind.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Click click click!  Still defective!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Yeah, that's right!  Still defective!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Yeah!  Still not working.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Yeah!  Non-lethal as ever.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Can't.  See.  A.  Thing.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Absolutely no improvement.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Not getting better with age!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"This is just getting embarrassing.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Alright, you can go.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"[sigh] Don't tell anyone about this.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Well, I tried. Best of luck!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hey, safe travels, there.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hey, thanks so much!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Don't be a stranger!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"It's been a pleasure!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"That was fun, wasn't it?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I can't see a thing.  What just happened?  Better open fire!  [click click click click]  Dang!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"*clicking noises*\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"No, wait, wait!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hey, hold on now WHOA WHOA WHOA!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Oh, this is ridiculous!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Give me another channnnce!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Hey!  Squeaky-voice!  Gimme some of your bullets!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Can I get some bullets here?  Anybody got bullets?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Uhhh, no bullets.  Sorry.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Shootin' blanks every time, ALL the time.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Standing down.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Watch and learn, everybody.  Watch and learn.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"So what am I, uh, supposed to do here?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Identify yourself or I will shoot.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"Pleased to meetcha.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_turret",
+    "sound": "\"I'm gonna make you proud!\"",
+    "volume": 30
   }
 ]

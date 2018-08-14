@@ -4032,7 +4032,7 @@
     "coverage": 65,
     "warmth": 40,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "HELMET_COMPAT" ]
   },
   {
     "id": "hat_newsboy",
