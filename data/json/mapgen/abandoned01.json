@@ -421,7 +421,7 @@
         "H": "f_armchair"
       },
       "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 2 ] } ],
-      "add": [ { "item": "teddy", "x": 14, "y": 2 }, { "item": "locket", "x": 14, "y": 2 } ],
+      "place_item": [ { "item": "teddy", "x": 14, "y": 2 }, { "item": "locket", "x": 14, "y": 2 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 5, "y": 7, "chance": 80, "fuel": 0, "status": 1, "rotation": 0 } ]
     }
   },
@@ -549,7 +549,7 @@
         "G": "f_oven",
         "H": "f_hay"
       },
-      "add": [
+      "place_item": [
         { "item": "oil_lamp", "x": 7, "y": 15 },
         { "item": "45_acp", "x": 12, "y": 15 },
         { "item": "3006", "x": 12, "y": 15 },

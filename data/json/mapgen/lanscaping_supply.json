@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "log", "repeat": [ 1, 5 ], "x": 18, "y": 3 },
         { "item": "log", "repeat": [ 1, 5 ], "x": 19, "y": 3 },
         { "item": "log", "repeat": [ 1, 5 ], "x": 20, "y": 3 },
@@ -99,7 +99,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "stick", "repeat": [ 1, 5 ], "x": 0, "y": 3 },
         { "item": "stick", "repeat": [ 1, 5 ], "x": 1, "y": 3 },
         { "item": "stick", "repeat": [ 1, 5 ], "x": 2, "y": 3 },

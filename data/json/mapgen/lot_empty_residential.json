@@ -78,7 +78,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "log", "repeat": 3, "x": 20, "y": 15 },
         { "item": "log", "repeat": 2, "x": 20, "y": 16 },
         { "item": "log", "x": 20, "y": 17 },

@@ -156,7 +156,7 @@
         "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 65 }, { "item": "moonshine_brew", "chance": 65 } ]
       },
       "place_items": [],
-      "add": [
+      "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
         { "item": "straw_pile", "x": [ 3, 3 ], "y": [ 10, 15 ], "amount": [ 5, 15 ] },
         { "item": "straw_pile", "x": [ 19, 19 ], "y": [ 10, 15 ], "amount": [ 5, 15 ] }

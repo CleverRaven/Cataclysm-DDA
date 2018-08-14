@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 50, "item": "2x4", "repeat": 1, "x": 3, "y": 7 },
         { "chance": 50, "item": "2x4", "repeat": 1, "x": 3, "y": 8 },
         { "chance": 30, "item": "textbook_carpentry", "repeat": 1, "x": 11, "y": 10 },
@@ -108,7 +108,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 40, "item": "2x4", "repeat": 2, "x": 3, "y": 7 },
         { "chance": 40, "item": "2x4", "repeat": 1, "x": 3, "y": 8 }
       ],
@@ -215,7 +215,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 30, "item": "2x4", "repeat": 1, "x": 4, "y": 3 },
         { "chance": 30, "item": "2x4", "repeat": 1, "x": 8, "y": 3 },
         { "chance": 30, "item": "2x4", "repeat": 1, "x": 9, "y": 3 },
@@ -328,7 +328,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 50, "item": "2x4", "repeat": 1, "x": 9, "y": 19 },
         { "chance": 30, "item": "101_carpentry", "repeat": 1, "x": 9, "y": 17 },
         { "chance": 50, "item": "2x4", "repeat": 4, "x": 9, "y": 20 }
@@ -440,7 +440,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 50, "item": "2x4", "repeat": 1, "x": 17, "y": 8 },
         { "chance": 50, "item": "2x4", "repeat": 3, "x": 18, "y": 8 },
         { "chance": 50, "item": "2x4", "repeat": 1, "x": 19, "y": 8 },
@@ -547,7 +547,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "chance": 20, "item": "mag_carpentry", "repeat": 1, "x": 5, "y": 3 } ],
+      "place_item": [ { "chance": 20, "item": "mag_carpentry", "repeat": 1, "x": 5, "y": 3 } ],
       "furniture": {
         "#": "f_counter",
         "&": "f_sink",
@@ -681,7 +681,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 30, "item": "2x4", "repeat": 3, "x": 21, "y": 4 },
         { "chance": 30, "item": "glass_sheet", "repeat": 2, "x": 19, "y": 5 },
         { "chance": 30, "item": "2x4", "repeat": 6, "x": 21, "y": 5 },
@@ -842,7 +842,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "chance": 60, "item": "bucket", "repeat": 1, "x": 3, "y": 13 } ],
+      "place_item": [ { "chance": 60, "item": "bucket", "repeat": 1, "x": 3, "y": 13 } ],
       "furniture": {
         " ": "f_null",
         "#": "f_counter",
@@ -984,7 +984,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 20, "item": "toolbox", "x": 14, "y": 10 },
         { "chance": 30, "item": "glass_sheet", "x": 5, "y": 18 },
         { "chance": 30, "item": "glass_sheet", "x": 6, "y": 18 },
@@ -1224,7 +1224,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 30, "item": "nail", "repeat": 1, "x": 7, "y": 4 },
         { "chance": 30, "item": "concrete", "repeat": 1, "x": 2, "y": 6 },
         { "chance": 30, "item": "concrete", "repeat": 4, "x": 1, "y": 7 },
@@ -1321,7 +1321,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 30, "item": "nail", "repeat": 1, "x": 7, "y": 4 },
         { "chance": 30, "item": "concrete", "repeat": 1, "x": 2, "y": 6 },
         { "chance": 30, "item": "concrete", "repeat": 3, "x": 2, "y": 7 },
@@ -1568,7 +1568,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "chance": 30, "item": "2x4", "repeat": 1, "x": 11, "y": 15 },
         { "chance": 50, "item": "2x4", "repeat": 1, "x": 12, "y": 15 },
         { "chance": 50, "item": "2x4", "repeat": 1, "x": 11, "y": 16 },

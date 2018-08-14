@@ -106,7 +106,7 @@
       },
       "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [ { "item": "traveler", "x": [ 6, 6 ], "y": [ 6, 6 ], "chance": 90 } ],
-      "add": [
+      "place_item": [
         { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
         { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
         { "item": "touristmap", "x": 8, "y": 8, "chance": 2 },
