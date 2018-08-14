@@ -3,9 +3,7 @@
     "name": "GROUP_ANIMALPOUND_CATS",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_cat", "freq": 300, "cost_multiplier": 0 }
-    ]
+    "monsters": [ { "monster": "mon_cat", "freq": 300, "cost_multiplier": 0 } ]
   },
   {
     "name": "GROUP_ANIMALPOUND_DOGS",
@@ -104,9 +102,7 @@
             "s": "f_sink",
             "y": "f_indoor_plant"
           },
-          "toilets": {
-            "t": {}
-          },
+          "toilets": { "t": {  } },
           "place_items": [
             { "item": "trash", "x": 14, "y": 3, "chance": 35, "repeat": [ 1, 3 ] },
             { "item": "trash", "x": 14, "y": 15, "chance": 35, "repeat": [ 1, 3 ] },
@@ -146,13 +142,32 @@
             { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 3, "y": 15, "chance": 10, "density": 0.05 },
             { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 5, "y": 15, "chance": 2, "density": 0.05 },
             { "monster": "GROUP_ANIMALPOUND_DOGS", "x": 7, "y": 15, "chance": 10, "density": 0.05 },
-            { "monster": "GROUP_ANIMALPOUND_DOGS", "x": [ 3, 4 ], "y": 21, "chance": 20, "repeat": [ 1 ], "density": 0.05 },
-            { "monster": "GROUP_ANIMALPOUND_DOGS", "x": [ 6, 7 ], "y": 21, "chance": 20, "repeat": [ 1 ], "density": 0.05 },
-            { "monster": "GROUP_ANIMALPOUND_DOGS", "x": [ 9, 10 ], "y": 21, "chance": 20, "repeat": [ 1 ], "density": 0.05 }
+            {
+              "monster": "GROUP_ANIMALPOUND_DOGS",
+              "x": [ 3, 4 ],
+              "y": 21,
+              "chance": 20,
+              "repeat": [ 1 ],
+              "density": 0.05
+            },
+            {
+              "monster": "GROUP_ANIMALPOUND_DOGS",
+              "x": [ 6, 7 ],
+              "y": 21,
+              "chance": 20,
+              "repeat": [ 1 ],
+              "density": 0.05
+            },
+            {
+              "monster": "GROUP_ANIMALPOUND_DOGS",
+              "x": [ 9, 10 ],
+              "y": 21,
+              "chance": 20,
+              "repeat": [ 1 ],
+              "density": 0.05
+            }
           ],
-          "place_vehicles": [
-            { "vehicle": "animalshelter", "x": 17, "y": 22, "chance": 25, "rotation": 180 }
-          ]
+          "place_vehicles": [ { "vehicle": "animalshelter", "x": 17, "y": 22, "chance": 25, "rotation": 180 } ]
         }
       }
     ],

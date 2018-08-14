@@ -2,11 +2,7 @@
   {
     "id": "animalshelter",
     "type": "vehicle_group",
-    "vehicles": [
-      [ "animalctrl", 300 ],
-      [ "cube_van", 100 ],
-      [ "cube_van_cheap", 50 ]
-    ]
+    "vehicles": [ [ "animalctrl", 300 ], [ "cube_van", 100 ], [ "cube_van_cheap", 50 ] ]
   },
   {
     "id": "animalshelter_softdrug",
@@ -66,20 +62,13 @@
   {
     "id": "animalshelter_toys",
     "type": "item_group",
-    "items": [
-      [ "baseball", 30 ],
-      [ "bone", 20 ],
-      [ "bowl_plastic", 10 ],
-      [ "rope_6", 5 ]
-    ]
+    "items": [ [ "baseball", 30 ], [ "bone", 20 ], [ "bowl_plastic", 10 ], [ "rope_6", 5 ] ]
   },
   {
     "name": "GROUP_ANIMALSHELTER_CATS",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_cat", "freq": 250, "cost_multiplier": 0 }
-    ]
+    "monsters": [ { "monster": "mon_cat", "freq": 250, "cost_multiplier": 0 } ]
   },
   {
     "name": "GROUP_ANIMALSHELTER_DOGS",
@@ -208,9 +197,7 @@
             "y": "f_indoor_plant",
             "A": "f_armchair"
           },
-          "toilets": {
-            "t": {}
-          },
+          "toilets": { "t": {  } },
           "place_items": [
             { "item": "trash", "x": 7, "y": 8, "chance": 35, "repeat": [ 1, 3 ] },
             { "item": "trash", "x": 12, "y": 11, "chance": 35, "repeat": [ 1, 3 ] },
@@ -243,7 +230,14 @@
             { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20, "density": 0.05 },
             { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 7, "y": 4, "chance": 5, "density": 0.05 },
             { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 20, "density": 0.05 },
-            { "monster": "GROUP_ANIMALSHELTER_CATS", "x": [ 14, 20 ], "y": [ 4, 6 ], "chance": 2, "repeat": [ 2, 3 ], "density": 0.05 },
+            {
+              "monster": "GROUP_ANIMALSHELTER_CATS",
+              "x": [ 14, 20 ],
+              "y": [ 4, 6 ],
+              "chance": 2,
+              "repeat": [ 2, 3 ],
+              "density": 0.05
+            },
             { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 14, "y": 8, "chance": 2, "density": 0.05 },
             { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 16, "y": 8, "chance": 5, "density": 0.05 },
             { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 18, "y": 8, "chance": 5, "density": 0.05 },
@@ -258,11 +252,16 @@
             { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 13, "y": 19, "chance": 5, "density": 0.05 },
             { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 16, "y": 19, "chance": 2, "density": 0.05 },
             { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 19, "y": 19, "chance": 5, "density": 0.05 },
-            { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": [ 14, 20 ], "y": [ 21, 22 ], "chance": 2, "repeat": [ 1, 2 ], "density": 0.05 }
+            {
+              "monster": "GROUP_ANIMALSHELTER_DOGS",
+              "x": [ 14, 20 ],
+              "y": [ 21, 22 ],
+              "chance": 2,
+              "repeat": [ 1, 2 ],
+              "density": 0.05
+            }
           ],
-          "place_vehicles": [
-            { "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 }
-          ]
+          "place_vehicles": [ { "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 } ]
         }
       }
     ],
