@@ -970,18 +970,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
     
-    // corpse decays at 75% factor, but meat shares age and not relative_rot so this takes care of it
-    // no FIELD_DRESS_FAILED here as it gets no benefit
-    if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
-        age = time_point::from_turn( to_turn<int>( age ) + ( (calendar::turn - to_turn<int>( age ) ) * 3 / 4 ) );
-    }
-
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
     time_point age = corpse_item.birthday();
     const field_id type_blood = corpse->bloodType();
     const field_id type_gib = corpse->gibType();
+
+    // corpse decays at 75% factor, but meat shares age and not relative_rot so this takes care of it
+    // no FIELD_DRESS_FAILED here as it gets no benefit
+    if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
+        age = time_point::from_turn( to_turn<int>( age ) + ( (calendar::turn - to_turn<int>( age ) ) * 3 / 4 ) );
+    }
 
     if( action == QUARTER ) {
         if( query_yn( _( "Quarter corpse of %s to reduce it's weight and volume?  This will ruin the hide or pelt." ), corpse->nname().c_str() ) ) {
