@@ -331,6 +331,10 @@ class mapgen_function_lua : public virtual mapgen_function {
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string id_base, int default_idx, int x_offset = 0, int y_offset = 0 );
 /*
+* Loads construction_styles.json and assigns in and ex to random interior and exterior walls from the given style respectivly.
+*/
+void fetch_wall_type(std::string &style, std::string &in, std::string &ex);
+/*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
  */

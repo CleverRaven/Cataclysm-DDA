@@ -337,6 +337,15 @@ std::shared_ptr<mapgen_function>
     return ret;
 }
 
+void fetch_wall_type(std::string & style, std::string & in, std::string & ex) {
+    JsonObject style_set(JsonIn(""));   //TODO: figure out how to actually get the json object.
+    style_set = style_set.get_object( "style" );
+    JsonArray temp = style_set.get_array( "interior" );
+    in = temp.get_string( rng ( 0, temp.size() ) );
+    temp = style_set.get_array( "exterior" );
+    ex = temp.get_string( rng( 0, temp.size() ) );
+}
+
 std::shared_ptr<mapgen_function_json_nested> load_nested_mapgen( JsonObject &jio, const std::string id_base ) {
     std::shared_ptr<mapgen_function_json_nested> ret;
     const std::string mgtype = jio.get_string( "method" );
@@ -364,12 +373,25 @@ void load_mapgen( JsonObject &jo )
     if( jo.has_array( "om_terrain" ) ) {
         JsonArray ja = jo.get_array( "om_terrain" );
         if( ja.test_array() ) {
+            std::string interior_wall, exterior_wall;
+            if (jo.has_member("style")) {   // match t_wall_ex and t_wall_in to actual terrain
+                fetch_wall_type( jo.get_string( "style" ), interior_wall, exterior_wall );
+            } else {
+                interior_wall = exterior_wall = "t_wall";   // default to t_wall if no style
+            }
             int x_offset = 0;
             int y_offset = 0;
             while( ja.has_more() ) {
                 JsonArray row_items = ja.next_array();
                 while( row_items.has_more() ) {
-                    const std::string mapgenid = row_items.next_string();
+                    std::string temp = row_items.next_string(); //get next
+                    if( temp == "interior_wall" ) {   //check for and replace interior and exterior walls
+                        const std::string mapgenid = interior_wall;
+                    } else if ( temp == "exterior_wall" ) {
+                        const std::string mapgenid = exterior_wall;
+                    } else {
+                        const std::string mapgenid = temp;
+                    }
                     const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, x_offset, y_offset );
                     if( mgfunc ) {
                        oter_mapgen[ mapgenid ].push_back( mgfunc );
