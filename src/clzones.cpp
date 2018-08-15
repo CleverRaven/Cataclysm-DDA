@@ -57,7 +57,7 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_WOOD" ), zone_type( translate_marker( "Loot: Wood" ) ) );
     types.emplace( zone_type_id( "LOOT_IGNORE" ), zone_type( translate_marker( "Loot: Ignore" ) ) );
     types.emplace( zone_type_id( "FARM_PLOT" ), zone_type( translate_marker_context( "plot of land",
-                   "Farm: Plot" ), true ) );
+                   "Farm: Plot" ) ) );
 }
 
 std::string zone_type::name() const
@@ -65,10 +65,68 @@ std::string zone_type::name() const
     return _( name_.c_str() );
 }
 
-bool zone_type::has_subtype() const
+std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
 {
-    return has_subtype_;
+    if( type == zone_type_id( "FARM_PLOT" ) ) {
+        return std::make_shared<plot_options>();
+    }
+
+    return std::make_shared<zone_options>();
+};
+
+bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
+{
+    if( type == zone_type_id( "FARM_PLOT" ) ) {
+        return dynamic_cast<const plot_options *>( &options ) != nullptr ;
+    }
+
+    // ensure options is not derived class for the rest of zone types
+    return !options.has_options();
 }
+
+void plot_options::query_seed()
+{
+    player &p = g->u;
+
+    std::vector<item *> seed_inv = p.items_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
+
+    auto seed_entries = iexamine::get_seed_entries( seed_inv );
+    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id(), "No seed", 0 ) );
+
+    int seed_index = iexamine::query_seed( seed_entries );
+
+    if( seed_index > 0 ) {
+        const auto &seed_entry = seed_entries[seed_index];
+        seed = std::get<0>( seed_entry );
+    }
+}
+
+void plot_options::query_at_creation()
+{
+    query_seed();
+};
+
+void plot_options::query()
+{
+    query_seed();
+};
+
+std::string plot_options::get_zone_name_suggestion() const
+{
+    return seed != "" ? item::nname( itype_id( seed ) ) : _( "No seed" );
+};
+
+void plot_options::serialize( JsonOut &json ) const
+{
+    json.member( "seed", seed );
+};
+
+void plot_options::deserialize( JsonObject &jo_zone )
+{
+    seed = jo_zone.get_string( "seed", "" );
+};
 
 std::string zone_manager::query_name( std::string default_name ) const
 {
@@ -100,33 +158,6 @@ zone_type_id zone_manager::query_type() const
     return iter->first;
 }
 
-std::string zone_manager::query_subtype( const zone_type_id &type ) const
-{
-    if( !has_subtype( type ) ) {
-        return "";
-    }
-
-    if( type == zone_type_id( "FARM_PLOT" ) ) {
-        player &p = g->u;
-
-        std::vector<item *> seed_inv = p.items_with( []( const item &itm ) {
-            return itm.is_seed();
-        } );
-
-        auto seed_entries = iexamine::get_seed_entries( seed_inv );
-        seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id(), "No seed", 0 ) );
-
-        int seed_index = iexamine::query_seed( seed_entries );
-
-        if( seed_index > 0 ) {
-            const auto &seed_entry = seed_entries[seed_index];
-            return std::get<0>( seed_entry );
-        }
-    }
-
-    return "";
-}
-
 void zone_manager::zone_data::set_name()
 {
     const std::string new_name = get_manager().query_name( name );
@@ -139,11 +170,6 @@ void zone_manager::zone_data::set_type()
     type = get_manager().query_type();
 
     get_manager().cache_data();
-}
-
-void zone_manager::zone_data::set_subtype()
-{
-    subtype = get_manager().query_subtype( get_type() );
 }
 
 void zone_manager::zone_data::set_position( const std::pair<tripoint, tripoint> position )
@@ -172,25 +198,6 @@ std::string zone_manager::get_name_from_type( const zone_type_id &type ) const
     }
 
     return "Unknown Type";
-}
-
-std::string zone_manager::get_name_from_subtype( const zone_type_id &type, const std::string &subtype ) const
-{
-    if( type == zone_type_id( "FARM_PLOT" ) ) {
-        return subtype != "" ? item::nname( itype_id( subtype ) ) : _( "No seed" );
-    }
-
-    return get_name_from_type( type );
-}
-
-bool zone_manager::has_subtype( const zone_type_id &type ) const
-{
-    const auto &iter = types.find( type );
-    if( iter != types.end() ) {
-        return iter->second.has_subtype();
-    }
-
-    return false;
 }
 
 bool zone_manager::has_type( const zone_type_id &type ) const
@@ -387,29 +394,14 @@ std::vector<zone_manager::zone_data> zone_manager::get_zones( const zone_type_id
     return zones;
 }
 
-std::vector<std::string> zone_manager::get_subtypes( const zone_type_id &type, const tripoint &where ) const
+zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
+        const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
+        std::shared_ptr<zone_options> options )
 {
-    const auto zones = get_zones( type, where );
-    auto subtypes = std::vector<std::string>();
-
-    for( const auto &zone : zones ) {
-        const auto &subtype = zone.get_subtype();
-
-        if( subtype != "" && !( std::find( subtypes.begin(), subtypes.end(), subtype ) != subtypes.end() ) ) {
-            subtypes.emplace_back( subtype );
-        }
-    }
-
-    return subtypes;
-}
-
-void zone_manager::add( const std::string &name, const zone_type_id &type,
-                        const bool invert, const bool enabled,
-                        const tripoint &start, const tripoint &end,
-                        const std::string &subtype )
-{
-    zones.push_back( zone_data( name, type, invert, enabled, start, end, subtype ) );
+    zones.push_back( zone_data( name, type, invert, enabled, start, end, options ) );
     cache_data();
+
+    return zones.back();
 }
 
 void zone_manager::serialize( JsonOut &json ) const
@@ -420,10 +412,6 @@ void zone_manager::serialize( JsonOut &json ) const
 
         json.member( "name", elem.get_name() );
         json.member( "type", elem.get_type() );
-
-        if( has_subtype( elem.get_type() ) ) {
-            json.member( "subtype", elem.get_subtype() );
-        }
 
         json.member( "invert", elem.get_invert() );
         json.member( "enabled", elem.get_enabled() );
@@ -437,6 +425,8 @@ void zone_manager::serialize( JsonOut &json ) const
         json.member( "end_x", end.x );
         json.member( "end_y", end.y );
         json.member( "end_z", end.z );
+
+        elem.get_options().serialize( json );
 
         json.end_object();
     }
@@ -454,7 +444,6 @@ void zone_manager::deserialize( JsonIn &jsin )
 
         const std::string name = jo_zone.get_string( "name" );
         const zone_type_id type( jo_zone.get_string( "type" ) );
-        const std::string subtype = jo_zone.get_string( "subtype", "" );
 
         const bool invert = jo_zone.get_bool( "invert" );
         const bool enabled = jo_zone.get_bool( "enabled" );
@@ -468,10 +457,10 @@ void zone_manager::deserialize( JsonIn &jsin )
         const int end_z = jo_zone.get_int( "end_z", 0 );
 
         if( has_type( type ) ) {
-            add( name, type, invert, enabled,
-                 tripoint( start_x, start_y, start_z ),
-                 tripoint( end_x, end_y, end_z ),
-                 subtype );
+            auto &zone = add( name, type, invert, enabled,
+                              tripoint( start_x, start_y, start_z ),
+                              tripoint( end_x, end_y, end_z ) );
+            zone.get_options().deserialize( jo_zone );
         } else {
             debugmsg( "Invalid zone type: %s", type.c_str() );
         }

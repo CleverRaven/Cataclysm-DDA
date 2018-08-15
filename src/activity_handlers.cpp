@@ -2879,17 +2879,33 @@ void activity_handlers::plant_plot_do_turn( player_activity *act, player *p )
         return itm.is_seed();
     } );
 
-    // cleanup unwanted tiles
+    // get seeds requested by zones on the tile (local coords)
+    auto get_seeds = [&]( const tripoint &tile ) {
+        auto seeds = std::vector<std::string>();
+        const auto &zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ), g->m.getabs( tile ) );
+        for( const auto &zone : zones ) {
+            const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
+            const auto seed = options.get_seed();
+
+            if( seed != "" && !( std::find( seeds.begin(), seeds.end(), seed ) != seeds.end() ) ) {
+                seeds.emplace_back( seed );
+            }
+        }
+
+        return seeds;
+    };
+
+    // cleanup unwanted tiles (local coords)
     auto cleanup = [&]( const tripoint &tile ) {
         if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound ) {
             return true;
         }
 
-        const auto &subtypes = mgr.get_subtypes( zone_type_id( "FARM_PLOT" ), g->m.getabs( tile ) );
+        const auto seeds = get_seeds( tile );
 
-        return std::all_of( subtypes.begin(), subtypes.end(), [&](std::string subtype) { 
-            return std::all_of( seed_inv.begin(), seed_inv.end(), [subtype](item *it) {  
-                return it->typeId() != itype_id( subtype );
+        return std::all_of( seeds.begin(), seeds.end(), [&](std::string seed) { 
+            return std::all_of( seed_inv.begin(), seed_inv.end(), [seed](item *it) {  
+                return it->typeId() != itype_id( seed );
             } );
         } );
     };
@@ -2907,10 +2923,10 @@ void activity_handlers::plant_plot_do_turn( player_activity *act, player *p )
             p->set_destination( route, player_activity( activity_id( "ACT_PLANT_PLOT" ) ) );
             return;
         } else { // we are at destination already
-            const auto &subtypes = mgr.get_subtypes( zone_type_id( "FARM_PLOT" ), tile );
-            std::vector<item *> seed_inv = p->items_with( [subtypes]( const item &itm ) {
-                return itm.is_seed() && std::any_of( subtypes.begin() , subtypes.end(), [itm]( std::string subtype ) {
-                    return itm.typeId() == itype_id( subtype );
+            const auto seeds = get_seeds( tile_loc );
+            std::vector<item *> seed_inv = p->items_with( [seeds]( const item &itm ) {
+                return itm.is_seed() && std::any_of( seeds.begin() , seeds.end(), [itm]( std::string seed ) {
+                    return itm.typeId() == itype_id( seed );
                 } );
             } );
             if( seed_inv.size() > 0 ) {

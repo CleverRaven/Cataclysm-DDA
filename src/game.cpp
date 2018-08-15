@@ -8142,13 +8142,14 @@ void game::zones_manager()
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
 
             const auto id = zones.query_type();
-            const auto subtype = zones.query_subtype( id );
-            const auto name = zones.query_name( subtype == "" ?
-                                                zones.get_name_from_type( id ) : zones.get_name_from_subtype( id, subtype ) );
+            auto options = zone_options::create( id );
+            options->query_at_creation();
+            const auto name = zones.query_name( options->get_zone_name_suggestion() == "" ?
+                                                zones.get_name_from_type( id ) : options->get_zone_name_suggestion() );
             const auto position = query_position();
 
             if( position.first != tripoint_min ) {
-                zones.add( name, id, false, true, position.first, position.second, subtype );
+                zones.add( name, id, false, true, position.first, position.second, options );
 
                 zone_num = zones.size();
                 active_index = zone_num - 1;
@@ -8205,7 +8206,7 @@ void game::zones_manager()
                 as_m.text = _("What do you want to change:");
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
-                as_m.entries.emplace_back(uimenu_entry(3, zones.has_subtype(zones.zones[active_index].get_type()), '3', _("Edit subtype")));
+                as_m.entries.emplace_back(uimenu_entry(3, zones.zones[active_index].get_options().has_options() , '3', _("Edit options")));
                 as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Edit position")));
                 as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
                 as_m.query();
@@ -8220,7 +8221,7 @@ void game::zones_manager()
                     stuff_changed = true;
                     break;
                 case 3:
-                    zones.zones[active_index].set_subtype();
+                    zones.zones[active_index].get_options().query();
                     stuff_changed = true;
                     break;
                 case 4:

@@ -20,14 +20,59 @@ class zone_type
 {
     private:
         std::string name_;
-        bool has_subtype_;
     public:
-        explicit zone_type( const std::string name, bool has_subtype = false ) : name_( name ),
-            has_subtype_( has_subtype ) {}
+        explicit zone_type( const std::string name ) : name_( name ) {}
         std::string name() const;
-        bool has_subtype() const;
 };
 using zone_type_id = string_id<zone_type>;
+
+class zone_options
+{
+    public:
+        virtual ~zone_options() = default;
+
+        /* create valid instance for zone type */
+        static std::shared_ptr<zone_options> create( const zone_type_id &type );
+
+        /* checks if options is correct base / derived class for zone type */
+        static bool is_valid( const zone_type_id &type, const zone_options &options );
+
+        /* derived classes must always return true */
+        virtual bool has_options() const { return false; };
+
+        /* query only necessary options at zone creation, one by one */
+        virtual void query_at_creation() {};
+
+        /* query options, first uimenu should allow to pick an option to edit (if more than one) */
+        virtual void query() {};
+
+        /* suggest a name for the zone, depending on options */
+        virtual std::string get_zone_name_suggestion() const { return ""; };
+
+        virtual void serialize( JsonOut &json ) const {};
+        virtual void deserialize( JsonObject &jo_zone ) {};
+};
+
+class plot_options : public zone_options
+{
+    private:
+        std::string seed;
+
+        void query_seed();
+
+    public:
+        std::string get_seed() const { return seed; };
+
+        bool has_options() const override { return true; };
+
+        void query_at_creation() override;
+        void query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( JsonObject &jo_zone ) override;
+};
 
 /**
  * These are zones the player can designate.
@@ -61,29 +106,34 @@ class zone_manager
             private:
                 std::string name;
                 zone_type_id type;
-                std::string subtype;
                 bool invert;
                 bool enabled;
                 tripoint start;
                 tripoint end;
+                std::shared_ptr<zone_options> options;
 
             public:
                 zone_data( const std::string &_name, const zone_type_id &_type,
                            bool _invert, const bool _enabled,
                            const tripoint &_start, const tripoint &_end,
-                           const std::string &_subtype = "" ) {
+                           std::shared_ptr<zone_options> _options = nullptr ) {
                     name = _name;
                     type = _type;
-                    subtype = _subtype;
                     invert = _invert;
                     enabled = _enabled;
                     start = _start;
                     end = _end;
+
+                    // ensure that suplied options is of correct class
+                    if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
+                        options = zone_options::create( type );
+                    } else {
+                        options = _options;
+                    }
                 }
 
                 void set_name();
                 void set_type();
-                void set_subtype();
                 void set_position( const std::pair<tripoint, tripoint> position );
                 void set_enabled( const bool enabled );
 
@@ -92,9 +142,6 @@ class zone_manager
                 }
                 const zone_type_id &get_type() const {
                     return type;
-                }
-                std::string get_subtype() const {
-                    return subtype;
                 }
                 bool get_invert() const {
                     return invert;
@@ -109,14 +156,23 @@ class zone_manager
                     return end;
                 }
                 tripoint get_center_point() const;
+                const bool has_options() const {
+                    return options->has_options();
+                }
+                const zone_options &get_options() const {
+                    return *options;
+                }
+                zone_options &get_options() {
+                    return *options;
+                }
         };
 
         std::vector<zone_data> zones;
 
-        void add( const std::string &name, const zone_type_id &type,
-                  const bool invert, const bool enabled,
-                  const tripoint &start, const tripoint &end,
-                  const std::string &subtype = "" );
+        zone_data &add( const std::string &name, const zone_type_id &type,
+                        const bool invert, const bool enabled,
+                        const tripoint &start, const tripoint &end,
+                        std::shared_ptr<zone_options> options = nullptr );
 
         bool remove( const size_t index ) {
             if( index < zones.size() ) {
@@ -134,8 +190,6 @@ class zone_manager
             return types;
         }
         std::string get_name_from_type( const zone_type_id &type ) const;
-        std::string get_name_from_subtype( const zone_type_id &type, const std::string &subtype ) const;
-        bool has_subtype( const zone_type_id &type ) const;
         bool has_type( const zone_type_id &type ) const;
         void cache_data();
         bool has( const zone_type_id &type, const tripoint &where ) const;
@@ -143,10 +197,8 @@ class zone_manager
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
-        std::vector<std::string> get_subtypes( const zone_type_id &type, const tripoint &where ) const;
         std::string query_name( std::string default_name = "" ) const;
         zone_type_id query_type() const;
-        std::string query_subtype( const zone_type_id &type ) const;
 
         bool save_zones();
         void load_zones();
