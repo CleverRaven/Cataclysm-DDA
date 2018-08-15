@@ -49,6 +49,10 @@ class zone_options
         /* suggest a name for the zone, depending on options */
         virtual std::string get_zone_name_suggestion() const { return ""; };
 
+        /* vector of pairs of each option's description and value */
+        virtual std::vector<std::pair<std::string, std::string>> get_descriptions() const { 
+            return std::vector<std::pair<std::string, std::string>>(); };
+
         virtual void serialize( JsonOut &json ) const {};
         virtual void deserialize( JsonObject &jo_zone ) {};
 };
@@ -69,6 +73,8 @@ class plot_options : public zone_options
         void query() override;
 
         std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
 
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonObject &jo_zone ) override;

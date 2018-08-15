@@ -8067,6 +8067,7 @@ void game::zones_manager()
     pixel_minimap_option = 0;
 
     int zone_ui_height = 12;
+    int zone_options_height = 7;
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
                                         VIEW_OFFSET_X;
@@ -8075,10 +8076,12 @@ void game::zones_manager()
                              VIEW_OFFSET_Y + 1, offsetX + 1);
     catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width,
                                     VIEW_OFFSET_Y, offsetX);
-    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - 1, width - 2,
+    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1, width - 2,
                                   TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1);
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
                                          TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX);
+    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
+                                  TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1);
 
     zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
     zones_manager_shortcuts(w_zones_info);
@@ -8105,6 +8108,25 @@ void game::zones_manager()
     bool blink = false;
     bool redraw_info = true;
     bool stuff_changed = false;
+
+    auto zones_manager_options = [&]() {
+        werase( w_zones_options );
+
+        if( zone_num > 0 && zones.zones[active_index].has_options() ) {
+            const auto &descriptions = zones.zones[active_index].get_options().get_descriptions();
+
+            mvwprintz( w_zones_options, 0, 1, c_white, _( "Options" ) );
+
+            int y = 1;
+            for( const auto &desc : descriptions ) {
+                mvwprintz( w_zones_options, y, 3, c_white, desc.first );
+                mvwprintz( w_zones_options, y, 20, c_white, desc.second );
+                y++;
+            }
+        }
+
+        wrefresh( w_zones_options );
+    };
 
     auto query_position = [this, w_zones_info]() {
         werase( w_zones_info );
@@ -8336,6 +8358,9 @@ void game::zones_manager()
                 }
                 iNum++;
             }
+
+            // Display zone options
+            zones_manager_options();
         }
 
         if (zone_num > 0) {

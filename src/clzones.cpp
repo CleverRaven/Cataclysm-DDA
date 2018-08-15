@@ -118,6 +118,14 @@ std::string plot_options::get_zone_name_suggestion() const
     return seed != "" ? item::nname( itype_id( seed ) ) : _( "No seed" );
 };
 
+std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
+{
+    auto options = std::vector<std::pair<std::string, std::string>>();
+    options.emplace_back( std::make_pair( _( "Plant seed: " ), get_zone_name_suggestion() ) );
+
+    return options;
+}
+
 void plot_options::serialize( JsonOut &json ) const
 {
     json.member( "seed", seed );
