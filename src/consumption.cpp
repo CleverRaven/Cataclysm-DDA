@@ -337,7 +337,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
             }
         }
     }
-    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EATEN_FROZEN" ) &&
+    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) &&
         food.item_counter >= 100 ) {
         if( edible ) {
             return ret_val<edible_rating>::make_failure(
