@@ -767,7 +767,7 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
-        options.emplace_back( _( "Quit controlling electronics" ), "q" );
+        options.emplace_back( _( "Quit controlling electronics" ), keybind( "QUIT" ) );
 
         uimenu menu;
         menu.return_invalid = true;
