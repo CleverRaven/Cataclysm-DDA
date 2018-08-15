@@ -530,7 +530,7 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
                               _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
     }
     p->add_effect( effect_antibiotic, 12_hours );
-    p->add_effect( effect_antibiotic_visible, rng( 9_hours , 15_hours ) );
+    p->add_effect( effect_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -7669,7 +7669,7 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes. Slightly." ) );
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
-    p->add_effect( effect_weak_antibiotic_visible, rng( 9_hours , 15_hours ) );
+    p->add_effect( effect_weak_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -7680,7 +7680,7 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
     }
     p->add_effect( effect_strong_antibiotic, 12_hours );
-    p->add_effect( effect_strong_antibiotic_visible, rng( 9_hours , 15_hours ) );
+    p->add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
