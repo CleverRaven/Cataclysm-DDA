@@ -98,7 +98,6 @@ const species_id INSECT( "INSECT" );
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_antibiotic( "antibiotic" );
 const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
-const efftype_id effect_anticonvulsant_visible( "anticonvulsant_visible" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -144,6 +143,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
@@ -685,7 +685,7 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
         duration += 2_hours;
     }
     p->add_effect( effect_valium, duration );
-    p->add_effect( effect_anticonvulsant_visible, duration );
+    p->add_effect( effect_took_anticonvulsant_visible, duration );
     p->add_effect( effect_high, duration );
     if( p->has_effect( effect_shakes ) ) {
         p->remove_effect( effect_shakes );

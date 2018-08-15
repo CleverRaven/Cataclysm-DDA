@@ -1413,7 +1413,7 @@
     },
     {
         "type": "effect_type",
-        "id": "anticonvulsant_visible",
+        "id": "took_anticonvulsant_visible",
         "name": ["Took anticonvulsant drugs"],
         "desc": ["You took anticonvulsant drugs some time ago and you might still be under it's influence.\nPrescription note says it's effect duration may vary, so your estimate may be inaccurate."]
     },
