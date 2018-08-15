@@ -629,18 +629,7 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "BONES",
-      "DOGFOOD",
-      "FUR",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_pitbullmix",
@@ -702,18 +691,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "BONES",
-      "DOGFOOD",
-      "FUR",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_beagle",
@@ -854,18 +832,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "BONES",
-      "DOGFOOD",
-      "FUR",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_boxer",
@@ -1131,18 +1098,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "BONES",
-      "DOGFOOD",
-      "FUR",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_gpyrenees",
@@ -1207,18 +1163,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "BONES",
-      "DOGFOOD",
-      "FUR",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_rottweiler",
@@ -1283,18 +1228,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "BONES",
-      "DOGFOOD",
-      "FUR",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_auscattle",
@@ -1359,18 +1293,7 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [
-      "ANIMAL",
-      "BONES",
-      "DOGFOOD",
-      "FUR",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "BONES", "DOGFOOD", "FUR", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_fox_gray",
