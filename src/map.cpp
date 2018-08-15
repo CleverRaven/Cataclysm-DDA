@@ -413,7 +413,7 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    const int slowdown = veh.slowdown( should_fall );
+    const int slowdown = veh.slowdown();
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {

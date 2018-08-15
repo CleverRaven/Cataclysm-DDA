@@ -998,7 +998,7 @@ class vehicle
         void thrust( int thd );
 
         //deceleration due to ground friction and air resistance
-        int slowdown( const bool should_fall ) const;
+        int slowdown() const;
 
         // depending on skid vectors, chance to recover.
         void possibly_recover_from_skid();
