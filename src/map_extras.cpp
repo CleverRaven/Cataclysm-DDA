@@ -134,7 +134,13 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 3: // Full clown car
                 for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
                     auto pos = wreckage->global_part_pos3( *p );
-                    m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                    if( one_in( 5 ) ) {
+                        m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
+                    } else if( one_in( 5 ) ) {
+                        m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
+                    } else {
+                        m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                    }
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
