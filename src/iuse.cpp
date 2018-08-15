@@ -97,6 +97,8 @@ const species_id INSECT( "INSECT" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_antibiotic( "antibiotic" );
+const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
+const efftype_id effect_anticonvulsant_visible( "anticonvulsant_visible" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -137,6 +139,7 @@ const efftype_id effect_smoke( "smoke" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stimpack( "stimpack" );
 const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
@@ -144,10 +147,13 @@ const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
@@ -342,6 +348,7 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
     p->add_effect( effect_took_xanax, 90_minutes );
+    p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
     return it->type->charges_to_use();
 }
 
@@ -523,6 +530,7 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
                               _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
     }
     p->add_effect( effect_antibiotic, 12_hours );
+    p->add_effect( effect_antibiotic_visible, rng( 9_hours , 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -677,6 +685,7 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
         duration += 2_hours;
     }
     p->add_effect( effect_valium, duration );
+    p->add_effect( effect_anticonvulsant_visible, duration );
     p->add_effect( effect_high, duration );
     if( p->has_effect( effect_shakes ) ) {
         p->remove_effect( effect_shakes );
@@ -874,6 +883,7 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
+    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -7659,6 +7669,7 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes. Slightly." ) );
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
+    p->add_effect( effect_weak_antibiotic_visible, rng( 9_hours , 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -7669,6 +7680,7 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
     }
     p->add_effect( effect_strong_antibiotic, 12_hours );
+    p->add_effect( effect_strong_antibiotic_visible, rng( 9_hours , 15_hours ) );
     return it->type->charges_to_use();
 }
 
