@@ -477,15 +477,61 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
                 frag.proj = proj;
                 frag.proj.speed = cloud.velocity;
                 frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
+                // dealt_dam.total_damage() == 0 means armor block
+                // dealt_dam.total_damage() > 0 means took damage
+                // Need to diffentiate target among player, npc, and monster
+                // Do we even print monster damage?
+                int damage_taken = 0;
+                int damaging_hits = 0;
+                int non_damaging_hits = 0;
                 for( int i = 0; i < hits; ++i ) {
                     frag.missed_by = rng_float( 0.05, 1.0 );
-                    critter->deal_projectile_attack( nullptr, frag );
+                    critter->deal_projectile_attack( nullptr, frag, false );
+                    if( frag.dealt_dam.total_damage() > 0 ) {
+                        damaging_hits++;
+                        damage_taken += frag.dealt_dam.total_damage();
+                    } else {
+                        non_damaging_hits++;
+                    }
                     add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
                              critter->disp_name().c_str(),
                              frag.proj.speed, rl_dist( src, target ) );
                     add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
                     if( critter->is_dead_state() ) {
                         break;
+                    }
+                }
+                int total_hits = damaging_hits + non_damaging_hits;
+                if( total_hits > 0 && g->u.sees( *critter ) ) {
+                    // Building a phrase to summarize the fragment effects.
+                    // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
+                    std::map<int, std::string> impact_count_descriptions = {
+                        { 1, _( "a" ) }, { 2, _( "several" ) }, { 5, _( "many" ) },
+                        { 20, _( "a large number of" ) }, { 100, _( "a huge number of" ) },
+                        { std::numeric_limits<int>::max(), _( "an immense number of" ) }
+                    };
+                    std::string impact_count = std::find_if(
+                                                   impact_count_descriptions.begin(), impact_count_descriptions.end(),
+                    [ total_hits ]( std::pair<int, std::string> desc ) {
+                        return desc.first >= total_hits;
+                    } )->second;
+                    std::string damage_description = ( damage_taken > 0 ) ?
+                                                     string_format( _( "dealing %d damage" ), damage_taken ) :
+                                                     _( "but they deal no damage" );
+                    if( critter->is_player() ) {
+                        add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
+                                           "You are hit by %s bomb fragments, %s.", total_hits ),
+                                 impact_count.c_str(), damage_description );
+                    } else if( critter->is_npc() ) {
+                        critter->add_msg_if_npc(
+                            ngettext( "<npcname> is hit by %s bomb fragment, %s.",
+                                      "<npcname> is hit by %s bomb fragments, %s.",
+                                      total_hits ),
+                            impact_count, damage_description );
+                    } else {
+                        add_msg( ngettext( "The %s is hit by %s bomb fragment, %s.",
+                                           "The %s is hit by %s bomb fragments, %s.", total_hits ),
+                                 critter->disp_name().c_str(), impact_count, damage_description );
                     }
                 }
             }
