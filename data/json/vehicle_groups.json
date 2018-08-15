@@ -69,6 +69,16 @@
         ]
     },{
         "type" : "vehicle_group",
+        "id" : "police_pileup",
+        "vehicles" : [
+            ["policecar", 400],
+            ["policesuv", 400],
+            ["policecar_k9", 2],
+            ["policesuv_k9", 3],
+            ["police_k9tpt", 1]
+        ]
+    },{
+        "type" : "vehicle_group",
         "id" : "highway",
         "vehicles" : [
             ["car", 3000],

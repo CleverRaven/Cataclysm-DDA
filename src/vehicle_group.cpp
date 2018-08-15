@@ -266,7 +266,7 @@ void builtin_policepileup( map &m, const std::string & )
             return;
         }
 
-        last_added_car = m.add_vehicle( vgroup_id( "policecar" ), loc->pick_point(),
+        last_added_car = m.add_vehicle( vgroup_id( "police_pileup" ), loc->pick_point(),
                                         loc->pick_facing(), -1, 1 );
         if( last_added_car != nullptr ) {
             last_added_car->name = _( "pile-up" );
