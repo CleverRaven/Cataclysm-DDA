@@ -96,47 +96,18 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     int dir1 = rng( 0, 359 );
     int crash_type = dice( 1, 9 );
 
-    std::enable_if<true, std::unique_ptr<vehicle>>::type veh;
-    switch( crash_type ) {
-        case 1:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_1a" ), rng( 1, 33 ), 1 );
-            break;
-        case 2:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_1b" ), rng( 1, 33 ), 1 );
-            break;
-        case 3:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_1c" ), rng( 1, 33 ), 1 );
-            break;
-        case 4:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_2a" ), rng( 1, 33 ), 1 );
-            break;
-        case 5:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_2b" ), rng( 1, 33 ), 1 );
-            break;
-        case 6:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_2c" ), rng( 1, 33 ), 1 );
-            break;
-        case 7:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_3a" ), rng( 1, 33 ), 1 );
-            break;
-        case 8:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_3b" ), rng( 1, 33 ), 1 );
-            break;
-        case 9:
-            veh = std::make_unique<vehicle>( vproto_id( "helicopter_wreck_3c" ), rng( 1, 33 ), 1 );
-            break;
-        default:
-            break;
-    }
+    auto crashed_hull = vgroup_id( "crashed_helicopters" )->pick();
+
+    auto veh = std::make_unique<vehicle>( crashed_hull, rng( 1, 33 ), 1 );
 
     veh.get()->turn( dir1 );
 
     bounding_box bbox =
-        veh.get()->get_bounding_box();          // Get the bounding box, centered on mount(0,0)
+        veh.get()->get_bounding_box();     // Get the bounding box, centered on mount(0,0)
     int x_length = std::abs( bbox.p2.x -
-                             bbox.p1.x );           // Move the wreckage forward/backward half it's length
-    int y_length = std::abs( bbox.p2.y -
-                             bbox.p1.y );           // so that it spawns more over the center of the debris area
+                             bbox.p1.x );  // Move the wreckage forward/backward half it's length so
+    int y_length = std::abs( bbox.p2.y -   // that it spawns more over the center of the debris area
+                             bbox.p1.y );
 
     int x_offset = veh.get()->dir_vec().x * ( x_length / 2 );   // cont.
     int y_offset = veh.get()->dir_vec().y * ( y_length / 2 );
@@ -148,51 +119,11 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     int y_max = ( SEEX * 2 ) - ( bbox.p2.y + 1 );
 
     int x1 = clamp( cx + x_offset, x_min,
-                    x_max );              // Clamp x1 & y1 such that no parts of the vehicle extend
-    int y1 = clamp( cy + y_offset, y_min, y_max );              // over the border of the submap.
+                    x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
+    int y1 = clamp( cy + y_offset, y_min, y_max ); // over the border of the submap.
 
-    vehicle *wreckage = nullptr;
-
-    switch( crash_type ) {
-        case 1:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_1a" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        case 2:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_1b" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        case 3:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_1c" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        case 4:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2a" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        case 5:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2b" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        case 6:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_2c" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        case 7:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3a" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        case 8:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3b" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        case 9:
-            wreckage = m.add_vehicle( vproto_id( "helicopter_wreck_3c" ), tripoint( x1, y1, abs_sub.z ), dir1,
-                                      rng( 1, 33 ), 1 );
-            break;
-        default:
-            break;
-    }
+    vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
+                                       1 );
 
     if( wreckage != nullptr ) {
         const int clowncar_factor = dice( 1, 6 );
@@ -238,12 +169,9 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             default:
                 break;
         }
-        if(!one_in(4))
-        {
+        if( !one_in( 4 ) ) {
             wreckage->smash( 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
-        }
-        else
-        {
+        } else {
             wreckage->smash( 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
         }
     }

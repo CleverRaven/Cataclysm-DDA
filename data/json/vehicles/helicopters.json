@@ -471,7 +471,7 @@
       { "x": -9, "y": 1, "part": "plating_military" },
       { "x": -10, "y": 0, "part": "plating_military" },
       { "x": -11, "y": 0, "part": "plating_military" },
-      { "x": -10, "y": 1, "part": "plating_military" },`
+      { "x": -10, "y": 1, "part": "plating_military" },
       { "x": -10, "y": 2, "part": "plating_military" },
       { "x": 0, "y": 1, "part": "seat" },
       { "x": 0, "y": 1, "part": "controls" },
@@ -2182,7 +2182,7 @@
       { "x": 0, "y": 2, "chance": 7, "items": [ "pockknife" ] },
       { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] }
     ]
-  }
+  },
   {
     "id": "helicopter_wreck_3b",
     "type": "vehicle",
