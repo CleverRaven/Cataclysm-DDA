@@ -337,7 +337,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         mission_key_push( mission_key_vectors, "Distribute Food", _("Distribute Food") );
 
         col_missions["Reset Sort Points"] = string_format( _("Notes:\n"
-            "Resest the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
+            "Reset the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
             "Effects:\n"
             "> Assignable Points: food, food for distribution, seeds, weapons, clothing, bionics, "
             "all kinds of tools, wood, trash, books, medication, and ammo.\n"
@@ -3487,7 +3487,7 @@ bool talk_function::camp_expansion_select( npc &p )
     int expan = menu_vec(true, _("Select an expansion:"), pos_expansion_name) - 1;
     int sz = pos_expansion_name.size();
     if (expan < 0 || expan >= sz) {
-        popup("You choose to wait...");
+        popup( _("You choose to wait...") );
         return false;
     }
     editmap edit;
@@ -3680,7 +3680,7 @@ std::string talk_function::camp_car_description( vehicle *car )
     std::vector<vehicle_part *> part_engines = car->get_parts( "ENGINE" );
     for( auto pt: part_engines ){
         const vpart_info &vp = pt->info();
-        entry += string_format( _("Enginge:  %25s\n"), vp.name() );
+        entry += string_format( _("Engine:  %25s\n"), vp.name() );
         entry += string_format( _(">Status:  %24d%%\n"), int( 100.0 * pt->hp() / vp.durability ) );
         entry += string_format( _(">Fuel:    %25s\n"), vp.fuel_type );
     }
