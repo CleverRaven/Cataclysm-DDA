@@ -2502,7 +2502,7 @@
             "str_min": 20, "str_max": 150,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_pavement",
+            "ter_set": "t_thconc_floor",
             "items": [
                 { "item": "steel_lump", "count": [0, 2] },
                 { "item": "steel_chunk", "count": [1, 4] },
