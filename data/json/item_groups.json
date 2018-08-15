@@ -46,7 +46,8 @@
       ["basketball", 8],
       ["radiocontrol", 5],
       ["whistle", 3],
-      ["slingshot", 10]
+      ["slingshot", 10],
+      ["dnd_handbook", 1]
     ]
   },{
     "type" : "item_group",
@@ -179,6 +180,7 @@
       ["weed", 10],
       ["joint", 10],
       ["seed_weed", 5],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["mask_hockey", 5],
       ["mask_guy_fawkes", 5],
@@ -833,6 +835,7 @@
       ["nicotine_liquid", 8],
       ["weed", 20],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 5],
       ["coke", 8],
@@ -2538,6 +2541,7 @@
       ["seed_wheat", 5],
       ["seed_tomato", 5],
       ["seed_weed", 5],
+      ["seed_tobacco", 1],
       ["joint_roach", 5],
       ["pipe", 20],
       ["bag_plastic", 10],
@@ -3137,6 +3141,7 @@
       [ "holybook_kallisti", 1 ],
       [ "holybook_scientology", 1 ],
       [ "ZSG", 5 ],
+      [ "dnd_handbook", 2 ],
       [ "survnote", 1 ]
     ]
   },
@@ -3249,7 +3254,8 @@
       [ "mag_tailor", 25 ],
       [ "cookbook_sushi", 15 ],
       [ "survnote", 1 ],
-      [ "scots_cookbook", 8 ]
+      [ "scots_cookbook", 8 ],
+      [ "dnd_handbook", 2 ]
     ]
   },{
     "type" : "item_group",
@@ -3287,6 +3293,7 @@
       ["manual_fabrication", 20],
       ["manual_driving", 15],
       ["manual_survival", 20],
+      ["dnd_handbook", 2],
       ["survnote", 3]
     ]
   },{
@@ -3420,6 +3427,7 @@
       ["weed", 10],
       ["joint", 10],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 15],
       ["coke", 8],
@@ -4030,7 +4038,8 @@
       ["mag_unarmed", 10],
       ["weeks_old_newspaper", 80],
       ["newest_newspaper", 100],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["dnd_handbook", 1]
     ]
   },
   {
@@ -4137,7 +4146,8 @@
       [ "radio_car_box", 3 ],
       [ "radiocontrol", 10 ],
       [ "scots_cookbook", 1 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      [ "dnd_handbook", 1 ]
     ]
   },{
     "type" : "item_group",
@@ -5367,6 +5377,7 @@
       ["weed", 10],
       ["joint", 10],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 5],
       ["coke", 8],
@@ -5511,7 +5522,8 @@
       ["magnifying_glass", 2],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["dnd_handbook", 2]
     ]
   },{
     "type" : "item_group",
@@ -6363,6 +6375,7 @@
       ["weed", 10],
       ["joint", 10],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 5],
       ["amplifier", 8],
@@ -6565,6 +6578,7 @@
       ["tobacco", 5],
       ["weed", 20],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 5],
       ["coke", 8],
@@ -7372,6 +7386,7 @@
       ["weed", 50],
       ["joint", 10],
       ["seed_weed", 35],
+      ["seed_tobacco", 15],
       ["rolling_paper", 9],
       ["pipe_glass", 17],
       ["coke", 8],
@@ -7415,6 +7430,7 @@
       ["weed", 20],
       ["joint", 20],
       ["seed_weed", 20],
+      ["seed_tobacco", 5],
       ["coke", 8],
       ["meth", 2],
       ["heroin", 1],
@@ -8435,6 +8451,7 @@
       ["seed_potato_raw", 60],
       ["seed_zucchini", 60],
       ["seed_cotton_boll", 10],
+      ["seed_tobacco", 10],
       ["raw_beans", 60 ],
       ["seed_chili_pepper", 60 ],
       ["seed_tomato", 60]
@@ -9290,6 +9307,7 @@
       [ "57mm_casing", 10 ],
       [ "46mm_casing", 10 ],
       [ "762_casing", 85 ],
+      [ "762_51_casing", 50 ],
       [ "223_casing", 85 ],
       [ "3006_casing", 40 ],
       [ "308_casing", 50 ],

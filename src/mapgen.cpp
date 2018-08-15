@@ -1100,7 +1100,7 @@ public:
     jmapgen_spawn_item( JsonObject &jsi ) : jmapgen_piece()
     , type( jsi.get_string( "item" ) )
     , amount( jsi, "amount", 1, 1 )
-    , chance( jsi, "chance", 1, 1 )
+    , chance( jsi, "chance", 100, 100 )
     {
         if( !item::type_is_defined( type ) ) {
             jsi.throw_error( "no such item type", "item" );
@@ -1109,7 +1109,11 @@ public:
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int c = chance.get();
-        if ( c == 1 || one_in( c ) ) {
+
+        // 100% chance = exactly 1 item, otherwise scale by item spawn rate.
+        const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+        int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+        for( int i = 0; i < spawn_count; i++ ) {
             dat.m.spawn_item( x.get(), y.get(), type, amount.get() );
         }
     }
@@ -1843,8 +1847,7 @@ void mapgen_function_json_base::setup_common()
         setup_setmap( parray );
     }
 
-    // this is for backwards compatibility, it should better be named place_items
-    objects.load_objects<jmapgen_spawn_item>( jo, "add" );
+    objects.load_objects<jmapgen_spawn_item>( jo, "place_item" );
     objects.load_objects<jmapgen_field>( jo, "place_fields" );
     objects.load_objects<jmapgen_npc>( jo, "place_npcs" );
     objects.load_objects<jmapgen_sign>( jo, "place_signs" );

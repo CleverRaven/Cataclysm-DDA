@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "shovel", "repeat": 1, "x": 17, "y": 4 },
         { "item": "glock_22", "chance": 50, "repeat": 1, "x": 18, "y": 19 },
         { "item": "40fmj", "chance": 50, "repeat": 2, "x": 18, "y": 19 }

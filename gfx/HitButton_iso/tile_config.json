@@ -6198,7 +6198,7 @@
           "fg": 1874
         },
         {
-          "id": ["5x50_hull", "9mm_casing", "9x18mm_casing", "22_casing", "22_casing_new", "38_casing", "40_casing", "44_casing", "45_casing", "454_casing", "500_casing", "57mm_casing", "46mm_casing", "762_casing", "545_casing", "223_casing", "3006_casing", "308_casing", "50_casing", "300_casing", "762R_casing", "32_casing" ],
+          "id": ["5x50_hull", "9mm_casing", "9x18mm_casing", "22_casing", "22_casing_new", "38_casing", "40_casing", "44_casing", "45_casing", "454_casing", "500_casing", "57mm_casing", "46mm_casing", "762_casing", "762_51_casing", "545_casing", "223_casing", "3006_casing", "308_casing", "50_casing", "300_casing", "762R_casing", "32_casing" ],
           "fg": 1875
         },
         {

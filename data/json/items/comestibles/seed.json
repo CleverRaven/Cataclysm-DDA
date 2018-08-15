@@ -94,6 +94,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_tobacco",
+    "copy-from": "seed",
+    "name": "tobacco seeds",
+    "name_plural": "tobacco seeds",
+    "description": "Some tobacco seeds.",
+    "seed_data": { "plant_name": "tobacco", "fruit": "tobacco_raw", "grow": 91 }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_barley",
     "copy-from": "seed",
     "price": 160,

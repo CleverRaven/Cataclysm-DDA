@@ -158,7 +158,9 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
             def.looks_like = base->second.id.str();
         } else if( ab != abstract_parts.end() ) {
             def = ab->second;
-            def.looks_like = ab->second.id.str();
+            if( def.looks_like.empty() ) {
+                def.looks_like = ab->second.id.str();
+            }
         } else {
             deferred.emplace_back( jo.str(), src );
             return;
