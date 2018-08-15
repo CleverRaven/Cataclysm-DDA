@@ -984,14 +984,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( action == QUARTER ) {
-        if( query_yn( _( "Quarter corpse of %s to reduce it's weight and volume?  This will ruin the hide or pelt." ), corpse->nname().c_str() ) ) {
-            butchery_quarter( &corpse_item, *p );
-            act->set_to_null();
-            return;
-        } else {
-            act->set_to_null();
-            return;
-        }
+        butchery_quarter( &corpse_item, *p );
+        act->set_to_null();
+        return;
     }
 
     int skill_level = p->get_skill_level( skill_survival );
@@ -1120,10 +1115,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(), corpse->size + 1 ) ) );
             }
 
-        }
-        if( corpse->size > MS_TINY &&
-            query_yn( _( "Quarter %s to reduce it's weight and volume?  This will ruin the hide or pelt." ), corpse_item.tname().c_str() ) ) {
-            butchery_quarter( &corpse_item, *p );
         }
         act->set_to_null();
         return;
