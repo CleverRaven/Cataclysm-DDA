@@ -958,7 +958,7 @@ bool game::start_game()
                     break;
                 }
                 if( success ) {
-                    v.v->name = "Loach Wreckage";
+                    v.v->name = "Bird Wreckage";
                     break;
                 }
             }
