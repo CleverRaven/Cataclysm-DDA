@@ -9823,6 +9823,13 @@ int player::sleep_spot( const tripoint &p ) const
             // Not a comfortable sleeping spot
             sleepy -= g->m.move_cost(p);
         }
+        auto items = g->m.i_at( p );
+        for( auto &items_it : items ) {
+            if( items_it.has_flag( "SLEEP_AID" ) ) {
+                sleepy += 4;
+                break; // prevents using more then 1 sleep aid
+            }
+        }
     // Has plantsleep
     } else if (plantsleep) {
         if (vp || furn_at_pos != f_null) {
