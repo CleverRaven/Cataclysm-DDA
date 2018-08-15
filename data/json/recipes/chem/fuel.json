@@ -71,7 +71,7 @@
         [ [ "water_clean", 4 ], [ "water", 4 ] ],
         [ [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ] ],
         [ [ "lye_powder", 8 ] ],
-        [ [ "cooking_oil", 8 ], [ "lard", 8 ], [ "tallow", 8 ], [ "tallow_tainted", 8 ], [ "fat", 16 ], [ "fat_tainted", 16 ], [ "lamp_oil", 1000 ] ]
+        [ [ "cooking_oil", 8 ], [ "tallow", 8 ], [ "tallow_tainted", 16 ], [ "fat", 16 ], [ "fat_tainted", 16 ], [ "lamp_oil", 1000 ] ]
     ]
   },
   {
@@ -92,7 +92,7 @@
     ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 2 ] ]
+      [ [ "tallow", 2 ], [ "tallow_tainted", 4 ], [ "cooking_oil", 2 ] ]
     ]
   }
 ]

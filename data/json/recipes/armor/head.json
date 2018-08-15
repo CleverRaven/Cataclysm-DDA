@@ -1298,7 +1298,7 @@
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [
       [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
-      [ [ "tallow", 1 ], [ "tallow_tainted", 1 ], [ "cooking_oil", 1 ], [ "lamp_oil", 200 ] ]
+      [ [ "tallow", 1 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 1 ], [ "lamp_oil", 200 ] ]
     ]
   },
   {

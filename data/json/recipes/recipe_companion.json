@@ -201,7 +201,7 @@
   },
   {
     "type": "recipe",
-    "result": "lard",
+    "result": "tallow",
     "id_suffix": "npc",
     "byproducts": [ [ "cracklins" ] ],
     "category": "CC_FOOD",
@@ -378,7 +378,7 @@
     "never_learn": true,
     "components": [
       [ [ "meat", 3 ], [ "rehydrated_meat", 6 ], [ "meat_canned", 6 ], [ "can_chicken", 6 ] ],
-      [ [ "fat", 3 ], [ "tallow", 3 ], [ "lard", 3 ] ],
+      [ [ "fat", 3 ], [ "tallow", 3 ] ],
       [
         [ "salt", 10 ],
         [ "soysauce", 1 ],
@@ -509,7 +509,7 @@
     "autolearn": false,
     "never_learn": true,
     "components": [
-      [ [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "tallow", 2 ] ],
       [
         [ "jerky", 6 ],
         [ "dry_meat", 2 ],

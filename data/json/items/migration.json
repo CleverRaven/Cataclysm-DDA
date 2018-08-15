@@ -417,6 +417,11 @@
     "replace": "jam_fruit"
   },
   {
+    "id": "lard",
+    "type": "MIGRATION",
+    "replace": "tallow"
+  },
+  {
     "id": "acidbomb_act",
     "type": "MIGRATION",
     "replace": "acidbomb"

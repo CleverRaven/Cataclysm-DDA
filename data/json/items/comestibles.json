@@ -1706,7 +1706,8 @@
   {
     "type": "COMESTIBLE",
     "id": "tallow",
-    "name": "tallow",
+    "name": "rendered fat",
+    "name_plural": "blocks of rendered fat",
     "weight": 128,
     "color": "white",
     "spoils_in": 1440,
@@ -1723,13 +1724,6 @@
     "charges": 2,
     "stack_size": 4,
     "fun": -18
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "lard",
-    "name": "lard",
-    "copy-from": "tallow",
-    "description": "A smooth white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
     "type": "COMESTIBLE",
@@ -2250,24 +2244,24 @@
   {
     "type": "COMESTIBLE",
     "id": "tallow_tainted",
-    "name": "tainted tallow",
+    "copy-from": "tallow",
+    "name": "tainted rendered fat",
+    "name_plural": "blocks of tainted rendered fat",
     "category": "other",
-    "weight": 128,
     "color": "light_gray",
     "use_action": "POISON",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -10,
-    "healthy": -2,
-    "nutrition": 6,
     "description": "A smooth grayish block of cleaned and rendered monster fat.  It will remain 'fresh' for a very long time, and can be used as an ingredient in many projects.  You could eat it, but it will poison you.",
     "price": 0,
-    "//": "Not for use in edible/foodsafe recipes.  Inefficiency is handled by tainted tallow recipe requiring 200% as much materials input as regular tallow recipe.",
-    "material": "flesh",
-    "volume": 1,
-    "charges": 2,
-    "stack_size": 4,
-    "fun": -18
+    "proportional": {
+        "weight": 0.5,
+        "quench": 0.5,
+        "healthy": 0.5,
+        "nutrition": 0.5,
+        "fun": 0.5,
+        "charges": 2,
+        "stack_size": 2
+    },
+    "//": "Not for use in edible/foodsafe recipes; amount needed is twice as much as normal tallow."
   },
   {
     "type": "COMESTIBLE",

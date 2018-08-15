@@ -369,7 +369,8 @@
   ]
 },{
   "type" : "recipe",
-  "result": "lard",
+  "result": "tallow",
+  "id_suffix": "dry",
   "byproducts": [ [ "cracklins" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -934,8 +935,7 @@
     ],
     [
       [ "fat", 3 ],
-      [ "tallow", 3 ],
-      [ "lard", 3 ]
+      [ "tallow", 3 ]
     ],
     [
       [ "salt", 10 ],
@@ -1065,8 +1065,7 @@
     ],
     [
       [ "fat", 3 ],
-      [ "tallow", 3 ],
-      [ "lard", 3 ]
+      [ "tallow", 3 ]
     ],
     [
       [ "salt", 10 ],
@@ -2469,8 +2468,7 @@
   "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
-      [ "tallow", 2 ],
-      [ "lard", 2 ]
+      [ "tallow", 2 ]
     ],
     [
       [ "jerky", 6 ],
@@ -3284,8 +3282,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       ["veggy", 1],
@@ -3353,8 +3350,7 @@
     ],
     [
       [ "fat", 2 ],
-      [ "tallow", 2 ],
-      [ "lard", 2 ]
+      [ "tallow", 2 ]
     ],
     [
       [ "salt", 10 ],
@@ -3403,8 +3399,7 @@
   "components": [
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "cornmeal", 3 ]
@@ -3485,8 +3480,7 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ]
   ]
 },{
@@ -3505,8 +3499,7 @@
   "components": [
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "cornmeal", 1 ],
@@ -3706,8 +3699,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ]
   ]
 },{
@@ -3760,8 +3752,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ]
   ]
 },{
@@ -4331,8 +4322,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -4371,8 +4361,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -4415,8 +4404,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -4499,8 +4487,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -4545,8 +4532,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -4592,8 +4578,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "sugar", 15 ]
@@ -7067,8 +7052,7 @@
       [ "can_chicken", 1 ]
     ],
     [
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "flour", 1 ],
@@ -7102,8 +7086,7 @@
       [ "human_canned", 1 ]
     ],
     [
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "flour", 1 ],
@@ -7955,8 +7938,7 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -9389,8 +9371,7 @@
     ],
     [
       [ "fat", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ]
   ]
 },{
@@ -9433,8 +9414,7 @@
     ],
     [
       [ "fat", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ]
   ]
 },{
@@ -9493,8 +9473,7 @@
     ],
     [
       [ "fat", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+      [ "tallow", 1 ]
     ],
     [
       [ "sugar", 10 ],
@@ -9990,8 +9969,7 @@
   "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
-      [ "tallow", 2 ],
-      [ "lard", 2 ]
+      [ "tallow", 2 ]
     ],
     [
       [ "jerky_human", 6 ],

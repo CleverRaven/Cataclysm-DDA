@@ -50,7 +50,7 @@
     "recipes": [
       { "id": "jerky_npc", "description": " Cook: Meat Jerky" },
       { "id": "mushroom_cooked_npc", "description": " Cook: Mushroom, Cooked" },
-      { "id": "lard_npc", "description": " Cook: Lard" },
+      { "id": "tallow_npc", "description": " Cook: Rendered fat" },
       { "id": "cornmeal_npc", "description": " Cook: Cornmeal" }
     ]
   },

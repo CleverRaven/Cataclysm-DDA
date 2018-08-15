@@ -476,7 +476,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ], [ [ "cornmeal", 1 ] ] ]
+    "components": [ [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ], [ [ "cornmeal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -490,7 +490,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ], [ [ "flour", 1 ] ] ]
+    "components": [ [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ], [ [ "flour", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -508,7 +508,7 @@
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -529,7 +529,7 @@
       [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -550,7 +550,7 @@
       [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -571,7 +571,7 @@
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ]
@@ -650,7 +650,6 @@
         [ "can_coconut", 1 ],
         [ "cooking_oil", 1 ],
         [ "tallow", 1 ],
-        [ "lard", 1 ],
         [ "rice_milk", 1 ]
       ]
     ]
@@ -1401,7 +1400,7 @@
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -1421,7 +1420,7 @@
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -1441,7 +1440,7 @@
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -1461,7 +1460,7 @@
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -1481,7 +1480,7 @@
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -1502,7 +1501,7 @@
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -1523,7 +1522,7 @@
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -1543,7 +1542,7 @@
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "sugar", 15 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
@@ -1564,7 +1563,7 @@
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "tallow", 1 ] ],
       [ [ "sugar", 15 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]

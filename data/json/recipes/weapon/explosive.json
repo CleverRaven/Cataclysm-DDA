@@ -29,7 +29,7 @@
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
       [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_nitric_acid", 2 ] ],
       [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
-      [ [ "soap", 3 ], [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 2 ] ]
+      [ [ "soap", 3 ], [ "tallow", 2 ], [ "tallow_tainted", 4 ], [ "cooking_oil", 2 ] ]
     ]
   },
   {
