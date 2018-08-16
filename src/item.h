@@ -885,6 +885,8 @@ protected:
     bool process_corpse(player *carrier, const tripoint &pos);
     bool process_wet(player *carrier, const tripoint &pos);
     bool process_litcig(player *carrier, const tripoint &pos);
+    // Place conditions that should remove fake smoke item in this sub-function
+    bool process_fake_smoke(player *carrier, const tripoint &pos);
     bool process_cable(player *carrier, const tripoint &pos);
     bool process_tool(player *carrier, const tripoint &pos);
 public:

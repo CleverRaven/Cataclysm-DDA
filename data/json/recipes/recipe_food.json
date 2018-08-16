@@ -948,6 +948,38 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sausage_raw",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 10000,
+  "autolearn": true,
+  "batch_time_factors":[50, 3],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":1}
+  ],
+  "components": [
+    [
+      [ "meat", 3]
+    ],
+    [
+      [ "fat", 3 ],
+      [ "tallow", 3 ],
+      [ "lard", 3 ]
+    ],
+    [
+      [ "salt", 10 ],
+      [ "soysauce", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "wild_herbs", 10 ],
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bologna",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -9851,6 +9883,19 @@
   },
   {
     "type" : "recipe",
+    "result": "sausage_wasteland_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 10000,
+    "autolearn": true,
+    "batch_time_factors": [50, 3],
+    "qualities" : [ {"id":"CUT","level":1}, {"id":"COOK","level":1}],
+    "components": [ [ [ "offal", 4 ] ], [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt_water", 4 ], [ "saline", 20 ], [ "salt", 20 ], [ "soysauce", 4 ], [ "seasoning_salt", 20 ], [ "pepper", 40 ], [ "chem_saltpetre", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "oatmeal",
     "id_suffix": "mortar",
     "category": "CC_FOOD",

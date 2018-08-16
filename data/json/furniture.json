@@ -2598,7 +2598,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
     "crafting_pseudo_item": "char_smoker",
-    "examine_action": "reload_furniture",
+    "examine_action": "smoker_options",
     "deconstruct": { "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
       "str_min": 18,
@@ -2606,6 +2606,28 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type" : "furniture",
+    "id" : "f_smoking_rack_active",
+    "name": "active smoking rack",
+    "description": "A special rack designed to smoke food for better preservation and taste.  It is lit and smoking.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "smoker_options",
+    "bash": {
+      "str_min": 18, "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "rock", "count": 8 },
+        { "item": "stick", "count": [8, 12] }
+      ]
     }
   },
   {

@@ -1986,7 +1986,7 @@
     "description": "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
     "price": 600,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
@@ -2308,7 +2308,7 @@
     "description": "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
     "price": 0,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -2368,6 +2368,28 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "sausage_raw",
+    "name": "raw sausage",
+    "weight": 220,
+    "color": "red",
+    "spoils_in": 24,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "nutrition": 32,
+    "healthy": -1,
+    "parasites": 32,
+    "description": "A hefty raw sausage, prepared for smoking.",
+    "price": 1600,
+    "material": "flesh",
+    "volume": 2,
+    "charges": 6,
+    "//": "3 meats here.",
+    "flags": [ "SMOKABLE" ],
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "sausage",
     "name": "sausage",
     "weight": 220,
@@ -2377,13 +2399,13 @@
     "symbol": "%",
     "quench": -1,
     "nutrition": 32,
-    "description": "A hefty sausage that has been cured for long term storage.",
+    "description": "A hefty sausage that has been cured and smoked for long term storage.",
     "price": 1600,
     "material": "flesh",
     "volume": 2,
     "charges": 6,
     "//": "3 meats here.",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "fun": 5
   },
   {
@@ -2535,7 +2557,16 @@
     "id": "mannwurst",
     "copy-from": "sausage",
     "name": "Mannwurst",
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "description": "A hefty long pork sausage that has been cured for long term storage.  Very tasty, if you're in the market for human flesh.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurst_raw",
+    "copy-from": "sausage_raw",
+    "name": "raw Mannwurst",
+    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.",
     "material": "hflesh"
   },
   {
@@ -2810,6 +2841,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
+    "flags": [ "SMOKABLE" ],
     "fun": 3
   },
   {
@@ -3749,7 +3781,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": -3,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3787,7 +3819,7 @@
     "price": 140,
     "material": "mushroom",
     "volume": 1,
-    "flags": [ "HIDDEN_HALLU", "NO_FREEZE" ],
+    "flags": [ "HIDDEN_HALLU", "NO_FREEZE", "SMOKABLE" ],
     "fun": -3
   },
   {
@@ -3826,7 +3858,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": 1,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4207,7 +4239,7 @@
     "material": "veggy",
     "volume": 3,
     "charges": 4,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4227,6 +4259,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -2,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4246,6 +4279,7 @@
     "price": 90,
     "material": "tomato",
     "volume": 1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4305,7 +4339,7 @@
     "price": 400,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4323,7 +4357,7 @@
     "price": 300,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4344,6 +4378,7 @@
     "fun": -1,
     "flags": [ "NO_FREEZE" ],
     "fun_comment": "Raw onions probably aren't all that tasty to most people.",
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4383,6 +4418,7 @@
     "volume": 1,
     "charges": 6,
     "fun": -1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -5997,7 +6033,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -3,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9210,7 +9246,7 @@
     "price": 200,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -10299,7 +10335,22 @@
     "spoils_in": 1176,
     "quench": -7,
     "fun": -3,
-    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] }
+    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] },
+    "flags": [ "SMOKED" ]
+  },
+  {
+    "id": "sausage_wasteland_raw",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": "raw wasteland sausage",
+    "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
+    "charges": 6,
+    "parasites": 32,
+    "healthy": 0,
+    "quench": -7,
+    "fun": -10,
+    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] },
+    "flags": [ "SMOKABLE" ]
   },
   {
     "id": "brownie_weed",
