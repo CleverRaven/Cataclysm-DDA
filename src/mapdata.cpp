@@ -520,6 +520,7 @@ ter_id t_null,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
     // Railroad and subway
     t_railroad_rubble,
+    t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,
     t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
     t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d, t_railroad_track_d1, t_railroad_track_d2,
     t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie, t_railroad_track_d_on_tie;
@@ -791,6 +792,10 @@ void set_ter_ids() {
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
     t_railroad_rubble = ter_id( "t_railroad_rubble" );
+    t_buffer_stop = ter_id( "t_buffer_stop" );
+    t_railroad_crossing_signal = ter_id( "t_railroad_crossing_signal" );
+    t_crossbuck_metal = ter_id( "t_crossbuck_metal" );
+    t_crossbuck_wood = ter_id( "t_crossbuck_wood" );
     t_railroad_tie = ter_id( "t_railroad_tie" );
     t_railroad_tie_h = ter_id( "t_railroad_tie_h" );
     t_railroad_tie_v = ter_id( "t_railroad_tie_v" );
