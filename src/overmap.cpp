@@ -370,7 +370,7 @@ overmap_special_batch overmap_specials::get_default_batch( const point &origin )
             continue;
         }
 
-        if ( city_size == 0 && elem.city_size.min > city_size ) {
+        if( city_size == 0 && elem.city_size.min > city_size ) {
             continue;
         }
 
