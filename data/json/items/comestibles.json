@@ -2839,9 +2839,8 @@
     "price": 80,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
     "charges": 4,
-    "flags": [ "SMOKABLE" ],
     "fun": 3
   },
   {
@@ -4376,9 +4375,8 @@
     "material": "veggy",
     "volume": 1,
     "fun": -1,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "fun_comment": "Raw onions probably aren't all that tasty to most people.",
-    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {

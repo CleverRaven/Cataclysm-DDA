@@ -2690,6 +2690,12 @@ units::mass item::weight( bool include_contents ) const
         } else if ( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) ) ) {
             ret *= 7;
         }
+        if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
+            ret *= 0.75;
+        }
+        if( has_flag( "QUARTERED") ){
+            ret /= 4;
+        }
 
     } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == ammotype( "plutonium" ) ) {
@@ -2723,14 +2729,24 @@ units::mass item::weight( bool include_contents ) const
     return ret;
 }
 
-static units::volume corpse_volume( m_size corpse_size )
+units::volume item::corpse_volume( m_size corpse_size ) const
 {
-    switch( corpse_size ) {
-        case MS_TINY:    return    750_ml;
-        case MS_SMALL:   return  30000_ml;
-        case MS_MEDIUM:  return  62500_ml;
-        case MS_LARGE:   return  92500_ml;
-        case MS_HUGE:    return 875000_ml;
+    if( !has_flag( "QUARTERED" ) ) {
+        switch( corpse_size ) {
+            case MS_TINY:    return    750_ml;
+            case MS_SMALL:   return  30000_ml;
+            case MS_MEDIUM:  return  62500_ml;
+            case MS_LARGE:   return  92500_ml;
+            case MS_HUGE:    return 875000_ml;
+        }
+    } else {
+        switch( corpse_size ) {
+            case MS_TINY:    return    750_ml; // no quartering
+            case MS_SMALL:   return   7500_ml;
+            case MS_MEDIUM:  return  15625_ml;
+            case MS_LARGE:   return  23125_ml;
+            case MS_HUGE:    return 218750_ml;
+        }
     }
     debugmsg( "unknown monster size for corpse" );
     return 0;
@@ -3125,9 +3141,14 @@ void item::calc_rot(const tripoint &location)
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
-
         time_point until = fridge != calendar::before_time_starts ? fridge : now;
         until = freezer != calendar::before_time_starts ? freezer : now;
+        
+        // rot modifier
+        float factor = 1.0;
+        if ( is_corpse() && has_flag( "FIELD_DRESS" ) ){
+            factor = 0.75;
+        }
 
         // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
@@ -3135,12 +3156,12 @@ void item::calc_rot(const tripoint &location)
         // negative = food was stored in good condiitons before calendar::time_of_cataclysm
         if( since == calendar::time_of_cataclysm && goes_bad() ) {
             time_duration spoil_variation = type->comestible->spoils * 0.2f;
-            rot += rng( -spoil_variation, spoil_variation );
+            rot += factor * rng( -spoil_variation, spoil_variation );
         }
 
         if ( since < until ) {
             // rot (outside of fridge/freezer) from bday/last_rot_check until fridge/freezer/now
-            rot += get_rot_since( since, until, location );
+            rot += factor * get_rot_since( since, until, location );
         }
         last_rot_check = now;
 
@@ -3149,7 +3170,7 @@ void item::calc_rot(const tripoint &location)
             freezer = calendar::before_time_starts;
         }
         if( fridge != calendar::before_time_starts ) {
-            rot += ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
+            rot += factor * ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
             fridge = calendar::before_time_starts;
         }
     }
@@ -6228,12 +6249,32 @@ bool item::is_reloadable() const
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
+    bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
+    bool quartered = has_flag( "QUARTERED" );
     if( corpse != nullptr && typeId() == "corpse" ) {
         if( corpse_name.empty() ) {
+            if( f_dressed && !quartered ){
+                return string_format( npgettext( "item name", "%s carcass",
+                                "%s carcasses", quantity ),
+                    corpse->nname().c_str() );
+            } else if( f_dressed && quartered ){
+                return string_format( npgettext( "item name", "quartered %s carcass",
+                                        "quartered %s carcasses", quantity ),
+                            corpse->nname().c_str() );        
+            }
             return string_format( npgettext( "item name", "%s corpse",
                                          "%s corpses", quantity ),
                                corpse->nname().c_str() );
         } else {
+            if( f_dressed && !quartered ){
+                return string_format( npgettext( "item name", "%s carcass of %s",
+                                "%s carcasses of %s", quantity ),
+                    corpse->nname().c_str(), corpse_name.c_str() );
+            } else if( f_dressed && quartered ){
+                return string_format( npgettext( "item name", "quartered %s carcass",
+                                        "quartered %s carcasses", quantity ),
+                            corpse->nname().c_str() );        
+            }
             return string_format( npgettext( "item name", "%s corpse of %s",
                                          "%s corpses of %s", quantity ),
                                corpse->nname().c_str(), corpse_name.c_str() );

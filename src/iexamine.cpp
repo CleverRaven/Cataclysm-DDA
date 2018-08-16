@@ -4140,6 +4140,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             break;
         case 4: // remove food
             rem_f_opt = true;
+	    /* fallthrough */
         case 5: //remove charcoal
             {
                 for( size_t i = 0; i < items_here.size(); i++ ) {

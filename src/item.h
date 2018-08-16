@@ -52,6 +52,7 @@ class item_category;
 enum art_effect_passive : int;
 enum phase_id : int;
 enum body_part : int;
+enum m_size : int;
 enum class side : int;
 class body_part_set;
 class ammunition_type;
@@ -446,6 +447,9 @@ class item : public visitable<item>
 
     /** Simplified, faster volume check for when processing time is important and exact volume is not. */
     units::volume base_volume() const;
+
+    /** Volume check for corpses, helper for base_volume(). */
+    units::volume corpse_volume( m_size corpse_size ) const; 
 
     /** Required strength to be able to successfully lift the item unaided by equipment */
     int lift_strength() const;
