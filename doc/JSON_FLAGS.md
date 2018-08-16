@@ -76,7 +76,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
 - ```FLAT``` Player can build and move furniture on.
-- ```FLAT_SURF``` Furniture with flat hard surface (ex. table, but not chair).
+- ```FLAT_SURF``` Furniture or terrain with flat hard surface (ex. table, but not chair; tree stump, etc.).
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
