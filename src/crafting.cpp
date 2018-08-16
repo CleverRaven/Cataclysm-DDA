@@ -62,6 +62,17 @@ static bool crafting_allowed( const player &p, const recipe &rec )
     return true;
 }
 
+static bool item_compare_by_charges( const item *left, const item *right )
+{
+    if( left->contents.empty() ) {
+        return false;
+    } else if( right->contents.empty() ) {
+        return true;
+    } else {
+        return right->contents.front().charges < left->contents.front().charges;
+    }
+}
+
 float player::lighting_craft_speed_multiplier( const recipe &rec ) const
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
@@ -221,7 +232,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
         }
 
         // we go trough half-filled containers first, then go through empty containers if we need
-        std::sort( conts.begin(), conts.end(), item_ptr_compare_by_charges );
+        std::sort( conts.begin(), conts.end(), item_compare_by_charges );
 
         long charges_to_store = prod.charges;
         for( const item *elem : conts ) {
