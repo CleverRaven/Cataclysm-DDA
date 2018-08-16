@@ -4850,8 +4850,9 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix 
 static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
-        return ( itm.is_food() && itm.has_flag( "EATEN_HOT" ) ) ||
-               ( itm.is_food_container() && itm.contents.front().has_flag( "EATEN_HOT" ) );
+        return ( ( itm.is_food() && ( itm.has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) ||
+                 ( itm.is_food_container() &&
+                   ( itm.contents.front().has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -4860,11 +4861,33 @@ static bool heat_item( player &p )
         return false;
     }
     item &target = heat->is_food_container() ? heat->contents.front() : *heat;
-    p.mod_moves( -300 );
-    add_msg( _( "You heat up the food." ) );
-    target.item_tags.insert( "HOT" );
-    target.active = true;
-    target.item_counter = 600; // sets the hot food flag for 60 minutes
+    p.mod_moves( -300 ); //initial preparations
+    if( target.item_tags.count( "FROZEN" ) ) {
+        add_msg( _( "You defrost the food." ) );
+        // simulates heat capacity of food, more weight = longer heating time
+        // this is x2 to simulate larger delta temperature of frozen food in relation to
+        // heating non-frozen food (x1); no real life physics here, only aproximations
+        p.mod_moves( -to_gram( target.weight() ) * 2 );
+        target.item_tags.erase( "FROZEN" );
+        target.item_tags.insert( "HOT" );
+        target.active = true;
+        target.item_counter = 100; // prevents insta-freeze after defrosting
+        if( target.has_flag( "NO_FREEZE" ) && !target.rotten() ) {
+            target.item_tags.insert( "MUSHY" );
+        } else if( target.has_flag( "NO_FREEZE" ) && target.has_flag( "MUSHY" ) &&
+                   target.get_rot() < target.type->comestible->spoils ) {
+            target.set_relative_rot( 1.0 );
+        }
+    } else {
+        add_msg( _( "You heat up the food." ) );
+        target.item_tags.insert( "HOT" );
+        p.mod_moves( -to_gram( target.weight() ) ); // simulates heat capacity of food
+        target.active = true;
+        // links time of food's HOT-ness with weight, as smaller items lose temperature faster
+        // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
+        const int hcapacity = to_gram( target.weight() ) < 100 ? 100 : to_gram( target.weight() );
+        target.item_counter = hcapacity > 600 ? 600 : hcapacity;
+    }
     return true;
 }
 

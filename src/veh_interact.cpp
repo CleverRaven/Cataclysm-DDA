@@ -707,6 +707,7 @@ bool veh_interact::do_install( std::string &msg )
     tab_filters[3] = [&](const vpart_info *p) { auto &part = *p;
                                                    return part.has_flag("TRACK") || //Util
                                                    part.has_flag(VPFLAG_FRIDGE) ||
+                                                   part.has_flag(VPFLAG_FREEZER) ||
                                                    part.has_flag("KITCHEN") ||
                                                    part.has_flag("WELDRIG") ||
                                                    part.has_flag("CRAFTRIG") ||

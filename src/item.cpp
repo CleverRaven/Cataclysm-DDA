@@ -53,6 +53,7 @@
 #include "units.h"
 #include "ret_val.h"
 #include "iteminfo_query.h"
+#include "game_constants.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -167,7 +168,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         }
 
     } else if( type->comestible ) {
-        active = goes_bad() && !rotten();
+        active = true;
 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
@@ -869,9 +870,24 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                               to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
                                               to_turn<int>( food->fridge ), true, "", true, true ) );
+                    info.push_back( iteminfo( "BASE", space + _( "freezer: " ), "",
+                                              to_turn<int>( food->freezer ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
                                               to_turn<int>( food->last_rot_check ), true, "", true, true ) );
                 }
+                if( food->item_tags.count( "HOT" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "HOT: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }
+                if( food->item_tags.count( "COLD" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "COLD: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }
+                if( food->item_tags.count( "FROZEN" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "FROZEN: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }                      
+                    
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );
         }
@@ -965,7 +981,15 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                          "It's on a brink of becoming inedible." ) );
                 }
             }
-
+            if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() ) {
+                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's <neutral>frozen.</neutral>." ) );
+            }
+            if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
+                info.emplace_back( "DESCRIPTION", _( "* It was frozen once and bacame <bad>mushy and tasteless</bad>." ) );
+            }
+            if( food_item->has_flag( "NO_PARASITES" ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
+                info.emplace_back( "DESCRIPTION", _( "* It seems that deep freezing <good>killed all parasites</good>." ) );
+            }
             if( food_item->rotten() ) {
                 if( g->u.has_bionic( bionic_id( "bio_digestion" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
@@ -2465,6 +2489,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if( has_flag( "COLD" ) ) {
             ret << _( " (cold)" );
         }
+        if( has_flag( "FROZEN" ) ) {
+            ret << _( " (frozen)" );
+        }
     }
 
     if( has_flag( "FIT" ) ) {
@@ -3057,7 +3084,8 @@ void item::set_relative_rot( double val )
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
         fridge = calendar::before_time_starts;
-        active = !rotten();
+        freezer = calendar::before_time_starts;
+        active = true;
     }
 }
 
@@ -3096,7 +3124,9 @@ void item::calc_rot(const tripoint &location)
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
-        const time_point until = fridge != calendar::before_time_starts ? fridge : now;
+
+        time_point until = fridge != calendar::before_time_starts ? fridge : now;
+        until = freezer != calendar::before_time_starts ? freezer : now;
 
         // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
@@ -3108,19 +3138,18 @@ void item::calc_rot(const tripoint &location)
         }
 
         if ( since < until ) {
-            // rot (outside of fridge) from bday/last_rot_check until fridge/now
+            // rot (outside of fridge/freezer) from bday/last_rot_check until fridge/freezer/now
             rot += get_rot_since( since, until, location );
         }
         last_rot_check = now;
 
-        if( fridge != calendar::before_time_starts ) {
-            // Flat 20%, rot from time of putting it into fridge up to now
-            rot += ( now - fridge ) * 0.2;
-            fridge = calendar::before_time_starts;
+        if( freezer != calendar::before_time_starts ) {
+            // Frozen food do not rot, so no change to rot variable
+            freezer = calendar::before_time_starts;
         }
-        // item stays active to let the item counter work
-        if( item_counter == 0 && rotten() ) {
-            active = false;
+        if( fridge != calendar::before_time_starts ) {
+            rot += ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
+            fridge = calendar::before_time_starts;
         }
     }
 }
@@ -5670,15 +5699,17 @@ bool item::needs_processing() const
 {
     return active || has_flag("RADIO_ACTIVATION") ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact();
+           is_artifact() || ( is_food() );
 }
 
 int item::processing_speed() const
 {
-    if( is_food() && !( item_tags.count("HOT") || item_tags.count("COLD") ) ) {
+    if( is_food() && !( item_tags.count( "HOT" ) || item_tags.count( "COLD" ) || item_tags.count( "FROZEN" ) ) ) {
         // Hot and cold food need turn-by-turn updates.
         // If they ever become a performance problem, update process_food to handle them occasionally.
         return 600;
+    } else {
+        return 100;
     }
     if( is_corpse() ) {
         return 100;
@@ -5698,6 +5729,39 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
         if( item_counter == 0 ) {
             item_tags.erase( "COLD" );
         }
+    } else if( item_tags.count( "FROZEN" ) > 0 ) {
+        if( item_counter == 0 ) {
+            item_tags.erase( "FROZEN" );
+            if( has_flag( "NO_FREEZE" ) && !rotten() ) {
+                item_tags.insert( "MUSHY" );
+            } else if( has_flag( "NO_FREEZE" ) && has_flag( "MUSHY" ) &&
+                rot < type->comestible->spoils ) {
+                rot = type->comestible->spoils;
+            }
+            if( has_flag( "EATEN_COLD" ) ) {
+                item_tags.insert( "COLD" );
+                item_counter = 600;
+            }
+        }
+    }
+    // deep freezing kills parasites but not instantly
+    if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
+        item_tags.insert( "NO_PARASITES" );
+    }
+    unsigned int diff_freeze = abs( g->get_temperature( pos ) - FREEZING_TEMPERATURE );
+    diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
+    diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
+
+    unsigned int diff_cold = abs( g->get_temperature( pos ) - FRIDGE_TEMPERATURE );
+    diff_cold = diff_cold < 1 ? 1 : diff_cold;
+    diff_cold = diff_cold > 10 ? 10 : diff_cold;
+    // environment temperature applies COLD/FROZEN flags to food
+    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, g->get_temperature( pos ) );
+    } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
+        item_counter -= diff_freeze;
+    } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
+        item_counter -= diff_cold;
     }
     return false;
 }

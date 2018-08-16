@@ -680,6 +680,9 @@ public:
 
     /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
     time_point fridge = calendar::before_time_starts;
+              
+    /** Turn item was put into a freezer or calendar::before_time_starts if not in any freezer. */
+    time_point freezer = calendar::before_time_starts;
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;

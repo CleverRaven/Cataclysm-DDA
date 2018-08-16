@@ -490,6 +490,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
 - ```FRIDGE``` Can refrigerate items.
+- ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FUNNEL```
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
@@ -802,6 +803,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
+- ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
+- ```NO_FREEZE``` It spoils instantly when frozen.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
@@ -910,6 +913,9 @@ Melee flags are fully compatible with tool flags, and vice versa.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
 
 - ```COLD``` Item is cold (see EATEN_COLD).
+- ```FROZEN``` Item is frozen solid (used by freezer).
+- ```MUSHY``` NO_FREEZE item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
