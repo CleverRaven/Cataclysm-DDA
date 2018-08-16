@@ -5738,8 +5738,10 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         return LL_BRIGHT;
     }
     const auto &map_cache = get_cache_ref(p.z);
-    bool obstructed = map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1;
-    const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
+    const float vis = map_cache.seen_cache[p.x][p.y] > map_cache.camera_cache[p.x][p.y] ?
+        map_cache.seen_cache[p.x][p.y] : map_cache.camera_cache[p.x][p.y];
+    const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
+    const float apparent_light = vis * map_cache.lm[p.x][p.y];
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
@@ -8322,6 +8324,7 @@ level_cache::level_cache()
     std::fill_n( &floor_cache[0][0], map_dimensions, false );
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
