@@ -4036,8 +4036,6 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [
-      [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ]
-    ]
+    "components": [ [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ] ]
   }
 ]
