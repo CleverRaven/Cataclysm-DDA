@@ -4123,7 +4123,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
     int moves;
 
     const ter_id ter = g->m.ter( dirp );
-    if( ter == t_trunk ) {
+    if( ter == t_trunk || ter == t_stump ) {
         moves = chop_moves( p, it );
     } else {
         add_msg( m_info, _( "You can't chop that." ) );

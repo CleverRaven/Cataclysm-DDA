@@ -690,6 +690,7 @@ void set_ter_ids() {
     t_shrub_blueberry = ter_id( "t_shrub_blueberry" );
     t_shrub_strawberry = ter_id( "t_shrub_strawberry" );
     t_trunk = ter_id( "t_trunk" );
+    t_stump = ter_id( "t_stump" );
     t_root_wall = ter_id( "t_root_wall" );
     t_wax = ter_id( "t_wax" );
     t_floor_wax = ter_id( "t_floor_wax" );

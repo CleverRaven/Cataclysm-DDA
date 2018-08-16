@@ -3950,6 +3950,23 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_stump",
+        "name": "tree stump",
+        "symbol": "^",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF"],
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "splinter", "count": [5, 15] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_root_wall",
         "name": "root wall",
         "symbol": "#",
