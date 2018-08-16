@@ -43,5 +43,20 @@
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" }
+  },
+  {
+    "id": "leather_tarp",
+    "type": "TOOL",
+    "name": "leather tarp",
+    "description": "A large sheet of sewn leather that can be deployed instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.  It's rolled and ready for carrying.",
+    "weight": 2000,
+    "volume": 10,
+    "price": 5000,
+    "to_hit": -3,
+    "bashing": 2,
+    "material": [ "leather" ],
+    "symbol": "*",
+    "color": "brown",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
   }
 ]
