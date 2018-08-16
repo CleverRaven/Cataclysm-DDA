@@ -1185,9 +1185,7 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     auto abstract = m_abstracts.find( jo.get_string( "copy-from" ) );
     if( abstract != m_abstracts.end() ) {
         def = abstract->second;
-        if( def.looks_like.empty() ) {
-            def.looks_like = jo.get_string( "copy-from" );
-        }
+        def.looks_like = jo.get_string( "copy-from" );
         return true;
     }
 

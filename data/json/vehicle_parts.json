@@ -1741,7 +1741,7 @@
     "broken_symbol": "#",
     "broken_color": "dark_gray",
     "durability": 250,
-    "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
+    "description": "A cargo space for carrrying animals.  'e'xamine it it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
     "size": 800,
     "item": "livestock_carrier",
     "difficulty": 1,
@@ -1751,21 +1751,6 @@
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
-    ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "animal_compartment",
-    "copy-from": "livestock_stall",
-    "name": "animal compartment",
-    "durability": 125,
-    "description": "A large locker for transporting smaller animals.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "size": 200,
-    "item": "animal_locker",
-    "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE" ],
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 3, 4 ] }
     ]
   },
   {

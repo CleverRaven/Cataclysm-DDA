@@ -19,7 +19,7 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick_long", 1 ], [ "2x4", 1 ], [ "broom", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -221,7 +221,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
     "components": [
-      [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
+      [ [ "stick", 2 ], [ "2x4", 2 ] ],
       [ [ "spike", 1 ] ],
       [ [ "rag", 3 ], [ "felt_patch", 3 ], [ "leather", 3 ], [ "fur", 3 ] ],
       [ [ "cordage", 2, "LIST" ], [ "filament", 75, "LIST" ], [ "duct_tape", 75 ] ]
@@ -3400,8 +3400,8 @@
      [ "scrap", 24 ]
      ],
      [
-      [ "2x4", 1 ],
-      [ "stick_long", 1 ]
+      [ "2x4", 4 ],
+      [ "stick", 8 ]
      ],
      [
       [ "fur", 2 ],
@@ -3761,8 +3761,8 @@
       [ "scrap", 12 ]
     ],
     [
-      [ "2x4", 1 ],
-      [ "stick_long", 1 ]
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
     ],
     [
       [ "fur", 2 ],
@@ -3798,8 +3798,8 @@
       [ "scrap", 36 ]
     ],
     [
-      [ "2x4", 1 ],
-      [ "stick_long", 1 ]
+      [ "2x4", 4 ],
+      [ "stick", 8 ]
     ],
     [
       [ "fur", 2 ],
@@ -3835,8 +3835,8 @@
      [ "scrap", 24 ]
     ],
     [
-      [ "2x4", 1 ],
-      [ "stick_long", 1 ]
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
     ],
     [
       [ "fur", 2 ],
@@ -3872,8 +3872,8 @@
       [ "scrap", 24 ]
     ],
     [
-      [ "2x4", 1 ],
-      [ "stick_long", 1 ]
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
     ],
     [
       [ "fur", 2 ],
@@ -3906,8 +3906,8 @@
   "components": [
     [ [ "katana", 1 ] ],
     [
-      [ "2x4", 1 ],
-      [ "stick_long", 1 ]
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
     ]
   ]
 },{

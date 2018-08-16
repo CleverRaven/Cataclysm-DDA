@@ -80,9 +80,8 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_weldrig = ( veh->part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
     const bool has_chemlab = ( veh->part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
     const bool has_purify = ( veh->part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
-    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) );
-    const bool has_electronics = ( ( veh->part_with_feature( veh_root_part,
-                                     "CTRL_ELECTRONIC" ) >= 0 ) );
+    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
+                                ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
@@ -107,9 +106,6 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
-    }
-
-    if( has_electronics ) {
         selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
                              _( "Control multiple electronics" ) );
     }

@@ -891,11 +891,7 @@ bool game::start_game()
     get_safemode().clear_character_rules();
 
     //Put some NPCs in there!
-    if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
-        ( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
-        !g->scen->has_flag( "LONE_START" ) ) ) {
-        create_starting_npcs();
-    }
+    create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     // Spawn the monsters
@@ -1017,15 +1013,14 @@ void game::reload_npcs()
 
 void game::create_starting_npcs()
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ||
-        get_option<std::string>( "STARTING_NPC" ) == "never" ) {
+    if( !get_option<bool>( "STATIC_NPC" ) ) {
         return; //Do not generate a starting npc.
     }
 
-    //We don't want more than one starting npc per starting location
+    //We don't want more than one starting npc per shelter
     const int radius = 1;
     if( !overmap_buffer.get_npcs_near_player( radius ).empty() ) {
-        return; //There is already an NPC in this starting location
+        return; //There is already an NPC in this shelter
     }
 
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
@@ -1035,10 +1030,10 @@ void game::create_starting_npcs()
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
-    //This sets the NPC mission. This NPC remains in the starting location.
+    //This sets the npc mission. This NPC remains in the shelter.
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
-    //One random starting NPC mission
+    //one random shelter mission.
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(), tmp->getID() ) );
 }
 

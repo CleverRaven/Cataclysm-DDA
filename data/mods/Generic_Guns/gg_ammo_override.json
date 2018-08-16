@@ -49,13 +49,6 @@
     "description": "An empty casing from a rifle round."
   },
   {
-    "id": "762_51_casing",
-    "copy-from": "762_51_casing",
-    "type": "GENERIC",
-    "name": "rifle casing",
-    "description": "An empty casing from a rifle round."
-  },
-  {
     "id": "50_casing",
     "copy-from": "50_casing",
     "type": "GENERIC",

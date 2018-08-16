@@ -267,7 +267,7 @@
   ],
   "components": [
     [
-      [ "stick_long", 1 ],
+      [ "stick", 1 ],
       [ "broom", 1 ],
       [ "mop", 1 ],
       [ "2x4", 1 ],

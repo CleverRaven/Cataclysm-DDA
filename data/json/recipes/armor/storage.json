@@ -797,24 +797,5 @@
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
       [ [ "leather_pouch", 5 ] ]
     ]
-  },
-  {
-  "result": "javelin_bag",
-  "type": "recipe",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_STORAGE",
-  "skill_used": "tailor",
-  "skills_required": [
-    [ "throw", 2 ]
-  ],
-  "difficulty": 2,
-  "time": 80000,
-  "autolearn": true,
-  "using": [
-    [ "sewing_standard", 30 ]
-  ],
-  "components": [
-    [ [ "fur", 32 ], [ "tanned_pelt", 6 ], [ "leather", 32 ], [ "tanned_hide", 6 ] ]
-  ]
-}
+  }
 ]

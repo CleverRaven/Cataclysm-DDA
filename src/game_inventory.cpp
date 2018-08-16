@@ -641,11 +641,11 @@ class read_inventory_preset: public pickup_inventory_preset
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                return good_bad_none( p.book_fun_for( *loc ) );
+                return good_bad_none( get_book( loc ).fun );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {

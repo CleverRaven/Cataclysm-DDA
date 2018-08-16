@@ -292,18 +292,7 @@
         "starting_trait" : true,
         "valid" : false,
         "active" : true
-    },
-    {
-        "type" : "mutation",
-        "id" : "LOVES_BOOKS",
-        "name" : "Bookworm",
-        "points" : 1,
-        "description" : "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
-        "starting_trait" : true,
-        "valid" : false,
-        "cancels" : ["ILLITERATE","HATES_BOOKS"]
-    },
-    {
+    },{
         "type" : "mutation",
         "id" : "NONADDICTIVE",
         "name" : "Addiction Resistant",
@@ -646,7 +635,7 @@
         "description" : "You never learned to read!  Books and computers are off-limits to you.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS"]
+        "cancels" : ["FASTREADER", "SLOWREADER"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
@@ -703,18 +692,7 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["VEGETARIAN"]
-    },
-    {
-        "type" : "mutation",
-        "id" : "HATES_BOOKS",
-        "name" : "Hates Books",
-        "points" : -1,
-        "description" : "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
-        "starting_trait" : true,
-        "valid" : false,
-        "cancels" : ["ILLITERATE","LOVES_BOOKS"]
-    },
-    {
+    },{
         "type" : "mutation",
         "id" : "ANTIFRUIT",
         "name" : "Hates Fruit",
@@ -5213,16 +5191,6 @@
         "valid": false,
         "purifiable": false,
         "profession": true
-    },{
-        "type" : "mutation",
-        "id" : "PROF_DICEMASTER",
-        "name" : "Dungeon Master",
-        "points" : 0,
-        "description" : "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly. You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
-        "valid": false,
-        "purifiable": false,
-        "profession": true,
-        "cancels": ["ILLITERATE"]
     },{
         "type" : "mutation",
         "id" : "NPC_BRANDY",

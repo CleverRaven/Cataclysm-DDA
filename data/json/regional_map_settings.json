@@ -111,7 +111,6 @@
               "house": 1000,
               "house_prepper": 30,
               "house_base": 333,
-              "duplex": 50,
               "emptyresidentiallot": 20
           },
           "basements": {
@@ -175,8 +174,6 @@
               "s_music": 2,
               "s_laundromat": 1,
               "veterinarian": 2,
-              "animalpound": 2,
-              "animalshelter": 1,
               "mortuary": 1,
               "orchard": 2,
               "dispensary": 1,
@@ -193,7 +190,7 @@
               "dump": 1 ,
               "recyclecenter": 1,
               "landfill": 1,
-              "abandonedwarehouse": 1,
+              "warehouse": 1,
               "emptycommerciallot": 1,
               "lancenter": 1,
               "dollarstore": 3

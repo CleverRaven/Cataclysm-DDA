@@ -509,14 +509,9 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         damage_info = _("It is severely injured.");
         col = c_light_red;
     } else {
-        damage_info = _("It is nearly dead!");
+        damage_info = _("it is nearly dead!");
         col = c_red;
     }
-    /*
-    // This is unused code that allows the player to see the exact amount of monster HP, to be implemented later!
-    if( true ) ) {
-        damage_info = string_format( _( "It has %d/%d HP." ), cur_hp, max_hp );
-    }*/
 
     return std::make_pair( damage_info, col );
 }

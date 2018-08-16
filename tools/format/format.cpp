@@ -176,7 +176,7 @@ int main( int argc, char *argv[] )
 
     if( filename.empty() ) {
         std::cout << header;
-        std::cout << out.str();
+        std::cout << out.str() << std::endl;
     } else {
         std::string in_str = in.str();
 #ifdef MSYS2

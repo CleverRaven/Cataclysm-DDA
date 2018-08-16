@@ -5087,13 +5087,6 @@
          "multitile" : false
         },
         {
-         "id" : "762_51_casing",
-         "fg" : 690,
-         "bg" : 705,
-         "rotates" : false,
-         "multitile" : false
-        },
-        {
          "id" : "223_casing",
          "fg" : 683,
          "bg" : 705,

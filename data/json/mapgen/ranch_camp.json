@@ -6417,12 +6417,6 @@
         "|": "t_wall",
         "~": "t_water_sh"
       },
-      "place_item": [
-        { "item": "cattlefodder", "x": [ 17, 20 ], "y": [ 1, 5 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 17, 20 ], "y": [ 7, 11 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 17, 20 ], "y": [ 13, 17 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 17, 20 ], "y": [ 19, 23 ], "amount": [ 0, 2 ] }
-      ],
       "furniture": {
         "@": "f_bed",
         "B": "f_bathtub",
@@ -6525,18 +6519,6 @@
         "|": "t_wall",
         "~": "t_water_sh"
       },
-      "place_item": [
-        { "item": "cattlefodder", "x": [ 3, 6 ], "y": [ 1, 5 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 8, 11 ], "y": [ 1, 5 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 18, 21 ], "y": [ 1, 5 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 18, 21 ], "y": [ 7, 11 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 18, 21 ], "y": [ 13, 17 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 3, 6 ], "y": [ 19, 23 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 8, 11 ], "y": [ 19, 23 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 18, 21 ], "y": [ 19, 23 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 3, 6 ], "y": [ 11, 13 ], "amount": [ 0, 1 ] },
-        { "item": "cattlefodder", "x": [ 8, 11 ], "y": [ 11, 13 ], "amount": [ 0, 1 ] }
-      ],
       "furniture": {
         "@": "f_bed",
         "B": "f_bathtub",

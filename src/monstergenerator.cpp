@@ -532,7 +532,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
     }
-    if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
+    if( was_loaded && jo.has_member( "copy-from" ) ) {
         looks_like = jo.get_string( "copy-from" );
     }
     if( jo.has_member( "looks_like" ) ) {

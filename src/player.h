@@ -775,8 +775,6 @@ class player : public Character
         int nutrition_for( const item &comest ) const;
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
-        /** Handles the enjoyability value for a book. **/
-        int book_fun_for(const item &book) const;
         /**
          * Returns a reference to the item itself (if it's comestible),
          * the first of its contents (if it's comestible) or null item otherwise.

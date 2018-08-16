@@ -23,7 +23,7 @@
     "om_terrain": [ "pump_station_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_floor",
       "rows": [
         "sss___________sss.......",
         ".ss___________ss|-w-w-|.",
@@ -106,7 +106,7 @@
     "om_terrain": [ "pump_station_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_floor",
       "rows": [
         "...|rr|  |ssssszz|  11|.",
         "...|  *  |sszzssz|  11|.",

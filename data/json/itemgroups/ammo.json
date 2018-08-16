@@ -404,7 +404,6 @@
       { "item": "700nx_casing", "prob": 40, "count": 5 },
       { "item": "762_casing", "prob": 80, "count": 20 },
       { "item": "762_25_casing", "prob": 60, "count": 20 },
-      { "item": "762_51_casing", "prob": 80, "count": 20 },
       { "item": "9mm_casing", "prob": 100, "count": 20 },
       { "item": "9x18mm_casing", "prob": 80, "count": 20 },
       { "item": "shot_hull", "prob": 100, "count": 20 }
