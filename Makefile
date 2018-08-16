@@ -474,7 +474,7 @@ ifeq ($(SOUND), 1)
   endif
 
   ifeq ($(MSYS2),1)
-    LDFLAGS += -lmad -lvorbisfile -lvorbis -logg -lmodplug -lflac -lfluidsynth
+    LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
   endif
 
   CXXFLAGS += -DSDL_SOUND
@@ -577,7 +577,7 @@ ifdef TILES
         LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
       else
         ifeq ($(MSYS2),1)
-          LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+          LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
         else
           LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
         endif
