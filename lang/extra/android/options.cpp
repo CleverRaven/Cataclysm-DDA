@@ -1039,11 +1039,6 @@ void options_manager::init()
         true
         );
 
-    add( "NO_UNKNOWN_COMMAND_MSG", "interface", _( "Suppress \"unknown command\" messages" ),
-        _( "If true, pressing a key with no set function will not display a notice in the chat log." ),
-        false
-        );
-
     mOptionsSort["interface"]++;
 
     add("VEHICLE_ARMOR_COLOR", "interface", _("Vehicle plating changes part color"),
@@ -1090,6 +1085,12 @@ void options_manager::init()
     add("MESSAGE_TTL", "interface", _("Sidebar log message display duration"),
         _("Number of turns after which a message will be removed from the sidebar log.  '0' disables this option."),
         0, 1000, 0
+        );
+    
+    //~ unbound key error message suppression
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", _( "Suppress \"unknown command\" messages" ),
+        _( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
         );
 
     //~ aim bar style - bars or numbers
