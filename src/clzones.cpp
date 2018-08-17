@@ -88,6 +88,9 @@ void plot_options::query_seed()
 {
     player &p = g->u;
 
+    seed = "";
+    mark = "";
+
     std::vector<item *> seed_inv = p.items_with( []( const item &itm ) {
         return itm.is_seed();
     } );
@@ -100,6 +103,13 @@ void plot_options::query_seed()
     if( seed_index > 0 ) {
         const auto &seed_entry = seed_entries[seed_index];
         seed = std::get<0>( seed_entry );
+
+        item it = item( itype_id( seed ) );
+        if( it.is_seed() ) {
+            mark = it.type->seed->fruit_id;
+        } else {
+            mark = seed;
+        }
     }
 }
 
@@ -115,7 +125,17 @@ void plot_options::query()
 
 std::string plot_options::get_zone_name_suggestion() const
 {
-    return seed != "" ? item::nname( itype_id( seed ) ) : _( "No seed" );
+    if( seed != "" ) {
+        auto type = itype_id( seed );
+        item it = item( type );
+        if( it.is_seed() ) {
+            return it.type->seed->plant_name;
+        } else {
+            return item::nname( type );
+        }
+    }
+
+    return _( "No seed" );
 };
 
 std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
@@ -387,19 +407,37 @@ std::vector<zone_manager::zone_data> zone_manager::get_zones( const zone_type_id
 
     for( const auto &zone : this->zones ) {
         if( zone.get_type() == type ) {
-            const auto start = zone.get_start_point();
-            const auto end = zone.get_end_point();
-
-            if( where.x >= start.x && where.x <= end.x &&
-                where.y >= start.y && where.y <= end.y &&
-                where.z >= start.z && where.z <= end.z ) {
-
+            if( zone.has_inside( where ) ) {
                 zones.emplace_back( zone );
             }
         }
     }
 
     return zones;
+}
+
+const zone_manager::zone_data *zone_manager::get_top_zone( const tripoint &where ) const
+{
+    for( const auto &zone : zones ) {
+        if( zone.has_inside( where ) ) {
+            return &zone;
+        }
+    }
+
+    return nullptr;
+}
+
+const zone_manager::zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
+{
+    for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
+        const auto &zone = *it;
+
+        if( zone.has_inside( where ) ) {
+            return &zone;
+        }
+    }
+
+    return nullptr;
 }
 
 zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,

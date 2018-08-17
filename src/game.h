@@ -555,6 +555,8 @@ class game
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
+        private: bool zone_manager_open = false;
+        public: bool is_zone_manager_open() { return zone_manager_open; };
         void zones_manager();
         void zones_manager_shortcuts( const catacurses::window &w_info );
         void zones_manager_draw_borders( const catacurses::window &w_border,

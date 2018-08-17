@@ -35,6 +35,7 @@
 #include "cata_utility.h"
 #include "cursesport.h"
 #include "rect_range.h"
+#include "clzones.h"
 
 #include <cassert>
 #include <algorithm>
@@ -1078,11 +1079,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-        const std::array<decltype ( &cata_tiles::draw_furniture ), 7> drawing_layers = {{
+        const std::array<decltype ( &cata_tiles::draw_furniture ), 8> drawing_layers = {{
             &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
             &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
             &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
-            &cata_tiles::draw_critter_at
+            &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark
         }};
         // for each of the drawing layers in order, back to front ...
         for( auto f : drawing_layers ) {
@@ -2307,6 +2308,28 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     if( critter != nullptr ) {
         return draw_entity( *critter, p, ll, height_3d );
     }
+    return false;
+}
+
+bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d )
+{
+    if( !g->is_zone_manager_open() ) {
+        return false;
+    }
+
+    const auto mgr = zone_manager::get_manager();
+    const tripoint &abs = g->m.getabs( p );
+    const auto zone = mgr.get_bottom_zone( abs );
+
+    if( zone && zone->has_options() ) {
+        auto option = dynamic_cast<const IMarkOption *>( &zone->get_options() );
+
+        if( option ) {
+            return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,
+                                        nv_goggles_activated, height_3d );
+        }
+    }
+
     return false;
 }
 

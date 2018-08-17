@@ -57,14 +57,23 @@ class zone_options
         virtual void deserialize( JsonObject &jo_zone ) {};
 };
 
-class plot_options : public zone_options
+class IMarkOption {
+    public:
+        virtual ~IMarkOption() {}
+
+        virtual std::string get_mark() const = 0;
+};
+
+class plot_options : public zone_options, public IMarkOption
 {
     private:
+        std::string mark;
         std::string seed;
 
         void query_seed();
 
     public:
+        std::string get_mark() const override { return mark; };
         std::string get_seed() const { return seed; };
 
         bool has_options() const override { return true; };
@@ -171,6 +180,11 @@ class zone_manager
                 zone_options &get_options() {
                     return *options;
                 }
+                bool has_inside( const tripoint &p ) const {
+                    return p.x >= start.x && p.x <= end.x &&
+                           p.y >= start.y && p.y <= end.y &&
+                           p.z >= start.z && p.z <= end.z;
+                }
         };
 
         std::vector<zone_data> zones;
@@ -203,6 +217,8 @@ class zone_manager
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
+        const zone_data *get_top_zone( const tripoint &where ) const;
+        const zone_data *get_bottom_zone( const tripoint &where ) const;
         std::string query_name( std::string default_name = "" ) const;
         zone_type_id query_type() const;
 
