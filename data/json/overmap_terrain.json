@@ -8197,6 +8197,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "abandonedwarehouse",
+    "name": "abandoned warehouse",
+    "sym": 119,
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "campground_1a",
     "name": "campground",
     "sym": 43,
