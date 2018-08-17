@@ -4578,11 +4578,11 @@ void map::make_active( item_location &loc )
 // date to current time, and also check contents.
 void map::apply_in_fridge( item &it, int temp )
 {
-    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
+    int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
     diff_freeze = std::max( 1, diff_freeze );
     diff_freeze = std::min( 5, diff_freeze );
 
-    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
+    int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
     diff_freeze = std::max( 1, diff_cold );
     diff_freeze = std::min( 5, diff_cold );
 
