@@ -1076,7 +1076,9 @@ std::string Creature::get_pain_description() const
     } else if(scale > 7) {
         return _("Unmanageable");
     } else if(scale > 6) {
-        return _("Intense");
+        return _("Distressing");
+    } else if(scale > 5) {
+        return _("Distracting");
     } else if(scale > 4) {
         return _("Moderate");
     } else if(scale > 3) {
