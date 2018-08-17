@@ -116175,7 +116175,7 @@ msgid "* Quality of this food suffers when it's <neutral>frozen.</neutral>."
 msgstr ""
 
 #: src/item.cpp
-msgid "* It was frozen once and bacame <bad>mushy and tasteless</bad>."
+msgid "* It was frozen once and became <bad>mushy and tasteless</bad>."
 msgstr ""
 
 #: src/item.cpp
