@@ -52,6 +52,7 @@ class item_category;
 enum art_effect_passive : int;
 enum phase_id : int;
 enum body_part : int;
+enum m_size : int;
 enum class side : int;
 class body_part_set;
 class ammunition_type;
@@ -447,6 +448,9 @@ class item : public visitable<item>
     /** Simplified, faster volume check for when processing time is important and exact volume is not. */
     units::volume base_volume() const;
 
+    /** Volume check for corpses, helper for base_volume(). */
+    units::volume corpse_volume( m_size corpse_size ) const; 
+
     /** Required strength to be able to successfully lift the item unaided by equipment */
     int lift_strength() const;
 
@@ -680,6 +684,9 @@ public:
 
     /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
     time_point fridge = calendar::before_time_starts;
+              
+    /** Turn item was put into a freezer or calendar::before_time_starts if not in any freezer. */
+    time_point freezer = calendar::before_time_starts;
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
@@ -882,6 +889,8 @@ protected:
     bool process_corpse(player *carrier, const tripoint &pos);
     bool process_wet(player *carrier, const tripoint &pos);
     bool process_litcig(player *carrier, const tripoint &pos);
+    // Place conditions that should remove fake smoke item in this sub-function
+    bool process_fake_smoke(player *carrier, const tripoint &pos);
     bool process_cable(player *carrier, const tripoint &pos);
     bool process_tool(player *carrier, const tripoint &pos);
 public:

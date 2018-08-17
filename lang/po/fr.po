@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-09 20:19+0800\n"
+"POT-Creation-Date: 2018-08-16 20:54+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Pierre de Sahb <pierre@sahb.me>, 2018\n"
 "Language-Team: French (https://www.transifex.com/cataclysm-dda-translators/teams/2217/fr/)\n"
@@ -7652,12 +7652,23 @@ msgstr ""
 "encombrement réduit."
 
 #: lang/json/ARMOR_from_json.py
-msgid "cybercop shield"
-msgid_plural "cybercop shields"
-msgstr[0] "Bouclier de cyberflic"
-msgstr[1] "Boucliers de cyberflic"
+msgid "badge template"
+msgid_plural "badge templates"
+msgstr[0] ""
+msgstr[1] ""
 
-#. ~ Description for cybercop shield
+#. ~ Description for badge template
+#: lang/json/ARMOR_from_json.py
+msgid "This is a template for police badges.  If found in a game it is a bug."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "cybercop badge"
+msgid_plural "cybercop badges"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cybercop badge
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A chromed silver shield identifies the wearer as an authority even the cop-"
@@ -7702,12 +7713,12 @@ msgid "A bright silver star strikes fear into the eyes of ne'er-do-wells."
 msgstr "Une brillante étoile d'argent qui inspire la peur aux va-nu-pieds/"
 
 #: lang/json/ARMOR_from_json.py
-msgid "SWAT ID"
-msgid_plural "SWAT IDs"
-msgstr[0] "ID SWAT"
-msgstr[1] "IDs SWAT"
+msgid "SWAT badge"
+msgid_plural "SWAT badges"
+msgstr[0] ""
+msgstr[1] ""
 
-#. ~ Description for SWAT ID
+#. ~ Description for SWAT badge
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A matte-finish silver shield identifies the wearer as an authority who goes "
@@ -11009,10 +11020,8 @@ msgstr[1] "Gabarit de ceinture de judo"
 
 #. ~ Description for judo belt template
 #: lang/json/ARMOR_from_json.py
-msgid "This is a template for judo belts. If found in a game it is a bug."
+msgid "This is a template for judo belts.  If found in a game it is a bug."
 msgstr ""
-"C'est un gabarit pour des ceintures de judo. Si vous les trouvez en jeu, "
-"c'est un bug."
 
 #: lang/json/ARMOR_from_json.py
 msgid "black belt"
@@ -14241,6 +14250,41 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "javelin bag"
+msgid_plural "javelin bags"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action holster_msg for javelin bag.
+#. ~ Use action holster_msg for ammo satchel.
+#. ~ Use action holster_msg for chest ammo pouch.
+#. ~ Use action holster_msg for magazine bandolier.
+#. ~ Use action holster_msg for chest rig.
+#. ~ Use action holster_msg for ankle ammo pouch.
+#. ~ Use action holster_msg for leg ammo pouch.
+#. ~ Use action holster_msg for MBR vest (empty).
+#. ~ Use action holster_msg for MBR vest (ceramic plates).
+#. ~ Use action holster_msg for MBR vest (hard plates).
+#. ~ Use action holster_msg for MBR vest (Kevlar plates).
+#. ~ Use action holster_msg for MBR vest (steel plating).
+#. ~ Use action holster_msg for MBR vest (superalloy).
+#: lang/json/ARMOR_from_json.py
+#, no-python-format
+msgid "You stash your %s."
+msgstr "Vous rangez votre %s."
+
+#. ~ Use action holster_prompt for javelin bag.
+#: lang/json/ARMOR_from_json.py
+msgid "Stash javelins"
+msgstr ""
+
+#. ~ Description for javelin bag
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"An open medieval-looking bag, designed to store javelins for easy reach."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "survivor utility belt"
 msgid_plural "survivor utility belts"
 msgstr[0] "ceinture utilitaire de survivant"
@@ -14264,23 +14308,6 @@ msgid "ammo satchel"
 msgid_plural "ammo satchels"
 msgstr[0] "Sacoche à munitions"
 msgstr[1] "Sacoches à munitions"
-
-#. ~ Use action holster_msg for ammo satchel.
-#. ~ Use action holster_msg for chest ammo pouch.
-#. ~ Use action holster_msg for magazine bandolier.
-#. ~ Use action holster_msg for chest rig.
-#. ~ Use action holster_msg for ankle ammo pouch.
-#. ~ Use action holster_msg for leg ammo pouch.
-#. ~ Use action holster_msg for MBR vest (empty).
-#. ~ Use action holster_msg for MBR vest (ceramic plates).
-#. ~ Use action holster_msg for MBR vest (hard plates).
-#. ~ Use action holster_msg for MBR vest (Kevlar plates).
-#. ~ Use action holster_msg for MBR vest (steel plating).
-#. ~ Use action holster_msg for MBR vest (superalloy).
-#: lang/json/ARMOR_from_json.py
-#, no-python-format
-msgid "You stash your %s."
-msgstr "Vous rangez votre %s."
 
 #. ~ Use action holster_prompt for ammo satchel.
 #. ~ Use action holster_prompt for chest ammo pouch.
@@ -18001,6 +18028,17 @@ msgstr ""
 "jeux de jambes venant de danses de guerre."
 
 #: lang/json/BOOK_from_json.py
+msgid "Break a Leg!"
+msgid_plural "Break a Leg!"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Break a Leg!
+#: lang/json/BOOK_from_json.py
+msgid "The Kids' Guide to Acting and Stagecraft."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
 msgid "AAA Guide"
 msgid_plural "AAA Guide"
 msgstr[0] "Guide AAA"
@@ -20051,6 +20089,20 @@ msgstr ""
 "Un livre cartonné qui vise à former des orateurs efficaces et convaincants."
 
 #: lang/json/BOOK_from_json.py
+msgid "Dungeon Master's Guide: 6th Edition"
+msgid_plural "Dungeon Master's Guide: 6th Editions"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Dungeon Master's Guide: 6th Edition
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A thick, hardcover volume with everything needed to weave legendary stories."
+" It's full of information, but finding the things you're looking for can be "
+"a chore."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
 msgid "Duelist's Annual"
 msgid_plural "Duelist's Annuals"
 msgstr[0] "Revue Annuelle d'Escrime"
@@ -20148,9 +20200,9 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "Pitching a Tent"
-msgid_plural "Pitching a Tents"
-msgstr[0] "Vivre en Tente"
-msgstr[1] "Vivre en Tente"
+msgid_plural "copies of Pitching a Tent"
+msgstr[0] ""
+msgstr[1] ""
 
 #. ~ Description for Pitching a Tent
 #: lang/json/BOOK_from_json.py
@@ -20601,6 +20653,15 @@ msgid "A fresh cow pie, could probably be used to make some great fertilizer."
 msgstr ""
 "Une bouse de vache fraiche, pourrait certainement être utilisée pour faire "
 "un bon engrais."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dog dung"
+msgstr ""
+
+#. ~ Description for dog dung
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Droppings from a canine."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "manure"
@@ -22133,14 +22194,22 @@ msgstr ""
 "appétissant."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "raw sausage"
+msgstr ""
+
+#. ~ Description for raw sausage
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A hefty raw sausage, prepared for smoking."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "sausage"
 msgstr "saucisse"
 
 #. ~ Description for sausage
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A hefty sausage that has been cured for long term storage."
+msgid "A hefty sausage that has been cured and smoked for long term storage."
 msgstr ""
-"Une grosse saucisse qui a été fumée pour sa préservation à long terme."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "uncooked hot dogs"
@@ -22246,6 +22315,15 @@ msgid ""
 "tasty, if you're in the market for human flesh."
 msgstr ""
 "Une longue saucisse. Très savoureuse si vous êtes friand de chair humaine."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raw Mannwurst"
+msgstr ""
+
+#. ~ Description for raw Mannwurst
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A hefty raw 'long-pork' sausage that has been prepared for smoking."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "currywurst"
@@ -22809,6 +22887,17 @@ msgstr ""
 "facile à transporter."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "prepper pemmican"
+msgstr ""
+
+#. ~ Description for prepper pemmican
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A concentrated mixture of fat and protein used as a nutritious high-energy "
+"food.  Composed of tallow, edible plants, and an unfortunate prepper."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "vegetable sandwich"
 msgid_plural "vegetable sandwiches"
 msgstr[0] "sandwich aux légumes"
@@ -23317,6 +23406,19 @@ msgstr ""
 "Une capsule à la parois épaisse et rigide qui contient des graines et des "
 "fibres blanchâtres et soyeuses. On peut en faire des matériaux utiles avec "
 "les bons outils."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "coffee pod"
+msgid_plural "coffee pods"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for coffee pod
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A hard casing filled with coffee seeds ready for roasting.  The seeds create"
+" a dark black, bitter, caffinated liquid not too much unlike coffee."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "broccoli"
@@ -27162,6 +27264,16 @@ msgstr ""
 " gâchis, pas de regrets."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "raw wasteland sausage"
+msgstr ""
+
+#. ~ Description for raw wasteland sausage
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Lean raw sausage made from heavily salt-cured offal, ready to be smoked."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "'special' brownie"
 msgstr "brownie 'spécial'"
 
@@ -28713,12 +28825,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Verum Remedium"
-msgid_plural "Verum Remediums"
+msgid "Panaceus"
+msgid_plural "Panaceii"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Verum Remedium
+#. ~ Description for Panaceus
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "An apple-red gel capsule the size of your thumbnail, filled with a thick "
@@ -29237,6 +29349,21 @@ msgstr[1] "graines de fraisier"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some strawberry seeds."
 msgstr "Des graines de fraisier."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "tobacco seeds"
+msgid_plural "tobacco seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for tobacco seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some tobacco seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "tobacco"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "barley seeds"
@@ -29828,6 +29955,10 @@ msgid "A powerful hallucinogen with low risk of addiction."
 msgstr "Un hallucinogène puissant à faible risque d'addiction."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "antibiotics"
+msgstr "antibiotiques"
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "resinous cord"
 msgstr "corde résineuse"
 
@@ -29917,7 +30048,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "gluten free vegetable sandwich"
-msgid_plural "vegetable sandwiches"
+msgid_plural "gluten free vegetable sandwiches"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -30327,7 +30458,7 @@ msgstr ""
 
 #. ~ Description for gluten free waffle
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Gluten free waffle. It's basically a pancake in hashtage form."
+msgid "Gluten free waffle. It's basically a pancake in hashtag form."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -30336,13 +30467,13 @@ msgstr ""
 
 #. ~ Description for lactose free waffle
 #: lang/json/COMESTIBLE_from_json.py
-msgid "lactose free waffle. It's basically a pancake in hashtage form."
+msgid "Lactose free waffle. It's basically a pancake in hashtag form."
 msgstr ""
 
 #. ~ Description for lactose free waffle
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"gluten free and lactose free waffle. It's basically an  pancake in hashtage "
+"Gluten free and lactose free waffle. It's basically a pancake in hashtag "
 "form."
 msgstr ""
 
@@ -31625,6 +31756,19 @@ msgid "Dummy item.  If you see this, then something went wrong."
 msgstr "Faux objet. Si vous voyez ça, c'est un défaut."
 
 #: lang/json/GENERIC_from_json.py
+msgid "smoldering embers"
+msgid_plural "smoldering emberss"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for smoldering embers
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A handful of smoldering embers emitting smoke.  They are fading away even "
+"when you look at them."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "corpse"
 msgid_plural "corpses"
 msgstr[0] "corps"
@@ -32709,23 +32853,6 @@ msgstr ""
 "Un système conçu pour convertir une station radio en répéteur autonome."
 
 #: lang/json/GENERIC_from_json.py
-msgid "alarm clock"
-msgid_plural "alarm clocks"
-msgstr[0] "réveil"
-msgstr[1] "réveils"
-
-#. ~ Description for alarm clock
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A wind-up alarm clock.  Though the noise it makes is unpleasant to wake up "
-"to, it's always good to get an early start to your day.  Can also be "
-"disassembled into some useful parts."
-msgstr ""
-"Un réveil mécanique. Bien que le bruit qu'il fait soit désagréable pour se "
-"réveiller, il est toujours bon de commencer tôt la journée. Il peut aussi "
-"être démonté pour donner quelques composants utiles."
-
-#: lang/json/GENERIC_from_json.py
 msgid "Kevlar dog harness"
 msgid_plural "Kevlar dog harnesses"
 msgstr[0] "harnais pour chien en Kevlar"
@@ -32895,21 +33022,6 @@ msgstr[1] "horloges"
 #: lang/json/GENERIC_from_json.py
 msgid "A small mechanical clock, it's stopped at 10:10."
 msgstr "Une petite horloge mécanique, elle est arrêtée sur 10:10."
-
-#: lang/json/GENERIC_from_json.py
-msgid "pocket watch"
-msgid_plural "pocket watchs"
-msgstr[0] "montre à gousset"
-msgstr[1] "montres à gousset"
-
-#. ~ Description for pocket watch
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"An old fashioned pocket watch.  This one tells you the time and looks good "
-"doing it.  Can also be disassembled into some useful parts."
-msgstr ""
-"Une montre de poche vieux-jeu. Elle vous donne l'heure avec classe. On peut "
-"aussi la démonter pour récupérer des morceaux utiles."
 
 #: lang/json/GENERIC_from_json.py
 msgid "clockworks"
@@ -33616,6 +33728,19 @@ msgstr ""
 "indien traditionnellement cultivée pour ses fibres, sont huile, ses "
 "propriétés médicales et pour son usage en drogue récréative. Elle requiert "
 "plus de traitements pour être utile."
+
+#: lang/json/GENERIC_from_json.py
+msgid "raw tobacco"
+msgid_plural "handfuls of raw tobacco"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for raw tobacco
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Various parts of tobacco plant, full of nicotine.  They need to be dried to "
+"become smokable."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "science ID card"
@@ -36651,6 +36776,19 @@ msgstr[1] "mini réfrigérateurs"
 msgid "A very small fridge for keeping food cool."
 msgstr "Un tout petit réfrigérateur pour conserver la nourriture au frais."
 
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "minifreezer"
+msgid_plural "minifreezers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for minifreezer
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Compact version of a chest freezer, designed as a mobile solution for "
+"freezing food."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py lang/json/furniture_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "washing machine"
@@ -36881,6 +37019,21 @@ msgid ""
 "cargo, with additional railings to keep a large animal in place.  It is "
 "meant to hold large animals for transport.  Use it on a suitable animal to "
 "capture, use it on an empty tile to release."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "animal locker"
+msgid_plural "animal lockers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for animal locker
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A locker used to contain animals safely during transportation if installed "
+"properly.  There is room for animal food and other animal care goods.  It is"
+" meant to hold medium or smaller animals for transport.  Use it on a "
+"suitable animal to capture, use it on an empty tile to release."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -37524,6 +37677,17 @@ msgstr[1] "douilles de .308"
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .308 round."
 msgstr "Une douille vide de .308."
+
+#: lang/json/GENERIC_from_json.py
+msgid "7.62x51mm casing"
+msgid_plural "7.62x51mm casings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 7.62x51mm casing
+#: lang/json/GENERIC_from_json.py
+msgid "An empty casing from a 7.62x51mm M80 round."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ".32 ACP casing"
@@ -41043,15 +41207,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "cannister rack"
+msgid "canister rack"
 msgstr ""
 
-#. ~ Description for cannister rack
+#. ~ Description for canister rack
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "An improvised magazine for a vehicle mounted weapon.  A simple metal box "
 "with some plastic guide rails, it acts as a gravity fed hopper to drop a "
-"heavy cannister into the weapon below.  It is awkward to reload and not "
+"heavy canister into the weapon below.  It is awkward to reload and not "
 "especially reliable."
 msgstr ""
 
@@ -41546,13 +41710,13 @@ msgid ""
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Bens GF recipies"
+msgid "Bens GF recipes"
 msgstr ""
 
-#. ~ Description for Bens GF recipies
+#. ~ Description for Bens GF recipes
 #: lang/json/MOD_INFO_from_json.py
 msgid ""
-"Some simple gluten free and lactose free alternative recipie options. NOT "
+"Some simple gluten free and lactose free alternative recipe options. NOT "
 "EXHAUSTIVE."
 msgstr ""
 
@@ -42290,7 +42454,7 @@ msgstr "gozu"
 msgid ""
 "This is some sort of unnatural cross between a bull and a man.  Quite "
 "different from the minotaur of legend, it possesses a shaggy white bull’s "
-"head on an otherwise unremarkable human body. Clad in sagging socks and "
+"head on an otherwise unremarkable human body.  Clad in sagging socks and "
 "stained jockey shorts, it grunts and snuffles, drooling ropey strands of "
 "white slobber down its chest.  Its mere presence fills you with an "
 "unfathomable dread."
@@ -43482,7 +43646,7 @@ msgstr ""
 
 #. ~ Description for goose
 #: lang/json/MONSTER_from_json.py
-msgid "A canadian goose, a common waterfowl that regrets leaving Canada."
+msgid "A Canadian goose, a common waterfowl that regrets leaving Canada."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -44441,9 +44605,9 @@ msgstr "puma"
 msgid ""
 "The Eastern cougar, a large feline predator.  Once thought extinct in this "
 "region, conservation efforts were successful in restoring a thriving "
-"population. Fast and silent, this predator can cover long distances with "
+"population.  Fast and silent, this predator can cover long distances with "
 "powerful leaps and pounces, catching its prey with its deadly claws before "
-"delivering the finishing blow with its enormous fangs.“"
+"delivering the finishing blow with its enormous fangs."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -44514,12 +44678,274 @@ msgstr ""
 "Un cerf des bois du nord. Fort et rapide. Il est la proie favorite des "
 "coyotes et des araignées mutantes géantes."
 
-#. ~ Description for dog
+#: lang/json/MONSTER_from_json.py
+msgid "labrador mutt"
+msgstr ""
+
+#. ~ Description for labrador mutt
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"This once average mixed breed dog has clearly gone feral.  You can almost "
-"imagine petting it until you see the look of hunger in its eyes.  You have "
-"no doubt it would kill you if given the chance"
+"This once average Labrador mixed breed dog has clearly gone feral.  You can "
+"almost imagine petting it until you see the look of hunger in its eyes.  You"
+" have no doubt it would bite you if given the chance."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "labrador puppy"
+msgstr ""
+
+#. ~ Description for labrador puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Labrador puppy.  Much safer to tame than adult "
+"counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "bulldog"
+msgstr ""
+
+#. ~ Description for bulldog
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The American Bulldog is a hardy, well built dog, that seems suited for "
+"surviving the apocalypse."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "bulldog puppy"
+msgstr ""
+
+#. ~ Description for bulldog puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless American Bulldog puppy.  Much safer to tame than "
+"adult counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "pit bull mix"
+msgstr ""
+
+#. ~ Description for pit bull mix
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The oft-misunderstood Pit Bull is not actually a single breed but a label "
+"for several such as American Pit Bull Terrier and American Staffordshire "
+"Terrier.  Average abilities and well-known for their 'lock jaw' which isn't "
+"real but their incredible determination is."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "pit bull puppy"
+msgstr ""
+
+#. ~ Description for pit bull puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Pit Bull puppy.  Much safer to tame than adult "
+"counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "beagle"
+msgstr ""
+
+#. ~ Description for beagle
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable Beagle that has managed to survive the apocalypse.  Being agile "
+"and small, they are difficult to shoot at.  Generally attacks in packs."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "beagle puppy"
+msgstr ""
+
+#. ~ Description for beagle puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Beagle puppy.  Much safer to tame than adult "
+"counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "border collie"
+msgstr ""
+
+#. ~ Description for border collie
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An athletic and hyperactive dog that loves to herd animals and jump, the "
+"Border Collie is an agile attacker.  Although they can be easy to train, "
+"they don't work well in packs."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "border collie puppy"
+msgstr ""
+
+#. ~ Description for border collie puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Border Collie puppy.  Much safer to tame than adult"
+" counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "boxer mastiff"
+msgstr ""
+
+#. ~ Description for boxer mastiff
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An ordinary breed full of affection, the Boxer Mastiff doesn't stand out "
+"amongst other dogs but has mediocre abilities nonetheless."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "boxer puppy"
+msgstr ""
+
+#. ~ Description for boxer puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Boxer puppy.  Much safer to tame than adult "
+"counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "chihuahua"
+msgstr ""
+
+#. ~ Description for chihuahua
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"It's a tiny Chihuahua.  How it has managed to survive is a miracle; although"
+" its small size and aggressive nature may been useful."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "chihuahua puppy"
+msgstr ""
+
+#. ~ Description for chihuahua puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Chihuahua puppy.  Much safer to tame than adult "
+"counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "dachshund"
+msgstr ""
+
+#. ~ Description for dachshund
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A weiner dog!  This awkward looking dog can be a useful watch dog, plus it "
+"looks adorable as it bumbles around, also making it hard to shoot."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "dachshund puppy"
+msgstr ""
+
+#. ~ Description for dachshund puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Dachshund puppy.  Much safer to tame than adult "
+"counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "german shepherd"
+msgstr ""
+
+#. ~ Description for german shepherd
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The original K-9 breed.  An easy to train and great attack dog that will "
+"also defend its owner to the death, however they don't work well in packs."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "german shepherd puppy"
+msgstr ""
+
+#. ~ Description for german shepherd puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless German Shepherd puppy.  Much safer to tame than "
+"adult counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "great pyrenees"
+msgstr ""
+
+#. ~ Description for great pyrenees
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A large and powerful breed, the Great Pyrenees has a beautiful, thick white "
+"coat.  Originally bred to deter wolves and other predators, now faced with "
+"protecting livestock from shambling hordes of undead."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "great pyrenees puppy"
+msgstr ""
+
+#. ~ Description for great pyrenees puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Great Pyrenees puppy.  Much safer to tame than "
+"adult counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "rottweiler"
+msgstr ""
+
+#. ~ Description for rottweiler
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Terrifying breed to face feral, as the Rottweiler breed is descended from "
+"Roman legion mastiffs.  Robust and vicious, quite capable of mauling a human"
+" to death."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "rottweiler puppy"
+msgstr ""
+
+#. ~ Description for rottweiler puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Rottweiler puppy.  Much safer to tame than adult "
+"counterparts."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "cattle dog"
+msgstr ""
+
+#. ~ Description for cattle dog
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An agile and sturdy breed that is welcome on any farm, the Australian Cattle"
+" Dog is adept at leaping fences and herding livestock."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "cattle dog puppy"
+msgstr ""
+
+#. ~ Description for cattle dog puppy
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An adorable, defenseless Australian Cattle Dog puppy.  Much safer to tame "
+"than adult counterparts."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -47890,6 +48316,23 @@ msgid ""
 "the button on top causes it to emit a loud honking sound."
 msgstr ""
 
+#: lang/json/TOOL_from_json.py
+msgid "alarm clock"
+msgid_plural "alarm clocks"
+msgstr[0] "réveil"
+msgstr[1] "réveils"
+
+#. ~ Description for alarm clock
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A wind-up alarm clock.  Though the noise it makes is unpleasant to wake up "
+"to, it's always good to get an early start to your day.  Can also be "
+"disassembled into some useful parts."
+msgstr ""
+"Un réveil mécanique. Bien que le bruit qu'il fait soit désagréable pour se "
+"réveiller, il est toujours bon de commencer tôt la journée. Il peut aussi "
+"être démonté pour donner quelques composants utiles."
+
 #: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
 #: lang/json/tool_quality_from_json.py
 msgid "anvil"
@@ -49478,12 +49921,12 @@ msgstr ""
 "forces armées et est la favorite des campeurs pour creuser."
 
 #: lang/json/TOOL_from_json.py
-msgid "E-Ink Tablet PC"
-msgid_plural "E-Ink Tablet PCs"
-msgstr[0] "tablette E-Ink"
-msgstr[1] "tablettes E-Ink"
+msgid "e-ink tablet PC"
+msgid_plural "e-ink tablet PCs"
+msgstr[0] ""
+msgstr[1] ""
 
-#. ~ Description for E-Ink Tablet PC
+#. ~ Description for e-ink tablet PC
 #: lang/json/TOOL_from_json.py
 msgid ""
 "A tablet PC using an efficient color e-ink display.  Before the cataclysm, "
@@ -51823,6 +52266,21 @@ msgstr ""
 "plus complexes requièrent une clé à molette."
 
 #: lang/json/TOOL_from_json.py
+msgid "pocket watch"
+msgid_plural "pocket watchs"
+msgstr[0] "montre à gousset"
+msgstr[1] "montres à gousset"
+
+#. ~ Description for pocket watch
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An old fashioned pocket watch.  This one tells you the time and looks good "
+"doing it.  Can also be disassembled into some useful parts."
+msgstr ""
+"Une montre de poche vieux-jeu. Elle vous donne l'heure avec classe. On peut "
+"aussi la démonter pour récupérer des morceaux utiles."
+
+#: lang/json/TOOL_from_json.py
 msgid "pocket knife"
 msgid_plural "pocket knives"
 msgstr[0] "couteau de poche"
@@ -53857,6 +54315,32 @@ msgid ""
 " spread to surrounding flammable objects."
 msgstr ""
 
+#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
+msgid "metal butchering rack"
+msgid_plural "metal butchering racks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for metal butchering rack
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Metal butchering rack designed to hang a carcass in the air.  It is folded "
+"for easy transportation and can be deployed as a furniture."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
+msgid "tourist table"
+msgid_plural "tourist tables"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for tourist table
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Metal tourist table for off-road trips.  It is folded for easy "
+"transportation and can be deployed as a furniture."
+msgstr ""
+
 #: lang/json/TOOL_from_json.py
 msgid "electric lantern (off)"
 msgid_plural "electric lanterns (off)"
@@ -55085,6 +55569,18 @@ msgstr "Arrêter de démonter?"
 #: lang/json/activity_type_from_json.py
 msgid "Stop butchering?"
 msgstr "Arrêter le dépeçage?"
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop field dressing?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop quartering?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop dissecting?"
+msgstr ""
 
 #: lang/json/activity_type_from_json.py
 msgid "Stop salvaging?"
@@ -57125,6 +57621,10 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Mark firewood source"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Butchering Rack"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -59809,7 +60309,7 @@ msgstr "Exalté"
 
 #. ~ Description of effect 'Elated'.
 #: lang/json/effects_from_json.py
-msgid "I'm on top of the world, baby!."
+msgid "I'm on top of the world, baby!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -60548,6 +61048,15 @@ msgid "whish."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "pile of woodchips"
+msgstr ""
+
+#. ~ Description for pile of woodchips
+#: lang/json/furniture_from_json.py
+msgid "Pile of chipped wood pieces.  You can move it with a shovel."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "pile of rubble"
 msgstr "tas de décombres"
 
@@ -60565,6 +61074,17 @@ msgstr "tas de gravats"
 #. ~ Description for pile of rocky rubble
 #: lang/json/furniture_from_json.py
 msgid "Pile of rocks.  Useless."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "pile of trashy rubble"
+msgstr ""
+
+#. ~ Description for pile of trashy rubble
+#: lang/json/furniture_from_json.py
+msgid ""
+"Trash topped with dirt and grass, it smells gross and but another mans "
+"trash..."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -60783,14 +61303,18 @@ msgid "You could lay in and take a soothing bath.  Only if water was running."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-msgid "chair"
-msgstr "chaise"
+msgid "stool"
+msgstr ""
 
-#. ~ Description for chair
 #. ~ Description for stool
+#. ~ Description for chair
 #: lang/json/furniture_from_json.py
 msgid "Sit down, have a drink."
 msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "chair"
+msgstr "chaise"
 
 #: lang/json/furniture_from_json.py
 msgid "arm chair"
@@ -60826,6 +61350,15 @@ msgstr "poubelle"
 #. ~ Description for trash can
 #: lang/json/furniture_from_json.py
 msgid "One man's trash is another mans dinner."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "recycle bin"
+msgstr ""
+
+#. ~ Description for recycle bin
+#: lang/json/furniture_from_json.py
+msgid "Stores items for recycling."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -60883,12 +61416,30 @@ msgid "Sit down when you eat!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "coat rack"
+msgstr ""
+
+#. ~ Description for coat rack
+#: lang/json/furniture_from_json.py
+msgid "A hooked rack for hanging jackets."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "sign"
 msgstr "pancarte"
 
 #. ~ Description for sign
 #: lang/json/furniture_from_json.py
 msgid "Read it.  Warnings ahead."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "mailbox"
+msgstr ""
+
+#. ~ Description for mailbox
+#: lang/json/furniture_from_json.py
+msgid "A box, for mail."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -61020,7 +61571,7 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/ballistics.cpp src/iuse.cpp src/map.cpp
+#: src/ballistics.cpp src/iuse.cpp src/map.cpp src/map.cpp
 msgid "glass breaking!"
 msgstr "bris de verre!"
 
@@ -61274,6 +61825,15 @@ msgid "Put clothes on it and wish you looked as good."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "target"
+msgstr ""
+
+#. ~ Description for target
+#: lang/json/furniture_from_json.py
+msgid "A shooting target in a rough shape of a human."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "marloss flower"
 msgstr ""
 
@@ -61460,6 +62020,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "active smoking rack"
+msgstr ""
+
+#. ~ Description for active smoking rack
+#: lang/json/furniture_from_json.py
+msgid ""
+"A special rack designed to smoke food for better preservation and taste.  It"
+" is lit and smoking."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "rock forge"
 msgstr "forge en pierre"
 
@@ -61581,63 +62152,24 @@ msgid ""
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-msgid "recycle bin"
+msgid "butchering rack"
 msgstr ""
 
-#. ~ Description for recycle bin
+#. ~ Description for butchering rack
 #: lang/json/furniture_from_json.py
-msgid "Stores items for recycling."
+msgid "Butchering rack designed to hang a carcass in the air."
 msgstr ""
 
-#: lang/json/furniture_from_json.py
-msgid "pile of trashy rubble"
-msgstr ""
-
-#. ~ Description for pile of trashy rubble
+#. ~ Description for metal butchering rack
 #: lang/json/furniture_from_json.py
 msgid ""
-"Trash topped with dirt and grass, it smells gross and but another mans "
-"trash..."
+"Metal butchering rack designed to hang a carcass in the air.  It can be "
+"deconstructed and folded for easy transportation."
 msgstr ""
 
+#. ~ Description for tourist table
 #: lang/json/furniture_from_json.py
-msgid "target"
-msgstr ""
-
-#. ~ Description for target
-#: lang/json/furniture_from_json.py
-msgid "A shooting target in a rough shape of a human."
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-msgid "pile of woodchips"
-msgstr ""
-
-#. ~ Description for pile of woodchips
-#: lang/json/furniture_from_json.py
-msgid "Pile of chipped wood pieces.  You can move it with a shovel."
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-msgid "coat rack"
-msgstr ""
-
-#. ~ Description for coat rack
-#: lang/json/furniture_from_json.py
-msgid "A hooked rack for hanging jackets."
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-msgid "mailbox"
-msgstr ""
-
-#. ~ Description for mailbox
-#: lang/json/furniture_from_json.py
-msgid "A box, for mail."
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-msgid "stool"
+msgid "Small metal folding table, ideal for off-road trips into the wild."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -62378,8 +62910,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "survivor's rocket launcher"
-msgid_plural "survivor's rocket launchers"
+msgid "crude rocket launcher"
+msgid_plural "crude rocket launchers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -62794,9 +63326,9 @@ msgid ""
 "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in "
 "multiple applications, and is designed to part-swap quickly, safely, and "
 "effectively from one to the next.  The carbine model incorporates Leadworks'"
-" proprietary gyro-stabilization technology and includes a read-dot sight and"
-" an integral laser sight.  Additionally it comes with underslung shotgun for"
-" close range encounters.  Like the rest of the family, doesn't accept third-"
+" proprietary gyro-stabilization technology and includes a red-dot sight and "
+"an integral laser sight.  Additionally it comes with underslung shotgun for "
+"close range encounters.  Like the rest of the family, doesn't accept third-"
 "party modifications."
 msgstr ""
 
@@ -62959,15 +63491,15 @@ msgstr ""
 "et bénéficient d'un recul minime et d'une grande précision."
 
 #: lang/json/gun_from_json.py
-msgid "survivor carbine"
-msgid_plural "survivor carbines"
-msgstr[0] "carabine de survivant"
-msgstr[1] "carabines de survivants"
+msgid "handmade carbine"
+msgid_plural "handmade carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A well designed improvised carbine with a shortened barrel.  Accepting crude"
-" detachable magazines this is one of the better homemade weapons."
+"A well-designed improvised carbine with a shortened barrel.  Accepting crude"
+" detachable magazines, this is one of the better homemade weapons."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -63097,10 +63629,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "Survivor Special 700"
-msgid_plural "Survivor Special 700"
-msgstr[0] "Survivor Special 700"
-msgstr[1] "Survivor Special 700"
+msgid "Special 700"
+msgid_plural "Special 700s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -63237,6 +63769,21 @@ msgid ""
 "A highly accurate and modular battle rifle specially designed for the United"
 " States Special Operations Command.  The 'H' in its name stands for heavy, "
 "as it uses the powerful .308 round."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "M24"
+msgid_plural "M24"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid ""
+"The M24 Sniper is the military and police version of the Remington Model 700"
+" rifle, M24 being the model name assigned by the United States Army after "
+"adoption as their standard sniper rifle in 1988. The M24 is referred to as a"
+" 'weapon system' because it consists of not only a rifle, but also a "
+"detachable telescopic sight and other accessories."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -63392,15 +63939,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "survivor's six shooter"
-msgid_plural "survivor's six shooters"
+msgid "handmade six-shooter"
+msgid_plural "handmade six-shooters"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm "
-"manufactured weapons, it's a decent piece of work all things considered."
+"A homemade 6-shot revolver.  While it's not as good as the pre-Cataclysm "
+"manufactured weapons, it's a decent piece of work, all things considered."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -64544,8 +65091,8 @@ msgstr ""
 "fabriquer."
 
 #: lang/json/gun_from_json.py
-msgid "survivor's double-barrel flintlock"
-msgid_plural "survivor's double-barrel flintlocks"
+msgid "handmade double-barrel flintlock"
+msgid_plural "handmade double-barrel flintlocks"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -64836,8 +65383,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "makeshift lever shotgun"
-msgid_plural "makeshift lever shotguns"
+msgid "handmade lever shotgun"
+msgid_plural "handmade lever shotguns"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -65603,6 +66150,18 @@ msgstr[1] ""
 msgid ""
 "A home-made gun.  It is simply a pipe attached to a stock, with a hammer to "
 "strike the single round it holds."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "survivor's six shooter"
+msgid_plural "survivor's six shooters"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid ""
+"A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm "
+"manufactured weapons, it's a decent piece of work all things considered."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -66910,7 +67469,7 @@ msgstr[1] ""
 #: lang/json/gunmod_from_json.py
 msgid ""
 "A Leadworks built in heavy duty barrel especially designed for prolonged "
-"shooting.  Reduce accuracy but increase damage output and weapon range."
+"shooting.  Reduced accuracy but increase damage output and weapon range."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -67475,6 +68034,19 @@ msgstr[1] ""
 #: lang/json/gunmod_from_json.py
 msgid "A replacement stock designed to absorb perceived recoil."
 msgstr "Une crosse qui absorbe le choc de recul."
+
+#: lang/json/gunmod_from_json.py
+msgid "cheek pad"
+msgid_plural "cheek pads"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A stock accessory for sniper rifles and even DMRs considerably improving eye"
+" relief efficiency, prevents slipping, and reduces recoil to the neck and "
+"cheek."
+msgstr ""
 
 #: lang/json/gunmod_from_json.py
 msgid "aux flamethrower"
@@ -68472,8 +69044,25 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
+"While wielded, this item allows you to mine thorough rocks and other hard "
+"obstacles by moving into tiles with them."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
 "As a weapon, this item is <good>well-made</good> and will <info>withstand "
 "the punishment of combat</info>."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This tastes <good>better</good> while <color_light_cyan>cold</color>."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This tastes <good>better</good> while <color_red>hot</color>."
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -68636,6 +69225,12 @@ msgid ""
 msgstr ""
 "Ce vêtement a des <info>poches</info> pour réchauffer vos mains quand vous "
 "ne maniez rien."
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"If turned ON, it uses its own source of power, instead of relying on power "
+"of the user."
+msgstr ""
 
 #: lang/json/json_flag_from_json.py
 #, no-python-format
@@ -68970,8 +69565,7 @@ msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
-msgid ""
-"When turned on, this devices drains power from the vehicle's batteries."
+msgid "When turned on, this device drains power from the vehicle's batteries."
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -70241,6 +70835,10 @@ msgid "Toggle fridge"
 msgstr "Basculer réfrigérateur"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle freezer"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle headlights"
 msgstr "Basculer phares"
 
@@ -70347,6 +70945,11 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "Danger!  Do not smoke!  Risk of explosion!"
+msgstr ""
+
+#. ~ Sign
+#: lang/json/mapgen_from_json.py
+msgid "Wide selection of storage batteries!  Discounts!"
 msgstr ""
 
 #. ~ Sign
@@ -71094,16 +71697,6 @@ msgstr ""
 msgid "Stem Cell Treatment"
 msgstr ""
 
-#. ~ Sign
-#: lang/json/mapgen_from_json.py
-msgid "the address has been defaced"
-msgstr "l'adresse a été rendue illisible"
-
-#. ~ Sign
-#: lang/json/mapgen_from_json.py
-msgid "the address is unreadable"
-msgstr "l'adresse est illisible"
-
 #. ~ Computer name
 #: lang/json/mapgen_from_json.py
 msgid "Barracks Entrance"
@@ -71186,7 +71779,7 @@ msgstr ""
 
 #. ~ Computer name
 #: lang/json/mapgen_from_json.py
-msgid "Labratory Train Controls"
+msgid "Laboratory Train Controls"
 msgstr ""
 
 #. ~ Computer option
@@ -75239,7 +75832,23 @@ msgid "Barfed"
 msgstr ""
 
 #: lang/json/morale_type_from_json.py
+msgid "Lit a fire"
+msgstr ""
+
+#: lang/json/morale_type_from_json.py
+msgid "Spent time close to fire"
+msgstr ""
+
+#: lang/json/morale_type_from_json.py
+msgid "Craving fire"
+msgstr ""
+
+#: lang/json/morale_type_from_json.py
 msgid "Filthy Gear"
+msgstr ""
+
+#: lang/json/morale_type_from_json.py
+msgid "Anguished by memories of butchering human corpse"
 msgstr ""
 
 #: lang/json/morale_type_from_json.py
@@ -75770,7 +76379,7 @@ msgstr ""
 
 #. ~ Mutation class: Chimera iv_sound_message
 #: lang/json/mutation_category_from_json.py
-msgid "yourself roar in agony!!"
+msgid "yourself roar in agony!"
 msgstr ""
 
 #. ~ Mutation class: Chimera Male memorial messsage
@@ -76213,6 +76822,17 @@ msgid ""
 "You eat faster, and can eat and drink more, than anyone else!  You also "
 "enjoy food more; delicious food is better for your morale, and you don't "
 "mind unsavory meals as much.  Activate to skip prompt for overeating."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Bookworm"
+msgstr ""
+
+#. ~ Description for Bookworm
+#: lang/json/mutation_from_json.py
+msgid ""
+"There's nothing quite like the smell of a good book!  Books are more fun (or"
+" less boring) for you!"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -76766,6 +77386,17 @@ msgstr ""
 "votre moral."
 
 #: lang/json/mutation_from_json.py
+msgid "Hates Books"
+msgstr ""
+
+#. ~ Description for Hates Books
+#: lang/json/mutation_from_json.py
+msgid ""
+"Reading is for nerds!  Boring books are more boring, and you can't have fun "
+"by reading books."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Hates Fruit"
 msgstr "Déteste les fruits"
 
@@ -76950,6 +77581,15 @@ msgstr ""
 "Vous souffrez périodiquement de délires allant d'effets mineurs à de "
 "véritables hallucinations visuelles. Certains de ces effets peuvent être "
 "contrôlés en prenant de la Thorazine."
+
+#: lang/json/mutation_from_json.py
+msgid "Narcoleptic"
+msgstr ""
+
+#. ~ Description for Narcoleptic
+#: lang/json/mutation_from_json.py
+msgid "You randomly fall asleep without any reason."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Clumsy"
@@ -78043,7 +78683,7 @@ msgid ""
 "We have synchronized our local physiology with that of the Mycus.  Any "
 "spores we may encounter will not attempt to germinate inside the local "
 "system, and we may traverse Mycus biospheres easily, as native bioforms "
-"shift shape to accomodate us."
+"shift shape to accommodate us."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -80730,6 +81370,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Pyromania"
+msgstr ""
+
+#. ~ Description for Pyromania
+#: lang/json/mutation_from_json.py
+msgid ""
+"You have an unhealthy obsession with fire, and you get anxious if you don't "
+"light them every now and then or stand near them often.  However, you gain a"
+" mood bonus from doing so."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Police Officer"
 msgstr "Officier de police"
 
@@ -80867,6 +81519,19 @@ msgid ""
 "You're trained in proper operation of the Autodoc, an advanced machine used "
 "for surgical procedures.  Operations involving it will be moderately more "
 "likely to succeed."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Dungeon Master"
+msgstr ""
+
+#. ~ Description for Dungeon Master
+#: lang/json/mutation_from_json.py
+msgid ""
+"Weeks spent picking through manuals and researching topics you aren't versed"
+" in has taught you to find what you need to know more quickly. You read "
+"slightly faster, and suffer no reading time penalty for books too complex "
+"for you to easily understand."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -81521,10 +82186,6 @@ msgid "Raider"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "house"
-msgstr "maison"
-
-#: lang/json/overmap_terrain_from_json.py
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp src/mapdata.cpp
 msgid "nothing"
 msgstr "rien"
@@ -81590,6 +82251,14 @@ msgstr "rivière"
 #: lang/json/overmap_terrain_from_json.py
 msgid "river bank"
 msgstr "rive"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "house"
+msgstr "maison"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "duplex"
+msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "parking lot"
@@ -81760,8 +82429,8 @@ msgid "pawn shop"
 msgstr "préteur sur gages"
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "mil. surplus"
-msgstr "surplus militaire"
+msgid "military surplus"
+msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "furniture store"
@@ -81844,8 +82513,8 @@ msgid "radio station"
 msgstr "station radio"
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "evac shelter"
-msgstr "abri d'évacuation"
+msgid "evacuation shelter"
+msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "LMOE shelter"
@@ -82144,7 +82813,7 @@ msgid "Vault - Transition Bay"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "Vault - Maint. Bay"
+msgid "Vault - Maintenance Bay"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -82292,14 +82961,6 @@ msgid "art gallery"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "state park"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "state park parking"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "fishing pond"
 msgstr ""
 
@@ -82325,6 +82986,14 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "derelict property"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "state park"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "state park parking"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -82493,7 +83162,7 @@ msgid "dollar store"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "lan center"
+msgid "LAN center"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -82515,6 +83184,14 @@ msgstr ""
 #: lang/json/overmap_terrain_from_json.py
 msgid "abandoned drive-through"
 msgstr "service-au-volant abandonné"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "animal pound"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "animal shelter"
+msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "antique store"
@@ -82802,7 +83479,19 @@ msgid "mechanics garage"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "mil. surplus"
+msgstr "surplus militaire"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "evac shelter"
+msgstr "abri d'évacuation"
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "mechanic garage"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Vault - Maint. Bay"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -86895,6 +87584,68 @@ msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
+msgid "Game Master"
+msgstr ""
+
+#. ~ Profession (male Game Master) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"Trying to herd cats into getting into one place every week has taught you "
+"something: it's usually better to cut your losses and trust your gut. For "
+"that reason, when you had two no-shows and the other two tried to eat you, "
+"you ditched. Maybe you can find some new players in the ruins of the world."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Game Master"
+msgstr ""
+
+#. ~ Profession (female Game Master) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"Trying to herd cats into getting into one place every week has taught you "
+"something: it's usually better to cut your losses and trust your gut. For "
+"that reason, when you had two no-shows and the other two tried to eat you, "
+"you ditched. Maybe you can find some new players in the ruins of the world."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Game Master"
+msgstr ""
+
+#. ~ Profession (male Bionic Game Master) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You came into a large fortune, through luck or will, and hosted games for "
+"people that most of the world knew on a first-name basis. You could afford "
+"to spoil your players, and so you did. You invested in bionics to make you "
+"smarter, and memorized the entire handbook. Let's hope that knowledge helps "
+"you now."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bionic Game Master"
+msgstr ""
+
+#. ~ Profession (female Bionic Game Master) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You came into a large fortune, through luck or will, and hosted games for "
+"people that most of the world knew on a first-name basis. You could afford "
+"to spoil your players, and so you did. You invested in bionics to make you "
+"smarter, and memorized the entire handbook. Let's hope that knowledge helps "
+"you now."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Brave of the King"
 msgstr ""
 
@@ -89430,7 +90181,7 @@ msgid ""
 "You were on your way to another routine job, it might of been a target to "
 "kill, an item to steal or intel to gather.  Whatever it was doesn't matter "
 "anymore; you did your best to avoid the horde and when you arrive, the place"
-" is sorrounded, not by cops as you might expected, but by the dead. Worse, "
+" is surrounded, not by cops as you might expected, but by the dead. Worse, "
 "you got a cut somewhere along the way and it's looking infected."
 msgstr ""
 
@@ -89441,7 +90192,7 @@ msgid ""
 "You were on your way to another routine job, it might of been a target to "
 "kill, an item to steal or intel to gather.  Whatever it was doesn't matter "
 "anymore; you did your best to avoid the horde and when you arrive, the place"
-" is sorrounded, not by cops as you might expected, but by the dead. Worse, "
+" is surrounded, not by cops as you might expected, but by the dead. Worse, "
 "you got a cut somewhere along the way and it's looking infected."
 msgstr ""
 
@@ -90016,792 +90767,6 @@ msgstr ""
 msgid ""
 "Awareness seems to only come with a battle... and your body seem to be on "
 "its side."
-msgstr ""
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Squirrels are pretty yummy, but if you shoot them with a high-powered gun "
-"you'll probably be left with no meat!  Use a BB gun or maybe a .22 rifle."
-msgstr ""
-"Les écureuils sont bons mais si tu leur tires dessus avec un pistolet "
-"puissant, il ne restera probablement plus de viande ! Utilise un pistolet à "
-"air comprimé ou peut-être un fusil à calibre 22."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Ever run into those big worm things?  If you see trails of churned-up dirt, "
-"you can be sure they're around."
-msgstr ""
-"As-tu déjà croisé la route de ces gros vers? Si tu vois des traînées de "
-"terre retournée, tu peux être certain qu'ils sont dans le coin."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Try to stay on the roads as much as you can.  Giant worms can't cross them!"
-msgstr ""
-"Essaye de rester au maximum sur les routes. Les vers géants ne peuvent pas "
-"les traverser!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Don't relax after killing a giant worm.  Little bits of them can break off "
-"and still attack!"
-msgstr ""
-"Ne te relâche pas après avoir tué un ver géant. Des parties de leur cadavre "
-"peuvent se détacher et continuer à attaquer!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you see a big mob of zombies coming, RUN!  Trying to fight them all is "
-"suicide unless you have a big tactical advantage."
-msgstr ""
-"Si tu vois un gros groupe de zombies en approche, COURS! Tenter de tous les "
-"combattre est du suicide à moins que tu aies un gros avantage tactique."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Watch out for those zombies that shriek; they'll let other zombies know "
-"where you are, and will attract them from all over."
-msgstr ""
-"Fais attention aux zombies qui hurlent car ils font savoir aux autres "
-"zombies ta position et les attire de toutes parts."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Those acid-spitting zombies are pretty nasty, but if you're smart, you can "
-"get other zombies to wade through the acid."
-msgstr ""
-"Ces zombies cracheurs d'acide sont assez redoutables, mais en étant malin tu"
-" peux faire patauger les autres zombies dans l'acide."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If there's a pool of acid blocking your way, trying tossing a junk item into"
-" it.  Eating up items will help neutralize the acid faster."
-msgstr ""
-"Si une flaque d'acide te bloque le chemin, essaie d'y lancer un objet "
-"inutile. L'acide est neutralisé plus rapidement lorsqu'il consume des "
-"objets."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"There's this type of zombie that can shoot bolts of lightning!  Stay away "
-"from walls and stuff when they do... the electricity can travel along solid "
-"surfaces."
-msgstr ""
-"Il y a ce type de zombie qui peut tirer des éclairs! Tiens toi à distance "
-"des murs et des objets lorsqu'ils le font... l'électricité peut passer dans "
-"les surfaces solides."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Zombie hulks are NASTY, but they're easy to outsmart.  If there's other "
-"monsters between you and them, they'll kill the monster for you!"
-msgstr ""
-"Les zombies hulks sont MÉCHANTS mais on peut facilement se montrer plus "
-"malin qu'eux. Les hulks tueront les autres monstres entre eux et toi!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you run into a zombie hulk, it's probably a good idea to run.  They're "
-"fast as hell, but pretty dumb; they'll try to smash through obstacles rather"
-" than going around, and that slows them down a lot."
-msgstr ""
-"Si tu croises un zombie hulk, une bonne idée serait probablement de courir. "
-"Ils sont très rapides, mais vraiment bêtes; ils essaieront de fracasser les "
-"obstacles plutôt que les contourner, ce qui les ralentit considérablement."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Zombie brutes and hulks have really tough hide.  Don't bother shooting at "
-"them with lower-caliber guns, the bullet will bounce right off!"
-msgstr ""
-"Les zombies brutes et les zombies hulks ont une peau très résistante. Ne "
-"t'embête pas à leur tirer dessus avec des petits calibres car les balles "
-"ricocheront !"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Try not to kill a boomer if it's standing right next to you.  They tend to "
-"explode when they die, and that pink goop will get all over you."
-msgstr ""
-"Essaie de tuer les boomers à distance. Généralement ils explosent en "
-"mourant, et si tu te tiens à proximité à ce moment, tu seras couvert de "
-"cette substance rose visqueuse."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Skeletons are a tough target.  They're so skinny and full of holes that "
-"bullets fired at them will usually just fly right past."
-msgstr ""
-"Les squelettes sont des cibles délicates. Ils sont tellement maigres et "
-"plein de trous que les balles qu'on leur tire passeront généralement à "
-"travers eux."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Skeletons are too delicate to smash through doors or windows.  They also "
-"can't smell you, unlike zombies, so if you turn your light off at night you "
-"can sneak right past."
-msgstr ""
-"Les squelettes sont trop fragiles pour fracasser les portes et les fenêtres."
-" Ils sont également incapables de te sentir, contrairement aux zombies, donc"
-" si tu éteins ta lampe de poche la nuit, tu pourras te faufiler "
-"discrètement."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Don't try to take on a skeleton with a bladed weapon... you'll just leave "
-"scratch marks.  You've got to shatter those bones with a hammer or "
-"something."
-msgstr ""
-"N'essaie pas d'attaquer un squelette avec une lame... tu ne feras que des "
-"éraflures. Il faut briser les os avec un marteau ou un outil similaire."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"It's a good idea to butcher corpses if you have the time, even if you don't "
-"plan on eating them.  I've seen these weird zombies bring their friends back"
-" from the dead!"
-msgstr ""
-"Mieux vaut dépecer les corps si tu as le temps, même si tu ne prévois pas de"
-" les manger. J'ai vu ces zombies bizarres faire revenir leurs amis d'entre "
-"les morts!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I have a buddy who was sleeping in this cabin way out in the woods, when he "
-"suddenly woke up to trees and vines growing right up through the floor and "
-"walls!  He said it was some kind of huge tree beast..."
-msgstr ""
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Oh man, have you gone down into the old subway systems?  I'd be careful... "
-"there's these things down there that are like zombies, but tougher."
-msgstr ""
-"Oh mon vieux, tu es descendu dans l'ancien réseau de métro? A ta place je "
-"serais prudent... il y a des choses là dessous qui sont comme des zombies "
-"mais plus dangereux."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"There's snakes down in most of the old sewer systems.  They're slow on land,"
-" but boy, those suckers can swim fast!"
-msgstr ""
-"Il y a des serpents dans une grande partie du réseau d'égouts. Ils sont "
-"lents sur la terre ferme, mais bigre, qu'est-ce qu'ils nagent vite!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you're planning on wandering around the sewers--not that you'd have a "
-"reason too--watch out for those fish.  Those suckers are fast, and vicious "
-"too!"
-msgstr ""
-"Si tu as l'intention de vagabonder dans les égoûts --mais tu n'as aucune "
-"raison de le faire-- fais attention aux poissons. Ils sont rapides ces "
-"lascars, et vicieux!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Have you seen those eyebots flying around?  It's hard to say, but some "
-"faction's controlling them--maybe the military.  All I know is, I don't want"
-" them taking my picture..."
-msgstr ""
-"As-tu vu des eyebots voler dans le coin? C'est difficile d'en être sûr mais "
-"une faction les contrôle, peut-être les militaires. Ce dont je suis sûr "
-"c'est que je ne veux pas qu'ils me prennent en photo."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Ever go toe-to-toe with a manhack?  Tiny little helicopters covered in "
-"knives.  Best be packing a shotgun!"
-msgstr ""
-"Tu t'es déjà retrouvé en tête à tête avec des robots-lames? Des hélicoptères"
-" tout petits couverts de lames. Tu ferais mieux d'avoir un fusil à pompe "
-"avec toi!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"They're rare, but molebots are nasty things.  They bore through the ground, "
-"then pop up to stab ya.  Still, you're safe from them if you stay on "
-"pavement..."
-msgstr ""
-"Les robotaupes sont rares mais sont de sales bêtes. Ils creusent le sol puis"
-" font surface pour te poignarder. Cependant tu es en sécurité si tu restes "
-"sur la chaussée."
-
-#: lang/json/snippet_from_json.py
-msgid "Don't fire your gun if you can help it--the noise attracts monsters!"
-msgstr ""
-"Evite de tirer avec ton flingue si tu peux --le bruit attire les monstres!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Standing behind a window is a good tactic.  It takes zombies a long time to "
-"crawl through, giving you lots of opportunities to hit them."
-msgstr ""
-"Se tenir derrière une fenêtre est une bonne technique. Les zombies mettent "
-"longtemps à les traverser, ce qui te donne de nombreuses opportunités pour "
-"les frapper."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Zombies are pretty dumb... heck, most monsters are!  If you can get a fire "
-"going between you and them, they'll just run straight through it."
-msgstr ""
-"Les zombies sont sacrément bêtes... et même, la plupart des monstres le sont"
-" drôlement! Si tu parviens à avoir un feu entre toi et les monstres, ils "
-"courront droit dedans."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I know it's tempting to just go full-auto and unload as many bullets as "
-"possible, but don't except as a last resort.  It's inaccurate and wastes "
-"ammo."
-msgstr ""
-"Je sais que c'est tentant d'y aller en mode automatique et décharger le plus"
-" de balles possible, mais ne le fais pas à moins que ce soit  en dernier "
-"recours. Ce n'est pas précis et ça gâche des munitions."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If there's a bunch of zombies in a straight line, try unloading a burst from"
-" your gun.  Be sure to aim at the zombie furthest away; you'll hit more of "
-"them that way."
-msgstr ""
-"S'il y a un groupe de zombies en ligne droite, essaie de tirer un coup de "
-"ton arme. Assure toi de viser le zombie le plus éloigné; tu en toucheras "
-"plus en faisant ainsi."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you shoot a zombie, but don't quite kill it, try to finish it off with a "
-"punch or something instead of wasting a bullet."
-msgstr ""
-"Si tu tires sur un zombie mais ne le tue pas tout à fait, essaie de "
-"l'achever avec un coup de poing ou en mêlée au lieu de gaspiller une balle."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you're in a corridor or something, and there's a bunch of zombies chasing"
-" you down it, try to wound the guy in front badly.  He'll start moving slow "
-"and cause a serious traffic jam!"
-msgstr ""
-"Si tu te retrouves dans un couloir ou un espace étroit et qu'un groupe de "
-"zombies te pourchasse, essaie de blesser celui qui mène le reste. Il "
-"ralentira et fera un embouteillage!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Here's a trick for taking care of a huge swarm of zombies chasing you: head "
-"into a liquor store, shoot out as many bottles as you can, then light the "
-"alcohol on fire.  Then duck out the back door, and watch the zombies run "
-"into a burning building!"
-msgstr ""
-"Voilà une astuce pour se débarrasser d'un essaim de zombies qui te "
-"pourchasse : rentre dans un magasin d'alcool, détruis autant de bouteilles "
-"que tu peux puis embrase l'alcool. Eclipse toi rapidement par la porte de "
-"derrière et regarde les zombies courir dans un bâtiment en feu!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Sledge hammers may seem like a great weapon, but swinging them is really "
-"slow, and you won't do much damage unless you're really strong."
-msgstr ""
-"Les masses semblent être une très bonne arme mais il faut beaucoup de temps "
-"pour porter un coup; en plus tu ne feras pas beaucoup de dommages à moins "
-"d'être très fort."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"For a good melee weapon, you can't beat a machete.  I've seen a guy take "
-"down a zombie brute with one!  Of course, if you can find a katana, that "
-"might be even better..."
-msgstr ""
-"Rien n'égale une machette comme arme de mêlée. J'ai vu un type tuer un "
-"zombie brute avec une machette! Bien sûr, si tu parviens à trouver un "
-"katana, cela pourrait être encore mieux..."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"You know, a glass bottle can make a good weapon in a pinch.  If you break it"
-" over someone's head, the shattering glass will hurt them extra.  Of course,"
-" it might hurt your hands, too..."
-msgstr ""
-"Tu sais, une bouteille de verre peut à la rigueur servir d'arme. Si tu en "
-"casses une sur la tête de quelqu'un, le verre brisé provoquera des dommages "
-"supplémentaires. Bien sûr, tu pourrais te couper à la main aussi..."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"You know what makes a nice weapon?  Take a two by four, or a baseball bat or"
-" something, and stick a bunch of nails through the end!"
-msgstr ""
-"Tu sais ce qui peut faire une bonne arme? Prends une planche, une batte de "
-"baseball ou un truc du genre, et fixe des clous à l'extrémité!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"BB guns may seem like a joke, but they've got their uses.  They're good for "
-"hunting small game, or getting to know the basics of rifles."
-msgstr ""
-"Les pistolets à air comprimé ont l'air d'être une blague mais ils peuvent "
-"s'avérer utiles. Ils sont bons pour la chasse au petit gibier ou apprendre "
-"les bases du tir au fusil."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Crossbows are a great weapon for long term use.  Most of the time, you can "
-"retrieve the bolt after shooting it, so running out of ammo is less of a "
-"concern."
-msgstr ""
-"Les arbalètes sont une très bonne arme pour de longues périodes "
-"d'utilisation. La plupart du temps vous pouvez récupérer les carreaux après "
-"les avoir tirés, ce qui fait que le manque de cartouches n'est plus trop un "
-"problème."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"It's good to keep a pistol handy, in case your main gun runs out of ammo or "
-"something.  They're also better than most guns at short range."
-msgstr ""
-"C'est mieux de garder un pistolet sous la main, au cas où tu te retrouves à "
-"court de munitions ou tu as un autre soucis avec tes armes à feu "
-"principales. Les pistolets sont aussi meilleurs en courte portée que la "
-"plupart des armes."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Shotguns are nice; you can take out lots of baddies with a single shot.  "
-"Just remember that they're noisy as hell, and you might end up attracting "
-"more than you kill."
-msgstr ""
-"Les fusils à pompe sont pas mal; tu peux tuer plein de méchants avec un seul"
-" tir. Rappelle toi juste qu'ils sont bruyants comme tout, tu pourrais bien "
-"finir par attirer plus de monstres que tu en tues."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"A good submachine gun can't be beat.  Most of them use common ammo, they're "
-"good at short and long range, and you can burst-fire if you need to!"
-msgstr ""
-"Un bon pistolet mitrailleur n'a pas de rival. La plupart d'entre eux "
-"utilisent des cartouches courantes et sont bons à longue et moyenne portée "
-"et tu peux les utiliser en mode automatique si besoin!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Hunting rifles are great at long range, but suck close up.  Plus, most of "
-"them don't carry many rounds.  Keep a pistol as a sidearm if you use a "
-"rifle."
-msgstr ""
-"Les fusils de chasse sont bons pour des tirs à longue distance mais sont "
-"mauvais pour les tirs à proximité. De plus, la majorité ne contient pas "
-"beaucoup de cartouches. Garde un pistolet comme arme de secours si tu "
-"utilises un fusil."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"You know, you don't have to go full auto with an assault rifle.  Firing "
-"single shots is more accurate and efficient!"
-msgstr ""
-"Tu sais, il n'y a pas besoin d'être en mode automatique avec un fusil "
-"d'assaut. Tirer balle par balle est plus précis et efficace!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I've seen a couple guys running around with laser pistols.  They seem like "
-"the perfect weapon... quiet, accurate, and deadly.  But I've never found "
-"one, and I bet ammo is wicked scarce..."
-msgstr ""
-"J'ai croisé deux mecs qui se baladaient avec des pistolets laser. On dirait "
-"que ce sont les armes parfaites... discrètes, précises et fatales. Mais j'en"
-" ai jamais trouvé et je parie que les munitions sont terriblement rares..."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"When it comes to footwear, you've got two basic choices as far as I see it; "
-"sneakers, for running extra fast, or boots for durability.  Depends on your "
-"style, I guess."
-msgstr ""
-"Il y a deux écoles dans le choix des chaussures selon moi : les baskets pour"
-" courir plus vite ou les bottes pour leur résistance. C'est une question de "
-"choix et de tactique j'imagine."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"You don't really need to wear gloves most of the time, but once in a while "
-"they'll really come in handy."
-msgstr ""
-"La plupart du temps il n'y a pas besoin de porter de gants, mais de temps en"
-" temps ils peuvent se révéler très utiles."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"It's good to keep a filter mask or gas mask handy.  You never know when "
-"you'll have to go into a smoke-filled room or something."
-msgstr ""
-"C'est une bonne idée de garder un masque à gaz ou masque de protection à "
-"portée de main. On ne sait jamais quand on va avoir affaire à une pièce "
-"plein de fumée ou un truc du genre."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"There's basically no reason not to wear safety glasses... nothing is worse "
-"than taking a hit to the eyes and getting blinded for a few seconds."
-msgstr ""
-"Il n'y a aucune raison de ne pas porter des lunettes de protection... il n'y"
-" a rien de pire que de prendre un coup dans l'oeil et d'être aveuglé pendant"
-" quelques instants."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Ski goggles are a great choice if you're worried about getting stuff in your"
-" eyes.  Perfect for dealing with boomers!"
-msgstr ""
-"Les lunettes de ski sont un très bon choix si tu crains de prendre quelque "
-"chose dans l'oeil. C'est parfait pour s'occuper des boomers!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you get a pair of night vision goggles, hold on to them!  A flashlight "
-"will give you away, but with goggles you can be sneaky.  Beware that some "
-"types of zombies are camouflaged against it, and require proper light to be "
-"visible."
-msgstr ""
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I know they look dumb, but wearing a fanny pack gives you that extra bit of "
-"storage without encumbering you."
-msgstr ""
-"Je sais que ce n'est pas la plus grande classe, mais porter une banane te "
-"permet de transporter un peu plus de choses sans t'encombrer."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Backpacks let you carry lots of stuff, but they limit your movement a lot.  "
-"If you're an unarmed fighter, don't wear one!"
-msgstr ""
-"Les sacs à dos permettent de transporter plein de choses mais ils limitent "
-"grandement tes mouvements. Si tu te bats à mains nues, n'en porte pas!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Don't underestimate a good book.  Not only will it keep you company on "
-"lonely nights, but you can learn a hell of a lot from some of them."
-msgstr ""
-"Ne sous-estime pas un bon vieux livre. Non seulement il te tiendra compagnie"
-" durant les nuits solitaires mais on peut aprendre un tas de choses en les "
-"lisant."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"It's a good idea to carry around a couple of empty bottles.  You can fill "
-"them up with water, gasoline, or whatever!"
-msgstr ""
-"C'est une bonne idée de transporter quelques bouteilles vides. Tu peux les "
-"remplir avec de l'eau, de l'essence, entre autres!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you need a bunch of rags for making Molotov cocktails, take a pair of "
-"scissors to an old t-shirt or something."
-msgstr ""
-"Si tu as besoin de chiffons pour fabriquer des cocktails Molotov, utilise "
-"des ciseaux pour découper un vieux t-shirt ou drap."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Carrying a lighter is something all veterans do.  It takes up almost no "
-"space, and can easily save your life."
-msgstr ""
-"Tous les vétérans se déplacent avec un briquet. Ça ne prend pas de place, et"
-" peut facilement te sauver la vie."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you can spare the space, you might want to carry a fire extinguisher "
-"along.  Nothing is worse than being trapped in a burning building!"
-msgstr ""
-"Si tu peux trouver de la place pour le transporter, tu pourrais avoir envie "
-"de garder un extincteur avec toi. Rien de plus horrible que d'être bloqué "
-"dans un bâtiment en feu!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Crowbars not only make a pretty good weapon, they're also useful for opening"
-" locked doors and lifting manhole covers."
-msgstr ""
-"Les pieds de biche ne sont pas seulement une bonne arme, ils peuvent aussi "
-"être utile pour forcer l'ouverture des portes et soulever des plaques "
-"d'égout."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you're spending the night in a dangerous area, grab a shovel and dig pits"
-" all around your camp."
-msgstr ""
-"Si tu passes la nuit dans une zone dangereuse, procure toi une pelle et "
-"creuse un fossé autour de ton camp."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"A chainsaw may seem like a great weapon, but remember that they're slow, "
-"unwieldy, and very noisy."
-msgstr ""
-"Les tronçonneuses semblent être de très bonnes armes mais n'oublie pas "
-"qu'elles sont lentes, peu pratiques à manier et très bruyantes."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Bubblewrap is pretty harmless, but setting it up around you before going to "
-"sleep will keep you from waking up to a zombie punching you."
-msgstr ""
-"Le papier bulle ne fait pas de mal mais en installer autour de toi avant de "
-"te coucher t'évitera d'être réveillé par un coup porté par un zombie."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Bear traps are a nice way to cover an escape.  If you place one in a "
-"doorway, the first zombie through will get stuck, and the rest won't be able"
-" to get past!"
-msgstr ""
-"Les pièges à ours sont une bonne manière de protéger ses arrières lors d'une"
-" fuite. Si tu en places un sur un seuil de porte, le premier zombie y sera "
-"piégé et il bloquera les chemin aux autres!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Smoke grenades aren't really offensive weapons, but they'll cover up your "
-"scent and hide you from view--perfect for making a quick escape."
-msgstr ""
-"Les grenades fumigènes ne sont pas des armes offensives mais elles "
-"couvriront ton odeur et t'abritera de la vue --parfait pour une battre en "
-"retraite rapidement."
-
-#: lang/json/snippet_from_json.py
-msgid "Don't use Molotovs indoors.  Especially in a liquor store."
-msgstr ""
-"N'utilise pas de cocktail Molotov à l'intérieur. Surtout pas dans un magasin"
-" d'alcool."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you're going to be playing with Molotov cocktails around a gas station, "
-"just make sure you're a long way from those pumps."
-msgstr ""
-"Si tu comptes utiliser des cocktails molotov autour d'une station essence, "
-"assure toi que tu es à distance des pompes."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I once knew a guy who figured he'd survive a night in the subway by setting "
-"fires blocking off the tunnel in both directions and sleeping between them."
-"  He wound up asphyxiating on the smoke."
-msgstr ""
-"J'ai un jour rencontré un type qui avait estimé qu'il survivrait dans le "
-"métro en allumant des feux des deux côtés du tunnel et en dormant au milieu."
-" Il a fini par se retouver asphixié par la fumée."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Don't light a Molotov until you're ready to throw it.  Not only can they go "
-"out, but if you accidentally drop it or something, you're in trouble."
-msgstr ""
-"N'allume pas un cocktail Molotov tant que tu n'es pas prêt de le lancer. Non"
-" seulement ils peuvent s'éteindre mais si tu le fais tomber accidentellement"
-" ou autrement, tu es mal."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you're weak or clumsy, it might be a good idea not to mess with Molotovs "
-"or grenades.  Accidentally dropping them when you meant to throw them could "
-"be deadly."
-msgstr ""
-"Si tu es faible ou maladroit, mieux vaut ne pas toucher aux cocktails "
-"molotovs ou aux grenades. Les faire tomber accidentellement alors que tu "
-"voulais les lancer pourrait être fatal."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you're wandering in the wilderness, or following a road, keep an eye out "
-"for wild strawberries or blueberries."
-msgstr ""
-"Si tu es de sortie dans la nature ou que tu suis une route, garde l'oeil "
-"ouvert pour les fraises ou les myrtilles."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Be careful eating wild mushrooms.  Some are poisonous, and others can make "
-"you hallucinate."
-msgstr ""
-"Sois prudent avec les champignons sauvages. Certains sont empoisonnés et "
-"d'autres provoquent des hallucinations."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Try to go around swamps, if you can.  Some of them have sinkholes that can "
-"pull you right underground."
-msgstr ""
-"Essaie de contourner les marais si tu as le choix. Certains ont des dolines "
-"qui te ramènent jusque sous terre."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I heard about this group that raided a bee hive a while ago.  Everyone got "
-"massacred but one, and he came home with this weird, magic honey stuff."
-msgstr ""
-"J'ai entendu parler d'un groupe qui a fait une descente sur une ruche il y a"
-" peu. Tous se sont fait massacrer sauf un qui est revenu avec cet étrange "
-"miel magique."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you need to, you can swim across a river to escape; most monsters can't "
-"swim.  Just make sure you drop as much stuff as possible first, and maybe "
-"strip naked, or you'll sink like a rock."
-msgstr ""
-"En cas de besoin tu peux traverser une rivière à la nage pour t'enfuir; la "
-"plupart des monstres ne peuvent pas nager. Assure toi juste de te débarasser"
-" d'autant d'affaires que tu peux avant, voire de te mettre nu, sinon tu "
-"couleras comme une pierre."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Houses can be a surprisingly good resource for all kinds of stuff; clothing,"
-" medication, food, books, and more."
-msgstr ""
-"On trouve parfois dans les maisons des quantités surprenantes de ressources "
-"en tout genre : vêtements, medicaments, nourriture, livres, entre autres."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"While there's not much to loot, gas stations are a good source for gasoline,"
-" to power tools or to make Molotov cocktails."
-msgstr ""
-"Même s'il n'y a pas grand chose à y piller, les stations essence sont le "
-"meilleur moyen d'obtenir de l'essence, des piles et pour fabriquer des "
-"cocktails Molotov."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"It's not like in the movies--shooting a gas pump won't make it explode.  But"
-" it WILL make it leak all over the place, which is a definite fire hazard."
-msgstr ""
-"On n'est pas dans un film --tirer sur une pompe à essence ne la fera pas "
-"exploser. Mais elle fuira de toutes parts, ce qui présente définitivement un"
-" risque d'incendie."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I know grocery stores and stuff are full of fruit, but be careful, it's "
-"probably rotten."
-msgstr ""
-"Je sais que les épiceries sont pleines de fruits mais sois prudent, ils sont"
-" probablement pourris."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Next time you visit a grocery store, load up on canned goods.  They never go"
-" bad!"
-msgstr ""
-"La prochaine fois que tu te rends dans une épicerie, charge toi en "
-"conserves. Elles se conservent toujours!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I've found more good weapons in hardware stores than anywhere else.  Except "
-"gun stores, of course."
-msgstr ""
-"J'ai trouvé plus de bonnes armes dans les quincailleries que nul part "
-"ailleurs. A part les magasins d'armes bien sûr."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Liquor stores are a great place to pick up non-alcoholic beverages, too.  "
-"Not that I mind alcohol!"
-msgstr ""
-"Les magasins d'alcools sont aussi fournis en boissons non-alcoolisées. Ce "
-"n'est pas que l'alcool me dérange, hein!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Most gun stores follow pretty similar layouts.  The restricted stuff--SMGs, "
-"assault rifles, and most importantly ammo--are always behind the counter."
-msgstr ""
-"La plupart des magasins d'armes ont le même agencement. Ce qui est à accès "
-"restreint --les pistolets mitrailleurs, fusils d'assaut, et surtout les "
-"cartouches-- est toujours derrière le comptoir."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I've spent many nights in the changing rooms at the back of clothing stores."
-"  Walls on four sides, far from the store's entrance, a corridor for easy "
-"defense... it's perfect!"
-msgstr ""
-"J'ai passé de nombreuses nuits dans les cabines d'essayage à l'arrière des "
-"magasins de vêtements. Des murs sur les quatres côtés, éloignée de l'entrée "
-"du magasin, un couloir pratique pour une défense solide... c'est parfait!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"If you're getting chased by a hoard of zombies, try ducking into the subways"
-" and traveling a block or two, then coming back up."
-msgstr ""
-"Si tu te retrouves pourchassé par une horde de zombies, essaie de t'éclipser"
-" dans le métro et déplace toi de quelques blocs avant de remonter."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Have you seen those weird science labs out in the middle of nowhere?  I "
-"think you need some kind of special ID card to get in."
-msgstr ""
-"As-tu vu les étranges laboratoires scientifiques perdus au milieu de rien? "
-"Je crois qu'il faut des cartes spéciales d'identification pour y entrer."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"I've thought about raiding an ant hill before, but I realized it wasn't "
-"worth the risk.  I doubt they have any loot beyond some scraps of food, you "
-"know?"
-msgstr ""
-"J'ai déjà pensé faire une descente dans une fourmilière, mais je me suis "
-"rendu compte que ça ne valait pas le coup. Je ne pense pas qu'elles aient "
-"autre chose à piller à part des restes de nourriture, hein ?"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"This guy I know was walking through the subway when he came across a giant "
-"rift in the earth, with lava far below.  Weird, huh?"
-msgstr ""
-"Un type que je connais marchait dans le métro lorsqu'il est tombé sur une "
-"fente géante dans la terre, avec de la lave au plus profond. Bizarre non ?"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"In a lot of places, there's little hallways connecting the subways with the "
-"sewers, with heavy metal doors on both ends.  It's a perfect place to sleep!"
-msgstr ""
-"Dans beaucoup d'endroits il y a des couloirs reliant le métro aux égouts "
-"avec de robustes portes de métal des deux côtés. L'endroit parfait pour "
-"dormir!"
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Be careful of drinking water from rivers and stuff, it's a good way to get "
-"sick.  But if you have a water purifier, it'll make it safe."
-msgstr ""
-"Sois prudent lorsqu'il s'agit ed boire de l'eau des rivières ou autres, "
-"c'est un coup à tomber malade. Mais si tu as un purificateur d'eau, c'est "
-"sans problème."
-
-#: lang/json/snippet_from_json.py
-msgid ""
-"Autodocs are probably your best bet to install bionics - if you can find "
-"one!  However, I heard they won't work if you don't bring anesthetics to put"
-" you in a sleep."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -93183,7 +93148,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
-"EDITOR SAYS \"DESTROY THE DEAD\".  Recognisable enemy dead left lying in the"
+"EDITOR SAYS \"DESTROY THE DEAD\".  Recognizable enemy dead left lying in the"
 " street may give away militia positions!  If you kill an enemy combatant, "
 "smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect "
 "our troops!"
@@ -93649,6 +93614,30 @@ msgid ""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "You feel cold.  You need the warmth of a fire."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Maybe a fire could calm your nerves?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You need to ignite something."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You daydream of crackling fire..."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You shiver.  A fire would be great right now."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "You think of randomly lighting a fire, but decide against it."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "This is a test of the sign snippet system"
 msgstr ""
 
@@ -93663,11 +93652,945 @@ msgid "This should repeat the same city several times: <city>, <city>, <city>"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid ""
+"Squirrels are pretty yummy, but if you shoot them with a high-powered gun "
+"you'll probably be left with no meat!  Use a BB gun or maybe a .22 rifle."
+msgstr ""
+"Les écureuils sont bons mais si tu leur tires dessus avec un pistolet "
+"puissant, il ne restera probablement plus de viande ! Utilise un pistolet à "
+"air comprimé ou peut-être un fusil à calibre 22."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Ever run into those big worm things?  If you see trails of churned-up dirt, "
+"you can be sure they're around."
+msgstr ""
+"As-tu déjà croisé la route de ces gros vers? Si tu vois des traînées de "
+"terre retournée, tu peux être certain qu'ils sont dans le coin."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Try to stay on the roads as much as you can.  Giant worms can't cross them!"
+msgstr ""
+"Essaye de rester au maximum sur les routes. Les vers géants ne peuvent pas "
+"les traverser!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Don't relax after killing a giant worm.  Little bits of them can break off "
+"and still attack!"
+msgstr ""
+"Ne te relâche pas après avoir tué un ver géant. Des parties de leur cadavre "
+"peuvent se détacher et continuer à attaquer!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you see a big mob of zombies coming, RUN!  Trying to fight them all is "
+"suicide unless you have a big tactical advantage."
+msgstr ""
+"Si tu vois un gros groupe de zombies en approche, COURS! Tenter de tous les "
+"combattre est du suicide à moins que tu aies un gros avantage tactique."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Watch out for those zombies that shriek; they'll let other zombies know "
+"where you are, and will attract them from all over."
+msgstr ""
+"Fais attention aux zombies qui hurlent car ils font savoir aux autres "
+"zombies ta position et les attire de toutes parts."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Those acid-spitting zombies are pretty nasty, but if you're smart, you can "
+"get other zombies to wade through the acid."
+msgstr ""
+"Ces zombies cracheurs d'acide sont assez redoutables, mais en étant malin tu"
+" peux faire patauger les autres zombies dans l'acide."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If there's a pool of acid blocking your way, trying tossing a junk item into"
+" it.  Eating up items will help neutralize the acid faster."
+msgstr ""
+"Si une flaque d'acide te bloque le chemin, essaie d'y lancer un objet "
+"inutile. L'acide est neutralisé plus rapidement lorsqu'il consume des "
+"objets."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"There's this type of zombie that can shoot bolts of lightning!  Stay away "
+"from walls and stuff when they do... the electricity can travel along solid "
+"surfaces."
+msgstr ""
+"Il y a ce type de zombie qui peut tirer des éclairs! Tiens toi à distance "
+"des murs et des objets lorsqu'ils le font... l'électricité peut passer dans "
+"les surfaces solides."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Zombie hulks are NASTY, but they're easy to outsmart.  If there's other "
+"monsters between you and them, they'll kill the monster for you!"
+msgstr ""
+"Les zombies hulks sont MÉCHANTS mais on peut facilement se montrer plus "
+"malin qu'eux. Les hulks tueront les autres monstres entre eux et toi!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you run into a zombie hulk, it's probably a good idea to run.  They're "
+"fast as hell, but pretty dumb; they'll try to smash through obstacles rather"
+" than going around, and that slows them down a lot."
+msgstr ""
+"Si tu croises un zombie hulk, une bonne idée serait probablement de courir. "
+"Ils sont très rapides, mais vraiment bêtes; ils essaieront de fracasser les "
+"obstacles plutôt que les contourner, ce qui les ralentit considérablement."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Zombie brutes and hulks have really tough hide.  Don't bother shooting at "
+"them with lower-caliber guns, the bullet will bounce right off!"
+msgstr ""
+"Les zombies brutes et les zombies hulks ont une peau très résistante. Ne "
+"t'embête pas à leur tirer dessus avec des petits calibres car les balles "
+"ricocheront !"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Try not to kill a boomer if it's standing right next to you.  They tend to "
+"explode when they die, and that pink goop will get all over you."
+msgstr ""
+"Essaie de tuer les boomers à distance. Généralement ils explosent en "
+"mourant, et si tu te tiens à proximité à ce moment, tu seras couvert de "
+"cette substance rose visqueuse."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Skeletons are a tough target.  They're so skinny and full of holes that "
+"bullets fired at them will usually just fly right past."
+msgstr ""
+"Les squelettes sont des cibles délicates. Ils sont tellement maigres et "
+"plein de trous que les balles qu'on leur tire passeront généralement à "
+"travers eux."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Skeletons are too delicate to smash through doors or windows.  They also "
+"can't smell you, unlike zombies, so if you turn your light off at night you "
+"can sneak right past."
+msgstr ""
+"Les squelettes sont trop fragiles pour fracasser les portes et les fenêtres."
+" Ils sont également incapables de te sentir, contrairement aux zombies, donc"
+" si tu éteins ta lampe de poche la nuit, tu pourras te faufiler "
+"discrètement."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Don't try to take on a skeleton with a bladed weapon... you'll just leave "
+"scratch marks.  You've got to shatter those bones with a hammer or "
+"something."
+msgstr ""
+"N'essaie pas d'attaquer un squelette avec une lame... tu ne feras que des "
+"éraflures. Il faut briser les os avec un marteau ou un outil similaire."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"It's a good idea to butcher corpses if you have the time, even if you don't "
+"plan on eating them.  I've seen these weird zombies bring their friends back"
+" from the dead!"
+msgstr ""
+"Mieux vaut dépecer les corps si tu as le temps, même si tu ne prévois pas de"
+" les manger. J'ai vu ces zombies bizarres faire revenir leurs amis d'entre "
+"les morts!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I have a buddy who was sleeping in this cabin way out in the woods, when he "
+"suddenly woke up to trees and vines growing right up through the floor and "
+"walls!  He said it was some kind of huge tree beast..."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Oh man, have you gone down into the old subway systems?  I'd be careful... "
+"there's these things down there that are like zombies, but tougher."
+msgstr ""
+"Oh mon vieux, tu es descendu dans l'ancien réseau de métro? A ta place je "
+"serais prudent... il y a des choses là dessous qui sont comme des zombies "
+"mais plus dangereux."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"There's snakes down in most of the old sewer systems.  They're slow on land,"
+" but boy, those suckers can swim fast!"
+msgstr ""
+"Il y a des serpents dans une grande partie du réseau d'égouts. Ils sont "
+"lents sur la terre ferme, mais bigre, qu'est-ce qu'ils nagent vite!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you're planning on wandering around the sewers--not that you'd have a "
+"reason too--watch out for those fish.  Those suckers are fast, and vicious "
+"too!"
+msgstr ""
+"Si tu as l'intention de vagabonder dans les égoûts --mais tu n'as aucune "
+"raison de le faire-- fais attention aux poissons. Ils sont rapides ces "
+"lascars, et vicieux!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Have you seen those eyebots flying around?  It's hard to say, but some "
+"faction's controlling them--maybe the military.  All I know is, I don't want"
+" them taking my picture..."
+msgstr ""
+"As-tu vu des eyebots voler dans le coin? C'est difficile d'en être sûr mais "
+"une faction les contrôle, peut-être les militaires. Ce dont je suis sûr "
+"c'est que je ne veux pas qu'ils me prennent en photo."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Ever go toe-to-toe with a manhack?  Tiny little helicopters covered in "
+"knives.  Best be packing a shotgun!"
+msgstr ""
+"Tu t'es déjà retrouvé en tête à tête avec des robots-lames? Des hélicoptères"
+" tout petits couverts de lames. Tu ferais mieux d'avoir un fusil à pompe "
+"avec toi!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"They're rare, but molebots are nasty things.  They bore through the ground, "
+"then pop up to stab ya.  Still, you're safe from them if you stay on "
+"pavement..."
+msgstr ""
+"Les robotaupes sont rares mais sont de sales bêtes. Ils creusent le sol puis"
+" font surface pour te poignarder. Cependant tu es en sécurité si tu restes "
+"sur la chaussée."
+
+#: lang/json/snippet_from_json.py
+msgid "Don't fire your gun if you can help it--the noise attracts monsters!"
+msgstr ""
+"Evite de tirer avec ton flingue si tu peux --le bruit attire les monstres!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Standing behind a window is a good tactic.  It takes zombies a long time to "
+"crawl through, giving you lots of opportunities to hit them."
+msgstr ""
+"Se tenir derrière une fenêtre est une bonne technique. Les zombies mettent "
+"longtemps à les traverser, ce qui te donne de nombreuses opportunités pour "
+"les frapper."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Zombies are pretty dumb... heck, most monsters are!  If you can get a fire "
+"going between you and them, they'll just run straight through it."
+msgstr ""
+"Les zombies sont sacrément bêtes... et même, la plupart des monstres le sont"
+" drôlement! Si tu parviens à avoir un feu entre toi et les monstres, ils "
+"courront droit dedans."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I know it's tempting to just go full-auto and unload as many bullets as "
+"possible, but don't except as a last resort.  It's inaccurate and wastes "
+"ammo."
+msgstr ""
+"Je sais que c'est tentant d'y aller en mode automatique et décharger le plus"
+" de balles possible, mais ne le fais pas à moins que ce soit  en dernier "
+"recours. Ce n'est pas précis et ça gâche des munitions."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If there's a bunch of zombies in a straight line, try unloading a burst from"
+" your gun.  Be sure to aim at the zombie furthest away; you'll hit more of "
+"them that way."
+msgstr ""
+"S'il y a un groupe de zombies en ligne droite, essaie de tirer un coup de "
+"ton arme. Assure toi de viser le zombie le plus éloigné; tu en toucheras "
+"plus en faisant ainsi."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you shoot a zombie, but don't quite kill it, try to finish it off with a "
+"punch or something instead of wasting a bullet."
+msgstr ""
+"Si tu tires sur un zombie mais ne le tue pas tout à fait, essaie de "
+"l'achever avec un coup de poing ou en mêlée au lieu de gaspiller une balle."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you're in a corridor or something, and there's a bunch of zombies chasing"
+" you down it, try to wound the guy in front badly.  He'll start moving slow "
+"and cause a serious traffic jam!"
+msgstr ""
+"Si tu te retrouves dans un couloir ou un espace étroit et qu'un groupe de "
+"zombies te pourchasse, essaie de blesser celui qui mène le reste. Il "
+"ralentira et fera un embouteillage!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Here's a trick for taking care of a huge swarm of zombies chasing you: head "
+"into a liquor store, shoot out as many bottles as you can, then light the "
+"alcohol on fire.  Then duck out the back door, and watch the zombies run "
+"into a burning building!"
+msgstr ""
+"Voilà une astuce pour se débarrasser d'un essaim de zombies qui te "
+"pourchasse : rentre dans un magasin d'alcool, détruis autant de bouteilles "
+"que tu peux puis embrase l'alcool. Eclipse toi rapidement par la porte de "
+"derrière et regarde les zombies courir dans un bâtiment en feu!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Sledge hammers may seem like a great weapon, but swinging them is really "
+"slow, and you won't do much damage unless you're really strong."
+msgstr ""
+"Les masses semblent être une très bonne arme mais il faut beaucoup de temps "
+"pour porter un coup; en plus tu ne feras pas beaucoup de dommages à moins "
+"d'être très fort."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"For a good melee weapon, you can't beat a machete.  I've seen a guy take "
+"down a zombie brute with one!  Of course, if you can find a katana, that "
+"might be even better..."
+msgstr ""
+"Rien n'égale une machette comme arme de mêlée. J'ai vu un type tuer un "
+"zombie brute avec une machette! Bien sûr, si tu parviens à trouver un "
+"katana, cela pourrait être encore mieux..."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You know, a glass bottle can make a good weapon in a pinch.  If you break it"
+" over someone's head, the shattering glass will hurt them extra.  Of course,"
+" it might hurt your hands, too..."
+msgstr ""
+"Tu sais, une bouteille de verre peut à la rigueur servir d'arme. Si tu en "
+"casses une sur la tête de quelqu'un, le verre brisé provoquera des dommages "
+"supplémentaires. Bien sûr, tu pourrais te couper à la main aussi..."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You know what makes a nice weapon?  Take a two by four, or a baseball bat or"
+" something, and stick a bunch of nails through the end!"
+msgstr ""
+"Tu sais ce qui peut faire une bonne arme? Prends une planche, une batte de "
+"baseball ou un truc du genre, et fixe des clous à l'extrémité!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BB guns may seem like a joke, but they've got their uses.  They're good for "
+"hunting small game, or getting to know the basics of rifles."
+msgstr ""
+"Les pistolets à air comprimé ont l'air d'être une blague mais ils peuvent "
+"s'avérer utiles. Ils sont bons pour la chasse au petit gibier ou apprendre "
+"les bases du tir au fusil."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Crossbows are a great weapon for long term use.  Most of the time, you can "
+"retrieve the bolt after shooting it, so running out of ammo is less of a "
+"concern."
+msgstr ""
+"Les arbalètes sont une très bonne arme pour de longues périodes "
+"d'utilisation. La plupart du temps vous pouvez récupérer les carreaux après "
+"les avoir tirés, ce qui fait que le manque de cartouches n'est plus trop un "
+"problème."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"It's good to keep a pistol handy, in case your main gun runs out of ammo or "
+"something.  They're also better than most guns at short range."
+msgstr ""
+"C'est mieux de garder un pistolet sous la main, au cas où tu te retrouves à "
+"court de munitions ou tu as un autre soucis avec tes armes à feu "
+"principales. Les pistolets sont aussi meilleurs en courte portée que la "
+"plupart des armes."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Shotguns are nice; you can take out lots of baddies with a single shot.  "
+"Just remember that they're noisy as hell, and you might end up attracting "
+"more than you kill."
+msgstr ""
+"Les fusils à pompe sont pas mal; tu peux tuer plein de méchants avec un seul"
+" tir. Rappelle toi juste qu'ils sont bruyants comme tout, tu pourrais bien "
+"finir par attirer plus de monstres que tu en tues."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"A good submachine gun can't be beat.  Most of them use common ammo, they're "
+"good at short and long range, and you can burst-fire if you need to!"
+msgstr ""
+"Un bon pistolet mitrailleur n'a pas de rival. La plupart d'entre eux "
+"utilisent des cartouches courantes et sont bons à longue et moyenne portée "
+"et tu peux les utiliser en mode automatique si besoin!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Hunting rifles are great at long range, but suck close up.  Plus, most of "
+"them don't carry many rounds.  Keep a pistol as a sidearm if you use a "
+"rifle."
+msgstr ""
+"Les fusils de chasse sont bons pour des tirs à longue distance mais sont "
+"mauvais pour les tirs à proximité. De plus, la majorité ne contient pas "
+"beaucoup de cartouches. Garde un pistolet comme arme de secours si tu "
+"utilises un fusil."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You know, you don't have to go full auto with an assault rifle.  Firing "
+"single shots is more accurate and efficient!"
+msgstr ""
+"Tu sais, il n'y a pas besoin d'être en mode automatique avec un fusil "
+"d'assaut. Tirer balle par balle est plus précis et efficace!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I've seen a couple guys running around with laser pistols.  They seem like "
+"the perfect weapon... quiet, accurate, and deadly.  But I've never found "
+"one, and I bet ammo is wicked scarce..."
+msgstr ""
+"J'ai croisé deux mecs qui se baladaient avec des pistolets laser. On dirait "
+"que ce sont les armes parfaites... discrètes, précises et fatales. Mais j'en"
+" ai jamais trouvé et je parie que les munitions sont terriblement rares..."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"When it comes to footwear, you've got two basic choices as far as I see it; "
+"sneakers, for running extra fast, or boots for durability.  Depends on your "
+"style, I guess."
+msgstr ""
+"Il y a deux écoles dans le choix des chaussures selon moi : les baskets pour"
+" courir plus vite ou les bottes pour leur résistance. C'est une question de "
+"choix et de tactique j'imagine."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"You don't really need to wear gloves most of the time, but once in a while "
+"they'll really come in handy."
+msgstr ""
+"La plupart du temps il n'y a pas besoin de porter de gants, mais de temps en"
+" temps ils peuvent se révéler très utiles."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"It's good to keep a filter mask or gas mask handy.  You never know when "
+"you'll have to go into a smoke-filled room or something."
+msgstr ""
+"C'est une bonne idée de garder un masque à gaz ou masque de protection à "
+"portée de main. On ne sait jamais quand on va avoir affaire à une pièce "
+"plein de fumée ou un truc du genre."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"There's basically no reason not to wear safety glasses... nothing is worse "
+"than taking a hit to the eyes and getting blinded for a few seconds."
+msgstr ""
+"Il n'y a aucune raison de ne pas porter des lunettes de protection... il n'y"
+" a rien de pire que de prendre un coup dans l'oeil et d'être aveuglé pendant"
+" quelques instants."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Ski goggles are a great choice if you're worried about getting stuff in your"
+" eyes.  Perfect for dealing with boomers!"
+msgstr ""
+"Les lunettes de ski sont un très bon choix si tu crains de prendre quelque "
+"chose dans l'oeil. C'est parfait pour s'occuper des boomers!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you get a pair of night vision goggles, hold on to them!  A flashlight "
+"will give you away, but with goggles you can be sneaky.  Beware that some "
+"types of zombies are camouflaged against it, and require proper light to be "
+"visible."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I know they look dumb, but wearing a fanny pack gives you that extra bit of "
+"storage without encumbering you."
+msgstr ""
+"Je sais que ce n'est pas la plus grande classe, mais porter une banane te "
+"permet de transporter un peu plus de choses sans t'encombrer."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Backpacks let you carry lots of stuff, but they limit your movement a lot.  "
+"If you're an unarmed fighter, don't wear one!"
+msgstr ""
+"Les sacs à dos permettent de transporter plein de choses mais ils limitent "
+"grandement tes mouvements. Si tu te bats à mains nues, n'en porte pas!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Don't underestimate a good book.  Not only will it keep you company on "
+"lonely nights, but you can learn a hell of a lot from some of them."
+msgstr ""
+"Ne sous-estime pas un bon vieux livre. Non seulement il te tiendra compagnie"
+" durant les nuits solitaires mais on peut aprendre un tas de choses en les "
+"lisant."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"It's a good idea to carry around a couple of empty bottles.  You can fill "
+"them up with water, gasoline, or whatever!"
+msgstr ""
+"C'est une bonne idée de transporter quelques bouteilles vides. Tu peux les "
+"remplir avec de l'eau, de l'essence, entre autres!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you need a bunch of rags for making Molotov cocktails, take a pair of "
+"scissors to an old t-shirt or something."
+msgstr ""
+"Si tu as besoin de chiffons pour fabriquer des cocktails Molotov, utilise "
+"des ciseaux pour découper un vieux t-shirt ou drap."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Carrying a lighter is something all veterans do.  It takes up almost no "
+"space, and can easily save your life."
+msgstr ""
+"Tous les vétérans se déplacent avec un briquet. Ça ne prend pas de place, et"
+" peut facilement te sauver la vie."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you can spare the space, you might want to carry a fire extinguisher "
+"along.  Nothing is worse than being trapped in a burning building!"
+msgstr ""
+"Si tu peux trouver de la place pour le transporter, tu pourrais avoir envie "
+"de garder un extincteur avec toi. Rien de plus horrible que d'être bloqué "
+"dans un bâtiment en feu!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Crowbars not only make a pretty good weapon, they're also useful for opening"
+" locked doors and lifting manhole covers."
+msgstr ""
+"Les pieds de biche ne sont pas seulement une bonne arme, ils peuvent aussi "
+"être utile pour forcer l'ouverture des portes et soulever des plaques "
+"d'égout."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you're spending the night in a dangerous area, grab a shovel and dig pits"
+" all around your camp."
+msgstr ""
+"Si tu passes la nuit dans une zone dangereuse, procure toi une pelle et "
+"creuse un fossé autour de ton camp."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"A chainsaw may seem like a great weapon, but remember that they're slow, "
+"unwieldy, and very noisy."
+msgstr ""
+"Les tronçonneuses semblent être de très bonnes armes mais n'oublie pas "
+"qu'elles sont lentes, peu pratiques à manier et très bruyantes."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Bubblewrap is pretty harmless, but setting it up around you before going to "
+"sleep will keep you from waking up to a zombie punching you."
+msgstr ""
+"Le papier bulle ne fait pas de mal mais en installer autour de toi avant de "
+"te coucher t'évitera d'être réveillé par un coup porté par un zombie."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Bear traps are a nice way to cover an escape.  If you place one in a "
+"doorway, the first zombie through will get stuck, and the rest won't be able"
+" to get past!"
+msgstr ""
+"Les pièges à ours sont une bonne manière de protéger ses arrières lors d'une"
+" fuite. Si tu en places un sur un seuil de porte, le premier zombie y sera "
+"piégé et il bloquera les chemin aux autres!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Smoke grenades aren't really offensive weapons, but they'll cover up your "
+"scent and hide you from view--perfect for making a quick escape."
+msgstr ""
+"Les grenades fumigènes ne sont pas des armes offensives mais elles "
+"couvriront ton odeur et t'abritera de la vue --parfait pour une battre en "
+"retraite rapidement."
+
+#: lang/json/snippet_from_json.py
+msgid "Don't use Molotovs indoors.  Especially in a liquor store."
+msgstr ""
+"N'utilise pas de cocktail Molotov à l'intérieur. Surtout pas dans un magasin"
+" d'alcool."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you're going to be playing with Molotov cocktails around a gas station, "
+"just make sure you're a long way from those pumps."
+msgstr ""
+"Si tu comptes utiliser des cocktails molotov autour d'une station essence, "
+"assure toi que tu es à distance des pompes."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I once knew a guy who figured he'd survive a night in the subway by setting "
+"fires blocking off the tunnel in both directions and sleeping between them."
+"  He wound up asphyxiating on the smoke."
+msgstr ""
+"J'ai un jour rencontré un type qui avait estimé qu'il survivrait dans le "
+"métro en allumant des feux des deux côtés du tunnel et en dormant au milieu."
+" Il a fini par se retouver asphixié par la fumée."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Don't light a Molotov until you're ready to throw it.  Not only can they go "
+"out, but if you accidentally drop it or something, you're in trouble."
+msgstr ""
+"N'allume pas un cocktail Molotov tant que tu n'es pas prêt de le lancer. Non"
+" seulement ils peuvent s'éteindre mais si tu le fais tomber accidentellement"
+" ou autrement, tu es mal."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you're weak or clumsy, it might be a good idea not to mess with Molotovs "
+"or grenades.  Accidentally dropping them when you meant to throw them could "
+"be deadly."
+msgstr ""
+"Si tu es faible ou maladroit, mieux vaut ne pas toucher aux cocktails "
+"molotovs ou aux grenades. Les faire tomber accidentellement alors que tu "
+"voulais les lancer pourrait être fatal."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you're wandering in the wilderness, or following a road, keep an eye out "
+"for wild strawberries or blueberries."
+msgstr ""
+"Si tu es de sortie dans la nature ou que tu suis une route, garde l'oeil "
+"ouvert pour les fraises ou les myrtilles."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Be careful eating wild mushrooms.  Some are poisonous, and others can make "
+"you hallucinate."
+msgstr ""
+"Sois prudent avec les champignons sauvages. Certains sont empoisonnés et "
+"d'autres provoquent des hallucinations."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Try to go around swamps, if you can.  Some of them have sinkholes that can "
+"pull you right underground."
+msgstr ""
+"Essaie de contourner les marais si tu as le choix. Certains ont des dolines "
+"qui te ramènent jusque sous terre."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I heard about this group that raided a bee hive a while ago.  Everyone got "
+"massacred but one, and he came home with this weird, magic honey stuff."
+msgstr ""
+"J'ai entendu parler d'un groupe qui a fait une descente sur une ruche il y a"
+" peu. Tous se sont fait massacrer sauf un qui est revenu avec cet étrange "
+"miel magique."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you need to, you can swim across a river to escape; most monsters can't "
+"swim.  Just make sure you drop as much stuff as possible first, and maybe "
+"strip naked, or you'll sink like a rock."
+msgstr ""
+"En cas de besoin tu peux traverser une rivière à la nage pour t'enfuir; la "
+"plupart des monstres ne peuvent pas nager. Assure toi juste de te débarasser"
+" d'autant d'affaires que tu peux avant, voire de te mettre nu, sinon tu "
+"couleras comme une pierre."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Houses can be a surprisingly good resource for all kinds of stuff; clothing,"
+" medication, food, books, and more."
+msgstr ""
+"On trouve parfois dans les maisons des quantités surprenantes de ressources "
+"en tout genre : vêtements, medicaments, nourriture, livres, entre autres."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"While there's not much to loot, gas stations are a good source for gasoline,"
+" to power tools or to make Molotov cocktails."
+msgstr ""
+"Même s'il n'y a pas grand chose à y piller, les stations essence sont le "
+"meilleur moyen d'obtenir de l'essence, des piles et pour fabriquer des "
+"cocktails Molotov."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"It's not like in the movies--shooting a gas pump won't make it explode.  But"
+" it WILL make it leak all over the place, which is a definite fire hazard."
+msgstr ""
+"On n'est pas dans un film --tirer sur une pompe à essence ne la fera pas "
+"exploser. Mais elle fuira de toutes parts, ce qui présente définitivement un"
+" risque d'incendie."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I know grocery stores and stuff are full of fruit, but be careful, it's "
+"probably rotten."
+msgstr ""
+"Je sais que les épiceries sont pleines de fruits mais sois prudent, ils sont"
+" probablement pourris."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Next time you visit a grocery store, load up on canned goods.  They never go"
+" bad!"
+msgstr ""
+"La prochaine fois que tu te rends dans une épicerie, charge toi en "
+"conserves. Elles se conservent toujours!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I've found more good weapons in hardware stores than anywhere else.  Except "
+"gun stores, of course."
+msgstr ""
+"J'ai trouvé plus de bonnes armes dans les quincailleries que nul part "
+"ailleurs. A part les magasins d'armes bien sûr."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Liquor stores are a great place to pick up non-alcoholic beverages, too.  "
+"Not that I mind alcohol!"
+msgstr ""
+"Les magasins d'alcools sont aussi fournis en boissons non-alcoolisées. Ce "
+"n'est pas que l'alcool me dérange, hein!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Most gun stores follow pretty similar layouts.  The restricted stuff--SMGs, "
+"assault rifles, and most importantly ammo--are always behind the counter."
+msgstr ""
+"La plupart des magasins d'armes ont le même agencement. Ce qui est à accès "
+"restreint --les pistolets mitrailleurs, fusils d'assaut, et surtout les "
+"cartouches-- est toujours derrière le comptoir."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I've spent many nights in the changing rooms at the back of clothing stores."
+"  Walls on four sides, far from the store's entrance, a corridor for easy "
+"defense... it's perfect!"
+msgstr ""
+"J'ai passé de nombreuses nuits dans les cabines d'essayage à l'arrière des "
+"magasins de vêtements. Des murs sur les quatres côtés, éloignée de l'entrée "
+"du magasin, un couloir pratique pour une défense solide... c'est parfait!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"If you're getting chased by a hoard of zombies, try ducking into the subways"
+" and traveling a block or two, then coming back up."
+msgstr ""
+"Si tu te retrouves pourchassé par une horde de zombies, essaie de t'éclipser"
+" dans le métro et déplace toi de quelques blocs avant de remonter."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Have you seen those weird science labs out in the middle of nowhere?  I "
+"think you need some kind of special ID card to get in."
+msgstr ""
+"As-tu vu les étranges laboratoires scientifiques perdus au milieu de rien? "
+"Je crois qu'il faut des cartes spéciales d'identification pour y entrer."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"I've thought about raiding an ant hill before, but I realized it wasn't "
+"worth the risk.  I doubt they have any loot beyond some scraps of food, you "
+"know?"
+msgstr ""
+"J'ai déjà pensé faire une descente dans une fourmilière, mais je me suis "
+"rendu compte que ça ne valait pas le coup. Je ne pense pas qu'elles aient "
+"autre chose à piller à part des restes de nourriture, hein ?"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This guy I know was walking through the subway when he came across a giant "
+"rift in the earth, with lava far below.  Weird, huh?"
+msgstr ""
+"Un type que je connais marchait dans le métro lorsqu'il est tombé sur une "
+"fente géante dans la terre, avec de la lave au plus profond. Bizarre non ?"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"In a lot of places, there's little hallways connecting the subways with the "
+"sewers, with heavy metal doors on both ends.  It's a perfect place to sleep!"
+msgstr ""
+"Dans beaucoup d'endroits il y a des couloirs reliant le métro aux égouts "
+"avec de robustes portes de métal des deux côtés. L'endroit parfait pour "
+"dormir!"
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Be careful of drinking water from rivers and stuff, it's a good way to get "
+"sick.  But if you have a water purifier, it'll make it safe."
+msgstr ""
+"Sois prudent lorsqu'il s'agit ed boire de l'eau des rivières ou autres, "
+"c'est un coup à tomber malade. Mais si tu as un purificateur d'eau, c'est "
+"sans problème."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Autodocs are probably your best bet to install bionics - if you can find "
+"one!  However, I heard they won't work if you don't bring anesthetics to put"
+" you in a sleep."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "<swear> <name_b>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "asshat"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "asswipe"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "bag of shit"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "bastard"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "blockhead"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "chump"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "clown"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "cretin"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "degenerate"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "dick"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "dipshit"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "douchebag"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "dumbass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "dumb <name_b>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "fool"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "freak"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "goon"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "half-eaten <name_b>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "idiot"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "imbecile"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "jackass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "moron"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "nitwit"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "piece of an ass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "piece of shit"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "punk"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
-msgid "cunt"
+msgid "scumbag"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shit-brained <name_b>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shit-eater"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shitass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shitbag"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "shitface"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "son of a <name_b>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "stinky <name_b>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "stupidass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "stupid <name_b>"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "swine"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "zombie food"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -93705,6 +94628,26 @@ msgstr "connard"
 #: lang/json/snippet_from_json.py
 msgid "shithead"
 msgstr "face de cul"
+
+#: lang/json/snippet_from_json.py
+msgid "<ill_die> if I won't get some water soon."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Can you get me some water, <name_g>?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Do you have something to drink, <name_g>?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I need some <swear> water!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "My mouth is dry."
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "When we drinkin'?"
@@ -93751,7 +94694,19 @@ msgid "Did you know that lack of water kills faster than lack of rest?"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "darn"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "fuck"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "goddamn"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "goddamnit"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -93863,8 +94818,32 @@ msgid "Hi <name_g>"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "never"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "no"
 msgstr "non"
+
+#: lang/json/snippet_from_json.py
+msgid "not gonna happen"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "not happening"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "over my dead body"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "when pigs fly"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "won't happen"
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "fuck no"
@@ -93903,6 +94882,14 @@ msgid "fat chance"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "Goodbye, <name_b>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'm leaving."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "So long, <name_b>!"
 msgstr ""
 
@@ -93919,7 +94906,31 @@ msgid "Bye bye, <name_b>!"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "consider yourself dead"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'll destroy you"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'll kick your ass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "I'll kill you"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'll send you to hell"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'm gonna kick your ass"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "you won't make it out alive"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -93995,7 +95006,15 @@ msgid "my days are <really> numbered"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "Can you wait?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "Hey, where are you?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Wait!"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -94075,8 +95094,40 @@ msgid "I don't belong to a faction, <name_g>."
 msgstr "Je n'appartient à aucune faction, <name_g>."
 
 #: lang/json/snippet_from_json.py
+msgid "amigo"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "comrade"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "fellow"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "lad"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "mate"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "nomad"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "partner"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "stranger"
 msgstr "étranger"
+
+#: lang/json/snippet_from_json.py
+msgid "survivor"
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "friend"
@@ -94123,6 +95174,42 @@ msgid "Get over here!"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "Get over here, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Keep close, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Keep it moving, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Keep up, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Let's keep going, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Over here!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Over here, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Stay close, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Stay with me, <name_g>!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "Catch up, <name_g>!"
 msgstr ""
 
@@ -94152,6 +95239,10 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "Let's keep going!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I can barely keep my eyes open."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -94201,8 +95292,32 @@ msgid "I'll just go to sleep, <okay>?"
 msgstr "Je vais dormir, <okay>?"
 
 #: lang/json/snippet_from_json.py
+msgid "extremely"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "greatly"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "highly"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "incredibly"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "quite"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "really"
 msgstr "vraiment"
+
+#: lang/json/snippet_from_json.py
+msgid "utterly"
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "fucking"
@@ -94240,6 +95355,10 @@ msgstr ""
 msgid "<very> <very>"
 msgstr ""
 
+#: lang/json/snippet_from_json.py src/iuse.cpp
+msgid "fine"
+msgstr ""
+
 #: lang/json/snippet_from_json.py
 msgid "okay"
 msgstr ""
@@ -94274,6 +95393,10 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "that clear"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "seriously"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -94322,6 +95445,10 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "Let me through, <okay>?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Step aside, <name_g>!"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -94377,6 +95504,10 @@ msgid "Thanks, <name_g>!"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "content"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "glad"
 msgstr ""
 
@@ -94387,6 +95518,10 @@ msgstr "heureux"
 #: lang/json/snippet_from_json.py
 msgid "overjoyed"
 msgstr "ravi"
+
+#: lang/json/snippet_from_json.py
+msgid "pleased"
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "ecstatic"
@@ -94454,10 +95589,6 @@ msgstr "Posez votre <yrwp>!"
 
 #: lang/json/snippet_from_json.py
 msgid "Alright, drop the <yrwp>!"
-msgstr ""
-
-#: lang/json/snippet_from_json.py
-msgid "goddamn"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -94605,6 +95736,10 @@ msgid "Get out of my line of fire"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "I almost want to eat my <mywp> now."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "When we eatin'?"
 msgstr ""
 
@@ -94673,7 +95808,19 @@ msgid "<name_b>"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
-msgid "<swear> <name_b>"
+msgid "Fire in the hole!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Get cover!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Get down!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Hit the dirt!"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -95019,10 +96166,6 @@ msgid "chum"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
-msgid "amigo"
-msgstr ""
-
-#: lang/json/snippet_from_json.py
 msgid "hombre"
 msgstr ""
 
@@ -95044,10 +96187,6 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "chief"
-msgstr ""
-
-#: lang/json/snippet_from_json.py
-msgid "mate"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -96811,6 +97950,520 @@ msgid "\"Leeeeeeeeeeeeeroy!  Jenkins rebuild!\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
+msgid "\"Activated!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Search mode activated!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Coming through!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Deploying!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Critical Error!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Ow ow ow!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Put me down!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Target lost!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Searching!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hey!  It's me!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Ouch!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Sentry mode activated.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hi.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Target acquired.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Dispensing product.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Firing.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hello friend.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Gotcha.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Is anyone there?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I see you.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Could you come over here?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hellooo.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"My fault.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Ohh.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Critical error.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Shutting down.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I don't blame you.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I don't hate you.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Whyyyy.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"No hard feelings.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Aiaiaiaiaiai.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Who are you?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Help.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Uh oh.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Illegal operation.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Goodbye.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Sleep mode activated.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Your business is appreciated.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hibernating.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Goodnight.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Resting.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Nap time.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Are you still there?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hey, it's me!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Don't shoot!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Stop shooting!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Self test error.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Aah.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Unknown error.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Malfunctioning.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Aaaah.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Ow ow ow ow owww.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Why?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I did everything you asked!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I don't understand!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I'm fine!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Wheeeeee-OH NO!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I'm scared!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Something's wrong...\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"What are you doing?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Please stop.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"You've made your point.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Okay, you win.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"This is not good.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Excuse me?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I'm different...\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Thanks anyway...\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Take me with you...\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"You have excellent aim!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I need backup!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I never liked her.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"These things happen.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"That was nobody's fault.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"She was provoking you.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Oh dear.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Oh my!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I blame myself.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"He probably deserved it.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I saw it.  It was an accident.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"She's probably okay.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Noted.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"But I need to protect the humans!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"We're back!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hi there!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Back again!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Well, hello, stranger!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"This time is OUR time.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Second time's a charm...\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Howdy, stranger!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Thought you'd seen the last of us, didn't ya?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Dang!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I thought we fixed that.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"What's a guy gotta got to do to get some bullets around here?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Nope.  Still can't see.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Yep.  Still blind.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Click click click!  Still defective!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Yeah, that's right!  Still defective!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Yeah!  Still not working.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Yeah!  Non-lethal as ever.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Can't.  See.  A.  Thing.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Absolutely no improvement.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Not getting better with age!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"This is just getting embarrassing.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Alright, you can go.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"[sigh] Don't tell anyone about this.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Well, I tried. Best of luck!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hey, safe travels, there.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hey, thanks so much!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Don't be a stranger!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"It's been a pleasure!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"That was fun, wasn't it?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid ""
+"\"I can't see a thing.  What just happened?  Better open fire!  [click click"
+" click click]  Dang!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"*clicking noises*\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"No, wait, wait!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hey, hold on now WHOA WHOA WHOA!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Oh, this is ridiculous!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Give me another channnnce!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Hey!  Squeaky-voice!  Gimme some of your bullets!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Can I get some bullets here?  Anybody got bullets?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Uhhh, no bullets.  Sorry.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Shootin' blanks every time, ALL the time.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Standing down.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Watch and learn, everybody.  Watch and learn.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"So what am I, uh, supposed to do here?\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Identify yourself or I will shoot.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"Pleased to meetcha.\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
+msgid "\"I'm gonna make you proud!\""
+msgstr ""
+
+#: lang/json/speech_from_json.py
 msgid "\"SQUEE!\""
 msgstr ""
 
@@ -98330,7 +99983,7 @@ msgstr "<npcname> désarme %s"
 
 #. ~ Description for throw
 #: lang/json/technique_from_json.py
-msgid "Down 1 turns, knockback 1 tile, min 3 unarmed"
+msgid "Down 1 turn, knockback 1 tile, min 3 unarmed"
 msgstr ""
 
 #: lang/json/technique_from_json.py lang/json/technique_from_json.py
@@ -99674,6 +101327,17 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "SMASH!"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "concrete floor, overhead light"
+msgstr ""
+
+#. ~ Description for concrete floor, overhead light
+#: lang/json/terrain_from_json.py
+msgid ""
+"A bare and cold concrete floor with a still-functioning light attached to "
+"the ceiling above."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -101134,6 +102798,28 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "coffee tree"
+msgstr ""
+
+#. ~ Description for coffee tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This is 'gymnocladus dioicus', or the kentucky coffee tree, which produces "
+"roastable coffee pods and brewable leaves in the fall.  If you examined the "
+"branches more closely, you could probably find a few mature ones.  You could"
+" also cut it down with the right tools."
+msgstr ""
+
+#. ~ Description for coffee tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This is 'gymnocladus dioicus', or the kentucky coffee tree, which produces "
+"roastable coffee pods and brewable leaves in the fall.  Looks like all the "
+"ripe pods have been picked.  You could also cut it down with the right "
+"tools."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "cherry tree"
 msgstr "cerisier"
 
@@ -101984,6 +103670,22 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "painted waxed floor"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "buffer stop"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "railroad crossing signal"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "clang."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "crossbuck"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -103051,6 +104753,10 @@ msgid "Heavy Duty Cargo Truck"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
+msgid "Animal Control Truck"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Automatic Street Sweeper"
 msgstr ""
 
@@ -103761,9 +105467,22 @@ msgstr ""
 #. ~ Description for livestock stall
 #: lang/json/vehicle_part_from_json.py
 msgid ""
-"A cargo space for carrrying animals.  'e'xamine it it to capture an animal "
+"A cargo space for carrying livestock.  'e'xamine it to capture an animal "
 "next to you, or to release the animal currently contained.  When selecting "
 "an animal to capture, choose its tile relative to you, not the part."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "animal compartment"
+msgstr ""
+
+#. ~ Description for animal compartment
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A large locker for transporting smaller animals.  'e'xamine it to capture an"
+" animal next to you, or to release the animal currently contained.  When "
+"selecting an animal to capture, choose its tile relative to you, not the "
+"part."
 msgstr ""
 
 #. ~ Description for UPS-compatible recharging station
@@ -104461,8 +106180,8 @@ msgstr "bélier en bois"
 #: lang/json/vehicle_part_from_json.py
 msgid ""
 "A circular blade, powered by the vehicle's engine.  It will dramatically "
-"increased the damage the vehicle delivers in collisisons.  Mount on the "
-"edges of the vehicle, preferably the front."
+"increase the damage the vehicle delivers in collisions.  Mount on the edges "
+"of the vehicle, preferably the front."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -106212,9 +107931,9 @@ msgid "Back"
 msgstr "Retour"
 
 #: src/action.cpp src/color.cpp src/crafting.cpp src/crafting.cpp
-#: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp
-#: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
-#: src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp
+#: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
+#: src/iexamine.cpp src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp
+#: src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp
 #: src/mission_companion.cpp src/pickup.cpp src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "Annuler"
@@ -106267,6 +107986,79 @@ msgid "You discover a %s!"
 msgstr "Vous découvrez un(e) %s!"
 
 #: src/activity_handlers.cpp
+msgid "You don't trust the quality of your tools, but carry on anyway."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "None of your tools are sharp and precise enough to do that."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You could use a better tool, but this will do."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "This tool is great, but you still would like a scalpel."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You dissect the corpse with a trusty scalpel."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You need a butchering rack to perform a full butchery."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"You need a table nearby or something else with a flat surface to perform a "
+"full butchery."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You need tools that can cut and saw to perform a full butchery."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"It would be futile to search for implants inside this badly damaged corpse."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "This corpse is already field dressed."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "This corpse is too small to quarter without damaging."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "This is already quartered."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You need to perform field dressing before quartering."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You clench your teeth at the prospect of this gruesome job."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "This will haunt you in your dreams."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"You try to look away, but this gruesome image will stay on your mind for "
+"some time."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "It needs a coffin, not a knife."
+msgstr ""
+
+#: src/activity_handlers.cpp
 msgid "You harvest some fluid bladders!"
 msgstr "Vous récupérez des poches de fluide!"
 
@@ -106316,6 +108108,29 @@ msgid "You harvest some fat!"
 msgstr "Vous récupérez du gras!"
 
 #: src/activity_handlers.cpp
+msgid ""
+"You suspect there might be bionics implanted in this corpse, that careful "
+"dissection might reveal."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"Your butchering tool encounters something implanted in this corpse, but your"
+" rough cuts destroy it."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"You find traces of implants in the body, but you care only for the flesh."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"You found some bionics in the body, but harvesting them would require more "
+"surgical approach."
+msgstr ""
+
+#: src/activity_handlers.cpp
 msgid "Your clumsy butchering destroys the flesh!"
 msgstr "Votre dépeçage maladroit détruit la chair!"
 
@@ -106334,8 +108149,31 @@ msgid "You harvest: %s"
 msgstr "Vous récupérez: %s"
 
 #: src/activity_handlers.cpp
+#, c-format
+msgid "You roughly slice the corpse of %s into four parts and set them aside."
+msgstr ""
+
+#: src/activity_handlers.cpp
 msgid "There's no corpse to butcher!"
 msgstr "Il n'y a pas de cadavre à dépecer ici."
+
+#: src/activity_handlers.cpp
+msgid ""
+"You hack up the corpse so unskillfully, that there is nothing left to "
+"salvage from this bloody mess."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"You wanted to cut the corpse, but instead you hacked the meat, spilled the "
+"guts all over it, and made a bloody mess."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"You made so many mistakes during the process that you doubt even vultures "
+"will be interested in what's left of it."
+msgstr ""
 
 #. ~ %1$s - item name, %2$s - monster name
 #: src/activity_handlers.cpp
@@ -106345,8 +108183,53 @@ msgstr "Vous découvrez un(e) %1$s dans le %2$s!"
 
 #: src/activity_handlers.cpp
 #, c-format
+msgid ""
+"You apply few quick cuts to the %s and leave what's left of it for "
+"scavengers."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
 msgid "You finish butchering the %s."
 msgstr "Vous avez terminé de dépecer %s."
+
+#: src/activity_handlers.cpp
+msgid ""
+"You unskillfully hack up the corpse and chop off some excess body parts. "
+"You're left wondering how you did so poorly."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"Your unskilled hands slip and damage the corpse. You still hope it's not a "
+"total waste though."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"You did something wrong and hacked the corpse badly. Maybe it's still "
+"recoverable."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You field dress the %s."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid ""
+"You slice the corpse's belly and remove intestines and organs, until you're "
+"confident that it will not rot from inside."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You remove guts and excess parts, preparing the corpse for later use."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You finish dissecting the %s."
+msgstr ""
 
 #: src/activity_handlers.cpp
 #, c-format
@@ -108779,8 +110662,16 @@ msgid "You flub the removal."
 msgstr "Vous faite une bourde dans l'extraction."
 
 #: src/bionics.cpp
+msgid "<npcname> flubs the removal."
+msgstr ""
+
+#: src/bionics.cpp
 msgid "You mess up the removal."
 msgstr "Vous gâchez l'extraction."
+
+#: src/bionics.cpp
+msgid "<npcname> messes up the removal."
+msgstr ""
 
 #: src/bionics.cpp
 msgid "The removal fails."
@@ -108795,25 +110686,36 @@ msgid "You screw up the removal."
 msgstr "Vous ratez l'extraction."
 
 #: src/bionics.cpp
-msgid "Your body is severely damaged!"
-msgstr "Votre corps est sévèrement endommagé!"
-
-#: src/bionics.cpp
-msgid "You prep yourself to begin surgery."
-msgstr "Vous vous préparez à commencer la chirurgie."
-
-#: src/bionics.cpp
-msgid "A lifetime of Autodoc use has taught you a thing or two..."
+msgid "<npcname> screws up the removal."
 msgstr ""
 
 #: src/bionics.cpp
-msgid "You don't have this bionic installed."
-msgstr "Ce bionique n'est pas installé."
+#, c-format
+msgid "%s body is severely damaged!"
+msgstr ""
 
 #: src/bionics.cpp
-msgid "Removing your Fusion Blaster Arm would leave you with a useless stump."
+msgid "You prep to begin surgery."
 msgstr ""
-"Retirer votre bras blaster à fusion vous laissera avec un moignon inutile."
+
+#: src/bionics.cpp
+msgid "<npcname> prepares for surgery."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid "A lifetime of Autodoc use has taught %s a thing or two..."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid "%s don't have this bionic installed."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid "Removing %s Fusion Blaster Arm would leave %s with a useless stump."
+msgstr ""
 
 #: src/bionics.cpp
 msgid ""
@@ -108824,13 +110726,14 @@ msgstr ""
 
 #: src/bionics.cpp
 #, c-format
-msgid "You must remove the %s bionic to remove the %s."
+msgid "%s must remove the %s bionic to remove the %s."
 msgstr ""
 
 #: src/bionics.cpp
+#, c-format
 msgid ""
-"The Telescopic Lenses are part of your eyes now.  Removing them would leave "
-"you blind."
+"The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s"
+" blind."
 msgstr ""
 
 #: src/bionics.cpp
@@ -108859,7 +110762,11 @@ msgid "Removed bionic: %s."
 msgstr "A enlevé le bionique: %s"
 
 #: src/bionics.cpp
-msgid "You jiggle your parts back into their familiar places."
+msgid "You jiggle the parts back into their familiar places."
+msgstr ""
+
+#: src/bionics.cpp
+msgid "<npcname> jiggles the parts back into their familiar places."
 msgstr ""
 
 #: src/bionics.cpp
@@ -108924,6 +110831,18 @@ msgid "Successfully installed %s."
 msgstr "%s installé avec succès."
 
 #: src/bionics.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "Failed install of bionic: %s."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid "Failed install of bionic: %s."
+msgstr ""
+
+#: src/bionics.cpp
 msgid "The installation fails without incident."
 msgstr "L'installation échoue sans incident."
 
@@ -108932,8 +110851,16 @@ msgid "You flub the installation."
 msgstr "Vous ratez l'installation."
 
 #: src/bionics.cpp
+msgid "<npcname> flubs the installation."
+msgstr ""
+
+#: src/bionics.cpp
 msgid "You mess up the installation."
 msgstr "Vous foirez complètement l'installation"
+
+#: src/bionics.cpp
+msgid "<npcname> messes up the installation."
+msgstr ""
 
 #: src/bionics.cpp
 msgid "The installation fails."
@@ -108947,10 +110874,15 @@ msgstr "L'installation est un échec."
 msgid "You screw up the installation."
 msgstr "Vous ruinez l'installation."
 
+#: src/bionics.cpp
+msgid "<npcname> screws up the installation."
+msgstr ""
+
 #. ~"Complications" is USian medical-speak for "unintended damage from a
 #. medical procedure".
 #: src/bionics.cpp
-msgid "Your training helps you minimize the complications."
+#, c-format
+msgid "%s training helps %s minimize the complications."
 msgstr ""
 
 #: src/bionics.cpp
@@ -108958,24 +110890,28 @@ msgid "It really hurts!"
 msgstr "Ca fait vraiment mal!"
 
 #: src/bionics.cpp
-msgid "Your body is damaged!"
-msgstr "Votre corps est endommagé."
+#, c-format
+msgid "%s body is damaged!"
+msgstr ""
 
 #: src/bionics.cpp
-msgid "All of your existing bionics are lost!"
-msgstr "Tous vos bioniques sont perdus !"
+#, c-format
+msgid "All of %s existing bionics are lost!"
+msgstr ""
 
 #: src/bionics.cpp
-msgid "Some of your existing bionics are lost!"
-msgstr "Certains de vos bioniques ont été détruits!"
+#, c-format
+msgid "Some of %s existing bionics are lost!"
+msgstr ""
 
 #: src/bionics.cpp
 msgid "The installation is faulty!"
 msgstr "L'installation est défectueuse!"
 
 #: src/bionics.cpp
-msgid "You lose power capacity!"
-msgstr "Vous perdez de la puissance!"
+#, c-format
+msgid "%s lose power capacity!"
+msgstr ""
 
 #: src/bionics.cpp
 #, c-format
@@ -109020,8 +110956,23 @@ msgstr ""
 #: src/bionics.cpp
 msgid ""
 "You set up the operation step-by-step, configuring the Autodoc to manipulate"
-" a CBM, and settle into position, sliding your right wrist into the sofa's "
-"strap."
+" a CBM"
+msgstr ""
+
+#: src/bionics.cpp
+msgid ""
+"<npcname> sets up the operation, configuring the Autodoc to manipulate a "
+"CBM."
+msgstr ""
+
+#: src/bionics.cpp
+msgid ""
+"You settle into position, sliding your right wrist into the couch's strap."
+msgstr ""
+
+#: src/bionics.cpp
+msgid ""
+"<npcname> settles into position, sliding their wrist into the couch's strap."
 msgstr ""
 
 #: src/bionics.cpp
@@ -110852,6 +112803,14 @@ msgstr ""
 msgid "That doesn't look edible in its current form."
 msgstr ""
 
+#: src/consumption.cpp
+msgid "It's frozen solid.  You must defrost it before you can eat it."
+msgstr ""
+
+#: src/consumption.cpp
+msgid "You can't drink it while it's frozen."
+msgstr ""
+
 #: src/consumption.cpp src/player.cpp
 #, c-format
 msgid "You need a %s to consume that!"
@@ -111026,6 +112985,12 @@ msgid "You feel horrible for eating a person."
 msgstr "Vous culpabilisez d'avoir mangé une personne."
 
 #: src/consumption.cpp
+msgid ""
+"You try to ignore it's mushy texture, but it leaves you with an awful "
+"aftertaste."
+msgstr ""
+
+#: src/consumption.cpp
 msgid "Yuck! How can anybody eat this stuff?"
 msgstr "Beurk! Qui peut manger ce genre de chose?"
 
@@ -111183,7 +113148,7 @@ msgid "You can't see to craft!"
 msgstr "Pas assez de lumière pour fabriquer!"
 
 #: src/crafting.cpp
-msgid "Overmap terrain building recipies are not implemented yet!"
+msgid "Overmap terrain building recipes are not implemented yet!"
 msgstr ""
 
 #: src/crafting.cpp
@@ -117150,6 +119115,81 @@ msgid "Cut up all you can"
 msgstr "Découper tout ce que vous pouvez"
 
 #: src/game.cpp
+msgid ""
+"You are not in the mood and the prospect of guts and blood on your hands "
+"convinces you to turn away."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"You are not in the mood and the prospect of work stops you before you begin."
+msgstr ""
+
+#: src/game.cpp
+msgid "Choose type of butchery:"
+msgstr ""
+
+#: src/game.cpp
+msgid "Quick butchery"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"This techinque is used when you are in a hurry, but still want to harvest "
+"some flesh.  You aim for major muscles (or equivalents) and don't care for "
+"the rest, so be prepared for low yields and no variety.  Prevents zombies "
+"from raising."
+msgstr ""
+
+#: src/game.cpp
+msgid "Full butchery"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"This technique is used to properly butcher a corpse, and requires a "
+"butchering rack, a flat surface (for ex. a table) and good tools, including "
+"those that can saw and cut.  Yields are far better and varied, but it is "
+"time consuming."
+msgstr ""
+
+#: src/game.cpp
+msgid "Field dress corpse"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"Technique that involves removing internal organs and viscera to protect the "
+"corpse from rotting from inside. Yields internal organs. Carcass will be "
+"lighter and will stay fresh longer.  Can be combined with other methods for "
+"better effects."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"By quartering a previously field dressed corpse you will aquire four parts "
+"with reduced weight and volume.  It may help in transporting large game.  "
+"This action destroys skin, hide, pelt, etc., so don't use it if you want to "
+"harvest them later."
+msgstr ""
+
+#: src/game.cpp
+msgid "Quarter corpse"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"By careful dissection of the corpse, you will examine it for possible bionic"
+" implants, and harvest them if possible.  Requires scalpel-grade cutting "
+"tools, ruins corpse, and consumes lot of time.  Your medical knowledge is "
+"most useful here."
+msgstr ""
+
+#: src/game.cpp
+msgid "Dissect corpse"
+msgstr ""
+
+#: src/game.cpp
 msgid "You're too full to eat the underbrush."
 msgstr ""
 
@@ -121298,6 +123338,20 @@ msgid "You may have problems climbing back up. Climb down?"
 msgstr ""
 
 #: src/iexamine.cpp
+#, c-format
+msgid ""
+"<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance"
+" of success compared to your <color_red>%3$d<color_white> chance of success."
+"  Continue with a higher risk of failure?</color>"
+msgstr ""
+
+#. ~ %1$s is the name of the ally
+#: src/iexamine.cpp
+#, c-format
+msgid "%1$s will perform the operation with a %2$d chance of success."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "No connected couches found.  Operation impossible.  Exiting."
 msgstr ""
 
@@ -121305,6 +123359,10 @@ msgstr ""
 msgid ""
 "No patient found located on the connected couches.  Operation impossible.  "
 "Exiting."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You need an anesthesia kit for autodoc to perform any operation."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -121331,28 +123389,241 @@ msgstr ""
 msgid "You don't have any CBMs to install."
 msgstr ""
 
+#. ~ %1$s is the bionic CBM display name, %2$s is the patient name
+#: src/iexamine.cpp
+#, c-format
+msgid "%1$s cannot be installed on %2$s."
+msgstr ""
+
+#. ~ %1$s is patient name
 #: src/iexamine.cpp src/iuse_actor.cpp
 msgid "You have already installed this bionic."
 msgstr "Vous avez déja installé ce bionique."
 
 #: src/iexamine.cpp
+#, c-format
+msgid "%1$s has already installed this bionic."
+msgstr ""
+
+#. ~ %1$s is patient name
+#: src/iexamine.cpp
 msgid "You have no base version of this bionic to upgrade."
 msgstr ""
 
+#: src/iexamine.cpp
+#, c-format
+msgid "%1$s has no base version of this bionic to upgrade."
+msgstr ""
+
+#. ~ %1$s is patient name
 #: src/iexamine.cpp
 msgid "You have already installed a superior version of this bionic."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "You need an anesthesia kit for the Autodoc to perform any operation."
+#, c-format
+msgid "%1$s has installed a superior version of this bionic."
 msgstr ""
 
+#. ~ %1$s is installer name, %2$s is bionic CBM display name, %3$s is patient
+#. name
+#: src/iexamine.cpp
+#, c-format
+msgid "%1$s prepares to install the %2$s on %3$s."
+msgstr ""
+
+#. ~ %1$s is patient name
 #: src/iexamine.cpp
 msgid "You don't have any bionics installed."
 msgstr ""
 
 #: src/iexamine.cpp
+#, c-format
+msgid "%1$s doesn't have any bionics installed."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Choose bionic to uninstall"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "This rack already contains smoked food."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Remove it before firing the smoking rack again."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "This rack contains %s, which can't be smoked!"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "You remove %s from the rack."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"This rack has some smoked food that might be dehydrated by smoking it again."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"This rack is empty.  Fill it with raw meat, fish or sausages and try again."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "There is no charcoal in the rack."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"This rack is overloaded with food, and it blocks the flow of smoke.  Remove "
+"some and try again."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "You think that you can load about %s %s in it."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "There is not enough charcoal in the rack to smoke this much food."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid ""
+"You need at least %1$s pieces of charcoal, and the smoking rack has %2$s "
+"inside."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "This smoking rack is ready to be fired, but you have no fire source."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Fire the smoking rack?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You light a small fire under the rack and it starts to smoke."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You can't place more food while it's smoking."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Load smoking rack with what kind of food?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You don't have any food that can be smoked."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Insert how many %s into the rack?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You can't place that many."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You have rotten food mixed with fresh.  Get rid of it first."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "You carefully place %s %s in the rack."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "What to do with the smoking rack:"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Inspect smoking rack"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Light up and smoke food (lit & smoking)"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Light up and smoke food"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Insert food for smoking"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Reload with charcoal"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Remove food from rack"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Remove food from rack (none inside)"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Remove charcoal from rack; has: "
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Remove charcoal from rack (none inside)"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Quench burning charcoal"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "There's a smoking rack here.  It is lit and smoking."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "It will finish smoking in about %d hour."
+msgid_plural "It will finish smoking in about %d hours."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/iexamine.cpp
+msgid "It will finish smoking in less than an hour."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "It should take about %d minutes to finish smoking."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "There's a smoking rack here."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You inspect it's contents and find: "
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You see some smoldering embers there."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "It is already lit and smoking."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You stop the smoking process."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -121822,7 +124093,23 @@ msgid "fridge: "
 msgstr "réfrigérateur: "
 
 #: src/item.cpp
+msgid "freezer: "
+msgstr ""
+
+#: src/item.cpp
 msgid "last rot: "
+msgstr ""
+
+#: src/item.cpp
+msgid "HOT: "
+msgstr ""
+
+#: src/item.cpp
+msgid "COLD: "
+msgstr ""
+
+#: src/item.cpp
+msgid "FROZEN: "
 msgstr ""
 
 #: src/item.cpp
@@ -121915,6 +124202,18 @@ msgstr ""
 #: src/item.cpp
 msgid ""
 "* This food looks <bad>old</bad>. It's on a brink of becoming inedible."
+msgstr ""
+
+#: src/item.cpp
+msgid "* Quality of this food suffers when it's <neutral>frozen.</neutral>."
+msgstr ""
+
+#: src/item.cpp
+msgid "* It was frozen once and bacame <bad>mushy and tasteless</bad>."
+msgstr ""
+
+#: src/item.cpp
+msgid "* It seems that deep freezing <good>killed all parasites</good>."
 msgstr ""
 
 #: src/item.cpp
@@ -122767,6 +125066,10 @@ msgid " (cold)"
 msgstr " (froid)"
 
 #: src/item.cpp
+msgid " (frozen)"
+msgstr ""
+
+#: src/item.cpp
 msgid " (fits)"
 msgstr " (votre taille)"
 
@@ -123037,10 +125340,34 @@ msgstr ""
 #: src/item.cpp
 #, c-format
 msgctxt "item name"
+msgid "%s carcass"
+msgid_plural "%s carcasses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "quartered %s carcass"
+msgid_plural "quartered %s carcasses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
 msgid "%s corpse"
 msgid_plural "%s corpses"
 msgstr[0] "corps de %s"
 msgstr[1] "corps de %s"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s carcass of %s"
+msgid_plural "%s carcasses of %s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/item.cpp
 #, c-format
@@ -125138,6 +127465,10 @@ msgid "You don't have appropriate food to heat up."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "You defrost the food."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You heat up the food."
 msgstr "Vous réchauffez la nourriture."
 
@@ -125476,10 +127807,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "exceptional"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "fine"
 msgstr ""
 
 #: src/iuse.cpp
@@ -126471,6 +128798,14 @@ msgstr "Il n'y a rien à allumer ici."
 #: src/iuse_actor.cpp
 msgid "You successfully light a fire."
 msgstr "Vous avez réussi à allumer un feu."
+
+#: src/iuse_actor.cpp
+msgid "You light a fire, but it isn't enough. You need to light more."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You happily light a fire."
+msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "This tool doesn't have enough charges."
@@ -129633,7 +131968,36 @@ msgid "Gather Materials"
 msgstr ""
 
 #: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Distribute food to your follower and fill you larders.  Place the food you wish to distribute opposite the tent door between the manager and wall.\n"
+" \n"
+"Effects:\n"
+"> Increases your faction's food supply value which in turn is used to pay laborers for their time\n"
+" \n"
+"Must have enjoyability >= -6\n"
+"Perishable food liquidated at penalty depending on upgrades and rot time:\n"
+"> Rotten: 0%%\n"
+"> Rots in < 2 days: 60%%\n"
+"> Rots in < 5 days: 80%%\n"
+" \n"
+"Total faction food stock: %d kcal or %d day's rations"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "Distribute Food"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"Notes:\n"
+"Reset the points that items are sorted to using the [ Menial Labor ] mission.\n"
+" \n"
+"Effects:\n"
+"> Assignable Points: food, food for distribution, seeds, weapons, clothing, bionics, all kinds of tools, wood, trash, books, medication, and ammo.\n"
+"> Items sitting on any type of furniture will not be moved.\n"
+"> Items that are not listed in one of the categories are defaulted to the tools group."
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -129641,7 +132005,42 @@ msgid "Reset Sort Points"
 msgstr ""
 
 #: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to gather light brush and heavy sticks.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: N/A \n"
+"Gathering Possibilities:\n"
+"> heavy sticks\n"
+"> withered plants\n"
+"> splintered wood\n"
+" \n"
+"Risk: Very Low\n"
+"Time: 3 Hours, Repeated\n"
+"Positions: %d/3\n"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "Collect Firewood"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to do low level chores and sort supplies.\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Material left outside on the ground will be sorted into the four crates in front of the tent.\n"
+"Default, top to bottom:  Clothing, Food, Books/Bionics, and Tools.  Wood will be piled to the south.  Trash to the north.\n"
+" \n"
+"Risk: None\n"
+"Time: 3 Hours\n"
+"Positions: %d/1\n"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -129649,7 +132048,41 @@ msgid "Menial Labor"
 msgstr ""
 
 #: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Your base has become large enough to support an expansion.  Expansions open up new opportunities but can be expensive and time consuming.  Pick them carefully, only 8 can be built at each camp.\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: N/A \n"
+"Effects:\n"
+"> Choose any one of the available expansions.  Starting with a farm or lumberyard are always a solid choice since food is used to support companion missions and wood is your primary construction material.\n"
+" \n"
+"Risk: None\n"
+"Time: 3 Hours \n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "Expand Base"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to a nearby forest to cut logs.\n"
+" \n"
+"Skill used: fabrication\n"
+"Difficulty: 1 \n"
+"Effects:\n"
+"> 50%% of trees/trunks at the forest position will be cut down.\n"
+"> 50%% of total material will be brought back.\n"
+"> Repeatable with diminishing returns.\n"
+" \n"
+"Risk: Low-Medium\n"
+"Time: 6 Hour Base + Travel Time + Cutting Time\n"
+"Positions: %d/1\n"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -129657,7 +132090,43 @@ msgid "Cut Logs"
 msgstr ""
 
 #: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to build an improvised shelter and stock it with equipment at a distant map location.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: 3\n"
+"Effects:\n"
+"> Good for setting up resupply or contingency points.\n"
+"> Gear is left unattended and could be stolen.\n"
+"> Time dependent on weight of equipment being sent forward.\n"
+" \n"
+"Risk: Medium\n"
+"Time: 6 Hour Construction + Travel\n"
+"Positions: %d/1\n"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "Setup Hide Site"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Push gear out to a hide site or bring gear back from one.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: 1\n"
+"Effects:\n"
+"> Good for returning equipment you left in the hide site shelter.\n"
+"> Gear is left unattended and could be stolen.\n"
+"> Time dependent on weight of equipment being sent forward or back.\n"
+" \n"
+"Risk: Medium\n"
+"Time: 1 Hour Base + Travel\n"
+"Positions: %d/1\n"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -129677,7 +132146,43 @@ msgid "Recruit Companions"
 msgstr ""
 
 #: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion out into the great unknown.  High survival skills are needed to avoid combat but you should expect an encounter or two.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: 3\n"
+"Effects:\n"
+"> Select checkpoints to customize path.\n"
+"> Reveals terrain around the path.\n"
+"> Can bounce off hide sites to extend range.\n"
+" \n"
+"Risk: High\n"
+"Time: Travel\n"
+"Positions: %d/3\n"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "Scout Mission"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Send a companion to purge the wasteland.  Their goal is to kill anything hostile they encounter and return when their wounds are too great or the odds are stacked against them.\n"
+" \n"
+"Skill used: survival\n"
+"Difficulty: 4\n"
+"Effects:\n"
+"> Pulls creatures encountered into combat instead of fleeing.\n"
+"> Select checkpoints to customize path.\n"
+"> Can bounce off hide sites to extend range.\n"
+" \n"
+"Risk: Very High\n"
+"Time: Travel\n"
+"Positions: %d/3\n"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -130530,6 +133035,28 @@ msgid ""
 msgstr ""
 
 #: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"%s\n"
+" \n"
+"Skill used: %s\n"
+"Difficulty: %d\n"
+"%s \n"
+"Risk: None\n"
+"Time: %s\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Skill used: %s\n"
+"Difficulty: %d\n"
+"%s\n"
+"Time: %s\n"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid ""
 "Notes: \n"
 "Send a companion to gather materials for the next camp upgrade.\n"
@@ -130561,7 +133088,7 @@ msgstr ""
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
-"%s notices the antlered horror and slips away before if gets too close."
+"%s notices the antlered horror and slips away before it gets too close."
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -130615,7 +133142,7 @@ msgid "Collapsing into a pile of gore, %s walked away unscathed..."
 msgstr ""
 
 #: src/mission_companion.cpp
-msgid "(Sounds like bullshit, you wander what really happened.)"
+msgid "(Sounds like bullshit, you wonder what really happened.)"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -130635,7 +133162,7 @@ msgid "Pieces of %s were found strewn across a few bushes."
 msgstr ""
 
 #: src/mission_companion.cpp
-msgid "(You wander if your companions are fit to work on their own...)"
+msgid "(You wonder if your companions are fit to work on their own...)"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -130683,6 +133210,10 @@ msgid "Select an expansion:"
 msgstr ""
 
 #: src/mission_companion.cpp
+msgid "You choose to wait..."
+msgstr ""
+
+#: src/mission_companion.cpp
 #, c-format
 msgid "%s returns from surveying for the expansion."
 msgstr ""
@@ -130694,6 +133225,50 @@ msgstr ""
 #: src/mission_companion.cpp
 #, c-format
 msgid "You distribute %d kcal worth of food to your companions."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Harvestable: "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Ready for Planting: "
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Needs Plowing: "
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Name:     %25s\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "----          Engines          ----\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Engine:  %25s\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ">Status:  %24d%%\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ">Fuel:    %25s\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "----  Fuel Storage & Battery   ----\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Estimated Chop Time:         5 Days\n"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -130834,6 +133409,14 @@ msgid ""
 msgstr ""
 
 #: src/mission_companion.cpp
+msgid "You choose to send no one..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "The companion you selected doesn't have the skills!"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "You don't have any companions ready to return..."
 msgstr ""
 
@@ -130921,6 +133504,68 @@ msgid "Do you want to bounce off this location to extend range?"
 msgstr ""
 
 #: src/mission_companion.cpp
+#, c-format
+msgid ">Distance:%15.2f (km)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ">One Way: %15d (trips)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ">Covered: %15.2f (km)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ">Distance:%15d (m)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ">Covered: %15d (m)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ">Travel:  %15d (hours)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ">Working: %15d (hours)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Total:    %15d (days)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Total:    %15d (hours)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Total:    %15d (minutes)\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Food:     %15d (kcal)\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Reset point: %s?"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid ""
 "                    Items       New Point       Old Point\n"
 " \n"
@@ -130985,6 +133630,11 @@ msgid "You don't have the materials to craft that"
 msgstr ""
 
 #: src/mission_companion.cpp
+#, c-format
+msgid "Batch crafting %s [MAX: %d]: "
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "Your batch is too large!"
 msgstr ""
 
@@ -130994,6 +133644,26 @@ msgstr ""
 
 #: src/mission_companion.cpp
 msgid "begins to work..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Notes:\n"
+"Recruiting additional followers is very dangerous and expensive.  The outcome is heavily dependent on the skill of the companion you send and the appeal of your base.\n"
+" \n"
+"Skill used: speech\n"
+"Difficulty: 2 \n"
+"Base Score:                   +%3d%%\n"
+"> Expansion Bonus:            +%3d%%\n"
+"> Faction Bonus:              +%3d%%\n"
+"> Special Bonus:              +%3d%%\n"
+" \n"
+"Total: Skill                  +%3d%%\n"
+" \n"
+"Risk: High\n"
+"Time: 4 Days\n"
+"Positions: %d/1\n"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -131022,6 +133692,70 @@ msgid "%s wasn't interested in anything %s had to offer..."
 msgstr ""
 
 #: src/mission_companion.cpp
+msgid ""
+"NPC Overview:\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Name:  %20s\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Strength:        %10d\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Dexterity:       %10d\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Intelligence:    %10d\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Perception:      %10d\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Top 3 Skills:\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Asking for:\n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"> Food:     %10d days\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Faction Food:%9d days\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"Recruit Chance: %10d%%\n"
+" \n"
+msgstr ""
+
+#: src/mission_companion.cpp
 msgid "Select an option:"
 msgstr ""
 
@@ -131039,6 +133773,10 @@ msgstr ""
 
 #: src/mission_companion.cpp
 msgid "Not Interested"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You decide you aren't interested..."
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -132932,7 +135670,7 @@ msgid "It is severely injured."
 msgstr ""
 
 #: src/monster.cpp
-msgid "it is nearly dead!"
+msgid "It is nearly dead!"
 msgstr ""
 
 #: src/monster.cpp
@@ -134074,6 +136812,10 @@ msgid "Various limb wounds"
 msgstr "Blessures aux membres"
 
 #: src/newcharacter.cpp
+msgid "No starting NPC"
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid "Search by scenario name."
 msgstr "Rechercher par nom de scénario."
 
@@ -134833,6 +137575,13 @@ msgstr ""
 #, c-format
 msgid ""
 "&You are deaf and can't talk. When you don't respond, %s becomes angry!"
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid ""
+"%s is sedated and can't be moved or woken up until the medication or "
+"sedation wears off."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -137290,11 +140039,11 @@ msgid "Enable joystick"
 msgstr "Activer joystick"
 
 #: src/options.cpp
-msgid "SCT with unicode font"
+msgid "SCT with Unicode font"
 msgstr ""
 
 #: src/options.cpp
-msgid "If true, will display scrolling combat text with unicode font."
+msgid "If true, will display scrolling combat text with Unicode font."
 msgstr ""
 
 #: src/options.cpp
@@ -137411,6 +140160,19 @@ msgid ""
 msgstr ""
 "Si vrai, des PNJs seront générés à des endroits pré-définis. Nécessite une "
 "ré-initialisation du monde."
+
+#: src/options.cpp
+msgid "Starting NPCs spawn"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"Determines whether starting NPCs should spawn, and if they do, how exactly."
+msgstr ""
+
+#: src/options.cpp
+msgid "Scenario-based"
+msgstr ""
 
 #: src/options.cpp
 msgid "Random NPCs"
@@ -139143,10 +141905,6 @@ msgid "I'll keep you safe!"
 msgstr ""
 
 #: src/player.cpp
-msgid "It's a good time to lie down and sleep."
-msgstr "C'est un bon moment pour se coucher et dormir."
-
-#: src/player.cpp
 msgid "You get a bad feeling."
 msgstr ""
 
@@ -139216,6 +141974,10 @@ msgstr ""
 
 #: src/player.cpp
 msgid "\"I should never have trusted you!\""
+msgstr ""
+
+#: src/player.cpp
+msgid "You're suddenly overcome with the urge to sleep and you pass out."
 msgstr ""
 
 #: src/player.cpp
@@ -141267,6 +144029,11 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "<npcname>'s %s is damaged by the misfired round!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "You feel a surge of euphoria as flames roar out of the %s!"
 msgstr ""
 
 #: src/ranged.cpp

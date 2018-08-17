@@ -522,11 +522,23 @@
     },
     {
         "type": "effect_type",
+        "id": "took_xanax_visible",
+        "name": ["Took Xanax"],
+        "desc": ["You took Xanax some time ago and you might still be under it's influence."]
+    },
+    {
+        "type": "effect_type",
         "id": "took_prozac"
     },
     {
         "type": "effect_type",
         "id": "took_prozac_bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "took_prozac_visible",
+        "name": ["Took Prozac"],
+        "desc": ["You took Prozac some time ago and you might still be under it's influence."]
     },
     {
         "type": "effect_type",
@@ -1401,6 +1413,12 @@
     },
     {
         "type": "effect_type",
+        "id": "took_anticonvulsant_visible",
+        "name": ["Took anticonvulsant drugs"],
+        "desc": ["You took anticonvulsant drugs some time ago and you might still be under it's influence.\nPrescription note says it's effect duration may vary, so your estimate may be inaccurate."]
+    },
+    {
+        "type": "effect_type",
         "id": "music"
     },
     {
@@ -1839,6 +1857,24 @@
             "per_mod": [-0.071]
         },
         "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
+    },
+    {
+        "type": "effect_type",
+        "id": "weak_antibiotic_visible",
+        "name": ["Took weak antibiotic"],
+        "desc": [ "You consumed mild antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage." ]
+    },
+    {
+        "type": "effect_type",
+        "id": "antibiotic_visible",
+        "name": ["Took antibiotic"],
+        "desc": [ "You consumed antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage." ]
+    },
+    {
+        "type": "effect_type",
+        "id": "strong_antibiotic_visible",
+        "name": ["Took strong antibiotic"],
+        "desc": [ "You consumed perscription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage." ]
     },
     {
         "type": "effect_type",

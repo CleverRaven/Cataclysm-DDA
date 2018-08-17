@@ -512,6 +512,21 @@
     },
     {
         "type": "GENERIC",
+        "id": "minifreezer",
+        "name": "minifreezer",
+        "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.",
+        "weight": 31752,
+        "to_hit": -8,
+        "color": "light_blue",
+        "symbol": "]",
+        "material": "steel",
+        "volume": 20,
+        "bashing": 8,
+        "category" : "veh_parts",
+        "price": 70000
+    },
+    {
+        "type": "GENERIC",
         "id": "washing_machine",
         "name": "washing machine",
         "description": "A very small washing machine designed for use in vehicles.",

@@ -120,6 +120,7 @@ data/json/mapgen/house/house14.json
 data/json/mapgen/lab/lab_central.json
 data/json/mapgen/lab/lab_common.json
 data/json/mapgen/lab/lab_floorplan_cross.json
+data/json/mapgen/lab/lab_floorplans_1side.json
 data/json/mapgen/lab/lab_floorplans_finale1level.json
 data/json/mapgen/lab/lab_floorplans.json
 data/json/mapgen/lab/lab_rooms.json

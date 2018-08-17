@@ -2619,7 +2619,9 @@ bool game::handle_action()
         if( !evt.sequence.empty() ) {
             const long ch = evt.get_first_input();
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
-            add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+            if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
+                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+            }
         }
         return false;
     }
@@ -10136,6 +10138,11 @@ void game::butcher()
         MULTIBUTCHER,
         MULTIDISASSEMBLE_ONE,
         MULTIDISASSEMBLE_ALL,
+        BUTCHER,            // quick butchery
+        BUTCHER_FULL,       // full workshop butchery
+        F_DRESS,            // field dressing a corpse
+        QUARTER,            // quarter corpse
+        DISSECT,            // dissect corpse for CBMs
         CANCEL
     };
     // What are we butchering (ie. which vector to pick indices from)
@@ -10160,7 +10167,7 @@ void game::butcher()
 
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b',
-                _("Butcher everything") );
+            _("Butcher everything") );
         }
         if( disassembles.size() > 1 ) {
             kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D',
@@ -10175,6 +10182,7 @@ void game::butcher()
         kmenu.addentry( CANCEL, true, 'q', _("Cancel"));
         kmenu.return_invalid = true;
         kmenu.query();
+
         if( kmenu.ret < 0 || kmenu.ret >= CANCEL ) {
             return;
         }
@@ -10198,6 +10206,34 @@ void game::butcher()
         }
     }
 
+    bool no_morale_butcher = false;
+    if( !u.has_morale_to_craft() ) {
+        switch( butcher_type ) {
+        case BUTCHER_OTHER:
+            switch( indexer_index ) {
+            case MULTIBUTCHER:
+                no_morale_butcher = true;
+                break;
+            }
+	    /* fallthrough */
+        case BUTCHER_CORPSE:
+            no_morale_butcher = true;
+            break;
+        case BUTCHER_DISASSEMBLE:
+            break;
+        case BUTCHER_SALVAGE:
+            break;
+        }
+
+        if( no_morale_butcher ){
+            add_msg( m_info, _( "You are not in the mood and the prospect of guts and blood on your hands convinces you to turn away." ) );
+            return;
+        } else {
+            add_msg( m_info, _( "You are not in the mood and the prospect of work stops you before you begin." ) );
+            return;
+        }
+
+    }
     switch( butcher_type ) {
     case BUTCHER_OTHER:
         switch( indexer_index ) {
@@ -10205,7 +10241,11 @@ void game::butcher()
             u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
             break;
         case MULTIBUTCHER:
-            u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            if( g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
+                u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+            } else {
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            }
             for( int i : corpses ) {
                 u.activity.values.push_back( i );
             }
@@ -10223,13 +10263,42 @@ void game::butcher()
         break;
     case BUTCHER_CORPSE:
         {
+            uimenu smenu;
+            smenu.desc_enabled = true;
+            smenu.text = _("Choose type of butchery:");
+            smenu.addentry_desc( BUTCHER, true, 'B' , _("Quick butchery"), _( "This techinque is used when you are in a hurry, but still want to harvest some flesh.  You aim for major muscles (or equivalents) and don't care for the rest, so be prepared for low yields and no variety.  Prevents zombies from raising." ) );
+            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
+            smenu.addentry_desc( F_DRESS, true, 'f' , _("Field dress corpse"), _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
+            smenu.addentry_desc( QUARTER, true, 'k' , _("Quarter corpse"), _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+            smenu.addentry_desc( DISSECT, true, 'd' , _("Dissect corpse"), _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
+            smenu.addentry( CANCEL, true, 'q', _("Cancel"));
+            smenu.return_invalid = true;
+            smenu.query();
+            switch( smenu.ret ) {
+            case BUTCHER:
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+                break;
+            case BUTCHER_FULL:
+                u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+                break;
+            case F_DRESS:
+                u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
+                break;
+            case QUARTER:
+                u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+                break;
+            case DISSECT:
+                u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
+                break;
+            case CANCEL:
+                return;
+            }
             draw_ter();
             wrefresh( w_terrain );
             int index = corpses[indexer_index];
-            u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
             u.activity.values.push_back( index );
         }
-        break;
+        break;	
     case BUTCHER_DISASSEMBLE:
         {
             size_t index = disassembles[indexer_index];

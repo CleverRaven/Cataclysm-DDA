@@ -433,7 +433,7 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_thconc_floor, t_thconc_floor_olight,
+    t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -475,7 +475,7 @@ ter_id t_null,
     // Tree
     t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_coffee, t_tree_coffee_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
     t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
-    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk, t_stump,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence, t_chainfence, t_chainfence_posts,
@@ -551,6 +551,7 @@ void set_ter_ids() {
     t_concrete = ter_id( "t_concrete" );
     t_thconc_floor = ter_id( "t_thconc_floor" );
     t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
+    t_strconc_floor = ter_id( "t_strconc_floor" );
     t_floor = ter_id( "t_floor" );
     t_floor_waxed = ter_id( "t_floor_waxed" );
     t_dirtfloor = ter_id( "t_dirtfloor" );
@@ -690,6 +691,7 @@ void set_ter_ids() {
     t_shrub_blueberry = ter_id( "t_shrub_blueberry" );
     t_shrub_strawberry = ter_id( "t_shrub_strawberry" );
     t_trunk = ter_id( "t_trunk" );
+    t_stump = ter_id( "t_stump" );
     t_root_wall = ter_id( "t_root_wall" );
     t_wax = ter_id( "t_wax" );
     t_floor_wax = ter_id( "t_floor_wax" );
@@ -856,6 +858,7 @@ furn_id f_null,
     f_floor_canvas,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+    f_smoking_rack, f_smoking_rack_active,
     f_robotic_arm, f_vending_reinforced,
     f_brazier;
 
@@ -956,6 +959,8 @@ void set_furn_ids() {
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
+    f_smoking_rack = furn_id( "f_smoking_rack" );
+    f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
 }

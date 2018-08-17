@@ -371,6 +371,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             e->enabled = true;
         }
 
+        for( auto e : get_parts( "FREEZER" ) ) {
+            e->enabled = true;
+        }
+
         for( auto e : get_parts( "WATER_PURIFIER" ) ) {
             e->enabled = true;
         }
@@ -2003,6 +2007,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "STEREO",
             "CHIMES",
             "FRIDGE",
+            "FREEZER",
             "RECHARGE",
             "PLOW",
             "REAPER",

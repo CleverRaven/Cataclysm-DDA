@@ -948,6 +948,38 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sausage_raw",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 10000,
+  "autolearn": true,
+  "batch_time_factors":[50, 3],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":1}
+  ],
+  "components": [
+    [
+      [ "meat", 3]
+    ],
+    [
+      [ "fat", 3 ],
+      [ "tallow", 3 ],
+      [ "lard", 3 ]
+    ],
+    [
+      [ "salt", 10 ],
+      [ "soysauce", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "wild_herbs", 10 ],
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bologna",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -9355,45 +9387,54 @@
         [ "honey_glassed", 5 ]
       ]
     ]
-},{
-  "type" : "recipe",
-  "result": "haggis",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
-  "skill_used": "cooking",
-  "difficulty": 3,
-  "skills_required": [ "tailor", 1 ],
-  "time": 30000,
-  "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
-  "batch_time_factors":[50, 4],
-  "using": [ [ "sewing_standard", 2 ] ],
-  "qualities":[
-    {"id":"BOIL","level":1},
-    {"id":"COOK","level":3},
-    {"id":"CUT","level":1}
-  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-  "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "stomach", 1 ]
-    ],
-    [
-      [ "offal", 1 ]
-    ],
-    [
-      [ "oatmeal", 1 ],
-      [ "buckwheat", 1 ]
-    ],
-    [
-      [ "fat", 1 ],
-      [ "tallow", 1 ],
-      [ "lard", 1 ]
+},
+  {
+    "type" : "recipe",
+    "result": "haggis",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "tailor", 1 ],
+    "time": 30000,
+    "book_learn": [ [ "survival_book", 6 ], [ "scots_cookbook", 3 ] ],
+    "batch_time_factors": [ 50, 4 ],
+    "using": [ [ "sewing_standard", 2 ] ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "stomach", 1 ], [ "stomach_large", 1 ] ],
+      [ [ "offal", 1 ] ],
+      [ [ "oatmeal", 1 ], [ "buckwheat", 1 ] ],
+      [ [ "fat", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
     ]
-  ]
-},{
+  },
+  {
+    "type" : "recipe",
+    "result": "haggis",
+    "id_suffix": "large",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "tailor", 1 ],
+    "time": 45000,
+    "book_learn": [ [ "survival_book", 6 ], [ "scots_cookbook", 3 ] ],
+    "result_mult": 2,
+    "batch_time_factors": [ 50, 4 ],
+    "using": [ [ "sewing_standard", 4 ] ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "stomach", 2 ], [ "stomach_large", 1 ] ],
+      [ [ "offal", 2 ] ],
+      [ [ "oatmeal", 2 ], [ "buckwheat", 2 ] ],
+      [ [ "fat", 2 ], [ "tallow", 2 ], [ "lard", 2 ] ]
+    ]
+  },
+{
   "type" : "recipe",
   "result": "human_haggis",
   "category": "CC_FOOD",
@@ -9851,6 +9892,19 @@
   },
   {
     "type" : "recipe",
+    "result": "sausage_wasteland_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 10000,
+    "autolearn": true,
+    "batch_time_factors": [50, 3],
+    "qualities" : [ {"id":"CUT","level":1}, {"id":"COOK","level":1}],
+    "components": [ [ [ "offal", 4 ] ], [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt_water", 4 ], [ "saline", 20 ], [ "salt", 20 ], [ "soysauce", 4 ], [ "seasoning_salt", 20 ], [ "pepper", 40 ], [ "chem_saltpetre", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "oatmeal",
     "id_suffix": "mortar",
     "category": "CC_FOOD",

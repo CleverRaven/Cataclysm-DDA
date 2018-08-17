@@ -29,6 +29,7 @@ build/
 dep/
 *.o
 *.d
+*.a
 cmake-build-debug/
 
 data/font/
@@ -155,3 +156,4 @@ stage
 
 # Apple Xcode IDE
 Xcode/
+data/json/mapgen/garden_botanical.json

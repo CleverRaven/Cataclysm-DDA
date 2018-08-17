@@ -4660,7 +4660,7 @@
     "id": "mon_skeleton_hulk",
     "type": "MONSTER",
     "name": "skeletal juggernaut",
-    "description": "By growing more and more bone plates over its withered tissues, this monster tried to achieve the impossible: huge size and slender armored body.  Now it drags around it's pointy elongated limbs like a heavy burden.",
+    "description": "By growing more and more bone plates over its withered tissues, this monster tried to achieve the impossible: huge size and slender armored body.  Now it drags around its pointy elongated limbs like a heavy burden.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 50,
