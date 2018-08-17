@@ -89,7 +89,7 @@
         "|": "t_wall_wood"
       }
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -188,7 +188,7 @@
       },
       "place_rubble": [ { "x": 10, "y": 5 }, { "x": 11, "y": 5 }, { "x": 11, "y": 8 } ]
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -298,7 +298,7 @@
         "|": "t_wall_wood"
       }
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -391,7 +391,7 @@
       },
       "place_rubble": [ { "x": [ 17, 18 ], "y": 2 }, { "x": 18, "y": 3 }, { "x": 6, "y": 3 } ]
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -499,7 +499,7 @@
       },
       "place_rubble": [ { "chance": 30, "repeat": [ 2, 20 ], "x": [ 7, 5 ], "y": [ 18, 18 ] } ]
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -582,7 +582,7 @@
       },
       "place_rubble": [ { "chance": 30, "repeat": [ 5, 40 ], "x": [ 4, 19 ], "y": [ 7, 16 ] } ]
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -676,7 +676,7 @@
       },
       "place_rubble": [ { "chance": 40, "repeat": [ 0, 20 ], "x": [ 5, 9 ], "y": [ 15, 21 ] } ]
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -786,7 +786,7 @@
         { "chance": 20, "repeat": [ 0, 15 ], "x": [ 8, 10 ], "y": [ 10, 16 ] }
       ]
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -906,7 +906,7 @@
       },
       "place_rubble": [ { "chance": 30, "repeat": [ 3, 50 ], "x": [ 6, 18 ], "y": [ 6, 16 ] } ]
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   },
@@ -1009,7 +1009,7 @@
         { "chance": 20, "repeat": [ 0, 3 ], "x": [ 10, 14 ], "y": 22 }
       ]
     },
-    "om_terrain": "abandonedbarn",
+    "om_terrain": "desolatebarn",
     "type": "mapgen",
     "weight": 100
   }

@@ -2,7 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "church" ],     "//": "New England Church",
+    "om_terrain": [ "church" ],
+    "//": "New England Church",
     "weight": 1000,
     "object": {
       "fill_ter": "t_dirt",
@@ -43,7 +44,8 @@
       },
       "computers": {
         "6": {
-          "name": "Church Bells 1.2", "options": [
+          "name": "Church Bells 1.2",
+          "options": [
             { "name": "Gathering Toll", "action": "toll" },
             { "name": "Wedding Toll", "action": "toll" },
             { "name": "Funeral Toll", "action": "toll" }
@@ -55,7 +57,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "church" ],     "//": "Gothic Church",
+    "om_terrain": [ "church" ],
+    "//": "Gothic Church",
     "weight": 1000,
     "object": {
       "fill_ter": "t_dirt",
@@ -116,7 +119,8 @@
       },
       "computers": {
         "6": {
-          "name": "Church Bells 1.2", "options": [
+          "name": "Church Bells 1.2",
+          "options": [
             { "name": "Gathering Toll", "action": "toll" },
             { "name": "Wedding Toll", "action": "toll" },
             { "name": "Funeral Toll", "action": "toll" }

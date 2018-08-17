@@ -2,7 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe" ],       "//": "Above ground",
+    "om_terrain": [ "lmoe" ],
+    "//": "Above ground",
     "weight": 100,
     "object": {
       "rows": [
@@ -45,7 +46,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe_under" ],     "//": "Below ground",
+    "om_terrain": [ "lmoe_under" ],
+    "//": "Below ground",
     "weight": 100,
     "object": {
       "rows": [
@@ -135,7 +137,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe_under" ],     "//": "Below ground",
+    "om_terrain": [ "lmoe_under" ],
+    "//": "Below ground",
     "weight": 100,
     "object": {
       "rows": [

@@ -148,7 +148,7 @@
         { "x": 21, "y": 4, "items": true },
         { "x": 21, "y": 5, "items": true }
       ],
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "place_items": [
         { "item": "fridge", "x": 4, "y": 15, "chance": 65 },
         { "item": "homeguns", "x": 7, "y": 9, "chance": 30 },
@@ -875,7 +875,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "cabin_strange" ],      "//": "Strange Cabin",
+    "om_terrain": [ "cabin_strange" ],
+    "//": "Strange Cabin",
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -907,30 +908,12 @@
       ],
       "mapping": {
         ".": { "items": { "item": "subway", "chance": 10 } },
-        "L": {
-          "furniture": "f_locker",
-          "items": [ { "item": "bed", "chance": 60 }, { "item": "dresser", "chance": 40 } ]
-        },
-        "d": {
-          "furniture": "f_dresser",
-          "items": { "item": "dresser", "chance": 40 }
-        },
-        "e": {
-          "furniture": "f_fridge",
-          "items": { "item": "fridgesnacks", "chance": 30 }
-        },
-        "o": {
-          "furniture": "f_bookcase",
-          "items": { "item": "novels", "chance": 40 }
-        },
-        "r": {
-          "furniture": "f_rack",
-          "items": { "item": "dresser", "chance": 40 }
-        },
-        "u": {
-          "furniture": "f_cupboard",
-          "items": { "item": "cannedfood", "chance": 30 }
-        }
+        "L": { "furniture": "f_locker", "items": [ { "item": "bed", "chance": 60 }, { "item": "dresser", "chance": 40 } ] },
+        "d": { "furniture": "f_dresser", "items": { "item": "dresser", "chance": 40 } },
+        "e": { "furniture": "f_fridge", "items": { "item": "fridgesnacks", "chance": 30 } },
+        "o": { "furniture": "f_bookcase", "items": { "item": "novels", "chance": 40 } },
+        "r": { "furniture": "f_rack", "items": { "item": "dresser", "chance": 40 } },
+        "u": { "furniture": "f_cupboard", "items": { "item": "cannedfood", "chance": 30 } }
       },
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
@@ -960,14 +943,15 @@
         "h": "f_chair",
         "t": "f_table"
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "place_monster": [ { "monster": "mon_darkman", "x": 8, "y": 10 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "cabin_strange_b" ],      "//": "Strange Cabin",
+    "om_terrain": [ "cabin_strange_b" ],
+    "//": "Strange Cabin",
     "weight": 300,
     "object": {
       "fill_ter": "t_dirtfloor",
@@ -999,22 +983,10 @@
       ],
       "mapping": {
         ".": { "items": { "item": "subway", "chance": 10 } },
-        "S": {
-          "furniture": "f_table",
-          "item": { "item": "etched_skull" }
-        },
-        "c": {
-          "furniture": "f_crate_o",
-          "items": { "item": "dresser", "chance": 20 }
-        },
-        "o": {
-          "furniture": "f_bookcase",
-          "items": { "item": "novels", "chance": 40 }
-        },
-        "r": {
-          "furniture": "f_rack",
-          "items": { "item": "cannedfood", "chance": 30 }
-        }
+        "S": { "furniture": "f_table", "item": { "item": "etched_skull" } },
+        "c": { "furniture": "f_crate_o", "items": { "item": "dresser", "chance": 20 } },
+        "o": { "furniture": "f_bookcase", "items": { "item": "novels", "chance": 40 } },
+        "r": { "furniture": "f_rack", "items": { "item": "cannedfood", "chance": 30 } }
       },
       "terrain": {
         "#": "t_rock",
@@ -1027,15 +999,8 @@
         "G": "t_door_bar_locked",
         "|": "t_wall"
       },
-      "furniture": {
-        "A": "f_armchair",
-        "B": "f_bed",
-        "b": "f_brazier",
-        "d": "f_desk",
-        "h": "f_chair",
-        "t": "f_table"
-      },
-      "toilets": { "T": {} },
+      "furniture": { "A": "f_armchair", "B": "f_bed", "b": "f_brazier", "d": "f_desk", "h": "f_chair", "t": "f_table" },
+      "toilets": { "T": {  } },
       "place_monster": [
         { "monster": "mon_dementia", "x": 4, "y": 12, "repeat": [ 3, 6 ] },
         { "monster": "mon_dementia", "x": 19, "y": 2, "repeat": [ 1, 4 ] },
@@ -1044,3 +1009,4 @@
     }
   }
 ]
+

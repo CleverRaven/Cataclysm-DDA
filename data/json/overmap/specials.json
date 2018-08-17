@@ -2219,11 +2219,11 @@
   },
   {
     "type": "overmap_special",
-    "id": "abandoned barn",
+    "id": "desolate barn",
     "locations": [ "land" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 10 ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "abandonedbarn_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "desolatebarn_north" } ],
     "occurrences": [ 0, 15 ],
     "flags": [ "CLASSIC" ]
   },

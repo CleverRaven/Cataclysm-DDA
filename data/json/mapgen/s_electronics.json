@@ -2,48 +2,27 @@
   {
     "id": "elecsto_cameras",
     "type": "item_group",
-    "items": [
-      [ "camera", 75 ],
-      [ "camera_pro", 25 ]
-    ]
+    "items": [ [ "camera", 75 ], [ "camera_pro", 25 ] ]
   },
   {
     "id": "elecsto_lights",
     "type": "item_group",
-    "items": [
-      [ "flashlight", 95 ],
-      [ "wearable_light", 65 ],
-      [ "floodlight", 10 ],
-      [ "atomic_light", 1 ]
-    ]
+    "items": [ [ "flashlight", 95 ], [ "wearable_light", 65 ], [ "floodlight", 10 ], [ "atomic_light", 1 ] ]
   },
   {
     "id": "elecsto_pcs",
     "type": "item_group",
-    "items": [
-      [ "eink_tablet_pc", 60 ],
-      [ "laptop", 75 ]
-    ]
+    "items": [ [ "eink_tablet_pc", 60 ], [ "laptop", 75 ] ]
   },
   {
     "id": "elecsto_entapl",
     "type": "item_group",
-    "items": [
-      [ "television", 50 ],
-      [ "radio", 20 ],
-      [ "stereo", 40 ]
-    ]
+    "items": [ [ "television", 50 ], [ "radio", 20 ], [ "stereo", 40 ] ]
   },
   {
     "id": "elecsto_persele",
     "type": "item_group",
-    "items": [
-      [ "portable_game", 65 ],
-      [ "cell_phone", 60 ],
-      [ "mp3", 65 ],
-      [ "radio_car_box", 35 ],
-      [ "vibrator", 1 ]
-    ]
+    "items": [ [ "portable_game", 65 ], [ "cell_phone", 60 ], [ "mp3", 65 ], [ "radio_car_box", 35 ], [ "vibrator", 1 ] ]
   },
   {
     "id": "elecsto_homapl",
@@ -88,12 +67,7 @@
   {
     "id": "elecsto_displ",
     "type": "item_group",
-    "items": [
-      [ "television", 50 ],
-      [ "eink_tablet_pc", 50 ],
-      [ "stereo", 30 ],
-      [ "microwave", 40 ]
-    ]
+    "items": [ [ "television", 50 ], [ "eink_tablet_pc", 50 ], [ "stereo", 30 ], [ "microwave", 40 ] ]
   },
   {
     "id": "elecsto_books",
@@ -202,7 +176,7 @@
         "w": "f_washer",
         "y": "f_dryer"
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "place_items": [
         { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "elecsto_cameras", "x": [ 3, 6 ], "y": 8, "chance": 60, "repeat": 1 },

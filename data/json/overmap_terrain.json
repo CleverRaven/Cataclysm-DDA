@@ -8237,8 +8237,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "abandonedbarn",
-    "name": "abandoned barn",
+    "id": "desolatebarn",
+    "name": "desolate barn",
     "sym": 66,
     "color": "brown",
     "see_cost": 5,

@@ -51,13 +51,7 @@
         "{": "t_floor",
         "|": "t_wall"
       },
-      "furniture": {
-        "#": "f_counter",
-        "S": "f_stool",
-        "l": "f_locker",
-        "s": "f_sandbag_wall",
-        "{": "f_rack"
-      },
+      "furniture": { "#": "f_counter", "S": "f_stool", "l": "f_locker", "s": "f_sandbag_wall", "{": "f_rack" },
       "place_loot": [
         { "group": "guns_pistol_common", "x": 12, "y": 9, "chance": 75, "magazine": 100 },
         { "group": "guns_pistol_common", "x": 13, "y": 9, "chance": 75, "magazine": 100 },
@@ -102,7 +96,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_gun" ],      "//": "Home defense gun store",
+    "om_terrain": [ "s_gun" ],
+    "//": "Home defense gun store",
     "weight": 300,
     "object": {
       "rows": [

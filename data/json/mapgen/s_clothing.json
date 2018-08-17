@@ -2,7 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_clothes" ],      "//": "All clothing",
+    "om_terrain": [ "s_clothes" ],
+    "//": "All clothing",
     "weight": 1000,
     "object": {
       "rows": [
@@ -72,17 +73,13 @@
   {
     "id": "tailorbooks",
     "type": "item_group",
-    "items": [
-      [ "tailor_portfolio", 30 ],
-      [ "mag_tailor", 50 ],
-      [ "manual_tailor", 30 ],
-      [ "textbook_tailor", 30 ]
-    ]
+    "items": [ [ "tailor_portfolio", 30 ], [ "mag_tailor", 50 ], [ "manual_tailor", 30 ], [ "textbook_tailor", 30 ] ]
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_clothes" ],      "//": "Suit Tailor",
+    "om_terrain": [ "s_clothes" ],
+    "//": "Suit Tailor",
     "weight": 300,
     "object": {
       "rows": [
@@ -150,7 +147,7 @@
         "u": "f_trashcan",
         "y": "f_indoor_plant_y"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "tailorbooks", "x": 13, "y": 18, "chance": 50 },
         { "item": "tailorbooks", "x": 18, "y": 11, "chance": 50 },
@@ -194,7 +191,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_clothes" ],      "//": "Fancy Furs",
+    "om_terrain": [ "s_clothes" ],
+    "//": "Fancy Furs",
     "weight": 100,
     "object": {
       "rows": [
@@ -287,7 +285,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_clothes" ],      "//": "Shoes & Hats",
+    "om_terrain": [ "s_clothes" ],
+    "//": "Shoes & Hats",
     "weight": 200,
     "object": {
       "rows": [
@@ -401,7 +400,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_clothes" ],      "//": "Dress Tailor",
+    "om_terrain": [ "s_clothes" ],
+    "//": "Dress Tailor",
     "weight": 300,
     "object": {
       "rows": [
@@ -499,27 +499,18 @@
   {
     "id": "wedding_dresses",
     "type": "item_group",
-    "items": [
-      [ "dress", 50 ],
-      [ "veil_wedding", 150 ],
-      [ "dress_wedding", 150 ]
-    ]
+    "items": [ [ "dress", 50 ], [ "veil_wedding", 150 ], [ "dress_wedding", 150 ] ]
   },
   {
     "id": "wedding_suits",
     "type": "item_group",
-    "items": [
-      [ "tux", 100 ],
-      [ "suit", 80 ],
-      [ "waistcoat", 50 ],
-      [ "dress_shirt", 100 ],
-      [ "undershirt", 50 ]
-    ]
+    "items": [ [ "tux", 100 ], [ "suit", 80 ], [ "waistcoat", 50 ], [ "dress_shirt", 100 ], [ "undershirt", 50 ] ]
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_clothes" ],      "//": "Wedding Tailor",
+    "om_terrain": [ "s_clothes" ],
+    "//": "Wedding Tailor",
     "weight": 100,
     "object": {
       "rows": [
@@ -595,7 +586,7 @@
         "u": "f_trashcan",
         "y": "f_indoor_plant_y"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "wedding_suits", "x": 2, "y": [ 6, 8 ], "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "wedding_suits", "x": 6, "y": 6, "chance": 60 },
@@ -624,7 +615,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_clothes" ],      "//": "All clothing",
+    "om_terrain": [ "s_clothes" ],
+    "//": "All clothing",
     "weight": 500,
     "object": {
       "rows": [
