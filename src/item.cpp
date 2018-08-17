@@ -982,11 +982,11 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                          "It's on a brink of becoming inedible." ) );
                 }
             }
-            if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() ) {
-                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's <neutral>frozen.</neutral>." ) );
+            if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() && !food_item->has_flag( "MUSHY" ) ) {
+                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's <neutral>frozen, and it becames mushy after defrosting</neutral>." ) );
             }
             if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
-                info.emplace_back( "DESCRIPTION", _( "* It was frozen once and bacame <bad>mushy and tasteless</bad>." ) );
+                info.emplace_back( "DESCRIPTION", _( "* It was frozen once and after thawing became <bad>mushy and tasteless</bad>." ) );
             }
             if( food_item->has_flag( "NO_PARASITES" ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
                 info.emplace_back( "DESCRIPTION", _( "* It seems that deep freezing <good>killed all parasites</good>." ) );
