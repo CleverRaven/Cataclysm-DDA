@@ -983,7 +983,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
             }
             if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() && !food_item->has_flag( "MUSHY" ) ) {
-                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's <neutral>frozen, and it becames mushy after defrosting</neutral>." ) );
+                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out.</neutral>." ) );
             }
             if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
                 info.emplace_back( "DESCRIPTION", _( "* It was frozen once and after thawing became <bad>mushy and tasteless</bad>." ) );
