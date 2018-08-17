@@ -169,7 +169,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         }
 
     } else if( type->comestible ) {
-        active = true;
+        active = is_food();
 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
