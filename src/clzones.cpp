@@ -148,11 +148,13 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
 
 void plot_options::serialize( JsonOut &json ) const
 {
+    json.member( "mark", mark );
     json.member( "seed", seed );
 };
 
 void plot_options::deserialize( JsonObject &jo_zone )
 {
+    mark = jo_zone.get_string( "mark", "" );
     seed = jo_zone.get_string( "seed", "" );
 };
 
