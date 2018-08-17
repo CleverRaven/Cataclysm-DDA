@@ -52,14 +52,7 @@
         "w": "t_water_dp",
         "|": "t_chainfence_h"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "b": "f_bench",
-        "c": "f_cattails",
-        "d": "f_dandelion",
-        "f": "f_bluebell",
-        "i": "f_cattails"
-      },
+      "furniture": { "&": "f_trashcan", "b": "f_bench", "c": "f_cattails", "d": "f_dandelion", "f": "f_bluebell", "i": "f_cattails" },
       "place_monsters": [
         { "monster": "GROUP_POND_ANIMAL", "x": [ 2, 8 ], "y": [ 4, 9 ], "repeat": 2 },
         { "monster": "GROUP_POND_BIRD", "x": [ 8, 9 ], "y": [ 16, 17 ], "repeat": 2 },
@@ -117,13 +110,7 @@
         "w": "t_water_dp",
         "|": "t_chainfence_h"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "T": "f_table",
-        "b": "f_bench",
-        "f": "f_dandelion",
-        "i": "f_cattails"
-      },
+      "furniture": { "&": "f_trashcan", "T": "f_table", "b": "f_bench", "f": "f_dandelion", "i": "f_cattails" },
       "place_monsters": [ { "monster": "GROUP_POND_BIRD", "x": 14, "y": 14 } ]
     }
   },
