@@ -37,6 +37,7 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch" },
       "terrain": {
+        ",": "t_floor_blue",
         "C": "t_centrifuge",
         "?": "t_floor_blue",
         "/": "t_floor_blue",
