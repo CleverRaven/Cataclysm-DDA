@@ -406,7 +406,7 @@
   {
     "type": "GENERIC",
     "id": "nailboard",
-    "name": "nail board",
+    "name": "nailboard",
     "description": "A long piece of wood with several nails through one end; essentially a simple mace.  Makes an acceptable melee weapon.",
     "weight": 1424,
     "to_hit": 1,

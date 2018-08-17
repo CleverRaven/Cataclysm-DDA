@@ -1407,7 +1407,20 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 3 ] ], [ [ "nail", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "board_trap",
+    "id_suffix": "use_nailboards",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "traps",
+    "time": 250,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail", 2 ] ] ]
   },
   {
     "type": "recipe",
