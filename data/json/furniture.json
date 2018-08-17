@@ -637,7 +637,7 @@
     "color": "light_red",
     "move_cost_mod": 1,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -745,7 +745,7 @@
     "move_cost_mod": 2,
     "required_str": 8,
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "bash": {
       "str_min": 12,
@@ -825,7 +825,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "bash": {
       "str_min": 12,
@@ -849,7 +849,7 @@
     "color": "blue",
     "move_cost_mod": 2,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -1018,7 +1018,7 @@
     "move_cost_mod": -1,
     "required_str": 12,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_FURN" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -1056,7 +1056,7 @@
     "move_cost_mod": -1,
     "required_str": 12,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_FURN" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -1224,7 +1224,7 @@
       "ORGANIC",
       "MOUNTABLE",
       "SHORT",
-      "FLAT_FURN"
+      "FLAT_SURF"
     ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 24 ] }, { "item": "rag", "count": [ 15, 20 ] } ]
@@ -3025,7 +3025,7 @@
     "required_str": -1,
     "deployed_item": "tourist_table",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "tourist_table", "count": 1 } ] },
     "bash": {
       "str_min": 16,

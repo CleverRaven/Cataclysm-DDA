@@ -288,7 +288,8 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
 
     bool has_table_nearby = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
-        if( g->m.has_flag_furn( "FLAT_FURN", pt ) || ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
+        if( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
+            ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
             has_table_nearby = true;
         }
     }
@@ -2625,7 +2626,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
         g->m.ter_set( elem, t_trunk );
     }
 
-    g->m.ter_set( pos, t_dirt );
+    g->m.ter_set( pos, t_stump );
 
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
@@ -2638,14 +2639,19 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
 void activity_handlers::chop_logs_finish( player_activity *act, player *p ) {
     const tripoint &pos = act->placement;
 
+    if( g->m.ter( pos ) == t_trunk ) {
+        g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
+        g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
+    } else if( g->m.ter( pos ) == t_stump ) {
+        g->m.spawn_item( pos.x, pos.y, "log", rng( 0, 2 ), 0, calendar::turn );
+        g->m.spawn_item( pos.x, pos.y, "splinter", rng( 5, 15 ), 0, calendar::turn );
+    }
+    
     g->m.ter_set( pos, t_dirt );
-    g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
-    g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
-
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
-    p->add_msg_if_player( m_good, _( "You finish chopping the logs." ) );
+    p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
 }

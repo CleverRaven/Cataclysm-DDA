@@ -475,7 +475,7 @@ ter_id t_null,
     // Tree
     t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_coffee, t_tree_coffee_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
     t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
-    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk, t_stump,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence, t_chainfence, t_chainfence_posts,
@@ -691,6 +691,7 @@ void set_ter_ids() {
     t_shrub_blueberry = ter_id( "t_shrub_blueberry" );
     t_shrub_strawberry = ter_id( "t_shrub_strawberry" );
     t_trunk = ter_id( "t_trunk" );
+    t_stump = ter_id( "t_stump" );
     t_root_wall = ter_id( "t_root_wall" );
     t_wax = ter_id( "t_wax" );
     t_floor_wax = ter_id( "t_floor_wax" );
