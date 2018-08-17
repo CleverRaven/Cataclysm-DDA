@@ -48,6 +48,11 @@ inline int fast_floor( double v )
 }
 
 /**
+ * Calculate the nth power of 10
+ */
+double pow10( unsigned int n );
+
+/**
  * Round a value up at a given decimal place.
  *
  * @param val Value to be rounded.
