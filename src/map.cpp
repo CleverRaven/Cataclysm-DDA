@@ -4579,12 +4579,12 @@ void map::make_active( item_location &loc )
 void map::apply_in_fridge( item &it, int temp )
 {
     unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
-    diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
-    diff_freeze = diff_freeze > 5 ? 5 : diff_freeze;
+    diff_freeze = std::max( 1, diff_freeze );
+    diff_freeze = std::min( 5, diff_freeze );
 
     unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
-    diff_cold = diff_cold < 1 ? 1 : diff_cold;
-    diff_cold = diff_cold > 5 ? 5 : diff_cold;
+    diff_freeze = std::max( 1, diff_cold );
+    diff_freeze = std::min( 5, diff_cold );
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {
