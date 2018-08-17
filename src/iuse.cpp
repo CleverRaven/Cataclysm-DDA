@@ -4862,7 +4862,8 @@ static bool heat_item( player &p )
     auto loc = g->inv_map_splice( []( const item & itm ) {
         return ( ( itm.is_food() && ( itm.has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) ||
                  ( itm.is_food_container() &&
-                   ( itm.contents.front().has_flag( "EATEN_HOT" ) || itm.contents.front().item_tags.count( "FROZEN" ) ) ) );
+                   ( itm.contents.front().has_flag( "EATEN_HOT" ) ||
+                     itm.contents.front().item_tags.count( "FROZEN" ) ) ) );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
