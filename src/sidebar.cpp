@@ -440,8 +440,11 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     } else if( get_perceived_pain() >= 40 ) {
         col_pain = c_light_red;
     }
-    if( get_perceived_pain() > 0 ) {
+
+    if( has_trait( trait_SELFAWARE ) ) {
         mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), get_perceived_pain() );
+    } else if( get_perceived_pain() > 0 ) {
+        mvwprintz( w, sideStyle ? 1 : 2, 0, col_pain, get_pain_scale());
     }
 
     const int morale_cur = get_morale_level();
