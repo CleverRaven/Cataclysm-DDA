@@ -4580,11 +4580,11 @@ void map::apply_in_fridge( item &it, int temp )
 {
     unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
     diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
-    diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
+    diff_freeze = diff_freeze > 5 ? 5 : diff_freeze;
 
     unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
     diff_cold = diff_cold < 1 ? 1 : diff_cold;
-    diff_cold = diff_cold > 10 ? 10 : diff_cold;
+    diff_cold = diff_cold > 5 ? 5 : diff_cold;
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {
@@ -4604,8 +4604,8 @@ void map::apply_in_fridge( item &it, int temp )
             it.item_counter = 0;
         }
         // This sets the COLD flag, and doesn't go above 600
-        if( it.has_flag( "EATEN_COLD" ) && !( it.item_tags.count( "COLD" ) ||
-            it.item_tags.count( "FROZEN" ) || it.item_tags.count( "HOT" ) ) ) {
+        if( !( it.item_tags.count( "COLD" ) || it.item_tags.count( "FROZEN" ) ||
+            it.item_tags.count( "HOT" ) ) ) {
 
             it.item_tags.insert( "COLD" );
             it.active = true;
@@ -4614,16 +4614,15 @@ void map::apply_in_fridge( item &it, int temp )
             it.item_counter += diff_cold;
         }
         // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
-        if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "COLD" ) && it.item_counter >= 600 ) {
+        if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "COLD" ) && it.item_counter >= 600 &&
+             !( it.item_tags.count( "FROZEN" ) || it.item_tags.count( "HOT" ) ) ) {
+
             it.item_tags.erase( "COLD" );
             it.item_tags.insert( "FROZEN" );
             it.active = true;
             it.item_counter = 0;
-        }
-        // items that don't use COLD flag can go FROZEN bypassing COLD state
-        if( !it.has_flag( "EATEN_COLD" ) && !it.item_tags.count( "FROZEN" ) ) {
-            it.item_tags.insert( "FROZEN" );
-            it.active = true;
+
+            // items that don't use COLD flag can go FROZEN bypassing COLD state
         }
         if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "FROZEN" ) && it.item_counter <= 600 ) {
             it.item_counter += diff_freeze;

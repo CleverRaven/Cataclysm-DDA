@@ -5730,7 +5730,7 @@ int item::processing_speed() const
         // Hot and cold food need turn-by-turn updates.
         // If they ever become a performance problem, update process_food to handle them occasionally.
         return 600;
-    } else {
+    } else if( is_food() ) {
         return 100;
     }
     if( is_corpse() ) {
@@ -5743,28 +5743,22 @@ int item::processing_speed() const
 bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
     calc_rot( g->m.getabs( pos ) );
-    if( item_tags.count( "HOT" ) > 0 ) {
-        if( item_counter == 0 ) {
-            item_tags.erase( "HOT" );
-        }
-    } else if( item_tags.count( "COLD" ) > 0 ) {
-        if( item_counter == 0 ) {
+    if( item_tags.count( "HOT" ) && item_counter == 0 ) {
+            item_tags.erase( "HOT" );   
+    }
+    if( item_tags.count( "COLD" ) && item_counter == 0  ) {
             item_tags.erase( "COLD" );
+    }
+    if( item_tags.count( "FROZEN" ) && item_counter == 0  ) {
+        item_tags.erase( "FROZEN" );
+        if( has_flag( "NO_FREEZE" ) && !rotten() ) {
+            item_tags.insert( "MUSHY" );
+        } else if( has_flag( "NO_FREEZE" ) && has_flag( "MUSHY" ) &&
+            rot < type->comestible->spoils ) {
+            rot = type->comestible->spoils;
         }
-    } else if( item_tags.count( "FROZEN" ) > 0 ) {
-        if( item_counter == 0 ) {
-            item_tags.erase( "FROZEN" );
-            if( has_flag( "NO_FREEZE" ) && !rotten() ) {
-                item_tags.insert( "MUSHY" );
-            } else if( has_flag( "NO_FREEZE" ) && has_flag( "MUSHY" ) &&
-                rot < type->comestible->spoils ) {
-                rot = type->comestible->spoils;
-            }
-            if( has_flag( "EATEN_COLD" ) ) {
-                item_tags.insert( "COLD" );
-                item_counter = 600;
-            }
-        }
+        item_tags.insert( "COLD" );
+        item_counter = 600;
     }
     // deep freezing kills parasites but not instantly
     if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {

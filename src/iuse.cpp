@@ -4862,7 +4862,7 @@ static bool heat_item( player &p )
     auto loc = g->inv_map_splice( []( const item & itm ) {
         return ( ( itm.is_food() && ( itm.has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) ||
                  ( itm.is_food_container() &&
-                   ( itm.contents.front().has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) );
+                   ( itm.contents.front().has_flag( "EATEN_HOT" ) || itm.contents.front().item_tags.count( "FROZEN" ) ) ) );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -4881,7 +4881,7 @@ static bool heat_item( player &p )
         target.item_tags.erase( "FROZEN" );
         target.item_tags.insert( "HOT" );
         target.active = true;
-        target.item_counter = 250; // prevents insta-freeze after defrosting
+        target.item_counter = 300; // prevents insta-freeze after defrosting
         if( target.has_flag( "NO_FREEZE" ) && !target.rotten() ) {
             target.item_tags.insert( "MUSHY" );
         } else if( target.has_flag( "NO_FREEZE" ) && target.has_flag( "MUSHY" ) &&
@@ -4890,12 +4890,8 @@ static bool heat_item( player &p )
         }
     } else {
         add_msg( _( "You heat up the food." ) );
-        if( target.item_tags.count( "COLD" ) ) {
-            target.item_tags.erase( "COLD" );
-        }
-        if( target.item_tags.count( "FROZEN" ) ) {
-            target.item_tags.erase( "FROZEN" );
-        }
+        target.item_tags.erase( "COLD" );
+        target.item_tags.erase( "FROZEN" );
         target.item_tags.insert( "HOT" );
         p.mod_moves( -to_gram( target.weight() ) ); // simulates heat capacity of food
         target.active = true;
@@ -6948,12 +6944,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
             if( meal.has_flag( "EATEN_HOT" ) ) {
                 meal.active = true;
-                if( meal.item_tags.count( "COLD" ) ) {
-                    meal.item_tags.erase( "COLD" );
-                }
-                if( meal.item_tags.count( "FROZEN" ) ) {
-                    meal.item_tags.erase( "FROZEN" );
-                }
+                meal.item_tags.erase( "COLD" );
+                meal.item_tags.erase( "FROZEN" );
                 meal.item_tags.insert( "HOT" );
                 meal.item_counter = 600;
             }
