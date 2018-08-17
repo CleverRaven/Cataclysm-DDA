@@ -2581,7 +2581,9 @@ bool mattack::stare(monster *z)
     }
     z->moves -= 200;
     if( z->sees( g->u ) ) {
-        if( g->u.sees(*z) ) {
+        if( g->u.has_bionic( bionic_id( "bn_bio_nether_psyshield" ) ) ) {
+            add_msg( m_info, _( "You feel a %s staring at you, but your psychic shielding rebuffs the influence!" ), z->name().c_str() );
+        } else if( g->u.sees(*z) ) {
             add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
         } else {
             add_msg(m_bad, _("You feel like you're being watched, it makes you sick."));
@@ -2600,6 +2602,8 @@ bool mattack::fear_paralyze(monster *z)
     if ( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
         if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in(4))) {
             add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
+        } else if( g->u.has_bionic( bionic_id( "bn_bio_nether_psyshield" ) ) ) {
+            add_msg( m_info, _( "Waves of psychic influence emanate from the %s, but your psychic shielding repels them!" ), z->name().c_str() );
         ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if ( rng(0, 20) > g->u.get_int() ) {
             add_msg( m_bad, _("The terrifying visage of the %s paralyzes you."), z->name().c_str() );

@@ -7,5 +7,50 @@
     "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
     "price": 350000,
     "difficulty": 4
+  },
+  {
+    "id": "bn_bio_nether_stun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "037-OVLD NCBM",
+    "description": "This two-part biotechnological device replaces much of your frontal lobe and vocal chords.  Splicing the natural defense mechanism of the flaming eye with the sound mimicking of the mi-go, Nether-CBM 037-OVLD allows you to make a sound beyond the human range of hearing that overloads the senses of alien creatures in range, briefly stunning them at the cost of bionic power.  Constant use may cause side effects.",
+    "price": 500000,
+    "difficulty": 7
+  },
+  {
+    "id": "bn_bio_nether_carry",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "GozUp B33fi-B01 NCBM",
+    "description": "Artificial muscles and neural fibers developed off of the gozu's physiology in this NCBM link into your nervous system when installed, increasing your weight capacity by 50%.",
+    "price": 400000,
+    "difficulty": 5
+  },
+  {
+    "id": "bn_bio_nether_heal",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "POLY-HEMO NCBM",
+    "description": "This is a high-tech injection system, replacing your aorta, filled with a pressurized compound that swaps regular blood for a synthetic hemolymph derived from nether creatures.  The hemolymph is extremely effective at clotting wounds, which makes you immune to bleeding and greatly increases the speed that bandages heal you.",
+    "price": 400000,
+    "difficulty": 5
+  },
+  {
+    "id": "bn_bio_nether_shadow",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Fromlight-Noself v1.0 NCBM",
+    "description": "This NCBM replaces your outer skin layer with soft, metaphysical substance derived from certain dark-dwelling nether inhabitants.  While active, darkness will cause your skin to shift to black, rendering you undetectable, but sunlight will burn you horribly.",
+    "price": 700000,
+    "difficulty": 7
+  },
+  {
+    "id": "bn_bio_nether_psyshield",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Psychic Shield Mk. I NCBM",
+    "description": "A set of neural fibers, removed from the cerebral structure of a hunting horror.  They are interwoven into your amygdalae, and provide immunity to harmful psychic effects.",
+    "price": 300000,
+    "difficulty": 3
   }
 ]

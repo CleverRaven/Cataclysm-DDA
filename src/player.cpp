@@ -205,6 +205,7 @@ static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_membrane( "bio_membrane" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_metabolics( "bio_metabolics" );
+static const bionic_id bn_bio_nether_carry( "bn_bio_nether_carry" );
 static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_plut_filter( "bio_plut_filter" );
@@ -215,6 +216,7 @@ static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bn_bio_solar( "bn_bio_solar" );
+static const bionic_id bn_bio_nether_shadow( "bn_bio_nether_shadow" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_tools( "bio_tools" );
@@ -4377,6 +4379,17 @@ void player::update_needs( int rate_multiplier )
 
     if( has_bionic( bn_bio_solar ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 25 );
+    }
+
+    if( has_bionic( bn_bio_nether_carry ) && one_in( 201600 ) ) { // around once every season, statistically
+        add_msg_if_player( m_mixed, _( "Wordless, primal anger suddenly engulfs your thoughts." ) );
+        if( one_in( 2 ) ) {
+            add_msg_if_player( m_good, _( "You hone it to a razor's edge. Use that anger. Unleash it." ) );
+            focus_pool += rng( 1, 10 );
+        } else {
+            add_msg_if_player( m_bad, _( "Blood. Killing. Adrenaline. Raw meat. You're salivating." ) );
+            focus_pool -= rng( 1, 10 );
+        }
     }
 
     if( is_wearing( "solarpack_on" ) && has_active_bionic( bionic_id( "bio_cable" ) ) && g->is_in_sunlight( pos() ) ) {
@@ -11036,7 +11049,8 @@ bool player::is_invisible() const
         has_active_bionic(str_bio_night) ||
         has_active_optcloak() ||
         has_trait( trait_DEBUG_CLOAK ) ||
-        has_artifact_with(AEP_INVISIBLE)
+        has_artifact_with(AEP_INVISIBLE) ||
+        ( has_active_bionic( bn_bio_nether_shadow ) && g->m.light_at( pos() ) <= LL_LOW )
     );
 }
 

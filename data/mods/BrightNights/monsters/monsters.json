@@ -1,0 +1,54 @@
+[
+  {
+    "id": "mon_mi_go",
+    "type": "MONSTER",
+    "copy-from": "mon_mi_go",
+    "harvest": "migo"
+  },
+  {
+    "id": "mon_kreck",
+    "type": "MONSTER",
+    "copy-from": "mon_kreck",
+    "death_function": [ "NORMAL" ],
+    "harvest": "nether_small"
+  },
+  {
+    "id": "mon_gracke",
+    "type": "MONSTER",
+    "copy-from": "mon_gracke",
+    "harvest": "nether_average"
+  },
+  {
+    "id": "mon_flaming_eye",
+    "type": "MONSTER",
+    "copy-from": "mon_flaming_eye",
+    "harvest": "nether_average"
+  },
+  {
+    "id": "mon_gozu",
+    "type": "MONSTER",
+    "copy-from": "mon_gozu",
+    "harvest": "nether_average"
+  },
+  {
+    "id": "mon_hunting_horror",
+    "type": "MONSTER",
+    "copy-from": "mon_hunting_horror",
+    "death_function": [ "NORMAL" ],
+    "harvest": "nether_huge"
+  },
+  {
+    "id": "mon_shoggoth",
+    "type": "MONSTER",
+    "copy-from": "mon_shoggoth",
+    "death_function": [ "NORMAL" ],
+    "harvest": "nether_huge"
+  },
+  {
+    "id": "mon_flying_polyp",
+    "type": "MONSTER",
+    "copy-from": "mon_flying_polyp",
+    "death_function": [ "NORMAL" ],
+    "harvest": "nether_huge"
+  }
+]

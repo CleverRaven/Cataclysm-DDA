@@ -4,7 +4,7 @@
     "type": "BOOK",
     "name": "Nuclear Physics Made Easy",
     "name_plural": "Nuclear Physics Made Easy",
-    "description": "A book detailing the workings of state of the art atomic technology, and the physics behind it",
+    "description": "A book detailing the workings of state of the art atomic technology, and the physics behind it.",
     "weight": 2063,
     "volume": 8,
     "price": 9200,
@@ -17,6 +17,25 @@
     "max_level": 7,
     "intelligence": 13,
     "time": 50,
+    "fun": -1
+  },
+  {
+    "id": "recipe_nether_cbms",
+    "type": "BOOK",
+    "name": "lab journal-Higgs",
+    "name_plural": "lab journals-Higgs",
+    "description": "This book is labeled simply \"NCBM PROJECT\" and has an ominous declaration that unauthorized readers will be terminated.  It's filled with schematics for what seems to be bionics, but many of the components are esoteric, some unlike anything you've seen before the Cataclysm...",
+    "weight": 1720,
+    "volume": 2,
+    "price": 150000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "skill": "electronics",
+    "required_level": 5,
+    "max_level": 7,
+    "intelligence": 14,
+    "time": 40,
     "fun": -1
   }
 ]

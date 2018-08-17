@@ -193,6 +193,11 @@ static void eff_fun_bleed( player &u, effect &it )
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
     if( one_in( 6 / intense ) && u.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
+        if( u.has_bionic( bionic_id( "bn_bio_nether_heal" ) ) ) {
+            u.add_msg_if_player( m_good, _( "Your thick alien blood clots the wound instantly." ) );
+            u.remove_effect( effect_bleed );
+            return;
+        }
         u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
                                  _( "<npcname> loses some blood." ) );
         // Prolonged hemorrhage is a significant risk for developing anemia

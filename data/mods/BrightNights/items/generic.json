@@ -28,5 +28,31 @@
     "material": [ "steel", "lead" ],
     "symbol": "0",
     "color": "yellow"
+  },
+  {
+    "id": "nether_organ",
+    "type": "GENERIC",
+    "name": "nether organ",
+    "description": "An alien organ of unknown purpose or function.",
+    "weight": 680,
+    "volume": 1,
+    "stack_size": 3,
+    "price": 500,
+    "material": "flesh",
+    "symbol": "0",
+    "color": "pink"
+  },
+  {
+    "id": "nether_extract",
+    "type": "GENERIC",
+    "name": "nether extract",
+    "description": "A strange, pink substance that remains after dissolving alien matter.  Your hands pass through it like water, but it feels like gelatin.",
+    "weight": 680,
+    "volume": 1,
+    "stack_size": 5,
+    "price": 500,
+    "material": "flesh",
+    "symbol": ".",
+    "color": "pink"
   }
 ]

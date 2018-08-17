@@ -1,0 +1,42 @@
+[
+  {
+    "id": "migo",
+    "type": "harvest",
+    "message": "You slice through the strange, membranous flesh, extracting several organs of unknown purpose.",
+    "entries": [
+      { "drop": "meat_tainted", "base_num": [ 6, 10 ], "scale_num": [ 0.6, 0.8 ], "max": 15 },
+      { "drop": "fat_tainted", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 10 },
+      { "drop": "nether_organ", "base_num": [ 6, 10 ], "scale_num": [ 0.7, 0.9 ], "max": 15 }
+    ]
+  },
+  {
+    "id": "nether_small",
+    "type": "harvest",
+    "message": "You harvest some flesh and unknown organs.",
+    "entries": [
+      { "drop": "meat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 10 },
+      { "drop": "fat", "base_num": [ 4, 7 ], "scale_num": [ 0.6, 0.8 ], "max": 9 },
+      { "drop": "nether_organ", "base_num": [ 3, 5 ], "scale_num": [ 0.7, 0.9 ], "max": 8 }
+    ]
+  },
+  {
+    "id": "nether_average",
+    "type": "harvest",
+    "message": "You harvest some flesh and unknown organs.",
+    "entries": [
+      { "drop": "meat_tainted", "base_num": [ 10, 20 ], "scale_num": [ 0.6, 0.8 ], "max": 25 },
+      { "drop": "fat_tainted", "base_num": [ 5, 15 ], "scale_num": [ 0.6, 0.8 ], "max": 18 },
+      { "drop": "nether_organ", "base_num": [ 8, 12 ], "scale_num": [ 0.7, 0.9 ], "max": 15 }
+    ]
+  },
+  {
+    "id": "nether_huge",
+    "type": "harvest",
+    "message": "You hack through the mass of alien flesh, setting aside anything you don't recognize.",
+    "entries": [
+      { "drop": "meat", "base_num": [ 30, 40 ], "scale_num": [ 0.6, 0.8 ], "max": 60 },
+      { "drop": "fat", "base_num": [ 25, 30 ], "scale_num": [ 0.6, 0.8 ], "max": 35 },
+      { "drop": "nether_organ", "base_num": [ 15, 20 ], "scale_num": [ 0.7, 0.9 ], "max": 30 }
+    ]
+  }
+]
