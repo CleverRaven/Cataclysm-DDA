@@ -1029,7 +1029,7 @@ long JsonIn::get_long()
 
 double JsonIn::get_float()
 {
-    int constexpr max_digits10 = std::numeric_limits<double>::max_digits10;
+    int constexpr easy_digits = 19; // floor(log10(2^64))
     unsigned constexpr 
         sign = 0x1,
         zero = 0x2,
@@ -1042,7 +1042,7 @@ double JsonIn::get_float()
         endinput = 0x100;
 
     eat_whitespace();
-    char ch = '\0';
+    std::istream::int_type ch = '\0';
     bool neg = false;
     bool expneg = false;
     uint64_t man = 0;
@@ -1051,16 +1051,16 @@ double JsonIn::get_float()
     int man_len = 0;
     unsigned expect = sign | zero | integer;
     // @todo handle arbitrary length input correctly
-    while( stream->good() ) {
+    while( stream->good() && ch != std::istream::traits_type::eof() ) {
         ch = stream->peek();
-        if( stream->good() ) {
+        if( stream->good() && ch != std::istream::traits_type::eof() ) {
             if( ( expect & sign ) && ch == '-' ) {
                 neg = true;
                 expect = zero | integer;
             } else if( ( expect & zero ) && ch == '0' ) {
                 expect = dot | expsym | endinput;
             } else if( ( expect & integer ) && ch >= '0' && ch <= '9' ) {
-                if( man_len < max_digits10 ) {
+                if( man_len < easy_digits ) {
                     man = man * 10 + ( ch - '0' );
                     if( man > 0 ) {
                         ++man_len;
@@ -1071,8 +1071,9 @@ double JsonIn::get_float()
                 expect = integer | dot | expsym | endinput;
             } else if( ( expect & dot ) && ch == '.' ) {
                 expect = fraction;
+                expect |= expsym | endinput; // for backward compatibility, not standard json
             } else if( ( expect & fraction ) && ch >= '0' && ch <= '9' ) {
-                if( man_len < max_digits10 ) {
+                if( man_len < easy_digits ) {
                     man = man * 10 + ( ch - '0' );
                     if( man > 0 ) {
                         ++man_len;
@@ -1118,7 +1119,8 @@ double JsonIn::get_float()
         if( expect & endinput ) {
             strs.push_back( "end of input" );
         }
-        std::ostringstream msg( "expected " );
+        std::ostringstream msg;
+        msg << "expceted ";
         switch( strs.size() ) {
             case 0:
                 msg << "nothing";
@@ -1158,9 +1160,6 @@ double JsonIn::get_float()
         uint64_t constexpr sign_mask = uint64_t( 1 ) << 63;
         uint64_t constexpr man_mask = ( uint64_t( 1 ) << man_bits ) - 1;
         int constexpr exp_bias = 1023;
-        int constexpr exp_max = 1023;
-        int constexpr exp_norm = -1022;
-        int constexpr exp_sub = -1074;
 
         bool easy = true;
         uint64_t man5 = man;
@@ -1182,6 +1181,7 @@ double JsonIn::get_float()
             }
         }
         if( easy ) { // = man5 x 2 ^ exp2
+            // |exp2| < log5(2^64)
             man = man5;
             int mlen = 0;
             for( uint64_t man2 = man; man2; ++mlen, man2 >>= 1 ) {
@@ -1194,49 +1194,27 @@ double JsonIn::get_float()
                 last_bit_zero = true;
                 man <<= shift;
                 exp2 -= shift;
+                // -log5(2^64)-52 < exp2 < log5(2^64)-1
             } else if( mlen > man_bits + 1 ) {
                 int shift = mlen - man_bits - 1;
                 trailing_zero = ( man & ( ( uint64_t( 1 ) << ( shift - 1 ) ) - 1 ) ) == 0;
                 last_bit_zero = ( ( man >> ( shift - 1 ) ) & 1 ) == 0;
                 man >>= shift;
                 exp2 += shift;
+                // -log5(2^64)+1 < exp2 < log5(2^64)+11
             }
             exp2 += man_bits; // 1xxxxx x 2 ^ exp2 = 1.xxxxx x 2 ^ (exp2 + man_bits)
-            if( exp2 > exp_max ) { // maximum exponent, overflow
-                return neg ? -std::numeric_limits<double>::infinity() : std::numeric_limits<double>::infinity();
-            } else if( exp2 >= exp_norm ) { // minimum normal exponent
-                if( man == man_mask * 2 + 1 ) { // 1.11111(53)xxxxxx, round even -> 10.0000(53)
-                    man = ( man + 1 ) >> 1;
-                    ++exp2;
-                    if( exp2 > exp_max ) {
-                        return neg ? -std::numeric_limits<double>::infinity() : std::numeric_limits<double>::infinity();
-                    }
-                } else if( !last_bit_zero && trailing_zero ) { // 1.xxxxx(53)1000000, round even
-                    if( ( man & 1 ) == 1 ) {
-                        ++man;
-                    }
-                } else if( !last_bit_zero ) { // 1.xxxxx(53)1...1, round up
+            // -log5(2^64) < exp2 < log5(2^64)+63
+            if( man == man_mask * 2 + 1 && !( last_bit_zero && trailing_zero ) ) { // 1.11111(53)xxx1xx, round up -> 10.0000(53)
+                man = ( man + 1 ) >> 1;
+                ++exp2;
+            } else if( !last_bit_zero && trailing_zero ) { // 1.xxxxx(53)1000000, round even
+                if( ( man & 1 ) == 1 ) {
                     ++man;
-                } // else 1.xxxxx(53)0..., round down
-            } else if( exp2 >= exp_sub ) { // minimum subnormal exponent
-                int shift = exp_norm - exp2;
-                trailing_zero = trailing_zero && last_bit_zero && ( man & ( ( uint64_t( 1 ) << ( shift - 1 ) ) - 1 ) ) == 0;
-                last_bit_zero = ( ( man >> ( shift - 1 ) ) & 1 ) == 0;
-                man >>= shift;
-                exp2 = exp_norm - 1;
-                if( man == man_mask && !last_bit_zero ) { // 0.11111(53)1xxxxx, round even -> 1.00000(53)
-                    ++man;
-                    exp2 = exp_norm;
-                } else if( !last_bit_zero && trailing_zero ) { // 0.xxxxx(53)1000000, round even
-                    if( ( man & 1 ) == 1 ) {
-                        ++man;
-                    }
-                } else if( !last_bit_zero ) { // 0.xxxxx(53)1...1, round up
-                    ++man;
-                } // else 0.xxxxx(53)0..., round down
-            } else { // underflow
-                return 0;
-            }
+                }
+            } else if( !last_bit_zero ) { // 1.xxxxx(53)1..1.., round up
+                ++man;
+            } // else 1.xxxxx(53)0..., round down
             uint64_t binary = ( neg ? sign_mask : 0 ) | ( uint64_t( exp2 + exp_bias ) << man_bits ) | ( man & man_mask );
             double res;
             std::memcpy( &res, &binary, sizeof( res ) );
@@ -1726,7 +1704,6 @@ JsonOut::JsonOut( std::ostream &s, bool pretty, int depth ) :
 {
     // ensure consistent and locale-independent formatting of numerals
     stream->imbue( std::locale::classic() );
-    stream->setf( std::ios_base::showpoint );
     stream->setf( std::ios_base::dec, std::ostream::basefield );
 
     // automatically stringify bool to "true" or "false"
@@ -1735,6 +1712,8 @@ JsonOut::JsonOut( std::ostream &s, bool pretty, int depth ) :
     // use shortest precise output
     stream->precision( std::numeric_limits<double>::max_digits10 );
     stream->unsetf( std::ostream::floatfield );
+    // json does not allow ending with decimal point
+    stream->unsetf( std::ios_base::showpoint );
 }
 
 int JsonOut::tell()
