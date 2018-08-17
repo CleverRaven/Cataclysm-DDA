@@ -1376,7 +1376,7 @@ void toggle_fullscreen_window()
 }
 
 //Check for any window messages (keypress, paint, mousemove, etc)
-void CheckMessages( bool allow_repeat )
+void CheckMessages()
 {
     SDL_Event ev;
     bool quit = false;
@@ -1506,7 +1506,7 @@ void CheckMessages( bool allow_repeat )
                 quit = true;
                 break;
         }
-        if( text_refresh && (allow_repeat || !is_repeat) ) {
+        if( text_refresh && !is_repeat ) {
             break;
         }
     }
@@ -1823,7 +1823,7 @@ input_event input_manager::get_input_event() {
     {
         do
         {
-            CheckMessages( true );
+            CheckMessages();
             if (last_input.type != CATA_INPUT_ERROR) break;
             SDL_Delay(1);
         }
@@ -1836,7 +1836,7 @@ input_event input_manager::get_input_event() {
         bool timedout = false;
         do
         {
-            CheckMessages( false );
+            CheckMessages();
             endtime=SDL_GetTicks();
             if (last_input.type != CATA_INPUT_ERROR) break;
             SDL_Delay(1);
@@ -1849,7 +1849,7 @@ input_event input_manager::get_input_event() {
     }
     else
     {
-        CheckMessages( true );
+        CheckMessages();
     }
 
     if (last_input.type == CATA_INPUT_MOUSE) {
