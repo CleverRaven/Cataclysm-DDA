@@ -178,6 +178,7 @@ struct level_cache {
     bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float seen_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    float camera_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     lit_level visibility_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
 
     bool veh_in_active_range;
