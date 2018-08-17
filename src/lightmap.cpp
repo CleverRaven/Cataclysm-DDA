@@ -456,8 +456,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const auto &map_cache = get_cache_ref( t.z );
-    const float vis = map_cache.seen_cache[t.x][t.y] > map_cache.camera_cache[t.x][t.y] ?
-        map_cache.seen_cache[t.x][t.y] : map_cache.camera_cache[t.x][t.y];
+    const float vis = std::max( map_cache.seen_cache[t.x][t.y], map_cache.camera_cache[t.x][t.y] );
     const float point_vis = vis * map_cache.lm[t.x][t.y];
     return vis > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
         ( point_vis > g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||

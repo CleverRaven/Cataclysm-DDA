@@ -5738,8 +5738,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         return LL_BRIGHT;
     }
     const auto &map_cache = get_cache_ref(p.z);
-    const float vis = map_cache.seen_cache[p.x][p.y] > map_cache.camera_cache[p.x][p.y] ?
-        map_cache.seen_cache[p.x][p.y] : map_cache.camera_cache[p.x][p.y];
+    const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
     const float apparent_light = vis * map_cache.lm[p.x][p.y];
 
