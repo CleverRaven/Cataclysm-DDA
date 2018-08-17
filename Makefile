@@ -389,7 +389,7 @@ ifeq ($(NATIVE), win32)
 # Any reason not to use -m32 on MinGW32?
   TARGETSYSTEM=WINDOWS
 else
-  # Win64 (MinGW-w64? 64bit isn't currently working.)
+  # Win64 (MinGW-w64?)
   ifeq ($(NATIVE), win64)
     CXXFLAGS += -m64
     LDFLAGS += -m64
@@ -415,7 +415,6 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
-  BACKTRACE = 0
   CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
@@ -637,7 +636,6 @@ else
 endif # TILES
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
-  BACKTRACE = 0
   ifeq ($(LOCALIZE),1)
     # Work around Cygwin not including gettext support in glibc
     LDFLAGS += -lintl -liconv
@@ -661,6 +659,9 @@ endif
 # Global settings for Windows targets (at end)
 ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
+    ifeq ($(BACKTRACE),1)
+      LDFLAGS += -ldbghelp
+    endif
 endif
 
 ifeq ($(BACKTRACE),1)
@@ -760,7 +761,9 @@ $(TARGET): $(ODIR) $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
   ifndef DEBUG_SYMBOLS
+    ifneq ($(BACKTRACE),1)
 	$(STRIP) $(TARGET)
+    endif
   endif
 endif
 
