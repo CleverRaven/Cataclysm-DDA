@@ -1068,7 +1068,7 @@ int Creature::get_perceived_pain() const
 
 std::string Creature::get_pain_description() const
 {
-    int scale = get_perceived_pain() % 10;
+    int scale = get_perceived_pain() / 10;
     if(scale > 9) {
         return _("Severe");
     } else if(scale > 8) {
