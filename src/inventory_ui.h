@@ -155,6 +155,9 @@ class inventory_selector_preset
             return cells.size();
         }
 
+        virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
+        const;
+
     protected:
         /** Text of the first column (default: item name) */
         virtual std::string get_caption( const inventory_entry &entry ) const;

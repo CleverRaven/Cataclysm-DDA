@@ -683,6 +683,28 @@ class read_inventory_preset: public pickup_inventory_preset
             return pickup_inventory_preset::get_denial( loc );
         }
 
+        std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
+        override {
+            auto base_filter = pickup_inventory_preset::get_filter( filter );
+
+            return [this, base_filter, filter]( const inventory_entry & e ) {
+                if( base_filter( e ) ) {
+                    return true;
+                }
+
+                if( !is_known( e.location ) ) {
+                    return false;
+                }
+
+                const auto &book = get_book( e.location );
+                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
+                    return lcmatch( book.skill->name(), filter );
+                }
+
+                return false;
+            };
+        }
+
     private:
         const islot_book &get_book( const item_location &loc ) const {
             return *loc->type->book;
