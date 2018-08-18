@@ -110,6 +110,7 @@
     "name": "raw offal",
     "description": "Uncooked internal organs and entrails.  Unappealing to eat but filled with essential vitamins.",
     "proportional": { "calories": 0.5, "parasites": 2.0 },
+    "delete": { "flags": [ "SMOKABLE" ] },
     "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
   {
