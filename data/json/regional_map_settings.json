@@ -196,7 +196,11 @@
               "abandonedwarehouse": 1,
               "emptycommerciallot": 1,
               "lancenter": 1,
-              "dollarstore": 3
+              "dollarstore": 3,
+              "s_vfw": 1,
+              "s_daycare": 1,
+              "s_thrift": 1,
+              "s_petstore": 1
           }
       },
       "weather": {
