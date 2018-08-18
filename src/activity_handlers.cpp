@@ -293,10 +293,20 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             has_table_nearby = true;
         }
     }
+    bool has_tree_nearby = false;
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+        if( g->m.has_flag( "TREE", pt ) ) {
+            has_tree_nearby = true;
+        }
+    }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-            if( !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                u.add_msg_if_player( m_info, _( "You need a butchering rack to perform a full butchery." ) );
+            if( ( u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ) && !has_tree_nearby && !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
+                u.add_msg_if_player( m_info, _( "You have a rope to lift the corpse but there is no tree nearby." ) );
+                act.set_to_null();
+                return;
+            } else if( !u.has_amount( "rope_30", 1 ) && !u.has_amount( "rope_makeshift_30", 1 ) && !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
+                u.add_msg_if_player( m_info, _( "You need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
                 act.set_to_null();
                 return;
             }
