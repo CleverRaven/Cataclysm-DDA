@@ -1687,41 +1687,53 @@ void game::cancel_activity()
     u.cancel_activity();
 }
 
-bool game::cancel_activity_or_ignore_query( const std::string &text )
+bool cancel_auto_move( player &p, const std::string &text )
 {
-    if( !u.activity ) {
+    if( p.has_destination() ) {
+        add_msg( m_warning, _( "%s. Auto-move canceled" ), text.c_str() );
+        p.clear_destination();
+        return true;
+    }
+    return false;
+}
+
+bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
+{
+    if( cancel_auto_move( u, text ) || !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
 
     std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
-                               _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
+                               _( "(Y)es, (N)o, (I)gnore further similar distractions and finish." );
 
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     int ch = -1;
     do {
-        ch = popup(stop_message, PF_GET_KEY);
-    } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
+        ch = popup( stop_message, PF_GET_KEY );
+    } while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
              ch != 'Y' && ch != 'N' && ch != 'I' &&
-             (force_uc || (ch != 'y' && ch != 'n' && ch != 'i')));
+             ( force_uc || ( ch != 'y' && ch != 'n' && ch != 'i') ) );
 
-    if (ch == 'Y' || ch == 'y') {
+    if( ch == 'Y' || ch == 'y' ) {
         u.cancel_activity();
-    } else if (ch == 'I' || ch == 'i') {
         return true;
+    }
+    if( ch == 'I' || ch == 'i' ) {
+        u.activity.ignore_distraction( type );
+        for( auto activity : u.backlog ) {
+            activity.ignore_distraction( type );
+        }
     }
     return false;
 }
 
 bool game::cancel_activity_query( const std::string &text )
 {
-    if( !u.activity ) {
-        if (u.has_destination()) {
-            add_msg(m_warning, _("%s. Auto-move canceled"), text.c_str());
-            u.clear_destination();
-        }
+    if( cancel_auto_move( u, text ) || !u.activity ) {
         return false;
     }
-    if (query_yn("%s %s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
+
+    if ( query_yn( "%s %s", text.c_str(), u.activity.get_stop_phrase().c_str() ) ) {
         u.cancel_activity();
         return true;
     }
@@ -1773,7 +1785,8 @@ void game::update_weather()
         if (weather != old_weather && weather_data(weather).dangerous &&
             get_levz() >= 0 && m.is_outside(u.pos())
             && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            cancel_activity_query( string_format( _( "The weather changed to %s!" ), weather_data( weather ).name.c_str() ) );
+            cancel_activity_or_ignore_query( distraction_type::weather_change, 
+                                             string_format( _( "The weather changed to %s!" ), weather_data( weather ).name.c_str() ) );
         }
 
         if (weather != old_weather && u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
@@ -1846,11 +1859,10 @@ void game::handle_key_blocking_activity()
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
     if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
-        u.activity.moves_left > 0 && !u.activity.warned_of_proximity ) {
+        u.activity.moves_left > 0 && !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
         Creature *hostile_critter = is_hostile_very_close();
         if (hostile_critter != nullptr) {
-            u.activity.warned_of_proximity = true;
-            if ( cancel_activity_query( string_format( _( "You see %s approaching!" ),
+            if (cancel_activity_or_ignore_query( distraction_type::hostile_spotted, string_format( _( "You see %s approaching!" ),
                     hostile_critter->disp_name().c_str() ) ) ) {
                 return;
             }
@@ -5393,7 +5405,7 @@ int game::mon_info( const catacurses::window &w )
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
                 monster &critter = *new_seen_mon.back();
-                cancel_activity_query( string_format( _( "%s spotted!" ), critter.name().c_str() ) );
+                cancel_activity_or_ignore_query( distraction_type::hostile_spotted, string_format( _( "%s spotted!" ), critter.name().c_str() ) );
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect( effect_adrenaline_mycus)){
@@ -5407,10 +5419,10 @@ int game::mon_info( const catacurses::window &w )
                 }
             } else {
                 //Hostile NPC
-                cancel_activity_query( _( "Hostile survivor spotted!" ) );
+                cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Hostile survivor spotted!" ) );
             }
         } else {
-            cancel_activity_query( _( "Monsters spotted!" ) );
+            cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Monsters spotted!" ) );
         }
         turnssincelastmon = 0;
         if (safe_mode == SAFE_MODE_ON) {
@@ -5661,7 +5673,7 @@ void game::monmove()
             !critter.is_hallucination()) {
                 u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
-                cancel_activity_query( _( "Your motion alarm goes off!" ) );
+                cancel_activity_or_ignore_query( distraction_type::motion_alarm, _( "Your motion alarm goes off!" ) );
                 if (u.in_sleep_state()) {
                     u.wake_up();
                 }

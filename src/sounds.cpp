@@ -311,17 +311,12 @@ void sounds::process_sound_markers( player *p )
 
         const std::string &description = sound.description;
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
-            if( !p->activity.ignore_trivial ) {
+            if( !p->activity.is_distraction_ignored( distraction_type::noise ) ) {
                 const std::string query = description.empty()
                                           ? _( "Heard a noise!" )
                                           : string_format( _( "Heard %s!" ), description.c_str() );
 
-                if( g->cancel_activity_or_ignore_query( query ) ) {
-                    p->activity.ignore_trivial = true;
-                    for( auto activity : p->backlog ) {
-                        activity.ignore_trivial = true;
-                    }
-                }
+                g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }
         }
 

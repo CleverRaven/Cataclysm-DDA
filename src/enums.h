@@ -366,4 +366,17 @@ struct sphere
     explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
 };
 
+/** Possible reasons to interrupt an activity. */
+enum class distraction_type
+{
+    noise,
+    pain,
+    attacked,
+    hostile_spotted,
+    talked_to,
+    asthma,
+    motion_alarm,
+    weather_change,
+};
+
 #endif
