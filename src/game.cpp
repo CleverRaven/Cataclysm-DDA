@@ -9997,7 +9997,7 @@ bool game::plfire( item &weapon, int bp_cost )
 }
 
 // Used to set up the first Hotkey in the display set
-const int get_initial_hotkey(const size_t menu_index){
+int get_initial_hotkey(const size_t menu_index){
     int hotkey = -1;
     if ( menu_index == 0 ){
         const long butcher_key = inp_mngr.get_previously_pressed_key();
