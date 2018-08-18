@@ -1,5 +1,5 @@
-### how to use
-Leave the headings unless they dont apply to your PR, replace the explanatory text with text describing your PR.
+### How to use
+Leave the headings unless they don't apply to your PR, replace the explanatory text with text describing your PR.
 
 #### Summary
 A one-line description of your change that will be extracted and added to the [project changelog](../data/changelog.txt).  
