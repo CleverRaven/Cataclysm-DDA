@@ -5,6 +5,7 @@
 #include <cstring> // strcmp
 #include <fstream>
 #include <istream>
+#include <limits>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
 #include <sstream>
@@ -1028,70 +1029,201 @@ long JsonIn::get_long()
 
 double JsonIn::get_float()
 {
-    // this could maybe be prettier?
-    char ch;
-    bool neg = false;
-    int i = 0;
-    int e = 0;
-    int mod_e = 0;
+    int constexpr easy_digits = 19; // floor(log10(2^64))
+    unsigned constexpr 
+        sign = 0x1,
+        zero = 0x2,
+        integer = 0x4,
+        dot = 0x8,
+        fraction = 0x10,
+        expsym = 0x20,
+        expsign = 0x40,
+        expnum = 0x80,
+        endinput = 0x100;
+
     eat_whitespace();
-    stream->get(ch);
-    if (ch == '-') {
-        neg = true;
-        stream->get(ch);
-    } else if (ch != '.' && (ch < '0' || ch > '9')) {
-        // not a valid float
-        std::stringstream err;
-        err << "expecting number but found '" << ch << "'";
-        error(err.str(), -1);
-    }
-    if( ch == '0' ) {
-        // allow a single leading zero in front of a '.' or 'e'/'E'
-        stream->get(ch);
-        if (ch >= '0' && ch <= '9') {
-            error("leading zeros not strictly allowed", -1);
+    std::istream::int_type ch = '\0';
+    bool neg = false;
+    bool expneg = false;
+    uint64_t man = 0;
+    int exp = 0;
+    int point = 0;
+    int man_len = 0;
+    unsigned expect = sign | zero | integer;
+    // @todo handle arbitrary length input correctly
+    while( stream->good() && ch != std::istream::traits_type::eof() ) {
+        ch = stream->peek();
+        if( stream->good() && ch != std::istream::traits_type::eof() ) {
+            if( ( expect & sign ) && ch == '-' ) {
+                neg = true;
+                expect = zero | integer;
+            } else if( ( expect & zero ) && ch == '0' ) {
+                expect = dot | expsym | endinput;
+            } else if( ( expect & integer ) && ch >= '0' && ch <= '9' ) {
+                if( man_len < easy_digits ) {
+                    man = man * 10 + ( ch - '0' );
+                    if( man > 0 ) {
+                        ++man_len;
+                    }
+                } else { // handling this correctly will require arbitrary length arithmetics
+                    ++point;
+                }
+                expect = integer | dot | expsym | endinput;
+            } else if( ( expect & dot ) && ch == '.' ) {
+                expect = fraction;
+                expect |= expsym | endinput; // for backward compatibility, not standard json
+            } else if( ( expect & fraction ) && ch >= '0' && ch <= '9' ) {
+                if( man_len < easy_digits ) {
+                    man = man * 10 + ( ch - '0' );
+                    if( man > 0 ) {
+                        ++man_len;
+                    }
+                    --point;
+                } // else: handling this correctly will require arbitrary length arithmetics
+                expect = fraction | expsym | endinput;
+            } else if( ( expect & expsym ) && ( ch == 'e' || ch == 'E' ) ) {
+                expect = expsign | expnum;
+            } else if( ( expect & expsign ) && ( ch == '-' || ch == '+' ) ) {
+                expneg = ch == '-';
+                expect = expnum;
+            } else if( ( expect & expnum ) && ch >= '0' && ch <= '9' ) {
+                exp = exp * 10 + ( ch - '0' );
+                expect = expnum | endinput;
+            } else {
+                break;
+            }
+            stream->get();
         }
     }
-    while (ch >= '0' && ch <= '9') {
-        i *= 10;
-        i += (ch - '0');
-        stream->get(ch);
-    }
-    if (ch == '.') {
-        stream->get(ch);
-        while (ch >= '0' && ch <= '9') {
-            i *= 10;
-            i += (ch - '0');
-            mod_e -= 1;
-            stream->get(ch);
+    if( !( expect & endinput ) ) {
+        std::vector<char const *> strs;
+        if( expect & sign ) {
+            strs.push_back( "'-'" );
         }
-    }
-    if (neg) {
-        i *= -1;
-    }
-    if (ch == 'e' || ch == 'E') {
-        stream->get(ch);
-        neg = false;
-        if (ch == '-') {
-            neg = true;
-            stream->get(ch);
-        } else if (ch == '+') {
-            stream->get(ch);
+        if( expect & expsign ) {
+            strs.push_back( "'-'" );
+            strs.push_back( "'+'" );
         }
-        while (ch >= '0' && ch <= '9') {
-            e *= 10;
-            e += (ch - '0');
-            stream->get(ch);
+        if( ( expect & integer ) || ( expect & fraction ) || ( expect & expnum ) ) {
+            strs.push_back( "digits" );
+        } else if( expect & zero ) {
+            strs.push_back( "'0'" );
         }
-        if (neg) {
-            e *= -1;
+        if( expect & dot ) {
+            strs.push_back( "'.'" );
         }
+        if( expect & expsym ) {
+            strs.push_back( "'e'" );
+            strs.push_back( "'E'" );
+        }
+        if( expect & endinput ) {
+            strs.push_back( "end of input" );
+        }
+        std::ostringstream msg;
+        msg << "expceted ";
+        switch( strs.size() ) {
+            case 0:
+                msg << "nothing";
+                break;
+            case 1:
+                msg << strs[0];
+                break;
+            case 2:
+                msg << strs[0] << " or " << strs[1];
+                break;
+            default:
+                for( auto &&it = strs.begin(); it < strs.end(); ++it ) {
+                    if( it + 1 == strs.end() ) {
+                        msg << ", or ";
+                    } else if( it != strs.begin() ) {
+                        msg << ", ";
+                    }
+                    msg << *it;
+                }
+                break;
+        }
+        msg << " but '" << ch << "' is found";
+        error( msg.str(), 0 );
     }
-    // unget the final non-number character (probably a separator)
-    stream->unget();
     end_value();
-    // now put it all together!
-    return i * std::pow(10.0f, e + mod_e);
+    // zeros
+    if( man == 0 ) {
+        return 0;
+    }
+    int exp2 = ( expneg ? -exp : exp ) + point;
+    // handle easy values
+    if( std::numeric_limits<double>::is_iec559
+        && std::numeric_limits<double>::radix == 2
+        && std::numeric_limits<double>::has_denorm == std::denorm_present ) {
+
+        int constexpr man_bits = 52;
+        uint64_t constexpr sign_mask = uint64_t( 1 ) << 63;
+        uint64_t constexpr man_mask = ( uint64_t( 1 ) << man_bits ) - 1;
+        int constexpr exp_bias = 1023;
+
+        bool easy = true;
+        uint64_t man5 = man;
+        if( exp2 > 0 ) { // man x 10 ^ exp2 = man x 5 ^ exp2 x 2 ^ exp2
+            for( int k = 0; k < exp2; ++k ) {
+                if( man5 > ~uint64_t( 0 ) / 5 ) {
+                    easy = false;
+                    break;
+                }
+                man5 *= 5;
+            }
+        } else if( exp2 < 0 ) {
+            for( int k = 0; k < -exp2; ++k ) {
+                if( man5 % 5 != 0 ) {
+                    easy = false;
+                    break;
+                }
+                man5 /= 5;
+            }
+        }
+        if( easy ) { // = man5 x 2 ^ exp2
+            // |exp2| < log5(2^64)
+            man = man5;
+            int mlen = 0;
+            for( uint64_t man2 = man; man2; ++mlen, man2 >>= 1 ) {
+            }
+            bool trailing_zero = true;
+            bool last_bit_zero = true;
+            if( mlen < man_bits + 1 ) { // mantissa bits (including the implicit 1)
+                int shift = man_bits + 1 - mlen;
+                trailing_zero = true;
+                last_bit_zero = true;
+                man <<= shift;
+                exp2 -= shift;
+                // -log5(2^64)-52 < exp2 < log5(2^64)-1
+            } else if( mlen > man_bits + 1 ) {
+                int shift = mlen - man_bits - 1;
+                trailing_zero = ( man & ( ( uint64_t( 1 ) << ( shift - 1 ) ) - 1 ) ) == 0;
+                last_bit_zero = ( ( man >> ( shift - 1 ) ) & 1 ) == 0;
+                man >>= shift;
+                exp2 += shift;
+                // -log5(2^64)+1 < exp2 < log5(2^64)+11
+            }
+            exp2 += man_bits; // 1xxxxx x 2 ^ exp2 = 1.xxxxx x 2 ^ (exp2 + man_bits)
+            // -log5(2^64) < exp2 < log5(2^64)+63
+            if( man == man_mask * 2 + 1 && !( last_bit_zero && trailing_zero ) ) { // 1.11111(53)xxx1xx, round up -> 10.0000(53)
+                man = ( man + 1 ) >> 1;
+                ++exp2;
+            } else if( !last_bit_zero && trailing_zero ) { // 1.xxxxx(53)1000000, round even
+                if( ( man & 1 ) == 1 ) {
+                    ++man;
+                }
+            } else if( !last_bit_zero ) { // 1.xxxxx(53)1..1.., round up
+                ++man;
+            } // else 1.xxxxx(53)0..., round down
+            uint64_t binary = ( neg ? sign_mask : 0 ) | ( uint64_t( exp2 + exp_bias ) << man_bits ) | ( man & man_mask );
+            double res;
+            std::memcpy( &res, &binary, sizeof( res ) );
+            return res;
+        }
+    }
+    // hard values. @todo: precisely calculate the result (may require arbitrary precision arithmetics)
+    double pos = man * std::pow( 10.0f, exp2 );
+    return neg ? -pos : pos;
 }
 
 bool JsonIn::get_bool()
@@ -1572,12 +1704,16 @@ JsonOut::JsonOut( std::ostream &s, bool pretty, int depth ) :
 {
     // ensure consistent and locale-independent formatting of numerals
     stream->imbue( std::locale::classic() );
-    stream->setf( std::ios_base::showpoint );
     stream->setf( std::ios_base::dec, std::ostream::basefield );
-    stream->setf( std::ios_base::fixed, std::ostream::floatfield );
 
     // automatically stringify bool to "true" or "false"
     stream->setf( std::ios_base::boolalpha );
+
+    // use shortest precise output
+    stream->precision( std::numeric_limits<double>::max_digits10 );
+    stream->unsetf( std::ostream::floatfield );
+    // json does not allow ending with decimal point
+    stream->unsetf( std::ios_base::showpoint );
 }
 
 int JsonOut::tell()
