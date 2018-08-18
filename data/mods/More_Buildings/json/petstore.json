@@ -2,12 +2,24 @@
   {
     "id": "petstore_misc",
     "type": "item_group",
-    "items": [ [ "dogfood", 35 ], [ "catfood", 35 ], [ "birdfood", 15 ], [ "dog_whistle", 15 ], [ "flashlight", 5 ] ]
+    "items": [
+      [ "dogfood", 35 ],
+      [ "catfood", 35 ],
+      [ "birdfood", 15 ],
+      [ "dog_whistle", 15 ],
+      [ "flashlight", 5 ]
+    ]
   },
   {
     "id": "petstore_shelves",
     "type": "item_group",
-    "items": [ [ "dogfood", 30 ], [ "catfood", 30 ], [ "birdfood", 15 ], [ "can_tuna", 15 ], [ "can_chicken", 15 ] ]
+    "items": [
+      [ "dogfood", 30 ],
+      [ "catfood", 30 ],
+      [ "birdfood", 15 ],
+      [ "can_tuna", 15 ],
+      [ "can_chicken", 15 ]
+    ]
   },
   {
     "type": "mapgen",
@@ -86,7 +98,9 @@
         "K": "f_counter",
         "L": "f_counter"
       },
-      "toilets": { "B": {  } },
+      "toilets": {
+        "B": {}
+      },
       "place_items": [
         { "item": "petstore_shelves", "x": 6, "y": [ 3, 5 ], "chance": 20, "repeat": [ 1, 4 ] },
         { "item": "petstore_shelves", "x": 7, "y": [ 3, 5 ], "chance": 20, "repeat": [ 1, 4 ] },
