@@ -34,6 +34,8 @@ double pow10( unsigned int n )
 
 double round_up( double val, unsigned int dp )
 {
+    // Some implementations of std::pow does not return the accurate result even
+    // for small powers of 10, so we use a specialized routine to calculate them.
     const double denominator = pow10( dp );
     return std::ceil( denominator * val ) / denominator;
 }
