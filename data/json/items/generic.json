@@ -1168,6 +1168,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "motor_micro",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "micro motor",
+    "category": "spare_parts",
+    "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
+    "price": 8000,
+    "material": [ "steel", "plastic" ],
+    "weight": 70,
+    "volume": 1
+  },
+  {
+    "type": "GENERIC",
     "id": "circuit",
     "symbol": ",",
     "color": "green",
