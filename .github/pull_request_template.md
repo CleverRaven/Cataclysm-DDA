@@ -10,7 +10,7 @@ Category is one of Features, Content, Interface, Mods, Balance, Bugfixes, Perfor
 If theres an existing issue describing the problem this PR addresses or the feature it adds, please link it like #1234  
 If it *fully* resolves an issue, link it like ```Fixes #1234```  
 Even if the issue describes the problem, please provide a few-sentence summary here.  
-If there is no related issue, please describe the issue you are addressing,  including how to trigger a bug if this is a bugfix.
+If there is no related issue, please describe the issue you are addressing, including how to trigger a bug if this is a bugfix.
 
 #### Describe the solution
 How does the feature work, or how does this fix a bug?  
