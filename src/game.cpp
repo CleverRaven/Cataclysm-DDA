@@ -10157,7 +10157,7 @@ void game::butcher()
     for (size_t i = 0; i < items.size(); ++i){
         if ( items[i].is_corpse() ){
             corpses.push_back(i);
-        } else if ( salvage_iuse->valid_to_cut_up( items[i] ) ){
+        } else if ( ( salvage_tool_index != INT_MIN) && salvage_iuse->valid_to_cut_up( items[i] ) ){
             salvageables.push_back(i);
         } else if ( u.can_disassemble( items[i], crafting_inv ).success() ){
             disassembles.push_back(i);
@@ -10165,6 +10165,7 @@ void game::butcher()
             first_item_without_tools = &items[i];
         }
     }
+    
     // Clear corpses if butcher factor is INT_MIN
     if ( factor == INT_MIN ){
         corpses.clear();
