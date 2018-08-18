@@ -1217,10 +1217,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 dirty_transparency_cache = true; // Smoke affects transparency
                             }
 
-                        // Hot air is a heavy load on the CPU and it doesn't do much
+                        // Hot air is a load on the CPU
                         // Don't produce too much of it if we have a lot fires nearby, they produce
                         // radiant heat which does what hot air would do anyway
-                        if( rng( 0, adjacent_fires ) > 2 ) {
+                        if( adjacent_fires < 5 && rng( 0, 4 - adjacent_fires ) ) {
                             create_hot_air( p, cur.getFieldDensity() );
                         }
                     }
