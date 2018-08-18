@@ -198,6 +198,7 @@
     "healthy": 0,
     "quench": -5,
     "fun": 4,
+    "delete": { "flags": [ "SMOKABLE" ] },
     "proportional": { "price": 0.64, "calories": 0.34 }
   },
   {
