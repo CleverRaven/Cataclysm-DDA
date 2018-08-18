@@ -3,28 +3,115 @@
 ## File descriptions
 Here's a quick summary of what each of the JSON files contain, broken down by folder.
 
-## `raw/`
+## `data/json/`
 
-| Filename               | Description
-|---                     |---
-| bionics.json           | bionics, does NOT include bionic effects
-| dreams.json            | dream text and linked mutation categories
-| item_groups.json       | item spawn groups
-| materials.json         | material types
-| monstergroups.json     | monster spawn groups
-| monster_factions.json  | monster factions
-| names.json             | names used for NPC/player name generation
-| professions.json       | profession definitions
-| recipes.json           | crafting/disassembly recipes
-| road_vehicles.json     | vehicle spawn information for roads
-| skills.json            | skill descriptions and ID's
-| snippets.json          | flier/poster descriptions
-| mutations.json         | traits/mutations
-| mutation_ordering.json | draw order for mutation overlays in tiles mode
-| vehicle_groups.json    | vehicle spawn groups
-| vehicle_parts.json     | vehicle parts, does NOT affect flag effects
+| Filename                    | Description
+|---                          |---
+| anatomy.json                | a listing of player body parts - do not edit
+| bionics.json                | bionics, does NOT include bionic effects
+| body_parts.json             | an expansion of anatomy.json - do not edit
+| construction.json           | definition of construction menu tasks
+| default_blacklist.json      | a standard blacklist of joke monsters
+| doll_speech.json            | talk doll speech messages
+| dreams.json                 | dream text and linked mutation categories
+| effects.json                | common effects and their effects
+| emit.json                   | smoke and gas emissions
+| flags.json                  | common flags and their descriptions
+| furniture.json              | furniture, and features treated like furniture
+| game_balance.json           | various options to tweak game balance
+| gates.json                  | gate terrain definitions
+| harvest.json                | item drops for butchering corpses
+| health_msgs.json            | messages displayed when the player wakes
+| item_actions.json           | descriptions of standard item actions
+| item_category.json          | item categories and their default sort
+| item_groups.json            | item spawn groups
+| lab_notes.json              | lab computer messages
+| martialarts.json            | martial arts styles and buffs
+| materials.json              | material types
+| monster_attacks.json        | monster attacks
+| monster_drops.json          | monster item drops on death
+| monster_factions.json       | monster factions
+| monstergroups.json          | monster spawn groups
+| monstergroups_egg.json      | monster spawn groups from eggs
+| monsters.json               | monster descriptions, mostly zombies
+| morale_types.json           | morale modifier messages
+| mutation_category.json      | messages for mutation categories
+| mutation_ordering.json      | draw order for mutation overlays in tiles mode
+| mutations.json              | traits/mutations
+| names.json                  | names used for NPC/player name generation
+| overmap_connections.json    | connections for roads and tunnels in the overmap
+| overmap_terrain.json        | overmap terrain
+| player_activities.json      | player activities
+| professions.json            | profession definitions
+| recipes.json                | crafting/disassembly recipes
+| regional_map_settings.json  | settings for the entire map generation
+| road_vehicles.json          | vehicle spawn information for roads
+| rotatable_symbols.json      | rotatable symbols - do not edit
+| skills.json                 | skill descriptions and ID's
+| snippets.json               | flier/poster descriptions
+| species.json                | monster species
+| speech.json                 | monster vocalizations
+| start_locations.json        | starting locations for scenarios
+| techniques.json             | generic for items and martial arts
+| terrain.json                | terrain types and definitions
+| test_regions.json           | test regions
+| tool_qualities.json         | standard tool qualities and their actions
+| traps.json                  | standard traps
+| tutorial.json               | messages for the tutorial (that is out of date)
+| vehicle_groups.json         | vehicle spawn groups
+| vehicle_parts.json          | vehicle parts, does NOT affect flag effects
+| vitamin.json                | vitamins and their deficiencies
 
-## `raw/vehicles/`
+selected subfolders
+
+## `data/json/items/`
+
+See below for specifics on the various items
+
+| Filename           | Description
+|---                 |---
+| ammo.json          | common base components like batteries and marbles
+| ammo_types.json    | standard ammo types by gun
+| archery.json       | bows and arrows
+| armor.json         | armor and clothing
+| bionics.json       | Compact Bionic Modules (CBMs)
+| biosignatures.json | animal waste
+| books.json         | books
+| chemicals_and_resources.json   | chemical precursors
+| comestibles.json   | food/drinks
+| containers.json    | containers
+| crossbows.json     | crossbows and bolts
+| fake.json          | fake items for bionics or mutations
+| fuel.json          | liquid fuels
+| grenades.json      | grenades and throwable explosives
+| handloaded_bullets.json | random ammo
+| melee.json         | anything that doesn't go in the other item jsons, melee weapons
+| migration.json     | conversions of non-existent items from save games to current items
+| newspaper.json     | flyers, newspapers, and survivor notes. snippets.json for messages
+| obsolete.json      | items being removed from the game
+| ranged.json        | guns
+| software.json      | software for SD-cards and USB sticks
+| tool_armor.json    | clothes and armor that can be (a)ctivated
+| toolmod.json       | modifications of tools
+| tools.json         | tools and items that can be (a)ctivated
+| vehicle_parts.json | components of vehicles when they aren't on the vehicle
+
+## `data/json/requirements/`
+
+Standard components and tools for crafting
+
+| Filename                     | Description
+|---                           |---
+| ammo.json                    | ammo components
+| cooking_components.json      | common ingredient sets
+| cooking_requirements.json    | cooking tools and heat sources
+| materials.json               | thread, fabric, and other basic materials
+| toolsets.json                | sets of tools commonly used together
+| uncraft.json                 | common results of taking stuff apart
+| vehicle.json                 | tools to work on vehicles
+
+
+## `data/json/vehicles/`
 
 Groups of vehicle definitions with self-explanatory names of files:
 
@@ -41,32 +128,11 @@ Groups of vehicle definitions with self-explanatory names of files:
 | vans_busses.json
 | vehicles.json
 
-## `raw/items/`
-
-| Filename           | Description
-|---                 |---
-| archery.json       | bows and arrows
-| ranged.json        | guns
-| tools.json         | tools and items that can be (a)ctivated
-| ammo.json          | ammo
-| books.json         | books
-| comestibles.json   | food/drinks
-| containers.json    | containers
-| melee.json         | anything that doesn't go in the other item jsons, melee weapons
-| mods.json          | gunmods
-
-## `json/`
-
-| Filename           | Description
-|---                 |---
-| furniture.json     | furniture, and features treated like furniture
-| terrain.json       | terrain types and definitions
-
 # Raw JS
 
 ### All Files
 
-```json
+```JSON
 "//" : "comment", // Preferred method of leaving comments inside json files.
 ```
 
@@ -85,7 +151,7 @@ Groups of vehicle definitions with self-explanatory names of files:
 | canceled_mutations | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics   | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 
-```json
+```JSON
 {
     "id"           : "bio_batteries",
     "name"         : "Battery System",
@@ -100,6 +166,8 @@ Groups of vehicle definitions with self-explanatory names of files:
 }
 ```
 
+Bionics effects are defined in the code and new effects cannot be created through JSON alone.
+
 ### Dreams
 
 | Identifier | Description
@@ -108,7 +176,7 @@ Groups of vehicle definitions with self-explanatory names of files:
 | category   | Mutation category needed to dream.
 | strength   | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+).
 
-```json
+```JSON
 {
     "messages" : [
         "You have a strange dream about birds.",
@@ -130,7 +198,7 @@ The syntax listed here is still valid.
 | items      | List of potential item ID's. Chance of an item spawning is x/T, where X is the value linked to the specific item and T is the total of all item values in a group.
 | groups     | ??
 
-```json
+```JSON
 {
     "id":"forest",
     "items":[
@@ -161,7 +229,7 @@ The syntax listed here is still valid.
 | `fire_resist`    | Ability of a material to resist fire.
 | `density`        | Density of a material.
 
-```json
+```JSON
 {
     "ident"         : "hflesh",
     "name"          : "Human Flesh",
@@ -197,7 +265,7 @@ The syntax listed here is still valid.
 | `pack_size`  | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions` | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
 
-```json
+```JSON
 {
     "name" : "GROUP_ANT",
     "default" : "mon_ant",
@@ -220,7 +288,7 @@ The syntax listed here is still valid.
 | `neutral`       | Always be neutral towards this faction.
 | `friendly`      | Always be friendly towards this faction. By default a faction is friendly towards itself.
 
-```json
+```JSON
 {
     "name"         : "cult",
     "base_faction" : "zombie",
@@ -236,7 +304,7 @@ See MONSTERS.md
 
 ### Names
 
-```json
+```JSON
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 // NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
@@ -414,7 +482,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Recipes
 
-```json
+```JSON
 "result": "javelin",         // ID of resulting item
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
@@ -471,7 +539,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ## Skills
 
-```json
+```JSON
 "ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
@@ -480,7 +548,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Traits/Mutations
 
-```json
+```JSON
 "id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
@@ -543,7 +611,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ### Vehicle Groups
 
 
-```json
+```JSON
 "id":"city_parked",            // Unique ID. Must be one continuous word, use underscores if necessary
 "vehicles":[                 // List of potential vehicle ID's. Chance of a vehicle spawning is X/T, where
   ["suv", 600],           //    X is the value linked to the specific vehicle and T is the total of all
@@ -555,10 +623,13 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Vehicle Parts
 
-```json
+Vehicle components when installed on a vehicle.
+
+```JSON
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
 "symbol": "0",                // ASCII character displayed when part is working
+"looks_like": "small_wheel",  // hint to tilesets if this part has no tile, use the looks_like tile
 "color": "dark_gray",         // Color used when part is working
 "broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
@@ -568,7 +639,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
                                * SPECIAL: A part may have at most ONE of the following fields:
                                *    wheel_width = base wheel width in inches
                                *    size        = trunk/box storage volume capacity
-                               *    power       = base engine power (in liters)
+                               *    power       = base engine power (in half-horsepower)
                                *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
                                *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
@@ -589,7 +660,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Part Resistance
 
-```json
+```JSON
 "all" : 0.0f,        // Initial value of all resistances, overriden by more specific types
 "physical" : 10,     // Initial value for bash, cut and stab
 "non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
@@ -604,7 +675,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ```
 
 ### Vehicle Placement
-```json
+```JSON
 "id":"road_straight_wrecks",  // Unique ID. Must be one continuous word, use underscores if necessary
 "locations":[ {               // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
   "x" : [0,19],               // The x placement. Can be a single value or a range of possibilities.
@@ -615,7 +686,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Vehicle Spawn
 
-```json
+```JSON
 "id":"default_city",            // Unique ID. Must be one continuous word, use underscores if necessary
 "spawn_types":[ {       // List of spawntypes. When this vehicle_spawn is applied, it will choose from one of the spawntypes randomly, based on the weight.
   "description" : "Clear section of road",           //    A description of this spawntype
@@ -635,7 +706,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Vehicles
 
-```json
+```JSON
 "id": "shopping_cart",                     // Internally-used name.
 "name": "Shopping Cart",                   // Display name, subject to i18n.
 "blueprint": "#",                          // Preview of vehicle - ignored by the code, so use only as documentation
@@ -649,11 +720,11 @@ Mods can modify this via `add:traits` and `remove:traits`.
                                             * (you can't stack non-stackable part flags). */
 ```
 
-# `raw/items/` JSONs
+# `data/json/items/` JSONs
 
 ### Generic Items
 
-```json
+```JSON
 "type" : "GENERIC",               // Defines this as some generic item
 "id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
@@ -661,6 +732,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
+"looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
 "weight" : 350,                   // Weight of the item in grams
@@ -680,12 +752,13 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ],
 "explode_in_fire" : true,         // Should the item explode if set on fire
 "explosion": {                    // Physical explosion data
-    "power" : 10,                 // Measure of explosion power, affects damage and range
+    "power" : 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
     "distance_factor" : 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
     "fire" : true,                // Should the explosion leave fire
+    "shrapnel": 200,              // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
     "shrapnel" : {
-        "count" : 10,             // Number of shrapnel pieces
-        "mass" : 10,              // Mass of shrapnel pieces. Affects armor piercing and terrain smashing.
+        "casing_mass" : 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
+        "fragment_mass" : 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
         "recovery" : 10,          // Percentage chance to drop an item at landing point.
         "drop" : "nail"           // Which item to drop at landing point.
     }
@@ -694,7 +767,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Ammo
 
-```json
+```JSON
 "type" : "AMMO",      // Defines this as ammo
 ...                   // same entries as above for the generic item.
                       // additional some ammo specific entries:
@@ -711,7 +784,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Magazine
 
-```json
+```JSON
 "type": "MAGAZINE",   // Defines this as a MAGAZINE
 ...                   // same entries as above for the generic item.
                       // additional some magazine specific entries:
@@ -728,7 +801,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 Armor can be defined like this:
 
-```json
+```JSON
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
@@ -742,7 +815,7 @@ Armor can be defined like this:
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
-```json
+```JSON
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
@@ -761,7 +834,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 
 Books can be defined like this:
 
-```json
+```JSON
 "type" : "BOOK",      // Defines this as a BOOK
 ...                   // same entries as above for the generic item.
                       // additional some book specific entries:
@@ -774,7 +847,7 @@ Books can be defined like this:
 "required_level" : 2  // Minimum skill level required to learn
 ```
 Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
-```json
+```JSON
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "book_data" : {       // additionally the same book data like above
@@ -807,7 +880,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 
 ### Comestibles
 
-```json
+```JSON
 "type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
 ...                         // same entries as above for the generic item.
                             // additional some comestible specific entries:
@@ -828,7 +901,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 
 ### Containers
 
-```json
+```JSON
 "type": "CONTAINER",  // Defines this as a container
 ...                   // same data as for the generic item (see above).
 "contains": 200,      // How much volume this container can hold
@@ -837,7 +910,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "preserves": false,   // Contents do not spoil. (optional, default: false)
 ```
 Alternately, every item can be used as container:
-```json
+```JSON
 "type": "ARMOR",      // Any type is allowed here
 ...                   // same data as for the type
 "container_data" : {  // The container specific data goes here.
@@ -849,7 +922,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 
 ### Melee
 
-```json
+```JSON
 "id": "hatchet",       // Unique ID. Must be one continuous word, use underscores if necessary
 "symbol": ";",         // ASCII character used in-game
 "color": "light_gray", // ASCII character color
@@ -869,7 +942,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 
 Guns can be defined like this:
 
-```json
+```JSON
 "type": "GUN",        // Defines this as a GUN
 ...                   // same entries as above for the generic item.
                       // additional some gun specific entries:
@@ -907,7 +980,7 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 
 Gun mods can be defined like this:
 
-```json
+```JSON
 "type": "GUNMOD",              // Defines this as a GUNMOD
 ...                            // Same entries as above for the generic item.
                                // Additionally some gunmod specific entries:
@@ -927,7 +1000,7 @@ Gun mods can be defined like this:
 
 ### Tools
 
-```json
+```JSON
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "TOOL",       // Defines this as a TOOL
 "symbol": "/",        // ASCII character used in-game
@@ -957,7 +1030,7 @@ Gun mods can be defined like this:
 
 Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
 
-```
+```JSON
 "seed_data" : {
     "fruits": "weed", // The item id of the fruits that this seed will produce.
     "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
@@ -1113,7 +1186,7 @@ Possible values (see src/artifact.h for an up-to-date list):
 
 Every item type can have software data, it does not have any behavior:
 
-```
+```JSON
 "software_data" : {
     "type": "USELESS", // unused
     "power" : 91 // unused
@@ -1124,7 +1197,7 @@ Every item type can have software data, it does not have any behavior:
 
 The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
 
-```json
+```JSON
 "use_action": {
     "type": "transform",  // The type of method, in this case one that transforms the item.
     "target": "gasoline_lantern_on", // The item to transform to.
@@ -1343,7 +1416,7 @@ Any item with a "snippet_category" entry will have random descriptions, based on
 "snippet_category": "newspaper",
 ```
 The item descriptions are taken from snippets, which can be specified like this (the value of category must match the snippet_category in the item definition):
-```
+```JSON
 {
     "type" : "snippet",
     "category" : "newspaper",
@@ -1352,7 +1425,7 @@ The item descriptions are taken from snippets, which can be specified like this 
 }
 ```
 or several snippets at once:
-```
+```JSON
 {
     "type" : "snippet",
     "category" : "newspaper",
@@ -1418,6 +1491,7 @@ Array of dictionaries defining possible items produced on butchering and their l
     "id": "f_toilet",
     "name": "toilet",
     "symbol": "&",
+    "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
     "required_str": 18,
@@ -1436,7 +1510,7 @@ Array of dictionaries defining possible items produced on butchering and their l
 
 Fixed string, must be `furniture` to identify the JSON object as such.
 
-`"id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
 
 Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
@@ -1460,6 +1534,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "id": "t_spiked_pit",
     "name": "spiked pit",
     "symbol": "0",
+    "looks_like": "pit",
     "color": "ltred",
     "move_cost": 10,
     "trap": "spike_pit",
@@ -1482,7 +1557,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 Fixed string, must be "terrain" to identify the JSON object as such.
 
-`"id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+`"id", "name", "symbol", "looks_like", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
 
 Same as for furniture, see below in the chapter "Common to furniture and terrain".
 
@@ -1554,6 +1629,10 @@ Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` 
 #### `symbol`
 
 ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
+
+#### `looks_like`
+
+id of a similar item that this item looks like. The tileset loader will try to load the tile for that item if this item doesn't have a tile. looks_like entries are implicitly chained, so if 'throne' has looks_like 'big_chair' and 'big_chair' has looks_like 'chair', a throne will be displayed using the chair tile if tiles for throne and big_chair do not exist. If a tileset can't find a tile for any item in the looks_like chain, it will default to the ascii symbol.
 
 #### `color` or `bgcolor`
 

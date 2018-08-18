@@ -454,6 +454,7 @@ void MonsterGenerator::init_flags()
     flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
     flag_map["CATFOOD"] = MF_CATFOOD;
     flag_map["CATTLEFODDER"] = MF_CATTLEFODDER;
+    flag_map["BIRDFOOD"] = MF_BIRDFOOD;
     flag_map["DOGFOOD"] = MF_DOGFOOD;
     flag_map["MILKABLE"] = MF_MILKABLE;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
@@ -530,6 +531,12 @@ void mtype::load( JsonObject &jo, const std::string &src )
         if( utf8_wrapper( sym ).display_width() != 1 ) {
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
+    }
+    if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
     }
 
     assign( jo, "color", color );

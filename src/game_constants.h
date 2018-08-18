@@ -67,6 +67,15 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
+/** Temperature inside an active fridge in Fahrenheit  */
+#define FRIDGE_TEMPERATURE 37 // 5 Celsius
+
+/** Temperature inside an active freezer in Fahrenheit  */
+#define FREEZER_TEMPERATURE 27 // -5 Celsius
+
+/** Temperature in which water freezes in Fahrenheit  */
+#define FREEZING_TEMPERATURE 32 // 0 Celsius
+
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 
@@ -100,5 +109,16 @@ constexpr double accuracy_grazing  = 1.0;
 
 /** Effective lower bound to combat skill levels when CQB bionic is active */
 #define BIO_CQB_LEVEL 5
+
+/** Minimum size of a horde to show up on the minimap.  */
+#define HORDE_VISIBILITY_SIZE 3
+
+/** Average annual temperature in F used for climate, weather and temperature calculation */
+/** Average New England temperature = 43F/6C rounded to int */
+#define AVERAGE_ANNUAL_TEMPERATURE 43
+
+/** Base starting spring temperature in F used for climate, weather and temperature calculation */
+/** New England base spring temperature = 65F/18C rounded to int */
+#define SPRING_TEMPERATURE 65
 
 #endif

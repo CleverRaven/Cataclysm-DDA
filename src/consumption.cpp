@@ -128,12 +128,16 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     static const trait_id trait_SAPROVORE( "SAPROVORE" );
     static const std::string flag_EATEN_COLD( "EATEN_COLD" );
     static const std::string flag_COLD( "COLD" );
+    static const std::string flag_MUSHY( "MUSHY" );
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
     }
 
     // As float to avoid rounding too many times
     float fun = comest.type->comestible->fun;
+    if( comest.has_flag( flag_MUSHY ) && fun > -5.0f ) {
+        fun = -5.0f; // defrosted MUSHY food is practicaly tastless or tastes off
+    }
     // Rotten food should be pretty disgusting
     const float relative_rot = comest.get_relative_rot();
     if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
@@ -280,7 +284,8 @@ float player::metabolic_rate() const
 
     // Penalize fast survivors
     // TODO: Have cold temperature increase, not decrease, metabolism
-    const float effective_hunger = get_hunger() * 100.0f / std::max( 50, get_speed() );
+    const float effective_hunger = ( get_hunger() + get_starvation() ) * 100.0f / std::max( 50,
+                                   get_speed() );
     const float modifier = multi_lerp( thresholds, effective_hunger );
 
     return modifier * metabolic_rate_base();
@@ -330,6 +335,16 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
             if( !elem->edible() ) {
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
+        }
+    }
+    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) &&
+        food.item_counter >= 100 ) {
+        if( edible ) {
+            return ret_val<edible_rating>::make_failure(
+                       _( "It's frozen solid.  You must defrost it before you can eat it." ) );
+        }
+        if( drinkable ) {
+            return ret_val<edible_rating>::make_failure( _( "You can't drink it while it's frozen." ) );
         }
     }
 
@@ -566,11 +581,25 @@ bool player::eat( item &food, bool force )
         add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                food.tname().c_str() );
     } else if( drinkable ) {
-        add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
-                               food.tname().c_str() );
+        if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
+            one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
+
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
+            add_msg( _( "You drink your %s (rotten)." ), food.tname().c_str() );
+        } else {
+            add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
+                                   food.tname().c_str() );
+        }
     } else if( chew ) {
-        add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
-                               food.tname().c_str() );
+        if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
+            one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
+
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
+            add_msg( _( "You eat your %s (rotten)." ), food.tname().c_str() );
+        } else {
+            add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                   food.tname().c_str() );
+        }
     }
 
     if( item::find_type( food.type->comestible->tool )->tool ) {
@@ -624,6 +653,11 @@ bool player::eat( item &food, bool force )
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         }
     }
+    // Mushy has no extra effects here as they are applied in fun_for() calculation
+    if( food.has_flag( "MUSHY" ) ) {
+        add_msg_if_player( m_bad,
+                           _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
+    }
 
     // Allergy check
     const auto allergy = allergy_type( food );
@@ -645,11 +679,11 @@ bool player::eat( item &food, bool force )
     }
     if( food.has_flag( "URSINE_HONEY" ) && ( !crossed_threshold() ||
             has_trait( trait_id( "THRESH_URSINE" ) ) ) &&
-        mutation_category_level["MUTCAT_URSINE"] > 40 ) {
-        //Need at least 5 bear mutations for effect to show, to filter out mutations in common with other mutcats
+        mutation_category_level["URSINE"] > 40 ) {
+        //Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
         int honey_fun = has_trait( trait_id( "THRESH_URSINE" ) ) ?
-                        std::min( mutation_category_level["MUTCAT_URSINE"] / 8, 20 ) :
-                        mutation_category_level["MUTCAT_URSINE"] / 12;
+                        std::min( mutation_category_level["URSINE"] / 8, 20 ) :
+                        mutation_category_level["URSINE"] / 12;
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {
@@ -664,7 +698,8 @@ bool player::eat( item &food, bool force )
 
     // chance to become parasitised
     if( !( has_bionic( bio_digestion ) || has_trait( trait_id( "PARAIMMUNE" ) ) ) ) {
-        if( food.type->comestible->parasites > 0 && one_in( food.type->comestible->parasites ) ) {
+        if( food.type->comestible->parasites > 0 && !food.has_flag( "NO_PARASITES" ) &&
+            one_in( food.type->comestible->parasites ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !has_trait( trait_id( "EATHEALTH" ) ) ) {

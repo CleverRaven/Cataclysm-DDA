@@ -281,6 +281,16 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
+        "id" : "house_prepper",
+        "name" : "house",
+        "sym" : 94,
+        "color" : "light_green",
+        "see_cost" : 2,
+        "extras" : "build",
+        "mondensity" : 2,
+        "flags" : [ "SIDEWALK" ]
+    },{
+        "type" : "overmap_terrain",
         "id" : "s_lot",
         "name" : "parking lot",
         "sym" : 112,
@@ -7636,5 +7646,25 @@
     "copy-from": "generic_city_building",
     "sym": 73,
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_1",
+    "name": "forest",
+    "sym": 35,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_2",
+    "name": "forest",
+    "sym": 35,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

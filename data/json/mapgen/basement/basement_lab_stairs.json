@@ -1,0 +1,145 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "basement_hidden_lab_stairs" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_rock",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "------------------------",
+        "|.........|>>|...ccc...|",
+        "|.C..C..C.|..|.c.....c.|",
+        "|.........|..|.c.....c.|",
+        "|.........|..|.c.....c.|",
+        "|.C..C..C.|..|.c.....c.|",
+        "|.........|..|.........|",
+        "|----+----|..|----+----|",
+        "|.........+..+.........|",
+        "|.........+..+.........|",
+        "|----+----|..|----+----|",
+        "|.........|..|d.......d|",
+        "|.ccccccc.|7.|xh.....hx|",
+        "|.........|..|d...h...d|",
+        "|.ccccccc.|..|...dxd...|",
+        "|---------|..|---------|",
+        "|---------|DD6---------|",
+        "|......................|",
+        "|......................|",
+        "|......................|",
+        "|.........|++|.........|",
+        "|.........|..|.........|",
+        "|.........|<<|.........|",
+        "------------------------"
+      ],
+      "palettes": [ "basement_game" ],
+      "furniture": {
+        "c": "f_counter",
+        "d": "f_desk",
+        "h": "f_chair"
+      },
+      "terrain": {
+        ".": "t_rock_floor",
+        "7": "t_rock_floor",
+        "D": "t_door_metal_locked",
+        ">": "t_stairs_down",
+        "<": "t_stairs_up",
+        "6": "t_card_science",
+        "C": "t_centrifuge",
+        "c": "t_rock_floor",
+        "d": "t_rock_floor",
+        "h": "t_rock_floor",
+        "+": "t_door_c",
+        "x": "t_console_broken"
+      },
+      "mapping": {
+        "c": {
+          "items": {
+            "item": "chem_lab", "chance": 30
+          }
+        },
+        "d": {
+          "items": {
+            "item": "office", "chance": 30
+          }
+        }
+      },
+      "monster": {
+        "7": { "monster": "mon_turret"}
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "basement_hidden_lab_stairs" ],
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     |--------|         ",
+        "|----|XX7|....|         ",
+        "|...i|X..D...>|         ",
+        "|&...|7..D...>|         ",
+        "|....|...|....|         ",
+        "|--+---DD6--------------",
+        "|............fffrrrrrrc|",
+        "|......................|",
+        "|...........ccccccccccc|",
+        "|......................|",
+        "|..ssssssc............a|",
+        "|........s.......pp....|",
+        "|c...tt..s.......pp....|",
+        "|c...tt..s.......pp...a|",
+        "|........s.............|",
+        "|......................|",
+        "|..............aaaaaa..|",
+        "|..ttttt..|++|--------+|",
+        "|.........|..|.........|",
+        "|.caaaaac.|<<|ccccwcccd|",
+        "------------------------",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [
+        "basement_game"
+      ],
+      "furniture": {
+        "X": "f_crate_c"
+      },
+      "terrain": {
+        "7": "t_rock_floor",
+        "D": "t_door_metal_locked",
+        ">": "t_stairs_down",
+        "6": "t_card_science",
+        "X": "t_rock_floor"
+      },
+      "place_loot": [
+        { "group": "alcohol", "x": [ 16, 20 ], "y": 6, "chance": 96 },
+        { "group": "fridgesnacks", "x": [ 13, 20 ], "y": 6, "chance": 80 },
+        { "group": "pool_table", "x": [ 17, 18 ], "y": [ 11, 13 ], "chance": 90 },
+        { "group": "livingroom", "x": [ 9, 23 ], "y": [ 6, 16 ], "chance": 60 },
+        { "group": "dresser", "x": 18, "y": 19, "chance": 80 },
+        { "group": "dresser", "x": 22, "y": 19, "chance": 80 },
+        { "group": "cleaning", "x": [ 14, 18 ], "y": 19, "chance": 80 }
+      ],
+      "mapping": {
+        "X": {
+          "items": [
+            { "item": "chem_lab", "chance": 20 },
+            { "item": "robots", "chance": 20 },
+            { "item": "science", "chance": 5 }
+          ]
+        }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 6, 20 ], "chance": 2 }
+      ],
+      "monster": {
+        "7": { "monster": "mon_turret"}
+      }
+    }
+  }
+]

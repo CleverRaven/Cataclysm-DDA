@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "monster.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "output.h"
 #include "json.h"
 #include "overmapbuffer.h"
@@ -177,9 +178,9 @@ void computer::use()
         //reset_terminal();
         size_t options_size = options.size();
         print_newline();
-        print_line("%s - %s", name.c_str(), _("Root Menu"));
+        print_line("%s - %s", _(name.c_str()), _("Root Menu"));
         for (size_t i = 0; i < options_size; i++) {
-            print_line("%d - %s", i + 1, options[i].name.c_str());
+            print_line("%d - %s", i + 1, _(options[i].name.c_str()));
         }
         print_line("Q - %s", _("Quit and shut down"));
         print_newline();
@@ -525,10 +526,25 @@ void computer::activate_function( computer_action action )
     }
     break;
 
+    case COMPACT_MAP_SUBWAY: {
+        g->u.moves -= 30;
+        const tripoint center = g->u.global_omt_location();
+        for (int i = -60; i <= 60; i++) {
+            for (int j = -60; j <= 60; j++) {
+                const oter_id &oter = overmap_buffer.ter(center.x + i, center.y + j, center.z);
+                if (is_ot_type("subway", oter) || is_ot_type("lab_train_depot", oter)) {
+                    overmap_buffer.set_seen(center.x + i, center.y + j, center.z, true);
+                }
+            }
+        }
+        query_any(_("Subway map data downloaded.  Press any key..."));
+        remove_option( COMPACT_MAP_SUBWAY );
+    }
+    break;
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
-        tripoint target = overmap::draw_overmap(0);
+        tripoint target = ui::omap::choose_point(0);
         if (target == overmap::invalid_tripoint) {
             add_msg(m_info, _("Target acquisition canceled."));
             return;
@@ -1516,7 +1532,7 @@ void computer::print_newline()
 
 computer_option computer_option::from_json( JsonObject &jo )
 {
-    std::string name = _( jo.get_string( "name" ).c_str() );
+    std::string name = jo.get_string( "name" );
     computer_action action = computer_action_from_string( jo.get_string( "action" ) );
     int sec = jo.get_int( "security", 0 );
     return computer_option( name, action, sec );
@@ -1545,6 +1561,7 @@ computer_action computer_action_from_string( const std::string &str )
         { "research", COMPACT_RESEARCH },
         { "maps", COMPACT_MAPS },
         { "map_sewer", COMPACT_MAP_SEWER },
+        { "map_subway", COMPACT_MAP_SUBWAY },
         { "miss_launch", COMPACT_MISS_LAUNCH },
         { "miss_disarm", COMPACT_MISS_DISARM },
         { "list_bionics", COMPACT_LIST_BIONICS },

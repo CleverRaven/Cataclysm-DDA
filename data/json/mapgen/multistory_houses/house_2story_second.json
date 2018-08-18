@@ -31,56 +31,16 @@
         "________________________",
         "________________________"
       ],
-      "palettes": [
-        "multistory_house"
-      ],
+      "palettes": [ "multistory_house" ],
       "mapping": {
-        "B": {
-          "items": {
-            "item": "bed",
-            "chance": 90,
-            "repeat": [ 1, 3 ]
-          }
-        },
-        "R": {
-          "items": {
-            "item": "fridge",
-            "chance": 90,
-            "repeat": [ 1, 5 ]
-          }
-        },
-        "U": {
-          "items": {
-            "item": "kitchen",
-            "chance": 75,
-            "repeat": [ 1, 3 ]
-          }
-        },
-        "b": {
-          "items": {
-            "item": "homebooks",
-            "chance": 75,
-            "repeat": [ 1, 2 ]
-          }
-        },
-        "d": {
-          "items": {
-            "item": "dresser",
-            "chance": 85,
-            "repeat": [ 1, 4 ]
-          }
-        },
-        "o": {
-          "items": {
-            "item": "oven",
-            "chance": 75,
-            "repeat": [ 1, 3 ]
-          }
-        }
+        "B": { "items": { "item": "bed", "chance": 90, "repeat": [ 1, 3 ] } },
+        "R": { "items": { "item": "fridge", "chance": 90, "repeat": [ 1, 5 ] } },
+        "U": { "items": { "item": "kitchen", "chance": 75, "repeat": [ 1, 3 ] } },
+        "b": { "items": { "item": "homebooks", "chance": 75, "repeat": [ 1, 2 ] } },
+        "d": { "items": { "item": "dresser", "chance": 85, "repeat": [ 1, 4 ] } },
+        "o": { "items": { "item": "oven", "chance": 75, "repeat": [ 1, 3 ] } }
       },
-      "toilets": {
-        "&": {}
-      }
+      "toilets": { "&": {} }
     }
   }
 ]

@@ -8,14 +8,14 @@
       "fill_ter": "t_floor",
       "rows": [
         ".qQQQQQQQQQssQQQQQQQQQq.",
-        ".qT........ss......T..q.",
+        ".qT........ssp.....T..q.",
         ".q......T..ss.........q.",
         ".q.|-vvv-|.ss.|-vvv-|.q.",
         ".q.|d    |.ss.|nnn o|.q.",
         ".q.|@@  kvssssv h  o|.q.",
         ".q.|@@ hk|ssss|    o|.q.",
         ".q.v    k|-;;-|d  @@|.q.",
-        ".q.v     |   P|d  @@|.q.",
+        ".q.v     |Y  P|d  @@|.q.",
         ".q.|     +    +     |.q.",
         ".q.|+|-+-|    |-+-|+|.q.",
         ".q.| |BiS|o   +iiB| |.q.",
@@ -41,12 +41,14 @@
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_grass",
+        "p": "t_grass",
         ";": "t_door_locked",
         "?": "t_floor",
         "@": "t_floor",
         "B": "t_linoleum_gray",
         "C": "t_floor",
         "O": "t_floor",
+        "Y": "t_floor",
         "P": "t_floor",
         "Q": "t_fence_h",
         "S": "t_linoleum_gray",
@@ -70,6 +72,8 @@
       "furniture": {
         "?": "f_sofa",
         "@": "f_bed",
+        "p": "f_mailbox",
+        "Y": "f_rack_coat",
         "B": "f_bathtub",
         "C": "f_cupboard",
         "O": "f_oven",
@@ -86,6 +90,10 @@
         "u": "f_sink"
       },
       "toilets": { "t": {  } },
+      "items": {
+        "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+      },
       "place_loot": [
         { "group": "magazines", "x": [ 6, 7 ], "y": [ 16, 17 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "group": "homebooks", "x": [ 19, 19 ], "y": [ 4, 6 ], "chance": 70, "repeat": [ 1, 3 ] },

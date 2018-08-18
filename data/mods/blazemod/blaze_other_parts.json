@@ -9,435 +9,9 @@
     "color": "brown",
     "broken_color": "blue",
     "difficulty": 1,
+    "description": "This part is obsolete.  It should not be installed in a vehicle, and if it is installed, you can safely uninstall it.",
     "durability": 150,
     "damage_modifier": 80
-  },
-  {
-    "id": "223rack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": ".223 rack",
-    "fuel_type": "223",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "22rack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": ".22 rack",
-    "fuel_type": "22_lr",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 3, 8 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "308rack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": ".308 Winchester rack",
-    "fuel_type": "308",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "45rack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": ".45 rack",
-    "fuel_type": "45_acp",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 3, 8 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "50bmgrack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": ".50 BMG rack",
-    "fuel_type": "50bmg",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "556rack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "5.56mm rack",
-    "fuel_type": "556",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "9mmrack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "9x19mm rack",
-    "fuel_type": "9mm",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 3, 8 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "Waisle_horizontal",
-    "type": "vehicle_part",
-    "name": "wooden floor panel",
-    "item": "2x4",
-    "location": "center",
-    "symbol": "=",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "light_gray",
-    "difficulty": 1,
-    "durability": 100,
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 8 ] } ],
-    "flags": [ "AISLE", "BOARDABLE", "NAILABLE" ]
-  },
-  {
-    "id": "Waisle_vertical",
-    "type": "vehicle_part",
-    "name": "wooden floor panel",
-    "item": "2x4",
-    "location": "center",
-    "symbol": "H",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "light_gray",
-    "difficulty": 1,
-    "durability": 400,
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 8 ] } ],
-    "flags": [ "AISLE", "BOARDABLE", "NAILABLE" ]
-  },
-  {
-    "id": "basketlg_external",
-    "type": "vehicle_part",
-    "name": "shopping cart basket",
-    "item": "basket",
-    "location": "structure",
-    "symbol": "o",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "brown",
-    "difficulty": 1,
-    "durability": 75,
-    "size": 200,
-    "damage_modifier": 60,
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
-  },
-  {
-    "id": "basketsm_external",
-    "type": "vehicle_part",
-    "name": "wire bike basket",
-    "item": "wire",
-    "location": "structure",
-    "symbol": "o",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "brown",
-    "difficulty": 1,
-    "durability": 75,
-    "size": 60,
-    "damage_modifier": 60,
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ]
-  },
-  {
-    "id": "boltrack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "wooden bolt rack",
-    "fuel_type": "bolt_wood",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "cargo_space_external",
-    "type": "vehicle_part",
-    "name": "cargo rack",
-    "item": "cargo_rack",
-    "location": "structure",
-    "symbol": "=",
-    "broken_symbol": "#",
-    "color": "light_gray",
-    "broken_color": "dark_gray",
-    "difficulty": 3,
-    "durability": 250,
-    "size": 1000,
-    "breaks_into": [],
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
-  },
-  {
-    "id": "diskrack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "disk rack",
-    "fuel_type": "ripdisk",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "drive_by_wire_controls",
-    "type": "vehicle_part",
-    "name": "drive by wire controls",
-    "item": "drive_by_wire_controls",
-    "symbol": "$",
-    "broken_symbol": "$",
-    "color": "light_red",
-    "broken_color": "red",
-    "difficulty": 3,
-    "durability": 200,
-    "damage_modifier": 10,
-    "folded_volume": 12,
-    "breaks_into": [
-      { "item": "motor_small" },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] }
-    ],
-    "flags": [ "CONTROLS", "REMOTE_CONTROLS", "FOLDABLE" ]
-  },
-  {
-    "id": "flintrack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "paper cartridge rack",
-    "fuel_type": "flintlock_ammo",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "harpoonrack",
-    "type": "vehicle_part",
-    "name": "harpoon rack",
-    "item": "metal_tank",
-    "location": "center",
-    "fuel_type": "harpoon",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 250,
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
-    ]
-  },
-  {
-    "id": "nailrack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "nail rack",
-    "fuel_type": "nail",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 3, 8 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "omnomnicam",
-    "type": "vehicle_part",
-    "name": "security camera",
-    "item": "omnicamera",
-    "location": "on_battery_mount",
-    "symbol": "o",
-    "broken_symbol": "#",
-    "color": "light_red",
-    "broken_color": "red",
-    "difficulty": 4,
-    "durability": 100,
-    "epower": -75,
-    "bonus": 24,
-    "damage_modifier": 10,
-    "folded_volume": 8,
-    "breaks_into": [
-      { "item": "e_scrap", "count": [ 4, 16 ] },
-      { "item": "plastic_chunk", "count": [ 2, 8 ] }
-    ],
-    "flags": [ "NEEDS_BATTERY_MOUNT", "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ]
-  },
-  {
-    "id": "pebblerack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "pebble rack",
-    "fuel_type": "pebble",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 3, 8 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "abstract": "ram_blaze",
-    "type": "vehicle_part",
-    "location": "structure",
-    "symbol": "X",
-    "broken_symbol": "*",
-    "difficulty": 2,
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
-  },
-  {
-    "id": "ram_alloy",
-    "copy-from": "ram_blaze",
-    "type": "vehicle_part",
-    "name": "superalloy ram",
-    "item": "alloy_plate",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "durability": 900,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ]
-  },
-  {
-    "id": "ram_hardsteel",
-    "copy-from": "ram_blaze",
-    "type": "vehicle_part",
-    "name": "heavy steel ram",
-    "item": "hard_plate",
-    "color": "cyan",
-    "broken_color": "cyan",
-    "durability": 2300,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ]
-  },
-  {
-    "id": "ram_military_horizontal",
-    "copy-from": "ram_blaze",
-    "type": "vehicle_part",
-    "name": "military composite ram",
-    "item": "mil_plate",
-    "color": "green",
-    "broken_color": "green",
-    "durability": 3250,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "ceramic_armor", "count": [ 0, 4 ] }
-    ]
-  },
-  {
-    "id": "ram_spiked",
-    "copy-from": "ram_blaze",
-    "type": "vehicle_part",
-    "name": "spiked ram",
-    "item": "spiked_plate",
-    "color": "red",
-    "broken_color": "red",
-    "durability": 900,
-    "damage_modifier": 150,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "spike", "count": [ 0, 2 ] }
-    ]
-  },
-  {
-    "id": "ram_steel",
-    "copy-from": "ram_blaze",
-    "type": "vehicle_part",
-    "name": "steel ram",
-    "item": "steel_plate",
-    "color": "light_cyan",
-    "broken_color": "light_cyan",
-    "durability": 1000,
-    "breaks_into": "ig_vp_steel_plate"
-  },
-  {
-    "id": "ram_wood",
-    "copy-from": "ram_blaze",
-    "type": "vehicle_part",
-    "name": "wooden ram",
-    "item": "wood_plate",
-    "color": "brown",
-    "broken_color": "brown",
-    "durability": 300,
-    "breaks_into": "ig_vp_wood_plate"
-  },
-  {
-    "id": "rebar_plate",
-    "type": "vehicle_part",
-    "name": "rebar reinforcement",
-    "item": "rebar_plate",
-    "location": "armor",
-    "symbol": "X",
-    "broken_symbol": "*",
-    "color": "dark_gray",
-    "broken_color": "light_gray",
-    "difficulty": 2,
-    "durability": 150,
-    "folded_volume": 4,
-    "breaks_into": [
-      { "item": "rebar", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 4, 8 ] }
-    ],
-    "flags": [ "ARMOR", "FOLDABLE" ]
-  },
-  {
-    "id": "sballistarack",
-    "type": "vehicle_part",
-    "name": "steel ballista rack",
-    "item": "metal_tank",
-    "location": "center",
-    "fuel_type": "hbolt_metal",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 250,
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
-    ]
-  },
-  {
-    "id": "sboltrack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "steel bolt rack",
-    "fuel_type": "bolt_steel",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "shardrack",
-    "copy-from": "rack_blaze",
-    "type": "vehicle_part",
-    "name": "shard rack",
-    "fuel_type": "shards",
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 3, 8 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ]
   },
   {
     "id": "solar_array",
@@ -453,6 +27,7 @@
     "durability": 250,
     "epower": 600,
     "damage_modifier": 10,
+    "description": "A dozen solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -475,6 +50,7 @@
     "durability": 250,
     "epower": 1200,
     "damage_modifier": 10,
+    "description": "A dozen upgraded solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -497,6 +73,7 @@
     "durability": 500,
     "epower": 1080,
     "damage_modifier": 10,
+    "description": "A dozen upgraded solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 11 ] },
       { "item": "steel_chunk", "count": [ 12, 23 ] },
@@ -505,61 +82,6 @@
     ],
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
   },  
-  {
-    "id": "spring_plate",
-    "type": "vehicle_part",
-    "name": "shock absorber",
-    "item": "spring_plate",
-    "location": "armor",
-    "symbol": "X",
-    "broken_symbol": "*",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "difficulty": 4,
-    "durability": 1500,
-    "breaks_into": [
-      { "item": "scrap", "count": [ 1, 5 ] },
-      { "item": "spring", "count": [ 0, 4 ] }
-    ],
-    "flags": [ "ARMOR" ]
-  },
-  {
-    "id": "stonerack",
-    "type": "vehicle_part",
-    "name": "stone rack",
-    "item": "metal_tank",
-    "location": "center",
-    "fuel_type": "rock",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 250,
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
-    ]
-  },
-  {
-    "id": "tearer",
-    "type": "vehicle_part",
-    "name": "shredder",
-    "item": "tearer",
-    "location": "structure",
-    "symbol": "*",
-    "broken_symbol": "x",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "difficulty": 5,
-    "durability": 900,
-    "power": -25,
-    "damage_modifier": 500,
-    "breaks_into": [],
-    "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ]
-  },
   {
     "id": "tread1",
     "type": "vehicle_part",
@@ -573,6 +95,7 @@
     "difficulty": 6,
     "durability": 2000,
     "damage_modifier": 50,
+    "description": "A section of continuous track, the kind mounted on construction vehicles and military fighting vehicles.  It acts as a wheel, and the broad surface provides plenty of traction to move heavy vehicles off-road, but at the cost of speed due to the heavy weight.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -595,6 +118,7 @@
     "difficulty": 7,
     "durability": 3500,
     "damage_modifier": 50,
+    "description": "A section of continuous track, the kind mounted on construction vehicles and military fighting vehicles.  It acts as a wheel, and the broad surface provides plenty of traction to move heavy vehicles off-road, but at the cost of speed due to the heavy weight.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 16 ] },
       { "item": "steel_chunk", "count": [ 20, 40 ] },
@@ -616,6 +140,7 @@
     "difficulty": 7,
     "durability": 5000,
     "damage_modifier": 50,
+    "description": "A section of continuous track, the kind mounted on construction vehicles and military fighting vehicles.  It acts as a wheel, and the broad surface provides plenty of traction to move heavy vehicles off-road, but at the cost of speed due to the heavy weight.",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 12, 30 ] },
       { "item": "steel_chunk", "count": [ 25, 60 ] },
@@ -638,32 +163,13 @@
     "durability": 400,
     "damage_modifier": 80,
     "folded_volume": 25,
+    "description": "A rotating turret, capable of mounting a weapon system.  Install a suitable weapon on it as an automated weapon and the vehicle will be able to fire on hostile targets that get too close.",
     "breaks_into": [
       { "item": "scrap", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 4, 10 ] },
       { "item": "spring", "count": [ 2, 8 ] }
     ],
     "flags": [ "BATTERY_MOUNT", "FOLDABLE" ]
-  },
-  {
-    "id": "wballistarack",
-    "type": "vehicle_part",
-    "name": "wooden ballista rack",
-    "item": "metal_tank",
-    "location": "center",
-    "fuel_type": "hbolt_wood",
-    "symbol": "O",
-    "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 250,
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
-    ]
   },
   {
     "id": "wiring",
@@ -677,140 +183,9 @@
     "broken_color": "white",
     "difficulty": 1,
     "durability": 10,
+    "description": "A length of heavy duty copper wire, useful for routing power from one part of a vehicle to another part.",
     "folded_volume": 1,
     "breaks_into": [ { "item": "wire", "prob": 50 } ],
     "flags": [ "FOLDABLE", "AISLE", "TOOL_NONE" ]
-  },
-  {
-    "id": "xfloodlight",
-    "type": "vehicle_part",
-    "name": "solar floodlight",
-    "item": "floodlight",
-    "location": "on_battery_mount",
-    "symbol": "*",
-    "broken_symbol": "-",
-    "color": "white",
-    "broken_color": "blue",
-    "difficulty": 1,
-    "durability": 20,
-    "epower": -187,
-    "bonus": 8000,
-    "damage_modifier": 10,
-    "folded_volume": 8,
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "NEEDS_BATTERY_MOUNT", "SOLAR_PANEL" ]
-  },
-  {
-    "id": "xreinforced_solar_panel",
-    "type": "vehicle_part",
-    "name": "turreted reinforced solar panel",
-    "item": "reinforced_solar_panel",
-    "location": "on_battery_mount",
-    "symbol": "#",
-    "broken_symbol": "x",
-    "color": "light_blue",
-    "broken_color": "light_gray",
-    "difficulty": 4,
-    "durability": 300,
-    "epower": 45,
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] },
-      { "item": "solar_cell", "count": [ 1, 4 ] }
-    ],
-    "flags": [ "NEEDS_BATTERY_MOUNT", "SOLAR_PANEL" ]
-  },
-  {
-    "id": "xreinforced_solar_panel_v2",
-    "type": "vehicle_part",
-    "name": "Upgraded reinforced solar panel",
-    "item": "reinforced_solar_panel_v2",
-    "location": "on_battery_mount",
-    "symbol": "#",
-    "broken_symbol": "x",
-    "color": "light_blue",
-    "broken_color": "light_gray",
-    "difficulty": 6,
-    "durability": 90,
-    "epower": 230,
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] },
-      { "item": "solar_cell", "count": [ 1, 6 ] }
-    ],
-    "flags": [ "NEEDS_BATTERY_MOUNT", "SOLAR_PANEL" ]
-  },
-  {
-    "id": "xsolar_panel",
-    "type": "vehicle_part",
-    "name": "turreted solar panel",
-    "item": "solar_panel",
-    "location": "on_battery_mount",
-    "symbol": "#",
-    "broken_symbol": "x",
-    "color": "yellow",
-    "broken_color": "yellow",
-    "difficulty": 4,
-    "durability": 20,
-    "epower": 50,
-    "damage_modifier": 10,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
-      { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "solar_cell", "count": [ 1, 4 ] }
-    ],
-    "flags": [ "NEEDS_BATTERY_MOUNT", "SOLAR_PANEL" ]
-  },
-  {
-    "id": "xsolar_panel_v2",
-    "type": "vehicle_part",
-    "name": "upgraded turreted solar panel",
-    "item": "solar_panel_v2",
-    "location": "on_battery_mount",
-    "symbol": "#",
-    "broken_symbol": "x",
-    "color": "yellow",
-    "broken_color": "yellow",
-    "difficulty": 6,
-    "durability": 20,
-    "epower": 100,
-    "damage_modifier": 10,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
-      { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "solar_cell", "count": [ 1, 6 ] }
-    ],
-    "flags": [ "NEEDS_BATTERY_MOUNT", "SOLAR_PANEL" ]
-  },
-  {
-    "id": "xsolar_panel_v3",
-    "type": "vehicle_part",
-    "name": "Quantum solar panel",
-    "item": "solar_panel_v3",
-    "location": "on_battery_mount",
-    "symbol": "#",
-    "broken_symbol": "x",
-    "color": "yellow",
-    "broken_color": "light_gray",
-    "difficulty": 8,
-    "durability": 30,
-    "epower": 300,
-    "damage_modifier": 10,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 4 ] },
-      { "item": "steel_chunk", "count": [ 4, 4 ] },
-      { "item": "scrap", "count": [ 4, 4 ] },
-      { "item": "solar_cell", "count": [ 2, 8 ] }
-    ],
-    "flags": [ "NEEDS_BATTERY_MOUNT", "SOLAR_PANEL" ]
   }
 ]

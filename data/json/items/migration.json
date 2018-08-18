@@ -420,5 +420,30 @@
     "id": "acidbomb_act",
     "type": "MIGRATION",
     "replace": "acidbomb"
+  },
+  {
+    "id": "technician_pants_blue",
+    "type": "MIGRATION",
+    "replace": "technician_pants_gray"
+  },
+  {
+    "id": "technician_pants_ltblue",
+    "type": "MIGRATION",
+    "replace": "technician_pants_gray"
+  },
+  {
+    "id": "technician_shirt_blue",
+    "type": "MIGRATION",
+    "replace": "technician_shirt_gray"
+  },
+  {
+    "id": "technician_shirt_ltblue",
+    "type": "MIGRATION",
+    "replace": "technician_shirt_gray"
+  },
+  {
+    "id": "1st_aid_survivor",
+    "type": "MIGRATION",
+    "replace": "1st_aid"
   }
 ]

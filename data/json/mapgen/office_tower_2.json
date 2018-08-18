@@ -154,21 +154,138 @@
         "X": "f_crate_c",
         "l": "f_locker"
       },
-      "place_vendingmachines": [
-        { "x": 17, "y": 21 },
-        { "x": 17, "y": 23 }
-      ],
-      "toilets": {
-        ";": {}
-      },
+      "place_vendingmachines": [ { "x": 17, "y": 21 }, { "x": 17, "y": 23 } ],
+      "toilets": { ";": {} },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 10 ], "chance": 100, "repeat": [ 20, 70 ] },
         { "item": "office_mess", "x": [ 11, 23 ], "y": [ 19, 19 ], "chance": 100, "repeat": [ 10, 20 ] },
         { "item": "cleaning", "x": [ 11, 11 ], "y": [ 21, 22 ], "chance": 60 },
         { "item": "cleaning", "x": [ 15, 15 ], "y": [ 21, 22 ], "chance": 60 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 7, 21 ], "y": [ 4, 21 ], "chance": 2, "repeat": [ 1, 4 ] }
+      "place_monsters": [ { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 7, 21 ], "y": [ 4, 21 ], "chance": 2, "repeat": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_tower_2_a1_tower_lab" ],
+    "weight": 300,
+    "object": {
+      "rows": [
+        "....ssssssssssssssssssss",
+        "....s...................",
+        "....s.zzzzzzzzzzzzzzzzzz",
+        "....s.z22222---22---22--",
+        "....s.z1CCC 4|CC l|CCC |",
+        "....s.z1C B  |C  B|C   |",
+        "....s.z|---  ---  ---   ",
+        "....s.z1                ",
+        "....s.z|---  ---  ---   ",
+        "....s.z|C B  |E   |C B |",
+        "....s.z|CCC l|-DD-|CCC |",
+        "....s.z|-----|    |-----",
+        "....s.z|;w   |7<<7|   w;",
+        "....s.z|--   -----|   --",
+        "....s.z|;w    A|A     w;",
+        "....s.z|--     |      --",
+        "....s.z|;w    A|A     w;",
+        "....s.z|--|    |     ---",
+        "....ss....|-w-----w---  ",
+        "....ssssssc             ",
+        "....ss....|---w---------",
+        "....s..z|-|l   l|>  B B ",
+        "....s..z|#|l   l|>  666 ",
+        "....s..z|-------|F  666 "
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "#": "t_rock",
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_grass",
+        "0": "t_column",
+        "1": "t_wall_glass",
+        "2": "t_wall_glass",
+        "3": "t_door_metal_c",
+        "4": "t_floor",
+        "5": "t_door_metal_locked",
+        "6": "t_floor",
+        "7": "t_floor",
+        "8": "t_floor",
+        "9": "t_floor",
+        ":": "t_floor",
+        ";": "t_floor",
+        "=": "t_floor",
+        ">": "t_floor",
+        "<": "t_stairs_up",
+        "?": "t_floor",
+        "@": "t_floor",
+        "A": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "D": "t_door_metal_locked",
+        "E": "t_card_science",
+        "F": "t_floor",
+        "G": "t_floor",
+        "H": "t_floor",
+        "X": "t_floor",
+        "[": "t_fence_v",
+        "_": "t_pavement",
+        "c": "t_door_locked",
+        "e": "t_elevator",
+        "l": "t_floor",
+        "s": "t_sidewalk",
+        "w": "t_door_c",
+        "y": "t_pavement_y",
+        "z": "t_shrub",
+        "{": "t_door_glass_c",
+        "|": "t_wall",
+        "~": "t_water_sh"
+      },
+      "furniture": {
+        "4": "f_indoor_plant",
+        "6": "f_table",
+        "8": "f_bathtub",
+        "9": "f_rack",
+        ":": "f_dresser",
+        ";": "f_toilet",
+        "=": "f_fireplace",
+        ">": "f_counter",
+        "?": "f_sofa",
+        "@": "f_bed",
+        "A": "f_sink",
+        "B": "f_chair",
+        "C": "f_desk",
+        "F": "f_fridge",
+        "G": "f_oven",
+        "H": "f_armchair",
+        "X": "f_crate_c",
+        "l": "f_locker"
+      },
+      "place_vendingmachines": [ { "x": 17, "y": 21 }, { "x": 17, "y": 23 } ],
+      "toilets": { ";": {} },
+      "place_items": [
+        { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 10 ], "chance": 100, "repeat": [ 20, 70 ] },
+        { "item": "office_mess", "x": [ 11, 23 ], "y": [ 19, 19 ], "chance": 100, "repeat": [ 10, 20 ] },
+        { "item": "cleaning", "x": [ 11, 11 ], "y": [ 21, 22 ], "chance": 60 },
+        { "item": "cleaning", "x": [ 15, 15 ], "y": [ 21, 22 ], "chance": 60 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 7, 21 ], "y": [ 13, 21 ], "chance": 2, "repeat": [ 1 ] } ],
+      "place_monster": [ { "monster": "mon_zombie_scientist", "x": [ 7, 21 ], "y": [ 4, 10 ], "repeat": [ 1, 3 ] } ],
+      "monster": { "7": { "monster": "mon_turret"} }
+    }
+  },
+  {
+    "//": "Because north and west walls are part of the adjacent tile, the corner-most square in an L-shaped inner corner can be missing.",
+    "/2": "This map adds it back in, to prevent an open air-gap where players can fall into sky.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_tower_open_air_corner" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_open_air",
+      "place_terrain": [
+        { "ter": "t_concrete_wall", "x": 0, "y": 23 }
       ]
     }
   },
@@ -276,9 +393,7 @@
         { "item": "office_mess", "x": [ 0, 18 ], "y": [ 4, 20 ], "chance": 100, "repeat": [ 20, 70 ] },
         { "item": "file_room", "x": [ 8, 18 ], "y": [ 21, 23 ], "chance": 100, "repeat": [ 2, 10 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 0, 19 ], "y": [ 4, 21 ], "repeat": [ 1, 2 ], "density": 0.2 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 0, 19 ], "y": [ 4, 21 ], "repeat": [ 1, 2 ], "density": 0.2 } ]
     }
   },
   {
@@ -382,9 +497,7 @@
         "X": "f_pool_table",
         "l": "f_locker"
       },
-      "place_monsters": [
-        { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2, "density": 0.3 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2, "density": 0.3 } ]
     }
   },
   {
@@ -491,9 +604,7 @@
         { "item": "vending_food", "x": [ 8, 23 ], "y": [ 0, 8 ], "chance": 80 },
         { "item": "office_mess", "x": [ 7, 23 ], "y": [ 9, 19 ], "chance": 100, "repeat": [ 20, 75 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 7, 23 ], "y": [ 0, 19 ], "repeat": [ 0, 2 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 7, 23 ], "y": [ 0, 19 ], "repeat": [ 0, 2 ] } ]
     }
   },
   {
@@ -600,9 +711,7 @@
         { "item": "file_room", "x": [ 7, 18 ], "y": [ 0, 3 ], "chance": 100, "repeat": [ 50, 150 ] },
         { "item": "office_mess", "x": [ 0, 18 ], "y": [ 10, 19 ], "chance": 100, "repeat": [ 20, 70 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 0, 23 ], "y": [ 0, 19 ], "repeat": [ 0, 3 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 0, 23 ], "y": [ 0, 19 ], "repeat": [ 0, 3 ] } ]
     }
   },
   {
@@ -710,12 +819,8 @@
         "X": "f_crate_c",
         "l": "f_locker"
       },
-      "place_items": [
-        { "item": "office_mess", "x": [ 15, 20 ], "y": [ 11, 19 ], "chance": 100, "repeat": [ 20, 40 ] }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 0, 19 ], "y": [ 0, 19 ], "chance": 2, "repeat": [ 0, 2 ] }
-      ]
+      "place_items": [ { "item": "office_mess", "x": [ 15, 20 ], "y": [ 11, 19 ], "chance": 100, "repeat": [ 20, 40 ] } ],
+      "place_monsters": [ { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 0, 19 ], "y": [ 0, 19 ], "chance": 2, "repeat": [ 0, 2 ] } ]
     }
   }
 ]

@@ -376,9 +376,8 @@
         "dispersion" : 5,
         "recoil" : 30,
         "effects" : ["CUSTOM_EXPLOSION", "TRAIL"],
-        "explode_in_fire" : true,
         "explosion" : {
-            "power": 1000,
+            "power": 16000,
             "distance_factor": 0.5
         }
     },

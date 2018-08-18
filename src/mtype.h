@@ -160,6 +160,7 @@ enum m_flag : int {
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
+    MF_BIRDFOOD,         // This monster will become friendly when fed bird food.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
@@ -209,6 +210,8 @@ struct mtype {
         /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         nc_color color = c_white;
+        /** hint for tilesets that don't have a tile for this monster */
+        std::string looks_like;
         m_size size;
         std::vector<material_id> mat;
         phase_id phase;

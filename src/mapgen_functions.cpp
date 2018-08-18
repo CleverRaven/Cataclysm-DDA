@@ -44,9 +44,10 @@ const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, int z, const regional_settings &rsettings, map &mp )
+                        oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp )
     : t_nesw{ north, east, south, west, northeast, southeast, southwest, northwest }
     , t_above( up )
+    , t_below( down )
     , zlevel( z )
     , region( rsettings )
     , m( mp )
@@ -112,19 +113,14 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "river_straight",   &mapgen_river_straight },
     { "river_curved",     &mapgen_river_curved },
     { "parking_lot",      &mapgen_parking_lot },
-    { "s_gas",      &mapgen_gas_station },
     { "house_generic_boxy",      &mapgen_generic_house_boxy },
     { "house_generic_big_livingroom",      &mapgen_generic_house_big_livingroom },
     { "house_generic_center_hallway",      &mapgen_generic_house_center_hallway },
-    { "s_pharm",             &mapgen_pharm },
     { "spider_pit", mapgen_spider_pit },
-    { "s_sports", mapgen_s_sports },
     { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
     { "basement_junk", &mapgen_basement_junk },
     { "basement_spiders", &mapgen_basement_spiders },
     { "police", &mapgen_police },
-    { "pawn", &mapgen_pawn },
-    { "mil_surplus", &mapgen_mil_surplus },
     { "cave", &mapgen_cave },
     { "cave_rat", &mapgen_cave_rat },
     { "cavern", &mapgen_cavern },
@@ -273,6 +269,14 @@ bool mapgendata::is_groundcover( const ter_id iid ) const {
     }
 
     return false;
+}
+
+bool mapgendata::has_basement() const
+{
+    const std::vector<std::string> &all_basements = region.city_spec.basements.all;
+    return std::any_of( all_basements.begin(), all_basements.end(), [this]( const std::string & b ) {
+        return t_below == oter_id( b );
+    } );
 }
 
 ter_id mapgendata::groundcover() {
@@ -452,13 +456,14 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, const t
             }
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
-                std::array<std::pair<int, ter_id>, 15> tree_chances = {{
+                std::array<std::pair<int, ter_id>, 16> tree_chances = {{
                         // @todo: JSONize this array!
                         // Ensure that these one_in chances
                         // (besides the last) don't add up to more than 1 in 1
                         // Reserve the last one (1 in 1) for simple trees that fill up the rest.
                         { 250, t_tree_apple },
                         { 300, t_tree_pear },
+                        { 300, t_tree_coffee },
                         { 300, t_tree_cherry },
                         { 350, t_tree_apricot },
                         { 350, t_tree_peach },
@@ -1408,7 +1413,7 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
                     mapf::formatted_set_simple( m, 0, 0, "\
-.^DD^^DD^.......^DD^^DD^\n\
+.^DD^^DD^.####..^DD^^DD^\n\
 #.^DD^^DD^.......^DD^^DD\n\
 ##.^DD^^DD^.......^DD^^D\n\
 ###.^DD^^DD^.......^DD^^\n\
@@ -1418,10 +1423,10 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
 #######.^DD^^DD^.......^\n\
 ########.^DD^^DD^.......\n\
 #########.^DD^^DD^......\n\
-##########.^DD^^DD^.....\n\
-###########.^DD^^DD^....\n\
-############.^DD^^DD^...\n\
-#############.^DD^^DD^..\n\
+##########.^DD^^DD^....#\n\
+###########.^DD^^DD^...#\n\
+############.^DD^^DD^..#\n\
+#############.^DD^^DD^.#\n\
 ##############.^DD^^DD^.\n\
 ###############.^DD^^DD^\n\
 ################.^DD^^DD\n\
@@ -1813,122 +1818,6 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, const time_point &turn,
         }
     }
 }
-
-void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density)
-{
-    int top_w = rng(5, 14);
-    int bottom_w = SEEY * 2 - rng(1, 2);
-    int middle_w = rng(top_w + 5, bottom_w - 3);
-    if (middle_w < bottom_w - 5) {
-        middle_w = bottom_w - 5;
-    }
-    int left_w = rng(0, 3);
-    int right_w = SEEX * 2 - rng(1, 4);
-    int center_w = rng(left_w + 4, right_w - 5);
-    int pump_count = rng(3, 6);
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEX * 2; j++) {
-            if (j < top_w && (top_w - j) % 5 == 0 && i > left_w && i < right_w &&
-                 (i - (1 + left_w)) % pump_count == 0) {
-                m->place_gas_pump(i, j, rng(1000, 10000));
-            } else if ((j < 2 && i > 7 && i < 16) || (j < top_w && i > left_w && i < right_w)) {
-                m->ter_set(i, j, t_pavement);
-            } else if (j == top_w && (i == left_w + 6 || i == left_w + 7 || i == right_w - 7 ||
-                      i == right_w - 6)) {
-                m->ter_set(i, j, t_window);
-            } else if (((j == top_w || j == bottom_w) && i >= left_w && i <= right_w) ||
-                      (j == middle_w && (i >= center_w && i < right_w))) {
-                m->ter_set(i, j, t_wall);
-            } else if (((i == left_w || i == right_w) && j > top_w && j < bottom_w) ||
-                      (j > middle_w && j < bottom_w && (i == center_w || i == right_w - 2))) {
-                m->ter_set(i, j, t_wall);
-            } else if (i == left_w + 1 && j > top_w && j < bottom_w) {
-                m->set(i, j, t_floor, f_glass_fridge);
-            } else if (i > left_w + 2 && i < left_w + 12 && i < center_w && i % 2 == 1 &&
-                      j > top_w + 1 && j < middle_w - 1) {
-                m->set(i, j, t_floor, f_rack);
-            } else if ((i == right_w - 5 && j > top_w + 1 && j < top_w + 5) ||
-                      (j == top_w + 4 && i > right_w - 5 && i < right_w)) {
-                m->set(i, j, t_floor, f_counter);
-            } else if (i > left_w && i < right_w && j > top_w && j < bottom_w) {
-                m->ter_set(i, j, t_floor);
-            } else {
-                m->ter_set(i, j, dat.groundcover());
-            }
-        }
-    }
-    //vending
-    bool drinks = rng(0,1);
-    std::string type;
-    std::string type2;
-    if (drinks) {
-        type = "vending_drink";
-        type2 = "vending_food";
-    } else {
-        type2 = "vending_drink";
-        type = "vending_food";
-    }
-    int vset = rng(1,5), vset2 = rng(1,5);
-    if(rng(0,1)) {
-        vset += left_w;
-    } else {
-        vset = right_w - vset;
-    }
-    m->place_vending(vset, top_w-1, type);
-    if(rng(0,1))
-    {
-        if(rng(0,1)) {
-            vset2 += left_w;
-        } else {
-            vset2 = right_w - vset2;
-        }
-        if (vset2 != vset) {
-            m->place_vending(vset2, top_w-1, type);
-        }
-    }
-    if (vset2 != vset-1) {
-        if(rng(0,1)) {
-            //ATM
-            m->ter_set(vset - 1, top_w-1, t_atm);
-        } else {
-            //charging rack
-            m->furn_set(vset - 1, top_w-1, f_rack);
-            m->place_items("gas_charging_rack", 100, vset - 1, top_w-1, vset - 1, top_w-1, false, turn);
-        }
-    }
-    //
-    m->ter_set(center_w, rng(middle_w + 1, bottom_w - 1), t_door_c);
-    m->ter_set(right_w - 1, middle_w, t_door_c);
-    m->ter_set(right_w - 1, bottom_w - 1, t_floor);
-    m->place_toilet(right_w - 1, bottom_w - 1);
-    m->ter_set(rng(10, 13), top_w, t_door_c);
-    if (one_in(5)) {
-        m->ter_set(rng(left_w + 1, center_w - 1), bottom_w, (one_in(4) ? t_door_c : t_door_locked));
-    }
-    for (int i = left_w + (left_w % 2 == 0 ? 3 : 4); i < center_w && i < left_w + 12; i += 2) {
-        if (!one_in(3)) {
-            m->place_items("snacks", 74, i, top_w + 2, i, middle_w - 2, false, turn);
-        } else {
-            m->place_items("magazines", 74, i, top_w + 2, i, middle_w - 2, false, turn);
-        }
-    }
-    m->place_items("fridgesnacks", 82, left_w + 1, top_w + 1, left_w + 1, bottom_w - 1, false, turn);
-    m->place_items("road",  12, 0,      0,  SEEX*2 - 1, top_w - 1, false, turn);
-    m->place_items("behindcounter", 70, right_w - 4, top_w + 1, right_w - 1, top_w + 2, false, turn);
-    m->place_items("softdrugs", 12, right_w - 1, bottom_w - 2, right_w - 1, bottom_w - 2, false, turn);
-    if (terrain_type == "s_gas_east") {
-        m->rotate(1);
-    }
-    if (terrain_type == "s_gas_south") {
-        m->rotate(2);
-    }
-    if (terrain_type == "s_gas_west") {
-        m->rotate(3);
-    }
-    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-}
-////////////////////
-
 
 void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat)
 {
@@ -2639,70 +2528,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
         }
     }
 
-    // For rotation
-    if( one_in( dat.region.city_spec.house_basement_chance ) ) {
-        const bool force = get_option<bool>( "ALIGN_STAIRS" );
-        // Find the basement's stairs first
-        const tripoint abs_sub_here = m->get_abs_sub();
-        tinymap basement;
-        basement.load( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1, false );
-        std::vector<tripoint> upstairs;
-        const tripoint from( 0, 0, abs_sub_here.z - 1 );
-        const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z - 1 );
-        for( const tripoint &p : m->points_in_rectangle( from, to ) ) {
-            if( basement.has_flag( TFLAG_GOES_UP, p ) ) {
-                upstairs.emplace_back( p );
-            }
-        }
-
-        bool placed_any = false;
-        for( const tripoint &p : upstairs ) {
-            static const tripoint up = tripoint( 0, 0, 1 );
-            const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
-            // @todo: Less ugly check
-            // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
-            const ter_t &ter_here = m->ter( here ).obj();
-            if( ( force && ter_here.movecost > 0 ) ||
-                ( ter_here.has_flag( "INDOORS" ) && ter_here.has_flag( "FLAT" ) ) ) {
-                m->ter_set( here, t_stairs_down );
-                placed_any = true;
-            }
-
-            // Try to push away furniture
-            const furn_id furn_here = m->furn( here );
-            if( furn_here != f_null ) {
-                for( const tripoint &push_point : m->points_in_radius( here, 1 ) ) {
-                    if( m->furn( push_point ) == f_null ) {
-                        m->furn_set( push_point, furn_here );
-                        break;
-                    }
-                }
-
-                m->furn_set( here, f_null );
-            }
-        }
-
-        // If not forcing alignment and didn't place any stairs, allow legacy stair placement
-        // Note: any, not all - legacy stairs wouldn't deal well with multiple random stairs
-        if( !placed_any && !force ) {
-            // Legacy stair spawning code - allows teleports
-            int attempts = 100;
-            int stairs_height = actual_house_height - 1;
-            do {
-                rn = rng( lw + 1, rw - 1 );
-                // After 50 failed attempts, relax the placement limitations a bit
-                // Otherwise it will most likely fail the next 50 too
-                if( attempts < 50 ) {
-                    stairs_height = rng( 1, SEEY );
-                }
-                attempts--;
-                if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
-                    m->ter_set( rn, stairs_height, t_stairs_down );
-                    break;
-                }
-            } while( attempts > 0 );
-        }
-    }
+    place_stairs( m, terrain_type, dat, actual_house_height, lw, rw );
 
     if (one_in(100)) { // @todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
@@ -2775,171 +2601,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, const ti
     }
 
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
-}
-
-//////////////////////////////
-void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density) {
-
-    int lw = 0;
-    int rw = 0;
-    int mw = 0;
-    int tw = 0;
-    int bw = 0;
-    int cw = 0;
-
-
-        tw = rng(0, 4);
-        bw = SEEY * 2 - rng(1, 5);
-        mw = bw - rng(3, 4); // Top of the storage room
-        lw = rng(0, 4);
-        rw = SEEX * 2 - rng(1, 5);
-        cw = rng(13, rw - 5); // Left side of the storage room
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (j == tw && ((i > lw + 2 && i < lw + 6) || (i > rw - 6 && i < rw - 2))) {
-                    m->ter_set(i, j, t_window);
-                } else if ((j == tw && (i == lw + 8 || i == lw + 9)) ||
-                           (i == cw && j == mw + 1)) {
-                    m->ter_set(i, j, t_door_c);
-                } else if (((j == tw || j == bw) && i >= lw && i <= rw) ||
-                           (j == mw && i >= cw && i < rw)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (((i == lw || i == rw) && j > tw && j < bw) ||
-                           (i == cw && j > mw && j < bw)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (((i == lw + 8 || i == lw + 9 || i == rw - 4 || i == rw - 3) &&
-                            j > tw + 3 && j < mw - 2) ||
-                           (j == bw - 1 && i > lw + 1 && i < cw - 1)) {
-                    m->set(i, j, t_floor, f_rack);
-                } else if ((i == lw + 1 && j > tw + 8 && j < mw - 1) ||
-                           (j == mw - 1 && i > cw + 1 && i < rw)) {
-                    m->set(i, j, t_floor, f_glass_fridge);
-                } else if ((j == mw     && i > lw + 1 && i < cw) ||
-                           (j == tw + 6 && i > lw + 1 && i < lw + 6) ||
-                           (i == lw + 5 && j > tw     && j < tw + 7)) {
-                    m->set(i, j, t_floor, f_counter);
-                } else if (i > lw && i < rw && j > tw && j < bw) {
-                    m->ter_set(i, j, t_floor);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            }
-        }
-
-        {
-            int num_carts = rng(0, 5);
-            for( int i = 0; i < num_carts; i++ ) {
-                m->add_vehicle( vproto_id( "shopping_cart" ), rng(lw, cw), rng(tw, mw), 90);
-            }
-        }
-
-        if (one_in(3)) {
-            m->place_items("snacks", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, turn);
-        } else if (one_in(4)) {
-            m->place_items("cleaning", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, turn);
-        } else {
-            m->place_items("magazines", 74, lw + 8, tw + 4, lw + 8, mw - 3, false, turn);
-        }
-        if (one_in(5)) {
-            m->place_items("softdrugs", 84, lw + 9, tw + 4, lw + 9, mw - 3, false, turn);
-        } else if (one_in(4)) {
-            m->place_items("cleaning", 74, lw + 9, tw + 4, lw + 9, mw - 3, false, turn);
-        } else {
-            m->place_items("snacks", 74, lw + 9, tw + 4, lw + 9, mw - 3, false, turn);
-        }
-        if (one_in(5)) {
-            m->place_items("softdrugs", 84, rw - 4, tw + 4, rw - 4, mw - 3, false, turn);
-        } else {
-            m->place_items("snacks", 74, rw - 4, tw + 4, rw - 4, mw - 3, false, turn);
-        }
-        if (one_in(3)) {
-            m->place_items("snacks", 70, rw - 3, tw + 4, rw - 3, mw - 3, false, turn);
-        } else {
-            m->place_items("softdrugs", 80, rw - 3, tw + 4, rw - 3, mw - 3, false, turn);
-        }
-        m->place_items("fridgesnacks", 74, lw + 1, tw + 9, lw + 1, mw - 2, false, turn);
-        m->place_items("fridgesnacks", 74, cw + 2, mw - 1, rw - 1, mw - 1, false, turn);
-        m->place_items("harddrugs", 88, lw + 2, bw - 1, cw - 2, bw - 1, false, turn);
-        m->place_items("behindcounter", 78, lw + 1, tw + 1, lw + 4, tw + 5, false, turn);
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_PHARM" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-
-}
-
-void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density) {
-//    } else if (is_ot_type("s_sports", terrain_type)) {
-  int rn = 0;
-    int lw = 0;
-    int rw = 0;
-    int tw = 0;
-    int bw = 0;
-    int cw = 0;
-
-
-        lw = rng(0, 3);
-        rw = SEEX * 2 - 1 - rng(0, 3);
-        tw = rng(3, 10);
-        bw = SEEY * 2 - 1 - rng(0, 3);
-        cw = bw - rng(3, 5);
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (((j == tw || j == bw) && i >= lw && i <= rw) ||
-                    (j == cw && i > lw && i < rw)) {
-                    m->ter_set(i, j, t_wall);
-                } else if ((i == lw || i == rw) && j > tw && j < bw) {
-                    m->ter_set(i, j, t_wall);
-                } else if ((j == cw - 1 && i > lw && i < rw - 4) ||
-                           (j < cw - 3 && j > tw && (i == lw + 1 || i == rw - 1))) {
-                    m->set(i, j, t_floor, f_rack);
-                } else if (j == cw - 3 && i > lw && i < rw - 4) {
-                    m->set(i, j, t_floor, f_counter);
-                } else if (j > tw && j < bw && i > lw && i < rw) {
-                    m->ter_set(i, j, t_floor);
-                } else if (tw >= 6 && j >= tw - 6 && j < tw && i >= lw && i <= rw) {
-                    if ((i - lw) % 4 == 0) {
-                        m->ter_set(i, j, t_pavement_y);
-                    } else {
-                        m->ter_set(i, j, t_pavement);
-                    }
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            }
-        }
-        rn = rng(tw + 2, cw - 6);
-        for (int i = lw + 3; i <= rw - 5; i += 4) {
-            if (cw - 6 > tw + 1) {
-                m->furn_set(i    , rn + 1, f_rack);
-                m->furn_set(i    , rn    , f_rack);
-                m->furn_set(i + 1, rn + 1, f_rack);
-                m->furn_set(i + 1, rn    , f_rack);
-                m->place_items("camping", 86, i, rn, i + 1, rn + 1, false, turn);
-            } else if (cw - 5 > tw + 1) {
-                m->furn_set(i    , cw - 5, f_rack);
-                m->furn_set(i + 1, cw - 5, f_rack);
-                m->place_items("camping", 80, i, cw - 5, i + 1, cw - 5, false, turn);
-            }
-        }
-        m->ter_set(rw - rng(2, 3), cw, t_door_c);
-        rn = rng(2, 4);
-        for (int i = lw + 2; i <= lw + 2 + rn; i++) {
-            m->ter_set(i, tw, t_window);
-        }
-        for (int i = rw - 2; i >= rw - 2 - rn; i--) {
-            m->ter_set(i, tw, t_window);
-        }
-        m->ter_set(rng(lw + 3 + rn, rw - 3 - rn), tw, t_door_c);
-        if (one_in(4)) {
-            m->ter_set(rng(lw + 2, rw - 2), bw, t_door_locked);
-        }
-        m->place_items("allsporting", 90, lw + 1, cw - 1, rw - 5, cw - 1, false, turn);
-        m->place_items("sports", 82, lw + 1, tw + 1, lw + 1, cw - 4, false, turn);
-        m->place_items("sports", 82, rw - 1, tw + 1, rw - 1, cw - 4, false, turn);
-        if (!one_in(4)) {
-            m->place_items("allsporting", 92, lw + 1, cw + 1, rw - 1, bw - 1, false, turn);
-        }
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 ///////////////////////////////////////////////////////////
@@ -3213,163 +2874,6 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, const time_poin
         m->place_spawns( mongroup_id( "GROUP_POLICE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
 
-}
-
-
-void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float)
-{
-
-//    } else if (is_ot_type("pawn", terrain_type)) {
-
-        // Init to plain grass/dirt
-        dat.fill_groundcover();
-
-        int tw = rng(0, 10);
-        int bw = SEEY * 2 - rng(1, 2) - rng(0, 1) * rng(0, 1);
-        int lw = rng(0, 4);
-        int rw = SEEX * 2 - rng(1, 5);
-        if (tw >= 6) { // Big enough for its own parking lot
-            square(m, t_pavement, 0, 0, SEEX * 2 - 1, tw - 1);
-            for (int i = rng(0, 1); i < SEEX * 2; i += 4) {
-                line(m, t_pavement_y, i, 1, i, tw - 1);
-            }
-        }
-        // Floor and walls
-        square(m, t_floor, lw, tw, rw, bw);
-        line(m, t_wall, lw, tw, rw, tw);
-        line(m, t_wall, lw, bw, rw, bw);
-        line(m, t_wall, lw, tw + 1, lw, bw - 1);
-        line(m, t_wall, rw, tw + 1, rw, bw - 1);
-        // Doors and windows--almost certainly alarmed
-        if (one_in(15)) {
-            line(m, t_window, lw + 2, tw, lw + 5, tw);
-            line(m, t_window, rw - 5, tw, rw - 2, tw);
-            line(m, t_door_locked, SEEX, tw, SEEX + 1, tw);
-        } else {
-            line(m, t_window_alarm, lw + 2, tw, lw + 5, tw);
-            line(m, t_window_alarm, rw - 5, tw, rw - 2, tw);
-            line(m, t_door_locked_alarm, SEEX, tw, SEEX + 1, tw);
-        }
-        // Some display racks by the left and right walls
-        line_furn(m, f_rack, lw + 1, tw + 1, lw + 1, bw - 1);
-        m->place_items("pawn", 86, lw + 1, tw + 1, lw + 1, bw - 1, false, turn);
-        line_furn(m, f_rack, rw - 1, tw + 1, rw - 1, bw - 1);
-        m->place_items("pawn", 86, rw - 1, tw + 1, rw - 1, bw - 1, false, turn);
-        // Some display counters
-        line_furn(m, f_counter, lw + 4, tw + 2, lw + 4, bw - 3);
-        m->place_items("pawn", 80, lw + 4, tw + 2, lw + 4, bw - 3, false, turn);
-        line_furn(m, f_counter, rw - 4, tw + 2, rw - 4, bw - 3);
-        m->place_items("pawn", 80, rw - 4, tw + 2, rw - 4, bw - 3, false, turn);
-        // More display counters, if there's room for them
-        if (rw - lw >= 18 && one_in(rw - lw - 17)) {
-            for (int j = tw + rng(3, 5); j <= bw - 3; j += 3) {
-                line_furn(m, f_counter, lw + 6, j, rw - 6, j);
-                m->place_items("pawn", 75, lw + 6, j, rw - 6, j, false, turn);
-            }
-        }
-        // Finally, place an office sometimes
-        if (!one_in(5)) {
-            if (one_in(2)) { // Office on the left side
-                int office_top = bw - rng(3, 5), office_right = lw + rng(4, 7);
-                // Clear out any items in that area!  And reset to floor.
-                for (int i = lw + 1; i <= office_right; i++) {
-                    for (int j = office_top; j <= bw - 1; j++) {
-                        m->i_clear(i, j);
-                        m->ter_set(i, j, t_floor);
-                        m->furn_set( i, j, f_null );
-                    }
-                }
-                line(m, t_wall, lw + 1, office_top, office_right, office_top);
-                line(m, t_wall, office_right, office_top + 1, office_right, bw - 1);
-                m->ter_set(office_right, rng(office_top + 1, bw - 1), t_door_locked);
-                if (one_in(4)) { // Back door
-                    m->ter_set(rng(lw + 1, office_right - 1), bw, t_door_locked_alarm);
-                }
-                // Finally, add some stuff in there
-                m->place_items("office", 70, lw + 1, office_top + 1, office_right - 1, bw - 1,
-                            false, turn);
-                m->place_items("homeguns", 50, lw + 1, office_top + 1, office_right - 1,
-                            bw - 1, false, turn);
-                m->place_items("harddrugs", 20, lw + 1, office_top + 1, office_right - 1,
-                            bw - 1, false, turn);
-            } else { // Office on the right side
-                int office_top = bw - rng(3, 5), office_left = rw - rng(4, 7);
-                for (int i = office_left; i <= rw - 1; i++) {
-                    for (int j = office_top; j <= bw - 1; j++) {
-                        m->i_clear(i, j);
-                        m->ter_set(i, j, t_floor);
-                        m->furn_set( i, j, f_null );
-                    }
-                }
-                line(m, t_wall, office_left, office_top, rw - 1, office_top);
-                line(m, t_wall, office_left, office_top + 1, office_left, bw - 1);
-                m->ter_set(office_left, rng(office_top + 1, bw - 1), t_door_locked);
-                if (one_in(4)) { // Back door
-                    m->ter_set(rng(office_left + 1, rw - 1), bw, t_door_locked_alarm);
-                }
-                m->place_items("office", 70, office_left + 1, office_top + 1, rw - 1, bw - 1,
-                            false, turn);
-                m->place_items("homeguns", 50, office_left + 1, office_top + 1, rw - 1,
-                            bw - 1, false, turn);
-                m->place_items("harddrugs", 20, office_left + 1, office_top + 1, rw - 1,
-                            bw - 1, false, turn);
-            }
-        }
-        autorotate(false);
-
-}
-
-
-void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float)
-{
-
-//    } else if (is_ot_type("mil_surplus", terrain_type)) {
-
-        // Init to plain grass/dirt
-        dat.fill_groundcover();
-        int lw = rng(0, 2);
-        int rw = SEEX * 2 - rng(1, 3);
-        int tw = rng(0, 4);
-        int bw = SEEY * 2 - rng(3, 8);
-        square(m, t_floor, lw, tw, rw, bw);
-        line(m, t_wall, lw, tw, rw, tw);
-        line(m, t_wall, lw, bw, rw, bw);
-        line(m, t_wall, lw, tw + 1, lw, bw - 1);
-        line(m, t_wall, rw, tw + 1, rw, bw - 1);
-        int rn = rng(4, 7);
-        line(m, t_window, lw + 2, tw, lw + rn, tw);
-        line(m, t_window, rw - rn, tw, rw - 2, tw);
-        line(m, t_door_c, SEEX, tw, SEEX + 1, tw);
-        if (one_in(2)) { // counter on left
-            line_furn(m, f_counter, lw + 2, tw + 1, lw + 2, tw + rng(3, 4));
-        } else { // counter on right
-            line_furn(m, f_counter, rw - 2, tw + 1, rw - 2, tw + rng(3, 4));
-        }
-        for (int i = lw + 1; i <= SEEX; i += 2) {
-            line_furn(m, f_rack, i, tw + 5, i, bw - 2);
-            items_location loc;
-            if (one_in(3)) {
-                loc = "mil_armor";
-            } else if (one_in(3)) {
-                loc = "mil_surplus";
-            } else {
-                loc = "mil_food_nodrugs";
-            }
-            m->place_items(loc, 70, i, tw + 5, i, bw - 2, false, turn);
-        }
-        for (int i = rw - 1; i >= SEEX + 1; i -= 2) {
-            line_furn(m, f_rack, i, tw + 5, i, bw - 2);
-            items_location loc;
-            if (one_in(3)) {
-                loc = "mil_armor";
-            } else if (one_in(3)) {
-                loc = "mil_surplus";
-            } else {
-                loc = "mil_food_nodrugs";
-            }
-            m->place_items(loc, 70, i, tw + 5, i, bw - 2, false, turn);
-        }
-        autorotate(false);
 }
 
 void mapgen_cave(map *m, oter_id, mapgendata dat, const time_point &turn, float density)
@@ -4170,4 +3674,72 @@ void madd_field( map *m, int x, int y, field_id t, int density )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
     m->add_field( actual_location, t, density, 0 );
+}
+
+void place_stairs( map *m, oter_id terrain_type, mapgendata dat,
+                   const int actual_house_height, const int lw, const int rw )
+{
+    if( !dat.has_basement() ) {
+        return;
+    }
+
+    const bool force = get_option<bool>( "ALIGN_STAIRS" );
+    // Find the basement's stairs first
+    const tripoint abs_sub_here = m->get_abs_sub();
+    tinymap basement;
+    basement.load( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1, false );
+    std::vector<tripoint> upstairs;
+    const tripoint from( 0, 0, abs_sub_here.z - 1 );
+    const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z - 1 );
+    for( const tripoint &p : m->points_in_rectangle( from, to ) ) {
+        if( basement.has_flag( TFLAG_GOES_UP, p ) ) {
+            upstairs.emplace_back( p );
+        }
+    }
+
+    bool placed_any = false;
+    for( const tripoint &p : upstairs ) {
+        static const tripoint up = tripoint( 0, 0, 1 );
+        const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
+        // @todo: Less ugly check
+        // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
+        const ter_t &ter_here = m->ter( here ).obj();
+        if( ( force && ter_here.movecost > 0 ) ||
+            ( ter_here.has_flag( "INDOORS" ) && ter_here.has_flag( "FLAT" ) ) ) {
+            m->ter_set( here, t_stairs_down );
+            placed_any = true;
+        }
+        // Try to push away furniture
+        const furn_id furn_here = m->furn( here );
+        if( furn_here != f_null ) {
+            for( const tripoint &push_point : m->points_in_radius( here, 1 ) ) {
+                if( m->furn( push_point ) == f_null ) {
+                    m->furn_set( push_point, furn_here );
+                    break;
+                }
+            }
+            m->furn_set( here, f_null );
+        }
+    }
+
+    // If not forcing alignment and didn't place any stairs, allow legacy stair placement
+    // Note: any, not all - legacy stairs wouldn't deal well with multiple random stairs
+    if( !placed_any && !force ) {
+        // Legacy stair spawning code - allows teleports
+        int attempts = 100;
+        int stairs_height = actual_house_height - 1;
+        do {
+            int rn = rng( lw + 1, rw - 1 );
+            // After 50 failed attempts, relax the placement limitations a bit
+            // Otherwise it will most likely fail the next 50 too
+            if( attempts < 50 ) {
+                stairs_height = rng( 1, SEEY );
+            }
+            attempts--;
+            if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
+                m->ter_set( rn, stairs_height, t_stairs_down );
+                break;
+            }
+        } while( attempts > 0 );
+    }
 }

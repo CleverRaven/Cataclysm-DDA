@@ -6,6 +6,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "string_formatter.h"
+#include "player.h"
 
 #include <cstdarg>
 #include <sstream>
@@ -405,6 +406,16 @@ inline void full_screen_popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
 }
+template<typename ...Args>
+inline void popup_player_or_npc( player &p, const char *player_mes, const char *npc_mes,
+                                 Args &&... args )
+{
+    if( p.is_player() ) {
+        popup( player_mes, std::forward<Args>( args )... );
+    } else {
+        popup( npc_mes, p.disp_name(), std::forward<Args>( args )... );
+    }
+}
 
 catacurses::window create_popup_window( const std::string &text, PopupFlags flags );
 catacurses::window create_wait_popup_window( const std::string &text,
@@ -669,6 +680,11 @@ int ci_find_substr( const std::string &str1, const std::string &str2,
 std::string format_volume( const units::volume &volume );
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
                            double *out_value );
+
+inline const std::string format_money( unsigned long cents )
+{
+    return string_format( _( "$%.2f" ), cents / 100.0 );
+}
 
 /** Get the width in font glyphs of the drawing screen.
  *

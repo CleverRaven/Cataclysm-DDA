@@ -4960,7 +4960,7 @@
           "rotates": false
         },
         {
-          "id": "t_thconc_floor",
+          "id": [ "t_thconc_floor", "t_thconc_floor_olight" ],
           "bg": 366,
           "rotates": false
         },
@@ -5865,13 +5865,13 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_c",
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "fg": 1505,
           "bg": 369,
           "rotates": true
         },
         {
-          "id": "t_door_glass_o",
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 1506,
           "bg": 369,
           "rotates": true
@@ -22159,19 +22159,43 @@
           "rotates": false
         },
         {
-          "id": [ "t_railing", "t_railing_h" ],
-          "fg": 1609,
-          "rotates": true
-        },
-        {
-          "id": "t_railing_v",
-          "fg": 1610,
-          "rotates": true
-        },
-        {
-          "id": "t_guardrail_bg_dp",
-          "fg": 1610,
-          "rotates": true
+          "id": [ "t_railing", "t_railing_h", "t_railing_v", "t_guardrail_bg_dp" ],
+          "fg": 2306,
+          "bg": 366,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 2307,
+              "bg": 366
+            },
+            {
+              "id": "center",
+              "fg": 2306,
+              "bg": 366
+            },
+            {
+              "id": "end_piece",
+              "fg": 2309,
+              "bg": 366
+            },
+            {
+              "id": "t_connection",
+              "fg": 2310,
+              "bg": 366
+            },
+            {
+              "id": "unconnected",
+              "fg": 2311,
+              "bg": 366
+            },
+            {
+              "id": "edge",
+              "fg": 2308,
+              "bg": 366
+            }
+          ]
         },
         {
           "id": "t_railroad_tie",

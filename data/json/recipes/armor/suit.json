@@ -45,10 +45,9 @@
     "skills_required": [ "tailor", 3 ],
     "time": 60000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ], [ "textbook_survival", 3 ], [ "trappers_companion", 3 ], [ "survival_book", 3 ], [ "textbook_armwest", 6 ], [ "textbook_armschina", 6 ] ],
-    "using": [ [ "filament", 4 ] ],
+    "using": [ [ "sewing_standard", 4 ] ],
     "qualities": [
-      { "id": "COOK", "level": 3 },
-      { "id": "SEW", "level": 1 }
+      { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
@@ -69,11 +68,7 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "filament", 43 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 43 ] ],
     "components": [
       [ [ "bone", 40 ], [ "bone_human", 40 ], [ "bone_tainted", 80 ] ],
       [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
@@ -118,11 +113,7 @@
     "difficulty": 5,
     "time": 28000,
     "autolearn": true,
-    "using": [ [ "filament", 68 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 68 ] ],
     "components": [ [ [ "fur", 48 ], [ "tanned_pelt", 8 ] ] ]
   },
   {
@@ -135,11 +126,7 @@
     "difficulty": 5,
     "time": 28000,
     "autolearn": true,
-    "using": [ [ "filament", 52 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 52 ] ],
     "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
   },
   {
@@ -191,11 +178,7 @@
     "difficulty": 5,
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 90 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 90 ] ],
     "components": [
       [ [ "duster", 1 ] ],
       [ [ "vest", 1 ], [ "chestrig", 1 ] ],
@@ -215,8 +198,7 @@
     "skills_required": [ "tailor", 3 ],
     "time": 28000,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "filament", 26 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 26 ] ],
     "components": [
       [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
       [ [ "armor_larmor", 1 ] ],
@@ -282,11 +264,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 90 ], [ "soldering_standard", 18 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 18 ] ],
     "components": [
       [ [ "jacket_army", 1 ] ],
       [ [ "vest", 1 ], [ "chestrig", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
@@ -338,8 +316,7 @@
     "time": 25000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 18 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
   },
   {
@@ -354,8 +331,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
-    "using": [ [ "filament", 18 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "fur", 15 ], [ "tanned_pelt", 3 ] ] ]
   },
   {
@@ -368,8 +344,7 @@
     "time": 25000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 18 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "leather", 20 ], [ "tanned_hide", 3 ] ] ]
   },
   {
@@ -382,8 +357,7 @@
     "time": 25000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 18 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "felt_patch", 18 ] ] ]
   },
   {
@@ -396,11 +370,7 @@
     "skills_required": [ "tailor", 6 ],
     "time": 160000,
     "book_learn": [ [ "textbook_fireman", 8 ], [ "tailor_portfolio", 8 ] ],
-    "using": [ [ "filament", 200 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "nomex", 40 ] ],
@@ -420,11 +390,7 @@
     "time": 320000,
     "autolearn": true,
     "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
-    "using": [ [ "filament", 200 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "rag", 4 ] ],
@@ -445,8 +411,7 @@
     "time": 60000,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament", 30 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "rag", 26 ] ] ]
   },
   {
@@ -459,11 +424,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 300000,
     "autolearn": true,
-    "using": [ [ "filament", 200 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rag", 10 ] ],
@@ -483,11 +444,7 @@
     "skills_required": [ "fabrication", 7 ],
     "time": 360000,
     "autolearn": true,
-    "using": [ [ "filament", 200 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rag", 20 ] ],
@@ -508,8 +465,7 @@
     "difficulty": 2,
     "time": 86000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "filament", 40 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 40 ] ],
     "components": [ [ [ "rag", 30 ] ] ]
   },
   {
@@ -522,8 +478,7 @@
     "difficulty": 2,
     "time": 38000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "filament", 20 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 20 ] ],
     "components": [
       [ [ "jumpsuit", 1 ] ],
       [ [ "rag", 10 ] ]
@@ -539,11 +494,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 180000,
     "autolearn": true,
-    "using": [ [ "filament", 100 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 100 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "rag", 30 ] ],
@@ -562,8 +513,7 @@
     "difficulty": 6,
     "time": 24000,
     "book_learn": [ [ "textbook_fireman", 6 ], [ "tailor_portfolio", 7 ] ],
-    "using": [ [ "filament", 40 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 40 ] ],
     "components": [ [ [ "nomex", 18 ] ] ]
   },
   {
@@ -591,11 +541,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 240000,
     "autolearn": true,
-    "using": [ [ "filament", 150 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 150 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "rag", 20 ] ],
@@ -616,11 +562,7 @@
     "skills_required": [ "tailor", 2 ],
     "time": 420000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "filament", 52 ], [ "soldering_standard", 100 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 52 ], [ "soldering_standard", 100 ] ],
     "components": [
       [ [ "rag", 40 ] ],
       [ [ "element", 18 ] ],
@@ -638,11 +580,7 @@
     "skills_required": [ "tailor", 2 ],
     "time": 5000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "filament", 15 ], [ "soldering_standard", 10 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 15 ], [ "soldering_standard", 10 ] ],
     "components": [
       [ [ "thermal_suit", 1 ] ],
       [ [ "thermal_gloves", 1 ] ],
@@ -661,11 +599,7 @@
     "skills_required": [ "tailor", 2 ],
     "time": 200000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "filament", 30 ], [ "soldering_standard", 60 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 30 ], [ "soldering_standard", 60 ] ],
     "components": [
       [ [ "rag", 30 ], [ "union_suit", 1 ] ],
       [ [ "element", 12 ] ],
@@ -696,8 +630,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "book_learn": [ [ "mag_tailor", 0 ], [ "manual_tailor", 0 ], [ "textbook_tailor", 0 ] ],
-    "using": [ [ "filament", 20 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 20 ] ],
     "components": [
       [ [ "long_undertop", 1 ] ],
       [ [ "long_underpants", 1 ] ],
@@ -713,8 +646,7 @@
     "difficulty": 4,
     "time": 600000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "filament", 50 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "soldering_iron", 20 ], [ "welder", 20 ], [ "hotplate", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "neoprene", 12 ] ],
@@ -730,8 +662,7 @@
     "difficulty": 3,
     "time": 450000,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "filament", 40 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "neoprene", 8 ] ],
@@ -747,8 +678,7 @@
     "difficulty": 3,
     "time": 600000,
     "autolearn": true,
-    "using": [ [ "filament", 150 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 150 ] ],
     "components": [ [ [ "felt_patch", 24 ] ] ]
   },
   {
@@ -761,11 +691,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 300000,
     "autolearn": true,
-    "using": [ [ "filament", 200 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "rag", 10 ] ],
@@ -787,11 +713,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 320000,
     "autolearn": true,
-    "using": [ [ "filament", 200 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rag", 30 ] ],

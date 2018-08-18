@@ -468,7 +468,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             getline(fin, dataline); // Chomp endl
 
             int count = 0;
-            int vis;
+            int vis = 0;
             if (z >= 0 && z < OVERMAP_LAYERS) {
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {
@@ -487,7 +487,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             getline(fin, dataline); // Chomp endl
 
             int count = 0;
-            int explored;
+            int explored = 0;
             if (z >= 0 && z < OVERMAP_LAYERS) {
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {

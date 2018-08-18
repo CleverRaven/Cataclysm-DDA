@@ -308,7 +308,7 @@
                     "socks",
                     "sweatshirt",
                     "boots_hiking",
-                    "pockknife",
+                    "knife_folding",
                     "water_clean",
                     "matches"
                 ],
@@ -492,7 +492,7 @@
         "ident": "mechanic",
         "name": "Home Mechanic",
         "description": "Although you never got your driver's license, you've always loved cars.  At least now you'll never be wanting for materials.",
-        "points": 1,
+        "points": 2,
         "skills": [
             {
                 "level": 3,
@@ -501,6 +501,7 @@
         ],
         "items": {
             "both": [
+                "slingpack",
                 "tank_top",
                 "jeans",
                 "socks",
@@ -508,6 +509,14 @@
                 "tool_belt",
                 "wrench",
                 "duct_tape",
+                "screwdriver",
+                "welder",
+                "battery",
+                "battery",
+                "battery",
+                "battery",
+                "battery",
+                "goggles_welding",
                 "mag_cars"
             ],
             "male": [
@@ -961,7 +970,7 @@
                     "longshirt",
                     "jacket_light",
                     "baton",
-                    "pockknife",
+                    "knife_folding",
                     "hat_ball"
                 ],
                 "entries": [
@@ -2593,7 +2602,6 @@
             "bio_power_storage_mkII"
         ],
         "skills": [
-
             {
                 "level": 3,
                 "name": "dodge"
@@ -3202,7 +3210,7 @@
             },
             {
                 "level": 1,
-                "name": "mechanics"
+                "name": "computer"
             }
         ],
         "items": {
@@ -3212,8 +3220,9 @@
                 "socks",
                 "lowtops",
                 "aspirin",
-                "1st_aid",
-                "pockknife"
+                "anesthesia",
+                "pockknife",
+                "backpack"
             ],
             "male": [
                 "briefs"
@@ -5167,5 +5176,153 @@
         "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
         "points": -1,
         "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "bionic_installer",
+        "name": "Augmentation Associate",
+        "description": "When bionics first emerged, you were quick to make them into your career, and spent your days overseeing their installation.  As one of the few non-zombies in the world that can calibrate an Autodoc, your skills might come in handy now that the world is over.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 4,
+                "name": "firstaid"
+            },
+            {
+                "level": 4,
+                "name": "electronics"
+            }
+        ],
+        "traits": [
+            "PROF_AUTODOC"
+        ],
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+                "gloves_medical",
+                "socks",
+                "dress_shoes",
+                "coat_lab",
+                "bandages",
+                "anesthesia",
+                "1st_aid",
+                "recipe_augs",
+                "stethoscope"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "game_master",
+        "name": "Game Master",
+        "description": "Trying to herd cats into getting into one place every week has taught you something: it's usually better to cut your losses and trust your gut. For that reason, when you had two no-shows and the other two tried to eat you, you ditched. Maybe you can find some new players in the ruins of the world.",
+        "points": 2,
+        "traits": [
+            "PROF_DICEMASTER"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "speech"
+            },
+            {
+                "level": 1,
+                "name": "survival"
+            }
+        ],
+        "items":{
+            "both": [
+                "jeans",
+                "tshirt",
+                "socks",
+                "sneakers",
+                "mbag",
+                "pizza_cheese",
+                "cola",
+                "dnd_handbook"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "bionic_game_master",
+        "name": "Bionic Game Master",
+        "description": "You came into a large fortune, through luck or will, and hosted games for people that most of the world knew on a first-name basis. You could afford to spoil your players, and so you did. You invested in bionics to make you smarter, and memorized the entire handbook. Let's hope that knowledge helps you now.",
+        "points": 4,
+        "traits": [
+            "PROF_DICEMASTER"
+        ],
+        "CBMs": [
+            "bio_batteries",
+            "bio_power_storage",
+            "bio_memory",
+            "bio_int_enhancer"
+        ],
+        "skills": [
+            {
+                "level": 3,
+                "name": "speech"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "archery"
+            },
+            {
+                "level": 1,
+                "name": "bashing"
+            },
+            {
+                "level": 1,
+                "name": "cutting"
+            },
+            {
+                "level": 1,
+                "name": "stabbing"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            }
+        ],
+        "items":{
+            "both": [
+                "jeans",
+                "polo_shirt",
+                "socks",
+                "dress_shoes",
+                "mbag",
+                "caffeine"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     }
 ]

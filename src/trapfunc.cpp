@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "morale_types.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -31,6 +32,7 @@ const efftype_id effect_tetanus( "tetanus" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
@@ -867,9 +869,10 @@ void trapfunc::lava( Creature *c, const tripoint &p )
 }
 
 // STUB
-void trapfunc::portal( Creature * /*c*/, const tripoint & )
+void trapfunc::portal( Creature *c, const tripoint &p )
 {
-    // TODO: make this do something?
+    // TODO: make this do something unique and interesting
+    telepad( c, p );
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
@@ -1232,9 +1235,11 @@ void trapfunc::snake( Creature *c, const tripoint &p )
                  !g->m.sees( monp, g->u.pos(), 10 ) );
 
         if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
-            add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
-            g->summon_mon( mon_shadow_snake, p );
-            g->m.remove_trap( p );
+            if( monster *const spawned = g->summon_mon( mon_shadow_snake, p ) ) {
+                add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
+                spawned->reset_special_rng( "DISAPPEAR" );
+                g->m.remove_trap( p );
+            }
         }
     }
 }

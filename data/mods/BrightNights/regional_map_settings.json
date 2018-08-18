@@ -108,6 +108,7 @@
           },
           "basements": {
               "basement": 1000,
+              "basement_hidden_lab_stairs": 100,
               "basement_bionic": 100
           },
           "parks": {                        "//": "weighted list for park overmap terrains",

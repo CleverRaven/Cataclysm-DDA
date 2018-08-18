@@ -1024,15 +1024,14 @@ void options_manager::init()
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
           { "en", R"( English )" },
-          { "fr",  R"( Français )" },
           { "de", R"( Deutsch )" },
-          { "it_IT", R"( Italiano )" },
           { "es_AR", R"( Español ( Argentina ) )" },
           { "es_ES", R"( Español ( España ) )" },
+          { "fr", R"( Français )" },
+          { "hu", R"( magyar nyelv )"},
           { "ja", R"( 日本語 )" },
           { "ko", R"( 한국어 )" },
-          { "pl", R"( Polskie )" },
-          { "pt_BR", R"( Português ( Brasil ) )" },
+          { "pl", R"( Polski )" },
           { "ru", R"( Русский )" },
           { "zh_CN", R"( 中文( 天朝 ) )" },
           { "zh_TW", R"( 中文( 台灣 ) )" },
@@ -1156,6 +1155,11 @@ void options_manager::init()
         0, 1000, 0
         );
 
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", translate_marker( "Suppress \"unknown command\" messages" ),
+        translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
+        );
+    
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
         translate_marker( "How should confidence and steadiness be communicated to the player." ),
         //~ aim bar style - bars or numbers
@@ -1236,6 +1240,13 @@ void options_manager::init()
         );
 
     get_option("ANIMATION_SCT").setPrerequisite("ANIMATIONS");
+
+    add( "ANIMATION_SCT_USE_FONT", "graphics", translate_marker( "SCT with Unicode font" ),
+        translate_marker( "If true, will display scrolling combat text with Unicode font." ),
+        true
+        );
+
+    get_option("ANIMATION_SCT_USE_FONT").setPrerequisite("ANIMATION_SCT");
 
     add( "ANIMATION_DELAY", "graphics", translate_marker( "Animation delay" ),
         translate_marker( "The amount of time to pause between animation frames in ms." ),
@@ -1535,6 +1546,13 @@ void options_manager::init()
         translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
         false
         );
+
+    add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
+        translate_marker( "Determines whether starting NPCs should spawn, and if they do, how exactly." ),
+        { { "never", translate_marker( "Never" ) }, { "always", translate_marker( "Always" ) }, { "scenario", translate_marker( "Scenario-based" ) } }, "scenario"
+        );
+
+    get_option( "STARTING_NPC" ).setPrerequisite( "STATIC_NPC" );
 
     add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
         translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
@@ -1962,7 +1980,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool sidebar_style_changed = false;
-    bool terminal_size_changed = true;
+    bool terminal_size_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {

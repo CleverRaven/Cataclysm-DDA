@@ -2052,6 +2052,11 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
             wprintz(w_flags, c_light_gray, _("Various limb wounds"));
             wprintz(w_flags, c_light_gray, ("\n"));
         }
+        if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
+            sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
+            wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
+            wprintz( w_flags, c_light_gray, ( "\n" ) );
+        }
 
         draw_scrollbar(w, cur_id, iContentHeight, scens_length, 5);
         wrefresh(w);

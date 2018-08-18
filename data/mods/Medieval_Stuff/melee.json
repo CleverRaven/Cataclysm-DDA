@@ -15,7 +15,7 @@
     "material": [ "wood", "bronze" ],
     "symbol": "/",
     "color": "yellow",
-    "techniques": [ "WBLOCK_1", "IMPALE", "DEF_DISARM" ],
+    "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK" ]
   },
   {

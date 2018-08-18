@@ -22,5 +22,11 @@
     "ident" : "mansion_+2_s",
     "name" : "Mansion",
     "target" : "mansion_+2"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "s_gas_s",
+    "name" : "Gas Station",
+    "target" : "s_gas"
   }
 ]

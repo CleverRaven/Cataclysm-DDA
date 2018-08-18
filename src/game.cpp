@@ -66,6 +66,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "omdata.h"
 #include "crafting.h"
 #include "construction.h"
@@ -194,6 +195,7 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -201,6 +203,7 @@ static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
+static const trait_id trait_BURROW( "BURROW" );
 
 void advanced_inv(); // player_activity.cpp
 void intro();
@@ -878,8 +881,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    temperature = 65; // Springtime-appropriate?
-    update_weather(); // Springtime-appropriate, definitely.
+    temperature = SPRING_TEMPERATURE;
+    update_weather();
     u.next_climate_control_check = calendar::before_time_starts;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -888,7 +891,11 @@ bool game::start_game()
     get_safemode().clear_character_rules();
 
     //Put some NPCs in there!
-    create_starting_npcs();
+    if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
+        ( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
+        !g->scen->has_flag( "LONE_START" ) ) ) {
+        create_starting_npcs();
+    }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     // Spawn the monsters
@@ -938,7 +945,7 @@ bool game::start_game()
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
                        u.name.c_str());
-   lua_callback("on_new_player_created");
+    lua_callback( "on_new_player_created" );
 
     return true;
 }
@@ -1010,14 +1017,15 @@ void game::reload_npcs()
 
 void game::create_starting_npcs()
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ) {
+    if( !get_option<bool>( "STATIC_NPC" ) ||
+        get_option<std::string>( "STARTING_NPC" ) == "never" ) {
         return; //Do not generate a starting npc.
     }
 
-    //We don't want more than one starting npc per shelter
+    //We don't want more than one starting npc per starting location
     const int radius = 1;
     if( !overmap_buffer.get_npcs_near_player( radius ).empty() ) {
-        return; //There is already an NPC in this shelter
+        return; //There is already an NPC in this starting location
     }
 
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
@@ -1027,10 +1035,10 @@ void game::create_starting_npcs()
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
-    //This sets the npc mission. This NPC remains in the shelter.
+    //This sets the NPC mission. This NPC remains in the starting location.
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
-    //one random shelter mission.
+    //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(), tmp->getID() ) );
 }
 
@@ -1451,15 +1459,24 @@ bool game::do_turn()
 
     events.process();
     mission::process_all();
-    if( calendar::once_every( 1_days ) ) { // Midnight!
+
+    if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
-        lua_callback("on_day_passed");
+        if( calendar::turn.day_of_year() == 0 ) {
+            lua_callback( "on_year_passed" );
+        }
+        lua_callback( "on_day_passed" );
     }
 
-    // Run a LUA callback once per minute
+    if( calendar::once_every( 1_hours ) ) {
+        lua_callback( "on_hour_passed" );
+    }
+
     if( calendar::once_every( 1_minutes ) ) {
         lua_callback("on_minute_passed");
     }
+
+    lua_callback( "on_turn_passed" );
 
     // Move hordes every 5 min
     if( calendar::once_every( 5_minutes ) ) {
@@ -1587,6 +1604,10 @@ bool game::do_turn()
     if( player_is_sleeping ) {
         if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
             draw();
+            //Putting this in here to save on checking
+            if( calendar::once_every( 1_hours ) ) {
+                add_artifact_dreams( );
+            }
         }
 
         if( calendar::once_every( 1_minutes ) ) {
@@ -1770,13 +1791,8 @@ void game::update_weather()
 
 int game::get_temperature( const tripoint &location )
 {
-    
-    if ( location.z < 0 ) {
-        // underground temperature = average New England temperature = 43F/6C rounded to int
-        return 43 + m.temperature( location );
-    }
-    // if not underground use weather determined temperature
-    return temperature + m.temperature( location );
+    //underground temperature = average New England temperature = 43F/6C rounded to int
+    return ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) + ( new_game ? 0 : m.temperature( location ) );
 }
 
 int game::assign_mission_id()
@@ -1818,6 +1834,11 @@ void game::increase_kill_count( const mtype_id& id )
 void game::record_npc_kill( const npc &p )
 {
    npc_kills.push_back( p.get_name() );
+}
+
+std::list<std::string> game::get_npc_kill()
+{
+   return npc_kills;
 }
 
 void game::handle_key_blocking_activity()
@@ -2594,7 +2615,14 @@ bool game::handle_action()
     }
 
     if( act == ACTION_NULL ) {
-        add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
+        const input_event &&evt = ctxt.get_raw_input();
+        if( !evt.sequence.empty() ) {
+            const long ch = evt.get_first_input();
+            const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
+            if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
+                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+            }
+        }
         return false;
     }
 
@@ -3717,6 +3745,8 @@ void game::load( const save_t &name )
 
     u.reset();
     draw();
+
+    lua_callback( "on_savegame_loaded" );
 }
 
 void game::load_world_modfiles( loading_ui &ui )
@@ -4178,7 +4208,7 @@ void game::debug()
         }
         break;
         case 20:
-            overmap::draw_hordes();
+            ui::omap::display_hordes();
             break;
         case 21: {
             item_group::debug_spawn();
@@ -4224,10 +4254,10 @@ void game::debug()
         }
         break;
         case 25:
-            overmap::draw_weather();
+            ui::omap::display_weather();
             break;
         case 26:
-            overmap::draw_scents();
+            ui::omap::display_scents();
             break;
         case 27: {
             auto set_turn = [&]( const int initial, const int factor, const char * const msg ) {
@@ -4309,7 +4339,7 @@ void game::debug()
             break;
 
         case 30:
-            overmap::draw_editor();
+            ui::omap::display_editor();
             break;
 
         case 31: {
@@ -4351,7 +4381,7 @@ void game::debug()
 
 void game::draw_overmap()
 {
-    overmap::draw_overmap();
+    ui::omap::display();
 }
 
 void game::disp_kills()
@@ -5091,11 +5121,13 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             tripoint const cur_pos {omx, omy, get_levz()};
-            if( overmap_buffer.has_horde( omx, omy, get_levz() )
-                && ( omx != targ.x || omy != targ.y )
-                && overmap_buffer.seen( omx, omy, get_levz() )
-                && g->u.overmap_los( cur_pos, sight_points ) ) {
-                mvwputch( w_minimap, j + 3, i + 3, c_green, 'Z' );
+            if (overmap_buffer.get_horde_size(omx, omy, get_levz() ) >= HORDE_VISIBILITY_SIZE) {
+                tripoint const cur_pos {omx, omy, get_levz()};
+                if (overmap_buffer.seen(omx, omy, get_levz())
+                        && g->u.overmap_los( cur_pos, sight_points ) ) {
+                    mvwputch( w_minimap, j + 3, i + 3, c_green,
+                        overmap_buffer.get_horde_size(omx, omy, get_levz()) > HORDE_VISIBILITY_SIZE*2 ? 'Z' : 'z' );
+                }
             }
         }
     }
@@ -6002,8 +6034,8 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if (u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.is_wearing("glasses_reading")
-        && !u.is_wearing("glasses_bifocal") && !u.has_effect( effect_contacts)) {
+    if (u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( "FIX_FARSIGHT" ) &&
+        !u.has_effect( effect_contacts) ) {
         add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
         return;
     }
@@ -6011,9 +6043,13 @@ void game::use_computer( const tripoint &p )
     computer *used = m.computer_at( p );
 
     if (used == nullptr) {
-        dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
-            p.x << ", " << p.y << ", " << p.z << ") - none there";
-        debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+        if( m.has_flag( "CONSOLE", p ) ) { //Console without map data
+            add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
+        } else {
+            dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
+                p.x << ", " << p.y << ", " << p.z << ") - none there";
+            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+        }
         return;
     }
 
@@ -6344,20 +6380,24 @@ void game::clear_zombies()
 }
 
 /**
- * Attempts to spawn a hallucination somewhere close to the player. Returns
- * false if the hallucination couldn't be spawned for whatever reason, such as
+ * Attempts to spawn a hallucination at given location or at random location close to the player.
+ * Returns false if the hallucination couldn't be spawned for whatever reason, such as
  * a monster already in the target square.
  * @return Whether or not a hallucination was successfully spawned.
  */
-bool game::spawn_hallucination()
+bool game::spawn_hallucination( const tripoint &p )
 {
-    monster phantasm(MonsterGenerator::generator().get_valid_hallucination());
+    monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
     phantasm.hallucination = true;
-    phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
+    if( p == tripoint_min ) {
+        phantasm.spawn( {u.posx() + static_cast<int>( rng( -10, 10 ) ), u.posy() + static_cast<int>( rng( -10, 10 ) ), u.posz()} );
+    } else {
+        phantasm.spawn( p );
+    }
 
     //Don't attempt to place phantasms inside of other creatures
     if( !critter_at( phantasm.pos(), true ) ) {
-        return critter_tracker->add(phantasm);
+        return critter_tracker->add( phantasm );
     } else {
         return false;
     }
@@ -7132,7 +7172,18 @@ bool pet_menu(monster *z)
     }
 
     if( milk == choice ) {
+        // pin the cow in place if it isn't already
+        bool temp_tie = !z->has_effect( effect_tied );
+        if( temp_tie ) {
+            z->add_effect( effect_tied, 1_turns, num_bp, true);
+        }
+
         monexamine::milk_source( *z );
+
+        if( temp_tie ) {
+            z->remove_effect( effect_tied );
+        }
+
         return true;
     }
 
@@ -7561,9 +7612,9 @@ void game::print_creature_info( const Creature *creature, const catacurses::wind
 void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                const int column, int &line, const int last_line )
 {
-    if (veh) {
-        mvwprintw(w_look, ++line, column, _("There is a %s there. Parts:"), veh->name.c_str());
-        line = veh->print_part_desc(w_look, ++line, last_line, getmaxx(w_look), veh_part);
+    if( veh ) {
+        mvwprintw( w_look, ++line, column, _( "There is a %s there. Parts:" ), veh->name.c_str() );
+        line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
 }
 
@@ -7919,7 +7970,8 @@ void game::zones_manager()
                 //show zone position on overmap;
                 tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
                 tripoint zone_overmap = ms_to_omt_copy( zones.zones[active_index].get_center_point() );
-                overmap::draw_zones( player_overmap_position, zone_overmap, active_index );
+
+                ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
 
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
                 zones_manager_shortcuts(w_zones_info);
@@ -9405,10 +9457,11 @@ extern void serialize_liquid_target( player_activity &act, int container_item_po
 extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
 extern void serialize_liquid_target( player_activity &act, const monster &mon );
 
-bool game::handle_liquid( item &liquid, item * const source, const int radius,
+bool game::get_liquid_target( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
                           const vehicle * const source_veh,
-                          const monster * const source_mon)
+                          const monster * const source_mon,
+                          liquid_dest_opt &target )
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -9417,28 +9470,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         return false;
     }
 
-    const auto create_activity = [&]() {
-        if( source_veh != nullptr ) {
-            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( u.activity, *source_veh, liquid.typeId() );
-            return true;
-        } else if( source_pos != nullptr ) {
-            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( u.activity, *source_pos, liquid );
-            return true;
-        } else if( source_mon != nullptr ) {
-            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( u.activity, *source_mon, liquid );
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    const std::string liquid_name = liquid.display_name( liquid.charges );
-
     uimenu menu;
     menu.return_invalid = true;
+
+    const std::string liquid_name = liquid.display_name( liquid.charges );
     if( source_pos != nullptr ) {
         menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
     } else if( source_veh != nullptr ) {
@@ -9452,17 +9487,15 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     if( u.can_consume( liquid ) && !source_mon ) {
         menu.addentry( -1, true, 'e', _( "Consume it" ) );
-        actions.emplace_back( [&]() {
-            // consume_item already consumes moves.
-            u.consume_item( liquid );
+        actions.emplace_back( [ & ]() {
+            target.dest_opt = LD_CONSUME;
         } );
     }
-
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
-    actions.emplace_back( [&]() {
-        item_location target = game_menus::inv::container_for( u, liquid, radius );
-        item *const cont = target.get_item();
+    actions.emplace_back( [ & ]() {
+        target.item_loc = game_menus::inv::container_for( u, liquid, radius );
+        item *const cont = target.item_loc.get_item();
 
         if( cont == nullptr || cont->is_null() ) {
             add_msg( _( "Never mind." ) );
@@ -9472,30 +9505,8 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }
-        const int item_index = u.get_item_position( cont );
-        // Currently activities can only store item position in the players inventory,
-        // not on ground or similar. TODO: implement storing arbitrary container locations.
-        if( item_index != INT_MIN && create_activity() ) {
-            serialize_liquid_target( u.activity, item_index );
-        } else if( u.pour_into( *cont, liquid ) ) {
-            if( cont->needs_processing() ) {
-                // Polymorphism fail, have to introspect into the type to set the target container as active.
-                switch( target.where() ) {
-                case item_location::type::map:
-                    m.make_active( target );
-                    break;
-                case item_location::type::vehicle:
-                    m.veh_at( target.position() )->vehicle().make_active( target );
-                    break;
-                case item_location::type::character:
-                case item_location::type::invalid:
-                    break;
-                }
-            }
-            u.mod_moves( -100 );
-        }
+        target.dest_opt = LD_ITEM;
     } );
-
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
     for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
@@ -9512,12 +9523,9 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             continue;
         }
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name.c_str() );
-        actions.emplace_back( [&, veh]() {
-            if( create_activity() ) {
-                serialize_liquid_target( u.activity, *veh );
-            } else if( u.pour_into( *veh, liquid ) ) {
-                u.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
-            }
+        actions.emplace_back( [ &, veh]() {
+            target.veh = veh;
+            target.dest_opt = LD_VEH;
         } );
     }
 
@@ -9530,18 +9538,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
         const std::string dir = direction_name( direction_from( u.pos(), target_pos ) );
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir.c_str() );
-        actions.emplace_back( [&, target_pos]() {
-            if( create_activity() ) {
-                serialize_liquid_target( u.activity, target_pos );
-            } else {
-                iexamine::pour_into_keg( target_pos, liquid );
-                u.mod_moves( -100 );
-            }
+        actions.emplace_back( [ &, target_pos ]() {
+            target.pos = target_pos;
+            target.dest_opt = LD_KEG;
         } );
     }
 
     menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
-    actions.emplace_back( [&]() {
+    actions.emplace_back( [ & ]() {
         // From infinite source to the ground somewhere else. The target has
         // infinite space and the liquid can not be used from there anyway.
         if( liquid.has_infinite_charges() && source_pos != nullptr ) {
@@ -9549,31 +9553,25 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             return;
         }
 
-        tripoint target_pos = u.pos();
+        target.pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
 
         refresh_all();
-        if( !choose_adjacent( liqstr, target_pos ) ) {
+        if( !choose_adjacent( liqstr, target.pos ) ) {
             return;
         }
 
-        if( source_pos != nullptr && *source_pos == target_pos ) {
+        if( source_pos != nullptr && *source_pos == target.pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }
-        if( !m.can_put_items_ter_furn( target_pos ) ) {
+        if( !m.can_put_items_ter_furn( target.pos ) ) {
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
         }
-
-        if( create_activity() ) {
-            serialize_liquid_target( u.activity, target_pos );
-        } else {
-            m.add_item_or_charges( target_pos, liquid );
-            liquid.charges = 0;
-            u.mod_moves( -100 );
-        }
+        target.dest_opt = LD_GROUND;
     } );
+
     if( liquid.rotten() ) {
         // Pre-select this one as it is the most likely one for rotten liquids
         menu.selected = menu.entries.size() - 1;
@@ -9594,6 +9592,117 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     actions[chosen]();
     return true;
+}
+
+bool game::perform_liquid_transfer( item &liquid, const tripoint * const source_pos,
+                                    const vehicle * const source_veh,
+                                    const monster * const source_mon, liquid_dest_opt &target )
+{
+    bool transfer_ok = false;
+    if( !liquid.made_of(LIQUID) ) {
+        dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
+        debugmsg("Tried to handle_liquid a non-liquid!");
+        // "canceled by the user" because we *can* not handle it.
+        return transfer_ok;
+    }
+
+    const auto create_activity = [&]() {
+        if( source_veh != nullptr ) {
+            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( u.activity, *source_veh, liquid.typeId() );
+            return true;
+        } else if( source_pos != nullptr ) {
+            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( u.activity, *source_pos, liquid );
+            return true;
+        } else if( source_mon != nullptr) {
+            return false;
+        } else {
+            return false;
+        }
+    };
+
+    switch( target.dest_opt ) {
+    case LD_CONSUME:
+        u.consume_item( liquid );
+        transfer_ok = true;
+        break;
+    case LD_ITEM: {
+        item *const cont = target.item_loc.get_item();
+        const int item_index = u.get_item_position( cont );
+        // Currently activities can only store item position in the players inventory,
+        // not on ground or similar. TODO: implement storing arbitrary container locations.
+        if( item_index != INT_MIN && create_activity() ) {
+            serialize_liquid_target( u.activity, item_index );
+        } else if( u.pour_into( *cont, liquid ) ) {
+            if( cont->needs_processing() ) {
+                // Polymorphism fail, have to introspect into the type to set the target container as active.
+                switch( target.item_loc.where() ) {
+                case item_location::type::map:
+                    m.make_active( target.item_loc );
+                    break;
+                case item_location::type::vehicle:
+                    m.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
+                    break;
+                case item_location::type::character:
+                case item_location::type::invalid:
+                    break;
+                }
+            }
+            u.mod_moves( -100 );
+        }
+        transfer_ok = true;
+        break;
+    }
+    case LD_VEH:
+        if( target.veh == nullptr ) {
+            break;
+        }
+        if( create_activity() ) {
+            serialize_liquid_target( u.activity, *target.veh );
+        } else if( u.pour_into( *target.veh, liquid ) ) {
+            u.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
+        }
+        transfer_ok = true;
+        break;
+    case LD_KEG:
+    case LD_GROUND:
+        if( create_activity() ) {
+            serialize_liquid_target( u.activity, target.pos );
+        } else {
+            if( target.dest_opt == LD_KEG ) {
+                iexamine::pour_into_keg( target.pos, liquid );
+            } else {
+                m.add_item_or_charges( target.pos, liquid );
+                liquid.charges = 0;
+            }
+            u.mod_moves( -100 );
+        }
+        transfer_ok = true;
+        break;
+    case LD_NULL:
+    default:
+        break;
+    }
+    return transfer_ok;
+}
+
+bool game::handle_liquid( item &liquid, item * const source, const int radius,
+                          const tripoint * const source_pos,
+                          const vehicle * const source_veh,
+                          const monster * const source_mon)
+{
+    if( !liquid.made_of(LIQUID) ) {
+        dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
+        debugmsg("Tried to handle_liquid a non-liquid!");
+        // "canceled by the user" because we *can* not handle it.
+        return false;
+    }
+    struct liquid_dest_opt liquid_target;
+    if( get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon, liquid_target ) ) {
+        return perform_liquid_transfer( liquid, source_pos, source_veh, source_mon, liquid_target );
+    }
+    return false;
 }
 
 void game::drop( int pos, const tripoint &where )
@@ -9805,6 +9914,10 @@ bool game::plfire()
                 return false;
             }
             reload_time += opt.moves();
+            // Character restores 50% + 7% * gun_skill, capped with 100% stability after shot for RELOAD_AND_SHOOT weapon
+            double skill_effect = 0.5 - 0.07 * u.get_skill_level( gun->gun_skill() );
+            skill_effect = std::max( skill_effect, 0.0 );
+            u.recoil = std::max( u.recoil, MAX_RECOIL * skill_effect );
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;
@@ -10025,6 +10138,11 @@ void game::butcher()
         MULTIBUTCHER,
         MULTIDISASSEMBLE_ONE,
         MULTIDISASSEMBLE_ALL,
+        BUTCHER,            // quick butchery
+        BUTCHER_FULL,       // full workshop butchery
+        F_DRESS,            // field dressing a corpse
+        QUARTER,            // quarter corpse
+        DISSECT,            // dissect corpse for CBMs
         CANCEL
     };
     // What are we butchering (ie. which vector to pick indices from)
@@ -10049,7 +10167,7 @@ void game::butcher()
 
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b',
-                _("Butcher everything") );
+            _("Butcher everything") );
         }
         if( disassembles.size() > 1 ) {
             kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D',
@@ -10064,6 +10182,7 @@ void game::butcher()
         kmenu.addentry( CANCEL, true, 'q', _("Cancel"));
         kmenu.return_invalid = true;
         kmenu.query();
+
         if( kmenu.ret < 0 || kmenu.ret >= CANCEL ) {
             return;
         }
@@ -10087,6 +10206,34 @@ void game::butcher()
         }
     }
 
+    bool no_morale_butcher = false;
+    if( !u.has_morale_to_craft() ) {
+        switch( butcher_type ) {
+        case BUTCHER_OTHER:
+            switch( indexer_index ) {
+            case MULTIBUTCHER:
+                no_morale_butcher = true;
+                break;
+            }
+	    /* fallthrough */
+        case BUTCHER_CORPSE:
+            no_morale_butcher = true;
+            break;
+        case BUTCHER_DISASSEMBLE:
+            break;
+        case BUTCHER_SALVAGE:
+            break;
+        }
+
+        if( no_morale_butcher ){
+            add_msg( m_info, _( "You are not in the mood and the prospect of guts and blood on your hands convinces you to turn away." ) );
+            return;
+        } else {
+            add_msg( m_info, _( "You are not in the mood and the prospect of work stops you before you begin." ) );
+            return;
+        }
+
+    }
     switch( butcher_type ) {
     case BUTCHER_OTHER:
         switch( indexer_index ) {
@@ -10094,7 +10241,11 @@ void game::butcher()
             u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
             break;
         case MULTIBUTCHER:
-            u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            if( g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
+                u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+            } else {
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+            }
             for( int i : corpses ) {
                 u.activity.values.push_back( i );
             }
@@ -10112,13 +10263,42 @@ void game::butcher()
         break;
     case BUTCHER_CORPSE:
         {
+            uimenu smenu;
+            smenu.desc_enabled = true;
+            smenu.text = _("Choose type of butchery:");
+            smenu.addentry_desc( BUTCHER, true, 'B' , _("Quick butchery"), _( "This techinque is used when you are in a hurry, but still want to harvest some flesh.  You aim for major muscles (or equivalents) and don't care for the rest, so be prepared for low yields and no variety.  Prevents zombies from raising." ) );
+            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
+            smenu.addentry_desc( F_DRESS, true, 'f' , _("Field dress corpse"), _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
+            smenu.addentry_desc( QUARTER, true, 'k' , _("Quarter corpse"), _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
+            smenu.addentry_desc( DISSECT, true, 'd' , _("Dissect corpse"), _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
+            smenu.addentry( CANCEL, true, 'q', _("Cancel"));
+            smenu.return_invalid = true;
+            smenu.query();
+            switch( smenu.ret ) {
+            case BUTCHER:
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+                break;
+            case BUTCHER_FULL:
+                u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, -1 );
+                break;
+            case F_DRESS:
+                u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, -1 );
+                break;
+            case QUARTER:
+                u.assign_activity( activity_id( "ACT_QUARTER" ), 0, -1 );
+                break;
+            case DISSECT:
+                u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
+                break;
+            case CANCEL:
+                return;
+            }
             draw_ter();
             wrefresh( w_terrain );
             int index = corpses[indexer_index];
-            u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
             u.activity.values.push_back( index );
         }
-        break;
+        break;	
     case BUTCHER_DISASSEMBLE:
         {
             size_t index = disassembles[indexer_index];
@@ -10316,7 +10496,11 @@ void game::reload( item_location &loc, bool prompt )
 
 void game::reload()
 {
-    if( !u.is_armed() || !u.can_reload( u.weapon ) ) {
+    // general reload item menu will popup if:
+    // - user is unarmed;
+    // - weapon wielded can't be reloaded (bows can, they just reload before shooting automatically)
+    // - weapon wielded reloads before shooting (like bows)
+    if( !u.is_armed() || !u.can_reload( u.weapon ) || u.weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
         turret_data turret;
         if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
@@ -10330,7 +10514,7 @@ void game::reload()
         }
 
         item_location item_loc = inv_map_splice( [&]( const item &it ) {
-            return u.rate_action_reload( it ) == HINT_GOOD;
+            return ( u.rate_action_reload( it ) == HINT_GOOD && !it.has_flag( "RELOAD_AND_SHOOT" ) );
         }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
         if( !item_loc ) {
@@ -10798,15 +10982,18 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         return false;
     }
 
-    std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
-    if (!msg_ignore.empty()) {
-        msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
+    std::string msg_ignore = press_x( ACTION_IGNORE_ENEMY );
+    if ( !msg_ignore.empty() ) {
+        std::wstring msg_ignore_wide = utf8_to_wstr( msg_ignore );
+        // Operate on a wide-char basis to prevent corrupted multi-byte string
+        msg_ignore_wide[0] = towlower( msg_ignore_wide[0] );
+        msg_ignore = wstr_to_utf8( msg_ignore_wide );
     }
 
-    if (u.has_effect( effect_laserlocked)) {
+    if ( u.has_effect( effect_laserlocked ) ) {
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
-        add_msg(m_warning, _("You are being laser-targeted, %s to ignore."),
-                msg_ignore.c_str());
+        add_msg( m_warning, _( "You are being laser-targeted, %s to ignore." ),
+                 msg_ignore.c_str() );
         safe_mode_warning_logged = true;
         return false;
     }
@@ -10830,13 +11017,15 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 
     std::string whitelist;
     if ( !get_safemode().empty() ) {
-        whitelist = string_format( _( " or %s to whitelist the monster" ), press_x( ACTION_WHITELIST_ENEMY ).c_str() );
+        whitelist = string_format( _( " or %s to whitelist the monster" ),
+                                   press_x( ACTION_WHITELIST_ENEMY ).c_str() );
     }
 
-    std::string const msg_safe_mode = press_x(ACTION_TOGGLE_SAFEMODE);
+    std::string const msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
     add_msg( m_warning,
-             _( "Spotted %s--safe mode is on! (%s to turn it off, %s to ignore monster%s)" ),
-             spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str(), whitelist.c_str() );
+             _( "Spotted %1$s--safe mode is on! (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
+             spotted_creature_name.c_str(), msg_safe_mode.c_str(),
+             msg_ignore.c_str(), whitelist.c_str() );
     safe_mode_warning_logged = true;
     return false;
 }
@@ -10985,6 +11174,12 @@ bool game::plmove(int dx, int dy, int dz)
     if( dest_loc == u.pos() ) {
         // Well that sure was easy
         return true;
+    }
+
+    if( u.weapon.has_flag("DIG_TOOL") && m.has_flag( "MINEABLE", dest_loc ) && !u.has_effect( effect_stunned ) ) {
+        // TODO: Handle moving-and-digging via Burrower mutation.
+        // TODO 2: Prevent player from being asked twice about which tile to mine.
+        u.use_wielded();
     }
 
     if( dz == 0 && ramp_move( dest_loc ) ) {
@@ -11324,8 +11519,9 @@ bool game::walk_move( const tripoint &dest_loc )
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
-    const bool slowed = ( !u.has_trait( trait_id( "PARKOUR" ) ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
-                  mcost_to > 4 || mcost_from > 4;
+    const bool fungus = m.has_flag_ter_or_furn( "FUNGUS" , u.pos() ) || m.has_flag_ter_or_furn( "FUNGUS" , dest_loc ); //fungal furniture has no slowing effect on mycus characters
+    const bool slowed = ( ( !u.has_trait( trait_PARKOUR ) && ( mcost_to > 2 || mcost_from > 2 ) ) || mcost_to > 4 || mcost_from > 4 ) &&
+                        !( u.has_trait( trait_M_IMMUNE ) && fungus );
     if( slowed ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
         if( mcost_to >= mcost_from ) {
@@ -12671,22 +12867,23 @@ void game::update_map(int &x, int &y)
             it++;
         }
     }
-    // Check for overmap saved npcs that should now come into view.
-    // Put those in the active list.
-    load_npcs();
-
-    // Spawn monsters if appropriate
-    m.spawn_monsters( false ); // Static monsters
 
     scent.shift( shiftx * SEEX, shifty * SEEY );
-
-    // Make sure map cache is consistent since it may have shifted.
-    m.build_map_cache( get_levz() );
 
     // Also ensure the player is on current z-level
     // get_levz() should later be removed, when there is no longer such a thing
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
+
+    // Check for overmap saved npcs that should now come into view.
+    // Put those in the active list.
+    load_npcs();
+
+    // Make sure map cache is consistent since it may have shifted.
+    m.build_map_cache( get_levz() );
+
+    // Spawn monsters if appropriate
+    m.spawn_monsters( false ); // Static monsters
 
     // Update what parts of the world map we can see
     update_overmap_seen();
@@ -13339,51 +13536,7 @@ void game::process_artifact( item &it, player &p )
         // Recharge it if necessary
         if( it.ammo_remaining() < it.ammo_capacity() && calendar::once_every( 1_minutes ) ) {
             //Before incrementing charge, check that any extra requirements are met
-            const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
-            bool reqsmet = true;
-            switch( it.type->artifact->charge_req ) {
-            case(ACR_NULL):
-            case(NUM_ACRS):
-                break;
-            case(ACR_EQUIP):
-                //Generated artifacts won't both be wearable and have charges, but nice for mods
-                reqsmet = ( worn || heldweapon );
-                break;
-            case(ACR_SKIN):
-                //As ACR_EQUIP, but also requires nothing worn on bodypart wielding or wearing item
-                if( !worn && !heldweapon ){ reqsmet = false; break; }
-                for( const body_part bp : all_body_parts ) {
-                    if( it.covers(bp) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
-                        reqsmet = true;
-                        for ( auto &i : p.worn ) {
-                            if ( i.covers(bp) && ( &it != &i ) && i.get_coverage() > 50 ) {
-                                reqsmet = false; break; //This one's no good, check the next body part
-                            }
-                        }
-                        if(reqsmet){ break; } //Only need skin contact on one bodypart
-                    }
-                }
-                break;
-            case(ACR_SLEEP):
-                reqsmet = p.has_effect( effect_sleep );
-                break;
-            case(ACR_RAD):
-                reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
-                break;
-            case(ACR_WET):
-                reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
-                               []( const int w ) { return w != 0; } );
-                if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0
-                    && !( p.in_vehicle && g->m.veh_at(p.pos())->is_inside() ) ){
-                   reqsmet = true;
-                }
-                break;
-            case(ACR_SKY):
-                reqsmet = ( p.posz() > 0 );
-                break;
-            }
-            //Proceed with actually recharging if all extra requirements met
-            if(reqsmet){
+            if( check_art_charge_req( it ) ) {
                 switch( it.type->artifact->charge_type ) {
                 case ARTC_NULL:
                 case NUM_ARTCS:
@@ -13554,6 +13707,57 @@ void game::process_artifact( item &it, player &p )
     p.int_cur = p.get_int();
     p.dex_cur = p.get_dex();
     p.per_cur = p.get_per();
+}
+//Check if an artifact's extra charge requirements are currently met
+bool check_art_charge_req( item& it )
+{
+    player& p = g->u;
+    bool reqsmet = true;
+    const bool worn = p.is_worn( it );
+    const bool wielded = ( &it == &p.weapon );
+    const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
+    switch( it.type->artifact->charge_req ) {
+    case(ACR_NULL):
+    case(NUM_ACRS):
+        break;
+    case(ACR_EQUIP):
+        //Generated artifacts won't both be wearable and have charges, but nice for mods
+        reqsmet = ( worn || heldweapon );
+        break;
+    case(ACR_SKIN):
+        //As ACR_EQUIP, but also requires nothing worn on bodypart wielding or wearing item
+        if( !worn && !heldweapon ){ reqsmet = false; break; }
+        for( const body_part bp : all_body_parts ) {
+            if( it.covers(bp) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
+                reqsmet = true;
+                for ( auto &i : p.worn ) {
+                    if ( i.covers(bp) && ( &it != &i ) && i.get_coverage() > 50 ) {
+                        reqsmet = false; break; //This one's no good, check the next body part
+                    }
+                }
+                if(reqsmet){ break; } //Only need skin contact on one bodypart
+            }
+        }
+        break;
+    case(ACR_SLEEP):
+        reqsmet = p.has_effect( effect_sleep );
+        break;
+    case(ACR_RAD):
+        reqsmet = ( ( g->m.get_radiation( p.pos() ) > 0 ) || ( p.radiation > 0 ) );
+        break;
+    case(ACR_WET):
+        reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
+                       []( const int w ) { return w != 0; } );
+        if(!reqsmet && sum_conditions( calendar::turn-1, calendar::turn, p.pos() ).rain_amount > 0
+            && !( p.in_vehicle && g->m.veh_at(p.pos())->is_inside() ) ){
+           reqsmet = true;
+        }
+        break;
+    case(ACR_SKY):
+        reqsmet = ( p.posz() > 0 );
+        break;
+    }
+    return reqsmet;
 }
 
 void game::start_calendar()
@@ -13763,6 +13967,48 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
     if (net_speed != 0) {
         add_msg(m_info, _("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
     }
+}
+
+void game::add_artifact_dreams( ) {
+    //If player is sleeping, get a dream from a carried artifact
+    //Don't need to check that player is sleeping here, that's done before calling
+    std::list<item *> art_items = g->u.get_artifact_items();
+    std::list<item *> arts_with_dream;
+    std::vector<item *>      valid_arts;
+    std::vector<std::vector<std::string>> valid_dreams; // Tracking separately so we only need to check its req once
+    //Pull the list of dreams
+    add_msg(m_debug, string_format("Checking %s carried artifacts", art_items.size() ) );
+    for( auto &it : art_items ) {
+        //Pick only the ones with an applicable dream
+        auto art = it->type->artifact;
+        if(art->charge_req != ACR_NULL && ( it->ammo_remaining() < it->ammo_capacity() || it->ammo_capacity() == 0 ) ) { //or max 0 in case of wacky mod shenanigans
+            add_msg(m_debug, string_format("Checking artifact %s", it->tname().c_str() ) );
+            if( check_art_charge_req( *it ) ) {
+                add_msg(m_debug, string_format("   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet ) );
+                if( art->dream_freq_met   > 0 && x_in_y( art->dream_freq_met,   100 ) ) {
+                    add_msg(m_debug, string_format("Adding met dream from %s", it->tname().c_str() ) );
+                    valid_arts.push_back( it );
+                    valid_dreams.push_back( art->dream_msg_met );
+                }
+            } else {
+                add_msg(m_debug, string_format("   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet ) );
+                if( art->dream_freq_unmet > 0 && x_in_y( art->dream_freq_unmet, 100 ) ) {
+                    add_msg(m_debug, string_format("Adding unmet dream from %s", it->tname().c_str() ) );
+                    valid_arts.push_back( it );
+                    valid_dreams.push_back( art->dream_msg_unmet );
+                }
+            }
+        }
+    }
+    if( !valid_dreams.empty() ) {
+        add_msg(m_debug, string_format("Found %s valid artifact dreams", valid_dreams.size() ) );
+        const int selected = rng( 0, valid_arts.size()-1 );
+        auto it = valid_arts[selected];
+        auto msg = random_entry( valid_dreams[selected] );
+        const std::string& dream = string_format( _( msg.c_str() ) , it->tname().c_str() );
+        add_msg( dream );
+    }
+    else{add_msg(m_debug,"Didn't have any dreams, sorry");}
 }
 
 int game::get_levx() const

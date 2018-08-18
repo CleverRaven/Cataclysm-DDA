@@ -5,6 +5,7 @@
     "name": "electric motor",
     "item": "motor",
     "location": "engine_block",
+    "description": "An electric motor.",
     "fuel_type": "battery",
     "symbol": "*",
     "color": "yellow",

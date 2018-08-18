@@ -44,15 +44,8 @@
         "A": "t_floor",
         "S": "t_sidewalk"
       },
-      "furniture": {
-        "6": "f_table",
-        "7": "f_toilet",
-        "8": "f_trashcan",
-        "A": "f_sink"
-      },
-      "toilets": {
-        "7": {}
-      },
+      "furniture": { "6": "f_table", "7": "f_toilet", "8": "f_trashcan", "A": "f_sink" },
+      "toilets": { "7": {} },
       "place_items": [
         { "item": "magazines", "x": [ 11, 12 ], "y": 9, "chance": 80 },
         { "item": "trash", "x": [ 11, 12 ], "y": 11, "chance": 80 },

@@ -1255,7 +1255,7 @@
   "autolearn": true,
   "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
   "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
-  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
@@ -1278,7 +1278,7 @@
   "autolearn": true,
   "book_learn": [ [ "recipe_augs" , 7 ], [ "recipe_lab_elec", 7 ], [ "advanced_electronics", 8 ] ],
   "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
-  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
@@ -1342,8 +1342,7 @@
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [[ "frame", 1 ]],
@@ -1374,6 +1373,25 @@
   ]
 },{
   "type" : "recipe",
+  "result": "kilnrig",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",4],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
+  "using": [ [ "soldering_standard", 10 ] ],
+  "qualities" : [ {"id":"SCREW","level":1} ],
+  "components": [
+    [ [ "power_supply", 2 ] ],
+    [ [ "kiln", 1 ] ],
+    [ [ "cable", 5] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "weldrig",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1388,8 +1406,7 @@
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "frame", 1 ] ],
@@ -1416,8 +1433,7 @@
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "frame", 1 ] ],
@@ -1444,8 +1460,7 @@
   "qualities":[
     {"id":"HAMMER","level":3},
     {"id":"SAW_M","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "frame", 1 ] ],
@@ -1776,8 +1791,7 @@
   "qualities":[
     {"id":"HAMMER","level":3},
     {"id":"SCREW","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "motor_small", 1 ] ],
@@ -1803,8 +1817,7 @@
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SCREW","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "motor_small", 1 ] ],
@@ -1851,8 +1864,7 @@
       {"id":"HAMMER","level":2},
       {"id":"SAW_M","level":1},
       {"id":"WRENCH","level":1},
-      {"id":"SCREW","level":1},
-      { "id" : "GLARE", "level" : 2 }
+      {"id":"SCREW","level":1}
   ],
   "components": [
     [ [ "vehicle_controls", 1 ] ],
@@ -1861,6 +1873,27 @@
     [ [ "processor", 3 ] ],
     [ [ "RAM", 3 ] ],
     [ [ "circuit", 3 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "electronics_controls",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 1 ],
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "using": [ [ "soldering_standard", 150 ] ],
+  "qualities":[
+      {"id":"SCREW","level":1}
+  ],
+  "components": [
+    [ [ "e_scrap", 5 ] ],
+    [ [ "amplifier", 1 ] ],
+    [ [ "cable", 5 ] ],
+    [ [ "plastic_chunk", 5 ] ]
   ]
 },{
   "type" : "recipe",
