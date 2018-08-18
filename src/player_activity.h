@@ -7,6 +7,7 @@
 #include "string_id.h"
 
 #include <climits>
+#include <set>
 #include <vector>
 
 class player;
