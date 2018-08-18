@@ -10035,7 +10035,7 @@ const std::vector<std::pair<int, int>> generate_butcher_stack_display( map_stack
         // Has the side effect of making 's' a valid index
         if ( s == result_strings.size() ){
             // make a new entry
-            result.push_back( std::make_pair<int, int>( ndx, 0 ) );
+            result.push_back( std::make_pair<int, int>( (int)ndx, 0 ) );
             // Also push new entry string
             result_strings.push_back( tname );
         }
