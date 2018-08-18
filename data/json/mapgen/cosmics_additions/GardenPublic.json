@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "ref_lighter", "chance": 10, "x": 11, "y": 11 } ],
+      "place_item": [ { "item": "ref_lighter", "chance": 10, "x": 11, "y": 11 } ],
       "furniture": {
         "#": "f_null",
         ".": "f_null",
@@ -59,7 +59,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "lighter", "chance": 9, "x": 18, "y": 19 } ],
+      "place_item": [ { "item": "lighter", "chance": 9, "x": 18, "y": 19 } ],
       "furniture": {
         "#": "f_null",
         "*": "f_datura",

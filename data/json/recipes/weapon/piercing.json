@@ -19,7 +19,7 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [
-      [ [ "2x4", 3 ], [ "stick", 6 ] ],
+      [ [ "2x4", 1 ], [ "stick_long", 1 ] ],
       [ [ "filament", 100, "LIST" ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]

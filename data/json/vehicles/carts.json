@@ -161,7 +161,7 @@
       { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
       { "x": 0, "y": 0, "part": "wheel_caster" },
       { "x": 0, "y": 0, "part": "small_storage_battery" },
-      { "x": 0, "y": 0, "part": "minifridge" },
+      { "x": 0, "y": 0, "part": "minifreezer" },
       { "x": 0, "y": 0, "part": "controls_electronic" }
     ]
   },

@@ -2502,7 +2502,7 @@
             "str_min": 20, "str_max": 150,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_pavement",
+            "ter_set": "t_thconc_floor",
             "items": [
                 { "item": "steel_lump", "count": [0, 2] },
                 { "item": "steel_chunk", "count": [1, 4] },
@@ -3280,6 +3280,53 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_tree_coffee",
+        "name": "coffee tree",
+        "description": "This is 'gymnocladus dioicus', or the kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  If you examined the branches more closely, you could probably find a few mature ones.  You could also cut it down with the right tools.",
+        "symbol": "7",
+        "color": [ "light_green", "light_green", "light_green_green", "brown" ], "//": "barren in winter, fruits in autumn",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "transforms_into": "t_tree_coffee_harvested",
+		"looks_like": "t_tree_plum",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "coffee_pod", "base_num": [ 4, 10 ], "scaled_num": [ 0, 0.5 ] }, { "drop": "tea_raw", "base_num": [1, 3], "scaled_num": [ 0, 0.5] } ] }
+        ],
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick_long", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_coffee_harvested",
+        "name": "coffee tree",
+        "description": "This is 'gymnocladus dioicus', or the kentucky coffee tree, which produces roastable coffee pods and brewable leaves in the fall.  Looks like all the ripe pods have been picked.  You could also cut it down with the right tools.",
+        "symbol": "7",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
+        "examine_action": "harvested_plant",
+        "transforms_into": "t_tree_coffee",
+		"looks_like": "t_tree_plum_harvested",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick_long", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_tree_cherry",
         "name": "cherry tree",
         "description": "One of the several species of 'Prunus' trees found in New England, it bears cherries in the summer.  If you examined the foliage more closely, you could probably find some viable clusters.  You could also cut it down with the right tools.",
@@ -3892,6 +3939,23 @@
         "color": "brown",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT"],
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "splinter", "count": [5, 15] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_stump",
+        "name": "tree stump",
+        "symbol": "^",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF"],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -6989,6 +7053,136 @@
     "roof": "t_flat_roof",
     "examine_action": "climb_down",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ]
+  },
+  {
+    "id": "t_buffer_stop",
+    "type": "terrain",
+    "name": "buffer stop",
+    "symbol": "S",
+    "color": [ "brown" ],
+    "move_cost": 3,
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "ter_set": "t_dirt",
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 5 ] },
+        { "item": "nail", "count": [ 3, 8 ] },
+        { "item": "splinter", "count": 2 }
+      ]
+    },
+    "flags": [ "BASHABLE", "TRANSPARENT", "NOITEM", "MOUNTABLE" ]
+  },
+  {
+    "id": "t_railroad_tie",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "#",
+    "color": [ "dark_gray_brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_h",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "-",
+    "color": [ "dark_gray_brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_v",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "|",
+    "color": [ "dark_gray" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_d1",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "/",
+    "color": [ "dark_gray_brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_tie_d2",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "\\",
+    "color": [ "dark_gray_brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
+  },
+  {
+    "id": "t_railroad_crossing_signal",
+    "type": "terrain",
+    "name": "railroad crossing signal",
+    "symbol": "1",
+    "color": [ "light_gray" ],
+    "move_cost": 0,
+    "bash": {
+      "str_min": 16,
+      "str_max": 75,
+      "ter_set": "t_dirt",
+      "sound": "crash!",
+      "sound_fail": "clang.",
+      "items": [
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "power_supply", "count": [ 0, 1 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "id": "t_crossbuck_wood",
+    "type": "terrain",
+    "name": "crossbuck",
+    "symbol": "X",
+    "color": [ "brown" ],
+    "move_cost": 0,
+    "bash": {
+      "str_min": 6,
+      "str_max": 18,
+      "ter_set": "t_dirt",
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "nail", "count": [ 0, 4 ] },
+        { "item": "splinter", "count": [ 1, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "id": "t_crossbuck_metal",
+    "type": "terrain",
+    "name": "crossbuck",
+    "symbol": "X",
+    "color": [ "light_gray" ],
+    "move_cost": 0,
+    "bash": {
+      "str_min": 10,
+      "str_max": 50,
+      "ter_set": "t_dirt",
+      "sound": "crash!",
+      "sound_fail": "clang.",
+      "items": [
+        { "item": "pipe", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 0, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
       "type" : "terrain",

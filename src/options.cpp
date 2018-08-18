@@ -1024,15 +1024,14 @@ void options_manager::init()
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
           { "en", R"( English )" },
-          { "fr",  R"( Français )" },
           { "de", R"( Deutsch )" },
-          { "it_IT", R"( Italiano )" },
           { "es_AR", R"( Español ( Argentina ) )" },
           { "es_ES", R"( Español ( España ) )" },
+          { "fr", R"( Français )" },
+          { "hu", R"( magyar nyelv )"},
           { "ja", R"( 日本語 )" },
           { "ko", R"( 한국어 )" },
           { "pl", R"( Polski )" },
-          { "pt_BR", R"( Português ( Brasil ) )" },
           { "ru", R"( Русский )" },
           { "zh_CN", R"( 中文( 天朝 ) )" },
           { "zh_TW", R"( 中文( 台灣 ) )" },
@@ -1156,6 +1155,11 @@ void options_manager::init()
         0, 1000, 0
         );
 
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", translate_marker( "Suppress \"unknown command\" messages" ),
+        translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
+        );
+    
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
         translate_marker( "How should confidence and steadiness be communicated to the player." ),
         //~ aim bar style - bars or numbers

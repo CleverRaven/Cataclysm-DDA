@@ -178,6 +178,7 @@ struct level_cache {
     bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float seen_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    float camera_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     lit_level visibility_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
 
     bool veh_in_active_range;
@@ -894,6 +895,14 @@ class map
          * hot or perishable liquid to a container.
          */
         void make_active( item_location &loc );
+
+        /**
+         * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
+         * and sets item's fridge/freezer status variables.
+         * @param it Item processed.
+         * @param temperature Temperature affecting item.
+         */
+        void apply_in_fridge( item &it, int temperature );
 
         /**
          * @name Consume items on the map

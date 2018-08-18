@@ -414,7 +414,7 @@
         "   %   %   %   %   %   %"
       ],
       "terrain": { "%": "t_grass_white" },
-      "add": [ { "item": "football", "x": 11, "y": 11, "repeat": 1 } ],
+      "place_item": [ { "item": "football", "x": 11, "y": 11, "repeat": 1 } ],
       "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 7, 15 ], "y": [ 3, 19 ], "chance": 1, "repeat": [ 3, 4 ] } ]
     }
   },

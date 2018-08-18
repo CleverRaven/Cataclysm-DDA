@@ -371,6 +371,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             e->enabled = true;
         }
 
+        for( auto e : get_parts( "FREEZER" ) ) {
+            e->enabled = true;
+        }
+
         for( auto e : get_parts( "WATER_PURIFIER" ) ) {
             e->enabled = true;
         }
@@ -767,7 +771,7 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
-        options.emplace_back( _( "Quit controlling electronics" ), "q" );
+        options.emplace_back( _( "Quit controlling electronics" ), keybind( "QUIT" ) );
 
         uimenu menu;
         menu.return_invalid = true;
@@ -2003,6 +2007,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "STEREO",
             "CHIMES",
             "FRIDGE",
+            "FREEZER",
             "RECHARGE",
             "PLOW",
             "REAPER",
@@ -5348,8 +5353,8 @@ void vehicle::refresh()
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
-        inline bool operator() (const int p1, const int p2) {
-            return veh->part_info(p1).list_order < veh->part_info(p2).list_order;
+        inline bool operator() ( const int p1, const int p2 ) {
+            return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
         }
     } svpv = { this };
     std::vector<int>::iterator vii;
@@ -5376,19 +5381,19 @@ void vehicle::refresh()
             funnels.push_back( p );
         }
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
-            loose_parts.push_back(p);
+            loose_parts.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
         }
-        if (vpi.has_flag("STEERABLE") || vpi.has_flag("TRACKED")) {
+        if ( vpi.has_flag( "STEERABLE" ) || vpi.has_flag( "TRACKED" ) ) {
             // TRACKED contributes to steering effectiveness but
             //  (a) doesn't count as a steering axle for install difficulty
             //  (b) still contributes to drag for the center of steering calculation
-            steering.push_back(p);
+            steering.push_back( p );
         }
-        if (vpi.has_flag("SECURITY")){
-            speciality.push_back(p);
+        if ( vpi.has_flag( "SECURITY" ) ){
+            speciality.push_back( p );
         }
         if( vpi.has_flag( "CAMERA" ) ) {
             camera_epower += vpi.epower;
@@ -5396,19 +5401,8 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             floating.push_back( p );
         }
-        if( parts[ p ].enabled ) {
-            if( vpi.has_flag( "PLOW" ) ) {
-                extra_drag += vpi.power;
-            }
-            if( vpi.has_flag( "ROCKWHEEL" ) ) {
-                extra_drag += vpi.power;
-            }
-            if( vpi.has_flag( "PLANTER" ) ) {
-                extra_drag += vpi.power;
-            }
-            if( vpi.has_flag( "REAPER" ) ) {
-                extra_drag += vpi.power;
-            }
+        if( parts[ p ].enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
+            extra_drag += vpi.power;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;

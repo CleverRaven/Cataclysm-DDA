@@ -167,6 +167,11 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
 /**
+ * Calculates rot per hour at given temperature. Reference in weather_data.cpp
+ */
+int get_hourly_rotpoints_at_temp( int temp );
+
+/**
  * Update crops grow based on the temperature and weather, similar to get_rot_since() above.
  */
 void get_crops_grow( const tripoint &pos );

@@ -551,6 +551,7 @@
   {
     "id": "armor_plate",
     "type": "ARMOR",
+    "category": "armor",
     "name": "ornamental plate armor",
     "description": "An extremely heavy ornamental suit of armor.",
     "weight": 18000,
@@ -9609,5 +9610,33 @@
       "draw_cost": 40,
       "flags": [ "SHEATH_GOLF" ]
     }
+  },
+  {
+    "id": "javelin_bag",
+    "type": "ARMOR",
+    "name": "javelin bag",
+    "name_plural": "javelin bags",
+    "description": "An open medieval-looking bag, designed to store javelins for easy reach.",
+    "weight": 600,
+    "volume": 5,
+    "price": 6000,
+    "rigid": false,
+    "material": "leather",
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 30,
+    "encumbrance": 10,
+    "material_thickness": 4,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stash javelins",
+      "holster_msg": "You stash your %s.",
+      "multi": 5,
+      "max_volume": 5,
+      "draw_cost": 30,
+      "flags": [ "JAVELIN" ]
+    },
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   }
 ]
