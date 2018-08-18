@@ -217,7 +217,7 @@ void init_crash_handlers()
     SymInitialize( GetCurrentProcess(), NULL, TRUE );
     ULONG stacksize = 2048;
     SetThreadStackGuarantee( &stacksize );
-    for( auto && sig : {
+    for( auto &&sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
          } ) {
 

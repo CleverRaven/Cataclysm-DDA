@@ -7,7 +7,7 @@
 #include "debug.h"
 #include "mapdata.h"
 #include "output.h"
-#include "output.h"
+#include "coordinate_conversions.h"
 #include "rng.h"
 #include "requirements.h"
 #include "ammo.h"
@@ -683,7 +683,9 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             }
         }
         for( monster &critter : g->all_monsters() ) {
-            if( ( critter.type->id == mon_turret ||
+            // Check 1) same overmap coords, 2) turret, 3) hostile
+            if( ms_to_omt_copy(g->m.getabs(critter.pos())) == ms_to_omt_copy(g->m.getabs(examp)) &&
+                ( critter.type->id == mon_turret ||
                 critter.type->id == mon_turret_rifle ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
