@@ -9996,29 +9996,100 @@ bool game::plfire( item &weapon, int bp_cost )
     return plfire();
 }
 
-// Helper for game::butcher
-void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
-    const std::vector<int> &indices, size_t &menu_index,
-    bool salvage )
-{
-    for( size_t index : indices ) {
-        const item &it = items[index];
-        int hotkey = -1;
-        // First entry gets a hotkey matching the butcher command.
-        if( menu_index == 0 ) {
-            const long butcher_key = inp_mngr.get_previously_pressed_key();
-            if( butcher_key != 0 ) {
-                hotkey = butcher_key;
+// Used to set up the first Hotkey in the display set
+const int get_initial_hotkey(const size_t menu_index){
+    int hotkey = -1;
+    if ( menu_index == 0 ){
+        const long butcher_key = inp_mngr.get_previously_pressed_key();
+        if (butcher_key != 0){
+            hotkey = butcher_key;
+        }
+    }
+    return hotkey;
+}
+
+// Returns a vector of pairs.
+//    Pair.first is the first items index with a unique tname.
+//    Pair.second is the number of equivalent items per unique tname
+// There are options for optimization here, but the function is hit infrequently
+// enough that optimizing now is not a useful time expenditure.
+const std::vector<std::pair<int, int>> generate_butcher_stack_display( map_stack &items, const std::vector<int> &indices){
+    std::vector<std::pair<int, int>> result;
+    std::vector<std::string> result_strings;
+    result.reserve(indices.size());
+    result_strings.reserve(indices.size());
+
+    for ( const size_t ndx : indices ){
+        const item &it = items[ndx];
+
+        const std::string tname = it.tname();
+        size_t s = 0;
+        // Search for the index with a string equivalent to tname
+        for ( ; s < result_strings.size(); ++s){
+            if ( result_strings[s] == tname ){
+                break;
             }
         }
-        if( it.is_corpse() ) {
-            kmenu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
-        } else if( !salvage ) {
-            kmenu.addentry( menu_index++, true, hotkey, it.tname());
-        } else {
+        // If none is found, this is a unique tname so we need to add
+        // the tname to string vector, and make an empty result pair.
+        // Has the side effect of making 's' a valid index
+        if ( s == result_strings.size() ){
+            // make a new entry
+            result.push_back( std::make_pair<int, int>( ndx, 0 ) );
+            // Also push new entry string
+            result_strings.push_back( tname );
+        }
+        // Increase count result pair at index s
+        ++result[s].second;
+    }
+
+    return result;
+}
+
+// Corpses are always individual items
+// Just add them individually to the menu
+void add_corpses( uimenu &menu, map_stack &items,
+    const std::vector<int> &indices, size_t &menu_index)
+{
+    int hotkey = get_initial_hotkey( menu_index );
+    
+    for ( const auto index : indices ){
+        const item &it = items[index];
+        menu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
+        hotkey = -1;
+    }
+}
+// Salvagables stack so we need to pass in a stack vector rather than an item index vector
+void add_salvagables( uimenu &menu, map_stack &items,
+    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index)
+{
+    if (stacks.size() > 0){
+        int hotkey = get_initial_hotkey( menu_index );
+
+        for ( const auto stack : stacks ){
+            const item &it = items[stack.first];
+
             std::stringstream ss;
-            ss << _("Cut up") << " " << it.tname();
-            kmenu.addentry( menu_index++, true, hotkey, ss.str() );
+            ss << _("Cut up") << " " << it.tname() << " (" << stack.second << ")";
+            menu.addentry( menu_index++, true, hotkey, ss.str());
+            hotkey = -1;
+        }
+    }
+}
+// Disassemblables stack so we need to pass in a stack vector rather than an item index vector
+void add_disassemblables( uimenu &menu, map_stack &items,
+    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index)
+{
+    if (stacks.size() > 0){
+        int hotkey = get_initial_hotkey( menu_index );
+
+        for (const auto stack : stacks ){
+            const item &it = items[stack.first];
+
+            std::stringstream ss;
+            ss << it.tname() << " (" << stack.second << ")";
+            menu.addentry( menu_index++, true, hotkey, ss.str());
+            hotkey = -1;
         }
     }
 }
@@ -10074,36 +10145,29 @@ void game::butcher()
             usable->get_use( salvage_string )->get_actor_ptr() );
     }
 
+    // Reserve capacity for each to hold entire item set if necessary to prevent
+    // reallocations later on
+    corpses.reserve( items.size() );
+    salvageables.reserve( items.size() );
+    disassembles.reserve( items.size() );
 
-    // check if we have a butchering tool
-    if( factor > INT_MIN ) {
-        // get corpses
-        for (size_t i = 0; i < items.size(); i++) {
-            if( items[i].is_corpse() ) {
-                corpses.push_back(i);
-            }
-        }
-    }
-    // Then get items to disassemble
-    for( size_t i = 0; i < items.size(); i++ ) {
-        if( items[i].is_corpse() ) {
-            continue;
-        }
-
-        if( u.can_disassemble( items[i], crafting_inv ).success() ) {
+    // Split into corpses, disassemble-able, and salvageable items
+    // It's not much additional work to just generate a corpse list and
+    // clear it later, but does make the splitting process nicer.
+    for (size_t i = 0; i < items.size(); ++i){
+        if ( items[i].is_corpse() ){
+            corpses.push_back(i);
+        } else if ( salvage_iuse->valid_to_cut_up( items[i] ) ){
+            salvageables.push_back(i);
+        } else if ( u.can_disassemble( items[i], crafting_inv ).success() ){
             disassembles.push_back(i);
-        } else if( first_item_without_tools == nullptr ) {
+        } else if ( first_item_without_tools == nullptr ){
             first_item_without_tools = &items[i];
         }
     }
-    // Now salvageable items
-    if( salvage_tool_index != INT_MIN ) {
-        for( size_t i = 0; i < items.size(); i++ ) {
-            if( !items[i].is_corpse() &&
-                salvage_iuse->valid_to_cut_up( items[i] ) ) {
-                    salvageables.push_back(i);
-            }
-        }
+    // Clear corpses if butcher factor is INT_MIN
+    if ( factor == INT_MIN ){
+        corpses.clear();
     }
 
     if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
@@ -10154,6 +10218,10 @@ void game::butcher()
     } butcher_type = BUTCHER_CORPSE;
     // Index to std::vector of indices...
     int indexer_index = 0;
+
+    // Generate the indexed stacks so we can display them nicely
+    const auto disassembly_stacks = generate_butcher_stack_display( items, disassembles );
+    const auto salvage_stacks = generate_butcher_stack_display( items, salvageables );
     // Always ask before cutting up/disassembly, but not before butchery
     if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
         uimenu kmenu;
@@ -10161,10 +10229,11 @@ void game::butcher()
 
         kmenu.selected = 0;
         size_t i = 0;
-        add_corpses_to_menu( kmenu, items, corpses, i, false );
-        add_corpses_to_menu( kmenu, items, disassembles, i, false );
-        add_corpses_to_menu( kmenu, items, salvageables, i, true );
-
+        // Add corpses, disassembleables, and salvagables to the UI
+        add_corpses( kmenu, items, corpses, i );
+        add_disassemblables( kmenu, items, disassembly_stacks, i );
+        add_salvagables( kmenu, items, salvage_stacks, i );
+        
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b',
             _("Butcher everything") );
@@ -10194,12 +10263,12 @@ void game::butcher()
         } else if( ret < corpses.size() ) {
             butcher_type = BUTCHER_CORPSE;
             indexer_index = ret;
-        } else if( ret < corpses.size() + disassembles.size() ) {
+        } else if( ret < corpses.size() + disassembly_stacks.size() ) {
             butcher_type = BUTCHER_DISASSEMBLE;
             indexer_index = ret - corpses.size();
-        } else if( ret < corpses.size() + disassembles.size() + salvageables.size() ) {
+        } else if( ret < corpses.size() + disassembly_stacks.size() + salvage_stacks.size() ) {
             butcher_type = BUTCHER_SALVAGE;
-            indexer_index = ret - corpses.size() - disassembles.size();
+            indexer_index = ret - corpses.size() - disassembly_stacks.size();
         } else {
             debugmsg( "Invalid butchery index: %d", ret );
             return;
@@ -10301,13 +10370,15 @@ void game::butcher()
         break;	
     case BUTCHER_DISASSEMBLE:
         {
-            size_t index = disassembles[indexer_index];
+            // Pick index of first item in the disassembly stack
+            size_t index = disassembly_stacks[indexer_index].first;
             u.disassemble( items[index], index, true );
         }
         break;
     case BUTCHER_SALVAGE:
         {
-            size_t index = salvageables[indexer_index];
+            // Pick index of first item in the salvage stack
+            size_t index = salvage_stacks[indexer_index].first;
             salvage_iuse->cut_up( u, *salvage_tool, items[index] );
         }
         break;
