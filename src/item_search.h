@@ -1,8 +1,12 @@
 #pragma once
 #ifndef ITEM_SEARCH_H
 #define ITEM_SEARCH_H
+
+#include "output.h"
+
 #include <string>
 #include <functional>
+#include <algorithm>
 
 /**
  * Get a function that returns true if the value matches the query.

@@ -2,10 +2,7 @@
 #include "item.h"
 #include "material.h"
 #include "cata_utility.h"
-#include "output.h"
 #include "item_category.h"
-
-#include <algorithm>
 
 std::pair<std::string, std::string> get_both( const std::string &a );
 
