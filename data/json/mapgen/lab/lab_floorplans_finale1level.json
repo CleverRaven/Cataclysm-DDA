@@ -78,5 +78,69 @@
         { "monster": "mon_zombie_brute_shocker", "x": [ 9, 10 ], "y": [ 12, 13 ]}
       ]
     }
+  },
+  {
+    "//": "mutagen tank",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_finale_1level" ],
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "...---..---..---..---...",
+        "...c|c..c|c..c|c..c|c...",
+        "...c|c..c|c..c|c..c|c...",
+        "...---..---..---..---...",
+        "...c|c..c|c..c|c..c|c...",
+        "...c|c..c|c..c|c..c|c...",
+        "...---..---..---..---...",
+        "........................",
+        "........................",
+        "........................",
+        "........6...............",
+        "......|--L--|......C....",
+        "......|,,,,,|...........",
+        "......g,,,,,g...........",
+        "......g,,V,,g......C....",
+        "......g,,,,,g...........",
+        "......|,,,,,|...........",
+        "......|-ggg-|......C....",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "furniture": { "V": "f_standing_tank" },
+      "terrain": {
+        ",": "t_floor_blue",
+        "V": "t_floor_blue",
+        "C": "t_centrifuge"
+      },
+      "mapping": {
+        "c": { "items": [ { "item": "mut_lab", "chance": 50 } ] }
+      },
+      "place_liquids" : [
+        { "liquid": "mutagen", "amount": [10, 100], "x": 9, "y": 17 }
+      ],
+      "computers": {
+        "6": {
+          "name": "PE012 Storage",
+          "security": 2,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+        }
+      },
+      "place_monster": [
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 80 },
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 10, 13 ], "chance": 80, "repeat": 2 },
+        { "monster": "mon_secubot", "x": [ 13, 22 ], "y": [ 10, 22 ], "chance": 80 },
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 80 }
+      ]
+    }
   }
 ]
