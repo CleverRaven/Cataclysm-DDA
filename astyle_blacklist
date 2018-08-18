@@ -65,7 +65,6 @@ src/worldfactory.cpp
 src/enums.h
 src/field.h
 src/io.h
-src/item.h
 src/itype.h
 src/json.h
 src/mapdata.h
