@@ -2,11 +2,7 @@
   {
     "id": "vfw_tools",
     "type": "item_group",
-    "items": [
-      [ "glock_19", 1 ],
-      [ "boots_steel", 50 ],
-      [ "boots_hiking", 10 ]
-    ]
+    "items": [ [ "glock_19", 1 ], [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
   },
   {
     "id": "vfw_books",
@@ -31,10 +27,7 @@
   {
     "id": "vfw_alcohol",
     "type": "item_group",
-    "items": [
-      [ "beer", 20 ],
-      [ "vodka", 2 ]
-    ]
+    "items": [ [ "beer", 20 ], [ "vodka", 2 ] ]
   },
   {
     "type": "mapgen",
@@ -101,9 +94,7 @@
         "H": "f_table",
         "I": "f_sofa"
       },
-      "toilets": {
-        "B": {}
-      },
+      "toilets": { "B": {  } },
       "place_items": [
         { "item": "vfw_tools", "x": 13, "y": 10, "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "vfw_tools", "x": 13, "y": 12, "chance": 15, "repeat": [ 1, 2 ] },
