@@ -5330,7 +5330,7 @@
         "ident": "cyclist_joust",
         "name": "Bicycle Jouster",
         "description": "A vagrant before the cataclysm, you had settled down in an underground jousting ring. Now, that ring is full of undead.",
-        "points": 3,
+        "points": 4,
         "skills": [
             {
                 "level": 3,
