@@ -26,7 +26,8 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 player_activity::player_activity( const player_activity &rhs )
     : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
       index( rhs.index ), position( rhs.position ), name( rhs.name ),
-      ignored_distractions( rhs.ignored_distractions ), values( rhs.values ), str_values( rhs.str_values ),
+      ignored_distractions( rhs.ignored_distractions ), values( rhs.values ),
+      str_values( rhs.str_values ),
       coords( rhs.coords ), placement( rhs.placement ),
       auto_resume( rhs.auto_resume )
 {
