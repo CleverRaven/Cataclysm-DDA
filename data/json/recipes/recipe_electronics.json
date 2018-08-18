@@ -1780,6 +1780,28 @@
   ]
 },{
   "type" : "recipe",
+  "result": "motor_micro",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 2]],
+  "using": [ [ "soldering_standard", 5 ] ],
+  "qualities" : [
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
+  ],
+  "components": [
+    [ [ "plastic_chunk", 1 ] ],
+    [ [ "scrap", 1 ] ],
+    [ [ "cable", 2 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "cable",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -2002,7 +2024,7 @@
       [ "plastic_chunk", 2 ]
     ],
     [
-      [ "motor_tiny", 1 ]
+      [ "motor_micro", 1 ]
     ],
     [
       [ "superglue", 2 ]
@@ -2060,7 +2082,7 @@
   ],
   "components" : [
     [ [ "razor_blade", 1 ] ],
-    [ [ "motor_tiny", 1 ] ],
+    [ [ "motor_micro", 1 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "plastic_chunk", 1 ] ]
   ]
