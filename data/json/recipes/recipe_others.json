@@ -1587,7 +1587,7 @@
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ], [ "scrap", 2 ] ] ]
-  }, 
+  },
   {
     "type": "recipe",
     "result": "arm_xlsplint",
