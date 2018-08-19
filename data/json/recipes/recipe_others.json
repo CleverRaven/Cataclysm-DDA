@@ -1587,6 +1587,17 @@
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ], [ "scrap", 2 ] ] ]
+  }, 
+  {
+    "type": "recipe",
+    "result": "arm_xlsplint",
+    "copy-from": "arm_splint",
+    "time": 2000,
+    "components": [
+      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1617,6 +1628,17 @@
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
+    ]
+  }, 
+  {
+    "type": "recipe",
+    "result": "leg_xlsplint",
+    "copy-from": "leg_splint",
+    "time": 2000,
+    "components": [
+      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
     ]
   },
