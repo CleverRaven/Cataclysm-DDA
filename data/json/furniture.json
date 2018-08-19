@@ -3055,5 +3055,26 @@
       "sound_fail": "whump.",
       "items": [ { "item": "leather_tarp", "count": [ 1, 1 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fiber_mat",
+    "name": "fiber mat",
+    "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance. Too thin to be a comfortable sleeping place.",
+    "symbol": "Q",
+    "bgcolor": "yellow",
+    "move_cost_mod": 0,
+    "required_str": 3,
+    "deployed_item": "fiber_mat",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF" ],
+    "deconstruct": { "items": [ { "item": "fiber_mat", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 10,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "fiber_mat", "count": [ 1, 1 ] } ]
+    }
   }
 ]
