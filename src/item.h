@@ -1733,9 +1733,6 @@ class item : public visitable<item>
         int get_gun_ups_drain() const;
 };
 
-bool item_compare_by_charges( const item &left, const item &right );
-bool item_ptr_compare_by_charges( const item *left, const item *right );
-
 /**
  *  Hint value used in a hack to decide text color.
  *

@@ -5641,22 +5641,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
     return false;
 }
 
-bool item_ptr_compare_by_charges( const item *left, const item *right)
-{
-    if(left->contents.empty()) {
-        return false;
-    } else if( right->contents.empty()) {
-        return true;
-    } else {
-        return right->contents.front().charges < left->contents.front().charges;
-    }
-}
-
-bool item_compare_by_charges( const item& left, const item& right)
-{
-    return item_ptr_compare_by_charges( &left, &right);
-}
-
 static const std::string USED_BY_IDS( "USED_BY_IDS" );
 bool item::already_used_by_player(const player &p) const
 {
