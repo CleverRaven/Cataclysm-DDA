@@ -48,16 +48,6 @@ inline int fast_floor( double v )
 }
 
 /**
- * Calculate the nth power of 10.
- *
- * Some implementations of std::pow does not return the accurate result even
- * for small powers of 10, so this is a specialized routine to calculate them.
- *
- * @param n A non-negative integer
- */
-double pow10( unsigned int n );
-
-/**
  * Round a value up at a given decimal place.
  *
  * @param val Value to be rounded.

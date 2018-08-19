@@ -18,7 +18,7 @@
 #include <string>
 #include <locale>
 
-double pow10( unsigned int n )
+static double pow10( unsigned int n )
 {
     double ret = 1;
     double tmp = 10;
