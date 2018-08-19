@@ -989,9 +989,11 @@ void player::update_bodytemp()
         temp_conv.fill( BODYTEMP_NORM );
         return;
     }
+    /* Cache calls to g->get_temperature( player position ), used in several places in function */
+    const auto player_local_temp = g->get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature( g->u.pos() ) ) );
+    int Ctemperature = int( 100 * temp_to_celsius( player_local_temp ) );
     w_point const weather = *g->weather_precise;
     int vehwindspeed = 0;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
@@ -1096,7 +1098,7 @@ void player::update_bodytemp()
 
         bp_windpower = int( ( float )bp_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
         // Calculate windchill
-        int windchill = get_local_windchill( g->get_temperature( g->u.pos() ),
+        int windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, g->weather,
                                                      sheltered ),
                                              bp_windpower );
@@ -1367,7 +1369,7 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = int( g->get_temperature( g->u.pos() ) +
+            int Ftemperature = int( player_local_temp +
                                     warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
             // Windchill reduced by your armor
             int FBwindPower = int( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
