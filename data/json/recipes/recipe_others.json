@@ -1630,7 +1630,7 @@
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
     ]
-  }, 
+  },
   {
     "type": "recipe",
     "result": "leg_xlsplint",
