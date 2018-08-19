@@ -262,6 +262,9 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
+    item corpse_item = items[act.index];
+    const mtype *corpse = corpse_item.get_mtype();
+
     if( action != DISSECT && u.max_quality( quality_id( "BUTCHER" ) ) < 0 && one_in( 3 ) ) {
         u.add_msg_if_player( m_bad, _( "You don't trust the quality of your tools, but carry on anyway." ) );
     }
@@ -295,26 +298,27 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-            if( !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                u.add_msg_if_player( m_info, _( "You need a butchering rack to perform a full butchery." ) );
+            if( corpse_item.get_mtype()->size >= MS_MEDIUM && !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
+                u.add_msg_if_player( m_info, _( "For a corpse this big you need a butchering rack to perform a full butchery." ) );
                 act.set_to_null();
                 return;
             }
-            if ( !has_table_nearby ) {
-                u.add_msg_if_player( m_info, _( "You need a table nearby or something else with a flat surface to perform a full butchery." ) );
+            if ( corpse_item.get_mtype()->size >= MS_MEDIUM && !has_table_nearby ) {
+                u.add_msg_if_player( m_info, _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
                 act.set_to_null();
                 return;
             }
-            if( !u.has_quality( quality_id( "CUT" ) ) &&
-                ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-                u.add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
+            if( !u.has_quality( quality_id( "CUT" ) ) ) {
+                u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
                 act.set_to_null();
                 return; 
             }
+            if( corpse_item.get_mtype()->size >= MS_MEDIUM && ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+                u.add_msg_if_player( m_info, _( "For a corpse this big you need a saw to perform a full butchery." ) );
+                act.set_to_null();
+                return; 
+            } 
     }
-
-    item corpse_item = items[act.index];
-    const mtype *corpse = corpse_item.get_mtype();
 
     if( action == DISSECT && ( corpse_item.has_flag( "QUARTERED" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_info, _( "It would be futile to search for implants inside this badly damaged corpse." ) );
