@@ -3046,7 +3046,7 @@
     "required_str": 3,
     "deployed_item": "leather_tarp",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "leather_tarp", "count": 1 } ] },
     "bash": {
       "str_min": 5,
