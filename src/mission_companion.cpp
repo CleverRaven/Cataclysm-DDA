@@ -1143,19 +1143,26 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
     mission_entry cur_key;
-    auto cur_key_list = mission_key_vectors[0];
-    for( auto k : mission_key_vectors[1] ){
-        bool has = false;
-        for( auto keys : cur_key_list ){
-            if( k.id == keys.id ){
-                has = true;
-                break;
+    std::vector<mission_entry> cur_key_list;
+
+    auto reset_cur_key_list = [&]()
+    {
+        cur_key_list = mission_key_vectors[0];
+        for ( auto k : mission_key_vectors[1] ) {
+            bool has = false;
+            for ( auto keys : cur_key_list ) {
+                if ( k.id == keys.id ) {
+                    has = true;
+                    break;
+                }
+            }
+            if ( !has ) {
+                cur_key_list.push_back( k );
             }
         }
-        if( !has ){
-            cur_key_list.push_back(k);
-        }
-    }
+    };
+
+    reset_cur_key_list();
 
     g->draw_ter();
     wrefresh( g->w_terrain );
@@ -1227,63 +1234,29 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             redraw = true;
             sel = 0;
             offset = 0;
-            for( int tab_num = TAB_MAIN; tab_num != TAB_NW; tab_num++ ){
-                camp_tab_mode cur = static_cast<camp_tab_mode>(tab_num);
-                if( tab_mode == TAB_NW ){
-                    tab_mode = TAB_MAIN;
-                    cur_key_list = mission_key_vectors[0];
-                    for( auto k : mission_key_vectors[1] ){
-                        bool has = false;
-                        for( auto keys : cur_key_list ){
-                            if( k.id == keys.id ){
-                                has = true;
-                                break;
-                            }
-                        }
-                        if( !has ){
-                            cur_key_list.push_back(k);
-                        }
-                    }
 
-                    break;
-                } else if( cur == tab_mode ){
-                    cur_key_list = mission_key_vectors[tab_num + 2];
-                    tab_mode = static_cast<camp_tab_mode>(tab_num + 1);
-                    break;
-                }
+            if ( tab_mode == TAB_NW ) {
+                tab_mode = TAB_MAIN;
+                reset_cur_key_list();
+            } else {
+                tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
+                cur_key_list = mission_key_vectors[tab_mode + 1];
             }
         } else if( action == "PREV_TAB" && id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
             offset = 0;
-            for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 1; tab_num++ ){
-                camp_tab_mode cur = static_cast<camp_tab_mode>(tab_num);
-                if( tab_mode == TAB_MAIN ){
-                    cur_key_list = mission_key_vectors[ TAB_NW + 1 ];
-                    tab_mode = TAB_NW;
-                    break;
-                } else if( cur == tab_mode ){
-                    tab_mode = static_cast<camp_tab_mode>(tab_num - 1);
-                    if( tab_mode == TAB_MAIN ) {
-                        cur_key_list = mission_key_vectors[0];
-                        for( auto k : mission_key_vectors[1] ){
-                            bool has = false;
-                            for( auto keys : cur_key_list ){
-                                if( k.id == keys.id ){
-                                    has = true;
-                                    break;
-                                }
-                            }
-                            if( !has ){
-                                cur_key_list.push_back(k);
-                            }
-                        }
 
-                    } else {
-                        cur_key_list = mission_key_vectors[ tab_num ];
-                    }
-                    break;
-                }
+            if ( tab_mode == TAB_MAIN ) {
+                tab_mode = TAB_NW;
+            } else {
+                tab_mode = static_cast<camp_tab_mode>( tab_mode - 1 );
+            }
+
+            if (tab_mode == TAB_MAIN) {
+                reset_cur_key_list();
+            } else {
+                cur_key_list = mission_key_vectors[tab_mode + 1];
             }
         } else if (action == "QUIT") {
             mission_entry dud;
