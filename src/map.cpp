@@ -4578,13 +4578,20 @@ void map::make_active( item_location &loc )
 // date to current time, and also check contents.
 void map::apply_in_fridge( item &it, int temp )
 {
-    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_freeze );
+    // counters are caped at 600 = 60 minutes at diff ratio 1
+    // diff ratio 2 will result in oberall phase thime of 30 minutes, 4 = 15 minutes, 5 = 10 min
+    // diff were set at 5 degree per 1 diff ratio, 
+
+    // process() remove 1 couter per turn, so minimum 2 counters
+    // div by 5 means every 5 degrees of difference equals 1 point of ratio
+    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE) / 5;
+    diff_freeze = std::max( static_cast<unsigned int>(2), diff_freeze );
     diff_freeze = std::min( static_cast<unsigned int>(5), diff_freeze );
 
-    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_cold );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_cold );
+    // div by 5 means every 5 degrees of difference equals 1 point of ratio
+    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE) / 5;
+    diff_cold = std::max( static_cast<unsigned int>(2), diff_cold );
+    diff_cold = std::min( static_cast<unsigned int>(5), diff_cold );
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {
