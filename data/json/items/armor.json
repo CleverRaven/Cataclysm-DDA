@@ -162,6 +162,24 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+  },  
+  {
+    "id": "arm_xlsplint",
+    "type": "ARMOR",
+    "name": "arm splint",
+    "description": "A tool to help set bones and hold them in place.",
+    "weight": 300,
+    "volume": 4,
+    "price": 20000,
+    "material": [ "wood", "cotton" ],
+    "symbol": "[",
+    "color": "white",
+    "covers": [ "ARM_EITHER" ],
+    "coverage": 75,
+    "encumbrance": 70,
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
     "id": "arm_warmers",
@@ -5696,6 +5714,24 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+  },
+  {
+    "id": "arm_xlsplint",
+    "type": "ARMOR",
+    "name": "arm splint",
+    "description": "A tool to help set bones and hold them in place.",
+    "weight": 300,
+    "volume": 4,
+    "price": 20000,
+    "material": [ "wood", "cotton" ],
+    "symbol": "[",
+    "color": "white",
+    "covers": [ "ARM_EITHER" ],
+    "coverage": 75,
+    "encumbrance": 70,
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
     "id": "leg_warmers",
