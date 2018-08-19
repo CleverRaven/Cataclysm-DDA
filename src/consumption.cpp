@@ -337,8 +337,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
             }
         }
     }
-    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) &&
-        food.item_counter >= 100 ) {
+    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) ) {
         if( edible ) {
             return ret_val<edible_rating>::make_failure(
                        _( "It's frozen solid.  You must defrost it before you can eat it." ) );
