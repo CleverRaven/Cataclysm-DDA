@@ -162,7 +162,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
-  },  
+  }, 
   {
     "id": "arm_xlsplint",
     "type": "ARMOR",
