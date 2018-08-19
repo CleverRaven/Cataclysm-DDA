@@ -5329,7 +5329,7 @@
         "type": "profession",
         "ident": "cyclist_joust",
         "name": "Bicycle Jouster",
-        "description": "A vagrant before the cataclysm, you had settled down in an underground jousting ring. Now, that ring is full of undead.",
+        "description": "A vagrant before the cataclysm, you had settled down in an underground jousting ring.  Now, that ring is full of undead.",
         "points": 4,
         "skills": [
             {
@@ -5339,8 +5339,8 @@
             {
                 "level": 3,
                 "name": "stabbing"
-            }
-	    {
+            },
+	        {
                 "level": 2,
                 "name": "dodge"
             }	   
