@@ -210,7 +210,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
             "sound": "SMASH!",
@@ -233,7 +233,7 @@
         "color": "white",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT"
+            "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
             "str_min": 4, "str_max": 12,
@@ -277,7 +277,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
             "sound": "SMASH!",

@@ -10,6 +10,7 @@ src/cata_tiles.cpp
 src/character.cpp
 src/computer.cpp
 src/construction.cpp
+src/crash.cpp
 src/creature.cpp
 src/cursesport.cpp
 src/dump.cpp

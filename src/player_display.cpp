@@ -647,7 +647,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             mvwprintz( w_skills, line, 1, text_color, "%s:", ( elem )->name().c_str() );
 
             if( ( elem )->ident() == skill_id( "dodge" ) ) {
-                mvwprintz( w_skills, line, 15, text_color, "%-.1f/%-2d(%2d%%)",
+                mvwprintz( w_skills, line, 14, text_color, "%4.1f/%-2d(%2d%%)",
                            get_dodge(), level_num, exercise < 0 ? 0 : exercise );
             } else {
                 mvwprintz( w_skills, line, 19, text_color, "%-2d(%2d%%)", level_num,
@@ -1153,7 +1153,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_skills, int( 1 + i - min ), 1, cstatus, "%s:", aSkill->name().c_str() );
 
                     if( aSkill->ident() == skill_id( "dodge" ) ) {
-                        mvwprintz( w_skills, int( 1 + i - min ), 15, cstatus, "%-.1f/%-2d(%2d%%)",
+                        mvwprintz( w_skills, int( 1 + i - min ), 14, cstatus, "%4.1f/%-2d(%2d%%)",
                                    get_dodge(), level.level(), exercise < 0 ? 0 : exercise );
                     } else {
                         mvwprintz( w_skills, int( 1 + i - min ), 19, cstatus, "%-2d(%2d%%)", level.level(),
@@ -1203,7 +1203,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         mvwprintz( w_skills, i + 1,  1, cstatus, "%s:", thisSkill->name().c_str() );
 
                         if( thisSkill->ident() == skill_id( "dodge" ) ) {
-                            mvwprintz( w_skills, i + 1, 15, cstatus, "%-.1f/%-2d(%2d%%)",
+                            mvwprintz( w_skills, i + 1, 14, cstatus, "%4.1f/%-2d(%2d%%)",
                                        get_dodge(), level.level(), level.exercise() < 0 ? 0 : level.exercise() );
                         } else {
                             mvwprintz( w_skills, i + 1, 19, cstatus, "%-2d(%2d%%)", level.level(),
