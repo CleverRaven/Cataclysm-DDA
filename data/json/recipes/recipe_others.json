@@ -4060,6 +4060,6 @@
     "time": 60000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6] ], [ [ "plant_fibre", 100 ] ] ]
+    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ], [ [ "plant_fibre", 100 ] ] ]
   }
 ]
