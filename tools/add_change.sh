@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CHANGELOG=../changelog
+CHANGELOG=../data/changelog.txt
 CHANGELOG_NEW=./changelog.new
 TYPE=$1
 shift

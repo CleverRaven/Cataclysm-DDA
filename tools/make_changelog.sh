@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GITURL='https://api.github.com/repos/CleverRaven/Cataclysm-DDA'
-CHANGELOG=../changelog
+CHANGELOG=../data/changelog.txt
 ADDCHANGE=./add_change.sh
 PARSESUM=./parse_summary.py
 num_new=0
