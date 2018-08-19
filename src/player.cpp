@@ -1781,12 +1781,14 @@ void player::recalc_speed_bonus()
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
-        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && g->get_temperature( pos() ) < 65 ) ) {
-            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 2 );
-        } else if( has_trait( trait_COLDBLOOD2 ) && g->get_temperature( pos() ) < 65 ) {
-            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 3 );
-        } else if( has_trait( trait_COLDBLOOD ) && g->get_temperature( pos() ) < 65 ) {
-            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 5 );
+        /* Cache call to game::get_temperature( player position ) since it can be used several times here */
+        const auto player_local_temp = g->get_temperature( pos() );
+        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && player_local_temp < 65 ) ) {
+            mod_speed_bonus( ( player_local_temp - 65 ) / 2 );
+        } else if( has_trait( trait_COLDBLOOD2 ) && player_local_temp < 65 ) {
+            mod_speed_bonus( ( player_local_temp - 65 ) / 3 );
+        } else if( has_trait( trait_COLDBLOOD ) && player_local_temp < 65 ) {
+            mod_speed_bonus( ( player_local_temp - 65 ) / 5 );
         }
     }
 
