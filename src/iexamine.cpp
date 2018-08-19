@@ -13,6 +13,7 @@
 #include "ammo.h"
 #include "line.h"
 #include "player.h"
+#include "npc.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "uistate.h"
@@ -36,6 +37,8 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 #include "bionics.h"
+#include "inventory.h"
+#include "craft_command.h"
 
 #include <sstream>
 #include <algorithm>
@@ -51,12 +54,15 @@ const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 const skill_id skill_computer( "computer" );
 const skill_id skill_fabrication( "fabrication" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_survival( "survival" );
 
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -3477,6 +3483,79 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+player &player_on_couch( player &p, const tripoint autodoc_loc, player &null_patient,
+                         bool &adjacent_couch )
+{
+    for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( couch_loc ) == couch ) {
+            adjacent_couch = true;
+            if( p.pos() == couch_loc ) {
+                return p;
+            }
+            for( const npc *e : g->allies() ) {
+                if( e->pos() == couch_loc ) {
+                    return  *g->critter_by_id<player>( e->getID() );
+                }
+            }
+        }
+    }
+    return null_patient;
+}
+
+player &best_installer( player &p, player &null_player, int difficulty )
+{
+    float player_skill = p.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
+                         true );
+
+    std::vector< std::pair<float, long>> ally_skills;
+    ally_skills.reserve( g->allies().size() );
+    for( size_t i = 0; i < g->allies().size() ; i ++ ) {
+        std::pair<float, long> ally_skill;
+        const npc *e = g->allies()[ i ];
+
+        player &ally = *g->critter_by_id<player>( e->getID() );
+        ally_skill.second = i;
+        ally_skill.first = ally.bionics_adjusted_skill( skill_firstaid,
+                           skill_computer,
+                           skill_electronics,
+                           true );
+        ally_skills.push_back( ally_skill );
+    }
+    std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, long> &lhs,
+    const std::pair<float, long> &rhs ) {
+        return rhs.first < lhs.first;
+    } );
+    int player_cos = bionic_manip_cos( player_skill, true, difficulty );
+    for( size_t i = 0; i < g->allies().size() ; i ++ ) {
+        if( ally_skills[ i ].first > player_skill ) {
+            const npc *e = g->allies()[ ally_skills[ i ].second ];
+            player &ally = *g->critter_by_id<player>( e->getID() );
+            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
+            if( e->has_effect( effect_sleep ) ) {
+                //~ %1$s is the name of the ally
+                if( !g->u.query_yn( string_format(
+                                        _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
+                                        ally.disp_name(), ally_cos, player_cos ) ) ) {
+                    return null_player;
+                } else {
+                    continue;
+                }
+            }
+            //~ %1$s is the name of the ally
+            add_msg( _( "%1$s will perform the operation with a %2$d chance of success." ), ally.disp_name(),
+                     ally_cos );
+            return ally;
+        } else {
+            break;
+        }
+    }
+
+    return p;
+}
+
 void iexamine::autodoc( player &p, const tripoint &examp )
 {
     enum options {
@@ -3486,33 +3565,34 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     };
 
     bool adjacent_couch = false;
-    bool in_position = false;
-    bool needs_anesthesia = true;
-    for( const auto &couch_loc : g->m.points_in_radius( examp, 1, 0 ) ) {
-        const furn_str_id couch( "f_autodoc_couch" );
-        if( g->m.furn( couch_loc ) == couch ) {
-            adjacent_couch = true;
-            if( p.pos() == couch_loc ) {
-                in_position = true;
-            }
-        }
-    }
+    static player null_player;
+    player &patient = player_on_couch( p, examp, null_player, adjacent_couch );
 
     if( !adjacent_couch ) {
         popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
         return;
     }
-    if( !in_position ) {
+    if( &patient == &null_player ) {
         popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
         return;
     }
+
+    bool needs_anesthesia = true;
+    std::vector<item_comp> acomps;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
+    } else {
+        std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
+            return it.has_flag( "ANESTHESIA" );
+        } );
+        for( const item *anesthesia_item : a_filter ) {
+            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+        }
+        if( !acomps.size() ) {
+            popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+            return;
+        }
     }
-
-    const bool has_anesthesia = p.crafting_inventory().has_item_with( []( const item &it ) {
-        return it.has_flag( "ANESTHESIA" );
-    } );
 
     uimenu amenu;
     amenu.selected = 0;
@@ -3525,7 +3605,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     switch( static_cast<options>( amenu.ret ) ) {
         case INSTALL_CBM: {
-            const item_location bionic = g->inv_map_splice( []( const item &e ) {
+            const item_location bionic = g->inv_map_splice( []( const item & e ) {
                 return e.is_bionic();
             }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install." ) );
 
@@ -3537,45 +3617,62 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( p.has_bionic( bid ) ) {
-                popup( _( "You have already installed this bionic."  ) );
+            if( patient.is_npc() && !bid->npc_usable ) {
+                //~ %1$s is the bionic CBM display name, %2$s is the patient name
+                popup( _( "%1$s cannot be installed on %2$s." ), it->display_name().c_str(), patient.name );
                 return;
-            } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
-                popup( _( "You have no base version of this bionic to upgrade." ) );
+            }
+
+            if( patient.has_bionic( bid ) ) {
+                //~ %1$s is patient name
+                popup_player_or_npc( patient, _( "You have already installed this bionic." ),
+                                     _( "%1$s has already installed this bionic." ) );
+                return;
+            } else if( bid->upgraded_bionic && !patient.has_bionic( bid->upgraded_bionic ) ) {
+                //~ %1$s is patient name
+                popup_player_or_npc( patient, _( "You have no base version of this bionic to upgrade." ),
+                                     _( "%1$s has no base version of this bionic to upgrade." ) );
                 return;
             } else {
-                const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-                                                    std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+                const bool downgrade = std::any_of( bid->available_upgrades.begin(),
+                                                    bid->available_upgrades.end(),
+                                                    std::bind( &player::has_bionic, &patient,
+                                                            std::placeholders::_1 ) );
                 if( downgrade ) {
-                    popup( _( "You have already installed a superior version of this bionic." ) );
+                    //~ %1$s is patient name
+                    popup_player_or_npc( patient, _( "You have already installed a superior version of this bionic." ),
+                                         _( "%1$s has installed a superior version of this bionic." ) );
                     return;
                 }
             }
-
-            if( !has_anesthesia && needs_anesthesia ) {
-                popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
+            player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
+            if( &installer == &null_player ) {
                 return;
             }
 
+            //~ %1$s is installer name, %2$s is bionic CBM display name, %3$s is patient name
+            add_msg( _( "%1$s prepares to install the %2$s on %3$s." ), installer.name,
+                     it->display_name().c_str(), patient.name );
+
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            if( p.install_bionics( ( *itemtype ), -1, true ) ) {
-                p.introduce_into_anesthesia( duration, needs_anesthesia );
+            if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
+                patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
-                p.consume_items( comps );
+                p.consume_items( comps, 1 );
+                if( needs_anesthesia ) {
+                    p.consume_items( acomps, 1 );
+                }
             }
             break;
         }
 
         case UNINSTALL_CBM: {
-            bionic_collection installed_bionics = *g->u.my_bionics;
+            bionic_collection installed_bionics = *patient.my_bionics;
             if( installed_bionics.empty() ) {
-                popup( _( "You don't have any bionics installed." ) );
-                return;
-            }
-
-            if( !has_anesthesia && needs_anesthesia ) {
-                popup( _( "You need an anesthesia kit for the Autodoc to perform any operation." ) );
+                //~ %1$s is patient name
+                popup_player_or_npc( patient, _( "You don't have any bionics installed." ),
+                                     _( "%1$s doesn't have any bionics installed." ) );
                 return;
             }
 
@@ -3607,14 +3704,468 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
-            if( p.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), -1, true ) ) {
-                p.introduce_into_anesthesia( duration, needs_anesthesia );
+
+            player &installer = best_installer( p, null_player, difficulty );
+            if( &installer == &null_player ) {
+                return;
+            }
+
+            if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
+                patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
+                if( needs_anesthesia ) {
+                    p.consume_items( acomps, 1 );
+                }
             }
             break;
         }
 
         case CANCEL:
             return;
+    }
+}
+
+void smoker_activate(player &p, const tripoint &examp)
+{
+    furn_id cur_smoker_type = g->m.furn( examp );
+    furn_id next_smoker_type = f_null;
+    if( cur_smoker_type == f_smoking_rack ) {
+        next_smoker_type = f_smoking_rack_active;
+    } else {
+        debugmsg( "Examined furniture has action smoker_activate, but is of type %s", g->m.furn( examp ).id().c_str() );
+        return;
+    }
+    bool food_present = false;
+    bool charcoal_present = false;
+    auto items = g->m.i_at( examp );
+    units::volume food_volume = 0;
+    item *charcoal = nullptr;
+
+    for( size_t i = 0; i < items.size(); i++ ) {
+        auto &it = items[i];
+        if( it.has_flag( "SMOKED" ) && !it.has_flag( "SMOKABLE" ) ) {
+            add_msg( _( "This rack already contains smoked food." ) );
+            add_msg( _( "Remove it before firing the smoking rack again." ) );
+            return;
+        }
+        if( it.has_flag( "SMOKABLE" ) ) {
+            food_present = true;
+            food_volume += it.volume();
+            continue;
+        }
+        if( it.typeId() == "charcoal" ) {
+            charcoal_present = true;
+            charcoal = &it;
+        }
+        if( it.typeId() != "charcoal" && !it.has_flag( "SMOKABLE" ) ) {
+            add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1, false ).c_str() );
+            add_msg( _( "You remove %s from the rack."), it.tname().c_str() );
+            g->m.add_item_or_charges( p.pos(), it );
+            g->m.i_rem( examp, i );
+            i--;
+            return;
+        }
+        if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
+            add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
+        }
+    }
+    if( !food_present ) {
+        add_msg( _( "This rack is empty.  Fill it with raw meat, fish or sausages and try again." ) );
+        return;
+    }
+    if( !charcoal_present ) {
+        add_msg( _( "There is no charcoal in the rack." ) );
+        return;
+    }
+    if( food_volume > units::from_liter( 20 ) ) {
+        add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
+        add_msg( string_format( _( "You think that you can load about %s %s in it." ), format_volume( units::from_liter( 20 ) ), volume_units_long() ) );
+        return;
+    }
+
+    long char_charges = 100 * to_liter( food_volume ) < 100 ? 100 : 100 * to_liter( food_volume );
+
+    if( count_charges_in_list( charcoal->type, g->m.i_at( examp ) ) < char_charges ) {
+        add_msg( _( "There is not enough charcoal in the rack to smoke this much food." ) );
+        add_msg( _( "You need at least %1$s pieces of charcoal, and the smoking rack has %2$s inside." ),
+                    char_charges, count_charges_in_list( charcoal->type, g->m.i_at( examp ) ) );
+        return;
+    }
+
+    if( !p.has_charges( "fire" , 1 ) ) {
+        add_msg( _( "This smoking rack is ready to be fired, but you have no fire source." ) );
+        return;
+    } else if( !query_yn( _( "Fire the smoking rack?" ) ) ) {
+        return;
+    }
+
+    p.use_charges( "fire", 1 );
+    g->m.furn_set( examp, next_smoker_type );
+    if( charcoal->charges == char_charges ) {
+        g->m.i_rem( examp, charcoal );
+    } else {
+        charcoal->charges -= char_charges;
+    }
+    item result( "fake_smoke_plume", calendar::turn );
+    result.item_counter = 3600; // = 6 hours
+    result.activate();
+    g->m.add_item( examp, result );
+    add_msg( _("You light a small fire under the rack and it starts to smoke.") );
+}
+
+void smoker_finalize(player &, const tripoint &examp)
+{
+    furn_id cur_smoker_type = g->m.furn( examp );
+    furn_id next_smoker_type = f_null;
+    if ( cur_smoker_type == f_smoking_rack_active ) {
+        next_smoker_type = f_smoking_rack;
+    } else {
+        debugmsg( "Furniture executed action smoker_finalize, but is of type %s", g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    auto items = g->m.i_at( examp );
+    if( items.empty() ) {
+        g->m.furn_set(examp, next_smoker_type);
+        return;
+    }
+
+    std::string product = "";
+    for( size_t i = 0; i < items.size(); i++ ) {
+        auto &item_it = items[i];
+        //dry products before smoked products to avoid override
+        if( item_it.typeId() == "meat_smoked" ) {
+            product = "dry_meat";
+        } else if( item_it.typeId() == "fish_smoked" ) {
+            product = "dry_fish";
+        } else if( item_it.typeId() == "raw_beans" ) {
+            product = "dry_beans";
+        } else if( item_it.typeId() == "sweet_fruit" || item_it.typeId() == "coconut" || item_it.typeId() == "can_coconut" ) {
+            product = "dry_fruit";
+        } else if( item_it.typeId() == "human_smoked" ) {
+            product = "dry_hflesh";
+        } else if( item_it.typeId() == "meat_tainted" ) {
+            product = "dry_meat_tainted";
+        } else if( item_it.typeId() == "mushroom" || item_it.typeId() == "mushroom_morel" ) {
+            product = "dry_mushroom";
+        } else if( item_it.typeId() == "mushroom_magic" ) {
+            product = "dry_mushroom_magic";
+        } else if( item_it.typeId() == "broccoli" ||
+            item_it.typeId() == "tomato" ||
+            item_it.typeId() == "pumpkin" ||
+            item_it.typeId() == "zucchini" ||
+            item_it.typeId() == "celery" ||
+            item_it.typeId() == "potato_raw" ||
+            item_it.typeId() == "onion" ||
+            item_it.typeId() == "carrot" ||
+            item_it.typeId() == "cabbage" ||
+            item_it.typeId() == "lettuce" ||
+            item_it.typeId() == "veggy" ||
+            item_it.typeId() == "veggy_wild" ||
+            item_it.typeId() == "dandelion_cooked" ) {
+            product = "dry_veggy";
+        } else if( item_it.typeId() == "veggy_tainted" ) {
+            product = "dry_veggy_tainted";
+        //smoked products after dried products to avoid override
+        } else if( item_it.typeId() == "meat" ) {
+            product = "meat_smoked";
+        } else if( item_it.typeId() == "fish" ) {
+            product = "fish_smoked";
+        } else if( item_it.typeId() == "sausage_wasteland_raw" ) {
+            product = "sausage_wasteland";
+        } else if( item_it.typeId() == "sausage_raw" ) {
+            product = "sausage";
+        } else if( item_it.typeId() == "mannwurst_raw" ) {
+            product = "mannwurst";
+        } else if( item_it.typeId() == "human_flesh" ) {
+            product = "human_smoked";
+        } else {
+            product = "";
+        }
+        if( product != "" ) {
+            item result( product, calendar::turn );
+            result.charges = item_it.charges;
+            //g->m.add_item( examp, result );
+            item_it = result;
+        }
+    }
+    g->m.furn_set( examp, next_smoker_type );
+}
+
+void smoker_load_food( player &p, const tripoint &examp )
+{
+    std::vector<item_comp> comps;
+    std::list<item> moved;
+
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
+        p.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
+        return;
+    }
+    // filter SMOKABLE food
+    inventory inv = p.crafting_inventory();
+    inv.remove_items_with( []( const item & it ) {
+        return it.rotten();
+    } );
+    std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "SMOKABLE" );
+    } );
+
+    uimenu smenu;
+    smenu.text = _( "Load smoking rack with what kind of food?" );
+    smenu.return_invalid = true;
+    // count and ask for item to be placed ...
+    int count = 0;
+    std::list<std::string> names;
+    for( const item *smokable_item : filtered ) {
+
+        if( smokable_item->count_by_charges() ) {
+            count = inv.charges_of( smokable_item->typeId() );
+        } else {
+            count = inv.amount_of( smokable_item->typeId() );
+        }
+        if( count != 0 ) {
+            auto on_list = std::find( names.begin(), names.end(), item::nname( smokable_item->typeId(), 1 ) );
+            if( on_list == names.end() ) {
+                smenu.addentry( item::nname( smokable_item->typeId(), 1 ) );
+            }
+            names.push_back( item::nname( smokable_item->typeId(), 1 ) );
+            comps.push_back( item_comp( smokable_item->typeId(), count ) );
+        }
+        count = 0;
+    }
+
+    if( comps.size() == 0 ) {
+        p.add_msg_if_player( _( "You don't have any food that can be smoked." ) );
+        return;
+    }
+
+    smenu.addentry( -1, true, 'q', _( "Cancel" ) );
+    smenu.query();
+
+    if( static_cast<size_t>( smenu.ret ) >= filtered.size() || smenu.ret == -1 ) {
+        add_msg(m_info, _( "Never mind." ) );
+        return;
+    }
+    count = 0;
+    auto what = filtered[smenu.ret];
+    for( auto c : comps ) {
+        if( c.type == what->typeId() ) {
+            count = c.count;
+        }
+    }
+
+    // ... then ask how many to put it
+    const std::string popupmsg = string_format(_("Insert how many %s into the rack?"),
+                                 item::nname( what->typeId(), count ).c_str() );
+    long amount = string_input_popup()
+                  .title( popupmsg )
+                  .width( 20 )
+                  .text( to_string( count ) )
+                  .only_digits( true )
+                  .query_long();
+
+    if( amount == 0 ) {
+        add_msg(m_info, _( "Never mind." ) );
+        return;
+    }
+    if( amount > count ) {
+        add_msg(m_info, _( "You can't place that many." ) );
+        return;
+    }
+
+    // reload comps with chosen items and quantity
+    comps.clear();
+    comps.push_back( item_comp( what->typeId(), amount ) );
+
+    // select from where to get the items from and place them
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    inv.remove_items_with( []( const item & it ) {
+        return it.rotten();
+    } );
+    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
+    moved = p.consume_items( selected, 1 );
+
+    // hack, because consume_items doesn't seem to care of what item is consumed despite filters
+    // TODO: find a way to filter out rotten items from those actualy consumed
+    bool rotted = false;
+    for( item m : moved ) {
+        if( m.rotten() ) {
+            rotted = true;
+        }
+    }
+    if( rotted ) {
+        add_msg(m_info, _( "You have rotten food mixed with fresh.  Get rid of it first." ) );
+        for( item m : moved ) {
+           g->m.add_item( p.pos(), m );
+           p.mod_moves( -p.item_handling_cost( m ) );
+        }
+        p.invalidate_crafting_inventory();
+        return;
+    }
+
+    for( item m : moved ) {
+        g->m.add_item( examp, m );
+        p.mod_moves( -p.item_handling_cost( m ) );
+        add_msg(m_info, string_format( _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(), amount ) ) );
+    }
+    p.invalidate_crafting_inventory();
+}
+
+void iexamine::on_smoke_out( const tripoint &examp )
+{
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
+        smoker_finalize( g->u, examp );
+    }
+}
+
+void iexamine::smoker_options( player &p, const tripoint &examp )
+{
+    bool active = g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ? true : false;
+    auto items_here = g->m.i_at( examp );
+    if( items_here.empty() && active ) {
+        debugmsg( "f_smoking_rack_active was empty!" );
+        g->m.furn_set( examp, f_smoking_rack );
+        return;
+    }
+    if( items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
+        debugmsg( "f_smoking_rack_active was empty, and had fake_smoke_plume!" );
+        g->m.furn_set( examp, f_smoking_rack );
+        items_here.erase( items_here.begin() );
+        return;
+    }
+
+    bool rem_f_opt = false;
+    std::stringstream pop;
+    time_duration time_left = 0;
+    int hours_left = 0;
+    int minutes_left = 0;
+    int char_quantity = 0;
+    bool f_check = false;
+    bool c_check = false;
+    
+    for( size_t i = 0; i < items_here.size(); i++ ) {
+        auto &it = items_here[i];
+        if( it.is_food() ) {
+            f_check = true;
+        }
+        if( it.typeId() == "charcoal" ) {
+            c_check = true;
+            char_quantity = count_charges_in_list( it.type, items_here );
+        }
+        if( active && it.typeId() == "fake_smoke_plume" ) {
+            time_left = time_duration::from_turns( it.item_counter );
+            hours_left = to_hours<int>( time_left );
+            minutes_left = to_minutes<int>( time_left ) + 1;
+        }
+    }
+    
+    uimenu smenu;
+    smenu.text = _( "What to do with the smoking rack:" );
+    smenu.return_invalid = true;
+    smenu.addentry( 0, true, 'i', "%s", _( "Inspect smoking rack" ) );
+    if( active ) {
+        smenu.addentry( 1, false, 'l', "%s", _( "Light up and smoke food (lit & smoking)" ) );
+    } else {
+        smenu.addentry( 1, true, 'l', "%s", _( "Light up and smoke food" ) );
+    }
+
+    smenu.addentry( 2, true, 'f', "%s", _( "Insert food for smoking" ) );
+    smenu.addentry( 3, true, 'r', "%s", _( "Reload with charcoal" ) );
+
+    if( f_check ) {
+        smenu.addentry( 4, true, 'e', "%s", _( "Remove food from rack" ) );
+    } else {
+        smenu.addentry( 4, false, 'e', "%s", _( "Remove food from rack (none inside)" ) );
+    }
+    if( c_check ) {
+            smenu.addentry( 5, true, 'c', "%s", _( "Remove charcoal from rack; has: " ) + std::to_string( char_quantity ) );
+    } else {
+            smenu.addentry( 5, false, 'c', "%s", _( "Remove charcoal from rack (none inside)" ) );
+    }
+    if ( active ) {
+        smenu.addentry( 7, true, 'q', "%s", _( "Quench burning charcoal" ) );
+    }
+    smenu.addentry( 6, true, 'x', "%s", _( "Cancel" ) );
+    smenu.query();
+
+    switch( smenu.ret ) {
+        case 0: //inspect smoking rack
+        {
+            if ( active ) {
+                pop << "<color_green>" << _( "There's a smoking rack here.  It is lit and smoking." ) << "</color>" << "\n";
+                if( time_left > 0 ) {
+                    if( minutes_left > 60 ) {
+                        pop << string_format( ngettext( "It will finish smoking in about %d hour.",
+                                "It will finish smoking in about %d hours.",
+                                hours_left ), hours_left ) << "\n \n ";
+                    } else if( minutes_left > 30 ) {
+                        pop << _( "It will finish smoking in less than an hour." );
+                    } else {
+                        pop << string_format( _("It should take about %d minutes to finish smoking."), minutes_left );
+                    }
+                }
+            } else {
+                pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
+            }          
+            pop << "<color_green>" << _( "You inspect it's contents and find: " ) << "</color>" << "\n \n ";
+            if( items_here.empty() ) {
+                pop << "... that it is empty.";
+            } else {
+                for( size_t i = 0; i < items_here.size(); i++ ) {
+                auto &it = items_here[i];
+                if ( it.typeId() == "fake_smoke_plume" ) {
+                    pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" << "\n ";
+                    continue;
+                }
+                pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) ); 
+                pop << " (" << std::to_string( count_charges_in_list( it.type, items_here ) ) << ") \n ";
+                }
+            }
+            popup( pop.str(), PF_NONE ); 
+            break;
+        }
+        case 1: //activate
+            if ( active ) {
+                add_msg( _("It is already lit and smoking.") );
+                break;
+            } else {
+                smoker_activate( p, examp );
+                break;
+            }
+            break;
+        case 2: // load food
+            smoker_load_food( p, examp );
+            break;
+        case 3: // load charcoal
+            reload_furniture( p, examp );
+            break;
+        case 4: // remove food
+            rem_f_opt = true;
+	    /* fallthrough */
+        case 5: //remove charcoal
+            {
+                for( size_t i = 0; i < items_here.size(); i++ ) {
+                    auto &it = items_here[i];
+                    if( ( rem_f_opt && it.is_food() ) || ( !rem_f_opt && ( it.typeId() == "charcoal" ) ) ) {
+                        add_msg( _("You remove %s from the rack."), it.tname().c_str() );
+                        g->m.add_item_or_charges( p.pos(), it );
+                        g->m.i_rem( examp, i );
+                        p.mod_moves( -p.item_handling_cost( it ) );
+                        i--;
+                    }
+                }
+                if ( active && rem_f_opt ) {
+                    g->m.furn_set( examp, f_smoking_rack );
+                    add_msg( m_info, _( "You stop the smoking process." ) );
+                }
+            }
+            break;
+        case 6:
+            add_msg( m_info, _( "Never mind." ) );
+            break;
+        case 7:
+            g->m.furn_set( examp, f_smoking_rack );
+            add_msg( m_info, _( "You stop the smoking process." ) );
+            break;
     }
 }
 
@@ -3690,7 +4241,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
         { "climb_down", &iexamine::climb_down },
-        { "autodoc", &iexamine::autodoc }
+        { "autodoc", &iexamine::autodoc },
+        { "smoker_options", &iexamine::smoker_options }
     }};
 
     auto iter = function_map.find( function_name );

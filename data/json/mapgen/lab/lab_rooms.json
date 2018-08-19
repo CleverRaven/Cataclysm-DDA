@@ -367,6 +367,7 @@
         "ggGgg"
       ],
       "palettes": [ "lab_palette" ],
+      "terrain": { ",": "t_floor_blue" },
       "place_monster": [{
           "monster": [ "mon_zombie_brute", "mon_zombie_screecher", "mon_zombie_hollow", "mon_zombie_master", "mon_zombie_necro" ],
           "x": [ 2, 3 ], "y": [ 1, 3 ], "chance": 80
@@ -388,6 +389,7 @@
         "ggggg"
       ],
       "palettes": [ "lab_palette" ],
+      "terrain": { ",": "t_floor_blue" },
       "place_monster": [{
           "monster": [ "mon_zombie_pig", "mon_zombear", "mon_zoose", "mon_zolf" ],
           "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80
@@ -713,6 +715,7 @@
         "......."
       ],
       "palettes": [ "lab_palette" ],
+      "terrain": { ",": "t_floor_green" },
       "mapping": { ",": { "item": [ {"item": "glasses_safety", "chance": 4} ] } }
     }
   },

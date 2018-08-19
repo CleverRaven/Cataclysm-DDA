@@ -1100,7 +1100,7 @@ public:
     jmapgen_spawn_item( JsonObject &jsi ) : jmapgen_piece()
     , type( jsi.get_string( "item" ) )
     , amount( jsi, "amount", 1, 1 )
-    , chance( jsi, "chance", 1, 1 )
+    , chance( jsi, "chance", 100, 100 )
     {
         if( !item::type_is_defined( type ) ) {
             jsi.throw_error( "no such item type", "item" );
@@ -1109,7 +1109,11 @@ public:
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int c = chance.get();
-        if ( c == 1 || one_in( c ) ) {
+
+        // 100% chance = exactly 1 item, otherwise scale by item spawn rate.
+        const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+        int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+        for( int i = 0; i < spawn_count; i++ ) {
             dat.m.spawn_item( x.get(), y.get(), type, amount.get() );
         }
     }
@@ -1843,8 +1847,7 @@ void mapgen_function_json_base::setup_common()
         setup_setmap( parray );
     }
 
-    // this is for backwards compatibility, it should better be named place_items
-    objects.load_objects<jmapgen_spawn_item>( jo, "add" );
+    objects.load_objects<jmapgen_spawn_item>( jo, "place_item" );
     objects.load_objects<jmapgen_field>( jo, "place_fields" );
     objects.load_objects<jmapgen_npc>( jo, "place_npcs" );
     objects.load_objects<jmapgen_sign>( jo, "place_signs" );
@@ -3293,39 +3296,28 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-        // Tower lab effects:
-        // - Checkerboard lighting everywhere
-        // - Change rock features to match above-ground theme.
-        // - Add more monsters the higher the z-level is.
-        if (tower_lab) {
+        int light_odds = 0;
+        // central & tower labs are always fully lit, other labs have half chance of some lights.
+        if( central_lab || tower_lab) {
+            light_odds = 1;
+        } else if( one_in(2) ) {
+            // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
+            light_odds = pow( rng(1,12), 1.6 );
+        }
+        if (light_odds > 0) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_thconc_floor == ter(i, j)) {
-                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_thconc_floor_olight );
-                    } else if (t_rock == ter(i, j)) {
-                        ter_set(i, j, t_concrete_wall);
-                    }
-                }
-            }
-            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
-        } else {
-            int light_odds = 0;
-            // central lab is always fully lit, other labs have half chance of some lights.
-            if( central_lab ) {
-                light_odds = 1;
-            } else if( one_in(2) ) {
-                // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
-                light_odds = pow( rng(1,12), 1.6 );
-            }
-            if (light_odds > 0) {
-                for (int i = 0; i < SEEX * 2; i++) {
-                    for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                    if (!( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                        if (t_thconc_floor == ter(i, j) || t_strconc_floor == ter(i, j)) {
                             ter_set(i, j, t_thconc_floor_olight);
                         }
                     }
                 }
             }
+        }
+
+        if (tower_lab) {
+            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
         }
 
         // Lab special effects.
@@ -3342,7 +3334,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     for (int i = 0; i < SEEX * 2 - 1; i++) {
                         for (int j = 0; j < SEEY * 2 - 1; j++) {
                             // We spare some terrain to make it look better visually.
-                            if( t_thconc_floor == ter(i, j) && !one_in(10) ) {
+                            if( !one_in(10) && (t_thconc_floor == ter(i, j) || t_strconc_floor == ter(i, j) ) ) {
                                 ter_set(i, j, fluid_type);
                             } else if (has_flag_ter("DOOR", i, j) && !one_in(3) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3364,7 +3356,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
                     for (int i = 0; i < 2; ++i) {
                         draw_rough_circle( [this, fluid_type]( int x, int y ) {
-                                if( t_thconc_floor == ter(x, y) ) {
+                                if( t_thconc_floor == ter(x, y) || t_strconc_floor == ter(x, y) ) {
                                     ter_set(x, y, fluid_type);
                                 } else if (has_flag_ter("DOOR", x, y) ) {
                                     // We want the actual debris, but not the rubble marker or dirt.
@@ -3382,7 +3374,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     bool is_toxic = one_in(2);
                     for (int i = 0; i < SEEX * 2; i++) {
                         for (int j = 0; j < SEEY * 2; j++) {
-                            if( t_thconc_floor == ter(i, j) && one_in(200) ) {
+                            if( one_in(200) && (t_thconc_floor == ter(i, j)|| t_strconc_floor == ter(i, j)) ) {
                                 if (is_toxic) {
                                     add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
                                 } else {
@@ -3733,32 +3725,19 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-        // Tower lab effects:
-        // - Checkerboard lighting everywhere
-        // - Change rock features to match above-ground theme.
-        if (tower_lab) {
+        int light_odds = 0;
+        // central & tower labs are always fully lit, other labs have half chance of some lights.
+        if( central_lab || tower_lab) {
+            light_odds = 1;
+        } else if( one_in(2) ) {
+            // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
+            light_odds = pow( rng(1,12), 1.6 );
+        }
+        if (light_odds > 0) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_thconc_floor == ter(i, j)) {
-                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_thconc_floor_olight );
-                    } else if (t_rock == ter(i, j)) {
-                        ter_set(i, j, t_concrete_wall);
-                    }
-                }
-            }
-        } else {
-            int light_odds = 0;
-            // central lab is always fully lit, other labs have half chance of some lights.
-            if( central_lab ) {
-                light_odds = 1;
-            } else if( one_in(2) ) {
-                // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
-                light_odds = pow( rng(1,12), 1.6 );
-            }
-            if (light_odds > 0) {
-                for (int i = 0; i < SEEX * 2; i++) {
-                    for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                    if (!( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                        if (t_thconc_floor == ter(i, j) || t_strconc_floor == ter(i, j)) {
                             ter_set(i, j, t_thconc_floor_olight);
                         }
                     }

@@ -357,6 +357,7 @@ const std::vector<overmap_special> &overmap_specials::get_all()
 overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 {
     const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
+    const int city_size = get_option<int>( "CITY_SIZE" );
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
@@ -366,6 +367,10 @@ overmap_special_batch overmap_specials::get_default_batch( const point &origin )
         }
 
         if( only_classic && elem.flags.count( "CLASSIC" ) == 0 ) {
+            continue;
+        }
+
+        if( city_size == 0 && elem.city_size.min > city_size ) {
             continue;
         }
 

@@ -136,7 +136,7 @@
         "________________________",
         "________________________",
         "__P...7..#........#.....",
-        "___.#.P...T..#..._____#.",
+        "___.#.P...T..#jP._____#.",
         "____......P.....______..",
         ".._____........__..#.__.",
         "SS.______...#.___....__.",
@@ -180,6 +180,7 @@
         "m": "t_dirtfloor",
         "s": "t_dirtfloor",
         "t": "t_thconc_floor",
+        "j": "t_tree_coffee",
         "|": "t_wall_glass"
       },
       "place_signs": [
@@ -196,7 +197,8 @@
         { "signage": "CATTAIL", "x": 4, "y": 14 },
         { "signage": "DATURA", "x": 4, "y": 19 },
         { "signage": "FUNGUS", "x": 9, "y": 14 },
-        { "signage": "CACTUS", "x": 9, "y": 19 }
+        { "signage": "CACTUS", "x": 9, "y": 19 },
+        { "signage": "KENTUCKY COFFEE", "x": 15, "y": 3 }
       ]
     },
     "om_terrain": "BotanicalGarden_1b",

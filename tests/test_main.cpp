@@ -76,7 +76,7 @@ void init_global_game_state( const std::vector<mod_id> &mods )
     init_colors();
 
     g = new game;
-
+    g->new_game = true;
     g->load_static_data();
 
     world_generator->set_active_world( NULL );

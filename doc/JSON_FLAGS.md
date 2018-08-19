@@ -58,6 +58,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BARRICADABLE_WINDOW_CURTAINS```
 - ```BASHABLE``` Players + Monsters can bash this.
+- ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
 - ```COLLAPSES``` Has a roof that can collapse.
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
@@ -75,6 +76,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
 - ```FLAT``` Player can build and move furniture on.
+- ```FLAT_SURF``` Furniture or terrain with flat hard surface (ex. table, but not chair; tree stump, etc.).
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
@@ -490,6 +492,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
 - ```FRIDGE``` Can refrigerate items.
+- ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FUNNEL```
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
@@ -802,6 +805,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
+- ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
+- ```NO_FREEZE``` It spoils instantly when frozen.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
@@ -814,6 +819,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
+- ```SMOKED``` Not accepted by smoking rack (product of smoking).
+- ```SMOKABLE``` Accepted by smoking rack.
 
 ## Melee
 
@@ -892,6 +899,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item)
 - ```NO_UNLOAD``` Cannot be unloaded.
+- ```POWERED``` If turned ON, item uses its own source of power, instead of relying on power of the user
 - ```RADIOCARITEM``` Item can be put into a remote controlled car.
 - ```RADIOSIGNAL_1``` Activated per radios signal 1.
 - ```RADIOSIGNAL_2``` Activated per radios signal 2.
@@ -909,12 +917,18 @@ Melee flags are fully compatible with tool flags, and vice versa.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
 
 - ```COLD``` Item is cold (see EATEN_COLD).
+- ```FROZEN``` Item is frozen solid (used by freezer).
+- ```MUSHY``` NO_FREEZE item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
+- ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
+- ```FIELD_DRESS_FAILED``` Corpse was damaged by unskillful field dressing. Affects butcher results.
+- ```QUARTERED``` Corpse was quartered into parts. Affects butcher results, weight, volume.
 
 ## Bionics
 
@@ -1033,6 +1047,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
+- ```FAKE_SMOKE``` ... Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
 - ```FRAGILE_MELEE``` ... Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
 - ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
@@ -1046,6 +1061,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
+- ```SLEEP_AID``` ... This item helps in sleeping.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.

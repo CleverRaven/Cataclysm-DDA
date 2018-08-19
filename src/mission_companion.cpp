@@ -132,7 +132,7 @@ void talk_function::bionic_install(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if ( g->u.install_bionics( it, 20, false ) ){
+    if ( g->u.install_bionics( it, p, false, 20 ) ){
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
@@ -189,7 +189,7 @@ void talk_function::bionic_remove(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), 20, false)){
+    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), p, false)){
         g->u.cash -= price;
         p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
@@ -323,7 +323,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         mission_key_push( mission_key_vectors, "Gather Materials", _("Gather Materials"), "", false, avail );
 
 
-        col_missions["Distribute Food"] = string_format( "Notes:\n"
+        col_missions["Distribute Food"] = string_format( _("Notes:\n"
             "Distribute food to your follower and fill you larders.  Place the food you wish to distribute opposite the tent door between "
             "the manager and wall.\n \n"
             "Effects:\n"
@@ -333,22 +333,22 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> Rotten: 0%%\n"
             "> Rots in < 2 days: 60%%\n"
             "> Rots in < 5 days: 80%%\n \n"
-            "Total faction food stock: %d kcal or %d day's rations", 10 * camp_food_supply(), camp_food_supply( 0, true ) );
+            "Total faction food stock: %d kcal or %d day's rations"), 10 * camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key_push( mission_key_vectors, "Distribute Food", _("Distribute Food") );
 
-        col_missions["Reset Sort Points"] = string_format("Notes:\n"
-            "Resest the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
+        col_missions["Reset Sort Points"] = string_format( _("Notes:\n"
+            "Reset the points that items are sorted to using the [ Menial Labor ] mission.\n \n"
             "Effects:\n"
             "> Assignable Points: food, food for distribution, seeds, weapons, clothing, bionics, "
             "all kinds of tools, wood, trash, books, medication, and ammo.\n"
             "> Items sitting on any type of furniture will not be moved.\n"
             "> Items that are not listed in one of the categories are defaulted to the tools group."
-            );
+            ) );
         mission_key_push( mission_key_vectors, "Reset Sort Points", _("Reset Sort Points"), "", false );
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_2", om_cur)){
-        col_missions["Collect Firewood"] = string_format("Notes:\n"
+        col_missions["Collect Firewood"] = string_format( _("Notes:\n"
             "Send a companion to gather light brush and heavy sticks.\n \n"
             "Skill used: survival\n"
             "Difficulty: N/A \n"
@@ -358,14 +358,14 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> splintered wood\n \n"
             "Risk: Very Low\n"
             "Time: 3 Hours, Repeated\n"
-            "Positions: %d/3\n", companion_list( p, "_faction_camp_firewood" ).size()
+            "Positions: %d/3\n"), companion_list( p, "_faction_camp_firewood" ).size()
             );
         bool avail = ( companion_list( p, "_faction_camp_firewood" ).size() < 3 );
         mission_key_push( mission_key_vectors, "Collect Firewood", _("Collect Firewood"), "", false, avail );
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_3", om_cur)){
-        col_missions["Menial Labor"] = string_format("Notes:\n"
+        col_missions["Menial Labor"] = string_format( _("Notes:\n"
             "Send a companion to do low level chores and sort supplies.\n \n"
             "Skill used: fabrication\n"
             "Difficulty: N/A \n"
@@ -374,7 +374,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "Default, top to bottom:  Clothing, Food, Books/Bionics, and Tools.  Wood will be piled to the south.  Trash to the north.\n \n"
             "Risk: None\n"
             "Time: 3 Hours\n"
-            "Positions: %d/1\n", companion_list( p, "_faction_camp_menial" ).size()
+            "Positions: %d/1\n"), companion_list( p, "_faction_camp_menial" ).size()
             );
         bool avail = companion_list( p, "_faction_camp_menial" ).empty();
         mission_key_push( mission_key_vectors, "Menial Labor", _("Menial Labor"), "", false, avail );
@@ -388,7 +388,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         (om_min_level("faction_base_camp_14", om_cur) && om_expansions.size() < 6) ||
         (om_min_level("faction_base_camp_16", om_cur) && om_expansions.size() < 7) ||
         (om_min_level("faction_base_camp_18", om_cur) && om_expansions.size() < 8) ) ){
-        col_missions["Expand Base"] = string_format("Notes:\n"
+        col_missions["Expand Base"] = string_format( _("Notes:\n"
             "Your base has become large enough to support an expansion.  Expansions open up new opportunities "
             "but can be expensive and time consuming.  Pick them carefully, only 8 can be built at each camp.\n \n"
             "Skill used: fabrication\n"
@@ -398,14 +398,14 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "since food is used to support companion missions and wood is your primary construction material.\n \n"
             "Risk: None\n"
             "Time: 3 Hours \n"
-            "Positions: %d/1\n", companion_list( p, "_faction_camp_expansion" ).size()
+            "Positions: %d/1\n"), companion_list( p, "_faction_camp_expansion" ).size()
             );
         bool avail = companion_list( p, "_faction_camp_expansion" ).empty();
         mission_key_push( mission_key_vectors, "Expand Base", _("Expand Base"), "", false, avail );
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_5", om_cur)){
-        col_missions["Cut Logs"] = string_format("Notes:\n"
+        col_missions["Cut Logs"] = string_format( _("Notes:\n"
             "Send a companion to a nearby forest to cut logs.\n \n"
             "Skill used: fabrication\n"
             "Difficulty: 1 \n"
@@ -415,14 +415,14 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> Repeatable with diminishing returns.\n \n"
             "Risk: Low-Medium\n"
             "Time: 6 Hour Base + Travel Time + Cutting Time\n"
-            "Positions: %d/1\n", companion_list( p, "_faction_camp_cut_log" ).size()
+            "Positions: %d/1\n"), companion_list( p, "_faction_camp_cut_log" ).size()
             );
         bool avail = companion_list( p, "_faction_camp_cut_log" ).empty();
         mission_key_push( mission_key_vectors, "Cut Logs", _("Cut Logs"), "", false, avail );
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_7", om_cur) ){
-        col_missions["Setup Hide Site"] = string_format("Notes:\n"
+        col_missions["Setup Hide Site"] = string_format( _("Notes:\n"
             "Send a companion to build an improvised shelter and stock it with equipment at a distant map location.\n \n"
             "Skill used: survival\n"
             "Difficulty: 3\n"
@@ -432,14 +432,14 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> Time dependent on weight of equipment being sent forward.\n \n"
             "Risk: Medium\n"
             "Time: 6 Hour Construction + Travel\n"
-            "Positions: %d/1\n", companion_list( p, "_faction_camp_hide_site" ).size()
+            "Positions: %d/1\n"), companion_list( p, "_faction_camp_hide_site" ).size()
             );
         bool avail = companion_list( p, "_faction_camp_hide_site" ).empty();
         mission_key_push( mission_key_vectors, "Setup Hide Site", _("Setup Hide Site"), "", false, avail );
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_7", om_cur) ){
-        col_missions["Relay Hide Site"] = string_format("Notes:\n"
+        col_missions["Relay Hide Site"] = string_format( _("Notes:\n"
             "Push gear out to a hide site or bring gear back from one.\n \n"
             "Skill used: survival\n"
             "Difficulty: 1\n"
@@ -449,7 +449,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> Time dependent on weight of equipment being sent forward or back.\n \n"
             "Risk: Medium\n"
             "Time: 1 Hour Base + Travel\n"
-            "Positions: %d/1\n", companion_list( p, "_faction_camp_hide_trans" ).size()
+            "Positions: %d/1\n"), companion_list( p, "_faction_camp_hide_trans" ).size()
             );
         bool avail = companion_list( p, "_faction_camp_hide_trans" ).empty();
         mission_key_push( mission_key_vectors, "Relay Hide Site", _("Relay Hide Site"), "", false, avail );
@@ -486,7 +486,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_13", om_cur) ){
-        col_missions["Scout Mission"] =  string_format("Notes:\n"
+        col_missions["Scout Mission"] =  string_format( _("Notes:\n"
             "Send a companion out into the great unknown.  High survival skills are needed to avoid combat but "
             "you should expect an encounter or two.\n \n"
             "Skill used: survival\n"
@@ -497,14 +497,14 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> Can bounce off hide sites to extend range.\n \n"
             "Risk: High\n"
             "Time: Travel\n"
-            "Positions: %d/3\n", companion_list( p, "_faction_camp_scout_0" ).size()
+            "Positions: %d/3\n"), companion_list( p, "_faction_camp_scout_0" ).size()
             );
         bool avail = companion_list( p, "_faction_camp_scout_0" ).size() < 3;
         mission_key_push( mission_key_vectors, "Scout Mission", _("Scout Mission"), "", false, avail );
     }
 
     if ( id == "FACTION_CAMP" && om_min_level("faction_base_camp_15", om_cur) ){
-        col_missions["Combat Patrol"] =  string_format("Notes:\n"
+        col_missions["Combat Patrol"] =  string_format( _("Notes:\n"
             "Send a companion to purge the wasteland.  Their goal is to kill anything hostile they encounter and return when "
             "their wounds are too great or the odds are stacked against them.\n \n"
             "Skill used: survival\n"
@@ -515,7 +515,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             "> Can bounce off hide sites to extend range.\n \n"
             "Risk: Very High\n"
             "Time: Travel\n"
-            "Positions: %d/3\n", companion_list( p, "_faction_camp_combat_0" ).size()
+            "Positions: %d/3\n"), companion_list( p, "_faction_camp_combat_0" ).size()
             );
         bool avail = companion_list( p, "_faction_camp_combat_0" ).size() < 3;
         mission_key_push( mission_key_vectors, "Combat Patrol", _("Combat Patrol"), "", false, avail );
@@ -2916,7 +2916,7 @@ std::string talk_function::om_upgrade_description( std::string bldg ){
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    comp = string_format( "Notes:\n%s\n \nSkill used: %s\nDifficulty: %d\n%s \nRisk: None\nTime: %s\n", making->description,
+    comp = string_format( _("Notes:\n%s\n \nSkill used: %s\nDifficulty: %d\n%s \nRisk: None\nTime: %s\n"), making->description,
                          making->skill_used.obj().ident().c_str(), making->difficulty, comp, to_string( time_duration::from_turns( making->time / 100 ) ) );
     return comp;
 }
@@ -2937,7 +2937,7 @@ std::string talk_function::om_craft_description( std::string itm ){
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    comp = string_format("Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n", making.skill_used.obj().name(), making.difficulty,
+    comp = string_format( _("Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n"), making.skill_used.obj().name(), making.difficulty,
                          comp, to_string( time_duration::from_turns( making.time / 100 ) ) );
     return comp;
 }
@@ -3074,7 +3074,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
         int skill_1 = comp->get_skill_level( skill_survival );
         int skill_2 = comp->get_skill_level( skill_speech );
         if( skill_1 > rng( -2, 8 ) ){
-            popup(_("%s notices the antlered horror and slips away before if gets too close."), comp->name.c_str());
+            popup(_("%s notices the antlered horror and slips away before it gets too close."), comp->name.c_str());
         } else if( skill_2 > rng( -2, 8 ) ) {
             popup(_("The survivor approaches %s asking for directions."), comp->name.c_str());
             popup(_("Fearful that he may be an agent of some hostile faction, %s doesn't mention the camp."), comp->name.c_str());
@@ -3108,7 +3108,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
                     popup(_("The jabberwock grabbed %s by the arm from behind and began to scream."), comp->name.c_str());
                     popup(_("Terrified, %s spun around and delivered a massive kick to the creature's torso..."), comp->name.c_str());
                     popup(_("Collapsing into a pile of gore, %s walked away unscathed..."), comp->name.c_str());
-                    popup(_("(Sounds like bullshit, you wander what really happened.)"));
+                    popup(_("(Sounds like bullshit, you wonder what really happened.)"));
                 }
             } else {
                 if (one_in(2)){
@@ -3116,7 +3116,7 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
                     popup(_("The screams were terrifying, there was nothing anyone could do."));
                 } else {
                     popup(_("Pieces of %s were found strewn across a few bushes."), comp->name.c_str());
-                    popup(_("(You wander if your companions are fit to work on their own...)"));
+                    popup(_("(You wonder if your companions are fit to work on their own...)"));
                 }
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
@@ -3487,7 +3487,7 @@ bool talk_function::camp_expansion_select( npc &p )
     int expan = menu_vec(true, _("Select an expansion:"), pos_expansion_name) - 1;
     int sz = pos_expansion_name.size();
     if (expan < 0 || expan >= sz) {
-        popup("You choose to wait...");
+        popup( _("You choose to wait...") );
         return false;
     }
     editmap edit;
@@ -3662,30 +3662,30 @@ std::string talk_function::camp_farm_description( point omt_pos, bool harvest, b
     }
     std::string entry;
     if( harvest ){
-        entry += "Harvestable: " + to_string(harvestable) + " \n" + crops;
+        entry += _("Harvestable: ") + to_string(harvestable) + " \n" + crops;
     }
     if( plots ){
-        entry += "Ready for Planting: " + to_string(plots_empty) + " \n";
+        entry += _("Ready for Planting: ") + to_string(plots_empty) + " \n";
     }
     if( plow ){
-        entry += "Needs Plowing: " + to_string(plots_plow) + " \n";
+        entry += _("Needs Plowing: ") + to_string(plots_plow) + " \n";
     }
     return entry;
 }
 
 std::string talk_function::camp_car_description( vehicle *car )
 {
-    std::string entry = string_format("Name:     %25s\n", car->name );
-    entry += "----          Engines          ----\n";
+    std::string entry = string_format( _("Name:     %25s\n"), car->name );
+    entry += _("----          Engines          ----\n");
     std::vector<vehicle_part *> part_engines = car->get_parts( "ENGINE" );
     for( auto pt: part_engines ){
         const vpart_info &vp = pt->info();
-        entry += string_format("Enginge:  %25s\n", vp.name() );
-        entry += string_format(">Status:  %24d%%\n", int( 100.0 * pt->hp() / vp.durability ) );
-        entry += string_format(">Fuel:    %25s\n", vp.fuel_type );
+        entry += string_format( _("Engine:  %25s\n"), vp.name() );
+        entry += string_format( _(">Status:  %24d%%\n"), int( 100.0 * pt->hp() / vp.durability ) );
+        entry += string_format( _(">Fuel:    %25s\n"), vp.fuel_type );
     }
     std::map<itype_id, long> fuels = car->fuels_left();
-    entry += "----  Fuel Storage & Battery   ----\n";
+    entry += _("----  Fuel Storage & Battery   ----\n");
     for (std::map<itype_id, long>::iterator it=fuels.begin(); it!=fuels.end(); ++it){
         std::string fuel_entry = string_format("%d/%d", car->fuel_left(it->first), car->fuel_capacity(it->first) );
         entry += string_format(">%s:%*s\n", item(it->first).tname(), 33-item(it->first).tname().length(), fuel_entry );
@@ -3699,7 +3699,7 @@ std::string talk_function::camp_car_description( vehicle *car )
         }
     }
     entry += " \n";
-    entry += "Estimated Chop Time:         5 Days\n";
+    entry += _("Estimated Chop Time:         5 Days\n");
     return entry;
 }
 
@@ -4262,12 +4262,12 @@ npc *talk_function::companion_choose( std::string skill_tested, int skill_level 
     npcs.push_back(_("Cancel"));
     int npc_choice = menu_vec(true, _("Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]"), npcs) - 1;
     if (npc_choice < 0 || npc_choice >= (int)available.size() ) {
-        popup("You choose to send no one...");
+        popup(_("You choose to send no one..."));
         return nullptr;
     }
 
     if ( !skill_tested.empty() && available[npc_choice]->get_skill_level( skill_id(skill_tested) ) < skill_level ) {
-        popup("The companion you selected doesn't have the skills!");
+        popup(_("The companion you selected doesn't have the skills!"));
         return nullptr;
     }
     return available[npc_choice];
@@ -4906,25 +4906,25 @@ std::string talk_function::camp_trip_description( time_duration total_time, time
     //A square is roughly 3 m
     int dist_m = distance * 24 * 3;
     if( dist_m > 1000 ){
-        entry += string_format(">Distance:%15.2f (km)\n", ( dist_m / 1000.0 ) );
-        entry += string_format(">One Way: %15d (trips)\n", trips );
-        entry += string_format(">Covered: %15.2f (km)\n", ( dist_m /1000.0 * trips ) );
+        entry += string_format( _(">Distance:%15.2f (km)\n"), ( dist_m / 1000.0 ) );
+        entry += string_format( _(">One Way: %15d (trips)\n"), trips );
+        entry += string_format( _(">Covered: %15.2f (km)\n"), ( dist_m /1000.0 * trips ) );
     } else {
-        entry += string_format(">Distance:%15d (m)\n", dist_m );
-        entry += string_format(">One Way: %15d (trips)\n", trips );
-        entry += string_format(">Covered: %15d (m)\n", dist_m * trips );
+        entry += string_format( _(">Distance:%15d (m)\n"), dist_m );
+        entry += string_format( _(">One Way: %15d (trips)\n"), trips );
+        entry += string_format( _(">Covered: %15d (m)\n"), dist_m * trips );
     }
-    entry += string_format(">Travel:  %15d (hours)\n", to_hours<int>( travel_time ) );
-    entry += string_format(">Working: %15d (hours)\n", to_hours<int>( working_time ) );
+    entry += string_format( _(">Travel:  %15d (hours)\n"), to_hours<int>( travel_time ) );
+    entry += string_format( _(">Working: %15d (hours)\n"), to_hours<int>( working_time ) );
     entry += "----                   ----\n";
     if( total_time > 3_days ){
-        entry += string_format("Total:    %15d (days)\n", to_days<int>( total_time ) );
+        entry += string_format( _("Total:    %15d (days)\n"), to_days<int>( total_time ) );
     } else if( total_time > 3_hours ){
-        entry += string_format("Total:    %15d (hours)\n", to_hours<int>( total_time ) );
+        entry += string_format( _("Total:    %15d (hours)\n"), to_hours<int>( total_time ) );
     } else{
-        entry += string_format("Total:    %15d (minutes)\n", to_minutes<int>( total_time ) );
+        entry += string_format( _("Total:    %15d (minutes)\n"), to_minutes<int>( total_time ) );
     }
-    entry += string_format("Food:     %15d (kcal)\n \n", 10 * need_food);
+    entry += string_format( _("Food:     %15d (kcal)\n \n"), 10 * need_food);
     return entry;
 }
 
@@ -5039,7 +5039,7 @@ bool talk_function::camp_menial_sort_pts( npc &p, bool reset_pts, bool choose_pt
     }
     if( choose_pts ){
         for( size_t x = 0; x < sort_pts.size(); x++ ){
-            if( query_yn( string_format( "Reset point: %s?", sort_names[x] ) ) ){
+            if( query_yn( string_format( _("Reset point: %s?"), sort_names[x] ) ) ){
                 const tripoint where( g->look_around() );
                 if( rl_dist( g->u.pos(), where ) <= 20 ) {
                     sort_pts[x] = where;
@@ -5130,7 +5130,7 @@ void talk_function::camp_craft_construction( npc &p, mission_entry cur_key, std:
             int batch_size = 1;
             string_input_popup popup_input;
             popup_input
-                .title( string_format( "Batch crafting %s [MAX: %d]: ", making->result_name(), camp_recipe_batch_max( *making, total_inv ) ) )
+                .title( string_format( _("Batch crafting %s [MAX: %d]: "), making->result_name(), camp_recipe_batch_max( *making, total_inv ) ) )
                 .edit( batch_size );
 
             if( popup_input.canceled() || batch_size <= 0 ){
@@ -5205,7 +5205,7 @@ std::string talk_function::camp_recruit_evaluation( npc &p, std::string base, st
     }
 
     int total = sbase + sexpansions + sfaction + sbonus;
-    std::string desc = string_format( "Notes:\n"
+    std::string desc = string_format( _("Notes:\n"
             "Recruiting additional followers is very dangerous and expensive.  The outcome is heavily dependent on the skill of the "
             "companion you send and the appeal of your base.\n \n"
             "Skill used: speech\n"
@@ -5217,7 +5217,7 @@ std::string talk_function::camp_recruit_evaluation( npc &p, std::string base, st
             "Total: Skill                  +%3d%%\n \n"
             "Risk: High\n"
             "Time: 4 Days\n"
-            "Positions: %d/1\n", sbase, sexpansions, sfaction, sbonus, total, companion_list( p, "_faction_camp_firewood" ).size()
+            "Positions: %d/1\n"), sbase, sexpansions, sfaction, sbonus, total, companion_list( p, "_faction_camp_firewood" ).size()
             );
     if( raw_score ){
         return to_string( total );
@@ -5267,13 +5267,13 @@ void talk_function::camp_recruit_return( npc &p, std::string task, int score )
     appeal += std::min( skill / 3 , 3);
     int food_desire = rng( 0, 5 );
     while( rec_m >= 0 ){
-        std::string description = string_format( "NPC Overview:\n \n" );
-        description += string_format( "Name:  %20s\n \n", recruit->name.c_str() );
-        description += string_format( "Strength:        %10d\n", recruit->str_max );
-        description += string_format( "Dexterity:       %10d\n", recruit->dex_max );
-        description += string_format( "Intelligence:    %10d\n", recruit->int_max );
-        description += string_format( "Perception:      %10d\n \n", recruit->per_max );
-        description += string_format( "Top 3 Skills:\n" );
+        std::string description = string_format( _("NPC Overview:\n \n") );
+        description += string_format( _("Name:  %20s\n \n"), recruit->name.c_str() );
+        description += string_format( _("Strength:        %10d\n"), recruit->str_max );
+        description += string_format( _("Dexterity:       %10d\n"), recruit->dex_max );
+        description += string_format( _("Intelligence:    %10d\n"), recruit->int_max );
+        description += string_format( _("Perception:      %10d\n \n"), recruit->per_max );
+        description += string_format( _("Top 3 Skills:\n") );
 
         const auto skillslist = Skill::get_skills_sorted_by( [&]( Skill const & a, Skill const & b ) {
             int const level_a = recruit->get_skill_level_object( a.ident() ).exercised_level();
@@ -5288,10 +5288,10 @@ void talk_function::camp_recruit_return( npc &p, std::string task, int score )
         description += string_format( "%12s:          %4d\n \n", skillslist[2]->ident().c_str(),
                                      recruit->get_skill_level_object( skillslist[2]->ident() ).level() );
 
-        description += string_format( "Asking for:\n" );
-        description += string_format( "> Food:     %10d days\n \n", food_desire );
-        description += string_format( "Faction Food:%9d days\n \n", camp_food_supply( 0, true ) );
-        description += string_format( "Recruit Chance: %10d%%\n \n", std::min( (int)( (10.0 + appeal) / 20.0 * 100), 100 ) );
+        description += string_format( _("Asking for:\n") );
+        description += string_format( _("> Food:     %10d days\n \n"), food_desire );
+        description += string_format( _("Faction Food:%9d days\n \n"), camp_food_supply( 0, true ) );
+        description += string_format( _("Recruit Chance: %10d%%\n \n"), std::min( (int)( (10.0 + appeal) / 20.0 * 100), 100 ) );
         description += _("Select an option:");
 
         std::vector<std::string> rec_options;
@@ -5303,7 +5303,7 @@ void talk_function::camp_recruit_return( npc &p, std::string task, int score )
         rec_m = menu_vec(true, description.c_str(), rec_options) - 1;
         int sz = rec_options.size();
         if (rec_m < 0 || rec_m >= sz) {
-            popup("You decide you aren't interested...");
+            popup(_("You decide you aren't interested..."));
             return;
         }
 

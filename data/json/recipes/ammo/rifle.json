@@ -209,7 +209,10 @@
     "charges": 1,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
     "components": [
-      [ [ "308_casing", 1 ] ],
+      [ 
+        [ "308_casing", 1 ],
+        [ "762_51_casing", 1 ]
+      ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 8 ] ],
       [ [ "copper", 3 ] ]
@@ -414,7 +417,10 @@
     "charges": 1,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
     "components": [
-      [ [ "308_casing", 1 ] ],
+      [ 
+        [ "308_casing", 1 ],
+        [ "762_51_casing", 1 ]
+      ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 10 ] ],
       [ [ "copper", 3 ] ]
@@ -434,7 +440,10 @@
     "charges": 1,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
     "components": [
-      [ [ "308_casing", 1 ] ],
+      [ 
+        [ "308_casing", 1 ],
+        [ "762_51_casing", 1 ]
+      ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 10 ] ],
       [ [ "copper", 3 ] ],

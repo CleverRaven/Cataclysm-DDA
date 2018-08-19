@@ -225,7 +225,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "bowl_plastic", "x": 22, "y": 4 } ],
+      "place_item": [ { "item": "bowl_plastic", "x": 22, "y": 4 } ],
       "furniture": { "-": "f_null", ".": "f_null", "#": "f_straw_bed", "_": "f_null", "g": "f_null", "|": "f_null" },
       "place_monsters": [ { "chance": 65, "density": 1, "monster": "GROUP_DOGS", "x": 23, "y": [ 4, 6 ] } ],
       "place_liquids": [ { "liquid": "water_clean", "chance": 2, "amount": [ 1, 3 ], "x": 22, "y": 4 } ],
@@ -304,7 +304,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "meat", "repeat": [ 1, 4 ], "chance": 50, "x": 1, "y": 4 }, { "item": "bowl_plastic", "x": 1, "y": 4 } ],
+      "place_item": [ { "item": "meat", "repeat": [ 1, 4 ], "chance": 50, "x": 1, "y": 4 }, { "item": "bowl_plastic", "x": 1, "y": 4 } ],
       "furniture": { "#": "f_straw_bed", "$": "f_null", ".": "f_null", "_": "f_null", "g": "f_null", "|": "f_null" },
       "place_monsters": [ { "chance": 65, "density": 1, "monster": "GROUP_DOGS", "x": 0, "y": [ 4, 6 ] } ],
       "place_vehicles": [

@@ -1637,14 +1637,8 @@ void item::io( Archive& archive )
     if( count_by_charges() && charges <= 0 ) {
         charges = item( type, 0 ).charges;
     }
-    if( !active && !rotten() && goes_bad() ) {
-        // Rotting found *must* be active to trigger the rotting process,
-        // if it's already rotten, no need to do this.
+    if( is_food() ) {
         active = true;
-    }
-    if( is_food() && active && ( rotten() || !goes_bad() ) ) {
-        // There was a bug that set all comestibles active, this reverses that.
-        active = false;
     }
     if( !active &&
         (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||

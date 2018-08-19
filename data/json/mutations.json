@@ -292,7 +292,18 @@
         "starting_trait" : true,
         "valid" : false,
         "active" : true
-    },{
+    },
+    {
+        "type" : "mutation",
+        "id" : "LOVES_BOOKS",
+        "name" : "Bookworm",
+        "points" : 1,
+        "description" : "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ILLITERATE","HATES_BOOKS"]
+    },
+    {
         "type" : "mutation",
         "id" : "NONADDICTIVE",
         "name" : "Addiction Resistant",
@@ -635,7 +646,7 @@
         "description" : "You never learned to read!  Books and computers are off-limits to you.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FASTREADER", "SLOWREADER"]
+        "cancels" : ["FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
@@ -692,7 +703,18 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["VEGETARIAN"]
-    },{
+    },
+    {
+        "type" : "mutation",
+        "id" : "HATES_BOOKS",
+        "name" : "Hates Books",
+        "points" : -1,
+        "description" : "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ILLITERATE","LOVES_BOOKS"]
+    },
+    {
         "type" : "mutation",
         "id" : "ANTIFRUIT",
         "name" : "Hates Fruit",
@@ -2057,7 +2079,7 @@
         "id" : "M_IMMUNE",
         "name" : "Mycus Identity",
         "points" : 5,
-        "description" : "We have synchronized our local physiology with that of the Mycus.  Any spores we may encounter will not attempt to germinate inside the local system, and we may traverse Mycus biospheres easily, as native bioforms shift shape to accomodate us.",
+        "description" : "We have synchronized our local physiology with that of the Mycus.  Any spores we may encounter will not attempt to germinate inside the local system, and we may traverse Mycus biospheres easily, as native bioforms shift shape to accommodate us.",
         "valid" : false,
         "purifiable": false,
         "threshreq" : ["THRESH_MYCUS"],
@@ -5075,10 +5097,10 @@
     },{
         "type" : "mutation",
         "id" : "PYROMANIA",
-        "name" : "Pyromania",
+        "name" : "Pyromaniac",
         "starting_trait" : true,
         "points" : -2,
-        "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often. However, you gain a mood bonus from doing so."
+        "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so."
     },{
         "type" : "mutation",
         "id" : "PROF_POLICE",
@@ -5191,6 +5213,16 @@
         "valid": false,
         "purifiable": false,
         "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_DICEMASTER",
+        "name" : "Dungeon Master",
+        "points" : 0,
+        "description" : "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly. You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true,
+        "cancels": ["ILLITERATE"]
     },{
         "type" : "mutation",
         "id" : "NPC_BRANDY",

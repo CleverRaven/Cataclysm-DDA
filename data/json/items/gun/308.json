@@ -236,7 +236,6 @@
   {
     "id": "M24",
     "copy-from": "rifle_manual",
-    "reload_noise_volume": 10,
     "type": "GUN",
     "name": "M24",
     "name_plural": "M24",
@@ -250,7 +249,6 @@
     "symbol": "(",
     "color": "blue",
     "ammo": "308",
-    "skill":"rifle",
     "dispersion": 85,
     "durability": 9,
     "barrel_length": 2,
