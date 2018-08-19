@@ -7339,6 +7339,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
     w_point const weatherPoint = *g->weather_precise;
 
+    /* Possibly used twice. Worth spending the time to precalculate. */
+    const auto player_local_temp = g->get_temperature( g->u.pos() );
+
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
                               it->tname().c_str() );
@@ -7346,10 +7349,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     if( it->has_flag( "THERMOMETER" ) ) {
         if( it->typeId() == "thermometer" ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
-                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
+                                  print_temperature( player_local_temp ).c_str() );
         } else {
             p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
+                                  print_temperature( player_local_temp ).c_str() );
         }
     }
     if( it->has_flag( "HYGROMETER" ) ) {
@@ -7393,7 +7396,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
-                g->get_temperature( g->u.pos() ) ).c_str() );
+                player_local_temp ).c_str() );
     }
 
     return 0;
