@@ -1168,12 +1168,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
     wrefresh( g->w_terrain );
 
     while (true) {
-        if( cur_key_list.empty() ){
-            mission_entry dud;
-            dud.id = "NONE";
-            dud.name_display = "NONE";
-            cur_key_list.push_back( dud );
-        }
         cur_key = cur_key_list[sel];
         if (redraw) {
             werase(w_list);
@@ -1235,29 +1229,35 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             sel = 0;
             offset = 0;
 
-            if ( tab_mode == TAB_NW ) {
-                tab_mode = TAB_MAIN;
-                reset_cur_key_list();
-            } else {
-                tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
-                cur_key_list = mission_key_vectors[tab_mode + 1];
-            }
+            do
+            {
+                if ( tab_mode == TAB_NW ) {
+                    tab_mode = TAB_MAIN;
+                    reset_cur_key_list();
+                } else {
+                    tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
+                    cur_key_list = mission_key_vectors[tab_mode + 1];
+                }
+            } while ( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
             offset = 0;
 
-            if ( tab_mode == TAB_MAIN ) {
-                tab_mode = TAB_NW;
-            } else {
-                tab_mode = static_cast<camp_tab_mode>( tab_mode - 1 );
-            }
+            do
+            {
+                if ( tab_mode == TAB_MAIN ) {
+                    tab_mode = TAB_NW;
+                } else {
+                    tab_mode = static_cast<camp_tab_mode>( tab_mode - 1 );
+                }
 
-            if (tab_mode == TAB_MAIN) {
-                reset_cur_key_list();
-            } else {
-                cur_key_list = mission_key_vectors[tab_mode + 1];
-            }
+                if (tab_mode == TAB_MAIN) {
+                    reset_cur_key_list();
+                } else {
+                    cur_key_list = mission_key_vectors[tab_mode + 1];
+                }
+            } while ( cur_key_list.empty() );
         } else if (action == "QUIT") {
             mission_entry dud;
             dud.id = "NONE";
