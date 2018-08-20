@@ -3316,24 +3316,15 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( buy_gas == choice ) {
-        item *cashcard;
+        long money = p.charges_of( "cash_card" );
 
-        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
-
-        if( pos == INT_MIN ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        cashcard = &( p.i_at( pos ) );
-
-        if( cashcard->charges < pricePerUnit ) {
+        if( money < pricePerUnit ) {
             popup( str_to_illiterate_str(
                        _( "Not enough money, please refill your cash card." ) ).c_str() ); //or ride on a solar car, ha ha ha
             return;
         }
 
-        long maximum_liters = std::min( cashcard->charges / pricePerUnit, tankGasUnits / 1000 );
+        long maximum_liters = std::min( money / pricePerUnit, tankGasUnits / 1000 );
 
         std::string popupmsg = string_format(
                                    _( "How many liters of gasoline to buy? Max: %d L. (0 to cancel) " ), maximum_liters );
@@ -3357,9 +3348,11 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
 
-        cashcard->charges -= liters * pricePerUnit;
+        long cost = liters * pricePerUnit;
+        money -= cost;
+        p.use_charges( "cash_card", cost );
 
-        add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
+        add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( money ) );
         p.moves -= 100;
         return;
     }
@@ -3394,7 +3387,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     if( refund == choice ) {
         item *cashcard;
 
-        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );;
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -3408,7 +3401,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
+            add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( p.charges_of( "cash_card" ) ) );
             p.moves -= 100;
             return;
         } else {
