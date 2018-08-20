@@ -5719,7 +5719,7 @@
     "id": "leg_xlsplint",
     "type": "ARMOR",
     "name": "leg splint XL",
-    "description": "A tool to help set bones and hold them in place.",
+    "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
     "weight": 1000,
     "volume": 8,
     "price": 20000,
