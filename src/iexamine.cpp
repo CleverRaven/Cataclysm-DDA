@@ -463,22 +463,14 @@ void iexamine::atm(player &p, const tripoint& )
 void iexamine::vending( player &p, const tripoint &examp )
 {
     constexpr int moves_cost = 250;
-
+    long money = p.charges_of( "cash_card" );
     auto vend_items = g->m.i_at( examp );
+
     if( vend_items.empty() ) {
         add_msg( m_info, _( "The vending machine is empty!" ) );
         return;
-    } else if( !p.has_charges( "cash_card", 1 ) ) {
+    } else if( !money ) {
         popup( _( "You need a charged cash card to purchase things!" ) );
-        return;
-    }
-
-    item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
-
-    if( card->is_null() ) {
-        return; // player canceled selection
-    } else if( card->charges == 0 ) {
-        popup( _( "You must insert a charged cash card!" ) );
         return;
     }
 
@@ -537,7 +529,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
 
         trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
-                        _( "Money left: %s" ), format_money( card->charges ) );
+                        _( "Money left: %s" ), format_money( money ) );
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -585,7 +577,9 @@ void iexamine::vending( player &p, const tripoint &examp )
         } else if (action == "UP") {
             cur_pos = (cur_pos + num_items - 1) % num_items;
         } else if (action == "CONFIRM") {
-            if ( cur_item->price( false ) > card->charges ) {
+            const int iprice = cur_item->price( false );
+
+            if ( iprice > money ) {
                 popup(_("That item is too expensive!"));
                 continue;
             }
@@ -595,7 +589,8 @@ void iexamine::vending( player &p, const tripoint &examp )
                 p.moves -= moves_cost;
             }
 
-            card->charges -= cur_item->price( false );
+            money -= iprice;
+            p.use_charges( "cash_card", iprice );
             p.i_add_or_drop( *cur_item );
 
             vend_items.erase( cur_item );
