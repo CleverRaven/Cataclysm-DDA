@@ -455,5 +455,15 @@
     "id": "mushroom_magic",
     "type": "MIGRATION",
     "replace": "mushroom"
+  },
+  {
+    "id": "seed_mushroom_poison",
+    "type": "MIGRATION",
+    "replace": "seed_mushroom"
+  },
+  {
+    "id": "seed_mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "seed_mushroom"
   }
 ]
