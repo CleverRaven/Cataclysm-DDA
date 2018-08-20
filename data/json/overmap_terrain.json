@@ -8454,5 +8454,125 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_0_0",
+    "name": "movie theater",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_1_0",
+    "name": "movie theater entrance",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_2_0",
+    "name": "movie theater",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_0_1",
+    "name": "movie theater",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_1_1",
+    "name": "movie theater",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_2_1",
+    "name": "movie theater",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_0_2",
+    "name": "movie theater",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_1_2",
+    "name": "movie theater",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_2_2",
+    "name": "movie theater",
+    "sym": 77,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "paintball_field",
+    "name": "paintball field",
+    "sym": 112,
+    "color": "red",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smoke_lounge",
+    "name": "smoking lounge",
+    "sym": 115,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "music_venue",
+    "name": "music venue",
+    "sym": 77,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gambling_hall",
+    "name": "gambling hall",
+    "sym": 103,
+    "color": "blue",
+    "see_cost": 5,
+    "mondensity": 2
   }
 ]
