@@ -177,7 +177,7 @@ class atm_menu {
 public:
     // menu choices
     enum options : int {
-        cancel, purchase_card, deposit_money, withdraw_money, transfer_money, transfer_all_money
+        cancel, purchase_card, deposit_money, withdraw_money, transfer_all_money
     };
 
     atm_menu()                           = delete;
@@ -196,7 +196,6 @@ public:
             case purchase_card:      result = do_purchase_card();      break;
             case deposit_money:      result = do_deposit_money();      break;
             case withdraw_money:     result = do_withdraw_money();     break;
-            case transfer_money:     result = do_transfer_money();     break;
             case transfer_all_money: result = do_transfer_all_money(); break;
             default:
                 return;
@@ -259,13 +258,7 @@ private:
         }
 
         if (card_count >= 2 && charge_count) {
-            add_choice(transfer_money, _("Transfer Money"));
             add_choice(transfer_all_money, _("Transfer All Money"));
-        } else if (charge_count) {
-            add_info(transfer_money, _("You need two cash cards before you can move money!"));
-        } else {
-            add_info(transfer_money,
-                _("One of your cash cards must be charged before you can move money!"));
         }
 
         amenu.addentry(cancel, true, 'q', _("Cancel"));
@@ -279,18 +272,6 @@ private:
 
         u.moves -= 100;
     }
-
-    //! Prompt for a card to use (includes worn items).
-    item* choose_card(char const *const msg) {
-        const int index = g->inv_for_id( itype_id( "cash_card" ), msg );
-
-        if (index == INT_MIN) {
-            add_msg(m_info, _("Never mind."));
-            return nullptr; // player canceled
-        }
-
-        return &u.i_at(index);
-    };
 
     //! Prompt for an integral value clamped to [0, max].
     static long prompt_for_amount(char const *const msg, long const max) {
@@ -325,25 +306,23 @@ private:
 
     //!Deposit money from cash card into bank account.
     bool do_deposit_money() {
-        item *src = choose_card(_("Insert card for deposit."));
-        if (!src) {
-            return false;
-        }
+        long money = u.charges_of( "cash_card" );
 
-        if (!src->charges) {
+        if (!money) {
             popup(_("You can only deposit money from charged cash cards!"));
             return false;
         }
 
         const int amount = prompt_for_amount(ngettext(
             "Deposit how much? Max: %d cent. (0 to cancel) ",
-            "Deposit how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
+            "Deposit how much? Max: %d cents. (0 to cancel) ", money), money);
 
         if (!amount) {
             return false;
         }
 
-        src->charges -= amount;
+        add_msg( m_info, "amount: %d", amount );
+        u.use_charges( "cash_card", amount );
         u.cash += amount;
         u.moves -= 100;
         finish_interaction();
@@ -353,10 +332,8 @@ private:
 
     //!Move money from bank account onto cash card.
     bool do_withdraw_money() {
-        item *dst = choose_card(_("Insert card for withdrawal."));
-        if (!dst) {
-            return false;
-        }
+        int pos = u.inv.position_by_type( "cash_card" );
+        item *dst = &u.i_at( pos );
 
         const int amount = prompt_for_amount(ngettext(
             "Withdraw how much? Max: %d cent. (0 to cancel) ",
@@ -374,40 +351,6 @@ private:
         return true;
     }
 
-    //!Move money between cash cards.
-    bool do_transfer_money() {
-        item *dst = choose_card(_("Insert card for deposit."));
-        if (!dst) {
-            return false;
-        }
-
-        item *src = choose_card(_("Insert card for withdrawal."));
-        if (!src) {
-            return false;
-        } else if (dst == src) {
-            popup(_("You must select a different card to move from!"));
-            return false;
-        } else if (!src->charges) {
-            popup(_("You can only move money from charged cash cards!"));
-            return false;
-        }
-
-        const int amount = prompt_for_amount(ngettext(
-            "Transfer how much? Max: %d cent. (0 to cancel) ",
-            "Transfer how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
-
-        if (!amount) {
-            return false;
-        }
-
-        src->charges -= amount;
-        dst->charges += amount;
-        u.moves -= 100;
-        finish_interaction();
-
-        return true;
-    }
-
     //!Move the money from all the cash cards in inventory to a single card.
     bool do_transfer_all_money() {
         item *dst;
@@ -418,10 +361,12 @@ private:
                 return false;
             }
         } else {
-            dst = choose_card( _("Insert card for bulk deposit.") );
-            if( !dst ) {
+            const int pos = u.inv.position_by_type( "cash_card" );
+
+            if( pos == INT_MIN ) {
                 return false;
             }
+            dst = &u.i_at( pos );
         }
 
         for (auto &i : u.inv_dump()) {
