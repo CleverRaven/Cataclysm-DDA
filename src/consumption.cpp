@@ -32,6 +32,7 @@ const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_nausea( "nausea" );
+const efftype_id effect_hallu( "hallu" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -577,6 +578,18 @@ bool player::eat( item &food, bool force )
         add_effect( effect_foodpoison, food.poison * 30_minutes );
     }
 
+    const bool spiritual = has_trait( trait_id( "SPIRITUAL" ) );
+    if( food.has_flag( "HIDDEN_HALLU" ) ) {
+        if( spiritual ) {
+            add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false );
+        } else {
+            add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false );
+        }
+        if( !has_effect( effect_hallu ) ) {
+            add_effect( effect_hallu, 6_hours );
+        }
+    }
+
     if( amorphous ) {
         add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                food.tname().c_str() );
@@ -622,7 +635,6 @@ bool player::eat( item &food, bool force )
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         const bool cannibal = has_trait( trait_id( "CANNIBAL" ) );
         const bool psycho = has_trait( trait_id( "PSYCHOPATH" ) ) || has_trait( trait_id( "SAPIOVORE" ) );
-        const bool spiritual = has_trait( trait_id( "SPIRITUAL" ) );
         if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
