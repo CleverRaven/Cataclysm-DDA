@@ -445,5 +445,15 @@
     "id": "1st_aid_survivor",
     "type": "MIGRATION",
     "replace": "1st_aid"
+  },
+  {
+    "id": "mushroom_poison",
+    "type": "MIGRATION",
+    "replace": "mushroom"
+  },
+  {
+    "id": "mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "mushroom"
   }
 ]
