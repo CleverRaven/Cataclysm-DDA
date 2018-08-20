@@ -2558,7 +2558,7 @@
     "copy-from": "sausage",
     "name": "Mannwurst",
     "flags": [ "EATEN_HOT", "SMOKED" ],
-    "description": "A hefty long pork sausage that has been cured for long term storage.  Very tasty, if you're in the market for human flesh.",
+    "description": "A hefty long pork sausage that has been cured and smoked for long term storage.  Very tasty, if you're in the market for human flesh.",
     "material": "hflesh"
   },
   {
