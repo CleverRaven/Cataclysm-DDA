@@ -38,24 +38,5 @@
     "folded_volume": 2,
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "flags": [ "ENGINE", "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "hand_paddles",
-    "name": "hand paddles",
-    "symbol": "*",
-    "color": "light_gray",
-    "broken_symbol": "#",
-    "broken_color": "red",
-    "damage_modifier": 50,
-    "durability": 50,
-    "power": 50,
-    "fuel_type": "muscle",
-    "item": "hand_paddles",
-    "difficulty": 1,
-    "location": "engine_block",
-    "folded_volume": 2,
-    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "TOOL_NONE" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ]
   }
 ]

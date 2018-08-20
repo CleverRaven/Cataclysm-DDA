@@ -326,10 +326,5 @@
     "type": "vehicle_group",
     "id": "golf_carts",
     "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ]
-  },
-  {
-    "type": "vehicle_group",
-    "id": "boatrent",
-    "vehicles": [ [ "canoe", 2000 ], [ "raft", 2000 ] ]
   }
 ]
