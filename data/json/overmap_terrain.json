@@ -8454,5 +8454,205 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_0",
+    "name": "stadium parking",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_0",
+    "name": "stadium parking",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_0",
+    "name": "stadium parking",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_0",
+    "name": "stadium parking",
+    "sym": 43,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_1",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_1",
+    "name": "stadium entrance",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_1",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_1",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_2",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_2",
+    "name": "stadium field",
+    "sym": 88,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_2",
+    "name": "stadium field",
+    "sym": 88,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_2",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_3",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_3",
+    "name": "stadium field",
+    "sym": 88,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_3",
+    "name": "stadium field",
+    "sym": 88,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_3",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_4",
+    "name": "stadium garage",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_4",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_4",
+    "name": "stadium concessions",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_4",
+    "name": "stadium bar",
+    "sym": 48,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
