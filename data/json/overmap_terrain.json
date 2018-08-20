@@ -8454,5 +8454,89 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_0",
+    "name": "zoo parking",
+    "sym": 80,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_0",
+    "name": "zoo parking",
+    "sym": 80,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_0",
+    "name": "zoo pavilion",
+    "sym": 80,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_1",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_1",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_1",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_2",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_2",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_2",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
   }
 ]
