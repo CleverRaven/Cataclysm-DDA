@@ -1,5 +1,10 @@
 [
   {
+    "type": "item_group",
+    "id": "paintball_items",
+    "items": [ [ "paintballgun", 55 ], [ "paintball", 45 ], [ "goggles_swim", 15 ] ]
+  },
+  {
     "method": "json",
     "object": {
       "furniture": {

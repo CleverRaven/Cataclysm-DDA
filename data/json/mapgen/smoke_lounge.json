@@ -1,5 +1,10 @@
 [
   {
+    "type": "item_group",
+    "id": "smokelounge_items",
+    "items": [ [ "cigar", 65 ], [ "ecig", 25 ], [ "cig", 35 ], [ "tobacco", 45 ], [ "rolling_paper", 15 ], [ "pipe_tobacco", 10 ] ]
+  },
+  {
     "method": "json",
     "object": {
       "furniture": {
