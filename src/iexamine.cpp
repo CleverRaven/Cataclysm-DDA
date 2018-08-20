@@ -39,6 +39,7 @@
 #include "bionics.h"
 #include "inventory.h"
 #include "craft_command.h"
+#include "material.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2674,6 +2675,104 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
+void iexamine::recycle_compactor(player &, const tripoint &examp)
+{
+    // choose what metal to recycle
+    auto metals = materials::get_compactable();
+    uimenu choose_metal;
+    choose_metal.text = _("Recycle what metal?");
+    for( auto &m : metals ) {
+        choose_metal.addentry(m.name());
+    }
+    choose_metal.entries.push_back( uimenu_entry( -1, true, 'c', _("Cancel") ) );
+    choose_metal.selected = choose_metal.entries.size();
+    choose_metal.query();
+    int m_idx = choose_metal.ret;
+    if( m_idx < 0 || m_idx >= static_cast<int>(metals.size()) ) {
+        add_msg(_("Never mind."));
+        return;
+    }
+    material_type m = metals.at(m_idx);
+
+    // check inputs and tally total mass
+    auto inputs = g->m.i_at(examp);
+    units::mass sum_weight = 0;
+    for( auto it = inputs.begin(); it != inputs.end(); ++it ) {
+        if( !it->only_made_of( std::set<material_id> { m.id } ) ) {
+            add_msg(_("You realize this isn't going to work because %s is not made purely of %s."), it->tname().c_str(), m.name().c_str());
+            return;
+        }
+        if( it->is_container() && !it->is_container_empty() ) {
+            add_msg(_("You realize this isn't going to work because %s has not been emptied of its contents."), it->tname().c_str());
+            return;
+        }
+        sum_weight += it->weight();
+    }
+    if(sum_weight <= 0) {
+        add_msg(_("There is no %s in the compactor.  Drop some metal items onto it and try again."), m.name().c_str());
+        return;
+    }
+
+    // See below for recover_factor (rng(6,9)/10), this
+    // is the normal value of that recover factor.
+    static const double norm_recover_factor = 8.0 / 10.0;
+    const units::mass norm_recover_weight = sum_weight * norm_recover_factor;
+
+    // choose output
+    uimenu choose_output;
+    choose_output.text = string_format(_("Compact %.3f %s of %s into:"), convert_weight(sum_weight), weight_units(), m.name().c_str());
+    for( auto &ci : m.compacts_into() ) {
+        auto it = item( ci, 0 );
+        const int amount = norm_recover_weight / it.weight();
+        choose_output.addentry( string_format( _("about %d %s"), amount, it.tname(amount).c_str() ) );
+    }
+    choose_output.entries.push_back( uimenu_entry( -1, true, 'c', _("Cancel") ) );
+    choose_output.selected = choose_output.entries.size();
+    choose_output.query();
+    int o_idx = choose_output.ret;
+    if( o_idx < 0 || o_idx >= static_cast<int>(m.compacts_into().size()) ) {
+        add_msg(_("Never mind."));
+        return;
+    }
+
+    // remove items
+    for( auto it = inputs.begin(); it != inputs.end(); ) {
+        it = inputs.erase(it);
+    }
+
+    // produce outputs
+    double recover_factor = rng(6, 9) / 10.0;
+    sum_weight = sum_weight * recover_factor;
+    sounds::sound(examp, 80, _("Ka-klunk!"));
+    bool out_desired=false;
+    bool out_any=false;
+    for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
+        const units::mass ow = item( *it, 0 ).weight();
+        int count = sum_weight / ow;
+        sum_weight -= count * ow;
+        if(count > 0) {
+            g->m.spawn_item( examp, *it, count, 0, calendar::turn );
+            if (!out_any) {
+                out_any = true;
+                if(it == m.compacts_into().begin() + o_idx) {
+                    out_desired = true;
+                }
+            }
+        }
+    }
+
+    // feedback to user
+    if(!out_any) {
+        add_msg(_("The compactor chews up all the items in its hopper."));
+        add_msg(_("The compactor beeps: \"No %s to process!\""), m.name().c_str());
+        return;
+    }
+    if(!out_desired) {
+        add_msg(_("The compactor beeps: \"Insufficient %s!\""), m.name().c_str());
+        add_msg(_("It spits out an assortment of smaller pieces instead."));
+    }
+}
+
 /**
  * Returns the weight of all the items on tile made of specific material.
  *
@@ -4229,6 +4328,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "tree_maple_tapped", &iexamine::tree_maple_tapped },
         { "shrub_wildveggies", &iexamine::shrub_wildveggies },
         { "recycler", &iexamine::recycler },
+        { "recycle_compactor", &iexamine::recycle_compactor },
         { "trap", &iexamine::trap },
         { "water_source", &iexamine::water_source },
         { "reload_furniture", &iexamine::reload_furniture },
