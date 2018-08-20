@@ -47,13 +47,13 @@
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
-static const itype_id fuel_type_none("null");
-static const itype_id fuel_type_gasoline("gasoline");
-static const itype_id fuel_type_diesel("diesel");
-static const itype_id fuel_type_battery("battery");
-static const itype_id fuel_type_water("water_clean");
-static const itype_id fuel_type_muscle("muscle");
-static const std::string part_location_structure("structure");
+static const itype_id fuel_type_none( "null" );
+static const itype_id fuel_type_gasoline( "gasoline" );
+static const itype_id fuel_type_diesel( "diesel" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_water( "water_clean" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const std::string part_location_structure( "structure" );
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
 static const fault_id fault_diesel( "fault_engine_pump_diesel" );
@@ -69,18 +69,18 @@ const skill_id skill_mechanics( "mechanics" );
 // Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
 {
-    return myorigin->remove_item(part_num, it);
+    return myorigin->remove_item( part_num, it );
 }
 
 void vehicle_stack::push_back( const item &newitem )
 {
-    myorigin->add_item(part_num, newitem);
+    myorigin->add_item( part_num, newitem );
 }
 
 void vehicle_stack::insert_at( std::list<item>::iterator index,
-                                   const item &newitem )
+                               const item &newitem )
 {
-    myorigin->add_item_at(part_num, index, newitem);
+    myorigin->add_item_at( part_num, index, newitem );
 }
 
 units::volume vehicle_stack::max_volume() const
@@ -93,11 +93,12 @@ units::volume vehicle_stack::max_volume() const
 
 // Vehicle class methods.
 
-vehicle::vehicle(const vproto_id &type_id, int init_veh_fuel, int init_veh_status): type(type_id)
+vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
+                  int init_veh_status ): type( type_id )
 {
     turn_dir = 0;
-    face.init(0);
-    move.init(0);
+    face.init( 0 );
+    move.init( 0 );
     of_turn_carry = 0;
 
     if( !type.str().empty() && type.is_valid() ) {
@@ -105,9 +106,9 @@ vehicle::vehicle(const vproto_id &type_id, int init_veh_fuel, int init_veh_statu
         // Copy the already made vehicle. The blueprint is created when the json data is loaded
         // and is guaranteed to be valid (has valid parts etc.).
         *this = *proto.blueprint;
-        init_state(init_veh_fuel, init_veh_status);
+        init_state( init_veh_fuel, init_veh_status );
     }
-    precalc_mounts(0, pivot_rotation[0], pivot_anchor[0]);
+    precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     refresh();
 }
 
