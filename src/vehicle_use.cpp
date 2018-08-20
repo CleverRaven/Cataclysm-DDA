@@ -42,12 +42,12 @@
 #include <algorithm>
 #include <cassert>
 
-static const itype_id fuel_type_none("null");
-static const itype_id fuel_type_gasoline("gasoline");
-static const itype_id fuel_type_diesel("diesel");
-static const itype_id fuel_type_battery("battery");
-static const itype_id fuel_type_water("water_clean");
-static const itype_id fuel_type_muscle("muscle");
+static const itype_id fuel_type_none( "null" );
+static const itype_id fuel_type_gasoline( "gasoline" );
+static const itype_id fuel_type_diesel( "diesel" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_water( "water_clean" );
+static const itype_id fuel_type_muscle( "muscle" );
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
 static const fault_id fault_diesel( "fault_engine_pump_diesel" );
@@ -74,7 +74,9 @@ char keybind( const std::string &opt, const std::string &context )
     return keys.empty() ? ' ' : keys.front();
 }
 
-void vehicle::add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector<std::function<void()>> &actions, const std::string &name, char key, const std::string &flag )
+void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
+                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
+                                  const std::string &flag )
 {
     // fetch matching parts and abort early if none found
     auto found = get_parts( flag );
@@ -86,22 +88,23 @@ void vehicle::add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector
     bool allow = true;
 
     // determine target state - currently parts of similar type are all switched concurrently
-    bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part *e ) {
+    bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part * e ) {
         return e->enabled;
     } );
 
     // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
     if( state ) {
-        allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part *e ) {
+        allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part * e ) {
             return can_enable( *e );
-       } );
+        } );
     }
 
     auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name.c_str() );
     options.emplace_back( -1, allow, key, msg );
 
-    actions.push_back( [=]{
-        for( vehicle_part *e : found ) {
+    actions.push_back( [ = ] {
+        for( vehicle_part *e : found )
+        {
             if( e->enabled != state ) {
                 add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
                 e->enabled = state;
@@ -177,13 +180,13 @@ void vehicle::control_doors()
                         if( option == OPENBOTH ) {
                             next_part = next_part_to_open( motor );
                         }
-                        if( next_part != -1) {
+                        if( next_part != -1 ) {
                             open_or_close( next_part, open );
                         }
                     }
                 } else {
                     int part = next_part_to_close( motor );
-                    if( part != -1) {
+                    if( part != -1 ) {
                         if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
                             continue;
                         }
@@ -191,7 +194,7 @@ void vehicle::control_doors()
                         if( option == CLOSEBOTH ) {
                             next_part = next_part_to_close( motor );
                         }
-                        if( next_part != -1) {
+                        if( next_part != -1 ) {
                             open_or_close( next_part, open );
                         }
                     }
@@ -202,7 +205,7 @@ void vehicle::control_doors()
 }
 
 void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
-                                   std::vector<std::function<void()>> &actions )
+        std::vector<std::function<void()>> &actions )
 {
     auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
@@ -233,13 +236,16 @@ void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
         options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
                               keybind( "TOGGLE_CAMERA" ) );
         actions.push_back( [&] {
-            if( camera_on ) {
+            if( camera_on )
+            {
                 camera_on = false;
                 add_msg( _( "Camera system disabled" ) );
-            } else if( fuel_left( fuel_type_battery, true ) ) {
+            } else if( fuel_left( fuel_type_battery, true ) )
+            {
                 camera_on = true;
                 add_msg( _( "Camera system enabled" ) );
-            } else {
+            } else
+            {
                 add_msg( _( "Camera system won't turn on" ) );
             }
             refresh();
@@ -328,7 +334,7 @@ int vehicle::select_engine()
     for( size_t e = 0; e < engines.size(); ++e ) {
         name = parts[ engines[ e ] ].name();
         tmenu.addentry( e, true, -1, "[%s] %s",
-                        ( ( parts[engines[e]].enabled ) ? "x" : " " ) , name.c_str() );
+                        ( ( parts[engines[e]].enabled ) ? "x" : " " ), name.c_str() );
     }
 
     tmenu.addentry( -1, true, 'q', _( "Finish" ) );
@@ -481,7 +487,8 @@ void vehicle::use_controls( const tripoint &pos )
                 if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
-                } else {
+                } else
+                {
                     add_msg( _( "You let go of the controls." ) );
                 }
                 engine_on = false;
@@ -498,7 +505,8 @@ void vehicle::use_controls( const tripoint &pos )
                 {
                     engine_on = false;
                     add_msg( _( "You turn the engine off." ) );
-                } else {
+                } else
+                {
                     start_engines();
                 }
                 refresh();
@@ -586,25 +594,28 @@ void vehicle::use_controls( const tripoint &pos )
     }
 }
 
-bool vehicle::fold_up() {
+bool vehicle::fold_up()
+{
     const bool can_be_folded = is_foldable();
-    const bool is_convertible = (tags.count("convertible") > 0);
-    if( ! ( can_be_folded || is_convertible ) ) {
-        debugmsg(_("Tried to fold non-folding vehicle %s"), name.c_str());
+    const bool is_convertible = ( tags.count( "convertible" ) > 0 );
+    if( !( can_be_folded || is_convertible ) ) {
+        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name.c_str() );
         return false;
     }
 
     if( g->u.controlling_vehicle ) {
-        add_msg(m_warning, _("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it."), name.c_str());
+        add_msg( m_warning,
+                 _( "As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it." ),
+                 name.c_str() );
         return false;
     }
 
     if( velocity > 0 ) {
-        add_msg(m_warning, _("You can't fold the %s while it's in motion."), name.c_str());
+        add_msg( m_warning, _( "You can't fold the %s while it's in motion." ), name.c_str() );
         return false;
     }
 
-    add_msg(_("You painstakingly pack the %s into a portable configuration."), name.c_str());
+    add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name.c_str() );
 
     std::string itype_id = "folding_bicycle";
     for( const auto &elem : tags ) {
@@ -618,13 +629,13 @@ bool vehicle::fold_up() {
     item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
 
     // Drop stuff in containers on ground
-    for (size_t p = 0; p < parts.size(); p++) {
+    for( size_t p = 0; p < parts.size(); p++ ) {
         if( part_flag( p, "CARGO" ) ) {
-            for( auto &elem : get_items(p) ) {
+            for( auto &elem : get_items( p ) ) {
                 g->m.add_item_or_charges( g->u.pos(), elem );
             }
-            while( !get_items(p).empty() ) {
-                get_items(p).erase( get_items(p).begin() );
+            while( !get_items( p ).empty() ) {
+                get_items( p ).erase( get_items( p ).begin() );
             }
         }
     }
@@ -638,24 +649,24 @@ bool vehicle::fold_up() {
     // iuse::unfold_bicyle has to adopt to changes.
     try {
         std::ostringstream veh_data;
-        JsonOut json(veh_data);
-        json.write(parts);
+        JsonOut json( veh_data );
+        json.write( parts );
         bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
     } catch( const JsonError &e ) {
-        debugmsg("Error storing vehicle: %s", e.c_str());
+        debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
-    if (can_be_folded) {
+    if( can_be_folded ) {
         bicycle.set_var( "weight", to_gram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
+        bicycle.set_var( "name", string_format( _( "folded %s" ), name.c_str() ) );
         bicycle.set_var( "vehicle_name", name );
         // TODO: a better description?
-        bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
+        bicycle.set_var( "description", string_format( _( "A folded %s." ), name.c_str() ) );
     }
 
     g->m.add_item_or_charges( g->u.pos(), bicycle );
-    g->m.destroy_vehicle(this);
+    g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
     // TODO: make this interruptible
@@ -696,7 +707,7 @@ int vehicle::engine_start_time( const int e ) const
 bool vehicle::start_engine( const int e )
 {
     if( !is_engine_on( e ) ) {
-       return false;
+        return false;
     }
 
     const vpart_info &einfo = part_info( engines[e] );
@@ -822,7 +833,7 @@ void vehicle::honk_horn()
             continue;
         }
         if( ! honked ) {
-            add_msg( _("You honk the horn!") );
+            add_msg( _( "You honk the horn!" ) );
             honked = true;
         }
         //Get global position of horn
@@ -830,18 +841,18 @@ void vehicle::honk_horn()
         //Determine sound
         if( horn_type.bonus >= 110 ) {
             //~ Loud horn sound
-            sounds::sound( horn_pos, horn_type.bonus, _("HOOOOORNK!") );
+            sounds::sound( horn_pos, horn_type.bonus, _( "HOOOOORNK!" ) );
         } else if( horn_type.bonus >= 80 ) {
             //~ Moderate horn sound
-            sounds::sound( horn_pos, horn_type.bonus, _("BEEEP!") );
+            sounds::sound( horn_pos, horn_type.bonus, _( "BEEEP!" ) );
         } else {
             //~ Weak horn sound
-            sounds::sound( horn_pos, horn_type.bonus, _("honk.") );
+            sounds::sound( horn_pos, horn_type.bonus, _( "honk." ) );
         }
     }
 
     if( ! honked ) {
-        add_msg( _("You honk the horn, but nothing happens.") );
+        add_msg( _( "You honk the horn, but nothing happens." ) );
     }
 }
 
@@ -886,21 +897,23 @@ void vehicle::play_chimes()
     }
 }
 
-void vehicle::operate_plow(){
-    for( const int plow_id : all_parts_with_feature( "PLOW" ) ){
+void vehicle::operate_plow()
+{
+    for( const int plow_id : all_parts_with_feature( "PLOW" ) ) {
         const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
-        if( g->m.has_flag("DIGGABLE", start_plow) ){
+        if( g->m.has_flag( "DIGGABLE", start_plow ) ) {
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
             const int speed = velocity;
             const int v_damage = rng( 3, speed );
             damage( plow_id, v_damage, DT_BASH, false );
-            sounds::sound( start_plow, v_damage, _("Clanggggg!") );
+            sounds::sound( start_plow, v_damage, _( "Clanggggg!" ) );
         }
     }
 }
 
-void vehicle::operate_rockwheel() {
+void vehicle::operate_rockwheel()
+{
     for( const int rockwheel_id : all_parts_with_feature( "ROCKWHEEL" ) ) {
         const tripoint start_dig = global_pos3() + parts[rockwheel_id].precalc[0];
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
@@ -909,14 +922,15 @@ void vehicle::operate_rockwheel() {
             const int speed = velocity;
             const int v_damage = rng( 3, speed );
             damage( rockwheel_id, v_damage, DT_BASH, false );
-            sounds::sound( start_dig, v_damage, _("Clanggggg!") );
+            sounds::sound( start_dig, v_damage, _( "Clanggggg!" ) );
         }
     }
 }
 
-void vehicle::operate_reaper(){
+void vehicle::operate_reaper()
+{
     const tripoint &veh_start = global_pos3();
-    for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
+    for( const int reaper_id : all_parts_with_feature( "REAPER" ) ) {
         const tripoint reaper_pos = veh_start + parts[ reaper_id ].precalc[ 0 ];
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
         const int seed_produced = rng( 1, 3 );
@@ -925,7 +939,7 @@ void vehicle::operate_reaper(){
             !g->m.has_items( reaper_pos ) ) {
             continue;
         }
-        const item& seed = g->m.i_at( reaper_pos ).front();
+        const item &seed = g->m.i_at( reaper_pos ).front();
         if( seed.typeId() == "fungal_seeds" ||
             seed.typeId() == "marloss_seed" ) {
             // Otherworldly plants, the earth-made reaper can not handle those.
@@ -937,7 +951,7 @@ void vehicle::operate_reaper(){
                  *seed.type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, i );
         }
-        sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
+        sounds::sound( reaper_pos, rng( 10, 25 ), _( "Swish" ) );
         if( part_flag( reaper_id, "CARGO" ) ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -952,23 +966,24 @@ void vehicle::operate_reaper(){
     }
 }
 
-void vehicle::operate_planter(){
-    std::vector<int> planters = all_parts_with_feature("PLANTER");
-    for( int planter_id : planters ){
+void vehicle::operate_planter()
+{
+    std::vector<int> planters = all_parts_with_feature( "PLANTER" );
+    for( int planter_id : planters ) {
         const tripoint &loc = global_pos3() + parts[planter_id].precalc[0];
-        vehicle_stack v = get_items(planter_id);
-        for( auto i = v.begin(); i != v.end(); i++ ){
-            if( i->is_seed() ){
+        vehicle_stack v = get_items( planter_id );
+        for( auto i = v.begin(); i != v.end(); i++ ) {
+            if( i->is_seed() ) {
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( g->m.ter(loc) != t_dirtmound && part_flag(planter_id,  "ADVANCED_PLANTER" ) ) {
+                if( g->m.ter( loc ) != t_dirtmound && part_flag( planter_id,  "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
-                } else if( g->m.ter(loc) == t_dirtmound ) {
-                    g->m.furn_set(loc, f_plant_seed);
+                } else if( g->m.ter( loc ) == t_dirtmound ) {
+                    g->m.furn_set( loc, f_plant_seed );
                 } else if( !g->m.has_flag( "DIGGABLE", loc ) ) {
                     //If it isn't diggable terrain, then it will most likely be damaged.
-                    damage( planter_id, rng(1, 10), DT_BASH, false );
-                    sounds::sound( loc, rng(10,20), _("Clink"));
+                    damage( planter_id, rng( 1, 10 ), DT_BASH, false );
+                    sounds::sound( loc, rng( 10, 20 ), _( "Clink" ) );
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
                     i->set_age( 0 );
@@ -994,13 +1009,14 @@ void vehicle::operate_scoop()
         const int chance_to_damage_item = 9;
         const units::volume max_pickup_volume = parts[scoop].info().size / 10;
         const std::array<std::string, 4> sound_msgs = {{
-            _("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")
-        }};
+                _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
+            }
+        };
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
                        random_entry_ref( sound_msgs ) );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-                 g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
+             g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
@@ -1010,7 +1026,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             const map_stack q = g->m.i_at( position );
-            if( g->m.has_flag( "SEALED", position) ) {
+            if( g->m.has_flag( "SEALED", position ) ) {
                 continue;//ignore it. Street sweepers are not known for their ability to harvest crops.
             }
             size_t itemdex = 0;
@@ -1028,11 +1044,12 @@ void vehicle::operate_scoop()
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->inc_damage( DT_BASH );
                 //The scoop gets a lot louder when breaking an item.
-                sounds::sound( position, rng(10, that_item_there->volume() / units::legacy_volume_factor * 2 + 10),
-                               _("BEEEThump") );
+                sounds::sound( position, rng( 10,
+                                              that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
+                               _( "BEEEThump" ) );
             }
             const int battery_deficit = discharge_battery( that_item_there->weight() / 1_gram *
-                                                           -part_epower( scoop ) / rng( 8, 15 ) );
+                                        -part_epower( scoop ) / rng( 8, 15 ) );
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
             } else {
@@ -1042,18 +1059,20 @@ void vehicle::operate_scoop()
     }
 }
 
-void vehicle::alarm() {
-    if( one_in(4) ) {
+void vehicle::alarm()
+{
+    if( one_in( 4 ) ) {
         //first check if the alarm is still installed
         bool found_alarm = has_security_working();
 
         //if alarm found, make noise, else set alarm disabled
         if( found_alarm ) {
             const std::array<std::string, 4> sound_msgs = {{
-                _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")
-            }};
-            sounds::sound( global_pos3(), (int) rng(45,80), random_entry_ref( sound_msgs ) );
-            if( one_in(1000) ) {
+                    _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
+                }
+            };
+            sounds::sound( global_pos3(), ( int ) rng( 45, 80 ), random_entry_ref( sound_msgs ) );
+            if( one_in( 1000 ) ) {
                 is_alarm_on = false;
             }
         } else {
@@ -1067,14 +1086,14 @@ void vehicle::alarm() {
  * all attached parts as well.
  * @param part_index The index in the parts list of the part to open.
  */
-void vehicle::open(int part_index)
+void vehicle::open( int part_index )
 {
-  if(!part_info(part_index).has_flag("OPENABLE")) {
-    debugmsg("Attempted to open non-openable part %d (%s) on a %s!", part_index,
-               parts[ part_index ].name().c_str(), name.c_str());
-  } else {
-    open_or_close(part_index, true);
-  }
+    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
+        debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index,
+                  parts[ part_index ].name().c_str(), name.c_str() );
+    } else {
+        open_or_close( part_index, true );
+    }
 }
 
 /**
@@ -1082,24 +1101,24 @@ void vehicle::open(int part_index)
  * all attached parts as well.
  * @param part_index The index in the parts list of the part to open.
  */
-void vehicle::close(int part_index)
+void vehicle::close( int part_index )
 {
-  if(!part_info(part_index).has_flag("OPENABLE")) {
-    debugmsg("Attempted to close non-closeable part %d (%s) on a %s!", part_index,
-               parts[ part_index ].name().c_str(), name.c_str());
-  } else {
-    open_or_close(part_index, false);
-  }
+    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
+        debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index,
+                  parts[ part_index ].name().c_str(), name.c_str() );
+    } else {
+        open_or_close( part_index, false );
+    }
 }
 
-bool vehicle::is_open(int part_index) const
+bool vehicle::is_open( int part_index ) const
 {
-  return parts[part_index].open;
+    return parts[part_index].open;
 }
 
-void vehicle::open_all_at(int p)
+void vehicle::open_all_at( int p )
 {
-    std::vector<int> parts_here = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount.x, parts[p].mount.y );
     for( auto &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) ) {
             // Note that this will open multi-square and non-multipart parts in the tile. This
@@ -1110,13 +1129,13 @@ void vehicle::open_all_at(int p)
     }
 }
 
-void vehicle::open_or_close(int const part_index, bool const opening)
+void vehicle::open_or_close( int const part_index, bool const opening )
 {
     parts[part_index].open = opening ? 1 : 0;
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
 
-    if (!part_info(part_index).has_flag("MULTISQUARE")) {
+    if( !part_info( part_index ).has_flag( "MULTISQUARE" ) ) {
         return;
     }
 
@@ -1124,7 +1143,7 @@ void vehicle::open_or_close(int const part_index, bool const opening)
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
     for( size_t next_index = 0; next_index < parts.size(); ++next_index ) {
-        if (parts[next_index].removed) {
+        if( parts[next_index].removed ) {
             continue;
         }
 
@@ -1133,17 +1152,18 @@ void vehicle::open_or_close(int const part_index, bool const opening)
         const int dy = parts[next_index].mount.y - parts[part_index].mount.y;
         const int delta = dx * dx + dy * dy;
 
-        const bool is_near = (delta == 1);
-        const bool is_id = part_info(next_index).get_id() == part_info(part_index).get_id();
+        const bool is_near = ( delta == 1 );
+        const bool is_id = part_info( next_index ).get_id() == part_info( part_index ).get_id();
         const bool do_next = !!parts[next_index].open ^ opening;
 
-        if (is_near && is_id && do_next) {
-            open_or_close(next_index, opening);
+        if( is_near && is_id && do_next ) {
+            open_or_close( next_index, opening );
         }
     }
 }
 
-void vehicle::use_washing_machine( int p ) {
+void vehicle::use_washing_machine( int p )
+{
     bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
