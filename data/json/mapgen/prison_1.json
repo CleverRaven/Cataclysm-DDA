@@ -249,7 +249,7 @@
         { "item": "prison_armor", "x": [ 11, 12 ], "y": [ 1, 1 ], "chance": 40 }
       ],
       "items": { "l": [ { "item": "prison_weapons", "chance": 30 }, { "item": "prison_armor", "chance": 30 }, { "item": "cop_torso", "chance": 20 }, { "item": "cop_pants", "chance": 20 }, { "item": "cop_shoes", "chance": 20 } ] },
-      "add": [ { "item": "visions_solitude", "x": 16, "y": 108, "amount": 1 } ],
+      "place_item": [ { "item": "visions_solitude", "x": 16, "y": 108, "amount": 1 } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 20 ], "y": [ 34, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 15, 20 ], "y": [ 39, 42 ], "density": 0.1 },

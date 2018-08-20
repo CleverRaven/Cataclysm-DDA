@@ -91,7 +91,7 @@
       "place_gaspumps": [ { "x": 1, "y": 1, "amount": [ 200, 222 ] } ],
       "items": { "o": { "item": "clothing_work_set", "chance": 20 }, "s": { "item": "bionics_tech", "chance": 70 } },
       "place_items": [ { "item": "bionics_tech", "x": 1, "y": 3, "chance": 70 }, { "item": "clothing_work_set", "x": 2, "y": 3, "chance": 20 } ],
-      "add": [ { "item": "frame", "x": [ 0, 7 ], "y": [ 4, 5 ], "chance": 4, "repeat": 10 } ],
+      "place_item": [ { "item": "frame", "x": [ 0, 7 ], "y": [ 4, 5 ], "chance": 4, "repeat": 10 } ],
       "item": { "t": { "item": "television", "chance": 4 }, "u": [ { "item": "television", "chance": 1 }, { "item": "electrohack", "chance": 1 } ] },
       "npcs": { "T": { "class": "guard" } },
       "place_npcs": [ { "class": "arsonist", "x": 9, "y": 1 } ],

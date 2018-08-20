@@ -87,9 +87,9 @@
         { "item": "coffee_table", "x": 4, "y": 13, "chance": 20 },
         { "item": "coffee_table", "x": 8, "y": 13, "chance": 20 }
       ],
-      "add": [
-        { "item": "coffeemaker", "x": 4, "y": 7, "chance": 1, "repeat": 1, "amount": 1 },
-        { "item": "coffeemaker", "x": 4, "y": 12, "chance": 1, "repeat": 1, "amount": 1 }
+      "place_item": [
+        { "item": "coffeemaker", "x": 4, "y": 7, "repeat": 1, "amount": 1 },
+        { "item": "coffeemaker", "x": 4, "y": 12, "repeat": 1, "amount": 1 }
       ]
     }
   }

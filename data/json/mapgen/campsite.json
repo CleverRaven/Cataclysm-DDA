@@ -337,7 +337,7 @@
         { "item": "pasta", "x": 7, "y": 20, "chance": 75 },
         { "item": "camping", "x": 20, "y": 16, "chance": 75 }
       ],
-      "add": [ { "item": "log", "x": 17, "y": 3, "amount": [ 3, 8 ] } ],
+      "place_item": [ { "item": "log", "x": 17, "y": 3, "amount": [ 3, 8 ] } ],
       "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 40, "repeat": [ 1, 3 ] } ]
     }
   }

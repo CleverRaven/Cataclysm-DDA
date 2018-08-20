@@ -24,7 +24,7 @@
       "g": "t_reinforced_glass",
       "G": "t_reinforced_door_glass_c",
       ".": "t_thconc_floor",
-      ",": "t_floor_blue",
+      ",": "t_strconc_floor",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
       "+": "t_door_glass_frosted_c",

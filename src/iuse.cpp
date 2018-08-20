@@ -97,6 +97,7 @@ const species_id INSECT( "INSECT" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_antibiotic( "antibiotic" );
+const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -137,17 +138,22 @@ const efftype_id effect_smoke( "smoke" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stimpack( "stimpack" );
 const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
@@ -342,6 +348,7 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
     p->add_effect( effect_took_xanax, 90_minutes );
+    p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
     return it->type->charges_to_use();
 }
 
@@ -523,6 +530,7 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
                               _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
     }
     p->add_effect( effect_antibiotic, 12_hours );
+    p->add_effect( effect_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -677,6 +685,7 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
         duration += 2_hours;
     }
     p->add_effect( effect_valium, duration );
+    p->add_effect( effect_took_anticonvulsant_visible, duration );
     p->add_effect( effect_high, duration );
     if( p->has_effect( effect_shakes ) ) {
         p->remove_effect( effect_shakes );
@@ -874,6 +883,7 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
+    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -4123,7 +4133,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
     int moves;
 
     const ter_id ter = g->m.ter( dirp );
-    if( ter == t_trunk ) {
+    if( ter == t_trunk || ter == t_stump ) {
         moves = chop_moves( p, it );
     } else {
         add_msg( m_info, _( "You can't chop that." ) );
@@ -4850,8 +4860,10 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix 
 static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
-        return ( itm.is_food() && itm.has_flag( "EATEN_HOT" ) ) ||
-               ( itm.is_food_container() && itm.contents.front().has_flag( "EATEN_HOT" ) );
+        return ( ( itm.is_food() && ( itm.has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) ||
+                 ( itm.is_food_container() &&
+                   ( itm.contents.front().has_flag( "EATEN_HOT" ) ||
+                     itm.contents.front().item_tags.count( "FROZEN" ) ) ) );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -4860,11 +4872,35 @@ static bool heat_item( player &p )
         return false;
     }
     item &target = heat->is_food_container() ? heat->contents.front() : *heat;
-    p.mod_moves( -300 );
-    add_msg( _( "You heat up the food." ) );
-    target.item_tags.insert( "HOT" );
-    target.active = true;
-    target.item_counter = 600; // sets the hot food flag for 60 minutes
+    p.mod_moves( -300 ); //initial preparations
+    if( target.item_tags.count( "FROZEN" ) ) {
+        add_msg( _( "You defrost the food." ) );
+        // simulates heat capacity of food, more weight = longer heating time
+        // this is x2 to simulate larger delta temperature of frozen food in relation to
+        // heating non-frozen food (x1); no real life physics here, only aproximations
+        p.mod_moves( -to_gram( target.weight() ) * 2 );
+        target.item_tags.erase( "FROZEN" );
+        target.item_tags.insert( "HOT" );
+        target.active = true;
+        target.item_counter = 300; // prevents insta-freeze after defrosting
+        if( target.has_flag( "NO_FREEZE" ) && !target.rotten() ) {
+            target.item_tags.insert( "MUSHY" );
+        } else if( target.has_flag( "NO_FREEZE" ) && target.has_flag( "MUSHY" ) &&
+                   target.get_rot() < target.type->comestible->spoils ) {
+            target.set_relative_rot( 1.0 );
+        }
+    } else {
+        add_msg( _( "You heat up the food." ) );
+        target.item_tags.erase( "COLD" );
+        target.item_tags.erase( "FROZEN" );
+        target.item_tags.insert( "HOT" );
+        p.mod_moves( -to_gram( target.weight() ) ); // simulates heat capacity of food
+        target.active = true;
+        // links time of food's HOT-ness with weight, as smaller items lose temperature faster
+        // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
+        const int hcapacity = to_gram( target.weight() ) < 100 ? 100 : to_gram( target.weight() );
+        target.item_counter = hcapacity > 600 ? 600 : hcapacity;
+    }
     return true;
 }
 
@@ -6909,6 +6945,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
             if( meal.has_flag( "EATEN_HOT" ) ) {
                 meal.active = true;
+                meal.item_tags.erase( "COLD" );
+                meal.item_tags.erase( "FROZEN" );
                 meal.item_tags.insert( "HOT" );
                 meal.item_counter = 600;
             }
@@ -7659,6 +7697,7 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes. Slightly." ) );
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
+    p->add_effect( effect_weak_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -7669,6 +7708,7 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
     }
     p->add_effect( effect_strong_antibiotic, 12_hours );
+    p->add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 

@@ -708,6 +708,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "minifreezer",
+    "name": "minifreezer",
+    "symbol": "H",
+    "color": "light_blue",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "damage_modifier": 80,
+    "durability": 100,
+    "epower": -375,
+    "size": 300,
+    "item": "minifreezer",
+    "difficulty": 3,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "TOOL_WRENCH", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "washing_machine",
     "name": "washing machine",
     "symbol": "H",

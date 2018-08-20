@@ -108,7 +108,7 @@
         { "item": "candy_shop", "x": 19, "y": 15, "chance": 75 },
         { "item": "light_reading", "x": 5, "y": 14, "chance": 25 }
       ],
-      "add": [
+      "place_item": [
         { "item": "cookies", "x": 18, "y": 15 },
         { "item": "candy", "x": 20, "y": 17 },
         { "item": "can_pineapple", "x": 20, "y": 18 }
