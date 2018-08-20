@@ -51,7 +51,6 @@ class iuse
         int vaccine( player *, item *, bool, const tripoint & );
         int flu_vaccine( player *, item *, bool, const tripoint & );
         int poison( player *, item *, bool, const tripoint & );
-        int fun_hallu( player *, item *, bool, const tripoint & );
         int meditate( player *, item *, bool, const tripoint & );
         int thorazine( player *, item *, bool, const tripoint & );
         int prozac( player *, item *, bool, const tripoint & );
