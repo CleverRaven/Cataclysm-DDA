@@ -4585,13 +4585,11 @@ void map::apply_in_fridge( item &it, int temp )
     // process() remove 1 couter per turn, so minimum 2 counters
     // div by 5 means every 5 degrees of difference equals 1 point of ratio
     unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE) / 5;
-    diff_freeze = std::max( static_cast<unsigned int>(2), diff_freeze );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_freeze );
+    diff_freeze = clamp( diff_freeze, static_cast<unsigned int>(2), static_cast<unsigned int>(5) ); //effective 1-4
 
     // div by 5 means every 5 degrees of difference equals 1 point of ratio
     unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE) / 5;
-    diff_cold = std::max( static_cast<unsigned int>(2), diff_cold );
-    diff_cold = std::min( static_cast<unsigned int>(5), diff_cold );
+    diff_cold = clamp( diff_cold, static_cast<unsigned int>(2), static_cast<unsigned int>(5) ); //effective 1-4
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {

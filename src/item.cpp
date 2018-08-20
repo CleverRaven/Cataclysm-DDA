@@ -5767,18 +5767,17 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
 
     // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
     // div by 5 means every 5 degrees of difference equals 1 point of ratio
-    unsigned int diff_freeze = abs( g->get_temperature( pos ) - FREEZING_TEMPERATURE ) / 5 ;
-    diff_freeze = std::max( static_cast<unsigned int>(0), diff_freeze );
-    diff_freeze = std::min( static_cast<unsigned int>(3), diff_freeze );
+    const int temp = g->get_temperature( pos );
+    unsigned int diff_freeze = abs( temp - FREEZING_TEMPERATURE ) / 5 ;
+    diff_freeze = clamp( diff_freeze, static_cast<unsigned int>(0) , static_cast<unsigned int>(3) ); //effective 1-4
 
     // div by 5 means every 5 degrees of difference equals 1 point of ratio
-    unsigned int diff_cold = abs( g->get_temperature( pos ) - FRIDGE_TEMPERATURE ) / 5;
-    diff_cold = std::max( static_cast<unsigned int>(0), diff_cold );
-    diff_cold = std::min( static_cast<unsigned int>(3), diff_cold );
+    unsigned int diff_cold = abs( temp - FRIDGE_TEMPERATURE ) / 5;
+    diff_cold = clamp( diff_cold, static_cast<unsigned int>(0), static_cast<unsigned int>(3) ); //effective 1-4
 
     // environment temperature applies COLD/FROZEN flags to food
-    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, g->get_temperature( pos ) );
+    if( temp <= FRIDGE_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, temp );
     } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
         item_counter -= diff_freeze; // thaw
     } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
