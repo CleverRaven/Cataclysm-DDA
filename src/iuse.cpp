@@ -1331,7 +1331,29 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
         //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
         //~ We are the Mycus.
+        g->refresh_all();
+        popup( _( "We welcome into us. We have endured long in this forbidding world." ) );
+        p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
+                              _( "A sea of white caps, waving gently. A haze of spores wafting silently over a forest." ) );
+        g->refresh_all();
+        popup( _( "The natives have a saying: \"E Pluribus Unum.\"  Out of many, one." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The blazing pink redness of the berry. The juices spreading across your tongue, the warmth draping over us like a lover's embrace." ) );
+        g->refresh_all();
+        popup( _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world. Even now, our fruits adapt to better serve local physiology." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The sky-blue of the seed. The nutty, creamy flavors intermingling with the berry, a memory that will never leave us." ) );
+        g->refresh_all();
+        popup( _( "As, in time, shall we adapt to better welcome those who have not received us." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The amber-yellow of the sap. Feel it flowing through our veins, taking the place of the strange, thin red gruel called \"blood.\"" ) );
+        g->refresh_all();
+        popup( _( "We are the Mycus." ) );
+        /*p->add_msg_if_player( m_good,
                               _( "We welcome into us.  We have endured long in this forbidding world." ) );
         p->add_msg_if_player( m_good,
                               _( "The natives have a saying: \"E Pluribus Unum\"  Out of many, one." ) );
@@ -1339,7 +1361,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
                               _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world." ) );
         p->add_msg_if_player( m_good, _( "Even now, our fruits adapt to better serve local physiology." ) );
         p->add_msg_if_player( m_good,
-                              _( "As, in time, shall we adapt to better welcome those who have not received us." ) );
+                              _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         fungal_effects fe( *g, g->m );
         for( const tripoint &pos : g->m.points_in_radius( p->pos(), 3 ) ) {
             fe.marlossify( pos );
