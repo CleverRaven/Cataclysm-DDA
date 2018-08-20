@@ -165,6 +165,7 @@
   },
   {
     "id": "arm_xlsplint",
+    "type": "ARMOR",
     "name": "arm splint XL",
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
     "copy-from": "arm_splint",
@@ -5711,6 +5712,7 @@
   },
   {
     "id": "leg_xlsplint",
+    "type": "ARMOR",
     "name": "leg splint XL",
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
     "copy-from": "leg_splint",
