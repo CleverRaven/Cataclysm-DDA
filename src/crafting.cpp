@@ -608,6 +608,13 @@ void player::complete_craft()
                     used_age_tally += elem.get_relative_rot();
                     ++used_age_count;
                 }
+                if( elem.has_flag( "HIDDEN_HALLU" ) ) {
+                    newit.item_tags.insert( "HIDDEN_HALLU" );
+                }
+                if( elem.has_flag( "HIDDEN_POISON" ) && newit.has_flag( "STILL_POISONOUS" ) ) {
+                    newit.item_tags.insert( "HIDDEN_POISON" );
+                    newit.poison = elem.poison;
+                }
             }
         }
 
