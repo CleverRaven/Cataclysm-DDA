@@ -2476,6 +2476,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str( "" );
     if( is_food() ) {
+        if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
+            ret << _( " (poisonous)" );
+        } else if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
+            ret << _( " (hallucinogenic)" );
+        }
+
         if( rotten() ) {
             ret << _( " (rotten)" );
         } else if( is_going_bad() ) {
