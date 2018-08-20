@@ -301,26 +301,30 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-            if( ( u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ) && !has_tree_nearby && !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                u.add_msg_if_player( m_info, _( "You have a rope to lift the corpse but there is no tree nearby." ) );
-                act.set_to_null();
-                return;
-            } else if( !u.has_amount( "rope_30", 1 ) && !u.has_amount( "rope_makeshift_30", 1 ) && !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                u.add_msg_if_player( m_info, _( "You need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
-                act.set_to_null();
-                return;
-            }
-            if ( !has_table_nearby ) {
-                u.add_msg_if_player( m_info, _( "You need a table nearby or something else with a flat surface to perform a full butchery." ) );
-                act.set_to_null();
-                return;
-            }
-            if( !u.has_quality( quality_id( "CUT" ) ) &&
-                ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-                u.add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
-                act.set_to_null();
-                return; 
-            }
+        
+        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 );
+        bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
+        
+        if( has_rope && !has_tree_nearby && !b_rack_present ) {
+            u.add_msg_if_player( m_info, _( "You have a rope to lift the corpse but there is no tree nearby." ) );
+            act.set_to_null();
+            return;
+        } else if( has_rope && !b_rack_present ) ) {
+            u.add_msg_if_player( m_info, _( "You need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
+            act.set_to_null();
+            return;
+        }
+        if ( !has_table_nearby ) {
+            u.add_msg_if_player( m_info, _( "You need a table nearby or something else with a flat surface to perform a full butchery." ) );
+            act.set_to_null();
+            return;
+        }
+        if( !u.has_quality( quality_id( "CUT" ) ) &&
+            ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+            u.add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
+            act.set_to_null();
+            return; 
+        }
     }
 
     item corpse_item = items[act.index];
