@@ -3784,6 +3784,7 @@
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
+    "//": "Should be removed after 0.D.",
     "type": "COMESTIBLE",
     "id": "mushroom_poison",
     "name": "mushroom",
@@ -3803,6 +3804,7 @@
     "fun": -3
   },
   {
+    "//": "Should be removed after 0.D.",
     "type": "COMESTIBLE",
     "id": "mushroom_magic",
     "name": "mushroom",
@@ -3917,6 +3919,7 @@
     "fun": 1
   },
   {
+    "//": "Should be removed after 0.D.",
     "type": "COMESTIBLE",
     "id": "dry_mushroom_magic",
     "name": "dried hallucinogenic mushroom",
