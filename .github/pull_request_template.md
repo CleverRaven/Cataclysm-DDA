@@ -4,8 +4,9 @@ Leave the headings unless they don't apply to your PR; replace the explanatory t
 #### Summary
 A one-line description of your change that will be extracted and added to the [project changelog](../data/changelog.txt).  
 The format is: ```SUMMARY: Category "description"```  
-The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N
+The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N  
 Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
+See [Changelog Guidelines](../doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
 
 #### Purpose of change
 If theres an existing issue describing the problem this PR addresses or the feature it adds, please link it like: ```#1234```  
