@@ -8454,5 +8454,15 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop",
+    "name": "Head Shop",
+    "sym": 48,
+    "color": "i_white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
