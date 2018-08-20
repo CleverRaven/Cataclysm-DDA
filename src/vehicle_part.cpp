@@ -37,12 +37,12 @@
 #include <cassert>
 
 
-static const itype_id fuel_type_none("null");
-static const itype_id fuel_type_gasoline("gasoline");
-static const itype_id fuel_type_diesel("diesel");
-static const itype_id fuel_type_battery("battery");
-static const itype_id fuel_type_water("water_clean");
-static const itype_id fuel_type_muscle("muscle");
+static const itype_id fuel_type_none( "null" );
+static const itype_id fuel_type_gasoline( "gasoline" );
+static const itype_id fuel_type_diesel( "diesel" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_water( "water_clean" );
+static const itype_id fuel_type_muscle( "muscle" );
 
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
@@ -50,11 +50,11 @@ static const itype_id fuel_type_muscle("muscle");
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
+vehicle_part::vehicle_part( const vpart_id &vp, int const dx, int const dy, item &&obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
 {
-        // Mark base item as being installed as a vehicle part
-        base.item_tags.insert( "VEHICLE" );
+    // Mark base item as being installed as a vehicle part
+    base.item_tags.insert( "VEHICLE" );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
@@ -62,7 +62,8 @@ vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item
     }
 }
 
-vehicle_part::operator bool() const {
+vehicle_part::operator bool() const
+{
     return id != vpart_id::NULL_ID();
 }
 
@@ -83,10 +84,10 @@ item vehicle_part::properties_to_item() const
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag("CABLE_SPOOL") ) {
-        tripoint local_pos = g->m.getlocal(target.first);
+    if( tmp.has_flag( "CABLE_SPOOL" ) ) {
+        tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
-            tmp.item_tags.insert("NO_DROP"); // That vehicle ain't there no more.
+            tmp.item_tags.insert( "NO_DROP" ); // That vehicle ain't there no more.
         }
 
         tmp.set_var( "source_x", target.first.x );
@@ -175,7 +176,8 @@ long vehicle_part::ammo_capacity() const
     }
 
     if( base.is_watertight_container() ) {
-        return base.get_container_capacity() / std::max( item::find_type( ammo_current() )->volume, units::from_milliliter( 1 ) );
+        return base.get_container_capacity() / std::max( item::find_type( ammo_current() )->volume,
+                units::from_milliliter( 1 ) );
     }
 
     return 0;
@@ -217,7 +219,8 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
     return -1;
 }
 
-void vehicle_part::ammo_unset() {
+void vehicle_part::ammo_unset()
+{
     if( is_battery() || is_reactor() || is_turret() ) {
         base.ammo_unset();
 
@@ -226,7 +229,7 @@ void vehicle_part::ammo_unset() {
     }
 }
 
-long vehicle_part::ammo_consume( long qty, const tripoint& pos )
+long vehicle_part::ammo_consume( long qty, const tripoint &pos )
 {
     if( is_battery() || is_reactor() ) {
         return base.ammo_consume( qty, pos );
@@ -235,7 +238,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
     int res = std::min( ammo_remaining(), qty );
 
     if( base.is_watertight_container() && !base.contents.empty() ) {
-        item& liquid = base.contents.back();
+        item &liquid = base.contents.back();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
             base.contents.clear();
@@ -247,7 +250,8 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
 
 float vehicle_part::consume_energy( const itype_id &ftype, float energy )
 {
-    if( base.contents.empty() || ( !is_battery() && !is_reactor() && !base.is_watertight_container() ) ) {
+    if( base.contents.empty() || ( !is_battery() && !is_reactor() &&
+                                   !base.is_watertight_container() ) ) {
         return 0.0f;
     }
 
@@ -316,7 +320,7 @@ bool vehicle_part::fill_with( item &liquid, long qty )
     return true;
 }
 
-const std::set<fault_id>& vehicle_part::faults() const
+const std::set<fault_id> &vehicle_part::faults() const
 {
     return base.faults;
 }
@@ -352,7 +356,7 @@ int vehicle_part::wheel_width() const
     return base.is_wheel() ? base.type->wheel->width : 0;
 }
 
-npc * vehicle_part::crew() const
+npc *vehicle_part::crew() const
 {
     if( is_broken() || crew_id < 0 ) {
         return nullptr;
@@ -458,7 +462,9 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 
 bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 {
-    if( std::none_of( parts.begin(), parts.end(), [&pt]( const vehicle_part &e ) { return &e == &pt; } ) || pt.removed ) {
+    if( std::none_of( parts.begin(), parts.end(), [&pt]( const vehicle_part & e ) {
+    return &e == &pt;
+} ) || pt.removed ) {
         debugmsg( "Cannot enable removed or non-existent part" );
     }
 
@@ -485,7 +491,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
     return true;
 }
 
-bool vehicle::assign_seat( vehicle_part &pt, const npc& who )
+bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
 {
     if( !pt.is_seat() || !pt.set_crew( who ) ) {
         return false;
