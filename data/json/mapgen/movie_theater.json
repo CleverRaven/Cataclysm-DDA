@@ -538,7 +538,7 @@
       ],
       "place_monsters": [
         { "chance": 15, "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 9, "y": 15 },
-        { "chance": 15, "density": -0.0, "monster": "GROUP_ZOMBIE", "x": 21, "y": 11 }
+        { "chance": 15, "density": 0.0, "monster": "GROUP_ZOMBIE", "x": 21, "y": 11 }
       ],
       "rows": [
         "||||||||||||||||||||||||",
