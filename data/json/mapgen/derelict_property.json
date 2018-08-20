@@ -53,14 +53,7 @@
         "w": "t_wall_half",
         "|": "t_wall"
       },
-      "furniture": {
-        "H": "f_armchair",
-        "^": "f_rubble",
-        "c": "f_chair",
-        "d": "f_desk",
-        "m": "f_makeshift_bed",
-        "r": "f_rubble"
-      },
+      "furniture": { "H": "f_armchair", "^": "f_rubble", "c": "f_chair", "d": "f_desk", "m": "f_makeshift_bed", "r": "f_rubble" },
       "place_items": [
         { "item": "bar_trash", "x": 8, "y": 10, "chance": 30 },
         { "item": "bar_trash", "x": 9, "y": 7, "chance": 30 },
@@ -147,7 +140,7 @@
         "r": "f_rubble",
         "{": "f_bookcase"
       },
-      "toilets": { "a": {} },
+      "toilets": { "a": {  } },
       "place_items": [
         { "item": "bar_trash", "x": 7, "y": 9, "chance": 30 },
         { "item": "bar_trash", "x": 14, "y": 8, "chance": 30 },
@@ -211,14 +204,7 @@
         "w": "t_wall_log_half",
         "|": "t_wall"
       },
-      "furniture": {
-        "C": "f_cupboard",
-        "D": "f_desk",
-        "^": "f_rubble",
-        "c": "f_chair",
-        "f": "f_dandelion",
-        "r": "f_rubble"
-      },
+      "furniture": { "C": "f_cupboard", "D": "f_desk", "^": "f_rubble", "c": "f_chair", "f": "f_dandelion", "r": "f_rubble" },
       "place_items": [
         { "item": "tools_earthworking", "x": 17, "y": 19, "chance": 10 },
         { "item": "bar_trash", "x": 3, "y": 10, "chance": 30 },
@@ -290,40 +276,6 @@
         "i": "f_cattails",
         "r": "f_rubble"
       }
-    }
-  }
-        ".": "t_grass",
-        "1": "t_tree_young",
-        "4": "t_tree_pine",
-        "7": "t_tree_birch_harvested",
-        "H": "t_floor",
-        "S": "t_shrub_blueberry_harvested",
-        "U": "t_underbrush_harvested_summer",
-        "^": "t_grass",
-        "_": "t_floor",
-        "a": "t_shrub_strawberry_harvested",
-        "c": "t_floor",
-        "d": "t_grass",
-        "m": "t_floor",
-        "r": "t_floor",
-        "s": "t_shrub",
-        "u": "t_underbrush",
-        "w": "t_wall_half",
-        "|": "t_wall"
-      },
-      "furniture": {
-        "H": "f_armchair",
-        "^": "f_rubble",
-        "c": "f_chair",
-        "d": "f_desk",
-        "m": "f_makeshift_bed",
-        "r": "f_rubble"
-      },
-      "place_items": [
-        { "item": "bar_trash", "x": 8, "y": 10, "chance": 30 },
-        { "item": "bar_trash", "x": 9, "y": 7, "chance": 30 },
-        { "item": "bar_trash", "x": 15, "y": 5, "chance": 30 }
-      ]
     }
   },
   {
