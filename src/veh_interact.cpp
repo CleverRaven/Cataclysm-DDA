@@ -83,10 +83,8 @@ player_activity veh_interact::serialize_activity()
         case 'r':
             if( pt->is_broken() ) {
                 time = vp->install_time( g->u );
-            } else {
-                // why repairing part that cannot be damaged?
-                assert( pt->base.max_damage() > 0 );
-                time = vp->repair_time( g->u ) * double( pt->base.damage() ) / pt->base.max_damage();
+            } else if( pt->base.max_damage() > 0 ) {
+                time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
             }
             break;
         case 'o':
@@ -921,9 +919,9 @@ bool veh_interact::do_repair( std::string &msg )
         if( pt.is_broken() ) {
             ok = format_reqs( msg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            if( !vp.repair_requirements().is_empty() ) {
-                ok = format_reqs( msg, vp.repair_requirements() * pt.base.damage(), vp.repair_skills,
-                                  vp.repair_time( g->u ) * double( pt.base.damage() ) / pt.base.max_damage() );
+            if( !vp.repair_requirements().is_empty() && pt.base.max_damage() > 0 ) {
+                ok = format_reqs( msg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
+                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
             } else {
                 msg << "<color_light_red>" << _( "This part cannot be repaired" ) << "</color>";
                 ok = false;

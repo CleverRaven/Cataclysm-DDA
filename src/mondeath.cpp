@@ -82,7 +82,7 @@ void mdeath::normal( monster &z )
     z.bleed(); // leave some blood if we have to
 
     if( !pulverized ) {
-        make_mon_corpse( z, int( std::floor( corpse_damage ) ) );
+        make_mon_corpse( z, int( std::floor( corpse_damage * itype::damage_scale ) ) );
     }
 
     // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.

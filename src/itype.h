@@ -781,8 +781,9 @@ public:
     nc_color color = c_white; // Color on the map (color.h)
     std::string sym;
 
-    int damage_min = -1; /** Minimum amount of damage to an item (state of maximum repair) */
-    int damage_max =  4; /** Maximum amount of damage to an item (state before destroyed) */
+    int damage_min = -1000; /** Minimum amount of damage to an item (state of maximum repair) */
+    int damage_max =  4000; /** Maximum amount of damage to an item (state before destroyed) */
+    static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
     /** What items can be used to repair this item? @see Item_factory::finalize */
     std::set<itype_id> repair;

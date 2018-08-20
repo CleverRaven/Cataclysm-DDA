@@ -238,7 +238,10 @@ struct vehicle_part {
         int hp() const;
 
         /** Current part damage in same units as item::damage. */
-        float damage() const;
+        int damage() const;
+
+        /** Current part damage level in same units as item::damage_level */
+        int damage_level( int max ) const;
 
         /** parts are considered broken at zero health */
         bool is_broken() const;

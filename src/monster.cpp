@@ -2152,9 +2152,9 @@ void monster::init_from_item( const item &itm )
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
-        if( itm.damage() > 0 ) {
-            set_speed_base( speed_base / ( itm.damage() + 1 ) );
-            hp /= itm.damage() + 1;
+        if( itm.damage_level( 4 ) > 0 ) {
+            set_speed_base( speed_base / ( itm.damage_level( 4 ) + 1 ) );
+            hp /= itm.damage_level( 4 ) + 1;
         }
 
         hp -= burnt_penalty;

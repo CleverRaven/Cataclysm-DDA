@@ -806,7 +806,7 @@ bool mattack::resurrect(monster *z)
                 }
                 return false;
             }
-            int raise_score = (i.damage() + 1) * mt->hp + i.burnt;
+            int raise_score = (i.damage_level( 4 ) + 1) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
                 corpses.push_back( std::make_pair( p, &i ) );
@@ -859,7 +859,7 @@ bool mattack::resurrect(monster *z)
     }
 
     std::pair<tripoint, item*> raised = random_entry( corpses );
-    float corpse_damage = raised.second->damage();
+    float corpse_damage = raised.second->damage_level( 4 );
     // Did we successfully raise something?
     if (g->revive_corpse(raised.first, *raised.second)) {
         g->m.i_rem( raised.first, raised.second );
