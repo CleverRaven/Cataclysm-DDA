@@ -537,7 +537,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                     std::string title_e = dr+" Expansion Upgrade";
 
                     col_missions[title_e] = om_upgrade_description( bldg_exp );
-                    mission_key_push( mission_key_vectors, title_e, "", dr );
+                    mission_key_push( mission_key_vectors, title_e, dr + _(" Expansion Upgrade"), dr );
                 }
 
                 if( om_min_level("faction_base_garage_1", om_cur_exp) ){
@@ -715,7 +715,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction(elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Chop Shop" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Chop Shop", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Chop Shop", dir + _(" (Finish) Chop Shop"), dir, true );
             }
         }
 
@@ -737,7 +737,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Cooking" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Cooking", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Cooking", dir + _(" (Finish) Cooking"), dir, true );
             }
         }
 
@@ -759,7 +759,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Smithing" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Smithing", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Smithing", dir + _(" (Finish) Smithing"), dir, true );
             }
         }
 
@@ -774,7 +774,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Plow Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Plow Fields", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Plow Fields", dir + _(" (Finish) Plow Fields"), dir, true );
             }
         }
 
@@ -789,7 +789,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Plant Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Plant Fields", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Plant Fields", dir + _(" (Finish) Plant Fields"), dir, true );
             }
         }
 
@@ -804,7 +804,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Harvest Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Harvest Fields", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Harvest Fields", dir + _(" (Finish) Harvest Fields"), dir, true );
             }
         }
 
@@ -824,7 +824,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Crafting" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", dir + _(" (Finish) Crafting"), dir, true );
             }
         }
 
@@ -843,7 +843,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Crafting" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", dir + _(" (Finish) Crafting"), dir, true );
             }
         }
 
