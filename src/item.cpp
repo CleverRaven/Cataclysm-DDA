@@ -3329,7 +3329,9 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() ) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
+        !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ) ) {
+
         return true;
     }
     return false;
@@ -5767,7 +5769,8 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
 
     // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
     // div by 5 means every 5 degrees of difference equals 1 point of ratio
-    const int temp = g->get_temperature( pos );
+    /* cache g->get_temperature( item location ). It is used a minimum of 3 times, no reason to recalculate. */
+    const auto temp = g->get_temperature( pos );
     unsigned int diff_freeze = abs( temp - FREEZING_TEMPERATURE ) / 5 ;
     diff_freeze = clamp( diff_freeze, static_cast<unsigned int>(0) , static_cast<unsigned int>(3) ); //effective 1-4
 
