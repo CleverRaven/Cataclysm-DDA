@@ -8464,5 +8464,14 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "natural_spring",
+    "name": "Natural Spring",
+    "sym": 111,
+    "color": "blue",
+    "see_cost": 5,
+    "mondensity": 2
   }
 ]
