@@ -3329,9 +3329,7 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
-        !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ) ) {
-
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() ) {
         return true;
     }
     return false;
@@ -5766,18 +5764,16 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
         item_tags.insert( "NO_PARASITES" );
     }
-    /* cache g->get_temperature( item location ). It is used a minimum of 3 times, no reason to recalculate. */
-    const auto item_local_temp = g->get_temperature( pos );
-    unsigned int diff_freeze = abs( item_local_temp - FREEZING_TEMPERATURE );
+    unsigned int diff_freeze = abs( g->get_temperature( pos ) - FREEZING_TEMPERATURE );
     diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
     diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
 
-    unsigned int diff_cold = abs( item_local_temp - FRIDGE_TEMPERATURE );
+    unsigned int diff_cold = abs( g->get_temperature( pos ) - FRIDGE_TEMPERATURE );
     diff_cold = diff_cold < 1 ? 1 : diff_cold;
     diff_cold = diff_cold > 10 ? 10 : diff_cold;
     // environment temperature applies COLD/FROZEN flags to food
-    if( item_local_temp <= FRIDGE_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, item_local_temp );
+    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, g->get_temperature( pos ) );
     } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
         item_counter -= diff_freeze;
     } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {

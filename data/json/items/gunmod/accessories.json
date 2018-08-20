@@ -63,7 +63,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "dampening",
-    "mod_targets": [ "bow", "crossbow" ],
+    "mod_targets": [ "bow", "crossbow", "rifle" ],
     "dispersion_modifier": -2,
     "loudness_modifier": -8,
     "handling_modifier": 1,

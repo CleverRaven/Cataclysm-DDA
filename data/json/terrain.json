@@ -210,7 +210,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
         "bash": {
             "sound": "SMASH!",
@@ -233,7 +233,7 @@
         "color": "white",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD"
+            "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT"
         ],
         "bash": {
             "str_min": 4, "str_max": 12,
@@ -277,7 +277,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
         "bash": {
             "sound": "SMASH!",
@@ -7080,7 +7080,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "#",
-    "color": [ "dark_gray_yellow" ],
+    "color": [ "dark_gray_brown" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
@@ -7089,7 +7089,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "-",
-    "color": [ "dark_gray_yellow" ],
+    "color": [ "dark_gray_brown" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
@@ -7107,7 +7107,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "/",
-    "color": [ "dark_gray_yellow" ],
+    "color": [ "dark_gray_brown" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
@@ -7116,7 +7116,7 @@
     "type": "terrain",
     "name": "railroad tie",
     "symbol": "\\",
-    "color": [ "dark_gray_yellow" ],
+    "color": [ "dark_gray_brown" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ]
   },
