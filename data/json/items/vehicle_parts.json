@@ -1151,5 +1151,20 @@
         "weight": 10000,
         "volume": 10,
         "price": 5500
+    },{
+        "type": "GENERIC",
+        "id": "hand_paddles",
+        "name": "oars",
+        "name_plural": "oars",
+        "description": "Oars for a boat.",
+        "weight": 816,
+        "to_hit": -1,
+        "color": "light_gray",
+        "symbol": ":",
+        "material": [ "wood" ],
+        "volume": 2,
+        "bashing": 10,
+        "category": "veh_parts",
+        "price": 9000
     }
 ]
