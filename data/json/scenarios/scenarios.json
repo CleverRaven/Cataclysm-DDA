@@ -239,5 +239,14 @@
     "start_name": "Shady Basement",
     "allowed_locs": [ "basement_bionic" ],
     "professions": [  "cyberjunkie", "faulty_bionic", "cykotic", "razorgirl", "bionic_installer" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "zoostart",
+    "name": "At the Zoo",
+    "points" : 0,
+    "description": "It was a slow day at the zoo, until you heard people screaming outside the walls. The animals seem to be getting agitated..",
+    "allowed_locs": [ "zoo_0_1", "zoo_1_1" ],
+    "start_name": "Zoo Start"
   }
 ]

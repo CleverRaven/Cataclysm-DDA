@@ -224,5 +224,17 @@
     "ident" : "basement_bionic",
     "name" : "Shady Basement",
     "target" : "basement_bionic"
+  },
+  {
+    "type": "start_location",
+    "ident": "zoo_0_1",
+    "name": "Zoo Giftshop",
+    "target": "zoo_0_1"
+  },
+  {
+    "type": "start_location",
+    "ident": "zoo_1_1",
+    "name": "Zoo Cages",
+    "target": "zoo_1_1"
   }
 ]
