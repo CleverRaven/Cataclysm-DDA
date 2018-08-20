@@ -8459,60 +8459,50 @@
     "type": "overmap_terrain",
     "id": "dirtroad",
     "name": "Dirt Road",
-    "rotate": true,
     "sym": 35,
     "color": "brown",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 1,
-    "sidewalk": false
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",
     "id": "rural_house",
     "name": "Rural House",
-    "rotate": true,
     "sym": 35,
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 1,
-    "sidewalk": false
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",
     "id": "boat_rental",
     "name": "Boat Rental",
-    "rotate": true,
     "sym": 35,
     "color": "white",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 1,
-    "sidewalk": false
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",
     "id": "riverside_dwelling",
     "name": "Riverside Dwelling",
-    "rotate": true,
     "sym": 43,
     "color": "i_yellow",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 1,
-    "sidewalk": false
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",
     "id": "moonshine_still",
     "name": "Moonshine Still",
-    "rotate": true,
     "sym": 83,
     "color": "i_brown",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 1,
-    "sidewalk": false
+    "mondensity": 1
   }
 ]

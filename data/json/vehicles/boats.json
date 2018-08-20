@@ -3,7 +3,9 @@
     "type": "vehicle",
     "id": "canoe",
     "name": "canoe",
-    "blueprint": [ [ "<OO>" ] ],
+    "blueprint": [
+      [ "<OO>" ]
+    ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_wood_horizontal" },
       { "x": 0, "y": 0, "part": "seat" },
@@ -22,10 +24,9 @@
     "type": "vehicle",
     "id": "raft",
     "name": "raft",
-    "blueprint":
-    [
-        [ "OO" ],
-        [ "OO" ]
+    "blueprint": [
+      [ "OO" ],
+      [ "OO" ]
     ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_wood_cross" },
