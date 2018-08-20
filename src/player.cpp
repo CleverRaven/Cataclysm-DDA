@@ -6794,6 +6794,8 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("lighter", quantity)) {
         return true;
+	} else if (has_charges("crude_firestarter", quantity)) {
+        return true;
     } else if (has_charges("flamethrower", quantity)) {
         return true;
     } else if (has_charges("flamethrower_simple", quantity)) {
@@ -6864,6 +6866,9 @@ void player::use_fire(const int quantity)
         return;
     } else if (has_charges("lighter", quantity)) {
         use_charges("lighter", quantity);
+        return;
+	} else if (has_charges("crude_firestarter", quantity)) {
+		use_charges("crude_firestarter", quantity);
         return;
     } else if (has_charges("flamethrower", quantity)) {
         use_charges("flamethrower", quantity);
