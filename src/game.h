@@ -605,6 +605,13 @@ class game
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
+        // Returns temperature modifier from direct heat radiation of nearby sources
+        // @param location Location affected by heat sources
+        // @param direct forces return of heat intensity (and not temperature modifier) of
+        // adjacent hottest heat source
+        int get_heat_radiation( const tripoint &location, bool direct );
+        // Returns temperature modifier from hot air fields of given location
+        int get_convection_temperature( const tripoint &location );
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         weather_type weather;   // Weather pattern--SEE weather.h
