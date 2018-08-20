@@ -309,7 +309,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             u.add_msg_if_player( m_info, _( "You have a rope to lift the corpse but there is no tree nearby." ) );
             act.set_to_null();
             return;
-        } else if( has_rope && !b_rack_present ) ) {
+        } else if( has_rope && !b_rack_present ) {
             u.add_msg_if_player( m_info, _( "You need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
             act.set_to_null();
             return;
