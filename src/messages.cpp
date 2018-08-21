@@ -179,10 +179,6 @@ bool message_exceeds_ttl( const game_message &message )
 
 } //namespace
 
-Messages::Messages() = default;
-
-Messages::~Messages() = default;
-
 std::vector<std::pair<std::string, std::string>> Messages::recent_messages( const size_t count )
 {
     return player_messages.recent_messages( count );

@@ -4,9 +4,6 @@
  * Stubs to turn all Messages calls into no-ops for unit testing.
  */
 
-Messages::Messages() {}
-Messages::~Messages() {}
-
 std::vector<std::pair<std::string, std::string>> Messages::recent_messages( size_t )
 {
     return std::vector<std::pair<std::string, std::string>>();
