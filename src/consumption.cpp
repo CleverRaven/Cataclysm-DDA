@@ -171,7 +171,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
             fun *= 0.5;
         } else {
             fun *= 1.25; // melted freezable food tastes 25% worse than frozen freezable food
-                         // frozen freezable food... say that 5 times fast
+            // frozen freezable food... say that 5 times fast
         }
     }
 
