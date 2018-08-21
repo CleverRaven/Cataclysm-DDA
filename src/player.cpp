@@ -140,6 +140,7 @@ const efftype_id effect_happy( "happy" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_insulated( "insulated" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_lack_sleep( "lack_sleep" );
@@ -2094,6 +2095,7 @@ bool player::is_immune_damage( const damage_type dt ) const
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( "ELECTRIC_IMMUNE" ) ||
+                   has_effect( effect_insulated ) ||
                    has_artifact_with( AEP_RESIST_ELECTRICITY );
         default:
             return true;

@@ -1901,5 +1901,20 @@
             "int_mod": [2],
             "per_mod": [2]
         }
+    },
+    {
+        "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
+        "type": "effect_type",
+        "id": "emp",
+        "name": [ "Discharge" ],
+        "desc": [ "You've been recently affected by an electromagnetic pulse." ],
+        "max_duration": 30
+    },
+    {
+        "type": "effect_type",
+        "id": "insulated",
+        "name": [ "Insulated" ],
+        "desc": [ "You are protected from shocks." ],
+        "max_duration": 50
     }
 ]

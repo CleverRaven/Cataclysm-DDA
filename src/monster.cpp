@@ -105,10 +105,12 @@ const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_emp( "emp" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_in_pit( "in_pit" );
+const efftype_id effect_insulated( "insulated" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
@@ -1093,7 +1095,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
         return false;
     case DT_ELECTRIC:
         return type->sp_defense == &mdefense::zapback ||
-           has_flag( MF_ELECTRIC );
+           has_flag( MF_ELECTRIC ) ||
+           has_effect( effect_insulated );
     default:
         return true;
     }
@@ -1731,6 +1734,9 @@ void monster::process_turn()
 {
     if( !is_hallucination() ) {
         for( const auto &e: type->emit_fields ) {
+            if( e == emit_id( "emit_shock_cloud" ) && has_effect( effect_emp ) ) {
+                continue; // don't emit electricity while EMPed
+            }
             g->m.emit_field( pos(), e );
         }
     }

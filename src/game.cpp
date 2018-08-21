@@ -168,6 +168,7 @@ const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_emp( "emp" );
 const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_glowing( "glowing" );
@@ -6232,8 +6233,15 @@ void game::emp_blast( const tripoint &p )
                     critter.make_friendly();
                 }
             }
+        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) && !critter.has_effect( effect_emp ) ) {
+            if( sight ) {
+                add_msg( m_good, _("The %s's electrical field momentarily goes out!"), critter.name().c_str());
+            }
         } else if( sight ) {
             add_msg(_("The %s is unaffected by the EMP blast."), critter.name().c_str());
+        }
+        if( !critter.has_effect( effect_emp ) ) {
+            critter.add_effect( effect_emp, 3_minutes );
         }
     }
     if (u.posx() == x && u.posy() == y) {
@@ -10316,7 +10324,7 @@ void game::butcher()
             int index = corpses[indexer_index];
             u.activity.values.push_back( index );
         }
-        break;	
+        break;
     case BUTCHER_DISASSEMBLE:
         {
             size_t index = disassembles[indexer_index];
