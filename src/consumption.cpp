@@ -339,12 +339,14 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
     }
     if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) &&
         food.item_counter >= 100 ) {
-        if( edible ) {
-            return ret_val<edible_rating>::make_failure(
-                       _( "It's frozen solid.  You must defrost it before you can eat it." ) );
-        }
-        if( drinkable ) {
-            return ret_val<edible_rating>::make_failure( _( "You can't drink it while it's frozen." ) );
+        if( name != "Elsa" ) {
+            if( edible ) {
+                return ret_val<edible_rating>::make_failure(
+                           _( "It's frozen solid.  You must defrost it before you can eat it." ) );
+            }
+            if( drinkable ) {
+                return ret_val<edible_rating>::make_failure( _( "You can't drink it while it's frozen." ) );
+            }
         }
     }
 
@@ -600,6 +602,9 @@ bool player::eat( item &food, bool force )
             add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                    food.tname().c_str() );
         }
+    }
+    if( name == "Elsa" && food.item_tags.count( "FROZEN" ) ) {
+        add_msg_if_player( m_good, _("The cold never bothered you anyway." ) );
     }
 
     if( item::find_type( food.type->comestible->tool )->tool ) {
