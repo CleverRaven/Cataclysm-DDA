@@ -10,9 +10,9 @@ src/cata_tiles.cpp
 src/character.cpp
 src/computer.cpp
 src/construction.cpp
+src/crash.cpp
 src/creature.cpp
 src/cursesport.cpp
-src/defense.cpp
 src/dump.cpp
 src/effect.cpp
 src/event.cpp
@@ -24,7 +24,6 @@ src/init.cpp
 src/inventory.cpp
 src/inventory_ui.cpp
 src/item.cpp
-src/item_factory.cpp
 src/json.cpp
 src/lightmap.cpp
 src/line.cpp
@@ -67,7 +66,6 @@ src/worldfactory.cpp
 src/enums.h
 src/field.h
 src/io.h
-src/item.h
 src/itype.h
 src/json.h
 src/mapdata.h
@@ -77,7 +75,6 @@ src/mission.h
 src/overmapbuffer.h
 src/overmap.h
 src/player.h
-src/vehicle.h
 src/wcwidth.h
 src/wdirent.h
 tests/invlet_test.cpp

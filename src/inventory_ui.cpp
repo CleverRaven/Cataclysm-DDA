@@ -83,7 +83,16 @@ class selection_column_preset: public inventory_selector_preset
             } else if( available_count != 1 ) {
                 res << available_count << ' ';
             }
-            res << entry.location->display_name( available_count );
+            if (entry.location->ammo_type() == "money") {
+                if (entry.chosen_count > 0 && entry.chosen_count < available_count) {
+					//~ In the following string, the %s is the ammount of money on the selected cards as passed by the display money function, out of the total ammount of money on the cards, which is specified by the format_money function")
+                    res << string_format( _("%s of %s"), entry.location->display_money(entry.chosen_count, entry.location.charges_in_stack(entry.chosen_count)), format_money(entry.location.charges_in_stack(available_count)));
+                } else {
+                    res << entry.location->display_money(available_count, entry.location.charges_in_stack(available_count));
+                }
+            } else {
+                res << entry.location->display_name(available_count);
+            }
             return res.str();
         }
 
@@ -188,7 +197,9 @@ nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) co
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
 {
     const size_t count = entry.get_stack_size();
-    const std::string disp_name = entry.location->display_name( count );
+	const std::string disp_name = 
+		(entry.location->ammo_type() == "money") ?
+			entry.location->display_money(count,entry.location.charges_in_stack(count)) : entry.location->display_name(count);
 
     return ( count > 1 ) ? string_format( "%d %s", count, disp_name.c_str() ) : disp_name;
 }
@@ -966,7 +977,12 @@ void inventory_selector::add_character_items( Character &character )
     } );
     // Visitable interface does not support stacks so it has to be here
     for( const auto &elem: character.inv.slice() ) {
-        add_item( own_inv_column, item_location( character, &elem->front() ), elem->size() );
+		if ((&elem->front())->ammo_type() == "money") {
+			add_item(own_inv_column, item_location(character, elem ), elem->size());
+		}
+		else {
+			add_item(own_inv_column, item_location(character, &elem->front()), elem->size());
+		}
     }
 }
 
@@ -1288,6 +1304,7 @@ void inventory_selector::set_filter()
     for( const auto elem : columns ) {
         elem->set_filter( filter );
     }
+    layout_is_valid = false;
 }
 
 void inventory_selector::update()

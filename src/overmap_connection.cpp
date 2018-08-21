@@ -120,7 +120,7 @@ void overmap_connection::check() const
 
 void overmap_connection::finalize()
 {
-    cached_subtypes.resize( overmap_terrains::count() );
+    cached_subtypes.resize( overmap_terrains::get_all().size() );
 }
 
 void overmap_connections::load( JsonObject &jo, const std::string &src )

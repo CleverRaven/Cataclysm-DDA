@@ -8,7 +8,7 @@
     "difficulty": 4,
     "time": 60000,
     "autolearn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ], [ "filament", 100 ] ],
+    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
@@ -19,7 +19,8 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [
-      [ [ "2x4", 3 ], [ "stick", 6 ] ],
+      [ [ "2x4", 1 ], [ "stick_long", 1 ] ],
+      [ [ "filament", 100, "LIST" ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },

@@ -19,8 +19,13 @@
 #endif
 
 #ifdef BACKTRACE
+#if defined _WIN32 || defined _WIN64
+#include "platform_win.h"
+#include <dbghelp.h>
+#else
 #include <execinfo.h>
 #include <stdlib.h>
+#endif
 #endif
 
 // Static defines                                                   {{{1
@@ -127,9 +132,26 @@ void limitDebugClass( int class_bitmask )
 // Debug only                                                       {{{1
 // ---------------------------------------------------------------------
 
+#ifdef BACKTRACE
+#if defined _WIN32 || defined _WIN64
+int constexpr module_path_len = 512;
+// on some systems the number of frames to capture have to be less than 63 according to the documentation
+int constexpr bt_cnt = 62;
+int constexpr max_name_len = 512;
+// ( max_name_len - 1 ) because SYMBOL_INFO already contains a TCHAR
+int constexpr sym_size = sizeof( SYMBOL_INFO ) + ( max_name_len - 1 ) * sizeof( TCHAR );
+static char mod_path[module_path_len];
+static PVOID bt[bt_cnt];
+static struct {
+    alignas( SYMBOL_INFO ) char storage[sym_size];
+} sym_storage;
+static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
+#else
 #define TRACE_SIZE 20
 
 void *tracePtrs[TRACE_SIZE];
+#endif
+#endif
 
 // Debug Includes                                                   {{{2
 // ---------------------------------------------------------------------
@@ -375,6 +397,37 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         // Backtrace on error.
 #ifdef BACKTRACE
         if( lev == D_ERROR ) {
+#if defined _WIN32 || defined _WIN64
+            sym.SizeOfStruct = sizeof( SYMBOL_INFO );
+            sym.MaxNameLen = max_name_len;
+            USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
+            HANDLE proc = GetCurrentProcess();
+            for( USHORT i = 0; i < num_bt; ++i ) {
+                DWORD64 off;
+                debugFile.file << "\n\t(";
+                if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, &sym ) ) {
+                    debugFile.file << sym.Name << "+0x" << std::hex << off << std::dec;
+                }
+                debugFile.file << "@" << bt[i];
+                DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
+                if( mod_base ) {
+                    debugFile.file << "[";
+                    DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
+                    // mod_len == module_path_len means insufficient buffer
+                    if( mod_len > 0 && mod_len < module_path_len ) {
+                        char const *mod_name = mod_path + mod_len;
+                        for( ; mod_name > mod_path && *( mod_name - 1 ) != '\\'; --mod_name ) {
+                        }
+                        debugFile.file << mod_name;
+                    } else {
+                        debugFile.file << "0x" << std::hex << mod_base << std::dec;
+                    }
+                    debugFile.file << "+0x" << std::hex << ( uintptr_t ) bt[i] - mod_base << std::dec << "]";
+                }
+                debugFile.file << "), ";
+            }
+            debugFile.file << "\n\t";
+#else
             int count = backtrace( tracePtrs, TRACE_SIZE );
             char **funcNames = backtrace_symbols( tracePtrs, count );
             for( int i = 0; i < count; ++i ) {
@@ -382,6 +435,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
             }
             debugFile.file << "\n\t";
             free( funcNames );
+#endif
         }
 #endif
 

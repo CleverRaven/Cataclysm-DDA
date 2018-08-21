@@ -48,7 +48,7 @@
     "id": "CBM",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
-    "info": "This item is a Compact Bionic Module.  You can <info>use an autodoc</info> or <info>ask a surgeon</info> to install it into your body."
+    "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
   },
   {
     "id": "CLIMATE_CONTROL",
@@ -77,11 +77,29 @@
     "inherit": false
   },
   {
+    "id": "DIG_TOOL",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ],
+    "info": "While wielded, this item allows you to mine thorough rocks and other hard obstacles by moving into tiles with them."
+  },
+  {
     "id": "DURABLE_MELEE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
     "conflicts": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "EATEN_COLD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This tastes <good>better</good> while <color_light_cyan>cold</color>."
+  },
+  {
+    "id": "EATEN_HOT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This tastes <good>better</good> while <color_red>hot</color>."
   },
   {
     "id": "ELECTRIC_IMMUNE",
@@ -102,6 +120,18 @@
     "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
     "info": "This piece of clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "FIX_FARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects farsightedness</good>."
+  },
+  {
+    "id": "FIX_NEARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects nearsightedness</good>."
   },
   {
     "id": "FILTHY",
@@ -210,6 +240,19 @@
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
+    "id": "POWERED",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "description": "If turned ON, it uses its own source of power, instead of relying on power of the user."
+  },
+  {
+    "id": "PSYSHIELD_PARTIAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "25% chance to protect against fear_paralyze monster attack.",
+    "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
+  },
+  {
     "id": "RAD_PROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -253,6 +296,12 @@
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "description": "This item can be stored in a sling of the appropriate size."
+  },
+  {
+    "id": "SHEATH_GOLF",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a bag of the appropriate size."
   },
   {
     "id": "SKINTIGHT",
@@ -396,7 +445,7 @@
     "id": "BIONIC_TOGGLED",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic only has a function when activated, else it causes it's effect every turn."
+    "description": "This bionic only has a function when activated, else it causes its effect every turn."
   },
   {
     "id": "BIONIC_GUN",

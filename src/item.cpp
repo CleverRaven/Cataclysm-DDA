@@ -53,6 +53,8 @@
 #include "units.h"
 #include "ret_val.h"
 #include "iteminfo_query.h"
+#include "game_constants.h"
+#include "iexamine.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -167,7 +169,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         }
 
     } else if( type->comestible ) {
-        active = goes_bad() && !rotten();
+        active = is_food();
 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
@@ -523,6 +525,10 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
+    if ( ammo_type() == "money" && charges != 0 && rhs.charges != 0) {
+        // Dealing with nonempty cash cards
+        return true;
+    }
     // This function is also used to test whether items counted by charges should be merged, for that
     // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
     if( !count_by_charges() && charges != rhs.charges ) {
@@ -865,9 +871,24 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                               to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
                                               to_turn<int>( food->fridge ), true, "", true, true ) );
+                    info.push_back( iteminfo( "BASE", space + _( "freezer: " ), "",
+                                              to_turn<int>( food->freezer ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
                                               to_turn<int>( food->last_rot_check ), true, "", true, true ) );
                 }
+                if( food->item_tags.count( "HOT" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "HOT: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }
+                if( food->item_tags.count( "COLD" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "COLD: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }
+                if( food->item_tags.count( "FROZEN" ) ) {
+                    info.push_back( iteminfo( "BASE", _( "FROZEN: " ), "",
+                                                food->item_counter, true, "", true, true ) );
+                }                      
+                    
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );
         }
@@ -961,7 +982,15 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                          "It's on a brink of becoming inedible." ) );
                 }
             }
-
+            if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() && !food_item->has_flag( "MUSHY" ) ) {
+                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out.</neutral>." ) );
+            }
+            if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
+                info.emplace_back( "DESCRIPTION", _( "* It was frozen once and after thawing became <bad>mushy and tasteless</bad>." ) );
+            }
+            if( food_item->has_flag( "NO_PARASITES" ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
+                info.emplace_back( "DESCRIPTION", _( "* It seems that deep freezing <good>killed all parasites</good>." ) );
+            }
             if( food_item->rotten() ) {
                 if( g->u.has_bionic( bionic_id( "bio_digestion" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
@@ -1069,18 +1098,17 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         if (parts->test(iteminfo_parts::GUN_USEDSKILL))
             info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill.name() + "</info>" ) );
 
-        if( mod->magazine_integral() ) {
+        if( mod->magazine_integral() || mod->magazine_current() ) {
+            if( mod->magazine_current() && parts->test(iteminfo_parts::GUN_MAGAZINE)) {
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
+            }
             if( mod->ammo_capacity() && parts->test(iteminfo_parts::GUN_CAPACITY)) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
                                                   mod->ammo_type()->name().c_str() ), mod->ammo_capacity(), true );
             }
-        } else {
-            if (parts->test(iteminfo_parts::GUN_TYPE))
-                info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
-            if( mod->magazine_current() && parts->test(iteminfo_parts::GUN_MAGAZINE)) {
-                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
-            }
+        } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
+            info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
         }
 
         if( mod->ammo_data() && parts->test(iteminfo_parts::AMMO_REMAINING)) {
@@ -1456,7 +1484,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     }
     if( is_book() ) {
-
         insert_separation_line();
         const auto &book = *type->book;
         // Some things about a book you CAN tell by it's cover.
@@ -1490,10 +1517,10 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           _( "Requires <info>intelligence of</info> <num> to easily read." ),
                                           book.intel, true, "", true, true ) );
             }
-            if( book.fun != 0 && parts->test(iteminfo_parts::BOOK_MORALECHANGE)) {
+            if( g->u.book_fun_for( *this ) != 0 && parts->test(iteminfo_parts::BOOK_MORALECHANGE)) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          book.fun, true, ( book.fun > 0 ? "+" : "" ) ) );
+                                          g->u.book_fun_for( *this ), true, ( g->u.book_fun_for( *this ) > 0 ? "+" : "" ) ) );
             }
             if (parts->test(iteminfo_parts::BOOK_TIMEPERCHAPTER))
                 info.push_back( iteminfo( "BOOK", "",
@@ -1552,9 +1579,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( is_container() && parts->test(iteminfo_parts::CONTAINER_DETAILS)) {
         const auto &c = *type->container;
-
-        // @todo: check *why* this is here - makes no sense.....
-        info.push_back( iteminfo( "ARMOR", temp1.str() ) );
 
         temp1.str( "" );
         temp1 << _( "This container " );
@@ -2004,6 +2028,8 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
             if( !contents.front().type->mod ) {
+                insert_separation_line();
+                info.emplace_back( "DESCPIPTION", _( "<bold>Content of this item</bold>:" ) );
                 info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
             }
         }
@@ -2464,6 +2490,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if( has_flag( "COLD" ) ) {
             ret << _( " (cold)" );
         }
+        if( has_flag( "FROZEN" ) ) {
+            ret << _( " (frozen)" );
+        }
     }
 
     if( has_flag( "FIT" ) ) {
@@ -2530,6 +2559,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 }
 
+std::string item::display_money(unsigned int quantity, unsigned long amount) const {
+	//~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
+    return string_format( "%s %s", tname(quantity).c_str(), format_money(amount));
+}
+
 std::string item::display_name( unsigned int quantity ) const
 {
     std::string name = tname( quantity );
@@ -2551,7 +2585,6 @@ std::string item::display_name( unsigned int quantity ) const
     bool has_ammo = is_ammo_container() && !contents.empty();
     bool contains = has_item || has_ammo;
     bool show_amt = false;
-
     // We should handle infinite charges properly in all cases.
     if( contains ) {
         amount = contents.front().charges;
@@ -2569,11 +2602,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( ammo_type() == "money" ) {
-            amt = string_format( " (%s)", format_money( amount ) );
-        } else {
-            amt = string_format( " (%i)", amount );
-        }
+        amt = string_format( " (%i)", amount );
     }
 
     return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
@@ -2661,6 +2690,12 @@ units::mass item::weight( bool include_contents ) const
         } else if ( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) ) ) {
             ret *= 7;
         }
+        if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
+            ret *= 0.75;
+        }
+        if( has_flag( "QUARTERED") ){
+            ret /= 4;
+        }
 
     } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == ammotype( "plutonium" ) ) {
@@ -2694,14 +2729,24 @@ units::mass item::weight( bool include_contents ) const
     return ret;
 }
 
-static units::volume corpse_volume( m_size corpse_size )
+units::volume item::corpse_volume( m_size corpse_size ) const
 {
-    switch( corpse_size ) {
-        case MS_TINY:    return    750_ml;
-        case MS_SMALL:   return  30000_ml;
-        case MS_MEDIUM:  return  62500_ml;
-        case MS_LARGE:   return  92500_ml;
-        case MS_HUGE:    return 875000_ml;
+    if( !has_flag( "QUARTERED" ) ) {
+        switch( corpse_size ) {
+            case MS_TINY:    return    750_ml;
+            case MS_SMALL:   return  30000_ml;
+            case MS_MEDIUM:  return  62500_ml;
+            case MS_LARGE:   return  92500_ml;
+            case MS_HUGE:    return 875000_ml;
+        }
+    } else {
+        switch( corpse_size ) {
+            case MS_TINY:    return    750_ml; // no quartering
+            case MS_SMALL:   return   7500_ml;
+            case MS_MEDIUM:  return  15625_ml;
+            case MS_LARGE:   return  23125_ml;
+            case MS_HUGE:    return 218750_ml;
+        }
     }
     debugmsg( "unknown monster size for corpse" );
     return 0;
@@ -3056,7 +3101,8 @@ void item::set_relative_rot( double val )
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
         fridge = calendar::before_time_starts;
-        active = !rotten();
+        freezer = calendar::before_time_starts;
+        active = true;
     }
 }
 
@@ -3095,7 +3141,14 @@ void item::calc_rot(const tripoint &location)
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
-        const time_point until = fridge != calendar::before_time_starts ? fridge : now;
+        time_point until = fridge != calendar::before_time_starts ? fridge : now;
+        until = freezer != calendar::before_time_starts ? freezer : now;
+        
+        // rot modifier
+        float factor = 1.0;
+        if ( is_corpse() && has_flag( "FIELD_DRESS" ) ){
+            factor = 0.75;
+        }
 
         // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
@@ -3103,23 +3156,22 @@ void item::calc_rot(const tripoint &location)
         // negative = food was stored in good condiitons before calendar::time_of_cataclysm
         if( since == calendar::time_of_cataclysm && goes_bad() ) {
             time_duration spoil_variation = type->comestible->spoils * 0.2f;
-            rot += rng( -spoil_variation, spoil_variation );
+            rot += factor * rng( -spoil_variation, spoil_variation );
         }
 
         if ( since < until ) {
-            // rot (outside of fridge) from bday/last_rot_check until fridge/now
-            rot += get_rot_since( since, until, location );
+            // rot (outside of fridge/freezer) from bday/last_rot_check until fridge/freezer/now
+            rot += factor * get_rot_since( since, until, location );
         }
         last_rot_check = now;
 
-        if( fridge != calendar::before_time_starts ) {
-            // Flat 20%, rot from time of putting it into fridge up to now
-            rot += ( now - fridge ) * 0.2;
-            fridge = calendar::before_time_starts;
+        if( freezer != calendar::before_time_starts ) {
+            // Frozen food do not rot, so no change to rot variable
+            freezer = calendar::before_time_starts;
         }
-        // item stays active to let the item counter work
-        if( item_counter == 0 && rotten() ) {
-            active = false;
+        if( fridge != calendar::before_time_starts ) {
+            rot += factor * ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp( FRIDGE_TEMPERATURE ) * 1_turns;
+            fridge = calendar::before_time_starts;
         }
     }
 }
@@ -3277,7 +3329,9 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() ) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
+        !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ) ) {
+
         return true;
     }
     return false;
@@ -5562,11 +5616,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
             apply_ammo_effects( p, ammo_type.ammo_effects );
-        } else if( ammo_type.cookoff ) {
-            // Ammo that cooks off, but doesn't have a
-            // large intrinsic effect blows up with shrapnel but no blast
-           g->explosion( p, sqrtf( ammo_type.damage.total_damage() / 10.0f ) * 5, 0.0f,
-                         false, rounds_exploded / 5.0f );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
@@ -5669,15 +5718,17 @@ bool item::needs_processing() const
 {
     return active || has_flag("RADIO_ACTIVATION") ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact();
+           is_artifact() || ( is_food() );
 }
 
 int item::processing_speed() const
 {
-    if( is_food() && !( item_tags.count("HOT") || item_tags.count("COLD") ) ) {
+    if( is_food() && !( item_tags.count( "HOT" ) || item_tags.count( "COLD" ) || item_tags.count( "FROZEN" ) ) ) {
         // Hot and cold food need turn-by-turn updates.
         // If they ever become a performance problem, update process_food to handle them occasionally.
         return 600;
+    } else if( is_food() ) {
+        return 100;
     }
     if( is_corpse() ) {
         return 100;
@@ -5689,14 +5740,43 @@ int item::processing_speed() const
 bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
     calc_rot( g->m.getabs( pos ) );
-    if( item_tags.count( "HOT" ) > 0 ) {
-        if( item_counter == 0 ) {
-            item_tags.erase( "HOT" );
-        }
-    } else if( item_tags.count( "COLD" ) > 0 ) {
-        if( item_counter == 0 ) {
+    if( item_tags.count( "HOT" ) && item_counter == 0 ) {
+            item_tags.erase( "HOT" );   
+    }
+    if( item_tags.count( "COLD" ) && item_counter == 0  ) {
             item_tags.erase( "COLD" );
+    }
+    if( item_tags.count( "FROZEN" ) && item_counter == 0  ) {
+        item_tags.erase( "FROZEN" );
+        if( has_flag( "NO_FREEZE" ) && !rotten() ) {
+            item_tags.insert( "MUSHY" );
+        } else if( has_flag( "NO_FREEZE" ) && has_flag( "MUSHY" ) &&
+            rot < type->comestible->spoils ) {
+            rot = type->comestible->spoils;
         }
+        item_tags.insert( "COLD" );
+        item_counter = 600;
+    }
+    // deep freezing kills parasites but not instantly
+    if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
+        item_tags.insert( "NO_PARASITES" );
+    }
+    /* cache g->get_temperature( item location ). It is used a minimum of 3 times, no reason to recalculate. */
+    const auto item_local_temp = g->get_temperature( pos );
+    unsigned int diff_freeze = abs( item_local_temp - FREEZING_TEMPERATURE );
+    diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
+    diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
+
+    unsigned int diff_cold = abs( item_local_temp - FRIDGE_TEMPERATURE );
+    diff_cold = diff_cold < 1 ? 1 : diff_cold;
+    diff_cold = diff_cold > 10 ? 10 : diff_cold;
+    // environment temperature applies COLD/FROZEN flags to food
+    if( item_local_temp <= FRIDGE_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, item_local_temp );
+    } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
+        item_counter -= diff_freeze;
+    } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
+        item_counter -= diff_cold;
     }
     return false;
 }
@@ -5748,6 +5828,21 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
         }
         // Destroy this corpse item
         return true;
+    }
+
+    return false;
+}
+
+bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
+{
+    if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
+        item_counter = 0;
+        return true; //destroy fake smoke
+    }
+
+    if( item_counter == 0 ) {
+        iexamine::on_smoke_out( pos ); //activate effects when timers goes to zero
+        return true; //destroy fake smoke when it 'burns out'
     }
 
     return false;
@@ -5985,6 +6080,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         g->m.emit_field( pos, e );
     }
 
+    if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
+        return true;
+    }
     if( is_food() &&  process_food( carrier, pos ) ) {
         return true;
     }
@@ -6144,12 +6242,32 @@ bool item::is_reloadable() const
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
+    bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
+    bool quartered = has_flag( "QUARTERED" );
     if( corpse != nullptr && typeId() == "corpse" ) {
         if( corpse_name.empty() ) {
+            if( f_dressed && !quartered ){
+                return string_format( npgettext( "item name", "%s carcass",
+                                "%s carcasses", quantity ),
+                    corpse->nname().c_str() );
+            } else if( f_dressed && quartered ){
+                return string_format( npgettext( "item name", "quartered %s carcass",
+                                        "quartered %s carcasses", quantity ),
+                            corpse->nname().c_str() );        
+            }
             return string_format( npgettext( "item name", "%s corpse",
                                          "%s corpses", quantity ),
                                corpse->nname().c_str() );
         } else {
+            if( f_dressed && !quartered ){
+                return string_format( npgettext( "item name", "%s carcass of %s",
+                                "%s carcasses of %s", quantity ),
+                    corpse->nname().c_str(), corpse_name.c_str() );
+            } else if( f_dressed && quartered ){
+                return string_format( npgettext( "item name", "quartered %s carcass",
+                                        "quartered %s carcasses", quantity ),
+                            corpse->nname().c_str() );        
+            }
             return string_format( npgettext( "item name", "%s corpse of %s",
                                          "%s corpses of %s", quantity ),
                                corpse->nname().c_str(), corpse_name.c_str() );

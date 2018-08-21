@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "skill.h"
+#include "map.h"
 
 #include <algorithm>
 #include <functional>
@@ -406,7 +407,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            if( loc->made_of( LIQUID ) ) {
+            if( loc->made_of( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
@@ -640,11 +641,11 @@ class read_inventory_preset: public pickup_inventory_preset
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
 
-            append_cell( [ this ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                return good_bad_none( get_book( loc ).fun );
+                return good_bad_none( p.book_fun_for( *loc ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {

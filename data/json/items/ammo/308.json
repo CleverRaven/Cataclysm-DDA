@@ -26,6 +26,7 @@
     "copy-from": "308",
     "type": "AMMO",
     "name": "7.62x51mm M80",
+    "casing": "762_51_casing",
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
     "relative": { "damage": -2, "pierce": 4, "dispersion": 10 },
     "proportional": { "recoil": 1.1 },

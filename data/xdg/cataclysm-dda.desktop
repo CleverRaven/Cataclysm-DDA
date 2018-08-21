@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Cataclysm: Dark Days Ahead
+GenericName=Post-apocalyptic roguelike
+Comment=A turn-based survival game set in a post-apocalyptic world.
+Icon=cataclysm-dda
+Type=Application
+Exec=cataclysm-tiles
+Categories=Game;RolePlaying;
+Keywords=zombie;rogue;roguelike;tiles;dda;cdda;
+Terminal=false

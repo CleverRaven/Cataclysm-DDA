@@ -21,6 +21,7 @@
 #include "vehicle_selector.h"
 #include "veh_interact.h"
 #include "item_search.h"
+#include "item_location.h"
 #include "string_input_popup.h"
 
 #include <map>
@@ -79,8 +80,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_weldrig = ( veh->part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
     const bool has_chemlab = ( veh->part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
     const bool has_purify = ( veh->part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
-    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
-                                ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
+    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) );
+    const bool has_electronics = ( ( veh->part_with_feature( veh_root_part,
+                                     "CTRL_ELECTRONIC" ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
@@ -105,6 +107,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+    }
+
+    if( has_electronics ) {
         selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
                              _( "Control multiple electronics" ) );
     }
@@ -1015,7 +1020,32 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     } else {
                         wprintw( w_pickup, " - " );
                     }
-                    std::string item_name = this_item.display_name( stacked_here[true_it].size() );
+                    std::string item_name;
+                    if( stacked_here[true_it].begin()->_item.ammo_type() == "money" ) {
+                        //Count charges
+                        //TODO: transition to the item_location system used for the inventory
+                        unsigned long charges_total = 0;
+                        for( const auto item : stacked_here[true_it] ) {
+                            charges_total += item._item.charges;
+                        }
+                        //Picking up none or all the cards in a stack
+                        if( !getitem[true_it].pick || getitem[true_it].count == 0 ) {
+                            item_name = stacked_here[true_it].begin()->_item.display_money( stacked_here[true_it].size(),
+                                        charges_total );
+                        } else {
+                            unsigned long charges = 0;
+                            int c = getitem[true_it].count;
+                            for( auto it = stacked_here[true_it].begin(); it != stacked_here[true_it].end() &&
+                                 c > 0; ++it, --c ) {
+                                charges += it->_item.charges;
+                            }
+                            item_name = string_format( _( "%s of %s" ),
+                                                       stacked_here[true_it].begin()->_item.display_money( getitem[true_it].count, charges ),
+                                                       format_money( charges_total ) );
+                        }
+                    } else {
+                        item_name = this_item.display_name( stacked_here[true_it].size() );
+                    }
                     if( stacked_here[true_it].size() > 1 ) {
                         item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name.c_str() );
                     }

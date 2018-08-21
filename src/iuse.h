@@ -200,6 +200,10 @@ class iuse
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
         int break_stick( player *, item *, bool, const tripoint & );
+        int weak_antibiotic( player *, item *, bool, const tripoint & );
+        int strong_antibiotic( player *, item *, bool, const tripoint & );
+        int instant_antibiotic( player *, item *, bool, const tripoint & );
+        int panacea( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 
@@ -210,6 +214,8 @@ class iuse
         int multicooker( player *, item *, bool, const tripoint & );
 
         int remoteveh( player *, item *, bool, const tripoint & );
+
+        int disassemble( player *, item *, bool, const tripoint & );
 
         // ARTIFACTS
         /* This function is used when an artifact is activated.
