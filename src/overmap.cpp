@@ -2658,16 +2658,21 @@ void overmap::build_anthill(int x, int y, int z, int s)
     const point target = random_entry( queenpoints );
     ter(target.x, target.y, z) = oter_id( "ants_queen" );
 
-    // Connect the queen chamber, as it gets placed before polish()
-    for( auto dir : om_direction::all ) {
-        const point p = point( target.x, target.y ) + om_direction::displace( dir );
-        if( check_ot_type( "ants", p.x, p.y, z ) ) {
-            auto &neighbor = ter( p.x, p.y, z );
-            if( neighbor->has_flag( line_drawing ) ) {
-                size_t line = neighbor->get_line();
-                line = om_lines::set_segment( line, om_direction::opposite( dir ) );
-                if( line != neighbor->get_line() ) {
-                    neighbor = neighbor->get_type_id()->get_linear( line );
+    const oter_id root_id( "ants_isolated" );
+
+    for ( int i = x - s; i <= x + s; i++ ) {
+        for ( int j = y - s; j <= y + s; j++ ) {
+            if ( root_id == get_ter( i, j, z )->id ) {
+                auto &oter = ter( i, j, z );
+                for( auto dir : om_direction::all ) {
+                    const point p = point( i, j ) + om_direction::displace( dir );
+                    if( check_ot_type( "ants", p.x, p.y, z ) ) {
+                        size_t line = oter->get_line();
+                        line = om_lines::set_segment( line, dir );
+                        if( line != oter->get_line() ) {
+                            oter = oter->get_type_id()->get_linear( line );
+                        }
+                    }
                 }
             }
         }
@@ -2711,18 +2716,9 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
                 } else {
                     ter( p.x, p.y, z ) = ants_larvae;
                 }
-
-                // Connect newly-spawned chamber to this tunnel segment
-                auto &oter = ter( x, y, z );
-                size_t line = oter->get_line();
-                line = om_lines::set_segment( line, r );
-                if( line != oter->get_line() ) {
-                    oter = oter->get_type_id()->get_linear( line );
-                }
-
             } else if (one_in(5)) {
                 // Branch off a side tunnel
-                build_tunnel( p.x, p.y, z, s - rng( 0, 3 ), r );
+                build_tunnel( p.x, p.y, z, s - rng( 1, 3 ), r );
             }
         }
     }
