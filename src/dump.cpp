@@ -299,37 +299,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             dump( e.second );
         }
 
-    } else if( what == "EXPLOSIVE" ) {
-        header = {
-            // @todo: Should display more useful data: shrapnel damage, safe range
-            "Name", "Power", "Power at 5 tiles", "Power halves at", "Shrapnel count", "Shrapnel mass"
-        };
-
-        auto dump = [&rows]( const std::string & name, const explosion_data & ex ) {
-            std::vector<std::string> r;
-            r.push_back( name );
-            r.push_back( to_string( ex.power ) );
-            r.push_back( string_format( "%.1f", ex.power_at_range( 5.0f ) ) );
-            r.push_back( string_format( "%.1f", ex.expected_range( 0.5f ) ) );
-            r.push_back( to_string( ex.shrapnel.count ) );
-            r.push_back( to_string( ex.shrapnel.mass ) );
-            rows.push_back( r );
-        };
-        for( const itype *e : item_controller->all() ) {
-            const auto use = e->get_use( "explosion" );
-            if( use != nullptr && use->get_actor_ptr() != nullptr ) {
-                const auto actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
-                if( actor != nullptr ) {
-                    dump( e->nname( 1 ), actor->explosion );
-                }
-            }
-
-            auto c_ex = dynamic_cast<const explosion_iuse *>( e->countdown_action.get_actor_ptr() );
-            if( c_ex != nullptr ) {
-                dump( e->nname( 1 ), c_ex->explosion );
-            }
-        }
-
     } else {
         std::cerr << "unknown argument: " << what << std::endl;
         return false;

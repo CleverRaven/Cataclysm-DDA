@@ -67,6 +67,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
+    { "FREEZER", VPFLAG_FREEZER },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
@@ -155,8 +156,12 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
         auto const ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
         if( base != vpart_info_all.end() ) {
             def = base->second;
+            def.looks_like = base->second.id.str();
         } else if( ab != abstract_parts.end() ) {
             def = ab->second;
+            if( def.looks_like.empty() ) {
+                def.looks_like = ab->second.id.str();
+            }
         } else {
             deferred.emplace_back( jo.str(), src );
             return;
@@ -203,6 +208,9 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     }
     if( jo.has_member( "broken_symbol" ) ) {
         def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        def.looks_like = jo.get_string( "looks_like" );
     }
 
     if( jo.has_member( "color" ) ) {

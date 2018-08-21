@@ -413,7 +413,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "handrolled_cig", "chance": 70, "x": 10, "y": 14 }, { "item": "rollmat", "chance": 80, "x": 10, "y": 14 } ],
+      "place_item": [ { "item": "handrolled_cig", "chance": 70, "x": 10, "y": 14 }, { "item": "rollmat", "chance": 80, "x": 10, "y": 14 } ],
       "furniture": {
         "#": "f_canvas_wall",
         "+": "f_canvas_door",

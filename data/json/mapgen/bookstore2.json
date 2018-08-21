@@ -17,7 +17,7 @@
         "**|e...#.T...[[[[[..]|**",
         "**|s..c#....>|-|....]|**",
         "**|c..c#....||s|....]|**",
-        "**|....#.h..|t.|TT..]|**",
+        "**|...a#.h..|t.|TT..]|**",
         "**|.##%#.T..|-+|TT..]|**",
         "*qO.................]|**",
         "**|hTh.hTh..........]|**",
@@ -45,6 +45,7 @@
         "T": "t_floor",
         "[": "t_floor",
         "]": "t_floor",
+        "a": "t_floor",
         "c": "t_floor",
         "e": "t_floor",
         "h": "t_floor",
@@ -60,6 +61,7 @@
         "T": "f_table",
         "[": "f_rack",
         "]": "f_bookcase",
+        "a": "f_stool",
         "c": "f_cupboard",
         "e": "f_fridge",
         "h": "f_chair",
@@ -85,9 +87,9 @@
         { "item": "coffee_table", "x": 4, "y": 13, "chance": 20 },
         { "item": "coffee_table", "x": 8, "y": 13, "chance": 20 }
       ],
-      "add": [
-        { "item": "coffeemaker", "x": 4, "y": 7, "chance": 1, "repeat": 1, "amount": 1 },
-        { "item": "coffeemaker", "x": 4, "y": 12, "chance": 1, "repeat": 1, "amount": 1 }
+      "place_item": [
+        { "item": "coffeemaker", "x": 4, "y": 7, "repeat": 1, "amount": 1 },
+        { "item": "coffeemaker", "x": 4, "y": 12, "repeat": 1, "amount": 1 }
       ]
     }
   }

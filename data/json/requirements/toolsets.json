@@ -15,7 +15,8 @@
     "id": "sewing_standard",
     "type": "requirement",
     "//": "Crafting or repair of fabric items",
-    "qualities": [ { "id": "SEW", "level": 1 } ]
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "filament", 1, "LIST" ] ] ]
   },
   {
     "id": "welding_standard",
@@ -39,7 +40,8 @@
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ]
+    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+    "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
     "id": "cutting_wire_standard",

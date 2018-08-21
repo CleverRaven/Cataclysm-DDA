@@ -52,6 +52,7 @@ enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
+struct fragment_cloud;
 struct submap;
 class item_location;
 class map_cursor;
@@ -177,6 +178,7 @@ struct level_cache {
     bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float seen_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    float camera_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     lit_level visibility_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
 
     bool veh_in_active_range;
@@ -893,6 +895,14 @@ class map
         void make_active( item_location &loc );
 
         /**
+         * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
+         * and sets item's fridge/freezer status variables.
+         * @param it Item processed.
+         * @param temperature Temperature affecting item.
+         */
+        void apply_in_fridge( item &it, int temperature );
+
+        /**
          * @name Consume items on the map
          *
          * The functions here consume accessible items / item charges on the map or in vehicles
@@ -947,7 +957,8 @@ class map
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
-        void create_anomaly( const tripoint &p, artifact_natural_property prop );
+
+        void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
 
         /**
          * Fetch an item from this map location, with sanity checks to ensure it still exists.
@@ -1160,6 +1171,9 @@ class map
 
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
+        // Unlike the other caches, this populates a supplied cache instead of an internal cache.
+        void build_obstacle_cache( const tripoint &start, const tripoint &end,
+                                   std::array<fragment_cloud( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &obstacle_caches );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
