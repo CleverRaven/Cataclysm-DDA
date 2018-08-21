@@ -1131,7 +1131,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             break;
 
         case 2:
-        Case 3:
+        case 3:
             add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
             hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
             break;
