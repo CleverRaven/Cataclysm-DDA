@@ -1143,7 +1143,8 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 sounds::sound( pos(), 15, _( "ZZZZZZZZZZZZZZ." ) ); // :bee:
             }
             for( monster &zomboop : g->all_monsters() ) {
-                if( attitude_to( zomboop ) != Creature::Attitude::A_HOSTILE && rl_dist( pos(), zomboop.pos() ) < 5 ) {
+                if( attitude_to( zomboop ) != Creature::Attitude::A_HOSTILE &&
+                    rl_dist( pos(), zomboop.pos() ) < 5 ) {
                     zomboop.add_effect( effect_insulated, 1_minutes );
                 }
             }
