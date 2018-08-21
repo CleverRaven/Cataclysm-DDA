@@ -5373,7 +5373,7 @@
         "name" : "Debug Bionic Power",
         "points" : 99,
         "valid" : false,
-        "description" : "For fueling your inner cybug. Constantly power to full while max; deactivate to disable.",
+        "description" : "For fueling your inner cybug. Activate to increase power capacity by 100 (can be repeated.)",
         "threshold" : true,
         "active" : true,
         "starts_active" : true

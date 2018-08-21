@@ -746,7 +746,7 @@ void player::process_turn()
         mod_hunger( 2 );
         charge_power( 25 );
     }
-    if( has_active_mutation( trait_DEBUG_BIONIC_POWER ) ) {
+    if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         charge_power( max_power_level );
     }
 
