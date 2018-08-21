@@ -524,7 +524,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
  * (ie, any spot with multiple frames) will be completely destroyed, as that
  * was the collision point.
  */
-void vehicle::smash(float hp_percent_loss_min, float hp_percent_loss_max, float percent_of_parts_to_affect, point damage_origin, float damage_size) {
+void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
+                     float percent_of_parts_to_affect, point damage_origin, float damage_size )
+{
     for( auto &part : parts ) {
         //Skip any parts already mashed up or removed.
         if( part.is_broken() || part.removed ) {
@@ -534,12 +536,12 @@ void vehicle::smash(float hp_percent_loss_min, float hp_percent_loss_max, float 
         std::vector<int> parts_in_square = parts_at_relative( part.mount.x, part.mount.y );
         int structures_found = 0;
         for( auto &square_part_index : parts_in_square ) {
-            if (part_info(square_part_index).location == part_location_structure) {
+            if( part_info( square_part_index ).location == part_location_structure ) {
                 structures_found++;
             }
         }
 
-        if(structures_found > 1) {
+        if( structures_found > 1 ) {
             //Destroy everything in the square
             for( int idx : parts_in_square ) {
                 mod_hp( parts[ idx ], 0 - parts[ idx ].hp(), DT_BASH );
@@ -548,24 +550,23 @@ void vehicle::smash(float hp_percent_loss_min, float hp_percent_loss_max, float 
             continue;
         }
 
-        int roll = dice(1, 1000);
-        int pct_af = (percent_of_parts_to_affect * 1000.0f);
-        if(roll < pct_af)
-        {
-            point line = (damage_origin - part.precalc[0]);
-            float dist = 1.0f - (std::sqrt(line.x * line.x + line.y * line.y) / damage_size);
-            dist = clamp(dist, 0.0f, 1.0f);
-            if(damage_size == 0)
-            {
+        int roll = dice( 1, 1000 );
+        int pct_af = ( percent_of_parts_to_affect * 1000.0f );
+        if( roll < pct_af ) {
+            point line = ( damage_origin - part.precalc[0] );
+            float dist = 1.0f - ( std::sqrt( line.x * line.x + line.y * line.y ) / damage_size );
+            dist = clamp( dist, 0.0f, 1.0f );
+            if( damage_size == 0 ) {
                 dist = 1.0f;
             }
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
-            if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist, hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
+            if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
+                                               hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
                 part.ammo_unset();
             }
         }
 
-        
+
     }
 }
 
@@ -2358,10 +2359,12 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
 
 // All 4 functions below look identical except for flag type and consts
 template<typename Vehicle, typename Flag, typename Vector>
-void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled, bool return_broken_parts_too = false)
+void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled,
+                       bool return_broken_parts_too = false )
 {
     for( auto &e : veh.parts ) {
-        if( !e.removed && ( !enabled || e.enabled ) && (!e.is_broken() || return_broken_parts_too) && e.info().has_flag( flag ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && ( !e.is_broken() || return_broken_parts_too ) &&
+            e.info().has_flag( flag ) ) {
             ret.emplace_back( &e );
         }
     }
@@ -2381,14 +2384,16 @@ std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, b
     return res;
 }
 
-std::vector<vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled, bool include_broken_parts)
+std::vector<vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled,
+        bool include_broken_parts )
 {
     std::vector<vehicle_part *> res;
     get_parts_helper( *this, flag, res, enabled, include_broken_parts );
     return res;
 }
 
-std::vector<const vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled, bool include_broken_parts) const
+std::vector<const vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled,
+        bool include_broken_parts ) const
 {
     std::vector<const vehicle_part *> res;
     get_parts_helper( *this, flag, res, enabled, include_broken_parts );
@@ -6848,34 +6853,29 @@ bounding_box vehicle::get_bounding_box()
     int min_y = INT_MAX;
     int max_y = INT_MIN;
 
-    face.init(turn_dir);
-    
-    precalc_mounts(0, turn_dir, point());
+    face.init( turn_dir );
+
+    precalc_mounts( 0, turn_dir, point() );
 
     int i_use = 0;
-    for (const auto p : get_points(true))
-    {
-        point pv = parts[part_at(p.x, p.y)].precalc[i_use];
+    for( const auto p : get_points( true ) ) {
+        point pv = parts[part_at( p.x, p.y )].precalc[i_use];
         point pt = pv;// (p.x + pv.x, p.y + pv.y);
-        if(pt.x < min_x)
-        {
+        if( pt.x < min_x ) {
             min_x = pt.x;
         }
-        if(pt.x > max_x)
-        {
+        if( pt.x > max_x ) {
             max_x = pt.x;
         }
-        if(pt.y < min_y)
-        {
+        if( pt.y < min_y ) {
             min_y = pt.y;
         }
-        if(pt.y > max_y)
-        {
+        if( pt.y > max_y ) {
             max_y = pt.y;
         }
     }
     bounding_box b;
-    b.p1 = point(min_x, min_y);
-    b.p2 = point(max_x, max_y);
+    b.p1 = point( min_x, min_y );
+    b.p2 = point( max_x, max_y );
     return b;
 }

@@ -918,18 +918,22 @@ bool game::start_game()
     u.set_highest_cat_level();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
-    if( scen->has_flag( "FIRE_START" ) ) {
+    if( scen->has_flag( "FIRE_START" ) )
+    {
         start_loc.burn( omtstart, 3, 3 );
     }
-    if( scen->has_flag( "INFECTED" ) ) {
+    if( scen->has_flag( "INFECTED" ) )
+    {
         u.add_effect( effect_infected, 1_turns, random_body_part(), true );
     }
-    if( scen->has_flag( "BAD_DAY" ) ) {
+    if( scen->has_flag( "BAD_DAY" ) )
+    {
         u.add_effect( effect_flu, 1000_minutes );
         u.add_effect( effect_drunk, 270_minutes );
         u.add_morale( MORALE_FEELING_BAD, -100, -100, 5_minutes, 5_minutes );
     }
-    if( scen->has_flag( "HELI_CRASH" ) ) {
+    if( scen->has_flag( "HELI_CRASH" ) )
+    {
         start_loc.handle_heli_crash( u );
         bool success = false;
         for( auto v : m.get_vehicles() ) {

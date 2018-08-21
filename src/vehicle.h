@@ -81,8 +81,7 @@ class vehicle_stack : public item_stack
         units::volume max_volume() const override;
 };
 
-struct bounding_box
-{
+struct bounding_box {
     point p1;
     point p2;
 };
