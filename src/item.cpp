@@ -4141,7 +4141,7 @@ const item &item::get_contained() const
 
 bool item::handle_spillable_contents( player &p )
 {
-    if( is_bucket_nonempty()  && !spill_contents( p )  ) {
+    if( is_bucket_nonempty() && !spill_contents( p )  ) {
         p.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
