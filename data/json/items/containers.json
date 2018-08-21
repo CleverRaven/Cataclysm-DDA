@@ -980,7 +980,7 @@
     "id": "plastic_bucket",
     "type": "CONTAINER",
     "category": "other",
-    "name": "plastic bucket",
+    "name": "plastic tub",
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "weight": 1360,
     "volume": 16,
