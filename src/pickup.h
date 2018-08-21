@@ -27,10 +27,11 @@ void pick_up( const tripoint &p, int min );
 int cost_to_move_item( const Character &who, const item &it );
 
 /**
- * If player is handling is a spillable bucket, gracefully handle what to do
- * with the contents.
+ * If player is handling a potentially spillable bucket, gracefully handle what
+ * to do with the contents.
  *
- * Returns true
+ * Returns true if we handled the container, false if we chose to spill the
+ * contents and the container still needs to be put somewhere.
  * @param p player handling the spillable item
  * @param it item to handle
  * @param m map they are on
