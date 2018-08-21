@@ -1123,10 +1123,8 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
         }
     }
     if( valid.empty() ) {
-        p->add_msg_if_player( _( "You feel cleansed." ) );
-        item syringe( "syringe", it->birthday() );
-        p->i_add( syringe );
-        return it->type->charges_to_use();
+        p->add_msg_if_player( _( "You don't have any mutations to purify." ) );
+        return 0;
     }
 
     int mutation_index = menu_vec( true, _( "Choose a mutation to purify" ),
