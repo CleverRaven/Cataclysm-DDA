@@ -531,7 +531,7 @@
         "comestible_type" : "MED",
         "category" : "mutagen",
         "name" : "purifier smart shot",
-        "description" : "An experimental stem cell treatment, offering limited control over which mutations are purified. The liquid sloshes strangely inside of this syringe.",
+        "description" : "An experimental stem cell treatment, offering limited control over which mutations are purified.  The liquid sloshes strangely inside of this syringe.",
         "weight" : 10,
         "volume" : 1,
         "price" : 1200000,

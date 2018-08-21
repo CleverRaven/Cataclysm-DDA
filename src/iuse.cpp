@@ -1136,7 +1136,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     }
 
     p->add_msg_if_player(
-        _( "You inject the purifier. The liquid thrashes inside the tube and goes down reluctantly." ) );
+        _( "You inject the purifier.  The liquid thrashes inside the tube and goes down reluctantly." ) );
 
     p->remove_mutation( valid[mutation_index] );
     valid.erase( valid.begin() + mutation_index );
