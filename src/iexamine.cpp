@@ -2699,17 +2699,20 @@ void iexamine::recycle_compactor(player &, const tripoint &examp)
     units::mass sum_weight = 0;
     for( auto it = inputs.begin(); it != inputs.end(); ++it ) {
         if( !it->only_made_of( std::set<material_id> { m.id } ) ) {
-            add_msg(_("You realize this isn't going to work because %s is not made purely of %s."), it->tname().c_str(), m.name().c_str());
+            //~ %1$s: an item in the compactor , %2$s: desired compactor output material
+            add_msg(_("You realize this isn't going to work because %1$s is not made purely of %2$s."), it->tname().c_str(), m.name().c_str());
             return;
         }
         if( it->is_container() && !it->is_container_empty() ) {
-            add_msg(_("You realize this isn't going to work because %s has not been emptied of its contents."), it->tname().c_str());
+            //~ %1$s: an item in the compactor
+            add_msg(_("You realize this isn't going to work because %1$s has not been emptied of its contents."), it->tname().c_str());
             return;
         }
         sum_weight += it->weight();
     }
     if(sum_weight <= 0) {
-        add_msg(_("There is no %s in the compactor.  Drop some metal items onto it and try again."), m.name().c_str());
+        //~ %1$s: desired compactor output material
+        add_msg(_("There is no %1$s in the compactor.  Drop some metal items onto it and try again."), m.name().c_str());
         return;
     }
 
@@ -2720,11 +2723,13 @@ void iexamine::recycle_compactor(player &, const tripoint &examp)
 
     // choose output
     uimenu choose_output;
-    choose_output.text = string_format(_("Compact %.3f %s of %s into:"), convert_weight(sum_weight), weight_units(), m.name().c_str());
+    //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
+    choose_output.text = string_format(_("Compact %1$.3f %2$s of %3$s into:"), convert_weight(sum_weight), weight_units(), m.name().c_str());
     for( auto &ci : m.compacts_into() ) {
         auto it = item( ci, 0 );
         const int amount = norm_recover_weight / it.weight();
-        choose_output.addentry( string_format( _("about %d %s"), amount, it.tname(amount).c_str() ) );
+        //~ %1$d: number of, %2$s: output item
+        choose_output.addentry( string_format( _("about %1$d %2$s"), amount, it.tname(amount).c_str() ) );
     }
     choose_output.entries.push_back( uimenu_entry( -1, true, 'c', _("Cancel") ) );
     choose_output.selected = choose_output.entries.size();
@@ -2764,11 +2769,13 @@ void iexamine::recycle_compactor(player &, const tripoint &examp)
     // feedback to user
     if(!out_any) {
         add_msg(_("The compactor chews up all the items in its hopper."));
-        add_msg(_("The compactor beeps: \"No %s to process!\""), m.name().c_str());
+        //~ %1$s: compactor output material
+        add_msg(_("The compactor beeps: \"No %1$s to process!\""), m.name().c_str());
         return;
     }
     if(!out_desired) {
-        add_msg(_("The compactor beeps: \"Insufficient %s!\""), m.name().c_str());
+        //~ %1$s: compactor output material
+        add_msg(_("The compactor beeps: \"Insufficient %1$s!\""), m.name().c_str());
         add_msg(_("It spits out an assortment of smaller pieces instead."));
     }
 }
