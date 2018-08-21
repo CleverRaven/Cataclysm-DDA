@@ -5369,6 +5369,16 @@
         "threshold" : true
     },{
         "type" : "mutation",
+        "id" : "DEBUG_BIONIC_POWER",
+        "name" : "Debug Bionic Power",
+        "points" : 99,
+        "valid" : false,
+        "description" : "For fueling your inner cybug. Constantly power to full while max; deactivate to disable.",
+        "threshold" : true,
+        "active" : true,
+        "starts_active" : true
+    },{
+        "type" : "mutation",
         "id" : "SQUEAMISH",
         "name" : "Squeamish",
         "points" : -1,
