@@ -1914,7 +1914,6 @@
         "type": "effect_type",
         "id": "insulated",
         "name": [ "Insulated" ],
-        "desc": [ "You are protected from shocks." ],
-        "max_duration": 50
+        "desc": [ "You are protected from shocks." ]
     }
 ]

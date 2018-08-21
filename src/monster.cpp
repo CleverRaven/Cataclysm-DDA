@@ -1741,7 +1741,7 @@ void monster::process_turn()
         }
     }
 
-    // Only special attack cooldowns are updated here.
+    // Special attack cooldowns are updated here.
     // Loop through the monster's special attacks, same as monster::move.
     for( const auto &sp_type : type->special_attacks ) {
         const std::string &special_name = sp_type.first;
@@ -1756,6 +1756,57 @@ void monster::process_turn()
 
         if( local_attack_data.cooldown > 0 ) {
             local_attack_data.cooldown--;
+        }
+    }
+
+    // We update electrical fields here since they act every turn.
+    if( has_flag( MF_ELECTRIC_FIELD ) ) {
+        if( has_effect( effect_emp ) ) {
+            if( calendar::once_every( 10_turns ) ) {
+                sounds::sound( pos(), 5, _( "hummmmm." ) );
+            }
+        } else {
+            if( calendar::once_every( 5_turns ) ) {
+                sounds::sound( pos(), 15, _( "ZZZZZZZZZZZZZZ." ) ); // :bee:
+            }
+            for( monster &zomboop : g->all_monsters() ) {
+                if( attitude_to( zomboop ) != Creature::Attitude::A_HOSTILE &&
+                    rl_dist( pos(), zomboop.pos() ) <= 5 ) {
+                    if( zomboop.get_effect_dur( effect_insulated ) < 5_turns ) {
+                        zomboop.add_effect( effect_insulated,
+                                            1_turns ); // we'll prevent insulation from exceeding 5 turns here so that only being near the husk insulates them
+                    }
+                }
+            }
+            for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
+                const bool player_sees = g->u.sees( zap );
+                const auto items = g->m.i_at( zap );
+                for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
+                    if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
+                        g->m.add_field( zap, fd_fire, 2, 1_minutes );
+                        sounds::sound( pos(), 30, _( "fwoosh!" ) );
+                        break;
+                    }
+                }
+                if( zap != pos() ) {
+                    g->emp_blast( zap ); // Fries electronics due to the intensity of the field
+                }
+                const auto t = g->m.ter( zap );
+                if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+                    if( one_in( 4 ) ) {
+                        g->explosion( pos(), 40, 0.8, true );
+                        if( player_sees ) {
+                            add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ).c_str() );
+                        }
+                    } else {
+                        if( player_sees ) {
+                            add_msg( m_warning, _( "Lightning from %1$s engulfs the %2$s!" ), name().c_str(),
+                                     g->m.tername( zap ).c_str() );
+                        }
+                        g->m.add_field( zap, fd_fire, 1, 2_turns );
+                    }
+                }
+            }
         }
     }
 
