@@ -4,8 +4,6 @@
  * Stubs to turn all Messages calls into no-ops for unit testing.
  */
 
-class Messages::impl_t {};
-
 Messages::Messages() {}
 Messages::~Messages() {}
 

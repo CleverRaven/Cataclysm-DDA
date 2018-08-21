@@ -20,9 +20,6 @@ extern int message_ttl;
 namespace
 {
 
-// Messages object.
-Messages player_messages;
-
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
     time_point timestamp_in_turns  = 0;
@@ -90,15 +87,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     }
 };
 
-bool message_exceeds_ttl( const game_message &message )
-{
-    return message_ttl > 0 &&
-           message.timestamp_in_user_actions + message_ttl <= g->get_user_action_counter();
-}
-
-} //namespace
-
-class Messages::impl_t
+class messages_impl
 {
     public:
         std::deque<game_message> messages;   // Messages to be printed
@@ -179,23 +168,32 @@ class Messages::impl_t
         }
 };
 
-Messages::Messages() : impl_()
+// Messages object.
+messages_impl player_messages;
+
+bool message_exceeds_ttl( const game_message &message )
 {
+    return message_ttl > 0 &&
+           message.timestamp_in_user_actions + message_ttl <= g->get_user_action_counter();
 }
+
+} //namespace
+
+Messages::Messages() = default;
 
 Messages::~Messages() = default;
 
 std::vector<std::pair<std::string, std::string>> Messages::recent_messages( const size_t count )
 {
-    return player_messages.impl_->recent_messages( count );
+    return player_messages.recent_messages( count );
 }
 
 void Messages::serialize( JsonOut &json )
 {
     json.member( "player_messages" );
     json.start_object();
-    json.member( "messages", player_messages.impl_->messages );
-    json.member( "curmes", player_messages.impl_->curmes );
+    json.member( "messages", player_messages.messages );
+    json.member( "curmes", player_messages.curmes );
     json.end_object();
 }
 
@@ -206,39 +204,39 @@ void Messages::deserialize( JsonObject &json )
     }
 
     JsonObject obj = json.get_object( "player_messages" );
-    obj.read( "messages", player_messages.impl_->messages );
-    obj.read( "curmes", player_messages.impl_->curmes );
+    obj.read( "messages", player_messages.messages );
+    obj.read( "curmes", player_messages.curmes );
 }
 
 void Messages::add_msg( std::string msg )
 {
-    player_messages.impl_->add_msg_string( std::move( msg ) );
+    player_messages.add_msg_string( std::move( msg ) );
 }
 
 void Messages::add_msg( const game_message_type type, std::string msg )
 {
-    player_messages.impl_->add_msg_string( std::move( msg ), type );
+    player_messages.add_msg_string( std::move( msg ), type );
 }
 
 void Messages::clear_messages()
 {
-    player_messages.impl_->messages.clear();
-    player_messages.impl_->active = true;
+    player_messages.messages.clear();
+    player_messages.active = true;
 }
 
 void Messages::deactivate()
 {
-    player_messages.impl_->active = false;
+    player_messages.active = false;
 }
 
 size_t Messages::size()
 {
-    return player_messages.impl_->messages.size();
+    return player_messages.messages.size();
 }
 
 bool Messages::has_undisplayed_messages()
 {
-    return player_messages.impl_->has_undisplayed_messages();
+    return player_messages.has_undisplayed_messages();
 }
 
 void Messages::display_messages()
@@ -315,7 +313,7 @@ void Messages::display_messages()
         time_duration lasttime = -1_turns;
         for( int line = 0, retrieve_history = offset;
              line < bottom && retrieve_history < msg_count; ++retrieve_history ) {
-            const game_message &m     = player_messages.impl_->history( retrieve_history );
+            const game_message &m     = player_messages.history( retrieve_history );
             const time_duration timepassed = calendar::turn - m.timestamp_in_turns;
             std::string long_ago      = to_string_clipped( timepassed );
             nc_color col              = msgtype_to_color( m.type, false );
@@ -370,7 +368,7 @@ void Messages::display_messages()
         }
     }
 
-    player_messages.impl_->curmes = calendar::turn;
+    player_messages.curmes = calendar::turn;
 }
 
 void Messages::display_messages( const catacurses::window &ipk_target, int const left,
@@ -389,14 +387,14 @@ void Messages::display_messages( const catacurses::window &ipk_target, int const
                 break;
             }
 
-            const game_message &m = player_messages.impl_->messages[i];
+            const game_message &m = player_messages.messages[i];
             if( message_exceeds_ttl( m ) ) {
                 break;
             }
 
-            const nc_color col = m.get_color( player_messages.impl_->curmes );
+            const nc_color col = m.get_color( player_messages.curmes );
             std::string message_text = m.get_with_count();
-            if( !m.is_recent( player_messages.impl_->curmes ) ) {
+            if( !m.is_recent( player_messages.curmes ) ) {
                 message_text = remove_color_tags( message_text );
             }
 
@@ -417,14 +415,14 @@ void Messages::display_messages( const catacurses::window &ipk_target, int const
                 break;
             }
 
-            const game_message &m = player_messages.impl_->messages[i];
+            const game_message &m = player_messages.messages[i];
             if( message_exceeds_ttl( m ) ) {
                 break;
             }
 
-            const nc_color col = m.get_color( player_messages.impl_->curmes );
+            const nc_color col = m.get_color( player_messages.curmes );
             std::string message_text = m.get_with_count();
-            if( !m.is_recent( player_messages.impl_->curmes ) ) {
+            if( !m.is_recent( player_messages.curmes ) ) {
                 message_text = remove_color_tags( message_text );
             }
 
@@ -441,7 +439,7 @@ void Messages::display_messages( const catacurses::window &ipk_target, int const
         }
     }
 
-    player_messages.impl_->curmes = calendar::turn;
+    player_messages.curmes = calendar::turn;
 }
 
 void add_msg( std::string msg )
