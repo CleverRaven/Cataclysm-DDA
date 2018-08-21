@@ -196,11 +196,7 @@
     "time": 20000,
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "components": [
-      [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ],
-      [ [ "yoghurt", 1 ] ],
-      [ [ "sugar", 5 ] ]
-    ]
+    "components": [ [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ], [ [ "yoghurt", 1 ] ], [ [ "sugar", 5 ] ] ]
   },
   {
     "result": "icecream_sorbet",
