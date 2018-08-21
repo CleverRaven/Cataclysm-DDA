@@ -313,7 +313,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                 act.set_to_null();
                 return; 
             }
-            if( corpse.size >= MS_MEDIUM && ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+            if( corpse.size >= MS_MEDIUM && !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
                 u.add_msg_if_player( m_info, _( "For a corpse this big you need a saw to perform a full butchery." ) );
                 act.set_to_null();
                 return; 
