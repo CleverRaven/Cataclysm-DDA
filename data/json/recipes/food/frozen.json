@@ -1,0 +1,153 @@
+[
+  {
+    "result": "milkshake",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DAIRY",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "components": [
+      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ],
+        [ "cherries", 1 ],
+        [ "irradiated_cherries", 1 ]
+      ],
+      [ [ "sugar", 10 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "result": "milkshake_deluxe",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DAIRY",
+    "skill_used": "cooking",
+    "time": 5000,
+    "autolearn": true,
+    "components": [
+      [ [ "milkshake", 1 ], [ "milkshake_fastfood", 1 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ]
+      ],
+      [ [ "cherries", 1 ], [ "irradiated_cherries", 1 ] ],
+      [ [ "sugar", 10 ] ]
+    ]
+  },
+  {
+    "result": "icecream",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DAIRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "components": [
+      [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ]
+      ],
+      [ [ "sugar", 20 ] ]
+    ]
+  },
+  {
+    "result": "icecream_candy",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DAIRY",
+    "skill_used": "cooking",
+    "time": 5000,
+    "autolearn": true,
+    "components": [
+      [ [ "icecream", 1 ], [ "icecream_artificial", 1 ] ],
+      [ [ "chocolate", 1 ], [ "candy", 1 ], [ "candy2", 1 ], [ "candy3", 1 ], [ "maple_candy", 1 ], [ "syrup", 1 ] ],
+      [ [ "sugar", 5 ] ]
+    ]
+  },
+  {
+    "result": "icecream_fruit",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DAIRY",
+    "skill_used": "cooking",
+    "time": 5000,
+    "autolearn": true,
+    "components": [ [ [ "icecream", 1 ], [ "icecream_artificial", 1 ] ], [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ] ]
+  },
+  {
+    "result": "icecream_custard",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DAIRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 20000,
+    "book_learn": [ [ "cookbook_italian", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "components": [
+      [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ],
+        [ "strawberries", 1 ],
+        [ "strawberries_cooked", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "blueberries_cooked", 1 ],
+        [ "irradiated_blueberries", 1 ],
+        [ "blackberries", 1 ],
+        [ "irradiated_blackberries", 1 ]
+      ],
+      [ [ "sugar", 10 ] ],
+      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
+    ]
+  }
+]

@@ -807,6 +807,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
 - ```NO_FREEZE``` It spoils instantly when frozen.
+- ```MELTS``` Melts when not frozen, providing no morale bonus.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.

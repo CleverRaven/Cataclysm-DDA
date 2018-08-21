@@ -959,5 +959,37 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": 190
+  },
+  {
+    "id": "styrofoam_cup",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "styrofoam cup",
+    "description": "A cheap fast-food cup with a plastic lid and straw.",
+    "weight": 50,
+    "volume": 2,
+    "price": 0,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "contains": 2,
+    "seals": true,
+    "watertight": true
+  },
+  {
+    "id": "plastic_bucket",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "plastic bucket",
+    "description": "A big, square plastic bucket usually used for carrying ice cream.",
+    "weight": 1360,
+    "volume": 16,
+    "price": 0,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "contains": 16,
+    "seals": true,
+    "watertight": true
   }
 ]
