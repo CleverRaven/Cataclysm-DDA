@@ -5,7 +5,7 @@
     "om_terrain": [ "lab_train_depot" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "------------------------",
         "|               _      |",
@@ -35,16 +35,12 @@
       "palettes": [ "lab_palette" ],
       "computers": {
         "6": {
-          "name": "Labratory Train Controls", "security": 2,
+          "name": "Laboratory Train Controls", "security": 2,
           "options": [
             { "name": "Request Subway Train", "action": "disconnect", "security": 0 },
             { "name": "Download Subway Routes", "action": "map_subway", "security": 0 }
           ],
-          "failures": [
-            { "action": "damage" },
-            { "action": "alarm" },
-            { "action": "shutdown" }
-          ]
+          "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "shutdown" } ]
         }
       },
       "terrain": {
@@ -220,7 +216,7 @@
         "        .|....|.        ",
         "        .|....|.        ",
         "        .|....|.        ",
-        "        .--++--.        ",
+        "        .--MM--.        ",
         "        ........        ",
         "                        ",
         "                        ",
@@ -240,9 +236,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette" ],
-      "place_nested": [
-        { "chunks": [ "sub_f_crate" ], "x": [10,13], "y": [1,4], "repeat": [0,4]}
-      ]
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [10,13], "y": [1,4], "repeat": [0,4] } ]
     }
   },
   {
@@ -269,18 +263,16 @@
         "                        ",
         "                        ",
         "        ........        ",
-        "        .--++--.        ",
+        "        .--MM--.        ",
         "        .|....|.        ",
         "        .|....|.        ",
         "        .|....|.        ",
         "        .|....|.        ",
         "        .|....|.        ",
-        "-----------++-----------"
+        "-----------MM-----------"
       ],
       "palettes": [ "lab_palette" ],
-      "place_nested": [
-        { "chunks": [ "sub_f_crate" ], "x": [10,13], "y": [19,21], "repeat": [0,4]}
-      ]
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [10,13], "y": [19,21], "repeat": [0,4] } ]
     }
   },
   {
@@ -301,8 +293,8 @@
         "                .......|",
         "                .------|",
         "                .|.....|",
-        "                .+.....+",
-        "                .+.....+",
+        "                .M.....M",
+        "                .M.....M",
         "                .|.....|",
         "                .------|",
         "                .......|",
@@ -316,9 +308,7 @@
         "                       |"
       ],
       "palettes": [ "lab_palette" ],
-      "place_nested": [
-        { "chunks": [ "sub_f_crate" ], "x": [19,21], "y": [10,13], "repeat": [0,4]}
-      ]
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [19,21], "y": [10,13], "repeat": [0,4] } ]
     }
   },
   {
@@ -339,8 +329,8 @@
         "........                ",
         "-------.                ",
         "......|.                ",
-        "......+.                ",
-        "......+.                ",
+        "......M.                ",
+        "......M.                ",
         "......|.                ",
         "-------.                ",
         "........                ",
@@ -354,9 +344,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette" ],
-      "place_nested": [
-        { "chunks": [ "sub_f_crate" ], "x": [1,4], "y": [10,13], "repeat": [0,4]}
-      ]
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [1,4], "y": [10,13], "repeat": [0,4] } ]
     }
   }
 ]

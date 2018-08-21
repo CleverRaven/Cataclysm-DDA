@@ -100,9 +100,7 @@
             "r": "f_rack",
             "t": "f_table"
           },
-          "toilets": {
-            "T": {}
-          },
+          "toilets": { "T": {} },
           "place_items": [
             { "item": "bed", "x": [ 3, 4 ], "y": [ 16, 16 ], "chance": 80 },
             { "item": "bed", "x": [ 3, 4 ], "y": [ 18, 18 ], "chance": 80 },
@@ -121,12 +119,8 @@
             { "item": "fireman_mask", "x": [ 18, 18 ], "y": [ 21, 21 ], "chance": 70 },
             { "item": "fireman_gear", "x": [ 20, 20 ], "y": [ 21, 21 ], "chance": 70 }
           ],
-          "place_monsters": [
-            { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1 }
-          ],
-          "place_vehicles": [
-            { "vehicle": "fire_engine", "x": 12, "y": 13, "chance": 30, "rotation": 270 }
-          ]
+          "place_monsters": [ { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1 } ],
+          "place_vehicles": [ { "vehicle": "fire_engine", "x": 12, "y": 13, "chance": 30, "rotation": 270 } ]
         }
       }
     ],

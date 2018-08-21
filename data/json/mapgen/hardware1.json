@@ -18,7 +18,7 @@
         "***|...........]]..]|***",
         "***|.]]].###.......]|***",
         "***|.......#...]]..]|***",
-        "***|.....#.%.......]|***",
+        "***|.....#l%.......]|***",
         "***|.]]].###...]]..]|***",
         "***|...............]|***",
         "***|...............]|***",
@@ -43,11 +43,12 @@
         "[": "t_floor",
         "]": "t_floor",
         "^": "t_chaingate_c",
+        "l": "t_floor",
         "w": "t_chainfence_v",
         "|": "t_wall",
         "~": "t_sidewalk"
       },
-      "furniture": { "#": "f_counter", "[": "f_table", "]": "f_rack" },
+      "furniture": { "#": "f_counter", "[": "f_table", "]": "f_rack", "l": "f_stool" },
       "place_signs": [ { "signage": "the name is gone but a slogan remains: 'We'll repair you all the way'", "x": 15, "y": 4 } ],
       "place_items": [
         { "item": "hardware_bulk", "x": [ 4, 11 ], "y": 4, "chance": 35, "repeat": [ 1, 6 ] },

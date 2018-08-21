@@ -489,11 +489,11 @@
         "name" : "Cook"
     },{
         "type" : "item_action",
-        "id" : "MUTAGEN",
+        "id" : "mutagen",
         "name" : "Consume"
     },{
         "type" : "item_action",
-        "id" : "MUT_IV",
+        "id" : "mutagen_iv",
         "name" : "Inject"
     },{
         "type" : "item_action",
@@ -796,7 +796,22 @@
     },
     {
         "type" : "item_action",
+        "id" : "WEAK_ANTIBIOTIC",
+        "name" : "Take"
+    },
+    {
+        "type" : "item_action",
         "id" : "DISASSEMBLE",
         "name" : "Get content"
+    },
+    {
+        "type" : "item_action",
+        "id" : "STRONG_ANTIBIOTIC",
+        "name" : "Take"
+    },
+    {
+        "type" : "item_action",
+        "id" : "PANACEA",
+        "name" : "Take"
     }
 ]

@@ -3,6 +3,8 @@
 #include "action.h"
 #include "game.h"
 #include "map.h"
+#include "item.h"
+#include "itype.h"
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"
@@ -18,6 +20,8 @@
 #include "output.h"
 
 #include <algorithm>
+
+const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
@@ -35,6 +39,14 @@ static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
+static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -170,53 +182,29 @@ void Character::mutation_effect( const trait_id &mut )
         recalc_hp();
 
     } else if (mut == trait_STR_ALPHA) {
-        ///\EFFECT_STR_MAX determines bonus from STR mutation
-        if (str_max <= 6) {
-            str_max = 8;
-        } else if (str_max <= 7) {
-            str_max = 11;
-        } else if (str_max <= 14) {
-            str_max = 15;
-        } else {
-            str_max = 18;
+        if (str_max < 16) {
+            str_max = 8 + str_max / 2;
         }
+        apply_mods(mut, true);
         recalc_hp();
     } else if (mut == trait_DEX_ALPHA) {
-        ///\EFFECT_DEX_MAX determines bonus from DEX mutation
-        if (dex_max <= 6) {
-            dex_max = 8;
-        } else if (dex_max <= 7) {
-            dex_max = 11;
-        } else if (dex_max <= 14) {
-            dex_max = 15;
-        } else {
-            dex_max = 18;
+        if (dex_max < 16) {
+            dex_max = 8 + dex_max / 2;
         }
+        apply_mods(mut, true);
     } else if (mut == trait_INT_ALPHA) {
-        ///\EFFECT_INT_MAX determines bonus from INT mutation
-        if (int_max <= 6) {
-            int_max = 8;
-        } else if (int_max <= 7) {
-            int_max = 11;
-        } else if (int_max <= 14) {
-            int_max = 15;
-        } else {
-            int_max = 18;
+        if (int_max < 16) {
+            int_max = 8 + int_max / 2;
         }
+        apply_mods(mut, true);
     } else if (mut == trait_INT_SLIME) {
         int_max *= 2; // Now, can you keep it? :-)
 
     } else if (mut == trait_PER_ALPHA) {
-        ///\EFFECT_PER_MAX determines bonus from PER mutation
-        if (per_max <= 6) {
-            per_max = 8;
-        } else if (per_max <= 7) {
-            per_max = 11;
-        } else if (per_max <= 14) {
-            per_max = 15;
-        } else {
-            per_max = 18;
+        if (per_max < 16) {
+            per_max = 8 + per_max / 2;
         }
+        apply_mods(mut, true);
     } else {
         apply_mods(mut, true);
     }
@@ -266,52 +254,28 @@ void Character::mutation_loss_effect( const trait_id &mut )
         recalc_hp();
 
     } else if (mut == trait_STR_ALPHA) {
-        ///\EFFECT_STR_MAX determines penalty from STR mutation loss
-        if (str_max == 18) {
-            str_max = 15;
-        } else if (str_max == 15) {
-            str_max = 8;
-        } else if (str_max == 11) {
-            str_max = 7;
-        } else {
-            str_max = 4;
+        apply_mods(mut, false);
+        if (str_max < 16) {
+            str_max = 2 * (str_max - 8);
         }
         recalc_hp();
     } else if (mut == trait_DEX_ALPHA) {
-        ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
-        if (dex_max == 18) {
-            dex_max = 15;
-        } else if (dex_max == 15) {
-            dex_max = 8;
-        } else if (dex_max == 11) {
-            dex_max = 7;
-        } else {
-            dex_max = 4;
+        apply_mods(mut, false);
+        if (dex_max < 16) {
+            dex_max = 2 * (dex_max - 8);
         }
     } else if (mut == trait_INT_ALPHA) {
-        ///\EFFECT_INT_MAX determines penalty from INT mutation loss
-        if (int_max == 18) {
-            int_max = 15;
-        } else if (int_max == 15) {
-            int_max = 8;
-        } else if (int_max == 11) {
-            int_max = 7;
-        } else {
-            int_max = 4;
+        apply_mods(mut, false);
+        if (int_max < 16) {
+            int_max = 2 * (int_max - 8);
         }
     } else if (mut == trait_INT_SLIME) {
         int_max /= 2; // In case you have a freak accident with the debug menu ;-)
 
     } else if (mut == trait_PER_ALPHA) {
-        ///\EFFECT_PER_MAX determines penalty from PER mutation loss
-        if (per_max == 18) {
-            per_max = 15;
-        } else if (per_max == 15) {
-            per_max = 8;
-        } else if (per_max == 11) {
-            per_max = 7;
-        } else {
-            per_max = 4;
+        apply_mods(mut, false);
+        if (per_max < 16) {
+            per_max = 2 * (per_max - 8);
         }
     } else {
         apply_mods(mut, false);
@@ -339,7 +303,7 @@ void player::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
+    if((mdata.hunger && get_hunger() + get_starvation() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
       (mdata.fatigue && get_fatigue() >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
@@ -617,7 +581,7 @@ void player::mutate()
 
     do {
         // If we tried once with a non-NULL category, and couldn't find anything valid
-        // there, try again with MUTCAT_NULL
+        // there, try again with empty category
         if (!first_pass) {
             cat.clear();
         }
@@ -667,7 +631,7 @@ void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // @todo: Turn it into the null id
-    if( cat == "MUTCAT_ANY" ) {
+    if( cat == "ANY" ) {
         mutate();
         return;
     }
@@ -1107,3 +1071,158 @@ void player::remove_child_flag( const trait_id &flag )
         }
     }
 }
+
+static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
+{
+    if( p.has_trait( trait_MUTAGEN_AVOID ) ) {
+        //~"Uh-uh" is a sound used for "nope", "no", etc.
+        p.add_msg_if_player( m_warning,
+                             _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
+        return mutagen_rejection::rejected;
+    }
+
+    static const std::vector<std::string> safe = {{
+            "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
+        }
+    };
+    if( std::any_of( safe.begin(), safe.end(), [it]( const std::string & flag ) {
+    return it.type->can_use( flag );
+    } ) ) {
+        return mutagen_rejection::accepted;
+    }
+
+    if( p.has_trait( trait_THRESH_MYCUS ) ) {
+        p.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
+        if( p.has_trait( trait_M_SPORES ) || p.has_trait( trait_M_FERTILE ) ||
+            p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
+            p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
+            g->m.ter_set( p.pos(), t_fungus );
+            p.add_memorial_log( pgettext( "memorial_male", "Destroyed a harmful invader." ),
+                                pgettext( "memorial_female", "Destroyed a harmful invader." ) );
+            return mutagen_rejection::destroyed;
+        } else {
+            p.add_msg_if_player( m_bad,
+                                 _( "We must eliminate this contaminant at the earliest opportunity." ) );
+            return mutagen_rejection::rejected;
+        }
+    }
+
+    if( p.has_trait( trait_THRESH_MARLOSS ) ) {
+        p.add_msg_player_or_npc( m_warning,
+                                 _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
+                                 _( "<npcname> writhes in agony and collapses to the ground!" ),
+                                 it.tname().c_str() );
+        p.vomit();
+        p.mod_pain( 35 + ( strong ? 20 : 0 ) );
+        // Lose a significant amount of HP, probably about 25-33%
+        p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
+        // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p.fall_asleep( 5_hours - 1_minutes * ( p.int_cur + ( strong ? 100 : 0 ) ) );
+        p.set_mutation( trait_MUTAGEN_AVOID );
+        // Injected mutagen purges marloss, ingested doesn't
+        if( strong ) {
+            p.unset_mutation( trait_THRESH_MARLOSS );
+            p.add_msg_if_player( m_warning,
+                                 _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
+            p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
+            p.add_memorial_log( pgettext( "memorial_male",
+                                          "Burned out a particularly nasty fungal infestation." ),
+                                pgettext( "memorial_female", "Burned out a particularly nasty fungal infestation." ) );
+        } else {
+            p.add_msg_if_player( m_warning,
+                                 _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
+                                 it.tname().c_str() );
+            p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
+                                pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+        }
+
+        return mutagen_rejection::destroyed;
+    }
+
+
+    return mutagen_rejection::accepted;
+}
+
+mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+        const std::string &memorial_male, const std::string &memorial_female )
+{
+    mutagen_rejection status = try_reject_mutagen( p, it, strong );
+    if( status == mutagen_rejection::rejected ) {
+        return mutagen_attempt( false, 0 );
+    }
+    p.add_memorial_log( memorial_male.c_str(), memorial_female.c_str() );
+    if( status == mutagen_rejection::destroyed ) {
+        return mutagen_attempt( false, it.type->charges_to_use() );
+    }
+
+    return mutagen_attempt( true, 0 );
+}
+
+void test_crossing_threshold( player &p, const mutation_category_trait &m_category )
+{
+    // Threshold-check.  You only get to cross once!
+    if( p.crossed_threshold() ) {
+        return;
+    }
+
+    // If there is no threshold for this category, don't check it
+    const trait_id &mutation_thresh = m_category.threshold_mut;
+    if( mutation_thresh.is_empty() ) {
+        return;
+    }
+
+    std::string mutation_category = m_category.id;
+    int total = 0;
+    for( const auto &iter : mutation_category_trait::get_all() ) {
+        total += p.mutation_category_level[ iter.first ];
+    }
+    // Threshold-breaching
+    const std::string &primary = p.get_highest_category();
+    int breach_power = p.mutation_category_level[primary];
+    // Only if you were pushing for more in your primary category.
+    // You wanted to be more like it and less human.
+    // That said, you're required to have hit third-stage dreams first.
+    if( ( mutation_category == primary ) && ( breach_power > 50 ) ) {
+        // Little help for the categories that have a lot of crossover.
+        // Starting with Ursine as that's... a bear to get.  8-)
+        // Alpha is similarly eclipsed by other mutation categories.
+        // Will add others if there's serious/demonstrable need.
+        int booster = 0;
+        if( mutation_category == "URSINE"  || mutation_category == "ALPHA" ) {
+            booster = 50;
+        }
+        int breacher = breach_power + booster;
+        if( x_in_y( breacher, total ) ) {
+            p.add_msg_if_player( m_good,
+                                 _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
+            p.set_mutation( mutation_thresh );
+            p.add_memorial_log( pgettext( "memorial_male", m_category.memorial_message.c_str() ),
+                                pgettext( "memorial_female", m_category.memorial_message.c_str() ) );
+            // Manually removing Carnivore, since it tends to creep in
+            // This is because carnivore is a prerequisite for the
+            // predator-style post-threshold mutations.
+            if( mutation_category == "URSINE" && p.has_trait( trait_CARNIVORE ) ) {
+                p.unset_mutation( trait_CARNIVORE );
+                p.add_msg_if_player( _( "Your appetite for blood fades." ) );
+            }
+        }
+    } else if( p.has_trait( trait_NOPAIN ) ) {
+        //~NOPAIN is a post-Threshold trait, so you shouldn't
+        //~legitimately have it and get here!
+        p.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+    } else if( breach_power > 100 ) {
+        p.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
+        p.mod_pain_noresist( 8 );
+        p.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
+    } else if( breach_power > 80 ) {
+        p.add_msg_if_player( m_bad,
+                             _( "Your head throbs with memories of your life, before all this..." ) );
+        p.mod_pain_noresist( 6 );
+        p.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
+    } else if( breach_power > 60 ) {
+        p.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
+        p.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
+    }
+}
+
+

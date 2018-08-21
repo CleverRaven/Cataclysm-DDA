@@ -25,6 +25,7 @@ const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
+const efftype_id effect_antibiotic( "antibiotic" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -34,6 +35,7 @@ const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cold( "cold" );
+const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
@@ -52,6 +54,7 @@ const efftype_id effect_meth( "meth" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_rat( "rat" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_shakes( "shakes" );
@@ -59,13 +62,14 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
+const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
+const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 const vitamin_id vitamin_iron( "iron" );
 
@@ -167,10 +171,10 @@ static void eff_fun_rat( player &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( "MUTCAT_RAT" );
+            u.mutate_category( "RAT" );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( "MUTCAT_TROGLOBITE" );
+            u.mutate_category( "TROGLOBITE" );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -887,11 +891,20 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
+            if( has_effect( effect_panacea ) ) {
+                recover_factor = 108000; //panacea is a guaranteed cure
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                recover_factor += 400;
+            } else if( has_effect( effect_antibiotic ) ) {
+                recover_factor += 200;
+            } else if( has_effect( effect_weak_antibiotic ) ) {
+                recover_factor += 100;
+            }
             recover_factor += get_healthy() / 10;
 
             if( x_in_y( recover_factor, 108000 ) ) {
                 //~ %s is bodypart name.
-                add_msg_if_player( m_good, _( "Your %s wound begins to feel better." ),
+                add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ).c_str() );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
@@ -904,8 +917,18 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
-            } else {
-                it.mod_duration( 1_turns );
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                it.mod_duration( -1_turns ); //strong antibiotic reverses!
+            } else if( has_effect( effect_antibiotic ) ) {
+                if( calendar::once_every( 8_turns ) ) {
+                    it.mod_duration( 1_turns ); //normal antibiotic slows down progression by a factor of 8
+                }
+            } else if( has_effect( effect_weak_antibiotic ) ) {
+                if( calendar::once_every( 2_turns ) ) {
+                    it.mod_duration( 1_turns ); //weak antibiotic slows down by half
+                } else {
+                    it.mod_duration( 1_turns );
+                }
             }
         }
     } else if( id == effect_infected ) {
@@ -920,11 +943,20 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
+            if( has_effect( effect_panacea ) ) {
+                recover_factor = 864000;
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                recover_factor += 400;
+            } else if( has_effect( effect_antibiotic ) ) {
+                recover_factor += 200;
+            } else if( has_effect( effect_weak_antibiotic ) ) {
+                recover_factor += 100;
+            }
             recover_factor += get_healthy() / 10;
 
             if( x_in_y( recover_factor, 864000 ) ) {
                 //~ %s is bodypart name.
-                add_msg_if_player( m_good, _( "Your %s wound begins to feel better." ),
+                add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ).c_str() );
                 add_effect( effect_recover, 4 * dur );
                 // Set ourselves up for removal
@@ -939,8 +971,19 @@ void player::hardcoded_effects( effect &it )
                 add_memorial_log( pgettext( "memorial_male", "Succumbed to the infection." ),
                                   pgettext( "memorial_female", "Succumbed to the infection." ) );
                 hurtall( 500, nullptr );
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                it.mod_duration( -1_turns );
+            } else if( has_effect( effect_antibiotic ) ) {
+                if( calendar::once_every( 8_turns ) ) {
+                    it.mod_duration( 1_turns );
+                }
+            } else if( has_effect( effect_weak_antibiotic ) ) {
+                if( calendar::once_every( 2_turns ) ) {
+                    it.mod_duration( 1_turns );
+                }
+            } else {
+                it.mod_duration( 1_turns );
             }
-            it.mod_duration( 1_turns );
         }
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
@@ -1066,7 +1109,7 @@ void player::hardcoded_effects( effect &it )
                 // Mycus folks upgrade in their sleep.
                 if( has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                     if( one_in( 8 ) ) {
-                        mutate_category( "MUTCAT_MYCUS" );
+                        mutate_category( "MYCUS" );
                         mod_hunger( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );
@@ -1230,5 +1273,11 @@ void player::hardcoded_effects( effect &it )
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();
         }
+    } else if( id == effect_panacea ) {
+        // restore health all body parts, dramatically reduce pain
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            hp_cur[i] += 10;
+        }
+        mod_pain( -10 );
     }
 }

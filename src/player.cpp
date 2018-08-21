@@ -294,6 +294,7 @@ static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GOODCARDIO( "GOODCARDIO" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
+static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HOARDER( "HOARDER" );
@@ -318,6 +319,7 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_EARS( "LUPINE_EARS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
@@ -332,6 +334,7 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -355,7 +358,9 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PRETTY( "PRETTY" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
@@ -654,14 +659,14 @@ void player::reset_stats()
     set_fake_effect_dur( effect_stim, 1_turns * stim );
     set_fake_effect_dur( effect_depressants, 1_turns * -stim );
     set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
-    // Hunger
-    if( get_hunger() >= 500 ) {
+    // Starvation
+    if( get_starvation() >= 200 ) {
         // We die at 6000
-        const int dex_mod = -get_hunger() / 1000;
+        const int dex_mod = -( get_starvation() + 300 ) / 1000;
         add_miss_reason( _( "You're weak from hunger." ), unsigned( -dex_mod ) );
-        mod_str_bonus( -get_hunger() / 500 );
+        mod_str_bonus( -( get_starvation() + 300 ) / 500 );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -get_hunger() / 1000 );
+        mod_int_bonus( -( get_starvation() + 300 ) / 1000 );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
@@ -986,9 +991,11 @@ void player::update_bodytemp()
         temp_conv.fill( BODYTEMP_NORM );
         return;
     }
+    /* Cache calls to g->get_temperature( player position ), used in several places in function */
+    const auto player_local_temp = g->get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature( g->u.pos() ) ) );
+    int Ctemperature = int( 100 * temp_to_celsius( player_local_temp ) );
     w_point const weather = *g->weather_precise;
     int vehwindspeed = 0;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
@@ -1014,7 +1021,7 @@ void player::update_bodytemp()
     /**
      * Calculations that affect all body parts equally go here, not in the loop
      */
-    // Hunger
+    // Hunger / Starvation
     // -1000 when about to starve to death
     // -1333 when starving with light eater
     // -2000 if you managed to get 0 metabolism rate somehow
@@ -1093,7 +1100,7 @@ void player::update_bodytemp()
 
         bp_windpower = int( ( float )bp_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
         // Calculate windchill
-        int windchill = get_local_windchill( g->get_temperature( g->u.pos() ),
+        int windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, g->weather,
                                                      sheltered ),
                                              bp_windpower );
@@ -1110,7 +1117,7 @@ void player::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         temp_conv[bp] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
-        // HUNGER
+        // HUNGER / STARVATION
         temp_conv[bp] += hunger_warmth;
         // FATIGUE
         temp_conv[bp] += fatigue_warmth;
@@ -1134,9 +1141,18 @@ void player::update_bodytemp()
         if( has_heatsink ) {
             blister_count -= 20;
         }
+
+        const bool pyromania = has_trait( trait_PYROMANIA );
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if( blister_count - get_env_resist( bp ) > 10 ) {
             add_effect( effect_blisters, 1_turns, bp );
+            if( pyromania ) {
+                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours, 30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
+        } else if( pyromania && fire_warmth >= 1 ) { // Only give us fire bonus if there's actually fire
+            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes, 15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
+            rem_morale( MORALE_PYROMANIA_NOFIRE );
         }
 
         temp_conv[bp] += fire_warmth;
@@ -1355,7 +1371,7 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[bp] / drench_capacity[bp]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = int( g->get_temperature( g->u.pos() ) +
+            int Ftemperature = int( player_local_temp +
                                     warmth( bp ) * 0.2 - 20 * wetness_percentage / 100 );
             // Windchill reduced by your armor
             int FBwindPower = int( total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
@@ -1508,6 +1524,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth -= 500;
     } else if( trap_at_pos.loadid == tr_rollmat ) {
         floor_bedding_warmth -= 1000;
+    } else if( furn_at_pos == f_chair || furn_at_pos == f_bench ) {
+        floor_bedding_warmth -= 1500;
     } else {
         floor_bedding_warmth -= 2000;
     }
@@ -1744,8 +1762,8 @@ void player::recalc_speed_bonus()
     if( get_thirst() > 40 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
-    if( get_hunger() > 100 ) {
-        mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
+    if( ( get_hunger() + get_starvation() ) > 100 ) {
+        mod_speed_bonus( hunger_speed_penalty( get_hunger() + get_starvation() ) );
     }
 
     for( auto maps : *effects ) {
@@ -1765,12 +1783,14 @@ void player::recalc_speed_bonus()
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
-        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && g->get_temperature( pos() ) < 65 ) ) {
-            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 2 );
-        } else if( has_trait( trait_COLDBLOOD2 ) && g->get_temperature( pos() ) < 65 ) {
-            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 3 );
-        } else if( has_trait( trait_COLDBLOOD ) && g->get_temperature( pos() ) < 65 ) {
-            mod_speed_bonus( ( g->get_temperature( pos() ) - 65 ) / 5 );
+        /* Cache call to game::get_temperature( player position ) since it can be used several times here */
+        const auto player_local_temp = g->get_temperature( pos() );
+        if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && player_local_temp < 65 ) ) {
+            mod_speed_bonus( ( player_local_temp - 65 ) / 2 );
+        } else if( has_trait( trait_COLDBLOOD2 ) && player_local_temp < 65 ) {
+            mod_speed_bonus( ( player_local_temp - 65 ) / 3 );
+        } else if( has_trait( trait_COLDBLOOD ) && player_local_temp < 65 ) {
+            mod_speed_bonus( ( player_local_temp - 65 ) / 5 );
         }
     }
 
@@ -3089,6 +3109,9 @@ int player::read_speed(bool return_stat_effect) const
     if( has_trait( trait_FASTREADER ) ) {
         ret *= .8;
     }
+    if( has_trait( trait_PROF_DICEMASTER ) ) {
+        ret *= .9;
+    }
 
     if( has_trait( trait_SLOWREADER ) ) {
         ret *= 1.3;
@@ -4170,15 +4193,15 @@ void player::check_needs_extremes()
     }
 
     // Check if we're starving or have starved
-    if( is_player() && get_hunger() >= 3000 ) {
-        if (get_hunger() >= 6000) {
+    if( is_player() && get_hunger() >= 300 && get_starvation() >= 2700 ) {
+        if( get_starvation() >= 5700 ) {
             add_msg_if_player(m_bad, _("You have starved to death."));
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
             hp_cur[hp_torso] = 0;
-        } else if( get_hunger() >= 5000 && calendar::once_every( 1_hours ) ) {
+        } else if( get_starvation() >= 4700 && calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("Food..."));
-        } else if( get_hunger() >= 4000 && calendar::once_every( 1_hours ) ) {
+        } else if( get_starvation() >= 3700 && calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("You are STARVING!"));
         } else if( calendar::once_every( 1_hours ) ) {
             add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
@@ -4293,6 +4316,13 @@ void player::update_needs( int rate_multiplier )
     if( !foodless && hunger_rate > 0.0f ) {
         const int rolled_hunger = divide_roll_remainder( hunger_rate * rate_multiplier, 1.0 );
         mod_hunger( rolled_hunger );
+
+        // if the playing is famished, starvation increases
+        if( get_hunger() >= 300 ) {
+            mod_starvation( rolled_hunger );
+        } else {
+            mod_starvation( -rolled_hunger );
+        }
     }
 
     if( !foodless && thirst_rate > 0.0f ) {
@@ -4766,6 +4796,16 @@ void player::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "HUNGER", val, reduced, mod ) ) {
             mod_hunger(bound_mod_to_vals(get_hunger(), val, it.get_max_val("HUNGER", reduced),
                                         it.get_min_val("HUNGER", reduced)));
+        }
+    }
+
+    // Handle starvation
+    val = get_effect("STARVATION", reduced);
+    if(val != 0) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "STARVATION", val, reduced, mod ) ) {
+            mod_starvation(bound_mod_to_vals(get_starvation(), val, it.get_max_val("STARVATION", reduced),
+                                        it.get_min_val("STARVATION", reduced)));
         }
     }
 
@@ -5365,12 +5405,6 @@ void player::suffer()
                     }
                     done_effect = true;
                 }
-                // Sleep
-                if( !done_effect && one_in( to_turns<int>( 8_hours ) ) ) {
-                    add_msg( m_bad, _( "It's a good time to lie down and sleep." ) );
-                    add_effect( effect_lying_down, 20_minutes );
-                    done_effect = true;
-                }
                 // Bad feeling
                 if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
                     add_msg( m_warning, _( "You get a bad feeling." ) );
@@ -5449,6 +5483,13 @@ void player::suffer()
                     }
                     done_effect = true;
                 }
+            }
+        }
+
+        if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+            if( one_in( to_turns<int>( 8_hours ) ) ) {
+                add_msg( m_bad, _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
+                add_effect( effect_lying_down, 20_minutes );
             }
         }
 
@@ -5659,6 +5700,14 @@ void player::suffer()
     }
     if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600)) {
         g->teleport(this);
+    }
+    const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) && !has_morale( MORALE_PYROMANIA_STARTFIRE );
+    if( has_trait( trait_PYROMANIA ) && needs_fire && !in_sleep_state() && calendar::once_every( 2_hours ) ) {
+        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours );
+        if( calendar::once_every( 4_hours ) ) {
+            std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
+            add_msg_if_player( m_bad, _( smokin_hot_fiyah.c_str() ) );
+        }
     }
 
     // checking for radioactive items in inventory
@@ -6508,7 +6557,7 @@ void player::check_and_recover_morale()
         }
     }
 
-    test_morale.on_stat_change( "hunger", get_hunger() );
+    test_morale.on_stat_change( "hunger", get_hunger() + get_starvation() );
     test_morale.on_stat_change( "thirst", get_thirst() );
     test_morale.on_stat_change( "fatigue", get_fatigue() );
     test_morale.on_stat_change( "pain", get_pain() );
@@ -6759,6 +6808,8 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("lighter", quantity)) {
         return true;
+	} else if (has_charges("crude_firestarter", quantity)) {
+        return true;
     } else if (has_charges("flamethrower", quantity)) {
         return true;
     } else if (has_charges("flamethrower_simple", quantity)) {
@@ -6829,6 +6880,9 @@ void player::use_fire(const int quantity)
         return;
     } else if (has_charges("lighter", quantity)) {
         use_charges("lighter", quantity);
+        return;
+	} else if (has_charges("crude_firestarter", quantity)) {
+		use_charges("crude_firestarter", quantity);
         return;
     } else if (has_charges("flamethrower", quantity)) {
         use_charges("flamethrower", quantity);
@@ -7720,7 +7774,7 @@ public:
             if( !ma.techniques.empty() ) {
                 buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
                 buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
-                    return mid.obj().name;
+                    return string_format( "%s: %s", _( mid.obj().name.c_str() ), _( mid.obj().description.c_str() ) );
                 } );
             }
             if( ma.force_unarmed ) {
@@ -8941,8 +8995,8 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
-        reasons.push_back( string_format( _( "You don't know enough about %s to understand the jargon!" ),
-                                          skill.obj().name().c_str() ) );
+        reasons.push_back( string_format( _( "You need %s %d to understand the jargon!" ),
+                                          skill.obj().name().c_str(), type->req ) );
         return nullptr;
     }
 
@@ -8977,8 +9031,8 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
                                               elem->disp_name().c_str() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
-            reasons.push_back( string_format( _( "%s doesn't know enough about %s to understand the jargon!" ),
-                                              elem->disp_name().c_str(), skill.obj().name().c_str() ) );
+            reasons.push_back( string_format( _( "%s needs %s %d to understand the jargon!" ),
+                                              elem->disp_name().c_str(), skill.obj().name().c_str(), type->req ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
@@ -9022,7 +9076,7 @@ int player::time_to_read( const item &book, const player &reader, const player *
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     const int effective_int = std::min( {int_cur, reader.get_int(), learner ? learner->get_int() : INT_MAX } );
-    if( type->intel > effective_int ) {
+    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     if( !has_identified( book.typeId() ) ) {
@@ -9040,8 +9094,26 @@ bool player::fun_to_read( const item &book ) const
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
     } else {
-        return book.type->book->fun > 0;
+        return book_fun_for( book ) > 0;
     }
+}
+
+int player::book_fun_for(const item &book) const
+{
+    if( !book.is_book() ) {
+        debugmsg( "called player::book_fun_for with non-book" );
+        return 0;
+    }
+    if( has_trait( trait_LOVES_BOOKS ) ) {
+        return ( book.type->book->fun + 1 );
+    } else if ( has_trait( trait_HATES_BOOKS ) ) {
+        if( ( book.type->book->fun > 0 ) ) {
+            return 0;
+        } else {
+            return ( book.type->book->fun - 1 );
+        }
+    }
+    return book.type->book->fun;
 }
 
 /**
@@ -9267,7 +9339,7 @@ bool player::read( int inventory_position, const bool continuous )
                  reader->disp_name().c_str() );
     }
 
-    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() );
+    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() ) && !reader->has_trait( trait_PROF_DICEMASTER );
     const player *complex_player = reader->get_int() < int_cur ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
@@ -9329,8 +9401,8 @@ void player::do_read( item &book )
         if (reading->intel != 0) {
             add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
         }
-        if (reading->fun != 0) {
-            add_msg(m_info, _("Reading this book affects your morale by %d"), reading->fun);
+        if (book_fun_for( book ) != 0) {
+            add_msg(m_info, _("Reading this book affects your morale by %d"), book_fun_for( book ) );
         }
         add_msg(m_info, ngettext("A chapter of this book takes %d minute to read.",
                          "A chapter of this book takes %d minutes to read.", reading->time),
@@ -9378,7 +9450,7 @@ void player::do_read( item &book )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if( reading->fun != 0 ) {
+        if( book_fun_for( book ) != 0 ) {
             int fun_bonus = 0;
             const int chapters = book.get_chapters();
             const int remain = book.get_remaining_chapters( *this );
@@ -9392,9 +9464,9 @@ void player::do_read( item &book )
                     out_of_chapters.push_back( learner->disp_name() );
                 }
                 //50% penalty
-                fun_bonus = ( reading->fun * 5 ) / 2;
+                fun_bonus = ( book_fun_for( book ) * 5 ) / 2;
             } else {
-                fun_bonus = reading->fun * 5;
+                fun_bonus = book_fun_for( book ) * 5;
             }
             // If you don't have a problem with eating humans, To Serve Man becomes rewarding
             if( ( learner->has_trait( trait_CANNIBAL ) || learner->has_trait( trait_PSYCHOPATH ) ||
@@ -9406,7 +9478,7 @@ void player::do_read( item &book )
                 fun_bonus = 15;
                 learner->add_morale( MORALE_BOOK, fun_bonus, fun_bonus * 5, 9_minutes, 9_minutes, true, book.type );
             } else {
-                learner->add_morale( MORALE_BOOK, fun_bonus, reading->fun * 15, 6_minutes, 3_minutes, true, book.type );
+                learner->add_morale( MORALE_BOOK, fun_bonus, book_fun_for( book ) * 15, 6_minutes, 3_minutes, true, book.type );
             }
         }
 
@@ -9776,7 +9848,8 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy += 3;
         } else if (furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami) {
             sleepy += 2;
-        } else if (ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
+        } else if (furn_at_pos == f_chair || furn_at_pos == f_bench ||
+                    ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
                     ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
                     ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple) {
             sleepy += 1;
@@ -9788,7 +9861,7 @@ int player::sleep_spot( const tripoint &p ) const
     } else if (fungaloid_cosplay) {
         if( g->m.has_flag_ter_or_furn( "FUNGUS" , pos() ) ) {
             sleepy += 30; // Upsides from sleeping on fungus, but no downsides from not
-        }
+        auto items = g->m.i_at( p );
     // Has plantsleep
     } else if (plantsleep) {
         if (vp || furn_at_pos != f_null) {
@@ -9815,6 +9888,12 @@ int player::sleep_spot( const tripoint &p ) const
         }
         else {
             sleepy -= 999;
+        }
+    }
+    for( auto &items_it : items ) {
+        if( items_it.has_flag( "SLEEP_AID" ) ) {
+            sleepy += 4;
+            break; // prevents using more then 1 sleep aid
         }
     }
     if (get_fatigue() < TIRED + 1) {

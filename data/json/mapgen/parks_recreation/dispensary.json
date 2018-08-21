@@ -82,7 +82,7 @@
         { "item": "fridgesnacks", "x": 3, "y": 12, "chance": 80 },
         { "item": "smoke_shop", "x": 15, "y": 6, "chance": 50 }
       ],
-      "add": [
+      "place_item": [
         { "item": "pipe_glass", "x": 12, "y": 6 },
         { "item": "pipe_glass", "x": 13, "y": 6 },
         { "item": "joint", "x": 14, "y": 6 },

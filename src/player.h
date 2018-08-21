@@ -269,16 +269,27 @@ class player : public Character
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();
 
-        /** Handles process of introducing patient into anesthesia during Autodoc operations. Uses anesthetic kits or NOPAIN mutation */
-        void introduce_into_anesthesia( time_duration const &duration, bool needs_anesthesia );
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
+        void introduce_into_anesthesia( time_duration const &duration, player &installer, bool needs_anesthesia );
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
         void add_bionic(bionic_id const &b);
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(bionic_id const &b);
+	/** Calculate skill for (un)installing bionics */
+        float bionics_adjusted_skill( const skill_id &most_important_skill,
+                                      const skill_id &important_skill,
+                                      const skill_id &least_important_skill,
+                                      bool autodoc, int skill_level = -1 );
+        /** Attempts to install bionics, returns false if the player cancels prior to installation */
+        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+                              int skill_level = -1 );
+        void bionics_install_failure( player &installer, int difficulty, int success, float adjusted_skill );
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1, bool autodoc = false );
+        bool uninstall_bionic( bionic_id const &b_id, player &installer, bool autodoc = false,
+                               int skill_level = -1 );
+	void bionics_uninstall_failure( player &installer );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -764,6 +775,8 @@ class player : public Character
         int nutrition_for( const item &comest ) const;
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
+        /** Handles the enjoyability value for a book. **/
+        int book_fun_for(const item &book) const;
         /**
          * Returns a reference to the item itself (if it's comestible),
          * the first of its contents (if it's comestible) or null item otherwise.
@@ -1006,8 +1019,6 @@ class player : public Character
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
-        /** Attempts to install bionics, returns false if the player cancels prior to installation */
-        bool install_bionics(const itype &type, int skill_level = -1, bool autodoc = false);
         /**
          * Helper function for player::read.
          *

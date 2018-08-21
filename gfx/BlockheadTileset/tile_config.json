@@ -583,13 +583,13 @@
             "rotates":false
         },
         {
-            "id":"t_door_glass_c",
+            "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
             "fg":105,
             "bg":64,
             "rotates":false
         },
         {
-            "id":"t_door_glass_o",
+            "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
             "fg":106,
             "bg":64,
             "rotates":false
@@ -6113,6 +6113,11 @@
         },
         {
             "id":"762_casing",
+            "fg":577,
+            "rotates":true
+        },
+        {
+            "id":"762_51_casing",
             "fg":577,
             "rotates":true
         },
