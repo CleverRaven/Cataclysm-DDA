@@ -387,7 +387,7 @@
   "sight_dispersion": 60,
   "durability": 9,
   "clip_size": 1,
-  "reload": 100,
+  "reload": 200,
   "loudness" : 300
   },
   {
@@ -410,7 +410,7 @@
   "sight_dispersion": 60,
   "durability": 9,
   "clip_size": 5,
-  "reload": 100,
+  "reload": 1400,
   "loudness" : 300,
   "flags" : [ "NO_RELOAD" ]
   },
@@ -434,7 +434,7 @@
   "sight_dispersion": 60,
   "durability": 8,
   "clip_size": 5,
-  "reload": 100,
+  "reload": 1600,
   "loudness" : 300,
   "flags": [ "NO_RELOAD" ]
   },
@@ -454,12 +454,12 @@
   "volume": 40,
   "bashing": 13,
   "to_hit": -6,
-  "range": 45,
+  "range": 70,
   "dispersion": 10,
   "sight_dispersion": 60,
   "durability": 9,
   "clip_size": 1,
-  "reload": 100,
+  "reload": 1200,
   "loudness" : 400
   },
   {
@@ -474,16 +474,16 @@
   "flags": ["MOUNTED_GUN"],
   "skill": "launcher",
   "ammo": "atgm",
-  "weight": 25844,
+  "weight": 250000,
   "volume": 35,
   "bashing": 12,
   "to_hit": -6,
   "range": 15,
-  "dispersion": 100,
-  "sight_dispersion": 60,
+  "dispersion": 40,
+  "sight_dispersion": 10,
   "durability": 9,
   "clip_size": 1,
-  "reload": 100,
+  "reload": 1200,
   "loudness" : 200
   },
   {
@@ -502,10 +502,10 @@
   "bashing": 12,
   "to_hit": -6,
   "dispersion": 0,
-  "sight_dispersion": 20,
+  "sight_dispersion": 10,
   "durability": 9,
   "clip_size": 2,
-  "reload": 100,
+  "reload": 2500,
   "loudness" : 200,
   "flags": [ "NO_RELOAD" ]
   },
