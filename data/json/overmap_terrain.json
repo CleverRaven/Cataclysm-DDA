@@ -332,6 +332,14 @@
             { "method": "builtin", "name": "house_generic_center_hallway" }
         ]
     },{
+        "type": "overmap_terrain",
+        "id": "duplex",
+        "name": "duplex",
+        "copy-from" : "generic_city_building",
+        "color": "light_green",
+        "see_cost": 2,
+        "flags" : [ "SIDEWALK" ]
+    },{
         "type" : "overmap_terrain",
         "id" : "s_lot",
         "name" : "parking lot",
@@ -855,7 +863,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mil_surplus",
-        "name" : "mil. surplus",
+        "name" : "military surplus",
         "sym": 77,
         "copy-from" : "generic_city_building",
         "color" : "i_light_gray"
@@ -1486,7 +1494,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "shelter",
-        "name" : "evac shelter",
+        "name" : "evacuation shelter",
         "sym" : 43,
         "color" : "white",
         "see_cost" : 2,
@@ -1494,7 +1502,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "shelter_under",
-        "name" : "evac shelter",
+        "name" : "evacuation shelter",
         "sym" : 43,
         "color" : "white",
         "see_cost" : 2,
@@ -5021,7 +5029,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "necropolis_d_38",
-        "name" : "Vault - Maint. Bay",
+        "name" : "Vault - Maintenance Bay",
         "sym" : 77,
         "color" : "yellow",
         "see_cost" : 999,
@@ -5029,7 +5037,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "necropolis_d_39",
-        "name" : "Vault - Maint. Bay",
+        "name" : "Vault - Maintenance Bay",
         "sym" : 77,
         "color" : "yellow",
         "see_cost" : 999,
@@ -6847,43 +6855,6 @@
     "flags": [ "SIDEWALK" ]
   },
   {
-    "id": "state_park_0_0",
-    "type": "overmap_terrain",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "id": "state_park_0_1",
-    "type": "overmap_terrain",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "id": "state_park_1_0",
-    "type": "overmap_terrain",
-    "name": "state park parking",
-    "sym": 36,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "state_park_1_1",
-    "type": "overmap_terrain",
-    "name": "state park",
-    "sym": 83,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
     "id": "fishing_pond_0_0",
     "type": "overmap_terrain",
     "name": "fishing pond",
@@ -7269,17 +7240,6 @@
     "flags": [ "SIDEWALK" ]
   },
   {
-    "id": "dispensary",
-    "type": "overmap_terrain",
-    "name": "dispensary",
-    "sym": 68,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
     "id": "skate_park",
     "type": "overmap_terrain",
     "name": "skate park",
@@ -7368,43 +7328,6 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "fishing_pond_0_0",
-    "type": "overmap_terrain",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "id": "fishing_pond_0_1",
-    "type": "overmap_terrain",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "id": "fishing_pond_1_0",
-    "type": "overmap_terrain",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "fishing_pond_1_1",
-    "type": "overmap_terrain",
-    "name": "fishing pond",
-    "sym": 83,
-    "color": "i_blue",
-    "see_cost": 5,
-    "mondensity": 2
   },
   {
     "id": "hunting_blind",
@@ -8052,6 +7975,484 @@
     "color": "i_dark_gray",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
+  },{
+    "type": "overmap_terrain",
+    "id": "dumpsite",
+    "name": "dumpsite",
+    "sym": 68,
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dump",
+    "name": "dump",
+    "sym": 68,
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter",
+    "name": "recycle center",
+    "sym": 82,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "landfill",
+    "name": "landfill",
+    "sym": 76,
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_1a",
+    "name": "junkyard",
+    "sym": 74,
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_1b",
+    "name": "junkyard",
+    "sym": 74,
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_2a",
+    "name": "junkyard",
+    "sym": 74,
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_2b",
+    "name": "junkyard",
+    "sym": 74,
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "NatureTrail_1a",
+    "name": "nature trail",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "NatureTrail_1b",
+    "name": "nature trail",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "PublicPond_1a",
+    "name": "public pond",
+    "sym": 80,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "PublicPond_1b",
+    "name": "public pond",
+    "sym": 80,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "Cemetery_1a",
+    "name": "cemetery",
+    "sym": 110,
+    "color": "white",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "Cemetery_1b",
+    "name": "cemetery",
+    "sym": 110,
+    "color": "white",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "communitygarden",
+    "name": "community garden",
+    "sym": 103,
+    "color": "yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "publicgarden",
+    "name": "public garden",
+    "sym": 103,
+    "color": "light_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "BotanicalGarden_1a",
+    "name": "botanical garden",
+    "sym": 103,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "BotanicalGarden_1b",
+    "name": "botanical garden",
+    "sym": 103,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "TreeFarm_1a",
+    "name": "tree farm",
+    "sym": 84,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "TreeFarm_1b",
+    "name": "tree farm",
+    "sym": 84,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shootingrange_1a",
+    "name": "shooting range",
+    "sym": 83,
+    "color": "red",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shootingrange_2a",
+    "name": "shooting range",
+    "sym": 83,
+    "color": "red",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_1a",
+    "name": "campground",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_1b",
+    "name": "campground",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_2a",
+    "name": "campground",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_2b",
+    "name": "campground",
+    "sym": 43,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "desolatebarn",
+    "name": "desolate barn",
+    "sym": 66,
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "emptycommerciallot",
+    "name": "empty commercial lot",
+    "sym": 79,
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "emptyresidentiallot",
+    "name": "empty residential lot",
+    "sym": 79,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abandonedwarehouse",
+    "name": "abandoned warehouse",
+    "sym": 119,
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dollarstore",
+    "name": "dollar store",
+    "sym": 36,
+    "color": "yellow",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lancenter",
+    "name": "LAN center",
+    "sym": 76,
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "landscapingsupplyco_1a",
+    "name": "landscaping supply co",
+    "sym": 76,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "landscapingsupplyco_1b",
+    "name": "landscaping supply co",
+    "sym": 76,
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_1",
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_2",
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_00",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_01",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_02",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_10",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_11",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_12",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_20",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_21",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_22",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_30",
+    "name": "golf course parking lot",
+    "sym": 71,
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_31",
+    "name": "golf course service building",
+    "sym": 71,
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_32",
+    "name": "golf course",
+    "sym": 71,
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
   }
 ]
-

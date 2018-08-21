@@ -371,6 +371,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             e->enabled = true;
         }
 
+        for( auto e : get_parts( "FREEZER" ) ) {
+            e->enabled = true;
+        }
+
         for( auto e : get_parts( "WATER_PURIFIER" ) ) {
             e->enabled = true;
         }
@@ -707,6 +711,52 @@ void vehicle::add_toggle_to_opts(std::vector<uimenu_entry> &options, std::vector
     } );
 }
 
+void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
+                                   std::vector<std::function<void()>> &actions )
+{
+    auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
+        add_toggle_to_opts( options, actions, name, key, flag );
+    };
+    add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
+    add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
+    add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
+    add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
+    add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
+    add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
+    add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
+    add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
+    add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+    add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
+    add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
+    add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
+    add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+    add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
+    add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+    add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+
+    if( has_part( "DOOR_MOTOR" ) ) {
+        options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
+        actions.push_back( [&] { control_doors(); refresh(); } );
+    }
+
+    if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
+        options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
+                              keybind( "TOGGLE_CAMERA" ) );
+        actions.push_back( [&] {
+            if( camera_on ) {
+                camera_on = false;
+                add_msg( _( "Camera system disabled" ) );
+            } else if( fuel_left( fuel_type_battery, true ) ) {
+                camera_on = true;
+                add_msg( _( "Camera system enabled" ) );
+            } else {
+                add_msg( _( "Camera system won't turn on" ) );
+            }
+            refresh();
+        } );
+    }
+}
+
 void vehicle::control_electronics()
 {
     // exit early if you can't control the vehicle
@@ -718,49 +768,10 @@ void vehicle::control_electronics()
     do {
         std::vector<uimenu_entry> options;
         std::vector<std::function<void()>> actions;
-        auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
-            add_toggle_to_opts( options, actions, name, key, flag );
-        };
-        add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
-        add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
-        add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
-        add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
-        add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
-        add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
-        add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
-        add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
-        add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-        add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-        add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-        add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-        add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
-        if( has_part( "DOOR_MOTOR" ) ) {
-            options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
-            actions.push_back( [&] { control_doors(); refresh(); } );
-        }
+        set_electronics_menu_options( options, actions );
 
-        if( camera_on ||
-            ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
-                                  keybind( "TOGGLE_CAMERA" ) );
-            actions.push_back( [&] {
-                if( camera_on )
-                {
-                    camera_on = false;
-                    add_msg( _( "Camera system disabled" ) );
-                } else if( fuel_left( fuel_type_battery, true ) )
-                {
-                    camera_on = true;
-                    add_msg( _( "Camera system enabled" ) );
-                } else {
-                    add_msg( _( "Camera system won't turn on" ) );
-                }
-                refresh();
-            } );
-        }
-        options.emplace_back( _( "Quit controlling electronics" ), "q" );
+        options.emplace_back( _( "Quit controlling electronics" ), keybind( "QUIT" ) );
 
         uimenu menu;
         menu.return_invalid = true;
@@ -1083,61 +1094,16 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&] { honk_horn(); refresh(); } );
     }
 
-    auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
-        add_toggle_to_opts( options, actions, name, key, flag );
-    };
-
-    add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
+    options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
+                          keybind( "TOGGLE_CRUISE_CONTROL" ) );
+    actions.emplace_back( [&] {
+        cruise_on = !cruise_on;
+        add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
+        refresh();
+    } );
 
     if( has_electronic_controls ) {
-        add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
-        add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
-        add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
-        add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
-        add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
-        add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
-        add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
-        add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
-        add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-        add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-        add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
-        add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-        add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-        add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
-
-        if( has_part( "DOOR_MOTOR" ) ) {
-            options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
-            actions.push_back( [&] { control_doors(); refresh(); } );
-        }
-
-        options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
-                              keybind( "TOGGLE_CRUISE_CONTROL" ) );
-
-        actions.emplace_back( [&] {
-            cruise_on = !cruise_on;
-            add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
-            refresh();
-        } );
-        if( camera_on ||
-            ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-            options.emplace_back( camera_on ?  _( "Turn off camera system" ) : _( "Turn on camera system" ),
-                                  keybind( "TOGGLE_CAMERA" ) );
-            actions.push_back( [&] {
-                if( camera_on )
-                {
-                    camera_on = false;
-                    add_msg( _( "Camera system disabled" ) );
-                } else if( fuel_left( fuel_type_battery, true ) )
-                {
-                    camera_on = true;
-                    add_msg( _( "Camera system enabled" ) );
-                } else {
-                    add_msg( _( "Camera system won't turn on" ) );
-                }
-                refresh();
-            } );
-        }
+        set_electronics_menu_options( options, actions );
         options.emplace_back( _( "Control multiple electronics" ), keybind( "CONTROL_MANY_ELECTRONICS" ) );
         actions.push_back( [&] { control_electronics(); refresh(); } );
     }
@@ -1525,9 +1491,9 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
 
     const vehicle_part& vp = parts[ index ];
 
-    int pwr = vp.base.engine_displacement();
+    int pwr = vp.info().power;
     if( pwr == 0 ) {
-        pwr = vp.info().power;
+        pwr = vp.base.engine_displacement();
     }
 
     if (part_info(index).fuel_type == fuel_type_muscle) {
@@ -1727,7 +1693,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
 
     // curtains must be installed on (reinforced)windshields
     // TODO: do this automatically using "location":"on_mountpoint"
-    if (part.has_flag("CURTAIN")) {
+    if ( part.has_flag( "WINDOW_CURTAIN" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "WINDOW" ) ) {
@@ -2041,6 +2007,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "STEREO",
             "CHIMES",
             "FRIDGE",
+            "FREEZER",
             "RECHARGE",
             "PLOW",
             "REAPER",
@@ -5389,8 +5356,8 @@ void vehicle::refresh()
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
-        inline bool operator() (const int p1, const int p2) {
-            return veh->part_info(p1).list_order < veh->part_info(p2).list_order;
+        inline bool operator() ( const int p1, const int p2 ) {
+            return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
         }
     } svpv = { this };
     std::vector<int>::iterator vii;
@@ -5417,19 +5384,19 @@ void vehicle::refresh()
             funnels.push_back( p );
         }
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
-            loose_parts.push_back(p);
+            loose_parts.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
         }
-        if (vpi.has_flag("STEERABLE") || vpi.has_flag("TRACKED")) {
+        if ( vpi.has_flag( "STEERABLE" ) || vpi.has_flag( "TRACKED" ) ) {
             // TRACKED contributes to steering effectiveness but
             //  (a) doesn't count as a steering axle for install difficulty
             //  (b) still contributes to drag for the center of steering calculation
-            steering.push_back(p);
+            steering.push_back( p );
         }
-        if (vpi.has_flag("SECURITY")){
-            speciality.push_back(p);
+        if ( vpi.has_flag( "SECURITY" ) ){
+            speciality.push_back( p );
         }
         if( vpi.has_flag( "CAMERA" ) ) {
             camera_epower += vpi.epower;
@@ -5437,19 +5404,8 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             floating.push_back( p );
         }
-        if( parts[ p ].enabled ) {
-            if( vpi.has_flag( "PLOW" ) ) {
-                extra_drag += vpi.power;
-            }
-            if( vpi.has_flag( "ROCKWHEEL" ) ) {
-                extra_drag += vpi.power;
-            }
-            if( vpi.has_flag( "PLANTER" ) ) {
-                extra_drag += vpi.power;
-            }
-            if( vpi.has_flag( "REAPER" ) ) {
-                extra_drag += vpi.power;
-            }
+        if( parts[ p ].enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
+            extra_drag += vpi.power;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
@@ -6068,6 +6024,11 @@ void vehicle::close(int part_index)
   } else {
     open_or_close(part_index, false);
   }
+}
+
+bool vehicle::is_open(int part_index) const
+{
+  return parts[part_index].open;
 }
 
 void vehicle::open_all_at(int p)

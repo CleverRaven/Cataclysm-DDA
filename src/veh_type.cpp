@@ -14,6 +14,7 @@
 #include "output.h"
 #include "generic_factory.h"
 #include "character.h"
+#include "flag.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -66,6 +67,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
+    { "FREEZER", VPFLAG_FREEZER },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
@@ -154,8 +156,12 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
         auto const ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
         if( base != vpart_info_all.end() ) {
             def = base->second;
+            def.looks_like = base->second.id.str();
         } else if( ab != abstract_parts.end() ) {
             def = ab->second;
+            if( def.looks_like.empty() ) {
+                def.looks_like = ab->second.id.str();
+            }
         } else {
             deferred.emplace_back( jo.str(), src );
             return;
@@ -202,6 +208,9 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     }
     if( jo.has_member( "broken_symbol" ) ) {
         def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        def.looks_like = jo.get_string( "looks_like" );
     }
 
     if( jo.has_member( "color" ) ) {
@@ -517,32 +526,64 @@ std::string vpart_info::name() const
 int vpart_info::format_description( std::ostringstream &msg, std::string format_color,
                                     int width ) const
 {
-    int lines = 0;
-    if( ! description.empty() ) {
-        msg << _( "<color_white>Description</color>\n" );
-        msg << "> " << format_color;
+    int lines = 1;
+    msg << _( "<color_white>Description</color>\n" );
+    msg << "> " << format_color;
 
-        const auto wrap_descrip = foldstring( description, width );
+    class::item base( item );
+    std::ostringstream long_descrip;
+    if( ! description.empty() ) {
+        long_descrip << description;
+    }
+    for( const auto &flagid : flags ) {
+        if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
+            continue;
+        }
+        json_flag flag = json_flag::get( flagid );
+        if( ! flag.info().empty() ) {
+            if( ! long_descrip.str().empty() ) {
+                long_descrip << "  ";
+            }
+            long_descrip << flag.info();
+        }
+    }
+    if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && ! has_flag( "BELTABLE" ) ) {
+        json_flag nobelt = json_flag::get( "NONBELTABLE" );
+        long_descrip << "  " << nobelt.info();
+    }
+    if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
+        json_flag nobelt = json_flag::get( "DOOR" );
+        long_descrip << "  " << nobelt.info();
+    }
+    if( has_flag( "TURRET" ) ) {
+        long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
+                                       base.gun_range( true ),
+                                       base.gun_damage().total_damage() );
+    }
+
+    if( ! long_descrip.str().empty() ) {
+        const auto wrap_descrip = foldstring( long_descrip.str(), width );
         msg << wrap_descrip[0];
         for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
             msg << "\n  " << wrap_descrip[i];
         }
         msg << "</color>\n";
-        lines += 1 + wrap_descrip.size();
+        lines += wrap_descrip.size();
+    }
 
-        // borrowed from item.cpp and adjusted
-        const quality_id quality_jack( "JACK" );
-        const quality_id quality_lift( "LIFT" );
-        for( const auto &qual : qualities ) {
-            msg << "> " << format_color << string_format( _( "Has level %1$d %2$s quality" ),
-                    qual.second, qual.first.obj().name.c_str() );
-            if( qual.first == quality_jack || qual.first == quality_lift ) {
-                msg << string_format( _( " and is rated at %1$d %2$s" ),
-                                      ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ), weight_units() );
-            }
-            msg << ".</color>\n";
-            lines += 1;
+    // borrowed from item.cpp and adjusted
+    const quality_id quality_jack( "JACK" );
+    const quality_id quality_lift( "LIFT" );
+    for( const auto &qual : qualities ) {
+        msg << "> " << format_color << string_format( _( "Has level %1$d %2$s quality" ),
+                qual.second, qual.first.obj().name.c_str() );
+        if( qual.first == quality_jack || qual.first == quality_lift ) {
+            msg << string_format( _( " and is rated at %1$d %2$s" ),
+                                  ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ),
+                                  weight_units() );
         }
+        msg << ".</color>\n";
+        lines += 1;
     }
     return lines;
 }

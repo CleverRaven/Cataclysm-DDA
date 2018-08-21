@@ -152,7 +152,4 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
 cata::optional<tripoint> random_point( const map &m,
                                        const std::function<bool( const tripoint & )> &predicate );
 
-/** Get random tile on circumference of a circle */
-tripoint random_perimeter( const tripoint &src, int radius );
-
 #endif

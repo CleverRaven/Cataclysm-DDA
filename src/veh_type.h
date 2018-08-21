@@ -60,6 +60,7 @@ enum vpart_bitflags : int {
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
     VPFLAG_FRIDGE,
+    VPFLAG_FREEZER,
     VPFLAG_LIGHT,
     VPFLAG_WINDOW,
     VPFLAG_CURTAIN,
@@ -110,6 +111,9 @@ class vpart_info
          */
         long sym = 0;
         char sym_broken = '#';
+
+        /** hint to tilesets for what tile to use if this part doesn't have one */
+        std::string looks_like;
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
