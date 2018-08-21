@@ -73,13 +73,7 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
     int fallen_count = 0;
 
     for( auto it : items ) { // cant use constant reference here because of the spill_contents()
-        if( it.is_bucket_nonempty() && !it.spill_contents( p ) ) {
-            p.add_msg_player_or_npc(
-                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
-                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name().c_str(), ter_name.c_str()
-            );
-            g->m.add_item_or_charges( where, it );
+        if( it.handle_spillable_contents( p ) ) {
             continue;
         }
         if( !veh.add_item( part, it ) ) {

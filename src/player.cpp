@@ -7113,6 +7113,7 @@ bool player::consume_item( item &target )
 
         if( target.is_container() ) {
             target.on_contents_changed();
+            target.handle_spillable_contents( *this );
         }
 
         return comest.charges <= 0;
