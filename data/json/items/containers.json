@@ -965,7 +965,7 @@
     "type": "CONTAINER",
     "category": "other",
     "name": "styrofoam cup",
-    "description": "A cheap fast-food cup with a plastic lid and straw.",
+    "description": "A cheap disposable cup with a plastic lid and straw.",
     "weight": 50,
     "volume": 2,
     "price": 0,

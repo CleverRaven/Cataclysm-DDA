@@ -150,7 +150,7 @@
       { "item": "cheese", "prob": 60 },
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 30 },
-      { "item": "icecream_artificial", "prob": 30 },
+      { "item": "icecream", "prob": 30 },
       { "item": "icecream_artificial", "prob": 15 }
     ]
   },
