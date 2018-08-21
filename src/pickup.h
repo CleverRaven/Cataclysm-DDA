@@ -35,7 +35,7 @@ int cost_to_move_item( const Character &who, const item &it );
  * @param it item to handle
  * @param m map they are on
  */
-bool handle_spillable_contents( player &p, item &it, map& m );
+bool handle_spillable_contents( player &p, item &it, map &m );
 };
 
 #endif

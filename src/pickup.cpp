@@ -1209,14 +1209,14 @@ void show_pickup_message( const PickupMap &mapPickup )
     }
 }
 
-bool Pickup::handle_spillable_contents( player &p, item &it, map& m )
+bool Pickup::handle_spillable_contents( player &p, item &it, map &m )
 {
-    if( it.is_bucket_nonempty() && !it.spill_contents( p )  ) {
+    if( it.is_bucket_nonempty() && !it.spill_contents( p ) ) {
         p.add_msg_player_or_npc(
-                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
-                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name().c_str(), m.name( p.pos() ).c_str()
-                );
+            _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+            _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+            it.display_name().c_str(), m.name( p.pos() ).c_str()
+        );
         m.add_item_or_charges( p.pos(), it );
         return true;
     }
