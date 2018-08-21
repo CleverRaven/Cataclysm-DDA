@@ -5779,12 +5779,14 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     diff_cold = clamp( diff_cold, static_cast<unsigned int>(0), static_cast<unsigned int>(3) ); //effective 1-4
 
     // environment temperature applies COLD/FROZEN flags to food
-    if( temp <= FRIDGE_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, temp );
-    } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
-        item_counter -= diff_freeze; // thaw
-    } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
-        item_counter -= diff_cold; // get warm
+    if( fridge != calendar::before_time_starts && freezer != calendar::before_time_starts ) {
+        if( temp <= FRIDGE_TEMPERATURE ) {
+            g->m.apply_in_fridge( *this, temp );
+        } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
+            item_counter -= diff_freeze; // thaw
+        } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
+            item_counter -= diff_cold; // get warm
+        }
     }
     return false;
 }
