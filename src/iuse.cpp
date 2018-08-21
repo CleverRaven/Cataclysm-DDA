@@ -1102,6 +1102,60 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
+{
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+                             pgettext( "memorial_male", "Injected smart purifier." ), pgettext( "memorial_female",
+                                     "Injected smart purifier." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
+    }
+
+    std::vector<trait_id> valid; // Which flags the player has
+    std::vector<std::string> valid_names; // Which flags the player has
+    for( auto &traits_iter : mutation_branch::get_all() ) {
+        if( p->has_trait( traits_iter.first ) &&
+            !p->has_base_trait( traits_iter.first ) &&
+            p->purifiable( traits_iter.first ) ) {
+            //Looks for active mutation
+            valid.push_back( traits_iter.first );
+            valid_names.push_back( traits_iter.first->name );
+        }
+    }
+    if( valid.empty() ) {
+        p->add_msg_if_player( _( "You feel cleansed." ) );
+        item syringe( "syringe", it->birthday() );
+        p->i_add( syringe );
+        return it->type->charges_to_use();
+    }
+
+    int mutation_index = menu_vec( true, _( "Choose a mutation to purify" ),
+                                   valid_names ) - 1;
+    if( mutation_index < 0 ) {
+        return 0;
+    }
+
+    p->add_msg_if_player(
+        _( "You inject the purifier. The liquid thrashes inside the tube and goes down reluctantly." ) );
+
+    p->remove_mutation( valid[mutation_index] );
+    valid.erase( valid.begin() + mutation_index );
+
+    // and one or two more untargeted purifications.
+    if( !valid.empty() ) {
+        p->remove_mutation( random_entry_removed( valid ) );
+    }
+    if( !valid.empty() && one_in( 2 ) ) {
+        p->remove_mutation( random_entry_removed( valid ) );
+    }
+
+    p->mod_pain( 3 );
+
+    item syringe( "syringe", it->birthday() );
+    p->i_add( syringe );
+    return it->type->charges_to_use();
+}
+
 void spawn_spores( const player &p )
 {
     int spores_spawned = 0;

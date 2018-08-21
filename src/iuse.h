@@ -67,6 +67,7 @@ class iuse
         int mut_iv( player *, item *, bool, const tripoint & );
         int purifier( player *, item *, bool, const tripoint & );
         int purify_iv( player *, item *, bool, const tripoint & );
+        int purify_smart( player *, item *, bool, const tripoint & );
         int marloss( player *, item *, bool, const tripoint & );
         int marloss_seed( player *, item *, bool, const tripoint & );
         int marloss_gel( player *, item *, bool, const tripoint & );
