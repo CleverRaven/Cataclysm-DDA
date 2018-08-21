@@ -4139,21 +4139,6 @@ const item &item::get_contained() const
     return contents.front();
 }
 
-bool item::handle_spillable_contents( player &p )
-{
-    if( is_bucket_nonempty() && !spill_contents( p )  ) {
-        p.add_msg_player_or_npc(
-                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
-                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                display_name().c_str(), g->m.name( p.pos() ).c_str()
-                );
-        g->m.add_item_or_charges( p.pos(), *this );
-        return true;
-    }
-
-    return false;
-}
-
 bool item::spill_contents( Character &c )
 {
     if( !is_container() || is_container_empty() ) {

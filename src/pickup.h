@@ -9,6 +9,8 @@
 class vehicle;
 class item;
 class Character;
+class player;
+class map;
 
 namespace Pickup
 {
@@ -23,6 +25,17 @@ bool do_pickup( const tripoint &pickup_target, bool from_vehicle,
 void pick_up( const tripoint &p, int min );
 /** Determines the cost of moving an item by a character. */
 int cost_to_move_item( const Character &who, const item &it );
+
+/**
+ * If player is handling is a spillable bucket, gracefully handle what to do
+ * with the contents.
+ *
+ * Returns true
+ * @param p player handling the spillable item
+ * @param it item to handle
+ * @param m map they are on
+ */
+bool handle_spillable_contents( player &p, item &it, map& m );
 };
 
 #endif

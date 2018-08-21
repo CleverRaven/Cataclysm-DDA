@@ -73,7 +73,7 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
     int fallen_count = 0;
 
     for( auto it : items ) { // cant use constant reference here because of the spill_contents()
-        if( it.handle_spillable_contents( p ) ) {
+        if( Pickup::handle_spillable_contents( p, it, g->m ) ) {
             continue;
         }
         if( !veh.add_item( part, it ) ) {

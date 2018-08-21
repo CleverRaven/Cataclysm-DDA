@@ -67,6 +67,7 @@
 #include "ranged.h"
 #include "ammo.h"
 #include "name.h"
+#include "pickup.h"
 
 #include <map>
 #include <iterator>
@@ -7113,7 +7114,7 @@ bool player::consume_item( item &target )
 
         if( target.is_container() ) {
             target.on_contents_changed();
-            target.handle_spillable_contents( *this );
+            Pickup::handle_spillable_contents( *this, target, g->m );
         }
 
         return comest.charges <= 0;

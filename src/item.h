@@ -1051,12 +1051,6 @@ class item : public visitable<item>
          */
         const item &get_contained() const;
         /**
-         * If this is a spill-able bucket, gracefully handle what to do with
-         * the contents.
-         * @param p player handling the spillable item
-         */
-        bool handle_spillable_contents( player &p );
-        /**
          * Unloads the item's contents.
          * @param c Character who receives the contents.
          *          If c is the player, liquids will be handled, otherwise they will be spilled.
