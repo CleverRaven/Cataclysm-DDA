@@ -2619,7 +2619,9 @@ bool game::handle_action()
         if( !evt.sequence.empty() ) {
             const long ch = evt.get_first_input();
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
-            add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+            if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
+                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+            }
         }
         return false;
     }
@@ -6506,6 +6508,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
         it.active = false;
         return false;
     }
+    if( it.has_flag( "FIELD_DRESS" ) || it.has_flag( "FIELD_DRESS_FAILED" ) || it.has_flag( "QUARTERED" ) ) {
+        // Failed reanimation due to corpse being butchered
+        it.active = false;
+        return false;
+    }
 
     critter.no_extra_death_drops = true;
     critter.add_effect( effect_downed, 5_turns, num_bp, true );
@@ -10265,7 +10272,7 @@ void game::butcher()
             smenu.desc_enabled = true;
             smenu.text = _("Choose type of butchery:");
             smenu.addentry_desc( BUTCHER, true, 'B' , _("Quick butchery"), _( "This techinque is used when you are in a hurry, but still want to harvest some flesh.  You aim for major muscles (or equivalents) and don't care for the rest, so be prepared for low yields and no variety.  Prevents zombies from raising." ) );
-            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a butchering rack, a flat surface (for ex. a table) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
+            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
             smenu.addentry_desc( F_DRESS, true, 'f' , _("Field dress corpse"), _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
             smenu.addentry_desc( QUARTER, true, 'k' , _("Quarter corpse"), _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry_desc( DISSECT, true, 'd' , _("Dissect corpse"), _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );

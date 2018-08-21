@@ -147,7 +147,7 @@
       "dispersion" : 180,
       "durability" : 6,
       "clip_size" : 1,
-      "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+      "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ],[ "dampening", 1]]
    },
    {
       "id" : "crossbow",
@@ -173,7 +173,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 500,
-      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ],[ "dampening", 1] ]
    },
    {
       "id" : "huge_crossbow",
@@ -199,7 +199,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 6000,
-      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ],[ "dampening", 1]]
    },
    {
       "id" : "rep_crossbow",
@@ -224,6 +224,6 @@
       "durability" : 6,
       "clip_size" : 10,
       "reload" : 50,
-      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+      "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ],["dampening", 1]]
    }
 ]

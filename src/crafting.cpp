@@ -646,6 +646,8 @@ void set_item_food( item &newit )
     int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
+        newit.item_tags.erase( "COLD" );
+        newit.item_tags.erase( "FROZEN" );
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
         newit.active = true;

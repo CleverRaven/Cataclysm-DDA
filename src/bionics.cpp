@@ -490,11 +490,13 @@ bool player::activate_bionic( int b, bool eff_only )
             vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
+        /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
+        const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
                            cur_om_ter, g->is_sheltered( g->u.pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
-                           print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
+                           print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, g->weather,
@@ -507,7 +509,7 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + g->get_temperature( g->u.pos() ) ).c_str() );
+                                       windpower ) + player_local_temp ).c_str() );
     } else if( bio.id == "bio_remote" ) {
         int choice = menu( true, _( "Perform which function:" ), _( "Nothing" ),
                            _( "Control vehicle" ), _( "RC radio" ), NULL );

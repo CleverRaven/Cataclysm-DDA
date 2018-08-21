@@ -263,6 +263,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int_map";
 
+    thisOpt.format = "%i";
+
     thisOpt.hide = opt_hide;
 
     thisOpt.mIntValues = mIntValuesIn;
@@ -1155,6 +1157,11 @@ void options_manager::init()
         0, 1000, 0
         );
 
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", translate_marker( "Suppress \"unknown command\" messages" ),
+        translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
+        );
+    
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
         translate_marker( "How should confidence and steadiness be communicated to the player." ),
         //~ aim bar style - bars or numbers

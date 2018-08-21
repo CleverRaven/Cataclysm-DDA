@@ -456,9 +456,10 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const auto &map_cache = get_cache_ref( t.z );
-    return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
-        ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
-          g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
+    const float vis = std::max( map_cache.seen_cache[t.x][t.y], map_cache.camera_cache[t.x][t.y] );
+    const float point_vis = vis * map_cache.lm[t.x][t.y];
+    return vis > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
+        ( point_vis > g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
           map_cache.sm[t.x][t.y] > 0.0 );
 }
 
@@ -475,7 +476,8 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 
     const auto &map_cache = get_cache_ref( t.z );
     // Any epsilon > 0 is fine - it means lightmap processing visited the point
-    return map_cache.seen_cache[t.x][t.y] > 0.0f;
+    return map_cache.seen_cache[t.x][t.y] > 0.0f ||
+        map_cache.camera_cache[t.x][t.y] > 0.0f;
 }
 
 // Add defaults for when method is invoked for the first time.
@@ -903,10 +905,14 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     auto &map_cache = get_cache( target_z );
     float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = map_cache.transparency_cache;
     float (&seen_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = map_cache.seen_cache;
+    float (&camera_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = map_cache.camera_cache;
 
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
+    constexpr int map_dimensions = MAPSIZE*SEEX * MAPSIZE*SEEY;
     std::uninitialized_fill_n(
-        &seen_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, light_transparency_solid );
+        &seen_cache[0][0], map_dimensions, light_transparency_solid );
+    std::uninitialized_fill_n(
+        &camera_cache[0][0], map_dimensions, light_transparency_solid );
 
     if( !fov_3d ) {
         seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
@@ -978,7 +984,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                                   veh->parts[ mirror ].hp() / veh->part_info( mirror ).durability;
-            seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
         // @todo: Factor in the mirror facing and only cast in the
@@ -987,7 +993,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // The naive solution of making the mirrors act like a second player
         // at an offset appears to give reasonable results though.
         castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+          camera_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
     }
 }
 

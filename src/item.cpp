@@ -169,7 +169,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
         }
 
     } else if( type->comestible ) {
-        active = true;
+        active = is_food();
 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
@@ -982,11 +982,11 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                          "It's on a brink of becoming inedible." ) );
                 }
             }
-            if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() ) {
-                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's <neutral>frozen.</neutral>." ) );
+            if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() && !food_item->has_flag( "MUSHY" ) ) {
+                info.emplace_back( "DESCRIPTION", _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out.</neutral>." ) );
             }
             if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
-                info.emplace_back( "DESCRIPTION", _( "* It was frozen once and bacame <bad>mushy and tasteless</bad>." ) );
+                info.emplace_back( "DESCRIPTION", _( "* It was frozen once and after thawing became <bad>mushy and tasteless</bad>." ) );
             }
             if( food_item->has_flag( "NO_PARASITES" ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
                 info.emplace_back( "DESCRIPTION", _( "* It seems that deep freezing <good>killed all parasites</good>." ) );
@@ -3329,7 +3329,9 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() ) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
+        !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ) ) {
+
         return true;
     }
     return false;
@@ -5614,11 +5616,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
             apply_ammo_effects( p, ammo_type.ammo_effects );
-        } else if( ammo_type.cookoff ) {
-            // Ammo that cooks off, but doesn't have a
-            // large intrinsic effect blows up with shrapnel but no blast
-           g->explosion( p, sqrtf( ammo_type.damage.total_damage() / 10.0f ) * 5, 0.0f,
-                         false, rounds_exploded / 5.0f );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
@@ -5730,7 +5727,7 @@ int item::processing_speed() const
         // Hot and cold food need turn-by-turn updates.
         // If they ever become a performance problem, update process_food to handle them occasionally.
         return 600;
-    } else {
+    } else if( is_food() ) {
         return 100;
     }
     if( is_corpse() ) {
@@ -5743,43 +5740,39 @@ int item::processing_speed() const
 bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
     calc_rot( g->m.getabs( pos ) );
-    if( item_tags.count( "HOT" ) > 0 ) {
-        if( item_counter == 0 ) {
-            item_tags.erase( "HOT" );
-        }
-    } else if( item_tags.count( "COLD" ) > 0 ) {
-        if( item_counter == 0 ) {
+    if( item_tags.count( "HOT" ) && item_counter == 0 ) {
+            item_tags.erase( "HOT" );   
+    }
+    if( item_tags.count( "COLD" ) && item_counter == 0  ) {
             item_tags.erase( "COLD" );
+    }
+    if( item_tags.count( "FROZEN" ) && item_counter == 0  ) {
+        item_tags.erase( "FROZEN" );
+        if( has_flag( "NO_FREEZE" ) && !rotten() ) {
+            item_tags.insert( "MUSHY" );
+        } else if( has_flag( "NO_FREEZE" ) && has_flag( "MUSHY" ) &&
+            rot < type->comestible->spoils ) {
+            rot = type->comestible->spoils;
         }
-    } else if( item_tags.count( "FROZEN" ) > 0 ) {
-        if( item_counter == 0 ) {
-            item_tags.erase( "FROZEN" );
-            if( has_flag( "NO_FREEZE" ) && !rotten() ) {
-                item_tags.insert( "MUSHY" );
-            } else if( has_flag( "NO_FREEZE" ) && has_flag( "MUSHY" ) &&
-                rot < type->comestible->spoils ) {
-                rot = type->comestible->spoils;
-            }
-            if( has_flag( "EATEN_COLD" ) ) {
-                item_tags.insert( "COLD" );
-                item_counter = 600;
-            }
-        }
+        item_tags.insert( "COLD" );
+        item_counter = 600;
     }
     // deep freezing kills parasites but not instantly
     if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
         item_tags.insert( "NO_PARASITES" );
     }
-    unsigned int diff_freeze = abs( g->get_temperature( pos ) - FREEZING_TEMPERATURE );
+    /* cache g->get_temperature( item location ). It is used a minimum of 3 times, no reason to recalculate. */
+    const auto item_local_temp = g->get_temperature( pos );
+    unsigned int diff_freeze = abs( item_local_temp - FREEZING_TEMPERATURE );
     diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
     diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
 
-    unsigned int diff_cold = abs( g->get_temperature( pos ) - FRIDGE_TEMPERATURE );
+    unsigned int diff_cold = abs( item_local_temp - FRIDGE_TEMPERATURE );
     diff_cold = diff_cold < 1 ? 1 : diff_cold;
     diff_cold = diff_cold > 10 ? 10 : diff_cold;
     // environment temperature applies COLD/FROZEN flags to food
-    if( g->get_temperature( pos ) <= FRIDGE_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, g->get_temperature( pos ) );
+    if( item_local_temp <= FRIDGE_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, item_local_temp );
     } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
         item_counter -= diff_freeze;
     } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {

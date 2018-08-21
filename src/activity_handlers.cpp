@@ -288,7 +288,8 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
 
     bool has_table_nearby = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
-        if( g->m.has_flag_furn( "FLAT_FURN", pt ) || ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
+        if( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
+            ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
             has_table_nearby = true;
         }
     }
@@ -740,22 +741,26 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     } 
 
     // feedback that this type of corpse has implants that can be potentialy removed
-    if( action == F_DRESS ) {
-        p->add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
-    }
-    if( action == BUTCHER || action == BUTCHER_FULL ) {
-        switch( rng( 1, 3 ) ) {
-        case 1:
-            p->add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
-            break;
-        case 2:
-            p->add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
-            break;
-        case 3:
-            p->add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
-            break;
+    if( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) || corpse->has_flag( MF_CBM_TECH ) ||
+        corpse->has_flag( MF_CBM_SUBS ) || corpse->has_flag( MF_CBM_OP ) || corpse->has_flag( MF_CBM_POWER ) ) {
+        if( action == F_DRESS ) {
+            p->add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
+        }
+        if( action == BUTCHER || action == BUTCHER_FULL ) {
+            switch( rng( 1, 3 ) ) {
+            case 1:
+                p->add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
+                break;
+            case 2:
+                p->add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
+                break;
+            case 3:
+                p->add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
+                break;
+            }
         }
     }
+
 
     //now handle the meat, if there is any
     if( meat!= "null" ) {
@@ -777,7 +782,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
             // also field dressing removed innards so no offal
             bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
-                              !( corpse->has_flag( "FIELD_DRESS" ) || corpse->has_flag( "FIELD_DRESS_FAILED" ) ) &&
+                              !( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
                               !chunk.made_of ( material_id ( "veggy" ) );
             if( action == F_DRESS ) {
                 for ( int i = 1; i < pieces; ++i ) {
@@ -2621,7 +2626,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
         g->m.ter_set( elem, t_trunk );
     }
 
-    g->m.ter_set( pos, t_dirt );
+    g->m.ter_set( pos, t_stump );
 
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
@@ -2634,14 +2639,19 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
 void activity_handlers::chop_logs_finish( player_activity *act, player *p ) {
     const tripoint &pos = act->placement;
 
+    if( g->m.ter( pos ) == t_trunk ) {
+        g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
+        g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
+    } else if( g->m.ter( pos ) == t_stump ) {
+        g->m.spawn_item( pos.x, pos.y, "log", rng( 0, 2 ), 0, calendar::turn );
+        g->m.spawn_item( pos.x, pos.y, "splinter", rng( 5, 15 ), 0, calendar::turn );
+    }
+    
     g->m.ter_set( pos, t_dirt );
-    g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
-    g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
-
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
-    p->add_msg_if_player( m_good, _( "You finish chopping the logs." ) );
+    p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
 }
