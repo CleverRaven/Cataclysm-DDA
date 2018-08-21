@@ -821,7 +821,9 @@ class item : public visitable<item>
         int damage() const;
 
         /**
-         * Scale item damage to the given number of levels
+         * Scale item damage to the given number of levels. This function is
+         * here mostly for back-compatibility. It should not be used when
+         * doing continuous math with the damage value: use damage() instead.
          *
          * For example, for max = 4, min_damage = -1000, max_damage = 4000
          *   damage       level
@@ -832,7 +834,7 @@ class item : public visitable<item>
          *    2667 ~ 3999     3
          *           4000     4
          *
-         * @param maximum number of levels
+         * @param max Maximum number of levels
          */
         int damage_level( int max ) const;
 
