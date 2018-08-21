@@ -32,7 +32,7 @@ void display_messages( const catacurses::window &ipk_target, int left, int top, 
                        int bottom );
 void serialize( JsonOut &jsout );
 void deserialize( JsonObject &json );
-};
+} // namespace Messages
 
 void add_msg( std::string msg );
 template<typename ...Args>
