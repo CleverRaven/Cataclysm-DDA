@@ -110,7 +110,6 @@ const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_in_pit( "in_pit" );
-const efftype_id effect_insulated( "insulated" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
@@ -119,6 +118,7 @@ const efftype_id effect_poison( "poison" );
 const efftype_id effect_run( "run" );
 const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_supercharged( "supercharged" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_webbed( "webbed" );
 
@@ -1096,7 +1096,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
     case DT_ELECTRIC:
         return type->sp_defense == &mdefense::zapback ||
            has_flag( MF_ELECTRIC ) ||
-           has_effect( effect_insulated );
+           has_flag( MF_ELECTRIC_FIELD );
     default:
         return true;
     }
@@ -1734,8 +1734,13 @@ void monster::process_turn()
 {
     if( !is_hallucination() ) {
         for( const auto &e: type->emit_fields ) {
-            if( e == emit_id( "emit_shock_cloud" ) && has_effect( effect_emp ) ) {
-                continue; // don't emit electricity while EMPed
+            if( e == emit_id( "emit_shock_cloud" ) ) {
+                if( has_effect( effect_emp ) ) {
+                    continue; // don't emit electricity while EMPed
+                } else if( has_effect( effect_supercharged ) ) {
+                    g->m.emit_field( pos(), emit_id( "emit_shock_cloud_big" ) );
+                    continue;
+                }
             }
             g->m.emit_field( pos(), e );
         }
@@ -1766,18 +1771,6 @@ void monster::process_turn()
                 sounds::sound( pos(), 5, _( "hummmmm." ) );
             }
         } else {
-            if( calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 15, _( "ZZZZZZZZZZZZZZ." ) ); // :bee:
-            }
-            for( monster &zomboop : g->all_monsters() ) {
-                if( attitude_to( zomboop ) != Creature::Attitude::A_HOSTILE &&
-                    rl_dist( pos(), zomboop.pos() ) <= 5 ) {
-                    if( zomboop.get_effect_dur( effect_insulated ) < 5_turns ) {
-                        zomboop.add_effect( effect_insulated,
-                                            1_turns ); // we'll prevent insulation from exceeding 5 turns here so that only being near the husk insulates them
-                    }
-                }
-            }
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
@@ -1806,6 +1799,19 @@ void monster::process_turn()
                         g->m.add_field( zap, fd_fire, 1, 2_turns );
                     }
                 }
+            }
+            if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
+                g->lightning_active = false; // only one supercharge per strike
+                sounds::sound( pos(), 300, _( "BOOOOOOOM!!!" ) );
+                sounds::sound( pos(), 20, _( "vrrrRRRUUMMMMMMMM!" ) );
+                if( g->u.sees( pos() ) ) {
+                    add_msg( m_bad, _( "Lightning strikes the %s!" ), name().c_str() );
+                    add_msg( m_bad, _( "Your vision goes white!" ) );
+                    g->u.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
+                }
+                add_effect( effect_supercharged, 12_hours );
+            } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
+                sounds::sound( pos(), 20, _( "VMMMMMMMMM!" ) );
             }
         }
     }

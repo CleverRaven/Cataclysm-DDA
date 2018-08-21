@@ -34,8 +34,6 @@ const species_id FUNGUS( "FUNGUS" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
-const efftype_id effect_emp( "emp" );
-const efftype_id effect_insulated( "insulated" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );

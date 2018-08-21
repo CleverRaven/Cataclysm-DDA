@@ -79,8 +79,15 @@
   {
     "id": "emit_shock_cloud",
     "type": "emit",
-    "//": "Thick cloud of lightning (example: null zombie)",
+    "//": "Thick cloud of lightning (example: incandescent husk)",
     "field": "fd_electricity",
     "qty": 20
+  },
+  {
+    "id": "emit_shock_cloud_big",
+    "type": "emit",
+    "//": "Large cloud of lightning (example: supercharged incandescent husk)",
+    "field": "fd_electricity",
+    "qty": 40
   }
 ]

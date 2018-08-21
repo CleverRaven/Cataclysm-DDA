@@ -1912,8 +1912,12 @@
     },
     {
         "type": "effect_type",
-        "id": "insulated",
-        "name": [ "Insulated" ],
-        "desc": [ "You are protected from shocks." ]
+        "id": "supercharged",
+        "//": "not given to players by default",
+        "name": [ "Supercharged" ],
+        "desc": [ "You've been struck by lightning, and feel... different." ],
+        "base_mods": {
+            "speed_mod": [50]
+        }
     }
 ]
