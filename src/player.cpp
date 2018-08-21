@@ -7540,10 +7540,10 @@ ret_val<bool> player::can_wear( const item& it  ) const
         }
     }
 
-    // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
-    if( it.has_flag( "RESTRICT_HANDS" ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) || weapon.is_two_handed( *this ) ) ) {
-        return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
-                                              : string_format( _( "%s doesn't have a hand free to wear that." ), name.c_str() ) ) );
+    // Don't wear a briefcase, shield, etc. if doing so would render us unable to continue wielding current weapon.
+    if( it.has_flag( "RESTRICT_HANDS" ) &&  weapon.is_two_handed( *this ) ) {
+        return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that, you need both hands free to use your weapon." )
+                                              : string_format( _( "%s can't wear that, they need both hands free to use their weapon." ), name.c_str() ) ) );
     }
 
     for( auto &i : worn ) {
@@ -7618,13 +7618,15 @@ ret_val<bool> player::can_wield( const item &it ) const
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
-    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
-        if( worn_with_flag( "RESTRICT_HANDS" ) ) {
+    if( it.is_two_handed( *this ) ) {
+        if( !has_two_arms() ) {
+            if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
+                return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() );
+            } else {
+                return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() );
+            }
+        } else if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure( _( "Something you are wearing hinders the use of both hands." ) );
-        } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
-            return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() );
-        } else {
-            return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() );
         }
     }
 
