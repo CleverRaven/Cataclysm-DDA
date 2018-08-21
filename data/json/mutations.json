@@ -5375,8 +5375,7 @@
         "valid" : false,
         "description" : "For fueling your inner cybug. Activate to increase power capacity by 100 (can be repeated.)",
         "threshold" : true,
-        "active" : true,
-        "starts_active" : true
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "SQUEAMISH",
