@@ -33,6 +33,10 @@
 #include <stdexcept>
 #include <limits>
 
+#ifdef __linux__
+#   include <cstdlib> // getenv()/setenv()
+#endif
+
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
 #   include <shlwapi.h>
@@ -271,6 +275,16 @@ bool InitSDL()
     SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
 #endif
 
+#ifdef __linux__
+    // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
+    if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
+        const char *xmod = getenv( "XMODIFIERS" );
+        if( xmod && strstr( xmod, "@im=ibus" ) != NULL ) {
+            setenv( "XMODIFIERS", "@im=none", 1 );
+        }
+    }
+#endif
+
     ret = SDL_Init( init_flags );
     if( ret != 0 ) {
         dbg( D_ERROR ) << "SDL_Init failed with " << ret << ", error: " << SDL_GetError();
@@ -330,7 +344,7 @@ bool WinCreate()
     int window_flags = 0;
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
-    window_flags |= SDL_WINDOW_RESIZABLE;
+    window_flags |= SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 
     if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
@@ -1398,11 +1412,6 @@ void CheckMessages()
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.
                     break;
-#ifdef __linux__
-                } else if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) && ev.key.repeat ) {
-                    // https://bugzilla.libsdl.org/show_bug.cgi?id=3637
-                    break;
-#endif
                 } else if( add_alt_code( lc ) ) {
                     // key was handled
                 } else {

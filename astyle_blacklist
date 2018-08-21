@@ -10,6 +10,7 @@ src/cata_tiles.cpp
 src/character.cpp
 src/computer.cpp
 src/construction.cpp
+src/crash.cpp
 src/creature.cpp
 src/cursesport.cpp
 src/dump.cpp
@@ -65,7 +66,6 @@ src/worldfactory.cpp
 src/enums.h
 src/field.h
 src/io.h
-src/item.h
 src/itype.h
 src/json.h
 src/mapdata.h
@@ -75,7 +75,6 @@ src/mission.h
 src/overmapbuffer.h
 src/overmap.h
 src/player.h
-src/vehicle.h
 src/wcwidth.h
 src/wdirent.h
 tests/invlet_test.cpp

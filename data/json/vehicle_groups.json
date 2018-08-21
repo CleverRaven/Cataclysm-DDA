@@ -216,15 +216,6 @@
         ]
     },
     {
-        "id": "bandit_vehicles",
-        "type": "vehicle_group",
-        "//": "Vehicles used by Hell's Raiders for scouting and assaults",
-        "vehicles": [
-            [ "quad_bike", 150 ],
-            [ "motorcycle", 300 ]
-        ]
-    },
-    {
         "id": "warehouse_vehicles",
         "type": "vehicle_group",
         "//": "Lifting and hauling vehicles for warehouses, loading bays, and similar locations",
@@ -245,6 +236,12 @@
         ]
     },
     {
+    "id": "bandit_vehicles",
+    "type": "vehicle_group",
+    "//": "Vehicles used by Hell's Raiders for scouting and assaults",
+    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ] ]
+  },
+  {
     "type": "vehicle_group",
     "id": "junkyard_vehicles",
     "vehicles": [
@@ -307,5 +304,27 @@
       [ "pickup", 500 ],
       [ "hippie_van", 300 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parkinglotbasic",
+    "vehicles": [
+      [ "bubble_car", 50 ],
+      [ "car_sports_electric", 100 ],
+      [ "cube_van", 1000 ],
+      [ "car_mini", 750 ],
+      [ "beetle", 750 ],
+      [ "car", 1000 ],
+      [ "electric_car", 750 ],
+      [ "hippie_van", 750 ],
+      [ "motorcycle", 500 ],
+      [ "superbike", 50 ],
+      [ "motorcycle_sidecart", 300 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "golf_carts",
+    "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ]
   }
 ]

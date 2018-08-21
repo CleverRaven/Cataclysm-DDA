@@ -49,17 +49,9 @@
         "w": "t_water_dp",
         "|": "t_chainfence_v"
       },
-      "furniture": {
-        "B": "f_bench",
-        "b": "f_bench"
-      },
-      "place_items": [
-        { "item": "forest", "x": 21, "y": 14, "chance": 20 },
-        { "item": "forest", "x": 4, "y": 2, "chance": 20 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_POND_FISH", "x": [ 2, 4 ], "y": [ 17, 21 ], "repeat": 2 }
-      ]
+      "furniture": { "B": "f_bench", "b": "f_bench" },
+      "place_items": [ { "item": "forest", "x": 21, "y": 14, "chance": 20 }, { "item": "forest", "x": 4, "y": 2, "chance": 20 } ],
+      "place_monsters": [ { "monster": "GROUP_POND_FISH", "x": [ 2, 4 ], "y": [ 17, 21 ], "repeat": 2 } ]
     }
   }
 ]

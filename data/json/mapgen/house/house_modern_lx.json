@@ -8,7 +8,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "...........#.....s.....#",
-        "...........#.....s.....#",
+        "...........#....Zs.....#",
         "...........#.....s.....#",
         "...........#.....s.....#",
         "...........RRRVVR+RVVRRR",
@@ -36,6 +36,7 @@
         "#": "t_shrub",
         "+": "t_door_metal_c",
         ".": "t_grass",
+        "Z": "t_grass",
         "0": "t_floor",
         "?": "t_floor",
         "@": "t_floor",
@@ -64,6 +65,7 @@
         "0": "f_fireplace",
         "?": "f_sofa",
         "@": "f_bed",
+        "Z": "f_mailbox",
         "B": "f_bathtub",
         "D": "f_trashcan",
         "K": "f_armchair",
@@ -81,6 +83,7 @@
         "r": "f_rack"
       },
       "toilets": { "t": {  } },
+      "items": { "Z": { "item": "mail", "chance": 25, "repeat": [ 1, 5 ] } },
       "place_loot": [
         { "group": "bed", "x": [ 5, 6 ], "y": [ 19, 20 ], "chance": 90, "repeat": [ 1, 4 ] },
         { "group": "bedroom", "x": [ 6, 7 ], "y": [ 19, 20 ], "chance": 80, "repeat": [ 1, 5 ] },

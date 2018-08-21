@@ -4439,7 +4439,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         return null_item_reference();
     }
 
-    if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
+    if( (!has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
+            && valid_limits( pos ) ) {
         if( obj.on_drop( pos ) ) {
             return null_item_reference();
         }
@@ -4482,7 +4483,7 @@ item &map::add_item(const tripoint &p, item new_item)
 
     // Process foods when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
-    if( new_item.needs_processing() && new_item.is_food() ) {
+    if( /*new_item.needs_processing() &&*/ new_item.is_food() ) {
         new_item.process( nullptr, p, false );
     }
     return add_item_at(p, current_submap->itm[lx][ly].end(), new_item);
@@ -4510,6 +4511,9 @@ item &map::add_item_at( const tripoint &p,
 
     current_submap->update_lum_add(new_item, lx, ly);
     const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
+    if( g->get_temperature( p ) <= FRIDGE_TEMPERATURE && new_item.is_food() ) {
+        new_item.active = true;
+    }
     if( new_item.needs_processing() ) {
         current_submap->active_items.add( new_pos, point(lx, ly) );
     }
@@ -4571,30 +4575,64 @@ void map::make_active( item_location &loc )
     current_submap->active_items.add( iter, point(lx, ly) );
 }
 
-// Check if it's in a fridge and is food, set the fridge
+// Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
-static void apply_in_fridge(item &it)
+void map::apply_in_fridge( item &it, int temp )
 {
-    if (it.is_food()) {
-        if( it.fridge == calendar::before_time_starts ) {
-            it.fridge = calendar::turn;
+    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
+    diff_freeze = std::max( static_cast<unsigned int>(1), diff_freeze );
+    diff_freeze = std::min( static_cast<unsigned int>(5), diff_freeze );
+
+    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
+    diff_freeze = std::max( static_cast<unsigned int>(1), diff_cold );
+    diff_freeze = std::min( static_cast<unsigned int>(5), diff_cold );
+
+    if( it.is_food() ) {
+        if( temp <= FREEZING_TEMPERATURE ) {
+            if( it.freezer == calendar::before_time_starts ) {
+                it.freezer = calendar::turn;
+            }
+        } else if( temp <= FRIDGE_TEMPERATURE ) {
+            if( it.fridge == calendar::before_time_starts ) {
+                it.fridge = calendar::turn;
+            }
         }
         // cool down of the HOT flag, is unsigned, don't go below 1
-        if ((it.has_flag("HOT")) && (it.item_counter > 10)) {
-            it.item_counter -= 10;
+        if( it.item_tags.count( "HOT" ) && it.item_counter > diff_cold ) {
+            it.item_counter -= diff_cold;
+        } else if ( it.item_tags.count( "HOT" ) ) {
+            it.item_tags.erase( "HOT" );
+            it.item_counter = 0;
         }
         // This sets the COLD flag, and doesn't go above 600
-        if ((it.has_flag("EATEN_COLD")) && (!it.has_flag("COLD"))) {
-            it.item_tags.insert("COLD");
+        if( !( it.item_tags.count( "COLD" ) || it.item_tags.count( "FROZEN" ) ||
+            it.item_tags.count( "HOT" ) ) ) {
+
+            it.item_tags.insert( "COLD" );
             it.active = true;
         }
-        if ((it.has_flag("COLD")) && (it.item_counter <= 590)) {
-            it.item_counter += 10;
+        if( it.item_tags.count( "COLD" ) && it.item_counter <= ( 600 - diff_cold ) ) {
+            it.item_counter += diff_cold;
+        }
+        // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
+        if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "COLD" ) && it.item_counter >= 600 &&
+             !( it.item_tags.count( "FROZEN" ) || it.item_tags.count( "HOT" ) ) ) {
+
+            it.item_tags.erase( "COLD" );
+            it.item_tags.insert( "FROZEN" );
+            it.active = true;
+            it.item_counter = 0;
+
+            // items that don't use COLD flag can go FROZEN bypassing COLD state
+        }
+        if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "FROZEN" ) && it.item_counter <= 600 ) {
+            it.item_counter += diff_freeze;
+            it.item_counter = it.item_counter > 600 ? 600 : it.item_counter;
         }
     }
-    if (it.is_container()) {
+    if( it.is_container() ) {
         for( auto &elem : it.contents ) {
-            apply_in_fridge( elem );
+            apply_in_fridge( elem, temp );
         }
     }
 }
@@ -4631,7 +4669,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            apply_in_fridge(n);
+            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE);
+        }
+    }
+
+    const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) && cur_veh.has_part( "FREEZER", true );
+    if( freezer_here ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
+            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE );
         }
     }
 
@@ -5693,8 +5738,9 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         return LL_BRIGHT;
     }
     const auto &map_cache = get_cache_ref(p.z);
-    bool obstructed = map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1;
-    const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
+    const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
+    const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
+    const float apparent_light = vis * map_cache.lm[p.x][p.y];
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
@@ -8277,6 +8323,7 @@ level_cache::level_cache()
     std::fill_n( &floor_cache[0][0], map_dimensions, false );
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );

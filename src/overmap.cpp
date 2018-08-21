@@ -357,6 +357,7 @@ const std::vector<overmap_special> &overmap_specials::get_all()
 overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 {
     const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
+    const int city_size = get_option<int>( "CITY_SIZE" );
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
@@ -366,6 +367,10 @@ overmap_special_batch overmap_specials::get_default_batch( const point &origin )
         }
 
         if( only_classic && elem.flags.count( "CLASSIC" ) == 0 ) {
+            continue;
+        }
+
+        if( city_size == 0 && elem.city_size.min > city_size ) {
             continue;
         }
 
@@ -1763,7 +1768,7 @@ bool overmap::generate_sub(int const z)
             } else if (oter_above == "central_lab_stairs") {
                 ter(i, j, z) = oter_id( "central_lab" );
             } else if (is_ot_subtype("hidden_lab_stairs", oter_above)) {
-                (one_in(2) ? lab_points : ice_lab_points).push_back(city(i, j, rng(1, 5 + z)));
+                (one_in(10) ? ice_lab_points : lab_points).push_back(city(i, j, rng(1, 5 + z)));
             } else if (oter_above == "mine_entrance") {
                 shaft_points.push_back( point(i, j) );
             } else if (oter_above == "mine_shaft" ||
