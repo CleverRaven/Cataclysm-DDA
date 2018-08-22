@@ -400,13 +400,13 @@ void computer::activate_function( computer_action action )
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         sounds::sound(g->u.pos(), 40, _("an alarm sound!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos(), true);
+        g->m.translate_radius(t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
         sounds::sound(g->u.pos(), 40, _("an alarm sound!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 3.0, g->u.pos(), true);
+        g->m.translate_radius(t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
