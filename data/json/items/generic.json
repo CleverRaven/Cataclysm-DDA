@@ -525,7 +525,7 @@
     "container": "bag_canvas",
     "price": 10000,
     "price_postapoc": 100,
-    "material": "stone",
+    "material": "powder",
     "weight": 2340,
     "volume": 4,
     "bashing": 4
@@ -1834,7 +1834,7 @@
     "category": "spare_parts",
     "container": "bag_canvas",
     "price": 5000,
-    "material": "stone",
+    "material": "powder",
     "weight": 2340,
     "volume": 4,
     "bashing": 4

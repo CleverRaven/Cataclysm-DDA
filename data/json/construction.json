@@ -889,6 +889,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 180,
+		"tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -905,6 +906,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 180,
+		"tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -937,6 +939,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
+		"tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -953,6 +956,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
+		"tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -1008,6 +1012,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 120,
+		"tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -1041,6 +1046,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
+		"tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -1056,6 +1062,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
+		"tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
