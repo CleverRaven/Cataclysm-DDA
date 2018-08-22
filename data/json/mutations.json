@@ -5109,7 +5109,7 @@
         "mixed_effect" : true,
         "points" : -3,
         "description" : "Born with a rare disorder, you are incapable of feeling, and have never felt, physical pain.  While this prevents you from feeling pain at all, you also cannot view how injured you are at a glance, and severe wounds and injuries may go completely unnoticed.",
-        "cancels": [ "SELFAWARE" ]
+        "cancels": [ "SELFAWARE", "PAINRESIST", "PAINRESIST_TROGLO", "MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3", "MASOCHIST", "MASOCHIST_MED" ]
     },{
         "type" : "mutation",
         "id" : "PROF_POLICE",
