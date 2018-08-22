@@ -11461,7 +11461,7 @@ std::vector<Creature *> player::get_hostile_creatures( int range ) const
         float dist_to_creature;
         // Fixes circular distance range for ranged attacks
         if( !trigdist ) {
-            dist_to_creature = rl_dist( pos(), critter.pos() );
+            dist_to_creature = round( rl_dist( pos(), critter.pos() ) );
         } else {
             dist_to_creature = round( trig_dist( pos(), critter.pos() ) );
         }
