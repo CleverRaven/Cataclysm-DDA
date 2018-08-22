@@ -1941,6 +1941,24 @@
     },
     {
         "type" : "keybinding",
+        "id": "OVERVIEW_UP",
+        "category": "VEH_INTERACT",
+        "name": "Scroll up through vehicle engines, tanks, and ammo",
+        "bindings":[
+            { "input_method":"keyboard", "key":"{" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "OVERVIEW_DOWN",
+        "category": "VEH_INTERACT",
+        "name": "Scroll down through vehicle engines, tanks, and ammo",
+        "bindings":[
+            { "input_method":"keyboard", "key":"}" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "TOGGLE_UNAVAILABLE_CONSTRUCTIONS",
         "category": "CONSTRUCTION",
         "name": "Toggle unavailable constructions",

@@ -182,6 +182,8 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     main_context.register_action( "RELABEL" );
     main_context.register_action( "PREV_TAB" );
     main_context.register_action( "NEXT_TAB" );
+    main_context.register_action( "OVERVIEW_DOWN" );
+    main_context.register_action( "OVERVIEW_UP" );
     main_context.register_action( "FUEL_LIST_DOWN" );
     main_context.register_action( "FUEL_LIST_UP" );
     main_context.register_action( "DESC_LIST_DOWN" );
@@ -326,6 +328,10 @@ void veh_interact::do_main_loop()
             move_fuel_cursor( 1 );
         } else if( action == "FUEL_LIST_UP" ) {
             move_fuel_cursor( -1 );
+        } else if( action == "OVERVIEW_DOWN" ) {
+            move_overview_line( 1 );
+        } else if( action == "OVERVIEW_UP" ) {
+            move_overview_line( -1 );
         } else if( action == "DESC_LIST_DOWN" ) {
             move_cursor( 0, 0, 1 );
         } else if( action == "DESC_LIST_UP" ) {
@@ -1054,6 +1060,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         std::function<void( const vehicle_part &pt )> message;
     };
 
+    const auto next_hotkey = [&]( char &hotkey ) {
+        hotkey += 1;
+        if( hotkey == '{' ) {
+            hotkey = 'A';
+        }
+        return hotkey;
+    };
+
     std::vector<part_option> opts;
 
     std::map<std::string, std::function<void( const catacurses::window &, int )>> headers;
@@ -1107,7 +1121,8 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 }
                 wrefresh( w_msg );
             };
-            opts.emplace_back( "ENGINE", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details, msg );
+            opts.emplace_back( "ENGINE", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details, msg );
         }
     }
 
@@ -1121,7 +1136,8 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                                  round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 }
             };
-            opts.emplace_back( "TANK", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "TANK", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
         }
     }
 
@@ -1133,7 +1149,8 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
             };
-           opts.emplace_back( "BATTERY", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "BATTERY", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
         }
     }
 
@@ -1146,13 +1163,15 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     for( auto &pt : veh->parts ) {
         if( pt.is_reactor() && !pt.is_broken() ) {
-            opts.emplace_back( "REACTOR", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+            opts.emplace_back( "REACTOR", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details_ammo );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_turret() && !pt.is_broken() ) {
-            opts.emplace_back( "TURRET", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+            opts.emplace_back( "TURRET", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details_ammo );
         }
     }
 
@@ -1164,7 +1183,8 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             }
         };
         if( pt.is_seat() && !pt.is_broken() ) {
-            opts.emplace_back( "SEAT", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "SEAT", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
         }
     }
 
@@ -1183,7 +1203,12 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         werase( w_list );
         std::string last;
         int y = 0;
-        for( int idx = 0; idx != int( opts.size() ); ++idx ) {
+        if( overview_offset ) {
+            trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
+                            c_yellow, _( "'{' to scroll up" ) );
+            y++;
+        }
+        for( int idx = overview_offset; idx != int( opts.size() ); ++idx ) {
             const auto &pt = *opts[idx].part;
 
             // if this is a new section print a header row
@@ -1212,7 +1237,16 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             // print extra columns (if any)
             opts[idx].details( pt, w_list, y );
             y++;
+            if( y < ( getmaxy( w_list ) - 1 ) ) {
+                overview_limit = overview_offset;
+            } else {
+                overview_limit = idx;
+                trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
+                                c_yellow, _( "'}' to scroll down" ) );
+                break;
+            }
         }
+        
         wrefresh( w_list );
 
         if( !std::any_of( opts.begin(), opts.end(), []( const part_option & e ) {
@@ -1237,6 +1271,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
         } else if( input == "UP" ) {
             do {
+                move_overview_line( -1 );
                 if( --pos < 0 ) {
                     pos = opts.size() - 1;
                 }
@@ -1244,6 +1279,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
         } else if( input == "DOWN" ) {
             do {
+                move_overview_line( 1 );
                 if( ++pos >= int( opts.size() ) ) {
                     pos = 0;
                 }
@@ -1269,6 +1305,12 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     return redraw;
 }
 
+void veh_interact::move_overview_line( int amount )
+{
+    overview_offset += amount;
+    overview_offset = std::max( 0, overview_offset );
+    overview_offset = std::min( overview_limit, overview_offset );
+}
 
 vehicle_part *veh_interact::get_most_damaged_part() const
 {
