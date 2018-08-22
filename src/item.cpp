@@ -5778,15 +5778,56 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     unsigned int diff_cold = abs( temp - FRIDGE_TEMPERATURE ) / 5;
     diff_cold = clamp( diff_cold, static_cast<unsigned int>(0), static_cast<unsigned int>(3) ); //effective 1-4
 
-    // environment temperature applies COLD/FROZEN flags to food
-    if( fridge != calendar::before_time_starts && freezer != calendar::before_time_starts ) {
+    // exclusions for items being actively cooled to be affected by outside temperatures
+    //const optional_vpart_position vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = g->m.veh_at( pos );
+    bool in_active_cooler = false;
+    bool fridge_here = false;
+    bool freezer_here = false;
+    if( vp ) {
+        fridge_here = vp->vehicle().has_part( pos, "FRIDGE", true );
+        freezer_here = vp->vehicle().has_part( pos, "FREEZER", true );
+        if(fridge_here) { add_msg( "Fridge" ); } else {add_msg( "NOT Fridge" );}
+        if(freezer_here) { add_msg( "Freezer" ); } else {add_msg( "NOT Freezer" );}
+    }
+
+    if( vp && ( fridge_here || freezer_here ) ) {
+        std::vector<vehicle_part *> parts = vp->vehicle().get_parts( pos, "FRIDGE", true );
+        if( parts.empty() ) { 
+            parts = vp->vehicle().get_parts( pos, "FREEZER", true );
+        }
+        if( parts.empty() ) { add_msg( "PARTS EMPTY" ); }
+        vehicle_part *part = parts.front();
+        vehicle_stack vit = vp->vehicle().get_items( vp->vehicle().index_of_part( part ) );
+        if( vit.empty() ) { add_msg( "ITEMS EMPTY" ); }
+        for( size_t iter = 0; iter < vit.size(); iter++ ) {
+            item *itm = &vit[iter];
+            if( itm == this ) {
+                in_active_cooler = true;
+                add_msg( "PING" );	
+            } else { add_msg( "PONG %s", itm->tname() );	}
+        }
+    }
+    
+    // environment temperature applies COLD/FROZEN flags to food unless in fridge/freezer
+    if( !in_active_cooler ) {
         if( temp <= FRIDGE_TEMPERATURE ) {
+            add_msg( "NOT_IN_COOLER" );	
             g->m.apply_in_fridge( *this, temp );
+            add_msg( "Temp: %s", temp );	
         } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
             item_counter -= diff_freeze; // thaw
         } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
             item_counter -= diff_cold; // get warm
         }
+    } else if( fridge_here ) {
+            add_msg( "IN_FRIDGE" );	
+        g->m.apply_in_fridge( *this, FRIDGE_TEMPERATURE );
+        add_msg( "Temp: %s", FRIDGE_TEMPERATURE );
+    } else if ( freezer_here ){
+        add_msg( "IN_FREEZER" );
+        g->m.apply_in_fridge( *this, FREEZER_TEMPERATURE );
+        add_msg( "Temp: %s", FREEZER_TEMPERATURE );
     }
     return false;
 }
