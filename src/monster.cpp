@@ -129,6 +129,8 @@ static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
+static const bionic_id bio_health_view( "bio_health_view" );
+
 static const std::map<m_size, std::string> size_names {
     {m_size::MS_TINY, translate_marker( "tiny" )},
     {m_size::MS_SMALL, translate_marker( "small" )},
@@ -512,11 +514,9 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         damage_info = _("It is nearly dead!");
         col = c_red;
     }
-    /*
-    // This is unused code that allows the player to see the exact amount of monster HP, to be implemented later!
-    if( true ) ) {
+    if( g->u.has_active_bionic( bio_health_view ) ) {
         damage_info = string_format( _( "It has %d/%d HP." ), cur_hp, max_hp );
-    }*/
+    }
 
     return std::make_pair( damage_info, col );
 }

@@ -815,5 +815,41 @@
     "description": "Nanotubes embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "price": 550000,
     "difficulty": 5
+  },
+  {
+    "id": "bio_health_view",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Medical Assistant CBM",
+    "description": "This dime-sized disk holds a medical AI that hooks into your brain and sifts through information from your thoughts and vision, then feeds it back into your skull.  The net result is that you can see the exact health numbers of yourself and of creatures that you look at, and some medical activities are easier for you.",
+    "price": 50000,
+    "difficulty": 5
+  },
+  {
+    "id": "bio_syringe",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Intravenous Needletip CBM",
+    "description": "A small tube with a retractable needle, that terminates in a net of tiny hoses instead of a plunger.  Installed, it allows you to draw substances directly into your bloodstream through the needle without needing to carry a syringe.",
+    "price": 1000,
+    "difficulty": 1
+  },
+  {
+    "id": "bio_evil_nanobots",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Autocannibalistic Nanobots CBM",
+    "description": "While this appears to be a small tube filled with gray liquid, it's actually a fleet of illegal nanobots, housed in your body.  Programmed to target organic matter, they can be activated to tear off parts of your body to generate massive amounts of power.  Deploying Repair Nanobots within 24 hours of this will destroy them.",
+    "price": 1000000,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_skeleton",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Titanium Joint Bearings CBM",
+    "description": "A set of hinges, ball joints, and other mechanical synthetic augments for the skeletal structure.  These artificial joints allow a greater range of flexibility and strength, moderately increasing your weight capacity and crafting speed.",
+    "price": 750000,
+    "difficulty": 5
   }
 ]

@@ -43,6 +43,8 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PAWS( "PAWS" );
 
+static const bionic_id bio_skeleton( "bio_skeleton" );
+
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
@@ -112,9 +114,23 @@ float player::morale_crafting_speed_multiplier( const recipe &rec ) const
     return 1.0f / morale_effect;
 }
 
+float player::external_craft_speed_multiplier( const recipe &rec ) const
+{
+    float modifier = 1.0f;
+    if( rec.difficulty == 0 ) { // This is only here to avoid warnings.
+        modifier += 0.0f;       // If something is ever made that utilizes rec, please remove this block.
+    }
+
+    if( has_bionic( bionic_id( "bio_skeleton" ) ) ) {
+        modifier += 0.3f; // 30% flat speed increase
+    }
+
+    return modifier;
+}
+
 float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
 {
-    float result = morale_crafting_speed_multiplier( rec ) * lighting_craft_speed_multiplier( rec );
+    float result = morale_crafting_speed_multiplier( rec ) * lighting_craft_speed_multiplier( rec ) * external_craft_speed_multiplier( rec );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;

@@ -1248,6 +1248,7 @@ class player : public Character
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe & rec ) const;
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
+        float external_craft_speed_multiplier( const recipe & rec ) const;
         float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
         /**
          * Time to craft not including speed multiplier

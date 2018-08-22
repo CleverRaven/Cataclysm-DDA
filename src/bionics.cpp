@@ -43,6 +43,7 @@ const skill_id skilll_computer( "computer" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
@@ -54,6 +55,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_nanobot_maim( "nanobot_maim" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_paincysts( "paincysts" );
@@ -82,6 +84,9 @@ static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+
+static const bionic_id bio_health_view( "bio_health_view" );
+static const bionic_id bio_nanobots( "bio_nanobots" );
 
 namespace
 {
@@ -716,15 +721,42 @@ void player::process_bionic( int b )
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         sounds::sound( pos(), 19, _( "HISISSS!" ) );
     } else if( bio.id == "bio_nanobots" ) {
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
-                heal( ( hp_part )i, 1 );
-                charge_power( -5 );
+        if( has_effect( effect_nanobot_maim ) ) {
+            if( one_in( 3 ) ) { // autocannibalistic nanos don't mess around
+                add_msg( m_bad, _( "Your autocannibalistic nanobots destroy the repair nanobots trying to heal you!" ) );
+                add_msg( m_bad, _( "Your Repair Nanobots bionic has been destroyed!" ) );
+                remove_bionic( bio_nanobots );
+            } else {
+                add_msg( m_bad, _( "Your autocannibalistic nanobots attack the repair nanobots trying to heal you!" ) );
+            }
+        } else {
+            for( int i = 0; i < num_hp_parts; i++ ) {
+                if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
+                    heal( ( hp_part )i, 1 );
+                    charge_power( -5 );
+                }
+            }
+            for( const body_part bp : all_body_parts ) {
+                if( power_level >= 2 && remove_effect( effect_bleed, bp ) ) {
+                    charge_power( -2 );
+                }
             }
         }
-        for( const body_part bp : all_body_parts ) {
-            if( power_level >= 2 && remove_effect( effect_bleed, bp ) ) {
-                charge_power( -2 );
+    } else if( bio.id == "bio_evil_nanobots" ) { // not the most creative name but it sounds funny ok??
+        if( power_level < max_power_level ) { // only cannibalize if we need it
+            for( const body_part bp : all_body_parts ) {
+                auto hpart = bp_to_hp( bp );
+                if( hp_cur[hpart] / hp_max[hpart] <= 0.25f ) {
+                    continue; // don't damage parts below 25% limb health
+                }
+                apply_damage( nullptr, bp, 1 );
+                charge_power( 10 );
+                if( get_pain() < 50 ) {
+                    mod_pain( 1 );
+                }
+                if( !has_effect( effect_nanobot_maim ) ) {
+                    add_effect( effect_nanobot_maim, 24_hours );
+                }
             }
         }
     } else if( bio.id == "bio_painkiller" ) {
@@ -772,6 +804,11 @@ void player::process_bionic( int b )
             wants_power_amt > 0 &&
             x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
             charge_power( 1 );
+        }
+    } else if( bio.id == "bio_gills" ) {
+        if( has_effect( effect_asthma ) ) {
+            add_msg( m_good, _( "Air fills your lungs, and your asthma attack stops." ) );
+            remove_effect( effect_asthma );
         }
     }
 }
@@ -839,6 +876,7 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = float ( pl_skill ) - std::min( float ( 40 ),
                            float ( pl_skill ) - float ( pl_skill ) / float ( 10.0 ) );
+
     return adjusted_skill;
 }
 
@@ -860,6 +898,16 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
     // curve flattens out just above 80%
     chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
                              ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+
+    if( g->u.has_active_bionic( bio_health_view ) ) {
+        if( chance_of_success < 25 ) {
+            chance_of_success = 25; // make the worst ones slightly less bad
+        } else if( chance_of_success >= 95 ) {
+            chance_of_success = 100; // make the best ones guaranteed
+        } else {
+            chance_of_success += 5; // make everything else a little better
+        }
+    }
 
     return chance_of_success;
 }

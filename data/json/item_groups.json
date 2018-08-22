@@ -3662,7 +3662,8 @@
       ["jar_3l_glass", 15],
       ["magnifying_glass", 5],
       ["chem_hydrogen_peroxide", 5],
-      ["weak_antibiotic", 15]
+      ["weak_antibiotic", 15],
+      ["bio_health_view", 3]
     ]
   },{
     "type" : "item_group",
@@ -3815,7 +3816,8 @@
       ["smoxygen_tank", 25],
       ["bfipowder", 15],
       ["quikclot", 10],
-      ["anesthesia", 20]
+      ["anesthesia", 20],
+      ["bio_health_view", 2]
     ]
   },{
     "type" : "item_group",
@@ -5634,7 +5636,9 @@
       ["bio_faraday", 10],
       ["bio_power_armor_interface_mkII", 5],
       ["bio_remote", 10],
-      ["bio_cable", 10]
+      ["bio_cable", 10],
+      ["bio_health_view", 10],
+      ["bio_syringe", 10]
     ]
   },{
     "type" : "item_group",
@@ -5724,7 +5728,8 @@
       ["bio_watch", 20],
       ["bio_leukocyte", 20],
       ["bio_speed", 5],
-      ["bio_faraday", 15]
+      ["bio_faraday", 15],
+      ["bio_health_view", 10]
     ]
   },{
     "type" : "item_group",
@@ -7315,6 +7320,7 @@
       ["bio_leukocyte", 10],
       ["bio_faraday", 10],
       ["bio_remote", 10],
+      ["bio_health_view", 10],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],

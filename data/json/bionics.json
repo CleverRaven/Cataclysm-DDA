@@ -1049,5 +1049,38 @@
     "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "HAND_R", 2 ] ],
     "act_cost": 50
+  },
+  {
+    "id": "bio_health_view",
+    "type": "bionic",
+    "name": "Medical Assistant",
+    "description": "Your brain has been outfitted with a second, synthetic corpus callosum, and wired to a tiny, narrow-purpose medical AI that rapidly compiles and analyzes feedback from your vision and body's signals.  The results from this are fed back into your brain, allowing you to see the exact health values of yourself and creatures around you, and to perform certain medical procedures with increased effectiveness.",
+    "occupied_bodyparts": [ [ "HEAD", 4 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": 5,
+    "react_cost": 1,
+    "time": 200
+  },
+  {
+    "id": "bio_syringe",
+    "type": "bionic",
+    "name": "Intravenous Needletip",
+    "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
+    "occupied_bodyparts": [ [ "HAND_L", 1 ] ]
+  },
+  {
+    "id": "bio_evil_nanobots",
+    "type": "bionic",
+    "name": "Autocannibalistic Nanobots",
+    "description": "A highly-illegal fleet of nanobots are stored in your body.  While active, they will rapidly break down your own body and utilize the organic matter as fuel, damaging you rapidly but generating a large amount of power.  While this may bring you close to death, the bots will never outright kill you.  Note that these are also designed to hunt down and destroy other nanobots; using Repair Nanobots within 24 hours of Autocannibalistic Nanobots will permanently destroy the Repair Nanobots.",
+    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_skeleton",
+    "type": "bionic",
+    "name": "Titanium Joint Bearings",
+    "description": "Many joints in your body have been replaced with mechanical swivels and ball joints that allow a wider range of movement.  In addition to being able to turn your torso around backwards to freak people out, your carrying capacity and crafting speed have been moderately increased.",
+    "occupied_bodyparts": [ [ "TORSO", 5 ], [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ]
   }
 ]

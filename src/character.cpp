@@ -114,6 +114,8 @@ static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
+static const bionic_id bio_skeleton( "bio_skeleton" );
+
 Character::Character() : Creature(), visitable<Character>(), hp_cur(
 {{
         0
@@ -1047,6 +1049,9 @@ units::mass Character::weight_capacity() const
     }
     if (has_artifact_with(AEP_CARRY_MORE)) {
         ret += 22500_gram;
+    }
+    if( has_bionic( bio_skeleton ) ) {
+        ret += 13500_gram;
     }
     if (ret < 0) {
         ret = 0;

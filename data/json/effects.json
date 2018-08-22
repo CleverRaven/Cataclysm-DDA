@@ -1901,5 +1901,11 @@
             "int_mod": [2],
             "per_mod": [2]
         }
+    },
+    {
+        "type": "effect_type",
+        "id": "nanobot_maim",
+        "name": [ "Maimed" ],
+        "desc": [ "You can still feel crawling on your skin as the nanobots clean up the blood oozing from your wounds.  Introducing other nanobots would be a very bad idea." ]
     }
 ]

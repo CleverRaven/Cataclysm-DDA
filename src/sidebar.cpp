@@ -38,6 +38,8 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
+static const bionic_id bio_health_view( "bio_health_view" );
+
 enum face_type : int {
     face_human = 0,
     face_bird,
@@ -138,7 +140,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
     const int hpy = wide ? 0 : 1;
     const int dy = wide ? 1 : 2;
 
-    bool const is_self_aware = p.has_trait( trait_SELFAWARE );
+    bool const is_self_aware = p.has_trait( trait_SELFAWARE ) || p.has_active_bionic( bio_health_view );
 
     for( int i = 0; i < num_hp_parts; i++ ) {
         wmove( w_HP, i * dy + hpy, hpx );

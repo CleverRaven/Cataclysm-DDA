@@ -5519,6 +5519,7 @@ void player::suffer()
     if( has_trait( trait_ASTHMA ) && one_in( ( 3600 - stim * 50 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
         bool auto_use = has_charges( "inhaler", 1 );
+        const bool oxygenator = has_bionic( bio_gills ) && power_level >= 3 ;
         if ( underwater ) {
             oxygen = oxygen / 2;
             auto_use = false;
@@ -5528,7 +5529,11 @@ void player::suffer()
             inventory map_inv;
             map_inv.form_from_map( g->u.pos(), 2 );
             // check if character has an inhaler
-            if ( auto_use ) {
+            if( oxygenator ) {
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                charge_power( -3 );
+                add_msg_if_player( m_info, _( "Your Oxygenator clears it up, and you go back to sleep." ) );
+            } else if ( auto_use ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 use_charges( "inhaler", 1 );
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
