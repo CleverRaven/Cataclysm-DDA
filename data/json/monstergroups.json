@@ -1166,7 +1166,8 @@
       { "monster" : "mon_zombie_soldier", "freq" : 35, "cost_multiplier" : 1 },
       { "monster" : "mon_zombie_grenadier", "freq" : 10, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_grenadier_elite", "freq" : 5, "cost_multiplier" : 80 },
-      { "monster" : "mon_zombie_flamer", "freq" : 10, "cost_multiplier" : 50 }
+      { "monster" : "mon_zombie_flamer", "freq" : 10, "cost_multiplier" : 50 },
+	  { "monster" : "mon_zombie_military_pilot", "freq" : 0, "cost_multiplier" : 1 }
     ]
   },{
     "type":"monstergroup",

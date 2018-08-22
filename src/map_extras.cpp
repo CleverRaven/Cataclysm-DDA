@@ -41,6 +41,7 @@ static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
 
@@ -125,20 +126,26 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                                        1 );
 
     if( wreckage != nullptr ) {
-        const int clowncar_factor = dice( 1, 6 );
+        const int clowncar_factor = dice( 1, 8 );
 
         switch( clowncar_factor ) {
             case 1:
             case 2:
             case 3: // Full clown car
                 for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
-                    auto pos = wreckage->global_part_pos3( *p );
-                    if( one_in( 5 ) ) {
-                        m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
-                    } else if( one_in( 5 ) ) {
-                        m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
+                    const auto pos = wreckage->global_part_pos3( *p );
+                    // Spawn pilots in seats with controls.CTRL_ELECTRONIC
+                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0 ||
+                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
-                        m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                        if( one_in( 5 ) ) {
+                            m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
+                        } else if( one_in( 5 ) ) {
+                            m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
+                        } else {
+                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                        }
                     }
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -154,22 +161,44 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 4:
             case 5: // 2/3rds clown car
                 for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
-                    if( !one_in( 3 ) ) {
-                        auto pos = wreckage->global_part_pos3( *p );
-                        m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                    auto pos = wreckage->global_part_pos3( *p );
+                    // Spawn pilots in seats with controls.
+                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
+                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                    } else {
+                        if( !one_in( 3 ) ) {
+                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                        }
+                    }
 
-                        // Delete the items that would have spawned here from a "corpse"
-                        for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
-                            vehicle_stack here = wreckage->get_items( sp );
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
 
-                            for( auto iter = here.begin(); iter != here.end(); ) {
-                                iter = here.erase( iter );
-                            }
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
                         }
                     }
                 }
                 break;
-            case 6: // Empty clown car
+            case 6: // Just pilots
+                for( auto p : wreckage->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                    auto pos = wreckage->global_part_pos3( *p );
+                    m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 7: // Empty clown car
+            case 8:
                 break;
             default:
                 break;

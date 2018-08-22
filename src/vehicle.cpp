@@ -2400,7 +2400,7 @@ std::vector<const vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool 
     return res;
 }
 
-std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag, bool enabled )
+std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag, bool enabled, bool include_broken_parts )
 {
     std::vector<vehicle_part *> res;
     for( auto &e : parts ) {
@@ -2408,14 +2408,14 @@ std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::
             e.precalc[ 0 ].y != pos.y - global_y() ) {
             continue;
         }
-        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && (!e.is_broken() || include_broken_parts) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
             res.push_back( &e );
         }
     }
     return res;
 }
 
-std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag, bool enabled ) const
+std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag, bool enabled, bool include_broken_parts ) const
 {
     std::vector<const vehicle_part *> res;
     for( const auto &e : parts ) {
@@ -2423,7 +2423,7 @@ std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const
             e.precalc[ 0 ].y != pos.y - global_y() ) {
             continue;
         }
-        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && (!e.is_broken() || include_broken_parts) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
             res.push_back( &e );
         }
     }

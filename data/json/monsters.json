@@ -4419,10 +4419,10 @@
     "dodge": 1,
     "armor_bash": 5,
     "armor_cut": 5,
-    "vision_day": 40,
+    "vision_day": 35,
     "vision_night": 5,
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "death_drops": "mon_zombie_military_pilot_drops",
+    "death_drops": "mon_zombie_military_pilot_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
