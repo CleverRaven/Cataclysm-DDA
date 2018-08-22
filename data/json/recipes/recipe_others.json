@@ -3112,7 +3112,7 @@
     "skills_required": [ "cooking", 3 ],
     "difficulty": 4,
     "time": 90000,
-	"autolearn": true,
+    "autolearn": true,
 	"batch_time_factors": [75, 3], 
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ] ] ]
