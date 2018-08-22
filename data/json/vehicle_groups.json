@@ -4,6 +4,7 @@
         "id" : "city_vehicles",
         "vehicles" : [
             ["car", 2000],
+            ["car_anmlcmpt", 250],
             ["electric_car", 500],
             ["car_sports", 300],
             ["car_sports_atomic", 15],
@@ -55,6 +56,7 @@
         "id" : "city_pileup",
         "vehicles" : [
             ["car", 7000],
+            ["car_anmlcmpt", 600],
             ["electric_car", 1000],
             ["car_sports", 500],
             ["suv", 1000],
@@ -82,6 +84,7 @@
         "id" : "highway",
         "vehicles" : [
             ["car", 3000],
+            ["car_anmlcmpt", 250],
             ["electric_car", 500],
             ["car_sports", 1000],
             ["car_sports_electric", 300],
@@ -118,6 +121,7 @@
         "id" : "suburban_home",
         "vehicles" : [
             ["car", 1000],
+            ["car_anmlcmpt", 150],
             ["car_mini", 500],
             ["electric_car", 500],
             ["beetle", 300],
@@ -168,6 +172,7 @@
             ["car_mini", 750],
             ["beetle", 750],
             ["car", 1000],
+            ["car_anmlcmpt", 100],
             ["electric_car", 750],
             ["hippie_van", 750],
             ["golf_cart", 300],
@@ -303,7 +308,8 @@
     "type": "vehicle_group",
     "id": "campground_vehicles",
     "vehicles": [
-      [ "car", 1000 ],
+      [ "car", 950 ],
+      [ "car_anmlcmpt", 150 ],
       [ "electric_car", 100 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
@@ -318,6 +324,7 @@
     "id": "forgotten_vehicles",
     "vehicles": [
       [ "car", 1000 ],
+      [ "car_anmlcmpt", 100 ],
       [ "suv", 400 ],
       [ "rv", 200 ],
       [ "car_sports", 300 ],
@@ -336,6 +343,7 @@
       [ "car_mini", 750 ],
       [ "beetle", 750 ],
       [ "car", 1000 ],
+      [ "car_anmlcmpt", 150 ],
       [ "electric_car", 750 ],
       [ "hippie_van", 750 ],
       [ "motorcycle", 500 ],
