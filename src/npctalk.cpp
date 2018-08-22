@@ -3000,7 +3000,7 @@ void talk_function::become_overseer( npc &p )
         display = true;
         buffer = buffer + _("There are few fields.  Producing enough food to supply your camp may be difficult.\n");
     }
-    if ( display && !query_yn( _("%s \nAre you sure you wish to continue? "), buffer )) {
+    if ( display && !query_yn( "%s \nAre you sure you wish to continue? ", buffer )) {
         return;
     }
 

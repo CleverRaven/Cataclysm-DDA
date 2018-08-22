@@ -131,9 +131,7 @@
         { "item": "bar_trash", "x": 14, "y": 7, "chance": 30 },
         { "item": "bar_trash", "x": 6, "y": 2, "chance": 30 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 7, 8 ], "repeat": 2 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 7, 8 ], "repeat": 2 } ]
     }
   }
 ]

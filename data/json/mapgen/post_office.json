@@ -71,7 +71,7 @@
         "v": "f_vending_c",
         "{": "f_locker"
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "place_items": [
         { "item": "file_room", "x": 4, "y": 17, "chance": 30 },
         { "item": "file_room", "x": 2, "y": [ 16, 17 ], "chance": 30 },

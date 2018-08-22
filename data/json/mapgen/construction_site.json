@@ -48,13 +48,7 @@
         "{": "t_dirt",
         "|": "t_brick_wall"
       },
-      "furniture": {
-        "B": "f_barricade_road",
-        "T": "f_table",
-        "b": "f_barricade_road",
-        "c": "f_chair",
-        "{": "f_dumpster"
-      },
+      "furniture": { "B": "f_barricade_road", "T": "f_table", "b": "f_barricade_road", "c": "f_chair", "{": "f_dumpster" },
       "place_items": [
         { "item": "tools_carpentry", "x": 15, "y": 11, "chance": 30 },
         { "item": "power_tools", "x": 9, "y": 12, "chance": 10 },
@@ -117,13 +111,7 @@
         "{": "t_grass",
         "|": "t_chainfence_v"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "H": "f_ladder",
-        "c": "f_chair",
-        "t": "f_table",
-        "{": "f_dumpster"
-      },
+      "furniture": { "&": "f_trashcan", "H": "f_ladder", "c": "f_chair", "t": "f_table", "{": "f_dumpster" },
       "place_items": [
         { "item": "tools_carpentry", "x": 6, "y": 14, "chance": 25 },
         { "item": "tools_carpentry", "x": 19, "y": [ 7, 8 ], "chance": 25 },
@@ -190,13 +178,7 @@
         "{": "t_dirt",
         "|": "t_brick_wall"
       },
-      "furniture": {
-        "C": "f_chair",
-        "T": "f_table",
-        "b": "f_barricade_road",
-        "t": "f_table",
-        "{": "f_dumpster"
-      },
+      "furniture": { "C": "f_chair", "T": "f_table", "b": "f_barricade_road", "t": "f_table", "{": "f_dumpster" },
       "place_items": [
         { "item": "tools_common", "x": 10, "y": 14, "chance": 35 },
         { "item": "tools_common", "x": 4, "y": 8, "chance": 35 },
@@ -211,11 +193,7 @@
         { "item": "floor_trash", "x": 6, "y": 7, "chance": 35 },
         { "item": "hardware_trash", "x": [ 13, 14 ], "y": 21, "chance": 35 }
       ],
-      "place_item": [
-        { "item": "2x4", "x": 9, "y": 16 },
-        { "item": "2x4", "x": 10, "y": 16 },
-        { "item": "2x4", "x": 11, "y": 16 }
-      ],
+      "place_item": [ { "item": "2x4", "x": 9, "y": 16 }, { "item": "2x4", "x": 10, "y": 16 }, { "item": "2x4", "x": 11, "y": 16 } ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 14, "y": 2, "chance": 50, "fuel": 20, "status": 0 } ]
     }
   },
@@ -424,13 +402,7 @@
         "{": "t_grass",
         "|": "t_brick_wall"
       },
-      "furniture": {
-        "#": "f_barricade_road",
-        "T": "f_table",
-        "c": "f_chair",
-        "t": "f_table",
-        "{": "f_dumpster"
-      },
+      "furniture": { "#": "f_barricade_road", "T": "f_table", "c": "f_chair", "t": "f_table", "{": "f_dumpster" },
       "place_items": [
         { "item": "tools_earthworking", "x": 11, "y": 19, "chance": 45 },
         { "item": "tools_earthworking", "x": 4, "y": 18, "chance": 45 },
@@ -446,11 +418,11 @@
     "id": "small_utility_vehicles",
     "type": "vehicle_group",
     "vehicles": [
-        [ "excavator", 100 ],
-        [ "trencher", 80 ],
-        [ "engine_crane", 60 ],
-        [ "welding_cart", 40 ],
-        [ "portable_generator", 20 ]
+      [ "excavator", 100 ],
+      [ "trencher", 80 ],
+      [ "engine_crane", 60 ],
+      [ "welding_cart", 40 ],
+      [ "portable_generator", 20 ]
     ]
   }
 ]
