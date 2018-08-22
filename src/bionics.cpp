@@ -748,8 +748,8 @@ void player::process_bionic( int b )
         if( power_level < max_power_level ) { // only cannibalize if we need it
             for( const body_part bp : all_body_parts ) {
                 auto hpart = bp_to_hp( bp );
-                if( hp_cur[hpart] / hp_max[hpart] <= 0.25f ) {
-                    continue; // don't damage parts below 25% limb health
+                if( hp_cur[hpart] <= 25 ) {
+                    continue; // don't damage parts below 25 limb health
                 }
                 apply_damage( nullptr, bp, 1 );
                 charge_power( 10 );
