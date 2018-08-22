@@ -335,6 +335,7 @@ static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
+static const trait_id trait_NOFEELING( "NOFEELING" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
@@ -3552,7 +3553,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
 
 void player::mod_pain( int npain) {
     if( npain > 0 ) {
-        if( has_trait( trait_NOPAIN ) ) {
+        if( has_trait( trait_NOPAIN ) || has_trait( trait_NOFEELING ) ) {
             return;
         }
         // always increase pain gained by one from these bad mutations
@@ -4174,8 +4175,10 @@ void player::check_needs_extremes()
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if (!(has_trait( trait_NOPAIN ))) {
             add_msg_if_player(m_bad, _("Your heart spasms painfully and stops."));
-        } else {
+        } else if( !has_trait( trait_NOFEELING ) ) {
             add_msg_if_player(_("Your heart spasms and stops."));
+        } else {
+            add_msg_if_player( _( "You suddenly realize you're not breathing, and your vision fades to black." ) );
         }
         add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
                            pgettext("memorial_female", "Died of a healing stimulant overdose."));
@@ -4650,7 +4653,7 @@ void player::cough(bool harmful, int loudness)
 
 void player::add_pain_msg(int val, body_part bp) const
 {
-    if (has_trait( trait_NOPAIN )) {
+    if (has_trait( trait_NOPAIN ) || has_trait( trait_NOFEELING ) ) {
         return;
     }
     if (bp == num_bp) {
@@ -5158,7 +5161,7 @@ void player::suffer()
             }
         }
         if( has_trait( trait_CHEMIMBALANCE ) ) {
-            if( one_in( 3600 ) && !has_trait( trait_NOPAIN ) ) {
+            if( one_in( 3600 ) && !has_trait( trait_NOPAIN ) && !has_trait( trait_NOFEELING ) ) {
                 add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
                 mod_pain( 3 * rng( 1, 3 ) );
             }

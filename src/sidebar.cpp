@@ -34,6 +34,7 @@
 #include <limits>
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_NOFEELING( "NOFEELING" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
@@ -139,6 +140,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
     const int dy = wide ? 1 : 2;
 
     bool const is_self_aware = p.has_trait( trait_SELFAWARE );
+    bool const is_no_feeling = p.has_trait( trait_NOFEELING );
 
     for( int i = 0; i < num_hp_parts; i++ ) {
         wmove( w_HP, i * dy + hpy, hpx );
@@ -154,6 +156,9 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             //Limb is broken
             std::string limb = "~~%~~";
             nc_color color = c_light_red;
+            if( is_no_feeling ) {
+                limb = "  ?  ";
+            }
 
             const auto bp = p.hp_to_bp( static_cast<hp_part>( i ) );
             if( p.worn_with_flag( "SPLINT", bp ) ) {
@@ -163,6 +168,9 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
 
                 if( is_self_aware ) {
                     limb = string_format( "=%2d%%=", mend_perc );
+                    color = c_blue;
+                } else if( is_no_feeling ) {
+                    limb =  "  ?  ";
                     color = c_blue;
                 } else {
                     const int num = mend_perc / 20;
@@ -180,6 +188,8 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
 
         if( is_self_aware ) {
             wprintz( w_HP, hp.second, "%3d  ", p.hp_cur[i] );
+        } else if( is_no_feeling ) {
+            wprintz( w_HP, c_yellow, "  ?  " );
         } else {
             wprintz( w_HP, hp.second, hp.first );
 

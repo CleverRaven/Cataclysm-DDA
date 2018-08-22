@@ -76,6 +76,7 @@ const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
+static const trait_id trait_NOFEELING( "NOFEELING" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
@@ -1124,7 +1125,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
     switch( fail_type ) {
 
         case 1:
-            if( !( has_trait( trait_id( "NOPAIN" ) ) ) ) {
+            if( !( has_trait( trait_NOPAIN ) ) && !has_trait( trait_NOFEELING ) ) {
                 add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }

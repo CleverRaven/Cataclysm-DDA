@@ -177,6 +177,7 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_NOFEELING( "NOFEELING" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -636,14 +637,16 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You take some antiparasitic medication." ) );
     if( p->has_effect( effect_dermatik ) ) {
         p->remove_effect( effect_dermatik );
-        p->add_msg_if_player( m_good, _( "The itching sensation under your skin fades away." ) );
+        if( !p->has_trait( trait_NOFEELING ) ) {
+            p->add_msg_if_player( m_good, _( "The itching sensation under your skin fades away." ) );
+        }
     }
     if( p->has_effect( effect_tapeworm ) ) {
         p->remove_effect( effect_tapeworm );
         p->mod_hunger( -1 ); // You just digested the tapeworm.
         if( p->has_trait( trait_NOPAIN ) ) {
             p->add_msg_if_player( m_good, _( "Your bowels clench as something inside them dies." ) );
-        } else {
+        } else if( !p->has_trait( trait_NOFEELING ) ) {
             p->add_msg_if_player( m_mixed, _( "Your bowels spasm painfully as something inside them dies." ) );
             p->mod_pain( rng( 8, 24 ) );
         }
@@ -656,7 +659,7 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
         p->remove_effect( effect_brainworms );
         if( p->has_trait( trait_NOPAIN ) ) {
             p->add_msg_if_player( m_good, _( "The pressure inside your head feels better already." ) );
-        } else {
+        } else if( !p->has_trait( trait_NOFEELING ) ) {
             p->add_msg_if_player( m_mixed,
                                   _( "Your head pounds like a sore tooth as something inside of it dies." ) );
             p->mod_pain( rng( 8, 24 ) );
@@ -666,7 +669,7 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
         p->remove_effect( effect_paincysts );
         if( p->has_trait( trait_NOPAIN ) ) {
             p->add_msg_if_player( m_good, _( "The stiffness in your joints goes away." ) );
-        } else {
+        } else if( !p->has_trait( trait_NOFEELING ) )  {
             p->add_msg_if_player( m_good, _( "The pain in your joints goes away." ) );
         }
     }

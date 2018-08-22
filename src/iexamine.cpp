@@ -74,6 +74,7 @@ static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOFEELING( "NOFEELING" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
@@ -3579,7 +3580,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     bool needs_anesthesia = true;
     std::vector<item_comp> acomps;
-    if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+    if( p.has_trait( trait_NOPAIN ) || p.has_trait( trait_NOFEELING ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
     } else {
         std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
@@ -4041,7 +4042,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     int char_quantity = 0;
     bool f_check = false;
     bool c_check = false;
-    
+
     for( size_t i = 0; i < items_here.size(); i++ ) {
         auto &it = items_here[i];
         if( it.is_food() ) {
@@ -4057,7 +4058,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             minutes_left = to_minutes<int>( time_left ) + 1;
         }
     }
-    
+
     uimenu smenu;
     smenu.text = _( "What to do with the smoking rack:" );
     smenu.return_invalid = true;
@@ -4105,7 +4106,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
-            }          
+            }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
                 pop << "... that it is empty.";
@@ -4116,11 +4117,11 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" << "\n ";
                     continue;
                 }
-                pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) ); 
+                pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) );
                 pop << " (" << std::to_string( count_charges_in_list( it.type, items_here ) ) << ") \n ";
                 }
             }
-            popup( pop.str(), PF_NONE ); 
+            popup( pop.str(), PF_NONE );
             break;
         }
         case 1: //activate
