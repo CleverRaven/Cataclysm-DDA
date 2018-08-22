@@ -291,7 +291,7 @@ static bool init_sound()
 }
 
 #ifdef SDL_SOUND
-static inline bool check_sound( int volume = 1 )
+static inline bool check_sound( const int volume = 1 )
 {
     return( sound_init_success && sounds::sound_enabled && volume > 0 );
 }
