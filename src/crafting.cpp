@@ -130,7 +130,8 @@ float player::external_craft_speed_multiplier( const recipe &rec ) const
 
 float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
 {
-    float result = morale_crafting_speed_multiplier( rec ) * lighting_craft_speed_multiplier( rec ) * external_craft_speed_multiplier( rec );
+    float result = morale_crafting_speed_multiplier( rec ) * lighting_craft_speed_multiplier(
+                       rec ) * external_craft_speed_multiplier( rec );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;

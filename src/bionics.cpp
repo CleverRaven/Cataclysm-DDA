@@ -723,11 +723,13 @@ void player::process_bionic( int b )
     } else if( bio.id == "bio_nanobots" ) {
         if( has_effect( effect_nanobot_maim ) ) {
             if( one_in( 3 ) ) { // autocannibalistic nanos don't mess around
-                add_msg( m_bad, _( "Your autocannibalistic nanobots destroy the repair nanobots trying to heal you!" ) );
+                add_msg( m_bad,
+                         _( "Your autocannibalistic nanobots destroy the repair nanobots trying to heal you!" ) );
                 add_msg( m_bad, _( "Your Repair Nanobots bionic has been destroyed!" ) );
                 remove_bionic( bio_nanobots );
             } else {
-                add_msg( m_bad, _( "Your autocannibalistic nanobots attack the repair nanobots trying to heal you!" ) );
+                add_msg( m_bad,
+                         _( "Your autocannibalistic nanobots attack the repair nanobots trying to heal you!" ) );
             }
         } else {
             for( int i = 0; i < num_hp_parts; i++ ) {
