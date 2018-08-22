@@ -786,7 +786,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
             // also field dressing removed innards so no offal
             bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
-                              !( corpse->has_flag( "FIELD_DRESS" ) || corpse->has_flag( "FIELD_DRESS_FAILED" ) ) &&
+                              !( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
                               !chunk.made_of ( material_id ( "veggy" ) );
             if( action == F_DRESS ) {
                 for ( int i = 1; i < pieces; ++i ) {

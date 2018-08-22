@@ -2,8 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "warehouse",
-    "weight": 100,
+    "om_terrain": [ "warehouse" ],
+    "weight": 500,
     "object": {
       "rows": [
         "....S.SSSSSSSSSSSS......",

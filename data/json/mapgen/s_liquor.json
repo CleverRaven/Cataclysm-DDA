@@ -49,7 +49,13 @@
         "{": "t_pavement",
         "|": "t_wall"
       },
-      "furniture": { "#": "f_rack", "&": "f_glass_fridge", "c": "f_counter", "s": "f_stool", "{": "f_dumpster" },
+      "furniture": {
+        "#": "f_rack",
+        "&": "f_glass_fridge",
+        "c": "f_counter",
+        "s": "f_stool",
+        "{": "f_dumpster"
+      },
       "place_items": [
         { "item": "alcohol", "x": 4, "y": [ 3, 7 ], "chance": 96, "repeat": [ 1, 2 ] },
         { "item": "alcohol", "x": [ 7, 11 ], "y": 3, "chance": 96, "repeat": [ 1, 2 ] },
