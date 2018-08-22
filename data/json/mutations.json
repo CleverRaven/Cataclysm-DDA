@@ -5106,6 +5106,7 @@
         "id" : "NOFEELING",
         "name" : "Congenital Analgesia",
         "starting_trait" : true,
+        "mixed_effect" : true,
         "points" : -5,
         "description" : "Born with a rare disorder, you are incapable of feeling, and have never felt, physical pain.  While this prevents you from feeling pain at all, you also cannot view how injured you are at a glance, and severe wounds and injuries may go completely unnoticed."
     },{
