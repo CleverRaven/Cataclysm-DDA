@@ -101,7 +101,6 @@
     },
     "om_terrain": "abandonedwarehouse",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -194,7 +193,6 @@
     },
     "om_terrain": "abandonedwarehouse",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -293,7 +291,6 @@
     },
     "om_terrain": "abandonedwarehouse",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -389,7 +386,6 @@
     },
     "om_terrain": "abandonedwarehouse",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -493,7 +489,6 @@
     },
     "om_terrain": "abandonedwarehouse",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   }
 ]

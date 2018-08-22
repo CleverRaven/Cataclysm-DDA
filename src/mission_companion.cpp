@@ -240,7 +240,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         if (npc_list.size()>0){
             entry = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) + _(" hours] \n");
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Patrol"] = entry;
@@ -258,7 +258,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         if (npc_list.size()>0){
             entry = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) + _(" hours] \n");
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Raid"] = entry;
@@ -275,7 +275,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         if (npc_list.size()>0){
             entry = _("Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) + _(" hours] \n");
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Menial Labor"] = entry;
@@ -292,7 +292,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         if (npc_list.size()>0){
             entry = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) + _(" hours] \n");
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Carpentry Work"] = entry;
@@ -661,13 +661,13 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( hour_left > 1 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( hour_left )
-                        + _(" hours left] \n");
+                        + " hours left] \n";
                 } else if( min_left > 0 ) {
                     entry = entry + "  " + elem->name + " ["
                         + to_string( min_left )
-                        + _(" minutes left] \n");
+                        + " minutes left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
@@ -696,7 +696,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 making_exp = &recipe_id( bldg_exp ).obj();
                 entry = entry + "  " + elem->name + " ["
                     + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                    + "/" + to_string( to_hours<int>( time_duration::from_turns( making_exp->time / 100 ) ) )+ _(" hours] \n");
+                    + "/" + to_string( to_hours<int>( time_duration::from_turns( making_exp->time / 100 ) ) )+ " hours] \n";
 
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 col_missions["Recover Ally, "+dir+" Expansion"] = entry;
@@ -711,7 +711,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 //~48 hours = 192 plots * 5 min plow time
                 entry = entry + "  " + elem->name + " ["
                     + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                    + _("/120 hours] \n");
+                    + "/120 hours] \n";
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction(elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Chop Shop" ] = entry;
@@ -728,11 +728,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( min_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( min_left )
-                        + _(" minutes left] \n");
+                        + " minutes left] \n";
                 } else if( sec_left > 0 ) {
-                    entry = entry + "  " + elem->name + _(" [ALMOST DONE]\n");
+                    entry = entry + "  " + elem->name + " [ALMOST DONE]\n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
@@ -750,11 +750,11 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( min_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( min_left )
-                        + _(" minutes left] \n");
+                        + " minutes left] \n";
                 } else if( sec_left > 0 ) {
-                    entry = entry + "  " + elem->name + _(" [ALMOST DONE]\n");
+                    entry = entry + "  " + elem->name + " [ALMOST DONE]\n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
@@ -770,7 +770,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 //~48 hours = 192 plots * 5 min plow time
                 entry = entry + "  " + elem->name + " ["
                     + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                    + _("/~48 hours] \n");
+                    + "/~48 hours] \n";
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Plow Fields" ] = entry;
@@ -785,7 +785,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 //~3.5 hours = 192 plots * 1 min plant time
                 entry = entry + "  " + elem->name + " ["
                     + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                    + _("/4 hours] \n");
+                    + "/4 hours] \n";
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Plant Fields" ] = entry;
@@ -800,7 +800,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 //~48 hours = 192 plots * 3 min harvest and carry time
                 entry = entry + "  " + elem->name + " ["
                     + to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) )
-                    + _("/~10 hours] \n");
+                    + "/~10 hours] \n";
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Harvest Fields" ] = entry;
@@ -817,9 +817,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( min_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( min_left )
-                        + _(" minutes left] \n");
+                        + " minutes left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
@@ -836,9 +836,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( min_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( min_left )
-                        + _(" minutes left] \n");
+                        + " minutes left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
@@ -851,7 +851,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         if( !npc_list.empty() ){
             entry = _("Searching for materials to upgrade the camp.\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) + _("/3 hours] \n");
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +"/3 hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Gathering"] = entry;
@@ -861,7 +861,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         if( !npc_list.empty() ){
             entry = _("Searching for firewood.\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) + _("/3 hours] \n");
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +"/3 hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Firewood Gatherers"] = entry;
@@ -875,9 +875,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( min_left > 0 ) {
                     entry = entry + "  " + elem->name + " ["
                         + to_string( min_left )
-                        + _(" minutes left] \n");
+                        + " minutes left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?\n");
@@ -892,9 +892,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( hrs_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( hrs_left )
-                        + _(" hours left] \n");
+                        + " hours left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?\n");
@@ -910,9 +910,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( hrs_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( hrs_left )
-                        + _(" hours left] \n");
+                        + " hours left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?\n");
@@ -928,9 +928,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( hrs_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( hrs_left )
-                        + _(" hours left] \n");
+                        + " hours left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?\n");
@@ -946,9 +946,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( hrs_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( hrs_left )
-                        + _(" hours left] \n");
+                        + " hours left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?\n");
@@ -964,9 +964,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( hrs_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( hrs_left )
-                        + _(" hours left] \n");
+                        + " hours left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
@@ -982,9 +982,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( hrs_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( hrs_left )
-                        + _(" hours left] \n");
+                        + " hours left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
@@ -1000,9 +1000,9 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 if( hrs_left > 0 ){
                     entry = entry + "  " + elem->name + " ["
                         + to_string( hrs_left )
-                        + _(" hours left] \n");
+                        + " hours left] \n";
                 } else {
-                    entry = entry + "  " + elem->name + _(" [DONE]\n");
+                    entry = entry + "  " + elem->name + " [DONE]\n";
                 }
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
@@ -1059,7 +1059,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         if (npc_list.size()>0){
             entry = _("Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
-                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) + _(" hours] \n");
+                entry = entry + "  " + elem->name + " ["+ to_string( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) +" hours] \n";
             }
             entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Foraging"] = entry;
@@ -1087,7 +1087,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 } else if( calendar::turn >= elem->companion_mission_time ) {
                     entry = entry + "  " + elem->name + _(" [COMPLETE] \n");
                 } else {
-                    entry = entry + "  " + elem->name + " ["+ to_string( abs( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) ) + _(" Hours] \n");
+                    entry = entry + "  " + elem->name + " ["+ to_string( abs( to_hours<int>( calendar::turn - elem->companion_mission_time ) ) ) +" Hours] \n";
                 }
             }
             if (npc_list_aux.size()>0){
@@ -1095,7 +1095,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 " \nRoster:\n");
                 for( auto &elem : npc_list_aux ) {
                     if( elem->companion_mission_time == calendar::before_time_starts ) {
-                        entry_aux = entry_aux + "  " + elem->name + _(" [READY] \n");
+                        entry_aux = entry_aux + "  " + elem->name + " [READY] \n";
                     }
                 }
                 entry_aux = entry_aux + _("\n \n"

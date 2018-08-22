@@ -4439,8 +4439,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         return null_item_reference();
     }
 
-    if( (!has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
-            && valid_limits( pos ) ) {
+    if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
         if( obj.on_drop( pos ) ) {
             return null_item_reference();
         }

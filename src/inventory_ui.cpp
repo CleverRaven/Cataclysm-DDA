@@ -1304,7 +1304,6 @@ void inventory_selector::set_filter()
     for( const auto elem : columns ) {
         elem->set_filter( filter );
     }
-    layout_is_valid = false;
 }
 
 void inventory_selector::update()
