@@ -1069,24 +1069,22 @@ int Creature::get_perceived_pain() const
 std::string Creature::get_pain_description() const
 {
     float scale = get_perceived_pain() / 10.f;
-    if(scale > 8) {
-        return _("Severe");
-    } else if(scale > 7) {
-        return _("Intense");
+    if(scale > 7) {
+        return _("Severe pain");
     } else if(scale > 6) {
-        return _("Unmanageable");
+        return _("Intense pain");
     } else if(scale > 5) {
-        return _("Distressing");
+        return _("Unmanageable pain");
     } else if(scale > 4) {
-        return _("Distracting");
+        return _("Distressing pain");
     } else if(scale > 3) {
-        return _("Moderate");
+        return _("Distracting pain");
     } else if(scale > 2) {
-        return _("Uncomfortable");
+        return _("Moderate pain");
     } else if(scale > 1) {
-        return _("Mild");
+        return _("Mild pain");
     } else if(scale > 0) {
-        return _("Minimal");
+        return _("Minimal pain");
     } else {
         return _("No pain");
     }
