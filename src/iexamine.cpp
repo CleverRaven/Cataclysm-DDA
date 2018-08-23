@@ -2697,8 +2697,11 @@ void iexamine::recycle_compactor(player &, const tripoint &examp)
     // check inputs and tally total mass
     auto inputs = g->m.i_at(examp);
     units::mass sum_weight = 0;
+    auto ca = m.compact_accepts();
+    std::set<material_id> accepts(ca.begin(),ca.end());
+    accepts.insert(m.id);
     for( auto it = inputs.begin(); it != inputs.end(); ++it ) {
-        if( !it->only_made_of( std::set<material_id> { m.id } ) ) {
+        if( !it->only_made_of( accepts ) ) {
             //~ %1$s: an item in the compactor , %2$s: desired compactor output material
             add_msg(_("You realize this isn't going to work because %1$s is not made purely of %2$s."), it->tname().c_str(), m.name().c_str());
             return;

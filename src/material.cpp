@@ -103,9 +103,13 @@ void material_type::load( JsonObject &jsobj, const std::string & )
         _burn_products.emplace_back( pair.get_string( 0 ), pair.get_float( 1 ) );
     }
 
-    auto compactor_array = jsobj.get_array( "compacts_into" );
-    while( compactor_array.has_more( ) ) {
-        _compacts_into.emplace_back( compactor_array.next_string() );
+    auto compactor_in_array = jsobj.get_array( "compact_accepts" );
+    while( compactor_in_array.has_more( ) ) {
+        _compact_accepts.emplace_back( compactor_in_array.next_string() );
+    }
+    auto compactor_out_array = jsobj.get_array( "compacts_into" );
+    while( compactor_out_array.has_more( ) ) {
+        _compacts_into.emplace_back( compactor_out_array.next_string() );
     }
 }
 
@@ -122,6 +126,11 @@ void material_type::check() const
     }
     if( !item::type_is_defined( _repaired_with ) ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
+    }
+    for( auto &ca : _compact_accepts ) {
+        if( !ca.is_valid() ) {
+            debugmsg( "invalid \"compact_accepts\" %s for %s.", ca.c_str(), id.c_str() );
+        }
     }
     for( auto &ci : _compacts_into ) {
         if( !item::type_is_defined( ci ) || !item( ci, 0 ).only_made_of( std::set<material_id> { id } ) ) {
@@ -248,6 +257,11 @@ const mat_burn_data &material_type::burn_data( size_t intensity ) const
 const mat_burn_products &material_type::burn_products() const
 {
     return _burn_products;
+}
+
+const material_id_list &material_type::compact_accepts() const
+{
+    return _compact_accepts;
 }
 
 const mat_compacts_into &material_type::compacts_into() const
