@@ -92,7 +92,6 @@
     },
     "om_terrain": "recyclecenter",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -198,7 +197,6 @@
     },
     "om_terrain": "recyclecenter",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -302,7 +300,6 @@
     },
     "om_terrain": "recyclecenter",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   }
 ]

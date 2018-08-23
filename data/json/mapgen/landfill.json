@@ -57,7 +57,6 @@
     },
     "om_terrain": "landfill",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -119,7 +118,6 @@
     },
     "om_terrain": "landfill",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -182,7 +180,6 @@
     },
     "om_terrain": "landfill",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -244,7 +241,6 @@
     },
     "om_terrain": "landfill",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -306,7 +302,6 @@
     },
     "om_terrain": "landfill",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   }
 ]

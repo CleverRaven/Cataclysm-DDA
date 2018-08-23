@@ -62,7 +62,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -111,7 +110,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -157,7 +155,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -196,7 +193,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -235,7 +231,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -329,7 +324,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -426,7 +420,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -492,7 +485,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -571,7 +563,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -640,7 +631,6 @@
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   }
 ]

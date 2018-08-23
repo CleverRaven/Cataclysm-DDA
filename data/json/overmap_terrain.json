@@ -8003,7 +8003,8 @@
     "color": "i_green",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -8013,7 +8014,8 @@
     "color": "i_brown",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -8253,7 +8255,8 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -8273,7 +8276,8 @@
     "color": "brown",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -8283,7 +8287,8 @@
     "color": "yellow",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -8293,7 +8298,8 @@
     "color": "light_gray",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",

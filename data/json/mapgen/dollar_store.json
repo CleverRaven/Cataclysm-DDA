@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "dollarstore",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100,
     "object": {
       "furniture": {
@@ -83,7 +82,6 @@
     "method": "json",
     "om_terrain": "dollarstore",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100,
     "object": {
       "furniture": {
