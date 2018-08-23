@@ -1034,8 +1034,8 @@ void player::update_bodytemp()
                                 ( g->weather == WEATHER_SUNNY ? 1000 : 500 );
     // Hot air from a heat source
     // times 50 to convert to weather.h BODYTEMP scale
-    const int fire_warmth = g->get_convection_temperature( pos() ) * 50;
-    const int best_fire = g->get_heat_radiation( pos(), true );
+    const int fire_warmth = get_convection_temperature( pos() ) * 50;
+    const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature =
@@ -1098,7 +1098,7 @@ void player::update_bodytemp()
         // Bark : lowers blister count to -10; harder to get blisters
         int blister_count = ( has_bark ? -10 : 0 ); // If the counter is high, your skin starts to burn
         
-        const int h_radiation = g->get_heat_radiation( pos(), false );
+        const int h_radiation = get_heat_radiation( pos(), false );
         temp_conv[bp] += h_radiation * 50; // conversion to BODYTEMP see weather.h
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );

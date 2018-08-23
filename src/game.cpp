@@ -1789,7 +1789,7 @@ void game::update_weather()
     }
 }
 
-int game::get_heat_radiation( const tripoint &location, bool direct )
+int get_heat_radiation( const tripoint &location, bool direct )
 {
     // Direct heat from fire sources
     // Cache fires to avoid scanning the map around us bp times
@@ -1831,7 +1831,7 @@ int game::get_heat_radiation( const tripoint &location, bool direct )
     return temp_mod;
 }
 
-int game::get_convection_temperature( const tripoint &location )
+int get_convection_temperature( const tripoint &location )
 {
     // Heat from hot air (fields)
     int temp_mod = 0;
@@ -1845,7 +1845,7 @@ int game::get_convection_temperature( const tripoint &location )
     auto tile_strength_mod = []( const tripoint &loc, field_id fld, int case_1, int case_2, int case_3 ){
         int strength = g->m.get_field_strength( loc, fld );
         int cases[3] = { case_1, case_2, case_3 };
-        return ( strength > 0 && strength < 4 ) ? cases[ strength - 1 ] : 0;
+        return cases[ strength - 1 ];
     };
 
     temp_mod += tile_strength_mod( location, fd_hot_air1,  2,   6,  10 );
@@ -1861,8 +1861,8 @@ int game::get_temperature( const tripoint &location )
     int temp_mod = 0; // local modifier
     
     if( !new_game ) {
-        temp_mod += g->get_heat_radiation( location, false );
-        temp_mod += g->get_convection_temperature( location );
+        temp_mod += get_heat_radiation( location, false );
+        temp_mod += get_convection_temperature( location );
     }   
     //underground temperature = average New England temperature = 43F/6C rounded to int
     return ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) + ( new_game ? 0 : ( m.temperature( location ) + temp_mod ) );
