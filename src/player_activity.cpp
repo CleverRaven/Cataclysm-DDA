@@ -136,6 +136,10 @@ void player_activity::do_turn( player &p )
             p.activity = p.backlog.front();
             p.backlog.pop_front();
         }
+
+        // If whatever activity we were doing forced us to pick something up to
+        // handle it, drop any overflow that may have caused
+        p.drop_inventory_overflow();
     }
 }
 

@@ -740,6 +740,12 @@ void player::process_turn()
 
     Character::process_turn();
 
+    // If we're actively handling something we can't just drop it on the ground
+    // in the middle of handling it
+    if ( !activity.targets.size() ) {
+        drop_inventory_overflow();
+    }
+
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
