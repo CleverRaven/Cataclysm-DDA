@@ -923,28 +923,60 @@ bool game::start_game()
     u.set_highest_cat_level();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
-    if ( scen->has_flag("FIRE_START") ){
+    if( scen->has_flag( "FIRE_START" ) ) {
         start_loc.burn( omtstart, 3, 3 );
     }
-    if (scen->has_flag("INFECTED")){
+    if( scen->has_flag( "INFECTED" ) ) {
         u.add_effect( effect_infected, 1_turns, random_body_part(), true );
     }
-    if (scen->has_flag("BAD_DAY")){
+    if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
         u.add_effect( effect_drunk, 270_minutes );
         u.add_morale( MORALE_FEELING_BAD, -100, -100, 5_minutes, 5_minutes );
     }
-    if(scen->has_flag("HELI_CRASH")) {
+    if( scen->has_flag( "HELI_CRASH" ) ) {
         start_loc.handle_heli_crash( u );
+        bool success = false;
+        for( auto v : m.get_vehicles() ) {
+            std::string name = v.v->type.str();
+            std::string search = std::string( "helicopter" );
+            if( name.find( search ) != std::string::npos ) {
+                for( auto pv : v.v->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                    auto pos = v.v->global_part_pos3( *pv );
+                    u.setpos( pos );
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : v.v->parts_at_relative( pv->mount.x, pv->mount.y ) ) {
+                        vehicle_stack here = v.v->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+
+                    auto mons = critter_tracker->find( pos );
+                    if( mons != nullptr ) {
+                        critter_tracker->remove( *mons );
+                    }
+
+                    success = true;
+                    break;
+                }
+                if( success ) {
+                    v.v->name = "Bird Wreckage";
+                    break;
+                }
+            }
+        }
     }
 
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
 
     //~ %s is player name
-    u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
-                       pgettext("memorial_female", "%s began their journey into the Cataclysm."),
-                       u.name.c_str());
+    u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
+                        pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
+                        u.name.c_str() );
     lua_callback( "on_new_player_created" );
 
     return true;
