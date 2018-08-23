@@ -1125,7 +1125,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         int max_gun_range = mod->gun_range( &g->u );
         if( max_gun_range > 0 && parts->test(iteminfo_parts::GUN_MAX_RANGE)) {
-            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_gun_range );
+            info.emplace_back( "GUN", _( "Maximum range: " ), "<num>", max_gun_range );
         }
 
         if (parts->test(iteminfo_parts::GUN_AIMING_STATS)) {
