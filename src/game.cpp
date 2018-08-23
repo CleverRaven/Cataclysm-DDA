@@ -1845,7 +1845,7 @@ int get_convection_temperature( const tripoint &location )
     auto tile_strength_mod = []( const tripoint &loc, field_id fld, int case_1, int case_2, int case_3 ){
         int strength = g->m.get_field_strength( loc, fld );
         int cases[3] = { case_1, case_2, case_3 };
-        return cases[ strength - 1 ];
+        return ( strength > 0 && strength < 4 ) ? cases[ strength - 1 ] : 0;
     };
 
     temp_mod += tile_strength_mod( location, fd_hot_air1,  2,   6,  10 );
