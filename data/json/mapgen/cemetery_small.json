@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "cemetery_small" ],
+    "om_terrain": "cemetery_small",
     "weight": 100,
     "object": {
       "rows": [

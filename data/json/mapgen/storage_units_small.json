@@ -49,15 +49,7 @@
         "{": "t_floor",
         "|": "t_wall"
       },
-      "furniture": {
-        "#": "f_chair",
-        "R": "f_rubble",
-        "^": "f_rubble",
-        "b": "f_bed",
-        "r": "f_rubble",
-        "t": "f_table",
-        "{": "f_vending_o"
-      },
+      "furniture": { "#": "f_chair", "R": "f_rubble", "^": "f_rubble", "b": "f_bed", "r": "f_rubble", "t": "f_table", "{": "f_vending_o" },
       "place_items": [
         { "item": "novels", "x": 2, "y": 17, "chance": 30 },
         { "item": "novels", "x": 2, "y": 15, "chance": 10 },
