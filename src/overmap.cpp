@@ -595,6 +595,8 @@ bool oter_t::is_hardcoded() const
     static const std::set<std::string> hardcoded_mapgen = {
         "acid_anthill",
         "anthill",
+        "ants_lab",
+        "ants_lab_stairs",
         "fema",
         "fema_entrance",
         "haz_sar",
@@ -1801,6 +1803,10 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
+    for( auto &i : ant_points ) {
+        build_anthill( i.x, i.y, z, i.s );
+    }
+
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
     // If the central lab exists, all labs which go down to z=4 will have a subway to central.
     int lab_train_odds = 0;
@@ -1863,10 +1869,6 @@ bool overmap::generate_sub(int const z)
             }
         }
         is_first_in_pair = !is_first_in_pair;
-    }
-
-    for( auto &i : ant_points ) {
-        build_anthill( i.x, i.y, z, i.s );
     }
 
     for( auto &i : cities ) {
@@ -2514,6 +2516,8 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
     const oter_id labt_stairs( labt.id().str() + "_stairs" );
     const oter_id labt_core( labt.id().str() + "_core" );
     const oter_id labt_finale( labt.id().str() + "_finale" );
+    const oter_id labt_ants( "ants_lab" );
+    const oter_id labt_ants_stairs( "ants_lab_stairs" );
 
     ter( x, y, z ) = labt;
     generated_lab.push_back( point( x, y ) );
@@ -2530,7 +2534,14 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
             int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
             if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
-                ter( cx, cy, z ) = labt;
+                // make an ants lab if it's a basic lab and ants were there before.
+                if( prefix.empty() && check_ot_type("ants", cx, cy, z) ) {
+                    if( ter( cx, cy, z) != "ants_queen" ) { // skip over a queen's chamber.
+                        ter( cx, cy, z ) = labt_ants;
+                    }
+                } else {
+                    ter( cx, cy, z ) = labt;
+                }
                 generated_lab.push_back( *cand );
                 // add new candidates, don't backtrack
                 if( ter( cx - 1, cy, z ) != labt && abs( x - cx + 1 ) + abs( y - cy ) > dist ) {
@@ -2582,9 +2593,13 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
                 stairx = rng( x - s, x + s );
                 stairy = rng( y - s, y + s );
                 tries++;
-            } while( ter( stairx, stairy, z ) != labt && tries < 15 );
+            } while( (ter( stairx, stairy, z ) != labt && ter( stairx, stairy, z ) != labt_ants) && tries < 15 );
             if( tries < 15 ) {
-                ter( stairx, stairy, z ) = labt_stairs;
+                if( ter( stairx, stairy, z ) == labt_ants ) {
+                    ter( stairx, stairy, z ) = labt_ants_stairs;
+                } else {
+                    ter( stairx, stairy, z ) = labt_stairs;
+                }
                 numstairs++;
             }
         }
