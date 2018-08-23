@@ -2120,7 +2120,12 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     } );
 
     if( opts.size() > 1 ) {
-        pos += uimenu( false, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+        pos += uimenu( true, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+    }
+
+    if( pos < -1 ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
     }
 
     if( pos >= 0 ) {
