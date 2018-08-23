@@ -1008,6 +1008,9 @@ class vehicle
         // thrust (1) or brake (-1) vehicle
         void thrust( int thd );
 
+        //deceleration due to ground friction and air resistance
+        int slowdown() const;
+
         // depending on skid vectors, chance to recover.
         void possibly_recover_from_skid();
 
@@ -1243,6 +1246,7 @@ class vehicle
         // As above, but calculated for the actually used variable `dir`
         rl_vec2d dir_vec() const;
         void on_move();
+
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap
          * (if enabled).

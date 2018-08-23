@@ -4337,6 +4337,21 @@ void vehicle::slow_leak()
     }
 }
 
+int vehicle::slowdown() const
+{
+    const double relative_sin = sin( DEGREES ( face.dir() - move.dir() ) );
+    // Mph lost per tile when coasting, by an ideal vehicle
+    const int base_slowdown = falling ? 1 : 5 + std::floor( 45 * std::abs( relative_sin ) );
+
+    // "Anti-ideal" vehicle slows down up to 10 times faster than ideal one
+    const float k_slowdown = 20.0f / ( 2.0f + 9 * ( k_dynamics() * k_mass() ) );
+    // drag is in units of 1/2 HP here, so plows make good emergency brakes.
+    const int slowdown = drag() + static_cast<int>( std::ceil( k_slowdown * base_slowdown ) );
+    add_msg( m_debug, "%s vel: %d, slowdown: %d", name.c_str(), velocity, slowdown );
+
+    return slowdown;
+}
+
 void vehicle::thrust( int thd ) {
     //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
