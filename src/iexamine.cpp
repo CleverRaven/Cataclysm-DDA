@@ -2726,7 +2726,7 @@ void iexamine::recycle_compactor(player &, const tripoint &examp)
     //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
     choose_output.text = string_format(_("Compact %1$.3f %2$s of %3$s into:"), convert_weight(sum_weight), weight_units(), m.name().c_str());
     for( auto &ci : m.compacts_into() ) {
-        auto it = item( ci, 0 );
+        auto it = item( ci, 0 , item::solitary_tag{} );
         const int amount = norm_recover_weight / it.weight();
         //~ %1$d: number of, %2$s: output item
         choose_output.addentry( string_format( _("about %1$d %2$s"), amount, it.tname(amount).c_str() ) );
@@ -2752,11 +2752,11 @@ void iexamine::recycle_compactor(player &, const tripoint &examp)
     bool out_desired=false;
     bool out_any=false;
     for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, 0 ).weight();
+        const units::mass ow = item( *it, 0, item::solitary_tag{} ).weight();
         int count = sum_weight / ow;
         sum_weight -= count * ow;
         if(count > 0) {
-            g->m.spawn_item( examp, *it, count, 0, calendar::turn );
+            g->m.spawn_item( examp, *it, count, 1, calendar::turn );
             if (!out_any) {
                 out_any = true;
                 if(it == m.compacts_into().begin() + o_idx) {
