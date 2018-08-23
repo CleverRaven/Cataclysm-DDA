@@ -2408,5 +2408,29 @@
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
     [ [ "ash", 500 ] ]
   ]
-}
+},{
+	"result": "anesthesia_single",
+	"type": "recipe",
+	"category": "CC_OTHER",
+	"subcategory": "CC_OTHER_MEDICAL",
+	"skill_used": "cooking",
+	"difficulty": 6,
+	"skills_required": [ "firstaid", 6 ],
+	"time": 40000,
+	"book_learn":[ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ] ],
+	"qualities": [
+		{ "id": "CHEM", "level": 3 },
+		{ "id": "BOIL", "level": 2 }
+		],
+	"tools": [ 
+	[ [ "electrolysis_kit", 50 ] ],
+	[ [ "surface_heat", 50, "LIST" ] ]	
+	],	
+	"components":[
+		[ [ "ammonia", 4 ] ],
+		[ [ "metal_tank_little", 1 ] ],
+		[ [ "bismuth", 10 ] ],
+		[ [ "chem_nitric_acid", 5 ] ]
+	]
+  }
 ]

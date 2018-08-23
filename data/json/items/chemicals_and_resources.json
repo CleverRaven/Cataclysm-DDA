@@ -15,8 +15,19 @@
     "color": "cyan",
     "looks_like": "1st_aid",
     "flags": [ "ANESTHESIA" ]
-},
-{
+	},
+	{
+    "id": "anesthesia_single",
+    "type": "AMMO",
+    "copy-from": "anesthesia",
+    "name": "single anesthesia dose",
+    "description": "A makeshift singular dose of anesthesia that could be utilized for specialized surgeries.",
+    "weight": 150,
+    "volume": 1,
+    "price": 16700,
+    "count": 1
+	},
+	{
     "type" : "AMMO",
     "id" : "chem_sulphur",
     "category" : "chems",
