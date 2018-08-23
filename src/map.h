@@ -750,7 +750,9 @@ class map
 
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
-        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p );
+        // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
+        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p,
+                               const bool same_submap = false );
         bool close_door( const tripoint &p, const bool inside, const bool check_only );
         bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
         // Destruction
