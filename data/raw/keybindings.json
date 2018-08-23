@@ -1943,7 +1943,7 @@
         "type" : "keybinding",
         "id": "OVERVIEW_UP",
         "category": "VEH_INTERACT",
-        "name": "Scroll up through vehicle engines, tanks, and ammo",
+        "name": "Scroll up through vehicle overview",
         "bindings":[
             { "input_method":"keyboard", "key":"{" }
         ]
@@ -1952,7 +1952,7 @@
         "type" : "keybinding",
         "id": "OVERVIEW_DOWN",
         "category": "VEH_INTERACT",
-        "name": "Scroll down through vehicle engines, tanks, and ammo",
+        "name": "Scroll down through vehicle overview",
         "bindings":[
             { "input_method":"keyboard", "key":"}" }
         ]
