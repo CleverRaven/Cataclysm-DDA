@@ -497,18 +497,20 @@ task_reason veh_interact::cant_do (char mode)
     return CAN_DO;
 }
 
-bool veh_interact::is_drive_conflict() {
-    bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
-    bool has_muscle_engine = veh->has_engine_type("muscle", false);
-    bool can_install = !(has_muscle_engine && install_muscle_engine);
+bool veh_interact::is_drive_conflict()
+{
+    std::string conflict_type;
+    bool has_conflict = veh->has_engine_conflict( sel_vpart_info, conflict_type );
 
-    if (!can_install) {
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_red,
-                       _("Only one muscle powered engine can be installed."));
-        wrefresh (w_msg);
+    if( has_conflict ) {
+        werase( w_msg );
+        //~ %1$s is fuel_type
+        fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_red,
+                        string_format( _( "Only one %1$s powered engine can be installed." ),
+                                       conflict_type ) );
+        wrefresh( w_msg );
     }
-    return !can_install;
+    return has_conflict;
 }
 
 bool veh_interact::can_install_part() {
@@ -546,16 +548,14 @@ bool veh_interact::can_install_part() {
         }
     }
 
-    bool is_engine = sel_vpart_info->has_flag("ENGINE");
-    bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
-    //count current engines, muscle engines don't require higher skill
+    bool is_engine = sel_vpart_info->has_flag( "ENGINE" );
+    //count current engines, some engines don't require higher skill
     int engines = 0;
     int dif_eng = 0;
-    if (is_engine && !install_muscle_engine) {
-        for (size_t p = 0; p < veh->parts.size(); p++) {
-            if (veh->part_flag (p, "ENGINE") &&
-                veh->part_info(p).fuel_type != "muscle")
-            {
+    if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
+        for( size_t p = 0; p < veh->parts.size(); p++ ) {
+            if( veh->part_flag( p, "ENGINE" ) &&
+                veh->part_flag( p, "E_HIGHER_SKILL" ) ) {
                 engines++;
                 dif_eng = dif_eng / 2 + 8;
             }

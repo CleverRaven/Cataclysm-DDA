@@ -245,6 +245,11 @@ struct vehicle_part {
         /** Current part damage in same units as item::damage. */
         float damage() const;
 
+        /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
+        double damage_percent() const;
+        /** Current part health as a percentage of maximum, with 1.0 being perfect condition */
+        double health_percent() const;
+
         /** parts are considered broken at zero health */
         bool is_broken() const;
 
@@ -1232,6 +1237,9 @@ class vehicle
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type_not( const itype_id &ft, bool enabled ) const;
+        //returns true if there's another engine with the same exclusion list; conflict_type holds
+        //the exclusion
+        bool has_engine_conflict( const vpart_info *possible_engine, std::string &conflict_type ) const;
         //prints message relating to vehicle start failure
         void msg_start_engine_fail();
         //if necessary, damage this engine
