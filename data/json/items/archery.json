@@ -551,7 +551,7 @@
       "symbol" : "(",
       "color" : "yellow",
       "name" : "hybrid longbow",
-      "description" : "A modernised, six-foot longbow that curves away from the archer at the tips for increased power. It can be used effectively by those of somewhat above-average strength. Designed for archers that appreciate the smoothness of a traditional longbow, but desire the superior speed of a modern recurve.",
+      "description" : "A modernised, six-foot longbow that curves away from the archer at the tips for increased power.  It can be used effectively by those of somewhat above-average strength.  Designed for archers that appreciate the smoothness of a traditional longbow, but desire the superior power of a modern recurve.",
       "price" : 38000,
       "material": ["steel", "plastic", "wood"],
       "flags" : ["FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED"],
