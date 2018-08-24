@@ -109,7 +109,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                     _( "Press <color_white>space bar</color> to continue the game." ),
                     _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
 #ifdef TILES
-                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to clipboard." )
+                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
                   );
 
