@@ -23,11 +23,7 @@
     "time": 10000,
     "autolearn": true,
     "tools": [ [ [ "con_mix", 50 ] ] ],
-    "components": [
-      [ [ "material_cement", 50 ] ],
-      [ [ "material_sand", 25 ] ],
-      [ [ "pebble", 20 ] ]
-    ]
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ] ] ]
   },
   {
     "type": "recipe",
