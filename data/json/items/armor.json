@@ -173,7 +173,6 @@
     "volume": 8,
     "price": 25000,
     "encumbrance": 140,
-    "warmth": 5,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
