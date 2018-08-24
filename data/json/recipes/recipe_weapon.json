@@ -441,10 +441,10 @@
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [
-      [ [ "stick", 10 ], [ "2x4", 6 ] ],
-      [ [ "steel_standard", 2, "LIST" ] ],
-      [ [ "plastic_chunk", 25 ] ],
-      [ [ "duct_tape", 600 ], [ "superglue", 24 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "leaf_spring", 4 ] ],
+      [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
       [ [ "cordage", 18, "LIST" ], [ "filament", 1800, "LIST" ] ]
     ]
   },
