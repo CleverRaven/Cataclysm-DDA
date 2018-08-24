@@ -296,28 +296,42 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             has_table_nearby = true;
         }
     }
+    bool has_tree_nearby = false;
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+        if( g->m.has_flag( "TREE", pt ) ) {
+            has_tree_nearby = true;
+        }
+    }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-            if( corpse.size >= MS_MEDIUM && !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                u.add_msg_if_player( m_info, _( "For a corpse this big you need a butchering rack to perform a full butchery." ) );
-                act.set_to_null();
-                return;
-            }
-            if ( corpse.size >= MS_MEDIUM && !has_table_nearby ) {
-                u.add_msg_if_player( m_info, _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-                act.set_to_null();
-                return;
-            }
-            if( !u.has_quality( quality_id( "CUT" ) ) ) {
-                u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-                act.set_to_null();
-                return; 
-            }
-            if( corpse.size >= MS_MEDIUM && !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-                u.add_msg_if_player( m_info, _( "For a corpse this big you need a saw to perform a full butchery." ) );
-                act.set_to_null();
-                return; 
-            } 
+        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 );
+        bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
+        bool big_corpse = corpse.size >= MS_MEDIUM;
+
+        if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
+            u.add_msg_if_player( m_info, _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
+            act.set_to_null();
+            return;
+        } else if( big_corpse && !has_rope && !b_rack_present ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
+            act.set_to_null();
+            return;
+        }
+        if ( big_corpse && !has_table_nearby ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
+            act.set_to_null();
+            return;
+        }
+        if( !u.has_quality( quality_id( "CUT" ) ) ) {
+            u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
+            act.set_to_null();
+            return; 
+        }
+        if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a saw to perform a full butchery." ) );
+            act.set_to_null();
+            return; 
+        }
     }
 
     if( action == DISSECT && ( corpse_item.has_flag( "QUARTERED" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
