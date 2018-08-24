@@ -263,6 +263,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int_map";
 
+    thisOpt.format = "%i";
+
     thisOpt.hide = opt_hide;
 
     thisOpt.mIntValues = mIntValuesIn;

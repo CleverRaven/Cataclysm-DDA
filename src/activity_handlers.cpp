@@ -262,6 +262,9 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
+    item corpse_item = items[act.index];
+    const mtype& corpse = *(corpse_item.get_mtype());
+
     if( action != DISSECT && u.max_quality( quality_id( "BUTCHER" ) ) < 0 && one_in( 3 ) ) {
         u.add_msg_if_player( m_bad, _( "You don't trust the quality of your tools, but carry on anyway." ) );
     }
@@ -295,26 +298,27 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-            if( !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                u.add_msg_if_player( m_info, _( "You need a butchering rack to perform a full butchery." ) );
+            if( corpse.size >= MS_MEDIUM && !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
+                u.add_msg_if_player( m_info, _( "For a corpse this big you need a butchering rack to perform a full butchery." ) );
                 act.set_to_null();
                 return;
             }
-            if ( !has_table_nearby ) {
-                u.add_msg_if_player( m_info, _( "You need a table nearby or something else with a flat surface to perform a full butchery." ) );
+            if ( corpse.size >= MS_MEDIUM && !has_table_nearby ) {
+                u.add_msg_if_player( m_info, _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
                 act.set_to_null();
                 return;
             }
-            if( !u.has_quality( quality_id( "CUT" ) ) &&
-                ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-                u.add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
+            if( !u.has_quality( quality_id( "CUT" ) ) ) {
+                u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
                 act.set_to_null();
                 return; 
             }
+            if( corpse.size >= MS_MEDIUM && !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+                u.add_msg_if_player( m_info, _( "For a corpse this big you need a saw to perform a full butchery." ) );
+                act.set_to_null();
+                return; 
+            } 
     }
-
-    item corpse_item = items[act.index];
-    const mtype *corpse = corpse_item.get_mtype();
 
     if( action == DISSECT && ( corpse_item.has_flag( "QUARTERED" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_info, _( "It would be futile to search for implants inside this badly damaged corpse." ) );
@@ -329,25 +333,25 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     if( action == QUARTER ) {
-        if( corpse_item.get_mtype()->size == MS_TINY ) {
-            u.add_msg_if_player( m_bad, _("This corpse is too small to quarter without damaging."), corpse->nname().c_str() );
+        if( corpse.size == MS_TINY ) {
+            u.add_msg_if_player( m_bad, _("This corpse is too small to quarter without damaging."), corpse.nname().c_str() );
             act.set_to_null();
             return;
         }
         if( corpse_item.has_flag( "QUARTERED" ) ) {
-            u.add_msg_if_player( m_bad, _("This is already quartered."), corpse->nname().c_str() );
+            u.add_msg_if_player( m_bad, _("This is already quartered."), corpse.nname().c_str() );
             act.set_to_null();
             return;
         }
         if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
-            u.add_msg_if_player( m_bad, _("You need to perform field dressing before quartering."), corpse->nname().c_str() );
+            u.add_msg_if_player( m_bad, _("You need to perform field dressing before quartering."), corpse.nname().c_str() );
             act.set_to_null();
             return;
         }
     }
 
     // applies to all butchery actions
-    bool is_human = corpse == nullptr || corpse->id == mtype_id::NULL_ID() || ( corpse->in_species( HUMAN ) && !corpse->in_species( ZOMBIE ) );
+    bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) && !corpse.in_species( ZOMBIE ) );
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) || u.has_trait_flag( "SAPIOVORE" ) ) ) {
 
         if( query_yn( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) {
@@ -371,7 +375,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     int time_to_cut = 0;
-    switch( corpse->size ) {
+    switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case MS_TINY:
             time_to_cut = 25;

@@ -486,6 +486,11 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DOME_LIGHT```
 - ```DOOR_MOTOR```
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
+- ```E_ALTERNATOR``` Is an engine that can power an alternator.
+- ```E_COLD_START``` Is an engine that starts much slower in cold weather.
+- ```E_COMBUSTION``` Is an engine that burns its fuel and can backfire or explode when damaged.
+- ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
+- ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 - ```FAUCET```

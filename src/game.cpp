@@ -168,6 +168,7 @@ const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_emp( "emp" );
 const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_glowing( "glowing" );
@@ -599,7 +600,7 @@ void game::init_ui( const bool resized )
         hpW = 14;
         statH = 7;
         statW = sidebarWidth - MINIMAP_WIDTH - hpW;
-        locH = 2;
+        locH = 3;
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
@@ -633,7 +634,7 @@ void game::init_ui( const bool resized )
         pixelminimapY = messY + messHshort;
     } else {
         // standard sidebar style
-        locH = 2;
+        locH = 3;
         statX = 0;
         statH = 4;
         minimapX = 0;
@@ -646,7 +647,7 @@ void game::init_ui( const bool resized )
         if (pixel_minimap_custom_height && pixelminimapH > get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) ) {
             pixelminimapH = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
         }
-        messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 3 for w_location + 4 for w_stat, w_messages starts at 0
         if (messHshort < 9) {
             pixelminimapH -= 9 - messHshort;
             messHshort = 9;
@@ -923,28 +924,60 @@ bool game::start_game()
     u.set_highest_cat_level();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
-    if ( scen->has_flag("FIRE_START") ){
+    if( scen->has_flag( "FIRE_START" ) ) {
         start_loc.burn( omtstart, 3, 3 );
     }
-    if (scen->has_flag("INFECTED")){
+    if( scen->has_flag( "INFECTED" ) ) {
         u.add_effect( effect_infected, 1_turns, random_body_part(), true );
     }
-    if (scen->has_flag("BAD_DAY")){
+    if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
         u.add_effect( effect_drunk, 270_minutes );
         u.add_morale( MORALE_FEELING_BAD, -100, -100, 5_minutes, 5_minutes );
     }
-    if(scen->has_flag("HELI_CRASH")) {
+    if( scen->has_flag( "HELI_CRASH" ) ) {
         start_loc.handle_heli_crash( u );
+        bool success = false;
+        for( auto v : m.get_vehicles() ) {
+            std::string name = v.v->type.str();
+            std::string search = std::string( "helicopter" );
+            if( name.find( search ) != std::string::npos ) {
+                for( auto pv : v.v->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                    auto pos = v.v->global_part_pos3( *pv );
+                    u.setpos( pos );
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : v.v->parts_at_relative( pv->mount.x, pv->mount.y ) ) {
+                        vehicle_stack here = v.v->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+
+                    auto mons = critter_tracker->find( pos );
+                    if( mons != nullptr ) {
+                        critter_tracker->remove( *mons );
+                    }
+
+                    success = true;
+                    break;
+                }
+                if( success ) {
+                    v.v->name = "Bird Wreckage";
+                    break;
+                }
+            }
+        }
     }
 
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
 
     //~ %s is player name
-    u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
-                       pgettext("memorial_female", "%s began their journey into the Cataclysm."),
-                       u.name.c_str());
+    u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
+                        pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
+                        u.name.c_str() );
     lua_callback( "on_new_player_created" );
 
     return true;
@@ -4710,15 +4743,17 @@ void game::draw_sidebar()
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
     werase(w_location);
-    mvwprintz( w_location, 0, 0, cur_ter->get_color(), utf8_truncate( cur_ter->get_name(), 14 ) );
+    mvwprintz( w_location, 0, 0, cur_ter->get_color(), utf8_truncate( cur_ter->get_name(), getmaxx(w_location) ) );
 
     if (get_levz() < 0) {
-        mvwprintz(w_location, 0, 18, c_light_gray, _("Underground"));
+        mvwprintz(w_location, 1, 0, c_light_gray, _("Underground"));
     } else {
-        mvwprintz( w_location, 0, 18, weather_data( weather ).color, weather_data( weather ).name );
+        mvwprintz( w_location, 1, 0, c_light_gray, _("Weather:") );
+        wprintz( w_location, weather_data( weather ).color, " %s", weather_data( weather ).name.c_str() );
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        mvwprintz( w_location, 1, 19, c_light_gray, _("Temperature:") );
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature( u.pos() ) ).c_str());
     }
 
@@ -4733,10 +4768,10 @@ void game::draw_sidebar()
         sPhase.insert(5 - ((iPhase < 4) ? iPhase+1 : 5), "<color_" + string_from_color(i_black) + ">");
     }
 
-    trim_and_print( w_location, 1, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
+    trim_and_print( w_location, 2, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
-    mvwprintz(w_location, 1, 15, c_light_gray, "%s ", _("Lighting:"));
+    mvwprintz(w_location, 2, 22, c_light_gray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
     wrefresh(w_location);
@@ -5395,7 +5430,7 @@ int game::mon_info( const catacurses::window &w )
                 monster &critter = *new_seen_mon.back();
                 cancel_activity_query( string_format( _( "%s spotted!" ), critter.name().c_str() ) );
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
-                    add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
+                    add_msg(m_warning, _("We have detected a %s - an enemy of the Mycus!"), critter.name().c_str());
                     if (!u.has_effect( effect_adrenaline_mycus)){
                         u.add_effect( effect_adrenaline_mycus, 30_minutes );
                     } else if( u.get_effect_int( effect_adrenaline_mycus ) == 1 ) {
@@ -6158,8 +6193,11 @@ void game::emp_blast( const tripoint &p )
     int x = p.x;
     int y = p.y;
     int rn;
+    const bool sight = g->u.sees( p );
     if (m.has_flag("CONSOLE", x, y)) {
-        add_msg(_("The %s is rendered non-functional!"), m.tername(x, y).c_str());
+        if( sight ) {
+            add_msg(_("The %s is rendered non-functional!"), m.tername(x, y).c_str());
+        }
         m.ter_set(x, y, t_console_broken);
         return;
     }
@@ -6167,11 +6205,15 @@ void game::emp_blast( const tripoint &p )
     if (m.ter(x, y) == t_card_science || m.ter(x, y) == t_card_military) {
         rn = rng(1, 100);
         if (rn > 92 || rn < 40) {
-            add_msg(_("The card reader is rendered non-functional."));
+            if( sight ) {
+                add_msg(_("The card reader is rendered non-functional."));
+            }
             m.ter_set(x, y, t_card_reader_broken);
         }
         if (rn > 80) {
-            add_msg(_("The nearby doors slide open!"));
+            if( sight ) {
+                add_msg(_("The nearby doors slide open!"));
+            }
             for (int i = -3; i <= 3; i++) {
                 for (int j = -3; j <= 3; j++) {
                     if (m.ter(x + i, y + j) == t_door_metal_locked) {
@@ -6181,7 +6223,9 @@ void game::emp_blast( const tripoint &p )
             }
         }
         if (rn >= 40 && rn <= 80) {
-            add_msg(_("Nothing happens."));
+            if( sight ) {
+                add_msg(_("Nothing happens."));
+            }
         }
     }
     if( monster *const mon_ptr = critter_at<monster>( p ) ) {
@@ -6202,7 +6246,9 @@ void game::emp_blast( const tripoint &p )
                     break;
             }
             if( !mon_item_id.empty() && deact_chance != 0 && one_in( deact_chance ) ) {
-                add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
+                if( sight ) {
+                    add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
+                }
                 m.add_item_or_charges( x, y, critter.to_item() );
                 for( auto & ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
@@ -6211,7 +6257,9 @@ void game::emp_blast( const tripoint &p )
                 }
                 remove_zombie( critter );
             } else {
-                add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
+                if( sight ) {
+                    add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
+                }
                 int dam = dice(10, 10);
                 critter.apply_damage( nullptr, bp_torso, dam );
                 critter.check_dead_state();
@@ -6219,8 +6267,15 @@ void game::emp_blast( const tripoint &p )
                     critter.make_friendly();
                 }
             }
-        } else {
+        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) && !critter.has_effect( effect_emp ) ) {
+            if( sight ) {
+                add_msg( m_good, _("The %s's electrical field momentarily goes out!"), critter.name().c_str());
+            }
+        } else if( sight ) {
             add_msg(_("The %s is unaffected by the EMP blast."), critter.name().c_str());
+        }
+        if( !critter.has_effect( effect_emp ) ) {
+            critter.add_effect( effect_emp, 3_minutes );
         }
     }
     if (u.posx() == x && u.posy() == y) {
@@ -6505,6 +6560,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
+        it.active = false;
+        return false;
+    }
+    if( it.has_flag( "FIELD_DRESS" ) || it.has_flag( "FIELD_DRESS_FAILED" ) || it.has_flag( "QUARTERED" ) ) {
+        // Failed reanimation due to corpse being butchered
         it.active = false;
         return false;
     }
@@ -10298,7 +10358,7 @@ void game::butcher()
             int index = corpses[indexer_index];
             u.activity.values.push_back( index );
         }
-        break;	
+        break;
     case BUTCHER_DISASSEMBLE:
         {
             size_t index = disassembles[indexer_index];

@@ -2120,7 +2120,12 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     } );
 
     if( opts.size() > 1 ) {
-        pos += uimenu( false, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+        pos += uimenu( true, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+    }
+
+    if( pos < -1 ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
     }
 
     if( pos >= 0 ) {
@@ -3543,9 +3548,10 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
+        const auto mod_name = gm->tname();
         p.gunmod_remove( it, *gm );
         //~ %1$s - gunmod, %2$s - gun.
-        p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), gm->tname().c_str(),
+        p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), mod_name.c_str(),
                              it.tname().c_str() );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
