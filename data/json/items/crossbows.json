@@ -208,7 +208,7 @@
       "color": "green",
       "name": "compound crossbow",
       "reload_noise_volume": 4,
-      "description": "A high-power crossbow with shaped cams and extra cables for high-power shots.  Takes less time to reload due to a modern stringpulling system.",
+      "description": "A high-power crossbow with shaped cams and extra cables for high-power shots.  Takes less time to reload due to a modern string-pulling system.",
       "price": 200000,
       "material": [ "steel", "plastic" ],
       "flags": [ "STR_RELOAD", "PRIMITIVE_RANGED_WEAPON" ],
