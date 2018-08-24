@@ -224,5 +224,11 @@
     "ident" : "basement_bionic",
     "name" : "Shady Basement",
     "target" : "basement_bionic"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_bionic",
+    "name" : "Shady Mansion Basement",
+    "target" : "mansion_bionic_c_dn"
   }
 ]

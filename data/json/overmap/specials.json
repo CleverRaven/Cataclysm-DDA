@@ -1980,7 +1980,47 @@
     ],
     "locations" : [ "land" ],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 4],
+    "occurrences" : [1, 3],
+    "flags" : [ "CLASSIC" ]
+  },
+  {
+    "type" : "overmap_special",
+    "id" : "Mansion_Road_Bionic",
+    "overmaps" : [
+      { "point":[0,0,0], "overmap": "mansion_c5_north"},
+      { "point":[1,0,0], "overmap": "mansion_e2_north"},
+      { "point":[2,0,0], "overmap": "mansion_c3_east"},
+      { "point":[0,1,0], "overmap": "mansion_t2_east"},
+      { "point":[1,1,0], "overmap": "mansion_+2_north"},
+      { "point":[2,1,0], "overmap": "mansion_t6_west"},
+      { "point":[0,2,0], "overmap": "mansion_c4_west"},
+      { "point":[1,2,0], "overmap": "mansion_t7_north"},
+      { "point":[2,2,0], "overmap": "mansion_c1_south"},
+      { "point":[0,0,1], "overmap": "mansion_c5u_north"},
+      { "point":[1,0,1], "overmap": "mansion_e2u_north"},
+      { "point":[2,0,1], "overmap": "mansion_c3u_east"},
+      { "point":[0,1,1], "overmap": "mansion_t2u_east"},
+      { "point":[1,1,1], "overmap": "mansion_+2u_north"},
+      { "point":[2,1,1], "overmap": "mansion_t6u_west"},
+      { "point":[0,2,1], "overmap": "mansion_c4u_west"},
+      { "point":[1,2,1], "overmap": "mansion_t7u_north"},
+      { "point":[2,2,1], "overmap": "mansion_c1u_south"},
+      { "point":[0,0,-1], "overmap": "mansion_c_dn_north"},
+      { "point":[1,0,-1], "overmap": "mansion_e2d_north"},
+      { "point":[2,0,-1], "overmap": "mansion_c_dn_east"},
+      { "point":[0,1,-1], "overmap": "mansion_t_dn_east"},
+      { "point":[1,1,-1], "overmap": "mansion_+_dn_north"},
+      { "point":[2,1,-1], "overmap": "mansion_t_dn_west"},
+      { "point":[0,2,-1], "overmap": "mansion_bionic_c_dn_west"},
+      { "point":[1,2,-1], "overmap": "mansion_t_dn_north"},
+      { "point":[2,2,-1], "overmap": "mansion_c_dn_south"}
+    ],
+    "connections" : [
+      { "point" : [1,-1,0], "terrain" : "road" }
+    ],
+    "locations" : [ "land" ],
+    "city_sizes" : [4, 12],
+    "occurrences" : [0, 1],
     "flags" : [ "CLASSIC" ]
   },{
     "type" : "overmap_special",
