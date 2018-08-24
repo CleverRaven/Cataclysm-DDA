@@ -84,13 +84,14 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         abort();
     }
 
-    std::string formatted_report = string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!
-                                                  " DEBUG    : %s\n \n"
-                                                  " FUNCTION : %s\n"
-                                                  " FILE     : %s\n"
-                                                  " LINE     : %s\n",
-                                                  text.c_str(), funcname, filename, line
-                                                );
+    std::string formatted_report =
+        string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!
+            " DEBUG    : %s\n \n"
+            " FUNCTION : %s\n"
+            " FILE     : %s\n"
+            " LINE     : %s\n",
+            text.c_str(), funcname, filename, line
+        );
 
     fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
