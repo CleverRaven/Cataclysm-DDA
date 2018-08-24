@@ -814,14 +814,38 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_tilesets
     return tileset_names;
 }
 
+std::vector<std::pair<std::string, std::string>> options_manager::load_soundpack_from( const std::string &path )
+{
+    // build_resource_list will clear &resource_option - first param
+    std::map<std::string, std::string> local_soundpacks;
+    auto soundpack_names = build_resource_list(local_soundpacks, "soundpack", path, "soundpack-conf");
+
+    // Copy over found soundpacks
+    SOUNDPACKS.insert(local_soundpacks.begin(), local_soundpacks.end());
+
+    // Return found soundpack names for further processing
+    return soundpack_names;
+}
+
 std::vector<std::pair<std::string, std::string>> options_manager::build_soundpacks_list()
 {
-    auto soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
-                                                             "sounddir", "soundpack-conf");
-    if( soundpack_names.empty() ) {
-        soundpack_names.emplace_back( "basic", translate_marker( "Basic" ) );
+    // Clear soundpacks before loading
+    SOUNDPACKS.clear();
+    std::vector<std::pair<std::string, std::string>> result;
+
+    // Search data directory for sound packs
+    auto data_soundpacks = load_soundpack_from("data_sound");
+    result.insert(result.end(), data_soundpacks.begin(), data_soundpacks.end());
+
+    // Search user directory for sound packs
+    auto user_soundpacks = load_soundpack_from("user_sound");
+    result.insert(result.end(), user_soundpacks.begin(), user_soundpacks.end());
+
+    // Select default built-in sound pack
+    if( result.empty() ) {
+        result.emplace_back( "basic", translate_marker( "Basic" ) );
     }
-    return soundpack_names;
+    return result;
 }
 
 void options_manager::init()

@@ -328,6 +328,11 @@ bool main_menu::opening_screen()
         return false;
     }
 
+    if( !assure_dir_exist( FILENAMES["user_sound"] ) ) {
+        popup( _( "Unable to make sound directory. Check permissions." ) );
+        return false;
+    }
+
     for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
             true ) ) {
         path = native_to_utf8( path );
