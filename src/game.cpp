@@ -7507,6 +7507,8 @@ void game::examine( const tripoint &examp )
             m.has_flag("CONTAINER", examp) && none) {
             add_msg(_("It is empty."));
         } else {
+            draw_sidebar_messages();
+            sounds::process_sound_markers( &u );
             Pickup::pick_up( examp, 0);
         }
     }
