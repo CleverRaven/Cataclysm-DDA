@@ -625,7 +625,7 @@
          "covers" : ["TORSO"],
          "coverage" : 7,
          "material_thickness" : 2,
-         "encumbrance" : 20
+         "encumbrance" : 25
       },
       "dispersion" : 200,
       "durability" : 8,
@@ -646,7 +646,6 @@
       "min_strength" : 18,
       "weight" : 2000,
       "volume" : 16,
-      "dispersion" : 100,
       "durability" : 8,
       "reload" : 150,
       "loudness": 20,
