@@ -586,7 +586,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_+_dn", "mansion_+1d" ],
-    "weight": 1000,
+    "weight": 10005678,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -611,15 +611,16 @@
         "########################",
         "########################",
         "########################",
-        "########################",
-        "########################",
-        "########################"
+        "##########XXXX##########",
+        "##########XKKX##########",
+        "##########X.KX##########"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
       "items": {
         ".": { "item": "clutter_basement" },
         "m": { "item": "cleaning", "chance": 35 },
-        "r": { "item": "tool_common_stack", "chance": 100 }
+        "r": { "item": "tool_common_stack", "chance": 100 },
+		"K": { "item": "softdrugs", "chance": 50 }
       }
     }
   },
@@ -937,12 +938,12 @@
       "rows": [
         "XXXXXXXXXXX++XXXXXXXXXXX",
         "##########X..X##########",
+        "##########XK.X##########",
         "##########XKKX##########",
-        "##########XXXX##########",
-        "XXX##################XXX",
-        ".KX##################Xm.",
-        ".rX##################XK.",
-        "XXX##################XXX",
+        "XXXXXXXXXXXKKXXXXXXXXXXX",
+        "......KK...KKKKK........",
+        ".........K...K..........",
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
         "########################",
         "########################",
         "########################",
@@ -962,9 +963,7 @@
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
       "items": {
-        "K": { "item": "crate_stack", "chance": 100 },
-        "m": { "item": "cleaning", "chance": 45 },
-        "r": { "item": "cleaning", "chance": 45 }
+        "K": { "item": "crate_stack", "chance": 100 }
       }
     }
   },
