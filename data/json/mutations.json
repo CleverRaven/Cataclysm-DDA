@@ -292,7 +292,18 @@
         "starting_trait" : true,
         "valid" : false,
         "active" : true
-    },{
+    },
+    {
+        "type" : "mutation",
+        "id" : "LOVES_BOOKS",
+        "name" : "Bookworm",
+        "points" : 1,
+        "description" : "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ILLITERATE","HATES_BOOKS"]
+    },
+    {
         "type" : "mutation",
         "id" : "NONADDICTIVE",
         "name" : "Addiction Resistant",
@@ -635,7 +646,7 @@
         "description" : "You never learned to read!  Books and computers are off-limits to you.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FASTREADER", "SLOWREADER"]
+        "cancels" : ["FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
@@ -692,7 +703,18 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["VEGETARIAN"]
-    },{
+    },
+    {
+        "type" : "mutation",
+        "id" : "HATES_BOOKS",
+        "name" : "Hates Books",
+        "points" : -1,
+        "description" : "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ILLITERATE","LOVES_BOOKS"]
+    },
+    {
         "type" : "mutation",
         "id" : "ANTIFRUIT",
         "name" : "Hates Fruit",
@@ -1306,7 +1328,7 @@
         "points" : 2,
         "visibility" : 10,
         "ugliness" : 8,
-        "description" : "We have adapted local physical structure to Mycus physiology.  Greatly reduces wet effects.",
+        "description" : "We have begun adapting local physiology to Mycus physical structure, greatly reducing wet effects.",
         "valid" : false,
         "purifiable": false,
         "category" : ["MYCUS"],
@@ -1334,13 +1356,14 @@
         "points" : 5,
         "visibility" : 10,
         "ugliness" : 8,
-        "description" : "We have incorporated the dense amphibole fibers used in Mycus core towers.  Greatly reduces speed, but also damage, flammability, and wet effects.",
+        "description" : "We have spliced the dense, amphibole fibers from Mycus core towers with the resilient, adaptive flesh of local physiology.  This reduces our speed by a moderate amount, but provides powerful armor across our body, nullifies wet effects, and provides complete protection from fire.",
         "valid" : false,
         "purifiable": false,
         "category" : ["MYCUS"],
         "prereqs" : ["M_SKIN"],
         "prereqs2" : ["M_DEFENDER"],
         "threshreq" : ["THRESH_MYCUS"],
+        "changes_to" : ["M_SKIN3"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 9 },
             { "part" : "LEG_L", "ignored" : 30 },
@@ -1354,6 +1377,32 @@
             { "part" : "TORSO", "ignored" : 60 }
         ],
         "armor" : [ { "parts" : "ALL", "cut" : 2, "bash" : 3 } ]
+    },{
+        "type" : "mutation",
+        "id" : "M_SKIN3",
+        "name" : "Mycogenesis",
+        "points" : 7,
+        "visibility" : 10,
+        "ugliness" : 10,
+        "description" : "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
+        "valid" : false,
+        "purifiable": false,
+        "category" : ["MUTCAT_MYCUS"],
+        "prereqs" : ["M_SKIN2"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 9 },
+            { "part" : "LEG_L", "ignored" : 30 },
+            { "part" : "LEG_R", "ignored" : 30 },
+            { "part" : "FOOT_L", "ignored" : 9 },
+            { "part" : "FOOT_R", "ignored" : 9 },
+            { "part" : "ARM_L", "ignored" : 24 },
+            { "part" : "ARM_R", "ignored" : 24 },
+            { "part" : "HAND_L", "ignored" : 6 },
+            { "part" : "HAND_R", "ignored" : 6 },
+            { "part" : "TORSO", "ignored" : 60 }
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 3, "bash" : 5 } ]
     },{
         "type" : "mutation",
         "id" : "SCALES",
@@ -1824,8 +1873,9 @@
         "points" : 6,
         "visibility" : 5,
         "ugliness" : 3,
-        "description" : "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly our local spore sacs remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures rapid and effective growth.",
+        "description" : "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly our local spore sacs remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
         "valid" : false,
+        "changes_to" : ["M_PROVENANCE"],
         "prereqs" : ["M_SPORES"],
         "cancels" : ["M_BLOSSOMS", "M_BLOOM"],
         "threshreq" : ["THRESH_MYCUS"],
@@ -1856,8 +1906,9 @@
         "points" : 6,
         "visibility" : 10,
         "ugliness" : 1,
-        "description" : "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly our local blossoms remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures rapid and effective growth.",
+        "description" : "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly our local blossoms remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
         "valid" : false,
+        "changes_to" : ["M_PROVENANCE"],
         "cancels" : ["M_SPORES", "M_FERTILE"],
         "prereqs" : ["M_BLOSSOMS"],
         "threshreq" : ["THRESH_MYCUS"],
@@ -1867,6 +1918,24 @@
         "hunger"     :    true,
         "thirst"     :    true,
         "fatigue"    :    true
+    },{
+        "type" : "mutation",
+        "id" : "M_PROVENANCE",
+        "name" : "Mycus Provenance",
+        "points" : 8,
+        "visibility" : 10,
+        "ugliness" : -3,
+        "description" : "Local spore sacs and blossoms have merged into a single, symbiotic form.  Acting as one, they germinate together to cement rapid growth across a large area according to local guidance.  The Mycus must grow.",
+        "valid" : false,
+        "purifiable" : false,
+        "cancels" : ["M_FERTILE", "M_BLOOM", "M_SPORES", "M_BLOSSOMS"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"],
+        "active" : true,
+        "cost" : 10,
+        "hunger" : true,
+        "thirst" : true,
+        "fatigue" : true
     },{
         "type" : "mutation",
         "id" : "NAILS",
@@ -2057,7 +2126,7 @@
         "id" : "M_IMMUNE",
         "name" : "Mycus Identity",
         "points" : 5,
-        "description" : "We have synchronized our local physiology with that of the Mycus.  Any spores we may encounter will not attempt to germinate inside the local system, and we may traverse Mycus biospheres easily, as native bioforms shift shape to accomodate us.",
+        "description" : "We have synchronized our local physiology with that of the Mycus.  Any spores we may encounter will not attempt to germinate inside the local system, and we may traverse Mycus biospheres easily, as native bioforms shift shape to accommodate us.",
         "valid" : false,
         "purifiable": false,
         "threshreq" : ["THRESH_MYCUS"],
@@ -2296,7 +2365,7 @@
         "id" : "M_DEPENDENT",
         "name" : "Mycus Feeder",
         "points" : -5,
-        "description" : "We have streamlined our nutritional requirements.  We rely on the Mycus for sustenance, as it relies on us.",
+        "description" : "We have streamlined our nutritional requirements.  We rely on the Mycus for sustenance, as it relies on us.  We may locate sources of sustenance within the close proximity of Mycus core towers, and in forested areas that the Mycus has grown into.",
         "valid" : false,
         "purifiable" : false,
         "threshreq" : ["THRESH_MYCUS"],
@@ -2876,7 +2945,7 @@
         "id" : "M_DEFENDER",
         "name" : "Mycus Defender",
         "points" : 4,
-        "description" : "From time to time the Mycus requires protection from non-Mycus that, for whatever reason, wish it ill.  We have adapted to better carry out this task.",
+        "description" : "From time to time the Mycus requires protection from non-Mycus that, for whatever reason, wish it ill.  We have adapted to better carry out this task - our fibers will grow strong and resilient when such threats present themselves to us.",
         "valid" : false,
         "purifiable" : false,
         "cancels" : ["ADRENALINE"],
@@ -5071,10 +5140,10 @@
     },{
         "type" : "mutation",
         "id" : "PYROMANIA",
-        "name" : "Pyromania",
+        "name" : "Pyromaniac",
         "starting_trait" : true,
         "points" : -2,
-        "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often. However, you gain a mood bonus from doing so."
+        "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so."
     },{
         "type" : "mutation",
         "id" : "PROF_POLICE",
@@ -5187,6 +5256,16 @@
         "valid": false,
         "purifiable": false,
         "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_DICEMASTER",
+        "name" : "Dungeon Master",
+        "points" : 0,
+        "description" : "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly. You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true,
+        "cancels": ["ILLITERATE"]
     },{
         "type" : "mutation",
         "id" : "NPC_BRANDY",
@@ -5331,6 +5410,15 @@
         "valid" : false,
         "description" : "Lets you instantly install torsion ratchets for your eight legs.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_BIONIC_POWER",
+        "name" : "Debug Bionic Power",
+        "points" : 99,
+        "valid" : false,
+        "description" : "For fueling your inner cybug. Activate to increase power capacity by 100 (can be repeated.)",
+        "threshold" : true,
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "SQUEAMISH",

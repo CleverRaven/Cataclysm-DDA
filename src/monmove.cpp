@@ -1130,7 +1130,6 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
         }
     }
-
     return true;
 }
 

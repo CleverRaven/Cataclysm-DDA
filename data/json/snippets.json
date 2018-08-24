@@ -1436,6 +1436,86 @@
   },
   {
     "type": "snippet",
+    "category": "note",
+    "text": [ "\"saw a girl standing with the mushrooms.  spores coming out of slits in her neck.  she looked happy.\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"Found some pink berries.  Eating them makes bushes into more pink berries.  Infinite berry.\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"m ust grow                 unity\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"AMY IS FUNGUS.  DO NOT LISTEN IF SHE ASKS YOU TO TAKE OFF MASK\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"my rabbi follows a new god now.  asks us to call him a local guide.  i dont mind, he keeps us fed\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"Fungus are helping us.  Help them and they will unite us\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"Saw a boy couldnt be older than 16.  Walked straight through the mushroom tower.  THROUGH IT\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"Found some food in a box outside my house.  We ate it and now the fungaloids aren't harming us.  I think we are a mushroom now\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"saw the girl again.  she looked dead exhausted and walked right into the fungus.  30 mins later and she walked out good as new\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"HADENSBROOK REBUILT AROUND FUNGUS.  THEY EAT GRAY APPLES AND SPREAD IT\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"mycus must grow\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"School bus with solar panels = TRUST.  Gave us berries and seeds, we were out of food\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"d o nThelp scho Ol buss makE seeeedS ARe FUNGUS!! !\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"Go to every fungus patch you find but WEAR A SUIT.  Food there is very very filling.  Look for pink berries, blue flowers\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"red blue yellow berry seed sap bloom flowers tower mycus mycus mycus.\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [ "\"Husband 30 yrs died in bombs.  Mushrooms brought him back.  GIVE YOURSELF TO THEm AND THEY WILL HELP YOU\"" ]
+  },
+  {
+    "type": "snippet",
     "category": "newest_news",
     "text": [
       "LABS BOMBED: In further invasion proof (discounting earlier suggestion of a riot drug) most of New England's scientific labs were bombed simultaneously yesterday.  No word yet from the military about who the aggressors are.",
@@ -1449,7 +1529,7 @@
       "LEAVE TO THE EXPERTS -- GENERAL: \"Do not attempt to deal with invaders yourself, our troops have the technology and the training for military action.  Loud gunfire may attract more enemy attention than you have ammo!\"",
       "TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend your property in towns: invaders use advanced tracking, perhaps scent.  Please retreat to your nearest evacuation center outside town and await extraction.\"",
       "PUBLIC SERVICE ANNOUNCEMENT: \"Beware Acid Rain\".  Several caustic chemicals in the air react with rain clouds to cause deadly acid rain.  No word yet on if this is a deliberate tactic or a side effect of the earlier bombings.",
-      "EDITOR SAYS \"DESTROY THE DEAD\".  Recognisable enemy dead left lying in the street may give away militia positions!  If you kill an enemy combatant, smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect our troops!",
+      "EDITOR SAYS \"DESTROY THE DEAD\".  Recognizable enemy dead left lying in the street may give away militia positions!  If you kill an enemy combatant, smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect our troops!",
       "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker."
     ]
   },
@@ -1558,7 +1638,7 @@
   {
     "type": "snippet",
     "category": "pyromania_withdrawal",
-    "text": [ "You feel cold. You need the warmth of a fire." ]
+    "text": [ "You feel cold.  You need the warmth of a fire." ]
   },
   {
     "type": "snippet",
@@ -1578,7 +1658,7 @@
   {
     "type": "snippet",
     "category": "pyromania_withdrawal",
-    "text": [ "You shiver. A fire would be great right now." ]
+    "text": [ "You shiver.  A fire would be great right now." ]
   },
   {
     "type": "snippet",

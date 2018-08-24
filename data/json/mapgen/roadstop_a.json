@@ -64,7 +64,7 @@
         { "item": "trash", "x": [ 6, 18 ], "y": [ 8, 15 ], "chance": 60 },
         { "item": "methlab", "x": [ 6, 18 ], "y": [ 8, 15 ], "chance": 50 }
       ],
-      "add": [ { "item": "touristmap", "x": [ 11, 12 ], "y": 22, "chance": 50, "amount": 1 } ]
+      "place_item": [ { "item": "touristmap", "x": [ 11, 12 ], "y": 22, "chance": 50, "amount": 1 } ]
     }
   }
 ]

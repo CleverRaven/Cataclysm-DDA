@@ -101,6 +101,7 @@ extern const morale_type MORALE_PYROMANIA_NEARFIRE;
 extern const morale_type MORALE_PYROMANIA_NOFIRE;
 extern const morale_type MORALE_PERM_FILTHY;
 extern const morale_type MORALE_PERM_DEBUG;
+extern const morale_type MORALE_BUTCHER;
 
 #endif
 

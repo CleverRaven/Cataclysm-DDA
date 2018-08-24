@@ -82,7 +82,7 @@
         { "item": "coffee_fridge", "x": 2, "y": 4, "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "bookstore_misc", "x": [ 13, 21 ], "y": 3, "chance": 50, "repeat": [ 3, 6 ] }
       ],
-      "add": [ { "item": "coffeemaker", "x": 4, "y": 7, "chance": 1, "repeat": 1, "amount": 1 } ]
+      "place_item": [ { "item": "coffeemaker", "x": 4, "y": 7, "repeat": 1, "amount": 1 } ]
     }
   }
 ]

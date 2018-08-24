@@ -74,7 +74,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "hose", "x": 11, "y": 13 } ],
+      "place_item": [ { "item": "hose", "x": 11, "y": 13 } ],
       "furniture": { "#": "f_null", ".": "f_null", "O": "f_standing_tank", "P": "f_sign", "_": "f_null" },
       "items": { "#": { "item": "hydro", "chance": 15 } },
       "rows": [

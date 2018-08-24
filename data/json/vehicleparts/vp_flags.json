@@ -75,13 +75,19 @@
     "id": "ENABLED_DRAINS_EPOWER",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "When turned on, this devices drains power from the vehicle's batteries."
+    "info": "When turned on, this device drains power from the vehicle's batteries."
   },
   {
     "id": "ENGINE",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "Provides motive power to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  If it drains power, also requires a charged battery to start.  An alternator attached to the engine will generate electrical power while the engine is on at the cost of some motive power."
+    "info": "Provides motive power to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  If it drains power, also requires a charged battery to start."
+  },
+  {
+    "id": "E_ALTERNATOR",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "An alternator can be attached, and it will generate electrical power while the engine is on at the cost of some motive power."
   },
   {
     "id": "EXTRA_DRAG",

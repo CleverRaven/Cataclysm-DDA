@@ -46,7 +46,8 @@
       ["basketball", 8],
       ["radiocontrol", 5],
       ["whistle", 3],
-      ["slingshot", 10]
+      ["slingshot", 10],
+      ["dnd_handbook", 1]
     ]
   },{
     "type" : "item_group",
@@ -179,6 +180,7 @@
       ["weed", 10],
       ["joint", 10],
       ["seed_weed", 5],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["mask_hockey", 5],
       ["mask_guy_fawkes", 5],
@@ -777,6 +779,7 @@
       ["lawnmower", 25],
       ["floodlight", 10],
       ["minifridge", 5],
+      ["minifreezer", 2],
       ["char_smoker", 25],
       ["lawn_dart", 10],
       ["dehydrator", 15],
@@ -833,6 +836,7 @@
       ["nicotine_liquid", 8],
       ["weed", 20],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 5],
       ["coke", 8],
@@ -1834,6 +1838,7 @@
       ["trimmer_off", 20],
       ["floodlight", 20],
       ["minifridge", 10],
+      ["minifreezer", 5],
       ["char_smoker", 25],
       ["dehydrator", 15],
       ["foot_crank", 10],
@@ -1869,7 +1874,8 @@
       ["magnifying_glass", 5],
       ["chem_chromium_oxide", 5],
       ["chem_thermite", 10],
-      ["denat_alcohol", 25]
+      ["denat_alcohol", 25],
+      ["tourist_table", 1]
     ]
   },{
     "type"  : "item_group",
@@ -1943,7 +1949,8 @@
       ["knitting_needles", 1],
       ["survnote", 1],
       ["material_quicklime", 10],
-      ["denat_alcohol", 25]
+      ["denat_alcohol", 25],
+      ["tourist_table", 1]
     ]
   },{
     "type" : "item_group",
@@ -2120,7 +2127,8 @@
       ["survnote", 1],
       ["halter_top", 30],
       ["linuxtshirt", 10],
-      ["iceaxe", 30]
+      ["iceaxe", 30],
+      ["tourist_table", 30]
     ]
   },{
     "type" : "item_group",
@@ -2262,7 +2270,8 @@
       ["barometer", 3],
       ["straw_basket", 1],
       ["straw_hat", 5],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["tourist_table", 30]
     ]
   },{
     "type" : "item_group",
@@ -2467,7 +2476,8 @@
       ["wristrocket", 5],
       ["iceaxe", 30],
       ["powered_earmuffs", 80],
-      ["bandolier_wrist", 100]
+      ["bandolier_wrist", 100],
+      ["tourist_table", 20]
     ]
   },{
     "type" : "item_group",
@@ -2538,6 +2548,7 @@
       ["seed_wheat", 5],
       ["seed_tomato", 5],
       ["seed_weed", 5],
+      ["seed_tobacco", 1],
       ["joint_roach", 5],
       ["pipe", 20],
       ["bag_plastic", 10],
@@ -3137,6 +3148,7 @@
       [ "holybook_kallisti", 1 ],
       [ "holybook_scientology", 1 ],
       [ "ZSG", 5 ],
+      [ "dnd_handbook", 2 ],
       [ "survnote", 1 ]
     ]
   },
@@ -3249,7 +3261,8 @@
       [ "mag_tailor", 25 ],
       [ "cookbook_sushi", 15 ],
       [ "survnote", 1 ],
-      [ "scots_cookbook", 8 ]
+      [ "scots_cookbook", 8 ],
+      [ "dnd_handbook", 2 ]
     ]
   },{
     "type" : "item_group",
@@ -3287,6 +3300,7 @@
       ["manual_fabrication", 20],
       ["manual_driving", 15],
       ["manual_survival", 20],
+      ["dnd_handbook", 2],
       ["survnote", 3]
     ]
   },{
@@ -3420,6 +3434,7 @@
       ["weed", 10],
       ["joint", 10],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 15],
       ["coke", 8],
@@ -3723,7 +3738,8 @@
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
       ["recipe_medicalmut", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["tourist_table", 1]
     ]
   },{
     "type" : "item_group",
@@ -4030,7 +4046,8 @@
       ["mag_unarmed", 10],
       ["weeks_old_newspaper", 80],
       ["newest_newspaper", 100],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["dnd_handbook", 1]
     ]
   },
   {
@@ -4137,7 +4154,8 @@
       [ "radio_car_box", 3 ],
       [ "radiocontrol", 10 ],
       [ "scots_cookbook", 1 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      [ "dnd_handbook", 1 ]
     ]
   },{
     "type" : "item_group",
@@ -4537,6 +4555,7 @@
       ["lawnmower", 25],
       ["floodlight", 20],
       ["minifridge", 20],
+      ["minifreezer", 10],
       ["char_smoker", 25],
       ["lawn_dart", 10],
       ["dehydrator", 15],
@@ -4699,7 +4718,8 @@
       ["kariginu", 2],
       ["kimono", 3],
       ["l-stick", 1],
-      ["solarpack", 5]
+      ["solarpack", 5],
+      ["tourist_table", 10]
     ]
   },{
     "type" : "item_group",
@@ -4784,7 +4804,8 @@
       ["sheath", 10],
       ["bootsheath", 10],
       ["survnote", 1],
-      ["solarpack", 1]
+      ["solarpack", 1],
+      ["tourist_table", 5]
     ]
   },{
     "type" : "item_group",
@@ -5367,6 +5388,7 @@
       ["weed", 10],
       ["joint", 10],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 5],
       ["coke", 8],
@@ -5511,7 +5533,8 @@
       ["magnifying_glass", 2],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["dnd_handbook", 2]
     ]
   },{
     "type" : "item_group",
@@ -6363,6 +6386,7 @@
       ["weed", 10],
       ["joint", 10],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 5],
       ["amplifier", 8],
@@ -6565,6 +6589,7 @@
       ["tobacco", 5],
       ["weed", 20],
       ["seed_weed", 15],
+      ["seed_tobacco", 5],
       ["rolling_paper", 5],
       ["pipe_glass", 5],
       ["coke", 8],
@@ -7372,6 +7397,7 @@
       ["weed", 50],
       ["joint", 10],
       ["seed_weed", 35],
+      ["seed_tobacco", 15],
       ["rolling_paper", 9],
       ["pipe_glass", 17],
       ["coke", 8],
@@ -7415,6 +7441,7 @@
       ["weed", 20],
       ["joint", 20],
       ["seed_weed", 20],
+      ["seed_tobacco", 5],
       ["coke", 8],
       ["meth", 2],
       ["heroin", 1],
@@ -8435,6 +8462,7 @@
       ["seed_potato_raw", 60],
       ["seed_zucchini", 60],
       ["seed_cotton_boll", 10],
+      ["seed_tobacco", 10],
       ["raw_beans", 60 ],
       ["seed_chili_pepper", 60 ],
       ["seed_tomato", 60]
@@ -9064,15 +9092,15 @@
       [ "modern_tanner", 20 ],
       [ "pocket_survival", 20 ],
       [ "flyer", 40 ],
-      [ "paper", 50 ],
+      { "item": "paper", "prob": 50, "charges-min": 1, "charges-max": 15 },
       [ "wrapper", 35 ],
-      [ "phonebook", 45 ],
-      [ "one_year_old_newspaper", 35 ],
-      [ "months_old_newspaper", 40 ],
-      [ "weeks_old_newspaper", 40 ],
-      [ "one_year_old_newspaper", 35 ],
-      [ "years_old_newspaper", 30 ],
-      [ "many_years_old_newspaper", 30 ]
+      [ "phonebook", 55 ],
+      [ "one_year_old_newspaper", 45 ],
+      [ "months_old_newspaper", 50 ],
+      [ "weeks_old_newspaper", 50 ],
+      [ "one_year_old_newspaper", 45 ],
+      [ "years_old_newspaper", 40 ],
+      [ "many_years_old_newspaper", 40 ]
     ]
   },
   {
@@ -9080,27 +9108,29 @@
     "type": "item_group",
     "items": [
       [ "usb_drive", 45 ],
-      [ "two_way_radio", 20 ],
+      { "item": "two_way_radio", "prob": 30, "charges-min": 0, "charges-max": 15 },
       [ "transponder", 25 ],
       [ "receiver", 25 ],
-      [ "small_lcd_screen", 30 ],
+      [ "small_lcd_screen", 20 ],
       [ "mobile_memory_card", 35 ],
       [ "mobile_memory_card_used", 35 ],
       [ "mobile_memory_card_encrypted", 35 ],
-      [ "radiocontrol", 20 ],
-      [ "radio_car", 20 ],
+      { "item": "radiocontrol", "prob": 15, "charges-min": 0, "charges-max": 25 },
+      { "item": "radio_car", "prob": 15, "charges-min": 0, "charges-max": 25 },
       [ "RAM", 45 ],
-      [ "radio", 20 ],
+      { "item": "radio", "prob": 25, "charges-min": 0, "charges-max": 15 },
       [ "power_supply", 25 ],
       [ "processor", 25 ],
-      [ "mp3", 25 ],
+      { "item": "mp3", "prob": 30, "charges-min": 0, "charges-max": 15 },
       [ "laptop", 20 ],
-      [ "hotplate", 20 ],
-      [ "flashlight", 25 ],
-      [ "coffeemaker", 20 ],
-      [ "clock", 25 ],
+      { "item": "hotplate", "prob": 20, "charges-min": 0, "charges-max": 25 },
+      { "item": "flashlight", "prob": 30, "charges-min": 0, "charges-max": 10 },
+      { "item": "coffeemaker", "prob": 20, "charges-min": 0, "charges-max": 25 },
+      [ "clock", 30 ],
+      [ "alarmclock", 25 ],
       [ "circuit", 25 ],
-      [ "cell_phone", 35 ],
+      { "item": "cell_phone", "prob": 35, "charges-min": 0, "charges-max": 15 },
+      { "item": "cell_phone_flashlight", "prob": 25, "charges-min": 0, "charges-max": 15 },
       [ "e_scrap", 55 ],
       [ "amplifier", 25 ]
     ]
@@ -9110,25 +9140,25 @@
     "type": "item_group",
     "items": [
       [ "barrette", 30 ],
-      [ "vibrator", 20 ],
+      { "item": "vibrator", "prob": 20, "charges-min": 0, "charges-max": 25 },
       [ "bubblewrap", 30 ],
       [ "syringe", 35 ],
       [ "glowstick_dead", 15 ],
-      [ "cash_card", 5 ],
-      [ "id_science", 5 ],
+      { "item": "cash_card", "prob": 5, "charges-min": 5, "charges-max": 5000 },
+      [ "id_science", 3 ],
       [ "ear_spool", 15 ],
-      [ "lighter", 30 ],
+      { "item": "lighter", "prob": 35, "charges-min": 0, "charges-max": 15 },
       [ "funnel", 25 ],
       [ "canteen", 20 ],
       [ "basket_laundry", 20 ],
       [ "gloves_medical", 20 ],
       [ "fitover_sunglasses", 20 ],
       [ "goggles_swim", 20 ],
-      [ "bag_plastic", 40 ],
-      [ "plastic_shopping_bag", 40 ],
+      [ "bag_plastic", 50 ],
+      [ "plastic_shopping_bag", 60 ],
       [ "jug_plastic", 40 ],
-      [ "bottle_plastic", 40 ],
-      [ "bottle_plastic_small", 40 ],
+      [ "bottle_plastic", 45 ],
+      [ "bottle_plastic_small", 45 ],
       [ "cup_plastic", 30 ],
       [ "bowl_plastic", 30 ],
       [ "plastic_chunk", 50 ]
@@ -9142,19 +9172,19 @@
       [ "glasses_reading", 20 ],
       [ "glasses_bifocal", 20 ],
       [ "glasses_eye", 20 ],
-      [ "marble", 20 ],
+      { "item": "marble", "prob": 20, "charges-min": 1, "charges-max": 3 },
       [ "fish_bowl", 15 ],
-      [ "jar_3l_glass", 35 ],
+      [ "jar_3l_glass", 40 ],
       [ "magnifying_glass", 20 ],
-      [ "mirror", 25 ],
+      [ "mirror", 30 ],
       [ "glass_shard", 65 ],
       [ "crackpipe", 5 ],
-      [ "glass", 30 ],
+      [ "glass", 35 ],
       [ "glass_bowl", 30 ],
       [ "glass_plate", 30 ],
-      [ "bottle_glass", 45 ],
+      [ "bottle_glass", 50 ],
       [ "pipe_glass", 10 ],
-      [ "jar_glass", 35 ],
+      [ "jar_glass", 40 ],
       [ "flask_glass", 20 ]
     ]
   },
@@ -9166,14 +9196,15 @@
       [ "cane", 30 ],
       [ "toaster", 30 ],
       [ "stethoscope", 20 ],
-      [ "spray_can", 45 ],
+      { "item": "spray_can", "prob": 45, "charges-min": 1, "charges-max": 3 },
       [ "flask_hip", 25 ],
-      [ "aluminum_foil", 35 ],
+      { "item": "aluminum_foil", "prob": 40, "charges-min": 1, "charges-max": 10 },
       [ "golf_club", 30 ],
-      [ "canister_empty", 40 ],
+      [ "canister_empty", 45 ],
       [ "antenna", 30 ],
       [ "bat_metal", 20 ],
-      [ "can_drink", 50 ],
+      [ "can_drink", 65 ],
+      [ "can_drink_unsealed", 65 ],
       [ "keg", 15 ],
       [ "tongs", 30 ],
       [ "material_aluminium_ingot", 25 ]
@@ -9183,54 +9214,56 @@
     "id": "recycle_copper",
     "type": "item_group",
     "items": [
-      [ "cu_pipe", 40 ],
-      [ "cable", 35 ],
+      [ "cu_pipe", 45 ],
+      { "item": "cable", "prob": 50, "charges-min": 1, "charges-max": 20 },
       [ "pot_copper", 30 ],
-      [ "copper", 50 ],
-      [ "copper_ear", 10 ],
-      [ "copper_bracelet", 10 ]
+      { "item": "copper", "prob": 40, "charges-min": 1, "charges-max": 20 },
+      [ "copper_ear", 25 ],
+      [ "copper_bracelet", 25 ]
     ]
   },
   {
     "id": "recycle_iron",
     "type": "item_group",
     "items": [
-      [ "bolt_metal", 10 ],
-      [ "oil_lamp", 20 ],
+      { "item": "bolt_metal", "prob": 15, "charges-min": 1, "charges-max": 3 },
+      { "item": "oil_lamp", "prob": 20, "charges-min": 0, "charges-max": 3 },
       [ "waffleiron", 20 ],
-      [ "spring", 40 ],
-      [ "rebar_rail", 35 ],
-      [ "pastaextruder", 30 ],
-      [ "nail", 50 ],
+      [ "spring", 45 ],
+      { "item": "rebar_rail", "prob": 45, "charges-min": 1, "charges-max": 50 },
+      [ "pastaextruder", 25 ],
+      { "item": "nail",  "prob": 65, "charges-min": 1, "charges-max": 15 },
       [ "well_pump", 15 ],
       [ "manhole_cover", 20 ],
       [ "hairpin", 40 ],
       [ "pan", 30 ],
-      [ "cow_bell", 25 ]
+      [ "cow_bell", 20 ]
     ]
   },
   {
     "id": "recycle_battery",
     "type": "item_group",
     "items": [
-      [ "battery", 50 ],
+      { "item": "battery", "prob": 70, "charges-min": 0, "charges-max": 30 },
       [ "storage_battery", 25 ],
       [ "medium_storage_battery", 35 ],
       [ "small_storage_battery", 45 ],
       [ "battery_motorbike", 30 ],
-      [ "battery_car", 25 ]
+      [ "battery_car", 35 ]
     ]
   },
   {
     "id": "recycle_steel",
     "type": "item_group",
     "items": [
-      [ "can_food", 50 ],
-      [ "scrap", 50 ],
-      [ "steel_chunk", 50 ],
-      [ "steel_lump", 50 ],
+      [ "can_food", 65 ],
+      [ "can_food_unsealed", 65 ],
+      { "item": "scrap", "prob": 50, "charges-min": 1, "charges-max": 3 },
+      { "item": "steel_chunk", "prob": 50, "charges-min": 1, "charges-max": 2 },
+      { "item": "steel_lump", "prob": 50, "charges-min": 1, "charges-max": 2 },
       [ "jerrycan_big", 25 ],
-      [ "jumper_cable_heavy", 20 ],
+      { "item": "jumper_cable_heavy", "prob": 20, "charges-min": 0, "charges-max": 10 },
+      { "item": "jumper_cable", "prob": 30, "charges-min": 0, "charges-max": 2 },
       [ "wheel_metal", 25 ],
       [ "foot_crank", 25 ],
       [ "chain", 35 ],
@@ -9242,8 +9275,8 @@
       [ "fishing_hook_basic", 35 ],
       [ "spike", 30 ],
       [ "wire_barbed", 25 ],
-      [ "wire", 35 ],
-      [ "sheet_metal", 20 ],
+      [ "wire", 40 ],
+      [ "sheet_metal", 25 ],
       [ "frame", 20 ],
       [ "basket", 25 ],
       [ "wrench", 30 ],
@@ -9251,11 +9284,12 @@
       [ "crowbar", 30 ],
       [ "crucible", 25 ],
       [ "beartrap", 15 ],
-      [ "blade", 30 ],
+      [ "blade", 35 ],
       [ "spoon", 35 ],
       [ "fork", 35 ],
       [ "knife_butter", 35 ],
-      [ "knife_steak", 35 ]
+      [ "knife_steak", 35 ],
+      [ "tourist_table", 10 ]
     ]
   },
   {
@@ -9290,6 +9324,7 @@
       [ "57mm_casing", 10 ],
       [ "46mm_casing", 10 ],
       [ "762_casing", 85 ],
+      [ "762_51_casing", 50 ],
       [ "223_casing", 85 ],
       [ "3006_casing", 40 ],
       [ "308_casing", 50 ],

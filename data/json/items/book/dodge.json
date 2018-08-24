@@ -33,5 +33,23 @@
     "max_level": 3,
     "intelligence": 7,
     "time": 20
+  },
+  {
+    "id": "manual_dodge",
+    "type": "BOOK",
+    "name": "Break a Leg!",
+    "name_plural": "Break a Leg!",
+    "description": "The Kids' Guide to Acting and Stagecraft.",
+    "weight": 30,
+    "volume": 1,
+    "price": 72,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "skill": "dodge",
+    "max_level": 1,
+    "intelligence": 1,
+    "time": 6,
+    "fun": 1
   }
 ]
