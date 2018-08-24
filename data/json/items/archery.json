@@ -373,7 +373,8 @@
       "dispersion" : 210,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 30
+      "reload" : 30,
+      "valid_mod_locations": [["dampening", 1]]
    },
    {
       "id" : "compbow",
@@ -477,7 +478,8 @@
       "dispersion" : 150,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 35
+      "reload" : 35,
+      "valid_mod_locations": [["dampening", 1]]
    },
    {
       "id" : "recurbow",
@@ -540,7 +542,40 @@
       "dispersion" : 120,
       "durability" : 6,
       "clip_size" : 1,
-      "reload": 40
+      "reload": 40,
+      "valid_mod_locations": [["dampening", 1]]
+   },
+   {
+      "id" : "hybridbow",
+      "type" : "GUN",
+      "symbol" : "(",
+      "color" : "yellow",
+      "name" : "hybrid longbow",
+      "description" : "A modernised, six-foot longbow that curves away from the archer at the tips for increased power. It can be used effectively by those of somewhat above-average strength. Designed for archers that appreciate the smoothness of a traditional longbow, but desire the superior speed of a modern recurve.",
+      "price" : 38000,
+      "material": ["steel", "plastic", "wood"],
+      "flags" : ["FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED"],
+      "skill" : "archery",
+      "min_strength" : 5,
+      "ammo" : "arrow",
+      "weight" : 600,
+      "volume" : 14,
+      "bashing" : 12,
+      "armor_data" : {
+         "covers" : ["TORSO"],
+         "coverage" : 5,
+         "material_thickness" : 1,
+         "encumbrance" : 20
+      },
+      "reload_noise_volume": 3,
+      "loudness": 8,
+      "ranged_damage" : 12,
+      "range" : 10,
+      "dispersion" : 140,
+      "durability" : 6,
+      "clip_size" : 1,
+      "reload" : 80,
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ],["stabilizer", 1],["dampening", 1]]
    },
    {
       "id" : "longbow",
@@ -571,7 +606,52 @@
       "dispersion" : 210,
       "durability" : 6,
       "clip_size" : 1,
-      "reload" : 70
+      "reload" : 70,
+      "valid_mod_locations": [["dampening", 1]]
+   },
+   {
+      "id" : "woodgreatbow",
+      "copy-from" : "longbow",
+      "override" : true,
+      "type" : "GUN",
+      "name" : "wooden greatbow",
+      "name_plural" : "wooden greatbows",
+      "description" : "An extremely large and stiff longbow, made with enormous limbs and a thick string to take an enormous amount of energy.  Takes incredible strength to draw.",
+      "price" : 150000,
+      "min_strength" : 18,
+      "weight" : 3200,
+      "volume" : 25,
+      "armor_data" : {
+         "covers" : ["TORSO"],
+         "coverage" : 7,
+         "material_thickness" : 2,
+         "encumbrance" : 20
+      },
+      "dispersion" : 200,
+      "durability" : 8,
+      "reload" : 100,
+      "loudness": 16,
+      "ranged_damage" : 35,
+      "range" : 12
+   },
+   {
+      "id" : "compgreatbow",
+      "copy-from" : "compbow",
+      "override" : true,
+      "type" : "GUN",
+      "name" : "compound greatbow",
+      "name_plural" : "compound greatbows",
+      "description" : "An extremely large and powerful compound bow, made with enormous limbs and a thick string to take an enormous amount of energy.  Takes incredible strength to draw.",
+      "price" : 160000,
+      "min_strength" : 18,
+      "weight" : 2000,
+      "volume" : 16,
+      "dispersion" : 100,
+      "durability" : 8,
+      "reload" : 150,
+      "loudness": 20,
+      "ranged_damage" : 60,
+      "range" : 24
    },
    {
       "id" : "reflexrecurvebow",
