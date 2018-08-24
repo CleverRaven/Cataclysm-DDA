@@ -422,7 +422,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
     const auto &proj_effects = proj.proj_effects;
 
-    const bool u_see_this = g->u.sees(*this);
+    const bool u_see_this = g->u.sees( *this );
 
     const int avoid_roll = dodge_roll();
     // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
@@ -528,7 +528,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    dealt_dam = deal_damage(source, bp_hit, impact);
+    dealt_dam = deal_damage( source, bp_hit, impact );
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
@@ -647,8 +647,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
-dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
-        const damage_instance &dam)
+dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
+                                             const damage_instance &dam )
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();
@@ -659,7 +659,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 
     dealt_damage_instance dealt_dams;
 
-    absorb_hit(bp, d);
+    absorb_hit( bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
