@@ -178,6 +178,7 @@ struct level_cache {
     bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float seen_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    float camera_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     lit_level visibility_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
 
     bool veh_in_active_range;
@@ -749,7 +750,9 @@ class map
 
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
-        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p );
+        // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
+        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p,
+                               const bool same_submap = false );
         bool close_door( const tripoint &p, const bool inside, const bool check_only );
         bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
         // Destruction
@@ -892,6 +895,19 @@ class map
          * hot or perishable liquid to a container.
          */
         void make_active( item_location &loc );
+
+        /**
+         * Update luminosity before and after item's transformation
+         */
+        void update_lum( item_location &loc, bool add );
+
+        /**
+         * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
+         * and sets item's fridge/freezer status variables.
+         * @param it Item processed.
+         * @param temperature Temperature affecting item.
+         */
+        void apply_in_fridge( item &it, int temperature );
 
         /**
          * @name Consume items on the map
@@ -1164,7 +1180,7 @@ class map
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                   std::array<fragment_cloud( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &obstacle_caches );
+                                   fragment_cloud( &obstacle_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,

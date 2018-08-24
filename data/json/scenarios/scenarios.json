@@ -192,10 +192,10 @@
     "ident": "heli_crash",
     "name": "Helicopter Crash",
     "points" : -5,
-    "description": "You've crashed your precious helicopter, it'll never fly again.  Monsters don't bother you, life without your Loach is worthless anyway.",
+    "description": "You've crashed your precious helicopter, it'll never fly again.  You're the only survivor, but life without your Bird is worthless anyway.",
     "start_name": "Crash site",
     "professions" : ["soldier", "national_guard", "specops", "bio_soldier", "bio_sniper"],
-    "allowed_locs" : ["field"],
+    "allowed_locs" : ["field", "forest"],
     "map_special": "mx_helicopter",
     "flags": ["HELI_CRASH", "LONE_START"]
   },{

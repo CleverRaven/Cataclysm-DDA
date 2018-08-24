@@ -96,7 +96,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "S___________SSzzzzzzzzzS",
+        "S___________SSTzzzzzzzTS",
         "S_____,_____SSzMbMbMbMzS",
         "S_____,_____SSSSSSSS/MzS",
         "S_____,_____SSSSSSSS/MzS",
@@ -154,7 +154,8 @@
         "x": "t_console_broken",
         "z": "t_shrub",
         "{": "t_door_glass_c",
-        "|": "t_wall"
+        "|": "t_wall",
+        "T": "t_tree_coffee"
       },
       "furniture": {
         "#": "f_counter",

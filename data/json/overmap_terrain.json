@@ -332,6 +332,14 @@
             { "method": "builtin", "name": "house_generic_center_hallway" }
         ]
     },{
+        "type": "overmap_terrain",
+        "id": "duplex",
+        "name": "duplex",
+        "copy-from" : "generic_city_building",
+        "color": "light_green",
+        "see_cost": 2,
+        "flags" : [ "SIDEWALK" ]
+    },{
         "type" : "overmap_terrain",
         "id" : "s_lot",
         "name" : "parking lot",
@@ -1551,6 +1559,24 @@
         "spawns" : { "group": "GROUP_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ants_lab",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "light_blue",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ants_lab_stairs",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "blue",
+        "see_cost" : 5,
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
+        "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "ice_lab",

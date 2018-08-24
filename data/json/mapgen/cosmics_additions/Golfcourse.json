@@ -794,7 +794,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "gloves_golf", "chance": 40, "repeat": 2, "x": 5, "y": 4 },
         { "item": "gloves_golf", "chance": 40, "repeat": 2, "x": 6, "y": 4 },
         { "item": "hat_golf", "chance": 40, "repeat": 2, "x": 8, "y": 4 },

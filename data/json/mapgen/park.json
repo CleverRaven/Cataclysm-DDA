@@ -299,7 +299,7 @@
         "f": "f_dahlia"
       },
       "place_items": [ { "item": "trash", "x": 4, "y": 5, "chance": 50 } ],
-      "add": [ { "item": "char_smoker", "x": 7, "y": 7 } ],
+      "place_item": [ { "item": "char_smoker", "x": 7, "y": 7 } ],
       "place_monsters": [ { "monster": "GROUP_PARK_SCENIC", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 2, 4 ] } ]
     }
   },
@@ -409,7 +409,7 @@
         { "signage": "Use park at your own risk.", "x": 22, "y": 14 }
       ],
       "place_items": [ { "item": "trash", "x": 11, "y": 12, "chance": 50 } ],
-      "add": [ { "item": "bag_plastic", "x": 10, "y": 11, "repeat": [ 5, 10 ] } ],
+      "place_item": [ { "item": "bag_plastic", "x": 10, "y": 11, "repeat": [ 5, 10 ] } ],
       "place_monsters": [ { "monster": "GROUP_PARK_DOG", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 2, 4 ] } ]
     }
   }

@@ -18,28 +18,21 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
-class Messages
+namespace Messages
 {
-    public:
-        Messages();
-        ~Messages();
-
-        static std::vector<std::pair<std::string, std::string>> recent_messages( size_t count );
-        static void add_msg( std::string msg );
-        static void add_msg( game_message_type type, std::string msg );
-        static void clear_messages();
-        static void deactivate();
-        static size_t size();
-        static bool has_undisplayed_messages();
-        static void display_messages();
-        static void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
-                                      int bottom );
-        static void serialize( JsonOut &jsout );
-        static void deserialize( JsonObject &json );
-    private:
-        class impl_t;
-        pimpl<impl_t> impl_;
-};
+std::vector<std::pair<std::string, std::string>> recent_messages( size_t count );
+void add_msg( std::string msg );
+void add_msg( game_message_type type, std::string msg );
+void clear_messages();
+void deactivate();
+size_t size();
+bool has_undisplayed_messages();
+void display_messages();
+void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
+                       int bottom );
+void serialize( JsonOut &jsout );
+void deserialize( JsonObject &json );
+} // namespace Messages
 
 void add_msg( std::string msg );
 template<typename ...Args>

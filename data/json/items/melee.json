@@ -406,7 +406,7 @@
   {
     "type": "GENERIC",
     "id": "nailboard",
-    "name": "nail board",
+    "name": "nailboard",
     "description": "A long piece of wood with several nails through one end; essentially a simple mace.  Makes an acceptable melee weapon.",
     "weight": 1424,
     "to_hit": 1,
@@ -988,7 +988,7 @@
     "bashing": 5,
     "cutting": 11,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
-    "flags": [ "SPEAR", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN" ],
     "price": 4000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -1007,7 +1007,7 @@
     "bashing": 5,
     "cutting": 17,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
-    "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
     "price": 9000,
     "qualities": [ [ "COOK", 1 ] ]
   },

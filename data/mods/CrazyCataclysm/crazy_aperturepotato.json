@@ -1,0 +1,28 @@
+[
+  {
+    "type": "recipe",
+    "result": "aperture_potato",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 11000,
+    "book_learn": [ [ "textbook_robots", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "circuit", 1 ] ], [ [ "e_scrap", 3 ] ], [ [ "cable", 5 ] ], [ [ "battery", 1 ] ], [ [ "potato_raw", 1 ] ] ]
+  },
+  {
+    "id": "aperture_potato",
+    "type": "TOOL",
+    "name": "companion potato",
+    "description": "Seems like some kind of Genetic Lifeform and Disk Operating System, attached to a potato.",
+    "weight": 900,
+    "volume": 2,
+    "price": 9000,
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": "%",
+    "color": "light_gray",
+    "use_action": "DOLLCHAT"
+  }
+]

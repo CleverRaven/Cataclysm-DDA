@@ -368,7 +368,7 @@
     "weight": 50,
     "volume": 1,
     "price": 2000,
-    "material": "stone",
+    "material": "plastic",
     "symbol": "*",
     "color": "white",
     "bashing": 5,
@@ -2166,6 +2166,7 @@
     "material": [ "cotton" ],
     "weight": 514,
     "volume": 4,
+    "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
   {
@@ -2179,6 +2180,7 @@
     "material": [ "cotton" ],
     "weight": 514,
     "volume": 4,
+    "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
   {
@@ -2281,6 +2283,20 @@
     "material": "veggy",
     "weight": 420,
     "volume": 4
+  },
+  {
+    "type": "GENERIC",
+    "id": "tobacco_raw",
+    "symbol": "%",
+    "color": "light_green",
+    "name": "raw tobacco",
+    "name_plural": "handfuls of raw tobacco",
+    "description": "Various parts of tobacco plant, full of nicotine.  They need to be dried to become smokable.",
+    "looks_like": "wild_herbs",
+    "price": 300,
+    "material": "veggy",
+    "weight": 100,
+    "volume": 1
   },
   {
     "id": "cash_card",
