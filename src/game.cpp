@@ -12280,6 +12280,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     }
 
     int steps = 0;
+    bool thru = true;
     const bool is_u = (c == &u);
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
@@ -12297,7 +12298,6 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         tdir.advance();
         pt.x = c->posx() + tdir.dx();
         pt.y = c->posy() + tdir.dy();
-        bool thru = true;
         float force = 0;
 
         if( monster *const mon_ptr = critter_at<monster>( pt ) ) {
@@ -12371,15 +12371,23 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
 
     // Fall down to the ground - always on the last reached tile
     if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
-        // Fall on ground
-        int force = rng( flvel, flvel * 2 ) / 9;
-        if( controlled ) {
-            force = std::max( force / 2 - 5, 0 );
-        }
-        if( force > 0 ) {
-            int dmg = c->impact( force, c->pos() );
-            // TODO: Make landing damage the floor
-            m.bash( c->pos(), dmg / 4, false, false, false );
+        const trap_id trap_under_creature = m.tr_at( c->pos() ).loadid;
+        // Didn't smash into a wall or a floor so only take the fall damage
+        if( thru && trap_under_creature == tr_ledge ) {
+            m.creature_on_trap( *c, false );
+        } else {
+            // Fall on ground
+            int force = rng( flvel, flvel * 2 ) / 9;
+            if( controlled ) {
+                force = std::max( force / 2 - 5, 0 );
+            }
+            if( force > 0 ) {
+                int dmg = c->impact( force, c->pos() );
+                // TODO: Make landing damage the floor
+                m.bash( c->pos(), dmg / 4, false, false, false );
+            }
+            // Always apply traps to creature i.e. bear traps, tele traps etc.
+            m.creature_on_trap( *c, false );
         }
     } else {
         c->underwater = true;
