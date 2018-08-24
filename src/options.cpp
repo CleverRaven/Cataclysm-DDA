@@ -2165,6 +2165,9 @@ void options_manager::load()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+#ifdef SDL_SOUND
+    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
+#endif
 }
 
 bool options_manager::load_legacy()

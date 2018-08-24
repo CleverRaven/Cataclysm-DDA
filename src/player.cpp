@@ -264,6 +264,7 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -753,6 +754,9 @@ void player::process_turn()
         get_hunger() < 100 && calendar::once_every( 5_turns ) ) {
         mod_hunger( 2 );
         charge_power( 25 );
+    }
+    if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
+        charge_power( max_power_level );
     }
 
     visit_items( [this]( item * e ) {
@@ -3384,7 +3388,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     int dam = dealt_dams.total_damage();
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( g->u.sees( pos() ) ) {
+    if( dam > 0 && g->u.sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
 
         if( dam > 0 && is_player() && source ) {
@@ -8675,7 +8679,16 @@ bool player::consume_charges( item& used, long qty )
 void player::use( int inventory_position )
 {
     item &used = i_at( inventory_position );
-    item copy;
+    auto loc = item_location( *this, &used );
+
+    use( loc.clone() );
+}
+
+void player::use( item_location loc )
+{
+    item &used = *loc.get_item();
+    int inventory_position = loc.where() == item_location::type::character ?
+                             this->get_item_position( &used ) : INT_MIN;
 
     if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
@@ -8689,7 +8702,7 @@ void player::use( int inventory_position )
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname().c_str() );
             return;
         }
-        invoke_item( &used );
+        invoke_item( &used, loc.position() );
 
     } else if( used.is_food() ||
                used.is_medication() ||
@@ -8701,7 +8714,7 @@ void player::use( int inventory_position )
         read( inventory_position );
 
     } else if ( used.type->has_use() ) {
-        invoke_item( &used );
+        invoke_item( &used, loc.position() );
 
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),

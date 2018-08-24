@@ -708,9 +708,10 @@ void game::init_ui( const bool resized )
 
     liveview.init();
 
-    //Refresh only if ingame. Will crash on main menu
-    if( resized && !g->u.name.empty() ) {
-        g->refresh_all();
+    // Only refresh if we are in-game, otherwise all resources are not initialized
+    // and this refresh will crash the game.
+    if( resized && u.getID() != -1 ) {
+        refresh_all();
     }
 }
 
@@ -6744,23 +6745,67 @@ void game::smash()
     }
 }
 
+static void make_active( item_location loc )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.make_active( loc );
+            break;
+        case item_location::type::vehicle:
+            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
+            break;
+        default:
+            break;
+    }
+}
+
+static void update_lum( item_location loc, bool add )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.update_lum( loc, add );
+            break;
+        default:
+            break;
+    }
+}
+
 void game::use_item( int pos )
 {
+    bool use_loc = false;
+    item_location loc;
+
     if( pos == INT_MIN ) {
-        auto loc = game_menus::inv::use( u );
+        loc = game_menus::inv::use( u );
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
             return;
         }
-        int obtain_cost = loc.obtain_cost( u );
-        pos = loc.obtain( u );
-        // This method only handles items in te inventory, so refund the obtain cost.
-        u.moves += obtain_cost;
+
+        const item &it = *loc.get_item();
+        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
+            use_loc = true;
+        } else {
+            int obtain_cost = loc.obtain_cost( u );
+            pos = loc.obtain( u );
+            // This method only handles items in te inventory, so refund the obtain cost.
+            u.moves += obtain_cost;
+        }
     }
 
     refresh_all();
-    u.use( pos );
+
+    if( use_loc ) {
+        update_lum( loc.clone(), false );
+        u.use( loc.clone() );
+        update_lum( loc.clone(), true );
+
+        make_active( loc.clone() );
+    } else {
+        u.use( pos );
+    };
+
     u.invalidate_crafting_inventory();
 }
 
@@ -7462,6 +7507,8 @@ void game::examine( const tripoint &examp )
             m.has_flag("CONTAINER", examp) && none) {
             add_msg(_("It is empty."));
         } else {
+            draw_sidebar_messages();
+            sounds::process_sound_markers( &u );
             Pickup::pick_up( examp, 0);
         }
     }
@@ -10327,7 +10374,7 @@ void game::butcher()
             smenu.desc_enabled = true;
             smenu.text = _("Choose type of butchery:");
             smenu.addentry_desc( BUTCHER, true, 'B' , _("Quick butchery"), _( "This techinque is used when you are in a hurry, but still want to harvest some flesh.  You aim for major muscles (or equivalents) and don't care for the rest, so be prepared for low yields and no variety.  Prevents zombies from raising." ) );
-            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
+            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
             smenu.addentry_desc( F_DRESS, true, 'f' , _("Field dress corpse"), _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
             smenu.addentry_desc( QUARTER, true, 'k' , _("Quarter corpse"), _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry_desc( DISSECT, true, 'd' , _("Dissect corpse"), _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
@@ -10492,7 +10539,12 @@ void game::reload( int pos, bool prompt )
 
 void game::reload( item_location &loc, bool prompt )
 {
-    item *it = &u.i_at( loc.obtain( u ) );
+    item *it = loc.get_item();
+    bool use_loc = true;
+    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+        it = &u.i_at( loc.obtain( u ) );
+        use_loc = false;
+    }
 
     // bows etc do not need to reload.
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -10547,7 +10599,11 @@ void game::reload( item_location &loc, bool prompt )
 
     if ( opt ) {
         u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-        u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+        if( use_loc ) {
+            u.activity.targets.emplace_back( loc.clone() );
+        } else {
+            u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+        }
         u.activity.targets.push_back( std::move( opt.ammo ) );
     }
 
@@ -12280,6 +12336,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     }
 
     int steps = 0;
+    bool thru = true;
     const bool is_u = (c == &u);
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
@@ -12297,7 +12354,6 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         tdir.advance();
         pt.x = c->posx() + tdir.dx();
         pt.y = c->posy() + tdir.dy();
-        bool thru = true;
         float force = 0;
 
         if( monster *const mon_ptr = critter_at<monster>( pt ) ) {
@@ -12371,15 +12427,23 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
 
     // Fall down to the ground - always on the last reached tile
     if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
-        // Fall on ground
-        int force = rng( flvel, flvel * 2 ) / 9;
-        if( controlled ) {
-            force = std::max( force / 2 - 5, 0 );
-        }
-        if( force > 0 ) {
-            int dmg = c->impact( force, c->pos() );
-            // TODO: Make landing damage the floor
-            m.bash( c->pos(), dmg / 4, false, false, false );
+        const trap_id trap_under_creature = m.tr_at( c->pos() ).loadid;
+        // Didn't smash into a wall or a floor so only take the fall damage
+        if( thru && trap_under_creature == tr_ledge ) {
+            m.creature_on_trap( *c, false );
+        } else {
+            // Fall on ground
+            int force = rng( flvel, flvel * 2 ) / 9;
+            if( controlled ) {
+                force = std::max( force / 2 - 5, 0 );
+            }
+            if( force > 0 ) {
+                int dmg = c->impact( force, c->pos() );
+                // TODO: Make landing damage the floor
+                m.bash( c->pos(), dmg / 4, false, false, false );
+            }
+            // Always apply traps to creature i.e. bear traps, tele traps etc.
+            m.creature_on_trap( *c, false );
         }
     } else {
         c->underwater = true;
