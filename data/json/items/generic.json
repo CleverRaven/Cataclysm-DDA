@@ -368,7 +368,7 @@
     "weight": 50,
     "volume": 1,
     "price": 2000,
-    "material": "stone",
+    "material": "plastic",
     "symbol": "*",
     "color": "white",
     "bashing": 5,

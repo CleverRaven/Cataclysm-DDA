@@ -153,6 +153,7 @@ struct mongroup {
         }
         interest = set;
     }
+    float avg_speed() const;
 
     template<typename Archive>
     void io( Archive & );
