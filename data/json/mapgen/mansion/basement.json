@@ -320,7 +320,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c_dn", "mansion_bionic_c_dn" ],
-    "weight": 250,
+    "weight": 100,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -369,7 +369,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c_dn" ],
-    "weight": 250,
+    "weight": 100,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
