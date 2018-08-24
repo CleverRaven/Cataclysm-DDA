@@ -47,6 +47,7 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -425,6 +426,11 @@ void player::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_SELFAWARE ) {
         print_health();
+        tdata.powered = false;
+        return;
+    } else if( mut == trait_DEBUG_BIONIC_POWER ) {
+        max_power_level += 100;
+        add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
         return;
     } else if( !mdata.spawn_item.empty() ) {

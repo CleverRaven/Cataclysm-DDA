@@ -89,7 +89,7 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 }};
 
 const std::array<type, 1 + om_direction::bits> all = {{
-    {         0, 4, "_isolated"  },   // 0  ----
+    { LINE_XXXX, 4, "_isolated"  },   // 0  ----
     { LINE_XOXO, 2, "_end_south" },   // 1  ---n
     { LINE_OXOX, 2, "_end_west"  },   // 2  --e-
     { LINE_XXOO, 1, "_ne"        },   // 3  --en
@@ -2030,8 +2030,15 @@ void overmap::move_hordes()
             movement_chance = 10;
         }
 
-        if( one_in(movement_chance) && rng(0, 100) < mg.interest ) {
-            // @todo: Adjust for monster speed.
+        // If the average horde speed is 50% that of normal, then the chance to
+        // move should be 1/2 what it would be if the speed was 100%.
+        // Since the max speed for a horde is one map space per 2.5 minutes,
+        // choose that to be the speed of the fastest horde monster, which is
+        // roughly 200 at the time of writing. So a horde with average speed
+        // 200 or over will move at max speed, and slower hordes will move less
+        // frequently. The average horde speed for regular Z's is around 100,
+        // or one space per 5 minutes.
+        if( one_in(movement_chance) && rng(0, 100) < mg.interest && rng(0, 200) < mg.avg_speed() ) {
             // @todo: Handle moving to adjacent overmaps.
             if( mg.pos.x > mg.target.x) {
                 mg.pos.x--;

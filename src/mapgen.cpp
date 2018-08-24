@@ -6555,31 +6555,23 @@ void map::place_spawns(const mongroup_id& group, const int chance,
     }
 }
 
-void map::place_gas_pump(int x, int y, int charges)
+void map::place_gas_pump( int x, int y, int charges )
 {
-    if (one_in(4)) {
-        item diesel("diesel", 0);
-        diesel.charges = charges;
-        add_item(x, y, diesel);
-        ter_set(x, y, t_diesel_pump);
+    std::string fuel_type;
+    if( one_in( 4 ) ) {
+        fuel_type = "diesel";
     } else {
-        item gas("gasoline", 0);
-        gas.charges = charges;
-        add_item(x, y, gas);
-        ter_set(x, y, t_gas_pump);
+        fuel_type = "gasoline";
     }
+    place_gas_pump( x, y, charges, fuel_type );
 }
 
-void map::place_gas_pump(int x, int y, int charges, const std::string &fuel_type)
+void map::place_gas_pump( int x, int y, int charges, const std::string &fuel_type )
 {
-    item fuel(fuel_type, 0);
+    item fuel( fuel_type, 0 );
     fuel.charges = charges;
-    add_item(x, y, fuel);
-    if ( fuel_type == "gasoline") {
-        ter_set(x, y, t_gas_pump);
-    } else if ( fuel_type == "diesel") {
-        ter_set(x, y, t_diesel_pump);
-    }
+    add_item( x, y, fuel );
+    ter_set( x, y, ter_id( fuel.fuel_pump_terrain() ) );
 }
 
 void map::place_toilet(int x, int y, int charges)

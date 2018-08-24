@@ -5416,6 +5416,15 @@
         "threshold" : true
     },{
         "type" : "mutation",
+        "id" : "DEBUG_BIONIC_POWER",
+        "name" : "Debug Bionic Power",
+        "points" : 99,
+        "valid" : false,
+        "description" : "For fueling your inner cybug. Activate to increase power capacity by 100 (can be repeated.)",
+        "threshold" : true,
+        "active" : true
+    },{
+        "type" : "mutation",
         "id" : "SQUEAMISH",
         "name" : "Squeamish",
         "points" : -1,
