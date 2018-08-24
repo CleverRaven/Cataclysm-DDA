@@ -3384,7 +3384,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     int dam = dealt_dams.total_damage();
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( g->u.sees( pos() ) ) {
+    if( dam > 0 && g->u.sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
 
         if( dam > 0 && is_player() && source ) {
