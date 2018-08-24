@@ -1591,8 +1591,13 @@
   {
     "type": "recipe",
     "result": "arm_xlsplint",
-    "copy-from": "arm_splint",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
     "time": 2000,
+    "autolearn": true,
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
@@ -1634,8 +1639,13 @@
   {
     "type": "recipe",
     "result": "leg_xlsplint",
-    "copy-from": "leg_splint",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
     "time": 2000,
+    "autolearn": true,
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
