@@ -7134,7 +7134,6 @@ bool player::consume_item( item &target )
 
         if( target.is_container() ) {
             target.on_contents_changed();
-            Pickup::handle_spillable_contents( *this, target, g->m );
         }
 
         return comest.charges <= 0;
@@ -7184,6 +7183,9 @@ bool player::consume(int target_position)
             }
         }
     } else if( target_position >= 0 ) {
+        if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
+            i_rem( &target );
+        }
         inv.restack( *this );
         inv.unsort();
     }
