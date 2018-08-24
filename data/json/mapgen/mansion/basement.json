@@ -996,8 +996,8 @@
         "..X..............-TT2...",
         "..X.}....XX++XX..-2--...",
         "..XXXXXXXX....XXXXXXXXXX",
-        ".......................m",
-        "...........<<...........",
+        "...........<<..........m",
+        "........................",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
