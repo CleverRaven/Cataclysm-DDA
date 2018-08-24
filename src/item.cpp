@@ -4818,9 +4818,6 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
                 auto qty = m.second.qty();
-                if( m.first == gun_mode_id( "AUTO" ) && e == this && has_flag( "RAPIDFIRE" ) ) {
-                    qty *= 1.5;
-                }
 
                 res.emplace( gun_mode_id( prefix + m.first.str() ), gun_mode( m.second.name(), const_cast<item *>( e ),
                                                                 qty, m.second.flags() ) );
