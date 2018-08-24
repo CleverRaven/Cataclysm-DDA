@@ -1381,6 +1381,7 @@ void CheckMessages()
     SDL_Event ev;
     bool quit = false;
     bool text_refresh = false;
+    bool is_repeat = false;
     if(HandleDPad()) {
         return;
     }
@@ -1404,6 +1405,7 @@ void CheckMessages()
             break;
             case SDL_KEYDOWN:
             {
+                is_repeat = ev.key.repeat;
                 //hide mouse cursor on keyboard input
                 if(get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor(-1)) {
                     SDL_ShowCursor(SDL_DISABLE);
@@ -1421,6 +1423,7 @@ void CheckMessages()
             break;
             case SDL_KEYUP:
             {
+                is_repeat = ev.key.repeat;
                 if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
                     int code = end_alt_code();
                     if( code ) {
@@ -1503,7 +1506,7 @@ void CheckMessages()
                 quit = true;
                 break;
         }
-        if( text_refresh ) {
+        if( text_refresh && !is_repeat ) {
             break;
         }
     }
