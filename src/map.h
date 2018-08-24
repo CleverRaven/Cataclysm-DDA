@@ -897,6 +897,11 @@ class map
         void make_active( item_location &loc );
 
         /**
+         * Update luminosity before and after item's transformation
+         */
+        void update_lum( item_location &loc, bool add );
+
+        /**
          * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
          * and sets item's fridge/freezer status variables.
          * @param it Item processed.

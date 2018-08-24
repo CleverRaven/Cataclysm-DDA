@@ -8679,7 +8679,16 @@ bool player::consume_charges( item& used, long qty )
 void player::use( int inventory_position )
 {
     item &used = i_at( inventory_position );
-    item copy;
+    auto loc = item_location( *this, &used );
+
+    use( loc.clone() );
+}
+
+void player::use( item_location loc )
+{
+    item &used = *loc.get_item();
+    int inventory_position = loc.where() == item_location::type::character ?
+                             this->get_item_position( &used ) : INT_MIN;
 
     if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
@@ -8693,7 +8702,7 @@ void player::use( int inventory_position )
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname().c_str() );
             return;
         }
-        invoke_item( &used );
+        invoke_item( &used, loc.position() );
 
     } else if( used.is_food() ||
                used.is_medication() ||
@@ -8705,7 +8714,7 @@ void player::use( int inventory_position )
         read( inventory_position );
 
     } else if ( used.type->has_use() ) {
-        invoke_item( &used );
+        invoke_item( &used, loc.position() );
 
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),

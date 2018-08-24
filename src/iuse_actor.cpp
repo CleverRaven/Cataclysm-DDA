@@ -134,7 +134,8 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
         return 0; // invoked from active item processing, do nothing.
     }
 
-    const bool possess = p.has_item( it );
+    const bool possess = p.has_item( it ) ||
+                         ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
     if( need_charges && it.ammo_remaining() < need_charges ) {
         if( possess ) {
