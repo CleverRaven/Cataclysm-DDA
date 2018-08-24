@@ -10157,12 +10157,15 @@ void game::butcher()
     for (size_t i = 0; i < items.size(); ++i){
         if ( items[i].is_corpse() ){
             corpses.push_back(i);
-        } else if ( ( salvage_tool_index != INT_MIN) && salvage_iuse->valid_to_cut_up( items[i] ) ){
-            salvageables.push_back(i);
-        } else if ( u.can_disassemble( items[i], crafting_inv ).success() ){
-            disassembles.push_back(i);
-        } else if ( first_item_without_tools == nullptr ){
-            first_item_without_tools = &items[i];
+        } else {
+            if ( ( salvage_tool_index != INT_MIN) && salvage_iuse->valid_to_cut_up( items[i] ) ){
+                salvageables.push_back(i);
+            }
+            if ( u.can_disassemble( items[i], crafting_inv ).success() ){
+                disassembles.push_back(i);
+            } else if ( first_item_without_tools == nullptr ){
+                first_item_without_tools = &items[i];
+            }
         }
     }
     
