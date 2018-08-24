@@ -164,6 +164,18 @@
     "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
+    "id": "arm_xlsplint",
+    "type": "ARMOR",
+    "name": "arm splint XL",
+    "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
+    "copy-from": "arm_splint",
+    "weight": 600,
+    "volume": 8,
+    "price": 25000,
+    "encumbrance": 140,
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+  },
+  {
     "id": "arm_warmers",
     "type": "ARMOR",
     "name": "pair of arm warmers",
@@ -5696,6 +5708,18 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+  },
+  {
+    "id": "leg_xlsplint",
+    "type": "ARMOR",
+    "name": "leg splint XL",
+    "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
+    "copy-from": "leg_splint",
+    "weight": 1000,
+    "volume": 8,
+    "price": 25000,
+    "encumbrance": 140,
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
     "id": "leg_warmers",
