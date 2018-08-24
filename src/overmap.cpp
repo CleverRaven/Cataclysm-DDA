@@ -89,7 +89,7 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 }};
 
 const std::array<type, 1 + om_direction::bits> all = {{
-    {         0, 4, "_isolated"  },   // 0  ----
+    { LINE_XXXX, 4, "_isolated"  },   // 0  ----
     { LINE_XOXO, 2, "_end_south" },   // 1  ---n
     { LINE_OXOX, 2, "_end_west"  },   // 2  --e-
     { LINE_XXOO, 1, "_ne"        },   // 3  --en
