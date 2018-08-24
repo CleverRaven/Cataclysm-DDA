@@ -412,10 +412,10 @@
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [
-      [ [ "stick", 5 ], [ "2x4", 3 ] ],
+      [ [ "leaf_spring", 2 ] ],
       [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
       [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ]
     ]
   },
@@ -441,7 +441,7 @@
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [
-      [ [ "steel_standard", 1, "LIST" ] ],
+      [ [ "steel_standard", 2, "LIST" ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "leaf_spring", 4 ] ],
       [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
@@ -789,11 +789,11 @@
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [
-      [ [ "stick", 6 ], [ "2x4", 4 ] ],
+      [ [ "leaf_spring", 2 ] ],
       [ [ "steel_standard", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
-      [ [ "wire", 4 ] ]
+      [ [ "plastic_chunk", 15 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
+      [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ]
     ]
   },
   {
