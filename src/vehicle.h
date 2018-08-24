@@ -98,7 +98,7 @@ struct vehicle_part {
         friend item_location;
         friend class turret_data;
 
-        enum : int { passenger_flag = 1 };
+        enum : int { passenger_flag = 1, animal_flag };
 
         vehicle_part(); /** DefaultConstructible */
 

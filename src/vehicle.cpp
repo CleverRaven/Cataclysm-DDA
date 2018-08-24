@@ -1018,6 +1018,11 @@ bool vehicle::can_unmount(int const p) const
         return false;
     }
 
+    //Can't remove an animal part if the animal is still contained
+    if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
+        return false;
+    }
+
     //Structural parts have extra requirements
     if(part_info(p).location == part_location_structure) {
 
@@ -1275,6 +1280,29 @@ bool vehicle::remove_part( int p )
                 g->m.unboard_vehicle( part_loc );
             }
         }
+    }
+
+    // Release any animal held by the part
+    if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
+        tripoint target = part_loc;
+        bool spawn = true;
+        if( !g->is_empty( target ) ) {
+            std::vector<tripoint> valid;
+            for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
+                if( g->is_empty( dest ) ) {
+                    valid.push_back( dest );
+                }
+            }
+            if( valid.empty() ) {
+                spawn = false;
+            } else {
+                target = random_entry( valid );
+            }
+        }
+        item base = item( parts[p].get_base() );
+        base.release_monster( target, spawn );
+        parts[p].set_base( base );
+        parts[p].remove_flag( vehicle_part::animal_flag );
     }
 
     // Update current engine configuration if needed
@@ -4038,6 +4066,11 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : units::mass( 0 );
+        }
+
+        if( parts[i].has_flag( vehicle_part::animal_flag ) ) {
+            int animal_mass = parts[i].base.get_var( "weight", 0 );
+            m_part += units::from_gram( animal_mass );
         }
 
         if( use_precalc ) {
