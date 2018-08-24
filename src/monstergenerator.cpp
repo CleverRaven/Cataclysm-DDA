@@ -459,6 +459,7 @@ void MonsterGenerator::init_flags()
     flag_map["MILKABLE"] = MF_MILKABLE;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
     flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
+    flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
