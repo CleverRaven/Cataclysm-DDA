@@ -1512,8 +1512,8 @@ bool game::do_turn()
 
     lua_callback( "on_turn_passed" );
 
-    // Move hordes every 5 min
-    if( calendar::once_every( 5_minutes ) ) {
+    // Move hordes every 2.5 min
+    if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
