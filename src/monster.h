@@ -269,7 +269,8 @@ class monster : public Creature
         void melee_attack( Creature &p );
         void melee_attack( Creature &p, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
-        void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
+        void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                     bool print_messages = true ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
         void apply_damage( Creature *source, body_part bp, int amount ) override;

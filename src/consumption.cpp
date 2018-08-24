@@ -656,7 +656,7 @@ bool player::eat( item &food, bool force )
     // Mushy has no extra effects here as they are applied in fun_for() calculation
     if( food.has_flag( "MUSHY" ) ) {
         add_msg_if_player( m_bad,
-                           _( "You try to ignore it's mushy texture, but it leaves you with an awful aftertaste." ) );
+                           _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
     }
 
     // Allergy check

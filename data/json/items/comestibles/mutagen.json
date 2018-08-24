@@ -294,6 +294,21 @@
         }
     },
     {
+        "id" : "mutagen_jabberblood",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "congealed blood",
+        "description": "A thick, soupy red liquid.  It looks and smells disgusting, and seems to bubble with an intelligence of its own...",
+        "color" : "red",
+        "addiction_potential" : 0,
+        "charges" : 5,
+        "fun" : -10,
+        "use_action" : {
+          "type" : "mutagen",
+          "mutation_category" : "BEAST"
+        }
+    },
+    {
         "id" : "mutagen_alpha",
         "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",

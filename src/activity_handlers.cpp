@@ -264,6 +264,9 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
         return;
     }
 
+    item corpse_item = items[act.index];
+    const mtype& corpse = *(corpse_item.get_mtype());
+
     if( action != DISSECT && u.max_quality( quality_id( "BUTCHER" ) ) < 0 && one_in( 3 ) ) {
         u.add_msg_if_player( m_bad, _( "You don't trust the quality of your tools, but carry on anyway." ) );
     }
@@ -290,32 +293,48 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
 
     bool has_table_nearby = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
-        if( g->m.has_flag_furn( "FLAT_FURN", pt ) || ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
+        if( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
+            ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
             has_table_nearby = true;
+        }
+    }
+    bool has_tree_nearby = false;
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+        if( g->m.has_flag( "TREE", pt ) ) {
+            has_tree_nearby = true;
         }
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-            if( !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                u.add_msg_if_player( m_info, _( "You need a butchering rack to perform a full butchery." ) );
-                act.set_to_null();
-                return;
-            }
-            if ( !has_table_nearby ) {
-                u.add_msg_if_player( m_info, _( "You need a table nearby or something else with a flat surface to perform a full butchery." ) );
-                act.set_to_null();
-                return;
-            }
-            if( !u.has_quality( quality_id( "CUT" ) ) &&
-                ( !u.has_quality( quality_id( "SAW_W" ) ) || !u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-                u.add_msg_if_player( m_info, _( "You need tools that can cut and saw to perform a full butchery." ) );
-                act.set_to_null();
-                return; 
-            }
-    }
+        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 );
+        bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
+        bool big_corpse = corpse.size >= MS_MEDIUM;
 
-    item corpse_item = items[act.index];
-    const mtype *corpse = corpse_item.get_mtype();
+        if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
+            u.add_msg_if_player( m_info, _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
+            act.set_to_null();
+            return;
+        } else if( big_corpse && !has_rope && !b_rack_present ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
+            act.set_to_null();
+            return;
+        }
+        if ( big_corpse && !has_table_nearby ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
+            act.set_to_null();
+            return;
+        }
+        if( !u.has_quality( quality_id( "CUT" ) ) ) {
+            u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
+            act.set_to_null();
+            return; 
+        }
+        if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a saw to perform a full butchery." ) );
+            act.set_to_null();
+            return; 
+        }
+    }
 
     if( action == DISSECT && ( corpse_item.has_flag( "QUARTERED" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_info, _( "It would be futile to search for implants inside this badly damaged corpse." ) );
@@ -330,25 +349,25 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     if( action == QUARTER ) {
-        if( corpse_item.get_mtype()->size == MS_TINY ) {
-            u.add_msg_if_player( m_bad, _("This corpse is too small to quarter without damaging."), corpse->nname().c_str() );
+        if( corpse.size == MS_TINY ) {
+            u.add_msg_if_player( m_bad, _("This corpse is too small to quarter without damaging."), corpse.nname().c_str() );
             act.set_to_null();
             return;
         }
         if( corpse_item.has_flag( "QUARTERED" ) ) {
-            u.add_msg_if_player( m_bad, _("This is already quartered."), corpse->nname().c_str() );
+            u.add_msg_if_player( m_bad, _("This is already quartered."), corpse.nname().c_str() );
             act.set_to_null();
             return;
         }
         if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
-            u.add_msg_if_player( m_bad, _("You need to perform field dressing before quartering."), corpse->nname().c_str() );
+            u.add_msg_if_player( m_bad, _("You need to perform field dressing before quartering."), corpse.nname().c_str() );
             act.set_to_null();
             return;
         }
     }
 
     // applies to all butchery actions
-    bool is_human = corpse == nullptr || corpse->id == mtype_id::NULL_ID() || ( corpse->in_species( HUMAN ) && !corpse->in_species( ZOMBIE ) );
+    bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) && !corpse.in_species( ZOMBIE ) );
     if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) || u.has_trait_flag( "SAPIOVORE" ) ) ) {
 
         if( query_yn( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) {
@@ -372,7 +391,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
 
     int time_to_cut = 0;
-    switch( corpse->size ) {
+    switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case MS_TINY:
             time_to_cut = 25;
@@ -742,22 +761,26 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     } 
 
     // feedback that this type of corpse has implants that can be potentialy removed
-    if( action == F_DRESS ) {
-        p->add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
-    }
-    if( action == BUTCHER || action == BUTCHER_FULL ) {
-        switch( rng( 1, 3 ) ) {
-        case 1:
-            p->add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
-            break;
-        case 2:
-            p->add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
-            break;
-        case 3:
-            p->add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
-            break;
+    if( corpse->has_flag( MF_CBM_CIV ) || corpse->has_flag( MF_CBM_SCI ) || corpse->has_flag( MF_CBM_TECH ) ||
+        corpse->has_flag( MF_CBM_SUBS ) || corpse->has_flag( MF_CBM_OP ) || corpse->has_flag( MF_CBM_POWER ) ) {
+        if( action == F_DRESS ) {
+            p->add_msg_if_player( m_bad, _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
+        }
+        if( action == BUTCHER || action == BUTCHER_FULL ) {
+            switch( rng( 1, 3 ) ) {
+            case 1:
+                p->add_msg_if_player( m_bad, _( "Your butchering tool encounters something implanted in this corpse, but your rough cuts destroy it." ) );
+                break;
+            case 2:
+                p->add_msg_if_player( m_bad, _( "You find traces of implants in the body, but you care only for the flesh." ) );
+                break;
+            case 3:
+                p->add_msg_if_player( m_bad, _( "You found some bionics in the body, but harvesting them would require more surgical approach." ) );
+                break;
+            }
         }
     }
+
 
     //now handle the meat, if there is any
     if( meat!= "null" ) {
@@ -779,7 +802,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
             // also field dressing removed innards so no offal
             bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
-                              !( corpse->has_flag( "FIELD_DRESS" ) || corpse->has_flag( "FIELD_DRESS_FAILED" ) ) &&
+                              !( corpse_item->has_flag( "FIELD_DRESS" ) || corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) &&
                               !chunk.made_of ( material_id ( "veggy" ) );
             if( action == F_DRESS ) {
                 for ( int i = 1; i < pieces; ++i ) {
@@ -2633,7 +2656,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
         g->m.ter_set( elem, t_trunk );
     }
 
-    g->m.ter_set( pos, t_dirt );
+    g->m.ter_set( pos, t_stump );
 
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
@@ -2646,14 +2669,19 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p ) {
 void activity_handlers::chop_logs_finish( player_activity *act, player *p ) {
     const tripoint &pos = act->placement;
 
+    if( g->m.ter( pos ) == t_trunk ) {
+        g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
+        g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
+    } else if( g->m.ter( pos ) == t_stump ) {
+        g->m.spawn_item( pos.x, pos.y, "log", rng( 0, 2 ), 0, calendar::turn );
+        g->m.spawn_item( pos.x, pos.y, "splinter", rng( 5, 15 ), 0, calendar::turn );
+    }
+    
     g->m.ter_set( pos, t_dirt );
-    g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
-    g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
-
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
-    p->add_msg_if_player( m_good, _( "You finish chopping the logs." ) );
+    p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
 }

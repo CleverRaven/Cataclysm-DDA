@@ -58,6 +58,10 @@ class veh_interact
         /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
         int start_limit = 0;
+        /* starting offset for the overview and the max offset for scrolling */
+        int overview_offset = 0;
+        int overview_limit = 0;
+
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
@@ -151,6 +155,7 @@ class veh_interact
          */
         bool overview( std::function<bool( const vehicle_part &pt )> enable = {},
                        std::function<bool( vehicle_part &pt )> action = {} );
+        void move_overview_line( int );
 
         void countDurability();
 

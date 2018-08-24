@@ -994,8 +994,7 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "disinfectant_power" : 4,
-            "bleed" : 90,
+            "bleed" : 0.9,
             "move_cost" : 100
         }
     },
