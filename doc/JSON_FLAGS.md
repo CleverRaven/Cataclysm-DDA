@@ -330,6 +330,7 @@ Also see monster_attacks.json for more special attacks, for example, impale and 
 - ```FUNGUS``` Releases fungal spores and attempts to infect the player.
 - ```FUNGUS_BIG_BLOSSOM``` Spreads fire suppressing fungal haze.
 - ```FUNGUS_BRISTLE``` Perform barbed tendril attack that can cause fungal infections.
+- ```FUNGUS_CORPORATE``` Used solely by Crazy Cataclysm. This will cause runtime errors if used without out, and spawns SpOreos on top of the creature.
 - ```FUNGUS_FORTIFY``` Grows Fungal hedgerows, and advances player on the mycus threshold path.
 - ```FUNGUS_GROWTH``` Grows a young fungaloid into an adult.
 - ```FUNGUS_HAZE``` Spawns fungal fields.
@@ -362,6 +363,7 @@ Also see monster_attacks.json for more special attacks, for example, impale and 
 - ```SCIENCE``` Various science/technology related attacks (e.g. manhacks, radioactive beams, etc.)
 - ```SEARCHLIGHT``` Tracks targets with a searchlight.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
+- ```SHOCKING_REVEAL``` Shoots bolts of lightning, and reveals a SHOCKING FACT! Very fourth-wall breaking. Used solely by Crazy Cataclysm.
 - ```SHRIEK``` "a terrible shriek!"
 - ```SHRIEK_ALERT``` "a very terrible shriek!"
 - ```SHRIEK_STUN``` "a stunning shriek!", causes a small bash, can cause a stun.
