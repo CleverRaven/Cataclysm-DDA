@@ -981,6 +981,12 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
 
 bool vehicle::can_unmount( int const p ) const
 {
+    std::string no_reason;
+    return can_unmount( p, no_reason );
+}
+
+bool vehicle::can_unmount( int const p, std::string &reason ) const
+{
     if( p < 0 || p > ( int )parts.size() ) {
         return false;
     }
@@ -990,36 +996,43 @@ bool vehicle::can_unmount( int const p ) const
 
     // Can't remove an engine if there's still an alternator there
     if( part_flag( p, VPFLAG_ENGINE ) && part_with_feature( p, VPFLAG_ALTERNATOR ) >= 0 ) {
+        reason = _( "Remove attached alternator first." );
         return false;
     }
 
     //Can't remove a seat if there's still a seatbelt there
     if( part_flag( p, "BELTABLE" ) && part_with_feature( p, "SEATBELT" ) >= 0 ) {
+        reason = _( "Remove attached seatbelt first." );
         return false;
     }
 
     // Can't remove a window with curtains still on it
     if( part_flag( p, "WINDOW" ) && part_with_feature( p, "CURTAIN" ) >= 0 ) {
+        reason = _( "Remove attached curtains first." );
         return false;
     }
 
     //Can't remove controls if there's something attached
     if( part_flag( p, "CONTROLS" ) && part_with_feature( p, "ON_CONTROLS" ) >= 0 ) {
+        reason = _( "Remove attached part first." );
         return false;
     }
 
     //Can't remove a battery mount if there's still a battery there
     if( part_flag( p, "BATTERY_MOUNT" ) && part_with_feature( p, "NEEDS_BATTERY_MOUNT" ) >= 0 ) {
+        reason = _( "Remove battery from mount first." );
         return false;
     }
 
     //Can't remove a turret mount if there's still a turret there
     if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET" ) >= 0 ) {
+        reason = _( "Remove attached mounted weapon first." );
         return false;
     }
 
     //Can't remove an animal part if the animal is still contained
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
+        reason = _( "Remove carried animal first." );
         return false;
     }
 

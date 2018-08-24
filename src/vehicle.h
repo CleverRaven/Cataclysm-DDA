@@ -648,6 +648,7 @@ class vehicle
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
+        bool can_unmount( int p, std::string &reason ) const;
 
         // install a new part to vehicle
         int install_part( int dx, int dy, const vpart_id &id, bool force = false );
