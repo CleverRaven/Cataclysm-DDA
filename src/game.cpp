@@ -708,9 +708,10 @@ void game::init_ui( const bool resized )
 
     liveview.init();
 
-    //Refresh only if ingame. Will crash on main menu
-    if( resized && !g->u.name.empty() ) {
-        g->refresh_all();
+    // Only refresh if we are in-game, otherwise all resources are not initialized
+    // and this refresh will crash the game.
+    if( resized && u.getID() != -1 ) {
+        refresh_all();
     }
 }
 
