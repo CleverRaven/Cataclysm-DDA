@@ -544,7 +544,8 @@
     "weight": 9071,
     "volume": 40,
     "bashing": 10,
-    "to_hit": -10
+    "to_hit": -10,
+    "flags": [ "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -560,7 +561,7 @@
     "bashing": 4,
     "to_hit": 1,
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -1701,7 +1702,7 @@
     "weight": 220,
     "volume": 2,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",

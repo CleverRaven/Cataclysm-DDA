@@ -2170,6 +2170,7 @@
     { "type":"keybinding", "name": "Advanced Inventory management", "category":"DEFAULTMODE", "id":"advinv", "bindings":[ { "input_method":"keyboard", "key":"/" } ] },
     { "type":"keybinding", "name": "Pick up Item(s)", "category":"DEFAULTMODE", "id":"pickup", "bindings":[ { "input_method":"keyboard", "key":"," }, { "input_method":"keyboard", "key":"g" } ] },
     { "type":"keybinding", "name": "Grab something nearby", "category":"DEFAULTMODE", "id":"grab", "bindings":[ { "input_method":"keyboard", "key":"G" } ] },
+    { "type":"keybinding", "name": "Sort out loot", "category":"DEFAULTMODE", "id":"loot", "bindings":[ { "input_method":"keyboard", "key":"O" } ] },
     { "type":"keybinding", "name": "Butcher", "category":"DEFAULTMODE", "id":"butcher", "bindings":[ { "input_method":"keyboard", "key":"B" } ] },
     { "type":"keybinding", "name": "Chat with NPC", "category":"DEFAULTMODE", "id":"chat", "bindings":[ { "input_method":"keyboard", "key":"C" } ] },
     { "type":"keybinding", "name": "Look Around", "category":"DEFAULTMODE", "id":"look", "bindings":[ { "input_method":"keyboard", "key":";" }, { "input_method":"keyboard", "key":"x" } ] },
