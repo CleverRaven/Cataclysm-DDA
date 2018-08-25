@@ -620,7 +620,7 @@
         ".": { "item": "clutter_basement" },
         "m": { "item": "cleaning", "chance": 35 },
         "r": { "item": "tool_common_stack", "chance": 100 },
-		"K": { "item": "softdrugs", "chance": 50 }
+        "K": { "item": "softdrugs", "chance": 50 }
       }
     }
   },
@@ -962,9 +962,7 @@
         "########################"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "items": {
-        "K": { "item": "crate_stack", "chance": 100 }
-      }
+      "items": { "K": { "item": "crate_stack", "chance": 100 } }
     }
   },
   {
