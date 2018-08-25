@@ -124,6 +124,7 @@
       [ "teleumbrella", 5 ],
       [ "novel_coa", 10 ],
       [ "child_book", 50 ],
+      [ "manual_dodge_kid", 10 ],
       [ "tall_tales", 20 ],
       [ "story_book", 5 ],
       [ "novel_pulp", 20 ],
