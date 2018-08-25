@@ -2372,6 +2372,7 @@
     "occurrences": [ 0, 1 ]
   },
   {
+    "type" : "overmap_special",
     "id": "Zoo",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "zoo_0_0_north" },
