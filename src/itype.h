@@ -661,6 +661,10 @@ struct islot_seed {
      */
     std::string grow_into;
     /**
+     * ID of the shrub (with berries) this plant will grow into.
+     */
+    std::string grow_into_harvest;
+    /**
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<std::string> byproducts;

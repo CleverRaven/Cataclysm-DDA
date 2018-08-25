@@ -1451,10 +1451,6 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
     furn_set( tripoint( x, y, abs_sub.z ), new_furniture );
 }
 
-furn_id map::get_furn_transforms_into( const tripoint &p ) const {
-    return furn( p ).obj().transforms_into.id();
-}
-
 // End of 2D overloads for furniture
 
 void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture)
@@ -6865,15 +6861,13 @@ void map::grow_plant( const tripoint &p )
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
-    auto items = i_at( p );
-    if( items.empty() ) {
+    if( i_at( p ).empty() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a seed item has vanished at " << p.x << "," << p.y << "," << p.z;
         furn_set( p, f_null );
         return;
     }
-
-    auto seed = items.front();
+    item &seed = i_at( p ).front();
     if( !seed.is_seed() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
@@ -6882,14 +6876,13 @@ void map::grow_plant( const tripoint &p )
     }
 
     get_crops_grow( p );
-    item &seed_item = i_at( p ).front();
-    const time_duration plantEpoch = seed_item.get_plant_epoch();
-    time_duration seed_age = time_duration::from_turns( seed_item.get_var( "seed_age", 1 ) );
+    const time_duration plantEpoch = seed.get_plant_epoch();
+    time_duration seed_age = time_duration::from_turns( seed.get_var( "seed_age", 1 ) );
 
-    furn_id cur_furn = this->furn(p).id();
+    furn_id cur_furn = this->furn( p ).id();
 
     // The plant have died
-    if( seed_item.get_var( "frozen", 0 ) > 0 ) {
+    if( seed.get_var( "frozen", 0 ) > 0 ) {
         i_clear( p );
         furn_set( p, f_null );
         if( rng( 0, 1 ) > 0 ) {
@@ -6898,47 +6891,47 @@ void map::grow_plant( const tripoint &p )
         return;
     }
 
-    if( seed_item.type->seed->is_mushroom ) {
-        // Mushroom bed grow
-        if( cur_furn != furn_str_id( "f_mushroom_mature" ) &&
-            cur_furn != furn_str_id( "f_mushroom_mature_harvest" ) ) {
-            if( seed_age >= plantEpoch && seed_age < plantEpoch * 3  ) {
-                furn_set(p, furn_str_id( "f_mushroom_seedling" ) );
-            } else if( seed_age >= plantEpoch * 3 ) {
-                furn_set(p, furn_str_id( "f_mushroom_mature_harvest" ) );
-                seed_item.set_var( "is_mature", 1 );
-                seed_item.set_var( "can_be_harvested", 1 );
-            }
-        }
-        // Mushrooms grow on beds
-        if( seed_item.get_var( "is_mature", 0 ) && seed_item.get_var( "can_be_harvested", 0 ) ) {
-            furn_set(p, furn_str_id( "f_mushroom_mature_harvest" ) );
+    // Mushrooms
+    if( seed.type->seed->is_mushroom ) {
+        if( seed.get_var( "can_be_harvested", 0 ) ) {
+            furn_set( p, furn_str_id( "f_mushroom_mature_harvest" ) );
+        } else if( seed.get_var( "is_mature", 0 ) ) {
+            furn_set( p, furn_str_id( "f_mushroom_mature" ) );
+        } else if( seed_age > plantEpoch ) {
+            furn_set( p, furn_str_id( "f_mushroom_seedling" ) );
+        } else {
+            furn_set( p, furn_str_id( "f_mushroom_seed" ) );
         }
         return;
     }
 
-    // Grow berries on shrubs
-    if( seed_item.type->seed->is_shrub && seed_item.get_var( "is_mature", 0 ) &&
-        seed_item.get_var( "can_be_harvested", 0 ) ) {
-            const auto &furn_obj = this->furn( p ).obj();
-            furn_set( p, furn_obj.transforms_into );
-            return;
+    // Mature shrubs
+    if( seed.type->seed->is_shrub && seed.get_var( "is_mature", 0 ) ) {
+        if( seed.get_var( "can_be_harvested", 0 ) ){
+            furn_set( p, furn_str_id( seed.type->seed->grow_into_harvest ) );
+        } else {
+            furn_set( p, furn_str_id( seed.type->seed->grow_into ) );
+        }
+        return;
     }
 
     // Normal plant grow
+    if( seed.get_var( "can_be_harvested", 0 ) ) {
+        furn_set( p, furn_str_id( "f_plant_harvest" ) );
+        return;
+    }
+
     if( seed_age >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ) {
         if( seed_age < plantEpoch * 2 ) {
             if( cur_furn == furn_str_id( "f_plant_seedling" ) ) {
                 return;
             }
-            i_rem( p, 1 );
             rotten_item_spawn( seed, p );
             furn_set(p, furn_str_id( "f_plant_seedling" ) );
         } else if( seed_age < plantEpoch * 3 ) {
             if( cur_furn == furn_str_id( "f_plant_mature" ) ) {
                 return;
             }
-            i_rem(p, 1);
             rotten_item_spawn( seed, p );
             //You've skipped the seedling stage so roll monsters twice
             if( cur_furn != furn_str_id( "f_plant_seedling" ) ) {
@@ -6959,14 +6952,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             }
-            // Plant grow into shrub
-            if ( seed_item.type->seed->is_shrub ) {
-                furn_set( p, furn_str_id( seed_item.type->seed->grow_into ) );
-                seed_item.set_var( "is_mature", 1 );
-                seed_item.set_var( "can_be_harvested", 1 );
-                return;
-            }
-            furn_set(p, furn_str_id( "f_plant_harvest" ) );
+            furn_set( p, furn_str_id( "f_plant_harvest" ) );
         }
     }
 }

@@ -48,7 +48,8 @@
       "grow": 91,
       "grow_secondary": 35,
       "is_shrub": true,
-      "grow_into": "f_shrub_blackberry_harvest"
+      "grow_into": "f_shrub_blackberry",
+      "grow_into_harvest": "f_shrub_blackberry_harvest"
     }
   },
   {
@@ -65,7 +66,8 @@
       "grow": 91,
       "grow_secondary": 35,
       "is_shrub": true,
-      "grow_into": "f_shrub_blueberry_harvest"
+      "grow_into": "f_shrub_blueberry",
+      "grow_into_harvest": "f_shrub_blueberry_harvest"
     }
   },
   {
@@ -82,7 +84,8 @@
       "grow": 91,
       "grow_secondary": 35,
       "is_shrub": true,
-      "grow_into": "f_shrub_cranberry_harvest"
+      "grow_into": "f_shrub_cranberry",
+      "grow_into_harvest": "f_shrub_cranberry_harvest"
     }
   },
   {
@@ -112,7 +115,8 @@
       "grow": 91,
       "grow_secondary": 35,
       "is_shrub": true,
-      "grow_into": "f_shrub_raspberry_harvest"
+      "grow_into": "f_shrub_raspberry",
+      "grow_into_harvest": "f_shrub_raspberry_harvest"
     }
   },
   {
@@ -129,7 +133,8 @@
       "grow": 91,
       "grow_secondary": 35,
       "is_shrub": true,
-      "grow_into": "f_shrub_strawberry_harvest"
+      "grow_into": "f_shrub_strawberry",
+      "grow_into_harvest": "f_shrub_strawberry_harvest"
     }
   },
   {

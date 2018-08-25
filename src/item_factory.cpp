@@ -1603,6 +1603,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
     slot.water_requirement = jo.get_float( "water_requirement", 1.0f );
     slot.weed_susceptibility = jo.get_float( "weed_susceptibility", 1.0f );
     slot.grow_into = jo.get_string( "grow_into", "" );
+    slot.grow_into_harvest = jo.get_string( "grow_into_harvest", "" );
     slot.is_mushroom = jo.get_bool( "is_mushroom", false );
     slot.is_shrub = jo.get_bool( "is_shrub", false );
 }

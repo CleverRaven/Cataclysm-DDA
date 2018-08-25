@@ -114,6 +114,7 @@ void get_crops_grow( const tripoint &location )
     float water_requirement = seed.type->seed->water_requirement;
     float weed_susceptibility = seed.type->seed->weed_susceptibility;
     bool is_mushroom = seed.type->seed->is_mushroom;
+    bool is_shrub = seed.type->seed->is_shrub;
 
     /*
     1L = 10 units of water
@@ -241,8 +242,11 @@ void get_crops_grow( const tripoint &location )
         } else {
             seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
         }
-        if( seed_age > seed_grow_time )
+        if( seed_age > seed_grow_time ) {
             can_be_harvested = true;
+            if( is_mushroom || is_shrub )
+                is_mature = true;
+        }
 
         water = std::max( water, -water_max );
         water = std::min( water, water_max );

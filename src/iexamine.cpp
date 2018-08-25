@@ -1801,30 +1801,16 @@ std::list<item> iexamine::get_harvest_items( item &seed )
         return result;
     }
 
-    const auto add = [&]( const itype_id & id, const int count ) {
+    const auto add = [&]( const itype_id & id, int count ) {
         item new_item( id, calendar::turn );
-        if( new_item.count_by_charges() && count > 0 ) {
-            new_item.charges *= count;
-            if( new_item.charges <= 0 ) {
-                new_item.charges = 1;
-            }
-            result.push_back( new_item );
-        } else if( count > 0 ) {
-            result.insert( result.begin(), count, new_item );
-        }
+        result.insert( result.begin(), count, new_item );
     };
 
+    int health = seed.get_var( "health", 0 );
+    int seed_age = seed.get_var( "seed_age", 1 );
     // Multiplier for fruit yield.
     // Should be in range (0.1, 2), equal to 1 if plant has default health (0).
-    int health = seed.get_var( "health", 0 );
-    time_duration seed_grow_time = 0;
-    if( seed.get_var( "is_mature", 0 ) ) {
-        seed_grow_time = seed.type->seed->grow_secondary * calendar::season_ratio();
-    } else {
-        seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
-    }
-    float fruit_multiplier = ( 3.0f * to_hours<int>( seed_grow_time )  + health ) /
-                             ( 3.0f * to_hours<int>( seed_grow_time ) );
+    float fruit_multiplier = ( seed_age / 200.0f + health ) / ( seed_age / 200.0f );
     fruit_multiplier = std::max( fruit_multiplier, 0.1f );
     fruit_multiplier *= calendar::season_ratio();
 
@@ -1832,15 +1818,19 @@ std::list<item> iexamine::get_harvest_items( item &seed )
     fruit_id = seed.type->seed->fruit_id;
     int fruit_count = seed.type->seed->fruit_count;
     fruit_count = roll_remainder( fruit_count * fruit_multiplier );
-    add( fruit_id, fruit_count );
+    if( !seed.type->seed->is_mushroom && !seed.type->seed->is_shrub )
+        fruit_count = std::max( fruit_count, 1 );
+    if( fruit_count )
+        add( fruit_id, fruit_count );
 
+    std::string seed_id;
+    seed_id = seed.type->seed->seed_id;
     int seed_count = seed.type->seed->seed_count;
     seed_count = roll_remainder( seed_count * fruit_multiplier );
-    if( seed_count ) {
-        std::string seed_id;
-        seed_id = seed.type->seed->seed_id;
+    if( !seed.type->seed->is_mushroom && !seed.type->seed->is_shrub )
+        seed_count = std::max( seed_count, 1 );
+    if( seed_count )
         add( seed_id, seed_count );
-    }
 
     for( auto &b : seed.type->seed->byproducts ) {
         add( b, 1 );
@@ -1857,18 +1847,12 @@ void iexamine::proceed_plant_after_harvest( const int x, const int y, const int 
 void iexamine::proceed_plant_after_harvest( const tripoint &examp )
 {
     item &seed = g->m.i_at( examp ).front();
-    if( g->m.furn( examp ) == f_mushroom_mature_harvest ) {
-        // Mushrooms
+    if( seed.type->seed->is_mushroom || seed.type->seed->is_shrub ) {
+        // Mushrooms and berries
         seed.set_var( "seed_age", 1 );
-        seed.set_birthday( calendar::turn );
         seed.set_var( "can_be_harvested", 0 );
-        g->m.furn_set( examp, f_mushroom_mature );
-    } else if( seed.type->seed->is_shrub && seed.get_var( "can_be_harvested", 0 ) ) {
-        // Berries
-        seed.set_var( "seed_age", 1 );
-        seed.set_birthday( calendar::turn );
-        seed.set_var( "can_be_harvested", 0 );
-        g->m.furn_set( examp, g->m.get_furn_transforms_into( examp ) );
+        seed.set_var( "last_grow_check", to_turn<int>( calendar::turn ) );
+        g->m.grow_plant( examp );
     } else {
         // Generic seed
         g->m.i_clear( examp );
@@ -1890,7 +1874,7 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
         return;
     }
 
-    get_crops_grow( examp );
+    g->m.grow_plant( examp );
     const std::string pname = seed.get_plant_name();
 
     if( ( g->m.furn( examp ) == f_plant_harvest || seed.get_var( "can_be_harvested", 0 ) ) &&
@@ -1928,6 +1912,7 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
                 }
             }
             p.moves -= 500;
+            return;
         }
     } else {
         int health = seed.get_var( "health", 0 );
@@ -4245,7 +4230,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     int char_quantity = 0;
     bool f_check = false;
     bool c_check = false;
-    
+
     for( size_t i = 0; i < items_here.size(); i++ ) {
         auto &it = items_here[i];
         if( it.is_food() ) {
@@ -4261,7 +4246,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             minutes_left = to_minutes<int>( time_left ) + 1;
         }
     }
-    
+
     uimenu smenu;
     smenu.text = _( "What to do with the smoking rack:" );
     smenu.return_invalid = true;
@@ -4309,7 +4294,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
-            }          
+            }
             pop << "<color_green>" << _( "You inspect it's contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
                 pop << "... that it is empty.";
@@ -4320,11 +4305,11 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" << "\n ";
                     continue;
                 }
-                pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) ); 
+                pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) );
                 pop << " (" << std::to_string( count_charges_in_list( it.type, items_here ) ) << ") \n ";
                 }
             }
-            popup( pop.str(), PF_NONE ); 
+            popup( pop.str(), PF_NONE );
             break;
         }
         case 1: //activate

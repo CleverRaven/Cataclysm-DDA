@@ -4414,7 +4414,6 @@
     "price": 200,
     "material": "veggy",
     "volume": 1,
-    "charges": 6,
     "fun": -1,
     "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"

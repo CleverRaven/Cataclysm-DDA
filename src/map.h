@@ -544,8 +544,6 @@ class map
         // Furniture at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         furn_id furn( const int x, const int y ) const;
 
-        furn_id get_furn_transforms_into( const tripoint &p ) const;
-
         void furn_set( const int x, const int y, const furn_id new_furniture );
 
         std::string furnname( const int x, const int y );
@@ -1270,6 +1268,10 @@ class map
          * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
+        /**
+         * Try to grow a harvestable plant to the next stage(s).
+         */
+        void grow_plant( const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
@@ -1316,10 +1318,6 @@ class map
          * @param p The location in this map where to fill funnels.
          */
         void fill_funnels( const tripoint &p, const time_point &since );
-        /**
-         * Try to grow a harvestable plant to the next stage(s).
-         */
-        void grow_plant( const tripoint &p );
         /**
          * Try to grow fruits on static plants (not planted by the player)
          * @param p Place to restock
