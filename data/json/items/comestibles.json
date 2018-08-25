@@ -832,6 +832,7 @@
     "//": "Given the comment, presuming we're taking bourbon here.",
     "material": "alcohol",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "phase": "liquid",
     "charges": 7,
     "fun": 15
@@ -859,7 +860,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 15
   },
   {
@@ -885,7 +886,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 15
   },
   {
@@ -912,7 +913,7 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 15,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -938,7 +939,7 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 18,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -961,6 +962,7 @@
     "price": 950,
     "material": "alcohol",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "phase": "liquid",
     "charges": 7,
     "fun": 10
@@ -1014,7 +1016,7 @@
     "volume": 1,
     "phase": "liquid",
     "stack_size": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 5
   },
   {
@@ -1089,6 +1091,7 @@
     "price": 1300,
     "material": "alcohol",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "phase": "liquid",
     "charges": 7,
     "fun": 12
@@ -1264,7 +1267,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 14
   },
   {
@@ -1366,7 +1369,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 12
   },
   {
@@ -1741,6 +1744,7 @@
     "price": 500,
     "material": "flesh",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
   },
   {
@@ -1976,7 +1980,7 @@
     "description": "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
     "price": 600,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
@@ -1999,6 +2003,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -10,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
   },
@@ -2077,6 +2082,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -14,
+    "flags": [ "EDIBLE_FROZEN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
   },
@@ -2099,6 +2105,7 @@
     "stack_size": 4,
     "charges": 2,
     "fun": -12,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 2
   },
@@ -2119,7 +2126,7 @@
     "material": "veggy",
     "volume": 1,
     "stack_size": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
@@ -2142,7 +2149,7 @@
     "volume": 1,
     "charges": 4,
     "stack_size": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 5,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 7
@@ -2295,7 +2302,7 @@
     "description": "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
     "price": 0,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -2355,6 +2362,28 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "sausage_raw",
+    "name": "raw sausage",
+    "weight": 220,
+    "color": "red",
+    "spoils_in": 24,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "nutrition": 32,
+    "healthy": -1,
+    "parasites": 32,
+    "description": "A hefty raw sausage, prepared for smoking.",
+    "price": 1600,
+    "material": "flesh",
+    "volume": 2,
+    "charges": 6,
+    "//": "3 meats here.",
+    "flags": [ "SMOKABLE" ],
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "sausage",
     "name": "sausage",
     "weight": 220,
@@ -2364,13 +2393,13 @@
     "symbol": "%",
     "quench": -1,
     "nutrition": 32,
-    "description": "A hefty sausage that has been cured for long term storage.",
+    "description": "A hefty sausage that has been cured and smoked for long term storage.",
     "price": 1600,
     "material": "flesh",
     "volume": 2,
     "charges": 6,
     "//": "3 meats here.",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "fun": 5
   },
   {
@@ -2522,7 +2551,16 @@
     "id": "mannwurst",
     "copy-from": "sausage",
     "name": "Mannwurst",
-    "description": "A hefty long pork sausage that has been cured for long term storage.  Very tasty, if you're in the market for human flesh.",
+    "flags": [ "EATEN_HOT", "SMOKED" ],
+    "description": "A hefty long pork sausage that has been cured and smoked for long term storage.  Very tasty, if you're in the market for human flesh.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurst_raw",
+    "copy-from": "sausage_raw",
+    "name": "raw Mannwurst",
+    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.",
     "material": "hflesh"
   },
   {
@@ -2640,6 +2678,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -2677,6 +2716,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -2695,6 +2735,7 @@
     "price": 120,
     "material": "fruit",
     "volume": 1,
+    "flags": [ "NO_FREEZE" ],
     "fun": -4
   },
   {
@@ -2752,6 +2793,7 @@
     "price": 160,
     "material": "fruit",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
@@ -2772,6 +2814,7 @@
     "price": 180,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 6
   },
@@ -2790,6 +2833,7 @@
     "price": 80,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
     "charges": 4,
     "fun": 3
   },
@@ -2810,6 +2854,7 @@
     "price": 400,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "fun": 10
   },
@@ -2831,6 +2876,7 @@
     "price": 300,
     "material": "wheat",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "fun": 8
   },
@@ -2851,6 +2897,7 @@
     "price": 300,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "fun": 6
   },
@@ -2975,6 +3022,7 @@
     "price": 135,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
@@ -2996,6 +3044,7 @@
     "//": "Favorite flavor varies.",
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 12
   },
@@ -3016,6 +3065,7 @@
     "price": 170,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 8
   },
@@ -3118,6 +3168,7 @@
     "price": 100,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -6
   },
   {
@@ -3139,7 +3190,7 @@
     "material": "veggy",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 4
   },
   {
@@ -3161,7 +3212,7 @@
     "material": "junk",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 8
   },
   {
@@ -3183,7 +3234,7 @@
     "material": "junk",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 10
   },
   {
@@ -3203,6 +3254,7 @@
     "price": 185,
     "material": [ "wheat", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 4
   },
@@ -3222,6 +3274,7 @@
     "price": 200,
     "material": [ "wheat", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 6
   },
@@ -3241,6 +3294,7 @@
     "price": 130,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 10
   },
   {
@@ -3259,6 +3313,7 @@
     "price": 250,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": 10
   },
@@ -3279,6 +3334,7 @@
     "price": 400,
     "material": [ "wheat", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 30
   },
   {
@@ -3297,7 +3353,7 @@
     "material": "flesh",
     "volume": 1,
     "charges": 2,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD", "NO_FREEZE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -3314,7 +3370,7 @@
     "material": "veggy",
     "volume": 2,
     "charges": 2,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD", "NO_FREEZE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -3416,6 +3472,7 @@
     "price": 350,
     "material": [ "wheat", "fruit" ],
     "volume": 2,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": 3
   },
@@ -3435,6 +3492,7 @@
     "price": 220,
     "material": [ "flesh", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": 4
   },
@@ -3566,6 +3624,7 @@
     "price": 180,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 4
   },
@@ -3587,6 +3646,7 @@
     "price": 180,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
@@ -3608,6 +3668,7 @@
     "price": 180,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
@@ -3629,6 +3690,7 @@
     "price": 120,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 5,
     "fun": 6
   },
@@ -3651,6 +3713,7 @@
     "price": 600,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": 10
   },
@@ -3711,6 +3774,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": -3,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3729,7 +3793,7 @@
     "price": 140,
     "material": "mushroom",
     "volume": 1,
-    "flags": [ "HIDDEN_POISON", "TRADER_AVOID" ],
+    "flags": [ "HIDDEN_POISON", "TRADER_AVOID", "NO_FREEZE" ],
     "fun": -3
   },
   {
@@ -3748,7 +3812,7 @@
     "price": 140,
     "material": "mushroom",
     "volume": 1,
-    "flags": "HIDDEN_HALLU",
+    "flags": [ "HIDDEN_HALLU", "NO_FREEZE", "SMOKABLE" ],
     "fun": -3
   },
   {
@@ -3767,6 +3831,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": 1,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3786,6 +3851,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": 1,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3803,6 +3869,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": 4,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3821,7 +3888,7 @@
     "volume": 1,
     "charges": 2,
     "fun": 12,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3840,6 +3907,7 @@
     "price": 180,
     "material": "mushroom",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": 1
   },
@@ -3859,6 +3927,7 @@
     "price": 180,
     "material": "mushroom",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": 1
   },
@@ -3962,6 +4031,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -3981,6 +4051,7 @@
     "price": 90,
     "material": "veggy",
     "volume": 2,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": -10
   },
@@ -4022,6 +4093,7 @@
     "price": 90,
     "material": "nut",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": 2
   },
@@ -4040,6 +4112,7 @@
     "nutrition": 15,
     "description": "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
     "price": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "material": "nut",
     "volume": 1
   },
@@ -4060,7 +4133,7 @@
     "price": 90,
     "material": "nut",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 2
   },
   {
@@ -4100,6 +4173,7 @@
     "price": 20,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -15
   },
@@ -4118,6 +4192,7 @@
     "price": 20,
     "material": "veggy",
     "volume": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -15
   },
@@ -4157,6 +4232,7 @@
     "material": "veggy",
     "volume": 3,
     "charges": 4,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4176,6 +4252,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -2,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4195,6 +4272,7 @@
     "price": 90,
     "material": "tomato",
     "volume": 1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4254,7 +4332,7 @@
     "price": 400,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4272,7 +4350,7 @@
     "price": 300,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4291,6 +4369,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -1,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "fun_comment": "Raw onions probably aren't all that tasty to most people.",
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -4331,6 +4410,7 @@
     "volume": 1,
     "charges": 6,
     "fun": -1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4368,6 +4448,7 @@
     "price": 50,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "NO_FREEZE" ],
     "fun": -2
   },
   {
@@ -4550,6 +4631,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 3,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -8
   },
   {
@@ -4567,6 +4649,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 3,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -8
   },
   {
@@ -4625,6 +4708,7 @@
     "description": "It could be eaten raw if you're desperate, but is much better cooked.",
     "price": 150,
     "material": "wheat",
+    "flags": [ "EDIBLE_FROZEN" ],
     "volume": 3,
     "fun": -6
   },
@@ -4646,7 +4730,7 @@
     "material": [ "wheat", "milk" ],
     "volume": 4,
     "charges": 2,
-    "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
+    "flags": [ "EATEN_HOT", "TRADER_AVOID", "NO_FREEZE" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -4668,7 +4752,7 @@
     "material": [ "wheat", "flesh", "milk" ],
     "volume": 4,
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -4714,6 +4798,7 @@
     "material": "milk",
     "volume": 1,
     "phase": "liquid",
+    "flags": [ "NO_FREEZE" ],
     "fun": 15,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -4734,6 +4819,7 @@
     "volume": 1,
     "phase": "liquid",
     "fun": 20,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_CARRION"
   },
   {
@@ -5114,6 +5200,7 @@
     "price": 20000,
     "//": "Didn't precisely exist pre-cataclysm, so tough to price.",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 7
   },
   {
@@ -5292,6 +5379,7 @@
     "price": 450,
     "material": [ "wheat", "powder" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
     "fun": -5
   },
@@ -5311,6 +5399,7 @@
     "price": 450,
     "material": [ "veggy", "powder" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "fun": -5
   },
@@ -5329,6 +5418,7 @@
     "price": 7500,
     "material": "wheat",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
     "fun": -2
   },
@@ -5348,6 +5438,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -5369,6 +5460,7 @@
     "price": 300,
     "material": "bean",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": -6
   },
@@ -5453,6 +5545,7 @@
     "price": 500,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
     "fun": -5
   },
@@ -5472,7 +5565,7 @@
     "price": 100,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 2,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -5493,7 +5586,7 @@
     "volume": 1,
     "charges": 4,
     "//": "One rice + one protein/veg = 2 servings",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5514,7 +5607,7 @@
     "material": "veggy",
     "volume": 1,
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 5,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -5535,7 +5628,7 @@
     "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 2,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5556,7 +5649,7 @@
     "material": [ "veggy", "bean", "flesh" ],
     "volume": 1,
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5577,7 +5670,7 @@
     "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5634,6 +5727,7 @@
     "price": 550,
     "material": [ "powder", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 100
   },
   {
@@ -5651,6 +5745,7 @@
     "price": 150,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 25,
     "fun": -10
   },
@@ -5666,6 +5761,7 @@
     "price": 25,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -5682,6 +5778,7 @@
     "price": 0,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -5700,6 +5797,7 @@
     "price": 25,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -5719,6 +5817,7 @@
     "material": "veggy",
     "volume": 1,
     "charges": 20,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 100,
     "fun": -1
   },
@@ -5783,6 +5882,7 @@
     "price": 0,
     "material": "nut",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": -20
   },
@@ -5819,6 +5919,7 @@
     "price": 1120,
     "material": [ "powder", "egg" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 100,
     "fun": -4
   },
@@ -5839,7 +5940,7 @@
     "material": "egg",
     "volume": 1,
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 3,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5860,7 +5961,7 @@
     "material": [ "egg", "flesh" ],
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5882,6 +5983,7 @@
     "material": "egg",
     "volume": 1,
     "fun": 2,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_CARRION"
   },
   {
@@ -5923,6 +6025,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -3,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -6022,7 +6125,7 @@
     "material": "wheat",
     "volume": 2,
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -6084,7 +6187,7 @@
     "material": "veggy",
     "volume": 3,
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -6286,6 +6389,7 @@
     "price": 110,
     "material": "wheat",
     "volume": 3,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": 2
   },
@@ -6306,6 +6410,7 @@
     "price": 110,
     "material": [ "wheat", "junk" ],
     "volume": 3,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": 2
   },
@@ -6326,6 +6431,7 @@
     "material": [ "wheat", "junk" ],
     "volume": 1,
     "charges": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 20,
     "fun": 7
   },
@@ -6403,6 +6509,7 @@
     "material": "wheat",
     "volume": 1,
     "charges": 8,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 20,
     "fun": -1
   },
@@ -6423,7 +6530,7 @@
     "material": "wheat",
     "volume": 4,
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -6786,6 +6893,7 @@
     "price": 1030,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 20,
     "fun": -1
   },
@@ -6807,6 +6915,7 @@
     "price": 900,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 20,
     "fun": -5
   },
@@ -6826,6 +6935,7 @@
     "price": 1100,
     "material": [ "powder", "milk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
     "fun": -5
   },
@@ -7048,7 +7158,7 @@
     "material": [ "wheat", "flesh" ],
     "volume": 7,
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -7078,7 +7188,7 @@
     "material": [ "wheat", "veggy", "nut" ],
     "volume": 7,
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 15,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -7099,7 +7209,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": 12,
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 15,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -7129,6 +7239,7 @@
     "spoils_in": 160,
     "charges": 5,
     "fun": -1,
+    "flags": [ "NO_FREEZE" ],
     "phase": "liquid"
   },
   {
@@ -7321,6 +7432,7 @@
     "price": 0,
     "material": "paper",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
     "fun": -20
   },
@@ -7366,7 +7478,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 6,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 8
   },
   {
@@ -7392,7 +7504,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 6,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": -12
   },
   {
@@ -7444,6 +7556,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -40
   },
   {
@@ -7851,6 +7964,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -7869,6 +7983,7 @@
     "price": 180,
     "material": "fruit",
     "volume": 1,
+    "flags": [ "NO_FREEZE" ],
     "fun": 2
   },
   {
@@ -7907,6 +8022,7 @@
     "addiction_type": "caffeine",
     "addiction_potential": 1,
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 40,
     "weight": 1
   },
@@ -7926,6 +8042,7 @@
     "addiction_type": "caffeine",
     "addiction_potential": 1,
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 40,
     "weight": 1
   },
@@ -8008,6 +8125,7 @@
     "volume": 1,
     "charges": 2,
     "fun": 4,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -8236,7 +8354,7 @@
     "material": [ "veggy", "junk" ],
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 6,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -8256,6 +8374,7 @@
     "price": 10,
     "material": [ "powder", "fruit" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 15,
     "fun": 1
   },
@@ -8277,7 +8396,7 @@
     "volume": 12,
     "charges": 8,
     "bashing": 2,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -8372,6 +8491,7 @@
     "price": 100,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": 6
   },
@@ -8595,6 +8715,7 @@
     "price": 130,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 4
   },
@@ -8613,6 +8734,7 @@
     "price": 900,
     "material": "flesh",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
   },
   {
@@ -8667,6 +8789,7 @@
     "price": 900,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
   },
   {
@@ -8705,6 +8828,7 @@
     "price": 900,
     "material": "fruit",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": 2
   },
@@ -8845,6 +8969,7 @@
     "price": 100,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 6,
     "fun": 4
   },
@@ -8957,6 +9082,7 @@
     "price_note": "Priced by the 100 liter barrel, this is multiplied by 400 to achieve the final cost.",
     "material": "alcohol",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "phase": "liquid",
     "charges": 7,
     "fun": 17
@@ -9000,6 +9126,7 @@
     "price": 130,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 6,
     "fun": 4
   },
@@ -9039,6 +9166,7 @@
     "price": 220,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -2
   },
   {
@@ -9075,6 +9203,7 @@
     "price": 300,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9109,6 +9238,7 @@
     "price": 200,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9382,6 +9512,7 @@
     "price": 0,
     "material": "flesh",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": -4
   },
@@ -9403,6 +9534,7 @@
     "description": "Pieces of poisonous veggy that have been dried to prevent them from rotting away.  It will still poison you if you eat this.",
     "price": 0,
     "material": "veggy",
+    "flags": [ "EDIBLE_FROZEN" ],
     "volume": 1,
     "charges": 2
   },
@@ -9573,7 +9705,7 @@
     "material": [ "alcohol", "junk" ],
     "volume": 2,
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 20
   },
   {
@@ -10195,7 +10327,22 @@
     "spoils_in": 1176,
     "quench": -7,
     "fun": -3,
-    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] }
+    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] },
+    "flags": [ "SMOKED" ]
+  },
+  {
+    "id": "sausage_wasteland_raw",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": "raw wasteland sausage",
+    "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
+    "charges": 6,
+    "parasites": 32,
+    "healthy": 0,
+    "quench": -7,
+    "fun": -10,
+    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] },
+    "flags": [ "SMOKABLE" ]
   },
   {
     "id": "brownie_weed",
@@ -10215,6 +10362,44 @@
     "spoils_in": 420,
     "use_action": "WEED_BROWNIE",
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "jabberwock_heart",
+    "name": "putrid heart",
+    "weight": 4535,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -10,
+    "nutrition": 40,
+    "quench": 20,
+    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies...",
+    "price": 6500,
+    "material": [ "flesh" ],
+    "volume": 4,
+    "fun": -25,
+    "use_action" : {
+      "type" : "mutagen",
+       "mutation_category" : "BEAST",
+      "is_strong" : true
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "jabberwock_heart_desiccated",
+    "name": "desiccated putrid heart",
+    "weight": 1360,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -5,
+    "nutrition": 25,
+    "description": "A huge strip of muscle - all that remains of a putrid heart that has been sliced open and drained of blood.  It could be eaten if you're hungry, but looks *disgusting*.",
+    "price": 1000,
+    "material": [ "flesh" ],
+    "volume": 1,
+    "fun": -30
   }
 ]
 

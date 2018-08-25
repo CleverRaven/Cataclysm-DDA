@@ -760,7 +760,7 @@ std::string options_manager::build_tilesets_list()
 std::string options_manager::build_soundpacks_list()
 {
     const std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
-                                                             "sounddir", "soundpack-conf");
+                                                             "data_sound", "soundpack-conf");
     if( soundpack_names.empty() ) {
         optionNames["basic"] = _("Basic");
         return "basic";
@@ -1086,6 +1086,12 @@ void options_manager::init()
         _("Number of turns after which a message will be removed from the sidebar log.  '0' disables this option."),
         0, 1000, 0
         );
+    
+    //~ unbound key error message suppression
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", _( "Suppress \"unknown command\" messages" ),
+        _( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
+        );
 
     //~ aim bar style - bars or numbers
     optionNames["numbers"] = _("Numbers");
@@ -1320,9 +1326,9 @@ void options_manager::init()
         _("If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users."),
         true
         );
-    
+
     mOptionsSort["debug"]++;
-    
+
     add("OVERMAP_GENERATION_TRIES", "debug", _("Overmap generation attempt count"),
         _("Maximum number of retries in overmap generation due to inability to place mandatory special locations.  High numbers and strange world settings will lead to VERY slow generation!"),
         1, 20, 2

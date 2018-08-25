@@ -53,6 +53,8 @@ std::vector<tripoint> get_footstep_markers();
 std::pair<std::vector<tripoint>, std::vector<tripoint>> get_monster_sounds();
 // retrieve the sound event(s?) at a location.
 std::string sound_at( const tripoint &location );
+/** Tells us if sound has been enabled in options */
+extern bool sound_enabled;
 }
 
 namespace sfx

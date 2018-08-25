@@ -7,7 +7,7 @@
 #include "debug.h"
 #include "mapdata.h"
 #include "output.h"
-#include "output.h"
+#include "coordinate_conversions.h"
 #include "rng.h"
 #include "requirements.h"
 #include "ammo.h"
@@ -37,6 +37,8 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 #include "bionics.h"
+#include "inventory.h"
+#include "craft_command.h"
 
 #include <sstream>
 #include <algorithm>
@@ -175,7 +177,7 @@ class atm_menu {
 public:
     // menu choices
     enum options : int {
-        cancel, purchase_card, deposit_money, withdraw_money, transfer_money, transfer_all_money
+        cancel, purchase_card, deposit_money, withdraw_money, transfer_all_money
     };
 
     atm_menu()                           = delete;
@@ -194,7 +196,6 @@ public:
             case purchase_card:      result = do_purchase_card();      break;
             case deposit_money:      result = do_deposit_money();      break;
             case withdraw_money:     result = do_withdraw_money();     break;
-            case transfer_money:     result = do_transfer_money();     break;
             case transfer_all_money: result = do_transfer_all_money(); break;
             default:
                 return;
@@ -257,13 +258,7 @@ private:
         }
 
         if (card_count >= 2 && charge_count) {
-            add_choice(transfer_money, _("Transfer Money"));
             add_choice(transfer_all_money, _("Transfer All Money"));
-        } else if (charge_count) {
-            add_info(transfer_money, _("You need two cash cards before you can move money!"));
-        } else {
-            add_info(transfer_money,
-                _("One of your cash cards must be charged before you can move money!"));
         }
 
         amenu.addentry(cancel, true, 'q', _("Cancel"));
@@ -277,18 +272,6 @@ private:
 
         u.moves -= 100;
     }
-
-    //! Prompt for a card to use (includes worn items).
-    item* choose_card(char const *const msg) {
-        const int index = g->inv_for_id( itype_id( "cash_card" ), msg );
-
-        if (index == INT_MIN) {
-            add_msg(m_info, _("Never mind."));
-            return nullptr; // player canceled
-        }
-
-        return &u.i_at(index);
-    };
 
     //! Prompt for an integral value clamped to [0, max].
     static long prompt_for_amount(char const *const msg, long const max) {
@@ -323,25 +306,23 @@ private:
 
     //!Deposit money from cash card into bank account.
     bool do_deposit_money() {
-        item *src = choose_card(_("Insert card for deposit."));
-        if (!src) {
-            return false;
-        }
+        long money = u.charges_of( "cash_card" );
 
-        if (!src->charges) {
+        if (!money) {
             popup(_("You can only deposit money from charged cash cards!"));
             return false;
         }
 
         const int amount = prompt_for_amount(ngettext(
             "Deposit how much? Max: %d cent. (0 to cancel) ",
-            "Deposit how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
+            "Deposit how much? Max: %d cents. (0 to cancel) ", money), money);
 
         if (!amount) {
             return false;
         }
 
-        src->charges -= amount;
+        add_msg( m_info, "amount: %d", amount );
+        u.use_charges( "cash_card", amount );
         u.cash += amount;
         u.moves -= 100;
         finish_interaction();
@@ -351,10 +332,8 @@ private:
 
     //!Move money from bank account onto cash card.
     bool do_withdraw_money() {
-        item *dst = choose_card(_("Insert card for withdrawal."));
-        if (!dst) {
-            return false;
-        }
+        int pos = u.inv.position_by_type( "cash_card" );
+        item *dst = &u.i_at( pos );
 
         const int amount = prompt_for_amount(ngettext(
             "Withdraw how much? Max: %d cent. (0 to cancel) ",
@@ -372,40 +351,6 @@ private:
         return true;
     }
 
-    //!Move money between cash cards.
-    bool do_transfer_money() {
-        item *dst = choose_card(_("Insert card for deposit."));
-        if (!dst) {
-            return false;
-        }
-
-        item *src = choose_card(_("Insert card for withdrawal."));
-        if (!src) {
-            return false;
-        } else if (dst == src) {
-            popup(_("You must select a different card to move from!"));
-            return false;
-        } else if (!src->charges) {
-            popup(_("You can only move money from charged cash cards!"));
-            return false;
-        }
-
-        const int amount = prompt_for_amount(ngettext(
-            "Transfer how much? Max: %d cent. (0 to cancel) ",
-            "Transfer how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
-
-        if (!amount) {
-            return false;
-        }
-
-        src->charges -= amount;
-        dst->charges += amount;
-        u.moves -= 100;
-        finish_interaction();
-
-        return true;
-    }
-
     //!Move the money from all the cash cards in inventory to a single card.
     bool do_transfer_all_money() {
         item *dst;
@@ -416,10 +361,12 @@ private:
                 return false;
             }
         } else {
-            dst = choose_card( _("Insert card for bulk deposit.") );
-            if( !dst ) {
+            const int pos = u.inv.position_by_type( "cash_card" );
+
+            if( pos == INT_MIN ) {
                 return false;
             }
+            dst = &u.i_at( pos );
         }
 
         for (auto &i : u.inv_dump()) {
@@ -461,22 +408,14 @@ void iexamine::atm(player &p, const tripoint& )
 void iexamine::vending( player &p, const tripoint &examp )
 {
     constexpr int moves_cost = 250;
-
+    long money = p.charges_of( "cash_card" );
     auto vend_items = g->m.i_at( examp );
+
     if( vend_items.empty() ) {
         add_msg( m_info, _( "The vending machine is empty!" ) );
         return;
-    } else if( !p.has_charges( "cash_card", 1 ) ) {
+    } else if( !money ) {
         popup( _( "You need a charged cash card to purchase things!" ) );
-        return;
-    }
-
-    item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
-
-    if( card->is_null() ) {
-        return; // player canceled selection
-    } else if( card->charges == 0 ) {
-        popup( _( "You must insert a charged cash card!" ) );
         return;
     }
 
@@ -535,7 +474,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
 
         trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
-                        _( "Money left: %s" ), format_money( card->charges ) );
+                        _( "Money left: %s" ), format_money( money ) );
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -583,7 +522,9 @@ void iexamine::vending( player &p, const tripoint &examp )
         } else if (action == "UP") {
             cur_pos = (cur_pos + num_items - 1) % num_items;
         } else if (action == "CONFIRM") {
-            if ( cur_item->price( false ) > card->charges ) {
+            const int iprice = cur_item->price( false );
+
+            if ( iprice > money ) {
                 popup(_("That item is too expensive!"));
                 continue;
             }
@@ -593,7 +534,8 @@ void iexamine::vending( player &p, const tripoint &examp )
                 p.moves -= moves_cost;
             }
 
-            card->charges -= cur_item->price( false );
+            money -= iprice;
+            p.use_charges( "cash_card", iprice );
             p.i_add_or_drop( *cur_item );
 
             vend_items.erase( cur_item );
@@ -681,7 +623,9 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             }
         }
         for( monster &critter : g->all_monsters() ) {
-            if( ( critter.type->id == mon_turret ||
+            // Check 1) same overmap coords, 2) turret, 3) hostile
+            if( ms_to_omt_copy(g->m.getabs(critter.pos())) == ms_to_omt_copy(g->m.getabs(examp)) &&
+                ( critter.type->id == mon_turret ||
                 critter.type->id == mon_turret_rifle ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
@@ -3319,24 +3263,15 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( buy_gas == choice ) {
-        item *cashcard;
+        long money = p.charges_of( "cash_card" );
 
-        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
-
-        if( pos == INT_MIN ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        cashcard = &( p.i_at( pos ) );
-
-        if( cashcard->charges < pricePerUnit ) {
+        if( money < pricePerUnit ) {
             popup( str_to_illiterate_str(
                        _( "Not enough money, please refill your cash card." ) ).c_str() ); //or ride on a solar car, ha ha ha
             return;
         }
 
-        long maximum_liters = std::min( cashcard->charges / pricePerUnit, tankGasUnits / 1000 );
+        long maximum_liters = std::min( money / pricePerUnit, tankGasUnits / 1000 );
 
         std::string popupmsg = string_format(
                                    _( "How many liters of gasoline to buy? Max: %d L. (0 to cancel) " ), maximum_liters );
@@ -3360,9 +3295,11 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
 
-        cashcard->charges -= liters * pricePerUnit;
+        long cost = liters * pricePerUnit;
+        money -= cost;
+        p.use_charges( "cash_card", cost );
 
-        add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
+        add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( money ) );
         p.moves -= 100;
         return;
     }
@@ -3397,7 +3334,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     if( refund == choice ) {
         item *cashcard;
 
-        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );;
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -3411,7 +3348,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
+            add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( p.charges_of( "cash_card" ) ) );
             p.moves -= 100;
             return;
         } else {
@@ -3722,6 +3659,451 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 }
 
+void smoker_activate(player &p, const tripoint &examp)
+{
+    furn_id cur_smoker_type = g->m.furn( examp );
+    furn_id next_smoker_type = f_null;
+    if( cur_smoker_type == f_smoking_rack ) {
+        next_smoker_type = f_smoking_rack_active;
+    } else {
+        debugmsg( "Examined furniture has action smoker_activate, but is of type %s", g->m.furn( examp ).id().c_str() );
+        return;
+    }
+    bool food_present = false;
+    bool charcoal_present = false;
+    auto items = g->m.i_at( examp );
+    units::volume food_volume = 0;
+    item *charcoal = nullptr;
+
+    for( size_t i = 0; i < items.size(); i++ ) {
+        auto &it = items[i];
+        if( it.has_flag( "SMOKED" ) && !it.has_flag( "SMOKABLE" ) ) {
+            add_msg( _( "This rack already contains smoked food." ) );
+            add_msg( _( "Remove it before firing the smoking rack again." ) );
+            return;
+        }
+        if( it.has_flag( "SMOKABLE" ) ) {
+            food_present = true;
+            food_volume += it.volume();
+            continue;
+        }
+        if( it.typeId() == "charcoal" ) {
+            charcoal_present = true;
+            charcoal = &it;
+        }
+        if( it.typeId() != "charcoal" && !it.has_flag( "SMOKABLE" ) ) {
+            add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1, false ).c_str() );
+            add_msg( _( "You remove %s from the rack."), it.tname().c_str() );
+            g->m.add_item_or_charges( p.pos(), it );
+            g->m.i_rem( examp, i );
+            i--;
+            return;
+        }
+        if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
+            add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
+        }
+    }
+    if( !food_present ) {
+        add_msg( _( "This rack is empty.  Fill it with raw meat, fish or sausages and try again." ) );
+        return;
+    }
+    if( !charcoal_present ) {
+        add_msg( _( "There is no charcoal in the rack." ) );
+        return;
+    }
+    if( food_volume > units::from_liter( 20 ) ) {
+        add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
+        add_msg( string_format( _( "You think that you can load about %s %s in it." ), format_volume( units::from_liter( 20 ) ), volume_units_long() ) );
+        return;
+    }
+
+    long char_charges = 100 * to_liter( food_volume ) < 100 ? 100 : 100 * to_liter( food_volume );
+
+    if( count_charges_in_list( charcoal->type, g->m.i_at( examp ) ) < char_charges ) {
+        add_msg( _( "There is not enough charcoal in the rack to smoke this much food." ) );
+        add_msg( _( "You need at least %1$s pieces of charcoal, and the smoking rack has %2$s inside." ),
+                    char_charges, count_charges_in_list( charcoal->type, g->m.i_at( examp ) ) );
+        return;
+    }
+
+    if( !p.has_charges( "fire" , 1 ) ) {
+        add_msg( _( "This smoking rack is ready to be fired, but you have no fire source." ) );
+        return;
+    } else if( !query_yn( _( "Fire the smoking rack?" ) ) ) {
+        return;
+    }
+
+    p.use_charges( "fire", 1 );
+    g->m.furn_set( examp, next_smoker_type );
+    if( charcoal->charges == char_charges ) {
+        g->m.i_rem( examp, charcoal );
+    } else {
+        charcoal->charges -= char_charges;
+    }
+    item result( "fake_smoke_plume", calendar::turn );
+    result.item_counter = 3600; // = 6 hours
+    result.activate();
+    g->m.add_item( examp, result );
+    add_msg( _("You light a small fire under the rack and it starts to smoke.") );
+}
+
+void smoker_finalize(player &, const tripoint &examp)
+{
+    furn_id cur_smoker_type = g->m.furn( examp );
+    furn_id next_smoker_type = f_null;
+    if ( cur_smoker_type == f_smoking_rack_active ) {
+        next_smoker_type = f_smoking_rack;
+    } else {
+        debugmsg( "Furniture executed action smoker_finalize, but is of type %s", g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    auto items = g->m.i_at( examp );
+    if( items.empty() ) {
+        g->m.furn_set(examp, next_smoker_type);
+        return;
+    }
+
+    std::string product = "";
+    for( size_t i = 0; i < items.size(); i++ ) {
+        auto &item_it = items[i];
+        //dry products before smoked products to avoid override
+        if( item_it.typeId() == "meat_smoked" ) {
+            product = "dry_meat";
+        } else if( item_it.typeId() == "fish_smoked" ) {
+            product = "dry_fish";
+        } else if( item_it.typeId() == "raw_beans" ) {
+            product = "dry_beans";
+        } else if( item_it.typeId() == "sweet_fruit" || item_it.typeId() == "coconut" || item_it.typeId() == "can_coconut" ) {
+            product = "dry_fruit";
+        } else if( item_it.typeId() == "human_smoked" ) {
+            product = "dry_hflesh";
+        } else if( item_it.typeId() == "meat_tainted" ) {
+            product = "dry_meat_tainted";
+        } else if( item_it.typeId() == "mushroom" || item_it.typeId() == "mushroom_morel" ) {
+            product = "dry_mushroom";
+        } else if( item_it.typeId() == "mushroom_magic" ) {
+            product = "dry_mushroom_magic";
+        } else if( item_it.typeId() == "broccoli" ||
+            item_it.typeId() == "tomato" ||
+            item_it.typeId() == "pumpkin" ||
+            item_it.typeId() == "zucchini" ||
+            item_it.typeId() == "celery" ||
+            item_it.typeId() == "potato_raw" ||
+            item_it.typeId() == "onion" ||
+            item_it.typeId() == "carrot" ||
+            item_it.typeId() == "cabbage" ||
+            item_it.typeId() == "lettuce" ||
+            item_it.typeId() == "veggy" ||
+            item_it.typeId() == "veggy_wild" ||
+            item_it.typeId() == "dandelion_cooked" ) {
+            product = "dry_veggy";
+        } else if( item_it.typeId() == "veggy_tainted" ) {
+            product = "dry_veggy_tainted";
+        //smoked products after dried products to avoid override
+        } else if( item_it.typeId() == "meat" ) {
+            product = "meat_smoked";
+        } else if( item_it.typeId() == "fish" ) {
+            product = "fish_smoked";
+        } else if( item_it.typeId() == "sausage_wasteland_raw" ) {
+            product = "sausage_wasteland";
+        } else if( item_it.typeId() == "sausage_raw" ) {
+            product = "sausage";
+        } else if( item_it.typeId() == "mannwurst_raw" ) {
+            product = "mannwurst";
+        } else if( item_it.typeId() == "human_flesh" ) {
+            product = "human_smoked";
+        } else {
+            product = "";
+        }
+        if( product != "" ) {
+            item result( product, calendar::turn );
+            result.charges = item_it.charges;
+            //g->m.add_item( examp, result );
+            item_it = result;
+        }
+    }
+    g->m.furn_set( examp, next_smoker_type );
+}
+
+void smoker_load_food( player &p, const tripoint &examp )
+{
+    std::vector<item_comp> comps;
+    std::list<item> moved;
+
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
+        p.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
+        return;
+    }
+    // filter SMOKABLE food
+    inventory inv = p.crafting_inventory();
+    inv.remove_items_with( []( const item & it ) {
+        return it.rotten();
+    } );
+    std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "SMOKABLE" );
+    } );
+
+    uimenu smenu;
+    smenu.text = _( "Load smoking rack with what kind of food?" );
+    smenu.return_invalid = true;
+    // count and ask for item to be placed ...
+    int count = 0;
+    std::list<std::string> names;
+    for( const item *smokable_item : filtered ) {
+
+        if( smokable_item->count_by_charges() ) {
+            count = inv.charges_of( smokable_item->typeId() );
+        } else {
+            count = inv.amount_of( smokable_item->typeId() );
+        }
+        if( count != 0 ) {
+            auto on_list = std::find( names.begin(), names.end(), item::nname( smokable_item->typeId(), 1 ) );
+            if( on_list == names.end() ) {
+                smenu.addentry( item::nname( smokable_item->typeId(), 1 ) );
+            }
+            names.push_back( item::nname( smokable_item->typeId(), 1 ) );
+            comps.push_back( item_comp( smokable_item->typeId(), count ) );
+        }
+        count = 0;
+    }
+
+    if( comps.size() == 0 ) {
+        p.add_msg_if_player( _( "You don't have any food that can be smoked." ) );
+        return;
+    }
+
+    smenu.addentry( -1, true, 'q', _( "Cancel" ) );
+    smenu.query();
+
+    if( static_cast<size_t>( smenu.ret ) >= filtered.size() || smenu.ret == -1 ) {
+        add_msg(m_info, _( "Never mind." ) );
+        return;
+    }
+    count = 0;
+    auto what = filtered[smenu.ret];
+    for( auto c : comps ) {
+        if( c.type == what->typeId() ) {
+            count = c.count;
+        }
+    }
+
+    // ... then ask how many to put it
+    const std::string popupmsg = string_format(_("Insert how many %s into the rack?"),
+                                 item::nname( what->typeId(), count ).c_str() );
+    long amount = string_input_popup()
+                  .title( popupmsg )
+                  .width( 20 )
+                  .text( to_string( count ) )
+                  .only_digits( true )
+                  .query_long();
+
+    if( amount == 0 ) {
+        add_msg(m_info, _( "Never mind." ) );
+        return;
+    }
+    if( amount > count ) {
+        add_msg(m_info, _( "You can't place that many." ) );
+        return;
+    }
+
+    // reload comps with chosen items and quantity
+    comps.clear();
+    comps.push_back( item_comp( what->typeId(), amount ) );
+
+    // select from where to get the items from and place them
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    inv.remove_items_with( []( const item & it ) {
+        return it.rotten();
+    } );
+    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
+    moved = p.consume_items( selected, 1 );
+
+    // hack, because consume_items doesn't seem to care of what item is consumed despite filters
+    // TODO: find a way to filter out rotten items from those actualy consumed
+    bool rotted = false;
+    for( item m : moved ) {
+        if( m.rotten() ) {
+            rotted = true;
+        }
+    }
+    if( rotted ) {
+        add_msg(m_info, _( "You have rotten food mixed with fresh.  Get rid of it first." ) );
+        for( item m : moved ) {
+           g->m.add_item( p.pos(), m );
+           p.mod_moves( -p.item_handling_cost( m ) );
+        }
+        p.invalidate_crafting_inventory();
+        return;
+    }
+
+    for( item m : moved ) {
+        g->m.add_item( examp, m );
+        p.mod_moves( -p.item_handling_cost( m ) );
+        add_msg(m_info, string_format( _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(), amount ) ) );
+    }
+    p.invalidate_crafting_inventory();
+}
+
+void iexamine::on_smoke_out( const tripoint &examp )
+{
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
+        smoker_finalize( g->u, examp );
+    }
+}
+
+void iexamine::smoker_options( player &p, const tripoint &examp )
+{
+    bool active = g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ? true : false;
+    auto items_here = g->m.i_at( examp );
+    if( items_here.empty() && active ) {
+        debugmsg( "f_smoking_rack_active was empty!" );
+        g->m.furn_set( examp, f_smoking_rack );
+        return;
+    }
+    if( items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
+        debugmsg( "f_smoking_rack_active was empty, and had fake_smoke_plume!" );
+        g->m.furn_set( examp, f_smoking_rack );
+        items_here.erase( items_here.begin() );
+        return;
+    }
+
+    bool rem_f_opt = false;
+    std::stringstream pop;
+    time_duration time_left = 0;
+    int hours_left = 0;
+    int minutes_left = 0;
+    int char_quantity = 0;
+    bool f_check = false;
+    bool c_check = false;
+    
+    for( size_t i = 0; i < items_here.size(); i++ ) {
+        auto &it = items_here[i];
+        if( it.is_food() ) {
+            f_check = true;
+        }
+        if( it.typeId() == "charcoal" ) {
+            c_check = true;
+            char_quantity = count_charges_in_list( it.type, items_here );
+        }
+        if( active && it.typeId() == "fake_smoke_plume" ) {
+            time_left = time_duration::from_turns( it.item_counter );
+            hours_left = to_hours<int>( time_left );
+            minutes_left = to_minutes<int>( time_left ) + 1;
+        }
+    }
+    
+    uimenu smenu;
+    smenu.text = _( "What to do with the smoking rack:" );
+    smenu.return_invalid = true;
+    smenu.addentry( 0, true, 'i', "%s", _( "Inspect smoking rack" ) );
+    if( active ) {
+        smenu.addentry( 1, false, 'l', "%s", _( "Light up and smoke food (lit & smoking)" ) );
+    } else {
+        smenu.addentry( 1, true, 'l', "%s", _( "Light up and smoke food" ) );
+    }
+
+    smenu.addentry( 2, true, 'f', "%s", _( "Insert food for smoking" ) );
+    smenu.addentry( 3, true, 'r', "%s", _( "Reload with charcoal" ) );
+
+    if( f_check ) {
+        smenu.addentry( 4, true, 'e', "%s", _( "Remove food from rack" ) );
+    } else {
+        smenu.addentry( 4, false, 'e', "%s", _( "Remove food from rack (none inside)" ) );
+    }
+    if( c_check ) {
+            smenu.addentry( 5, true, 'c', "%s", _( "Remove charcoal from rack; has: " ) + std::to_string( char_quantity ) );
+    } else {
+            smenu.addentry( 5, false, 'c', "%s", _( "Remove charcoal from rack (none inside)" ) );
+    }
+    if ( active ) {
+        smenu.addentry( 7, true, 'q', "%s", _( "Quench burning charcoal" ) );
+    }
+    smenu.addentry( 6, true, 'x', "%s", _( "Cancel" ) );
+    smenu.query();
+
+    switch( smenu.ret ) {
+        case 0: //inspect smoking rack
+        {
+            if ( active ) {
+                pop << "<color_green>" << _( "There's a smoking rack here.  It is lit and smoking." ) << "</color>" << "\n";
+                if( time_left > 0 ) {
+                    if( minutes_left > 60 ) {
+                        pop << string_format( ngettext( "It will finish smoking in about %d hour.",
+                                "It will finish smoking in about %d hours.",
+                                hours_left ), hours_left ) << "\n \n ";
+                    } else if( minutes_left > 30 ) {
+                        pop << _( "It will finish smoking in less than an hour." );
+                    } else {
+                        pop << string_format( _("It should take about %d minutes to finish smoking."), minutes_left );
+                    }
+                }
+            } else {
+                pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
+            }          
+            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
+            if( items_here.empty() ) {
+                pop << "... that it is empty.";
+            } else {
+                for( size_t i = 0; i < items_here.size(); i++ ) {
+                auto &it = items_here[i];
+                if ( it.typeId() == "fake_smoke_plume" ) {
+                    pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" << "\n ";
+                    continue;
+                }
+                pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) ); 
+                pop << " (" << std::to_string( count_charges_in_list( it.type, items_here ) ) << ") \n ";
+                }
+            }
+            popup( pop.str(), PF_NONE ); 
+            break;
+        }
+        case 1: //activate
+            if ( active ) {
+                add_msg( _("It is already lit and smoking.") );
+                break;
+            } else {
+                smoker_activate( p, examp );
+                break;
+            }
+            break;
+        case 2: // load food
+            smoker_load_food( p, examp );
+            break;
+        case 3: // load charcoal
+            reload_furniture( p, examp );
+            break;
+        case 4: // remove food
+            rem_f_opt = true;
+	    /* fallthrough */
+        case 5: //remove charcoal
+            {
+                for( size_t i = 0; i < items_here.size(); i++ ) {
+                    auto &it = items_here[i];
+                    if( ( rem_f_opt && it.is_food() ) || ( !rem_f_opt && ( it.typeId() == "charcoal" ) ) ) {
+                        add_msg( _("You remove %s from the rack."), it.tname().c_str() );
+                        g->m.add_item_or_charges( p.pos(), it );
+                        g->m.i_rem( examp, i );
+                        p.mod_moves( -p.item_handling_cost( it ) );
+                        i--;
+                    }
+                }
+                if ( active && rem_f_opt ) {
+                    g->m.furn_set( examp, f_smoking_rack );
+                    add_msg( m_info, _( "You stop the smoking process." ) );
+                }
+            }
+            break;
+        case 6:
+            add_msg( m_info, _( "Never mind." ) );
+            break;
+        case 7:
+            g->m.furn_set( examp, f_smoking_rack );
+            add_msg( m_info, _( "You stop the smoking process." ) );
+            break;
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3794,7 +4176,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
         { "climb_down", &iexamine::climb_down },
-        { "autodoc", &iexamine::autodoc }
+        { "autodoc", &iexamine::autodoc },
+        { "smoker_options", &iexamine::smoker_options }
     }};
 
     auto iter = function_map.find( function_name );

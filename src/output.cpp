@@ -1126,6 +1126,7 @@ std::string word_rewrap( const std::string &in, int width )
     int lastout = 0;
     const char *instr = in.c_str();
     bool skipping_tag = false;
+    bool just_wrapped = false;
 
     for( int j = 0, x = 0; j < ( int )in.size(); ) {
         const char *ins = instr + j;
@@ -1151,6 +1152,11 @@ std::string word_rewrap( const std::string &in, int width )
             continue;
         }
 
+        if( just_wrapped && uc == ' ' ) { // ignore spaces after wrapping
+            lastwb = lastout = j;
+            continue;
+        }
+
         x += mk_wcwidth( uc );
 
         if( x > width ) {
@@ -1163,6 +1169,9 @@ std::string word_rewrap( const std::string &in, int width )
             o << '\n';
             x = 0;
             lastout = j = lastwb;
+            just_wrapped = true;
+        } else {
+            just_wrapped = false;
         }
 
         if( uc == ' ' || uc >= 0x2E80 ) {

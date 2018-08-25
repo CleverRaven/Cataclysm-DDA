@@ -67,6 +67,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
+    { "FREEZER", VPFLAG_FREEZER },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
@@ -142,6 +143,32 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         reqs = { { requirement_id( req_id ), 1 } };
     }
 };
+
+/**
+ * Reads engine info from a JsonObject.
+ */
+void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo )
+{
+    vpslot_engine e_info;
+    if( eptr ) {
+        e_info = *eptr;
+    }
+    assign( jo, "backfire_threshold", e_info.backfire_threshold );
+    assign( jo, "backfire_freq", e_info.backfire_freq );
+    assign( jo, "noise_factor", e_info.noise_factor );
+    assign( jo, "damaged_power_factor", e_info.damaged_power_factor );
+    assign( jo, "m2c", e_info.m2c );
+    assign( jo, "muscle_power_factor", e_info.muscle_power_factor );
+    auto excludes = jo.get_array( "exclusions" );
+    if( !excludes.empty() ) {
+        e_info.exclusions.clear();
+        while( excludes.has_more() ) {
+            e_info.exclusions.push_back( excludes.next_string() );
+        }
+    }
+    eptr = e_info;
+    assert( eptr );
+}
 
 /**
  * Reads in a vehicle part from a JsonObject.
@@ -238,6 +265,10 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
         def.damage_reduction = load_damage_array( dred );
     } else {
         def.damage_reduction.fill( 0.0f );
+    }
+
+    if( def.has_flag( "ENGINE" ) ) {
+        load_engine( def.engine_info, jo );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -645,6 +676,45 @@ int vpart_info::removal_time( const Character &ch ) const
 int vpart_info::repair_time( const Character &ch ) const
 {
     return scale_time( repair_skills, repair_moves, ch );
+}
+
+/**
+ * @name Engine specific functions
+ *
+ */
+float vpart_info::engine_backfire_threshold() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_threshold : false;
+}
+
+int vpart_info::engine_backfire_freq() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_freq : false;
+}
+
+int vpart_info::engine_muscle_power_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->muscle_power_factor : false;
+}
+
+float vpart_info::engine_damaged_power_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->damaged_power_factor : false;
+}
+
+int vpart_info::engine_noise_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->noise_factor : false;
+}
+
+int vpart_info::engine_m2c() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
+}
+
+std::vector<std::string> vpart_info::engine_excludes() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->exclusions : std::vector<std::string>();
 }
 
 /** @relates string_id */

@@ -375,7 +375,6 @@
     "components": [
       [ [ "nomex", 40 ] ],
       [ [ "kevlar_plate", 8 ] ],
-      [ [ "mask_bunker", 1 ] ],
       [ [ "duct_tape", 200 ], [ "superglue", 5 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
     ]

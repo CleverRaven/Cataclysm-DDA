@@ -80,8 +80,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_weldrig = ( veh->part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
     const bool has_chemlab = ( veh->part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
     const bool has_purify = ( veh->part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
-    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
-                                ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
+    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) );
+    const bool has_electronics = ( ( veh->part_with_feature( veh_root_part,
+                                     "CTRL_ELECTRONIC" ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
@@ -106,6 +107,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+    }
+
+    if( has_electronics ) {
         selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
                              _( "Control multiple electronics" ) );
     }
@@ -1203,6 +1207,35 @@ void show_pickup_message( const PickupMap &mapPickup )
                      entry.second.first.display_name( entry.second.second ).c_str() );
         }
     }
+}
+
+bool Pickup::handle_spillable_contents( player &p, item &it, map &m )
+{
+    if( it.is_bucket_nonempty() ) {
+        const item &it_cont = it.contents.front();
+        int num_charges = it_cont.charges;
+        while( !it.spill_contents( p ) ) {
+            if( num_charges > it_cont.charges ) {
+                num_charges = it_cont.charges;
+            } else {
+                break;
+            }
+        }
+
+        // If bucket is still not empty then player opted not to handle the
+        // rest of the contents
+        if( it.is_bucket_nonempty() ) {
+            p.add_msg_player_or_npc(
+                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+                it.display_name().c_str(), m.name( p.pos() ).c_str()
+            );
+            m.add_item_or_charges( p.pos(), it );
+            return true;
+        }
+    }
+
+    return false;
 }
 
 int Pickup::cost_to_move_item( const Character &who, const item &it )

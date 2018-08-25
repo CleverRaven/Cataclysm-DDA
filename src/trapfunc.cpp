@@ -869,9 +869,10 @@ void trapfunc::lava( Creature *c, const tripoint &p )
 }
 
 // STUB
-void trapfunc::portal( Creature * /*c*/, const tripoint & )
+void trapfunc::portal( Creature *c, const tripoint &p )
 {
-    // TODO: make this do something?
+    // TODO: make this do something unique and interesting
+    telepad( c, p );
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
