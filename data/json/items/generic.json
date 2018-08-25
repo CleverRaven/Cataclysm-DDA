@@ -1175,7 +1175,7 @@
     "name": "micro motor",
     "category": "spare_parts",
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
-    "price": 8000,
+    "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 70,
     "volume": 1
