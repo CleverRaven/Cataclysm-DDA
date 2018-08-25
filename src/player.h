@@ -985,6 +985,8 @@ class player : public Character
         void sort_armor();
         /** Uses a tool */
         void use( int pos );
+        /** Uses a tool at location */
+        void use( item_location loc );
         /** Uses the current wielded weapon */
         void use_wielded();
         /**

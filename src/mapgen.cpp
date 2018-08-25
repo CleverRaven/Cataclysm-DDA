@@ -2827,6 +2827,8 @@ ___DEEE|.R.|...,,...|sss\n",
     } else if (terrain_type == "lab" ||
                terrain_type == "lab_stairs" ||
                terrain_type == "lab_core" ||
+               terrain_type == "ants_lab" ||
+               terrain_type == "ants_lab_stairs" ||
                terrain_type == "ice_lab" ||
                terrain_type == "ice_lab_stairs" ||
                terrain_type == "ice_lab_core" ||
@@ -3244,32 +3246,33 @@ ___DEEE|.R.|...,,...|sss\n",
         } // end aboveground vs belowground
 
         // Ants will totally wreck up the place
-        tw = 0;
-        rw = 0;
-        bw = 0;
-        lw = 0;
-        if (is_ot_type("ants", t_north) && connects_to(t_north, 2)) {
-            tw = SEEY;
-        }
-        if (is_ot_type("ants", t_east) && connects_to(t_east, 3)) {
-            rw = SEEX;
-        }
-        if (is_ot_type("ants", t_south) && connects_to(t_south, 0)) {
-            bw = SEEY + 1;
-        }
-        if (is_ot_type("ants", t_west) && connects_to(t_west, 1)) {
-            lw = SEEX + 1;
-        }
-        if (tw != 0 || rw != 0 || bw != 0 || lw != 0) {
-            for (int i = 0; i < SEEX * 2; i++) {
-                for (int j = 0; j < SEEY * 2; j++) {
-                    if ((i < SEEX * 2 - lw && (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
-                        (i > rw &&          (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
-                        (j > tw &&          (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5))) ||
-                        (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
-                        ter_set(i, j, t_thconc_floor);
-                        if (one_in(5)) {
-                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_thconc_floor);
+        if( is_ot_subtype("ants", terrain_type) ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
+                    // Carve out a diamond area that covers 2 spaces on each edge.
+                    if( i + j > 10 && i + j < 36 && abs( i - j ) < 13 ) {
+                        // Doors and walls get sometimes destroyed:
+                        // 100% at the edge, usually in a central cross, occasionally elsewhere.
+                        if( ( has_flag_ter("DOOR", i, j) || has_flag_ter("WALL", i, j) ) ) {
+                            if( ( i == 0 || j == 0 || i == 23 || j == 23 ) ||
+                                    ( !one_in(3) && ( i == 11 || i == 12 || j == 11 || j == 12 ) ) ||
+                                    one_in(4) ) {
+                                // bash and usually remove the rubble.
+                                make_rubble( { i, j, abs_sub.z } );
+                                ter_set(i, j, t_rock_floor);
+                                if( !one_in(3) ) {
+                                    furn_set(i, j, f_null);
+                                }
+                            }
+                        // and then randomly destroy 5% of the remaining nonstairs.
+                        } else if( one_in(20) &&
+                                !has_flag_ter( "GOES_DOWN", x, y ) &&
+                                !has_flag_ter( "GOES_UP", x, y ) ) {
+                            destroy( { i, j, abs_sub.z } );
+                            // bashed squares can create dirt & floors, but we want rock floors.
+                            if( t_dirt == ter(i, j) || t_floor == ter(i, j) ) {
+                                ter_set(i, j, t_rock_floor);
+                            }
                         }
                     }
                 }
@@ -6552,31 +6555,23 @@ void map::place_spawns(const mongroup_id& group, const int chance,
     }
 }
 
-void map::place_gas_pump(int x, int y, int charges)
+void map::place_gas_pump( int x, int y, int charges )
 {
-    if (one_in(4)) {
-        item diesel("diesel", 0);
-        diesel.charges = charges;
-        add_item(x, y, diesel);
-        ter_set(x, y, t_diesel_pump);
+    std::string fuel_type;
+    if( one_in( 4 ) ) {
+        fuel_type = "diesel";
     } else {
-        item gas("gasoline", 0);
-        gas.charges = charges;
-        add_item(x, y, gas);
-        ter_set(x, y, t_gas_pump);
+        fuel_type = "gasoline";
     }
+    place_gas_pump( x, y, charges, fuel_type );
 }
 
-void map::place_gas_pump(int x, int y, int charges, const std::string &fuel_type)
+void map::place_gas_pump( int x, int y, int charges, const std::string &fuel_type )
 {
-    item fuel(fuel_type, 0);
+    item fuel( fuel_type, 0 );
     fuel.charges = charges;
-    add_item(x, y, fuel);
-    if ( fuel_type == "gasoline") {
-        ter_set(x, y, t_gas_pump);
-    } else if ( fuel_type == "diesel") {
-        ter_set(x, y, t_diesel_pump);
-    }
+    add_item( x, y, fuel );
+    ter_set( x, y, ter_id( fuel.fuel_pump_terrain() ) );
 }
 
 void map::place_toilet(int x, int y, int charges)
