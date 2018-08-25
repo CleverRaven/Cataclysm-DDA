@@ -1971,6 +1971,7 @@
     "sym": 80,
     "color": "green",
     "see_cost": 5,
+    "extras": "build",
     "flags": [ "KNOWN_UP", "NO_ROTATE" ]
   },
   {
@@ -8796,6 +8797,30 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirtroad",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "Dirt Road",
+    "sym": 35,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "Rural House",
+    "sym": 35,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "moonshine_still",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "Moonshine Still",
+    "sym": 83,
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
