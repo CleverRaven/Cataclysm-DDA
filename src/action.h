@@ -102,6 +102,8 @@ enum action_id : int {
     ACTION_LIST_ITEMS,
     /** Open the zone manager */
     ACTION_ZONES,
+    /** Sort out the loot */
+    ACTION_LOOT,
     /**@}*/
 
     // Inventory Interaction (including quasi-inventories like bionics)

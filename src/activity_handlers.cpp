@@ -69,6 +69,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
+    { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
     { activity_id( "ACT_ARMOR_LAYERS" ), armor_layers_do_turn },
     { activity_id( "ACT_ATM" ), atm_do_turn },
@@ -127,6 +128,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
+    { activity_id( "ACT_MOVE_LOOT" ), move_loot_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
@@ -1368,6 +1370,11 @@ void activity_handlers::move_items_finish( player_activity *act, player *p )
     pickup_finish( act, p );
 }
 
+void activity_handlers::move_loot_finish( player_activity *act, player *p )
+{
+    pickup_finish( act, p );
+}
+
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     static const std::string iuse_name_string( "heal" );
@@ -1791,6 +1798,16 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     if( act->targets.size() != 2 || act->index <= 0 ) {
         debugmsg( "invalid arguments to ACT_RELOAD" );
+        return;
+    }
+
+    if( !act->targets[0] ) {
+        debugmsg( "reload target is null, failed to reload" );
+        return;
+    }
+
+    if( !act->targets[1] ) {
+        debugmsg( "ammo target is null, failed to reload" );
         return;
     }
 
@@ -2418,6 +2435,11 @@ void activity_handlers::pickup_do_turn( player_activity *, player * )
 void activity_handlers::move_items_do_turn( player_activity *, player * )
 {
     activity_on_turn_move_items();
+}
+
+void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
+{
+    activity_on_turn_move_loot( *act, *p );
 }
 
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )

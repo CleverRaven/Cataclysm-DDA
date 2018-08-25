@@ -641,7 +641,6 @@ bool oter_t::is_hardcoded() const
         "spider_pit_under",
         "spiral",
         "spiral_hub",
-        "station_radio",
         "temple",
         "temple_finale",
         "temple_stairs",

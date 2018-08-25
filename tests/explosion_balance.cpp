@@ -13,7 +13,8 @@
 #include "map_helpers.h"
 #include "test_statistics.h"
 
-void check_lethality( std::string explosive_id, int range, float lethality )
+void check_lethality( std::string explosive_id, int range, float lethality,
+                      float epsilon )
 {
     int num_survivors = 0;
     int num_subjects = 0;
@@ -68,7 +69,7 @@ void check_lethality( std::string explosive_id, int range, float lethality )
     INFO( survivor_stats.str() );
     INFO( "Wounded survivors: " << num_wounded );
     INFO( "average hp of survivors: " << average_hp );
-    CHECK( lethality_ratio == Approx( lethality ).epsilon( 0.05 ) );
+    CHECK( lethality_ratio == Approx( lethality ).epsilon( epsilon ) );
 }
 
 std::vector<int> get_part_hp( vehicle *veh )
@@ -117,8 +118,8 @@ void check_vehicle_damage( std::string explosive_id, std::string vehicle_id, int
 
 TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance]" )
 {
-    check_lethality( "grenade_act", 5, 0.95 );
-    check_lethality( "grenade_act", 15, 0.45 );
+    check_lethality( "grenade_act", 5, 0.95, 0.05 );
+    check_lethality( "grenade_act", 15, 0.40, 0.1 );
 }
 
 TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
