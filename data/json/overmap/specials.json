@@ -2292,6 +2292,7 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "type": "overmap_special",
     "id": "storage_units_large",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "large_storage_units_3_north" },
