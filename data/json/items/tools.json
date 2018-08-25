@@ -2502,7 +2502,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL_POWERED" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
     "id": "electrohack",
@@ -3771,7 +3771,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL_POWERED" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
     "id": "jar_pickles_pickled",
