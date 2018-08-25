@@ -1801,6 +1801,16 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         return;
     }
 
+    if( !act->targets[0] ) {
+        debugmsg( "reload target is null, failed to reload" );
+        return;
+    }
+
+    if( !act->targets[1] ) {
+        debugmsg( "ammo target is null, failed to reload" );
+        return;
+    }
+
     item &reloadable = *act->targets[ 0 ];
     int qty = act->index;
     bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
