@@ -13,7 +13,7 @@
     "durability": 200,
     "description": "A rigid steel boom crane.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels, or lift a heavy component like an engine that you are installing in or removing from the other vehicle.",
     "breaks_into": [ { "item": "pipe", "count": [ 8, 32 ] }, { "item": "scrap", "count": [ 8, 24 ] } ],
-    "qualities": [ [ "LIFT", 4 ], [ "JACK", 40 ] ],
+    "qualities": [ [ "LIFT", 40 ], [ "JACK", 40 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION" ]
   },
   {
@@ -31,7 +31,7 @@
     "description": "An extendable cantilever crane.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels, or lift a heavy component like an engine that you are installing in or removing from the other vehicle.",
     "folded_volume": 12,
     "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
-    "qualities": [ [ "LIFT", 1 ], [ "JACK", 7 ] ],
+    "qualities": [ [ "LIFT", 7 ], [ "JACK", 7 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ]
   },
   {

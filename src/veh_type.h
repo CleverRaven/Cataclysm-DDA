@@ -8,6 +8,7 @@
 #include "damage.h"
 #include "calendar.h"
 #include "units.h"
+#include "optional.h"
 
 #include <vector>
 #include <bitset>
@@ -79,12 +80,30 @@ enum vpart_bitflags : int {
  * ANCHOR_POINT - Allows secure seatbelt attachment
  * OVER - Can be mounted over other parts
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
+ * E_COLD_START - Cold weather makes the engine take longer to start
+ * E_STARTS_INSTANTLY - The engine takes no time to start, like foot pedals
+ * E_ALTERNATOR - The engine can mount and power an alternator
+ * E_COMBUSTION - The engine burns fuel to provide power and can burn or explode
+ * E_HIGHER_SKILL - Multiple engines with this flag are harder to install
  * Other flags are self-explanatory in their names. */
+
+struct vpslot_engine {
+    float backfire_threshold = 0;
+    int backfire_freq = 1;
+    int muscle_power_factor = 0;
+    float damaged_power_factor = 0;
+    int noise_factor = 0;
+    int m2c = 1;
+    std::vector<std::string> exclusions;
+};
+
 class vpart_info
 {
     private:
         /** Unique identifier for this part */
         vpart_id id;
+
+        cata::optional<vpslot_engine> engine_info;
 
     public:
         /** Translated name of a part */
@@ -155,7 +174,6 @@ class vpart_info
         /** Format the description for display */
         int format_description( std::ostringstream &msg, std::string format_color, int width ) const;
 
-
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
 
@@ -207,6 +225,17 @@ class vpart_info
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;
 
+        /**
+         * @name Engine specific functions
+         *
+         */
+        std::vector<std::string> engine_excludes() const;
+        int engine_m2c() const;
+        float engine_backfire_threshold() const;
+        int engine_backfire_freq() const;
+        int engine_muscle_power_factor() const;
+        float engine_damaged_power_factor() const;
+        int engine_noise_factor() const;
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;
@@ -232,6 +261,7 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
+        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo );
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
