@@ -1062,13 +1062,6 @@
     "time": 200
   },
   {
-    "id": "bio_syringe",
-    "type": "bionic",
-    "name": "Intravenous Needletip",
-    "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
-    "occupied_bodyparts": [ [ "HAND_L", 1 ] ]
-  },
-  {
     "id": "bio_evil_nanobots",
     "type": "bionic",
     "name": "Autocannibalistic Nanobots",
@@ -1077,10 +1070,10 @@
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
-    "id": "bio_skeleton",
+    "id": "bio_crafting",
     "type": "bionic",
-    "name": "Titanium Joint Bearings",
-    "description": "Many joints in your body have been replaced with mechanical swivels and ball joints that allow a wider range of movement.  In addition to being able to turn your torso around backwards to freak people out, your carrying capacity and crafting speed have been moderately increased.",
-    "occupied_bodyparts": [ [ "TORSO", 5 ], [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ]
+    "name": "Mechanical Repeaters",
+    "description": "Your hands and wrists have been wired to a set of computerized motors that interface with your brain to allow you to automatically perform repetitive, simple tasks.  Your wrists can also rotate freely in either direction.  The net result is 30% increased crafting speed on most crafting tasks other than cooking.",
+    "occupied_bodyparts": [ [ "HAND_L", 2 ], [ "HAND_R", 2 ] ]
   }
 ]

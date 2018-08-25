@@ -86,7 +86,6 @@ static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
 static const bionic_id bio_health_view( "bio_health_view" );
-static const bionic_id bio_syringe( "bio_syringe" );
 
 iuse_actor *iuse_transform::clone() const
 {
@@ -532,18 +531,14 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( tools_needed.count( "syringe" ) ) {
-        dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug." ) );
+        dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug" ) );
     }
 }
 
 long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     // Check prerequisites first.
-    auto need_these = tools_needed;
-    if( need_these.count( "syringe" ) && p.has_bionic( bio_syringe ) ) {
-        need_these.erase( "syringe" ); // no need for a syringe when we have a syringe bionic!
-    }
-    for( auto tool = need_these.cbegin(); tool != need_these.cend(); ++tool ) {
+    for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool->first, 1 ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),

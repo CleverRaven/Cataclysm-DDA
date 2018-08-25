@@ -43,7 +43,7 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PAWS( "PAWS" );
 
-static const bionic_id bio_skeleton( "bio_skeleton" );
+static const bionic_id bio_crafting( "bio_crafting" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
@@ -121,7 +121,7 @@ float player::external_craft_speed_multiplier( const recipe &rec ) const
         modifier += 0.0f;       // If something is ever made that utilizes rec, please remove this block.
     }
 
-    if( has_bionic( bionic_id( "bio_skeleton" ) ) ) {
+    if( has_bionic( bio_crafting ) && rec.category != "CC_FOOD" && rec.category != "CC_CHEM" ) { // mechanical motors in your hands can't do chemistry or cooking faster
         modifier += 0.3f; // 30% flat speed increase
     }
 

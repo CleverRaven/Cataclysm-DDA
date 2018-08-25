@@ -5638,9 +5638,8 @@
       ["bio_remote", 10],
       ["bio_cable", 10],
       ["bio_health_view", 10],
-      ["bio_syringe", 10],
       ["bio_evil_nanobots", 10],
-      ["bio_skeleton", 10]
+      ["bio_crafting", 10]
     ]
   },{
     "type" : "item_group",
@@ -6046,7 +6045,7 @@
       ["bio_power_armor_interface_mkII", 5],
       ["bio_meteorologist", 10],
       ["bio_cable", 10],
-      ["bio_skeleton", 10]
+      ["bio_crafting", 10]
     ]
   },{
       "type" : "item_group",
@@ -6111,8 +6110,7 @@
       ["bio_power_armor_interface_mkII", 5],
       ["bio_meteorologist", 10],
       ["bio_cable", 10],
-      ["bio_syringe", 10],
-      ["bio_skeleton", 10]
+      ["bio_crafting", 10]
     ]
   },{
     "type" : "item_group",
@@ -6353,7 +6351,7 @@
       ["bio_magnet", 10],
       ["bio_resonator", 10],
       ["bio_hydraulics", 10],
-      ["bio_skeleton", 10],
+      ["bio_crafting", 10],
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
@@ -8663,7 +8661,7 @@
       ["bio_heatsink", 20],
       ["bio_watch", 20],
       ["bio_faraday", 20],
-      ["bio_skeleton", 20]
+      ["bio_crafting", 20]
     ]
   },{
     "type" : "item_group",
@@ -8685,7 +8683,7 @@
       ["bio_chain_lightning", 15],
       ["bio_adrenaline", 20],
       ["bio_ods", 10],
-      ["bio_skeleton", 10]
+      ["bio_crafting", 10]
     ]
   },{
     "type" : "item_group",

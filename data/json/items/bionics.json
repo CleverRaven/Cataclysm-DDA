@@ -826,15 +826,6 @@
     "difficulty": 5
   },
   {
-    "id": "bio_syringe",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": "Intravenous Needletip CBM",
-    "description": "A small tube with a retractable needle, that terminates in a net of tiny hoses instead of a plunger.  Installed, it allows you to draw substances directly into your bloodstream through the needle without needing to carry a syringe.",
-    "price": 1000,
-    "difficulty": 1
-  },
-  {
     "id": "bio_evil_nanobots",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -844,12 +835,12 @@
     "difficulty": 6
   },
   {
-    "id": "bio_skeleton",
+    "id": "bio_crafting",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "Titanium Joint Bearings CBM",
-    "description": "A set of hinges, ball joints, and other mechanical synthetic augments for the skeletal structure.  These artificial joints allow a greater range of flexibility and strength, moderately increasing your weight capacity and crafting speed.",
+    "name": "Mechanical Repeaters CBM",
+    "description": "This set of computerized motors is implanted into your joints, and is capable of sending signals to your brain to automatically repeat repetitive tasks and allows your wrists to rotate freely in any direction.  The end result is that you craft many objects faster.",
     "price": 750000,
-    "difficulty": 5
+    "difficulty": 4
   }
 ]
