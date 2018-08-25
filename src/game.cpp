@@ -2588,6 +2588,9 @@ bool game::handle_action()
         act = look_up_action(action);
 
         if ( act == ACTION_MAIN_MENU ) {
+            // No auto-move actions have or can be set at this point.
+            u.clear_destination();
+            destination_preview.clear();
             act = handle_main_menu();
             if( act == ACTION_NULL ) {
                 return false;
