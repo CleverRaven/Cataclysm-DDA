@@ -837,7 +837,7 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
-        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXX++XXXXXXXXXXX",
         "..sss/ssX......X.(..|...",
         ".ddd./..[...........[...",
         ".ddd....[...........|...",
