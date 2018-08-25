@@ -72,6 +72,7 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NOFEELING( "NOFEELING" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PRED1( "PRED1" );
@@ -1507,11 +1508,13 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
     hp_part hpart = dummy.use_healing_item( p, p, it, force );
     if( hpart != num_hp_parts ) {
         p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
-        if( !( p.has_trait( trait_NOPAIN ) ) ) {
-            p.mod_pain( 15 );
-            p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
-        } else {
-            p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
+        if( !p.has_trait( trait_NOFEELING ) ) {
+            if( !( p.has_trait( trait_NOPAIN ) ) ) {
+                p.mod_pain( 15 );
+                p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
+            } else {
+                p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
+            }
         }
         const body_part bp = player::hp_to_bp( hpart );
         if( p.has_effect( effect_bite, bp ) ) {
@@ -3694,7 +3697,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     test_crossing_threshold( p, m_category );
 
     // TODO: Remove the "is_player" part, implement NPC screams
-    if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+    if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && !( p.has_trait( trait_NOFEELING ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, m_category.iv_sound_message );

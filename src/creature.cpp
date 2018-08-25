@@ -33,6 +33,8 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_zapped( "zapped" );
 const efftype_id effect_lying_down( "lying_down" );
 
+static const trait_id trait_NOFEELING( "NOFEELING" );
+
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE} };
@@ -841,7 +843,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
         ( *effects )[eff_id][bp] = e;
         if (is_player()) {
             // Only print the message if we didn't already have it
-            if( !type.get_apply_message().empty() ) {
+            if( !type.get_apply_message().empty() && !has_trait( trait_NOFEELING ) ) {
                      add_msg(type.gain_game_message_type(),
                              _(type.get_apply_message().c_str()));
             }

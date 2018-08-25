@@ -88,6 +88,7 @@ static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
 static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
+static const trait_id trait_NOFEELING( "NOFEELING" );
 static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -2138,6 +2139,9 @@ nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect
     case 101:
         i_color = c_yellow;
         break;
+    }
+    if( has_trait( trait_NOFEELING ) ) {
+        i_color = c_light_gray;
     }
 
     return i_color;

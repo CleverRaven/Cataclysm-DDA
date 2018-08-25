@@ -835,7 +835,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         if( dur > 1800_minutes && one_in( 50 * 512 ) ) {
-            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+            if( !has_trait( trait_id( "NOPAIN" ) ) && !has_trait( trait_id( "NOFEELING" ) ) ) {
                 add_msg_if_player( m_bad,
                                    _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
             } else {
