@@ -87,6 +87,14 @@ class visitable
         int amount_of( const std::string &what, bool pseudo = true,
                        int limit = std::numeric_limits<int>::max() ) const;
 
+        /**
+         * Count rotten items matching id including both this instance and any contained items
+         * @param what ID of items to count
+         * @note items must be empty to be considered a match
+         */
+        int amount_of_rotten( const std::string &what, bool pseudo = true,
+                       int limit = std::numeric_limits<int>::max() ) const;
+
         /** Check instance provides at least qty of an item (@see amount_of) */
         bool has_amount( const std::string &what, int qty, bool pseudo = true ) const {
             return amount_of( what, pseudo, qty ) == qty;
