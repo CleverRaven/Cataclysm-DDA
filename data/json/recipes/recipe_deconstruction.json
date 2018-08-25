@@ -967,7 +967,7 @@
     "type": "uncraft",
     "time": 500,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_small", 1 ] ], [ [ "cable", 2 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "result": "fancy_sunglasses",
@@ -1619,7 +1619,7 @@
       [ [ "antenna", 1 ] ],
       [ [ "cable", 4 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "scrap", 1 ] ]
@@ -1681,7 +1681,7 @@
     "time": 60000,
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "motor_small", 3 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "motor_micro", 3 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "seat",
@@ -1962,7 +1962,7 @@
     "time": 9000,
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ], [ [ "pot", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_small", 1 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ], [ [ "pot", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "result": "box_small",
