@@ -9046,5 +9046,205 @@
     "name": "golf course",
     "sym": 71,
     "color": "green"
+  },
+  {
+    "type" : "overmap_terrain",
+    "id" : "s_vfw",
+    "copy-from": "generic_city_building",
+    "name" : "veterans of foreign wars",
+    "color" : "i_green"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_thrift",
+    "copy-from": "generic_city_building",
+    "name" : "thrift store",
+    "color" : "light_gray"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_daycare",
+    "copy-from": "generic_city_building",
+    "name" : "daycare center",
+    "color" : "blue"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_petstore",
+    "copy-from": "generic_city_building",
+    "name" : "pet supply store",
+    "color" : "yellow"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "large_storage_units_3",
+    "copy-from": "generic_city_building",
+    "name" : "storage units",
+    "sym" : 77,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "large_storage_units_2",
+    "copy-from": "generic_city_building",
+    "name" : "storage units",
+    "sym" : 77,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "large_storage_units_1",
+    "copy-from": "generic_city_building",
+    "name" : "storage units",
+    "sym" : 77,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "medium_storage_units_1",
+    "copy-from": "generic_city_building",
+    "name" : "storage units",
+    "sym" : 77,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "medium_storage_units_2",
+    "copy-from": "generic_city_building",
+    "name" : "storage units",
+    "sym" : 77,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_baseballfield_a1",
+    "copy-from": "generic_city_building",
+    "name" : "baseball field",  
+    "sym" : 35,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_baseballfield_a2",
+    "copy-from": "generic_city_building",
+    "name" : "baseball field",  
+    "sym" : 35,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_baseballfield_b1",
+    "copy-from": "generic_city_building",
+    "name" : "baseball field",  
+    "sym" : 35,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_baseballfield_b2",
+    "copy-from": "generic_city_building",
+    "name" : "baseball field",  
+    "sym" : 35,
+    "color" : "white"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_a1",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 43,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_a2",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 43,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_a3",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 43,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_a4",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 43,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_a5",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 43,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_a6",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 77,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_b1",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 77,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_b2",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 77,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_b3",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 77,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_b4",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 77,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_b5",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 77,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_shoppingplaza_b6",
+    "copy-from": "generic_city_building",
+    "name" : "abandoned shopping plaza",  
+    "sym" : 77,
+    "color" : "red"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_reststop_1",
+    "copy-from": "generic_city_building",
+    "name" : "rest area",  
+    "sym" : 35,
+    "color" : "blue"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_reststop_2",
+    "copy-from": "generic_city_building",
+    "name" : "rest area",  
+    "sym" : 35,
+    "color" : "blue"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_restparking_1",
+    "copy-from": "generic_city_building",
+    "name" : "rest area parking",  
+    "sym" : 43,
+    "color" : "dark_gray"
+  },{
+    "type" : "overmap_terrain",
+    "id" : "s_restparking_2",
+    "copy-from": "generic_city_building",
+    "name" : "rest area parking",  
+    "sym" : 43,
+    "color" : "dark_gray"
   }
 ]
