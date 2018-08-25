@@ -9598,5 +9598,53 @@
     "name": "gambling hall",
     "sym": 103,
     "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homelesscamp",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "homeless camp",
+    "sym": 72,
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smallscrapyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "small scrap yard",
+    "sym": 115,
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stripclub",
+    "copy-from": "generic_city_building",
+    "name": "strip club",
+    "sym": 115,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailerparksmall0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park",
+    "sym": 35,
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailerparksmall1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park",
+    "sym": 35,
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailerparksmall2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park",
+    "sym": 35,
+    "color": "white"
   }
 ]
