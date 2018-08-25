@@ -90,7 +90,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "log", "repeat": 1, "x": 7, "y": 9 } ],
+      "place_item": [ { "item": "log", "repeat": 1, "x": 7, "y": 9 } ],
       "furniture": {
         "#": "f_null",
         "+": "f_canvas_door",

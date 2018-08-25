@@ -1,7 +1,7 @@
 {
   "method": "json",
   "object": {
-    "add": [
+    "place_item": [
       { "item": "rolling_paper", "repeat": 1, "x": 13, "y": 3 },
       { "item": "rolling_paper", "repeat": 1, "x": 3, "y": 6 },
       { "item": "pipe_tobacco", "repeat": 1, "x": 18, "y": 6 },

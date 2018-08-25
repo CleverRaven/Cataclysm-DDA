@@ -112,7 +112,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "blanket", "repeat": 1, "x": 11, "y": 17 }, { "item": "corpse", "repeat": 1, "x": 7, "y": 19 } ],
+      "place_item": [ { "item": "blanket", "repeat": 1, "x": 11, "y": 17 }, { "item": "corpse", "repeat": 1, "x": 7, "y": 19 } ],
       "furniture": {
         "#": "f_null",
         "&": "f_trashcan",

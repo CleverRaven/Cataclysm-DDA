@@ -46,7 +46,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
+      "place_item": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
       "furniture": {
         "#": "f_bench",
         "&": "f_trashcan",
@@ -150,7 +150,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
+      "place_item": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
       "furniture": {
         "#": "f_bench",
         "&": "f_trashcan",
@@ -259,7 +259,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "stick", "repeat": 1, "x": 9, "y": 2 },
         { "item": "stick", "repeat": 1, "x": 9, "y": 5 },
         { "item": "pine_bough", "repeat": 1, "x": 9, "y": 7 },
@@ -408,7 +408,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "stick", "repeat": 1, "x": 19, "y": 1 },
         { "item": "stick", "repeat": 1, "x": 20, "y": 4 },
         { "item": "rock", "repeat": 1, "x": 20, "y": 6 },
@@ -530,7 +530,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "stick", "repeat": 1, "x": 19, "y": 1 },
         { "item": "stick", "repeat": 1, "x": 20, "y": 4 },
         { "item": "rock", "repeat": 1, "x": 20, "y": 6 },
@@ -931,7 +931,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "rock", "repeat": 1, "x": 8, "y": 9 },
         { "item": "rock", "repeat": 1, "x": 16, "y": 15 },
         { "item": "stick", "repeat": 1, "x": 8, "y": 17 },
