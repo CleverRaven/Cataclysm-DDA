@@ -2589,6 +2589,9 @@ bool game::handle_action()
 
         if ( act == ACTION_MAIN_MENU ) {
             act = handle_main_menu();
+            if( act == ACTION_NULL ) {
+                return false;
+            }
         }
 
         if( act == ACTION_ACTIONMENU ) {
