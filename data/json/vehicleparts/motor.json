@@ -6,11 +6,13 @@
     "item": "motor",
     "location": "engine_block",
     "description": "An electric motor.",
+    "noise_factor": 3,
+    "m2c": 90,
     "fuel_type": "battery",
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "ENGINE", "TOOL_WRENCH" ]
+    "flags": [ "ENGINE", "TOOL_WRENCH", "E_HIGHER_SKILL" ]
   },
   {
     "id": "engine_electric_small",

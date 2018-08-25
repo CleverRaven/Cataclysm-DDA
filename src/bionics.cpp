@@ -1131,19 +1131,9 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             break;
 
         case 2:
+        case 3:
             add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
             hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
-            break;
-
-        case 3:
-            if( num_bionics() <= failure_level && max_power_level == 0 ) {
-                add_msg( m_bad, _( "All of %s existing bionics are lost!" ), disp_name( true ) );
-            } else {
-                add_msg( m_bad, _( "Some of %s existing bionics are lost!" ), disp_name( true ) );
-            }
-            for( int i = 0; i < failure_level && remove_random_bionic(); i++ ) {
-                ;
-            }
             break;
 
         case 4:

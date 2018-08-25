@@ -301,6 +301,21 @@
         "occurrences" : [1, 30]
     },{
         "type" : "overmap_special",
+        "id" : "Lab with Acid Anthill",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "lab_stairs" },
+            { "point":[3,1,0], "overmap": "acid_anthill"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
+        ],
+        "locations" : [ "land" ],
+        "city_distance" : [8, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 1],
+        "spawns" : { "group" : "GROUP_ANT_ACID", "population":[800,1600], "radius":[10,30] }
+    },{
+        "type" : "overmap_special",
         "id" : "Central Lab",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "central_lab_entrance" },
@@ -2278,6 +2293,193 @@
   },
   {
     "type": "overmap_special",
+    "id": "storage_units_large",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "large_storage_units_3_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "large_storage_units_2_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "large_storage_units_1_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 8 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "storage_units_medium",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "medium_storage_units_2_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "medium_storage_units_1_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 6 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "baseball_field",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_baseballfield_a1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "s_baseballfield_a2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "s_baseballfield_b1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "s_baseballfield_b2_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 3 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "shopping_plaza",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_shoppingplaza_a1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "s_shoppingplaza_a2_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "s_shoppingplaza_a3_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "s_shoppingplaza_a4_north" },
+      { "point": [ 4, 0, 0 ], "overmap": "s_shoppingplaza_a5_north" },
+      { "point": [ 5, 0, 0 ], "overmap": "s_shoppingplaza_a6_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "s_shoppingplaza_b1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "s_shoppingplaza_b2_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "s_shoppingplaza_b3_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "s_shoppingplaza_b4_north" },
+      { "point": [ 4, 1, 0 ], "overmap": "s_shoppingplaza_b5_north" },
+      { "point": [ 5, 1, 0 ], "overmap": "s_shoppingplaza_b6_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 7 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Rest_Area",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_restparking_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "s_restparking_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "s_reststop_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "s_reststop_2_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, 150 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type" : "overmap_special",
+    "id": "Zoo",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "zoo_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "zoo_1_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "zoo_2_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "zoo_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "zoo_1_1_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "zoo_2_1_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "zoo_0_2_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "zoo_1_2_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "zoo_2_2_north" }
+    ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road" },
+      { "point": [ 1, -1, 0 ], "terrain": "road" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 1, 6 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Stadium",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "stadium_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "stadium_1_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "stadium_2_0_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "stadium_3_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "stadium_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "stadium_1_1_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "stadium_2_1_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "stadium_3_1_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "stadium_0_2_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "stadium_1_2_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "stadium_2_2_north" },
+      { "point": [ 3, 2, 0 ], "overmap": "stadium_3_2_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "stadium_0_3_north" },
+      { "point": [ 1, 3, 0 ], "overmap": "stadium_1_3_north" },
+      { "point": [ 2, 3, 0 ], "overmap": "stadium_2_3_north" },
+      { "point": [ 3, 3, 0 ], "overmap": "stadium_3_3_north" },
+      { "point": [ 0, 4, 0 ], "overmap": "stadium_0_4_north" },
+      { "point": [ 1, 4, 0 ], "overmap": "stadium_1_4_north" },
+      { "point": [ 2, 4, 0 ], "overmap": "stadium_2_4_north" },
+      { "point": [ 3, 4, 0 ], "overmap": "stadium_3_4_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ -1, 4 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Movie Theater",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "movietheater_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "movietheater_1_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "movietheater_2_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "movietheater_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "movietheater_1_1_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "movietheater_2_1_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "movietheater_0_2_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "movietheater_1_2_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "movietheater_2_2_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 4 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Trailer Park",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "trailerparksmall0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "trailerparksmall1_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "trailerparksmall2_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ -1, 2 ],
+    "city_sizes": [ 2, 12 ],
+    "occurrences": [ 1, 2 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Homeless Camp",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "homelesscamp_north" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 1, 6 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 4, 8 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Rural House",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "dirtroad_north" },
@@ -2288,7 +2490,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 5, 25 ],
     "city_sizes": [ 2, 10 ],
-    "occurrences": [ 0, 15 ]
+    "occurrences": [ 0, 15 ],
+    "flags": [ "CLASSIC" ]
   },
   {
     "type": "overmap_special",
@@ -2297,6 +2500,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 5, 20 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 5 ]
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
   }
 ]

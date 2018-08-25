@@ -553,6 +553,8 @@ class game
         tripoint look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
+        /** Checks whether or not there is a zone of particular type nearby */
+        bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
         void zones_manager();
         void zones_manager_shortcuts( const catacurses::window &w_info );
         void zones_manager_draw_borders( const catacurses::window &w_border,
@@ -918,6 +920,7 @@ class game
         void open(); // Open a door  'o'
         void close();
         void smash(); // Smash terrain
+        void loot(); // Sort out loot
 
         void handbrake();
         void control_vehicle(); // Use vehicle controls  '^'

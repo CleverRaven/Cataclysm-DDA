@@ -1589,13 +1589,15 @@
     "difficulty": 1,
     "durability": 1000,
     "power": 600,
+    "m2c": 65,
+    "noise_factor": 5,
     "epower": -1,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "queengrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "description": "An amorphous mass, the living heart and brain of a blob vehicle.",
-    "flags": [ "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONICS", "SEAT", "BED" ]
+    "flags": [ "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONICS", "SEAT", "BED", "E_ALTERNATOR", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL" ]
   },
   {
     "id": "razorqueen",

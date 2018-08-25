@@ -988,6 +988,8 @@
     "durability": 400,
     "power": 800,
     "epower": 1,
+    "noise_factor": 25,
+    "m2c": 70,
     "size": 100,
     "damage_modifier": 10,
     "breaks_into": [
@@ -998,7 +1000,7 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "ENGINE", "TOOL_NONE" ]
+    "flags": [ "ENGINE", "TOOL_NONE", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL" ]
   },
   {
     "id": "vgen2",
