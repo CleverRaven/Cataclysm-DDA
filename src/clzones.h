@@ -4,6 +4,7 @@
 
 #include "enums.h"
 #include "string_id.h"
+#include "item.h"
 
 #include <vector>
 #include <string>
@@ -34,8 +35,10 @@ using zone_type_id = string_id<zone_type>;
 class zone_manager
 {
     private:
+        const int MAX_DISTANCE = 10;
         std::map<zone_type_id, zone_type> types;
         std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
+        std::unordered_set<tripoint> get_point_set( const zone_type_id &type ) const;
 
     public:
         zone_manager();
@@ -74,6 +77,7 @@ class zone_manager
 
                 void set_name();
                 void set_type();
+                void set_position( const std::pair<tripoint, tripoint> position );
                 void set_enabled( const bool enabled );
 
                 std::string get_name() const {
@@ -122,6 +126,11 @@ class zone_manager
         bool has_type( const zone_type_id &type ) const;
         void cache_data();
         bool has( const zone_type_id &type, const tripoint &where ) const;
+        bool has_near( const zone_type_id &type, const tripoint &where ) const;
+        std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
+        zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
+        std::string query_name( std::string default_name = "" );
+        zone_type_id query_type();
 
         bool save_zones();
         void load_zones();

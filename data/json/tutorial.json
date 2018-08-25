@@ -41,7 +41,7 @@
             "That yellow > next to you is a staircase leading down.  To go downstairs, step onto the staircase and press the '>' key.  Similarly, a yellow < is stairs leading up, and can be followed with the '<' key.",
             "It's dark down here!  Without a source of light, you'll be limited to seeing only one space in any direction.  You'll encounter darkness while underground or at night.  Press '<' to go back upstairs, and look around for a flashlight.",
             "It's dark down here!  Fortunately, you have a flashlight.  Press 'a' and then select your flashlight to turn it on.",
-            "~ is a terrain symbol that indicates water.  From a water source like this, you can fill any containers you might have.  Step onto the water, then press the pickup key (',' or 'g'), then select a watertight container to put the water into."
+            "~ is a terrain symbol that indicates water.  From a water source like this, you can fill any containers you might have. Examine the water ('e') and press 'c' to fill a container, then select a watertight container to put the water into."
         ]
     }
 ]

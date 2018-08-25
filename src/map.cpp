@@ -53,7 +53,6 @@
 
 const mtype_id mon_zombie( "mon_zombie" );
 
-const skill_id skill_driving( "driving" );
 const skill_id skill_traps( "traps" );
 
 const species_id ZOMBIE( "ZOMBIE" );
@@ -378,275 +377,6 @@ bool map::vehproceed()
     return vehact( *cur_veh );
 }
 
-bool map::vehact( vehicle &veh )
-{
-    const tripoint pt = veh.global_pos3();
-    if( !inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z << ")";
-        veh.stop();
-        veh.of_turn = 0;
-        veh.falling = false;
-        return true;
-    }
-
-    // It needs to fall when it has no support OR was falling before
-    //  so that vertical collisions happen.
-    const bool should_fall = veh.falling &&
-        ( veh.vertical_velocity != 0 || vehicle_falling( veh ) );
-    const bool pl_ctrl = veh.player_in_control( g->u );
-
-    // TODO: Saner diagonal movement, so that you can jump off cliffs properly
-    // The ratio of vertical to horizontal movement should be vertical_velocity/velocity
-    //  for as long as of_turn doesn't run out.
-    if( should_fall ) {
-        const float tile_height = 4; // 4 meters
-        const float g = 9.8f; // 9.8 m/s^2
-        // Convert from 100*mph to m/s
-        const float old_vel = veh.vertical_velocity / 2.23694 / 100;
-        // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
-        // Note: That drops the sign
-        const float new_vel = -sqrt( 2 * tile_height * g +
-                                     old_vel * old_vel );
-        veh.vertical_velocity = new_vel * 2.23694 * 100;
-    } else {
-        // Not actually falling, was just marked for fall test
-        veh.falling = false;
-    }
-
-    // Mph lost per tile when coasting, by an ideal vehicle
-    int base_slowdown = veh.skidding ? 50 : 5;
-    if( should_fall ) {
-        // Just air resistance
-        base_slowdown = 1;
-    }
-
-    // "Anti-ideal" vehicle slows down up to 10 times faster than ideal one
-    const float k_slowdown = 20.0f / ( 2.0f + 9 * ( veh.k_dynamics() * veh.k_mass() ) );
-    const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
-    add_msg( m_debug, "%s vel: %d, slowdown: %d", veh.name.c_str(), veh.velocity, slowdown );
-    if( slowdown > abs( veh.velocity ) ) {
-        veh.stop();
-    } else if( veh.velocity < 0 ) {
-        veh.velocity += slowdown;
-    } else {
-        veh.velocity -= slowdown;
-    }
-
-    // Low enough for bicycles to go in reverse.
-    if( !should_fall && abs( veh.velocity ) < 20 ) {
-        veh.stop();
-    }
-
-    if( !should_fall && abs( veh.velocity ) < 20 ) {
-        veh.of_turn -= .321f;
-        return true;
-    }
-
-    const float wheel_traction_area = vehicle_wheel_traction( veh );
-    const float traction = veh.k_traction( wheel_traction_area );
-    // TODO: Remove this hack, have vehicle sink a z-level
-    if( wheel_traction_area < 0 ) {
-        add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
-        if( pl_ctrl ) {
-            veh.unboard_all();
-        }
-        if( g->remoteveh() == &veh ) {
-            g->setremoteveh( nullptr );
-        }
-
-        on_vehicle_moved( veh.smz );
-        // Destroy vehicle (sank to nowhere)
-        destroy_vehicle( &veh );
-        return true;
-    } else if( traction < 0.001f ) {
-        veh.of_turn = 0;
-        if( !should_fall ) {
-            veh.stop();
-            // TODO: Remove this hack
-            // TODO: Amphibious vehicles
-            if( veh.floating.empty() ) {
-                add_msg(m_info, _("Your %s can't move on this terrain."), veh.name.c_str());
-            } else {
-                add_msg(m_info, _("Your %s is beached."), veh.name.c_str());
-            }
-        }
-    }
-    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( veh.velocity ) );
-
-    // Can't afford it this turn?
-    // Low speed shouldn't prevent vehicle from falling, though
-    bool falling_only = false;
-    if( turn_cost >= veh.of_turn ) {
-        if( !should_fall ) {
-            veh.of_turn_carry = veh.of_turn;
-            veh.of_turn = 0;
-            return true;
-        }
-
-        falling_only = true;
-    }
-
-    // Decrease of_turn if falling+moving, but not when it's lower than move cost
-    if( !falling_only ) {
-        veh.of_turn -= turn_cost;
-    }
-
-    if( one_in( 10 ) ) {
-        bool controlled = false;
-        // It can even be a NPC, but must be at the controls
-        for( int boarded : veh.boarded_parts() ) {
-            if( veh.part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
-                controlled = true;
-                player *passenger = veh.get_passenger( boarded );
-                if( passenger != nullptr ) {
-                    passenger->practice( skill_driving, 1 );
-                }
-            }
-        }
-
-        // Eventually send it skidding if no control
-        // But not if it's remotely controlled
-        if( !controlled && !pl_ctrl ) {
-            veh.skidding = true;
-        }
-    }
-
-    if( veh.skidding && one_in( 4 )) {
-        // Might turn uncontrollably while skidding
-        veh.turn( one_in( 2 ) ? -15 : 15 );
-    }
-
-    if( should_fall ) {
-        // TODO: Insert a (hard) driving test to stop this from happening
-        veh.skidding = true;
-    }
-
-    // Where do we go
-    tileray mdir; // The direction we're moving
-    if( veh.skidding || should_fall ) {
-        // If skidding, it's the move vector
-        // Same for falling - no air control
-        mdir = veh.move;
-    } else if( veh.turn_dir != veh.face.dir() ) {
-        // Driver turned vehicle, get turn_dir
-        mdir.init( veh.turn_dir );
-    } else {
-        // Not turning, keep face.dir
-        mdir = veh.face;
-    }
-
-    tripoint dp;
-    if( abs( veh.velocity ) >= 20 && !falling_only ) {
-        mdir.advance( veh.velocity < 0 ? -1 : 1 );
-        dp.x = mdir.dx();
-        dp.y = mdir.dy();
-    }
-
-    if( should_fall ) {
-        dp.z = -1;
-    }
-
-    // Split the movement into horizontal and vertical for easier processing
-    if( dp.x != 0 || dp.y != 0 ) {
-        move_vehicle( veh, tripoint( dp.x, dp.y, 0 ), mdir );
-    }
-
-    if( dp.z != 0 ) {
-        move_vehicle( veh, tripoint( 0, 0, dp.z ), mdir );
-    }
-
-    return true;
-}
-
-bool map::vehicle_falling( vehicle &veh )
-{
-    if( !zlevels ) {
-        return false;
-    }
-
-    // TODO: Make the vehicle "slide" towards its center of weight
-    //  when it's not properly supported
-    const auto &pts = veh.get_points( true );
-    for( const tripoint &p : pts ) {
-        if( has_floor( p ) ) {
-            return false;
-        }
-
-        tripoint below( p.x, p.y, p.z - 1 );
-        if( p.z <= -OVERMAP_DEPTH || supports_above( below ) ) {
-            return false;
-        }
-    }
-
-    if( pts.empty() ) {
-        // Dirty vehicle with no parts
-        return false;
-    }
-
-    return true;
-}
-
-float map::vehicle_wheel_traction( const vehicle &veh ) const
-{
-    const tripoint pt = veh.global_pos3();
-    // TODO: Remove this and allow amphibious vehicles
-    if( !veh.floating.empty() ) {
-        return vehicle_buoyancy( veh );
-    }
-
-    // Sink in water?
-    const auto &wheel_indices = veh.wheelcache;
-    int num_wheels = wheel_indices.size();
-    if( num_wheels == 0 ) {
-        // TODO: Assume it is digging in dirt
-        // TODO: Return something that could be reused for dragging
-        return 1.0f;
-    }
-
-    int submerged_wheels = 0;
-    float traction_wheel_area = 0.0f;
-    for( int w = 0; w < num_wheels; w++ ) {
-        const int p = wheel_indices[w];
-        const tripoint pp = pt + veh.parts[p].precalc[0];
-
-        const float wheel_area = veh.parts[ p ].wheel_area();
-
-        const auto &tr = ter( pp ).obj();
-        // Deep water and air
-        if( tr.has_flag( TFLAG_DEEP_WATER ) ) {
-            submerged_wheels++;
-            // No traction from wheel in water
-            continue;
-        } else if( tr.has_flag( TFLAG_NO_FLOOR ) ) {
-            // Ditto for air, but with no submerging
-            continue;
-        }
-
-        int move_mod = move_cost_ter_furn( pp );
-        if( move_mod == 0 ) {
-            // Vehicle locked in wall
-            // Shouldn't happen, but does
-            return 0.0f;
-        }
-
-        if( !tr.has_flag( "FLAT" ) ) {
-            // Wheels aren't as good as legs on rough terrain
-            move_mod += 4;
-        } else if( !tr.has_flag( "ROAD" ) ) {
-            move_mod += 2;
-        }
-
-        traction_wheel_area += 2 * wheel_area / move_mod;
-    }
-
-    // Submerged wheels threshold is 2/3.
-    if( num_wheels > 0 && submerged_wheels * 3 > num_wheels * 2 ) {
-        return -1;
-    }
-
-    return traction_wheel_area;
-}
-
 float map::vehicle_buoyancy( const vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
@@ -853,81 +583,6 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         g->draw();
         refresh_display();
     }
-}
-
-int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direction )
-{
-    const tripoint &pt = veh.global_pos3();
-    const int d_vel = abs( veh.velocity - velocity_before ) / 100;
-
-    const std::vector<int> boarded = veh.boarded_parts();
-
-    int coll_turn = 0;
-    for( const auto &ps : boarded ) {
-        player *psg = veh.get_passenger( ps );
-        if( psg == nullptr ) {
-            debugmsg( "throw passenger: empty passenger at part %d", ps );
-            continue;
-        }
-
-        const tripoint part_pos = pt + veh.parts[ps].precalc[0];
-        if( psg->pos() != part_pos ) {
-            debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
-                psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
-            veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
-            continue;
-        }
-
-        bool throw_from_seat = false;
-        if( veh.part_with_feature( ps, VPFLAG_SEATBELT ) == -1 ) {
-            ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
-            throw_from_seat = d_vel * rng( 80, 120 ) / 100 > ( psg->str_cur * 1.5 + 5 );
-        }
-
-        // Damage passengers if d_vel is too high
-        if( d_vel > 60 * rng( 50,100 ) / 100 && !throw_from_seat ) {
-            const int dmg = d_vel / 4 * rng( 70,100 ) / 100;
-            psg->hurtall( dmg, nullptr );
-            psg->add_msg_player_or_npc( m_bad,
-                _("You take %d damage by the power of the impact!"),
-                _("<npcname> takes %d damage by the power of the impact!"),  dmg );
-        }
-
-        if( veh.player_in_control( *psg ) ) {
-            const int lose_ctrl_roll = rng( 0, d_vel );
-            ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
-
-            ///\EFFECT_DRIVING reduces chance of losing control of vehicle when shaken
-            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
-                psg->add_msg_player_or_npc( m_warning,
-                    _("You lose control of the %s."),
-                    _("<npcname> loses control of the %s."),
-                    veh.name.c_str() );
-                int turn_amount = (rng(1, 3) * sqrt((double)abs( veh.velocity ) ) / 2) / 15;
-                if( turn_amount < 1 ) {
-                    turn_amount = 1;
-                }
-                turn_amount *= 15;
-                if( turn_amount > 120 ) {
-                    turn_amount = 120;
-                }
-                coll_turn = one_in( 2 ) ? turn_amount : -turn_amount;
-            }
-        }
-
-        if( throw_from_seat ) {
-            psg->add_msg_player_or_npc(m_bad,
-                _("You are hurled from the %s's seat by the power of the impact!"),
-                _("<npcname> is hurled from the %s's seat by the power of the impact!"),
-                veh.name.c_str());
-            unboard_vehicle( part_pos );
-            ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
-            g->fling_creature(psg, direction + rng(0, 60) - 30,
-                ( d_vel - psg->str_cur < 10 ) ? 10 : d_vel - psg->str_cur );
-        }
-    }
-
-    return coll_turn;
 }
 
 float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
@@ -3992,7 +3647,7 @@ void map::translate(const ter_id from, const ter_id to)
 }
 
 //This function performs the translate function within a given radius of the player.
-void map::translate_radius(const ter_id from, const ter_id to, float radi, const tripoint &p )
+void map::translate_radius(const ter_id from, const ter_id to, float radi, const tripoint &p, const bool same_submap )
 {
     if( from == to ) {
         debugmsg( "map::translate %s => %s",
@@ -4010,7 +3665,8 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, const
         for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
             if( ter( t ) == from ) {
                 float radiX = sqrt(float((uX-x)*(uX-x) + (uY-y)*(uY-y)));
-                if( radiX <= radi ){
+                // within distance, and either no submap limitation or same overmap coords.
+                if( radiX <= radi && (!same_submap || ms_to_omt_copy(getabs(x, y)) == ms_to_omt_copy(getabs(uX, uY)) ) ) {
                     ter_set( t, to);
                 }
             }
@@ -4436,7 +4092,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         return null_item_reference();
     }
 
-    if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
+    if( (!has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
+            && valid_limits( pos ) ) {
         if( obj.on_drop( pos ) ) {
             return null_item_reference();
         }
@@ -4569,6 +4226,26 @@ void map::make_active( item_location &loc )
                               [&target]( const item &i ) { return &i == target; } );
 
     current_submap->active_items.add( iter, point(lx, ly) );
+}
+
+void map::update_lum( item_location &loc, bool add )
+{
+    item *target = loc.get_item();
+
+    // if the item is not emissive, do nothing
+    if( !target->is_emissive() ) {
+        return;
+    }
+
+    int lx = 0;
+    int ly = 0;
+    submap *const current_submap = get_submap_at( loc.position(), lx, ly );
+
+    if( add ) {
+        current_submap->update_lum_add( *target, lx, ly );
+    } else {
+        current_submap->update_lum_rem( *target, lx, ly );
+    }
 }
 
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
@@ -7632,7 +7309,7 @@ void map::build_outside_cache( const int zlev )
 }
 
 void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
-    std::array<fragment_cloud (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &obstacle_caches )
+                                fragment_cloud (&obstacle_cache)[MAPSIZE *SEEX][MAPSIZE *SEEY] )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{ std::min( my_MAPSIZE - 1, end.x / SEEX ),
@@ -7641,30 +7318,29 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // For now setting obstacles to be extremely dense and fill their squares.
     // In future, scale effective obstacle density by the thickness of the obstacle.
     // Also consider modelling partial obstacles.
-    for( int sz = start.z; sz <= end.z; sz++ ) {
-        for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
-            for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
-                auto const cur_submap = get_submap_at_grid( smx, smy, sz );
-                const int z = sz + OVERMAP_DEPTH;
+    // TODO: Support z-levels.
+    const int sz = start.z + OVERMAP_DEPTH;
+    for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
+        for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
+            auto const cur_submap = get_submap_at_grid( smx, smy, sz );
 
-                // TODO: Init indices to prevent iterating over unused submap sections.
-                for( int sx = 0; sx < SEEX; ++sx ) {
-                    for( int sy = 0; sy < SEEY; ++sy ) {
-                        int ter_move = cur_submap->get_ter( sx, sy ).obj().movecost;
-                        int furn_move = cur_submap->get_furn( sx, sy ).obj().movecost;
-                        const int x = sx + ( smx * SEEX );
-                        const int y = sy + ( smy * SEEY );
-                        if( ter_move == 0 || furn_move < 0 || ter_move + furn_move == 0 ) {
-                            (*obstacle_caches[z])[x][y].velocity = 1000.0f;
-                            (*obstacle_caches[z])[x][y].density = 0.0f;
-                        } else {
-                             // Magic number warning, this is the density of air at sea level at
-			     // some nominal temp and humidity.
-                             // TODO: figure out if our temp/altitude/humidity variation is
-                             // sufficient to bother setting this differently.
-                            (*obstacle_caches[z])[x][y].velocity = 1.2f;
-                            (*obstacle_caches[z])[x][y].density = 1.0f;
-                        }
+            // TODO: Init indices to prevent iterating over unused submap sections.
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    int ter_move = cur_submap->get_ter( sx, sy ).obj().movecost;
+                    int furn_move = cur_submap->get_furn( sx, sy ).obj().movecost;
+                    const int x = sx + ( smx * SEEX );
+                    const int y = sy + ( smy * SEEY );
+                    if( ter_move == 0 || furn_move < 0 || ter_move + furn_move == 0 ) {
+                        obstacle_cache[x][y].velocity = 1000.0f;
+                        obstacle_cache[x][y].density = 0.0f;
+                    } else {
+                         // Magic number warning, this is the density of air at sea level at
+                         // some nominal temp and humidity.
+                         // TODO: figure out if our temp/altitude/humidity variation is
+                         // sufficient to bother setting this differently.
+                         obstacle_cache[x][y].velocity = 1.2f;
+                         obstacle_cache[x][y].density = 1.0f;
                     }
                 }
             }
@@ -7676,15 +7352,17 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
-            int pz = v.z + OVERMAP_DEPTH;
+            if( v.z != sz ) {
+                break;
+            }
             if( px < start.x || py < start.y || v.z < start.z ||
                 px > end.x || py > end.y || v.z > end.z ) {
                 continue;
             }
 
             if( vpart_position( *v.v, part ).obstacle_at_part() ) {
-                (*obstacle_caches[pz])[px][py].velocity = 1000.0f;
-                (*obstacle_caches[pz])[px][py].density = 0.0f;
+                obstacle_cache[px][py].velocity = 1000.0f;
+                obstacle_cache[px][py].density = 0.0f;
             }
         }
     }
@@ -7692,11 +7370,14 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     for( Creature &critter : g->all_creatures() ) {
          const tripoint &loc = critter.pos();
          int z = loc.z + OVERMAP_DEPTH;
+         if( z != sz ) {
+             continue;
+         }
          // TODO: scale this with expected creature "thickness".
-         (*obstacle_caches[z])[loc.x][loc.y].velocity = 1000.0f;
+         obstacle_cache[loc.x][loc.y].velocity = 1000.0f;
          // ranged_target_size is "proportion of square that is blocked", and density needs to be
          // "transmissivity of square", so we need the reciprocal.
-         (*obstacle_caches[z])[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
+         obstacle_cache[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
     }
 }
 
