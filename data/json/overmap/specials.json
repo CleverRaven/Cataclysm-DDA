@@ -2431,5 +2431,26 @@
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Movie Theater",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "movietheater_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "movietheater_1_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "movietheater_2_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "movietheater_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "movietheater_1_1_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "movietheater_2_1_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "movietheater_0_2_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "movietheater_1_2_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "movietheater_2_2_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, 4 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "CLASSIC" ]
   }
 ]
