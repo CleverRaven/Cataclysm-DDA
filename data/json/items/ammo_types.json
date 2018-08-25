@@ -466,5 +466,11 @@
         "id" : "milk",
         "name" : "milk",
         "default" : "milk"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "paintball",
+        "name": "paintball",
+        "default": "paintball"
     }
 ]
