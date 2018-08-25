@@ -9246,5 +9246,77 @@
     "name" : "rest area parking",  
     "sym" : 43,
     "color" : "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_0",
+    "copy-from": "generic_city_building",
+    "name": "zoo parking",
+    "sym": 80,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_0",
+    "copy-from": "generic_city_building",
+    "name": "zoo parking",
+    "sym": 80,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_0",
+    "copy-from": "generic_city_building",
+    "name": "zoo pavilion",
+    "sym": 80,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green"
   }
 ]
