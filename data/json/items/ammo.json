@@ -782,7 +782,7 @@
         "id": "gasfilter_l",
         "category": "spare_parts",
         "price": 2500,
-        "name": "hazmat mask cartridge",
+        "name": "chemical mask cartridge",
         "symbol": "=",
         "color": "light_gray",
         "description": "Heavy replacement filter cartridge for air filtration masks.",

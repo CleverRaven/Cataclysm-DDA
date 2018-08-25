@@ -199,6 +199,14 @@
     "no_resume": true
   },
   {
+    "id": "ACT_MOVE_LOOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop sorting out the loot?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_ADV_INVENTORY",
     "type": "activity_type",
     "stop_phrase": "Stop interacting with inventory?",

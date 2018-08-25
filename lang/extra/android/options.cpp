@@ -760,7 +760,7 @@ std::string options_manager::build_tilesets_list()
 std::string options_manager::build_soundpacks_list()
 {
     const std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
-                                                             "sounddir", "soundpack-conf");
+                                                             "data_sound", "soundpack-conf");
     if( soundpack_names.empty() ) {
         optionNames["basic"] = _("Basic");
         return "basic";

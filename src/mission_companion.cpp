@@ -537,7 +537,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                     std::string title_e = dr+" Expansion Upgrade";
 
                     col_missions[title_e] = om_upgrade_description( bldg_exp );
-                    mission_key_push( mission_key_vectors, title_e, "", dr );
+                    mission_key_push( mission_key_vectors, title_e, dr + _(" Expansion Upgrade"), dr );
                 }
 
                 if( om_min_level("faction_base_garage_1", om_cur_exp) ){
@@ -715,7 +715,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction(elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Chop Shop" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Chop Shop", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Chop Shop", dir + _(" (Finish) Chop Shop"), dir, true );
             }
         }
 
@@ -737,7 +737,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Cooking" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Cooking", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Cooking", dir + _(" (Finish) Cooking"), dir, true );
             }
         }
 
@@ -759,7 +759,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Smithing" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Smithing", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Smithing", dir + _(" (Finish) Smithing"), dir, true );
             }
         }
 
@@ -774,7 +774,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Plow Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Plow Fields", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Plow Fields", dir + _(" (Finish) Plow Fields"), dir, true );
             }
         }
 
@@ -789,7 +789,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Plant Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Plant Fields", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Plant Fields", dir + _(" (Finish) Plant Fields"), dir, true );
             }
         }
 
@@ -804,7 +804,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Harvest Fields" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Harvest Fields", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Harvest Fields", dir + _(" (Finish) Harvest Fields"), dir, true );
             }
         }
 
@@ -824,7 +824,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Crafting" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", dir + _(" (Finish) Crafting"), dir, true );
             }
         }
 
@@ -843,7 +843,7 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
                 std::string dir = camp_direction( elem->get_companion_mission().mission_id );
                 col_missions[ dir + " (Finish) Crafting" ] = entry;
-                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", "", dir, true );
+                mission_key_push( mission_key_vectors, dir + " (Finish) Crafting", dir + _(" (Finish) Crafting"), dir, true );
             }
         }
 
@@ -1143,30 +1143,31 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
     mission_entry cur_key;
-    auto cur_key_list = mission_key_vectors[0];
-    for( auto k : mission_key_vectors[1] ){
-        bool has = false;
-        for( auto keys : cur_key_list ){
-            if( k.id == keys.id ){
-                has = true;
-                break;
+    std::vector<mission_entry> cur_key_list;
+
+    auto reset_cur_key_list = [&]()
+    {
+        cur_key_list = mission_key_vectors[0];
+        for ( auto k : mission_key_vectors[1] ) {
+            bool has = false;
+            for ( auto keys : cur_key_list ) {
+                if ( k.id == keys.id ) {
+                    has = true;
+                    break;
+                }
+            }
+            if ( !has ) {
+                cur_key_list.push_back( k );
             }
         }
-        if( !has ){
-            cur_key_list.push_back(k);
-        }
-    }
+    };
+
+    reset_cur_key_list();
 
     g->draw_ter();
     wrefresh( g->w_terrain );
 
     while (true) {
-        if( cur_key_list.empty() ){
-            mission_entry dud;
-            dud.id = "NONE";
-            dud.name_display = "NONE";
-            cur_key_list.push_back( dud );
-        }
         cur_key = cur_key_list[sel];
         if (redraw) {
             werase(w_list);
@@ -1227,64 +1228,36 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             redraw = true;
             sel = 0;
             offset = 0;
-            for( int tab_num = TAB_MAIN; tab_num != TAB_NW; tab_num++ ){
-                camp_tab_mode cur = static_cast<camp_tab_mode>(tab_num);
-                if( tab_mode == TAB_NW ){
-                    tab_mode = TAB_MAIN;
-                    cur_key_list = mission_key_vectors[0];
-                    for( auto k : mission_key_vectors[1] ){
-                        bool has = false;
-                        for( auto keys : cur_key_list ){
-                            if( k.id == keys.id ){
-                                has = true;
-                                break;
-                            }
-                        }
-                        if( !has ){
-                            cur_key_list.push_back(k);
-                        }
-                    }
 
-                    break;
-                } else if( cur == tab_mode ){
-                    cur_key_list = mission_key_vectors[tab_num + 2];
-                    tab_mode = static_cast<camp_tab_mode>(tab_num + 1);
-                    break;
+            do
+            {
+                if ( tab_mode == TAB_NW ) {
+                    tab_mode = TAB_MAIN;
+                    reset_cur_key_list();
+                } else {
+                    tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
+                    cur_key_list = mission_key_vectors[tab_mode + 1];
                 }
-            }
+            } while ( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
             offset = 0;
-            for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 1; tab_num++ ){
-                camp_tab_mode cur = static_cast<camp_tab_mode>(tab_num);
-                if( tab_mode == TAB_MAIN ){
-                    cur_key_list = mission_key_vectors[ TAB_NW + 1 ];
-                    tab_mode = TAB_NW;
-                    break;
-                } else if( cur == tab_mode ){
-                    tab_mode = static_cast<camp_tab_mode>(tab_num - 1);
-                    if( tab_mode == TAB_MAIN ) {
-                        cur_key_list = mission_key_vectors[0];
-                        for( auto k : mission_key_vectors[1] ){
-                            bool has = false;
-                            for( auto keys : cur_key_list ){
-                                if( k.id == keys.id ){
-                                    has = true;
-                                    break;
-                                }
-                            }
-                            if( !has ){
-                                cur_key_list.push_back(k);
-                            }
-                        }
 
-                    } else {
-                        cur_key_list = mission_key_vectors[ tab_num ];
-                    }
-                    break;
+            do
+            {
+                if ( tab_mode == TAB_MAIN ) {
+                    tab_mode = TAB_NW;
+                } else {
+                    tab_mode = static_cast<camp_tab_mode>( tab_mode - 1 );
                 }
-            }
+
+                if (tab_mode == TAB_MAIN) {
+                    reset_cur_key_list();
+                } else {
+                    cur_key_list = mission_key_vectors[tab_mode + 1];
+                }
+            } while ( cur_key_list.empty() );
         } else if (action == "QUIT") {
             mission_entry dud;
             dud.id = "NONE";
@@ -4995,40 +4968,40 @@ bool talk_function::camp_menial_sort_pts( npc &p, bool reset_pts, bool choose_pt
     std::vector<tripoint> sort_pts;
     tripoint p_food = tripoint(p.posx()-3, p.posy()-1, p.posz());
     sort_pts.push_back(p_food);
-    sort_names.push_back("food for you");
+    sort_names.push_back(_("food for you"));
     tripoint p_food_stock = tripoint(p.posx()+1, p.posy(), p.posz());
     sort_pts.push_back(p_food_stock);
-    sort_names.push_back("food for companions");
+    sort_names.push_back(_("food for companions"));
     tripoint p_seed = tripoint(p.posx()-1, p.posy()-1, p.posz());
     sort_pts.push_back(p_seed);
-    sort_names.push_back("seeds");
+    sort_names.push_back(_("seeds"));
     tripoint p_weapon = tripoint(p.posx()-1, p.posy()+1, p.posz());
     sort_pts.push_back(p_weapon);
-    sort_names.push_back("weapons");
+    sort_names.push_back(_("weapons"));
     tripoint p_clothing = tripoint(p.posx()-3, p.posy()-2, p.posz());
     sort_pts.push_back(p_clothing);
-    sort_names.push_back("clothing");
+    sort_names.push_back(_("clothing"));
     tripoint p_bionic = tripoint(p.posx()-3, p.posy()+1, p.posz());
     sort_pts.push_back(p_bionic);
-    sort_names.push_back("bionics");
+    sort_names.push_back(_("bionics"));
     tripoint p_tool = tripoint(p.posx()-3, p.posy()+2, p.posz());
     sort_pts.push_back(p_tool);
-    sort_names.push_back("all kinds of tools");
+    sort_names.push_back(_("all kinds of tools"));
     tripoint p_wood = tripoint(p.posx()-5, p.posy()+2, p.posz());
     sort_pts.push_back(p_wood);
-    sort_names.push_back("wood of various sorts");
+    sort_names.push_back(_("wood of various sorts"));
     tripoint p_trash = tripoint(p.posx()-6, p.posy()-3, p.posz());
     sort_pts.push_back(p_trash);
-    sort_names.push_back("trash and rotting food");
+    sort_names.push_back(_("trash and rotting food"));
     tripoint p_book = tripoint(p.posx()-3, p.posy()+1, p.posz());
     sort_pts.push_back(p_book);
-    sort_names.push_back("books");
+    sort_names.push_back(_("books"));
     tripoint p_medication = tripoint(p.posx()-3, p.posy()+1, p.posz());
     sort_pts.push_back(p_medication);
-    sort_names.push_back("medication");
+    sort_names.push_back(_("medication"));
     tripoint p_ammo = tripoint(p.posx()-3, p.posy()+1, p.posz());
     sort_pts.push_back(p_ammo);
-    sort_names.push_back("ammo");
+    sort_names.push_back(_("ammo"));
 
     if( reset_pts ){
         p.companion_mission_points.clear();

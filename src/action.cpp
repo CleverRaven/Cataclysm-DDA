@@ -178,6 +178,8 @@ std::string action_ident( action_id act )
             return "listitems";
         case ACTION_ZONES:
             return "zones";
+        case ACTION_LOOT:
+            return "loot";
         case ACTION_INVENTORY:
             return "inventory";
         case ACTION_COMPARE:
@@ -728,6 +730,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_BUTCHER );
+            REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
             REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );
