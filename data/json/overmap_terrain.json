@@ -9052,28 +9052,24 @@
     "id" : "s_vfw",
     "copy-from": "generic_city_building",
     "name" : "veterans of foreign wars",
-    "sym" : 94,
     "color" : "i_green"
   },{
     "type" : "overmap_terrain",
     "id" : "s_thrift",
     "copy-from": "generic_city_building",
     "name" : "thrift store",
-    "sym" : 94,
     "color" : "light_gray"
   },{
     "type" : "overmap_terrain",
     "id" : "s_daycare",
     "copy-from": "generic_city_building",
     "name" : "daycare center",
-    "sym" : 94,
     "color" : "blue"
   },{
     "type" : "overmap_terrain",
     "id" : "s_petstore",
     "copy-from": "generic_city_building",
     "name" : "pet supply store",
-    "sym" : 94,
     "color" : "yellow"
   },{
     "type" : "overmap_terrain",
