@@ -937,7 +937,7 @@ void vehicle::operate_reaper()
             !g->m.has_items( reaper_pos ) ) {
             continue;
         }
-        item& seed = g->m.i_at( reaper_pos ).front();
+        item &seed = g->m.i_at( reaper_pos ).front();
         if( seed.typeId() == "fungal_seeds" ||
             seed.typeId() == "marloss_seed" ) {
             // Otherworldly plants, the earth-made reaper can not handle those.
