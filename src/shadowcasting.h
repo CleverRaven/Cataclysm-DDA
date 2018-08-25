@@ -26,16 +26,13 @@ inline float accumulate_transparency( const float &cumulative_transparency,
     return ( ( distance - 1 ) * cumulative_transparency + current_transparency ) / distance;
 }
 
-template< int xx, int xy, int yx, int yy, typename T,
-          float( *calc )( const float &, const float &, const int & ),
-          bool( *check )( const float &, const float & ) >
-void castLight(
-    T( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-    const T( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-    const int offsetX, const int offsetY, const int offsetDistance,
-    const T numerator = 1.0, const int row = 1,
-    float start = 1.0f, const float end = 0.0f,
-    T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+template<typename T, T( *calc )( const T &, const T &, const int & ),
+         bool( *check )( const T &, const T & ),
+         T( *accumulate )( const T &, const T &, const int & )>
+void castLightAll( T( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                   const T( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                   const int offsetX, const int offsetY, int offsetDistance = 0,
+                   T numerator = 1.0 );
 
 // TODO: Generalize the floor check, allow semi-transparent floors
 template< typename T, T( *calc )( const T &, const T &, const int & ),

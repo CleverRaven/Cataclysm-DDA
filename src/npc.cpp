@@ -941,6 +941,7 @@ bool npc::wear_if_wanted( const item &it )
 
     const int it_encumber = it.get_encumber();
     while( !worn.empty() ) {
+        auto size_before = worn.size();
         bool encumb_ok = true;
         const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
@@ -981,9 +982,9 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( !took_off ) {
+        if( !took_off || worn.size() >= size_before ) {
             // Shouldn't happen, but does
-            return wear_item( it, false );
+            return false;
         }
     }
 

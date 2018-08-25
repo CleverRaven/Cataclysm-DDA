@@ -7,7 +7,7 @@
 #include "debug.h"
 #include "mapdata.h"
 #include "output.h"
-#include "output.h"
+#include "coordinate_conversions.h"
 #include "rng.h"
 #include "requirements.h"
 #include "ammo.h"
@@ -177,7 +177,7 @@ class atm_menu {
 public:
     // menu choices
     enum options : int {
-        cancel, purchase_card, deposit_money, withdraw_money, transfer_money, transfer_all_money
+        cancel, purchase_card, deposit_money, withdraw_money, transfer_all_money
     };
 
     atm_menu()                           = delete;
@@ -196,7 +196,6 @@ public:
             case purchase_card:      result = do_purchase_card();      break;
             case deposit_money:      result = do_deposit_money();      break;
             case withdraw_money:     result = do_withdraw_money();     break;
-            case transfer_money:     result = do_transfer_money();     break;
             case transfer_all_money: result = do_transfer_all_money(); break;
             default:
                 return;
@@ -259,13 +258,7 @@ private:
         }
 
         if (card_count >= 2 && charge_count) {
-            add_choice(transfer_money, _("Transfer Money"));
             add_choice(transfer_all_money, _("Transfer All Money"));
-        } else if (charge_count) {
-            add_info(transfer_money, _("You need two cash cards before you can move money!"));
-        } else {
-            add_info(transfer_money,
-                _("One of your cash cards must be charged before you can move money!"));
         }
 
         amenu.addentry(cancel, true, 'q', _("Cancel"));
@@ -279,18 +272,6 @@ private:
 
         u.moves -= 100;
     }
-
-    //! Prompt for a card to use (includes worn items).
-    item* choose_card(char const *const msg) {
-        const int index = g->inv_for_id( itype_id( "cash_card" ), msg );
-
-        if (index == INT_MIN) {
-            add_msg(m_info, _("Never mind."));
-            return nullptr; // player canceled
-        }
-
-        return &u.i_at(index);
-    };
 
     //! Prompt for an integral value clamped to [0, max].
     static long prompt_for_amount(char const *const msg, long const max) {
@@ -325,25 +306,23 @@ private:
 
     //!Deposit money from cash card into bank account.
     bool do_deposit_money() {
-        item *src = choose_card(_("Insert card for deposit."));
-        if (!src) {
-            return false;
-        }
+        long money = u.charges_of( "cash_card" );
 
-        if (!src->charges) {
+        if (!money) {
             popup(_("You can only deposit money from charged cash cards!"));
             return false;
         }
 
         const int amount = prompt_for_amount(ngettext(
             "Deposit how much? Max: %d cent. (0 to cancel) ",
-            "Deposit how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
+            "Deposit how much? Max: %d cents. (0 to cancel) ", money), money);
 
         if (!amount) {
             return false;
         }
 
-        src->charges -= amount;
+        add_msg( m_info, "amount: %d", amount );
+        u.use_charges( "cash_card", amount );
         u.cash += amount;
         u.moves -= 100;
         finish_interaction();
@@ -353,10 +332,8 @@ private:
 
     //!Move money from bank account onto cash card.
     bool do_withdraw_money() {
-        item *dst = choose_card(_("Insert card for withdrawal."));
-        if (!dst) {
-            return false;
-        }
+        int pos = u.inv.position_by_type( "cash_card" );
+        item *dst = &u.i_at( pos );
 
         const int amount = prompt_for_amount(ngettext(
             "Withdraw how much? Max: %d cent. (0 to cancel) ",
@@ -374,40 +351,6 @@ private:
         return true;
     }
 
-    //!Move money between cash cards.
-    bool do_transfer_money() {
-        item *dst = choose_card(_("Insert card for deposit."));
-        if (!dst) {
-            return false;
-        }
-
-        item *src = choose_card(_("Insert card for withdrawal."));
-        if (!src) {
-            return false;
-        } else if (dst == src) {
-            popup(_("You must select a different card to move from!"));
-            return false;
-        } else if (!src->charges) {
-            popup(_("You can only move money from charged cash cards!"));
-            return false;
-        }
-
-        const int amount = prompt_for_amount(ngettext(
-            "Transfer how much? Max: %d cent. (0 to cancel) ",
-            "Transfer how much? Max: %d cents. (0 to cancel) ", src->charges), src->charges);
-
-        if (!amount) {
-            return false;
-        }
-
-        src->charges -= amount;
-        dst->charges += amount;
-        u.moves -= 100;
-        finish_interaction();
-
-        return true;
-    }
-
     //!Move the money from all the cash cards in inventory to a single card.
     bool do_transfer_all_money() {
         item *dst;
@@ -418,10 +361,12 @@ private:
                 return false;
             }
         } else {
-            dst = choose_card( _("Insert card for bulk deposit.") );
-            if( !dst ) {
+            const int pos = u.inv.position_by_type( "cash_card" );
+
+            if( pos == INT_MIN ) {
                 return false;
             }
+            dst = &u.i_at( pos );
         }
 
         for (auto &i : u.inv_dump()) {
@@ -463,22 +408,14 @@ void iexamine::atm(player &p, const tripoint& )
 void iexamine::vending( player &p, const tripoint &examp )
 {
     constexpr int moves_cost = 250;
-
+    long money = p.charges_of( "cash_card" );
     auto vend_items = g->m.i_at( examp );
+
     if( vend_items.empty() ) {
         add_msg( m_info, _( "The vending machine is empty!" ) );
         return;
-    } else if( !p.has_charges( "cash_card", 1 ) ) {
+    } else if( !money ) {
         popup( _( "You need a charged cash card to purchase things!" ) );
-        return;
-    }
-
-    item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
-
-    if( card->is_null() ) {
-        return; // player canceled selection
-    } else if( card->charges == 0 ) {
-        popup( _( "You must insert a charged cash card!" ) );
         return;
     }
 
@@ -537,7 +474,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         mvwaddch( w, first_item_offset - 1, w_items_w - 1, LINE_XOXX ); // -|
 
         trim_and_print( w, 1, 2, w_items_w - 3, c_light_gray,
-                        _( "Money left: %s" ), format_money( card->charges ) );
+                        _( "Money left: %s" ), format_money( money ) );
 
         // Keep the item selector centered in the page.
         int page_beg = 0;
@@ -585,7 +522,9 @@ void iexamine::vending( player &p, const tripoint &examp )
         } else if (action == "UP") {
             cur_pos = (cur_pos + num_items - 1) % num_items;
         } else if (action == "CONFIRM") {
-            if ( cur_item->price( false ) > card->charges ) {
+            const int iprice = cur_item->price( false );
+
+            if ( iprice > money ) {
                 popup(_("That item is too expensive!"));
                 continue;
             }
@@ -595,7 +534,8 @@ void iexamine::vending( player &p, const tripoint &examp )
                 p.moves -= moves_cost;
             }
 
-            card->charges -= cur_item->price( false );
+            money -= iprice;
+            p.use_charges( "cash_card", iprice );
             p.i_add_or_drop( *cur_item );
 
             vend_items.erase( cur_item );
@@ -683,7 +623,9 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             }
         }
         for( monster &critter : g->all_monsters() ) {
-            if( ( critter.type->id == mon_turret ||
+            // Check 1) same overmap coords, 2) turret, 3) hostile
+            if( ms_to_omt_copy(g->m.getabs(critter.pos())) == ms_to_omt_copy(g->m.getabs(examp)) &&
+                ( critter.type->id == mon_turret ||
                 critter.type->id == mon_turret_rifle ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
@@ -3321,24 +3263,15 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( buy_gas == choice ) {
-        item *cashcard;
+        long money = p.charges_of( "cash_card" );
 
-        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
-
-        if( pos == INT_MIN ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        cashcard = &( p.i_at( pos ) );
-
-        if( cashcard->charges < pricePerUnit ) {
+        if( money < pricePerUnit ) {
             popup( str_to_illiterate_str(
                        _( "Not enough money, please refill your cash card." ) ).c_str() ); //or ride on a solar car, ha ha ha
             return;
         }
 
-        long maximum_liters = std::min( cashcard->charges / pricePerUnit, tankGasUnits / 1000 );
+        long maximum_liters = std::min( money / pricePerUnit, tankGasUnits / 1000 );
 
         std::string popupmsg = string_format(
                                    _( "How many liters of gasoline to buy? Max: %d L. (0 to cancel) " ), maximum_liters );
@@ -3362,9 +3295,11 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
 
-        cashcard->charges -= liters * pricePerUnit;
+        long cost = liters * pricePerUnit;
+        money -= cost;
+        p.use_charges( "cash_card", cost );
 
-        add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
+        add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( money ) );
         p.moves -= 100;
         return;
     }
@@ -3399,7 +3334,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     if( refund == choice ) {
         item *cashcard;
 
-        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );;
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -3413,7 +3348,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, _( "Your cash card now holds %s." ), format_money( cashcard->charges ) );
+            add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( p.charges_of( "cash_card" ) ) );
             p.moves -= 100;
             return;
         } else {
