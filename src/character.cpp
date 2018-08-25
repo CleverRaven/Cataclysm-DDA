@@ -1047,6 +1047,9 @@ units::mass Character::weight_capacity() const
     if (has_artifact_with(AEP_CARRY_MORE)) {
         ret += 22500_gram;
     }
+    if( has_bionic( bionic_id( "bio_weight" ) ) ) {
+        ret += 20_kilogram;
+    }
     if (ret < 0) {
         ret = 0;
     }
