@@ -1,8 +1,6 @@
 [
   {
-    "//": "Add the following to specials.json in /data/json/overmap/"
-  },
-  {
+    "//": "Add the following to specials.json in /data/json/overmap/",
     "type": "overmap_special",
     "id": "Boat Rental",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north" } ],
