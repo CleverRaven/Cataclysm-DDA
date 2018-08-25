@@ -849,6 +849,26 @@
     "flags": [ "FANCY" ]
   },
   {
+    "id": "basket_laundry",
+    "type": "ARMOR",
+    "name": "laundry basket",
+    "description": "A plastic basket meant for storing and hauling clothing.",
+    "weight": 680,
+    "volume": 10,
+    "price": 75,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "covers": [ "ARMS", "HANDS" ],
+    "coverage": 5,
+    "encumbrance": 50,
+    "storage": 100,
+    "material_thickness": 2,
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS" ]
+  },
+  {
     "id": "beekeeping_gloves",
     "type": "ARMOR",
     "name": "pair of beekeeping gloves",
