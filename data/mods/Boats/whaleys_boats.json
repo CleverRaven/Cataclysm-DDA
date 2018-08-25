@@ -1,8 +1,6 @@
 [
   {
-    "//": "Place the following vehicles as boat.json in /data/json/vehicles/"
-  },
-  {
+    "//": "Place the following vehicles as boat.json in /data/json/vehicles/",
     "type": "vehicle",
     "id": "canoe",
     "name": "canoe",
