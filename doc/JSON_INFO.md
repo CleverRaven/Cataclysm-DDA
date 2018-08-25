@@ -643,6 +643,7 @@ Vehicle components when installed on a vehicle.
                                *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
                                *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
+
 "item": "wheel",              // The item used to install this part, and the item obtained when removing this part
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
 "breaks_into" : [             // When the vehicle part is destroyed, items from this item group (see ITEM_SPAWN.md) will be spawned around the part on the ground.
@@ -655,7 +656,15 @@ Vehicle components when installed on a vehicle.
 "damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
     "all" : 10,
     "physical" : 5
-}
+},
+                              // The following optional fields are specific to ENGINEs.
+"m2c": 50,                    // Mandatory field for parts with the ENGINE flag, indicates ratio of cruise power to maximum power
+"backfire_threshold": 0.5,    // Optional field, defaults to 0. Indicates maximum ratio of damaged HP to max HP to trigger backfires
+"backfire_freq": 20,          // Optional field unless backfire threshold > 0, then mandatory, defaults to 0. One in X chance of a backfire.
+"noise_factor": 15,           // Optional field, defaults to 0. Multiple engine power by this number to declare noise.
+"damaged_power_factor": 0.5,  // Optional field, defaults to 0. If more than 0, power when damaged is scaled to power * ( damaged_power_factor + ( 1 - damaged_power_factor ) * ( damaged HP / max HP )
+"muscle_power_factor": 0,     // Optional field, defaults to 0. If more than 0, each point of the survivor's Strength over 8 adds this much power to the engine, and each point less than 8 removes this much power.
+"exclusions": [ "souls" ]     // Optional field, defaults to empty. A list of words. A new engine can't be installed on the vehicle if any engine on the vehicle shares a word from exclusions.
 ```
 
 ### Part Resistance
@@ -779,7 +788,7 @@ Vehicle components when installed on a vehicle.
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
-"effects" : ["COOKOFF", "SHOT"] // Special effects
+"effects" : ["COOKOFF", "SHOT"]
 ```
 
 ### Magazine
@@ -1190,6 +1199,24 @@ Every item type can have software data, it does not have any behavior:
 "software_data" : {
     "type": "USELESS", // unused
     "power" : 91 // unused
+}
+```
+
+### Fuel data
+
+Every item type can have fuel data that determines how much horse power it produces per unit consumed. Currently, no engines support fuels other than gasoline, diesel, or battery.
+
+```JSON
+"fuel" : {
+    energy": 34.2,               // battery charges per unit of fuel. batteries have energy 1.
+   "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
+   "explosion_data": {           // optional for fuels that can cause explosions
+        "chance_hot": 2,         // 1 in chance_hot of explosion when attacked by HEAT weapons
+        "chance_cold": 5,        // 1 in chance_cold of explosion when attacked by other weapons
+        "factor": 1.0,           // explosion factor - larger numbers create more powerful explosions
+        "fiery": true,           // true for fiery explosions
+        "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
+    }
 }
 ```
 

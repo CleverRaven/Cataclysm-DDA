@@ -1209,6 +1209,35 @@ void show_pickup_message( const PickupMap &mapPickup )
     }
 }
 
+bool Pickup::handle_spillable_contents( player &p, item &it, map &m )
+{
+    if( it.is_bucket_nonempty() ) {
+        const item &it_cont = it.contents.front();
+        int num_charges = it_cont.charges;
+        while( !it.spill_contents( p ) ) {
+            if( num_charges > it_cont.charges ) {
+                num_charges = it_cont.charges;
+            } else {
+                break;
+            }
+        }
+
+        // If bucket is still not empty then player opted not to handle the
+        // rest of the contents
+        if( it.is_bucket_nonempty() ) {
+            p.add_msg_player_or_npc(
+                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+                it.display_name().c_str(), m.name( p.pos() ).c_str()
+            );
+            m.add_item_or_charges( p.pos(), it );
+            return true;
+        }
+    }
+
+    return false;
+}
+
 int Pickup::cost_to_move_item( const Character &who, const item &it )
 {
     // Do not involve inventory capacity, it's not like you put it in backpack

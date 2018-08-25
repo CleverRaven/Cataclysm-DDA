@@ -28,6 +28,10 @@
 #endif
 #endif
 
+#ifdef TILES
+#include <SDL.h>
+#endif // TILES
+
 // Static defines                                                   {{{1
 // ---------------------------------------------------------------------
 
@@ -80,26 +84,43 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         abort();
     }
 
+    std::string formatted_report =
+        string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!
+            " DEBUG    : %s\n \n"
+            " FUNCTION : %s\n"
+            " FILE     : %s\n"
+            " LINE     : %s\n",
+            text.c_str(), funcname, filename, line
+        );
+
     fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
                     " %s\n" // translated user string: error notification
                     " -----------------------------------------------------------\n"
-                    // developer-facing error report. INTENTIONALLY UNTRANSLATED!
-                    " DEBUG    : %s\n \n"
-                    " FUNCTION : %s\n"
-                    " FILE     : %s\n"
-                    " LINE     : %s\n"
+                    "%s"
                     " -----------------------------------------------------------\n"
                     " %s\n" // translated user string: space to continue
-                    " %s\n", // translated user string: ignore key
-                    _( "An error has occurred! Written below is the error report:" ),
-                    text.c_str(), funcname, filename, line,
+                    " %s\n" // translated user string: ignore key
+#ifdef TILES
+                    " %s\n" // translated user string: copy
+#endif // TILES
+                    , _( "An error has occurred! Written below is the error report:" ),
+                    formatted_report,
                     _( "Press <color_white>space bar</color> to continue the game." ),
                     _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
+#ifdef TILES
+                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
+#endif // TILES
                   );
 
     for( bool stop = false; !stop; ) {
         switch( inp_mngr.get_input_event().get_first_input() ) {
+#ifdef TILES
+            case 'c':
+            case 'C':
+                SDL_SetClipboardText( formatted_report.c_str() );
+                break;
+#endif // TILES
             case 'i':
             case 'I':
                 ignored_messages.insert( msg_key );
