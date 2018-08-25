@@ -139,7 +139,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "cannabis", "repeat": 1, "x": 5, "y": 15 },
         { "item": "lawnmower", "repeat": 1, "x": 20, "y": 17 },
         { "item": "cig_butt", "repeat": 1, "x": 13, "y": 20 }

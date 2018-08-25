@@ -3,7 +3,7 @@
     "//": "Place this file in /data/json/mapgen/house/",
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 1, "x": 16, "y": 5 },
         { "item": "splinter", "repeat": 1, "x": 5, "y": 9 },
         { "item": "splinter", "repeat": 1, "x": 14, "y": 15 }
@@ -287,7 +287,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 1, "x": 6, "y": 6 },
         { "item": "splinter", "repeat": 1, "x": 21, "y": 7 },
         { "item": "splinter", "repeat": 1, "x": 19, "y": 12 },
@@ -389,7 +389,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 1, "x": 16, "y": 4 },
         { "item": "corpse", "repeat": 1, "x": 17, "y": 11 },
         { "item": "splinter", "repeat": 1, "x": 4, "y": 13 },
@@ -509,7 +509,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 4, "x": 6, "y": 9 },
         { "item": "splinter", "repeat": 4, "x": 3, "y": 14 },
         { "item": "splinter", "repeat": 4, "x": 19, "y": 15 },
@@ -644,7 +644,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 4, "x": 11, "y": 6 },
         { "item": "splinter", "repeat": 4, "x": 17, "y": 7 },
         { "item": "splinter", "repeat": 4, "x": 3, "y": 13 },
@@ -751,7 +751,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 1, "x": 15, "y": 1 },
         { "item": "splinter", "repeat": 1, "x": 20, "y": 7 },
         { "item": "splinter", "repeat": 1, "x": 7, "y": 9 },
@@ -841,7 +841,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "splinter", "repeat": 1, "x": 9, "y": 7 }, { "item": "splinter", "repeat": 1, "x": 6, "y": 11 } ],
+      "place_item": [ { "item": "splinter", "repeat": 1, "x": 9, "y": 7 }, { "item": "splinter", "repeat": 1, "x": 6, "y": 11 } ],
       "furniture": {
         "#": "f_null",
         "&": "f_toilet",
@@ -910,7 +910,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 1, "x": 19, "y": 5 },
         { "item": "splinter", "repeat": 1, "x": 9, "y": 8 },
         { "item": "rock", "repeat": 1, "x": 6, "y": 9 },
@@ -1019,7 +1019,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 4, "x": 18, "y": 5 },
         { "item": "splinter", "repeat": 4, "x": 16, "y": 14 },
         { "item": "splinter", "repeat": 4, "x": 4, "y": 17 },
@@ -1335,7 +1335,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "corpse", "repeat": 1, "x": 19, "y": 7 },
         { "item": "rag_bloody", "repeat": 1, "x": 13, "y": 12 },
         { "item": "human_flesh", "repeat": 1, "x": 19, "y": 12 },
@@ -1442,7 +1442,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 1, "x": 7, "y": 7 },
         { "item": "splinter", "repeat": 1, "x": 14, "y": 8 },
         { "item": "splinter", "repeat": 1, "x": 20, "y": 8 },

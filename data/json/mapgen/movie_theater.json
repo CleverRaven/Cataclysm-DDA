@@ -485,7 +485,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "ketchup", "repeat": 1, "x": 17, "y": 16 },
         { "item": "ketchup", "repeat": 1, "x": 17, "y": 17 },
         { "item": "ketchup", "repeat": 1, "x": 17, "y": 18 },

@@ -1847,6 +1847,9 @@ void mapgen_function_json_base::setup_common()
         setup_setmap( parray );
     }
 
+    // "add" is deprecated in favor of "place_item", but kept to support mods
+    // which are not under our control.
+    objects.load_objects<jmapgen_spawn_item>( jo, "add" );
     objects.load_objects<jmapgen_spawn_item>( jo, "place_item" );
     objects.load_objects<jmapgen_field>( jo, "place_fields" );
     objects.load_objects<jmapgen_npc>( jo, "place_npcs" );

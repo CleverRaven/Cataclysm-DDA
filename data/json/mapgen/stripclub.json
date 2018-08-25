@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "cig_butt", "repeat": 1, "x": 21, "y": 4 },
         { "item": "cig_butt", "repeat": 1, "x": 3, "y": 5 },
         { "item": "cig_butt", "repeat": 1, "x": 2, "y": 17 }

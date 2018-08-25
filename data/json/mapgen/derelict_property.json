@@ -472,7 +472,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "2x4", "repeat": 1, "x": 11, "y": 14 },
         { "item": "2x4", "repeat": 1, "x": 3, "y": 15 },
         { "item": "2x4", "repeat": 1, "x": 9, "y": 16 }

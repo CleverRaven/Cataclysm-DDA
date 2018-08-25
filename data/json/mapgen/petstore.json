@@ -105,7 +105,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "catfood", "repeat": 1, "x": 8, "y": 7 },
         { "item": "catfood", "repeat": 1, "x": 8, "y": 8 },
         { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 9 },

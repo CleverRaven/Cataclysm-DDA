@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "pipe_glass", "repeat": 1, "x": 12, "y": 6 },
         { "item": "pipe_glass", "repeat": 1, "x": 13, "y": 6 },
         { "item": "joint_lit", "repeat": 1, "x": 14, "y": 6 },
@@ -119,7 +119,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "joint_roach", "repeat": 1, "x": 4, "y": 2 },
         { "item": "cannabis", "repeat": 1, "x": 13, "y": 11 },
         { "item": "cannabis", "repeat": 1, "x": 15, "y": 11 },
@@ -237,7 +237,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "joint_roach", "repeat": 1, "x": 11, "y": 4 },
         { "item": "joint_lit", "repeat": 1, "x": 11, "y": 11 },
         { "item": "pipe_glass", "repeat": 1, "x": 10, "y": 15 },
