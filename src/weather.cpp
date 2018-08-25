@@ -93,7 +93,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
         // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
         // If not: use calculated temperature
         temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + (!temp_modify * temperature);
-        
+
         ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
     }
     return ret;
