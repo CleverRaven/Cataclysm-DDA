@@ -17,39 +17,28 @@
       [ "receiver", 30 ],
       [ "transponder", 30 ],
       [ "light_bulb", 60 ],
-      [ "lightstrip_dead", 60 ]
+      [ "lightstrip_dead", 60 ],
+      [ "motor_tiny", 30 ],
+      [ "motor_micro", 40 ]
     ]
   },
   {
     "id": "supplies_farming",
     "type": "item_group",
     "//": "Consumable supplies excluding seeds used for farming or other agriculture",
-    "items": [
-      [ "fertilizer_commercial", 100 ],
-      [ "fertilizer_liquid", 60 ],
-      [ "material_quicklime", 80 ]
-    ]
+    "items": [ [ "fertilizer_commercial", 100 ], [ "fertilizer_liquid", 60 ], [ "material_quicklime", 80 ] ]
   },
   {
     "id": "supplies_fuel",
     "type": "item_group",
     "//": "Combustible fuels within their default containers",
-    "items": [
-      [ "chem_ethanol", 10 ],
-      [ "denat_alcohol", 20 ],
-      [ "diesel", 20 ],
-      [ "gasoline", 50 ],
-      [ "lamp_oil", 100 ]
-    ]
+    "items": [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 20 ], [ "diesel", 20 ], [ "gasoline", 50 ], [ "lamp_oil", 100 ] ]
   },
   {
     "id": "supplies_metal_precious",
     "type": "item_group",
     "//": "Metals of significant economic value before the cataclysm",
-    "items": [
-      [ "gold_small", 100 ],
-      [ "silver_small", 100 ]
-    ]
+    "items": [ [ "gold_small", 100 ], [ "silver_small", 100 ] ]
   },
   {
     "id": "supplies_spares_vehicle",
