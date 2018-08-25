@@ -7749,7 +7749,15 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
-    const int pos = p->inv.position_by_item( it );
+    int pos = p->inv.position_by_item( it );
+    // Giving player::disassemble INT_MIN is actually a special case to
+    // disassemble all, but position_by_item returns INT_MIN if it's not
+    // actually in our inventory.  If the item was on the floor, it will be
+    // picked up and put into inventory before this point, so the only time we
+    // can get INT_MIN here is if we're wielding it.
+    if( pos == INT_MIN ) {
+        pos = -1;
+    }
     p->disassemble( *it, pos, false, false );
     return 0;
 }

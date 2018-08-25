@@ -51,6 +51,7 @@ const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_stunned( "stunned" );
 
@@ -653,7 +654,7 @@ float player::get_dodge_base() const
 float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if( in_sleep_state() ) {
+    if( in_sleep_state() || has_effect( effect_narcosis ) ) {
         return 0.0f;
     }
 
