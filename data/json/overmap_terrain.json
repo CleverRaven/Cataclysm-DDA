@@ -9478,5 +9478,21 @@
     "name": "stadium bar",
     "sym": 48,
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop",
+    "copy-from": "generic_city_building",
+    "name": "Head Shop",
+    "sym": 48,
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "natural_spring",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "Natural Spring",
+    "sym": 111,
+    "color": "blue"
   }
 ]
