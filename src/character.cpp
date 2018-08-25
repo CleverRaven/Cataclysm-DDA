@@ -493,7 +493,6 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration dur, b
 void Character::process_turn()
 {
     Creature::process_turn();
-    drop_inventory_overflow();
 }
 
 void Character::recalc_hp()

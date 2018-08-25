@@ -69,6 +69,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
+    { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
     { activity_id( "ACT_ARMOR_LAYERS" ), armor_layers_do_turn },
     { activity_id( "ACT_ATM" ), atm_do_turn },
@@ -127,6 +128,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
+    { activity_id( "ACT_MOVE_LOOT" ), move_loot_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
@@ -296,28 +298,42 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             has_table_nearby = true;
         }
     }
+    bool has_tree_nearby = false;
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+        if( g->m.has_flag( "TREE", pt ) ) {
+            has_tree_nearby = true;
+        }
+    }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-            if( corpse.size >= MS_MEDIUM && !g->m.has_flag_furn( "BUTCHER_EQ", u.pos() ) ) {
-                u.add_msg_if_player( m_info, _( "For a corpse this big you need a butchering rack to perform a full butchery." ) );
-                act.set_to_null();
-                return;
-            }
-            if ( corpse.size >= MS_MEDIUM && !has_table_nearby ) {
-                u.add_msg_if_player( m_info, _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-                act.set_to_null();
-                return;
-            }
-            if( !u.has_quality( quality_id( "CUT" ) ) ) {
-                u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
-                act.set_to_null();
-                return; 
-            }
-            if( corpse.size >= MS_MEDIUM && !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-                u.add_msg_if_player( m_info, _( "For a corpse this big you need a saw to perform a full butchery." ) );
-                act.set_to_null();
-                return; 
-            } 
+        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 );
+        bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
+        bool big_corpse = corpse.size >= MS_MEDIUM;
+
+        if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
+            u.add_msg_if_player( m_info, _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
+            act.set_to_null();
+            return;
+        } else if( big_corpse && !has_rope && !b_rack_present ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
+            act.set_to_null();
+            return;
+        }
+        if ( big_corpse && !has_table_nearby ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
+            act.set_to_null();
+            return;
+        }
+        if( !u.has_quality( quality_id( "CUT" ) ) ) {
+            u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
+            act.set_to_null();
+            return; 
+        }
+        if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+            u.add_msg_if_player( m_info, _( "For a corpse this big you need a saw to perform a full butchery." ) );
+            act.set_to_null();
+            return; 
+        }
     }
 
     if( action == DISSECT && ( corpse_item.has_flag( "QUARTERED" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
@@ -1354,6 +1370,11 @@ void activity_handlers::move_items_finish( player_activity *act, player *p )
     pickup_finish( act, p );
 }
 
+void activity_handlers::move_loot_finish( player_activity *act, player *p )
+{
+    pickup_finish( act, p );
+}
+
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     static const std::string iuse_name_string( "heal" );
@@ -1777,6 +1798,16 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     if( act->targets.size() != 2 || act->index <= 0 ) {
         debugmsg( "invalid arguments to ACT_RELOAD" );
+        return;
+    }
+
+    if( !act->targets[0] ) {
+        debugmsg( "reload target is null, failed to reload" );
+        return;
+    }
+
+    if( !act->targets[1] ) {
+        debugmsg( "ammo target is null, failed to reload" );
         return;
     }
 
@@ -2404,6 +2435,11 @@ void activity_handlers::pickup_do_turn( player_activity *, player * )
 void activity_handlers::move_items_do_turn( player_activity *, player * )
 {
     activity_on_turn_move_items();
+}
+
+void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
+{
+    activity_on_turn_move_loot( *act, *p );
 }
 
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
