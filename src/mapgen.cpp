@@ -1100,7 +1100,7 @@ public:
     jmapgen_spawn_item( JsonObject &jsi ) : jmapgen_piece()
     , type( jsi.get_string( "item" ) )
     , amount( jsi, "amount", 1, 1 )
-    , chance( jsi, "chance", 1, 1 )
+    , chance( jsi, "chance", 100, 100 )
     {
         if( !item::type_is_defined( type ) ) {
             jsi.throw_error( "no such item type", "item" );
@@ -1109,7 +1109,11 @@ public:
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
         const int c = chance.get();
-        if ( c == 1 || one_in( c ) ) {
+
+        // 100% chance = exactly 1 item, otherwise scale by item spawn rate.
+        const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+        int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+        for( int i = 0; i < spawn_count; i++ ) {
             dat.m.spawn_item( x.get(), y.get(), type, amount.get() );
         }
     }
@@ -1843,8 +1847,10 @@ void mapgen_function_json_base::setup_common()
         setup_setmap( parray );
     }
 
-    // this is for backwards compatibility, it should better be named place_items
+    // "add" is deprecated in favor of "place_item", but kept to support mods
+    // which are not under our control.
     objects.load_objects<jmapgen_spawn_item>( jo, "add" );
+    objects.load_objects<jmapgen_spawn_item>( jo, "place_item" );
     objects.load_objects<jmapgen_field>( jo, "place_fields" );
     objects.load_objects<jmapgen_npc>( jo, "place_npcs" );
     objects.load_objects<jmapgen_sign>( jo, "place_signs" );
@@ -2824,6 +2830,8 @@ ___DEEE|.R.|...,,...|sss\n",
     } else if (terrain_type == "lab" ||
                terrain_type == "lab_stairs" ||
                terrain_type == "lab_core" ||
+               terrain_type == "ants_lab" ||
+               terrain_type == "ants_lab_stairs" ||
                terrain_type == "ice_lab" ||
                terrain_type == "ice_lab_stairs" ||
                terrain_type == "ice_lab_core" ||
@@ -3241,32 +3249,33 @@ ___DEEE|.R.|...,,...|sss\n",
         } // end aboveground vs belowground
 
         // Ants will totally wreck up the place
-        tw = 0;
-        rw = 0;
-        bw = 0;
-        lw = 0;
-        if (is_ot_type("ants", t_north) && connects_to(t_north, 2)) {
-            tw = SEEY;
-        }
-        if (is_ot_type("ants", t_east) && connects_to(t_east, 3)) {
-            rw = SEEX;
-        }
-        if (is_ot_type("ants", t_south) && connects_to(t_south, 0)) {
-            bw = SEEY + 1;
-        }
-        if (is_ot_type("ants", t_west) && connects_to(t_west, 1)) {
-            lw = SEEX + 1;
-        }
-        if (tw != 0 || rw != 0 || bw != 0 || lw != 0) {
-            for (int i = 0; i < SEEX * 2; i++) {
-                for (int j = 0; j < SEEY * 2; j++) {
-                    if ((i < SEEX * 2 - lw && (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
-                        (i > rw &&          (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
-                        (j > tw &&          (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5))) ||
-                        (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
-                        ter_set(i, j, t_thconc_floor);
-                        if (one_in(5)) {
-                            make_rubble( tripoint( i, j, abs_sub.z ), f_rubble_rock, true, t_thconc_floor);
+        if( is_ot_subtype("ants", terrain_type) ) {
+            for( int i = 0; i < SEEX * 2; i++ ) {
+                for( int j = 0; j < SEEY * 2; j++ ) {
+                    // Carve out a diamond area that covers 2 spaces on each edge.
+                    if( i + j > 10 && i + j < 36 && abs( i - j ) < 13 ) {
+                        // Doors and walls get sometimes destroyed:
+                        // 100% at the edge, usually in a central cross, occasionally elsewhere.
+                        if( ( has_flag_ter("DOOR", i, j) || has_flag_ter("WALL", i, j) ) ) {
+                            if( ( i == 0 || j == 0 || i == 23 || j == 23 ) ||
+                                    ( !one_in(3) && ( i == 11 || i == 12 || j == 11 || j == 12 ) ) ||
+                                    one_in(4) ) {
+                                // bash and usually remove the rubble.
+                                make_rubble( { i, j, abs_sub.z } );
+                                ter_set(i, j, t_rock_floor);
+                                if( !one_in(3) ) {
+                                    furn_set(i, j, f_null);
+                                }
+                            }
+                        // and then randomly destroy 5% of the remaining nonstairs.
+                        } else if( one_in(20) &&
+                                !has_flag_ter( "GOES_DOWN", x, y ) &&
+                                !has_flag_ter( "GOES_UP", x, y ) ) {
+                            destroy( { i, j, abs_sub.z } );
+                            // bashed squares can create dirt & floors, but we want rock floors.
+                            if( t_dirt == ter(i, j) || t_floor == ter(i, j) ) {
+                                ter_set(i, j, t_rock_floor);
+                            }
                         }
                     }
                 }
@@ -3293,41 +3302,28 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-        // Tower lab effects:
-        // - Checkerboard lighting everywhere
-        // - Change rock features to match above-ground theme.
-        // - Add more monsters the higher the z-level is.
-        if (tower_lab) {
+        int light_odds = 0;
+        // central & tower labs are always fully lit, other labs have half chance of some lights.
+        if( central_lab || tower_lab) {
+            light_odds = 1;
+        } else if( one_in(2) ) {
+            // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
+            light_odds = pow( rng(1,12), 1.6 );
+        }
+        if (light_odds > 0) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_thconc_floor == ter(i, j)) {
-                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
-                    } else if (t_rock == ter(i, j)) {
-                        ter_set(i, j, t_concrete_wall);
-                    }
-                }
-            }
-            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
-        // central lab gets lighting but not other effects.
-        } else if (central_lab) {
-            for (int i = 0; i < SEEX * 2; i++) {
-                for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 )) {
-                        ter_set(i, j, t_utility_light);
-                    }
-                }
-            }
-        // Chance of adding occasional lighting through the area.
-        } else {
-            if (one_in(2)) {
-                for (int i = 0; i < SEEX * 2; i++) {
-                    for (int j = 0; j < SEEY * 2; j++) {
-                        if( t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) && one_in(20) ) {
-                            ter_set(i, j, t_utility_light);
+                    if (!( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                        if (t_thconc_floor == ter(i, j) || t_strconc_floor == ter(i, j)) {
+                            ter_set(i, j, t_thconc_floor_olight);
                         }
                     }
                 }
             }
+        }
+
+        if (tower_lab) {
+            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
         }
 
         // Lab special effects.
@@ -3344,7 +3340,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     for (int i = 0; i < SEEX * 2 - 1; i++) {
                         for (int j = 0; j < SEEY * 2 - 1; j++) {
                             // We spare some terrain to make it look better visually.
-                            if( t_rock_floor == ter(i, j) && !one_in(10) ) {
+                            if( !one_in(10) && (t_thconc_floor == ter(i, j) || t_strconc_floor == ter(i, j) ) ) {
                                 ter_set(i, j, fluid_type);
                             } else if (has_flag_ter("DOOR", i, j) && !one_in(3) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3366,7 +3362,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
                     for (int i = 0; i < 2; ++i) {
                         draw_rough_circle( [this, fluid_type]( int x, int y ) {
-                                if( t_rock_floor == ter(x, y) ) {
+                                if( t_thconc_floor == ter(x, y) || t_strconc_floor == ter(x, y) ) {
                                     ter_set(x, y, fluid_type);
                                 } else if (has_flag_ter("DOOR", x, y) ) {
                                     // We want the actual debris, but not the rubble marker or dirt.
@@ -3384,7 +3380,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     bool is_toxic = one_in(2);
                     for (int i = 0; i < SEEX * 2; i++) {
                         for (int j = 0; j < SEEY * 2; j++) {
-                            if( t_rock_floor == ter(i, j) && one_in(200) ) {
+                            if( one_in(200) && (t_thconc_floor == ter(i, j)|| t_strconc_floor == ter(i, j)) ) {
                                 if (is_toxic) {
                                     add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
                                 } else {
@@ -3413,7 +3409,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 return; // spare stairs and consoles.
                             }
                             make_rubble( {x, y, abs_sub.z } );
-                            ter_set( x, y, t_rock_floor);
+                            ter_set( x, y, t_thconc_floor);
                         }, center.x, center.y, 4 );
                     furn_set( center.x, center.y, f_null );
                     trap_set( center, tr_portal );
@@ -3445,7 +3441,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {x, y, abs_sub.z } );
-                        ter_set( x, y, t_rock_floor);
+                        ter_set( x, y, t_thconc_floor);
                         }, center.x, center.y, 1 );
                     add_spawn( mon_hazmatbot, 1, center.x - 1, center.y );
                     if (one_in(2)) {
@@ -3735,35 +3731,20 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-        // Tower lab effects:
-        // - Checkerboard lighting everywhere
-        // - Change rock features to match above-ground theme.
-        if (tower_lab) {
+        int light_odds = 0;
+        // central & tower labs are always fully lit, other labs have half chance of some lights.
+        if( central_lab || tower_lab) {
+            light_odds = 1;
+        } else if( one_in(2) ) {
+            // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
+            light_odds = pow( rng(1,12), 1.6 );
+        }
+        if (light_odds > 0) {
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_thconc_floor == ter(i, j)) {
-                        ter_set(i, j, ( (i*j) % 2 || (i+j) % 4 ) ? t_floor : t_utility_light );
-                    } else if (t_rock == ter(i, j)) {
-                        ter_set(i, j, t_concrete_wall);
-                    }
-                }
-            }
-        // central lab gets lighting but not other effects.
-        } else if (central_lab) {
-            for (int i = 0; i < SEEX * 2; i++) {
-                for (int j = 0; j < SEEY * 2; j++) {
-                    if (t_thconc_floor == ter(i, j) && !( (i*j) % 2 || (i+j) % 4 ) ) {
-                        ter_set(i, j, t_utility_light);
-                    }
-                }
-            }
-        // Chance of adding occasional lighting through the area.
-        } else {
-            if (one_in(2)) {
-                for (int i = 0; i < SEEX * 2; i++) {
-                    for (int j = 0; j < SEEY * 2; j++) {
-                        if (t_thconc_floor == ter(i, j) && one_in(200)) {
-                            ter_set(i, j, t_utility_light);
+                    if (!( (i*j) % 2 || (i+j) % 4 ) && one_in(light_odds)) {
+                        if (t_thconc_floor == ter(i, j) || t_strconc_floor == ter(i, j)) {
+                            ter_set(i, j, t_thconc_floor_olight);
                         }
                     }
                 }
@@ -6577,31 +6558,23 @@ void map::place_spawns(const mongroup_id& group, const int chance,
     }
 }
 
-void map::place_gas_pump(int x, int y, int charges)
+void map::place_gas_pump( int x, int y, int charges )
 {
-    if (one_in(4)) {
-        item diesel("diesel", 0);
-        diesel.charges = charges;
-        add_item(x, y, diesel);
-        ter_set(x, y, t_diesel_pump);
+    std::string fuel_type;
+    if( one_in( 4 ) ) {
+        fuel_type = "diesel";
     } else {
-        item gas("gasoline", 0);
-        gas.charges = charges;
-        add_item(x, y, gas);
-        ter_set(x, y, t_gas_pump);
+        fuel_type = "gasoline";
     }
+    place_gas_pump( x, y, charges, fuel_type );
 }
 
-void map::place_gas_pump(int x, int y, int charges, const std::string &fuel_type)
+void map::place_gas_pump( int x, int y, int charges, const std::string &fuel_type )
 {
-    item fuel(fuel_type, 0);
+    item fuel( fuel_type, 0 );
     fuel.charges = charges;
-    add_item(x, y, fuel);
-    if ( fuel_type == "gasoline") {
-        ter_set(x, y, t_gas_pump);
-    } else if ( fuel_type == "diesel") {
-        ter_set(x, y, t_diesel_pump);
-    }
+    add_item( x, y, fuel );
+    ter_set( x, y, ter_id( fuel.fuel_pump_terrain() ) );
 }
 
 void map::place_toilet(int x, int y, int charges)
@@ -7238,7 +7211,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
     }
     for (int i = x1; i <= x2; i++) {
         for (int j = y1; j <= y2; j++) {
-            m->ter_set(i, j, t_rock_floor);
+            m->ter_set(i, j, t_thconc_floor);
         }
     }
     int area = height * width;

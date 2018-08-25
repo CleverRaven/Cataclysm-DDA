@@ -263,6 +263,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int_map";
 
+    thisOpt.format = "%i";
+
     thisOpt.hide = opt_hide;
 
     thisOpt.mIntValues = mIntValuesIn;
@@ -812,14 +814,38 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_tilesets
     return tileset_names;
 }
 
+std::vector<std::pair<std::string, std::string>> options_manager::load_soundpack_from( const std::string &path )
+{
+    // build_resource_list will clear &resource_option - first param
+    std::map<std::string, std::string> local_soundpacks;
+    auto soundpack_names = build_resource_list(local_soundpacks, "soundpack", path, "soundpack-conf");
+
+    // Copy over found soundpacks
+    SOUNDPACKS.insert(local_soundpacks.begin(), local_soundpacks.end());
+
+    // Return found soundpack names for further processing
+    return soundpack_names;
+}
+
 std::vector<std::pair<std::string, std::string>> options_manager::build_soundpacks_list()
 {
-    auto soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
-                                                             "sounddir", "soundpack-conf");
-    if( soundpack_names.empty() ) {
-        soundpack_names.emplace_back( "basic", translate_marker( "Basic" ) );
+    // Clear soundpacks before loading
+    SOUNDPACKS.clear();
+    std::vector<std::pair<std::string, std::string>> result;
+
+    // Search data directory for sound packs
+    auto data_soundpacks = load_soundpack_from("data_sound");
+    result.insert(result.end(), data_soundpacks.begin(), data_soundpacks.end());
+
+    // Search user directory for sound packs
+    auto user_soundpacks = load_soundpack_from("user_sound");
+    result.insert(result.end(), user_soundpacks.begin(), user_soundpacks.end());
+
+    // Select default built-in sound pack
+    if( result.empty() ) {
+        result.emplace_back( "basic", translate_marker( "Basic" ) );
     }
-    return soundpack_names;
+    return result;
 }
 
 void options_manager::init()
@@ -1024,15 +1050,14 @@ void options_manager::init()
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
           { "en", R"( English )" },
-          { "fr",  R"( Français )" },
           { "de", R"( Deutsch )" },
-          { "it_IT", R"( Italiano )" },
           { "es_AR", R"( Español ( Argentina ) )" },
           { "es_ES", R"( Español ( España ) )" },
+          { "fr", R"( Français )" },
+          { "hu", R"( magyar nyelv )"},
           { "ja", R"( 日本語 )" },
           { "ko", R"( 한국어 )" },
           { "pl", R"( Polski )" },
-          { "pt_BR", R"( Português ( Brasil ) )" },
           { "ru", R"( Русский )" },
           { "zh_CN", R"( 中文( 天朝 ) )" },
           { "zh_TW", R"( 中文( 台灣 ) )" },
@@ -1156,6 +1181,11 @@ void options_manager::init()
         0, 1000, 0
         );
 
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", translate_marker( "Suppress \"unknown command\" messages" ),
+        translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
+        );
+    
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
         translate_marker( "How should confidence and steadiness be communicated to the player." ),
         //~ aim bar style - bars or numbers
@@ -1237,8 +1267,8 @@ void options_manager::init()
 
     get_option("ANIMATION_SCT").setPrerequisite("ANIMATIONS");
 
-    add( "ANIMATION_SCT_USE_FONT", "graphics", translate_marker( "SCT with unicode font" ),
-        translate_marker( "If true, will display scrolling combat text with unicode font." ),
+    add( "ANIMATION_SCT_USE_FONT", "graphics", translate_marker( "SCT with Unicode font" ),
+        translate_marker( "If true, will display scrolling combat text with Unicode font." ),
         true
         );
 
@@ -1542,6 +1572,13 @@ void options_manager::init()
         translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
         false
         );
+
+    add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
+        translate_marker( "Determines whether starting NPCs should spawn, and if they do, how exactly." ),
+        { { "never", translate_marker( "Never" ) }, { "always", translate_marker( "Always" ) }, { "scenario", translate_marker( "Scenario-based" ) } }, "scenario"
+        );
+
+    get_option( "STARTING_NPC" ).setPrerequisite( "STATIC_NPC" );
 
     add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
         translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
@@ -2152,6 +2189,9 @@ void options_manager::load()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+#ifdef SDL_SOUND
+    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
+#endif
 }
 
 bool options_manager::load_legacy()

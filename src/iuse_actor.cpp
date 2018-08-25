@@ -79,6 +79,7 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
@@ -133,7 +134,8 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
         return 0; // invoked from active item processing, do nothing.
     }
 
-    const bool possess = p.has_item( it );
+    const bool possess = p.has_item( it ) ||
+                         ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
     if( need_charges && it.ammo_remaining() < need_charges ) {
         if( possess ) {
@@ -1027,10 +1029,21 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
 }
 
-void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
+void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
 {
     if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
-        p.add_msg_if_player( _( "You successfully light a fire." ) );
+        if( !p.has_trait( trait_PYROMANIA ) ) {
+            p.add_msg_if_player( _( "You successfully light a fire." ) );
+        } else {
+            if( one_in( 4 ) ) {
+                p.add_msg_if_player( m_mixed,
+                                     _( "You light a fire, but it isn't enough. You need to light more." ) );
+            } else {
+                p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 24_hours, 8_hours );
+                p.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
+        }
     }
 }
 
@@ -2108,7 +2121,12 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     } );
 
     if( opts.size() > 1 ) {
-        pos += uimenu( false, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+        pos += uimenu( true, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+    }
+
+    if( pos < -1 ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
     }
 
     if( pos >= 0 ) {
@@ -3481,7 +3499,7 @@ iuse_actor *saw_barrel_actor::clone() const
 
 long install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    return p.install_bionics( *it.type, -1, false ) ? it.type->charges_to_use() : 0;
+    return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
 }
 
 ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,
@@ -3546,9 +3564,10 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
+        const auto mod_name = gm->tname();
         p.gunmod_remove( it, *gm );
         //~ %1$s - gunmod, %2$s - gun.
-        p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), gm->tname().c_str(),
+        p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), mod_name.c_str(),
                              it.tname().c_str() );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );

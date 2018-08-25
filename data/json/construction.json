@@ -1464,6 +1464,16 @@
         "pre_special" : "check_empty",
         "post_terrain" : "f_rack"
     },{
+        "type": "construction",
+        "description": "Build Coat Rack",
+        "category": "FURN",
+        "required_skills": [ [ "fabrication", 2 ] ],
+        "time": 25,
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
+        "pre_special": "check_empty",
+        "post_terrain": "f_rack_coat"
+    },{
         "type" : "construction",
         "description" : "Build Cupboard",
         "category" : "FURN",
@@ -1523,6 +1533,16 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_chair"
+    },{
+        "type": "construction",
+        "description": "Build Stool",
+        "category": "FURN",
+        "required_skills": [ [ "fabrication", 2 ] ],
+        "time": 25,
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+        "pre_special": "check_empty",
+        "post_terrain": "f_stool"
     },{
         "type" : "construction",
         "description" : "Build Bench",
@@ -2344,5 +2364,23 @@
         "time" : 0,
         "pre_special" : "check_no_trap",
         "post_special" : "done_mark_firewood"
+    },{
+        "type" : "construction",
+        "description" : "Build Butchering Rack",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 1 ], [ "survival", 3 ] ],
+        "time" : 45,
+        "qualities": [
+            [ { "id": "CUT", "level": 1 } ],
+            [ { "id": "SAW_W", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "stick_long", 6 ], [ "2x4", 6 ] ],
+            [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
+            [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
+        ],
+        "pre_note" : "Can be deconstructed without tools.",
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_butcher_rack"
     }
 ]

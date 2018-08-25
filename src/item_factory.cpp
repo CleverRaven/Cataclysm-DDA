@@ -1178,12 +1178,16 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     auto base = m_templates.find( jo.get_string( "copy-from" ) );
     if( base != m_templates.end() ) {
         def = base->second;
+        def.looks_like = jo.get_string( "copy-from" );
         return true;
     }
 
     auto abstract = m_abstracts.find( jo.get_string( "copy-from" ) );
     if( abstract != m_abstracts.end() ) {
         def = abstract->second;
+        if( def.looks_like.empty() ) {
+            def.looks_like = jo.get_string( "copy-from" );
+        }
         return true;
     }
 
@@ -1278,6 +1282,18 @@ void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &sr
     bool strict = src == "dda";
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
+    if( jo.has_member( "pump_terrain" ) ) {
+        slot.pump_terrain = jo.get_string( "pump_terrain" );
+    }
+    if( jo.has_member( "explosion_data" ) ) {
+        slot.has_explode_data = true;
+        JsonObject jo_ed = jo.get_object( "explosion_data" );
+        slot.explosion_data.explosion_chance_hot = jo_ed.get_int( "chance_hot" );
+        slot.explosion_data.explosion_chance_cold = jo_ed.get_int( "chance_cold" );
+        slot.explosion_data.explosion_factor = jo_ed.get_float( "factor" );
+        slot.explosion_data.fiery_explosion = jo_ed.get_bool( "fiery" );
+        slot.explosion_data.fuel_size_factor = jo_ed.get_float( "size_factor" );
+    }
 }
 
 void Item_factory::load_fuel( JsonObject &jo, const std::string &src )
@@ -1922,6 +1938,10 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     } else if( jo.has_object( "drop_action" ) ) {
         auto tmp = jo.get_object( "drop_action" );
         def.drop_action = usage_from_object( tmp ).second;
+    }
+
+    if( jo.has_string( "looks_like" ) ) {
+        def.looks_like = jo.get_string( "looks_like" );
     }
 
     load_slot_optional( def.container, jo, "container_data", src );

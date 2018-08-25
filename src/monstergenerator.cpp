@@ -278,6 +278,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "ACID_BARF", mattack::acid_barf );
     add_hardcoded_attack( "ACID_ACCURATE", mattack::acid_accurate );
     add_hardcoded_attack( "SHOCKSTORM", mattack::shockstorm );
+    add_hardcoded_attack( "SHOCKING_REVEAL", mattack::shocking_reveal );
     add_hardcoded_attack( "PULL_METAL_WEAPON", mattack::pull_metal_weapon );
     add_hardcoded_attack( "BOOMER", mattack::boomer );
     add_hardcoded_attack( "BOOMER_GLOW", mattack::boomer_glow );
@@ -290,6 +291,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SPIT_SAP", mattack::spit_sap );
     add_hardcoded_attack( "TRIFFID_HEARTBEAT", mattack::triffid_heartbeat );
     add_hardcoded_attack( "FUNGUS", mattack::fungus );
+    add_hardcoded_attack( "FUNGUS_CORPORATE", mattack::fungus_corporate );
     add_hardcoded_attack( "FUNGUS_HAZE", mattack::fungus_haze );
     add_hardcoded_attack( "FUNGUS_BIG_BLOSSOM", mattack::fungus_big_blossom );
     add_hardcoded_attack( "FUNGUS_INJECT", mattack::fungus_inject );
@@ -342,6 +344,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RANGED_PULL", mattack::ranged_pull );
     add_hardcoded_attack( "GRAB", mattack::grab );
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
+    add_hardcoded_attack( "DOOT", mattack::doot );
 }
 
 void MonsterGenerator::init_defense()
@@ -459,6 +462,7 @@ void MonsterGenerator::init_flags()
     flag_map["MILKABLE"] = MF_MILKABLE;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
     flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
+    flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -531,6 +535,12 @@ void mtype::load( JsonObject &jo, const std::string &src )
         if( utf8_wrapper( sym ).display_width() != 1 ) {
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
+    }
+    if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
     }
 
     assign( jo, "color", color );

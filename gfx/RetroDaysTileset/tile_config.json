@@ -4960,7 +4960,7 @@
           "rotates": false
         },
         {
-          "id": "t_thconc_floor",
+          "id": [ "t_thconc_floor", "t_thconc_floor_olight" ],
           "bg": 366,
           "rotates": false
         },

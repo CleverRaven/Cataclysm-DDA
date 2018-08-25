@@ -383,11 +383,21 @@ struct islot_wheel
         int width = 0;
 };
 
-struct islot_fuel
-{
+struct fuel_explosion {
+    int explosion_chance_hot;
+    int explosion_chance_cold;
+    float explosion_factor;
+    bool fiery_explosion;
+    float fuel_size_factor;
+};
+
+struct islot_fuel {
     public:
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
+        struct fuel_explosion explosion_data;
+        bool has_explode_data;
+        std::string pump_terrain = "t_null";
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -701,6 +711,9 @@ public:
     itype() {
         melee.fill( 0 );
     }
+
+    // a hint for tilesets: if it doesn't have a tile, what does it look like?
+    std::string looks_like;
 
     std::string snippet_category;
     std::string description; // Flavor text

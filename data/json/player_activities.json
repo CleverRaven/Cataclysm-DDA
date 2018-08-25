@@ -58,6 +58,30 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_BUTCHER_FULL",
+    "type": "activity_type",
+    "stop_phrase": "Stop butchering?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_FIELD_DRESS",
+    "type": "activity_type",
+    "stop_phrase": "Stop field dressing?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_QUARTER",
+    "type": "activity_type",
+    "stop_phrase": "Stop quartering?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_DISSECT",
+    "type": "activity_type",
+    "stop_phrase": "Stop dissecting?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_LONGSALVAGE",
     "type": "activity_type",
     "stop_phrase": "Stop salvaging?",
@@ -170,6 +194,14 @@
     "id": "ACT_MOVE_ITEMS",
     "type": "activity_type",
     "stop_phrase": "Stop moving items?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MOVE_LOOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop sorting out the loot?",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true

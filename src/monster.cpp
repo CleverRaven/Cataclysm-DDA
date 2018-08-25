@@ -105,6 +105,7 @@ const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_emp( "emp" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -117,6 +118,7 @@ const efftype_id effect_poison( "poison" );
 const efftype_id effect_run( "run" );
 const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_supercharged( "supercharged" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_webbed( "webbed" );
 
@@ -510,9 +512,14 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         damage_info = _("It is severely injured.");
         col = c_light_red;
     } else {
-        damage_info = _("it is nearly dead!");
+        damage_info = _("It is nearly dead!");
         col = c_red;
     }
+    /*
+    // This is unused code that allows the player to see the exact amount of monster HP, to be implemented later!
+    if( true ) ) {
+        damage_info = string_format( _( "It has %d/%d HP." ), cur_hp, max_hp );
+    }*/
 
     return std::make_pair( damage_info, col );
 }
@@ -1096,7 +1103,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
         return false;
     case DT_ELECTRIC:
         return type->sp_defense == &mdefense::zapback ||
-           has_flag( MF_ELECTRIC );
+           has_flag( MF_ELECTRIC ) ||
+           has_flag( MF_ELECTRIC_FIELD );
     default:
         return true;
     }
@@ -1279,7 +1287,8 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 }
 
-void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) {
+void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                      bool print_messages ) {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
     const auto &effects = proj.proj_effects;
@@ -1299,7 +1308,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         missed_by = accuracy_headshot;
     }
 
-    Creature::deal_projectile_attack( source, attack );
+    Creature::deal_projectile_attack( source, attack, print_messages );
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
@@ -1734,11 +1743,19 @@ void monster::process_turn()
 {
     if( !is_hallucination() ) {
         for( const auto &e: type->emit_fields ) {
+            if( e == emit_id( "emit_shock_cloud" ) ) {
+                if( has_effect( effect_emp ) ) {
+                    continue; // don't emit electricity while EMPed
+                } else if( has_effect( effect_supercharged ) ) {
+                    g->m.emit_field( pos(), emit_id( "emit_shock_cloud_big" ) );
+                    continue;
+                }
+            }
             g->m.emit_field( pos(), e );
         }
     }
 
-    // Only special attack cooldowns are updated here.
+    // Special attack cooldowns are updated here.
     // Loop through the monster's special attacks, same as monster::move.
     for( const auto &sp_type : type->special_attacks ) {
         const std::string &special_name = sp_type.first;
@@ -1753,6 +1770,58 @@ void monster::process_turn()
 
         if( local_attack_data.cooldown > 0 ) {
             local_attack_data.cooldown--;
+        }
+    }
+
+    // We update electrical fields here since they act every turn.
+    if( has_flag( MF_ELECTRIC_FIELD ) ) {
+        if( has_effect( effect_emp ) ) {
+            if( calendar::once_every( 10_turns ) ) {
+                sounds::sound( pos(), 5, _( "hummmmm." ) );
+            }
+        } else {
+            for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
+                const bool player_sees = g->u.sees( zap );
+                const auto items = g->m.i_at( zap );
+                for( auto fiyah = items.begin(); fiyah != items.end(); fiyah++ ) {
+                    if( fiyah->made_of( LIQUID ) && fiyah->flammable() ) { // start a fire!
+                        g->m.add_field( zap, fd_fire, 2, 1_minutes );
+                        sounds::sound( pos(), 30, _( "fwoosh!" ) );
+                        break;
+                    }
+                }
+                if( zap != pos() ) {
+                    g->emp_blast( zap ); // Fries electronics due to the intensity of the field
+                }
+                const auto t = g->m.ter( zap );
+                if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+                    if( one_in( 4 ) ) {
+                        g->explosion( pos(), 40, 0.8, true );
+                        if( player_sees ) {
+                            add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ).c_str() );
+                        }
+                    } else {
+                        if( player_sees ) {
+                            add_msg( m_warning, _( "Lightning from %1$s engulfs the %2$s!" ), name().c_str(),
+                                     g->m.tername( zap ).c_str() );
+                        }
+                        g->m.add_field( zap, fd_fire, 1, 2_turns );
+                    }
+                }
+            }
+            if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
+                g->lightning_active = false; // only one supercharge per strike
+                sounds::sound( pos(), 300, _( "BOOOOOOOM!!!" ) );
+                sounds::sound( pos(), 20, _( "vrrrRRRUUMMMMMMMM!" ) );
+                if( g->u.sees( pos() ) ) {
+                    add_msg( m_bad, _( "Lightning strikes the %s!" ), name().c_str() );
+                    add_msg( m_bad, _( "Your vision goes white!" ) );
+                    g->u.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
+                }
+                add_effect( effect_supercharged, 12_hours );
+            } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
+                sounds::sound( pos(), 20, _( "VMMMMMMMMM!" ) );
+            }
         }
     }
 
