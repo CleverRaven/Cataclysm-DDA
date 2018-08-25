@@ -193,6 +193,7 @@
               "dump": 1 ,
               "recyclecenter": 1,
               "landfill": 1,
+              "warehouse": 1,
               "abandonedwarehouse": 1,
               "emptycommerciallot": 1,
               "lancenter": 1,

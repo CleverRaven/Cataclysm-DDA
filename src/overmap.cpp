@@ -89,7 +89,7 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 }};
 
 const std::array<type, 1 + om_direction::bits> all = {{
-    {         0, 4, "_isolated"  },   // 0  ----
+    { LINE_XXXX, 4, "_isolated"  },   // 0  ----
     { LINE_XOXO, 2, "_end_south" },   // 1  ---n
     { LINE_OXOX, 2, "_end_west"  },   // 2  --e-
     { LINE_XXOO, 1, "_ne"        },   // 3  --en
@@ -595,6 +595,8 @@ bool oter_t::is_hardcoded() const
     static const std::set<std::string> hardcoded_mapgen = {
         "acid_anthill",
         "anthill",
+        "ants_lab",
+        "ants_lab_stairs",
         "fema",
         "fema_entrance",
         "haz_sar",
@@ -639,7 +641,6 @@ bool oter_t::is_hardcoded() const
         "spider_pit_under",
         "spiral",
         "spiral_hub",
-        "station_radio",
         "temple",
         "temple_finale",
         "temple_stairs",
@@ -1801,6 +1802,10 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
+    for( auto &i : ant_points ) {
+        build_anthill( i.x, i.y, z, i.s );
+    }
+
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
     // If the central lab exists, all labs which go down to z=4 will have a subway to central.
     int lab_train_odds = 0;
@@ -1863,10 +1868,6 @@ bool overmap::generate_sub(int const z)
             }
         }
         is_first_in_pair = !is_first_in_pair;
-    }
-
-    for( auto &i : ant_points ) {
-        build_anthill( i.x, i.y, z, i.s );
     }
 
     for( auto &i : cities ) {
@@ -2028,8 +2029,15 @@ void overmap::move_hordes()
             movement_chance = 10;
         }
 
-        if( one_in(movement_chance) && rng(0, 100) < mg.interest ) {
-            // @todo: Adjust for monster speed.
+        // If the average horde speed is 50% that of normal, then the chance to
+        // move should be 1/2 what it would be if the speed was 100%.
+        // Since the max speed for a horde is one map space per 2.5 minutes,
+        // choose that to be the speed of the fastest horde monster, which is
+        // roughly 200 at the time of writing. So a horde with average speed
+        // 200 or over will move at max speed, and slower hordes will move less
+        // frequently. The average horde speed for regular Z's is around 100,
+        // or one space per 5 minutes.
+        if( one_in(movement_chance) && rng(0, 100) < mg.interest && rng(0, 200) < mg.avg_speed() ) {
             // @todo: Handle moving to adjacent overmaps.
             if( mg.pos.x > mg.target.x) {
                 mg.pos.x--;
@@ -2514,6 +2522,8 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
     const oter_id labt_stairs( labt.id().str() + "_stairs" );
     const oter_id labt_core( labt.id().str() + "_core" );
     const oter_id labt_finale( labt.id().str() + "_finale" );
+    const oter_id labt_ants( "ants_lab" );
+    const oter_id labt_ants_stairs( "ants_lab_stairs" );
 
     ter( x, y, z ) = labt;
     generated_lab.push_back( point( x, y ) );
@@ -2530,7 +2540,14 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
             int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
             if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
-                ter( cx, cy, z ) = labt;
+                // make an ants lab if it's a basic lab and ants were there before.
+                if( prefix.empty() && check_ot_type("ants", cx, cy, z) ) {
+                    if( ter( cx, cy, z) != "ants_queen" ) { // skip over a queen's chamber.
+                        ter( cx, cy, z ) = labt_ants;
+                    }
+                } else {
+                    ter( cx, cy, z ) = labt;
+                }
                 generated_lab.push_back( *cand );
                 // add new candidates, don't backtrack
                 if( ter( cx - 1, cy, z ) != labt && abs( x - cx + 1 ) + abs( y - cy ) > dist ) {
@@ -2582,9 +2599,13 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
                 stairx = rng( x - s, x + s );
                 stairy = rng( y - s, y + s );
                 tries++;
-            } while( ter( stairx, stairy, z ) != labt && tries < 15 );
+            } while( (ter( stairx, stairy, z ) != labt && ter( stairx, stairy, z ) != labt_ants) && tries < 15 );
             if( tries < 15 ) {
-                ter( stairx, stairy, z ) = labt_stairs;
+                if( ter( stairx, stairy, z ) == labt_ants ) {
+                    ter( stairx, stairy, z ) = labt_ants_stairs;
+                } else {
+                    ter( stairx, stairy, z ) = labt_stairs;
+                }
                 numstairs++;
             }
         }
@@ -2658,16 +2679,21 @@ void overmap::build_anthill(int x, int y, int z, int s)
     const point target = random_entry( queenpoints );
     ter(target.x, target.y, z) = oter_id( "ants_queen" );
 
-    // Connect the queen chamber, as it gets placed before polish()
-    for( auto dir : om_direction::all ) {
-        const point p = point( target.x, target.y ) + om_direction::displace( dir );
-        if( check_ot_type( "ants", p.x, p.y, z ) ) {
-            auto &neighbor = ter( p.x, p.y, z );
-            if( neighbor->has_flag( line_drawing ) ) {
-                size_t line = neighbor->get_line();
-                line = om_lines::set_segment( line, om_direction::opposite( dir ) );
-                if( line != neighbor->get_line() ) {
-                    neighbor = neighbor->get_type_id()->get_linear( line );
+    const oter_id root_id( "ants_isolated" );
+
+    for ( int i = x - s; i <= x + s; i++ ) {
+        for ( int j = y - s; j <= y + s; j++ ) {
+            if ( root_id == get_ter( i, j, z )->id ) {
+                auto &oter = ter( i, j, z );
+                for( auto dir : om_direction::all ) {
+                    const point p = point( i, j ) + om_direction::displace( dir );
+                    if( check_ot_type( "ants", p.x, p.y, z ) ) {
+                        size_t line = oter->get_line();
+                        line = om_lines::set_segment( line, dir );
+                        if( line != oter->get_line() ) {
+                            oter = oter->get_type_id()->get_linear( line );
+                        }
+                    }
                 }
             }
         }
@@ -2711,18 +2737,9 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
                 } else {
                     ter( p.x, p.y, z ) = ants_larvae;
                 }
-
-                // Connect newly-spawned chamber to this tunnel segment
-                auto &oter = ter( x, y, z );
-                size_t line = oter->get_line();
-                line = om_lines::set_segment( line, r );
-                if( line != oter->get_line() ) {
-                    oter = oter->get_type_id()->get_linear( line );
-                }
-
             } else if (one_in(5)) {
                 // Branch off a side tunnel
-                build_tunnel( p.x, p.y, z, s - rng( 0, 3 ), r );
+                build_tunnel( p.x, p.y, z, s - rng( 1, 3 ), r );
             }
         }
     }

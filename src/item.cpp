@@ -285,7 +285,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ammo == "null" && !ammo_type() ) {
+    if( ( ammo == "null" && !ammo_type() ) || ammo_type().str() == "money" ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -1125,7 +1125,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         int max_gun_range = mod->gun_range( &g->u );
         if( max_gun_range > 0 && parts->test(iteminfo_parts::GUN_MAX_RANGE)) {
-            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_gun_range );
+            info.emplace_back( "GUN", _( "Maximum range: " ), "<num>", max_gun_range );
         }
 
         if (parts->test(iteminfo_parts::GUN_AIMING_STATS)) {
@@ -2602,7 +2602,11 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        amt = string_format( " (%i)", amount );
+        if( ammo_type().str() == "money" ) {
+            amt = string_format( " $%.2f", amount/100.0 );
+        } else {
+            amt = string_format( " (%i)", amount );
+        }
     }
 
     return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
@@ -4006,6 +4010,22 @@ float item::fuel_energy() const
     return is_fuel() ? type->fuel->energy : 0.0f;
 }
 
+std::string item::fuel_pump_terrain() const
+{
+    return is_fuel() ? type->fuel->pump_terrain : "t_null";
+}
+
+bool item::has_explosion_data() const
+{
+    return is_fuel() ? type->fuel->has_explode_data : false;
+}
+
+struct fuel_explosion item::get_explosion_data()
+{
+    static struct fuel_explosion null_data;
+    return has_explosion_data() ? type->fuel->explosion_data : null_data;
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();
@@ -4798,9 +4818,6 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
                 auto qty = m.second.qty();
-                if( m.first == gun_mode_id( "AUTO" ) && e == this && has_flag( "RAPIDFIRE" ) ) {
-                    qty *= 1.5;
-                }
 
                 res.emplace( gun_mode_id( prefix + m.first.str() ), gun_mode( m.second.name(), const_cast<item *>( e ),
                                                                 qty, m.second.flags() ) );
@@ -5616,11 +5633,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
             apply_ammo_effects( p, ammo_type.ammo_effects );
-        } else if( ammo_type.cookoff ) {
-            // Ammo that cooks off, but doesn't have a
-            // large intrinsic effect blows up with shrapnel but no blast
-           g->explosion( p, sqrtf( ammo_type.damage.total_damage() / 10.0f ) * 5, 0.0f,
-                         false, rounds_exploded / 5.0f );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
