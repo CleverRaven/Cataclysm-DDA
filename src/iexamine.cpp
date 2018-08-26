@@ -216,8 +216,8 @@ private:
             return static_cast<options>( u.activity.index );
         }
         amenu.query();
-        uistate.iexamine_atm_selected = amenu.ret;
-        return static_cast<options>( amenu.ret );
+        uistate.iexamine_atm_selected = amenu.selected;
+        return amenu.ret < 0 ? cancel : static_cast<options>( amenu.ret );
     }
 
     //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
@@ -230,7 +230,6 @@ private:
         }
 
         amenu.selected = uistate.iexamine_atm_selected;
-        amenu.return_invalid = true;
         amenu.text = string_format(_("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
                                      "Your current balance is: %s"),
                                      format_money( u.cash ) );
@@ -260,8 +259,6 @@ private:
         if (card_count >= 2 && charge_count) {
             add_choice(transfer_all_money, _("Transfer All Money"));
         }
-
-        amenu.addentry(cancel, true, 'q', _("Cancel"));
     }
 
     //! print a bank statement for @p print = true;
@@ -1125,26 +1122,14 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
 void iexamine::bulletin_board(player &, const tripoint &examp)
 {
     basecamp *camp = g->m.camp_at( examp );
-    if (camp && camp->board_x() == examp.x && camp->board_y() == examp.y) {
-        std::vector<std::string> options;
-        options.push_back(_("Cancel"));
-        // Causes a warning due to being unused, but don't want to delete
-        // since it's clearly what's intended for future functionality.
-        //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
+    if ( ( camp && camp->board_x() == examp.x && camp->board_y() == examp.y ) || !g->m.allow_camp( examp ) ) {
+        uimenu( camp->board_name(), { _( "Cancel" ) } );
     } else {
-        bool create_camp = g->m.allow_camp( examp );
-        std::vector<std::string> options;
-        if (create_camp) {
-            options.push_back(_("Create camp"));
-        }
-        options.push_back(_("Cancel"));
         // @todo: Other Bulletin Boards
-        int choice = menu_vec(true, _("Bulletin Board"), options) - 1;
-        if (choice >= 0 && size_t(choice) < options.size()) {
-            if (options[choice] == _("Create camp")) {
-                // @todo: Allow text entry for name
-                g->m.add_camp( examp, _("Home") );
-            }
+        int choice = uimenu( _( "Bulletin Board" ), { _( "Create camp" ) } );
+        if ( choice == 0 ) {
+            // @todo: Allow text entry for name
+            g->m.add_camp( examp, _( "Home" ) );
         }
     }
 }
@@ -1232,14 +1217,14 @@ void iexamine::door_peephole(player &p, const tripoint &examp) {
     }
 
     // Peek through the peephole, or open the door.
-    int choice = menu( true, _("Do what with the door?"),
-                       _("Peek through peephole."), _("Open door."),
-                       _("Cancel"), NULL );
-    if( choice == 1 ) {
+    int choice = uimenu( _( "Do what with the door?" ), {
+        _( "Peek through peephole." ), _( "Open door." )
+    } );
+    if( choice == 0 ) {
         // Peek
         g->peek( examp );
         p.add_msg_if_player( _("You peek through the peephole.") );
-    } else if( choice == 2 ) {
+    } else if( choice == 1 ) {
         g->m.open_door( examp, true, false);
         p.add_msg_if_player( _("You open the door.") );
     } else {
@@ -1670,7 +1655,6 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     // Choose seed
     // Don't use y/n prompt, stick with one kind of menu
     uimenu smenu;
-    smenu.return_invalid = true;
     smenu.text = _("Use which seed?");
     int count = 0;
     for( const auto &entry : seed_entries ) {
@@ -1831,13 +1815,9 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             // Choose fertilizer from list
             int f_index = 0;
             if (f_types.size() > 1) {
-                f_names.push_back(_("Cancel"));
-                f_index = menu_vec(false, _("Use which fertilizer?"), f_names) - 1;
-                if (f_index == (int)f_names.size() - 1) {
-                    f_index = -1;
-                }
+                f_index = uimenu( _( "Use which fertilizer?" ), f_names );
             } else {
-                    f_index = 0;
+                f_index = 0;
             }
             if (f_index < 0) {
                 return;
@@ -2033,11 +2013,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         // Choose brew from list
         int b_index = 0;
         if (b_types.size() > 1) {
-            b_names.push_back(_("Cancel"));
-            b_index = menu_vec(false, _("Use which brew?"), b_names) - 1;
-            if (b_index == (int)b_names.size() - 1) {
-                b_index = -1;
-            }
+            b_index = uimenu( _( "Use which brew?" ), b_names );
         } else { //Only one brew type was in inventory, so it's automatically used
             if (!query_yn(_("Set %s in the vat?"), b_names[0].c_str())) {
                 b_index = -1;
@@ -2216,11 +2192,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         // Choose drink to store in keg from list
         int drink_index = 0;
         if( drink_types.size() > 1 ) {
-            drink_names.push_back( _( "Cancel" ) );
-            drink_index = menu_vec( false, _( "Store which drink?" ), drink_names ) - 1;
-            if( drink_index == (int)drink_names.size() - 1 ) {
-                drink_index = -1;
-            }
+            drink_index = uimenu( _( "Store which drink?" ), drink_names );
         } else { //Only one drink type was in inventory, so it's automatically used
             if( !query_yn( _( "Fill the %1$s with %2$s?" ),
                            g->m.name( examp ).c_str(), drink_names[0].c_str() ) ) {
@@ -2261,7 +2233,6 @@ void iexamine::keg(player &p, const tripoint &examp)
             HAVE_A_DRINK,
             REFILL,
             EXAMINE,
-            CANCEL,
         };
         uimenu selectmenu;
         selectmenu.addentry( FILL_CONTAINER, true, MENU_AUTOASSIGN, _("Fill a container with %s"),
@@ -2269,16 +2240,13 @@ void iexamine::keg(player &p, const tripoint &examp)
         selectmenu.addentry( HAVE_A_DRINK, drink->is_food(), MENU_AUTOASSIGN, _("Have a drink") );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _("Refill") );
         selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _("Examine") );
-        selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
 
-        selectmenu.return_invalid = true;
         selectmenu.text = _("Select an action");
-        selectmenu.selected = 0;
         selectmenu.query();
 
         const auto drink_name = drink->tname();
 
-        switch( static_cast<options>( selectmenu.ret ) ) {
+        switch( selectmenu.ret ) {
         case FILL_CONTAINER:
             if( g->handle_liquid_from_ground( drink, examp ) ) {
                 add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink_name.c_str(),
@@ -2326,7 +2294,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             return;
         }
 
-        case CANCEL:
+        default:
             return;
         }
     }
@@ -2485,21 +2453,17 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         ADD_CONTAINER,
         HARVEST_SAP,
         REMOVE_CONTAINER,
-        CANCEL,
     };
     uimenu selectmenu;
     selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _("Remove tap") );
     selectmenu.addentry( ADD_CONTAINER, !has_container, MENU_AUTOASSIGN, _("Add a container to receive the %s"), maple_sap_name.c_str() );
     selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _("Harvest current %s (%d)"), maple_sap_name.c_str(), charges );
     selectmenu.addentry( REMOVE_CONTAINER, has_container, MENU_AUTOASSIGN, _("Remove container") );
-    selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
 
-    selectmenu.return_invalid = true;
     selectmenu.text = _("Select an action");
-    selectmenu.selected = 0;
     selectmenu.query();
 
-    switch( static_cast<options>( selectmenu.ret ) ) {
+    switch( selectmenu.ret ) {
         case REMOVE_TAP: {
             if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
@@ -2557,7 +2521,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
             return;
         }
 
-        case CANCEL:
+        default:
             return;
     }
 }
@@ -2679,8 +2643,6 @@ void iexamine::recycler(player &p, const tripoint &examp)
     add_recyle_menu_entry(as_m, norm_recover_weight, 'm', "sheet_metal");
     add_recyle_menu_entry(as_m, norm_recover_weight, 'C', "steel_chunk");
     add_recyle_menu_entry(as_m, norm_recover_weight, 's', "scrap");
-    as_m.entries.push_back(uimenu_entry(0, true, 'c', _("Cancel")));
-    as_m.selected = 4;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
     int ch = as_m.ret;
     int num_lumps = 0;
@@ -2892,14 +2854,14 @@ void iexamine::curtains(player &p, const tripoint &examp)
     }
 
     // Peek through the curtains, or tear them down.
-    int choice = menu( true, _("Do what with the curtains?"),
-                       _("Peek through the curtains."), _("Tear down the curtains."),
-                       _("Cancel"), NULL );
-    if( choice == 1 ) {
+    int choice = uimenu( _("Do what with the curtains?"), {
+        _("Peek through the curtains."), _("Tear down the curtains."),
+    } );
+    if( choice == 0 ) {
         // Peek
         g->peek(examp );
         p.add_msg_if_player( _("You carefully peek through the curtains.") );
-    } else if( choice == 2 ) {
+    } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
         g->m.ter_set( examp, t_window_no_curtains );
         g->m.spawn_item( p.pos(), "nail", 1, 4, calendar::turn );
@@ -3173,7 +3135,6 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     const int choose_pump = 2;
     const int hack = 3;
     const int refund = 4;
-    const int cancel = 5;
 
     if( p.has_trait( trait_ILLITERATE ) ) {
         popup( _( "You're illiterate, and can't read the screen." ) );
@@ -3231,30 +3192,25 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         amenu.addentry( hack, true, 'h', _( "Hack console." ) );
     }
 
-    amenu.addentry( cancel, true, 'q', str_to_illiterate_str( _( "Cancel" ) ) );
-
     amenu.query();
     choice = amenu.ret;
 
     if( choose_pump == choice ) {
-        uimenu amenu;
-        amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
-        amenu.text = str_to_illiterate_str( _( "Please choose gas pump:" ) );
-
-        amenu.addentry( 0, true, static_cast<long>( 'q' ), str_to_illiterate_str( _( "Cancel" ) ) );
+        uimenu pmenu;
+        pmenu.selected = uistate.ags_pay_gas_selected_pump;
+        pmenu.text = str_to_illiterate_str( _( "Please choose gas pump:" ) );
 
         for( int i = 0; i < pumpCount; i++ ) {
-            amenu.addentry( i + 1, true, -1,
+            pmenu.addentry( i, true, -1,
                             str_to_illiterate_str( _( "Pump " ) ) + to_string( i + 1 ) );
         }
-        amenu.query();
-        choice = amenu.ret;
+        pmenu.query();
 
-        if( choice == 0 ) {
+        if( pmenu.ret < 0 ) {
             return;
         }
 
-        uistate.ags_pay_gas_selected_pump = choice - 1;
+        uistate.ags_pay_gas_selected_pump = pmenu.selected;
 
         turnOnSelectedPump( examp, uistate.ags_pay_gas_selected_pump );
 
@@ -3496,7 +3452,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     enum options {
         INSTALL_CBM,
         UNINSTALL_CBM,
-        CANCEL,
     };
 
     bool adjacent_couch = false;
@@ -3530,15 +3485,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     uimenu amenu;
-    amenu.selected = 0;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
-    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
 
     amenu.query();
 
-    switch( static_cast<options>( amenu.ret ) ) {
+    switch( amenu.ret ) {
         case INSTALL_CBM: {
             const item_location bionic = g->inv_map_splice( []( const item & e ) {
                 return e.is_bionic();
@@ -3629,8 +3582,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            int bionic_index = menu_vec( true, _( "Choose bionic to uninstall" ),
-                                         bionic_names ) - 1;
+            int bionic_index = uimenu( _( "Choose bionic to uninstall" ), bionic_names );
             if( bionic_index < 0 ) {
                 return;
             }
@@ -3654,7 +3606,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             break;
         }
 
-        case CANCEL:
+        default:
             return;
     }
 }
@@ -3846,7 +3798,6 @@ void smoker_load_food( player &p, const tripoint &examp )
 
     uimenu smenu;
     smenu.text = _( "Load smoking rack with what kind of food?" );
-    smenu.return_invalid = true;
     // count and ask for item to be placed ...
     int count = 0;
     std::list<std::string> names;
@@ -3873,10 +3824,9 @@ void smoker_load_food( player &p, const tripoint &examp )
         return;
     }
 
-    smenu.addentry( -1, true, 'q', _( "Cancel" ) );
     smenu.query();
 
-    if( static_cast<size_t>( smenu.ret ) >= filtered.size() || smenu.ret == -1 ) {
+    if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= filtered.size() ) {
         add_msg(m_info, _( "Never mind." ) );
         return;
     }
@@ -3995,7 +3945,6 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     
     uimenu smenu;
     smenu.text = _( "What to do with the smoking rack:" );
-    smenu.return_invalid = true;
     smenu.addentry( 0, true, 'i', "%s", _( "Inspect smoking rack" ) );
     if( active ) {
         smenu.addentry( 1, false, 'l', "%s", _( "Light up and smoke food (lit & smoking)" ) );
@@ -4019,7 +3968,6 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     if ( active ) {
         smenu.addentry( 7, true, 'q', "%s", _( "Quench burning charcoal" ) );
     }
-    smenu.addentry( 6, true, 'x', "%s", _( "Cancel" ) );
     smenu.query();
 
     switch( smenu.ret ) {
@@ -4094,7 +4042,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             }
             break;
-        case 6:
+        default:
             add_msg( m_info, _( "Never mind." ) );
             break;
         case 7:

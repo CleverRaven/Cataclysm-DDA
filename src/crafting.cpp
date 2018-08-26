@@ -784,16 +784,13 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             return selected;
         }
 
-        if( can_cancel ) {
-            cmenu.addentry( -1, true, 'q', _( "Cancel" ) );
-        }
+        cmenu.allow_cancel = can_cancel;
 
         // Get the selection via a menu popup
         cmenu.title = _( "Use which component?" );
         cmenu.query();
 
-        // The choices only go up to index map_has.size()+player_has.size()+mixed.size()-1. Thus the next index is cancel.
-        if( cmenu.ret == static_cast<int>( map_has.size() + player_has.size() + mixed.size() ) ) {
+        if( cmenu.ret < 0 ) {
             selected.use_from = cancel;
             return selected;
         }
@@ -966,15 +963,13 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
             return selected;    // and the fire goes out.
         }
 
-        if( can_cancel ) {
-            tmenu.addentry( -1, true, 'q', _( "Cancel" ) );
-        }
+        tmenu.allow_cancel = can_cancel;
 
         // Get selection via a popup menu
         tmenu.title = _( "Use which tool?" );
         tmenu.query();
 
-        if( tmenu.ret == static_cast<int>( map_has.size() + player_has.size() ) ) {
+        if( tmenu.ret < 0 ) {
             selected.use_from = cancel;
             return selected;
         }

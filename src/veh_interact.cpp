@@ -818,12 +818,12 @@ bool veh_interact::do_install( std::string &msg )
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
-                    selected_shape = uimenu( true, getbegx( w_list ), getmaxx( w_list ), getbegy( w_list ),
+                    selected_shape = uimenu( getbegx( w_list ), getmaxx( w_list ), getbegy( w_list ),
                                              _("Choose shape:"), shape_ui_entries ).ret;
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
                 }
-                 if( 0 <= selected_shape && (size_t) selected_shape < shapes.size() ) {
+                if( 0 <= selected_shape && (size_t) selected_shape < shapes.size() ) {
                     sel_vpart_info = shapes[selected_shape];
                     sel_cmd = 'i';
                     return true; // force redraw
@@ -1536,7 +1536,6 @@ bool veh_interact::do_assign_crew( std::string &msg )
     auto act = [&]( vehicle_part &pt ) {
         uimenu menu;
         menu.text = _( "Select crew member" );
-        menu.return_invalid = true;
 
         if( pt.crew() ) {
             menu.addentry( 0, true, 'c', _( "Clear assignment" ) );
@@ -2268,15 +2267,17 @@ void veh_interact::countDurability()
  * into weird cases and doesn't consider properties like HP. The
  * item will be removed by this function.
  * @param vpid The id of the vpart type to look for.
- * @return The item that was consumed.
+ * @param itm The item that was consumed. Not changed if use cancels selection.
+ * @return False if user cancels selection.
  */
-item consume_vpart_item( const vpart_id &vpid )
+static bool consume_vpart_item( const vpart_id &vpid, item &itm )
 {
     std::vector<bool> candidates;
     const itype_id itid = vpid.obj().item;
 
     if(g->u.has_trait( trait_DEBUG_HS )) {
-        return item(itid, calendar::turn);
+        itm = item( itid, calendar::turn );
+        return true;
     }
 
     inventory map_inv;
@@ -2292,7 +2293,7 @@ item consume_vpart_item( const vpart_id &vpid )
     // bug?
     if(candidates.empty()) {
         debugmsg("Part not found!");
-        return item();
+        return false;
     }
 
     int selection;
@@ -2312,8 +2313,10 @@ item consume_vpart_item( const vpart_id &vpid )
                 options.emplace_back( info.name() + _(" (nearby)" ) );
             }
         }
-        selection = menu_vec(false, _("Use which gizmo?"), options);
-        selection -= 1;
+        selection = uimenu( _( "Use which gizmo?" ), options );
+        if( selection < 0 ) {
+            return false;
+        }
     }
     std::list<item> item_used;
     //remove item from inventory. or map.
@@ -2325,7 +2328,8 @@ item consume_vpart_item( const vpart_id &vpid )
     }
     remove_ammo( item_used, g->u );
 
-    return item_used.front();
+    itm = item_used.front();
+    return true;
 }
 
 void act_vehicle_siphon(vehicle* veh) {
@@ -2349,9 +2353,8 @@ void act_vehicle_siphon(vehicle* veh) {
         for( auto & fuel : fuels ) {
             smenu.addentry( item::nname( fuel ) );
         }
-        smenu.addentry(_("Never mind"));
         smenu.query();
-        if( static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
+        if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
             add_msg(m_info, _("Never mind."));
             return;
         }
@@ -2595,26 +2598,28 @@ void veh_interact::complete_vehicle()
     case 'c':
         std::vector<int> parts = veh->parts_at_relative( dx, dy );
         if( parts.size() ) {
-            item removed_wheel;
             int replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );
             if( replaced_wheel == -1 ) {
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
-            bool broken = veh->parts[ replaced_wheel ].is_broken();
-            removed_wheel = veh->parts[replaced_wheel].properties_to_item();
-            veh->remove_part( replaced_wheel );
-            veh->part_removal_cleanup();
-            int partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
-            if( partnum < 0 ) {
-                debugmsg( "complete_vehicle tire change fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
+            item itm;
+            if( consume_vpart_item( part_id, itm ) ) {
+                bool broken = veh->parts[replaced_wheel].is_broken();
+                item removed_wheel = veh->parts[replaced_wheel].properties_to_item();
+                veh->remove_part( replaced_wheel );
+                veh->part_removal_cleanup();
+                int partnum = veh->install_part( dx, dy, part_id, std::move( itm ) );
+                if( partnum < 0 ) {
+                    debugmsg( "complete_vehicle tire change fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
+                }
+                // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
+                if ( !broken ) {
+                    g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
+                }
+                add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
+                         veh->name.c_str(), veh->parts[partnum].name().c_str() );
             }
-            // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
-            if ( !broken ) {
-                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
-            }
-            add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
-                     veh->name.c_str(), veh->parts[ partnum ].name().c_str() );
         }
         break;
     }

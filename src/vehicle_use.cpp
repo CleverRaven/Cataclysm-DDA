@@ -65,7 +65,7 @@ enum change_types : int {
     OPENBOTH,
     CLOSEDOORS,
     CLOSEBOTH,
-    CANCEL
+    NUM_CHANGE_TYPES
 };
 
 char keybind( const std::string &opt, const std::string &context )
@@ -155,7 +155,6 @@ void vehicle::control_doors()
     pmenu.addentry( doors_with_motors.size() + CLOSEBOTH, true, MENU_AUTOASSIGN,
                     _( "Close all curtains and doors" ) );
 
-    pmenu.addentry( doors_with_motors.size() + CANCEL, true, 'q', _( "Cancel" ) );
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0; // Move the menu so that we can see our vehicle
@@ -165,7 +164,7 @@ void vehicle::control_doors()
         if( pmenu.ret < ( int )doors_with_motors.size() ) {
             int part = doors_with_motors[pmenu.ret];
             open_or_close( part, !( parts[part].open ) );
-        } else if( pmenu.ret < ( ( int )doors_with_motors.size() + CANCEL ) ) {
+        } else if( pmenu.ret < ( ( int )doors_with_motors.size() + NUM_CHANGE_TYPES ) ) {
             int option = pmenu.ret - ( int )doors_with_motors.size();
             bool open = option == OPENBOTH || option == OPENCURTAINS;
             for( int motor : door_motors ) {
@@ -267,10 +266,7 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
-        options.emplace_back( _( "Quit controlling electronics" ), keybind( "QUIT" ) );
-
         uimenu menu;
-        menu.return_invalid = true;
         menu.text = _( "Electronics controls" );
         menu.entries = options;
         menu.query();
@@ -337,9 +333,12 @@ int vehicle::select_engine()
                         ( ( parts[engines[e]].enabled ) ? "x" : " " ), name.c_str() );
     }
 
-    tmenu.addentry( -1, true, 'q', _( "Finish" ) );
     tmenu.query();
-    return tmenu.ret;
+    if( tmenu.ret < 0 ) {
+        return -1;
+    } else {
+        return tmenu.ret;
+    }
 }
 
 bool vehicle::interact_vehicle_locked()
@@ -583,7 +582,6 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     uimenu menu;
-    menu.return_invalid = true;
     menu.text = _( "Vehicle controls" );
     menu.entries = options;
     menu.query();

@@ -1665,8 +1665,6 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
                     mod.bash_resist(), mod.cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
                     mod.get_encumber(), temp_item.get_encumber() );
 
-    tmenu.addentry( 4, true, 'q', _( "Cancel" ) );
-
     tmenu.query();
     const int choice = tmenu.ret;
 
@@ -1745,21 +1743,22 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    int choice = menu( true, _( "Which signal should activate the item?:" ), _( "\"Red\"" ),
-                       _( "\"Blue\"" ), _( "\"Green\"" ), _( "Cancel" ), nullptr );
+    int choice = uimenu( _( "Which signal should activate the item?:" ), {
+        _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
+    } );
 
     std::string newtag;
     std::string colorname;
     switch( choice ) {
-        case 1:
+        case 0:
             newtag = "RADIOSIGNAL_1";
             colorname = _( "\"Red\"" );
             break;
-        case 2:
+        case 1:
             newtag = "RADIOSIGNAL_2";
             colorname = _( "\"Blue\"" );
             break;
-        case 3:
+        case 2:
             newtag = "RADIOSIGNAL_3";
             colorname = _( "\"Green\"" );
             break;
@@ -2230,13 +2229,15 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
         }
         sounds::ambient_sound( pos, 6, message );
     } else { // Activated
-        int ch = 2;
+        int ch = 1;
         if( it->ammo_remaining() > 0 ) {
-            ch = menu( true, _( "Radio:" ), _( "Scan" ), _( "Turn off" ), NULL );
+            ch = uimenu( _( "Radio:" ), {
+                _( "Scan" ), _( "Turn off" )
+            } );
         }
 
         switch( ch ) {
-            case 1: {
+            case 0: {
                 const int old_frequency = it->frequency;
                 const radio_tower *lowest_tower = nullptr;
                 const radio_tower *lowest_larger_tower = nullptr;
@@ -2259,11 +2260,11 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
                 }
             }
             break;
-            case 2:
+            case 1:
                 p->add_msg_if_player( _( "The radio dies." ) );
                 it->convert( "radio" ).active = false;
                 break;
-            case 3:
+            default:
                 break;
         }
     }
@@ -2962,22 +2963,23 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    int ch = menu( true, _( "Geiger counter:" ), _( "Scan yourself" ), _( "Scan the ground" ),
-                   _( "Turn continuous scan on" ), _( "Cancel" ), NULL );
+    int ch = uimenu( _( "Geiger counter:" ), {
+        _( "Scan yourself" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
+    } );
     switch( ch ) {
-        case 1:
+        case 0:
             p->add_msg_if_player( m_info, _( "Your radiation level: %d (%d from items)" ), p->radiation,
                                   p->leak_level( "RADIOACTIVE" ) );
             break;
-        case 2:
+        case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d" ),
                                   g->m.get_radiation( p->pos() ) );
             break;
-        case 3:
+        case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
             it->convert( "geiger_on" ).active = true;
             break;
-        case 4:
+        default:
             return 0;
     }
     return it->type->charges_to_use();
@@ -3574,16 +3576,17 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
 
 int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
 {
-    int choice = menu( true, _( "tactical tonfa" ), _( "Zap something" ),
-                       _( "Turn on light" ), _( "Cancel" ), NULL );
+    int choice = uimenu( _( "tactical tonfa" ), {
+        _( "Zap something" ), _( "Turn on light" )
+    } );
 
     switch( choice ) {
-        case 1: {
+        case 0: {
             return iuse::tazer2( p, it, t, pos );
         }
         break;
 
-        case 2: {
+        case 1: {
             if( !it->ammo_sufficient() ) {
                 p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
                 return 0;
@@ -3606,16 +3609,17 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
             it->convert( "shocktonfa_off" ).active = false;
         } else {
-            int choice = menu( true, _( "tactical tonfa" ), _( "Zap something" ),
-                               _( "Turn off light" ), _( "cancel" ), NULL );
+            int choice = uimenu( _( "tactical tonfa" ), {
+                _( "Zap something" ), _( "Turn off light" )
+            } );
 
             switch( choice ) {
-                case 1: {
+                case 0: {
                     return iuse::tazer2( p, it, t, pos );
                 }
                 break;
 
-                case 2: {
+                case 1: {
                     p->add_msg_if_player( _( "You turn off the light." ) );
                     it->convert( "shocktonfa_off" ).active = false;
                 }
@@ -3836,7 +3840,6 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         as_m.entries.push_back( uimenu_entry( 3, true, '3', _( "Sokoban" ) ) );
         as_m.entries.push_back( uimenu_entry( 4, true, '4', _( "Minesweeper" ) ) );
         as_m.entries.push_back( uimenu_entry( 5, true, '5', _( "Lights on!" ) ) );
-        as_m.entries.push_back( uimenu_entry( 6, true, '6', _( "Cancel" ) ) );
         as_m.query();
 
         switch( as_m.ret ) {
@@ -3855,7 +3858,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             case 5:
                 loaded_software = "lightson_game";
                 break;
-            case 6: //Cancel
+            default: //Cancel
                 return 0;
         }
 
@@ -4345,10 +4348,11 @@ int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
     } else if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( _( "The %s winks out." ), it->tname().c_str() );
     } else { // Turning it off
-        int choice = menu( true, _( "torch (lit)" ), _( "extinguish" ),
-                           _( "light something" ), _( "cancel" ), NULL );
+        int choice = uimenu( _( "torch (lit)" ), {
+            _( "extinguish" ), _( "light something" )
+        } );
         switch( choice ) {
-            case 1: {
+            case 0: {
                 p->add_msg_if_player( _( "The torch is extinguished." ) );
                 if( it->charges <= 1 ) {
                     it->charges = 0;
@@ -4360,7 +4364,7 @@ int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
                 return 0;
             }
             break;
-            case 2: {
+            case 1: {
                 tripoint temp = pos;
                 if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
                     p->moves -= 5;
@@ -4388,10 +4392,11 @@ int iuse::battletorch_lit( player *p, item *it, bool t, const tripoint &pos )
     } else if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( _( "The %s winks out" ), it->tname().c_str() );
     } else { // Turning it off
-        int choice = menu( true, _( "Louisville Slaughterer (lit)" ), _( "extinguish" ),
-                           _( "light something" ), _( "cancel" ), NULL );
+        int choice = uimenu( _( "Louisville Slaughterer (lit)" ), {
+            _( "extinguish" ), _( "light something" )
+        } );
         switch( choice ) {
-            case 1: {
+            case 0: {
                 p->add_msg_if_player( _( "The Louisville Slaughterer is extinguished." ) );
                 if( it->charges <= 1 ) {
                     it->charges = 0;
@@ -4403,7 +4408,7 @@ int iuse::battletorch_lit( player *p, item *it, bool t, const tripoint &pos )
                 return 0;
             }
             break;
-            case 2: {
+            case 1: {
                 tripoint temp = pos;
                 if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
                     p->moves -= 5;
@@ -4825,17 +4830,18 @@ int iuse::spray_can( player *p, item *it, bool, const tripoint & )
 {
     bool ismarker = ( it->typeId() == "permanent_marker" || it->typeId() == "survival_marker" );
     if( ismarker ) {
-        int ret = menu( true, _( "Write on what?" ), _( "The ground" ), _( "An item" ), _( "Cancel" ),
-                        NULL );
+        int ret = uimenu( _( "Write on what?" ), {
+            _( "The ground" ), _( "An item" )
+        } );
 
-        if( ret == 2 ) {
+        if( ret == 1 ) {
             // inscribe_item returns false if the action fails or is canceled somehow.
             bool canceled_inscription = !inscribe_item( *p, _( "Write" ), _( "Written" ), false );
             if( canceled_inscription ) {
                 return 0;
             }
             return it->type->charges_to_use();
-        } else if( ret != 1 ) { // User chose cancel or some other undefined key.
+        } else if( ret != 0 ) { // User chose cancel or some other undefined key.
             return 0;
         }
     }
@@ -4952,20 +4958,21 @@ int iuse::hotplate( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int choice = 1;
+    int choice = 0;
     if( ( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ||
           p->has_trait( trait_MASOCHIST ) ||
           p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) && !p->is_underwater() ) {
         //Might want to cauterize
-        choice = menu( true, _( "Using hotplate:" ), _( "Heat food" ), _( "Cauterize wound" ),
-                       _( "Cancel" ), NULL );
+        choice = uimenu( _( "Using hotplate:" ), {
+            _( "Heat food" ), _( "Cauterize wound" )
+        } );
     }
 
-    if( choice == 1 ) {
+    if( choice == 0 ) {
         if( heat_item( *p ) ) {
             return it->type->charges_to_use();
         }
-    } else if( choice == 2 ) {
+    } else if( choice == 1 ) {
         return cauterize_elec( *p, *it );
     }
     return 0;
@@ -5439,11 +5446,12 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int choice = menu( true, _( "Welcome to hackPRO!:" ), _( "Override IFF protocols" ),
-                       _( "Set friendly robots to passive mode" ),
-                       _( "Set friendly robots to combat mode" ), _( "Cancel" ), NULL );
+    int choice = uimenu( _( "Welcome to hackPRO!:" ), {
+        _( "Override IFF protocols" ), _( "Set friendly robots to passive mode" ),
+        _( "Set friendly robots to combat mode" )
+    } );
     switch( choice ) {
-        case 1: { // attempt to make a robot friendly
+        case 0: { // attempt to make a robot friendly
             uimenu pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
             // Build a list of all unfriendly robots in range.
@@ -5471,13 +5479,12 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             }
             pointmenu_cb callback( locations );
             pick_robot.callback = &callback;
-            pick_robot.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             pick_robot.query();
-            const size_t mondex = pick_robot.ret;
-            if( mondex >= mons.size() ) {
+            if( pick_robot.ret < 0 || size_t( pick_robot.ret ) >= mons.size() ) {
                 p->add_msg_if_player( m_info, _( "Never mind" ) );
                 return it->type->charges_to_use();
             }
+            const size_t mondex = pick_robot.ret;
             monster *z = mons[mondex];
             p->add_msg_if_player( _( "You start reprogramming the %s into an ally." ), z->name().c_str() );
             /** @EFFECT_INT speeds up robot reprogramming */
@@ -5515,7 +5522,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             p->practice( skill_computer, 10 );
             return it->type->charges_to_use();
         }
-        case 2: { //make all friendly robots stop their purposeless extermination of (un)life.
+        case 1: { //make all friendly robots stop their purposeless extermination of (un)life.
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
@@ -5532,7 +5539,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             }
             return it->type->charges_to_use();
         }
-        case 3: { //make all friendly robots terminate (un)life with extreme prejudice
+        case 2: { //make all friendly robots terminate (un)life with extreme prejudice
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
@@ -5805,7 +5812,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     } else if( !p->is_npc() ) {
 
         enum {
-            ei_cancel, ei_photo, ei_music, ei_recipe, ei_monsters, ei_download, ei_decrypt
+            ei_invalid, ei_photo, ei_music, ei_recipe, ei_monsters, ei_download, ei_decrypt
         };
 
         if( p->is_underwater() ) {
@@ -5824,9 +5831,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         uimenu amenu;
 
-        amenu.selected = 0;
         amenu.text = _( "Choose menu option:" );
-        amenu.addentry( ei_cancel, true, 'q', _( "Cancel" ) );
 
         const int photos = it->get_var( "EIPC_PHOTOS", 0 );
         if( photos > 0 ) {
@@ -5848,7 +5853,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         if( !it->get_var( "RECIPE" ).empty() ) {
             const item dummy( it->get_var( "RECIPE" ), 0 );
-            amenu.addentry( 0, false, -1, _( "Recipe: %s" ), dummy.tname().c_str() );
+            amenu.addentry( ei_invalid, false, -1, _( "Recipe: %s" ), dummy.tname().c_str() );
         }
 
         if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
@@ -5874,7 +5879,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         const int choice = amenu.ret;
 
-        if( ei_cancel == choice ) {
+        if( ei_invalid == choice || choice < 0 ) {
             return 0;
         }
 
@@ -5953,9 +5958,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
             uimenu rmenu;
 
-            rmenu.selected = 0;
             rmenu.text = _( "Choose recipe to view:" );
-            rmenu.addentry( 0, true, 'q', _( "Cancel" ) );
 
             std::vector<recipe_id> candidate_recipes;
             std::istringstream f( it->get_var( "EIPC_RECIPES" ) );
@@ -5978,7 +5981,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             rmenu.query();
 
             const int rchoice = rmenu.ret;
-            if( 0 == rchoice ) {
+            if( rchoice <= 0 ) {
                 return it->type->charges_to_use();
             } else {
                 it->item_tags.insert( "HAS_RECIPE" );
@@ -6000,9 +6003,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
             uimenu pmenu;
 
-            pmenu.selected = 0;
             pmenu.text = _( "Your collection of monsters:" );
-            pmenu.addentry( 0, true, 'q', _( "Cancel" ) );
 
             std::vector<mtype_id> monster_photos;
 
@@ -6029,7 +6030,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 pmenu.query();
                 choice = pmenu.ret;
 
-                if( 0 == choice ) {
+                if( choice <= 0 ) {
                     break;
                 }
 
@@ -6124,11 +6125,10 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::camera( player *p, item *it, bool, const tripoint & )
 {
-    enum {c_cancel, c_shot, c_photos, c_upload};
+    enum {c_shot, c_photos, c_upload};
 
     uimenu amenu;
 
-    amenu.selected = 0;
     amenu.text = _( "What to do with camera?" );
     amenu.addentry( c_shot, true, 'p', _( "Take a photo" ) );
     if( !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() ) {
@@ -6138,12 +6138,10 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         amenu.addentry( c_photos, false, 'l', _( "No photos in memory" ) );
     }
 
-    amenu.addentry( c_cancel, true, 'q', _( "Cancel" ) );
-
     amenu.query();
     const int choice = amenu.ret;
 
-    if( c_cancel == choice ) {
+    if( choice < 0 ) {
         return 0;
     }
 
@@ -6307,9 +6305,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
         uimenu pmenu;
 
-        pmenu.selected = 0;
         pmenu.text = _( "Critter photos saved on camera:" );
-        pmenu.addentry( 0, true, 'q', _( "Cancel" ) );
 
         std::vector<mtype_id> monster_photos;
 
@@ -6338,16 +6334,14 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             pmenu.addentry( k++, true, -1, menu_str.c_str() );
         }
 
-        int choice;
         do {
             pmenu.query();
-            choice = pmenu.ret;
 
-            if( 0 == choice ) {
+            if( pmenu.ret <= 0 ) {
                 break;
             }
 
-            const monster dummy( monster_photos[choice - 1] );
+            const monster dummy( monster_photos[pmenu.ret - 1] );
             popup( dummy.type->get_description().c_str() );
 
         } while( true );
@@ -6501,17 +6495,19 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
     if( it->contents.empty() ) {
-        choice = menu( true, _( "Using RC car:" ), _( "Turn on" ),
-                       _( "Put a bomb to car" ), _( "Cancel" ), NULL );
+        choice = uimenu( _( "Using RC car:" ), {
+            _( "Turn on" ), _( "Put a bomb to car" )
+        } );
     } else if( it->contents.size() == 1 ) {
-        choice = menu( true, _( "Using RC car:" ), _( "Turn on" ),
-                       it->contents.front().tname().c_str(), _( "Cancel" ), NULL );
+        choice = uimenu( _( "Using RC car:" ), {
+            _( "Turn on" ), it->contents.front().tname().c_str()
+        } );
     }
-    if( choice == 3 ) {
+    if( choice < 0 ) {
         return 0;
     }
 
-    if( choice == 1 ) { //Turn car ON
+    if( choice == 0 ) { //Turn car ON
         if( !it->ammo_sufficient() ) {
             p->add_msg_if_player( _( "The RC car's batteries seem to be dead." ) );
             return 0;
@@ -6535,7 +6531,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( choice == 2 ) {
+    if( choice == 1 ) {
 
         if( it->contents.empty() ) { //arming car with bomb
             int inventory_index = g->inv_for_flag( "RADIOCARITEM", _( "Arm what?" ) );
@@ -6586,14 +6582,11 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    int choice = menu( true, _( "What to do with activated RC car?" ), _( "Turn off" ),
-                       _( "Cancel" ), NULL );
+    int choice = uimenu( _( "What to do with activated RC car?" ), {
+        _( "Turn off" )
+    } );
 
-    if( choice == 2 ) {
-        return it->type->charges_to_use();
-    }
-
-    if( choice == 1 ) {
+    if( choice == 0 ) {
         item bomb;
 
         if( !it->contents.empty() ) {
@@ -6648,7 +6641,6 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    int choice = -1;
     const char *car_action = NULL;
 
     if( !it->active ) {
@@ -6657,12 +6649,13 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         car_action = _( "Stop controlling RC car" );
     }
 
-    choice = menu( true, _( "What to do with radio control?" ), _( "Nothing" ), car_action,
-                   _( "Press red button" ), _( "Press blue button" ), _( "Press green button" ), NULL );
+    int choice = uimenu( _( "What to do with radio control?" ), {
+        car_action, _( "Press red button" ), _( "Press blue button" ), _( "Press green button" )
+    } );
 
-    if( choice == 1 ) {
+    if( choice < 0 ) {
         return 0;
-    } else if( choice == 2 ) {
+    } else if( choice == 0 ) {
         if( it->active ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
@@ -6690,10 +6683,10 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
                 it->active = true;
             }
         }
-    } else if( choice > 2 ) {
+    } else if( choice > 0 ) {
         std::string signal = "RADIOSIGNAL_";
         std::stringstream choice_str;
-        choice_str << ( choice - 2 );
+        choice_str << choice;
         signal += choice_str.str();
 
         auto item_list = p->get_radio_items();
@@ -6800,7 +6793,6 @@ vehicle *pickveh( const tripoint &center, bool advanced )
         return nullptr;
     }
 
-    pmenu.addentry( vehs.size(), true, 'q', _( "Cancel" ) );
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0;
@@ -6837,15 +6829,16 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     }
 
     bool controlling = it->active && remote != nullptr;
-    int choice = menu( true, _( "What to do with remote vehicle control:" ), _( "Nothing" ),
-                       controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
-                       _( "Execute one vehicle action" ), NULL );
+    int choice = uimenu( _( "What to do with remote vehicle control:" ), {
+        controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
+        _( "Execute one vehicle action" )
+    } );
 
-    if( choice < 2 || choice > 3 ) {
+    if( choice < 0 || choice > 1 ) {
         return 0;
     }
 
-    if( choice == 2 && controlling ) {
+    if( choice == 0 && controlling ) {
         it->active = false;
         g->setremoteveh( nullptr );
         return 0;
@@ -6854,7 +6847,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     int px = g->u.view_offset.x;
     int py = g->u.view_offset.y;
 
-    vehicle *veh = pickveh( pos, choice == 2 );
+    vehicle *veh = pickveh( pos, choice == 0 );
 
     if( veh == nullptr ) {
         return 0;
@@ -6864,14 +6857,14 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    if( choice == 2 ) {
+    if( choice == 0 ) {
         it->active = true;
         g->setremoteveh( veh );
         p->add_msg_if_player( m_good, _( "You take control of the vehicle." ) );
         if( !veh->engine_on ) {
             veh->start_engines();
         }
-    } else if( choice == 3 ) {
+    } else if( choice == 1 ) {
         veh->use_controls( pos );
     }
 
@@ -6988,7 +6981,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
     } else {
         enum {
-            mc_cancel, mc_start, mc_stop, mc_take, mc_upgrade
+            mc_start, mc_stop, mc_take, mc_upgrade
         };
 
         if( p->is_underwater() ) {
@@ -7014,10 +7007,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         }
 
         uimenu menu;
-        menu.selected = 0;
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
-
-        menu.addentry( mc_cancel, true, 'q', _( "Cancel" ) );
 
         if( it->active ) {
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
@@ -7052,7 +7042,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         menu.query();
         int choice = menu.ret;
 
-        if( mc_cancel == choice ) {
+        if( choice < 0 ) {
             return 0;
         }
 
@@ -7084,15 +7074,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( mc_start == choice ) {
-            enum {
-                d_cancel
-            };
-
             uimenu dmenu;
-            dmenu.selected = 0;
             dmenu.text = _( "Choose desired meal:" );
-
-            dmenu.addentry( d_cancel, true, 'q', _( "Cancel" ) );
 
             std::vector<const recipe *> dishes;
 
@@ -7116,12 +7099,10 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             dmenu.query();
 
-            int choice = dmenu.ret;
-
-            if( d_cancel == choice ) {
+            if( dmenu.ret <= 0 ) {
                 return 0;
             } else {
-                const recipe *meal = dishes[choice - 1];
+                const recipe *meal = dishes[dmenu.ret - 1];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
                     mealtime = meal->time;
@@ -7259,15 +7240,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     } else if( initial_state == "pay_out_cable" ) {
         int choice = -1;
         uimenu kmenu;
-        kmenu.selected = 0;
         kmenu.text = _( "Using cable:" );
         kmenu.addentry( 0, true, -1, _( "Attach loose end of the cable" ) );
         kmenu.addentry( 1, true, -1, _( "Detach and re-spool the cable" ) );
-        kmenu.addentry( -1, true, 'q', _( "Cancel" ) );
         kmenu.query();
         choice = kmenu.ret;
 
-        if( choice == -1 ) {
+        if( choice < 0 ) {
             return 0; // we did nothing.
         } else if( choice == 1 ) {
             it->reset_cable( p );

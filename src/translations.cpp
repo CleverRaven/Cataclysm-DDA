@@ -122,15 +122,16 @@ void select_language()
     wrefresh( catacurses::stdscr );
 
     uimenu sm;
-    sm.selected = 0;
     sm.text = _( "Select your language" );
     for( size_t i = 0; i < languages.size(); i++ ) {
         sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second );
     }
     sm.query();
 
-    get_options().get_option( "USE_LANG" ).setValue( languages[sm.ret].first );
-    get_options().save();
+    if( sm.ret >= 0 && size_t( sm.ret ) < languages.size() ) {
+        get_options().get_option( "USE_LANG" ).setValue( languages[sm.ret].first );
+        get_options().save();
+    }
 }
 
 void set_language()

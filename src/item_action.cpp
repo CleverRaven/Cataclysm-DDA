@@ -223,7 +223,6 @@ void game::item_action_menu()
 
     uimenu kmenu;
     kmenu.text = _( "Execute which action?" );
-    kmenu.return_invalid = true;
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
     for( const auto &id : item_actions ) {

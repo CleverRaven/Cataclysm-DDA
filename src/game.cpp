@@ -1305,7 +1305,7 @@ bool game::cleanup_at_end()
 
             if( get_option<std::string>( "WORLD_END" ) == "query" ) {
                 uimenu smenu;
-                smenu.return_invalid = false;
+                smenu.allow_cancel = false;
                 smenu.addentry( 0, true, 'k', "%s", _( "Keep world" ) );
                 smenu.addentry( 1, true, 'r', "%s", _( "Reset world" ) );
                 smenu.addentry( 2, true, 'd', "%s", _( "Delete world" ) );
@@ -2006,12 +2006,14 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                            iScrollPos, true, false, false);
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
-            if( action_menu.ret != UIMENU_INVALID ) {
+            if( action_menu.ret == UIMENU_INVALID || action_menu.ret == UIMENU_CANCEL ) {
+                cMenu = '\0';
+            } else if( action_menu.ret != UIMENU_WAIT_INPUT ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
             } else if( action_menu.keypress == KEY_RIGHT ) {
                 // Simulate KEY_RIGHT == '\n' (confirm currently selected entry) for compatibility with old version.
                 // TODO: ideally this should be done in the uimenu, maybe via a callback.
-                cMenu = action_menu.entries[action_menu.selected].retval;
+                action_menu.ret = cMenu = action_menu.entries[action_menu.selected].retval;
             } else {
                 cMenu = action_menu.keypress;
             }
@@ -2092,7 +2094,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
             default:
                 break;
             }
-        } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == KEY_PPAGE || cMenu == KEY_NPAGE);
+        } while( action_menu.ret == UIMENU_WAIT_INPUT );
     }
     return cMenu;
 }
@@ -3071,8 +3073,8 @@ bool game::handle_action()
                     }
                 }
 
-                std::vector<std::string> options( 1, _("Cancel") );
-                std::vector<std::function<void()>> actions( 1, []{} );
+                std::vector<std::string> options;
+                std::vector<std::function<void()>> actions;
 
                 for( auto &w : u.worn ) {
                     if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
@@ -3091,8 +3093,11 @@ bool game::handle_action()
                         actions.emplace_back( [&]{ u.wield( w ); } );
                     }
                 }
-                if( options.size() > 1 ) {
-                    actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
+                if( !options.empty() ) {
+                    auto sel = uimenu( _( "Draw what?" ), options );
+                    if( sel >= 0 ) {
+                        actions[sel]();
+                    }
                 }
             }
 
@@ -3208,7 +3213,6 @@ bool game::handle_action()
                                 _("new default binding is '^'.")).c_str());
             } else {
                 uimenu as_m;
-                as_m.return_invalid = true;
                 as_m.text = _("Are you sure you want to sleep?");
                 as_m.entries.emplace_back( uimenu_entry( 0, true,
                                            ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y' ),
@@ -4012,44 +4016,45 @@ void game::write_memorial_file(std::string sLastWords)
 
 void game::debug()
 {
-    int action = menu( true, // cancelable
-                       _( "Debug Functions - Using these is CHEATING!" ),
-                       _( "Wish for an item" ),       // 1
-                       _( "Teleport - Short Range" ), // 2
-                       _( "Teleport - Long Range" ),  // 3
-                       _( "Reveal map" ),             // 4
-                       _( "Spawn NPC" ),              // 5
-                       _( "Spawn Monster" ),          // 6
-                       _( "Check game state..." ),    // 7
-                       _( "Kill NPCs" ),              // 8
-                       _( "Mutate" ),                 // 9
-                       _( "Spawn a vehicle" ),        // 10
-                       _( "Change all skills" ),      // 11
-                       _( "Learn all melee styles" ), // 12
-                       _( "Unlock all recipes" ),     // 13
-                       _( "Edit player/NPC" ),        // 14
-                       _( "Spawn Artifact" ),         // 15
-                       _( "Spawn Clairvoyance Artifact" ), //16
-                       _( "Map editor" ),             // 17
-                       _( "Change weather" ),         // 18
-                       _( "Kill all monsters" ),    // 19
-                       _( "Display hordes" ),         // 20
-                       _( "Test Item Group" ),        // 21
-                       _( "Damage Self" ),            // 22
-                       _( "Show Sound Clustering" ),  // 23
-                       _( "Lua Console" ),            // 24
-                       _( "Display weather" ),        // 25
-                       _( "Display overmap scents" ), // 26
-                       _( "Change time" ),            // 27
-                       _( "Set automove route" ),     // 28
-                       _( "Show mutation category levels" ), // 29
-                       _( "Overmap editor" ),         // 30
-                       _( "Draw benchmark (5 seconds)" ),    // 31
-                       _( "Teleport - Adjacent overmap" ),   // 32
-                       _( "Test trait group" ),        // 33
-                       _( "Quit to Main Menu" ),    // 34
-                       _( "Cancel" ),
-                       NULL );
+    int action = uimenu( _( "Debug Functions - Using these is CHEATING!" ), {
+        _( "Wish for an item" ),                // 1
+        _( "Teleport - Short Range" ),          // 2
+        _( "Teleport - Long Range" ),           // 3
+        _( "Reveal map" ),                      // 4
+        _( "Spawn NPC" ),                       // 5
+        _( "Spawn Monster" ),                   // 6
+        _( "Check game state..." ),             // 7
+        _( "Kill NPCs" ),                       // 8
+        _( "Mutate" ),                          // 9
+        _( "Spawn a vehicle" ),                 // 10
+        _( "Change all skills" ),               // 11
+        _( "Learn all melee styles" ),          // 12
+        _( "Unlock all recipes" ),              // 13
+        _( "Edit player/NPC" ),                 // 14
+        _( "Spawn Artifact" ),                  // 15
+        _( "Spawn Clairvoyance Artifact" ),     // 16
+        _( "Map editor" ),                      // 17
+        _( "Change weather" ),                  // 18
+        _( "Kill all monsters" ),               // 19
+        _( "Display hordes" ),                  // 20
+        _( "Test Item Group" ),                 // 21
+        _( "Damage Self" ),                     // 22
+        _( "Show Sound Clustering" ),           // 23
+        _( "Lua Console" ),                     // 24
+        _( "Display weather" ),                 // 25
+        _( "Display overmap scents" ),          // 26
+        _( "Change time" ),                     // 27
+        _( "Set automove route" ),              // 28
+        _( "Show mutation category levels" ),   // 29
+        _( "Overmap editor" ),                  // 30
+        _( "Draw benchmark (5 seconds)" ),      // 31
+        _( "Teleport - Adjacent overmap" ),     // 32
+        _( "Test trait group" ),                // 33
+        _( "Quit to Main Menu" ),               // 34
+    } );
+    if( action >= 0 ) {
+        ++action;
+    }
     refresh_all();
     switch( action ) {
         case 1:
@@ -4138,7 +4143,6 @@ void game::debug()
                 std::vector<vproto_id> veh_strings;
                 uimenu veh_menu;
                 veh_menu.text = _( "Choose vehicle to spawn" );
-                veh_menu.return_invalid = true;
                 int menu_ind = 0;
                 for( auto & elem : vehicle_prototype::get_all() ) {
                     if( elem != vproto_id( "custom" ) ) {
@@ -4149,10 +4153,9 @@ void game::debug()
                         ++menu_ind;
                     }
                 }
-                veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "Cancel" ) );
                 veh_menu.query();
                 if( veh_menu.ret >= 0 && veh_menu.ret < ( int )veh_strings.size() ) {
-                    //Didn't pick Cancel
+                    //Didn't Cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
                     vehicle *veh = m.add_vehicle( selected_opt, dest.x, dest.y, -90, 100, 0 );
@@ -4216,7 +4219,6 @@ void game::debug()
         case 18: {
             uimenu weather_menu;
             weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.return_invalid = true;
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
@@ -4224,12 +4226,10 @@ void game::debug()
                                        weather_data( static_cast<weather_type>( weather_id ) ).name );
             }
 
-            weather_menu.addentry( NUM_WEATHER_TYPES, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-
             weather_menu.query();
 
             if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = ( weather_type )weather_menu.selected;
+                weather_type selected_weather = ( weather_type )weather_menu.ret;
                 weather_override = selected_weather;
                 nextweather = calendar::turn;
                 update_weather();
@@ -4315,11 +4315,9 @@ void game::debug()
             };
 
             uimenu smenu;
-            smenu.return_invalid = true;
             do {
-                const int iSel = smenu.ret;
+                const int iSel = smenu.selected;
                 smenu.reset();
-                smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
                 smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
                                 _( "season" ), int( season_of_year( calendar::turn ) ) );
@@ -4327,7 +4325,6 @@ void game::debug()
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
                 smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), static_cast<int>( calendar::turn ) );
-                smenu.addentry( 6, true, 'q', "%s", _( "quit" ) );
                 smenu.selected = iSel;
                 smenu.query();
 
@@ -4355,7 +4352,7 @@ void game::debug()
                     default:
                         break;
                 }
-            } while( smenu.ret != 6 && smenu.ret != UIMENU_INVALID );
+            } while( smenu.ret != UIMENU_CANCEL );
         }
         break;
         case 28: {
@@ -7073,13 +7070,11 @@ bool pet_menu(monster *z)
     };
 
     uimenu amenu;
-    amenu.return_invalid = true;
     std::string pet_name = z->get_name();
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
 
-    amenu.selected = 0;
     amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
@@ -7327,9 +7322,7 @@ bool game::npc_menu( npc &who )
     const bool obeys = debug_mode || ( who.is_friend() && !who.in_sleep_state() );
 
     uimenu amenu;
-    amenu.return_invalid = true;
 
-    amenu.selected = 0;
     amenu.text = string_format( _("What to do with %s?"), who.disp_name().c_str() );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys, 's', _("Swap positions") );
@@ -7986,17 +7979,19 @@ void game::zones_manager()
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
 
-            const auto id = zones.query_type();
-            const auto name = zones.query_name( zones.get_name_from_type( id ) );
-            const auto position = query_position();
+            zone_type_id id;
+            if( zones.query_type( id ) ) {
+                const auto name = zones.query_name( zones.get_name_from_type( id ) );
+                const auto position = query_position();
 
-            if( position.first != tripoint_min ) {
-                zones.add( name, id, false, true, position.first, position.second );
+                if( position.first != tripoint_min ) {
+                    zones.add( name, id, false, true, position.first, position.second );
 
-                zone_num = zones.size();
-                active_index = zone_num - 1;
+                    zone_num = zones.size();
+                    active_index = zone_num - 1;
 
-                stuff_changed = true;
+                    stuff_changed = true;
+                }
             }
 
             draw_ter();
@@ -8049,7 +8044,6 @@ void game::zones_manager()
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
                 as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Edit position")));
-                as_m.entries.emplace_back(uimenu_entry(4, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
@@ -8068,8 +8062,6 @@ void game::zones_manager()
                 default:
                     break;
                 }
-
-                as_m.reset();
 
                 draw_ter();
 
@@ -9604,7 +9596,6 @@ bool game::get_liquid_target( item &liquid, item * const source, const int radiu
     }
 
     uimenu menu;
-    menu.return_invalid = true;
 
     const std::string liquid_name = liquid.display_name( liquid.charges );
     if( source_pos != nullptr ) {
@@ -9716,8 +9707,9 @@ bool game::get_liquid_target( item &liquid, item * const source, const int radiu
 
     menu.query();
     refresh_all();
-    const size_t chosen = static_cast<size_t>( menu.ret );
-    if( chosen >= actions.size() ) {
+
+    const int chosen = menu.ret;
+    if( chosen < 0 || size_t( chosen ) >= actions.size() ) {
         add_msg( _( "Never mind." ) );
         // Explicitly canceled all options (container, drink, pour).
         return false;
@@ -10276,7 +10268,7 @@ void game::butcher()
         F_DRESS,            // field dressing a corpse
         QUARTER,            // quarter corpse
         DISSECT,            // dissect corpse for CBMs
-        CANCEL
+        NUM_OPTIONS
     };
     // What are we butchering (ie. which vector to pick indices from)
     enum {
@@ -10292,7 +10284,6 @@ void game::butcher()
         uimenu kmenu;
         kmenu.text = _("Choose corpse to butcher / item to disassemble");
 
-        kmenu.selected = 0;
         size_t i = 0;
         add_corpses_to_menu( kmenu, items, corpses, i, false );
         add_corpses_to_menu( kmenu, items, disassembles, i, false );
@@ -10312,16 +10303,14 @@ void game::butcher()
             kmenu.addentry( MULTISALVAGE, true, 'z', _("Cut up all you can") );
         }
 
-        kmenu.addentry( CANCEL, true, 'q', _("Cancel"));
-        kmenu.return_invalid = true;
         kmenu.query();
 
-        if( kmenu.ret < 0 || kmenu.ret >= CANCEL ) {
+        if( kmenu.ret < 0 || kmenu.ret >= NUM_OPTIONS ) {
             return;
         }
 
         size_t ret = (size_t)kmenu.ret;
-        if( ret >= MULTISALVAGE && ret < CANCEL ) {
+        if( ret >= MULTISALVAGE && ret < NUM_OPTIONS ) {
             butcher_type = BUTCHER_OTHER;
             indexer_index = ret;
         } else if( ret < corpses.size() ) {
@@ -10404,8 +10393,6 @@ void game::butcher()
             smenu.addentry_desc( F_DRESS, true, 'f' , _("Field dress corpse"), _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
             smenu.addentry_desc( QUARTER, true, 'k' , _("Quarter corpse"), _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry_desc( DISSECT, true, 'd' , _("Dissect corpse"), _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
-            smenu.addentry( CANCEL, true, 'q', _("Cancel"));
-            smenu.return_invalid = true;
             smenu.query();
             switch( smenu.ret ) {
             case BUTCHER:
@@ -10423,7 +10410,7 @@ void game::butcher()
             case DISSECT:
                 u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
                 break;
-            case CANCEL:
+            default:
                 return;
             }
             draw_ter();
@@ -10781,7 +10768,19 @@ bool game::unload( item &it )
         }
     }
 
-    item *target = opts.size() > 1 ? opts[ ( uimenu( false, _("Unload what?"), msgs ) ) - 1 ] : &it;
+    item *target = nullptr;
+    if( opts.size() > 1 ) {
+        int sel = uimenu( _( "Unload what?" ), msgs );
+        if( sel >= 0 && size_t( sel ) < opts.size() ) {
+            target = opts[sel];
+        }
+    } else {
+        target = &it;
+    }
+
+    if( target == nullptr ) {
+        return false;
+    }
 
     // Next check for any reasons why the item cannot be unloaded
     if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
@@ -10964,8 +10963,6 @@ void game::chat()
     for( auto &elem : available ) {
         nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
     }
-
-    nmenu.return_invalid = true;
 
     int yell = 0;
     int yell_sentence = 0;
@@ -11209,14 +11206,14 @@ bool game::disable_robot( const tripoint &p )
     }
     // Manhacks are special, they have their own menu here.
     if( mid == mon_manhack ) {
-        int choice = 0;
+        int choice = -1;
         if( critter.has_effect( effect_docile ) ) {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
+            choice = uimenu( _( "Reprogram the manhack?" ), { _( "Engage targets." ) } );
         } else {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Follow me." ), _( "Cancel" ), NULL );
+            choice = uimenu( _( "Reprogram the manhack?" ), { _( "Follow me." ) } );
         }
         switch( choice ) {
-            case 1:
+            case 0:
                 if( critter.has_effect( effect_docile ) ) {
                     critter.remove_effect( effect_docile );
                     if( one_in( 3 ) ) {
@@ -12506,8 +12503,6 @@ tripoint point_selection_menu( const std::vector<tripoint> &pts )
         pmenu.addentry( num++, true, MENU_AUTOASSIGN, _("Climb %s"), direction.c_str() );
     }
 
-    pmenu.addentry( num, true, 'q', "%s", _("Cancel") );
-
     pmenu.selected = num;
     pmenu.query();
     const int ret = pmenu.ret;
@@ -13441,14 +13436,11 @@ void game::wait()
         add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
     }
 
-    add_menu_item( 12, 'q', _( "Exit" ) );
-
     as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += _( "Wait for how long?" );
-    as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    if( as_m.ret == 12 || durations.count( as_m.ret ) == 0 ) {
+    if( as_m.ret < 1 || as_m.ret > 11 || durations.count( as_m.ret ) == 0 ) {
         return;
     }
 

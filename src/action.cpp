@@ -771,15 +771,14 @@ action_id handle_action_menu()
 #endif
         }
 
-        std::string title = _( "Back" );
-        title += "...";
-        if( category == "back" ) {
-            title = _( "Cancel" );
+        if( category != "back" ) {
+            std::string msg = _( "Back" );
+            msg += "...";
+            entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
+                                                hotkey_for_action( ACTION_ACTIONMENU ), msg ) );
         }
-        entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
-                                            hotkey_for_action( ACTION_ACTIONMENU ), title ) );
 
-        title = _( "Actions" );
+        std::string title = _( "Actions" );
         if( category != "back" ) {
             catgname = _( category.c_str() );
             capitalize_letter( catgname, 0 );
@@ -796,7 +795,7 @@ action_id handle_action_menu()
         width += 2 + 3 + 3;
         int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
         int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
-        int selection = ( int ) uimenu( true, std::max( ix, 0 ), std::min( width, TERMX - 2 ),
+        int selection = ( int ) uimenu( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                         std::max( iy, 0 ), title, entries );
 
         g->draw();
@@ -853,7 +852,7 @@ action_id handle_main_menu()
     width += 2 + 3 + 3;
     int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
     int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
-    int selection = ( int ) uimenu( true, std::max( ix, 0 ), std::min( width, TERMX - 2 ),
+    int selection = ( int ) uimenu( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                     std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
     g->draw();

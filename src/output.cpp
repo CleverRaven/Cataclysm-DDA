@@ -21,7 +21,6 @@
 #include "units.h"
 #include "debug.h"
 #include "path_info.h"
-#include "ui.h"
 #include "item.h"
 #include "line.h"
 #include "name.h"
@@ -619,33 +618,6 @@ bool query_int( int &result, const std::string &text )
     }
     result = atoi( popup.text().c_str() );
     return true;
-}
-
-// compatibility stub for uimenu(cancelable, mes, options)
-int menu_vec( bool cancelable, const char *mes,
-              const std::vector<std::string> options )
-{
-    return ( int )uimenu( cancelable, mes, options );
-}
-
-int menu_vec( bool cancelable, const char *mes,
-              const std::vector<std::string> &options,
-              const std::string &hotkeys_override )
-{
-    return ( int )uimenu( cancelable, mes, options, hotkeys_override );
-}
-
-// compatibility stub for uimenu(cancelable, mes, ...)
-int menu( bool const cancelable, const char *const mes, ... )
-{
-    va_list ap;
-    va_start( ap, mes );
-    std::vector<std::string> options;
-    while( char const *const tmp = va_arg( ap, char * ) ) {
-        options.push_back( tmp );
-    }
-    va_end( ap );
-    return ( uimenu( cancelable, mes, options ) );
 }
 
 static catacurses::window create_popup_window( int width, int height, PopupFlags flags )

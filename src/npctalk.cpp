@@ -4717,7 +4717,6 @@ npc *pick_follower()
 
     uimenu menu;
     menu.text = _( "Select a follower" );
-    menu.return_invalid = true;
     menu.callback = &callback;
     menu.w_y = 2;
 

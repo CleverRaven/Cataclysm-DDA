@@ -202,7 +202,6 @@ void debug_menu::wishmutate( player *p )
     wmenu.w_width = TERMX;
     // disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 40 );
-    wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
     cb.p = p;
@@ -240,7 +239,7 @@ void debug_menu::wishmutate( player *p )
                 } while( !p->has_trait( mstr ) && rc < 10 );
             }
             cb.msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
-            uistate.wishmutate_selected = wmenu.ret;
+            uistate.wishmutate_selected = wmenu.selected;
             if( rc != 0 ) {
                 for( size_t i = 0; i < cb.vTraits.size(); i++ ) {
                     wmenu.entries[ i ].extratxt.txt.clear();
@@ -360,7 +359,6 @@ void debug_menu::wishmonster( const tripoint &p )
     wmenu.w_width = TERMX;
     // disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 30 );
-    wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmonster_selected;
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
@@ -399,7 +397,7 @@ void debug_menu::wishmonster( const tripoint &p )
                 input_context ctxt( "UIMENU" );
                 cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
                                         num_spawned, int( spawn_points.size() ), ctxt.get_desc( "QUIT" ).c_str() );
-                uistate.wishmonster_selected = wmenu.ret;
+                uistate.wishmonster_selected = wmenu.selected;
                 wmenu.redraw();
             }
         }
@@ -477,7 +475,6 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
-    wmenu.return_invalid = true;
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
@@ -528,7 +525,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                                             ctxt.get_desc( "QUIT" ).c_str() );
                 }
             }
-            uistate.wishitem_selected = wmenu.ret;
+            uistate.wishitem_selected = wmenu.selected;
             if( canceled || amount <= 0 ) {
                 amount = prev_amount;
             }
@@ -544,7 +541,7 @@ void debug_menu::wishskill( player *p )
     const int skoffset = 1;
     uimenu skmenu;
     skmenu.text = _( "Select a skill to modify" );
-    skmenu.return_invalid = true;
+    skmenu.allow_anykey = true;
     skmenu.addentry( 0, true, '1', _( "Modify all skills..." ) );
 
     std::vector<int> origskills;
@@ -562,14 +559,14 @@ void debug_menu::wishskill( player *p )
         int skill_id = -1;
         int skset = -1;
         int sksel = skmenu.selected - skoffset;
-        if( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
+        if( skmenu.ret == UIMENU_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
+                                              skmenu.keypress == KEY_RIGHT ) ) {
             if( sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
                 skill_id = sksel;
                 skset = p->get_skill_level( Skill::skills[skill_id].ident() ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
-            skmenu.ret = -2;
-        } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
+        } else if( skmenu.ret != UIMENU_CANCEL && sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
             skill_id = sksel;
             const Skill &skill = Skill::skills[skill_id];
             const int NUM_SKILL_LVL = 21;
@@ -577,7 +574,6 @@ void debug_menu::wishskill( player *p )
             sksetmenu.w_height = NUM_SKILL_LVL + 4;
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
-            sksetmenu.return_invalid = true;
             sksetmenu.settext( string_format( _( "Set '%s' to.." ), skill.name() ) );
             int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
@@ -585,10 +581,12 @@ void debug_menu::wishskill( player *p )
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
             }
             sksetmenu.query();
-            skset = sksetmenu.ret;
+            if( sksetmenu.ret >= 0 ) {
+                skset = sksetmenu.ret;
+            }
         }
 
-        if( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
+        if( skset != -1 && skill_id != -1 ) {
             const Skill &skill = Skill::skills[skill_id];
             p->set_skill_level( skill.ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
@@ -601,10 +599,12 @@ void debug_menu::wishskill( player *p )
                 ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
         } else if( skmenu.ret == 0 && sksel == -1 ) {
-            int ret = menu( true, _( "Alter all skill values" ), _( "Add 3" ), _( "Add 1" ),
-                            _( "Subtract 1" ), _( "Subtract 3" ), _( "Set to 0" ),
-                            _( "Set to 5" ), _( "Set to 10" ), _( "(Reset changes)" ), NULL );
-            if( ret > 0 ) {
+            int ret = uimenu( _( "Alter all skill values" ), {
+                _( "Add 3" ), _( "Add 1" ), _( "Subtract 1" ), _( "Subtract 3" ),
+                _( "Set to 0" ), _( "Set to 5" ), _( "Set to 10" ), _( "(Reset changes)" )
+            } );
+            if( ret >= 0 ) {
+                ++ret;
                 int skmod = 0;
                 int skset = -1;
                 if( ret < 5 ) {
@@ -626,5 +626,5 @@ void debug_menu::wishskill( player *p )
                 }
             }
         }
-    } while( skmenu.ret >= 0 );
+    } while( skmenu.ret >= 0 || skmenu.ret == UIMENU_UNBOUND );
 }

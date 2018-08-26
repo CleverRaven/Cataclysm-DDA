@@ -7238,7 +7238,6 @@ item::reload_option player::select_ammo( const item &base, std::vector<item::rel
     uimenu menu;
     menu.text = string_format( base.is_watertight_container() ? _("Refill %s") : _("Reload %s" ),
             base.tname().c_str() );
-    menu.return_invalid = true;
     menu.w_width = -1;
     menu.w_height = -1;
 
@@ -7827,7 +7826,6 @@ bool player::pick_style() // Style selection menu
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uimenu kmenu;
-    kmenu.return_invalid = true;
     kmenu.text = string_format( _( "Select a style. (press %s for more info)" ), ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
     ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
     kmenu.callback = &callback;
@@ -7906,7 +7904,6 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
 {
     uimenu menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname().c_str() ) : prompt;
-    menu.return_invalid = true;
 
     using dispose_option = struct {
         std::string prompt;
@@ -7998,7 +7995,8 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
 void player::mend_item( item_location&& obj, bool interactive )
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
-        uimenu menu( true, _( "Toggle which fault?" ) );
+        uimenu menu;
+        menu.text = _( "Toggle which fault?" );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto& f : obj->faults_potential() ) {
             opts.emplace_back( f, obj->faults.count( f ) );
@@ -8038,7 +8036,6 @@ void player::mend_item( item_location&& obj, bool interactive )
     if( interactive ) {
         uimenu menu;
         menu.text = _( "Mend which fault?" );
-        menu.return_invalid = true;
         menu.desc_enabled = true;
         menu.desc_lines = 12;
 
@@ -8741,7 +8738,6 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     umenu.text = string_format( _( "What to do with your %s?" ), used->tname().c_str() );
     umenu.hilight_disabled = true;
-    umenu.return_invalid = true;
 
     for( const auto &e : use_methods ) {
         const auto res = e.second.can_call( *this, *used, false, pt );
@@ -8915,7 +8911,6 @@ void player::gunmod_add( item &gun, item &mod )
     // if chance of success <100% prompt user to continue
     if( roll < 100 ) {
         uimenu prompt;
-        prompt.return_invalid = true;
         prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(),
                                      gun.tname().c_str() );
 
@@ -9268,7 +9263,6 @@ bool player::read( int inventory_position, const bool continuous )
                 menu.entries.push_back( header );
             };
 
-            menu.return_invalid = true;
             menu.title = !skill ? string_format( _( "Reading %s" ), it.type_name().c_str() ) :
                          string_format( _( "Reading %s (can train %s from %d to %d)" ), it.type_name().c_str(),
                                         skill_name.c_str(), type->req, type->level );
@@ -9302,7 +9296,7 @@ bool player::read( int inventory_position, const bool continuous )
             }
 
             menu.query( true );
-            if( menu.ret == UIMENU_INVALID ) {
+            if( menu.ret == UIMENU_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
                 return false;
             }
@@ -10897,7 +10891,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
                             return elem.display_name();
                         } );
         if( opts.size() > 1 ) {
-            pos = ( uimenu( false, _("Wield what?"), opts ) ) - 1;
+            pos = uimenu( _( "Wield what?" ), opts );
+            if( pos < 0 ) {
+                return false;
+            }
         } else {
             pos = 0;
         }
