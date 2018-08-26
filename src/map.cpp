@@ -6895,10 +6895,6 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( !ignore_sight ) {
         // If the submap is one of the outermost submaps, assume that monsters are
         // invisible there.
-        // When the map shifts because of the player moving (called from game::plmove),
-        // the player has still their *old* (not shifted) coordinates.
-        // That makes the submaps that have come into view visible (if the sight range
-        // is big enough).
         if( gp.x == 0 || gp.y == 0 || gp.x + 1 == MAPSIZE || gp.y + 1 == MAPSIZE ) {
             ignore_sight = true;
         }
@@ -6954,7 +6950,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
 
     if( locations.empty() ) {
-        // TODO: what now? there is now possible place to spawn monsters, most
+        // TODO: what now? there is no possible place to spawn monsters, most
         // likely because the player can see all the places.
         const tripoint glp = getabs( gp );
         dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
@@ -7019,6 +7015,10 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
 
 void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 {
+    // Load unloaded monsters
+    overmap_buffer.spawn_monster( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
+
+    // Only spawn new monsters after existing monsters are loaded.
     auto groups = overmap_buffer.groups_at( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
     for( auto &mgp : groups ) {
         spawn_monsters_submap_group( gp, *mgp, ignore_sight );
@@ -7063,7 +7063,6 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
         }
     }
     current_submap->spawns.clear();
-    overmap_buffer.spawn_monster( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
 }
 
 void map::spawn_monsters(bool ignore_sight)

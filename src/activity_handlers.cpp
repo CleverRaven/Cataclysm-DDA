@@ -34,6 +34,7 @@
 #include "fault.h"
 #include "construction.h"
 #include "harvest.h"
+#include "clzones.h"
 
 #include <math.h>
 #include <sstream>
@@ -69,6 +70,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
+    { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
     { activity_id( "ACT_ARMOR_LAYERS" ), armor_layers_do_turn },
     { activity_id( "ACT_ATM" ), atm_do_turn },
@@ -84,7 +86,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
-    { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn }
+    { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
+    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -127,6 +130,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
+    { activity_id( "ACT_MOVE_LOOT" ), move_loot_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
@@ -1368,6 +1372,11 @@ void activity_handlers::move_items_finish( player_activity *act, player *p )
     pickup_finish( act, p );
 }
 
+void activity_handlers::move_loot_finish( player_activity *act, player *p )
+{
+    pickup_finish( act, p );
+}
+
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     static const std::string iuse_name_string( "heal" );
@@ -1791,6 +1800,16 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     if( act->targets.size() != 2 || act->index <= 0 ) {
         debugmsg( "invalid arguments to ACT_RELOAD" );
+        return;
+    }
+
+    if( !act->targets[0] ) {
+        debugmsg( "reload target is null, failed to reload" );
+        return;
+    }
+
+    if( !act->targets[1] ) {
+        debugmsg( "ammo target is null, failed to reload" );
         return;
     }
 
@@ -2414,6 +2433,11 @@ void activity_handlers::move_items_do_turn( player_activity *, player * )
     activity_on_turn_move_items();
 }
 
+void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
+{
+    activity_on_turn_move_loot( *act, *p );
+}
+
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
@@ -2752,4 +2776,78 @@ void activity_handlers::haircut_finish( player_activity *act, player *p ) {
     p->add_msg_if_player( _( "You give your hair a trim." ) );
     p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
     act->set_to_null();
+}
+
+static std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+        const std::unordered_set<tripoint> &tiles )
+{
+    auto cmp = [abspos]( tripoint a, tripoint b ) {
+        int da = rl_dist( abspos, a );
+        int db = rl_dist( abspos, b );
+
+        return da < db;
+    };
+
+    std::set<tripoint, decltype( cmp )> sorted( tiles.begin(), tiles.end(), cmp );
+    std::vector<tripoint> vector( sorted.begin(), sorted.end() );
+
+    return vector;
+}
+
+template<typename fn>
+static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
+{
+    auto it = tiles.begin();
+    while( it != tiles.end() ) {
+        auto current = it++;
+
+        const auto &tile_loc = g->m.getlocal( *current );
+
+        if( cleanup( tile_loc ) ) {
+            tiles.erase( current );
+        }
+    }
+}
+
+void activity_handlers::till_plot_do_turn( player_activity*, player *p )
+{
+    const auto &mgr = zone_manager::get_manager();
+    const auto abspos = g->m.getabs( p->pos() );
+    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+
+    // cleanup unwanted tiles
+    auto cleanup = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
+               g->m.ter( tile ) == t_dirtmound;
+    };
+    cleanup_tiles( unsorted_tiles, cleanup );
+
+    // sort remaining tiles by distance
+    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+
+    for( auto &tile : tiles ) {
+        const auto &tile_loc = g->m.getlocal( tile );
+
+        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
+        if( route.size() > 1 ) {
+            route.pop_back();
+            p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
+            return;
+        } else { // we are at destination already
+            p->add_msg_if_player( _( "You churn up the earth here." ) );
+            p->moves = -300;
+            g->m.ter_set( tile_loc, t_dirtmound );
+
+            if( p->moves <= 0 ) {
+                // Restart activity and break from cycle.
+                p->assign_activity( activity_id( "ACT_TILL_PLOT" ) );
+                return;
+            }
+        }
+    }
+
+    // If we got here without restarting the activity, it means we're done
 }

@@ -66,7 +66,7 @@
     "move_cost_mod": 8,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
+    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
     "examine_action": "rubble"
   },
   {
@@ -759,11 +759,11 @@
     "type": "furniture",
     "id": "f_rack_coat",
     "name": "coat rack",
-    "description": "A hooked rack for hanging jackets.",
+    "description": "A hooked rack for hanging jackets and hats.",
     "symbol": "Y",
     "color": "brown",
     "move_cost_mod": -1,
-    "required_str": 6,
+    "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
     "max_volume": 1000,
@@ -800,19 +800,26 @@
     "id": "f_mailbox",
     "name": "mailbox",
     "symbol": "P",
-    "description": "A box, for mail.",
+    "description": "A metal box attached to the top of a wooden post.  You've got mail.",
     "color": "light_gray",
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
+    },
     "max_volume": 300,
     "bash": {
-      "str_min": 6,
-      "str_max": 40,
+      "str_min": 12,
+      "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": 1 }, { "item": "nail", "charges": [ 1, 5 ] }, { "item": "splinter", "count": 2 } ]
+      "items": [
+        { "item": "2x4", "count": 1 },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": 2 },
+        { "item": "scrap", "count": [ 1, 3 ] }
+      ]
     }
   },
   {

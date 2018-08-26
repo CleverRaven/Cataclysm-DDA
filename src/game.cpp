@@ -2167,6 +2167,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("open");
     ctxt.register_action("close");
     ctxt.register_action("smash");
+    ctxt.register_action("loot");
     ctxt.register_action("examine");
     ctxt.register_action("advinv");
     ctxt.register_action("pickup");
@@ -2587,7 +2588,13 @@ bool game::handle_action()
         act = look_up_action(action);
 
         if ( act == ACTION_MAIN_MENU ) {
+            // No auto-move actions have or can be set at this point.
+            u.clear_destination();
+            destination_preview.clear();
             act = handle_main_menu();
+            if( act == ACTION_NULL ) {
+                return false;
+            }
         }
 
         if( act == ACTION_ACTIONMENU ) {
@@ -2927,6 +2934,10 @@ bool game::handle_action()
 
         case ACTION_ZONES:
             zones_manager();
+            break;
+
+        case ACTION_LOOT:
+            loot();
             break;
 
         case ACTION_INVENTORY:
@@ -6745,6 +6756,75 @@ void game::smash()
     }
 }
 
+void game::loot()
+{
+    enum ZoneFlags {
+        None = 1,
+        SortLoot = 2,
+        TillPlots = 4
+    };
+
+    auto just_one = []( int flags ) {
+        return flags && !( flags & ( flags - 1 ) );
+    };
+
+    int flags = 0;
+    const auto &mgr = zone_manager::get_manager();
+    const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
+
+    flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
+    flags |= check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ? TillPlots : 0;
+
+    if( flags == 0 ) {
+        add_msg( m_info, _( "There is no compatible zone nearby." ) );
+        add_msg( m_info, _( "Compatible zones are %s and %s" ),
+                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
+                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
+        return;
+    }
+
+    if( !just_one( flags ) ) {
+        uimenu menu;
+        menu.text = _( "Pick action:" );
+        menu.desc_enabled = true;
+
+        if( flags & SortLoot ) {
+            menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
+                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+        }
+
+        if( flags & TillPlots ) {
+            menu.addentry_desc( TillPlots, has_hoe, 't',
+                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with." ),
+                                _( "Tills nearby Farm: Plot zones" ) );
+        }
+
+        menu.addentry( None, true, 'q',  _( "Cancel" ) );
+
+        menu.query();
+        flags = ( menu.ret >= 0 ) ? menu.ret : None;
+    }
+
+    switch( flags ) {
+        case None:
+            add_msg( _( "Never mind." ) );
+            break;
+        case SortLoot:
+            u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+            break;
+        case TillPlots:
+            if( has_hoe ) {
+                u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
+            } else {
+                add_msg( _( "You need a tool to dig with." ) );
+            }
+            break;
+        default:
+            debugmsg( "Unsupported flag" );
+            break;
+    }
+}
+
 static void make_active( item_location loc )
 {
     switch( loc.where() ) {
@@ -7818,6 +7898,11 @@ bool game::check_zone( const zone_type_id &type, const tripoint &where ) const
     return zone_manager::get_manager().has( type, m.getabs( where ) );
 }
 
+bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) const
+{
+    return zone_manager::get_manager().has_near( type, m.getabs( where ) );
+}
+
 void game::zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase(w_info);
@@ -7931,42 +8016,51 @@ void game::zones_manager()
     bool redraw_info = true;
     bool stuff_changed = false;
 
+    auto query_position = [this, w_zones_info]() {
+        werase( w_zones_info );
+        mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
+        wrefresh( w_zones_info );
+
+        tripoint first = look_around( w_zones_info, u.pos() + u.view_offset, false, true );
+        tripoint second = tripoint_min;
+        if( first != tripoint_min ) {
+            mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
+            wrefresh( w_zones_info );
+
+            second = look_around( w_zones_info, first, true, true );
+        }
+
+        if( second != tripoint_min ) {
+            werase( w_zones_info );
+            wrefresh( w_zones_info );
+
+            tripoint first_abs = m.getabs( tripoint( std::min( first.x, second.x ),
+                                           std::min( first.y, second.y ),
+                                           std::min( first.z, second.z ) ) );
+            tripoint second_abs = m.getabs( tripoint( std::max( first.x, second.x ),
+                                            std::max( first.y, second.y ),
+                                            std::max( first.z, second.z ) ) );
+
+            return std::pair<tripoint, tripoint>( first_abs, second_abs );
+        }
+
+        return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
+    };
+
     do {
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
-            werase(w_zones_info);
 
-            mvwprintz(w_zones_info, 3, 2, c_white, _("Select first point."));
-            wrefresh(w_zones_info);
+            const auto id = zones.query_type();
+            const auto name = zones.query_name( zones.get_name_from_type( id ) );
+            const auto position = query_position();
 
-            tripoint first = look_around( w_zones_info, u.pos() + u.view_offset, false, true );
-            tripoint second = tripoint_min;
-
-            if( first != tripoint_min ) {
-                mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
-                wrefresh(w_zones_info);
-
-                second = look_around( w_zones_info, first, true, true );
-            }
-
-            if( second != tripoint_min ) {
-                werase(w_zones_info);
-                wrefresh(w_zones_info);
-
-                zones.add( "", zone_type_id(), false, true,
-                            m.getabs( tripoint( std::min(first.x, second.x),
-                                                std::min(first.y, second.y),
-                                                std::min(first.z, second.z) ) ),
-                            m.getabs( tripoint( std::max(first.x, second.x),
-                                                std::max(first.y, second.y),
-                                                std::max(first.z, second.z) ) )
-                           );
+            if( position.first != tripoint_min ) {
+                zones.add( name, id, false, true, position.first, position.second );
 
                 zone_num = zones.size();
                 active_index = zone_num - 1;
 
-                zones.zones[active_index].set_name();
-                zones.zones[active_index].set_type();
                 stuff_changed = true;
             }
 
@@ -8019,9 +8113,8 @@ void game::zones_manager()
                 as_m.text = _("What do you want to change:");
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
-                //as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Move position left/top") ));
-                //as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Move coordinates right/bottom") ));
-                as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
+                as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Edit position")));
+                as_m.entries.emplace_back(uimenu_entry(4, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
@@ -8034,10 +8127,8 @@ void game::zones_manager()
                     stuff_changed = true;
                     break;
                 case 3:
-                    //pos lt
-                    break;
-                case 4:
-                    //pos rb
+                    zones.zones[active_index].set_position( query_position() );
+                    stuff_changed = true;
                     break;
                 default:
                     break;
@@ -13032,6 +13123,8 @@ void game::update_map(int &x, int &y)
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
 
+    // Only do the loading after all coordinates have been shifted.
+
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();
@@ -13040,6 +13133,7 @@ void game::update_map(int &x, int &y)
     m.build_map_cache( get_levz() );
 
     // Spawn monsters if appropriate
+    // This call will generate new monsters in addition to loading, so it's placed after NPC loading
     m.spawn_monsters( false ); // Static monsters
 
     // Update what parts of the world map we can see

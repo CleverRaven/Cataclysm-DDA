@@ -72,6 +72,7 @@
     "items": [
       [ "novel_coa", 10 ],
       [ "child_book", 50 ],
+      [ "manual_dodge_kid", 25 ],
       [ "tall_tales", 20 ],
       [ "story_book", 4 ],
       [ "novel_pulp", 16 ],
