@@ -2400,16 +2400,10 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
 {
-    const tripoint &target = act->coords[0];
-    if( target == p->pos() ) {
-        p->add_msg_if_player( m_info, _( "You clear up the %s at your feet." ),
-                              g->m.furnname( target ).c_str() );
-    } else {
-        const std::string direction = direction_name( direction_from( p->pos(), target ) );
-        p->add_msg_if_player( m_info, _( "You clear up the %s to your %s." ),
-                              g->m.furnname( target ).c_str(), direction.c_str() );
-    }
-    g->m.furn_set( target, f_null );
+    const tripoint &pos = act->placement;
+    p->add_msg_if_player( m_info, _( "You clear up the %s." ),
+                          g->m.furnname( pos ).c_str() );
+    g->m.furn_set( pos, f_null );
 
     act->set_to_null();
 }

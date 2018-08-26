@@ -1016,6 +1016,13 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "AUTO_MINING", "general", translate_marker( "Automatic mining" ),
+        translate_marker("If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain."),
+        true
+        );
+
+    mOptionsSort["general"]++;
+
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
         translate_marker( "If true, music and sound are enabled." ),
         true, COPT_NO_SOUND_HIDE
