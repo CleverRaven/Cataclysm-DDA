@@ -11151,8 +11151,8 @@ action_id player::get_next_auto_move_direction()
     next_expected_position = auto_move_route.front();
     auto_move_route.erase(auto_move_route.begin());
 
-    // if this is the last auto move to destination, set destination activity
-    if( !has_destination() ) {
+    // if this is the last auto move to destination, set destination activity if there is any
+    if( !has_destination() && !destination_activity.is_null() ) {
         assign_activity( destination_activity );
         destination_activity = player_activity();
     }
