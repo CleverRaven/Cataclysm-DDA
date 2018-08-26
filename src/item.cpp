@@ -20,6 +20,7 @@
 #include "cursesdef.h"
 #include "text_snippets.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "material.h"
 #include "item_factory.h"
 #include "projectile.h"
@@ -5823,28 +5824,40 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
                 add_msg( "%s", iter.tname() );	
             }
             //ENDOF DEBUG CODE
+
+            std::vector<item> here;
+            const cata::optional<vpart_reference> carg = g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+            vehicle veh = vp->vehicle();
+            size_t cargo_part = carg->part_index();
+            auto vehitems = veh.get_items( cargo_part );
+            here.resize( vehitems.size() );
+            std::copy( vehitems.begin(), vehitems.end(), here.begin() );
+            add_msg( "here size %s", here.size() );	//DEBUG MESSAGE
+            for( auto iter: here ) {
+                add_msg( "%s", iter.tname() );	
+            }
         }
     }
     
     // environment temperature applies COLD/FROZEN flags to food unless in fridge/freezer
     if( !in_active_cooler ) {
         if( temp <= FRIDGE_TEMPERATURE ) {
-            add_msg( "NOT_IN_COOLER" );	
+            add_msg( "NOT_IN_COOLER" );	 //DEBUG MESSAGE
             g->m.apply_in_fridge( *this, temp );
-            add_msg( "Temp: %s", temp );	
+            add_msg( "Temp: %s", temp );	 //DEBUG MESSAGE
         } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
             item_counter -= diff_freeze; // thaw
         } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
             item_counter -= diff_cold; // get warm
         }
     } else if( fridge_here ) {
-            add_msg( "IN_FRIDGE" );	
+        add_msg( "IN_FRIDGE" );	 //DEBUG MESSAGE
         g->m.apply_in_fridge( *this, FRIDGE_TEMPERATURE );
-        add_msg( "Temp: %s", FRIDGE_TEMPERATURE );
+        add_msg( "Temp: %s", FRIDGE_TEMPERATURE );  //DEBUG MESSAGE
     } else if( freezer_here ){
-        add_msg( "IN_FREEZER" );
+        add_msg( "IN_FREEZER" );  //DEBUG MESSAGE
         g->m.apply_in_fridge( *this, FREEZER_TEMPERATURE );
-        add_msg( "Temp: %s", FREEZER_TEMPERATURE );
+        add_msg( "Temp: %s", FREEZER_TEMPERATURE );  //DEBUG MESSAGE
     }
     return false;
 }
