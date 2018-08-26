@@ -3501,7 +3501,11 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         if( !nearest_candidates.empty() ) {
             std::random_shuffle( nearest_candidates.begin(), nearest_candidates.end() );
             point new_om_addr = nearest_candidates.front();
-            overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, enabled_specials );
+            // Make a copy of the enabled_specials for use in creating our custom overmap. This
+            // ensures that when we unwind the overmap creation back to filling in our non-mandatory
+            // specials for this overmap, we won't have used up all the specials on other overmaps.
+            overmap_special_batch custom_overmap_specials = overmap_special_batch( enabled_specials );
+            overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, custom_overmap_specials );
         } else {
             add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
         }
