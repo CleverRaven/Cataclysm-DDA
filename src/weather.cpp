@@ -909,7 +909,7 @@ int get_local_windpower(double windpower, const oter_id &omter, bool sheltered)
 
 bool warm_enough_to_plant() {
     // It is possible but not recommended to plant at the temperature of the ice melting
-    return g->get_temperature( g-> u.pos() ) >= 32;
+    return g->get_temperature( g-> u.pos() ) >= FREEZING_TEMPERATURE;
 }
 
 
