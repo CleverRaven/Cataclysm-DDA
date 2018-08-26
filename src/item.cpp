@@ -5816,26 +5816,28 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
             in_active_cooler = part->has_item( this );
             if(in_active_cooler) { add_msg( "YES, in active c" ); } else {add_msg( "NO, not in active c" );} //DEBUG MESSAGE
 
-            //DEBUG CODE
+            //DEBUG CODE [part 1]
             vehicle_stack vit = vp->vehicle().get_items( vp->vehicle().index_of_part( part ) );
             //std::list<item> vit = part->get_items(); //alt debug code
             if( vit.empty() ) { add_msg( "ITEMS EMPTY" ); }
             for( auto iter: vit ) {
-                add_msg( "%s", iter.tname() );	
+                add_msg( "%s", iter.tname() );	//DEBUG MESSAGE
             }
             //ENDOF DEBUG CODE
 
+            //DEBUG CODE [part 2]
             std::vector<item> here;
-            const cata::optional<vpart_reference> carg = g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+            const cata::optional<vpart_reference> vpr = g->m.veh_at( pos ).part_with_feature( "FREEZER", false );
             vehicle veh = vp->vehicle();
-            size_t cargo_part = carg->part_index();
+            size_t cargo_part = vpr->part_index();
             auto vehitems = veh.get_items( cargo_part );
             here.resize( vehitems.size() );
             std::copy( vehitems.begin(), vehitems.end(), here.begin() );
             add_msg( "here size %s", here.size() );	//DEBUG MESSAGE
             for( auto iter: here ) {
-                add_msg( "%s", iter.tname() );	
+                add_msg( "%s", iter.tname() );	//DEBUG MESSAGE
             }
+            //ENDOF DEBUG CODE
         }
     }
     
