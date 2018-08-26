@@ -5780,15 +5780,9 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     }
 
     // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
-    // div by 10 means every 10 degrees of difference equals 1 point of ratio
-    /* cache g->get_temperature( item location ). It is used a minimum of 3 times, no reason to recalculate. */
     const auto temp = g->get_temperature( pos );
-    unsigned int diff_freeze = abs( temp - FREEZING_TEMPERATURE ) / 10 ;
-    diff_freeze = clamp( diff_freeze, static_cast<unsigned int>(0) , static_cast<unsigned int>(3) ); //effective 1-4
-
-    // div by 10 means every 10 degrees of difference equals 1 point of ratio
-    unsigned int diff_cold = abs( temp - FRIDGE_TEMPERATURE ) / 10;
-    diff_cold = clamp( diff_cold, static_cast<unsigned int>(0), static_cast<unsigned int>(3) ); //effective 1-4
+    unsigned int diff_freeze = g->m.temp_difference_ratio( temp, FREEZING_TEMPERATURE ) - 1; //effective 1-4
+    unsigned int diff_cold = g->m.temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) - 1;
 
     // exclusions for items being actively cooled to be affected by outside temperatures
     //const optional_vpart_position vp = g->m.veh_at( pos );

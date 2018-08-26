@@ -4251,22 +4251,20 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
+unsigned int map::temp_difference_ratio( int temp_one, int temp_two )
+{
+    // ratio is between 1-4 and changes every 10F (~5.5C)
+    unsigned int ratio = abs( temp_one - temp_two ) / 10;
+    ratio = clamp( ratio, static_cast<unsigned int>(1), static_cast<unsigned int>(4) );
+    return ratio;
+}
+
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
 void map::apply_in_fridge( item &it, int temp )
 {
-    // counters are caped at 600 = 60 minutes at diff ratio 1
-    // diff ratio 2 will result in oberall phase thime of 30 minutes, 4 = 15 minutes, 5 = 10 min
-    // diff were set at 10 degree per 1 diff ratio, 
-
-    // process() remove 1 couter per turn, so minimum 2 counters
-    // div by 10 means every 10 degrees of difference equals 1 point of ratio
-    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE) / 10;
-    diff_freeze = clamp( diff_freeze, static_cast<unsigned int>(2), static_cast<unsigned int>(5) ); //effective 1-4
-
-    // div by 10 means every 10 degrees of difference equals 1 point of ratio
-    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE) / 10;
-    diff_cold = clamp( diff_cold, static_cast<unsigned int>(2), static_cast<unsigned int>(5) ); //effective 1-4
+    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) + 1; //effective 1-4
+    unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) + 1;
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {
