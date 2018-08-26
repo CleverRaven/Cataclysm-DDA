@@ -216,7 +216,6 @@ data/json/overmap/specials.json
 data/json/overmap_connections.json
 data/json/overmap_locations.json
 data/json/overmap_terrain.json
-data/json/professions.json
 data/json/recipes/ammo/pistol.json
 data/json/recipes/ammo/rifle.json
 data/json/recipes/armor/arms.json
