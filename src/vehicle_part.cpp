@@ -150,7 +150,7 @@ bool vehicle_part::is_broken() const
 
 bool vehicle_part::has_item( const item *it ) const
 {
-    for( auto iter: items ) {
+    for( auto iter : items ) {
         if( &iter == it ) {
             return true;
         }
