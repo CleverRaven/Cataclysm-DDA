@@ -2296,10 +2296,6 @@ void update_music_volume() {
 }
 
 #ifdef SDL_SOUND
-// TODO(Oren): DEV VALUES, REMOVE BEFORE MERGE
-int sound_effect_loaded_count = 0;
-int sound_effect_loaded_bytes = 0;
-
 std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
 
 // Allocate new Mix_Chunk copy of input, sets ::allocated to 0 so it is not freed
@@ -2353,10 +2349,6 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
             continue; // don't want empty chunks in the map
         }
         new_sound_effect.volume = volume;
-
-        // TODO(Oren): DEV VALUES, REMOVE BEFORE MERGE
-        sound_effect_loaded_count += new_sound_effect.chunk->allocated;
-        sound_effect_loaded_bytes += new_sound_effect.chunk->allocated * new_sound_effect.chunk->alen;
 
         effects.push_back( std::move( new_sound_effect ) );
     }
@@ -2530,9 +2522,6 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
 
 void load_soundset() {
 #ifdef SDL_SOUND
-    // TODO(Oren): DEV VALUES, REMOVE BEFORE MERGE
-    sound_effect_loaded_count = sound_effect_loaded_bytes = 0;
-
     unique_chunks.clear();
 
     const std::string default_path = FILENAMES["defaultsounddir"];
@@ -2565,9 +2554,6 @@ void load_soundset() {
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to load sounds: " << err.what();
     }
-
-    // TODO(Oren): DEV VALUES, REMOVE BEFORE MERGE
-    dbg( D_ERROR ) << "Sound Effects: Count[" << sound_effect_loaded_count << "] Bytes[" << sound_effect_loaded_bytes << "]";
 
     unique_chunks.clear();
 #endif
