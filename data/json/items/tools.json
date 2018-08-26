@@ -7459,7 +7459,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "rocket candy",
-    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
+    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen - if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
     "weight": 250,
     "volume": 1,
     "price": 100,
@@ -7503,7 +7503,7 @@
       "fields_max_density": 3,
       "sound_volume": 5,
       "sound_msg": "Hsssss.",
-      "no_deactivate_msg": "You've already lit the fuse – get rid of it immediately!",
+      "no_deactivate_msg": "You've already lit the fuse - get rid of it immediately!",
       "explosion": { "power": 1 }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]

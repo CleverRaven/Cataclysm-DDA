@@ -546,13 +546,13 @@ static std::string print_time_just_hour( const time_point &p )
 // MONDAY...MOSTLY SUNNY. HIGHS IN THE LOWER 60S. NORTHEAST WINDS 10 TO 15 MPH.
 // MONDAY NIGHT...PARTLY CLOUDY. LOWS AROUND 40. NORTHEAST WINDS 5 TO 10 MPH.
 
-// 0% – No mention of precipitation
-// 10% – No mention of precipitation, or isolated/slight chance
-// 20% – Isolated/slight chance
-// 30% – (Widely) scattered/chance
-// 40% or 50% – Scattered/chance
-// 60% or 70% – Numerous/likely
-// 80%, 90% or 100% – No additional modifiers (i.e. "showers and thunderstorms")
+// 0% - No mention of precipitation
+// 10% - No mention of precipitation, or isolated/slight chance
+// 20% - Isolated/slight chance
+// 30% - (Widely) scattered/chance
+// 40% or 50% - Scattered/chance
+// 60% or 70% - Numerous/likely
+// 80%, 90% or 100% - No additional modifiers (i.e. "showers and thunderstorms")
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
