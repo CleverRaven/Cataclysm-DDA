@@ -4257,14 +4257,14 @@ void map::apply_in_fridge( item &it, int temp )
 {
     // counters are caped at 600 = 60 minutes at diff ratio 1
     // diff ratio 2 will result in oberall phase thime of 30 minutes, 4 = 15 minutes, 5 = 10 min
-    // diff were set at 5 degree per 1 diff ratio, 
+    // diff were set at 10 degree per 1 diff ratio, 
 
     // process() remove 1 couter per turn, so minimum 2 counters
-    // div by 5 means every 5 degrees of difference equals 1 point of ratio
+    // div by 10 means every 10 degrees of difference equals 1 point of ratio
     unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE) / 10;
     diff_freeze = clamp( diff_freeze, static_cast<unsigned int>(2), static_cast<unsigned int>(5) ); //effective 1-4
 
-    // div by 5 means every 5 degrees of difference equals 1 point of ratio
+    // div by 10 means every 10 degrees of difference equals 1 point of ratio
     unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE) / 10;
     diff_cold = clamp( diff_cold, static_cast<unsigned int>(2), static_cast<unsigned int>(5) ); //effective 1-4
 

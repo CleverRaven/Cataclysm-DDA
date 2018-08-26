@@ -120,6 +120,12 @@ struct vehicle_part {
         /** Translated name of a part inclusive of any current status effects */
         std::string name() const;
 
+        /** Check if the inventory contains an item */
+        bool has_item( const item *it ) const;
+
+        /** Items in inventory */
+        std::list<item> get_items() const;
+
         /** Specific type of fuel, charges or ammunition currently contained by a part */
         itype_id ammo_current() const;
 

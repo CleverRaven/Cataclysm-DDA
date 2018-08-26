@@ -5780,14 +5780,14 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     }
 
     // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
-    // div by 5 means every 5 degrees of difference equals 1 point of ratio
+    // div by 10 means every 10 degrees of difference equals 1 point of ratio
     /* cache g->get_temperature( item location ). It is used a minimum of 3 times, no reason to recalculate. */
     const auto temp = g->get_temperature( pos );
-    unsigned int diff_freeze = abs( temp - FREEZING_TEMPERATURE ) / 5 ;
+    unsigned int diff_freeze = abs( temp - FREEZING_TEMPERATURE ) / 10 ;
     diff_freeze = clamp( diff_freeze, static_cast<unsigned int>(0) , static_cast<unsigned int>(3) ); //effective 1-4
 
-    // div by 5 means every 5 degrees of difference equals 1 point of ratio
-    unsigned int diff_cold = abs( temp - FRIDGE_TEMPERATURE ) / 5;
+    // div by 10 means every 10 degrees of difference equals 1 point of ratio
+    unsigned int diff_cold = abs( temp - FRIDGE_TEMPERATURE ) / 10;
     diff_cold = clamp( diff_cold, static_cast<unsigned int>(0), static_cast<unsigned int>(3) ); //effective 1-4
 
     // exclusions for items being actively cooled to be affected by outside temperatures
@@ -5799,25 +5799,36 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     if( vp ) {
         fridge_here = vp->vehicle().has_part( pos, "FRIDGE", true );
         freezer_here = vp->vehicle().has_part( pos, "FREEZER", true );
-        if(fridge_here) { add_msg( "Fridge" ); } else {add_msg( "NOT Fridge" );}
-        if(freezer_here) { add_msg( "Freezer" ); } else {add_msg( "NOT Freezer" );}
-    }
-
-    if( vp && ( fridge_here || freezer_here ) ) {
-        std::vector<vehicle_part *> parts = vp->vehicle().get_parts( pos, "FRIDGE", true );
-        if( parts.empty() ) { 
+        std::vector<vehicle_part *> parts;
+        if(fridge_here) {
+            parts = vp->vehicle().get_parts( pos, "FRIDGE", true );
+            add_msg( "Fridge" ); //DEBUG MESSAGE
+        } else {
+            add_msg( "NOT Fridge" ); //DEBUG MESSAGE
+            }
+        if(freezer_here) {
             parts = vp->vehicle().get_parts( pos, "FREEZER", true );
+            add_msg( "Freezer" ); //DEBUG MESSAGE
+        } else {
+            add_msg( "NOT Freezer" ); //DEBUG MESSAGE
         }
-        if( parts.empty() ) { add_msg( "PARTS EMPTY" ); }
-        vehicle_part *part = parts.front();
-        vehicle_stack vit = vp->vehicle().get_items( vp->vehicle().index_of_part( part ) );
-        if( vit.empty() ) { add_msg( "ITEMS EMPTY" ); }
-        for( size_t iter = 0; iter < vit.size(); iter++ ) {
-            item *itm = &vit[iter];
-            if( itm == this ) {
-                in_active_cooler = true;
-                add_msg( "PING" );	
-            } else { add_msg( "PONG %s", itm->tname() );	}
+        if( !parts.empty() ) {
+            vehicle_part *part = parts.back();
+            if( part ) {
+                add_msg( "%s", part->name() ); //DEBUG MESSAGE
+                add_msg( "%s", vp->vehicle().index_of_part( part ) ); //DEBUG MESSAGE
+            }
+            in_active_cooler = part->has_item( this );
+            if(in_active_cooler) { add_msg( "YES, in active c" ); } else {add_msg( "NO, not in active c" );} //DEBUG MESSAGE
+
+            //DEBUG CODE
+            vehicle_stack vit = vp->vehicle().get_items( vp->vehicle().index_of_part( part ) );
+            //std::list<item> vit = part->get_items(); //alt debug code
+            if( vit.empty() ) { add_msg( "ITEMS EMPTY" ); }
+            for( auto iter: vit ) {
+                add_msg( "%s", iter.tname() );	
+            }
+            //ENDOF DEBUG CODE
         }
     }
     
@@ -5836,7 +5847,7 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
             add_msg( "IN_FRIDGE" );	
         g->m.apply_in_fridge( *this, FRIDGE_TEMPERATURE );
         add_msg( "Temp: %s", FRIDGE_TEMPERATURE );
-    } else if ( freezer_here ){
+    } else if( freezer_here ){
         add_msg( "IN_FREEZER" );
         g->m.apply_in_fridge( *this, FREEZER_TEMPERATURE );
         add_msg( "Temp: %s", FREEZER_TEMPERATURE );
