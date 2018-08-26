@@ -854,7 +854,7 @@
     "name": "laundry basket",
     "description": "A plastic basket meant for storing and hauling clothing.",
     "weight": 680,
-    "volume": 10,
+    "volume": 100,
     "price": 75,
     "to_hit": -2,
     "bashing": 1,
