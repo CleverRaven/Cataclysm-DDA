@@ -134,7 +134,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```pit_covered``` Uncover the pit.
 - ```pedestal_temple``` Opens the temple if you have a petrified eye.
 - ```pedestal_wyrm``` Spawn wyrms.
-- ```recycler``` Recycle metal objects.
+- ```recycle_compactor``` Compress pure metal objects into basic shapes.
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
