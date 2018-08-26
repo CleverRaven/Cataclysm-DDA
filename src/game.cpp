@@ -13031,6 +13031,8 @@ void game::update_map(int &x, int &y)
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
 
+    // Only do the loading after all coordinates have been shifted.
+
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();
@@ -13039,6 +13041,7 @@ void game::update_map(int &x, int &y)
     m.build_map_cache( get_levz() );
 
     // Spawn monsters if appropriate
+    // This call will generate new monsters in addition to loading, so it's placed after NPC loading
     m.spawn_monsters( false ); // Static monsters
 
     // Update what parts of the world map we can see
