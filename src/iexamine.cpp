@@ -1759,20 +1759,24 @@ std::list<item> iexamine::get_harvest_items( item &seed )
     std::string fruit_id;
     fruit_id = seed.type->seed->fruit_id;
     int fruit_count = seed.type->seed->fruit_count;
-    fruit_count = roll_remainder( fruit_count * fruit_multiplier );
-    if( !seed.type->seed->is_mushroom && !seed.type->seed->is_shrub )
-        fruit_count = std::max( fruit_count, 1 );
-    if( fruit_count )
-        add( fruit_id, fruit_count );
+    if( fruit_count ) {
+        fruit_count = roll_remainder( fruit_count * fruit_multiplier );
+        if( !seed.type->seed->is_mushroom && !seed.type->seed->is_shrub )
+            fruit_count = std::max( fruit_count, 1 );
+        if( fruit_count )
+            add( fruit_id, fruit_count );
+    }
 
     std::string seed_id;
     seed_id = seed.type->seed->seed_id;
     int seed_count = seed.type->seed->seed_count;
-    seed_count = roll_remainder( seed_count * fruit_multiplier );
-    if( !seed.type->seed->is_mushroom && !seed.type->seed->is_shrub )
-        seed_count = std::max( seed_count, 1 );
-    if( seed_count )
-        add( seed_id, seed_count );
+    if( seed_count ) {
+        seed_count = roll_remainder( seed_count * fruit_multiplier );
+        if( !seed.type->seed->is_mushroom && !seed.type->seed->is_shrub )
+            seed_count = std::max( seed_count, 1 );
+        if( seed_count )
+            add( seed_id, seed_count );
+    }
 
     for( auto &b : seed.type->seed->byproducts ) {
         add( b, 1 );
@@ -4229,7 +4233,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
-            }          
+            }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
                 pop << "... that it is empty.";
