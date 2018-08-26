@@ -2635,24 +2635,20 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::clear_rubble( player *p, item *it, bool, const tripoint &pos )
 {
-    for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
-            // DIG 2 = 150  seconds
-            // DIG 3 = 75   seconds
-            // DIG 4 = 50   seconds
-            // DIG 5 = 37.5 seconds
-            int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
-            act.coords.push_back( pt );
-            p->assign_activity( act );
-
-            return it->type->charges_to_use();
-        }
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
+        return 0;
     }
-
-    p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
-    return 0;
+    if( g->m.has_flag( "RUBBLE", dirp ) ) {
+        int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
+        player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
+        p->assign_activity( act );
+        p->activity.placement = dirp;
+        return it->type->charges_to_use();
+    } else {
+        p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
+        return 0;
+    }
 }
 
 void act_vehicle_siphon( vehicle * ); // veh_interact.cpp
@@ -2860,19 +2856,12 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    const time_duration duration = 30_minutes;
-    const bool mineable = g->m.is_bashable( dirp ) &&
-                          ( g->m.has_flag( "SUPPORTS_ROOF", dirp ) || g->m.has_flag( "MINEABLE", dirp ) ) &&
-                          !g->m.has_flag( "TREE", dirp );
-    const bool not_dirt_or_grass = g->m.move_cost( dirp ) == 2 && g->get_levz() != -1 &&
-                                   g->m.ter( dirp ) != t_dirt && g->m.ter( dirp ) != t_grass;
-
-    if( !( mineable || not_dirt_or_grass ) ) {
+    if( !g->m.has_flag( "MINEABLE", dirp ) ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( duration ) * 100, -1,
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( 30_minutes ) * 100, -1,
                         p->get_item_position( it ) );
     p->activity.placement = dirp;
 
@@ -2905,16 +2894,13 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
     }
 
     int turns;
-    if( g->m.is_bashable( dirx, diry ) && g->m.ter( dirx, diry ) != t_tree &&
-        ( g->m.has_flag( "SUPPORTS_ROOF", dirx, diry ) || g->m.has_flag( "MINEABLE", dirx, diry ) ) ) {
-
-        /** @EFFECT_STR speeds up mining with a pickaxe */
-        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
-    } else if( g->m.move_cost( dirx, diry ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( dirx, diry ) != t_dirt && g->m.ter( dirx, diry ) != t_grass ) {
-
-        turns = MINUTES( 20 );
-
+    if( g->m.has_flag( "MINEABLE", dirx, diry ) ) {
+        if( g->m.move_cost( dirx, diry ) == 2 ) {
+            // We're breaking up some flat surface like pavement, which is much easier
+            turns = MINUTES( 20 );
+        } else {
+            turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
+        }
     } else {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return 0;
@@ -7749,7 +7735,15 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
-    const int pos = p->inv.position_by_item( it );
+    int pos = p->inv.position_by_item( it );
+    // Giving player::disassemble INT_MIN is actually a special case to
+    // disassemble all, but position_by_item returns INT_MIN if it's not
+    // actually in our inventory.  If the item was on the floor, it will be
+    // picked up and put into inventory before this point, so the only time we
+    // can get INT_MIN here is if we're wielding it.
+    if( pos == INT_MIN ) {
+        pos = -1;
+    }
     p->disassemble( *it, pos, false, false );
     return 0;
 }

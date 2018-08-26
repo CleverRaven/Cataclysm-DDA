@@ -2430,11 +2430,7 @@
         "prereqs2" : ["INCISORS"],
         "threshreq" : ["THRESH_RAT"],
         "category" : ["RAT"],
-        "active"     :    true,
-        "cost"       :    10,
-        "hunger"     :    true,
-        "thirst"     :    true,
-        "fatigue"    :    true
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "SABER_TEETH",

@@ -2588,7 +2588,13 @@ bool game::handle_action()
         act = look_up_action(action);
 
         if ( act == ACTION_MAIN_MENU ) {
+            // No auto-move actions have or can be set at this point.
+            u.clear_destination();
+            destination_preview.clear();
             act = handle_main_menu();
+            if( act == ACTION_NULL ) {
+                return false;
+            }
         }
 
         if( act == ACTION_ACTIONMENU ) {
@@ -6752,12 +6758,71 @@ void game::smash()
 
 void game::loot()
 {
-    if( !check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ) {
-        add_msg( m_info, _( "There is no unsorted loot pile nearby." ) );
+    enum ZoneFlags {
+        None = 1,
+        SortLoot = 2,
+        TillPlots = 4
+    };
+
+    auto just_one = []( int flags ) {
+        return flags && !( flags & ( flags - 1 ) );
+    };
+
+    int flags = 0;
+    const auto &mgr = zone_manager::get_manager();
+    const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
+
+    flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
+    flags |= check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ? TillPlots : 0;
+
+    if( flags == 0 ) {
+        add_msg( m_info, _( "There is no compatible zone nearby." ) );
+        add_msg( m_info, _( "Compatible zones are %s and %s" ),
+                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
+                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
         return;
     }
 
-    u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    if( !just_one( flags ) ) {
+        uimenu menu;
+        menu.text = _( "Pick action:" );
+        menu.desc_enabled = true;
+
+        if( flags & SortLoot ) {
+            menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
+                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+        }
+
+        if( flags & TillPlots ) {
+            menu.addentry_desc( TillPlots, has_hoe, 't',
+                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with." ),
+                                _( "Tills nearby Farm: Plot zones" ) );
+        }
+
+        menu.addentry( None, true, 'q',  _( "Cancel" ) );
+
+        menu.query();
+        flags = ( menu.ret >= 0 ) ? menu.ret : None;
+    }
+
+    switch( flags ) {
+        case None:
+            add_msg( _( "Never mind." ) );
+            break;
+        case SortLoot:
+            u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+            break;
+        case TillPlots:
+            if( has_hoe ) {
+                u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
+            } else {
+                add_msg( _( "You need a tool to dig with." ) );
+            }
+            break;
+        default:
+            debugmsg( "Unsupported flag" );
+            break;
+    }
 }
 
 static void make_active( item_location loc )
@@ -11318,10 +11383,43 @@ bool game::plmove(int dx, int dy, int dz)
         return true;
     }
 
-    if( u.weapon.has_flag("DIG_TOOL") && m.has_flag( "MINEABLE", dest_loc ) && !u.has_effect( effect_stunned ) ) {
-        // TODO: Handle moving-and-digging via Burrower mutation.
-        // TODO 2: Prevent player from being asked twice about which tile to mine.
-        u.use_wielded();
+    if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
+        int turns;
+        if( get_option<bool>( "AUTO_MINING" ) && m.has_flag( "MINEABLE", dest_loc ) &&
+            u.weapon.has_flag( "DIG_TOOL" ) ) {
+            if( u.weapon.has_flag( "POWERED" ) ) {
+                if( u.weapon.ammo_sufficient() ) {
+                    turns = MINUTES( 30 );
+                    u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
+                    u.assign_activity( activity_id( "ACT_JACKHAMMER" ), turns, -1, u.get_item_position( &u.weapon ) );
+                    u.activity.placement = dest_loc;
+                    add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                        m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                } else {
+                    add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
+                }
+            } else {
+                if( m.move_cost( dest_loc ) == 2 ) {
+                    // breaking up some flat surface, like pavement
+                    turns = MINUTES( 20 );
+                } else {
+                    turns = ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
+                }
+                u.assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1, u.get_item_position( &u.weapon ) );
+                u.activity.placement = dest_loc;
+                add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+            }
+        } else if( u.has_active_mutation( trait_BURROW ) ) {
+            if( m.move_cost( dest_loc ) == 2 ) {
+                turns = MINUTES( 10 );
+            } else {
+                turns = MINUTES( 30 );
+            }
+            u.assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
+            u.activity.placement = dest_loc;
+            add_msg( _( "You start tearing into the %s with your teeth and claws." ), m.tername( dest_loc ).c_str() );
+        }
     }
 
     if( dz == 0 && ramp_move( dest_loc ) ) {
@@ -13025,6 +13123,8 @@ void game::update_map(int &x, int &y)
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
 
+    // Only do the loading after all coordinates have been shifted.
+
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();
@@ -13033,6 +13133,7 @@ void game::update_map(int &x, int &y)
     m.build_map_cache( get_levz() );
 
     // Spawn monsters if appropriate
+    // This call will generate new monsters in addition to loading, so it's placed after NPC loading
     m.spawn_monsters( false ); // Static monsters
 
     // Update what parts of the world map we can see

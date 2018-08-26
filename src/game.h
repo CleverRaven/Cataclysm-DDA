@@ -920,7 +920,7 @@ class game
         void open(); // Open a door  'o'
         void close();
         void smash(); // Smash terrain
-        void loot(); // Sort out loot
+        void loot(); // Sort out loot or perform other zone activity
 
         void handbrake();
         void control_vehicle(); // Use vehicle controls  '^'

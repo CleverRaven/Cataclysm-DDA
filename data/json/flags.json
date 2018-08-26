@@ -86,7 +86,7 @@
     "id": "DIG_TOOL",
     "type": "json_flag",
     "context": [ "TOOL", "TOOL_ARMOR" ],
-    "info": "While wielded, this item allows you to mine thorough rocks and other hard obstacles by moving into tiles with them."
+    "info": "While wielded, this item allows you to mine thorough rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
   },
   {
     "id": "DURABLE_MELEE",

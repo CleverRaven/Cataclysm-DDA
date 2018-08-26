@@ -921,6 +921,13 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "AUTO_MINING", "general", _( "Automatic mining" ),
+        _("If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain."),
+        true
+        );
+
+    mOptionsSort["general"]++;
+
     add("SOUNDPACKS", "general", _("Choose soundpack"),
         _("Choose the soundpack you want to use."),
         soundpack_names, "basic", COPT_NO_SOUND_HIDE
