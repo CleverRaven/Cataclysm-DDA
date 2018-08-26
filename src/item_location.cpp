@@ -214,6 +214,20 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 };
 
+static bool gun_has_item( const item &gun, const item *it )
+{
+    if( !gun.is_gun() ) {
+        return false;
+    }
+
+    if( gun.magazine_current() == it ) {
+        return true;
+    }
+
+    auto gms = gun.gunmods();
+    return !gms.empty() && std::find( gms.begin(), gms.end(), it ) != gms.end();
+}
+
 class item_location::impl::item_on_person : public item_location::impl
 {
     private:
@@ -225,7 +239,10 @@ class item_location::impl::item_on_person : public item_location::impl
         item_on_person( Character &who, int idx ) : impl( idx ), who( who ) {}
 
         bool valid() const override {
-            return target() && who.has_item( *target() );
+            const item *targ = target();
+            return targ && who.has_item_with( [targ]( const item & it ) {
+                return &it == targ || gun_has_item( it, targ );
+            } );
         }
 
         void serialize( JsonOut &js ) const override {
