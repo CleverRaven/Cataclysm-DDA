@@ -152,6 +152,7 @@ const skill_id skill_melee( "melee" );
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
+const skill_id skill_survival( "survival" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id PLANT( "PLANT" );
@@ -7571,6 +7572,27 @@ void game::examine( const tripoint &examp )
     // In case of teleport trap or somesuch
     if( player_pos != u.pos() ) {
         return;
+    }
+
+    // Feedback for fire lasting time
+    if( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) || m.ter( examp ) == t_pit_shallow || m.ter( examp ) == t_pit ) {
+        field_entry *fire = g->m.get_field( examp, fd_fire );
+        if( fire ) {
+            time_duration fire_age = fire->getFieldAge();
+            add_msg( _( "There is a fire here." ) );
+            // half-life inclusion
+            int mod = 5 - u.get_skill_level( skill_survival );
+            mod = std::min( mod, 4 );
+            if ( fire_age >= 0 ) {
+                fire_age = 30_minutes - fire_age;
+                fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                add_msg( _( "Without extra fuel it might burn yet for %s, but might also go out sooner." ), to_string_approx( fire_age ) );
+            } else {
+                fire_age = fire_age * -1 + 30_minutes;
+                fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                add_msg( _( "Without extra fuel it will burn for %s.") , to_string_approx( fire_age ) );
+            }
+        }
     }
 
     if (m.has_flag("SEALED", examp)) {
