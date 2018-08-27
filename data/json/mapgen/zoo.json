@@ -212,10 +212,7 @@
         { "item": "glass_shard", "repeat": [ 5, 10 ], "x": 10, "y": 22 },
         { "item": "glass_shard", "repeat": [ 5, 10 ], "x": 11, "y": [ 21, 23 ] }
       ],
-      "place_monster": [
-        { "monster": "mon_coyote", "x": 8, "y": 16 },
-        { "monster": "mon_coyote", "x": 9, "y": 17 }
-      ],
+      "place_monster": [ { "monster": "mon_coyote", "x": 8, "y": 16 }, { "monster": "mon_coyote", "x": 9, "y": 17 } ],
       "place_monsters": [ { "monster": "GROUP_BEARS", "x": 8, "y": 20 } ],
       "rows": [
         "----------------------ss",
