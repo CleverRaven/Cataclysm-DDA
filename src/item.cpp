@@ -3635,8 +3635,11 @@ nc_color item::damage_color() const
 std::string item::damage_symbol() const
 {
     // reinforced, undamaged and nearly destroyed items are special case
-    if( damage() < 0 ) {
+    if( precise_damage() <= min_damage() ) {
         return _( R"(++)" );
+    }
+    if( damage() < 0 ) {
+        return _( R"(+|)" );
     }
     if( damage() == 0 ) {
         return _( R"(||)" );
