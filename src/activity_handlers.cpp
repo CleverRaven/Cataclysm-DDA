@@ -2906,7 +2906,7 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-static std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
         const std::unordered_set<tripoint> &tiles )
 {
     auto cmp = [abspos]( tripoint a, tripoint b ) {
@@ -2916,10 +2916,10 @@ static std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos
         return da < db;
     };
 
-    std::set<tripoint, decltype( cmp )> sorted( tiles.begin(), tiles.end(), cmp );
-    std::vector<tripoint> vector( sorted.begin(), sorted.end() );
+    std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
+    std::sort( sorted.begin(), sorted.end(), cmp );
 
-    return vector;
+    return sorted;
 }
 
 template<typename fn>

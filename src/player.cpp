@@ -10972,18 +10972,37 @@ void player::set_destination(const std::vector<tripoint> &route, const player_ac
 {
     auto_move_route = route;
     this->destination_activity = destination_activity;
+    destination_point = g->m.getabs( route.back() );
 }
 
 void player::clear_destination()
 {
     auto_move_route.clear();
     destination_activity = player_activity();
+    destination_point = tripoint_min;
     next_expected_position = tripoint_min;
 }
 
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
+}
+
+bool player::has_destination_activity() const
+{
+    tripoint dest = g->m.getlocal( destination_point );
+    return !destination_activity.is_null() && position == dest;
+}
+
+void player::start_destination_activity()
+{
+    if( !has_destination_activity() ) {
+        debugmsg( "Tried to start invalid destination activity" );
+        return;
+    }
+
+    assign_activity( destination_activity );
+    clear_destination();
 }
 
 std::vector<tripoint> &player::get_auto_move_route()
@@ -11000,19 +11019,12 @@ action_id player::get_next_auto_move_direction()
     if (next_expected_position != tripoint_min ) {
         if( pos() != next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
-            destination_activity = player_activity();
             return ACTION_NULL;
         }
     }
 
     next_expected_position = auto_move_route.front();
     auto_move_route.erase(auto_move_route.begin());
-
-    // if this is the last auto move to destination, set destination activity if there is any
-    if( !has_destination() && !destination_activity.is_null() ) {
-        assign_activity( destination_activity );
-        destination_activity = player_activity();
-    }
 
     tripoint dp = next_expected_position - pos();
 
@@ -11021,7 +11033,6 @@ action_id player::get_next_auto_move_direction()
     if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ||
         ( abs( dp.z ) != 0 && ( abs( dp.x ) != 0 || abs( dp.y ) != 0 ) ) ) {
         // Should never happen, but check just in case
-        destination_activity = player_activity();
         return ACTION_NULL;
     }
 
@@ -11039,6 +11050,19 @@ void player::shift_destination(int shiftx, int shifty)
         elem.x += shiftx;
         elem.y += shifty;
     }
+}
+
+void player::grab( object_type grab_type, const tripoint &grab_point )
+{
+    this->grab_type = grab_type;
+    this->grab_point = grab_point;
+
+    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
+}
+
+object_type player::get_grab_type() const
+{
+    return grab_type;
 }
 
 bool player::has_weapon() const

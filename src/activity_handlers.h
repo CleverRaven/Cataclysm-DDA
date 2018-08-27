@@ -6,8 +6,13 @@
 
 #include <functional>
 #include <map>
+#include <vector>
+#include <unordered_set>
 
 class player;
+
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+        const std::unordered_set<tripoint> &tiles );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
