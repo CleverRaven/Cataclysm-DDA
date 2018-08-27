@@ -1271,7 +1271,7 @@
     "weight": 362,
     "volume": 1,
     "bashing": 1,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1300,7 +1300,7 @@
     "weight": 452,
     "volume": 1,
     "bashing": 1,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -1314,7 +1314,7 @@
     "material": "steel",
     "weight": 525,
     "volume": 1,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
