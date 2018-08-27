@@ -224,6 +224,7 @@
     "time": 56250,
     "autolearn": false,
     "never_learn": true,
+    "flags": ["BLIND_EASY"],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "corn", 2 ], [ "irradiated_corn", 2 ] ], [ [ "charcoal", 5 ], [ "lamp_oil", 5 ], [ "splinter", 4 ] ] ]
   },
