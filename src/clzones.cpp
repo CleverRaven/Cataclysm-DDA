@@ -96,11 +96,11 @@ void plot_options::query_seed()
     } );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id(), "No seed", 0 ) );
+    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), "No seed", 0 ) );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
-    if( seed_index > 0 ) {
+    if( seed_index > 0 && seed_index < seed_entries.size() ) {
         const auto &seed_entry = seed_entries[seed_index];
         seed = std::get<0>( seed_entry );
 
@@ -141,7 +141,8 @@ std::string plot_options::get_zone_name_suggestion() const
 std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
-    options.emplace_back( std::make_pair( _( "Plant seed: " ), get_zone_name_suggestion() ) );
+    options.emplace_back( std::make_pair( _( "Plant seed: " ),
+                                          seed != "" ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
 
     return options;
 }

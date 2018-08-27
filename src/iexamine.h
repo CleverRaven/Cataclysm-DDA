@@ -13,6 +13,7 @@
 #include <list>
 
 #include "string_id.h"
+#include "itype.h"
 
 class game;
 class item;
@@ -23,6 +24,7 @@ struct tripoint;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+using seed_tuple = std::tuple<itype_id, std::string, int>;
 
 enum hack_result {
     HACK_UNABLE,
@@ -111,6 +113,12 @@ bool has_keg( const tripoint &pos );
 
 std::list<item> get_harvest_items( const itype &type, int plant_count,
                                    int seed_count, bool byproducts );
+
+// Planting functions
+std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
+int query_seed( const std::vector<seed_tuple> &seed_entries );
+void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
+
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player &, const tripoint & );

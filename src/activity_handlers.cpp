@@ -2931,7 +2931,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *act, player *p )
             } );
             if( seed_inv.size() > 0 ) {
                 auto it = seed_inv.front();
-                iexamine::plant_seed( *p, tile_loc, seed_tuple( it->typeId(), item::nname( it->typeId() ), 0 ) );
+                iexamine::plant_seed( *p, tile_loc, it->typeId() );
             }
 
             if( p->moves <= 0 ) {
