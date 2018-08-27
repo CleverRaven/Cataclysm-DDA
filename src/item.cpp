@@ -20,6 +20,7 @@
 #include "cursesdef.h"
 #include "text_snippets.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "material.h"
 #include "item_factory.h"
 #include "projectile.h"
@@ -5778,22 +5779,87 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
         item_tags.insert( "NO_PARASITES" );
     }
-    /* cache g->get_temperature( item location ). It is used a minimum of 3 times, no reason to recalculate. */
-    const auto item_local_temp = g->get_temperature( pos );
-    unsigned int diff_freeze = abs( item_local_temp - FREEZING_TEMPERATURE );
-    diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
-    diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
 
-    unsigned int diff_cold = abs( item_local_temp - FRIDGE_TEMPERATURE );
-    diff_cold = diff_cold < 1 ? 1 : diff_cold;
-    diff_cold = diff_cold > 10 ? 10 : diff_cold;
-    // environment temperature applies COLD/FROZEN flags to food
-    if( item_local_temp <= FRIDGE_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, item_local_temp );
-    } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
-        item_counter -= diff_freeze;
-    } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
-        item_counter -= diff_cold;
+    // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
+    const auto temp = g->get_temperature( pos );
+    unsigned int diff_freeze = g->m.temp_difference_ratio( temp, FREEZING_TEMPERATURE ) - 1; //effective 1-4
+    unsigned int diff_cold = g->m.temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) - 1;
+
+    // exclusions for items being actively cooled to be affected by outside temperatures
+    //const optional_vpart_position vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = g->m.veh_at( pos );
+    bool in_active_cooler = false;
+    bool fridge_here = false;
+    bool freezer_here = false;
+    if( vp ) {
+        fridge_here = vp->vehicle().has_part( pos, "FRIDGE", true );
+        freezer_here = vp->vehicle().has_part( pos, "FREEZER", true );
+        std::vector<vehicle_part *> parts;
+        if(fridge_here) {
+            parts = vp->vehicle().get_parts( pos, "FRIDGE", true );
+            add_msg( "Fridge" ); //DEBUG MESSAGE
+        } else {
+            add_msg( "NOT Fridge" ); //DEBUG MESSAGE
+            }
+        if(freezer_here) {
+            parts = vp->vehicle().get_parts( pos, "FREEZER", true );
+            add_msg( "Freezer" ); //DEBUG MESSAGE
+        } else {
+            add_msg( "NOT Freezer" ); //DEBUG MESSAGE
+        }
+        if( !parts.empty() ) {
+            vehicle_part *part = parts.back();
+            if( part ) {
+                add_msg( "%s", part->name() ); //DEBUG MESSAGE
+                add_msg( "%s", vp->vehicle().index_of_part( part ) ); //DEBUG MESSAGE
+            }
+            in_active_cooler = part->has_item( this );
+            if(in_active_cooler) { add_msg( "YES, in active c" ); } else {add_msg( "NO, not in active c" );} //DEBUG MESSAGE
+
+            //DEBUG CODE [part 1]
+            vehicle_stack vit = vp->vehicle().get_items( vp->vehicle().index_of_part( part ) );
+            //std::list<item> vit = part->get_items(); //alt debug code
+            if( vit.empty() ) { add_msg( "ITEMS EMPTY" ); }
+            for( auto iter: vit ) {
+                add_msg( "%s", iter.tname() );	//DEBUG MESSAGE
+            }
+            //ENDOF DEBUG CODE
+
+            //DEBUG CODE [part 2]
+            std::vector<item> here;
+            const cata::optional<vpart_reference> vpr = g->m.veh_at( pos ).part_with_feature( "FREEZER", false );
+            vehicle veh = vp->vehicle();
+            size_t cargo_part = vpr->part_index();
+            auto vehitems = veh.get_items( cargo_part );
+            here.resize( vehitems.size() );
+            std::copy( vehitems.begin(), vehitems.end(), here.begin() );
+            add_msg( "here size %s", here.size() );	//DEBUG MESSAGE
+            for( auto iter: here ) {
+                add_msg( "%s", iter.tname() );	//DEBUG MESSAGE
+            }
+            //ENDOF DEBUG CODE
+        }
+    }
+    
+    // environment temperature applies COLD/FROZEN flags to food unless in fridge/freezer
+    if( !in_active_cooler ) {
+        if( temp <= FRIDGE_TEMPERATURE ) {
+            add_msg( "NOT_IN_COOLER" );	 //DEBUG MESSAGE
+            g->m.apply_in_fridge( *this, temp );
+            add_msg( "Temp: %s", temp );	 //DEBUG MESSAGE
+        } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
+            item_counter -= diff_freeze; // thaw
+        } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
+            item_counter -= diff_cold; // get warm
+        }
+    } else if( fridge_here ) {
+        add_msg( "IN_FRIDGE" );	 //DEBUG MESSAGE
+        g->m.apply_in_fridge( *this, FRIDGE_TEMPERATURE );
+        add_msg( "Temp: %s", FRIDGE_TEMPERATURE );  //DEBUG MESSAGE
+    } else if( freezer_here ){
+        add_msg( "IN_FREEZER" );  //DEBUG MESSAGE
+        g->m.apply_in_fridge( *this, FREEZER_TEMPERATURE );
+        add_msg( "Temp: %s", FREEZER_TEMPERATURE );  //DEBUG MESSAGE
     }
     return false;
 }

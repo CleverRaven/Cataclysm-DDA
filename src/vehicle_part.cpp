@@ -148,6 +148,21 @@ bool vehicle_part::is_broken() const
     return base.damage() >= base.max_damage();
 }
 
+bool vehicle_part::has_item( const item *it ) const
+{
+    for( auto iter : items ) {
+        if( &iter == it ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::list<item> vehicle_part::get_items() const
+{
+    return items;
+}
+
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {

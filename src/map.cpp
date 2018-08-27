@@ -4251,17 +4251,20 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
+unsigned int map::temp_difference_ratio( int temp_one, int temp_two )
+{
+    // ratio is between 1-4 and changes every 10F (~5.5C)
+    unsigned int ratio = abs( temp_one - temp_two ) / 10;
+    ratio = clamp( ratio, static_cast<unsigned int>(1), static_cast<unsigned int>(4) );
+    return ratio;
+}
+
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
 void map::apply_in_fridge( item &it, int temp )
 {
-    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_freeze );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_freeze );
-
-    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_cold );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_cold );
+    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) + 1; //effective 1-4
+    unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) + 1;
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {
@@ -4342,20 +4345,35 @@ static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
 {
-    const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
-    if( fridge_here ) {
+    /*
+    const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE );
+    const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER );
+    int temperature = g->get_temperature( cur_veh.global_part_pos3( part ) );
+    if( fridge_here && cur_veh.is_part_on( part ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
             g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE);
         }
-    }
-
-    const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) && cur_veh.has_part( "FREEZER", true );
-    if( freezer_here ) {
+    } else {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE );
+            g->m.apply_in_fridge( n, g->get_temperature( cur_veh.global_part_pos3( part ) ) );
         }
     }
 
+    if( freezer_here && cur_veh.is_part_on( part ) ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
+            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE );
+        }
+    } else {
+        for( auto &n : cur_veh.get_items( part ) ) {
+            g->m.apply_in_fridge( n, g->get_temperature( cur_veh.global_part_pos3( part ) ) );
+        }
+    }
+    if( fridge_here || freezer_here ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
+            g->m.apply_in_fridge( n, temperature);
+        }
+    }
+*/
     const bool washmachine_here = cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh.is_part_on( part );
     bool washing_machine_finished = false;
     if( washmachine_here ) {
