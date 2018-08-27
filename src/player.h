@@ -356,7 +356,7 @@ class player : public Character
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 		/** Returns true if the player is illiterate */
-		bool is_illiterate() const;
+        bool is_illiterate() const;
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
