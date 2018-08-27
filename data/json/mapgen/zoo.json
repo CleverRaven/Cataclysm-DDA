@@ -1,5 +1,23 @@
 [
   {
+    "name": "GROUP_BEARS",
+    "type": "monstergroup",
+    "default": "mon_bear",
+    "monsters": [
+      { "monster": "mon_bear", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombear", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_MOOSE",
+    "type": "monstergroup",
+    "default": "mon_moose",
+    "monsters": [
+      { "monster": "mon_moose", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zoose", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "method": "json",
     "object": {
       "furniture": { ".": "f_null", "4": "f_null", "7": "f_null", "_": "f_null", "d": "f_null", "p": "f_null", "s": "f_null" },
@@ -196,9 +214,9 @@
       ],
       "place_monster": [
         { "monster": "mon_coyote", "x": 8, "y": 16 },
-        { "monster": "mon_coyote", "x": 9, "y": 17 },
-        { "monster": "mon_bear", "x": 8, "y": 20 }
+        { "monster": "mon_coyote", "x": 9, "y": 17 }
       ],
+      "place_monsters": [ { "monster": "GROUP_BEARS", "x": 8, "y": 20 } ],
       "rows": [
         "----------------------ss",
         "-__________________|vsss",
@@ -589,10 +607,10 @@
         { "monster": "mon_coyote_wolf", "x": 18, "y": 10 },
         { "monster": "mon_otter", "x": 19, "y": 12 },
         { "monster": "mon_otter", "x": 17, "y": 13 },
-        { "monster": "mon_moose", "x": 7, "y": 14 },
         { "monster": "mon_otter", "x": 19, "y": 14 },
         { "monster": "mon_otter", "x": 19, "y": 15 }
       ],
+      "place_monsters": [ { "monster": "GROUP_MOOSE", "x": 7, "y": 14 } ],
       "place_toilets": [ { "x": 5, "y": 2 }, { "x": 7, "y": 2 }, { "x": 7, "y": 7 } ],
       "rows": [
         "..----------------------",
