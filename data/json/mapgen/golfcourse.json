@@ -53,6 +53,8 @@
           "t_grass",
           "t_grass",
           "t_grass",
+          "t_grass",
+          "t_grass",
           "t_grass_long",
           "t_grass_dead",
           "t_dirt",
@@ -120,6 +122,8 @@
         ".": "t_grass",
         "g": "t_sand",
         "4": [
+          "t_grass",
+          "t_grass",
           "t_grass",
           "t_grass",
           "t_grass",
@@ -197,6 +201,8 @@
       "terrain": {
         ".": "t_grass",
         "4": [
+          "t_grass",
+          "t_grass",
           "t_grass",
           "t_grass",
           "t_grass",
@@ -293,6 +299,8 @@
           "t_grass",
           "t_grass",
           "t_grass",
+          "t_grass",
+          "t_grass",
           "t_grass_long",
           "t_grass_dead",
           "t_dirt",
@@ -367,6 +375,8 @@
         "&": "t_grass",
         ".": "t_grass",
         "4": [
+          "t_grass",
+          "t_grass",
           "t_grass",
           "t_grass",
           "t_grass",
@@ -452,6 +462,8 @@
         "s": "t_sand",
         ".": "t_grass",
         "4": [
+          "t_grass",
+          "t_grass",
           "t_grass",
           "t_grass",
           "t_grass",
@@ -548,6 +560,8 @@
           "t_grass",
           "t_grass",
           "t_grass",
+          "t_grass",
+          "t_grass",
           "t_grass_long",
           "t_grass_dead",
           "t_dirt",
@@ -621,6 +635,8 @@
         "&": "t_grass",
         ".": "t_grass",
         "4": [
+          "t_grass",
+          "t_grass",
           "t_grass",
           "t_grass",
           "t_grass",
@@ -704,6 +720,8 @@
         "&": "t_grass",
         ".": "t_grass",
         "4": [
+          "t_grass",
+          "t_grass",
           "t_grass",
           "t_grass",
           "t_grass",
@@ -945,6 +963,8 @@
         "&": "t_grass",
         ".": "t_grass",
         "4": [
+          "t_grass",
+          "t_grass",
           "t_grass",
           "t_grass",
           "t_grass",
