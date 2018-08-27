@@ -131,6 +131,7 @@
     "skills_required": [ "firstaid", 1 ],
     "time": 1000,
     "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "disinfectant", 1 ] ]
@@ -144,6 +145,7 @@
     "skills_required": [ "firstaid", 1 ],
     "time": 1000,
     "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
     "components": [
       [ [ "cotton_ball", 1 ] ],
       [ [ "disinfectant", 1 ] ]
