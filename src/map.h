@@ -907,7 +907,7 @@ class map
          * @param it Item processed.
          * @param temperature Temperature affecting item.
          */
-        void apply_in_fridge( item &it, int temperature );
+        void apply_in_fridge( item &it, int temperature, bool vehicle = false );
 
         /**
          * @name Consume items on the map
@@ -1577,6 +1577,12 @@ class map
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
 };
+
+/**
+ * Gives ratio for temperature differential of two temperatures
+ * Used in determining speed of temperature change of items
+ */
+unsigned int temp_difference_ratio( int temp_one, int temp_two );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

@@ -4251,17 +4251,26 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
+unsigned int temp_difference_ratio( int temp_one, int temp_two )
+{
+    // ratio is between 1-4 and changes every 10F (~5.5C)
+    unsigned int ratio = abs( temp_one - temp_two ) / 10;
+    ratio = clamp( ratio, static_cast<unsigned int>(1), static_cast<unsigned int>(4) );
+    return ratio;
+}
+
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
-void map::apply_in_fridge( item &it, int temp )
+void map::apply_in_fridge( item &it, int temp, bool vehicle )
 {
-    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_freeze );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_freeze );
-
-    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_cold );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_cold );
+    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) + 1; //effective 1-4
+    unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) + 1;
+    
+    // this counters environmental effects trying to heat-up at the same ratio
+    if( vehicle ) {
+        diff_freeze *= 2;
+        diff_cold *= 2;
+    }
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {
@@ -4308,7 +4317,7 @@ void map::apply_in_fridge( item &it, int temp )
     }
     if( it.is_container() ) {
         for( auto &elem : it.contents ) {
-            apply_in_fridge( elem, temp );
+            apply_in_fridge( elem, temp, vehicle );
         }
     }
 }
@@ -4345,14 +4354,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE);
+            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE, true );
         }
     }
 
     const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) && cur_veh.has_part( "FREEZER", true );
     if( freezer_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE );
+            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE, true );
         }
     }
 
