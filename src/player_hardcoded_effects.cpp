@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "vitamin.h"
 #include "mongroup.h"
+#include "field.h"
 
 #ifdef TILES
 #include "SDL.h"
@@ -53,6 +54,7 @@ const efftype_id effect_meth( "meth" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_rat( "rat" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_shakes( "shakes" );
@@ -60,6 +62,7 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
+const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
@@ -888,7 +891,11 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_antibiotic ) ) {
+            if( has_effect( effect_panacea ) ) {
+                recover_factor = 108000; //panacea is a guaranteed cure
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                recover_factor += 400;
+            } else if( has_effect( effect_antibiotic ) ) {
                 recover_factor += 200;
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
@@ -910,16 +917,18 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                it.mod_duration( -1_turns ); //strong antibiotic reverses!
             } else if( has_effect( effect_antibiotic ) ) {
                 if( calendar::once_every( 8_turns ) ) {
-                    it.mod_duration( 1_turns ); //strong antibiotic slows down progression by a factor of 8
+                    it.mod_duration( 1_turns ); //normal antibiotic slows down progression by a factor of 8
                 }
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 if( calendar::once_every( 2_turns ) ) {
                     it.mod_duration( 1_turns ); //weak antibiotic slows down by half
+                } else {
+                    it.mod_duration( 1_turns );
                 }
-            } else {
-                it.mod_duration( 1_turns );
             }
         }
     } else if( id == effect_infected ) {
@@ -934,7 +943,11 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_antibiotic ) ) {
+            if( has_effect( effect_panacea ) ) {
+                recover_factor = 864000;
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                recover_factor += 400;
+            } else if( has_effect( effect_antibiotic ) ) {
                 recover_factor += 200;
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
@@ -958,6 +971,8 @@ void player::hardcoded_effects( effect &it )
                 add_memorial_log( pgettext( "memorial_male", "Succumbed to the infection." ),
                                   pgettext( "memorial_female", "Succumbed to the infection." ) );
                 hurtall( 500, nullptr );
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                it.mod_duration( -1_turns );
             } else if( has_effect( effect_antibiotic ) ) {
                 if( calendar::once_every( 8_turns ) ) {
                     it.mod_duration( 1_turns );
@@ -1039,14 +1054,30 @@ void player::hardcoded_effects( effect &it )
                                         || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY || g->weather == WEATHER_FLURRIES
                                         || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
 
-        if( calendar::once_every( 10_minutes ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
-            g->m.is_outside( pos() ) && g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
-            // Hunger and thirst fall before your Chloromorphic physiology!
-            if( get_hunger() >= -30 ) {
-                mod_hunger( -5 );
+        if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
+                has_trait( trait_id( "M_SKIN3" ) ) ) &&
+            g->m.is_outside( pos() ) ) {
+            if( has_trait( trait_id( "CHLOROMORPH" ) ) ) {
+                // Hunger and thirst fall before your Chloromorphic physiology!
+                if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
+                    if( get_hunger() >= -30 ) {
+                        mod_hunger( -5 );
+                    }
+                    if( get_thirst() >= -30 ) {
+                        mod_thirst( -5 );
+                    }
+                }
             }
-            if( get_thirst() >= -30 ) {
-                mod_thirst( -5 );
+            if( has_trait( trait_id( "M_SKIN3" ) ) ) {
+                // Spores happen!
+                if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+                    if( get_fatigue() >= 0 ) {
+                        mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
+                    }
+                    if( calendar::once_every( 1_hours ) ) {
+                        spores(); // spawn some P O O F Y   B O I S
+                    }
+                }
             }
         }
 
@@ -1242,5 +1273,11 @@ void player::hardcoded_effects( effect &it )
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();
         }
+    } else if( id == effect_panacea ) {
+        // restore health all body parts, dramatically reduce pain
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            hp_cur[i] += 10;
+        }
+        mod_pain( -10 );
     }
 }

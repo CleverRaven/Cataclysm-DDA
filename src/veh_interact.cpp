@@ -35,7 +35,7 @@
 #include <numeric>
 #include <cassert>
 
-static inline const char * status_color( bool status )
+static inline const char *status_color( bool status )
 {
     static const char *good = "green";
     static const char *bad = "red";
@@ -45,21 +45,26 @@ static inline const char * status_color( bool status )
 // cap JACK requirements to support arbitrarily large vehicles
 static double jack_qality( const vehicle &veh )
 {
-    const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(), JACK_LIMIT );
+    const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(),
+            JACK_LIMIT );
     return ceil( mass / TOOL_LIFT_FACTOR );
 }
 
 /** Can part currently be reloaded with anything? */
-static auto can_refill = []( const vehicle_part &pt ) { return pt.can_reload(); };
+static auto can_refill = []( const vehicle_part &pt )
+{
+    return pt.can_reload();
+};
 
-namespace {
-const std::string repair_hotkeys("r1234567890");
+namespace
+{
+const std::string repair_hotkeys( "r1234567890" );
 const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
 const skill_id skill_mechanics( "mechanics" );
 } // namespace
 
-void act_vehicle_siphon(vehicle* veh);
+void act_vehicle_siphon( vehicle *veh );
 
 player_activity veh_interact::serialize_activity()
 {
@@ -73,7 +78,7 @@ player_activity veh_interact::serialize_activity()
     int time = 1000;
     switch( sel_cmd ) {
         case 'i':
-               time = vp->install_time( g->u );
+            time = vp->install_time( g->u );
             break;
         case 'r':
             if( pt->is_broken() ) {
@@ -94,7 +99,7 @@ player_activity veh_interact::serialize_activity()
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         time = 1;
     }
-    player_activity res( activity_id( "ACT_VEHICLE" ), time, (int) sel_cmd );
+    player_activity res( activity_id( "ACT_VEHICLE" ), time, ( int ) sel_cmd );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
@@ -120,12 +125,13 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
     return vehint.serialize_activity();
 }
 
-vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector &sel, const std::string &title )
+vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector &sel,
+        const std::string &title )
 {
     static vehicle_part null_part;
     vehicle_part *res = &null_part;
 
-    auto act = [&]( const vehicle_part &pt ) {
+    auto act = [&]( const vehicle_part & pt ) {
         res = const_cast<vehicle_part *>( &pt );
         return false; // avoid redraw
     };
@@ -163,24 +169,28 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     }
 
     main_context.register_directions();
-    main_context.register_action("QUIT");
-    main_context.register_action("INSTALL");
-    main_context.register_action("REPAIR");
-    main_context.register_action("MEND");
-    main_context.register_action("REFILL");
-    main_context.register_action("REMOVE");
-    main_context.register_action("RENAME");
-    main_context.register_action("SIPHON");
-    main_context.register_action("TIRE_CHANGE");
-    main_context.register_action("ASSIGN_CREW");
-    main_context.register_action("RELABEL");
-    main_context.register_action("FUEL_LIST_DOWN");
-    main_context.register_action("FUEL_LIST_UP");
-    main_context.register_action("DESC_LIST_DOWN");
-    main_context.register_action("DESC_LIST_UP");
-    main_context.register_action("CONFIRM");
-    main_context.register_action("HELP_KEYBINDINGS");
-    main_context.register_action("FILTER");
+    main_context.register_action( "QUIT" );
+    main_context.register_action( "INSTALL" );
+    main_context.register_action( "REPAIR" );
+    main_context.register_action( "MEND" );
+    main_context.register_action( "REFILL" );
+    main_context.register_action( "REMOVE" );
+    main_context.register_action( "RENAME" );
+    main_context.register_action( "SIPHON" );
+    main_context.register_action( "TIRE_CHANGE" );
+    main_context.register_action( "ASSIGN_CREW" );
+    main_context.register_action( "RELABEL" );
+    main_context.register_action( "PREV_TAB" );
+    main_context.register_action( "NEXT_TAB" );
+    main_context.register_action( "OVERVIEW_DOWN" );
+    main_context.register_action( "OVERVIEW_UP" );
+    main_context.register_action( "FUEL_LIST_DOWN" );
+    main_context.register_action( "FUEL_LIST_UP" );
+    main_context.register_action( "DESC_LIST_DOWN" );
+    main_context.register_action( "DESC_LIST_UP" );
+    main_context.register_action( "CONFIRM" );
+    main_context.register_action( "HELP_KEYBINDINGS" );
+    main_context.register_action( "FILTER" );
 
     countDurability();
     cache_tool_availability();
@@ -219,7 +229,7 @@ void veh_interact::allocate_windows()
 
     // make the windows
     w_mode  = catacurses::newwin( mode_h,    grid_w, 1,       1 );
-    w_msg   = catacurses::newwin( page_size, pane_w, pane_y,  msg_x  );
+    w_msg   = catacurses::newwin( page_size, pane_w, pane_y,  msg_x );
     w_disp  = catacurses::newwin( disp_h,    disp_w, pane_y,  1 );
     w_parts = catacurses::newwin( parts_h,   disp_w, parts_y, 1 );
     w_list  = catacurses::newwin( page_size, pane_w, pane_y,  list_x );
@@ -230,7 +240,7 @@ void veh_interact::allocate_windows()
     display_name();
     display_stats();
     display_veh();
-    move_cursor(0, 0); // display w_disp & w_parts
+    move_cursor( 0, 0 ); // display w_disp & w_parts
 }
 
 void veh_interact::set_title( const std::string &msg ) const
@@ -314,16 +324,20 @@ void veh_interact::do_main_loop()
             redraw = do_assign_crew( msg );
         } else if( action == "RELABEL" ) {
             redraw = do_relabel( msg );
-        } else if ( action == "FUEL_LIST_DOWN" ) {
+        } else if( action == "FUEL_LIST_DOWN" ) {
             move_fuel_cursor( 1 );
-        } else if ( action == "FUEL_LIST_UP" ) {
+        } else if( action == "FUEL_LIST_UP" ) {
             move_fuel_cursor( -1 );
-        } else if ( action == "DESC_LIST_DOWN" ) {
+        } else if( action == "OVERVIEW_DOWN" ) {
+            move_overview_line( 1 );
+        } else if( action == "OVERVIEW_UP" ) {
+            move_overview_line( -1 );
+        } else if( action == "DESC_LIST_DOWN" ) {
             move_cursor( 0, 0, 1 );
-        } else if ( action == "DESC_LIST_UP" ) {
+        } else if( action == "DESC_LIST_UP" ) {
             move_cursor( 0, 0, -1 );
         }
-        if ( sel_cmd != ' ' ) {
+        if( sel_cmd != ' ' ) {
             finish = true;
         }
 
@@ -483,18 +497,20 @@ task_reason veh_interact::cant_do (char mode)
     return CAN_DO;
 }
 
-bool veh_interact::is_drive_conflict() {
-    bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
-    bool has_muscle_engine = veh->has_engine_type("muscle", false);
-    bool can_install = !(has_muscle_engine && install_muscle_engine);
+bool veh_interact::is_drive_conflict()
+{
+    std::string conflict_type;
+    bool has_conflict = veh->has_engine_conflict( sel_vpart_info, conflict_type );
 
-    if (!can_install) {
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_red,
-                       _("Only one muscle powered engine can be installed."));
-        wrefresh (w_msg);
+    if( has_conflict ) {
+        werase( w_msg );
+        //~ %1$s is fuel_type
+        fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_light_red,
+                        string_format( _( "Only one %1$s powered engine can be installed." ),
+                                       conflict_type ) );
+        wrefresh( w_msg );
     }
-    return !can_install;
+    return has_conflict;
 }
 
 bool veh_interact::can_install_part() {
@@ -532,16 +548,14 @@ bool veh_interact::can_install_part() {
         }
     }
 
-    bool is_engine = sel_vpart_info->has_flag("ENGINE");
-    bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
-    //count current engines, muscle engines don't require higher skill
+    bool is_engine = sel_vpart_info->has_flag( "ENGINE" );
+    //count current engines, some engines don't require higher skill
     int engines = 0;
     int dif_eng = 0;
-    if (is_engine && !install_muscle_engine) {
-        for (size_t p = 0; p < veh->parts.size(); p++) {
-            if (veh->part_flag (p, "ENGINE") &&
-                veh->part_info(p).fuel_type != "muscle")
-            {
+    if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
+        for( size_t p = 0; p < veh->parts.size(); p++ ) {
+            if( veh->part_flag( p, "ENGINE" ) &&
+                veh->part_flag( p, "E_HIGHER_SKILL" ) ) {
                 engines++;
                 dif_eng = dif_eng / 2 + 8;
             }
@@ -699,6 +713,7 @@ bool veh_interact::do_install( std::string &msg )
     tab_filters[3] = [&](const vpart_info *p) { auto &part = *p;
                                                    return part.has_flag("TRACK") || //Util
                                                    part.has_flag(VPFLAG_FRIDGE) ||
+                                                   part.has_flag(VPFLAG_FREEZER) ||
                                                    part.has_flag("KITCHEN") ||
                                                    part.has_flag("WELDRIG") ||
                                                    part.has_flag("CRAFTRIG") ||
@@ -849,24 +864,25 @@ bool veh_interact::do_install( std::string &msg )
     return false;
 }
 
-bool veh_interact::move_in_list(int &pos, const std::string &action, const int size, const int header) const
+bool veh_interact::move_in_list( int &pos, const std::string &action, const int size,
+                                 const int header ) const
 {
     int lines_per_page = page_size - header;
-    if (action == "PREV_TAB" || action == "LEFT") {
+    if( action == "PREV_TAB" || action == "LEFT" ) {
         pos -= lines_per_page;
-    } else if (action == "NEXT_TAB" || action == "RIGHT") {
+    } else if( action == "NEXT_TAB" || action == "RIGHT" ) {
         pos += lines_per_page;
-    } else if (action == "UP") {
+    } else if( action == "UP" ) {
         pos--;
-    } else if (action == "DOWN") {
+    } else if( action == "DOWN" ) {
         pos++;
     } else {
         // Anything else -> no movement
         return false;
     }
-    if (pos < 0) {
+    if( pos < 0 ) {
         pos = size - 1;
-    } else if (pos >= size) {
+    } else if( pos >= size ) {
         pos = 0;
     }
     return true;
@@ -1018,8 +1034,8 @@ bool veh_interact::do_refill( std::string &msg )
     return overview( can_refill, act );
 }
 
-bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
-                             std::function<bool(vehicle_part &pt)> action )
+bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enable,
+                             std::function<bool( vehicle_part &pt )> action )
 {
     struct part_option {
         part_option( const std::string &key, vehicle_part *part, char hotkey,
@@ -1044,33 +1060,41 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         std::function<void( const vehicle_part &pt )> message;
     };
 
+    const auto next_hotkey = [&]( char &hotkey ) {
+        hotkey += 1;
+        if( hotkey == '{' ) {
+            hotkey = 'A';
+        }
+        return hotkey;
+    };
+
     std::vector<part_option> opts;
 
     std::map<std::string, std::function<void( const catacurses::window &, int )>> headers;
 
-    headers["ENGINE"] = []( const catacurses::window &w, int y ) {
+    headers["ENGINE"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Engines" ) );
-        right_print   ( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
+        right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
-    headers["TANK"] = []( const catacurses::window &w, int y ) {
+    headers["TANK"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Tanks" ) );
-        right_print   ( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
+        right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    headers["BATTERY"] = []( const catacurses::window &w, int y ) {
+    headers["BATTERY"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Batteries" ) );
-        right_print   ( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
+        right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    headers["REACTOR"] = []( const catacurses::window &w, int y ) {
+    headers["REACTOR"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Reactors" ) );
-        right_print   ( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
+        right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    headers["TURRET"] = []( const catacurses::window &w, int y ) {
+    headers["TURRET"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Turrets" ) );
-        right_print   ( w, y, 1, c_light_gray, _( "Ammo     Qty" ) );
+        right_print( w, y, 1, c_light_gray, _( "Ammo     Qty" ) );
     };
-    headers["SEAT"] = []( const catacurses::window &w, int y ) {
+    headers["SEAT"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_light_gray, _( "Seats" ) );
-        right_print   ( w, y, 1, c_light_gray, _( "Who" ) );
+        right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
 
     char hotkey = 'a';
@@ -1078,18 +1102,18 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     for( auto &pt : veh->parts ) {
         if( pt.is_engine() && !pt.is_broken() ) {
             // if tank contains something then display the contents in milliliters
-            auto details = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%s     <color_light_gray>%3s</color>",
-                             pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
-                             pt.enabled ? _( "Yes" ) : _( "No" ) ) );
+                                            pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
+                                            pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
             // display engine faults (if any)
-            auto msg = [&]( const vehicle_part &pt ) {
+            auto msg = [&]( const vehicle_part & pt ) {
                 werase( w_msg );
                 int y = 0;
-                for( const auto& e : pt.faults() ) {
+                for( const auto &e : pt.faults() ) {
                     y += fold_and_print( w_msg, y, 1, getmaxx( w_msg ) - 2, c_red,
                                          _( "Faulty %1$s" ), e.obj().name().c_str() );
                     y += fold_and_print( w_msg, y, 3, getmaxx( w_msg ) - 4, c_light_gray, e.obj().description() );
@@ -1097,37 +1121,40 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 }
                 wrefresh( w_msg );
             };
-            opts.emplace_back( "ENGINE", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details, msg );
+            opts.emplace_back( "ENGINE", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details, msg );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_tank() && !pt.is_broken() ) {
-            auto details = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
                     auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
                     right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                                  string_format( "%s  %5.1fL", item::nname( pt.ammo_current() ),
-                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
+                                                round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 }
             };
-            opts.emplace_back( "TANK", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "TANK", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_battery() && !pt.is_broken() ) {
             // always display total battery capacity and percentage charge
-            auto details = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
             };
-           opts.emplace_back( "BATTERY", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "BATTERY", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
         }
     }
 
-    auto details_ammo = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
+    auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
         if( pt.ammo_remaining() ) {
             right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                          string_format( "%s   %5i", item::nname( pt.ammo_current() ).c_str(), pt.ammo_remaining() ) );
@@ -1136,25 +1163,28 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     for( auto &pt : veh->parts ) {
         if( pt.is_reactor() && !pt.is_broken() ) {
-            opts.emplace_back( "REACTOR", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+            opts.emplace_back( "REACTOR", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details_ammo );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_turret() && !pt.is_broken() ) {
-            opts.emplace_back( "TURRET", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+            opts.emplace_back( "TURRET", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details_ammo );
         }
     }
 
     for( auto &pt : veh->parts ) {
-        auto details = []( const vehicle_part &pt, const catacurses::window &w, int y ) {
+        auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
             const npc *who = pt.crew();
             if( who ) {
                 right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
             }
         };
         if( pt.is_seat() && !pt.is_broken() ) {
-            opts.emplace_back( "SEAT", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "SEAT", &pt, action && enable &&
+                               enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
         }
     }
 
@@ -1173,7 +1203,12 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         werase( w_list );
         std::string last;
         int y = 0;
-        for( int idx = 0; idx != int( opts.size() ); ++idx ) {
+        if( overview_offset ) {
+            trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
+                            c_yellow, _( "'{' to scroll up" ) );
+            y++;
+        }
+        for( int idx = overview_offset; idx != int( opts.size() ); ++idx ) {
             const auto &pt = *opts[idx].part;
 
             // if this is a new section print a header row
@@ -1202,10 +1237,21 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             // print extra columns (if any)
             opts[idx].details( pt, w_list, y );
             y++;
+            if( y < ( getmaxy( w_list ) - 1 ) ) {
+                overview_limit = overview_offset;
+            } else {
+                overview_limit = idx;
+                trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
+                                c_yellow, _( "'}' to scroll down" ) );
+                break;
+            }
         }
+        
         wrefresh( w_list );
 
-        if( !std::any_of( opts.begin(), opts.end(), []( const part_option &e ) { return e.hotkey; } ) ) {
+        if( !std::any_of( opts.begin(), opts.end(), []( const part_option & e ) {
+        return e.hotkey;
+    } ) ) {
             return false; // nothing is selectable
         }
 
@@ -1225,6 +1271,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
         } else if( input == "UP" ) {
             do {
+                move_overview_line( -1 );
                 if( --pos < 0 ) {
                     pos = opts.size() - 1;
                 }
@@ -1232,6 +1279,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
         } else if( input == "DOWN" ) {
             do {
+                move_overview_line( 1 );
                 if( ++pos >= int( opts.size() ) ) {
                     pos = 0;
                 }
@@ -1241,7 +1289,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             // did we try and activate a hotkey option?
             char hotkey = main_context.get_raw_input().get_first_input();
             if( hotkey ) {
-                auto iter = std::find_if( opts.begin(), opts.end(), [&hotkey]( const part_option &e ) {
+                auto iter = std::find_if( opts.begin(), opts.end(), [&hotkey]( const part_option & e ) {
                     return e.hotkey == hotkey;
                 } );
                 if( iter != opts.end() ) {
@@ -1257,6 +1305,12 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     return redraw;
 }
 
+void veh_interact::move_overview_line( int amount )
+{
+    overview_offset += amount;
+    overview_offset = std::max( 0, overview_offset );
+    overview_offset = std::min( overview_limit, overview_offset );
+}
 
 vehicle_part *veh_interact::get_most_damaged_part() const
 {
@@ -1550,11 +1604,11 @@ bool veh_interact::do_relabel( std::string &msg )
  * @param dy The y-coordinate, relative to the viewport's 0-point (?)
  * @return The first vehicle part at the specified coordinates.
  */
-int veh_interact::part_at (int dx, int dy)
+int veh_interact::part_at( int dx, int dy )
 {
     int vdx = -ddx - dy;
     int vdy = dx - ddy;
-    return veh->part_displayed_at(vdx, vdy);
+    return veh->part_displayed_at( vdx, vdy );
 }
 
 /**
@@ -1581,9 +1635,9 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
     ddx += dy;
     ddy -= dx;
     if( dx || dy ) {
-       start_limit = 0;
+        start_limit = 0;
     } else {
-       start_at += dstart_at;
+        start_at += dstart_at;
     }
 
     display_veh();
@@ -2142,8 +2196,12 @@ void veh_interact::display_details( const vpart_info *part )
                         c_white, _("Charge: <color_light_gray>%s</color>"),
                         item::nname( part->fuel_type ).c_str() );
     }
-    if ( part->power != 0 ) {
-        fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_light_gray>%d</color>" ), part->power );
+    int part_power = part->power;
+    if( part_power == 0 ) {
+        part_power = item( part->item ).engine_displacement();
+    }
+    if ( part_power != 0 ) {
+        fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_light_gray>%d</color>" ), part_power );
     }
 
     // line 5 [vertical/hybrid] flags

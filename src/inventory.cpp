@@ -803,7 +803,7 @@ void inventory::rust_iron_items()
         for( auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
-                !elem_stack_iter.has_flag( "WATERPROOF" ) && 
+                !elem_stack_iter.has_flag( "WATERPROOF" ) &&
                 elem_stack_iter.damage() < elem_stack_iter.max_damage()/2 && //Passivation layer prevents further rusting
                 one_in( 500 ) &&
                 //Scale with volume, bigger = slower (see #24204)

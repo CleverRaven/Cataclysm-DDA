@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "monster.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "output.h"
 #include "json.h"
 #include "overmapbuffer.h"
@@ -331,7 +332,7 @@ void computer::activate_function( computer_action action )
         break;
 
     case COMPACT_OPEN:
-        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos());
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos(), true);
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -341,12 +342,12 @@ void computer::activate_function( computer_action action )
     //Simply uses translate_radius which take a given radius and
     // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
-        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos());
+        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos(), true);
         query_any(_("Lock enabled.  Press any key..."));
         break;
 
     case COMPACT_UNLOCK:
-        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos());
+        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos(), true);
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
@@ -399,13 +400,13 @@ void computer::activate_function( computer_action action )
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         sounds::sound(g->u.pos(), 40, _("an alarm sound!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos());
+        g->m.translate_radius(t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
         sounds::sound(g->u.pos(), 40, _("an alarm sound!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 3.0, g->u.pos());
+        g->m.translate_radius(t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -543,7 +544,7 @@ void computer::activate_function( computer_action action )
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
-        tripoint target = overmap::draw_overmap(0);
+        tripoint target = ui::omap::choose_point(0);
         if (target == overmap::invalid_tripoint) {
             add_msg(m_info, _("Target acquisition canceled."));
             return;

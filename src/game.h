@@ -9,6 +9,7 @@
 #include "int_id.h"
 #include "cursesdef.h"
 #include "pimpl.h"
+#include "item_location.h"
 
 #include <array>
 #include <vector>
@@ -117,6 +118,22 @@ class scent_map;
 class loading_ui;
 
 typedef std::function<bool( const item & )> item_filter;
+
+enum liquid_dest : int {
+    LD_NULL,
+    LD_CONSUME,
+    LD_ITEM,
+    LD_VEH,
+    LD_KEG,
+    LD_GROUND
+};
+
+struct liquid_dest_opt {
+    liquid_dest dest_opt = LD_NULL;
+    item_location item_loc;
+    vehicle *veh = nullptr;
+    tripoint pos;
+};
 
 class game
 {
@@ -536,6 +553,8 @@ class game
         tripoint look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
+        /** Checks whether or not there is a zone of particular type nearby */
+        bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
         void zones_manager();
         void zones_manager_shortcuts( const catacurses::window &w_info );
         void zones_manager_draw_borders( const catacurses::window &w_border,
@@ -748,6 +767,18 @@ class game
                             const tripoint *source_pos = nullptr,
                             const vehicle *source_veh = nullptr,
                             const monster *source_mon = nullptr );
+        /**
+             * These are helper functions for transfer liquid, for times when you just want to
+             * get the target of the transfer, or know the target and just want to transfer the
+             * liquid. They take the same arguments as handle_liquid, plus
+             * @param liquid_target structure containing information about the target
+             */
+        bool get_liquid_target( item &liquid, item *const source, const int radius,
+                                const tripoint *source_pos, const vehicle *const source_veh,
+                                const monster *const source_mon, liquid_dest_opt &target );
+        bool perform_liquid_transfer( item &liquid,
+                                      const tripoint *source_pos, const vehicle *const source_veh,
+                                      const monster *const source_mon, liquid_dest_opt &target );
         /**@}*/
 
         void open_gate( const tripoint &p );
@@ -889,6 +920,7 @@ class game
         void open(); // Open a door  'o'
         void close();
         void smash(); // Smash terrain
+        void loot(); // Sort out loot or perform other zone activity
 
         void handbrake();
         void control_vehicle(); // Use vehicle controls  '^'

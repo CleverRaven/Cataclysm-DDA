@@ -320,6 +320,13 @@ std::string map_data_common_t::name() const
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
+    if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
+    }
+
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string &str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;
@@ -426,7 +433,7 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_thconc_floor,
+    t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -455,7 +462,7 @@ ter_id t_null,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
-    t_door_glass_c, t_door_glass_o,
+    t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
@@ -466,9 +473,9 @@ ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
+    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_coffee, t_tree_coffee_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
     t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
-    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk, t_stump,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence, t_chainfence, t_chainfence_posts,
@@ -513,6 +520,7 @@ ter_id t_null,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
     // Railroad and subway
     t_railroad_rubble,
+    t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,
     t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
     t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d, t_railroad_track_d1, t_railroad_track_d2,
     t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie, t_railroad_track_d_on_tie;
@@ -542,6 +550,8 @@ void set_ter_ids() {
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
     t_thconc_floor = ter_id( "t_thconc_floor" );
+    t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
+    t_strconc_floor = ter_id( "t_strconc_floor" );
     t_floor = ter_id( "t_floor" );
     t_floor_waxed = ter_id( "t_floor_waxed" );
     t_dirtfloor = ter_id( "t_dirtfloor" );
@@ -617,6 +627,8 @@ void set_ter_ids() {
     t_door_bar_locked = ter_id( "t_door_bar_locked" );
     t_door_glass_c = ter_id( "t_door_glass_c" );
     t_door_glass_o = ter_id( "t_door_glass_o" );
+    t_door_glass_frosted_c = ter_id( "t_door_glass_frosted_c" );
+    t_door_glass_frosted_o = ter_id( "t_door_glass_frosted_o" );
     t_portcullis = ter_id( "t_portcullis" );
     t_recycler = ter_id( "t_recycler" );
     t_window = ter_id( "t_window" );
@@ -652,6 +664,8 @@ void set_ter_ids() {
     t_tree_young = ter_id( "t_tree_young" );
     t_tree_apple = ter_id( "t_tree_apple" );
     t_tree_apple_harvested = ter_id( "t_tree_apple_harvested" );
+    t_tree_coffee = ter_id( "t_tree_coffee" );
+    t_tree_coffee_harvested = ter_id( "t_tree_coffee_harvested" );
     t_tree_pear = ter_id( "t_tree_pear" );
     t_tree_pear_harvested = ter_id( "t_tree_pear_harvested" );
     t_tree_cherry = ter_id( "t_tree_cherry" );
@@ -677,6 +691,7 @@ void set_ter_ids() {
     t_shrub_blueberry = ter_id( "t_shrub_blueberry" );
     t_shrub_strawberry = ter_id( "t_shrub_strawberry" );
     t_trunk = ter_id( "t_trunk" );
+    t_stump = ter_id( "t_stump" );
     t_root_wall = ter_id( "t_root_wall" );
     t_wax = ter_id( "t_wax" );
     t_floor_wax = ter_id( "t_floor_wax" );
@@ -779,6 +794,10 @@ void set_ter_ids() {
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
     t_railroad_rubble = ter_id( "t_railroad_rubble" );
+    t_buffer_stop = ter_id( "t_buffer_stop" );
+    t_railroad_crossing_signal = ter_id( "t_railroad_crossing_signal" );
+    t_crossbuck_metal = ter_id( "t_crossbuck_metal" );
+    t_crossbuck_wood = ter_id( "t_crossbuck_wood" );
     t_railroad_tie = ter_id( "t_railroad_tie" );
     t_railroad_tie_h = ter_id( "t_railroad_tie_h" );
     t_railroad_tie_v = ter_id( "t_railroad_tie_v" );
@@ -839,6 +858,7 @@ furn_id f_null,
     f_floor_canvas,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+    f_smoking_rack, f_smoking_rack_active,
     f_robotic_arm, f_vending_reinforced,
     f_brazier;
 
@@ -939,6 +959,8 @@ void set_furn_ids() {
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
+    f_smoking_rack = furn_id( "f_smoking_rack" );
+    f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
 }

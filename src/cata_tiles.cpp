@@ -1543,10 +1543,10 @@ bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile,
                                             ll, apply_night_vision_goggles, nullint );
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                     const std::string &subcategory, tripoint pos,
-                                     int subtile, int rota, lit_level ll,
-                                     bool apply_night_vision_goggles )
+bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
+                                      const std::string &subcategory, tripoint pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles )
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
@@ -1560,10 +1560,82 @@ bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile,
                                             ll, apply_night_vision_goggles, height_3d );
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                     const std::string &subcategory, tripoint pos,
-                                     int subtile, int rota, lit_level ll,
-                                     bool apply_night_vision_goggles, int &height_3d )
+const tile_type *cata_tiles::find_tile_with_season( std::string &id )
+{
+    constexpr size_t suffix_len = 15;
+    constexpr char season_suffix[4][suffix_len] = {
+        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
+    };
+
+    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
+
+    const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
+    if( tt ) {
+        id = seasonal_id;
+    } else {
+        tt = tileset_ptr->find_tile_type( id );
+    }
+    return tt;
+}
+
+const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGORY category )
+{
+    std::string looks_like = id;
+    int cnt = 0;
+    while( !looks_like.empty() && cnt < 10 ) {
+        const tile_type *lltt = find_tile_with_season( looks_like );
+        if( lltt ) {
+            id = looks_like;
+            return lltt;
+        }
+        if( category == C_FURNITURE ) {
+            const furn_str_id fid( looks_like );
+            if( !fid.is_valid() ) {
+                return nullptr;
+            }
+            const furn_t &furn = fid.obj();
+            looks_like = furn.looks_like;
+        } else if( category == C_TERRAIN ) {
+            const ter_str_id tid( looks_like );
+            if( !tid.is_valid() ) {
+                return nullptr;
+            }
+            const ter_t &ter = tid.obj();
+            looks_like = ter.looks_like;
+        } else if( category == C_MONSTER ) {
+            const mtype_id mid( looks_like );
+            if( !mid.is_valid() ) {
+                return nullptr;
+            }
+            const mtype &mt = mid.obj();
+            looks_like = mt.looks_like;
+        } else if( category == C_VEHICLE_PART ) {
+            // vehicle parts start with vp_ for their tiles, but not their IDs
+            const vpart_id new_vpid( looks_like.substr( 3 ) );
+            if( !new_vpid.is_valid() ) {
+                return nullptr;
+            }
+            const vpart_info &new_vpi = new_vpid.obj();
+            looks_like = "vp_" + new_vpi.looks_like;
+        } else if( category == C_ITEM ) {
+            if( !item::type_is_defined( looks_like ) ) {
+                return nullptr;
+            }
+            const itype *new_it = item::find_type( looks_like );
+            looks_like = new_it->looks_like;
+        } else {
+            return nullptr;
+        }
+        cnt += 1;
+    }
+    return nullptr;
+}
+
+
+bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
+                                      const std::string &subcategory, tripoint pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles, int &height_3d )
 {
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
@@ -1578,71 +1650,59 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         return false;
     }
 
-
-    constexpr size_t suffix_len = 15;
-    constexpr char season_suffix[4][suffix_len] = {
-        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
-
-    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
-
-    const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
-    if( tt ) {
-        id = std::move(seasonal_id);
-    } else {
-        tt = tileset_ptr->find_tile_type( id );
-    }
+    const tile_type *tt = find_tile_looks_like( id, category );
 
     if( !tt ) {
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
-        if (category == C_FURNITURE) {
+        if( category == C_FURNITURE ) {
             const furn_str_id fid( id );
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 sym = f.symbol();
                 col = f.color();
             }
-        } else if (category == C_TERRAIN) {
+        } else if( category == C_TERRAIN ) {
             const ter_str_id tid( id );
-            if ( tid.is_valid() ) {
+            if( tid.is_valid() ) {
                 const ter_t &t = tid.obj();
                 sym = t.symbol();
                 col = t.color();
             }
-        } else if (category == C_MONSTER) {
+        } else if( category == C_MONSTER ) {
             const mtype_id mid( id );
             if( mid.is_valid() ) {
                 const mtype &mt = mid.obj();
                 int len = mt.sym.length();
                 const char *s = mt.sym.c_str();
-                sym = UTF8_getch(&s, &len);
+                sym = UTF8_getch( &s, &len );
                 col = mt.color;
             }
-        } else if (category == C_VEHICLE_PART) {
+        } else if( category == C_VEHICLE_PART ) {
             const vpart_id vpid( id.substr( 3 ) );
             if( vpid.is_valid() ) {
                 const vpart_info &v = vpid.obj();
                 sym = v.sym;
-                if (!subcategory.empty()) {
-                    sym = special_symbol(subcategory[0]);
+                if( !subcategory.empty() ) {
+                    sym = special_symbol( subcategory[0] );
                     rota = 0;
                     subtile = -1;
                 }
                 col = v.color;
             }
-        } else if (category == C_FIELD) {
+        } else if( category == C_FIELD ) {
             const field_id fid = field_from_ident( id );
             sym = fieldlist[fid].sym;
             // TODO: field density?
             col = fieldlist[fid].color[0];
-        } else if (category == C_TRAP) {
+        } else if( category == C_TRAP ) {
             const trap_str_id tmp( id );
             if( tmp.is_valid() ) {
                 const trap &t = tmp.obj();
                 sym = t.sym;
                 col = t.color;
             }
-        } else if (category == C_ITEM) {
+        } else if( category == C_ITEM ) {
             const auto tmp = item( id, 0 );
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();

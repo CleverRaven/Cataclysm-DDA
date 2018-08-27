@@ -13,6 +13,7 @@
     "material": "plastic",
     "symbol": "!",
     "color": "cyan",
+    "looks_like": "1st_aid",
     "flags": [ "ANESTHESIA" ]
 },
 {
@@ -648,7 +649,7 @@
     "name_plural" : "ANFO",
     "symbol" : "=",
     "color" : "red",
-    "description" : "Several brownish pellets that were made by absorbing organic fuel on ammonium nitrate.  This ammonium nitrate–fuel oil or ANFO, as it is called, mixture is a common industrial explosive due to its stability and low price.  Burns fast, but needs an explosive primer to detonate...",
+    "description" : "Several brownish pellets that were made by absorbing organic fuel on ammonium nitrate.  This ammonium nitrate-fuel oil or ANFO, as it is called, mixture is a common industrial explosive due to its stability and low price.  Burns fast, but needs an explosive primer to detonate...",
     "material" : "powder",
     "volume" : 1,
     "weight" : 90,

@@ -97,6 +97,7 @@ const species_id INSECT( "INSECT" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_antibiotic( "antibiotic" );
+const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -126,6 +127,7 @@ const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_recover( "recover" );
@@ -135,17 +137,23 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_smoke( "smoke" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stimpack( "stimpack" );
+const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
@@ -340,6 +348,7 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
     p->add_effect( effect_took_xanax, 90_minutes );
+    p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
     return it->type->charges_to_use();
 }
 
@@ -521,6 +530,7 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
                               _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
     }
     p->add_effect( effect_antibiotic, 12_hours );
+    p->add_effect( effect_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -675,6 +685,7 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
         duration += 2_hours;
     }
     p->add_effect( effect_valium, duration );
+    p->add_effect( effect_took_anticonvulsant_visible, duration );
     p->add_effect( effect_high, duration );
     if( p->has_effect( effect_shakes ) ) {
         p->remove_effect( effect_shakes );
@@ -872,6 +883,7 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
+    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -1319,7 +1331,29 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
         //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
         //~ We are the Mycus.
+        g->refresh_all();
+        popup( _( "We welcome into us. We have endured long in this forbidding world." ) );
+        p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
+                              _( "A sea of white caps, waving gently. A haze of spores wafting silently over a forest." ) );
+        g->refresh_all();
+        popup( _( "The natives have a saying: \"E Pluribus Unum.\"  Out of many, one." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The blazing pink redness of the berry. The juices spreading across your tongue, the warmth draping over us like a lover's embrace." ) );
+        g->refresh_all();
+        popup( _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world. Even now, our fruits adapt to better serve local physiology." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The sky-blue of the seed. The nutty, creamy flavors intermingling with the berry, a memory that will never leave us." ) );
+        g->refresh_all();
+        popup( _( "As, in time, shall we adapt to better welcome those who have not received us." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The amber-yellow of the sap. Feel it flowing through our veins, taking the place of the strange, thin red gruel called \"blood.\"" ) );
+        g->refresh_all();
+        popup( _( "We are the Mycus." ) );
+        /*p->add_msg_if_player( m_good,
                               _( "We welcome into us.  We have endured long in this forbidding world." ) );
         p->add_msg_if_player( m_good,
                               _( "The natives have a saying: \"E Pluribus Unum\"  Out of many, one." ) );
@@ -1327,7 +1361,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
                               _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world." ) );
         p->add_msg_if_player( m_good, _( "Even now, our fruits adapt to better serve local physiology." ) );
         p->add_msg_if_player( m_good,
-                              _( "As, in time, shall we adapt to better welcome those who have not received us." ) );
+                              _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         fungal_effects fe( *g, g->m );
         for( const tripoint &pos : g->m.points_in_radius( p->pos(), 3 ) ) {
             fe.marlossify( pos );
@@ -2601,24 +2635,20 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::clear_rubble( player *p, item *it, bool, const tripoint &pos )
 {
-    for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
-            // DIG 2 = 150  seconds
-            // DIG 3 = 75   seconds
-            // DIG 4 = 50   seconds
-            // DIG 5 = 37.5 seconds
-            int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
-            act.coords.push_back( pt );
-            p->assign_activity( act );
-
-            return it->type->charges_to_use();
-        }
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
+        return 0;
     }
-
-    p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
-    return 0;
+    if( g->m.has_flag( "RUBBLE", dirp ) ) {
+        int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
+        player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
+        p->assign_activity( act );
+        p->activity.placement = dirp;
+        return it->type->charges_to_use();
+    } else {
+        p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
+        return 0;
+    }
 }
 
 void act_vehicle_siphon( vehicle * ); // veh_interact.cpp
@@ -2826,19 +2856,12 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    const time_duration duration = 30_minutes;
-    const bool mineable = g->m.is_bashable( dirp ) &&
-                          ( g->m.has_flag( "SUPPORTS_ROOF", dirp ) || g->m.has_flag( "MINEABLE", dirp ) ) &&
-                          !g->m.has_flag( "TREE", dirp );
-    const bool not_dirt_or_grass = g->m.move_cost( dirp ) == 2 && g->get_levz() != -1 &&
-                                   g->m.ter( dirp ) != t_dirt && g->m.ter( dirp ) != t_grass;
-
-    if( !( mineable || not_dirt_or_grass ) ) {
+    if( !g->m.has_flag( "MINEABLE", dirp ) ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( duration ) * 100, -1,
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( 30_minutes ) * 100, -1,
                         p->get_item_position( it ) );
     p->activity.placement = dirp;
 
@@ -2871,16 +2894,13 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
     }
 
     int turns;
-    if( g->m.is_bashable( dirx, diry ) && g->m.ter( dirx, diry ) != t_tree &&
-        ( g->m.has_flag( "SUPPORTS_ROOF", dirx, diry ) || g->m.has_flag( "MINEABLE", dirx, diry ) ) ) {
-
-        /** @EFFECT_STR speeds up mining with a pickaxe */
-        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
-    } else if( g->m.move_cost( dirx, diry ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( dirx, diry ) != t_dirt && g->m.ter( dirx, diry ) != t_grass ) {
-
-        turns = MINUTES( 20 );
-
+    if( g->m.has_flag( "MINEABLE", dirx, diry ) ) {
+        if( g->m.move_cost( dirx, diry ) == 2 ) {
+            // We're breaking up some flat surface like pavement, which is much easier
+            turns = MINUTES( 20 );
+        } else {
+            turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
+        }
     } else {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return 0;
@@ -3738,6 +3758,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
                     case fd_tear_gas:
                     case fd_toxic_gas:
                     case fd_gas_vent:
+                    case fd_smoke_vent:
                     case fd_relax_gas:
                     case fd_fungal_haze:
                         it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 15 );
@@ -4062,6 +4083,19 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
     return it->type->charges_to_use();
 }
 
+static int chop_moves( player *p, item *it )
+{
+    // quality of tool
+    const int quality = it->get_quality( AXE );
+
+    // attribute; regular tools - based on STR, powered tools - based on DEX
+    const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
+
+    const int moves = MINUTES( 60 - attr ) / std::pow( 2, quality - 1 ) * 100;
+
+    return moves;
+}
+
 int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !p || t ) {
@@ -4081,8 +4115,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint &pos )
     int moves;
 
     if( g->m.has_flag( "TREE", dirp ) ) {
-        /** @EFFECT_STR reduces time required to chop down a tree */
-        moves = MINUTES( 70 - p->str_cur ) / it->get_quality( AXE ) * 100;
+        moves = chop_moves( p, it );
     } else {
         add_msg( m_info, _( "You can't chop down that." ) );
         return 0;
@@ -4108,9 +4141,8 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint &pos )
     int moves;
 
     const ter_id ter = g->m.ter( dirp );
-    if( ter == t_trunk ) {
-        /** @EFFECT_STR reduces time required to chop down a tree */
-        moves = MINUTES( 70 - p->str_cur ) * 2 / it->get_quality( AXE ) * 100;
+    if( ter == t_trunk || ter == t_stump ) {
+        moves = chop_moves( p, it );
     } else {
         add_msg( m_info, _( "You can't chop that." ) );
         return 0;
@@ -4836,8 +4868,10 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix 
 static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
-        return ( itm.is_food() && itm.has_flag( "EATEN_HOT" ) ) ||
-               ( itm.is_food_container() && itm.contents.front().has_flag( "EATEN_HOT" ) );
+        return ( ( itm.is_food() && ( itm.has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) ||
+                 ( itm.is_food_container() &&
+                   ( itm.contents.front().has_flag( "EATEN_HOT" ) ||
+                     itm.contents.front().item_tags.count( "FROZEN" ) ) ) );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -4846,11 +4880,35 @@ static bool heat_item( player &p )
         return false;
     }
     item &target = heat->is_food_container() ? heat->contents.front() : *heat;
-    p.mod_moves( -300 );
-    add_msg( _( "You heat up the food." ) );
-    target.item_tags.insert( "HOT" );
-    target.active = true;
-    target.item_counter = 600; // sets the hot food flag for 60 minutes
+    p.mod_moves( -300 ); //initial preparations
+    if( target.item_tags.count( "FROZEN" ) ) {
+        add_msg( _( "You defrost the food." ) );
+        // simulates heat capacity of food, more weight = longer heating time
+        // this is x2 to simulate larger delta temperature of frozen food in relation to
+        // heating non-frozen food (x1); no real life physics here, only aproximations
+        p.mod_moves( -to_gram( target.weight() ) * 2 );
+        target.item_tags.erase( "FROZEN" );
+        target.item_tags.insert( "HOT" );
+        target.active = true;
+        target.item_counter = 300; // prevents insta-freeze after defrosting
+        if( target.has_flag( "NO_FREEZE" ) && !target.rotten() ) {
+            target.item_tags.insert( "MUSHY" );
+        } else if( target.has_flag( "NO_FREEZE" ) && target.has_flag( "MUSHY" ) &&
+                   target.get_rot() < target.type->comestible->spoils ) {
+            target.set_relative_rot( 1.0 );
+        }
+    } else {
+        add_msg( _( "You heat up the food." ) );
+        target.item_tags.erase( "COLD" );
+        target.item_tags.erase( "FROZEN" );
+        target.item_tags.insert( "HOT" );
+        p.mod_moves( -to_gram( target.weight() ) ); // simulates heat capacity of food
+        target.active = true;
+        // links time of food's HOT-ness with weight, as smaller items lose temperature faster
+        // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
+        const int hcapacity = to_gram( target.weight() ) < 100 ? 100 : to_gram( target.weight() );
+        target.item_counter = hcapacity > 600 ? 600 : hcapacity;
+    }
     return true;
 }
 
@@ -5163,39 +5221,39 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix.tname().c_str() );
         return 0;
     }
-    if( fix.damage() == fix.min_damage() ) {
+    if( fix.precise_damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.damage() == 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
+    if( fix.precise_damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
         p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname().c_str() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return 0;
     }
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
-    if( fix.damage() == 0 && p->get_skill_level( skill_mechanics ) >= 8 ) {
+    if( fix.precise_damage() <= 0 ) {
         sounds::sound( p->pos(), 6, "" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -1 );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname().c_str() );
+        fix.mod_damage( -1 );
 
-    } else if( fix.damage() >= 2 ) {
+    } else if( fix.precise_damage() > 1 ) {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -1 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+        fix.mod_damage( -1 );
 
     } else {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -1 );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
                               fix.tname().c_str() );
+        fix.set_damage( 0 );
     }
     return it->type->charges_to_use();
 }
@@ -5294,33 +5352,33 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    if( fix.damage() == fix.min_damage() ) {
+    if( fix.precise_damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.damage() == 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( fix.precise_damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.damage() == 0 ) {
-        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
+    if( fix.precise_damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
+        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
         fix.mod_damage( -1 );
 
-    } else if( fix.damage() >= 2 ) {
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+    } else if( fix.precise_damage() > 1 ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
+        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
         fix.mod_damage( -1 );
 
     } else {
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
         p->moves -= 250 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        fix.mod_damage( -1 );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
+        fix.set_damage( 0 );
     }
     return it->type->charges_to_use();
 }
@@ -6895,6 +6953,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
             if( meal.has_flag( "EATEN_HOT" ) ) {
                 meal.active = true;
+                meal.item_tags.erase( "COLD" );
+                meal.item_tags.erase( "FROZEN" );
                 meal.item_tags.insert( "HOT" );
                 meal.item_counter = 600;
             }
@@ -7287,6 +7347,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
     w_point const weatherPoint = *g->weather_precise;
 
+    /* Possibly used twice. Worth spending the time to precalculate. */
+    const auto player_local_temp = g->get_temperature( g->u.pos() );
+
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
                               it->tname().c_str() );
@@ -7294,10 +7357,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     if( it->has_flag( "THERMOMETER" ) ) {
         if( it->typeId() == "thermometer" ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
-                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
+                                  print_temperature( player_local_temp ).c_str() );
         } else {
             p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
+                                  print_temperature( player_local_temp ).c_str() );
         }
     }
     if( it->has_flag( "HYGROMETER" ) ) {
@@ -7341,7 +7404,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
-                g->get_temperature( g->u.pos() ) ).c_str() );
+                player_local_temp ).c_str() );
     }
 
     return 0;
@@ -7645,12 +7708,42 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes. Slightly." ) );
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
+    p->add_effect( effect_weak_antibiotic_visible, rng( 9_hours, 15_hours ) );
+    return it->type->charges_to_use();
+}
+
+int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
+    if( p->has_effect( effect_infected ) && !p->has_effect( effect_strong_antibiotic ) ) {
+        p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
+    }
+    p->add_effect( effect_strong_antibiotic, 12_hours );
+    p->add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
+    return it->type->charges_to_use();
+}
+
+int iuse::panacea( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You take some %s." ), it->tname().c_str() );
+    if( !p->has_effect( effect_panacea ) ) {
+        p->add_msg_if_player( m_good, _( "You feel AMAZING!" ) );
+    }
+    p->add_effect( effect_panacea, 1_minutes );
     return it->type->charges_to_use();
 }
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
-    const int pos = p->inv.position_by_item( it );
+    int pos = p->inv.position_by_item( it );
+    // Giving player::disassemble INT_MIN is actually a special case to
+    // disassemble all, but position_by_item returns INT_MIN if it's not
+    // actually in our inventory.  If the item was on the floor, it will be
+    // picked up and put into inventory before this point, so the only time we
+    // can get INT_MIN here is if we're wielding it.
+    if( pos == INT_MIN ) {
+        pos = -1;
+    }
     p->disassemble( *it, pos, false, false );
     return 0;
 }

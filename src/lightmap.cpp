@@ -231,6 +231,8 @@ void map::generate_lightmap( const int zlev )
                         add_light_source( p, 50 );
                     } else if (terrain == t_console) {
                         add_light_source( p, 10 );
+                    } else if (terrain == t_thconc_floor_olight) {
+                        add_light_source( p, 120 );
                     } else if (terrain == t_utility_light) {
                         add_light_source( p, 240 );
                     }
@@ -454,9 +456,10 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const auto &map_cache = get_cache_ref( t.z );
-    return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
-        ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
-          g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
+    const float vis = std::max( map_cache.seen_cache[t.x][t.y], map_cache.camera_cache[t.x][t.y] );
+    const float point_vis = vis * map_cache.lm[t.x][t.y];
+    return vis > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
+        ( point_vis > g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
           map_cache.sm[t.x][t.y] > 0.0 );
 }
 
@@ -473,7 +476,8 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 
     const auto &map_cache = get_cache_ref( t.z );
     // Any epsilon > 0 is fine - it means lightmap processing visited the point
-    return map_cache.seen_cache[t.x][t.y] > 0.0f;
+    return map_cache.seen_cache[t.x][t.y] > 0.0f ||
+        map_cache.camera_cache[t.x][t.y] > 0.0f;
 }
 
 // Add defaults for when method is invoked for the first time.
@@ -600,8 +604,21 @@ void cast_zlight_segment(
                     continue;
                 }
 
-                // We split the block into 4 sub-blocks (sub-frustums actually):
-
+                // We split the block into 4 sub-blocks (sub-frustums actually, this is the view from the origin looking out):
+                // +-------+ <- end major
+                // |   D   |
+                // +---+---+ <- ???
+                // | B | C |
+                // +---+---+ <- major mid
+                // |   A   |
+                // +-------+ <- start major
+                // ^       ^
+                // |       end minor
+                // start minor
+                // A is previously processed row(s).
+                // B is already-processed tiles from current row.
+                // C is remainder of current row.
+                // D is not yet processed row(s).
                 // One we processed fully in 2D and only need to extend in last D
                 // Only cast recursively horizontally if previous span was not opaque.
                 if( check( current_transparency, last_intensity ) ) {
@@ -703,11 +720,13 @@ void cast_zlight(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     cast_zlight_segment<-1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate>(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+
+    // Up
     cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    // Up
+
     cast_zlight_segment<0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
         output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     cast_zlight_segment<-1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
@@ -738,6 +757,137 @@ template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumul
     const std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &floor_caches,
     const tripoint &origin, const int offset_distance, const fragment_cloud numerator );
 
+template<int xx, int xy, int yx, int yy, typename T,
+         T(*calc)( const T &, const T &, const int & ),
+         bool(*check)( const T &, const T & ),
+         T(*accumulate)( const T &, const T &, const int & )>
+void castLight( T (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                const T (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                const int offsetX, const int offsetY, const int offsetDistance,
+                const T numerator = 1.0,
+                const int row = 1, float start = 1.0f, const float end = 0.0f,
+                T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+
+template<int xx, int xy, int yx, int yy, typename T,
+         T(*calc)( const T &, const T &, const int & ),
+         bool(*check)( const T &, const T & ),
+         T(*accumulate)( const T &, const T &, const int & )>
+void castLight( T (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                const T (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                const int offsetX, const int offsetY, const int offsetDistance, const T numerator,
+                const int row, float start, const float end, T cumulative_transparency )
+{
+    float newStart = 0.0f;
+    float radius = 60.0f - offsetDistance;
+    if( start < end ) {
+        return;
+    }
+    T last_intensity = 0.0;
+    // Making this static prevents it from being needlessly constructed/destructed all the time.
+    static const tripoint origin(0, 0, 0);
+    // But each instance of the method needs one of these.
+    tripoint delta(0, 0, 0);
+    for( int distance = row; distance <= radius; distance++ ) {
+        delta.y = -distance;
+        bool started_row = false;
+        T current_transparency = 0.0;
+        for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+            int currentX = offsetX + delta.x * xx + delta.y * xy;
+            int currentY = offsetY + delta.x * yx + delta.y * yy;
+            float trailingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
+            float leadingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
+
+            if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * MAPSIZE &&
+                  currentY < SEEY * MAPSIZE) || start < leadingEdge ) {
+                continue;
+            } else if( end > trailingEdge ) {
+                break;
+            }
+            if( !started_row ) {
+                started_row = true;
+                current_transparency = input_array[ currentX ][ currentY ];
+            }
+
+            const int dist = rl_dist( origin, delta ) + offsetDistance;
+            last_intensity = calc( numerator, cumulative_transparency, dist );
+            output_cache[currentX][currentY] =
+                std::max( output_cache[currentX][currentY], last_intensity );
+
+            T new_transparency = input_array[ currentX ][ currentY ];
+
+            if( new_transparency == current_transparency ) {
+                newStart = leadingEdge;
+                continue;
+	    }
+            // Only cast recursively if previous span was not opaque.
+            if( check( current_transparency, last_intensity ) ) {
+                castLight<xx, xy, yx, yy, T, calc, check, accumulate>(
+                    output_cache, input_array, offsetX, offsetY, offsetDistance,
+                    numerator, distance + 1, start, trailingEdge,
+                    accumulate( cumulative_transparency, current_transparency, distance ) );
+            }
+            // The new span starts at the leading edge of the previous square if it is opaque,
+            // and at the trailing edge of the current square if it is transparent.
+            if( !check( current_transparency, last_intensity ) ) {
+                start = newStart;
+            } else {
+                // Note this is the same slope as the recursive call we just made.
+                start = trailingEdge;
+            }
+            // Trailing edge ahead of leading edge means this span is fully processed.
+            if( start < end ) {
+                return;
+            }
+            current_transparency = new_transparency;
+            newStart = leadingEdge;
+        }
+        if( !check(current_transparency, last_intensity) ) {
+            // If we reach the end of the span with terrain being opaque, we don't iterate further.
+            break;
+        }
+        // Cumulative average of the transparency values encountered.
+        cumulative_transparency = accumulate( cumulative_transparency, current_transparency, distance );
+    }
+}
+
+template<typename T, T(*calc)( const T &, const T &, const int & ),
+         bool(*check)( const T &, const T & ),
+         T(*accumulate)( const T &, const T &, const int & )>
+void castLightAll( T (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                   const T (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                   const int offsetX, const int offsetY, int offsetDistance, T numerator )
+{
+    castLight<0, 1, 1, 0, T, calc, check, accumulate>(
+        output_cache, input_array, offsetX, offsetY, offsetDistance, numerator );
+    castLight<1, 0, 0, 1, T, calc, check, accumulate>(
+        output_cache, input_array, offsetX, offsetY, offsetDistance, numerator );
+
+    castLight<0, -1, 1, 0, T, calc, check, accumulate>(
+        output_cache, input_array, offsetX, offsetY, offsetDistance, numerator );
+    castLight<-1, 0, 0, 1, T, calc, check, accumulate>(
+        output_cache, input_array, offsetX, offsetY, offsetDistance, numerator );
+
+    castLight<0, 1, -1, 0, T, calc, check, accumulate>(
+        output_cache, input_array, offsetX, offsetY, offsetDistance, numerator );
+    castLight<1, 0, 0, -1, T, calc, check, accumulate>(
+        output_cache, input_array, offsetX, offsetY, offsetDistance, numerator );
+
+    castLight<0, -1, -1, 0, T, calc, check, accumulate>(
+        output_cache, input_array, offsetX, offsetY, offsetDistance, numerator );
+    castLight<-1, 0, 0, -1, T, calc, check, accumulate>(
+        output_cache, input_array, offsetX, offsetY, offsetDistance, numerator );
+}
+
+template void castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+    float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+    const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+    const int offsetX, const int offsetY, int offsetDistance, float numerator );
+
+template void castLightAll<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
+    fragment_cloud (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+    const fragment_cloud (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+    const int offsetX, const int offsetY, int offsetDistance, const fragment_cloud numerator );
+
 /**
  * Calculates the Field Of View for the provided map from the given x, y
  * coordinates. Returns a lightmap for a result where the values represent a
@@ -755,32 +905,19 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     auto &map_cache = get_cache( target_z );
     float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = map_cache.transparency_cache;
     float (&seen_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = map_cache.seen_cache;
+    float (&camera_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = map_cache.camera_cache;
 
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
+    constexpr int map_dimensions = MAPSIZE*SEEX * MAPSIZE*SEEY;
     std::uninitialized_fill_n(
-        &seen_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, light_transparency_solid );
+        &seen_cache[0][0], map_dimensions, light_transparency_solid );
+    std::uninitialized_fill_n(
+        &camera_cache[0][0], map_dimensions, light_transparency_solid );
 
     if( !fov_3d ) {
         seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
-        castLight<0, 1, 1, 0, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, origin.x, origin.y, 0 );
-        castLight<1, 0, 0, 1, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, origin.x, origin.y, 0 );
-
-        castLight<0, -1, 1, 0, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, origin.x, origin.y, 0 );
-        castLight<-1, 0, 0, 1, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, origin.x, origin.y, 0 );
-
-        castLight<0, 1, -1, 0, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, origin.x, origin.y, 0 );
-        castLight<1, 0, 0, -1, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, origin.x, origin.y, 0 );
-
-        castLight<0, -1, -1, 0, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, origin.x, origin.y, 0 );
-        castLight<-1, 0, 0, -1, float, sight_calc, sight_check>(
+        castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
             seen_cache, transparency_cache, origin.x, origin.y, 0 );
     } else {
         if( origin.z == target_z ) {
@@ -847,7 +984,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                                   veh->parts[ mirror ].hp() / veh->part_info( mirror ).durability;
-            seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
         // @todo: Factor in the mirror facing and only cast in the
@@ -855,105 +992,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         //
         // The naive solution of making the mirrors act like a second player
         // at an offset appears to give reasonable results though.
-
-        castLight<0, 1, 1, 0, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-        castLight<1, 0, 0, 1, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-        castLight<0, -1, 1, 0, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-        castLight<-1, 0, 0, 1, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-        castLight<0, 1, -1, 0, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-        castLight<1, 0, 0, -1, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-        castLight<0, -1, -1, 0, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-        castLight<-1, 0, 0, -1, float, sight_calc, sight_check>(
-            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-    }
-}
-
-template<int xx, int xy, int yx, int yy, typename T, float(*calc)(const float &, const float &, const int &),
-         bool(*check)(const float &, const float &)>
-void castLight( T (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                const T (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                const int offsetX, const int offsetY, const int offsetDistance, const T numerator,
-                const int row, float start, const float end, T cumulative_transparency )
-{
-    float newStart = 0.0f;
-    float radius = 60.0f - offsetDistance;
-    if( start < end ) {
-        return;
-    }
-    T last_intensity = 0.0;
-    // Making this static prevents it from being needlessly constructed/destructed all the time.
-    static const tripoint origin(0, 0, 0);
-    // But each instance of the method needs one of these.
-    tripoint delta(0, 0, 0);
-    for( int distance = row; distance <= radius; distance++ ) {
-        delta.y = -distance;
-        bool started_row = false;
-        T current_transparency = 0.0;
-        for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
-            int currentX = offsetX + delta.x * xx + delta.y * xy;
-            int currentY = offsetY + delta.x * yx + delta.y * yy;
-            float trailingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
-            float leadingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
-
-            if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * MAPSIZE &&
-                  currentY < SEEY * MAPSIZE) || start < leadingEdge ) {
-                continue;
-            } else if( end > trailingEdge ) {
-                break;
-            }
-            if( !started_row ) {
-                started_row = true;
-                current_transparency = input_array[ currentX ][ currentY ];
-            }
-
-            const int dist = rl_dist( origin, delta ) + offsetDistance;
-            last_intensity = calc( numerator, cumulative_transparency, dist );
-            output_cache[currentX][currentY] =
-                std::max( output_cache[currentX][currentY], last_intensity );
-
-            T new_transparency = input_array[ currentX ][ currentY ];
-
-            if( new_transparency != current_transparency ) {
-                // Only cast recursively if previous span was not opaque.
-                if( check( current_transparency, last_intensity ) ) {
-                    castLight<xx, xy, yx, yy, T, calc, check>(
-                        output_cache, input_array, offsetX, offsetY, offsetDistance,
-                        numerator, distance + 1, start, trailingEdge,
-                        ((distance - 1) * cumulative_transparency + current_transparency) / distance );
-                }
-                // The new span starts at the leading edge of the previous square if it is opaque,
-                // and at the trailing edge of the current square if it is transparent.
-                if( !check( current_transparency, last_intensity ) ) {
-                    start = newStart;
-                } else {
-                    // Note this is the same slope as the recursive call we just made.
-                    start = trailingEdge;
-                }
-                // Trailing edge ahead of leading edge means this span is fully processed.
-                if( start < end ) {
-                    return;
-                }
-                current_transparency = new_transparency;
-            }
-            newStart = leadingEdge;
-        }
-        if( !check(current_transparency, last_intensity) ) {
-            // If we reach the end of the span with terrain being opaque, we don't iterate further.
-            break;
-        }
-        // Cumulative average of the transparency values encountered.
-        cumulative_transparency =
-            ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+        castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+          camera_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
     }
 }
 
@@ -1012,24 +1052,24 @@ void map::apply_light_source( const tripoint &p, float luminance )
     bool west = (x != 0 && light_source_buffer[x - 1][y] < luminance );
 
     if( north ) {
-        castLight<1, 0, 0, -1, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<-1, 0, 0, -1, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<1, 0, 0, -1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<-1, 0, 0, -1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     }
 
     if( east ) {
-        castLight<0, -1, 1, 0, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<0, -1, -1, 0, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, -1, 1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, -1, -1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     }
 
 
     if( south ) {
-        castLight<1, 0, 0, 1, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<-1, 0, 0, 1, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<1, 0, 0, 1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<-1, 0, 0, 1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     }
 
     if( west ) {
-        castLight<0, 1, 1, 0, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<0, 1, -1, 0, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, 1, 1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, 1, -1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     }
 }
 
@@ -1043,17 +1083,17 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = cache.transparency_cache;
 
     if( direction == 90 ) {
-        castLight<1, 0, 0, -1, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<-1, 0, 0, -1, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<1, 0, 0, -1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<-1, 0, 0, -1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     } else if( direction == 0 ) {
-        castLight<0, -1, 1, 0, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<0, -1, -1, 0, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, -1, 1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, -1, -1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     } else if( direction == 270 ) {
-        castLight<1, 0, 0, 1, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<-1, 0, 0, 1, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<1, 0, 0, 1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<-1, 0, 0, 1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     } else if( direction == 180 ) {
-        castLight<0, 1, 1, 0, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
-        castLight<0, 1, -1, 0, float, light_calc, light_check>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, 1, 1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
+        castLight<0, 1, -1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     }
 }
 

@@ -64,6 +64,7 @@
     "volume": 1,
     "price": 1100,
     "charges": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "material": "powder",
     "symbol": "%",
     "color": "white",

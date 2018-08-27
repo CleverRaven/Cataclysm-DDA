@@ -31,6 +31,7 @@ static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
+static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
@@ -46,6 +47,7 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -181,53 +183,29 @@ void Character::mutation_effect( const trait_id &mut )
         recalc_hp();
 
     } else if (mut == trait_STR_ALPHA) {
-        ///\EFFECT_STR_MAX determines bonus from STR mutation
-        if (str_max <= 6) {
-            str_max = 8;
-        } else if (str_max <= 7) {
-            str_max = 11;
-        } else if (str_max <= 14) {
-            str_max = 15;
-        } else {
-            str_max = 18;
+        if (str_max < 16) {
+            str_max = 8 + str_max / 2;
         }
+        apply_mods(mut, true);
         recalc_hp();
     } else if (mut == trait_DEX_ALPHA) {
-        ///\EFFECT_DEX_MAX determines bonus from DEX mutation
-        if (dex_max <= 6) {
-            dex_max = 8;
-        } else if (dex_max <= 7) {
-            dex_max = 11;
-        } else if (dex_max <= 14) {
-            dex_max = 15;
-        } else {
-            dex_max = 18;
+        if (dex_max < 16) {
+            dex_max = 8 + dex_max / 2;
         }
+        apply_mods(mut, true);
     } else if (mut == trait_INT_ALPHA) {
-        ///\EFFECT_INT_MAX determines bonus from INT mutation
-        if (int_max <= 6) {
-            int_max = 8;
-        } else if (int_max <= 7) {
-            int_max = 11;
-        } else if (int_max <= 14) {
-            int_max = 15;
-        } else {
-            int_max = 18;
+        if (int_max < 16) {
+            int_max = 8 + int_max / 2;
         }
+        apply_mods(mut, true);
     } else if (mut == trait_INT_SLIME) {
         int_max *= 2; // Now, can you keep it? :-)
 
     } else if (mut == trait_PER_ALPHA) {
-        ///\EFFECT_PER_MAX determines bonus from PER mutation
-        if (per_max <= 6) {
-            per_max = 8;
-        } else if (per_max <= 7) {
-            per_max = 11;
-        } else if (per_max <= 14) {
-            per_max = 15;
-        } else {
-            per_max = 18;
+        if (per_max < 16) {
+            per_max = 8 + per_max / 2;
         }
+        apply_mods(mut, true);
     } else {
         apply_mods(mut, true);
     }
@@ -277,52 +255,28 @@ void Character::mutation_loss_effect( const trait_id &mut )
         recalc_hp();
 
     } else if (mut == trait_STR_ALPHA) {
-        ///\EFFECT_STR_MAX determines penalty from STR mutation loss
-        if (str_max == 18) {
-            str_max = 15;
-        } else if (str_max == 15) {
-            str_max = 8;
-        } else if (str_max == 11) {
-            str_max = 7;
-        } else {
-            str_max = 4;
+        apply_mods(mut, false);
+        if (str_max < 16) {
+            str_max = 2 * (str_max - 8);
         }
         recalc_hp();
     } else if (mut == trait_DEX_ALPHA) {
-        ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
-        if (dex_max == 18) {
-            dex_max = 15;
-        } else if (dex_max == 15) {
-            dex_max = 8;
-        } else if (dex_max == 11) {
-            dex_max = 7;
-        } else {
-            dex_max = 4;
+        apply_mods(mut, false);
+        if (dex_max < 16) {
+            dex_max = 2 * (dex_max - 8);
         }
     } else if (mut == trait_INT_ALPHA) {
-        ///\EFFECT_INT_MAX determines penalty from INT mutation loss
-        if (int_max == 18) {
-            int_max = 15;
-        } else if (int_max == 15) {
-            int_max = 8;
-        } else if (int_max == 11) {
-            int_max = 7;
-        } else {
-            int_max = 4;
+        apply_mods(mut, false);
+        if (int_max < 16) {
+            int_max = 2 * (int_max - 8);
         }
     } else if (mut == trait_INT_SLIME) {
         int_max /= 2; // In case you have a freak accident with the debug menu ;-)
 
     } else if (mut == trait_PER_ALPHA) {
-        ///\EFFECT_PER_MAX determines penalty from PER mutation loss
-        if (per_max == 18) {
-            per_max = 15;
-        } else if (per_max == 15) {
-            per_max = 8;
-        } else if (per_max == 11) {
-            per_max = 7;
-        } else {
-            per_max = 4;
+        apply_mods(mut, false);
+        if (per_max < 16) {
+            per_max = 2 * (per_max - 8);
         }
     } else {
         apply_mods(mut, false);
@@ -350,7 +304,7 @@ void player::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
+    if((mdata.hunger && get_hunger() + get_starvation() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
       (mdata.fatigue && get_fatigue() >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
@@ -384,42 +338,85 @@ void player::activate_mutation( const trait_id &mut )
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
-        if( is_underwater() ) {
-            add_msg_if_player(m_info, _("You can't do that while underwater."));
-            tdata.powered = false;
-            return;
-        }
+        int choice = menu( true, _( "Perform which function:" ), _( "Turn on digging mode" ),
+                           _( "Dig pit" ), _( "Fill pit/tamp ground" ), _( "Clear rubble" ),
+                           _( "Churn up ground" ), NULL );
         tripoint dirp;
-        if (!choose_adjacent(_("Burrow where?"), dirp)) {
+        if( choice != 1 ) {
             tdata.powered = false;
-            return;
+            if( is_underwater() ) {
+                add_msg_if_player(m_info, _("You can't do that while underwater.") );
+                return;
+            } else {
+                if( choice == 2 ) {
+                    if( !choose_adjacent( _( "Dig pit where?" ), dirp ) ) {
+                        return;
+                    }
+                    if( dirp == pos() ) {
+                        add_msg_if_player( m_info, _( "You delve into yourself." ) );
+                        return;
+                    }
+                    int moves;
+                    if( g->m.ter( dirp ) == t_pit_shallow ) {
+                        moves = MINUTES( 30 ) * 100;
+                    } else if ( g->m.has_flag( "DIGGABLE", dirp ) ) {
+                        moves = MINUTES( 10 ) * 100;
+                    } else {
+                        add_msg_if_player( _( "You can't dig a pit on this ground." ) );
+                        return;
+                    }
+                    assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
+                    activity.placement = dirp;
+                } else if( choice == 3 ) {
+                    if( !choose_adjacent( _( "Fill pit where?" ), dirp ) ) {
+                        return;
+                    }
+                    if( dirp == pos() ) {
+                        add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
+                        return;
+                    }
+                    int moves;
+                    if( g->m.ter( dirp ) == t_pit || g->m.ter( dirp ) == t_pit_spiked ||
+                        g->m.ter( dirp ) == t_pit_glass || g->m.ter( dirp ) == t_pit_corpsed ) {
+                        moves = MINUTES( 15 ) * 100;
+                    } else if( g->m.ter( dirp ) == t_pit_shallow ) {
+                        moves = MINUTES( 10 ) * 100;
+                    } else if( g->m.ter( dirp ) == t_dirtmound ) {
+                        moves = MINUTES( 5 ) * 100;
+                    } else {
+                        add_msg_if_player( _( "There is no pit to fill." ) );
+                        return;
+                    }
+                    assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
+                    activity.placement = dirp;
+                } else if ( choice == 4 ) {
+                    if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
+                        return;
+                    }
+                    if( g->m.has_flag( "RUBBLE", dirp ) ) {
+                        // 75 seconds
+                        assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), 1250, -1, 0 );
+                        activity.placement = dirp;
+                    } else {
+                        add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
+                        return;
+                    }
+                } else if (choice == 5 ) {
+                    if( !choose_adjacent( _( "Churn up ground where?" ), dirp ) ) {
+                        return;
+                    }
+                    if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) &&
+                        g->m.ter( dirp ) != t_dirtmound ) {
+                        add_msg_if_player( _( "You churn up the earth here." ) );
+                        moves = -300;
+                        g->m.ter_set( dirp, t_dirtmound );
+                    } else {
+                        add_msg_if_player( _( "You can't churn up this ground." ) );
+                    }
+                }
+            }
         }
-
-        if( dirp == pos() ) {
-            add_msg_if_player(_("You've got places to go and critters to beat."));
-            add_msg_if_player(_("Let the lesser folks eat their hearts out."));
-            tdata.powered = false;
-            return;
-        }
-        time_duration time_to_do = 0_turns;
-        if (g->m.is_bashable(dirp) && g->m.has_flag("SUPPORTS_ROOF", dirp) &&
-            g->m.ter(dirp) != t_tree) {
-            // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
-            time_to_do = 30_minutes;
-        } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
-                   g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
-            time_to_do = 10_minutes;
-        } else {
-            add_msg_if_player(m_info, _("You can't burrow there."));
-            tdata.powered = false;
-            return;
-        }
-        assign_activity( activity_id( "ACT_BURROW" ), to_moves<int>( time_to_do ), -1, 0 );
-        activity.placement = dirp;
-        add_msg_if_player(_("You tear into the %s with your teeth and claws."),
-                          g->m.tername(dirp).c_str());
-        tdata.powered = false;
-        return; // handled when the activity finishes
+    return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
         for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
@@ -465,8 +462,18 @@ void player::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
+    } else if( mut == trait_M_PROVENANCE ) {
+        spores(); // double trouble!
+        blossoms();
+        tdata.powered = false;
+        return;
     } else if( mut == trait_SELFAWARE ) {
         print_health();
+        tdata.powered = false;
+        return;
+    } else if( mut == trait_DEBUG_BIONIC_POWER ) {
+        max_power_level += 100;
+        add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
         return;
     } else if( !mdata.spawn_item.empty() ) {
