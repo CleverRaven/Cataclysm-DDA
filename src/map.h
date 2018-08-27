@@ -907,7 +907,7 @@ class map
          * @param it Item processed.
          * @param temperature Temperature affecting item.
          */
-        void apply_in_fridge( item &it, int temperature );
+        void apply_in_fridge( item &it, int temperature, bool vehicle = false );
 
         /**
          * @name Consume items on the map
