@@ -1634,8 +1634,6 @@ class player : public Character
         static int floor_item_warmth( const tripoint &pos );
         /** Final warmth from the floor **/
         int floor_warmth( const tripoint &pos ) const;
-        /** Correction factor of the body temperature due to fire **/
-        int bodytemp_modifier_fire() const;
         /** Correction factor of the body temperature due to traits and mutations **/
         int bodytemp_modifier_traits( bool overheated ) const;
         /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/

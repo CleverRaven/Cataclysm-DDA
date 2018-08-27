@@ -1020,7 +1020,7 @@ void player::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
-    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" );
+    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" ) || has_trait( trait_id( "M_SKIN2" ) );
     const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
@@ -1047,35 +1047,10 @@ void player::update_bodytemp()
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
                                 ( g->weather == WEATHER_SUNNY ? 1000 : 500 );
-    // Fire at our tile
-    const int fire_warmth = bodytemp_modifier_fire();
-
-    // Cache fires to avoid scanning the map around us bp times
-    // Stored as intensity-distance pairs
-    std::vector<std::pair<int, int>> fires;
-    fires.reserve( 13 * 13 );
-    int best_fire = 0;
-    for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
-        int heat_intensity = 0;
-
-        int ffire = g->m.get_field_strength( dest, fd_fire );
-        if( ffire > 0 ) {
-            heat_intensity = ffire;
-        } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
-            heat_intensity = 3;
-        }
-        if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
-            // No heat source here
-            continue;
-        }
-        // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-        const int fire_dist = std::max( 1, square_dist( dest, pos() ) );
-        fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
-        if( fire_dist <= 1 ) {
-            // Extend limbs/lean over a single adjacent fire to warm up
-            best_fire = std::max( best_fire, heat_intensity );
-        }
-    }
+    // CONVECTION HEAT; Hot air from a heat source
+    // times 50 to convert to weather.h BODYTEMP scale
+    const int fire_warmth = get_convection_temperature( pos() ) * 50;
+    const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature =
@@ -1134,34 +1109,29 @@ void player::update_bodytemp()
         temp_conv[bp] += fatigue_warmth;
         // Mutations
         temp_conv[bp] += mutation_heat_low;
-        // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
-        // Bark : lowers blister count to -10; harder to get blisters
-        int blister_count = ( has_bark ? -10 : 0 ); // If the counter is high, your skin starts to burn
-        for( const auto &intensity_dist : fires ) {
-            const int intensity = intensity_dist.first;
-            const int distance = intensity_dist.second;
-            if( frostbite_timer[bp] > 0 ) {
-                frostbite_timer[bp] -= std::max( 0, intensity - distance / 2 );
-            }
-            const int heat_here = intensity * intensity / distance;
-            temp_conv[bp] += 300 * heat_here;
-            blister_count += heat_here;
+        // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
+        // Bark : lowers blister count to -5; harder to get blisters
+        int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
+        
+        const int h_radiation = get_heat_radiation( pos(), false );
+        temp_conv[bp] += h_radiation * 50; // conversion to BODYTEMP see weather.h
+        if( frostbite_timer[bp] > 0 ) {
+            frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
-        // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
-        // But it's kinda hard to get the balance right, let's go with 20 blisters
-        if( has_heatsink ) {
-            blister_count -= 20;
-        }
+        // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
+        blister_count += h_radiation - 111 > 0 ? std::max( (int)sqrt( h_radiation - 111 ), 0 ) : 0;
 
         const bool pyromania = has_trait( trait_PYROMANIA );
         // BLISTERS : Skin gets blisters from intense heat exposure.
-        if( blister_count - get_env_resist( bp ) > 10 ) {
+        // Fire protection protects from blisters.
+        // Heatsinks give near-immunity.
+        if( blister_count - get_armor_fire( bp ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
             if( pyromania ) {
                 add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours, 30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
-        } else if( pyromania && fire_warmth >= 1 ) { // Only give us fire bonus if there's actually fire
+        } else if( pyromania && best_fire >= 1 ) { // Only give us fire bonus if there's actually fire
             add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes, 15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
             rem_morale( MORALE_PYROMANIA_NOFIRE );
         }
@@ -1582,80 +1552,6 @@ int player::floor_warmth( const tripoint &pos ) const
         bedding_warmth = std::max( 0, bedding_warmth );
     }
     return ( item_warmth + bedding_warmth + floor_mut_warmth );
-}
-
-int player::bodytemp_modifier_fire() const
-{
-    int temp_conv = 0;
-    // Being on fire increases very intensely the convergent temperature.
-    if( has_effect( effect_onfire ) ) {
-        temp_conv += 15000;
-    }
-
-    const trap &trap_at_pos = g->m.tr_at( pos() );
-    // Same with standing on fire.
-    int tile_strength = g->m.get_field_strength( pos(), fd_fire );
-    if( tile_strength > 2 || trap_at_pos.loadid == tr_lava ) {
-        temp_conv += 15000;
-    }
-    // Standing in the hot air of a fire is nice.
-    tile_strength = g->m.get_field_strength( pos(), fd_hot_air1 );
-    switch( tile_strength ) {
-        case 3:
-            temp_conv += 500;
-            break;
-        case 2:
-            temp_conv += 300;
-            break;
-        case 1:
-            temp_conv += 100;
-            break;
-        default:
-            break;
-    }
-    tile_strength = g->m.get_field_strength( pos(), fd_hot_air2 );
-    switch( tile_strength ) {
-        case 3:
-            temp_conv += 1000;
-            break;
-        case 2:
-            temp_conv += 800;
-            break;
-        case 1:
-            temp_conv += 300;
-            break;
-        default:
-            break;
-    }
-    tile_strength = g->m.get_field_strength( pos(), fd_hot_air3 );
-    switch( tile_strength ) {
-        case 3:
-            temp_conv += 3500;
-            break;
-        case 2:
-            temp_conv += 2000;
-            break;
-        case 1:
-            temp_conv += 800;
-            break;
-        default:
-            break;
-    }
-    tile_strength = g->m.get_field_strength( pos(), fd_hot_air4 );
-    switch( tile_strength ) {
-        case 3:
-            temp_conv += 8000;
-            break;
-        case 2:
-            temp_conv += 5000;
-            break;
-        case 1:
-            temp_conv += 3500;
-            break;
-        default:
-            break;
-    }
-    return temp_conv;
 }
 
 int player::bodytemp_modifier_traits( bool overheated ) const
