@@ -5207,7 +5207,6 @@
     "warmth": 5,
     "material_thickness": 2,
     "container_data": { "contains": 40, "seals": true, "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {
