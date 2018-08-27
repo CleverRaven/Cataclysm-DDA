@@ -2298,13 +2298,17 @@ void update_music_volume() {
 #ifdef SDL_SOUND
 static std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
 
-// Allocate new Mix_Chunk copy of input, sets ::allocated to 0 so it is not freed
-// during Mix_FreeChunk at EOL
+// Allocate new Mix_Chunk as copy of input, sets ::allocated to 0 so copy's 
+// ::abuf is not freed during Mix_FreeChunk at EOL of struct sound_effect
 static Mix_Chunk* copy_chunk(const Mix_Chunk* ref){
     // SDL_malloc to match up with Mix_FreeChunk's SDL_free call
+    // to free the Mix_Chunk object memory
     Mix_Chunk *nchunk = (Mix_Chunk*)SDL_malloc(sizeof(Mix_Chunk));
 
+    // Assign as copy of ref
     (*nchunk) = *ref;
+    // nchunk does not own ::abuf memory, set ::allocated to 0 to prevent
+    // deallocation
     nchunk->allocated = 0;
     return nchunk;
 }
