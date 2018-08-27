@@ -733,7 +733,7 @@
     "name": "Muscle Augmentation CBM",
     "description": "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "price": 800000,
-    "difficulty": 11,
+    "difficulty": 11
   },
   {
     "id": "bio_sunglasses",
