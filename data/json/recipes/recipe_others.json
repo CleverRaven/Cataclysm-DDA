@@ -103,6 +103,7 @@
     "time": 60000,
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
   },
@@ -118,6 +119,7 @@
     "time": 90000,
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "chitin_piece", 1 ] ] ]
   },

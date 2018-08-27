@@ -240,7 +240,6 @@ data/json/recipes/other/tool.json
 data/json/recipes/other/vehicle.json
 data/json/recipes/recipe_ammo.json
 data/json/recipes/recipe_electronics.json
-data/json/recipes/recipe_food.json
 data/json/recipes/recipe_medsandchemicals.json
 data/json/recipes/recipes.json
 data/json/recipes/recipe_weapon.json
