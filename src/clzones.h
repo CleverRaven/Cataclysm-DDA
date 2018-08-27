@@ -38,7 +38,9 @@ class zone_options
         static bool is_valid( const zone_type_id &type, const zone_options &options );
 
         /* derived classes must always return true */
-        virtual bool has_options() const { return false; };
+        virtual bool has_options() const {
+            return false;
+        };
 
         /* query only necessary options at zone creation, one by one */
         virtual void query_at_creation() {};
@@ -47,18 +49,22 @@ class zone_options
         virtual void query() {};
 
         /* suggest a name for the zone, depending on options */
-        virtual std::string get_zone_name_suggestion() const { return ""; };
+        virtual std::string get_zone_name_suggestion() const {
+            return "";
+        };
 
         /* vector of pairs of each option's description and value */
-        virtual std::vector<std::pair<std::string, std::string>> get_descriptions() const { 
-            return std::vector<std::pair<std::string, std::string>>(); };
+        virtual std::vector<std::pair<std::string, std::string>> get_descriptions() const {
+            return std::vector<std::pair<std::string, std::string>>();
+        };
 
-        virtual void serialize( JsonOut &json ) const {};
-        virtual void deserialize( JsonObject &jo_zone ) {};
+        virtual void serialize( JsonOut & ) const {};
+        virtual void deserialize( JsonObject & ) {};
 };
 
 // mark option interface
-class mark_option {
+class mark_option
+{
     public:
         virtual ~mark_option() {}
 
@@ -74,10 +80,16 @@ class plot_options : public zone_options, public mark_option
         void query_seed();
 
     public:
-        std::string get_mark() const override { return mark; };
-        std::string get_seed() const { return seed; };
+        std::string get_mark() const override {
+            return mark;
+        };
+        std::string get_seed() const {
+            return seed;
+        };
 
-        bool has_options() const override { return true; };
+        bool has_options() const override {
+            return true;
+        };
 
         void query_at_creation() override;
         void query() override;
@@ -172,7 +184,7 @@ class zone_manager
                     return end;
                 }
                 tripoint get_center_point() const;
-                const bool has_options() const {
+                bool has_options() const {
                     return options->has_options();
                 }
                 const zone_options &get_options() const {

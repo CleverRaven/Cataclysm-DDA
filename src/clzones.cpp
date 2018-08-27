@@ -91,7 +91,7 @@ void plot_options::query_seed()
     seed = "";
     mark = "";
 
-    std::vector<item *> seed_inv = p.items_with( []( const item &itm ) {
+    std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
 
@@ -100,7 +100,7 @@ void plot_options::query_seed()
 
     int seed_index = iexamine::query_seed( seed_entries );
 
-    if( seed_index > 0 && seed_index < seed_entries.size() ) {
+    if( seed_index > 0 && seed_index < ( int )seed_entries.size() ) {
         const auto &seed_entry = seed_entries[seed_index];
         seed = std::get<0>( seed_entry );
 
@@ -404,7 +404,8 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     return zone_type_id();
 }
 
-std::vector<zone_manager::zone_data> zone_manager::get_zones( const zone_type_id &type, const tripoint &where ) const
+std::vector<zone_manager::zone_data> zone_manager::get_zones( const zone_type_id &type,
+        const tripoint &where ) const
 {
     auto zones = std::vector<zone_manager::zone_data>();
 

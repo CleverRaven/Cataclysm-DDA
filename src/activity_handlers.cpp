@@ -2866,11 +2866,11 @@ void activity_handlers::till_plot_do_turn( player_activity*, player *p )
     // If we got here without restarting the activity, it means we're done
 }
 
-void activity_handlers::plant_plot_do_turn( player_activity *act, player *p )
+void activity_handlers::plant_plot_do_turn( player_activity*, player *p )
 {
     const auto &mgr = zone_manager::get_manager();
     const auto abspos = g->m.getabs( p->pos() );
-    auto &unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
 
     // Nuke the current activity, leaving the backlog alone.
     p->activity = player_activity();
