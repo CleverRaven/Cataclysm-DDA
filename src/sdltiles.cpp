@@ -2296,7 +2296,7 @@ void update_music_volume() {
 }
 
 #ifdef SDL_SOUND
-std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
+static std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
 
 // Allocate new Mix_Chunk copy of input, sets ::allocated to 0 so it is not freed
 // during Mix_FreeChunk at EOL
@@ -2522,8 +2522,6 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
 
 void load_soundset() {
 #ifdef SDL_SOUND
-    unique_chunks.clear();
-
     const std::string default_path = FILENAMES["defaultsounddir"];
     const std::string default_soundpack = "basic";
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
@@ -2556,6 +2554,10 @@ void load_soundset() {
     }
 
     unique_chunks.clear();
+    // Memory of unique_chunks no longer required, swap with locally scoped unordered_map
+    // to force deallocation of resources.
+    std::unordered_map<std::string, Mix_Chunk*> t_swap;
+    unique_chunks.swap(t_swap);
 #endif
 }
 
