@@ -124,8 +124,17 @@
     "description": "A sandbag, typically used for blocking bullets.",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT",
-      "EASY_DECONSTRUCT", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE" ],
+    "flags": [
+      "CLIMB_SIMPLE",
+      "TRANSPARENT",
+      "MOUNTABLE",
+      "BLOCKSDOOR",
+      "SHORT",
+      "EASY_DECONSTRUCT",
+      "THIN_OBSTACLE",
+      "CLIMBABLE",
+      "PERMEABLE"
+    ],
     "examine_action": "chainfence",
     "deconstruct": { "items": [ { "item": "bag_canvas", "count": 2 }, { "item": "material_sand", "charges": 20 } ] },
     "bash": {
@@ -1809,6 +1818,240 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mushroom_seed",
+    "name": "starting mushroom bed",
+    "symbol": "^",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant"
+  },
+  {
+    "type": "furniture",
+    "id": "f_mushroom_seedling",
+    "name": "weak mushroom bed",
+    "symbol": "#",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant"
+  },
+  {
+    "type": "furniture",
+    "id": "f_mushroom_mature",
+    "name": "mature mushroom bed",
+    "symbol": "#",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant"
+  },
+  {
+    "type": "furniture",
+    "id": "f_mushroom_mature_harvest",
+    "name": "mushroom bed with grown mushrooms",
+    "symbol": "#",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant"
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_blueberry",
+    "name": "blueberry shrub",
+    "symbol": "#",
+    "color": "blue_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_blueberry_harvest",
+    "name": "blueberry shrub with berries",
+    "symbol": "#",
+    "color": "light_blue_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_strawberry",
+    "name": "strawberry shrub",
+    "symbol": "#",
+    "color": "red_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_strawberry_harvest",
+    "name": "strawberry shrub with berries",
+    "symbol": "#",
+    "color": "light_red_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_cranberry",
+    "name": "cranberry shrub",
+    "symbol": "#",
+    "color": "red_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_cranberry_harvest",
+    "name": "cranberry shrub with berries",
+    "symbol": "#",
+    "color": "light_red_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_blackberry",
+    "name": "blackberry bush",
+    "symbol": "#",
+    "color": "red_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "stick_long", "count": [ 0, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_blackberry_harvest",
+    "name": "blackberry bush with berries",
+    "symbol": "#",
+    "color": "light_red_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "stick_long", "count": [ 0, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_raspberry",
+    "name": "raspberry bush",
+    "symbol": "#",
+    "color": "red_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "stick_long", "count": [ 0, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_raspberry_harvest",
+    "name": "raspberry bush with berries",
+    "symbol": "#",
+    "color": "light_red_green",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "stick_long", "count": [ 0, 5 ] } ]
+    }
   },
   {
     "type": "furniture",

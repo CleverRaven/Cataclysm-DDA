@@ -41,7 +41,16 @@
     "name": "blackberry seeds",
     "name_plural": "blackberry seeds",
     "description": "Some blackberry seeds.",
-    "seed_data": { "plant_name": "blackberry", "fruit": "blackberries", "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": {
+      "plant_name": "blackberry",
+      "fruit": "blackberries",
+      "fruit_count": 5,
+      "grow": 91,
+      "grow_secondary": 35,
+      "is_shrub": true,
+      "grow_into": "f_shrub_blackberry",
+      "grow_into_harvest": "f_shrub_blackberry_harvest"
+    }
   },
   {
     "id": "seed_blueberries",
@@ -50,7 +59,16 @@
     "name": "blueberry seeds",
     "name_plural": "blueberry seeds",
     "description": "Some blueberry seeds.",
-    "seed_data": { "plant_name": "blueberry", "fruit": "blueberries", "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": {
+      "plant_name": "blueberry",
+      "fruit": "blueberries",
+      "fruit_count": 5,
+      "grow": 91,
+      "grow_secondary": 35,
+      "is_shrub": true,
+      "grow_into": "f_shrub_blueberry",
+      "grow_into_harvest": "f_shrub_blueberry_harvest"
+    }
   },
   {
     "id": "seed_cranberries",
@@ -59,7 +77,16 @@
     "name": "cranberry seeds",
     "name_plural": "cranberry seeds",
     "description": "Some cranberry seeds.",
-    "seed_data": { "plant_name": "cranberry", "fruit": "cranberries", "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": {
+      "plant_name": "cranberry",
+      "fruit": "cranberries",
+      "fruit_count": 5,
+      "grow": 91,
+      "grow_secondary": 35,
+      "is_shrub": true,
+      "grow_into": "f_shrub_cranberry",
+      "grow_into_harvest": "f_shrub_cranberry_harvest"
+    }
   },
   {
     "id": "seed_hops",
@@ -81,7 +108,16 @@
     "name": "raspberry seeds",
     "name_plural": "raspberry seeds",
     "description": "Some raspberry seeds.",
-    "seed_data": { "plant_name": "raspberry", "fruit": "raspberries", "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": {
+      "plant_name": "raspberry",
+      "fruit": "raspberries",
+      "fruit_count": 5,
+      "grow": 91,
+      "grow_secondary": 35,
+      "is_shrub": true,
+      "grow_into": "f_shrub_raspberry",
+      "grow_into_harvest": "f_shrub_raspberry_harvest"
+    }
   },
   {
     "id": "seed_strawberries",
@@ -90,7 +126,16 @@
     "name": "strawberry seeds",
     "name_plural": "strawberry seeds",
     "description": "Some strawberry seeds.",
-    "seed_data": { "plant_name": "strawberry", "fruit": "strawberries", "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": {
+      "plant_name": "strawberry",
+      "fruit": "strawberries",
+      "fruit_count": 5,
+      "grow": 91,
+      "grow_secondary": 35,
+      "is_shrub": true,
+      "grow_into": "f_shrub_strawberry",
+      "grow_into_harvest": "f_shrub_strawberry_harvest"
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -129,6 +174,27 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_sugar_beet_raw",
+    "copy-from": "seed",
+    "price": 120,
+    "name": "seed sugar beet",
+    "name_plural": "seed sugar beets",
+    "description": "A raw sugar beet prepared for planting.",
+    "volume": 1,
+    "weight": 310,
+    "stack_size": 10,
+    "charges": 1,
+    "seed_data": {
+      "plant_name": "sugar beet",
+      "fruit": "sugar_beet",
+      "fruit_count": 0,
+      "seed": "seed_sugar_beet",
+      "seed_count": 5,
+      "grow": 90
+    }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_lettuce",
     "copy-from": "seed",
     "price": 50,
@@ -156,7 +222,14 @@
     "name": "tomato seeds",
     "name_plural": "tomato seeds",
     "description": "Some tomato seeds.",
-    "seed_data": { "plant_name": "tomato", "fruit": "tomato", "byproducts": [ "withered" ], "grow": 65 }
+    "seed_data": {
+      "plant_name": "tomato",
+      "fruit": "tomato",
+      "water_requirement": 2.0,
+      "comfortable_temperature": 5,
+      "byproducts": [ "withered" ],
+      "grow": 65
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -169,7 +242,14 @@
     "weight": 5,
     "charges": 8,
     "stack_size": 40,
-    "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": 130 }
+    "seed_data": {
+      "plant_name": "cotton",
+      "fruit": "cotton_boll",
+      "water_requirement": 1.3,
+      "comfortable_temperature": 5,
+      "byproducts": [ "withered" ],
+      "grow": 130
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -200,6 +280,20 @@
     "name_plural": "onion seeds",
     "description": "Some onion seeds.",
     "seed_data": { "plant_name": "onion", "fruit": "onion", "byproducts": [ "withered" ], "grow": 65 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_onion_raw",
+    "copy-from": "seed",
+    "price": 120,
+    "name": "seed onion",
+    "name_plural": "seed onions",
+    "description": "A raw onion prepared for planting.",
+    "volume": 1,
+    "weight": 310,
+    "stack_size": 10,
+    "charges": 1,
+    "seed_data": { "plant_name": "onion", "fruit": "onion", "fruit_count": 0, "seed": "seed_onion", "seed_count": 5, "grow": 65 }
   },
   {
     "type": "COMESTIBLE",
@@ -245,6 +339,28 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_carrot_raw",
+    "copy-from": "seed",
+    "price": 50,
+    "name": "seed carrot",
+    "name_plural": "seed carrots",
+    "description": "A raw carrot prepared for planting.",
+    "weight": 80,
+    "volume": 1,
+    "stack_size": 10,
+    "charges": 1,
+    "seed_data": {
+      "plant_name": "carrot",
+      "fruit": "carrot",
+      "fruit_count": 0,
+      "seed": "seed_carrot",
+      "seed_count": 5,
+      "byproducts": [ "withered" ],
+      "grow": 65
+    }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_corn",
     "copy-from": "seed",
     "price": 50,
@@ -262,7 +378,13 @@
     "name_plural": "chili pepper seeds",
     "color": "white",
     "description": "Some chili pepper seeds.",
-    "seed_data": { "plant_name": "chili pepper", "fruit": "chili_pepper", "byproducts": [ "withered" ], "grow": 65 }
+    "seed_data": {
+      "plant_name": "chili pepper",
+      "fruit": "chili_pepper",
+      "comfortable_temperature": 10,
+      "byproducts": [ "withered" ],
+      "grow": 65
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -272,7 +394,32 @@
     "name": "cucumber seeds",
     "name_plural": "cucumber seeds",
     "description": "Some cucumber seeds.",
-    "seed_data": { "plant_name": "cucumber", "fruit": "cucumber", "byproducts": [ "withered" ], "grow": 60 }
+    "seed_data": {
+      "plant_name": "cucumber",
+      "fruit": "cucumber",
+      "water_requirement": 2.0,
+      "comfortable_temperature": 5,
+      "byproducts": [ "withered" ],
+      "grow": 60
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_potato",
+    "copy-from": "seed",
+    "price": 50,
+    "name": "potato seed",
+    "name_plural": "potato seeds",
+    "description": "Some potato seeds.",
+    "seed_data": {
+      "plant_name": "potatoes",
+      "fruit": "potato_raw",
+      "fruit_count": 10,
+      "seed": "seed_potato",
+      "seed_count": 5,
+      "byproducts": [ "withered" ],
+      "grow": 95
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -284,7 +431,15 @@
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
     "weight": 20,
     "stack_size": 10,
-    "seed_data": { "plant_name": "potatoes", "fruit": "potato_raw", "byproducts": [ "withered" ], "grow": 95 }
+    "seed_data": {
+      "plant_name": "potatoes",
+      "fruit": "potato_raw",
+      "fruit_count": 10,
+      "seed": "seed_potato",
+      "seed_count": 5,
+      "byproducts": [ "withered" ],
+      "grow": 95
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -392,7 +547,7 @@
     "description": "Some raw pumpkin seeds.  Could be fried and eaten or planted.",
     "price": 100,
     "charges": 2,
-    "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "fruit_div": 3, "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "fruit_count": 4, "byproducts": [ "withered" ], "grow": 91 }
   },
   {
     "type": "COMESTIBLE",
@@ -503,7 +658,15 @@
     "copy-from": "seed_mushroom_base",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": 91 }
+    "seed_data": {
+      "plant_name": "mushroom",
+      "is_mushroom": true,
+      "fruit": "mushroom",
+      "fruit_count": 2,
+      "water_requirement": 0.5,
+      "grow": 45,
+      "grow_secondary": 10
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -512,7 +675,15 @@
     "name": "morel mushroom spores",
     "name_plural": "morel mushroom spores",
     "description": "Some morel mushroom spores.  You could probably plant these.",
-    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": 91 }
+    "seed_data": {
+      "plant_name": "morel mushroom",
+      "is_mushroom": true,
+      "fruit": "mushroom_morel",
+      "fruit_count": 2,
+      "water_requirement": 0.5,
+      "grow": 45,
+      "grow_secondary": 10
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -521,7 +692,15 @@
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
     "flags": "HIDDEN_HALLU",
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_magic", "grow": 91 }
+    "seed_data": {
+      "plant_name": "mushroom",
+      "is_mushroom": true,
+      "fruit": "mushroom_magic",
+      "fruit_count": 2,
+      "water_requirement": 0.5,
+      "grow": 45,
+      "grow_secondary": 10
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -530,7 +709,15 @@
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
     "flags": "HIDDEN_POISON",
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_poison", "grow": 91 }
+    "seed_data": {
+      "plant_name": "mushroom",
+      "is_mushroom": true,
+      "fruit": "mushroom_poison",
+      "fruit_count": 2,
+      "water_requirement": 0.5,
+      "grow": 45,
+      "grow_secondary": 10
+    }
   },
   {
     "id": "datura_seed",
