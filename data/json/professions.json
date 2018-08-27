@@ -2855,5 +2855,19 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "ident": "zoo_keeper",
+    "name": "Zoo Keeper",
+    "description": "You were called in on your day off to feed the animals at the zoo because none of your coworkers showed up for work for one reason or another.",
+    "points": 0,
+    "traits": [ "ANIMALEMPATH" ],
+    "skills": [ { "level": 1, "name": "firstaid" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": [ "shorts_cargo", "technician_shirt_gray", "socks", "boots", "hat_boonie", "bag_canvas", "bucket", "shovel" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   }
 ]
