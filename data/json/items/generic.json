@@ -2194,7 +2194,8 @@
     "price": 200,
     "material": [ "cotton" ],
     "weight": 514,
-    "volume": 3
+    "volume": 3,
+    "flags": [ "SLEEP_AID" ]
   },
   {
     "type": "GENERIC",
