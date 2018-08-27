@@ -9938,6 +9938,7 @@
     "time": 67500,
     "autolearn": true,
     "batch_time_factors": [83, 3],
+    "flags": ["BLIND_EASY"],
     "tools": [ [ ["mortar_pestle", -1] ] ],
     "components": [
       [
@@ -9988,6 +9989,7 @@
     "time": 90000,
     "autolearn": true,
     "batch_time_factors":[83, 3],
+    "flags": ["BLIND_EASY"],
     "tools": [ [ ["mortar_pestle", -1] ] ],
     "components": [ [ ["bone", 1], ["bone_human", 1] ] ]
   },
@@ -10003,6 +10005,7 @@
     "time": 90000,
     "autolearn": true,
     "batch_time_factors":[83, 3],
+    "flags": ["BLIND_EASY"],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "bone_tainted", 1 ] ] ]
   },
