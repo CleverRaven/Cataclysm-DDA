@@ -160,6 +160,7 @@ const efftype_id effect_winded( "winded" );
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
+static const trait_id trait_CANNOT_READ( "CANNOT_READ" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
@@ -167,6 +168,7 @@ static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -179,6 +181,7 @@ static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SLOWREADER( "SLOWREADER" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -2308,6 +2311,26 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
     p->ma_styles.push_back( style_to_learn );
 
     p->add_msg_if_player( m_good, _( "You learn the essential elements of the style." ) );
+
+    return 1;
+    }
+
+int iuse::grammar_book( player *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_bad, _( "You are completely unable to learn to read." ) );
+        return 0;
+    }
+
+    if( !p->has_trait( trait_CANNOT_READ ) ) {
+        p->add_msg_if_player( m_info, _( "You already know how to read." ) );
+        return 0;
+    }
+
+    p->add_msg_if_player( m_good, _( "You learn to read." ) );
+
+    p->remove_mutation( trait_CANNOT_READ );
+    p->set_mutation( trait_SLOWREADER );
 
     return 1;
 }

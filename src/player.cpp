@@ -9622,6 +9622,12 @@ void player::do_read( item &book )
         m->second.call( *this, book, false, pos() );
     }
 
+    auto g = book.type->use_methods.find( "GRAMMAR_BOOK" );
+    if( g != book.type->use_methods.end() )
+    {
+        g->second.call( *this, book, false, pos() );
+    }
+
     activity.set_to_null();
 }
 
