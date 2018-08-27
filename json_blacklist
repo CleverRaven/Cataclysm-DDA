@@ -235,7 +235,6 @@ data/json/recipes/food/distill.json
 data/json/recipes/food/dry.json
 data/json/recipes/food/pasta.json
 data/json/recipes/other/containers.json
-data/json/recipes/other/medical.json
 data/json/recipes/other/tool.json
 data/json/recipes/other/vehicle.json
 data/json/recipes/recipe_ammo.json
