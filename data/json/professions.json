@@ -2865,7 +2865,7 @@
     "traits": [ "ANIMALEMPATH" ],
     "skills": [ { "level": 1, "name": "firstaid" }, { "level": 1, "name": "survival" } ],
     "items": {
-      "both": [ "shorts_cargo", "technician_shirt_gray", "socks", "boots", "hat_boonie", "bag_canvas", "bucket", "shovel" ],
+      "both": [ "shorts_cargo", "technician_shirt_gray", "socks", "boots", "hat_boonie", "slingpack", "bucket", "shovel" ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
