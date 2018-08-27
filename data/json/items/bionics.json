@@ -18,9 +18,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "abstract bionic module (npc usable)",
-    "extend": {
-      "flags": [ "BIONIC_NPC_USABLE" ]
-    }
+    "extend": { "flags": [ "BIONIC_NPC_USABLE" ] }
   },
   {
     "id": "bio_adrenaline",
