@@ -167,7 +167,6 @@ static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -3806,7 +3805,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-    if( p->has_trait( trait_ILLITERATE ) ) {
+    if( p->is_illiterate() ) {
         add_msg( _( "You're illiterate!" ) );
         return 0;
     } else if( it->ammo_remaining() < 15 ) {
@@ -5420,7 +5419,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
         return 0;
 
     }
-    if( p->has_trait( trait_ILLITERATE ) ) {
+    if( p->is_illiterate() ) {
         p->add_msg_if_player( _( "You cannot read a computer screen." ) );
         return 0;
     }
@@ -5798,7 +5797,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
             return 0;
         }
-        if( p->has_trait( trait_ILLITERATE ) ) {
+        if( p->is_illiterate() ) {
             add_msg( m_info, _( "You cannot read a computer screen." ) );
             return 0;
         }
@@ -6982,7 +6981,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        if( p->has_trait( trait_ILLITERATE ) ) {
+        if( p->is_illiterate() ) {
             add_msg( m_info, _( "You cannot read, and don't understand the screen or the buttons!" ) );
             return 0;
         }

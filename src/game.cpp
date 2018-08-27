@@ -192,7 +192,6 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -7744,7 +7743,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
         trim_and_print( w_look, ++lines, column, max_width, c_light_gray,
-                        u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
+                        u.is_illiterate() ? _( "Sign: ???" ) : _( "Sign: %s" ), signage.c_str() );
     }
 
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
@@ -11837,14 +11836,14 @@ void game::place_player( const tripoint &dest_loc )
     }
     std::string signage = m.get_signage( dest_loc );
     if( !signage.empty() ) {
-        if( !u.has_trait( trait_ILLITERATE ) ) {
+        if( !u.is_illiterate() ) {
             add_msg( m_info, _( "The sign says: %s" ), signage.c_str() );
         } else {
             add_msg( m_info, _( "There is a sign here, but you are unable to read it." ) );
         }
     }
     if( m.has_graffiti_at( dest_loc ) ) {
-        if( !u.has_trait( trait_ILLITERATE ) ) {
+        if( !u.is_illiterate() ) {
             add_msg( m_info, _( "Written here: %s" ), m.graffiti_at( dest_loc ).c_str() );
         } else {
             add_msg( m_info, _( "Something is written here, but you are unable to read it." ) );

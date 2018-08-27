@@ -14,8 +14,6 @@
 
 const skill_id skill_survival( "survival" );
 
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
-
 enum class description_target : int {
     creature,
     furniture,
@@ -94,7 +92,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, Esc/Ent
 
         std::string signage = m.get_signage( p );
         if( !signage.empty() ) {
-            desc += u.has_trait( trait_ILLITERATE ) ? string_format( _( "\nSign: ???" ) ) : string_format(
+            desc += u.is_illiterate() ? string_format( _( "\nSign: ???" ) ) : string_format(
                         _( "\nSign: %s" ), signage.c_str() );
         }
 
