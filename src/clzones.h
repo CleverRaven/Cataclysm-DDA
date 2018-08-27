@@ -57,14 +57,15 @@ class zone_options
         virtual void deserialize( JsonObject &jo_zone ) {};
 };
 
-class IMarkOption {
+// mark option interface
+class mark_option {
     public:
-        virtual ~IMarkOption() {}
+        virtual ~mark_option() {}
 
         virtual std::string get_mark() const = 0;
 };
 
-class plot_options : public zone_options, public IMarkOption
+class plot_options : public zone_options, public mark_option
 {
     private:
         std::string mark;

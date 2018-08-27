@@ -2322,7 +2322,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
     const auto zone = mgr.get_bottom_zone( abs );
 
     if( zone && zone->has_options() ) {
-        auto option = dynamic_cast<const IMarkOption *>( &zone->get_options() );
+        auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
 
         if( option && option->get_mark() != "" ) {
             return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,
