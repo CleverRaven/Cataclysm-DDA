@@ -5781,8 +5781,8 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
 
     // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
     const auto temp = g->get_temperature( pos );
-    unsigned int diff_freeze = g->m.temp_difference_ratio( temp, FREEZING_TEMPERATURE ) - 1; //effective 1-4
-    unsigned int diff_cold = g->m.temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) - 1;
+    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) - 1; //effective 1-4
+    unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) - 1;
 
     // environment temperature applies COLD/FROZEN
     if( temp <= FRIDGE_TEMPERATURE ) {

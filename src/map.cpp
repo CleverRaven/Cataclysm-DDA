@@ -4251,7 +4251,7 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-unsigned int map::temp_difference_ratio( int temp_one, int temp_two )
+unsigned int temp_difference_ratio( int temp_one, int temp_two )
 {
     // ratio is between 1-4 and changes every 10F (~5.5C)
     unsigned int ratio = abs( temp_one - temp_two ) / 10;
