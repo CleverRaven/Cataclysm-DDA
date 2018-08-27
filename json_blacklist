@@ -259,7 +259,6 @@ data/json/species.json
 data/json/speech.json
 data/json/start_locations.json
 data/json/techniques.json
-data/json/terrain.json
 data/json/test_regions.json
 data/json/traps.json
 data/json/tutorial.json
