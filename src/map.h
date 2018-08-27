@@ -902,6 +902,12 @@ class map
         void update_lum( item_location &loc, bool add );
 
         /**
+         * Gives ratio for temperature differential of two temperatures
+         * Used in determining speed of temperature change of items
+         */
+        unsigned int temp_difference_ratio( int temp_one, int temp_two );
+
+        /**
          * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
          * and sets item's fridge/freezer status variables.
          * @param it Item processed.

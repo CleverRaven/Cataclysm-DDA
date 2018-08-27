@@ -5778,22 +5778,19 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
         item_tags.insert( "NO_PARASITES" );
     }
-    /* cache g->get_temperature( item location ). It is used a minimum of 3 times, no reason to recalculate. */
-    const auto item_local_temp = g->get_temperature( pos );
-    unsigned int diff_freeze = abs( item_local_temp - FREEZING_TEMPERATURE );
-    diff_freeze = diff_freeze < 1 ? 1 : diff_freeze;
-    diff_freeze = diff_freeze > 10 ? 10 : diff_freeze;
 
-    unsigned int diff_cold = abs( item_local_temp - FRIDGE_TEMPERATURE );
-    diff_cold = diff_cold < 1 ? 1 : diff_cold;
-    diff_cold = diff_cold > 10 ? 10 : diff_cold;
-    // environment temperature applies COLD/FROZEN flags to food
-    if( item_local_temp <= FRIDGE_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, item_local_temp );
+    // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
+    const auto temp = g->get_temperature( pos );
+    unsigned int diff_freeze = g->m.temp_difference_ratio( temp, FREEZING_TEMPERATURE ) - 1; //effective 1-4
+    unsigned int diff_cold = g->m.temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) - 1;
+
+    // environment temperature applies COLD/FROZEN
+    if( temp <= FRIDGE_TEMPERATURE ) {
+        g->m.apply_in_fridge( *this, temp );
     } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
-        item_counter -= diff_freeze;
+        item_counter -= diff_freeze; // thaw
     } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
-        item_counter -= diff_cold;
+        item_counter -= diff_cold; // get warm
     }
     return false;
 }
