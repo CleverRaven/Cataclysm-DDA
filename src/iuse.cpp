@@ -2708,7 +2708,7 @@ int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
                            20, _( "With a roar, the chainsaw leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -2717,7 +2717,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
@@ -2726,7 +2726,7 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a roar, the chainsaws leap to life!" ),
                            _( "You yank the cords, but nothing happens." ) );
 }
@@ -2744,7 +2744,7 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 3,
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 3,
                            15, _( "With a roar, the hedge trimmer leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -5221,31 +5221,31 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
+    if( fix.damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
         p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname().c_str() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return 0;
     }
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
-    if( fix.precise_damage() <= 0 ) {
+    if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, "" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
-    } else if( fix.precise_damage() > 1 ) {
+    } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
     } else {
         sounds::sound( p->pos(), 8, "" );
@@ -5352,27 +5352,27 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    if( fix.precise_damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( fix.damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 ) {
+    if( fix.damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
         p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
-    } else if( fix.precise_damage() > 1 ) {
+    } else if( fix.damage() > itype::damage_scale ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
     } else {
         p->moves -= 250 * p->fine_detail_vision_mod();

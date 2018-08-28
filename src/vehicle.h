@@ -243,7 +243,10 @@ struct vehicle_part {
         int hp() const;
 
         /** Current part damage in same units as item::damage. */
-        float damage() const;
+        int damage() const;
+
+        /** Current part damage level in same units as item::damage_level */
+        int damage_level( int max ) const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
