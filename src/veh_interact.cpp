@@ -1372,8 +1372,9 @@ bool veh_interact::can_remove_part( int idx ) {
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
 
-    if( !veh->can_unmount( idx ) ) {
-        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), _( "Remove attached parts first" ) ) << "\n";
+    std::string reason;
+    if( !veh->can_unmount( idx, reason ) ) {
+        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), reason ) << "\n";
         ok = false;
     }
 

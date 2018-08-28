@@ -1210,13 +1210,10 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     item base = item( parts[part].get_base() );
     base.type->invoke( g->u, base, pos );
     parts[part].set_base( base );
-    /* captured animals take up all the cargo space */
-    /*
     if( base.has_var( "contained_name" ) ) {
-        part_info( part ).size = 0;
+        parts[part].set_flag( vehicle_part::animal_flag );
     } else {
-        part_info( part ).size = base.get_container_capacity();
+        parts[part].remove_flag( vehicle_part::animal_flag );
     }
-    */
-    parts[part].set_base( base );
+    invalidate_mass();
 }

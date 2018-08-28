@@ -1708,6 +1708,11 @@ class item : public visitable<item>
         /** Puts the skill in context of the item */
         skill_id contextualize_skill( const skill_id &id ) const;
 
+        /* remove a monster from this item, optionally spawning the monster */
+        int release_monster( const tripoint &target, bool spawn = true );
+        /* add the monster at target to this item, despawning it */
+        int contain_monster( const tripoint &target );
+
     private:
         int damage_ = 0;
         const itype *curammo = nullptr;

@@ -7445,6 +7445,64 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
     return 0;
 }
 
+int item::release_monster( const tripoint &target, bool spawn )
+{
+    monster new_monster;
+    try {
+        ::deserialize( new_monster, get_var( "contained_json", "" ) );
+    } catch( const std::exception &e ) {
+        debugmsg( _( "Error restoring monster: %s" ), e.what() );
+        return 0;
+    }
+    if( spawn ) {
+        new_monster.spawn( target );
+        g->add_zombie( new_monster );
+    }
+    erase_var( "contained_name" );
+    erase_var( "contained_json" );
+    erase_var( "name" );
+    erase_var( "weight" );
+    return 0;
+}
+
+// didn't want to drag the monster:: definition into item.h, so just reacquire the monster
+// at target
+int item::contain_monster( const tripoint &target )
+{
+    const monster *const mon_ptr = g->critter_at<monster>( target );
+    if( !mon_ptr ) {
+        return 0;
+    }
+    const monster &f = *mon_ptr;
+
+    set_var( "contained_json", ::serialize( f ) );
+    set_var( "contained_name", f.type->nname() );
+    set_var( "name", string_format( _( "%s holding %s" ), type->nname( 1 ).c_str(),
+                                    f.type->nname().c_str() ) );
+    m_size mon_size = f.get_size();
+    int new_weight = 0;
+    switch( mon_size ) {
+        case MS_TINY:
+            new_weight = 1000;
+            break;
+        case MS_SMALL:
+            new_weight = 40750;
+            break;
+        case MS_MEDIUM:
+            new_weight = 81500;
+            break;
+        case MS_LARGE:
+            new_weight = 120000;
+            break;
+        case MS_HUGE:
+            new_weight = 200000;
+            break;
+    }
+    set_var( "weight", new_weight );
+    g->remove_zombie( f );
+    return 0;
+}
+
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 {
     if( it->has_var( "contained_name" ) ) {
@@ -7479,20 +7537,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 }
             }
         }
-        monster new_monster;
-        try {
-            deserialize( new_monster, it->get_var( "contained_json", "" ) );
-        } catch( const std::exception &e ) {
-            debugmsg( _( "Error restoring monster: %s" ), e.what() );
-            return 0;
-        }
-        new_monster.spawn( target );
-        g->add_zombie( new_monster );
-        it->erase_var( "contained_name" );
-        it->erase_var( "contained_json" );
-        it->erase_var( "name" );
-        it->erase_var( "weight" );
-        return 0;
+        return it->release_monster( target );
     } else {
         tripoint target = pos;
         const std::string query = string_format( _( "Capture what with the %s?" ), it->tname().c_str() );
@@ -7525,32 +7570,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
-                it->set_var( "contained_json", serialize( f ) );
-                it->set_var( "contained_name", f.type->nname() );
-                it->set_var( "name", string_format( _( "%s holding %s" ), it->type->nname( 1 ).c_str(),
-                                                    f.type->nname().c_str() ) );
-                m_size mon_size = f.get_size();
-                int new_weight = 0;
-                switch( mon_size ) {
-                    case MS_TINY:
-                        new_weight = 1000;
-                        break;
-                    case MS_SMALL:
-                        new_weight = 40750;
-                        break;
-                    case MS_MEDIUM:
-                        new_weight = 81500;
-                        break;
-                    case MS_LARGE:
-                        new_weight = 120000;
-                        break;
-                    case MS_HUGE:
-                        new_weight = 200000;
-                        break;
-                }
-                it->set_var( "weight", new_weight );
-                g->remove_zombie( f );
-                return 0;
+                return it->contain_monster( target );
             } else {
                 p->add_msg_if_player( m_bad, _( "The %1$s avoids your attempts to put it in the %2$s." ),
                                       f.type->nname().c_str(), it->type->nname( 1 ).c_str() );
