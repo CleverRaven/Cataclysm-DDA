@@ -808,7 +808,7 @@ void uimenu::query(bool loop)
             }
         } else if( allow_cancel && action == "QUIT" ) {
             ret = UIMENU_CANCEL;
-        } else {
+        } else if( action != "TIMEOUT" ) {
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && allow_anykey ) {
                 ret = UIMENU_UNBOUND;
