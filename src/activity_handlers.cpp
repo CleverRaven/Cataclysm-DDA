@@ -879,7 +879,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 roll = roll / 4;
             } else if( entry.drop != "bone" ) {
                 roll = roll / 2;
-            } else if( corpse->size >= MS_MEDIUM && ( entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
                 entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "chitin_piece" ||
                 entry.drop == "acidchitin_piece" ) ) {
