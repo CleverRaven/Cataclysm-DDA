@@ -1841,11 +1841,13 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
         } else {
             std::list<item> harvest_items = get_harvest_items( seed );
             proceed_plant_after_harvest( examp );
-            for( auto &i : harvest_items ) {
-                if( seed.type->seed->is_shrub || seed.type->seed->is_mushroom ) {
-                    // shrubs and mushrooms add items at player position
+            if( seed.type->seed->is_shrub || seed.type->seed->is_mushroom ) {
+                // shrubs and mushrooms add items at player position
+                for( auto &i : harvest_items ) {
                     g->m.add_item_or_charges( p.pos(), i );
-                } else {
+                }
+            } else {
+                for( auto &i : harvest_items ) {
                     g->m.add_item_or_charges( examp, i );
                 }
             }
