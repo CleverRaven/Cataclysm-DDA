@@ -226,8 +226,8 @@
   },
   {
     "type": "start_location",
-    "ident": "campground",
-    "name": "campgrounds",
+    "ident": "campsite",
+    "name": "campsite",
     "target": "campsite_a"
   },
   {
