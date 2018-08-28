@@ -720,6 +720,22 @@ void player::mutate_category( const std::string &cat )
     }
 }
 
+static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
+{
+    std::vector<trait_id> ret;
+    for( auto it : id->prereqs ) {
+        ret.push_back( it );
+        std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
+        ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
+    }
+    for( auto it : id->prereqs2 ) {
+        ret.push_back( it );
+        std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
+        ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
+    }
+    return ret;
+}
+
 bool player::mutate_towards( const trait_id &mut )
 {
     if (has_child_flag(mut)) {
@@ -735,15 +751,27 @@ bool player::mutate_towards( const trait_id &mut )
     std::vector<trait_id> prereq = mdata.prereqs;
     std::vector<trait_id> prereqs2 = mdata.prereqs2;
     std::vector<trait_id> cancel = mdata.cancels;
+    std::vector<trait_id> same_type = get_mutations_in_types( mdata.types );
+    std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
 
-    for (size_t i = 0; i < cancel.size(); i++) {
-        if (!has_trait( cancel[i] )) {
-            cancel.erase(cancel.begin() + i);
+    // Check mutations of the same type - except for the ones we might need for pre-reqs
+    for( size_t i = 0; i < same_type.size(); ++i )
+    {
+        trait_id consider = same_type[i];
+        if( std::find( all_prereqs.begin(), all_prereqs.end(), consider ) == all_prereqs.end() ) {
+            cancel.push_back( consider );
+        }
+    }
+
+    for( size_t i = 0; i < cancel.size(); i++ )
+    {
+        if( !has_trait( cancel[i] ) ) {
+            cancel.erase( cancel.begin() + i );
             i--;
-        } else if (has_base_trait( cancel[i] )) {
+        } else if( has_base_trait( cancel[i] ) ) {
             //If we have the trait, but it's a base trait, don't allow it to be removed normally
-            canceltrait.push_back( cancel[i]);
-            cancel.erase(cancel.begin() + i);
+            canceltrait.push_back( cancel[i] );
+            cancel.erase( cancel.begin() + i );
             i--;
         }
     }

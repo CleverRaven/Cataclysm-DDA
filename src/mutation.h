@@ -147,6 +147,7 @@ struct mutation_branch {
     std::vector<trait_id> prereqs; // Prerequisites; Only one is required
     std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
     std::vector<trait_id> threshreq; // Prerequisites; dedicated slot to needing thresholds
+    std::set<std::string> types; // Mutation types, you can't have two mutations that share a type
     std::vector<trait_id> cancels; // Mutations that conflict with this one
     std::vector<trait_id> replacements; // Mutations that replace this one
     std::vector<trait_id> additions; // Mutations that add to this one
@@ -319,9 +320,12 @@ struct mutation_category_trait {
     static void check_consistency();
 };
 
+void load_mutation_type( JsonObject &jsobj );
 void load_mutation_category( JsonObject &jsobj );
 void load_dream( JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
+bool mutation_type_exists( std::string id );
+std::vector<trait_id> get_mutations_in_types( std::set<std::string> ids );
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 

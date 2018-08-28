@@ -173,6 +173,7 @@ void DynamicDataLoader::initialize()
     add( "skill", &Skill::load_skill );
     add( "dream", &load_dream );
     add( "mutation_category", &load_mutation_category );
+    add( "mutation_type", &load_mutation_type );
     add( "mutation", &mutation_branch::load );
     add( "furniture", &load_furniture );
     add( "terrain", &load_terrain );
