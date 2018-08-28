@@ -1307,7 +1307,8 @@ class player : public Character
                             const std::string &hotkeys = DEFAULT_HOTKEYS );
 
         // Auto move methods
-        void set_destination( const std::vector<tripoint> &route );
+        void set_destination( const std::vector<tripoint> &route,
+                              const player_activity &destination_activity = player_activity() );
         void clear_destination();
         bool has_destination() const;
         std::vector<tripoint> &get_auto_move_route();
@@ -1633,8 +1634,6 @@ class player : public Character
         static int floor_item_warmth( const tripoint &pos );
         /** Final warmth from the floor **/
         int floor_warmth( const tripoint &pos ) const;
-        /** Correction factor of the body temperature due to fire **/
-        int bodytemp_modifier_fire() const;
         /** Correction factor of the body temperature due to traits and mutations **/
         int bodytemp_modifier_traits( bool overheated ) const;
         /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
@@ -1677,6 +1676,7 @@ class player : public Character
         int pkill;
 
         std::vector<tripoint> auto_move_route;
+        player_activity destination_activity;
         // Used to make sure auto move is canceled if we stumble off course
         tripoint next_expected_position;
 

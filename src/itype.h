@@ -631,9 +631,13 @@ struct islot_seed {
      */
     time_duration grow = 0;
     /**
-     * Amount of harvested charges of fruits is divided by this number.
+     * Time it takes for a perennial plant to grow fruits (based of off a season length of 91 days).
      */
-    int fruit_div = 1;
+    time_duration grow_secondary = 0;
+    /**
+     * Minimal comfortable temperature (in degree Celsius)
+     */
+    int comfortable_temperature;
     /**
      * Name of the plant, already translated.
      */
@@ -643,13 +647,45 @@ struct islot_seed {
      */
     std::string fruit_id;
     /**
-     * Whether to spawn seed items additionally to the fruit items.
+     * Average number of fruits per harvest.
      */
-    bool spawn_seeds = true;
+    int fruit_count;
+    /**
+     * Type id of the seed item.
+     */
+    std::string seed_id;
+    /**
+     * Average number of seeds per harvest.
+     */
+    int seed_count;
+    /**
+     * Relative water requirement.
+     */
+    float water_requirement;
+    /**
+     * Relative weed susceptibility.
+     */
+    float weed_susceptibility;
+    /**
+     * ID of the shrub this plant will grow into.
+     */
+    std::string grow_into;
+    /**
+     * ID of the shrub (with berries) this plant will grow into.
+     */
+    std::string grow_into_harvest;
     /**
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<std::string> byproducts;
+     /**
+     * Is this plant a mushroom.
+     */
+    bool is_mushroom;
+     /**
+     * Will this plant grow into a berry shrub.
+     */
+    bool is_shrub;
 
     islot_seed() { }
 };

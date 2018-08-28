@@ -109,8 +109,10 @@ bool pour_into_keg( const tripoint &pos, item &liquid );
 bool has_keg( const tripoint &pos );
 
 
-std::list<item> get_harvest_items( const itype &type, int plant_count,
-                                   int seed_count, bool byproducts );
+std::list<item> get_harvest_items( item &seed );
+void proceed_plant_after_harvest( const int x, const int y, const int z );
+void proceed_plant_after_harvest( const tripoint &examp );
+
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player &, const tripoint & );

@@ -1823,10 +1823,83 @@ void game::update_weather()
     }
 }
 
+int get_heat_radiation( const tripoint &location, bool direct )
+{
+    // Direct heat from fire sources
+    // Cache fires to avoid scanning the map around us bp times
+    // Stored as intensity-distance pairs
+    int temp_mod = 0;
+    std::vector<std::pair<int, int>> fires;
+    fires.reserve( 13 * 13 );
+    int best_fire = 0;
+    for( const tripoint &dest : g->m.points_in_radius( location, 6 ) ) {
+        int heat_intensity = 0;
+
+        int ffire = g->m.get_field_strength( dest, fd_fire );
+        if( ffire > 0 ) {
+            heat_intensity = ffire;
+        } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
+            heat_intensity = 3;
+        }
+        if( heat_intensity == 0 || !g->m.sees( location, dest, -1 ) ) {
+            // No heat source here
+            continue;
+        }
+        // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
+        const int fire_dist = std::max( 1, square_dist( dest, location ) );
+        fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
+        if( fire_dist <= 1 ) {
+            // Extend limbs/lean over a single adjacent fire to warm up
+            best_fire = std::max( best_fire, heat_intensity );
+        }
+    }
+
+    for( const auto &intensity_dist : fires ) {
+        const int intensity = intensity_dist.first;
+        const int distance = intensity_dist.second;
+        temp_mod += 6 * intensity * intensity / distance;
+    }
+    if( direct ) {
+        return best_fire;
+    }
+    return temp_mod;
+}
+
+int get_convection_temperature( const tripoint &location )
+{
+    // Heat from hot air (fields)
+    int temp_mod = 0;
+    const trap &trap_at_pos = g->m.tr_at( location );
+    // directly on fire/lava tiles
+    int tile_strength = g->m.get_field_strength( location, fd_fire );
+    if( tile_strength > 0 || trap_at_pos.loadid == tr_lava ) {
+        temp_mod += 300;
+    }
+    // hot air of a fire/lava
+    auto tile_strength_mod = []( const tripoint &loc, field_id fld, int case_1, int case_2, int case_3 ){
+        int strength = g->m.get_field_strength( loc, fld );
+        int cases[3] = { case_1, case_2, case_3 };
+        return ( strength > 0 && strength < 4 ) ? cases[ strength - 1 ] : 0;
+    };
+
+    temp_mod += tile_strength_mod( location, fd_hot_air1,  2,   6,  10 );
+    temp_mod += tile_strength_mod( location, fd_hot_air2,  6,  16,  20 );
+    temp_mod += tile_strength_mod( location, fd_hot_air3, 16,  40,  70 );
+    temp_mod += tile_strength_mod( location, fd_hot_air4, 70, 100, 160 );
+
+    return temp_mod;
+}
+
 int game::get_temperature( const tripoint &location )
 {
+    int temp_mod = 0; // local modifier
+    
+    if( !new_game ) {
+        temp_mod += get_heat_radiation( location, false );
+        temp_mod += get_convection_temperature( location );
+    }   
     //underground temperature = average New England temperature = 43F/6C rounded to int
-    return ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) + ( new_game ? 0 : m.temperature( location ) );
+    return ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) + ( new_game ? 0 : ( m.temperature( location ) + temp_mod ) );
 }
 
 int game::assign_mission_id()
@@ -2590,7 +2663,13 @@ bool game::handle_action()
         act = look_up_action(action);
 
         if ( act == ACTION_MAIN_MENU ) {
+            // No auto-move actions have or can be set at this point.
+            u.clear_destination();
+            destination_preview.clear();
             act = handle_main_menu();
+            if( act == ACTION_NULL ) {
+                return false;
+            }
         }
 
         if( act == ACTION_ACTIONMENU ) {
@@ -6749,12 +6828,71 @@ void game::smash()
 
 void game::loot()
 {
-    if( !check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ) {
-        add_msg( m_info, _( "There is no unsorted loot pile nearby." ) );
+    enum ZoneFlags {
+        None = 1,
+        SortLoot = 2,
+        TillPlots = 4
+    };
+
+    auto just_one = []( int flags ) {
+        return flags && !( flags & ( flags - 1 ) );
+    };
+
+    int flags = 0;
+    const auto &mgr = zone_manager::get_manager();
+    const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
+
+    flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
+    flags |= check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ? TillPlots : 0;
+
+    if( flags == 0 ) {
+        add_msg( m_info, _( "There is no compatible zone nearby." ) );
+        add_msg( m_info, _( "Compatible zones are %s and %s" ),
+                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
+                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
         return;
     }
 
-    u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    if( !just_one( flags ) ) {
+        uimenu menu;
+        menu.text = _( "Pick action:" );
+        menu.desc_enabled = true;
+
+        if( flags & SortLoot ) {
+            menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
+                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+        }
+
+        if( flags & TillPlots ) {
+            menu.addentry_desc( TillPlots, has_hoe, 't',
+                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with." ),
+                                _( "Tills nearby Farm: Plot zones" ) );
+        }
+
+        menu.addentry( None, true, 'q',  _( "Cancel" ) );
+
+        menu.query();
+        flags = ( menu.ret >= 0 ) ? menu.ret : None;
+    }
+
+    switch( flags ) {
+        case None:
+            add_msg( _( "Never mind." ) );
+            break;
+        case SortLoot:
+            u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+            break;
+        case TillPlots:
+            if( has_hoe ) {
+                u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
+            } else {
+                add_msg( _( "You need a tool to dig with." ) );
+            }
+            break;
+        default:
+            debugmsg( "Unsupported flag" );
+            break;
+    }
 }
 
 static void make_active( item_location loc )
@@ -10121,29 +10259,104 @@ bool game::plfire( item &weapon, int bp_cost )
     return plfire();
 }
 
-// Helper for game::butcher
-void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
-    const std::vector<int> &indices, size_t &menu_index,
-    bool salvage )
+// Used to set up the first Hotkey in the display set
+int get_initial_hotkey( const size_t menu_index )
 {
-    for( size_t index : indices ) {
-        const item &it = items[index];
-        int hotkey = -1;
-        // First entry gets a hotkey matching the butcher command.
-        if( menu_index == 0 ) {
-            const long butcher_key = inp_mngr.get_previously_pressed_key();
-            if( butcher_key != 0 ) {
-                hotkey = butcher_key;
+    int hotkey = -1;
+    if( menu_index == 0 ) {
+        const long butcher_key = inp_mngr.get_previously_pressed_key();
+        if( butcher_key != 0 ) {
+            hotkey = butcher_key;
+        }
+    }
+    return hotkey;
+}
+
+// Returns a vector of pairs.
+//    Pair.first is the first items index with a unique tname.
+//    Pair.second is the number of equivalent items per unique tname
+// There are options for optimization here, but the function is hit infrequently
+// enough that optimizing now is not a useful time expenditure.
+const std::vector<std::pair<int, int>> generate_butcher_stack_display(
+    map_stack &items, const std::vector<int> &indices )
+{
+    std::vector<std::pair<int, int>> result;
+    std::vector<std::string> result_strings;
+    result.reserve( indices.size() );
+    result_strings.reserve( indices.size() );
+
+    for( const size_t ndx : indices ) {
+        const item &it = items[ ndx ];
+
+        const std::string tname = it.tname();
+        size_t s = 0;
+        // Search for the index with a string equivalent to tname
+        for( ; s < result_strings.size(); ++s ) {
+            if( result_strings[s] == tname ) {
+                break;
             }
         }
-        if( it.is_corpse() ) {
-            kmenu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
-        } else if( !salvage ) {
-            kmenu.addentry( menu_index++, true, hotkey, it.tname());
-        } else {
+        // If none is found, this is a unique tname so we need to add
+        // the tname to string vector, and make an empty result pair.
+        // Has the side effect of making 's' a valid index
+        if( s == result_strings.size() ) {
+            // make a new entry
+            result.push_back( std::make_pair<int, int>( (int)ndx, 0 ) );
+            // Also push new entry string
+            result_strings.push_back( tname );
+        }
+        // Increase count result pair at index s
+        ++result[s].second;
+    }
+
+    return result;
+}
+
+// Corpses are always individual items
+// Just add them individually to the menu
+void add_corpses( uimenu &menu, map_stack &items,
+    const std::vector<int> &indices, size_t &menu_index)
+{
+    int hotkey = get_initial_hotkey( menu_index );
+    
+    for( const auto index : indices ) {
+        const item &it = items[index];
+        menu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
+        hotkey = -1;
+    }
+}
+// Salvagables stack so we need to pass in a stack vector rather than an item index vector
+void add_salvagables( uimenu &menu, map_stack &items,
+    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+{
+    if (stacks.size() > 0){
+        int hotkey = get_initial_hotkey( menu_index );
+
+        for ( const auto stack : stacks ) {
+            const item &it = items[ stack.first ];
+
             std::stringstream ss;
-            ss << _("Cut up") << " " << it.tname();
-            kmenu.addentry( menu_index++, true, hotkey, ss.str() );
+            ss << _("Cut up") << " " << it.tname() << " (" << stack.second << ")";
+            menu.addentry( menu_index++, true, hotkey, ss.str() );
+            hotkey = -1;
+        }
+    }
+}
+
+// Disassemblables stack so we need to pass in a stack vector rather than an item index vector
+void add_disassemblables( uimenu &menu, map_stack &items,
+    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+{
+    if( stacks.size() > 0 ) {
+        int hotkey = get_initial_hotkey( menu_index );
+
+        for( const auto stack : stacks ){
+            const item &it = items[ stack.first ];
+
+            std::stringstream ss;
+            ss << it.tname() << " (" << stack.second << ")";
+            menu.addentry( menu_index++, true, hotkey, ss.str());
+            hotkey = -1;
         }
     }
 }
@@ -10151,8 +10364,8 @@ void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
 void game::butcher()
 {
     const static std::string salvage_string = "salvage";
-    if (u.controlling_vehicle) {
-        add_msg(m_info, _("You can't butcher while driving!"));
+    if( u.controlling_vehicle ) {
+        add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
     }
 
@@ -10199,36 +10412,33 @@ void game::butcher()
             usable->get_use( salvage_string )->get_actor_ptr() );
     }
 
+    // Reserve capacity for each to hold entire item set if necessary to prevent
+    // reallocations later on
+    corpses.reserve( items.size() );
+    salvageables.reserve( items.size() );
+    disassembles.reserve( items.size() );
 
-    // check if we have a butchering tool
-    if( factor > INT_MIN ) {
-        // get corpses
-        for (size_t i = 0; i < items.size(); i++) {
-            if( items[i].is_corpse() ) {
-                corpses.push_back(i);
+    // Split into corpses, disassemble-able, and salvageable items
+    // It's not much additional work to just generate a corpse list and
+    // clear it later, but does make the splitting process nicer.
+    for (size_t i = 0; i < items.size(); ++i){
+        if ( items[i].is_corpse() ){
+            corpses.push_back(i);
+        } else {
+            if ( ( salvage_tool_index != INT_MIN) && salvage_iuse->valid_to_cut_up( items[i] ) ){
+                salvageables.push_back(i);
+            }
+            if ( u.can_disassemble( items[i], crafting_inv ).success() ){
+                disassembles.push_back(i);
+            } else if ( first_item_without_tools == nullptr ){
+                first_item_without_tools = &items[i];
             }
         }
     }
-    // Then get items to disassemble
-    for( size_t i = 0; i < items.size(); i++ ) {
-        if( items[i].is_corpse() ) {
-            continue;
-        }
-
-        if( u.can_disassemble( items[i], crafting_inv ).success() ) {
-            disassembles.push_back(i);
-        } else if( first_item_without_tools == nullptr ) {
-            first_item_without_tools = &items[i];
-        }
-    }
-    // Now salvageable items
-    if( salvage_tool_index != INT_MIN ) {
-        for( size_t i = 0; i < items.size(); i++ ) {
-            if( !items[i].is_corpse() &&
-                salvage_iuse->valid_to_cut_up( items[i] ) ) {
-                    salvageables.push_back(i);
-            }
-        }
+    
+    // Clear corpses if butcher factor is INT_MIN
+    if ( factor == INT_MIN ){
+        corpses.clear();
     }
 
     if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
@@ -10279,16 +10489,21 @@ void game::butcher()
     } butcher_type = BUTCHER_CORPSE;
     // Index to std::vector of indices...
     int indexer_index = 0;
+
+    // Generate the indexed stacks so we can display them nicely
+    const auto disassembly_stacks = generate_butcher_stack_display( items, disassembles );
+    const auto salvage_stacks = generate_butcher_stack_display( items, salvageables );
     // Always ask before cutting up/disassembly, but not before butchery
     if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
         uimenu kmenu;
         kmenu.text = _("Choose corpse to butcher / item to disassemble");
 
         size_t i = 0;
-        add_corpses_to_menu( kmenu, items, corpses, i, false );
-        add_corpses_to_menu( kmenu, items, disassembles, i, false );
-        add_corpses_to_menu( kmenu, items, salvageables, i, true );
-
+        // Add corpses, disassembleables, and salvagables to the UI
+        add_corpses( kmenu, items, corpses, i );
+        add_disassemblables( kmenu, items, disassembly_stacks, i );
+        add_salvagables( kmenu, items, salvage_stacks, i );
+        
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b',
             _("Butcher everything") );
@@ -10316,12 +10531,12 @@ void game::butcher()
         } else if( ret < corpses.size() ) {
             butcher_type = BUTCHER_CORPSE;
             indexer_index = ret;
-        } else if( ret < corpses.size() + disassembles.size() ) {
+        } else if( ret < corpses.size() + disassembly_stacks.size() ) {
             butcher_type = BUTCHER_DISASSEMBLE;
             indexer_index = ret - corpses.size();
-        } else if( ret < corpses.size() + disassembles.size() + salvageables.size() ) {
+        } else if( ret < corpses.size() + disassembly_stacks.size() + salvage_stacks.size() ) {
             butcher_type = BUTCHER_SALVAGE;
-            indexer_index = ret - corpses.size() - disassembles.size();
+            indexer_index = ret - corpses.size() - disassembly_stacks.size();
         } else {
             debugmsg( "Invalid butchery index: %d", ret );
             return;
@@ -10421,13 +10636,15 @@ void game::butcher()
         break;
     case BUTCHER_DISASSEMBLE:
         {
-            size_t index = disassembles[indexer_index];
+            // Pick index of first item in the disassembly stack
+            size_t index = disassembly_stacks[indexer_index].first;
             u.disassemble( items[index], index, true );
         }
         break;
     case BUTCHER_SALVAGE:
         {
-            size_t index = salvageables[indexer_index];
+            // Pick index of first item in the salvage stack
+            size_t index = salvage_stacks[indexer_index].first;
             salvage_iuse->cut_up( u, *salvage_tool, items[index] );
         }
         break;
@@ -11315,10 +11532,43 @@ bool game::plmove(int dx, int dy, int dz)
         return true;
     }
 
-    if( u.weapon.has_flag("DIG_TOOL") && m.has_flag( "MINEABLE", dest_loc ) && !u.has_effect( effect_stunned ) ) {
-        // TODO: Handle moving-and-digging via Burrower mutation.
-        // TODO 2: Prevent player from being asked twice about which tile to mine.
-        u.use_wielded();
+    if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
+        int turns;
+        if( get_option<bool>( "AUTO_MINING" ) && m.has_flag( "MINEABLE", dest_loc ) &&
+            u.weapon.has_flag( "DIG_TOOL" ) ) {
+            if( u.weapon.has_flag( "POWERED" ) ) {
+                if( u.weapon.ammo_sufficient() ) {
+                    turns = MINUTES( 30 );
+                    u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
+                    u.assign_activity( activity_id( "ACT_JACKHAMMER" ), turns, -1, u.get_item_position( &u.weapon ) );
+                    u.activity.placement = dest_loc;
+                    add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                        m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                } else {
+                    add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
+                }
+            } else {
+                if( m.move_cost( dest_loc ) == 2 ) {
+                    // breaking up some flat surface, like pavement
+                    turns = MINUTES( 20 );
+                } else {
+                    turns = ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
+                }
+                u.assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1, u.get_item_position( &u.weapon ) );
+                u.activity.placement = dest_loc;
+                add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+            }
+        } else if( u.has_active_mutation( trait_BURROW ) ) {
+            if( m.move_cost( dest_loc ) == 2 ) {
+                turns = MINUTES( 10 );
+            } else {
+                turns = MINUTES( 30 );
+            }
+            u.assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
+            u.activity.placement = dest_loc;
+            add_msg( _( "You start tearing into the %s with your teeth and claws." ), m.tername( dest_loc ).c_str() );
+        }
     }
 
     if( dz == 0 && ramp_move( dest_loc ) ) {
@@ -13020,6 +13270,8 @@ void game::update_map(int &x, int &y)
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
 
+    // Only do the loading after all coordinates have been shifted.
+
     // Check for overmap saved npcs that should now come into view.
     // Put those in the active list.
     load_npcs();
@@ -13028,6 +13280,7 @@ void game::update_map(int &x, int &y)
     m.build_map_cache( get_levz() );
 
     // Spawn monsters if appropriate
+    // This call will generate new monsters in addition to loading, so it's placed after NPC loading
     m.spawn_monsters( false ); // Static monsters
 
     // Update what parts of the world map we can see
