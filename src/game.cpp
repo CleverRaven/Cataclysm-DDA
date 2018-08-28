@@ -10268,11 +10268,12 @@ bool game::plfire( item &weapon, int bp_cost )
 }
 
 // Used to set up the first Hotkey in the display set
-int get_initial_hotkey(const size_t menu_index){
+int get_initial_hotkey( const size_t menu_index )
+{
     int hotkey = -1;
-    if ( menu_index == 0 ){
+    if( menu_index == 0 ) {
         const long butcher_key = inp_mngr.get_previously_pressed_key();
-        if (butcher_key != 0){
+        if( butcher_key != 0 ) {
             hotkey = butcher_key;
         }
     }
@@ -10284,27 +10285,29 @@ int get_initial_hotkey(const size_t menu_index){
 //    Pair.second is the number of equivalent items per unique tname
 // There are options for optimization here, but the function is hit infrequently
 // enough that optimizing now is not a useful time expenditure.
-const std::vector<std::pair<int, int>> generate_butcher_stack_display( map_stack &items, const std::vector<int> &indices){
+const std::vector<std::pair<int, int>> generate_butcher_stack_display(
+    map_stack &items, const std::vector<int> &indices )
+{
     std::vector<std::pair<int, int>> result;
     std::vector<std::string> result_strings;
-    result.reserve(indices.size());
-    result_strings.reserve(indices.size());
+    result.reserve( indices.size() );
+    result_strings.reserve( indices.size() );
 
-    for ( const size_t ndx : indices ){
-        const item &it = items[ndx];
+    for( const size_t ndx : indices ) {
+        const item &it = items[ ndx ];
 
         const std::string tname = it.tname();
         size_t s = 0;
         // Search for the index with a string equivalent to tname
-        for ( ; s < result_strings.size(); ++s){
-            if ( result_strings[s] == tname ){
+        for( ; s < result_strings.size(); ++s ) {
+            if( result_strings[s] == tname ) {
                 break;
             }
         }
         // If none is found, this is a unique tname so we need to add
         // the tname to string vector, and make an empty result pair.
         // Has the side effect of making 's' a valid index
-        if ( s == result_strings.size() ){
+        if( s == result_strings.size() ) {
             // make a new entry
             result.push_back( std::make_pair<int, int>( (int)ndx, 0 ) );
             // Also push new entry string
@@ -10324,7 +10327,7 @@ void add_corpses( uimenu &menu, map_stack &items,
 {
     int hotkey = get_initial_hotkey( menu_index );
     
-    for ( const auto index : indices ){
+    for( const auto index : indices ) {
         const item &it = items[index];
         menu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
         hotkey = -1;
@@ -10332,30 +10335,31 @@ void add_corpses( uimenu &menu, map_stack &items,
 }
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
 void add_salvagables( uimenu &menu, map_stack &items,
-    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index)
+    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
     if (stacks.size() > 0){
         int hotkey = get_initial_hotkey( menu_index );
 
-        for ( const auto stack : stacks ){
-            const item &it = items[stack.first];
+        for ( const auto stack : stacks ) {
+            const item &it = items[ stack.first ];
 
             std::stringstream ss;
             ss << _("Cut up") << " " << it.tname() << " (" << stack.second << ")";
-            menu.addentry( menu_index++, true, hotkey, ss.str());
+            menu.addentry( menu_index++, true, hotkey, ss.str() );
             hotkey = -1;
         }
     }
 }
+
 // Disassemblables stack so we need to pass in a stack vector rather than an item index vector
 void add_disassemblables( uimenu &menu, map_stack &items,
-    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index)
+    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
-    if (stacks.size() > 0){
+    if( stacks.size() > 0 ) {
         int hotkey = get_initial_hotkey( menu_index );
 
-        for (const auto stack : stacks ){
-            const item &it = items[stack.first];
+        for( const auto stack : stacks ){
+            const item &it = items[ stack.first ];
 
             std::stringstream ss;
             ss << it.tname() << " (" << stack.second << ")";
@@ -10368,8 +10372,8 @@ void add_disassemblables( uimenu &menu, map_stack &items,
 void game::butcher()
 {
     const static std::string salvage_string = "salvage";
-    if (u.controlling_vehicle) {
-        add_msg(m_info, _("You can't butcher while driving!"));
+    if( u.controlling_vehicle ) {
+        add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
     }
 
