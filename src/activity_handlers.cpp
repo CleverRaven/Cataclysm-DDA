@@ -2834,7 +2834,10 @@ void activity_handlers::till_plot_do_turn( player_activity*, player *p )
         auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
-            p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
+            // check for safe mode, we don't want to trigger moving if it is activated
+            if( g->check_safe_mode_allowed() ) {
+                p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
+            }
             return;
         } else { // we are at destination already
             p->add_msg_if_player( _( "You churn up the earth here." ) );
