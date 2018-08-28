@@ -162,7 +162,8 @@
         "volume" : 80,
         "bashing" : 25,
         "category" : "veh_parts",
-        "price" : 12000
+        "price" : 12000,
+        "qualities": [ [ "ANVIL", 1 ] ]
     },
     {
         "type":"GENERIC",
@@ -684,7 +685,7 @@
         "bashing" : 6,
         "category" : "veh_parts",
         "price" : 16000,
-        "qualities": [ [ "COOK", 1 ] ]
+        "qualities": [ [ "COOK", 1 ], [ "ANVIL", 1 ] ]
     },
     {
         "type":"GENERIC",
