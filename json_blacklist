@@ -216,7 +216,6 @@ data/json/overmap/specials.json
 data/json/overmap_connections.json
 data/json/overmap_locations.json
 data/json/overmap_terrain.json
-data/json/professions.json
 data/json/recipes/ammo/pistol.json
 data/json/recipes/ammo/rifle.json
 data/json/recipes/armor/arms.json
@@ -236,12 +235,10 @@ data/json/recipes/food/distill.json
 data/json/recipes/food/dry.json
 data/json/recipes/food/pasta.json
 data/json/recipes/other/containers.json
-data/json/recipes/other/medical.json
 data/json/recipes/other/tool.json
 data/json/recipes/other/vehicle.json
 data/json/recipes/recipe_ammo.json
 data/json/recipes/recipe_electronics.json
-data/json/recipes/recipe_food.json
 data/json/recipes/recipe_medsandchemicals.json
 data/json/recipes/recipes.json
 data/json/recipes/recipe_weapon.json
@@ -255,13 +252,10 @@ data/json/recipes/weapon/ranged.json
 data/json/regional_map_settings.json
 data/json/requirements/ammo.json
 data/json/road_vehicles.json
-data/json/scenarios/scenarios.json
 data/json/snippets.json
 data/json/species.json
 data/json/speech.json
-data/json/start_locations.json
 data/json/techniques.json
-data/json/terrain.json
 data/json/test_regions.json
 data/json/traps.json
 data/json/tutorial.json

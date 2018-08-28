@@ -1604,11 +1604,20 @@ void Item_factory::load_container( JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
-    slot.fruit_div = jo.get_int( "fruit_div", 1 );
+    assign( jo, "grow_secondary", slot.grow_secondary, false, 1_days );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
+    slot.comfortable_temperature = jo.get_int( "comfortable_temperature", 0 );
     slot.fruit_id = jo.get_string( "fruit" );
-    slot.spawn_seeds = jo.get_bool( "seeds", true );
+    slot.fruit_count = jo.get_int( "fruit_count", 10 );
+    slot.seed_id = jo.get_string( "seed", slot.fruit_id );
+    slot.seed_count = jo.get_int( "seed_count", 0 );
     slot.byproducts = jo.get_string_array( "byproducts" );
+    slot.water_requirement = jo.get_float( "water_requirement", 1.0f );
+    slot.weed_susceptibility = jo.get_float( "weed_susceptibility", 1.0f );
+    slot.grow_into = jo.get_string( "grow_into", "" );
+    slot.grow_into_harvest = jo.get_string( "grow_into_harvest", "" );
+    slot.is_mushroom = jo.get_bool( "is_mushroom", false );
+    slot.is_shrub = jo.get_bool( "is_shrub", false );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo, const std::string & )
@@ -1834,8 +1843,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
-        def.damage_min = arr.get_int( 0 );
-        def.damage_max = arr.get_int( 1 );
+        def.damage_min = arr.get_int( 0 ) * itype::damage_scale;
+        def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
     }
 
     def.name = jo.get_string( "name" );
@@ -2265,6 +2274,8 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     Item_modifier modifier;
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
+    modifier.damage.first *= itype::damage_scale;
+    modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );

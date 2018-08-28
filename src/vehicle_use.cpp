@@ -219,6 +219,7 @@ void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
     add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
     add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
     add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+    add_toggle( _( "freezer" ), keybind( "TOGGLE_FEEZER" ), "FREEZER" );
     add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
@@ -932,14 +933,12 @@ void vehicle::operate_reaper()
     const tripoint &veh_start = global_pos3();
     for( const int reaper_id : all_parts_with_feature( "REAPER" ) ) {
         const tripoint reaper_pos = veh_start + parts[ reaper_id ].precalc[ 0 ];
-        const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
-        const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = parts[ reaper_id ].info().size / 20;
         if( g->m.furn( reaper_pos ) != f_plant_harvest ||
             !g->m.has_items( reaper_pos ) ) {
             continue;
         }
-        const item &seed = g->m.i_at( reaper_pos ).front();
+        item &seed = g->m.i_at( reaper_pos ).front();
         if( seed.typeId() == "fungal_seeds" ||
             seed.typeId() == "marloss_seed" ) {
             // Otherworldly plants, the earth-made reaper can not handle those.
@@ -947,8 +946,7 @@ void vehicle::operate_reaper()
         }
         g->m.furn_set( reaper_pos, f_null );
         g->m.i_clear( reaper_pos );
-        for( auto &i : iexamine::get_harvest_items(
-                 *seed.type, plant_produced, seed_produced, false ) ) {
+        for( auto &i : iexamine::get_harvest_items( seed ) ) {
             g->m.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), _( "Swish" ) );
@@ -1212,13 +1210,10 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     item base = item( parts[part].get_base() );
     base.type->invoke( g->u, base, pos );
     parts[part].set_base( base );
-    /* captured animals take up all the cargo space */
-    /*
     if( base.has_var( "contained_name" ) ) {
-        part_info( part ).size = 0;
+        parts[part].set_flag( vehicle_part::animal_flag );
     } else {
-        part_info( part ).size = base.get_container_capacity();
+        parts[part].remove_flag( vehicle_part::animal_flag );
     }
-    */
-    parts[part].set_base( base );
+    invalidate_mass();
 }

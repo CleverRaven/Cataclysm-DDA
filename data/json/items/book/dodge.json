@@ -35,14 +35,14 @@
     "time": 20
   },
   {
-    "id": "manual_dodge",
+    "id": "manual_dodge_kid",
     "type": "BOOK",
     "name": "Break a Leg!",
     "name_plural": "Break a Leg!",
     "description": "The Kids' Guide to Acting and Stagecraft.",
-    "weight": 30,
+    "weight": 72,
     "volume": 1,
-    "price": 72,
+    "price": 500,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",

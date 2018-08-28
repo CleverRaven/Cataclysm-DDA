@@ -277,5 +277,17 @@
     "ident": "zoo_1_1",
     "name": "Zoo Cages",
     "target": "zoo_1_1"
+  },
+  {
+    "type": "start_location",
+    "ident": "golfcourse_11",
+    "name": "Golf course mid course",
+    "target": "golfcourse_11"
+  },
+  {
+    "type": "start_location",
+    "ident": "golfcourse_31",
+    "name": "Golf course clubhouse",
+    "target": "golfcourse_31"
   }
 ]

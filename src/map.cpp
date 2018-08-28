@@ -1106,9 +1106,6 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
     furn_set( tripoint( x, y, abs_sub.z ), new_furniture );
 }
 
-std::string map::furnname(const int x, const int y) {
-    return furnname( tripoint( x, y, abs_sub.z ) );
-}
 // End of 2D overloads for furniture
 
 void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture)
@@ -4251,17 +4248,26 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
+unsigned int temp_difference_ratio( int temp_one, int temp_two )
+{
+    // ratio is between 1-4 and changes every 10F (~5.5C)
+    unsigned int ratio = abs( temp_one - temp_two ) / 10;
+    ratio = clamp( ratio, static_cast<unsigned int>(1), static_cast<unsigned int>(4) );
+    return ratio;
+}
+
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
-void map::apply_in_fridge( item &it, int temp )
+void map::apply_in_fridge( item &it, int temp, bool vehicle )
 {
-    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_freeze );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_freeze );
-
-    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_cold );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_cold );
+    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) + 1; //effective 1-4
+    unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) + 1;
+    
+    // this counters environmental effects trying to heat-up at the same ratio
+    if( vehicle ) {
+        diff_freeze *= 2;
+        diff_cold *= 2;
+    }
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {
@@ -4308,30 +4314,50 @@ void map::apply_in_fridge( item &it, int temp )
     }
     if( it.is_container() ) {
         for( auto &elem : it.contents ) {
-            apply_in_fridge( elem, temp );
+            apply_in_fridge( elem, temp, vehicle );
         }
     }
+}
+
+// This is an ugly and dirty hack to prevent invalidating the item_location
+// references the player is using for an activity.  What needs to happen is
+// activity targets gets refactored in some way that it can reference items
+// between turns that doesn't rely on a pointer to the item.  A really nice
+// solution would be something like UUIDs but that requires special
+// considerations.
+static bool item_is_in_activity( const item *it )
+{
+    const auto targs = &g->u.activity.targets;
+    return !targs->empty() && std::find_if( targs->begin(), targs->end(), [it]( const item_location &it_loc ) {
+            return it_loc.get_item() == it;
+        } ) != targs->end();
 }
 
 template <typename Iterator>
 static bool process_item( item_stack &items, Iterator &n, const tripoint &location, bool activate )
 {
-    // make a temporary copy, remove the item (in advance)
-    // and use that copy to process it
-    item temp_item = *n;
-    auto insertion_point = items.erase( n );
-    if( !temp_item.process( nullptr, location, activate ) ) {
-        // Not destroyed, must be inserted again.
-        // If the item lost its active flag in processing,
-        // it won't be re-added to the active list, tidy!
-        // Re-insert at the item's previous position.
-        // This assumes that the item didn't invalidate any iterators
-        // As a result of activation, because everything that does that
-        // destroys itself.
-        items.insert_at( insertion_point, temp_item );
-        return false;
+    if( !item_is_in_activity( &*n ) ) {
+        // make a temporary copy, remove the item (in advance)
+        // and use that copy to process it
+        item temp_item = *n;
+        auto insertion_point = items.erase( n );
+        if( !temp_item.process( nullptr, location, activate ) ) {
+            // Not destroyed, must be inserted again.
+            // If the item lost its active flag in processing,
+            // it won't be re-added to the active list, tidy!
+            // Re-insert at the item's previous position.
+            // This assumes that the item didn't invalidate any iterators
+            // As a result of activation, because everything that does that
+            // destroys itself.
+            items.insert_at( insertion_point, temp_item );
+            return false;
+        }
+        return true;
+    } else if( n->process( nullptr, location, activate ) ) {
+        items.erase( n );
+        return true;
     }
-    return true;
+    return false;
 }
 
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
@@ -4345,14 +4371,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE);
+            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE, true );
         }
     }
 
     const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) && cur_veh.has_part( "FREEZER", true );
     if( freezer_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE );
+            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE, true );
         }
     }
 
@@ -6541,49 +6567,90 @@ void map::grow_plant( const tripoint &p )
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
-    auto items = i_at( p );
-    if( items.empty() ) {
+    if( i_at( p ).empty() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a seed item has vanished at " << p.x << "," << p.y << "," << p.z;
         furn_set( p, f_null );
         return;
     }
-
-    auto seed = items.front();
+    item &seed = i_at( p ).front();
     if( !seed.is_seed() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
         furn_set( p, f_null );
         return;
     }
+
+    get_crops_grow( p );
     const time_duration plantEpoch = seed.get_plant_epoch();
-    furn_id cur_furn = this->furn(p).id();
-    if( seed.age() >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ){
-        if( seed.age() < plantEpoch * 2 ) {
-            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
+    time_duration seed_age = time_duration::from_turns( seed.get_var( "seed_age", 1 ) );
+
+    furn_id cur_furn = this->furn( p ).id();
+
+    // The plant have died
+    if( seed.get_var( "frozen", 0 ) > 0 ) {
+        i_clear( p );
+        furn_set( p, f_null );
+        if( rng( 0, 1 ) > 0 ) {
+            spawn_item( p, "withered" );
+        }
+        return;
+    }
+
+    // Mushrooms
+    if( seed.type->seed->is_mushroom ) {
+        if( seed.get_var( "can_be_harvested", 0 ) ) {
+            furn_set( p, furn_str_id( "f_mushroom_mature_harvest" ) );
+        } else if( seed.get_var( "is_mature", 0 ) ) {
+            furn_set( p, furn_str_id( "f_mushroom_mature" ) );
+        } else if( seed_age > plantEpoch ) {
+            furn_set( p, furn_str_id( "f_mushroom_seedling" ) );
+        } else {
+            furn_set( p, furn_str_id( "f_mushroom_seed" ) );
+        }
+        return;
+    }
+
+    // Mature shrubs
+    if( seed.type->seed->is_shrub && seed.get_var( "is_mature", 0 ) ) {
+        if( seed.get_var( "can_be_harvested", 0 ) ){
+            furn_set( p, furn_str_id( seed.type->seed->grow_into_harvest ) );
+        } else {
+            furn_set( p, furn_str_id( seed.type->seed->grow_into ) );
+        }
+        return;
+    }
+
+    // Normal plant grow
+    if( seed.get_var( "can_be_harvested", 0 ) ) {
+        furn_set( p, furn_str_id( "f_plant_harvest" ) );
+        return;
+    }
+
+    if( seed_age >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ) {
+        if( seed_age < plantEpoch * 2 ) {
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ) {
                 return;
             }
-            i_rem( p, 1 );
             rotten_item_spawn( seed, p );
             furn_set(p, furn_str_id( "f_plant_seedling" ) );
-        } else if( seed.age() < plantEpoch * 3 ) {
-            if( cur_furn == furn_str_id( "f_plant_mature" ) ){
+        } else if( seed_age < plantEpoch * 3 ) {
+            if( cur_furn == furn_str_id( "f_plant_mature" ) ) {
                 return;
             }
-            i_rem(p, 1);
             rotten_item_spawn( seed, p );
             //You've skipped the seedling stage so roll monsters twice
-            if( cur_furn != furn_str_id( "f_plant_seedling" ) ){
+            if( cur_furn != furn_str_id( "f_plant_seedling" ) ) {
                 rotten_item_spawn( seed, p );
             }
             furn_set( p, furn_str_id( "f_plant_mature" ) );
         } else {
             //You've skipped two stages so roll monsters two times
-            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ) {
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             //One stage change
-            } else if( cur_furn == furn_str_id( "f_plant_mature" ) ){
+            } else if( cur_furn == furn_str_id( "f_plant_mature" ) ) {
                 rotten_item_spawn( seed, p );
             //Goes from seed to harvest in one check
             } else {
@@ -6591,7 +6658,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             }
-            furn_set(p, furn_str_id( "f_plant_harvest" ) );
+            furn_set( p, furn_str_id( "f_plant_harvest" ) );
         }
     }
 }
@@ -6895,10 +6962,6 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( !ignore_sight ) {
         // If the submap is one of the outermost submaps, assume that monsters are
         // invisible there.
-        // When the map shifts because of the player moving (called from game::plmove),
-        // the player has still their *old* (not shifted) coordinates.
-        // That makes the submaps that have come into view visible (if the sight range
-        // is big enough).
         if( gp.x == 0 || gp.y == 0 || gp.x + 1 == MAPSIZE || gp.y + 1 == MAPSIZE ) {
             ignore_sight = true;
         }
@@ -6954,7 +7017,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
 
     if( locations.empty() ) {
-        // TODO: what now? there is now possible place to spawn monsters, most
+        // TODO: what now? there is no possible place to spawn monsters, most
         // likely because the player can see all the places.
         const tripoint glp = getabs( gp );
         dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
@@ -7019,6 +7082,10 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
 
 void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 {
+    // Load unloaded monsters
+    overmap_buffer.spawn_monster( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
+
+    // Only spawn new monsters after existing monsters are loaded.
     auto groups = overmap_buffer.groups_at( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
     for( auto &mgp : groups ) {
         spawn_monsters_submap_group( gp, *mgp, ignore_sight );
@@ -7063,7 +7130,6 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
         }
     }
     current_submap->spawns.clear();
-    overmap_buffer.spawn_monster( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
 }
 
 void map::spawn_monsters(bool ignore_sight)

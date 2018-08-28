@@ -920,7 +920,7 @@ class game
         void open(); // Open a door  'o'
         void close();
         void smash(); // Smash terrain
-        void loot(); // Sort out loot
+        void loot(); // Sort out loot or perform other zone activity
 
         void handbrake();
         void control_vehicle(); // Use vehicle controls  '^'
@@ -1118,5 +1118,13 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
 };
+
+// Returns temperature modifier from direct heat radiation of nearby sources
+// @param location Location affected by heat sources
+// @param direct forces return of heat intensity (and not temperature modifier) of
+// adjacent hottest heat source
+int get_heat_radiation( const tripoint &location, bool direct );
+// Returns temperature modifier from hot air fields of given location
+int get_convection_temperature( const tripoint &location );
 
 #endif

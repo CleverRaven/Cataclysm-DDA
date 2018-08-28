@@ -235,7 +235,7 @@ class item : public visitable<item>
          * @note this method does not invoke the @ref on_damage callback
          * @return same instance to allow method chaining
          */
-        item &set_damage( double qty );
+        item &set_damage( int qty );
 
         /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
@@ -820,10 +820,23 @@ class item : public visitable<item>
         /** How much damage has the item sustained? */
         int damage() const;
 
-        /** Precise damage */
-        double precise_damage() const {
-            return damage_;
-        }
+        /**
+         * Scale item damage to the given number of levels. This function is
+         * here mostly for back-compatibility. It should not be used when
+         * doing continuous math with the damage value: use damage() instead.
+         *
+         * For example, for max = 4, min_damage = -1000, max_damage = 4000
+         *   damage       level
+         *   -1000 ~   -1    -1
+         *              0     0
+         *       1 ~ 1333     1
+         *    1334 ~ 2666     2
+         *    2667 ~ 3999     3
+         *           4000     4
+         *
+         * @param max Maximum number of levels
+         */
+        int damage_level( int max ) const;
 
         /** Minimum amount of damage to an item (state of maximum repair) */
         int min_damage() const;
@@ -844,18 +857,16 @@ class item : public visitable<item>
          * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
          */
-        bool mod_damage( double qty, damage_type dt );
+        bool mod_damage( int qty, damage_type dt );
         /// same as other mod_damage, but uses @ref DT_NULL as damage type.
-        bool mod_damage( double qty );
+        bool mod_damage( int qty );
 
         /**
-         * Increment item damage constrained @ref max_damage
+         * Increment item damage by @ref itype::damage_scale constrained by @ref max_damage
          * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
          */
-        bool inc_damage( const damage_type dt ) {
-            return mod_damage( 1, dt );
-        }
+        bool inc_damage( const damage_type dt );
         /// same as other inc_damage, but uses @ref DT_NULL as damage type.
         bool inc_damage();
 
@@ -1107,7 +1118,7 @@ class item : public visitable<item>
          * @param qty maximum damage that will be applied (constrained by @ref max_damage)
          * @param dt type of damage (or DT_NULL)
          */
-        void on_damage( double qty, damage_type dt );
+        void on_damage( int qty, damage_type dt );
 
         /**
          * Name of the item type (not the item), with proper plural.
@@ -1253,6 +1264,10 @@ class item : public visitable<item>
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
+        /**
+         * Is temperature comfortable for this plant.
+         */
+        bool is_warm_enough( int temperature ) const;
         /*@}*/
 
         /**
@@ -1693,8 +1708,13 @@ class item : public visitable<item>
         /** Puts the skill in context of the item */
         skill_id contextualize_skill( const skill_id &id ) const;
 
+        /* remove a monster from this item, optionally spawning the monster */
+        int release_monster( const tripoint &target, bool spawn = true );
+        /* add the monster at target to this item, despawning it */
+        int contain_monster( const tripoint &target );
+
     private:
-        double damage_ = 0;
+        int damage_ = 0;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;

@@ -34,6 +34,7 @@
 #include "fault.h"
 #include "construction.h"
 #include "harvest.h"
+#include "clzones.h"
 
 #include <math.h>
 #include <sstream>
@@ -85,7 +86,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
-    { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn }
+    { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
+    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -522,18 +524,20 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     // in quick butchery you aim for meat and don't care about the rest
     if( action == BUTCHER && ( !corpse_item->has_flag( "FIELD_DRESS" ) || !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         pieces /= 4;
-        skins = 0;
-        bones = 0;
-        fats = 0;
-        sinews = 0;
-        feathers = 0;
-        wool = 0;
-        stomach = false;
+        if( corpse->size >= MS_MEDIUM ) {
+            skins /= 2;
+        }
+        bones /= 2;
+        fats /= 4;
+        sinews /= 4;
+        // feathers unchanged
+        wool /= 4;
+        stomach = roll_butchery() >= 0;
     }
 
     //FIELD DRESSING
     if( action == F_DRESS ) {
-        // "pieces" left unchanged becouse they are 'converted' to offal and don't yield meat
+        // "pieces" left unchanged because they are 'converted' to offal and don't yield meat
         skins = 0;
         bones =  rng( 0, bones / 2 );
         fats = 0;
@@ -867,13 +871,21 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             continue;
         }
         
-        // QUICK BUTCHERY aims for meat and doesn't care about the rest
+        // QUICK BUTCHERY
         if( action == BUTCHER ) {
             if( entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ) {
+                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ||
+                entry.drop == "wool_staple" || entry.drop == "fat" || entry.drop == "fat_tainted" ) {
                 roll = roll / 4;
+            } else if( entry.drop != "bone" ) {
+                roll = roll / 2;
+            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
+                entry.drop == "raw_hleather" || entry.drop == "chitin_piece" ||
+                entry.drop == "acidchitin_piece" ) ) {
+                roll /= 2 ;
             } else {
-                continue; 
+                continue;
             }
         }
         // field dressing ignores everything outside below list
@@ -881,8 +893,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.drop != "bone" ) {
                  roll = rng( 0, roll / 2 );
             }
-            if( entry.drop == "fat" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
+            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" || 
+                entry.drop == "meat_tainted" || entry.drop == "fish" ||
                 entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
                 entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
                 continue;
@@ -910,8 +924,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.drop == "bone" || entry.drop == "bone_human" ) {
                  roll = ( roll / 2 ) + rng( roll / 2 , roll);
             }
-            if( entry.drop == "fat" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
+            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
                 entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
                 entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
                 roll = rng( 0, roll );
@@ -2398,16 +2413,10 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
 {
-    const tripoint &target = act->coords[0];
-    if( target == p->pos() ) {
-        p->add_msg_if_player( m_info, _( "You clear up the %s at your feet." ),
-                              g->m.furnname( target ).c_str() );
-    } else {
-        const std::string direction = direction_name( direction_from( p->pos(), target ) );
-        p->add_msg_if_player( m_info, _( "You clear up the %s to your %s." ),
-                              g->m.furnname( target ).c_str(), direction.c_str() );
-    }
-    g->m.furn_set( target, f_null );
+    const tripoint &pos = act->placement;
+    p->add_msg_if_player( m_info, _( "You clear up the %s." ),
+                          g->m.furnname( pos ).c_str() );
+    g->m.furn_set( pos, f_null );
 
     act->set_to_null();
 }
@@ -2780,4 +2789,78 @@ void activity_handlers::haircut_finish( player_activity *act, player *p ) {
     p->add_msg_if_player( _( "You give your hair a trim." ) );
     p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
     act->set_to_null();
+}
+
+static std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+        const std::unordered_set<tripoint> &tiles )
+{
+    auto cmp = [abspos]( tripoint a, tripoint b ) {
+        int da = rl_dist( abspos, a );
+        int db = rl_dist( abspos, b );
+
+        return da < db;
+    };
+
+    std::set<tripoint, decltype( cmp )> sorted( tiles.begin(), tiles.end(), cmp );
+    std::vector<tripoint> vector( sorted.begin(), sorted.end() );
+
+    return vector;
+}
+
+template<typename fn>
+static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
+{
+    auto it = tiles.begin();
+    while( it != tiles.end() ) {
+        auto current = it++;
+
+        const auto &tile_loc = g->m.getlocal( *current );
+
+        if( cleanup( tile_loc ) ) {
+            tiles.erase( current );
+        }
+    }
+}
+
+void activity_handlers::till_plot_do_turn( player_activity*, player *p )
+{
+    const auto &mgr = zone_manager::get_manager();
+    const auto abspos = g->m.getabs( p->pos() );
+    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+
+    // cleanup unwanted tiles
+    auto cleanup = [p]( const tripoint & tile ) {
+        return !p->sees( tile ) || !g->m.has_flag( "DIGGABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
+               g->m.ter( tile ) == t_dirtmound;
+    };
+    cleanup_tiles( unsorted_tiles, cleanup );
+
+    // sort remaining tiles by distance
+    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+
+    for( auto &tile : tiles ) {
+        const auto &tile_loc = g->m.getlocal( tile );
+
+        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
+        if( route.size() > 1 ) {
+            route.pop_back();
+            p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
+            return;
+        } else { // we are at destination already
+            p->add_msg_if_player( _( "You churn up the earth here." ) );
+            p->moves = -300;
+            g->m.ter_set( tile_loc, t_dirtmound );
+
+            if( p->moves <= 0 ) {
+                // Restart activity and break from cycle.
+                p->assign_activity( activity_id( "ACT_TILL_PLOT" ) );
+                return;
+            }
+        }
+    }
+
+    // If we got here without restarting the activity, it means we're done
 }
