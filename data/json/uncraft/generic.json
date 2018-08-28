@@ -15,6 +15,6 @@
     "difficulty": 1,
     "time": 15000,
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap", 20 ] ] ]
+    "components": [ [ [ "steel_chunk", 24 ] ] ]
   }
 ]
