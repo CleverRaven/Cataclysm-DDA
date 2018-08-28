@@ -1094,9 +1094,16 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
-- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start
-- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors)
-- ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
+- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
+- ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
+- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
+- ```CHALLENGE``` Game won't choose this scenario in random game types.
+- ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
+- ```FIRE_START``` Player starts the game with fire nearby.
+- ```HELI_CRASH``` Player starts the game with various limbs wounds.
+- ```INFECTED``` Player starts the game infected.
+- ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
+- ```SUR_START``` Surrounded start, zombies outside the starting location.
 
 - ```WIN_START``` ... start in winter.
 - ```SPR_START``` ... start in spring.
