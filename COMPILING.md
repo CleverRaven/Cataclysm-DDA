@@ -325,7 +325,7 @@ Export Android environment variables (you can add these to the end of `~/.bashrc
     export PATH=$PATH:$ANDROID_SDK_ROOT/tools
     export PATH=$PATH:$ANDROID_NDK_ROOT
 
-Install custom Android dependencies. From the root folder of the CDDA repository run:
+Install custom Android dependencies. Change directory to `Cataclysm-DDA` (the root folder of this repository) and run:
 
     git clone https://github.com/a1studmuffin/SDL2 ./android/app/jni/SDL2
     git clone https://github.com/a1studmuffin/lua ./android/app/jni/lua
