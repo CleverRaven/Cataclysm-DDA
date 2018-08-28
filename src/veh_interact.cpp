@@ -616,17 +616,18 @@ bool veh_interact::can_install_part() {
         lvl = jack_qality( *veh );
         str = veh->lift_strength();
 
-        auto self_jacking_parts = veh->get_parts("SELF_JACK", false);
+        auto self_jacking_parts = veh->get_parts( "SELF_JACK", false );
         bool can_self_jack = false;
-        for(auto jack : self_jacking_parts) {
-            item jack_item(jack->properties_to_item());
-            if(jack_item.has_quality(SELF_JACK, lvl)) {
+        for( auto jack : self_jacking_parts )
+        {
+            item jack_item( jack->properties_to_item() );
+            if( jack_item.has_quality( SELF_JACK, lvl ) ) {
                 can_self_jack = true;
                 break;
             }
         }
 
-        use_aid = (max_jack >= lvl) || can_self_jack;
+        use_aid = ( max_jack >= lvl ) || can_self_jack;
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
@@ -1370,17 +1371,18 @@ bool veh_interact::can_remove_part( int idx ) {
         lvl = jack_qality( *veh );
         str = veh->lift_strength();
 
-        auto self_jacking_parts = veh->get_parts("SELF_JACK", false);
+        auto self_jacking_parts = veh->get_parts( "SELF_JACK", false );
         bool can_self_jack = false;
-        for(auto jack : self_jacking_parts) {
-            item jack_item(jack->properties_to_item());
-            if(jack_item.has_quality(SELF_JACK, lvl)) {
+        for( auto jack : self_jacking_parts )
+        {
+            item jack_item( jack->properties_to_item() );
+            if( jack_item.has_quality( SELF_JACK, lvl ) ) {
                 can_self_jack = true;
                 break;
             }
         }
 
-        use_aid = (max_jack >= lvl) || can_self_jack;
+        use_aid = ( max_jack >= lvl ) || can_self_jack;
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
