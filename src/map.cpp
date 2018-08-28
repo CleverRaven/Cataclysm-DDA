@@ -4319,25 +4319,45 @@ void map::apply_in_fridge( item &it, int temp, bool vehicle )
     }
 }
 
+// This is an ugly and dirty hack to prevent invalidating the item_location
+// references the player is using for an activity.  What needs to happen is
+// activity targets gets refactored in some way that it can reference items
+// between turns that doesn't rely on a pointer to the item.  A really nice
+// solution would be something like UUIDs but that requires special
+// considerations.
+static bool item_is_in_activity( const item *it )
+{
+    const auto targs = &g->u.activity.targets;
+    return !targs->empty() && std::find_if( targs->begin(), targs->end(), [it]( const item_location &it_loc ) {
+            return it_loc.get_item() == it;
+        } ) != targs->end();
+}
+
 template <typename Iterator>
 static bool process_item( item_stack &items, Iterator &n, const tripoint &location, bool activate )
 {
-    // make a temporary copy, remove the item (in advance)
-    // and use that copy to process it
-    item temp_item = *n;
-    auto insertion_point = items.erase( n );
-    if( !temp_item.process( nullptr, location, activate ) ) {
-        // Not destroyed, must be inserted again.
-        // If the item lost its active flag in processing,
-        // it won't be re-added to the active list, tidy!
-        // Re-insert at the item's previous position.
-        // This assumes that the item didn't invalidate any iterators
-        // As a result of activation, because everything that does that
-        // destroys itself.
-        items.insert_at( insertion_point, temp_item );
-        return false;
+    if( !item_is_in_activity( &*n ) ) {
+        // make a temporary copy, remove the item (in advance)
+        // and use that copy to process it
+        item temp_item = *n;
+        auto insertion_point = items.erase( n );
+        if( !temp_item.process( nullptr, location, activate ) ) {
+            // Not destroyed, must be inserted again.
+            // If the item lost its active flag in processing,
+            // it won't be re-added to the active list, tidy!
+            // Re-insert at the item's previous position.
+            // This assumes that the item didn't invalidate any iterators
+            // As a result of activation, because everything that does that
+            // destroys itself.
+            items.insert_at( insertion_point, temp_item );
+            return false;
+        }
+        return true;
+    } else if( n->process( nullptr, location, activate ) ) {
+        items.erase( n );
+        return true;
     }
-    return true;
+    return false;
 }
 
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
