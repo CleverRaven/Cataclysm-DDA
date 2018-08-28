@@ -6869,8 +6869,6 @@ void game::loot()
                                 _( "Tills nearby Farm: Plot zones" ) );
         }
 
-        menu.addentry( None, true, 'q',  _( "Cancel" ) );
-
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
     }

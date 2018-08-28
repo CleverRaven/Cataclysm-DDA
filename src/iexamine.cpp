@@ -1857,7 +1857,6 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
         float health_ratio = health / 3.0f * 600.0f / seed_grow_time_turns;
 
         uimenu pmenu;
-        pmenu.return_invalid = true;
 
         std::string water_info;
         std::string fertilizer_info;

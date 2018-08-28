@@ -18,6 +18,7 @@
 #include "field.h"
 #include "vitamin.h"
 #include "output.h"
+#include "ui.h"
 
 #include <algorithm>
 
@@ -338,17 +339,18 @@ void player::activate_mutation( const trait_id &mut )
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
-        int choice = menu( true, _( "Perform which function:" ), _( "Turn on digging mode" ),
-                           _( "Dig pit" ), _( "Fill pit/tamp ground" ), _( "Clear rubble" ),
-                           _( "Churn up ground" ), NULL );
+        int choice = uimenu( _( "Perform which function:" ), {
+            _( "Turn on digging mode" ), _( "Dig pit" ), _( "Fill pit/tamp ground" ),
+            _( "Clear rubble" ), _( "Churn up ground" )
+        } );
         tripoint dirp;
-        if( choice != 1 ) {
+        if( choice != 0 ) {
             tdata.powered = false;
-            if( is_underwater() ) {
+            if( choice > 0 && is_underwater() ) {
                 add_msg_if_player(m_info, _("You can't do that while underwater.") );
                 return;
             } else {
-                if( choice == 2 ) {
+                if( choice == 1 ) {
                     if( !choose_adjacent( _( "Dig pit where?" ), dirp ) ) {
                         return;
                     }
@@ -367,7 +369,7 @@ void player::activate_mutation( const trait_id &mut )
                     }
                     assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
                     activity.placement = dirp;
-                } else if( choice == 3 ) {
+                } else if( choice == 2 ) {
                     if( !choose_adjacent( _( "Fill pit where?" ), dirp ) ) {
                         return;
                     }
@@ -389,7 +391,7 @@ void player::activate_mutation( const trait_id &mut )
                     }
                     assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
                     activity.placement = dirp;
-                } else if ( choice == 4 ) {
+                } else if ( choice == 3 ) {
                     if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
                         return;
                     }
@@ -401,7 +403,7 @@ void player::activate_mutation( const trait_id &mut )
                         add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
                         return;
                     }
-                } else if (choice == 5 ) {
+                } else if (choice == 4 ) {
                     if( !choose_adjacent( _( "Churn up ground where?" ), dirp ) ) {
                         return;
                     }
@@ -416,7 +418,7 @@ void player::activate_mutation( const trait_id &mut )
                 }
             }
         }
-    return;  // handled when the activity finishes
+        return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
         for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
