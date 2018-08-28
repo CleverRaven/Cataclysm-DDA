@@ -79,7 +79,6 @@ void egg_sackcs( player &p, const tripoint &examp );
 void egg_sackws( player &p, const tripoint &examp );
 void fungus( player &p, const tripoint &examp );
 void dirtmound( player &p, const tripoint &examp );
-void aggie_plant( player &p, const tripoint &examp );
 void tree_hickory( player &p, const tripoint &examp );
 void tree_maple( player &p, const tripoint &examp );
 void tree_maple_tapped( player &p, const tripoint &examp );
@@ -109,8 +108,20 @@ bool pour_into_keg( const tripoint &pos, item &liquid );
 bool has_keg( const tripoint &pos );
 
 
-std::list<item> get_harvest_items( const itype &type, int plant_count,
-                                   int seed_count, bool byproducts );
+// Main function to interact with plants
+void aggie_plant( player &p, const tripoint &examp );
+// Generate list of items for the harvest from the seed
+std::list<item> get_harvest_items( item &seed );
+// Remove common plants and restart growing of perennial plant
+void proceed_plant_after_harvest( const int x, const int y, const int z );
+void proceed_plant_after_harvest( const tripoint &examp );
+
+// Plant care functions
+// Before using them it is required to check if the item at this location is proper seed
+void plant_watering( player &, const tripoint & );
+void plant_fertilizing( player &, const tripoint & );
+void plant_weed_removing( player &, const tripoint & );
+
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player &, const tripoint & );

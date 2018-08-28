@@ -1,0 +1,13 @@
+[
+  {
+    "id": "grenades",
+    "type": "item_group",
+    "items": [ [ "granade", 1 ] ]
+  },
+  {
+    "id": "skeltal_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "milk", "prob": 9 }, { "item": "trumpet", "prob": 1 } ]
+  }
+]

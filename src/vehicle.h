@@ -98,7 +98,7 @@ struct vehicle_part {
         friend item_location;
         friend class turret_data;
 
-        enum : int { passenger_flag = 1 };
+        enum : int { passenger_flag = 1, animal_flag };
 
         vehicle_part(); /** DefaultConstructible */
 
@@ -243,7 +243,10 @@ struct vehicle_part {
         int hp() const;
 
         /** Current part damage in same units as item::damage. */
-        float damage() const;
+        int damage() const;
+
+        /** Current part damage level in same units as item::damage_level */
+        int damage_level( int max ) const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
@@ -648,6 +651,7 @@ class vehicle
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
+        bool can_unmount( int p, std::string &reason ) const;
 
         // install a new part to vehicle
         int install_part( int dx, int dy, const vpart_id &id, bool force = false );

@@ -1143,30 +1143,31 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
     mission_entry cur_key;
-    auto cur_key_list = mission_key_vectors[0];
-    for( auto k : mission_key_vectors[1] ){
-        bool has = false;
-        for( auto keys : cur_key_list ){
-            if( k.id == keys.id ){
-                has = true;
-                break;
+    std::vector<mission_entry> cur_key_list;
+
+    auto reset_cur_key_list = [&]()
+    {
+        cur_key_list = mission_key_vectors[0];
+        for ( auto k : mission_key_vectors[1] ) {
+            bool has = false;
+            for ( auto keys : cur_key_list ) {
+                if ( k.id == keys.id ) {
+                    has = true;
+                    break;
+                }
+            }
+            if ( !has ) {
+                cur_key_list.push_back( k );
             }
         }
-        if( !has ){
-            cur_key_list.push_back(k);
-        }
-    }
+    };
+
+    reset_cur_key_list();
 
     g->draw_ter();
     wrefresh( g->w_terrain );
 
     while (true) {
-        if( cur_key_list.empty() ){
-            mission_entry dud;
-            dud.id = "NONE";
-            dud.name_display = "NONE";
-            cur_key_list.push_back( dud );
-        }
         cur_key = cur_key_list[sel];
         if (redraw) {
             werase(w_list);
@@ -1227,64 +1228,36 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             redraw = true;
             sel = 0;
             offset = 0;
-            for( int tab_num = TAB_MAIN; tab_num != TAB_NW; tab_num++ ){
-                camp_tab_mode cur = static_cast<camp_tab_mode>(tab_num);
-                if( tab_mode == TAB_NW ){
-                    tab_mode = TAB_MAIN;
-                    cur_key_list = mission_key_vectors[0];
-                    for( auto k : mission_key_vectors[1] ){
-                        bool has = false;
-                        for( auto keys : cur_key_list ){
-                            if( k.id == keys.id ){
-                                has = true;
-                                break;
-                            }
-                        }
-                        if( !has ){
-                            cur_key_list.push_back(k);
-                        }
-                    }
 
-                    break;
-                } else if( cur == tab_mode ){
-                    cur_key_list = mission_key_vectors[tab_num + 2];
-                    tab_mode = static_cast<camp_tab_mode>(tab_num + 1);
-                    break;
+            do
+            {
+                if ( tab_mode == TAB_NW ) {
+                    tab_mode = TAB_MAIN;
+                    reset_cur_key_list();
+                } else {
+                    tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
+                    cur_key_list = mission_key_vectors[tab_mode + 1];
                 }
-            }
+            } while ( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
             offset = 0;
-            for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 1; tab_num++ ){
-                camp_tab_mode cur = static_cast<camp_tab_mode>(tab_num);
-                if( tab_mode == TAB_MAIN ){
-                    cur_key_list = mission_key_vectors[ TAB_NW + 1 ];
-                    tab_mode = TAB_NW;
-                    break;
-                } else if( cur == tab_mode ){
-                    tab_mode = static_cast<camp_tab_mode>(tab_num - 1);
-                    if( tab_mode == TAB_MAIN ) {
-                        cur_key_list = mission_key_vectors[0];
-                        for( auto k : mission_key_vectors[1] ){
-                            bool has = false;
-                            for( auto keys : cur_key_list ){
-                                if( k.id == keys.id ){
-                                    has = true;
-                                    break;
-                                }
-                            }
-                            if( !has ){
-                                cur_key_list.push_back(k);
-                            }
-                        }
 
-                    } else {
-                        cur_key_list = mission_key_vectors[ tab_num ];
-                    }
-                    break;
+            do
+            {
+                if ( tab_mode == TAB_MAIN ) {
+                    tab_mode = TAB_NW;
+                } else {
+                    tab_mode = static_cast<camp_tab_mode>( tab_mode - 1 );
                 }
-            }
+
+                if (tab_mode == TAB_MAIN) {
+                    reset_cur_key_list();
+                } else {
+                    cur_key_list = mission_key_vectors[tab_mode + 1];
+                }
+            } while ( cur_key_list.empty() );
         } else if (action == "QUIT") {
             mission_entry dud;
             dud.id = "NONE";
@@ -2639,7 +2612,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     }
     tmp = item( seed_types[plant_index], calendar::turn );
     const islot_seed &seed_data = *tmp.type->seed;
-    if( seed_data.spawn_seeds ){
+    if( seed_data.seed_count > 0 ){
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
         }
@@ -3346,23 +3319,11 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
             if ( harvest && bay.furn(x,y) == furn_str_id( "f_plant_harvest" ) && !bay.i_at(x,y).empty()){
                 const item &seed = bay.i_at( x,y )[0];
                 if( seed.is_seed() && seed.typeId() != "fungal_seeds" && seed.typeId() != "marloss_seed") {
-                    const itype &type = *seed.type;
-                    int skillLevel = comp->get_skill_level( skill_survival );
-                    ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-                    int plantCount = rng(skillLevel / 2, skillLevel);
-                    //this differs from
-                    if (plantCount >= 9) {
-                        plantCount = 9;
-                    } else if( plantCount <= 0 ) {
-                        plantCount = 1;
-                    }
-                    const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
-                    for( auto &i : iexamine::get_harvest_items( type, plantCount, seedCount, true ) ) {
+                    item &seed_item = g->m.i_at( x,y ).front();
+                    for( auto &i : iexamine::get_harvest_items( seed_item ) ) {
                         g->m.add_item_or_charges( g->u.posx(), g->u.posy(), i );
                     }
-                    bay.i_clear( x,y );
-                    bay.furn_set( x, y, f_null );
-                    bay.ter_set( x, y, t_dirt );
+                    iexamine::proceed_plant_after_harvest( x, y, g->u.posz() );
                 }
             }
         }
