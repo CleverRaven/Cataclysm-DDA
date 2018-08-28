@@ -1943,14 +1943,12 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
             }
         } else {
             std::list<item> harvest_items = get_harvest_items( seed );
+            // shrubs and mushrooms add items at player position
+            const tripoint harvest_pos = ( seed.type->seed->is_shrub ||
+                                           seed.type->seed->is_mushroom ) ? p.pos() : examp;
             proceed_plant_after_harvest( examp );
             for( auto &i : harvest_items ) {
-                if( seed.type->seed->is_shrub || seed.type->seed->is_mushroom ) {
-                    // shrubs and mushrooms add items at player position
-                    g->m.add_item_or_charges( p.pos(), i );
-                } else {
-                    g->m.add_item_or_charges( examp, i );
-                }
+                g->m.add_item_or_charges( harvest_pos, i );
             }
             p.moves -= 500;
             return;
