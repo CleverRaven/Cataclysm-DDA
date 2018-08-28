@@ -811,8 +811,7 @@ bool veh_interact::do_install( std::string &msg )
                 if ( shapes.size() > 1 ) { // more than one shape available, display selection
                     std::vector<uimenu_entry> shape_ui_entries;
                     for ( size_t i = 0; i < shapes.size(); i++ ) {
-                        uimenu_entry entry = uimenu_entry( i, true, UIMENU_INVALID,
-                                                           shapes[i]->name() );
+                        uimenu_entry entry = uimenu_entry( i, true, 0, shapes[i]->name() );
                         entry.extratxt.left = 1;
                         entry.extratxt.sym = special_symbol( shapes[i]->sym );
                         entry.extratxt.color = shapes[i]->color;

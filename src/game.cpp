@@ -2079,7 +2079,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                            iScrollPos, true, false, false);
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
-            if( action_menu.ret == UIMENU_INVALID || action_menu.ret == UIMENU_CANCEL ) {
+            if( action_menu.ret == UIMENU_ERROR || action_menu.ret == UIMENU_CANCEL ) {
                 cMenu = '\0';
             } else if( action_menu.ret != UIMENU_WAIT_INPUT ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */

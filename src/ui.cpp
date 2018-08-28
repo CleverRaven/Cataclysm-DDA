@@ -64,7 +64,7 @@ uimenu::uimenu( std::string msg, std::initializer_list<char const *const> opts )
 
 uimenu::uimenu( int startx, int width, int starty, std::string msg, std::vector<uimenu_entry> opts )
 {
-    init(); 
+    init();
     w_x = startx;
     w_y = starty;
     w_width = width;
@@ -75,7 +75,7 @@ uimenu::uimenu( int startx, int width, int starty, std::string msg, std::vector<
 
 uimenu::uimenu( int startx, int width, int starty, std::string msg, std::vector<std::string> opts )
 {
-    init(); 
+    init();
     w_x = startx;
     w_y = starty;
     w_width = width;
@@ -88,7 +88,7 @@ uimenu::uimenu( int startx, int width, int starty, std::string msg, std::vector<
 
 uimenu::uimenu( int startx, int width, int starty, std::string msg, std::initializer_list<char const *const> opts )
 {
-    init(); 
+    init();
     w_x = startx;
     w_y = starty;
     w_width = width;
@@ -140,9 +140,9 @@ void uimenu::init()
     hilight_color = h_white; // highlight for up/down selection bar
     hotkey_color = c_light_green; // hotkey text to the right of menu entry's text
     disabled_color = c_dark_gray; // disabled menu entry
-    allow_disabled = false;  // allow selecting disabled options
-    allow_anykey = false;    // pass unbound input to callback
-    allow_cancel = true;    // allow exiting with "QUIT" action
+    allow_disabled = false;  // disallow selecting disabled options
+    allow_anykey = false;    // do not return on unbound keys
+    allow_cancel = true;     // allow cancelling with "QUIT" action
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
@@ -757,7 +757,7 @@ void uimenu::query(bool loop)
 {
     keypress = 0;
     if( entries.empty() ) {
-        ret = UIMENU_INVALID;
+        ret = UIMENU_ERROR;
         return;
     }
     ret = UIMENU_WAIT_INPUT;
@@ -803,7 +803,7 @@ void uimenu::query(bool loop)
         } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
-            } else if ( allow_disabled ) {
+            } else if( allow_disabled ) {
                 ret = entries[ selected ].retval; // disabled
             }
         } else if( allow_cancel && action == "QUIT" ) {

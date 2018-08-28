@@ -18,7 +18,7 @@
 /**
  * uimenu constants
  */
-const int UIMENU_INVALID = -1024;
+const int UIMENU_ERROR = -1024;
 const int UIMENU_WAIT_INPUT = -1025;
 const int UIMENU_UNBOUND = -1027;
 const int UIMENU_CANCEL = -1028;
@@ -180,8 +180,8 @@ class uimenu: public ui_container
         int pad_left;
         int pad_right;
         bool allow_disabled; // return on selecting disabled entry, default false
-        bool allow_anykey; // return UIMENU_INVALID on keys unbound & unhandled by callback, default false
-        bool allow_cancel; // return UIMENU_INVALID on "QUIT" action, default true
+        bool allow_anykey; // return UIMENU_UNBOUND on keys unbound & unhandled by callback, default false
+        bool allow_cancel; // return UIMENU_CANCEL on "QUIT" action, default true
         bool hilight_disabled;
         bool hilight_full;
         int vshift;
