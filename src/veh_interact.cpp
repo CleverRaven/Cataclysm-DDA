@@ -61,6 +61,7 @@ namespace
 const std::string repair_hotkeys( "r1234567890" );
 const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
+const quality_id SELF_JACK( "SELF_JACK" );
 const skill_id skill_mechanics( "mechanics" );
 } // namespace
 
@@ -619,7 +620,7 @@ bool veh_interact::can_install_part() {
         bool can_self_jack = false;
         for(auto jack : self_jacking_parts) {
             item jack_item(jack->properties_to_item());
-            if(jack_item.has_quality(qual, lvl)) {
+            if(jack_item.has_quality(SELF_JACK, lvl)) {
                 can_self_jack = true;
                 break;
             }
@@ -1368,7 +1369,18 @@ bool veh_interact::can_remove_part( int idx ) {
         qual = JACK;
         lvl = jack_qality( *veh );
         str = veh->lift_strength();
-        use_aid = max_jack >= lvl;
+
+        auto self_jacking_parts = veh->get_parts("SELF_JACK", false);
+        bool can_self_jack = false;
+        for(auto jack : self_jacking_parts) {
+            item jack_item(jack->properties_to_item());
+            if(jack_item.has_quality(SELF_JACK, lvl)) {
+                can_self_jack = true;
+                break;
+            }
+        }
+
+        use_aid = (max_jack >= lvl) || can_self_jack;
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;

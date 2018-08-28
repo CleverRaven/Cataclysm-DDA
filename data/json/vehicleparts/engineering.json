@@ -97,5 +97,22 @@
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL" ]
+  },
+  {    
+    "type": "vehicle_part",
+    "id": "air_jack",
+    "name": "Air Jack System",
+    "item": "v_airjack_item",
+    "location": "structure",
+    "symbol": "[",
+    "broken_symbol": "/",
+    "color": "light_gray",
+    "broken_color": "light_blue",
+    "difficulty": 2,
+    "durability": 200,
+    "description": "An extendable metal pylon used to replace a portable jack.  If mounted to a vehicle, it could be used to lift it up.",
+    "breaks_into": [ { "item": "pipe", "count": [ 4, 12 ] }, { "item": "scrap", "count": [ 8, 24 ] }, { "item": "jack", "count": [ 1, 1 ] } ],
+    "qualities": [ [ "SELF_JACK", 17 ] ],
+    "flags": [ "PROTRUSION", "SELF_JACK" ]
   }
 ]

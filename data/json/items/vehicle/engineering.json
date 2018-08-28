@@ -50,5 +50,19 @@
     "category": "veh_parts",
     "price": 8500,
     "volume": 29
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_airjack_item",
+    "symbol": "&",
+    "name": "airjack",
+    "color": "dark_gray",
+    "description": "An extendable metal pylon used to replace a portable jack.  If mounted to a vehicle, it could be used to lift it up.",
+    "weight": 21000,
+    "material": "steel",
+    "category": "veh_parts",
+    "price": 8500,
+    "volume": 35,
+	"qualities": [ [ "SELF_JACK", 17 ] ]
   }
 ]
