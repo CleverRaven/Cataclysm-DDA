@@ -1798,6 +1798,109 @@ void iexamine::proceed_plant_after_harvest( const tripoint &examp )
     }
 }
 
+void iexamine::plant_watering( player &p, const tripoint &examp )
+{
+    item &seed = g->m.i_at( examp ).front();
+    int water = seed.get_var( "water", 0 );
+    const inventory &crafting_inv = p.crafting_inventory();
+    int water_charges = crafting_inv.charges_of( "water" );
+    if( water_charges == 0 ) {
+        add_msg( _( "You don't have water." ) );
+        return;
+    } else if( water > 200 ) {
+        add_msg( _( "There is no need to water this plant." ) );
+        return;
+    } else {
+        // Up to 50L of water can be used per plant
+        int water_used = std::min( water_charges, ( 250 - water ) / 5 );
+        water += water_used * 5;
+        seed.set_var( "water", water );
+        std::vector<item_comp> comps;
+        comps.push_back( item_comp( "water", water_used ) );
+        p.consume_items( comps );
+        add_msg( _( "You watered the plant." ) );
+        p.moves -= 500;
+        return;
+    }
+}
+
+void iexamine::plant_fertilizing( player &p, const tripoint &examp )
+{
+    item &seed = g->m.i_at( examp ).front();
+    int fertilizer = seed.get_var( "fertilizer", 0 );
+    const std::string pname = seed.get_plant_name();
+    if( fertilizer > 300 ) {
+        add_msg( _( "There is no need to fertilize this plant." ) );
+        return;
+    } else {
+        std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
+        if( f_inv.empty() ) {
+            add_msg( m_info, _( "You have no fertilizer for the %s." ), pname.c_str() );
+            return;
+        }
+        std::vector<itype_id> f_types;
+        std::vector<std::string> f_names;
+        for( auto &f : f_inv ) {
+            if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
+                f_types.push_back( f->typeId() );
+                f_names.push_back( f->tname() );
+            }
+        }
+        // Choose fertilizer from list
+        int f_index = 0;
+        if( f_types.size() > 1 ) {
+            f_names.push_back( _( "Cancel" ) );
+            f_index = menu_vec( false, _( "Use which fertilizer?" ), f_names ) - 1;
+            if( f_index == ( int )f_names.size() - 1 ) {
+                f_index = -1;
+            }
+        } else {
+            f_index = 0;
+        }
+        if( f_index < 0 ) {
+            return;
+        }
+        std::list<item> planted = p.use_charges( f_types[f_index], 1 );
+        if( planted.empty() ) { // nothing was removed from inv => weapon is the SEED
+            if( p.weapon.charges > 1 ) {
+                p.weapon.charges--;
+            } else {
+                p.remove_weapon();
+            }
+        }
+        add_msg( _( "You fertilized the plant." ) );
+        p.moves -= 500;
+        int add_fertilizer = to_hours<int>( calendar::season_length() );
+        seed.set_var( "fertilizer", fertilizer + add_fertilizer );
+        return;
+    }
+}
+
+void iexamine::plant_weed_removing( player &p, const tripoint &examp )
+{
+    item &seed = g->m.i_at( examp ).front();
+    int weed = seed.get_var( "weed", 0 );
+    int health = seed.get_var( "health", 0 );
+    if( weed == 0 ) {
+        add_msg( _( "There are no weeds here." ) );
+        return;
+    } else {
+        p.moves -= 10 * weed;
+        int survival = p.get_skill_level( skill_survival );
+        if( survival >= 2 ) {
+            seed.set_var( "weed", 0 );
+            add_msg( _( "You removed all weeds." ) );
+        } else {
+            weed *= rng( survival * 50, 100 ) / 100.0f;
+            seed.set_var( "weed", weed );
+            health -= rng( 0, 20 - survival * 10 );
+            seed.set_var( "health", health );
+            add_msg( _( "You removed some weeds." ) );
+        }
+        return;
+    }
+}
+
 void iexamine::aggie_plant( player &p, const tripoint &examp )
 {
     if( g->m.i_at( examp ).empty() ) {
@@ -1958,97 +2061,20 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
 
         // Watering
         if( action_index == 1 ) {
-            const inventory &crafting_inv = p.crafting_inventory();
-            int water_charges = crafting_inv.charges_of( "water" );
-            if( water_charges == 0 ) {
-                add_msg( _( "You don't have water." ) );
-                return;
-            } else if( water > 200 ) {
-                add_msg( _( "There is no need to water this plant." ) );
-                return;
-            } else {
-                // Up to 50L of water can be used per plant
-                int water_used = std::min( water_charges, ( 250 - water ) / 5 );
-                water += water_used * 5;
-                seed.set_var( "water", water );
-                std::vector<item_comp> comps;
-                comps.push_back( item_comp( "water", water_used ) );
-                p.consume_items( comps );
-                add_msg( _( "You watered the plant." ) );
-                p.moves -= 500;
-                return;
-            }
+            plant_watering( p, examp );
+            return;
         }
 
         // Use fertilizer
         if( action_index == 2 ) {
-            if( fertilizer > 300 ) {
-                add_msg( _( "There is no need to fertilize this plant." ) );
-                return;
-            } else {
-                std::vector<const item *> f_inv = p.all_items_with_flag( "FERTILIZER" );
-                if( f_inv.empty() ) {
-                    add_msg( m_info, _( "You have no fertilizer for the %s." ), pname.c_str() );
-                    return;
-                }
-                std::vector<itype_id> f_types;
-                std::vector<std::string> f_names;
-                for( auto &f : f_inv ) {
-                    if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
-                        f_types.push_back( f->typeId() );
-                        f_names.push_back( f->tname() );
-                    }
-                }
-                // Choose fertilizer from list
-                int f_index = 0;
-                if( f_types.size() > 1 ) {
-                    f_names.push_back( _( "Cancel" ) );
-                    f_index = menu_vec( false, _( "Use which fertilizer?" ), f_names ) - 1;
-                    if( f_index == ( int )f_names.size() - 1 ) {
-                        f_index = -1;
-                    }
-                } else {
-                    f_index = 0;
-                }
-                if( f_index < 0 ) {
-                    return;
-                }
-                std::list<item> planted = p.use_charges( f_types[f_index], 1 );
-                if( planted.empty() ) { // nothing was removed from inv => weapon is the SEED
-                    if( p.weapon.charges > 1 ) {
-                        p.weapon.charges--;
-                    } else {
-                        p.remove_weapon();
-                    }
-                }
-                add_msg( _( "You fertilized the plant." ) );
-                p.moves -= 500;
-                int add_fertilizer = to_hours<int>( calendar::season_length() );
-                seed.set_var( "fertilizer", fertilizer + add_fertilizer );
-                return;
-            }
+            plant_fertilizing( p, examp );
+            return;
         }
 
         // Weed control
         if( action_index == 3 ) {
-            if( weed == 0 ) {
-                add_msg( _( "There are no weeds here." ) );
-                return;
-            } else {
-                p.moves -= 10 * weed;
-                int survival = p.get_skill_level( skill_survival );
-                if( survival >= 2 ) {
-                    seed.set_var( "weed", 0 );
-                    add_msg( _( "You removed all weeds." ) );
-                } else {
-                    weed *= rng( survival * 50, 100 ) / 100.0f;
-                    seed.set_var( "weed", weed );
-                    health -= rng( 0, 20 - survival * 10 );
-                    seed.set_var( "health", health );
-                    add_msg( _( "You removed some weeds." ) );
-                }
-                return;
-            }
+            plant_weed_removing( p, examp );
+            return;
         }
     }
 }
