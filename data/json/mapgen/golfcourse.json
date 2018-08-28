@@ -16,6 +16,9 @@
         "w": "f_null"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "........................",
         "...................ws...",
@@ -92,6 +95,9 @@
     "method": "json",
     "object": {
       "furniture": { ".": "f_null", "4": "f_null", "_": "f_null", "s": "f_null" },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "44_...._444_...._4sss444",
         "44_...._444_...._4sss444",
@@ -172,6 +178,9 @@
         "s": "f_null"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "44_...._444_...._4ss4444",
         "44......444_gggg._ss4444",
@@ -259,6 +268,9 @@
         "s": "f_null"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "444444444444444444444444",
         "444444444444444444444444",
@@ -344,6 +356,9 @@
         "g": "f_null"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "4.........______________",
         "44ddP##&4444444444444444",
@@ -430,6 +445,9 @@
         "t": "f_trashcan"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "4......444_...._4_....._",
         "4......444_...._4_....._",
@@ -520,6 +538,9 @@
         "g": "f_null"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "444444444444444444444444",
         "444444444444444444444444",
@@ -604,6 +625,9 @@
         "g": "f_null"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "____________4444_...._44",
         "4444444444444444_...._44",
@@ -689,6 +713,9 @@
         "s": "f_null"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "4_...__4_...._4444444444",
         "4_..ss_4_...._44________",
@@ -937,6 +964,9 @@
         "s": "f_null"
       },
       "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] }
+      ],
       "rows": [
         "44ddddddddddddddddddd444",
         "_______4444444444##dd444",
