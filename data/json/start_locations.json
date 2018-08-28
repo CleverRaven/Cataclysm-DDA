@@ -232,6 +232,12 @@
   },
   {
     "type": "start_location",
+    "ident": "campsite",
+    "name": "campsite",
+    "target": "campsite"
+  },
+  {
+    "type": "start_location",
     "ident": "campground",
     "name": "campground",
     "target": "campground_1a"
