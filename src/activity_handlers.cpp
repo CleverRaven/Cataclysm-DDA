@@ -524,18 +524,20 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     // in quick butchery you aim for meat and don't care about the rest
     if( action == BUTCHER && ( !corpse_item->has_flag( "FIELD_DRESS" ) || !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         pieces /= 4;
-        skins = 0;
-        bones = 0;
-        fats = 0;
-        sinews = 0;
-        feathers = 0;
-        wool = 0;
-        stomach = false;
+        if( corpse->size >= MS_MEDIUM ) {
+            skins /= 2;
+        }
+        bones /= 2;
+        fats /= 4;
+        sinews /= 4;
+        // feathers unchanged
+        wool /= 4;
+        stomach = roll_butchery() >= 0;
     }
 
     //FIELD DRESSING
     if( action == F_DRESS ) {
-        // "pieces" left unchanged becouse they are 'converted' to offal and don't yield meat
+        // "pieces" left unchanged because they are 'converted' to offal and don't yield meat
         skins = 0;
         bones =  rng( 0, bones / 2 );
         fats = 0;
@@ -869,13 +871,21 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             continue;
         }
         
-        // QUICK BUTCHERY aims for meat and doesn't care about the rest
+        // QUICK BUTCHERY
         if( action == BUTCHER ) {
             if( entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ) {
+                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ||
+                entry.drop == "wool_staple" || entry.drop == "fat" || entry.drop == "fat_tainted" ) {
                 roll = roll / 4;
+            } else if( entry.drop != "bone" ) {
+                roll = roll / 2;
+            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
+                entry.drop == "raw_hleather" || entry.drop == "chitin_piece" ||
+                entry.drop == "acidchitin_piece" ) ) {
+                roll /= 2 ;
             } else {
-                continue; 
+                continue;
             }
         }
         // field dressing ignores everything outside below list
@@ -883,8 +893,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.drop != "bone" ) {
                  roll = rng( 0, roll / 2 );
             }
-            if( entry.drop == "fat" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
+            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" || 
+                entry.drop == "meat_tainted" || entry.drop == "fish" ||
                 entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
                 entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
                 continue;
@@ -912,8 +924,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.drop == "bone" || entry.drop == "bone_human" ) {
                  roll = ( roll / 2 ) + rng( roll / 2 , roll);
             }
-            if( entry.drop == "fat" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
+            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
                 entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
                 entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
                 roll = rng( 0, roll );
