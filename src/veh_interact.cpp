@@ -614,7 +614,18 @@ bool veh_interact::can_install_part() {
         qual = JACK;
         lvl = jack_qality( *veh );
         str = veh->lift_strength();
-        use_aid = max_jack >= lvl;
+
+        auto self_jacking_parts = veh->get_parts("SELF_JACK", false);
+        bool can_self_jack = false;
+        for(auto jack : self_jacking_parts) {
+            item jack_item(jack->properties_to_item());
+            if(jack_item.has_quality(qual, lvl)) {
+                can_self_jack = true;
+                break;
+            }
+        }
+
+        use_aid = (max_jack >= lvl) || can_self_jack;
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
