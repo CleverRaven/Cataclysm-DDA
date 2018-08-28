@@ -97,7 +97,7 @@
   {
     "type": "material",
     "ident": "budget_steel",
-    "name": "budget steel",
+    "name": "Budget Steel",
     "density": 30,
     "bash_resist": 6,
     "cut_resist": 6,

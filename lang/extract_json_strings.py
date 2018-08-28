@@ -474,6 +474,8 @@ def extract_recipes(item):
         for arr in item["book_learn"]:
             if len(arr) >= 3 and len(arr[2]) > 0:
                 writestr(outfile, arr[2])
+    if "description" in item:
+        writestr(outfile, item["description"])
 
 
 def extract_recipe_group(item):

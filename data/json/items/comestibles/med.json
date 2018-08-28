@@ -1,8 +1,8 @@
 [
     {
         "id": "1st_aid",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
+        "type": "GENERIC",
+        "category": "drugs",
         "name": "first aid kit",
         "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
         "weight": 1000,
@@ -994,8 +994,7 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "disinfectant_power" : 4,
-            "bleed" : 90,
+            "bleed" : 0.9,
             "move_cost" : 100
         }
     },

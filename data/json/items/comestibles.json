@@ -2558,7 +2558,7 @@
     "copy-from": "sausage",
     "name": "Mannwurst",
     "flags": [ "EATEN_HOT", "SMOKED" ],
-    "description": "A hefty long pork sausage that has been cured for long term storage.  Very tasty, if you're in the market for human flesh.",
+    "description": "A hefty long pork sausage that has been cured and smoked for long term storage.  Very tasty, if you're in the market for human flesh.",
     "material": "hflesh"
   },
   {
@@ -4414,7 +4414,6 @@
     "price": 200,
     "material": "veggy",
     "volume": 1,
-    "charges": 6,
     "fun": -1,
     "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -6050,7 +6049,6 @@
     "price": 750,
     "material": "veggy",
     "volume": 12,
-    "charges": 8,
     "bashing": 2,
     "fun": -1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -10368,6 +10366,44 @@
     "spoils_in": 420,
     "use_action": "WEED_BROWNIE",
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "jabberwock_heart",
+    "name": "putrid heart",
+    "weight": 4535,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -10,
+    "nutrition": 40,
+    "quench": 20,
+    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies...",
+    "price": 6500,
+    "material": [ "flesh" ],
+    "volume": 4,
+    "fun": -25,
+    "use_action" : {
+      "type" : "mutagen",
+       "mutation_category" : "BEAST",
+      "is_strong" : true
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "jabberwock_heart_desiccated",
+    "name": "desiccated putrid heart",
+    "weight": 1360,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -5,
+    "nutrition": 25,
+    "description": "A huge strip of muscle - all that remains of a putrid heart that has been sliced open and drained of blood.  It could be eaten if you're hungry, but looks *disgusting*.",
+    "price": 1000,
+    "material": [ "flesh" ],
+    "volume": 1,
+    "fun": -30
   }
 ]
 

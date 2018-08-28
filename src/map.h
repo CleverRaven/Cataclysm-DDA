@@ -750,7 +750,9 @@ class map
 
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
-        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p );
+        // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
+        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p,
+                               const bool same_submap = false );
         bool close_door( const tripoint &p, const bool inside, const bool check_only );
         bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
         // Destruction
@@ -895,12 +897,17 @@ class map
         void make_active( item_location &loc );
 
         /**
+         * Update luminosity before and after item's transformation
+         */
+        void update_lum( item_location &loc, bool add );
+
+        /**
          * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
          * and sets item's fridge/freezer status variables.
          * @param it Item processed.
          * @param temperature Temperature affecting item.
          */
-        void apply_in_fridge( item &it, int temperature );
+        void apply_in_fridge( item &it, int temperature, bool vehicle = false );
 
         /**
          * @name Consume items on the map
@@ -1173,7 +1180,7 @@ class map
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                   std::array<fragment_cloud( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &obstacle_caches );
+                                   fragment_cloud( &obstacle_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -1268,6 +1275,10 @@ class map
          * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
+        /**
+         * Try to grow a harvestable plant to the next stage(s).
+         */
+        void grow_plant( const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
@@ -1314,10 +1325,6 @@ class map
          * @param p The location in this map where to fill funnels.
          */
         void fill_funnels( const tripoint &p, const time_point &since );
-        /**
-         * Try to grow a harvestable plant to the next stage(s).
-         */
-        void grow_plant( const tripoint &p );
         /**
          * Try to grow fruits on static plants (not planted by the player)
          * @param p Place to restock
@@ -1570,6 +1577,12 @@ class map
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
 };
+
+/**
+ * Gives ratio for temperature differential of two temperatures
+ * Used in determining speed of temperature change of items
+ */
+unsigned int temp_difference_ratio( int temp_one, int temp_two );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

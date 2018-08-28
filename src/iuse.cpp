@@ -1331,7 +1331,29 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
         //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
         //~ We are the Mycus.
+        g->refresh_all();
+        popup( _( "We welcome into us. We have endured long in this forbidding world." ) );
+        p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
+                              _( "A sea of white caps, waving gently. A haze of spores wafting silently over a forest." ) );
+        g->refresh_all();
+        popup( _( "The natives have a saying: \"E Pluribus Unum.\"  Out of many, one." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The blazing pink redness of the berry. The juices spreading across your tongue, the warmth draping over us like a lover's embrace." ) );
+        g->refresh_all();
+        popup( _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world. Even now, our fruits adapt to better serve local physiology." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The sky-blue of the seed. The nutty, creamy flavors intermingling with the berry, a memory that will never leave us." ) );
+        g->refresh_all();
+        popup( _( "As, in time, shall we adapt to better welcome those who have not received us." ) );
+        p->add_msg_if_player( " " );
+        p->add_msg_if_player( m_good,
+                              _( "The amber-yellow of the sap. Feel it flowing through our veins, taking the place of the strange, thin red gruel called \"blood.\"" ) );
+        g->refresh_all();
+        popup( _( "We are the Mycus." ) );
+        /*p->add_msg_if_player( m_good,
                               _( "We welcome into us.  We have endured long in this forbidding world." ) );
         p->add_msg_if_player( m_good,
                               _( "The natives have a saying: \"E Pluribus Unum\"  Out of many, one." ) );
@@ -1339,7 +1361,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
                               _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world." ) );
         p->add_msg_if_player( m_good, _( "Even now, our fruits adapt to better serve local physiology." ) );
         p->add_msg_if_player( m_good,
-                              _( "As, in time, shall we adapt to better welcome those who have not received us." ) );
+                              _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         fungal_effects fe( *g, g->m );
         for( const tripoint &pos : g->m.points_in_radius( p->pos(), 3 ) ) {
             fe.marlossify( pos );
@@ -2613,24 +2635,20 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::clear_rubble( player *p, item *it, bool, const tripoint &pos )
 {
-    for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
-            // DIG 2 = 150  seconds
-            // DIG 3 = 75   seconds
-            // DIG 4 = 50   seconds
-            // DIG 5 = 37.5 seconds
-            int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
-            act.coords.push_back( pt );
-            p->assign_activity( act );
-
-            return it->type->charges_to_use();
-        }
+    tripoint dirp = pos;
+    if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
+        return 0;
     }
-
-    p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
-    return 0;
+    if( g->m.has_flag( "RUBBLE", dirp ) ) {
+        int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
+        player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
+        p->assign_activity( act );
+        p->activity.placement = dirp;
+        return it->type->charges_to_use();
+    } else {
+        p->add_msg_if_player( m_bad, _( "There's no rubble to clear." ) );
+        return 0;
+    }
 }
 
 void act_vehicle_siphon( vehicle * ); // veh_interact.cpp
@@ -2690,7 +2708,7 @@ int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
                            20, _( "With a roar, the chainsaw leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -2699,7 +2717,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
@@ -2708,7 +2726,7 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a roar, the chainsaws leap to life!" ),
                            _( "You yank the cords, but nothing happens." ) );
 }
@@ -2726,7 +2744,7 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 3,
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 3,
                            15, _( "With a roar, the hedge trimmer leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -2838,19 +2856,12 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    const time_duration duration = 30_minutes;
-    const bool mineable = g->m.is_bashable( dirp ) &&
-                          ( g->m.has_flag( "SUPPORTS_ROOF", dirp ) || g->m.has_flag( "MINEABLE", dirp ) ) &&
-                          !g->m.has_flag( "TREE", dirp );
-    const bool not_dirt_or_grass = g->m.move_cost( dirp ) == 2 && g->get_levz() != -1 &&
-                                   g->m.ter( dirp ) != t_dirt && g->m.ter( dirp ) != t_grass;
-
-    if( !( mineable || not_dirt_or_grass ) ) {
+    if( !g->m.has_flag( "MINEABLE", dirp ) ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( duration ) * 100, -1,
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), to_turns<int>( 30_minutes ) * 100, -1,
                         p->get_item_position( it ) );
     p->activity.placement = dirp;
 
@@ -2883,16 +2894,13 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
     }
 
     int turns;
-    if( g->m.is_bashable( dirx, diry ) && g->m.ter( dirx, diry ) != t_tree &&
-        ( g->m.has_flag( "SUPPORTS_ROOF", dirx, diry ) || g->m.has_flag( "MINEABLE", dirx, diry ) ) ) {
-
-        /** @EFFECT_STR speeds up mining with a pickaxe */
-        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
-    } else if( g->m.move_cost( dirx, diry ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( dirx, diry ) != t_dirt && g->m.ter( dirx, diry ) != t_grass ) {
-
-        turns = MINUTES( 20 );
-
+    if( g->m.has_flag( "MINEABLE", dirx, diry ) ) {
+        if( g->m.move_cost( dirx, diry ) == 2 ) {
+            // We're breaking up some flat surface like pavement, which is much easier
+            turns = MINUTES( 20 );
+        } else {
+            turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
+        }
     } else {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return 0;
@@ -5213,31 +5221,31 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
+    if( fix.damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
         p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname().c_str() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return 0;
     }
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
-    if( fix.precise_damage() <= 0 ) {
+    if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, "" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
-    } else if( fix.precise_damage() > 1 ) {
+    } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
     } else {
         sounds::sound( p->pos(), 8, "" );
@@ -5344,27 +5352,27 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    if( fix.precise_damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( fix.damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 ) {
+    if( fix.damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
         p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
-    } else if( fix.precise_damage() > 1 ) {
+    } else if( fix.damage() > itype::damage_scale ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
     } else {
         p->moves -= 250 * p->fine_detail_vision_mod();
@@ -7339,6 +7347,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
     w_point const weatherPoint = *g->weather_precise;
 
+    /* Possibly used twice. Worth spending the time to precalculate. */
+    const auto player_local_temp = g->get_temperature( g->u.pos() );
+
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
                               it->tname().c_str() );
@@ -7346,10 +7357,10 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     if( it->has_flag( "THERMOMETER" ) ) {
         if( it->typeId() == "thermometer" ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
-                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
+                                  print_temperature( player_local_temp ).c_str() );
         } else {
             p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
+                                  print_temperature( player_local_temp ).c_str() );
         }
     }
     if( it->has_flag( "HYGROMETER" ) ) {
@@ -7393,7 +7404,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
-                g->get_temperature( g->u.pos() ) ).c_str() );
+                player_local_temp ).c_str() );
     }
 
     return 0;
@@ -7434,6 +7445,64 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
     return 0;
 }
 
+int item::release_monster( const tripoint &target, bool spawn )
+{
+    monster new_monster;
+    try {
+        ::deserialize( new_monster, get_var( "contained_json", "" ) );
+    } catch( const std::exception &e ) {
+        debugmsg( _( "Error restoring monster: %s" ), e.what() );
+        return 0;
+    }
+    if( spawn ) {
+        new_monster.spawn( target );
+        g->add_zombie( new_monster );
+    }
+    erase_var( "contained_name" );
+    erase_var( "contained_json" );
+    erase_var( "name" );
+    erase_var( "weight" );
+    return 0;
+}
+
+// didn't want to drag the monster:: definition into item.h, so just reacquire the monster
+// at target
+int item::contain_monster( const tripoint &target )
+{
+    const monster *const mon_ptr = g->critter_at<monster>( target );
+    if( !mon_ptr ) {
+        return 0;
+    }
+    const monster &f = *mon_ptr;
+
+    set_var( "contained_json", ::serialize( f ) );
+    set_var( "contained_name", f.type->nname() );
+    set_var( "name", string_format( _( "%s holding %s" ), type->nname( 1 ).c_str(),
+                                    f.type->nname().c_str() ) );
+    m_size mon_size = f.get_size();
+    int new_weight = 0;
+    switch( mon_size ) {
+        case MS_TINY:
+            new_weight = 1000;
+            break;
+        case MS_SMALL:
+            new_weight = 40750;
+            break;
+        case MS_MEDIUM:
+            new_weight = 81500;
+            break;
+        case MS_LARGE:
+            new_weight = 120000;
+            break;
+        case MS_HUGE:
+            new_weight = 200000;
+            break;
+    }
+    set_var( "weight", new_weight );
+    g->remove_zombie( f );
+    return 0;
+}
+
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 {
     if( it->has_var( "contained_name" ) ) {
@@ -7468,20 +7537,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 }
             }
         }
-        monster new_monster;
-        try {
-            deserialize( new_monster, it->get_var( "contained_json", "" ) );
-        } catch( const std::exception &e ) {
-            debugmsg( _( "Error restoring monster: %s" ), e.what() );
-            return 0;
-        }
-        new_monster.spawn( target );
-        g->add_zombie( new_monster );
-        it->erase_var( "contained_name" );
-        it->erase_var( "contained_json" );
-        it->erase_var( "name" );
-        it->erase_var( "weight" );
-        return 0;
+        return it->release_monster( target );
     } else {
         tripoint target = pos;
         const std::string query = string_format( _( "Capture what with the %s?" ), it->tname().c_str() );
@@ -7514,32 +7570,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
-                it->set_var( "contained_json", serialize( f ) );
-                it->set_var( "contained_name", f.type->nname() );
-                it->set_var( "name", string_format( _( "%s holding %s" ), it->type->nname( 1 ).c_str(),
-                                                    f.type->nname().c_str() ) );
-                m_size mon_size = f.get_size();
-                int new_weight = 0;
-                switch( mon_size ) {
-                    case MS_TINY:
-                        new_weight = 1000;
-                        break;
-                    case MS_SMALL:
-                        new_weight = 40750;
-                        break;
-                    case MS_MEDIUM:
-                        new_weight = 81500;
-                        break;
-                    case MS_LARGE:
-                        new_weight = 120000;
-                        break;
-                    case MS_HUGE:
-                        new_weight = 200000;
-                        break;
-                }
-                it->set_var( "weight", new_weight );
-                g->remove_zombie( f );
-                return 0;
+                return it->contain_monster( target );
             } else {
                 p->add_msg_if_player( m_bad, _( "The %1$s avoids your attempts to put it in the %2$s." ),
                                       f.type->nname().c_str(), it->type->nname( 1 ).c_str() );
@@ -7724,7 +7755,15 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
-    const int pos = p->inv.position_by_item( it );
+    int pos = p->inv.position_by_item( it );
+    // Giving player::disassemble INT_MIN is actually a special case to
+    // disassemble all, but position_by_item returns INT_MIN if it's not
+    // actually in our inventory.  If the item was on the floor, it will be
+    // picked up and put into inventory before this point, so the only time we
+    // can get INT_MIN here is if we're wielding it.
+    if( pos == INT_MIN ) {
+        pos = -1;
+    }
     p->disassemble( *it, pos, false, false );
     return 0;
 }
