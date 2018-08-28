@@ -2522,6 +2522,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         return;
     }
     act->moves_left -= crafting_speed * p->get_moves();
+    act->moves_used += crafting_speed * p->get_moves();
     p->set_moves( 0 );
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
         // @todo Describe the causes of slowdown
