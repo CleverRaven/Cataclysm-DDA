@@ -514,6 +514,24 @@ bool veh_interact::is_drive_conflict()
     return has_conflict;
 }
 
+bool veh_interact::can_self_jack(const vehicle * veh)
+{
+    int lvl = jack_qality(*veh);    
+
+    auto self_jacking_parts = veh->get_parts("SELF_JACK", false);
+    bool can_self_jack = false;
+    for (auto jack : self_jacking_parts)
+    {
+        item jack_item(jack->properties_to_item());
+        if (jack_item.has_quality(SELF_JACK, lvl)) {
+            can_self_jack = true;
+            break;
+        }
+    }
+
+    return can_self_jack;
+}
+
 bool veh_interact::can_install_part() {
     if( sel_vpart_info == NULL ) {
         werase (w_msg);
@@ -616,16 +634,7 @@ bool veh_interact::can_install_part() {
         lvl = jack_qality( *veh );
         str = veh->lift_strength();
 
-        auto self_jacking_parts = veh->get_parts( "SELF_JACK", false );
-        bool can_self_jack = false;
-        for( auto jack : self_jacking_parts )
-        {
-            item jack_item( jack->properties_to_item() );
-            if( jack_item.has_quality( SELF_JACK, lvl ) ) {
-                can_self_jack = true;
-                break;
-            }
-        }
+        const bool can_self_jack = veh_interact::can_self_jack( veh );
 
         use_aid = ( max_jack >= lvl ) || can_self_jack;
         use_str = g->u.can_lift( *veh );
@@ -1371,16 +1380,7 @@ bool veh_interact::can_remove_part( int idx ) {
         lvl = jack_qality( *veh );
         str = veh->lift_strength();
 
-        auto self_jacking_parts = veh->get_parts( "SELF_JACK", false );
-        bool can_self_jack = false;
-        for( auto jack : self_jacking_parts )
-        {
-            item jack_item( jack->properties_to_item() );
-            if( jack_item.has_quality( SELF_JACK, lvl ) ) {
-                can_self_jack = true;
-                break;
-            }
-        }
+        const bool can_self_jack = veh_interact::can_self_jack( veh );
 
         use_aid = ( max_jack >= lvl ) || can_self_jack;
         use_str = g->u.can_lift( *veh );
