@@ -854,6 +854,7 @@ void color_manager::show_gui()
                 uimenu ui_templates;
                 ui_templates.w_y = iHeaderHeight + 1 + iOffsetY;
                 ui_templates.w_height = 18;
+                ui_templates.return_invalid = true;
 
                 ui_templates.text = _( "Color templates:" );
 
@@ -861,9 +862,10 @@ void color_manager::show_gui()
                     ui_templates.addentry( filename.substr( filename.find_last_of( "/" ) + 1 ) );
                 }
 
+                ui_templates.addentry( std::string( _( "Cancel" ) ) );
                 ui_templates.query();
 
-                if( ui_templates.ret >= 0 && size_t( ui_templates.ret ) < vFiles.size() ) {
+                if( ( size_t )ui_templates.ret < vFiles.size() ) {
                     bStuffChanged = true;
 
                     clear();
@@ -884,6 +886,7 @@ void color_manager::show_gui()
             uimenu ui_colors;
             ui_colors.w_y = iHeaderHeight + 1 + iOffsetY;
             ui_colors.w_height = 18;
+            ui_colors.return_invalid = true;
 
             std::string sColorType = _( "Normal" );
             std::string sSelected = name_color_map[sActive].name_custom;
@@ -917,9 +920,10 @@ void color_manager::show_gui()
                 i++;
             }
 
+            ui_colors.addentry( std::string( _( "Cancel" ) ) );
             ui_colors.query();
 
-            if( ui_colors.ret >= 0 && size_t( ui_colors.ret ) < name_color_map.size() ) {
+            if( ( size_t )ui_colors.ret < name_color_map.size() ) {
                 bStuffChanged = true;
 
                 iter = name_color_map.begin();

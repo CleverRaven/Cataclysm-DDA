@@ -97,7 +97,7 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     std::vector<std::string> &hist = uistate.gethistory( _identifier );
     uimenu hmenu;
     hmenu.title = _( "d: delete history" );
-    hmenu.allow_anykey = true;
+    hmenu.return_invalid = true;
     for( size_t h = 0; h < hist.size(); h++ ) {
         hmenu.addentry( h, true, -2, hist[h] );
     }
@@ -117,22 +117,16 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     }
     hmenu.w_x = getbegx( w );
 
-    while( true ) {
-        hmenu.query();
-        if( hmenu.ret >= 0 ) {
-            if( hmenu.entries[hmenu.ret].txt != ret.str() ) {
-                ret = hmenu.entries[hmenu.ret].txt;
-                if( hmenu.ret < ( int )hist.size() ) {
-                    hist.erase( hist.begin() + hmenu.ret );
-                    hist.push_back( ret.str() );
-                }
-                _position = ret.size();
-            }
-            break;
-        } else if( hmenu.ret == UIMENU_UNBOUND && hmenu.keypress == 'd' ) {
-            hist.clear();
-            break;
+    hmenu.query();
+    if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
+        ret = hmenu.entries[hmenu.ret].txt;
+        if( hmenu.ret < ( int )hist.size() ) {
+            hist.erase( hist.begin() + hmenu.ret );
+            hist.push_back( ret.str() );
         }
+        _position = ret.size();
+    } else if( hmenu.keypress == 'd' ) {
+        hist.clear();
     }
 }
 

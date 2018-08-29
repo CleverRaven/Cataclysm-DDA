@@ -4167,7 +4167,7 @@ bool mattack::riotbot( monster *z )
 
         //arrest!
         uimenu amenu;
-        amenu.allow_cancel = false;
+        amenu.selected = 0;
         amenu.text = _( "The riotbot orders you to present your hands and be cuffed." );
 
         amenu.addentry( ur_arrest, true, 'a', _( "Allow yourself to be arrested." ) );

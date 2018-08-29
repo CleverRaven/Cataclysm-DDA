@@ -55,7 +55,6 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
     };
 
     uimenu difficulty;
-    difficulty.allow_cancel = false;
     difficulty.text = _( "Game Difficulty" );
     difficulty.entries.push_back( uimenu_entry( 0, true, 'b', _( "Beginner" ) ) );
     difficulty.entries.push_back( uimenu_entry( 1, true, 'i', _( "Intermediate" ) ) );

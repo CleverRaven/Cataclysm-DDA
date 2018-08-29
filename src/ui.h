@@ -12,16 +12,12 @@
 #include <string>
 #include <map>
 #include <utility>
-#include <initializer_list>
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
  * uimenu constants
  */
-const int UIMENU_ERROR = -1024;
-const int UIMENU_WAIT_INPUT = -1025;
-const int UIMENU_UNBOUND = -1027;
-const int UIMENU_CANCEL = -1028;
+const int UIMENU_INVALID = -1024;
 const int MENU_ALIGN_LEFT = -1;
 const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
@@ -179,11 +175,10 @@ class uimenu: public ui_container
         nc_color disabled_color;
         int pad_left;
         int pad_right;
-        bool allow_disabled; // return on selecting disabled entry, default false
-        bool allow_anykey; // return UIMENU_UNBOUND on keys unbound & unhandled by callback, default false
-        bool allow_cancel; // return UIMENU_CANCEL on "QUIT" action, default true
+        bool return_invalid;
         bool hilight_disabled;
         bool hilight_full;
+        int shift_retval;
         int vshift;
         int vmax;
         std::string filter;
@@ -198,17 +193,16 @@ class uimenu: public ui_container
 
         uimenu_callback *callback;
 
-        uimenu();
-        uimenu( std::string hotkeys );
-        // convenience constructors.
-        // allow_disabled = false, allow_anykey = false, allow_cancel = true
-        uimenu( std::string msg, std::vector<uimenu_entry> opts );
-        uimenu( std::string msg, std::vector<std::string> opts );
-        uimenu( std::string msg, std::initializer_list<char const *const> opts );
-        uimenu( int startx, int width, int starty, std::string msg, std::vector<uimenu_entry> opts );
-        uimenu( int startx, int width, int starty, std::string msg, std::vector<std::string> opts );
-        uimenu( int startx, int width, int starty, std::string msg,
-                std::initializer_list<char const *const> opts );
+        uimenu( const std::string &hotkeys = "" ); // bare init
+
+        uimenu( bool cancancel, const char *message, ... ); // legacy menu()
+        uimenu( bool cancelable, const char *mes,
+                const std::vector<std::string> options ); // legacy menu_vec
+        uimenu( bool cancelable, const char *mes, const std::vector<std::string> &options,
+                const std::string &hotkeys );
+        uimenu( bool cancelable, int startx, int width, int starty, std::string title,
+                std::vector<uimenu_entry> ents );
+        uimenu( int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents );
 
         void init();
         void setup();

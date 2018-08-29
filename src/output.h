@@ -332,6 +332,12 @@ inline bool query_int( int &result, const char *const msg, Args &&... args )
     return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
 }
 
+// for the next two functions, if cancelable is true, Esc returns the last option
+int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );
+int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> &options,
+               const std::string &hotkeys_override );
+int  menu( bool cancelable, const char *mes, ... );
+
 /**
  * @name Popup windows
  *

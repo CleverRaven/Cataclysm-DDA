@@ -79,10 +79,13 @@ void trait_group::debug_spawn()
 {
     std::vector<Trait_group_tag> groups = mutation_branch::get_all_group_names();
     uimenu menu;
+    menu.return_invalid = true;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.push_back( uimenu_entry( i, true, -2, groups[i].c_str() ) );
     }
+    //~ Spawn group menu: Menu entry to exit menu
+    menu.entries.push_back( uimenu_entry( menu.entries.size(), true, -2, _( "cancel" ) ) );
     while( true ) {
         menu.query();
         const int index = menu.ret;
@@ -103,6 +106,7 @@ void trait_group::debug_spawn()
             traitnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
         uimenu menu2;
+        menu2.return_invalid = true;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : traitnames2 ) {
             std::ostringstream buffer;

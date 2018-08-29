@@ -130,8 +130,7 @@ class zone_manager
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
         std::string query_name( std::string default_name = "" );
-        // returns false if cancelled. id is not changed if cancelled.
-        bool query_type( zone_type_id &id );
+        zone_type_id query_type();
 
         bool save_zones();
         void load_zones();

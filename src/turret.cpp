@@ -302,6 +302,7 @@ void vehicle::turrets_set_targeting()
     while( true ) {
         uimenu menu;
         menu.text = _( "Set turret targeting" );
+        menu.return_invalid = true;
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
@@ -344,6 +345,7 @@ void vehicle::turrets_set_mode()
     while( true ) {
         uimenu menu;
         menu.text = _( "Set turret firing modes" );
+        menu.return_invalid = true;
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
@@ -452,8 +454,8 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
         return turrets_aim_and_fire( false, false, tur_part );
     }
 
-    std::vector<std::string> options;
-    std::vector<vehicle_part *> guns;
+    std::vector<std::string> options( 1, _( "Cancel" ) );
+    std::vector<vehicle_part *> guns( 1, nullptr );
 
     // Get a group of turrets that are ready to fire
     for( auto &t : turrets() ) {
@@ -466,19 +468,16 @@ int vehicle::turrets_aim_single( vehicle_part *tur_part )
         }
     }
 
-    vehicle_part *chosen = nullptr;
+    vehicle_part *chosen;
 
-    if( !options.empty() ) {
-        int sel = uimenu( _( "Aim which turret?" ), options );
-        if( sel >= 0 && size_t( sel ) < guns.size() ) {
-            chosen = guns[sel];
-        }
+    if( options.size() > 1 ) {
+        chosen = guns[( uimenu( false, _( "Aim which turret?" ), options ) ) - 1 ];
     } else {
         add_msg( m_warning, _( "None of the turrets are available to fire." ) );
         return shots;
     }
 
-    if( chosen != nullptr ) {
+    if( chosen !=  nullptr ) {
         shots = turrets_aim_and_fire( false, false, chosen );
     }
 

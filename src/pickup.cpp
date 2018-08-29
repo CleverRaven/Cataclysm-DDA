@@ -172,11 +172,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     if( selectmenu.entries.size() == 1 ) {
         choice = selectmenu.entries.front().retval;
     } else {
+        selectmenu.return_invalid = true;
         selectmenu.text = _( "Select an action" );
+        selectmenu.selected = 0;
         selectmenu.query();
-        if( selectmenu.ret < 0 ) {
-            return DONE;
-        }
         choice = selectmenu.ret;
     }
 
@@ -387,7 +386,9 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     player &u = g->u;
 
     uimenu amenu;
+    amenu.return_invalid = true;
 
+    amenu.selected = 0;
     amenu.text = explain;
 
     offered_swap = true;

@@ -10,7 +10,6 @@
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
-#include "ui.h"
 #include "crafting.h"
 
 #include <list>
@@ -119,7 +118,14 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
         component_list_string( ss, missing_tools );
     }
 
-    return uimenu( ss.str(), { _( "Yes" ), _( "No" ) } ) == 0;
+    std::vector<std::string> options;
+    options.push_back( _( "Yes" ) );
+    options.push_back( _( "No" ) );
+
+    // We NEED a copy.
+    const std::string str = ss.str();
+    int selection = menu_vec( true, str.c_str(), options );
+    return selection == 1;
 }
 
 std::list<item> craft_command::consume_components()

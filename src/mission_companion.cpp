@@ -109,8 +109,13 @@ void talk_function::bionic_install(npc &p)
         }
     }
     // Choose bionic if applicable
-    int bionic_index = uimenu( _( "Which bionic do you wish to have installed?" ),
-                               bionic_names );
+    int bionic_index = 0;
+    bionic_names.push_back(_("Cancel"));
+    bionic_index = menu_vec(false, _("Which bionic do you wish to have installed?"),
+                          bionic_names) - 1;
+    if (bionic_index == (int)bionic_names.size() - 1) {
+        bionic_index = -1;
+    }
     // Did we cancel?
     if (bionic_index < 0) {
         popup(_("You decide to hold off..."));
@@ -159,8 +164,13 @@ void talk_function::bionic_remove(npc &p)
         }
     }
     // Choose bionic if applicable
-    int bionic_index = uimenu( _( "Which bionic do you wish to uninstall?" ),
-                               bionic_names );
+    int bionic_index = 0;
+    bionic_names.push_back(_("Cancel"));
+    bionic_index = menu_vec(false, _("Which bionic do you wish to uninstall?"),
+                          bionic_names) - 1;
+    if (bionic_index == (int)bionic_names.size() - 1) {
+        bionic_index = -1;
+    }
     // Did we cancel?
     if (bionic_index < 0) {
         popup(_("You decide to hold off..."));
@@ -2115,7 +2125,12 @@ std::vector<item *> talk_function::individual_mission_give_equipment( std::vecto
         }
 
         // Choose item if applicable
-        int i_index = uimenu( message, names );
+        int i_index = 0;
+        names.push_back(_("Done"));
+        i_index = menu_vec(false, message.c_str(), names) - 1;
+        if (i_index == (int)names.size() - 1) {
+            i_index = -1;
+        }
 
         if (i_index < 0) {
             return equipment_lost;
@@ -2414,8 +2429,13 @@ void talk_function::field_plant( npc &p, const std::string &place )
         }
     }
     // Choose seed if applicable
-    int seed_index = uimenu( _( "Which seeds do you wish to have planted?" ),
-                             seed_names );
+    int seed_index = 0;
+    seed_names.push_back(_("Cancel"));
+    seed_index = menu_vec(false, _("Which seeds do you wish to have planted?"),
+                          seed_names) - 1;
+    if (seed_index == (int)seed_names.size() - 1) {
+        seed_index = -1;
+    }
     // Did we cancel?
     if (seed_index < 0) {
         popup(_("You saved your seeds for later."));
@@ -2518,8 +2538,13 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         return;
     }
     // Choose the crop to harvest
-    int plant_index = uimenu( _( "Which plants do you want to have harvested?" ),
-                              plant_names );
+    int plant_index = 0;
+    plant_names.push_back(_("Cancel"));
+    plant_index = menu_vec(false, _("Which plants do you want to have harvested?"),
+                          plant_names) - 1;
+    if (plant_index == (int)plant_names.size() - 1) {
+        plant_index = -1;
+    }
     // Did we cancel?
     if (plant_index < 0) {
         popup(_("You decided to hold off for now..."));
@@ -3418,8 +3443,9 @@ bool talk_function::camp_expansion_select( npc &p )
         pos_expansion_name.push_back( it->first );
         pos_expansion_name_id.push_back( it->second );
     }
+    pos_expansion_name.push_back( _("Cancel") );
 
-    int expan = uimenu( _( "Select an expansion:" ), pos_expansion_name );
+    int expan = menu_vec(true, _("Select an expansion:"), pos_expansion_name) - 1;
     int sz = pos_expansion_name.size();
     if (expan < 0 || expan >= sz) {
         popup( _("You choose to wait...") );
@@ -4194,7 +4220,8 @@ npc *talk_function::companion_choose( std::string skill_tested, int skill_level 
         x++;
         npcs.push_back( npc_entry );
     }
-    int npc_choice = uimenu( _( "Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]" ), npcs );
+    npcs.push_back(_("Cancel"));
+    int npc_choice = menu_vec(true, _("Who do you want to send?                    [ COMBAT : SURVIVAL : INDUSTRY ]"), npcs) - 1;
     if (npc_choice < 0 || npc_choice >= (int)available.size() ) {
         popup(_("You choose to send no one..."));
         return nullptr;
@@ -4243,7 +4270,8 @@ npc *talk_function::companion_choose_return( npc &p, const std::string &id, cons
     for( auto &elem : available ) {
         npcs.push_back( ( elem )->name );
     }
-    int npc_choice = uimenu( _( "Who should return?" ), npcs );
+    npcs.push_back(_("Cancel"));
+    int npc_choice = menu_vec(true, _("Who should return?"), npcs) - 1;
     if (npc_choice >= 0 && size_t(npc_choice) < available.size()) {
         return available[npc_choice];
     }
@@ -5233,7 +5261,7 @@ void talk_function::camp_recruit_return( npc &p, std::string task, int score )
         rec_options.push_back( _("Make Offer") );
         rec_options.push_back( _("Not Interested") );
 
-        rec_m = uimenu( description, rec_options );
+        rec_m = menu_vec(true, description.c_str(), rec_options) - 1;
         int sz = rec_options.size();
         if (rec_m < 0 || rec_m >= sz) {
             popup(_("You decide you aren't interested..."));

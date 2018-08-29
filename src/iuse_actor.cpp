@@ -1383,12 +1383,14 @@ bool inscribe_actor::item_inscription( item &cut ) const
     enum inscription_type {
         INSCRIPTION_LABEL,
         INSCRIPTION_NOTE,
+        INSCRIPTION_CANCEL
     };
 
     uimenu menu;
     menu.text = string_format( _( "%s meaning?" ), _( verb.c_str() ) );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
+    menu.addentry( INSCRIPTION_CANCEL, true, 'q', _( "Cancel" ) );
     menu.query();
 
     std::string carving;
@@ -1402,7 +1404,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
             carving = "item_note";
             carving_type = "item_note_type";
             break;
-        default:
+        case INSCRIPTION_CANCEL:
             return false;
     }
 
@@ -1447,6 +1449,7 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
         imenu.text = string_format( _( "%s on what?" ), _( verb.c_str() ) );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
+        imenu.addentry( 2, true, MENU_AUTOASSIGN, _( "Cancel" ) );
         imenu.query();
         choice = imenu.ret;
     } else if( on_terrain ) {
@@ -1455,7 +1458,7 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
         choice = 1;
     }
 
-    if( choice < 0 || choice > 1 ) {
+    if( choice < 0 || choice > 2 ) {
         return 0;
     }
 
@@ -1606,6 +1609,8 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     auto items = g->m.i_at( p.posx(), p.posy() );
     std::vector<const item *> corpses;
 
+    const int cancel = 0;
+
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
         if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
@@ -1640,14 +1645,16 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     uimenu amenu;
 
+    amenu.selected = 0;
     amenu.text = _( "Selectively butcher the downed zombie into a zombie slave?" );
+    amenu.addentry( cancel, true, 'q', _( "Cancel" ) );
     for( size_t i = 0; i < corpses.size(); i++ ) {
         amenu.addentry( i + 1, true, -1, corpses[i]->display_name().c_str() );
     }
 
     amenu.query();
 
-    if( amenu.ret <= 0 ) {
+    if( cancel == amenu.ret ) {
         p.add_msg_if_player( _( "Make love, not zlave." ) );
         return 0;
     }
@@ -2114,12 +2121,12 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     } );
 
     if( opts.size() > 1 ) {
-        int sel = uimenu( string_format( _( "Use %s" ), it.tname().c_str() ), opts );
-        if( sel < 0 ) {
-            p.add_msg_if_player( _( "Never mind." ) );
-            return 0;
-        }
-        pos += sel;
+        pos += uimenu( true, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+    }
+
+    if( pos < -1 ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
     }
 
     if( pos >= 0 ) {
@@ -2274,6 +2281,7 @@ long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     uimenu menu;
     menu.text = _( "Store ammo" );
+    menu.return_invalid = true;
 
     std::vector<std::function<void()>> actions;
 
@@ -3529,7 +3537,9 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
                                 std::placeholders::_1 ) ), mods.end() );
 
     uimenu prompt;
+    prompt.selected = 0;
     prompt.text = _( "Remove which modification?" );
+    prompt.return_invalid = true;
 
     for( size_t i = 0; i != mods.size(); ++i ) {
         prompt.addentry( i, true, -1, mods[ i ]->tname() );

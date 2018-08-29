@@ -161,13 +161,10 @@ void edit_json( SAVEOBJ &it )
         tm.addentry( 1, true, 'e', pgettext( "item manipulation debug menu entry", "edit" ) );
         tm.addentry( 2, true, 'd', pgettext( "item manipulation debug menu entry",
                                              "dump to save/jtest-*.txt" ) );
+        tm.addentry( 3, true, 'q', pgettext( "item manipulation debug menu entry", "exit" ) );
         if( tmret != -2 ) {
             tm.query();
-            if( tm.ret < 0 ) {
-                tmret = 3;
-            } else {
-                tmret = tm.ret;
-            }
+            tmret = tm.ret;
         } else {
             tmret = 0;
         }
@@ -287,6 +284,13 @@ tripoint editmap::screen2pos( const tripoint &p )
     return tripoint( p.x + target.x - POSX, p.y + target.y - POSY, p.z );
 }
 
+/*
+ * standardized Escape/Back up keys: Esc, q, Space
+ */
+bool menu_escape( int ch )
+{
+    return ( ch == KEY_ESCAPE || ch == ' ' || ch == 'q' );
+}
 /*
  * get_direction with extended moving via HJKL keys
  */
@@ -1090,6 +1094,7 @@ int editmap::edit_fld()
     fmenu.w_height = TERMY - infoHeight;
     fmenu.w_y = 0;
     fmenu.w_x = offsetX;
+    fmenu.return_invalid = true;
     setup_fmenu( fmenu );
 
     do {
@@ -1116,6 +1121,7 @@ int editmap::edit_fld()
                 femenu.w_y = fmenu.w_height;
                 femenu.w_x = offsetX;
 
+                femenu.return_invalid = true;
                 const field_t &ftype = fieldlist[idx];
                 femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
@@ -1187,7 +1193,7 @@ int editmap::edit_fld()
             uberdraw = !uberdraw;
             update_view( false );
         }
-    } while( fmenu.ret != UIMENU_CANCEL );
+    } while( ! menu_escape( fmenu.keypress ) );
     wrefresh( w_info );
     return ret;
 }
@@ -1285,6 +1291,7 @@ enum editmap_imenu_ent {
     imenu_bday, imenu_damage, imenu_burnt,
     imenu_sep,
     imenu_savetest,
+    imenu_exit,
 };
 
 int editmap::edit_itm()
@@ -1295,6 +1302,7 @@ int editmap::edit_itm()
     ilmenu.w_y = 0;
     ilmenu.w_width = width;
     ilmenu.w_height = TERMY - infoHeight - 1;
+    ilmenu.return_invalid = true;
     auto items = g->m.i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
@@ -1304,6 +1312,7 @@ int editmap::edit_itm()
     // @todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry( -5, true, 'a', _( "Add item" ) );
 
+    ilmenu.addentry( -10, true, 'q', _( "Cancel" ) );
     do {
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < ( int )items.size() ) {
@@ -1323,6 +1332,7 @@ int editmap::edit_itm()
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
                             "savetest" ) );
+            imenu.addentry( imenu_exit, true, -1, pgettext( "item manipulation debug menu entry", "exit" ) );
 
             do {
                 imenu.query();
@@ -1364,9 +1374,10 @@ int editmap::edit_itm()
                 } else if( imenu.ret == imenu_savetest ) {
                     edit_json( it );
                 }
-            } while( imenu.ret != UIMENU_CANCEL );
+            } while( imenu.ret != imenu_exit );
             wrefresh( w_info );
         } else if( ilmenu.ret == -5 ) {
+            ilmenu.ret = UIMENU_INVALID;
             debug_menu::wishitem( nullptr, target.x, target.y, target.z );
             ilmenu.entries.clear();
             i = 0;
@@ -1376,12 +1387,13 @@ int editmap::edit_itm()
             }
             ilmenu.addentry( -5, true, 'a',
                              pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
+            ilmenu.addentry( -10, true, 'q', pgettext( "item manipulation debug menu entry", "Cancel" ) );
             update_view( true );
             ilmenu.setup();
             ilmenu.filterlist();
             ilmenu.refresh();
         }
-    } while( ilmenu.ret != UIMENU_CANCEL );
+    } while( ilmenu.ret >= 0 || ilmenu.ret == UIMENU_INVALID );
     return ret;
 }
 
@@ -1556,9 +1568,7 @@ int editmap::select_shape( shapetype shape, int mode )
                 smenu.addentry( -2, true, 'p', pgettext( "shape", "Point" ) );
                 smenu.selected = ( int )shape;
                 smenu.query();
-                if( smenu.ret == UIMENU_CANCEL ) {
-                    // do nothing
-                } else if( smenu.ret != -2 ) {
+                if( smenu.ret != -2 ) {
                     shape = ( shapetype )smenu.ret;
                     update = true;
                 } else {
@@ -1626,9 +1636,6 @@ int editmap::select_shape( shapetype shape, int mode )
  */
 int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 {
-    if( gmenu.ret <= 0 ) {
-        return 0;
-    }
     int ret = 0;
 
     hilights["mapgentgt"].points.clear();
@@ -1663,10 +1670,12 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.w_height = infoHeight - 4;
     gpmenu.w_y = gmenu.w_height;
     gpmenu.w_x = offsetX;
+    gpmenu.return_invalid = true;
     gpmenu.addentry( pgettext( "map generator", "Regenerate" ) );
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
     gpmenu.addentry( pgettext( "map generator", "Apply" ) );
     gpmenu.addentry( pgettext( "map generator", "Change Overmap (Doesn't Apply)" ) );
+    gpmenu.addentry( pgettext( "map generator", "Abort" ) );
 
     gpmenu.show();
     uphelp( _( "[pgup/pgdn]: prev/next oter type" ),
@@ -1701,7 +1710,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         int gpmenupos = gpmenu.selected;
         gpmenu.query( false );
 
-        if( gpmenu.ret >= 0 ) {
+        if( gpmenu.ret != UIMENU_INVALID ) {
             inp_mngr.reset_timeout();
             if( gpmenu.ret == 0 ) {
 
@@ -1806,7 +1815,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             gmenu.show();
             gmenu.refresh();
         }
-    } while( gpmenu.ret != UIMENU_CANCEL && gpmenu.ret != 2 && gpmenu.ret != 3 );
+    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 );
 
     inp_mngr.reset_timeout();
 
@@ -1973,7 +1982,8 @@ vehicle *editmap::mapgen_veh_query( tripoint omt_tgt )
     if( car_titles.size() == 1 ) {
         return possible_vehicles[0];
     }
-    int choice = uimenu( _( "Select the Vehicle" ), car_titles );
+    car_titles.push_back( _( "Cancel" ) );
+    int choice = menu_vec( true, _( "Select the Vehicle" ), car_titles ) - 1;
     if( choice >= 0 && size_t( choice ) < possible_vehicles.size() ) {
         return possible_vehicles[choice];
     }
@@ -2099,6 +2109,7 @@ int editmap::edit_mapgen()
     gmenu.w_x = offsetX;
     edit_mapgen_callback cb( this );
     gmenu.callback = &cb;
+    gmenu.return_invalid = true;
 
     for( size_t i = 0; i < overmap_terrains::get_all().size(); i++ ) {
         const oter_id id( i );
@@ -2138,7 +2149,7 @@ int editmap::edit_mapgen()
         if( gmenu.ret > 0 ) {
             mapgen_preview( tc, gmenu );
         }
-    } while( gmenu.ret != UIMENU_CANCEL );
+    } while( ! menu_escape( gmenu.keypress ) );
     return ret;
 }
 

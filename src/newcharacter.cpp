@@ -211,13 +211,13 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
         return styles.front();
     }
     uimenu menu;
-    menu.allow_cancel = false;
     menu.text = _( "Pick your style:" );
     menu.desc_enabled = true;
     for( auto & s : styles ) {
         auto &style = s.obj();
         menu.addentry_desc( _( style.name.c_str() ), _( style.description.c_str() ) );
     }
+    menu.selected = 0;
     while( true ) {
         menu.query(true);
         auto &selected = styles[menu.ret];
@@ -2403,11 +2403,9 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         } else if ( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            if( select_location.ret != UIMENU_CANCEL ) {
-                for( const auto &loc : start_location::get_all() ) {
-                    if( loc.name() == select_location.entries[select_location.selected].txt ) {
-                        u.start_location = loc.ident();
-                    }
+            for( const auto &loc : start_location::get_all() ) {
+                if( loc.name() == select_location.entries[ select_location.selected ].txt ) {
+                    u.start_location = loc.ident();
                 }
             }
             werase(select_location.window);

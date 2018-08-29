@@ -967,6 +967,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                     pmenu.addentry( oslist.size() - 1, true, 0, elem.id.str() );
                 }
             }
+            pmenu.return_invalid = true;
             pmenu.query();
 
             if( pmenu.ret >= 0 ) {
