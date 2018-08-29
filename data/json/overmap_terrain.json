@@ -9677,7 +9677,7 @@
     "id": "mass_grave",
     "name": "Mass Grave",
     "sym": 88,
-    "color": "green",
-    "see_cost": 2
+    "color": "yellow",
+    "flags": [ "NO_ROTATE" ]
   }
 ]
