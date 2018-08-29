@@ -714,6 +714,7 @@ Vehicle components when installed on a vehicle.
 ```
 
 ### Vehicles
+See also VEHICLE_JSON.md
 
 ```JSON
 "id": "shopping_cart",                     // Internally-used name.
