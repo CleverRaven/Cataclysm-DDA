@@ -4268,6 +4268,9 @@ int check_freezing_temperature( item &it )
     if( id == "ammonia" ) {
         return -108; // -78C
     }
+    if( id == "bleach" ) {
+        return 17; // -10C (assumption 8% sodium hypochlorite solution)
+    }
     std::string action = it.type->use_methods.begin()->first;
     if( action == "ALCOHOL_WEAK" ) {
         return 23; // -5C, wine, beer etc. (assumption: 10% ethanol) 
