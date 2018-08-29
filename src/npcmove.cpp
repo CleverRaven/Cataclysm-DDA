@@ -1485,19 +1485,16 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 
 void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomove )
 {
-    if( g->m.has_flag( "UNSTABLE", pt ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
-    } else if( has_effect( effect_bouldering ) ) {
-        remove_effect( effect_bouldering );
-    }
-
     tripoint p = pt;
-    if( sees_dangerous_field( pt ) ) {
+    if( sees_dangerous_field( p )
+        || ( nomove != nullptr && nomove->find( p ) != nomove->end() ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        auto other_points = g->m.get_dir_circle( pos(), pt );
+        auto other_points = g->m.get_dir_circle( pos(), p );
         for( const tripoint &ot : other_points ) {
-            if( could_move_onto( ot ) ) {
+            if( could_move_onto( ot )
+                && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+
                 p = ot;
                 break;
             }
@@ -1510,6 +1507,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         p.x = rng( posx() - 1, posx() + 1 );
         p.y = rng( posy() - 1, posy() + 1 );
         p.z = posz();
+    }
+
+    // nomove is used to resolve recursive invocation, so reset destination no
+    // matter it was changed by stunned effect or not.
+    if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+        p = pos();
     }
 
     // "Long steps" are allowed when crossing z-levels
@@ -1558,9 +1561,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             if( nomove != nullptr ) {
                 realnomove = nomove;
             } else {
+                // create the no-move list
                 newnomove.reset( new std::set<tripoint>() );
                 realnomove = newnomove.get();
             }
+            // other npcs should not try to move into this npc anymore,
+            // so infinite loop can be avoided.
             realnomove->insert( pos() );
             np->move_away_from( pos(), true, realnomove );
         }
@@ -1625,6 +1631,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
+
+        if( g->m.has_flag( "UNSTABLE", pos() ) ) {
+            add_effect( effect_bouldering, 1_turns, num_bp, true );
+        } else if( has_effect( effect_bouldering ) ) {
+            remove_effect( effect_bouldering );
+        }
+
         if( in_vehicle ) {
             g->m.unboard_vehicle( old_pos );
         }

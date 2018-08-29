@@ -665,10 +665,12 @@ class npc : public player
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
+        // nomove is used to resolve recursive invocation
         void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
         void escape_explosion();
+        // nomove is used to resolve recursive invocation
         void move_away_from( const tripoint &p, bool no_bashing = false,
                              std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
