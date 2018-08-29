@@ -102,9 +102,6 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
 
 void get_crops_grow( const tripoint &location )
 {
-    if( g->m.i_at( location ).empty() ) {
-        return;
-    }
     item &seed = g->m.i_at( location ).front();
     const time_point seed_bday = seed.birthday();
     time_duration seed_age = time_duration::from_turns( seed.get_var( "seed_age", 1 ) );
