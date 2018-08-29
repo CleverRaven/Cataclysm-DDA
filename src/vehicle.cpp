@@ -979,9 +979,15 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
     return true;
 }
 
-bool vehicle::can_unmount(int const p) const
+bool vehicle::can_unmount( int const p ) const
 {
-    if(p < 0 || p > (int)parts.size()) {
+    std::string no_reason;
+    return can_unmount( p, no_reason );
+}
+
+bool vehicle::can_unmount( int const p, std::string &reason ) const
+{
+    if( p < 0 || p > ( int )parts.size() ) {
         return false;
     }
 
@@ -989,49 +995,62 @@ bool vehicle::can_unmount(int const p) const
     int dy = parts[p].mount.y;
 
     // Can't remove an engine if there's still an alternator there
-    if(part_flag(p, VPFLAG_ENGINE) && part_with_feature(p, VPFLAG_ALTERNATOR) >= 0) {
+    if( part_flag( p, VPFLAG_ENGINE ) && part_with_feature( p, VPFLAG_ALTERNATOR ) >= 0 ) {
+        reason = _( "Remove attached alternator first." );
         return false;
     }
 
     //Can't remove a seat if there's still a seatbelt there
-    if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
+    if( part_flag( p, "BELTABLE" ) && part_with_feature( p, "SEATBELT" ) >= 0 ) {
+        reason = _( "Remove attached seatbelt first." );
         return false;
     }
 
     // Can't remove a window with curtains still on it
-    if(part_flag(p, "WINDOW") && part_with_feature(p, "CURTAIN") >=0) {
+    if( part_flag( p, "WINDOW" ) && part_with_feature( p, "CURTAIN" ) >= 0 ) {
+        reason = _( "Remove attached curtains first." );
         return false;
     }
 
     //Can't remove controls if there's something attached
-    if(part_flag(p, "CONTROLS") && part_with_feature(p, "ON_CONTROLS") >= 0) {
+    if( part_flag( p, "CONTROLS" ) && part_with_feature( p, "ON_CONTROLS" ) >= 0 ) {
+        reason = _( "Remove attached part first." );
         return false;
     }
 
     //Can't remove a battery mount if there's still a battery there
-    if(part_flag(p, "BATTERY_MOUNT") && part_with_feature(p, "NEEDS_BATTERY_MOUNT") >= 0) {
+    if( part_flag( p, "BATTERY_MOUNT" ) && part_with_feature( p, "NEEDS_BATTERY_MOUNT" ) >= 0 ) {
+        reason = _( "Remove battery from mount first." );
         return false;
     }
 
     //Can't remove a turret mount if there's still a turret there
     if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET" ) >= 0 ) {
+        reason = _( "Remove attached mounted weapon first." );
+        return false;
+    }
+
+    //Can't remove an animal part if the animal is still contained
+    if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
+        reason = _( "Remove carried animal first." );
         return false;
     }
 
     //Structural parts have extra requirements
-    if(part_info(p).location == part_location_structure) {
+    if( part_info( p ).location == part_location_structure ) {
 
-        std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
+        std::vector<int> parts_in_square = parts_at_relative( dx, dy, false );
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
         for( auto &elem : parts_in_square ) {
             if( part_info( elem ).location != part_location_structure ) {
+                reason = _( "Remove all other attached parts first." );
                 return false;
             }
         }
 
         //If it's the last part in the square...
-        if(parts_in_square.size() == 1) {
+        if( parts_in_square.size() == 1 ) {
 
             /* This is the tricky part: We can't remove a part that would cause
              * the vehicle to 'break into two' (like removing the middle section
@@ -1042,29 +1061,30 @@ bool vehicle::can_unmount(int const p) const
             //First, find all the squares connected to the one we're removing
             std::vector<vehicle_part> connected_parts;
 
-            for(int i = 0; i < 4; i++) {
-                int next_x = i < 2 ? (i == 0 ? -1 : 1) : 0;
-                int next_y = i < 2 ? 0 : (i == 2 ? -1 : 1);
-                std::vector<int> parts_over_there = parts_at_relative(dx + next_x, dy + next_y, false);
+            for( int i = 0; i < 4; i++ ) {
+                int next_x = i < 2 ? ( i == 0 ? -1 : 1 ) : 0;
+                int next_y = i < 2 ? 0 : ( i == 2 ? -1 : 1 );
+                std::vector<int> parts_over_there = parts_at_relative( dx + next_x, dy + next_y, false );
                 //Ignore empty squares
-                if(!parts_over_there.empty()) {
+                if( !parts_over_there.empty() ) {
                     //Just need one part from the square to track the x/y
-                    connected_parts.push_back(parts[parts_over_there[0]]);
+                    connected_parts.push_back( parts[parts_over_there[0]] );
                 }
             }
 
             /* If size = 0, it's the last part of the whole vehicle, so we're OK
              * If size = 1, it's one protruding part (ie, bicycle wheel), so OK
              * Otherwise, it gets complicated... */
-            if(connected_parts.size() > 1) {
+            if( connected_parts.size() > 1 ) {
 
                 /* We'll take connected_parts[0] to be the target part.
                  * Every other part must have some path (that doesn't involve
                  * the part about to be removed) to the target part, in order
                  * for the part to be legally removable. */
-                for(auto const &next_part : connected_parts) {
-                    if(!is_connected(connected_parts[0], next_part, parts[p])) {
+                for( auto const &next_part : connected_parts ) {
+                    if( !is_connected( connected_parts[0], next_part, parts[p] ) ) {
                         //Removing that part would break the vehicle in two
+                        reason = _( "Removing this part would split the vehicle." );
                         return false;
                     }
                 }
@@ -1226,8 +1246,8 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
  */
 bool vehicle::remove_part( int p )
 {
-    if( p >= (int)parts.size() ) {
-        debugmsg("Tried to remove part %d but only %d parts!", p, parts.size());
+    if( p >= ( int )parts.size() ) {
+        debugmsg( "Tried to remove part %d but only %d parts!", p, parts.size() );
         return false;
     }
     if( parts[p].removed ) {
@@ -1244,8 +1264,8 @@ bool vehicle::remove_part( int p )
 
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
     // Returns true if removal occurs
-    const auto remove_dependent_part = [&]( const std::string& parent_flag,
-            const std::string& child_flag ) {
+    const auto remove_dependent_part = [&]( const std::string & parent_flag,
+    const std::string & child_flag ) {
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
             if( dep >= 0 ) {
@@ -1277,6 +1297,29 @@ bool vehicle::remove_part( int p )
         }
     }
 
+    // Release any animal held by the part
+    if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
+        tripoint target = part_loc;
+        bool spawn = true;
+        if( !g->is_empty( target ) ) {
+            std::vector<tripoint> valid;
+            for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
+                if( g->is_empty( dest ) ) {
+                    valid.push_back( dest );
+                }
+            }
+            if( valid.empty() ) {
+                spawn = false;
+            } else {
+                target = random_entry( valid );
+            }
+        }
+        item base = item( parts[p].get_base() );
+        base.release_monster( target, spawn );
+        parts[p].set_base( base );
+        parts[p].remove_flag( vehicle_part::animal_flag );
+    }
+
     // Update current engine configuration if needed
     if( part_flag( p, "ENGINE" ) && engines.size() > 1 ) {
         bool any_engine_on = false;
@@ -1302,7 +1345,8 @@ bool vehicle::remove_part( int p )
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = g->u.activity;
     if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
-        if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1], g->u.posz() ) ) ) == this ) {
+        if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
+                                              g->u.posz() ) ) ) == this ) {
             if( act.values[6] >= p ) {
                 g->u.cancel_activity();
                 add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
@@ -4038,6 +4082,11 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : units::mass( 0 );
+        }
+
+        if( parts[i].has_flag( vehicle_part::animal_flag ) ) {
+            int animal_mass = parts[i].base.get_var( "weight", 0 );
+            m_part += units::from_gram( animal_mass );
         }
 
         if( use_precalc ) {

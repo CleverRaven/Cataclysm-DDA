@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "television", "repeat": 1, "x": 11, "y": 2 },
         { "item": "down_blanket", "repeat": 1, "x": 6, "y": 4 },
         { "item": "toaster", "repeat": 1, "x": 12, "y": 11 },
@@ -156,7 +156,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "television", "repeat": 1, "x": 9, "y": 3 },
         { "item": "pillow", "repeat": 1, "x": 20, "y": 3 },
         { "item": "television", "repeat": 1, "x": 20, "y": 5 },
@@ -287,7 +287,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "pillow", "repeat": 1, "x": 11, "y": 10 },
         { "item": "television", "repeat": 1, "x": 2, "y": 12 },
         { "item": "lawnmower", "repeat": 1, "x": 7, "y": 20 }
@@ -415,7 +415,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "television", "repeat": 1, "x": 5, "y": 3 }, { "item": "television", "repeat": 1, "x": 14, "y": 7 } ],
+      "place_item": [ { "item": "television", "repeat": 1, "x": 5, "y": 3 }, { "item": "television", "repeat": 1, "x": 14, "y": 7 } ],
       "furniture": {
         "#": "f_null",
         "&": "f_sink",
@@ -546,7 +546,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "television", "repeat": 1, "x": 5, "y": 3 }, { "item": "television", "repeat": 1, "x": 14, "y": 7 } ],
+      "place_item": [ { "item": "television", "repeat": 1, "x": 5, "y": 3 }, { "item": "television", "repeat": 1, "x": 14, "y": 7 } ],
       "furniture": {
         "#": "f_null",
         "&": "f_sink",
@@ -679,7 +679,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "television", "repeat": 1, "x": 14, "y": 7 }, { "item": "lawnmower", "repeat": 1, "x": 12, "y": 12 } ],
+      "place_item": [ { "item": "television", "repeat": 1, "x": 14, "y": 7 }, { "item": "lawnmower", "repeat": 1, "x": 12, "y": 12 } ],
       "furniture": {
         "#": "f_null",
         "&": "f_sink",
@@ -824,7 +824,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "television", "repeat": 1, "x": 4, "y": 4 },
         { "item": "cannabis", "repeat": 1, "x": 18, "y": 14 },
         { "item": "cannabis", "repeat": 1, "x": 18, "y": 15 }
@@ -966,7 +966,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "television", "repeat": 1, "x": 7, "y": 8 },
         { "item": "splinter", "repeat": 1, "x": 22, "y": 9 },
         { "item": "lawnmower", "repeat": 1, "x": 20, "y": 19 },
@@ -1112,7 +1112,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "television", "repeat": 1, "x": 13, "y": 8 },
         { "item": "splinter", "repeat": 1, "x": 4, "y": 9 },
         { "item": "splinter", "repeat": 1, "x": 17, "y": 9 },
@@ -1235,7 +1235,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "cig_butt", "repeat": 1, "x": 9, "y": 8 },
         { "item": "pet_carrier", "repeat": 1, "x": 13, "y": 11 },
         { "item": "splinter", "repeat": 1, "x": 22, "y": 16 },
@@ -1382,7 +1382,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "splinter", "repeat": 1, "x": 2, "y": 4 },
         { "item": "splinter", "repeat": 1, "x": 17, "y": 9 },
         { "item": "television", "repeat": 1, "x": 13, "y": 13 },

@@ -1,5 +1,23 @@
 [
   {
+    "name": "GROUP_BEARS",
+    "type": "monstergroup",
+    "default": "mon_bear",
+    "monsters": [
+      { "monster": "mon_bear", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombear", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_MOOSE",
+    "type": "monstergroup",
+    "default": "mon_moose",
+    "monsters": [
+      { "monster": "mon_moose", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zoose", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "method": "json",
     "object": {
       "furniture": { ".": "f_null", "4": "f_null", "7": "f_null", "_": "f_null", "d": "f_null", "p": "f_null", "s": "f_null" },
@@ -46,7 +64,7 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
+      "place_item": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
       "furniture": {
         "#": "f_bench",
         "&": "f_trashcan",
@@ -150,7 +168,6 @@
   {
     "method": "json",
     "object": {
-      "add": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
       "furniture": {
         "#": "f_bench",
         "&": "f_trashcan",
@@ -190,14 +207,13 @@
         { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
       ],
       "place_item": [
+        { "item": "rock", "repeat": 1, "x": 9, "y": 15 },
+        { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 },
         { "item": "glass_shard", "repeat": [ 5, 10 ], "x": 10, "y": 22 },
         { "item": "glass_shard", "repeat": [ 5, 10 ], "x": 11, "y": [ 21, 23 ] }
       ],
-      "place_monster": [
-        { "monster": "mon_coyote", "x": 8, "y": 16 },
-        { "monster": "mon_coyote", "x": 9, "y": 17 },
-        { "monster": "mon_bear", "x": 8, "y": 20 }
-      ],
+      "place_monster": [ { "monster": "mon_coyote", "x": 8, "y": 16 }, { "monster": "mon_coyote", "x": 9, "y": 17 } ],
+      "place_monsters": [ { "monster": "GROUP_BEARS", "x": 8, "y": 20 } ],
       "rows": [
         "----------------------ss",
         "-__________________|vsss",
@@ -259,7 +275,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "stick", "repeat": 1, "x": 9, "y": 2 },
         { "item": "stick", "repeat": 1, "x": 9, "y": 5 },
         { "item": "pine_bough", "repeat": 1, "x": 9, "y": 7 },
@@ -408,7 +424,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "stick", "repeat": 1, "x": 19, "y": 1 },
         { "item": "stick", "repeat": 1, "x": 20, "y": 4 },
         { "item": "rock", "repeat": 1, "x": 20, "y": 6 },
@@ -530,14 +546,6 @@
   {
     "method": "json",
     "object": {
-      "add": [
-        { "item": "stick", "repeat": 1, "x": 19, "y": 1 },
-        { "item": "stick", "repeat": 1, "x": 20, "y": 4 },
-        { "item": "rock", "repeat": 1, "x": 20, "y": 6 },
-        { "item": "pine_bough", "repeat": 1, "x": 21, "y": 8 },
-        { "item": "pine_bough", "repeat": 1, "x": 16, "y": 10 },
-        { "item": "stick", "repeat": 1, "x": 6, "y": 15 }
-      ],
       "furniture": {
         "#": "f_bench",
         "&": "f_toilet",
@@ -576,6 +584,12 @@
         { "chance": 55, "item": "trash", "x": 10, "y": 2 }
       ],
       "place_item": [
+        { "item": "stick", "repeat": 1, "x": 19, "y": 1 },
+        { "item": "stick", "repeat": 1, "x": 20, "y": 4 },
+        { "item": "rock", "repeat": 1, "x": 20, "y": 6 },
+        { "item": "pine_bough", "repeat": 1, "x": 21, "y": 8 },
+        { "item": "pine_bough", "repeat": 1, "x": 16, "y": 10 },
+        { "item": "stick", "repeat": 1, "x": 6, "y": 15 },
         { "item": "steel_lump", "chance": 25, "x": 7, "y": 16 },
         { "item": "steel_chunk", "repeat": [ 1, 3 ], "x": 7, "y": 16 },
         { "item": "scrap", "repeat": [ 1, 4 ], "x": 7, "y": 16 },
@@ -590,10 +604,10 @@
         { "monster": "mon_coyote_wolf", "x": 18, "y": 10 },
         { "monster": "mon_otter", "x": 19, "y": 12 },
         { "monster": "mon_otter", "x": 17, "y": 13 },
-        { "monster": "mon_moose", "x": 7, "y": 14 },
         { "monster": "mon_otter", "x": 19, "y": 14 },
         { "monster": "mon_otter", "x": 19, "y": 15 }
       ],
+      "place_monsters": [ { "monster": "GROUP_MOOSE", "x": 7, "y": 14 } ],
       "place_toilets": [ { "x": 5, "y": 2 }, { "x": 7, "y": 2 }, { "x": 7, "y": 7 } ],
       "rows": [
         "..----------------------",
@@ -931,7 +945,7 @@
   {
     "method": "json",
     "object": {
-      "add": [
+      "place_item": [
         { "item": "rock", "repeat": 1, "x": 8, "y": 9 },
         { "item": "rock", "repeat": 1, "x": 16, "y": 15 },
         { "item": "stick", "repeat": 1, "x": 8, "y": 17 },

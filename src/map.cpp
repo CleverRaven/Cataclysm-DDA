@@ -4251,17 +4251,26 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
+unsigned int temp_difference_ratio( int temp_one, int temp_two )
+{
+    // ratio is between 1-4 and changes every 10F (~5.5C)
+    unsigned int ratio = abs( temp_one - temp_two ) / 10;
+    ratio = clamp( ratio, static_cast<unsigned int>(1), static_cast<unsigned int>(4) );
+    return ratio;
+}
+
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
-void map::apply_in_fridge( item &it, int temp )
+void map::apply_in_fridge( item &it, int temp, bool vehicle )
 {
-    unsigned int diff_freeze = abs(temp - FREEZING_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_freeze );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_freeze );
-
-    unsigned int diff_cold = abs(temp - FRIDGE_TEMPERATURE);
-    diff_freeze = std::max( static_cast<unsigned int>(1), diff_cold );
-    diff_freeze = std::min( static_cast<unsigned int>(5), diff_cold );
+    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) + 1; //effective 1-4
+    unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) + 1;
+    
+    // this counters environmental effects trying to heat-up at the same ratio
+    if( vehicle ) {
+        diff_freeze *= 2;
+        diff_cold *= 2;
+    }
 
     if( it.is_food() ) {
         if( temp <= FREEZING_TEMPERATURE ) {
@@ -4308,30 +4317,50 @@ void map::apply_in_fridge( item &it, int temp )
     }
     if( it.is_container() ) {
         for( auto &elem : it.contents ) {
-            apply_in_fridge( elem, temp );
+            apply_in_fridge( elem, temp, vehicle );
         }
     }
+}
+
+// This is an ugly and dirty hack to prevent invalidating the item_location
+// references the player is using for an activity.  What needs to happen is
+// activity targets gets refactored in some way that it can reference items
+// between turns that doesn't rely on a pointer to the item.  A really nice
+// solution would be something like UUIDs but that requires special
+// considerations.
+static bool item_is_in_activity( const item *it )
+{
+    const auto targs = &g->u.activity.targets;
+    return !targs->empty() && std::find_if( targs->begin(), targs->end(), [it]( const item_location &it_loc ) {
+            return it_loc.get_item() == it;
+        } ) != targs->end();
 }
 
 template <typename Iterator>
 static bool process_item( item_stack &items, Iterator &n, const tripoint &location, bool activate )
 {
-    // make a temporary copy, remove the item (in advance)
-    // and use that copy to process it
-    item temp_item = *n;
-    auto insertion_point = items.erase( n );
-    if( !temp_item.process( nullptr, location, activate ) ) {
-        // Not destroyed, must be inserted again.
-        // If the item lost its active flag in processing,
-        // it won't be re-added to the active list, tidy!
-        // Re-insert at the item's previous position.
-        // This assumes that the item didn't invalidate any iterators
-        // As a result of activation, because everything that does that
-        // destroys itself.
-        items.insert_at( insertion_point, temp_item );
-        return false;
+    if( !item_is_in_activity( &*n ) ) {
+        // make a temporary copy, remove the item (in advance)
+        // and use that copy to process it
+        item temp_item = *n;
+        auto insertion_point = items.erase( n );
+        if( !temp_item.process( nullptr, location, activate ) ) {
+            // Not destroyed, must be inserted again.
+            // If the item lost its active flag in processing,
+            // it won't be re-added to the active list, tidy!
+            // Re-insert at the item's previous position.
+            // This assumes that the item didn't invalidate any iterators
+            // As a result of activation, because everything that does that
+            // destroys itself.
+            items.insert_at( insertion_point, temp_item );
+            return false;
+        }
+        return true;
+    } else if( n->process( nullptr, location, activate ) ) {
+        items.erase( n );
+        return true;
     }
-    return true;
+    return false;
 }
 
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
@@ -4345,14 +4374,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) && cur_veh.has_part( "FRIDGE", true );
     if( fridge_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE);
+            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE, true );
         }
     }
 
     const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) && cur_veh.has_part( "FREEZER", true );
     if( freezer_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE );
+            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE, true );
         }
     }
 
@@ -6895,10 +6924,6 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( !ignore_sight ) {
         // If the submap is one of the outermost submaps, assume that monsters are
         // invisible there.
-        // When the map shifts because of the player moving (called from game::plmove),
-        // the player has still their *old* (not shifted) coordinates.
-        // That makes the submaps that have come into view visible (if the sight range
-        // is big enough).
         if( gp.x == 0 || gp.y == 0 || gp.x + 1 == MAPSIZE || gp.y + 1 == MAPSIZE ) {
             ignore_sight = true;
         }
@@ -6954,7 +6979,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
 
     if( locations.empty() ) {
-        // TODO: what now? there is now possible place to spawn monsters, most
+        // TODO: what now? there is no possible place to spawn monsters, most
         // likely because the player can see all the places.
         const tripoint glp = getabs( gp );
         dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
@@ -7019,6 +7044,10 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
 
 void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 {
+    // Load unloaded monsters
+    overmap_buffer.spawn_monster( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
+
+    // Only spawn new monsters after existing monsters are loaded.
     auto groups = overmap_buffer.groups_at( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
     for( auto &mgp : groups ) {
         spawn_monsters_submap_group( gp, *mgp, ignore_sight );
@@ -7063,7 +7092,6 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
         }
     }
     current_submap->spawns.clear();
-    overmap_buffer.spawn_monster( abs_sub.x + gp.x, abs_sub.y + gp.y, gp.z );
 }
 
 void map::spawn_monsters(bool ignore_sight)

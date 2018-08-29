@@ -68,10 +68,10 @@
 #define PLUTONIUM_CHARGES 500
 
 /** Temperature inside an active fridge in Fahrenheit  */
-#define FRIDGE_TEMPERATURE 37 // 5 Celsius
+#define FRIDGE_TEMPERATURE 37 // ~ 2.7 Celsius
 
 /** Temperature inside an active freezer in Fahrenheit  */
-#define FREEZER_TEMPERATURE 27 // -5 Celsius
+#define FREEZER_TEMPERATURE 23 // -5 Celsius
 
 /** Temperature in which water freezes in Fahrenheit  */
 #define FREEZING_TEMPERATURE 32 // 0 Celsius

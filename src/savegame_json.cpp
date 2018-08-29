@@ -1593,7 +1593,7 @@ void item::io( Archive& archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
     archive.io( "invlet", invlet, '\0' );
-    archive.io( "damage", damage_, 0.0 );
+    archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype(item_counter)>( 0 ) );
     archive.io( "fridge", fridge, calendar::before_time_starts );
@@ -1618,6 +1618,11 @@ void item::io( Archive& archive )
         return;
     }
     /* Loading has finished, following code is to ensure consistency and fixes bugs in saves. */
+
+    double float_damage = 0;
+    if( archive.read( "damage", float_damage ) ) {
+        damage_ = std::min( std::max( min_damage(), int( float_damage * itype::damage_scale ) ), max_damage() );
+    }
 
     // Old saves used to only contain one of those values (stored under "poison"), it would be
     // loaded into a union of those members. Now they are separate members and must be set separately.
@@ -1860,9 +1865,9 @@ void vehicle_part::deserialize(JsonIn &jsin)
         base.item_tags.insert( "VEHICLE" );
     }
 
-    if( data.has_int( "hp" ) ) {
+    if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
         // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
-        base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
+        base.set_damage( 4 * itype::damage_scale - 4 * itype::damage_scale * data.get_int( "hp" ) / id.obj().durability );
     }
 
     // legacy turrets loaded ammo via a pseudo CARGO space
