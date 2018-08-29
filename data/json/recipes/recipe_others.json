@@ -781,7 +781,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal_small", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1556,7 +1556,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 2 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1583,7 +1583,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 1 ], [ "scrap", 2 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -3860,7 +3860,7 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 2 ] ], [ [ "motor", 2 ] ], [ [ "processor", 1 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3874,7 +3874,7 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 2 ] ], [ [ "motor", 2 ] ], [ [ "wheel", 1 ] ], [ [ "processor", 1 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "wheel", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3888,7 +3888,7 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 2 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ] ]
   },
   {
     "type": "recipe",
