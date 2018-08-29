@@ -1047,8 +1047,6 @@ void player::update_bodytemp()
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
                                 ( g->weather == WEATHER_SUNNY ? 1000 : 500 );
-    // CONVECTION HEAT; Hot air from a heat source
-    // times 50 to convert to weather.h BODYTEMP scale
     const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
