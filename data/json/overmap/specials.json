@@ -225,6 +225,18 @@
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
+        "id" : "Mass Grave",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "mass_grave"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [0, 20],
+        "occurrences" : [0, 10],
+        "rotate" : false,
+        "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
         "id" : "Sugar House",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "sugar_house_north" }
