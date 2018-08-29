@@ -91,7 +91,7 @@
     "description": "An bulky assortment of small bits of scrap steel useful in all kinds of crafting",
     "weight": 50,
     "volume": 1,
-    "price": 1000,
+    "price": 500,
     "count": 2,
     "stack_size": 10, "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 50g/unit ~ stack 40 but fragments stacks poorly so only 25% of this",
     "material": "steel",
