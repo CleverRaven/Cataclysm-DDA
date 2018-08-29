@@ -984,6 +984,13 @@
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
+     "type" : "keybinding",
+     "id": "UNLOAD",
+     "category": "VEH_INTERACT",
+     "name": "Unload fuel bunker",
+     "bindings":[ { "input_method":"keyboard", "key":"d" } ]
+  },
+  {
     "type": "keybinding",
     "id": "REMOVE",
     "category": "VEH_INTERACT",
