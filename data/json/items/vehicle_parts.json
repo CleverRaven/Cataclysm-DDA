@@ -576,7 +576,7 @@
         "id" : "sheet_metal_lit",
         "name" : "wired sheet metal",
         "description" : "Sheet metal that has had light housing wired into it.",
-        "weight" : 1200,
+        "weight" : 6200, 
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : "]",
