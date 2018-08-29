@@ -8,6 +8,7 @@
 #include "calendar.h"
 
 #include <vector>
+#include <set>
 #include <string>
 #include <map>
 #include <memory>
@@ -664,11 +665,12 @@ class npc : public player
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
-        void move_to( const tripoint &p, bool no_bashing = false );
+        void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
         void escape_explosion();
-        void move_away_from( const tripoint &p, bool no_bashing = false );
+        void move_away_from( const tripoint &p, bool no_bashing = false,
+                             std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         void move_pause(); // Same as if the player pressed '.'
 

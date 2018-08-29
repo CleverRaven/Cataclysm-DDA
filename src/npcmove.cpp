@@ -32,6 +32,7 @@
 #include "cata_algo.h"
 
 #include <algorithm>
+#include <memory>
 #include <numeric>
 #include <sstream>
 
@@ -1482,7 +1483,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
           );
 }
 
-void npc::move_to( const tripoint &pt, bool no_bashing )
+void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomove )
 {
     if( g->m.has_flag( "UNSTABLE", pt ) ) {
         add_effect( effect_bouldering, 1_turns, num_bp, true );
@@ -1552,7 +1553,16 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         // TODO: Have them attack each other when hostile
         npc *np = dynamic_cast<npc *>( critter );
         if( np != nullptr && !np->in_sleep_state() ) {
-            np->move_away_from( pos(), true );
+            std::unique_ptr<std::set<tripoint>> newnomove;
+            std::set<tripoint> *realnomove;
+            if( nomove != nullptr ) {
+                realnomove = nomove;
+            } else {
+                newnomove.reset( new std::set<tripoint>() );
+                realnomove = newnomove.get();
+            }
+            realnomove->insert( pos() );
+            np->move_away_from( pos(), true, realnomove );
         }
 
         if( critter->pos() == p ) {
@@ -1708,12 +1718,16 @@ void npc::escape_explosion()
     move_away_from( ai_cache.dangerous_explosives, true );
 }
 
-void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
+void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoint> *nomove )
 {
     tripoint best_pos = pos();
-    int best = -1;
+    int best = abs( best_pos.x - pt.x ) + abs( best_pos.y - pt.y ) + abs( best_pos.z - pt.z );
     int chance = 2;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+            continue;
+        }
+
         if( p == pos() ) {
             continue;
         }
@@ -1740,7 +1754,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
         }
     }
 
-    move_to( best_pos, no_bash_atk );
+    move_to( best_pos, no_bash_atk, nomove );
 }
 
 void npc::move_pause()
