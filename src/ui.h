@@ -195,14 +195,10 @@ class uimenu: public ui_container
 
         uimenu( const std::string &hotkeys = "" ); // bare init
 
-        uimenu( bool cancancel, const char *message, ... ); // legacy menu()
         uimenu( bool cancelable, const char *mes,
                 const std::vector<std::string> options ); // legacy menu_vec
-        uimenu( bool cancelable, const char *mes, const std::vector<std::string> &options,
-                const std::string &hotkeys );
         uimenu( bool cancelable, int startx, int width, int starty, std::string title,
                 std::vector<uimenu_entry> ents );
-        uimenu( int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents );
 
         void init();
         void setup();

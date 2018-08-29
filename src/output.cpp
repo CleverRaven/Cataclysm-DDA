@@ -628,13 +628,6 @@ int menu_vec( bool cancelable, const char *mes,
     return ( int )uimenu( cancelable, mes, options );
 }
 
-int menu_vec( bool cancelable, const char *mes,
-              const std::vector<std::string> &options,
-              const std::string &hotkeys_override )
-{
-    return ( int )uimenu( cancelable, mes, options, hotkeys_override );
-}
-
 // compatibility stub for uimenu(cancelable, mes, ...)
 int menu( bool const cancelable, const char *const mes, ... )
 {

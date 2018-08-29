@@ -43,21 +43,6 @@ uimenu::uimenu( const std::string &hotkeys_override )
 }
 
 /**
- * here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
- */
-uimenu::uimenu(bool, const char * const mes, ...)
-{
-    init();
-    va_list ap;
-    va_start(ap, mes);
-    int i = 0;
-    while (char const *const tmp = va_arg(ap, char *)) {
-        entries.push_back(uimenu_entry(i++, true, MENU_AUTOASSIGN, tmp ));
-    }
-    va_end(ap);
-    query();
-}
-/**
  * exact usage as menu_vec
  */
 uimenu::uimenu(bool cancelable, const char *mes,
@@ -77,40 +62,6 @@ uimenu::uimenu(bool cancelable, const char *mes,
         }
         query();
     }
-}
-
-uimenu::uimenu(bool cancelable, const char *mes,
-               const std::vector<std::string> &options,
-               const std::string &hotkeys_override)
-{
-    init();
-    hotkeys = hotkeys_override;
-    if (options.empty()) {
-        debugmsg("0-length menu (\"%s\")", mes);
-        ret = -1;
-    } else {
-        text = mes;
-        shift_retval = 1;
-        return_invalid = cancelable;
-
-        for (size_t i = 0; i < options.size(); i++) {
-            entries.push_back(uimenu_entry(i, true, MENU_AUTOASSIGN, options[i] ));
-        }
-        query();
-    }
-}
-
-uimenu::uimenu(int startx, int width, int starty, std::string title,
-               std::vector<uimenu_entry> ents)
-{
-    // another quick convenience constructor
-    init();
-    w_x = startx;
-    w_y = starty;
-    w_width = width;
-    text = title;
-    entries = ents;
-    query();
 }
 
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
