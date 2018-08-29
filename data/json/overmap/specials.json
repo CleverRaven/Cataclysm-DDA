@@ -2506,14 +2506,11 @@
   {
     "type" : "overmap_special",
     "id" : "Mass Grave",
-    "overmaps" : [
-        { "point":[0,0,0], "overmap": "mass_grave"}
-    ],
-    "connections" : [ { "point" : [ -1, 0, 0 ] } ],
+    "overmaps" : [ { "point": [ 0, 0, 0 ], "overmap": "mass_grave_north"} ],
     "locations" : [ "wilderness" ],
-    "city_distance" : [20, -1],
-    "city_sizes" : [0, 20],
-    "occurrences" : [0, 10],
+    "city_distance" : [ 20, -1 ],
+    "city_sizes" : [ 0, 20 ],
+    "occurrences" : [ 0, 10 ],
     "flags" : [ "CLASSIC" ]
   }
 ]
