@@ -6879,7 +6879,7 @@ void game::loot()
                                 _( "Tills nearby Farm: Plot zones." ) );
         }
 
-        if( flags &PlantPlots ) {
+        if( flags & PlantPlots ) {
             menu.addentry_desc( PlantPlots, warm_enough_to_plant() && has_seeds, 'p',
                                 !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
                                 !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
