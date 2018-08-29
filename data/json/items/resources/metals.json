@@ -118,6 +118,23 @@
     "ammo_type": "components"
   },
   {
+    "id": "sheet_metal_small",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "small metal sheet",
+    "description" : "A small sheet of metal.",
+    "weight" : 250,
+    "volume" : 1,
+    "price" : 2000,
+    "bashing" : 5,
+    "to_hit" : -3,
+    "stack_size": 8, "//" : "Roughly in the 15cm×15cm to 20cm×20cm range. Compact and stacks well, so equally dense as a solid block.",
+    "material": "steel",
+    "symbol" : "]",
+    "color" : "light_cyan",
+    "ammo_type": "components"
+  },
+  {
     "id": "steel_chunk",
     "type": "AMMO",
     "category": "spare_parts",
