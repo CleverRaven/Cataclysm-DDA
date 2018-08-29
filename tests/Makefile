@@ -41,7 +41,7 @@ clean:
 $(ODIR):
 	mkdir -p $(ODIR)
 
-$(ODIR)/%.o: %.cpp
+$(ODIR)/%.o: %.cpp $(ODIR)
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean check tests
