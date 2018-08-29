@@ -9678,6 +9678,6 @@
     "name": "Mass Grave",
     "sym": 88,
     "color": "green",
-    "see_cost": 2,
+    "see_cost": 2
   }
 ]
