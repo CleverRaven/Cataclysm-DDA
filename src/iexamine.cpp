@@ -1683,7 +1683,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     g->m.add_item_or_charges( examp, used_seed.front() );
     g->m.set( examp, t_dirt, f_plant_seed );
     p.moves -= 500;
-    add_msg( _( "Planted %s" ), item::nname( seed_id ).c_str() );
+    add_msg( _( "Planted %s." ), item::nname( seed_id ).c_str() );
 }
 
 /**
