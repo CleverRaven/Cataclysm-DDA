@@ -344,7 +344,7 @@ void npc::move()
      * NPC won't avoid dangerous terrain while accompanying the player inside a vehicle
      * to keep them from inadvertantly getting themselves run over and/or cause vehicle related errors.
      */
-    if( sees_dangerous_field( pos() ) && ( !g->u.in_vehicle && is_following() ) ) {
+    if( sees_dangerous_field( pos() ) && ( !in_vehicle && is_following() ) ) {
         const tripoint escape_dir = good_escape_direction( *this );
         if( escape_dir != pos() ) {
             move_to( escape_dir );
