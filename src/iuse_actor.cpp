@@ -2351,9 +2351,14 @@ long ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
 void repair_item_actor::load( JsonObject &obj )
 {
     // Mandatory:
-    JsonArray jarr = obj.get_array( "materials" );
-    while( jarr.has_more() ) {
-        materials.emplace( jarr.next_string() );
+    JsonArray jarr_materials = obj.get_array( "materials" );
+    while( jarr_materials.has_more() ) {
+        materials.emplace( jarr_materials.next_string() );
+    }
+
+    JsonArray jarr_requirements = obj.get_array( "requirements" );
+    while( jarr_requirements.has_more() ) {
+        requirements.emplace( jarr_requirements.next_string() );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
@@ -2546,6 +2551,33 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
+
+    if( !requirements.empty() ) {
+        bool all_reqs_are_met = true;
+
+        const inventory &crafting_inv = pl.crafting_inventory();
+
+        const int req_amount = fix.volume() / 125_ml;
+
+        for( auto const &requirement : requirements ) {
+            auto req = requirement.obj() * req_amount;
+            auto req_is_met = req.can_make_with_inventory( crafting_inv );
+
+            all_reqs_are_met = all_reqs_are_met && req_is_met;
+
+            if( !req_is_met ) {
+                pl.add_msg_if_player( m_bad, "%s", req.list_missing().c_str() );
+            }
+        }
+
+        if( !all_reqs_are_met ) {
+            if( print_msg ) {
+                pl.add_msg_if_player( m_critical, _( "Minimum repair requirements were not met." ) );
+            }
+            return false;
+        }
+    }
+
     if( fix.is_firearm() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "That requires gunsmithing tools." ) );
@@ -2712,6 +2744,25 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         roll = SUCCESS;
     } else {
         roll = NEUTRAL;
+    }
+
+    if( !requirements.empty() ) {
+        const inventory &crafting_inv = pl.crafting_inventory();
+        const int req_amount = fix.volume() / 125_ml;
+        for( auto const &requirement : requirements ) {
+            auto req = requirement.obj() * req_amount;
+            auto req_is_met = req.can_make_with_inventory( crafting_inv );
+
+            if( roll == SUCCESS && req_is_met ) {
+                pl.add_msg_if_player( m_info, _( "You have spent %d material requirements." ), req_amount );
+                for( const auto &it : req.get_components() ) {
+                    pl.consume_items( it );
+                }
+                for( const auto &it : req.get_tools() ) {
+                    pl.consume_tools( it );
+                }
+            }
+        }
     }
 
     if( action == RT_NOTHING ) {
