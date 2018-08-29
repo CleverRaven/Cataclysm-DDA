@@ -1734,7 +1734,7 @@ void npc::escape_explosion()
 void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoint> *nomove )
 {
     tripoint best_pos = pos();
-    int best = abs( best_pos.x - pt.x ) + abs( best_pos.y - pt.y ) + abs( best_pos.z - pt.z );
+    int best = -1;
     int chance = 2;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
         if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
