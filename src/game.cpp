@@ -6845,6 +6845,9 @@ void game::loot()
     int flags = 0;
     const auto &mgr = zone_manager::get_manager();
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
+    const bool has_seeds = u.has_item_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
 
     flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
@@ -6876,9 +6879,10 @@ void game::loot()
                                 _( "Tills nearby Farm: Plot zones." ) );
         }
 
-        if( flags & PlantPlots ) {
-            menu.addentry_desc( PlantPlots, warm_enough_to_plant(), 'p', 
-                                warm_enough_to_plant() ? _( "Plant seeds" ) : _( "Plant seeds... it is too cold for planting" ),
+        if( flags &PlantPlots ) {
+            menu.addentry_desc( PlantPlots, warm_enough_to_plant() && has_seeds, 'p',
+                                !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
+                                !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
                                 _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
 
@@ -6903,10 +6907,12 @@ void game::loot()
             }
             break;
         case PlantPlots:
-            if( warm_enough_to_plant() ) {
-                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
+            if( !warm_enough_to_plant() ) {
+                add_msg( m_info, _( "It is too cold to plant anything now." ) );
+            } else if( !has_seeds ) {
+                add_msg( m_info, _( "You don't have any seeds." ) );
             } else {
-                add_msg(m_info, _("It is too cold to plant anything now."));
+                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
             }
             break;
         default:
