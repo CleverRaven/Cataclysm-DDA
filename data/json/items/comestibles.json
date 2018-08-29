@@ -10410,6 +10410,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chive",
+	"looks-like": "thyme",
     "name": "chive",
     "description": "A stalk of the chive plant.  It smells almost like garlic or onion!",
     "comestible_type": "FOOD",
@@ -10426,6 +10427,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oregano",
+	"looks-like": "thyme",	
     "name": "oregano",
     "description": "A sprig of oregano.  It has a pungent odor and would be good for cooking.",
     "comestible_type": "FOOD",
@@ -10442,6 +10444,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cilantro",
+	"looks-like": "thyme",	
     "name": "cilantro",
     "description": "This is a stem of cilantro with a number of sprigs and leaves.  It has a strong smell.",
     "comestible_type": "FOOD",
@@ -10458,6 +10461,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dill",
+	"looks-like": "thyme",
     "name": "dill",
     "description": "A stem of dill.  It smells very nice and aromatic.",
     "comestible_type": "FOOD",

@@ -7020,5 +7020,54 @@
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_cranberry",
+    "looks-like": "t_shrub_blueberry",
+    "name": "cranberry shrub",
+    "symbol": "#",
+    "color": "red_green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "transforms_into": "t_shrub_cranberry_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "cranberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] },
+          { "drop": "seed_cranberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_cranberry_harvested",
+    "looks-like": "t_shrub_blueberry_harvested",
+    "name": "cranberry bush",
+    "symbol": "#",
+    "color": "red_green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "transforms_into": "t_shrub_cranberry",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
   }
 ]
