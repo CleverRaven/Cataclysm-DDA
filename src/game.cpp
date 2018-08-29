@@ -3150,8 +3150,8 @@ bool game::handle_action()
                     }
                 }
 
-                std::vector<std::string> options( 1, _("Cancel") );
-                std::vector<std::function<void()>> actions( 1, []{} );
+                std::vector<std::string> options;
+                std::vector<std::function<void()>> actions;
 
                 for( auto &w : u.worn ) {
                     if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
@@ -3170,8 +3170,11 @@ bool game::handle_action()
                         actions.emplace_back( [&]{ u.wield( w ); } );
                     }
                 }
-                if( options.size() > 1 ) {
-                    actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
+                if( !options.empty() ) {
+                    int sel = uimenu( _( "Draw what?" ), options );
+                    if( sel >= 0 ) {
+                        actions[sel]();
+                    }
                 }
             }
 
@@ -3286,8 +3289,7 @@ bool game::handle_action()
                         press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
                                 _("new default binding is '^'.")).c_str());
             } else {
-                uimenu as_m;
-                as_m.return_invalid = true;
+                uimenu as_m( uimenu_migration );
                 as_m.text = _("Are you sure you want to sleep?");
                 as_m.entries.emplace_back( uimenu_entry( 0, true,
                                            ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y' ),
@@ -11426,14 +11428,14 @@ bool game::disable_robot( const tripoint &p )
     }
     // Manhacks are special, they have their own menu here.
     if( mid == mon_manhack ) {
-        int choice = 0;
+        int choice = -1;
         if( critter.has_effect( effect_docile ) ) {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
+            choice = uimenu( _( "Reprogram the manhack?" ), { _( "Engage targets." ) } );
         } else {
-            choice = menu( true, _( "Reprogram the manhack?" ), _( "Follow me." ), _( "Cancel" ), NULL );
+            choice = uimenu( _( "Reprogram the manhack?" ), { _( "Follow me." ) } );
         }
         switch( choice ) {
-            case 1:
+            case 0:
                 if( critter.has_effect( effect_docile ) ) {
                     critter.remove_effect( effect_docile );
                     if( one_in( 3 ) ) {
