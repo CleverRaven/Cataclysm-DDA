@@ -1,3 +1,9 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
+
 [
   {
     "abstract": "seed",
@@ -584,7 +590,7 @@
     "material": "wheat",
     "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": 120 }
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "seed_chive",
     "copy-from": "seed",
@@ -633,3 +639,4 @@
     "seed_data": { "plant_name": "dill", "fruit": "dill", "grow": 56 }
   }
 ]
+
