@@ -197,7 +197,10 @@
     "//": "Tailoring kit makes an already decent class for careful folks much more powerful.",
     "skills": [ { "level": 4, "name": "tailor" } ],
     "items": {
-      "both": [ "polo_shirt", "blazer", "pants", "socks", "dress_shoes", "knit_scarf", "tailors_kit", "thread", "scissors" ],
+      "both": {
+        "items": [ "polo_shirt", "blazer", "pants", "socks", "dress_shoes", "knit_scarf", "tailors_kit" ],
+        "entries": [ { "item": "thread", "count": 50 } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }

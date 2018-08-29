@@ -211,12 +211,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "thread",
-        "name" : "thread",
-        "default" : "thread"
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "soap",
         "name" : "soap",
         "default" : "soap"
