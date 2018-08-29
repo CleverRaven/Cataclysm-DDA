@@ -187,7 +187,7 @@ enum ter_connects : int {
 struct map_data_common_t {
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
-
+    
     public:
         virtual ~map_data_common_t() = default;
 
@@ -309,7 +309,6 @@ struct furn_t : map_data_common_t {
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
     itype_id deployed_item; // item id string used to create furniture
-    furn_str_id transforms_into; // Transform into what furniture?
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
 
@@ -472,12 +471,6 @@ extern furn_id f_null,
     f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-    f_mushroom_seed, f_mushroom_seedling, f_mushroom_mature, f_mushroom_mature_harvest,
-    f_shrub_blueberry, f_shrub_blueberry_harvest,
-    f_shrub_strawberry, f_shrub_strawberry_harvest,
-    f_shrub_cranberry, f_shrub_cranberry_harvest,
-    f_shrub_blackberry, f_shrub_blackberry_harvest,
-    f_shrub_raspberry, f_shrub_raspberry_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
     f_standing_tank,

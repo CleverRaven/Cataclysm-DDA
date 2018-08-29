@@ -1041,23 +1041,14 @@ Every item type can have optional seed data, if the item has seed data, it's con
 
 ```JSON
 "seed_data" : {
-    "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
-    "comfortable_temperature": 10, // (optional, default is 0). Minimal comfortable temperature (in degree Celsius). 
-                                   // Plant will be damaged in the air temperature is below this point.
-    "fruit": "corn", // The item id of the fruits that this seed will produce.
-    "fruit_count": 10, // (optional, default is 10). Number of fruits per harvest for plants with default health.
-    "seed": "seed_sunflower", // (optional). The item id of the seeds that this plant will produce.
-    "seed_count": 10, // (optional, default is 0). Number of seeds per harvest for plants with default health.
-    "water_requirement": 1.0, // (optional, default is 1.0). Multiplier for plant water requirement. 
-    "weed_susceptibility": 1.0, // (optional, default is 1.0). Multiplier for damage to plants health from weeds. If set to 0.0 weeds will
-                                // still consume plants water and fertilizer, and therefore damage indirectly.
-    "grow_into": "t_shrub_blueberry", // (optional). The furniture id this plant will transform once fully grown. Used for perennial plants.
+    "fruits": "weed", // The item id of the fruits that this seed will produce.
+    "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
+    "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
-    "is_mushroom": true, // (optional, default is false) Is this plant a mushroom.
-    "is_shrub": true, // (optional, default is false) Will this plant grow into a berry shrub.
+    "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
     "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
-                // Note that growing time is later converted based upon the season_length option.
-    "grow_secondary" : 91 // (optional). Time it takes for a perennial plant to grow fruits (based of off a season length of 91 days).
+                // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
+                // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
 ```
 
