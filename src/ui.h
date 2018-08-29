@@ -148,7 +148,7 @@ class uimenu_migration_tag
 {
 };
 
-const uimenu_migration_tag uimenu_migration;
+const uimenu_migration_tag uimenu_migration{};
 
 /*@}*/
 /**
