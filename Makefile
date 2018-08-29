@@ -783,10 +783,10 @@ json-verify:
 $(ODIR):
 	mkdir -p $(ODIR)
 
-$(ODIR)/%.o: $(SRC_DIR)/%.cpp
+$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(ODIR)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
-$(ODIR)/%.o: $(SRC_DIR)/%.rc
+$(ODIR)/%.o: $(SRC_DIR)/%.rc $(ODIR)
 	$(RC) $(RFLAGS) $< -o $@
 
 src/version.h: version
