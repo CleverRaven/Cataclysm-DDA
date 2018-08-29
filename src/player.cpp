@@ -1047,9 +1047,6 @@ void player::update_bodytemp()
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
                                 ( g->weather == WEATHER_SUNNY ? 1000 : 500 );
-    // CONVECTION HEAT; Hot air from a heat source
-    // times 50 to convert to weather.h BODYTEMP scale
-    const int fire_warmth = get_convection_temperature( pos() ) * 50;
     const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
@@ -1114,7 +1111,6 @@ void player::update_bodytemp()
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
         
         const int h_radiation = get_heat_radiation( pos(), false );
-        temp_conv[bp] += h_radiation * 50; // conversion to BODYTEMP see weather.h
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
@@ -1136,7 +1132,6 @@ void player::update_bodytemp()
             rem_morale( MORALE_PYROMANIA_NOFIRE );
         }
 
-        temp_conv[bp] += fire_warmth;
         temp_conv[bp] += sunlight_warmth;
         // DISEASES
         if( bp == bp_head && has_effect( effect_flu ) ) {
