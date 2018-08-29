@@ -7583,14 +7583,28 @@ void game::examine( const tripoint &examp )
             // half-life inclusion
             int mod = 5 - u.get_skill_level( skill_survival );
             mod = std::min( mod, 4 );
-            if ( fire_age >= 0 ) {
+            if( fire_age >= 0 ) {
+                if( mod >= 4 ) { // = survival level 0-1
+                    add_msg( _( "It's going to go out soon without extra fuel." ) );
+                } else {
                 fire_age = 30_minutes - fire_age;
                 fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
                 add_msg( _( "Without extra fuel it might burn yet for %s, but might also go out sooner." ), to_string_approx( fire_age ) );
+                }
             } else {
                 fire_age = fire_age * -1 + 30_minutes;
-                fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
-                add_msg( _( "Without extra fuel it will burn for %s.") , to_string_approx( fire_age ) );
+                if( mod >= 4 ) { // = survival level 0-1
+                    if( fire_age <= 1_hours ) {
+                        add_msg( _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
+                    } else if( fire_age <= 3_hours ) {
+                        add_msg( _( "It's looks solid, and will burn for a few hours without extra fuel." ) );
+                    } else {
+                        add_msg( _( "It's very well supplied and even without extra fuel might burn for at least s part of a day." ) );
+                    }
+                } else {
+                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                    add_msg( _( "Without extra fuel it will burn for %s.") , to_string_approx( fire_age ) );
+                }
             }
         }
     }
