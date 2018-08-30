@@ -594,6 +594,7 @@ void Item_factory::init()
     add_iuse( "FUNGICIDE", &iuse::fungicide );
     add_iuse( "FUN_HALLU", &iuse::fun_hallu );
     add_iuse( "GEIGER", &iuse::geiger );
+    add_iuse( "GRAMMAR_BOOK", &iuse::grammar_book );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );

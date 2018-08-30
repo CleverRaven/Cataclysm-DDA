@@ -1496,11 +1496,15 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line();
         const auto &book = *type->book;
         // Some things about a book you CAN tell by it's cover.
-        if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test(iteminfo_parts::BOOK_SUMMARY)) {
+        if( !book.skill && !type->can_use( "MA_MANUAL" ) && !type->can_use( "GRAMMAR_BOOK" ) && parts->test(iteminfo_parts::BOOK_SUMMARY)) {
             info.push_back( iteminfo( "BOOK", _( "Just for fun." ) ) );
         }
         if( type->can_use( "MA_MANUAL" ) && parts->test(iteminfo_parts::BOOK_SUMMARY)) {
             info.push_back( iteminfo( "BOOK", _( "Some sort of <info>martial arts training manual</info>." ) ) );
+        }
+        if( type->can_use( "GRAMMAR_BOOK" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) )
+        {
+            info.push_back( iteminfo( "BOOK", _( "This book <info>teaches how to read</info>." ) ) );
         }
         if( book.req == 0 && parts->test(iteminfo_parts::BOOK_REQUIREMENTS_BEGINNER)) {
             info.push_back( iteminfo( "BOOK", _( "It can be <info>understood by beginners</info>." ) ) );

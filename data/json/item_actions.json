@@ -385,6 +385,10 @@
         "name" : "Eat"
     },{
         "type" : "item_action",
+        "id" : "GRAMMAR_BOOK",
+        "name" : "Read"
+    },{
+        "type" : "item_action",
         "id" : "GRANADE",
         "name" : "Activate"
     },{

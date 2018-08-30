@@ -48,6 +48,21 @@
     "fun": 1
   },
   {
+    "id": "grammar_book",
+    "type": "BOOK",
+    "name": "grammar book",
+    "description": "A book for small children to learn to read.",
+    "weight": 200,
+    "volume": 4,
+    "price": 600,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_cyan",
+    "use_action": "GRAMMAR_BOOK",
+    "time": 30,
+    "fun": -1
+  },
+  {
     "id": "commune_prospectus",
     "type": "BOOK",
     "name": "Ranch Prospectus",

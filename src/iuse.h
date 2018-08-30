@@ -87,6 +87,7 @@ class iuse
         int noise_emitter_off( player *, item *, bool, const tripoint & );
         int noise_emitter_on( player *, item *, bool, const tripoint & );
         int ma_manual( player *, item *, bool, const tripoint & );
+        int grammar_book( player *, item *, bool, const tripoint & );
         int crowbar( player *, item *, bool, const tripoint & );
         int makemound( player *, item *, bool, const tripoint & );
         int dig( player *, item *, bool, const tripoint & );

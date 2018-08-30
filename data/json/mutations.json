@@ -145,7 +145,7 @@
         "description" : "You're a quick reader, and can get through books a lot faster than most.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["ILLITERATE", "SLOWREADER"]
+        "cancels" : ["CANNOT_READ", "ILLITERATE", "SLOWREADER"]
     },{
         "type" : "mutation",
         "id" : "TOUGH_FEET",
@@ -301,7 +301,7 @@
         "description" : "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["ILLITERATE","HATES_BOOKS"]
+        "cancels" : ["CANNOT_READ", "ILLITERATE", "HATES_BOOKS"]
     },
     {
         "type" : "mutation",
@@ -641,12 +641,21 @@
     },{
         "type" : "mutation",
         "id" : "ILLITERATE",
-        "name" : "Illiterate",
+        "name" : "Reading Inability",
         "points" : -6,
-        "description" : "You never learned to read!  Books and computers are off-limits to you.",
+        "description" : "For one reason or another, you are completely unable to read anything.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS"]
+        "cancels" : ["CANNOT_READ", "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS"]
+    },{
+        "type" : "mutation",
+        "id" : "CANNOT_READ",
+        "name" : "Illiterate",
+        "points" : -2,
+        "description" : "You never learned to read!  Books and computers are off-limits to you until you do.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ILLITERATE", "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
@@ -712,7 +721,7 @@
         "description" : "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["ILLITERATE","LOVES_BOOKS"]
+        "cancels" : ["CANNOT_READ", "ILLITERATE", "LOVES_BOOKS"]
     },
     {
         "type" : "mutation",
@@ -827,7 +836,7 @@
         "description" : "You're a slow reader, and it takes you longer to get through books than most.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["ILLITERATE", "FASTREADER"]
+        "cancels" : ["CANNOT_READ", "ILLITERATE", "FASTREADER"]
     },{
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
@@ -5265,7 +5274,7 @@
         "valid": false,
         "purifiable": false,
         "profession": true,
-        "cancels": ["ILLITERATE"]
+        "cancels": ["CANNOT_READ", "ILLITERATE"]
     },{
         "type" : "mutation",
         "id" : "NPC_BRANDY",

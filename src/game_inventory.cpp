@@ -621,10 +621,15 @@ class read_inventory_preset: public pickup_inventory_preset
         read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             static const std::string unknown( _( "<color_dark_gray>?</color>" ) );
             static const std::string martial_arts( _( "martial arts" ) );
+            static const std::string grammar_book( _( "grammar" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
                     return martial_arts;
+                }
+                if( loc->type->can_use( "GRAMMAR_BOOK" ) )
+                {
+                    return grammar_book;
                 }
                 if( !is_known( loc ) ) {
                     return unknown;

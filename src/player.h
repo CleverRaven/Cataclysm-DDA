@@ -355,6 +355,8 @@ class player : public Character
         bool has_alarm_clock() const;
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
+		/** Returns true if the player is illiterate */
+        bool is_illiterate() const;
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;

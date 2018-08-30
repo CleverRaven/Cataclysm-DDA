@@ -69,7 +69,6 @@ static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
@@ -2869,7 +2868,7 @@ void iexamine::sign(player &p, const tripoint &examp)
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if( p.has_trait( trait_ILLITERATE ) ) {
+    if( p.is_illiterate() ) {
         popup( _( "You're illiterate, and can't read the message on the sign." ) );
     } else if( previous_signage_exists ) {
         popup( existing_signage.c_str() );
@@ -2987,7 +2986,7 @@ static int findBestGasDiscount(player &p)
 
 static std::string str_to_illiterate_str(std::string s)
 {
-    if (!g->u.has_trait( trait_ILLITERATE )) {
+    if (!g->u.is_illiterate() ) {
         return s;
     } else {
         for (auto &i : s) {
@@ -3125,7 +3124,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     const int refund = 4;
     const int cancel = 5;
 
-    if( p.has_trait( trait_ILLITERATE ) ) {
+    if( p.is_illiterate() ) {
         popup( _( "You're illiterate, and can't read the screen." ) );
     }
 
@@ -3157,7 +3156,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
     long pricePerUnit = getGasPricePerLiter( discount );
 
-    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
+    bool can_hack = ( !p.is_illiterate() && ( ( p.has_charges( "electrohack", 25 ) ) ||
                       ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24 ) ) );
 
     uimenu amenu;
@@ -4141,7 +4140,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
 }
 
 hack_result iexamine::hack_attempt( player &p ) {
-    if( p.has_trait( trait_ILLITERATE ) ) {
+    if( p.is_illiterate() ) {
         return HACK_UNABLE;
     }
     bool using_electrohack = ( p.has_charges( "electrohack", 25 ) &&

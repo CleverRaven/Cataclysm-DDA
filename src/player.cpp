@@ -307,6 +307,7 @@ static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_CANNOT_READ( "CANNOT_READ" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
@@ -2808,6 +2809,11 @@ bool player::has_watch() const
              ) ||
              has_bionic( bio_watch )
            );
+}
+
+bool player::is_illiterate() const
+{
+    return has_trait( trait_ILLITERATE ) || has_trait( trait_CANNOT_READ );
 }
 
 void player::pause()
@@ -8915,7 +8921,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
-    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+    if( type->intel > 0 && is_illiterate() ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
@@ -8940,7 +8946,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
-        if( type->intel > 0 && elem->has_trait( trait_ILLITERATE ) ) {
+        if( type->intel > 0 && elem->is_illiterate() ) {
             reasons.push_back( string_format( _( "%s is illiterate!" ),
                                               elem->disp_name().c_str() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
@@ -9505,6 +9511,12 @@ void player::do_read( item &book )
     auto m = book.type->use_methods.find( "MA_MANUAL" );
     if( m != book.type->use_methods.end() ) {
         m->second.call( *this, book, false, pos() );
+    }
+
+    auto g = book.type->use_methods.find( "GRAMMAR_BOOK" );
+    if( g != book.type->use_methods.end() )
+    {
+        g->second.call( *this, book, false, pos() );
     }
 
     activity.set_to_null();

@@ -160,6 +160,7 @@ const efftype_id effect_winded( "winded" );
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
+static const trait_id trait_CANNOT_READ( "CANNOT_READ" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
@@ -180,6 +181,7 @@ static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SLOWREADER( "SLOWREADER" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -2311,6 +2313,26 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( m_good, _( "You learn the essential elements of the style." ) );
 
     return 1;
+    }
+
+int iuse::grammar_book( player *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_bad, _( "You are completely unable to learn to read." ) );
+        return 0;
+    }
+
+    if( !p->has_trait( trait_CANNOT_READ ) ) {
+        p->add_msg_if_player( m_info, _( "You already know how to read." ) );
+        return 0;
+    }
+
+    p->add_msg_if_player( m_good, _( "You learn to read." ) );
+
+    p->remove_mutation( trait_CANNOT_READ );
+    p->set_mutation( trait_SLOWREADER );
+
+    return 1;
 }
 
 static bool pry_nails( player &p, const ter_id &type, const int dirx, const int diry )
@@ -3806,7 +3828,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-    if( p->has_trait( trait_ILLITERATE ) ) {
+    if( p->is_illiterate() ) {
         add_msg( _( "You're illiterate!" ) );
         return 0;
     } else if( it->ammo_remaining() < 15 ) {
@@ -5420,7 +5442,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
         return 0;
 
     }
-    if( p->has_trait( trait_ILLITERATE ) ) {
+    if( p->is_illiterate() ) {
         p->add_msg_if_player( _( "You cannot read a computer screen." ) );
         return 0;
     }
@@ -5798,7 +5820,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
             return 0;
         }
-        if( p->has_trait( trait_ILLITERATE ) ) {
+        if( p->is_illiterate() ) {
             add_msg( m_info, _( "You cannot read a computer screen." ) );
             return 0;
         }
@@ -6982,7 +7004,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        if( p->has_trait( trait_ILLITERATE ) ) {
+        if( p->is_illiterate() ) {
             add_msg( m_info, _( "You cannot read, and don't understand the screen or the buttons!" ) );
             return 0;
         }
