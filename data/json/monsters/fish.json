@@ -498,7 +498,7 @@
     "melee_cut": 2,
     "dodge": 5,
     "luminance": 0,
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 6 },
+    "reproduction": { "baby_egg": "egg_fish", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES", "FAT" ]
