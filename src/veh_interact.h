@@ -213,6 +213,9 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
+
+        tripoint world_cursor_pos;
+        void cache_tool_availability_update_lifting();
 };
 
 #endif
