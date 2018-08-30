@@ -379,9 +379,10 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const time_duration spoils = get_edible_comestible( loc ).spoils;
-                if( spoils > 0 ) {
-                    return to_string_clipped( spoils );
+                const islot_comestible item = get_edible_comestible( loc );
+                if( item.spoils > 0 && !get_comestible_item( loc ).rotten() ) {
+                    const time_duration time_left = get_time_left_rounded( loc );
+                    return to_string_clipped( time_left );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -480,6 +481,26 @@ class comestible_inventory_preset : public inventory_selector_preset
             }
             static const islot_comestible dummy {};
             return dummy;
+        }
+
+        const time_duration get_time_left_rounded( const item_location &loc )
+        {
+            const time_duration age = loc.get_item()->age();
+            const time_duration spoils = get_edible_comestible( loc ).spoils;
+            const time_duration time_left = spoils - age; // estimate. food can be ok if this is <0
+
+            const skill_id skill_survival( "survival" );
+            const int skill = p.get_skill_level( skill_survival );
+
+            const float days_left = to_days<float>( time_left );
+            if( days_left <= 1 ) {
+                return time_duration::from_days( 1 );
+            }
+            float round_up = 7;
+            if( skill >= 4 && days_left <= 7 ) {
+                round_up = 1;
+            }
+            return time_duration::from_days( ceilf( days_left / round_up ) * round_up );
         }
 
     private:
