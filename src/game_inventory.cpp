@@ -371,7 +371,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const item it = get_comestible_item( loc );
                 if( it.has_flag( "MUSHY" ) ) {
                     return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first, true );
-                } else{
+                } else {
                     return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
                 }
             }, _( "JOY" ) );
