@@ -387,7 +387,7 @@
         "name" : "hydrogen canister",
         "symbol" : "=",
         "color" : "light_gray",
-        "description" : "A canister of pressurized hydrogen.  With proper equipment, it could be heated into plasma.",
+        "description" : "A canister of pressurized hydrogen.  With the proper equipment, it could be heated into plasma.  Manufactured by specialized pre-cataclysm machinery, it's impossible to refill once emptied.",
         "material" : ["steel", "powder"],
         "volume" : 10,
         "weight" : 183,
