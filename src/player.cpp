@@ -5243,7 +5243,7 @@ void player::suffer()
                     if( !mons.empty() &&
                         one_in( to_turns<int>( 12_minutes ) ) ) {
                         std::vector<std::string> mon_near{ _( "Hey, let's go kill that %1$s!" ),
-                                                           _( "Did you see that %1$s!" ),
+                                                           _( "Did you see that %1$s?" ),
                                                            _( "I want to kill that %1$s!" ),
                                                            _( "Let me kill that %1$s!" ),
                                                            _( "Hey, I need to kill that %1$s!" ),
