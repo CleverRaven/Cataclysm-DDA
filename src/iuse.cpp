@@ -7635,7 +7635,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
     std::list<std::pair<int, int>> to_clean;
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-        to_clean = std::list<std::pair<int, int> >();
         return 0;
     }
 
