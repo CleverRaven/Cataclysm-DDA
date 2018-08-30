@@ -11802,7 +11802,7 @@ bool game::ramp_move( const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( u.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) <= 1.5f && m.has_flag( "RAMP_END", pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( "RAMP_END", pt ) ) {
             aligned_ramps = true;
             break;
         }
