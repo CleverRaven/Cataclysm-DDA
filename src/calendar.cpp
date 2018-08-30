@@ -315,8 +315,8 @@ std::string to_string_clipped( const time_duration &d )
     } else if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
         // therefore no way to count them
-        const int week = to_weeks<int>(d);
-        return string_format( ngettext("%d week", "%d weeks", week ), week );
+        const int week = to_weeks<int>( d );
+        return string_format( ngettext( "%d week", "%d weeks", week ), week );
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
         //@todo: consider a to_season function, but season length is variable, so
         // this might be misleading
