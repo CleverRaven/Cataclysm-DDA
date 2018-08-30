@@ -39,6 +39,7 @@
 #include "bionics.h"
 #include "inventory.h"
 #include "craft_command.h"
+#include "material.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2608,159 +2609,111 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
-/**
- * Returns the weight of all the items on tile made of specific material.
- *
- * @param &stack item stack.
- * @param &material the material whose mass we want.
- * @param remove_items are the items getting consumed in the process?
- * @param include_contents dose item contents count towards the weight?
- */
-units::mass sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
+void iexamine::recycle_compactor(player &, const tripoint &examp)
 {
-    units::mass sum_weight = 0;
-    for( auto item_it = stack.begin(); item_it != stack.end(); ) {
-        if( item_it->made_of(material) && item_it->weight() > 0) {
-            sum_weight += item_it->weight( include_contents );
-            if( remove_items ) {
-                item_it = stack.erase( item_it );
-            } else {
-                ++item_it;
-            }
-        } else {
-            ++item_it;
-        }
+    // choose what metal to recycle
+    auto metals = materials::get_compactable();
+    uimenu choose_metal;
+    choose_metal.text = _("Recycle what metal?");
+    for( auto &m : metals ) {
+        choose_metal.addentry(m.name());
     }
-    return sum_weight;
-}
-
-void add_recyle_menu_entry( uimenu &menu, const units::mass &w, char hk, const std::string &type )
-{
-    const auto itt = item( type, 0 );
-    const int amount = w / itt.weight();
-    menu.addentry(
-        menu.entries.size() + 1, // value return by uimenu for this entry
-        true, // enabled
-        hk, // hotkey
-        string_format(_("about %d %s"), amount, itt.tname( amount ).c_str())
-    );
-}
-
-void iexamine::recycler(player &p, const tripoint &examp)
-{
-    auto items_on_map = g->m.i_at(examp);
-
-    // check for how much steel, by weight, is in the recycler
-    // only items made of STEEL are checked
-    // IRON and other metals cannot be turned into STEEL for now
-    units::mass steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false, false );
-    if (steel_weight == 0) {
-        add_msg(m_info,
-                _("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
+    choose_metal.entries.push_back( uimenu_entry( -1, true, 'c', _("Cancel") ) );
+    choose_metal.selected = choose_metal.entries.size();
+    choose_metal.query();
+    int m_idx = choose_metal.ret;
+    if( m_idx < 0 || m_idx >= static_cast<int>(metals.size()) ) {
+        add_msg(_("Never mind."));
         return;
     }
+    material_type m = metals.at(m_idx);
+
+    // check inputs and tally total mass
+    auto inputs = g->m.i_at(examp);
+    units::mass sum_weight = 0;
+    auto ca = m.compact_accepts();
+    std::set<material_id> accepts(ca.begin(),ca.end());
+    accepts.insert(m.id);
+    for( auto it = inputs.begin(); it != inputs.end(); ++it ) {
+        if( !it->only_made_of( accepts ) ) {
+            //~ %1$s: an item in the compactor , %2$s: desired compactor output material
+            add_msg(_("You realize this isn't going to work because %1$s is not made purely of %2$s."), it->tname().c_str(), m.name().c_str());
+            return;
+        }
+        if( it->is_container() && !it->is_container_empty() ) {
+            //~ %1$s: an item in the compactor
+            add_msg(_("You realize this isn't going to work because %1$s has not been emptied of its contents."), it->tname().c_str());
+            return;
+        }
+        sum_weight += it->weight();
+    }
+    if(sum_weight <= 0) {
+        //~ %1$s: desired compactor output material
+        add_msg(_("There is no %1$s in the compactor.  Drop some metal items onto it and try again."), m.name().c_str());
+        return;
+    }
+
     // See below for recover_factor (rng(6,9)/10), this
     // is the normal value of that recover factor.
     static const double norm_recover_factor = 8.0 / 10.0;
-    const units::mass norm_recover_weight = steel_weight * norm_recover_factor;
-    uimenu as_m;
-    const std::string weight_str = string_format("%.3f %s", convert_weight(steel_weight),
-                                                            weight_units());
-    as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'm', "sheet_metal");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'C', "steel_chunk");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 's', "scrap");
-    as_m.entries.push_back(uimenu_entry(0, true, 'c', _("Cancel")));
-    as_m.selected = 4;
-    as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
-    int ch = as_m.ret;
-    int num_lumps = 0;
-    int num_sheets = 0;
-    int num_chunks = 0;
-    int num_scraps = 0;
+    const units::mass norm_recover_weight = sum_weight * norm_recover_factor;
 
-    if (ch >= 5 || ch <= 0) {
+    // choose output
+    uimenu choose_output;
+    //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
+    choose_output.text = string_format(_("Compact %1$.3f %2$s of %3$s into:"), convert_weight(sum_weight), weight_units(), m.name().c_str());
+    for( auto &ci : m.compacts_into() ) {
+        auto it = item( ci, 0 , item::solitary_tag{} );
+        const int amount = norm_recover_weight / it.weight();
+        //~ %1$d: number of, %2$s: output item
+        choose_output.addentry( string_format( _("about %1$d %2$s"), amount, it.tname(amount).c_str() ) );
+    }
+    choose_output.entries.push_back( uimenu_entry( -1, true, 'c', _("Cancel") ) );
+    choose_output.selected = choose_output.entries.size();
+    choose_output.query();
+    int o_idx = choose_output.ret;
+    if( o_idx < 0 || o_idx >= static_cast<int>(m.compacts_into().size()) ) {
         add_msg(_("Never mind."));
         return;
     }
 
-    // Sum up again, this time remove the items,
-    // ignore result, should be the same as before.
-    sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true, false );
+    // remove items
+    for( auto it = inputs.begin(); it != inputs.end(); ) {
+        it = inputs.erase(it);
+    }
 
+    // produce outputs
     double recover_factor = rng(6, 9) / 10.0;
-    steel_weight = steel_weight * recover_factor;
-
+    sum_weight = sum_weight * recover_factor;
     sounds::sound(examp, 80, _("Ka-klunk!"));
+    bool out_desired=false;
+    bool out_any=false;
+    for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
+        const units::mass ow = item( *it, 0, item::solitary_tag{} ).weight();
+        int count = sum_weight / ow;
+        sum_weight -= count * ow;
+        if(count > 0) {
+            g->m.spawn_item( examp, *it, count, 1, calendar::turn );
+            if (!out_any) {
+                out_any = true;
+                if(it == m.compacts_into().begin() + o_idx) {
+                    out_desired = true;
+                }
+            }
+        }
+    }
 
-    units::mass lump_weight = item( "steel_lump", 0 ).weight();
-    units::mass sheet_weight = item( "sheet_metal", 0 ).weight();
-    units::mass chunk_weight = item( "steel_chunk", 0 ).weight();
-    units::mass scrap_weight = item( "scrap", 0 ).weight();
-
-    if (steel_weight < scrap_weight) {
-        add_msg(_("The recycler chews up all the items in its hopper."));
-        add_msg(_("The recycler beeps: \"No steel to process!\""));
+    // feedback to user
+    if(!out_any) {
+        add_msg(_("The compactor chews up all the items in its hopper."));
+        //~ %1$s: compactor output material
+        add_msg(_("The compactor beeps: \"No %1$s to process!\""), m.name().c_str());
         return;
     }
-
-    switch(ch) {
-    case 1: // 1 steel lump = weight 1360
-        num_lumps = steel_weight / (lump_weight);
-        steel_weight -= num_lumps * (lump_weight);
-        num_sheets = steel_weight / (sheet_weight);
-        steel_weight -= num_sheets * (sheet_weight);
-        num_chunks = steel_weight / (chunk_weight);
-        steel_weight -= num_chunks * (chunk_weight);
-        num_scraps = steel_weight / (scrap_weight);
-        if (num_lumps == 0) {
-            add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-            add_msg(_("It spits out an assortment of smaller pieces instead."));
-        }
-        break;
-
-    case 2: // 1 metal sheet = weight 1000
-        num_sheets = steel_weight / (sheet_weight);
-        steel_weight -= num_sheets * (sheet_weight);
-        num_chunks = steel_weight / (chunk_weight);
-        steel_weight -= num_chunks * (chunk_weight);
-        num_scraps = steel_weight / (scrap_weight);
-        if (num_sheets == 0) {
-            add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-            add_msg(_("It spits out an assortment of smaller pieces instead."));
-        }
-        break;
-
-    case 3: // 1 steel chunk = weight 340
-        num_chunks = steel_weight / (chunk_weight);
-        steel_weight -= num_chunks * (chunk_weight);
-        num_scraps = steel_weight / (scrap_weight);
-        if (num_chunks == 0) {
-            add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-            add_msg(_("It spits out an assortment of smaller pieces instead."));
-        }
-        break;
-
-    case 4: // 1 metal scrap = weight 113
-        num_scraps = steel_weight / (scrap_weight);
-        break;
-    }
-
-    for (int i = 0; i < num_lumps; i++) {
-        g->m.spawn_item( p.pos(), "steel_lump", 1, 0, calendar::turn );
-    }
-
-    for (int i = 0; i < num_sheets; i++) {
-        g->m.spawn_item( p.pos(), "sheet_metal", 1, 0, calendar::turn );
-    }
-
-    for (int i = 0; i < num_chunks; i++) {
-        g->m.spawn_item( p.pos(), "steel_chunk", 1, 0, calendar::turn );
-    }
-
-    for (int i = 0; i < num_scraps; i++) {
-        g->m.spawn_item( p.pos(), "scrap", 1, 0, calendar::turn );
+    if(!out_desired) {
+        //~ %1$s: compactor output material
+        add_msg(_("The compactor beeps: \"Insufficient %1$s!\""), m.name().c_str());
+        add_msg(_("It spits out an assortment of smaller pieces instead."));
     }
 }
 
@@ -4155,7 +4108,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "tree_maple", &iexamine::tree_maple },
         { "tree_maple_tapped", &iexamine::tree_maple_tapped },
         { "shrub_wildveggies", &iexamine::shrub_wildveggies },
-        { "recycler", &iexamine::recycler },
+        { "recycle_compactor", &iexamine::recycle_compactor },
         { "trap", &iexamine::trap },
         { "water_source", &iexamine::water_source },
         { "reload_furniture", &iexamine::reload_furniture },
