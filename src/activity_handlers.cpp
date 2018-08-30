@@ -2854,7 +2854,7 @@ void activity_handlers::till_plot_do_turn( player_activity*, player *p )
             return;
         } else { // we are at destination already
             p->add_msg_if_player( _( "You churn up the earth here." ) );
-            p->moves = -300;
+            p->mod_moves( -300 );
             g->m.ter_set( tile_loc, t_dirtmound );
 
             if( p->moves <= 0 ) {
