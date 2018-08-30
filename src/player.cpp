@@ -5356,7 +5356,7 @@ void player::suffer()
                                                      _( "\"It wasn't my fault!\"" ),
                                                      _( "\"I had to do it!\"" ),
                                                      _( "\"They made me do it!\"" ),
-                                                     _( "\"What are you!\"" ),
+                                                     _( "\"What are you?\"" ),
                                                      _( "\"I should never have trusted you!\"" ) };
 
                     std::string i_shout = random_entry_ref( shouts );
