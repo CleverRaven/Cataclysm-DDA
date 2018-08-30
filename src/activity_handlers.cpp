@@ -2866,4 +2866,5 @@ void activity_handlers::till_plot_do_turn( player_activity*, player *p )
     }
 
     // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, _( "You tilled every tile you could." ) );
 }
