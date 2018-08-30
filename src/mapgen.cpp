@@ -2950,6 +2950,20 @@ ___DEEE|.R.|...,,...|sss\n",
             if (lw == 0 ) {
                 boarders++;
             }
+
+            const auto maybe_insert_stairs = [this]( const oter_id &terrain,  const ter_id &t_stair_type ) {
+                if (is_ot_subtype("stairs", terrain)) {
+                    const auto predicate = [this]( const tripoint &p ) {
+                        return ter( p ) == t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
+                    };
+                    const auto range = points_in_rectangle( { 0, 0, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
+
+                    if( const auto p = random_point( range, predicate ) ) {
+                        ter_set( *p, t_stair_type );
+                    }
+                }
+            };
+
             //A lab area with only one entrance
             if (boarders == 1) {
                 const std::string function_key = "lab_1side"; // terrain_type->get_mapgen_id();
@@ -2975,21 +2989,8 @@ ___DEEE|.R.|...,,...|sss\n",
                 } else {
                     debugmsg("Error: Tried to generate 1-sided lab but no lab_1side json exists.");
                 }
-                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_thconc_floor; };
-                const auto range = points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } );
-                if (is_ot_subtype("stairs", t_above)) {
-                    if( const auto p = random_point( range, predicate ) ) {
-                        remove_trap( *p );
-                        ter_set( *p, t_stairs_up );
-                    }
-                }
-
-                if (is_ot_subtype("stairs", terrain_type)) {
-                    if( const auto p = random_point( range, predicate ) ) {
-                        remove_trap( *p );
-                        ter_set( *p, t_stairs_down );
-                    }
-                }
+                maybe_insert_stairs(t_above, t_stairs_up);
+                maybe_insert_stairs(terrain_type, t_stairs_down);
             } else {
                 const std::string function_key = "lab_4side";
                 const auto fmapit = oter_mapgen.find( function_key );
@@ -3041,16 +3042,8 @@ ___DEEE|.R.|...,,...|sss\n",
                             }
                         }
 
-                        if (is_ot_subtype("stairs", t_above)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
-                                ter_set( *p, t_stairs_up );
-                            }
-                        }
-                        if (is_ot_subtype("stairs", terrain_type)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
-                                ter_set( *p, t_stairs_down );
-                            }
-                        }
+                        maybe_insert_stairs(t_above, t_stairs_up);
+                        maybe_insert_stairs(terrain_type, t_stairs_down);
                     } else { // then weighted roll was in the hardcoded section
                         use_hardcoded_4side_map = true;
                     } // end json maps
@@ -3224,11 +3217,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         }
                         science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                      zlevel, rng(0, 3));
-                        if (is_ot_subtype("stairs", t_above)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
-                                ter_set( *p, t_stairs_up );
-                            }
-                        }
+
                         if (rw == 1) {
                             ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
                             ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
@@ -3237,11 +3226,8 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set(SEEX - 1, SEEY * 2 - 1, t_door_metal_c);
                             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                         }
-                        if (is_ot_subtype("stairs", terrain_type)) {
-                            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
-                                ter_set( *p, t_stairs_down );
-                            }
-                        }
+                        maybe_insert_stairs(t_above, t_stairs_up);
+                        maybe_insert_stairs(terrain_type, t_stairs_down);
                         break;
                     }
                 } // endif use_hardcoded_4side_map
@@ -3336,7 +3322,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         // don't flood if ice lab because there's no mechanic for freezing liquid floors.
                         break;
                     }
-                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    auto fluid_type = one_in(3) ? t_sewage : t_water_sh;
                     for (int i = 0; i < SEEX * 2 - 1; i++) {
                         for (int j = 0; j < SEEY * 2 - 1; j++) {
                             // We spare some terrain to make it look better visually.
@@ -3359,7 +3345,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         // don't flood if ice lab because there's no mechanic for freezing liquid floors.
                         break;
                     }
-                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    auto fluid_type = one_in(3) ? t_sewage : t_water_sh;
                     for (int i = 0; i < 2; ++i) {
                         draw_rough_circle( [this, fluid_type]( int x, int y ) {
                                 if( t_thconc_floor == ter(x, y) || t_strconc_floor == ter(x, y) ) {
@@ -3377,7 +3363,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 // toxic gas leaks and smoke-filled rooms.
                 case 3:
                 case 4: {
-                    bool is_toxic = one_in(2);
+                    bool is_toxic = one_in(3);
                     for (int i = 0; i < SEEX * 2; i++) {
                         for (int j = 0; j < SEEY * 2; j++) {
                             if( one_in(200) && (t_thconc_floor == ter(i, j)|| t_strconc_floor == ter(i, j)) ) {
@@ -3720,16 +3706,21 @@ ___DEEE|.R.|...,,...|sss\n",
         } // end use_hardcoded_lab_finale
 
         // Handle stairs in the unlikely case they are needed.
-        if (is_ot_subtype("stairs", t_above)) {
-            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
-                ter_set( *p, t_stairs_up );
+
+        const auto maybe_insert_stairs = [this]( const oter_id &terrain,  const ter_id &t_stair_type ) {
+            if (is_ot_subtype("stairs", terrain)) {
+                const auto predicate = [this]( const tripoint &p ) {
+                    return ter( p ) == t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
+                };
+                const auto range = points_in_rectangle( { 0, 0, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
+
+                if( const auto p = random_point( range, predicate ) ) {
+                    ter_set( *p, t_stair_type );
+                }
             }
-        }
-        if (is_ot_subtype("stairs", terrain_type)) {
-            if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &n ) { return ter( n ) == t_thconc_floor; } ) ) {
-                ter_set( *p, t_stairs_down );
-            }
-        }
+        };
+        maybe_insert_stairs(t_above, t_stairs_up);
+        maybe_insert_stairs(terrain_type, t_stairs_down);
 
         int light_odds = 0;
         // central & tower labs are always fully lit, other labs have half chance of some lights.

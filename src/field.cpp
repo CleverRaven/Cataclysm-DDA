@@ -1962,8 +1962,8 @@ void map::player_in_field( player &u )
             // Toxic gas at high levels will cause very nasty poison.
             {
                 bool inhaled = false;
-                if( cur.getFieldDensity() == 2 &&
-                    (!inside || (cur.getFieldDensity() == 3 && inside)) ) {
+                if( (cur.getFieldDensity() == 2 && !inside) || 
+                    (cur.getFieldDensity() == 3 && inside) ) {
                     inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, 3_minutes );
                 } else if( cur.getFieldDensity() == 3 && !inside ) {
                     inhaled = u.add_env_effect( effect_badpoison, bp_mouth, 5, 3_minutes );

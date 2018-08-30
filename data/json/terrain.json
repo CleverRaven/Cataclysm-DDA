@@ -2366,14 +2366,14 @@
   {
     "type": "terrain",
     "id": "t_recycler",
-    "name": "steel compactor",
-    "description": "An advanced recycling unit that can accept inputs of various metals and through a complex system of hydraulics, be reshaped into more useful parts and pieces.",
+    "name": "metal compactor",
+    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.",
     "symbol": "&",
     "color": "green",
     "move_cost": 0,
     "max_volume": 8000,
     "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
-    "examine_action": "recycler",
+    "examine_action": "recycle_compactor",
     "bash": {
       "str_min": 20,
       "str_max": 150,
