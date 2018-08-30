@@ -595,7 +595,7 @@ void player::mutate()
                     // non-purifiable stuff should be pretty tenacious
                     // category-enforcement only targets it 25% of the time
                     // (purify_save defaults true, = false for non-purifiable)
-                    if( purify_save || ( one_in( 4 ) && !purify_save ) ) {
+                    if( purify_save || one_in( 4 ) ) {
                         downgrades.push_back(base_mutation);
                     }
                 }
