@@ -6978,12 +6978,13 @@ void map::rotate(int turns)
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
-    std::map<std::string, std::string> cosmetics_rot[SEEX * 2][SEEY * 2];
+    //std::map<std::string, std::string> cosmetics_rot[SEEX * 2][SEEY * 2];
     field fldrot [SEEX * 2][SEEY * 2];
     int radrot [SEEX * 2][SEEY * 2];
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
+    std::vector<submap::cosmetic_t> cosmetics_rot[MAPSIZE * MAPSIZE];
     std::unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
     int temperature[MAPSIZE * MAPSIZE];
@@ -7016,7 +7017,7 @@ void map::rotate(int turns)
             std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
             std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
             std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
-            std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
+            //std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
             auto items = i_at(new_x, new_y);
             itrot[old_x][old_y].reserve( items.size() );
             // Copy items, if we move them, it'll wreck i_clear().
@@ -7024,6 +7025,7 @@ void map::rotate(int turns)
             i_clear(new_x, new_y);
         }
     }
+
 
     //Next, spawn points
     for (int sx = 0; sx < 2; sx++) {
@@ -7065,6 +7067,28 @@ void map::rotate(int turns)
                 tmp.posx = new_x;
                 tmp.posy = new_y;
                 sprot[gridto].push_back(tmp);
+            }
+            for (auto& cosm : from->cosmetics){
+                submap::cosmetic_t tmp = cosm;
+                int new_x = tmp.p.x;
+                int new_y = tmp.p.y;
+                switch(turns){
+                case 1:
+                    new_x = SEEY - 1 - tmp.p.y;
+                    new_y = tmp.p.x;
+                    break;
+                case 2:
+                    new_x = SEEX - 1 - tmp.p.x;
+                    new_y = SEEY - 1 - tmp.p.y;
+                    break;
+                case 3:
+                    new_x = tmp.p.y;
+                    new_y = SEEX - 1 - tmp.p.x;
+                    break;
+                }
+                tmp.p.x = new_x;
+                tmp.p.y = new_y;
+                cosmetics_rot[gridto].push_back(tmp);
             }
             // as vehrot starts out empty, this clears the other vehicles vector
             vehrot[gridto].swap(from->vehicles);
@@ -7129,6 +7153,8 @@ void map::rotate(int turns)
             // move back to the actual submap object, vehrot is only temporary
             vehrot[i].swap(to->vehicles);
             sprot[i].swap(to->spawns);
+            cosmetics_rot[i].swap(to->cosmetics);
+
             to->comp = std::move( tmpcomp[i] );
             to->field_count = field_count[i];
             to->temperature = temperature[i];
@@ -7146,7 +7172,7 @@ void map::rotate(int turns)
             std::swap( traprot[i][j], sm->trp[lx][ly] );
             std::swap( fldrot[i][j], sm->fld[lx][ly] );
             std::swap( radrot[i][j], sm->rad[lx][ly] );
-            std::swap( cosmetics_rot[i][j], sm->cosmetics[lx][ly] );
+            //std::swap( cosmetics_rot[i][j], sm->cosmetics[lx][ly] );
             for( auto &itm : itrot[i][j] ) {
                 add_item( i, j, itm );
             }

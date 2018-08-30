@@ -36,27 +36,66 @@ static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 
 bool submap::has_graffiti( int x, int y ) const
 {
-    return cosmetics[x][y].count( COSMETICS_GRAFFITI ) > 0;
+    //return cosmetics[x][y].count( COSMETICS_GRAFFITI ) > 0;
+    point tp(x, y);
+    for(size_t i = 0; i < cosmetics.size(); ++i){
+        if (cosmetics[i].p == tp && cosmetics[i].type == COSMETICS_GRAFFITI){
+            return true;
+        }
+    }
+    return false;
 }
 
 const std::string &submap::get_graffiti( int x, int y ) const
 {
-    const auto it = cosmetics[x][y].find( COSMETICS_GRAFFITI );
-    if( it == cosmetics[x][y].end() ) {
-        static const std::string empty_string;
-        return empty_string;
+    point tp(x, y);
+    for (size_t i = 0; i < cosmetics.size(); ++i){
+        if (cosmetics[i].p == tp && cosmetics[i].type == COSMETICS_GRAFFITI){
+            return cosmetics[i].str;
+        }
     }
-    return it->second;
+
+    return "";
+    // const auto it = cosmetics[x][y].find( COSMETICS_GRAFFITI );
+    // if( it == cosmetics[x][y].end() ) {
+    //     static const std::string empty_string;
+    //     return empty_string;
+    // }
+    // return it->second;
 }
 
 void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
 {
     is_uniform = false;
-    cosmetics[x][y][COSMETICS_GRAFFITI] = new_graffiti;
+    //cosmetics[x][y][COSMETICS_GRAFFITI] = new_graffiti;
+    point tp(x, y);
+    // Find signage at tp if available
+    size_t i = 0;
+    for (; i < cosmetics.size(); ++i){
+        if (cosmetics[i].p == tp && cosmetics[i].type == COSMETICS_GRAFFITI){
+            break;
+        }
+    }
+    if (i == cosmetics.size()){
+        cosmetic_t ncos;
+        ncos.p = tp;
+        ncos.type = COSMETICS_GRAFFITI;
+        cosmetics.push_back(ncos);
+    }
+    //cosmetics[x][y]["SIGNAGE"] = s;
+    cosmetics[i].str = new_graffiti;
 }
 
 void submap::delete_graffiti( int x, int y )
 {
     is_uniform = false;
-    cosmetics[x][y].erase( COSMETICS_GRAFFITI );
+    //cosmetics[x][y].erase( COSMETICS_GRAFFITI );
+    point tp(x, y);
+    for (size_t i = 0; i < cosmetics.size(); ++i){
+        if (cosmetics[i].p == tp && cosmetics[i].type == COSMETICS_GRAFFITI){
+            cosmetics[i] = cosmetics.back();
+            cosmetics.pop_back();
+            return;
+        }
+    }
 }

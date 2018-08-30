@@ -332,17 +332,25 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
         jsout.member( "cosmetics" );
         jsout.start_array();
-        for( int j = 0; j < SEEY; j++ ) {
-            for( int i = 0; i < SEEX; i++ ) {
-                if( sm->cosmetics[i][j].size() > 0 ) {
-                    jsout.start_array();
-                    jsout.write( i );
-                    jsout.write( j );
-                    jsout.write( sm->cosmetics[i][j] );
-                    jsout.end_array();
-                }
-            }
+        for (const auto& cosm : sm->cosmetics){
+            jsout.start_array();
+            jsout.write(cosm.p.x);
+            jsout.write(cosm.p.y);
+            jsout.write(cosm.type);
+            jsout.write(cosm.str);
+            jsout.end_array();
         }
+        // for( int j = 0; j < SEEY; j++ ) {
+        //     for( int i = 0; i < SEEX; i++ ) {
+        //         if( sm->cosmetics[i][j].size() > 0 ) {
+        //             jsout.start_array();
+        //             jsout.write( i );
+        //             jsout.write( j );
+        //             jsout.write( sm->cosmetics[i][j] );
+        //             jsout.end_array();
+        //         }
+        //     }
+        // }
         jsout.end_array();
 
         // Output the spawn points
@@ -577,13 +585,46 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     sm->set_graffiti( i, j, jsin.get_string() );
                     jsin.end_array();
                 }
+                    /*
+                    jsout.start_array();
+                    jsout.write(cosm.p.x);
+                    jsout.write(cosm.p.y);
+                    jsout.write(cosm.type);
+                    jsout.write(cosm.str);
+                    jsout.end_array();*/
+
             } else if( submap_member_name == "cosmetics" ) {
                 jsin.start_array();
+                std::map<std::string, std::string> tcosmetics;
+
                 while( !jsin.end_array() ) {
+                    // jsin.start_array();
+                    // int i = jsin.get_int();
+                    // int j = jsin.get_int();
+                    // jsin.read( sm->cosmetics[i][j] );
+                    // jsin.end_array();
+
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    jsin.read( sm->cosmetics[i][j] );
+
+                    std::string type, str;
+
+                    if (jsin.test_string()){
+                        type = jsin.get_string();
+                        str = jsin.get_string();    
+                        sm->insert_cosmetic(i, j, type, str);
+                    }
+                    else{
+                        jsin.read( tcosmetics );
+
+                        for (auto& cosm : tcosmetics){
+                            sm->insert_cosmetic(i, j, cosm.first, cosm.second);
+                        }
+                        
+                        tcosmetics.clear();
+                    }
+
                     jsin.end_array();
                 }
             } else if( submap_member_name == "spawns" ) {
