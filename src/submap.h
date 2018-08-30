@@ -114,93 +114,42 @@ struct submap {
         }
     }
 
-    bool has_graffiti( int x, int y ) const;
-    const std::string &get_graffiti( int x, int y ) const;
-    void set_graffiti( int x, int y, const std::string &new_graffiti );
-    void delete_graffiti( int x, int y );
-
     struct cosmetic_t{
         point p;
         std::string type;
         std::string str;
     };
 
-    // Signage is a pretend union between furniture on a square and stored
-    // writing on the square. When both are present, we have signage.
-    // Its effect is meant to be cosmetic and atmospheric only.
-    bool has_signage( const int x, const int y ) const {
-        if( frn[x][y] == furn_id( "f_sign" ) ) {
-            point tp(x, y);
-            for(size_t i = 0; i < cosmetics.size(); ++i){
-                if (cosmetics[i].p == tp && cosmetics[i].type == "SIGNAGE"){
-                    return true;
-                }
-            }
-            //return cosmetics[x][y].find( "SIGNAGE" ) != cosmetics[x][y].end();
-        }
-
-        return false;
-    }
-    // Dependent on furniture + cosmetics.
-    const std::string get_signage( const int x, const int y ) const {
-        if( frn[x][y] == furn_id( "f_sign" ) ) {
-            point tp(x, y);
-            for (size_t i = 0; i < cosmetics.size(); ++i){
-                if (cosmetics[i].p == tp && cosmetics[i].type == "SIGNAGE"){
-                    return cosmetics[i].str;
-                }
-            }
-            // auto iter = cosmetics[x][y].find( "SIGNAGE" );
-            // if( iter != cosmetics[x][y].end() ) {
-            //     return iter->second;
-            // }
-        }
-
-        return "";
-    }
-    // Can be used anytime (prevents code from needing to place sign first.)
-    void set_signage( const int x, const int y, const std::string &s ) {
-        is_uniform = false;
-        point tp(x, y);
-        // Find signage at tp if available
-        size_t i = 0;
-        for (; i < cosmetics.size(); ++i){
-            if (cosmetics[i].p == tp && cosmetics[i].type == "SIGNAGE"){
-                break;
-            }
-        }
-        if (i == cosmetics.size()){
-            cosmetic_t ncos;
-            ncos.p = tp;
-            ncos.type = "SIGNAGE";
-            cosmetics.push_back(ncos);
-        }
-        //cosmetics[x][y]["SIGNAGE"] = s;
-        cosmetics[i].str = s;
-    }
-    // Can be used anytime (prevents code from needing to place sign first.)
-    void delete_signage( const int x, const int y ) {
-        is_uniform = false;
-        //cosmetics[x][y].erase( "SIGNAGE" );
-        point tp(x, y);
-        for (size_t i = 0; i < cosmetics.size(); ++i){
-            if (cosmetics[i].p == tp && cosmetics[i].type == "SIGNAGE"){
-                cosmetics[i] = cosmetics.back();
-                cosmetics.pop_back();
-                return;
-            }
-        }
-    }
-
-    void insert_cosmetic( const int x, const int y, const std::string &type, const std::string &str){
+    void insert_cosmetic( const point p, const std::string& type, const std::string& str){
         cosmetic_t ins;
-        ins.p.x = x;
-        ins.p.y = y;
+        
+        ins.p = p;
         ins.type = type;
         ins.str = str;
         
         cosmetics.push_back(ins);
     }
+
+    void insert_cosmetic( const int x, const int y, const std::string &type, const std::string &str){
+        point p(x,y);
+        insert_cosmetic(p, type, str);
+    }
+
+    bool has_graffiti( int x, int y ) const;
+    const std::string &get_graffiti( int x, int y ) const;
+    void set_graffiti( int x, int y, const std::string &new_graffiti );
+    void delete_graffiti( int x, int y );
+
+    // Signage is a pretend union between furniture on a square and stored
+    // writing on the square. When both are present, we have signage.
+    // Its effect is meant to be cosmetic and atmospheric only.
+    bool has_signage( const int x, const int y ) const;
+    // Dependent on furniture + cosmetics.
+    const std::string get_signage( const int x, const int y ) const;
+    // Can be used anytime (prevents code from needing to place sign first.)
+    void set_signage( const int x, const int y, const std::string &s );
+    // Can be used anytime (prevents code from needing to place sign first.)
+    void delete_signage( const int x, const int y );
 
     // TODO: make trp private once the horrible hack known as editmap is resolved
     ter_id          ter[SEEX][SEEY];  // Terrain on each square
@@ -215,8 +164,7 @@ struct submap {
     // Uniform submaps aren't saved/loaded, because regenerating them is faster
     bool is_uniform;
 
-    //std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
-    std::vector<cosmetic_t> cosmetics;
+    std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 
     active_item_cache active_items;
 

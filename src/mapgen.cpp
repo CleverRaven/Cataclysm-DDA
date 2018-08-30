@@ -6978,7 +6978,6 @@ void map::rotate(int turns)
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
-    //std::map<std::string, std::string> cosmetics_rot[SEEX * 2][SEEY * 2];
     field fldrot [SEEX * 2][SEEY * 2];
     int radrot [SEEX * 2][SEEY * 2];
 
@@ -7017,7 +7016,6 @@ void map::rotate(int turns)
             std::swap( traprot[old_x][old_y], new_sm->trp[new_lx][new_ly] );
             std::swap( fldrot[old_x][old_y], new_sm->fld[new_lx][new_ly] );
             std::swap( radrot[old_x][old_y], new_sm->rad[new_lx][new_ly] );
-            //std::swap( cosmetics_rot[old_x][old_y], new_sm->cosmetics[new_lx][new_ly] );
             auto items = i_at(new_x, new_y);
             itrot[old_x][old_y].reserve( items.size() );
             // Copy items, if we move them, it'll wreck i_clear().
@@ -7027,7 +7025,7 @@ void map::rotate(int turns)
     }
 
 
-    //Next, spawn points
+    //Next, spawn points and cosmetic strings
     for (int sx = 0; sx < 2; sx++) {
         for (int sy = 0; sy < 2; sy++) {
             const auto from = get_submap_at_grid( sx, sy );
@@ -7172,7 +7170,6 @@ void map::rotate(int turns)
             std::swap( traprot[i][j], sm->trp[lx][ly] );
             std::swap( fldrot[i][j], sm->fld[lx][ly] );
             std::swap( radrot[i][j], sm->rad[lx][ly] );
-            //std::swap( cosmetics_rot[i][j], sm->cosmetics[lx][ly] );
             for( auto &itm : itrot[i][j] ) {
                 add_item( i, j, itm );
             }

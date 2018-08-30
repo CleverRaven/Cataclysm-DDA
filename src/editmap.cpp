@@ -1777,9 +1777,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                         for( int x = 0; x < SEEX; ++x ) {
                             for( int y = 0; y < SEEY; ++y ) {
                                 destsm->itm[x][y].swap( srcsm->itm[x][y] );
-                                //destsm->cosmetics[x][y].swap( srcsm->cosmetics[x][y] );
                             }
                         }
+                        // Swap cosmetics vectors
                         destsm->cosmetics.swap(srcsm->cosmetics);
 
                         // various misc variables
@@ -1934,7 +1934,6 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
                         destsm->frn[sx][sy] = srcsm->frn[sx][sy];
                     }
                     destsm->fld[sx][sy] = srcsm->fld[sx][sy];
-                    //destsm->cosmetics[sx][sy] = srcsm->cosmetics[sx][sy];
                 }
             }
             destsm->cosmetics = srcsm->cosmetics;
