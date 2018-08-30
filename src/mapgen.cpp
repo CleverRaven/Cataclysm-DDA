@@ -3322,7 +3322,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         // don't flood if ice lab because there's no mechanic for freezing liquid floors.
                         break;
                     }
-                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    auto fluid_type = one_in(3) ? t_sewage : t_water_sh;
                     for (int i = 0; i < SEEX * 2 - 1; i++) {
                         for (int j = 0; j < SEEY * 2 - 1; j++) {
                             // We spare some terrain to make it look better visually.
@@ -3345,7 +3345,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         // don't flood if ice lab because there's no mechanic for freezing liquid floors.
                         break;
                     }
-                    auto fluid_type = rng(0, 1) ? t_water_sh : t_sewage;
+                    auto fluid_type = one_in(3) ? t_sewage : t_water_sh;
                     for (int i = 0; i < 2; ++i) {
                         draw_rough_circle( [this, fluid_type]( int x, int y ) {
                                 if( t_thconc_floor == ter(x, y) || t_strconc_floor == ter(x, y) ) {
@@ -3363,7 +3363,7 @@ ___DEEE|.R.|...,,...|sss\n",
                 // toxic gas leaks and smoke-filled rooms.
                 case 3:
                 case 4: {
-                    bool is_toxic = one_in(2);
+                    bool is_toxic = one_in(3);
                     for (int i = 0; i < SEEX * 2; i++) {
                         for (int j = 0; j < SEEY * 2; j++) {
                             if( one_in(200) && (t_thconc_floor == ter(i, j)|| t_strconc_floor == ter(i, j)) ) {
