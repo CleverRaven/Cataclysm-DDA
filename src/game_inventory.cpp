@@ -4,7 +4,7 @@
 #include "inventory_ui.h"
 #include "options.h"
 #include "player.h"
-#include "calendar.h"
+#include "crafting.h"
 #include "output.h"
 #include "recipe_dictionary.h"
 #include "string_formatter.h"
