@@ -7066,27 +7066,27 @@ void map::rotate(int turns)
                 tmp.posy = new_y;
                 sprot[gridto].push_back(tmp);
             }
-            for (auto& cosm : from->cosmetics){
+            for( auto& cosm : from->cosmetics ){
                 submap::cosmetic_t tmp = cosm;
                 int new_x = tmp.p.x;
                 int new_y = tmp.p.y;
-                switch(turns){
-                case 1:
-                    new_x = SEEY - 1 - tmp.p.y;
-                    new_y = tmp.p.x;
-                    break;
-                case 2:
-                    new_x = SEEX - 1 - tmp.p.x;
-                    new_y = SEEY - 1 - tmp.p.y;
-                    break;
-                case 3:
-                    new_x = tmp.p.y;
-                    new_y = SEEX - 1 - tmp.p.x;
-                    break;
+                switch( turns ){
+                    case 1:
+                        new_x = SEEY - 1 - tmp.p.y;
+                        new_y = tmp.p.x;
+                        break;
+                    case 2:
+                        new_x = SEEX - 1 - tmp.p.x;
+                        new_y = SEEY - 1 - tmp.p.y;
+                        break;
+                    case 3:
+                        new_x = tmp.p.y;
+                        new_y = SEEX - 1 - tmp.p.x;
+                        break;
                 }
                 tmp.p.x = new_x;
                 tmp.p.y = new_y;
-                cosmetics_rot[gridto].push_back(tmp);
+                cosmetics_rot[gridto].push_back( tmp );
             }
             // as vehrot starts out empty, this clears the other vehicles vector
             vehrot[gridto].swap(from->vehicles);
@@ -7151,7 +7151,7 @@ void map::rotate(int turns)
             // move back to the actual submap object, vehrot is only temporary
             vehrot[i].swap(to->vehicles);
             sprot[i].swap(to->spawns);
-            cosmetics_rot[i].swap(to->cosmetics);
+            cosmetics_rot[i].swap( to->cosmetics );
 
             to->comp = std::move( tmpcomp[i] );
             to->field_count = field_count[i];

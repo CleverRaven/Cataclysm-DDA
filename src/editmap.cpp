@@ -1780,7 +1780,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             }
                         }
                         // Swap cosmetics vectors
-                        destsm->cosmetics.swap(srcsm->cosmetics);
+                        destsm->cosmetics.swap( srcsm->cosmetics );
 
                         // various misc variables
                         destsm->active_items = srcsm->active_items;

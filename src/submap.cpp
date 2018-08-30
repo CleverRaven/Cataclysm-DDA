@@ -34,23 +34,25 @@ void submap::delete_vehicles()
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
-static const std::string STRING_EMPTY( "" ); // Gets rid of GCC warning: 'warning: returning reference to temporary'
+// Handle GCC warning: 'warning: returning reference to temporary'
+static const std::string STRING_EMPTY( "" );
 
-struct cosmetic_find_result{
+struct cosmetic_find_result {
     bool result;
     int ndx;
 };
-static cosmetic_find_result make_result( bool b, int ndx ){
+static cosmetic_find_result make_result( bool b, int ndx )
+{
     cosmetic_find_result result;
     result.result = b;
     result.ndx = ndx;
     return result;
 }
 static cosmetic_find_result find_cosmetic(
-    const std::vector<submap::cosmetic_t>& cosmetics, const point p, const std::string& type)
+    const std::vector<submap::cosmetic_t> &cosmetics, const point p, const std::string &type )
 {
-    for( size_t i = 0; i < cosmetics.size(); ++i ){
-        if( cosmetics[i].p == p && cosmetics[i].type == type ){
+    for( size_t i = 0; i < cosmetics.size(); ++i ) {
+        if( cosmetics[i].p == p && cosmetics[i].type == type ) {
             return make_result( true, i );
         }
     }
@@ -67,7 +69,7 @@ const std::string &submap::get_graffiti( int x, int y ) const
 {
     point tp( x, y );
     auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_GRAFFITI );
-    if( fresult.result ){
+    if( fresult.result ) {
         return cosmetics[ fresult.ndx ].str;
     }
     return STRING_EMPTY;
@@ -79,10 +81,9 @@ void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
     point tp( x, y );
     // Find signage at tp if available
     auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_GRAFFITI );
-    if( fresult.result ){
+    if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = new_graffiti;
-    }
-    else{
+    } else {
         insert_cosmetic( tp, COSMETICS_GRAFFITI, new_graffiti );
     }
 }
@@ -92,12 +93,13 @@ void submap::delete_graffiti( int x, int y )
     is_uniform = false;
     point tp( x, y );
     auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_GRAFFITI );
-    if( fresult.result ){
+    if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
     }
 }
-bool submap::has_signage( const int x, const int y ) const {
+bool submap::has_signage( const int x, const int y ) const
+{
     if( frn[x][y] == furn_id( "f_sign" ) ) {
         point tp( x, y );
         return find_cosmetic( cosmetics, tp, COSMETICS_SIGNAGE ).result;
@@ -105,34 +107,36 @@ bool submap::has_signage( const int x, const int y ) const {
 
     return false;
 }
-const std::string submap::get_signage( const int x, const int y ) const {
+const std::string submap::get_signage( const int x, const int y ) const
+{
     if( frn[x][y] == furn_id( "f_sign" ) ) {
         point tp( x, y );
         const auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_SIGNAGE );
-        if( fresult.result ){
+        if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;
         }
     }
 
     return STRING_EMPTY;
 }
-void submap::set_signage( const int x, const int y, const std::string &s ) {
+void submap::set_signage( const int x, const int y, const std::string &s )
+{
     is_uniform = false;
     point tp( x, y );
     // Find signage at tp if available
     auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_SIGNAGE );
-    if( fresult.result ){
+    if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = s;
-    }
-    else{
+    } else {
         insert_cosmetic( tp, COSMETICS_SIGNAGE, s );
     }
 }
-void submap::delete_signage( const int x, const int y ) {
+void submap::delete_signage( const int x, const int y )
+{
     is_uniform = false;
     point tp( x, y );
     auto fresult = find_cosmetic( cosmetics, tp, COSMETICS_SIGNAGE );
-    if ( fresult.result ){
+    if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
     }

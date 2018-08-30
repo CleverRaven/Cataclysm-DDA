@@ -114,25 +114,25 @@ struct submap {
         }
     }
 
-    struct cosmetic_t{
+    struct cosmetic_t {
         point p;
         std::string type;
         std::string str;
     };
 
-    void insert_cosmetic( const point p, const std::string& type, const std::string& str){
+    void insert_cosmetic( const point p, const std::string &type, const std::string &str ) {
         cosmetic_t ins;
-        
+
         ins.p = p;
         ins.type = type;
         ins.str = str;
-        
-        cosmetics.push_back(ins);
+
+        cosmetics.push_back( ins );
     }
 
-    void insert_cosmetic( const int x, const int y, const std::string &type, const std::string &str){
-        point p(x,y);
-        insert_cosmetic(p, type, str);
+    void insert_cosmetic( const int x, const int y, const std::string &type, const std::string &str ) {
+        point p( x, y );
+        insert_cosmetic( p, type, str );
     }
 
     bool has_graffiti( int x, int y ) const;

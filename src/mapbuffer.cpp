@@ -333,12 +333,12 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         // Write out as array of arrays of single entries
         jsout.member( "cosmetics" );
         jsout.start_array();
-        for (const auto& cosm : sm->cosmetics){
+        for( const auto &cosm : sm->cosmetics ) {
             jsout.start_array();
-            jsout.write(cosm.p.x);
-            jsout.write(cosm.p.y);
-            jsout.write(cosm.type);
-            jsout.write(cosm.str);
+            jsout.write( cosm.p.x );
+            jsout.write( cosm.p.y );
+            jsout.write( cosm.type );
+            jsout.write( cosm.str );
             jsout.end_array();
         }
         jsout.end_array();
@@ -586,16 +586,15 @@ void mapbuffer::deserialize( JsonIn &jsin )
 
                     std::string type, str;
                     // Try to read as current format
-                    if (jsin.test_string()){
+                    if( jsin.test_string() ) {
                         type = jsin.get_string();
-                        str = jsin.get_string();    
-                        sm->insert_cosmetic(i, j, type, str);
-                    }
-                    else{
+                        str = jsin.get_string();
+                        sm->insert_cosmetic( i, j, type, str );
+                    } else {
                         // Otherwise read as most recent old format
                         jsin.read( tcosmetics );
-                        for (auto& cosm : tcosmetics){
-                            sm->insert_cosmetic(i, j, cosm.first, cosm.second);
+                        for( auto &cosm : tcosmetics ) {
+                            sm->insert_cosmetic( i, j, cosm.first, cosm.second );
                         }
                         tcosmetics.clear();
                     }
