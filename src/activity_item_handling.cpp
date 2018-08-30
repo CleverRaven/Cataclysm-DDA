@@ -822,6 +822,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     }
 
     // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, _( "You sorted out every item you could." ) );
 }
 
 cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )
