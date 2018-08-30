@@ -298,6 +298,7 @@ enum class clipped_unit {
     minute,
     hour,
     day,
+    week,
     season,
     year,
 };
@@ -320,6 +321,8 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                     return string_format( ngettext( "%d hour", "%d hours", num ), num );
                 case clipped_unit::day:
                     return string_format( ngettext( "%d day", "%d days", num ), num );
+                case clipped_unit::week:
+                    return string_format( ngettext( "%d week", "%d weeks", num ), num );
                 case clipped_unit::season:
                     return string_format( ngettext( "%d season", "%d seasons", num ), num );
                 case clipped_unit::year:
@@ -343,6 +346,9 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                 case clipped_unit::day:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
                     return string_format( ngettext( "%3d     day", "%3d    days", num ), num );
+                case clipped_unit::week:
+                    //~ Right-aligned time string. should right-align with other strings with this same comment
+                    return string_format( ngettext( "%3d    week", "%3d   weeks", num ), num );
                 case clipped_unit::season:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
                     return string_format( ngettext( "%3d  season", "%3d seasons", num ), num );
@@ -372,11 +378,14 @@ std::string to_string_clipped( const time_duration &d,
     } else if( d < 1_days ) {
         const int hour = to_hours<int>( d );
         return to_string_clipped( hour, clipped_unit::hour, align );
+    } else if( d < 7_days ) {
+        const int day = to_days<int>( d );
+        return to_string_clipped( day, clipped_unit::day, align );
     } else if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
         // therefore no way to count them
-        const int day = to_days<int>( d );
-        return to_string_clipped( day, clipped_unit::day, align );
+        const int week = to_weeks<int>( d );
+        return to_string_clipped( week, clipped_unit::week, align );
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
         //@todo: consider a to_season function, but season length is variable, so
         // this might be misleading

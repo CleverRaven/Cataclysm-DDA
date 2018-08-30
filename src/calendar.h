@@ -259,6 +259,8 @@ constexpr T to_hours( const time_duration duration );
 template<typename T>
 constexpr T to_days( const time_duration duration );
 template<typename T>
+constexpr T to_weeks( const time_duration duration );
+template<typename T>
 constexpr T to_moves( const time_duration duration );
 
 template<typename T>
@@ -366,6 +368,10 @@ class time_duration
         template<typename T>
         friend constexpr T to_days( const time_duration duration ) {
             return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 );
+        }
+        template<typename T>
+        friend constexpr T to_weeks( const time_duration duration ) {
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 * 7 );
         }
         template<typename T>
         friend constexpr T to_moves( const time_duration duration ) {
