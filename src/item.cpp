@@ -5182,7 +5182,7 @@ float item::simulate_burn( fire_data &frd ) const
         const auto &bd = m.obj().burn_data( effective_intensity );
         if( bd.immune ) {
             // Made to protect from fire
-            return false;
+            return 0.0f;
         }
 
         // If fire is contained, burn rate is independent of volume
