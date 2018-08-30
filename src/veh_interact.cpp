@@ -43,7 +43,7 @@ static inline const char *status_color( bool status )
 }
 
 // cap JACK requirements to support arbitrarily large vehicles
-static double jack_qality( const vehicle &veh )
+static double jack_quality( const vehicle &veh )
 {
     const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(),
             JACK_LIMIT );
@@ -382,7 +382,7 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    const double qual = jack_qality( *veh );
+    const double qual = jack_quality( *veh );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
@@ -522,7 +522,7 @@ bool veh_interact::is_drive_conflict()
 
 bool veh_interact::can_self_jack(const vehicle * veh)
 {
-    int lvl = jack_qality(*veh);    
+    int lvl = jack_quality(*veh);    
 
     auto self_jacking_parts = veh->get_parts("SELF_JACK", false);
     bool can_self_jack = false;
@@ -640,7 +640,7 @@ bool veh_interact::can_install_part() {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = jack_qality( *veh );
+        lvl = jack_quality( *veh );
         str = veh->lift_strength();
 
         const bool can_self_jack = veh_interact::can_self_jack( veh );
@@ -1389,7 +1389,7 @@ bool veh_interact::can_remove_part( int idx ) {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = jack_qality( *veh );
+        lvl = jack_quality( *veh );
         str = veh->lift_strength();
 
         const bool can_self_jack = veh_interact::can_self_jack( veh );
