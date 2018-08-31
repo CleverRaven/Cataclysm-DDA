@@ -27,7 +27,7 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY" ],
+    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
     "examine_action": "rubble"
   },
   {
@@ -40,7 +40,7 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY" ],
+    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
     "examine_action": "rubble"
   },
   {
@@ -53,7 +53,7 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT" ],
+    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
     "examine_action": "rubble"
   },
   {
@@ -66,7 +66,7 @@
     "move_cost_mod": 8,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT" ],
+    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
     "examine_action": "rubble"
   },
   {
@@ -79,8 +79,19 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE",
-      "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -92,7 +103,7 @@
     "color": "light_gray",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM", "RUBBLE" ],
     "examine_action": "rubble"
   },
   {
@@ -124,8 +135,17 @@
     "description": "A sandbag, typically used for blocking bullets.",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT",
-      "EASY_DECONSTRUCT", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE" ],
+    "flags": [
+      "CLIMB_SIMPLE",
+      "TRANSPARENT",
+      "MOUNTABLE",
+      "BLOCKSDOOR",
+      "SHORT",
+      "EASY_DECONSTRUCT",
+      "THIN_OBSTACLE",
+      "CLIMBABLE",
+      "PERMEABLE"
+    ],
     "examine_action": "chainfence",
     "deconstruct": { "items": [ { "item": "bag_canvas", "count": 2 }, { "item": "material_sand", "charges": 20 } ] },
     "bash": {
@@ -145,7 +165,7 @@
     "move_cost_mod": -1,
     "description": "A few stacked sandbags.",
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": {
       "items": [ { "item": "bag_canvas", "count": 4 }, { "item": "material_sand", "charges": 40 } ],
       "furn_set": "f_sandbag_half"
@@ -419,7 +439,7 @@
     "bgcolor": "white",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -637,7 +657,7 @@
     "color": "light_red",
     "move_cost_mod": 1,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -657,7 +677,7 @@
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": 8,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -688,7 +708,7 @@
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
     "bash": {
       "str_min": 18,
       "str_max": 60,
@@ -745,7 +765,7 @@
     "move_cost_mod": 2,
     "required_str": 8,
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "bash": {
       "str_min": 12,
@@ -759,20 +779,20 @@
     "type": "furniture",
     "id": "f_rack_coat",
     "name": "coat rack",
-    "description": "A hooked rack for hanging jackets.",
+    "description": "A hooked rack for hanging jackets and hats.",
     "symbol": "Y",
     "color": "brown",
     "move_cost_mod": -1,
-    "required_str": 6,
+    "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "nail", "count": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
+    "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
     "max_volume": 1000,
     "bash": {
       "str_min": 6,
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 3, 8 ] }, { "item": "nail", "count": [ 1, 3 ] }, { "item": "2x4", "count": 1 } ]
+      "items": [ { "item": "splinter", "count": [ 3, 8 ] }, { "item": "nail", "charges": [ 1, 3 ] }, { "item": "2x4", "count": 1 } ]
     }
   },
   {
@@ -800,19 +820,26 @@
     "id": "f_mailbox",
     "name": "mailbox",
     "symbol": "P",
-    "description": "A box, for mail.",
-    "color": "grey",
+    "description": "A metal box attached to the top of a wooden post.  You've got mail.",
+    "color": "light_gray",
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
+    },
     "max_volume": 300,
     "bash": {
-      "str_min": 6,
-      "str_max": 40,
+      "str_min": 12,
+      "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": 1 }, { "item": "nail", "charges": [ 1, 5 ] }, { "item": "splinter", "count": 2 } ]
+      "items": [
+        { "item": "2x4", "count": 1 },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": 2 },
+        { "item": "scrap", "count": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -825,7 +852,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "bash": {
       "str_min": 12,
@@ -849,7 +876,7 @@
     "color": "blue",
     "move_cost_mod": 2,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -869,7 +896,7 @@
     "color": "light_cyan",
     "move_cost_mod": -1,
     "required_str": 10,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
@@ -1018,7 +1045,7 @@
     "move_cost_mod": -1,
     "required_str": 12,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_FURN" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -1027,6 +1054,7 @@
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
         { "item": "cu_pipe", "count": [ 2, 5 ] }
       ]
     },
@@ -1056,7 +1084,7 @@
     "move_cost_mod": -1,
     "required_str": 12,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_FURN" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -1064,6 +1092,7 @@
         { "item": "element", "count": [ 2, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor_small", "charges": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
       ]
     },
@@ -1128,7 +1157,7 @@
     "color": "light_cyan",
     "move_cost_mod": -1,
     "required_str": 12,
-    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR" ],
+    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
     "examine_action": "vending",
     "bash": {
       "str_min": 20,
@@ -1150,7 +1179,7 @@
     "color": "dark_gray",
     "move_cost_mod": -1,
     "required_str": 12,
-    "flags": [ "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR" ],
+    "flags": [ "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
     "bash": {
       "str_min": 30,
       "str_max": 50,
@@ -1224,7 +1253,7 @@
       "ORGANIC",
       "MOUNTABLE",
       "SHORT",
-      "FLAT_FURN"
+      "FLAT_SURF"
     ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 24 ] }, { "item": "rag", "count": [ 15, 20 ] } ]
@@ -1647,7 +1676,7 @@
     "move_cost_mod": -1,
     "required_str": 14,
     "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "open": "f_safe_o",
     "bash": {
       "str_min": 40,
@@ -1667,7 +1696,7 @@
     "move_cost_mod": -1,
     "required_str": 14,
     "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "safe",
     "bash": {
       "str_min": 40,
@@ -1687,7 +1716,7 @@
     "move_cost_mod": -1,
     "required_str": 14,
     "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "gunsafe_ml",
     "bash": {
       "str_min": 40,
@@ -1707,7 +1736,7 @@
     "move_cost_mod": -1,
     "required_str": 14,
     "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1726,7 +1755,7 @@
     "move_cost_mod": -1,
     "required_str": 14,
     "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "gunsafe_el",
     "bash": {
       "str_min": 40,
@@ -1746,7 +1775,7 @@
     "move_cost_mod": -1,
     "required_str": 14,
     "max_volume": 1000,
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "close": "f_safe_c",
     "bash": {
       "str_min": 40,
@@ -1908,7 +1937,7 @@
     "color": "dark_gray",
     "move_cost_mod": -1,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -2150,7 +2179,7 @@
     "color": "light_red",
     "move_cost_mod": -1,
     "required_str": 30,
-    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD" ],
+    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE" ],
     "examine_action": "vending",
     "bash": {
       "str_min": 150,
@@ -2432,7 +2461,7 @@
     "examine_action": "kiln_empty",
     "max_volume": 500,
     "crafting_pseudo_item": "char_kiln",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
     "bash": {
       "str_min": 25,
@@ -2452,7 +2481,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "examine_action": "kiln_full",
-    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
     "bash": {
       "str_min": 25,
@@ -2597,7 +2626,7 @@
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "smoker_options",
     "deconstruct": { "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 16, 16 ] } ] },
@@ -2610,25 +2639,23 @@
     }
   },
   {
-    "type" : "furniture",
-    "id" : "f_smoking_rack_active",
+    "type": "furniture",
+    "id": "f_smoking_rack_active",
     "name": "active smoking rack",
     "description": "A special rack designed to smoke food for better preservation and taste.  It is lit and smoking.",
     "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
+    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "smoker_options",
     "bash": {
-      "str_min": 18, "str_max": 50,
+      "str_min": 18,
+      "str_max": 50,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [
-        { "item": "rock", "count": 8 },
-        { "item": "stick", "count": [8, 12] }
-      ]
+      "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
     }
   },
   {
@@ -2641,7 +2668,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -2662,7 +2689,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "crafting_pseudo_item": "brick_kiln",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -2764,7 +2791,7 @@
     "move_cost_mod": 2,
     "required_str": 12,
     "crafting_pseudo_item": "boulder_anvil",
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT", "MINEABLE" ],
     "bash": {
       "str_min": 20,
       "str_max": 40,
@@ -3025,7 +3052,7 @@
     "required_str": -1,
     "deployed_item": "tourist_table",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_FURN" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "tourist_table", "count": 1 } ] },
     "bash": {
       "str_min": 16,
@@ -3033,6 +3060,48 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_leather_tarp",
+    "name": "leather tarp",
+    "description": "A large sheet of sewn leather that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.",
+    "symbol": "D",
+    "bgcolor": "brown",
+    "move_cost_mod": 0,
+    "required_str": 3,
+    "deployed_item": "leather_tarp",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF" ],
+    "deconstruct": { "items": [ { "item": "leather_tarp", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 10,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "leather_tarp", "count": [ 1, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fiber_mat",
+    "name": "fiber mat",
+    "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance. Too thin to be a comfortable sleeping place.",
+    "symbol": "Q",
+    "bgcolor": "yellow",
+    "move_cost_mod": 0,
+    "required_str": 3,
+    "deployed_item": "fiber_mat",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF" ],
+    "deconstruct": { "items": [ { "item": "fiber_mat", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 10,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "fiber_mat", "count": [ 1, 1 ] } ]
     }
   }
 ]

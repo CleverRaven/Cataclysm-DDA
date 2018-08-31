@@ -24,7 +24,7 @@
     "description": "A sturdy, heavy stick.  Makes a decent melee weapon, and can be cut into two by fours for crafting.",
     "material": "wood",
     "techniques": [ "WBLOCK_1" ],
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
     "weight": 1700,
     "volume": 5,
     "bashing": 14,
@@ -39,7 +39,7 @@
     "description": "A long stick.  Makes a decent melee weapon, and can be broken into heavy sticks for crafting.",
     "material": "wood",
     "techniques": [ "WBLOCK_1" ],
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
     "weight": 3400,
     "volume": 10,
     "bashing": 18,
@@ -406,7 +406,7 @@
   {
     "type": "GENERIC",
     "id": "nailboard",
-    "name": "nail board",
+    "name": "nailboard",
     "description": "A long piece of wood with several nails through one end; essentially a simple mace.  Makes an acceptable melee weapon.",
     "weight": 1424,
     "to_hit": 1,
@@ -521,7 +521,8 @@
     "volume": 6,
     "bashing": 10,
     "price": 1000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "FIREWOOD" ]
   },
   {
     "type": "GENERIC",

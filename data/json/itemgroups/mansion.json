@@ -501,6 +501,7 @@
       [ "fc_hairpin", 50 ],
       [ "fairy_tales", 40 ],
       [ "child_book", 40 ],
+      [ "manual_dodge_kid", 10 ],
       [ "tall_tales", 40 ],
       [ "backpack", 40 ],
       [ "baseball", 40 ],

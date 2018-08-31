@@ -42,6 +42,7 @@ void drop_or_handle( const item &newit, player &p );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PAWS( "PAWS" );
+static const trait_id trait_BURROW( "BURROW" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
@@ -346,6 +347,10 @@ const inventory &player::crafting_inventory()
                                                calendar::turn, power_level );
         }
     }
+    if( has_trait( trait_BURROW ) ) {
+        cached_crafting_inventory += item( "pickaxe", calendar::turn );
+        cached_crafting_inventory += item( "shovel", calendar::turn );
+    }
 
     cached_moves = moves;
     cached_time = calendar::turn;
@@ -646,6 +651,8 @@ void set_item_food( item &newit )
     int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
+        newit.item_tags.erase( "COLD" );
+        newit.item_tags.erase( "FROZEN" );
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
         newit.active = true;
@@ -1278,7 +1285,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     // has been removed.
     item dis_item = org_item;
 
-    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage() ), 1.0 );
+    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first

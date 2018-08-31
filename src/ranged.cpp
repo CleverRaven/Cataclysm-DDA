@@ -986,7 +986,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_mode = aim_types.begin();
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "",
+    int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(),
                                                        pc, mode, ctxt, aim_types,
                                                        bool( on_mode_change ),
                                                        bool( on_ammo_change ), tiny );

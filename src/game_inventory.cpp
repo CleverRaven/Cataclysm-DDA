@@ -512,7 +512,12 @@ class activatable_inventory_preset : public pickup_inventory_preset
                            loc->ammo_required() );
             }
 
-            return pickup_inventory_preset::get_denial( loc );
+            const item &it = *loc;
+            if( !it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
+                return pickup_inventory_preset::get_denial( loc );
+            }
+
+            return std::string();
         }
 
     protected:

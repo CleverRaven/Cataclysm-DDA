@@ -263,6 +263,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int_map";
 
+    thisOpt.format = "%i";
+
     thisOpt.hide = opt_hide;
 
     thisOpt.mIntValues = mIntValuesIn;
@@ -812,14 +814,38 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_tilesets
     return tileset_names;
 }
 
+std::vector<std::pair<std::string, std::string>> options_manager::load_soundpack_from( const std::string &path )
+{
+    // build_resource_list will clear &resource_option - first param
+    std::map<std::string, std::string> local_soundpacks;
+    auto soundpack_names = build_resource_list(local_soundpacks, "soundpack", path, "soundpack-conf");
+
+    // Copy over found soundpacks
+    SOUNDPACKS.insert(local_soundpacks.begin(), local_soundpacks.end());
+
+    // Return found soundpack names for further processing
+    return soundpack_names;
+}
+
 std::vector<std::pair<std::string, std::string>> options_manager::build_soundpacks_list()
 {
-    auto soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
-                                                             "sounddir", "soundpack-conf");
-    if( soundpack_names.empty() ) {
-        soundpack_names.emplace_back( "basic", translate_marker( "Basic" ) );
+    // Clear soundpacks before loading
+    SOUNDPACKS.clear();
+    std::vector<std::pair<std::string, std::string>> result;
+
+    // Search data directory for sound packs
+    auto data_soundpacks = load_soundpack_from("data_sound");
+    result.insert(result.end(), data_soundpacks.begin(), data_soundpacks.end());
+
+    // Search user directory for sound packs
+    auto user_soundpacks = load_soundpack_from("user_sound");
+    result.insert(result.end(), user_soundpacks.begin(), user_soundpacks.end());
+
+    // Select default built-in sound pack
+    if( result.empty() ) {
+        result.emplace_back( "basic", translate_marker( "Basic" ) );
     }
-    return soundpack_names;
+    return result;
 }
 
 void options_manager::init()
@@ -990,6 +1016,13 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "AUTO_MINING", "general", translate_marker( "Automatic mining" ),
+        translate_marker("If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain."),
+        true
+        );
+
+    mOptionsSort["general"]++;
+
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
         translate_marker( "If true, music and sound are enabled." ),
         true, COPT_NO_SOUND_HIDE
@@ -1155,6 +1188,11 @@ void options_manager::init()
         0, 1000, 0
         );
 
+    add( "NO_UNKNOWN_COMMAND_MSG", "interface", translate_marker( "Suppress \"unknown command\" messages" ),
+        translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
+        false
+        );
+    
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
         translate_marker( "How should confidence and steadiness be communicated to the player." ),
         //~ aim bar style - bars or numbers
@@ -2158,6 +2196,9 @@ void options_manager::load()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+#ifdef SDL_SOUND
+    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
+#endif
 }
 
 bool options_manager::load_legacy()

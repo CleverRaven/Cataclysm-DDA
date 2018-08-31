@@ -1217,10 +1217,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 dirty_transparency_cache = true; // Smoke affects transparency
                             }
 
-                        // Hot air is a heavy load on the CPU and it doesn't do much
+                        // Hot air is a load on the CPU
                         // Don't produce too much of it if we have a lot fires nearby, they produce
                         // radiant heat which does what hot air would do anyway
-                        if( rng( 0, adjacent_fires ) > 2 ) {
+                        if( adjacent_fires < 5 && rng( 0, 4 - adjacent_fires ) ) {
                             create_hot_air( p, cur.getFieldDensity() );
                         }
                     }
@@ -1925,25 +1925,25 @@ void map::player_in_field( player &u )
 
         case fd_tear_gas:
             //Tear gas will both give you teargas disease and/or blind you.
-            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_teargas, bp_mouth, 5, 2_minutes );
             }
-            if (cur.getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
+            if (cur.getFieldDensity() > 1 && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_blind, bp_eyes, cur.getFieldDensity() * 2, 1_minutes );
             }
             break;
 
         case fd_relax_gas:
-            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_relax_gas, bp_mouth, cur.getFieldDensity() * 2, 3_turns );
             }
             break;
 
         case fd_fungal_haze:
-            if (!u.has_trait( trait_id( "M_IMMUNE" ) ) && (!inside || (inside && one_in(4))) ) {
+            if (!u.has_trait( trait_id( "M_IMMUNE" ) ) && (!inside || one_in(4)) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
             }
@@ -1962,8 +1962,8 @@ void map::player_in_field( player &u )
             // Toxic gas at high levels will cause very nasty poison.
             {
                 bool inhaled = false;
-                if( cur.getFieldDensity() == 2 &&
-                    (!inside || (cur.getFieldDensity() == 3 && inside)) ) {
+                if( (cur.getFieldDensity() == 2 && !inside) || 
+                    (cur.getFieldDensity() == 3 && inside) ) {
                     inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, 3_minutes );
                 } else if( cur.getFieldDensity() == 3 && !inside ) {
                     inhaled = u.add_env_effect( effect_badpoison, bp_mouth, 5, 3_minutes );

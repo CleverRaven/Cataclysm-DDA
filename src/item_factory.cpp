@@ -1282,6 +1282,18 @@ void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &sr
     bool strict = src == "dda";
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
+    if( jo.has_member( "pump_terrain" ) ) {
+        slot.pump_terrain = jo.get_string( "pump_terrain" );
+    }
+    if( jo.has_member( "explosion_data" ) ) {
+        slot.has_explode_data = true;
+        JsonObject jo_ed = jo.get_object( "explosion_data" );
+        slot.explosion_data.explosion_chance_hot = jo_ed.get_int( "chance_hot" );
+        slot.explosion_data.explosion_chance_cold = jo_ed.get_int( "chance_cold" );
+        slot.explosion_data.explosion_factor = jo_ed.get_float( "factor" );
+        slot.explosion_data.fiery_explosion = jo_ed.get_bool( "fiery" );
+        slot.explosion_data.fuel_size_factor = jo_ed.get_float( "size_factor" );
+    }
 }
 
 void Item_factory::load_fuel( JsonObject &jo, const std::string &src )
@@ -1822,8 +1834,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
-        def.damage_min = arr.get_int( 0 );
-        def.damage_max = arr.get_int( 1 );
+        def.damage_min = arr.get_int( 0 ) * itype::damage_scale;
+        def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
     }
 
     def.name = jo.get_string( "name" );
@@ -2253,6 +2265,8 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     Item_modifier modifier;
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
+    modifier.damage.first *= itype::damage_scale;
+    modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
