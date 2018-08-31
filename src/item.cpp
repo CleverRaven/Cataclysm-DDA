@@ -976,7 +976,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
             if( !food_item->rotten() ) {
                 if( food_item->is_fresh() ) {
                     info.emplace_back( "DESCRIPTION", _( "* This food looks as <good>fresh</good> as it can be." ) );
-                } else if( !food_item->is_fresh() && rot_progress < 0.3 && skilled ) {
+                } else if( rot_progress >= 0.1 && rot_progress < 0.3 && skilled ) {
                     info.emplace_back( "DESCRIPTION", _( "* This food looks <good>still quite fresh</good>.  "
                                                          "It's far from becoming old." ) );
                 } else if( rot_progress >= 0.3 && rot_progress < 0.5 && skilled ) {
@@ -985,7 +985,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 } else if( rot_progress >= 0.5 && rot_progress < 0.7 && skilled ) {
                     info.emplace_back( "DESCRIPTION", _( "* This food looks like it has <neutral>passed its midlife</neutral>.  "
                                                          "Edible, but will go old sooner rather then later." ) );
-                } else if( rot_progress >= 0.7 && !food_item->is_going_bad() && skilled ) {
+                } else if( rot_progress >= 0.7 && rot_progress < 0.9 && skilled ) {
                     info.emplace_back( "DESCRIPTION", _( "* This food looks like it <bad>will be old soon</bad>.  "
                                                          "It's now or never, if you plan to use it." ) );
                 } else if( food_item->is_going_bad() ) {

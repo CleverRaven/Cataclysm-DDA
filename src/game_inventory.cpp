@@ -20,6 +20,9 @@
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
 
+const skill_id skill_survival("survival");
+const skill_id skill_cooking("cooking");
+
 namespace
 {
 
@@ -362,11 +365,41 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
             }, _( "JOY" ) );
 
+            append_cell( [ this ]( const item_location &loc )
+            {
+                const time_duration spoils = get_edible_comestible(loc).spoils;
+                if (spoils > 0) {
+                    return to_string_clipped(spoils);
+                }
+                return std::string();
+            }, _( "SHELF LIFE" ) );
+
+            append_cell([this](const item_location & loc) {
+                if (g->u.get_skill_level(skill_cooking) >= 3 ||
+                    g->u.get_skill_level(skill_survival) >= 4)
+                {
+                    const islot_comestible item = get_edible_comestible(loc);
+                    if (item.spoils > 0) {
+                            const std::string freshness = get_freshness(loc);
+                            return freshness;
+
+                        
+                    }
+                }
+                return std::string();
+            }, _("FRESHNESS"));
+
             append_cell( [ this ]( const item_location & loc ) {
-                const islot_comestible item = get_edible_comestible( loc );
-                if( item.spoils > 0 && !get_comestible_item( loc ).rotten() ) {
-                    const time_duration time_left = get_time_left_rounded( loc );
-                    return to_string_clipped( time_left );
+                if( g->u.get_skill_level( skill_cooking ) >= 3 ||
+                    g->u.get_skill_level( skill_survival ) >= 4 )
+                {
+                    const islot_comestible item = get_edible_comestible( loc );
+                    if( item.spoils > 0 ) {
+                        if( !get_comestible_item(loc).rotten() ) {
+                            const time_duration time_left = get_time_left_rounded(loc);
+                            return to_string_clipped(time_left);                            
+                        }
+                    }
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -476,7 +509,6 @@ class comestible_inventory_preset : public inventory_selector_preset
             const time_duration spoils = get_edible_comestible( loc ).spoils;
             const time_duration time_left = spoils - age; // estimate. food can be ok if this is <0
 
-            const skill_id skill_survival( "survival" );
             const int skill = p.get_skill_level( skill_survival );
 
             const float days_left = to_days<float>( time_left );
@@ -488,6 +520,27 @@ class comestible_inventory_preset : public inventory_selector_preset
                 round_up = 1;
             }
             return time_duration::from_days( ceilf( days_left / round_up ) * round_up );
+        }
+
+        const std::string get_freshness( const item_location &loc )
+        {
+            const item *item = loc.get_item();
+            const double rot_progress = item->get_relative_rot();
+            if( item->is_fresh() ) {
+                return _( "fresh" );
+            } else if( rot_progress >= 0.1 && rot_progress < 0.3 ) {
+                return _( "quite fresh" );
+            } else if( rot_progress >= 0.3 && rot_progress < 0.5 ) {
+                return _( "near midlife" );
+            } else if( rot_progress >= 0.5 && rot_progress < 0.7 ) {
+                return _( "past midlife" );
+            } else if( rot_progress >= 0.7 && rot_progress < 0.9 ) {
+                return _( "getting older" );
+            } else if( item->is_going_bad() ) {
+                return _( "old" );
+            } else {
+                return _( "rotten" );
+            }
         }
 
     private:
