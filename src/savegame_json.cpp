@@ -639,6 +639,7 @@ void player::serialize(JsonOut &json) const
 
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
+    json.member( "hidden_recipes", *hidden_recipes );
 
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
@@ -760,7 +761,8 @@ void player::deserialize(JsonIn &jsin)
 
     data.read( "learned_recipes", *learned_recipes );
     valid_autolearn_skills->clear(); // Invalidates the cache
-
+    data.read( "hidden_recipes", *hidden_recipes );
+    
     items_identified.clear();
     data.read( "items_identified", items_identified );
 

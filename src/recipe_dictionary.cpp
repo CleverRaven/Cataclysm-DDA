@@ -84,6 +84,13 @@ bool search_reqs( std::vector<std::vector<item_comp> >  gp,
     } );
 }
 
+std::vector<const recipe *> recipe_subset::get_all() const
+{
+    std::vector<const recipe *> res;
+    std::copy( recipes.begin(), recipes.end(), std::back_inserter( res ) );
+    return res;
+}
+
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
 {
@@ -337,6 +344,18 @@ void recipe_subset::include( const recipe_subset &subset )
     for( const auto &elem : subset ) {
         include( elem, subset.get_custom_difficulty( elem ) );
     }
+}
+
+void recipe_subset::remove( const recipe *r )
+{
+    for( const auto &opts : r->requirements().get_components() ) {
+        for( const item_comp &comp : opts ) {
+            component[comp.type].erase( r );
+        }
+    }
+    difficulties.erase( r );
+    category[r->category].erase( r );
+    recipes.erase( r );
 }
 
 int recipe_subset::get_custom_difficulty( const recipe *r ) const

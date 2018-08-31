@@ -164,6 +164,16 @@ void player::long_craft()
     }
 }
 
+void player::show_craft( const recipe *filter )
+{
+    hidden_recipes->remove( filter );
+}
+
+void player::hide_craft( const recipe *filter )
+{
+    hidden_recipes->include( filter );
+}
+
 bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
     const auto &making = *id_to_make;

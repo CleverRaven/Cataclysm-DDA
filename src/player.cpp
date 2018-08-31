@@ -9543,6 +9543,11 @@ const recipe_subset &player::get_learned_recipes() const
     return *learned_recipes;
 }
 
+const recipe_subset &player::get_hidden_recipes() const
+{
+    return *hidden_recipes;
+}
+
 const recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
 {
     recipe_subset res;

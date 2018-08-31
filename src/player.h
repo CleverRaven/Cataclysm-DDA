@@ -1229,6 +1229,8 @@ class player : public Character
 
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
+        /** Returns all hidden recipes. */
+        const recipe_subset &get_hidden_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         const recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /**
@@ -1267,6 +1269,8 @@ class player : public Character
         void craft();
         void recraft();
         void long_craft();
+        void show_craft( const recipe * filter );
+        void hide_craft( const recipe * filter );
         void make_craft( const recipe_id &id, int batch_size );
         void make_all_craft( const recipe_id &id, int batch_size );
         std::list<item> consume_components_for_craft( const recipe *making, int batch_size, bool ignore_last = false );
@@ -1717,6 +1721,9 @@ class player : public Character
 
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
+
+        /** Recipes that aren't shown in the crafting menu. */
+        mutable pimpl<recipe_subset> hidden_recipes;
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;

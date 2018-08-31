@@ -87,6 +87,9 @@ class recipe_subset
             }
         }
 
+        /** Remove a recipe from the subset. */
+        void remove( const recipe *r );
+
         /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe *r ) const {
             return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe * elem ) {
@@ -104,6 +107,9 @@ class recipe_subset
         bool empty_category(
             const std::string &cat,
             const std::string &subcat = std::string() ) const;
+
+        /** Get all recipes */
+        std::vector<const recipe *> get_all() const;
 
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
