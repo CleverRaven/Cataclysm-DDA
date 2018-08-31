@@ -11,11 +11,11 @@
  * There is a unique overmap for each overmap coordinate.
  *
  * segment (seg): A segment is a unit of terrain saved to a directory.
- * Each segment contains 32x32 overmap terrains, and is used only for
+ * Each segment contains SEG_SIZExSEG_SIZE overmap terrains, and is used only for
  * saving/loading submaps, see mapbuffer.cpp.
  * Translation from omt to seg:
- * om.x /= 32
- * om.y /= 32
+ * om.x /= SEG_SIZE
+ * om.y /= SEG_SIZE
  * (with special handling for negative values).
  *
  * overmap terrain (omt): the position of a overmap terrain (oter_id).

@@ -180,5 +180,5 @@ point ms_to_omt_remain( int &x, int &y )
 
 tripoint omt_to_seg_copy( const tripoint &p )
 {
-    return tripoint( divide( p.x, 32 ), divide( p.y, 32 ), p.z );
+    return tripoint( divide( p.x, SEG_SIZE ), divide( p.y, SEG_SIZE ), p.z );
 }

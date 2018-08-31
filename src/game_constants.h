@@ -44,6 +44,9 @@
 #define OMAPX 180
 #define OMAPY 180
 
+// Size of a square unit of terrain saved to a directory.
+#define SEG_SIZE 32
+
 // Items on the map with at most this distance to the player are considered available for crafting,
 // see inventory::form_from_map
 #define PICKUP_RANGE 6
