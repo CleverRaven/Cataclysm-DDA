@@ -229,6 +229,12 @@
     "inherit": false
   },
   {
+    "id": "MELTS",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
+  },
+  {
     "id": "OUTER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

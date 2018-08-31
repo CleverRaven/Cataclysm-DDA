@@ -128,7 +128,9 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     static const trait_id trait_SAPROVORE( "SAPROVORE" );
     static const std::string flag_EATEN_COLD( "EATEN_COLD" );
     static const std::string flag_COLD( "COLD" );
+    static const std::string flag_FROZEN( "FROZEN" );
     static const std::string flag_MUSHY( "MUSHY" );
+    static const std::string flag_MELTS( "MELTS" );
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
     }
@@ -161,6 +163,15 @@ std::pair<int, int> player::fun_for( const item &comest ) const
         } else {
             fun = 1;
             fun_max = 5;
+        }
+    }
+
+    if( comest.has_flag( flag_MELTS ) && !comest.has_flag( flag_FROZEN ) ) {
+        if( fun > 0 ) {
+            fun *= 0.5;
+        } else {
+            fun *= 1.25; // melted freezable food tastes 25% worse than frozen freezable food
+            // frozen freezable food... say that 5 times fast
         }
     }
 
@@ -337,7 +348,8 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
             }
         }
     }
-    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) ) {
+    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) &&
+        !food.has_flag( "MELTS" ) ) {
         if( edible ) {
             return ret_val<edible_rating>::make_failure(
                        _( "It's frozen solid.  You must defrost it before you can eat it." ) );
