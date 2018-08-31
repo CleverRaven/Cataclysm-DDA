@@ -1,4 +1,3 @@
-@@ -1,1517 +0,0 @@
 #include "worldfactory.h"
 #include "filesystem.h"
 #include "char_validity_check.h"
