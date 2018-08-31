@@ -616,6 +616,12 @@ bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
     return part_info( engines[e] ).fuel_type == ft;
 }
 
+bool vehicle::is_perpetual_type( const int e ) const
+{
+    const itype_id  &ft = part_info( engines[e] ).fuel_type;
+    return item( ft ).has_flag( "PERPETUAL" );
+}
+
 bool vehicle::is_engine_on( int const e ) const
 {
     return !parts[ engines[ e ] ].is_broken() && is_part_on( engines[ e ] );
@@ -2067,6 +2073,9 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
                 fl += 10;
             }
         }
+    // As do any other engine flagged as perpetual
+    } else if( item( ftype ).has_flag( "PERPETUAL" ) ) {
+        fl += 10;
     }
 
     return fl;
@@ -2119,7 +2128,7 @@ int vehicle::basic_consumption(const itype_id &ftype) const
                 // Electric engine - use epower instead
                 fcon -= epower_to_power( part_epower( engines[e] ) );
 
-            } else if( !is_engine_type( e, fuel_type_muscle ) ) {
+            } else if( !is_perpetual_type( e ) ) {
                 fcon += part_power( engines[e] );
                 if( parts[ e ].faults().count( fault_filter_air ) ) {
                     fcon *= 2;
@@ -2207,7 +2216,7 @@ int vehicle::safe_velocity( bool const fueled ) const
     int cnt = 0;
     for( size_t e = 0; e < engines.size(); e++ ) {
         if( is_engine_on( e ) &&
-            ( !fueled || is_engine_type( e, fuel_type_muscle ) ||
+            ( !fueled || is_perpetual_type( e ) ||
               fuel_left( part_info( engines[e] ).fuel_type ) ) ) {
             int m2c = part_info( engines[e] ).engine_m2c();
 
@@ -2279,8 +2288,7 @@ void vehicle::noise_and_smoke( double load, double time )
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
         // FIXME: fuel_left should be called with the vehicle_part's fuel_type for flexfuel support
-        if( is_engine_on( e ) &&
-            ( is_engine_type( e, fuel_type_muscle ) || fuel_left( part_info( p ).fuel_type ) ) ) {
+        if( is_engine_on( e ) && ( is_perpetual_type( e ) || fuel_left( part_info( p ).fuel_type ) ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = power_to_epower( part_power( p, true ) );
@@ -2549,7 +2557,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
         if( info.fuel_type == fuel_type_battery ) {
             // Motor epower is in negatives
             ret[ fuel_type_battery ] -= epower_to_power( part_epower( e ) );
-        } else if( !is_engine_type( i, fuel_type_muscle ) ) {
+        } else if( !is_perpetual_type( i ) ) {
             int usage = part_power( e );
             if( parts[ e ].faults().count( fault_filter_air ) ) {
                 usage *= 2;
@@ -2678,7 +2686,12 @@ void vehicle::power_parts()
         // Produce additional epower from any reactors
         bool reactor_working = false;
         for( auto &elem : reactors ) {
-            if( !parts[ elem ].is_broken() && parts[elem].ammo_remaining() > 0 ) {
+            if( parts[ elem ].is_broken() ) {
+                continue;
+            } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
+                reactor_working = true;
+                epower += part_epower( elem );
+            } else if( parts[elem].ammo_remaining() > 0 ) {
                 // Efficiency: one unit of fuel is this many units of battery
                 // Note: One battery is roughly 373 units of epower
                 const int efficiency = part_info( elem ).power;
@@ -2883,7 +2896,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
 }
 
 void vehicle::do_engine_damage(size_t e, int strain) {
-     if( is_engine_on(e) && !is_engine_type(e, fuel_type_muscle) &&
+     if( is_engine_on(e) && !is_perpetual_type( e ) &&
          fuel_left(part_info(engines[e]).fuel_type) &&  rng (1, 100) < strain ) {
         int dmg = rng(strain * 2, strain * 4);
         damage_direct( engines[e], dmg );
