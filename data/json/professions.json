@@ -1949,7 +1949,7 @@
     "ident": "archaeologist",
     "name": "Archaeologist",
     "description": "While on your way to a long-lost temple following a clue from your dead grandfather's journal, the ground started to shake uncontrollably.  Getting a bad feeling about the situation, you head to the nearest shelter.",
-    "points": 5,
+    "points": 3,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "gun" } ],
     "items": {
       "both": {
@@ -2063,7 +2063,7 @@
     "ident": "national_guard",
     "name": "National Guard",
     "description": "Your National Guard unit was activated when the epidemic struck.  Despite your best efforts you did not manage to meet up with them before all communications ceased and you found yourself alone amongst the dead.",
-    "points": 4,
+    "points": 3,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": [ "shorts", "tshirt", "socks", "lowtops", "gobag" ],
