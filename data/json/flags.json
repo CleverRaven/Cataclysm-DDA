@@ -12,6 +12,12 @@
     "info": "This clothing won't hinder special attacks that involve <info>mutated anatomy</info>."
   },
   {
+    "id": "ALLOWS_REMOTE_USE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item can be activated or reloaded from adjacent tile without picking it up."
+  },
+  {
     "id": "BAROMETER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -30,6 +36,12 @@
     "description": "Layer for backpacks and things worn over outerwear.",
     "info": "This gear is <info>strapped</info> onto you.",
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST" ]
+  },
+  {
+    "id": "BIONIC_NPC_USABLE",
+    "type": "json_flag",
+    "context": [ "BIONIC_ITEM" ],
+    "info": "A <good>follower</good> could <info>make use of this CBM</info> if installed properly."
   },
   {
     "id": "BLIND",
@@ -80,7 +92,7 @@
     "id": "DIG_TOOL",
     "type": "json_flag",
     "context": [ "TOOL", "TOOL_ARMOR" ],
-    "info": "While wielded, this item allows you to mine thorough rocks and other hard obstacles by moving into tiles with them."
+    "info": "While wielded, this item allows you to mine thorough rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
   },
   {
     "id": "DURABLE_MELEE",
@@ -120,6 +132,12 @@
     "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
     "info": "This piece of clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "FIREWOOD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item can serve as a firewood."
   },
   {
     "id": "FIX_FARSIGHT",
@@ -209,6 +227,12 @@
     "context": [ "GENERIC" ],
     "description": "Prevents repairing of this item even if otherwise suitable tools exist.",
     "inherit": false
+  },
+  {
+    "id": "MELTS",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
   },
   {
     "id": "OUTER",

@@ -82,7 +82,7 @@ void mdeath::normal( monster &z )
     z.bleed(); // leave some blood if we have to
 
     if( !pulverized ) {
-        make_mon_corpse( z, int( std::floor( corpse_damage ) ) );
+        make_mon_corpse( z, int( std::floor( corpse_damage * itype::damage_scale ) ) );
     }
 
     // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
@@ -114,7 +114,8 @@ void mdeath::normal( monster &z )
         }
     }
 
-    const int num_chunks = z.type->get_meat_chunks_count();
+    int num_chunks = rng( 0, z.type->get_meat_chunks_count() / 4 );
+    num_chunks = std::min( num_chunks, 10 );
 
     if( pulverized && gibbable ) {
         const itype_id meat = z.type->get_meat_itype();

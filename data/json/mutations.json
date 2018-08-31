@@ -2430,11 +2430,7 @@
         "prereqs2" : ["INCISORS"],
         "threshreq" : ["THRESH_RAT"],
         "category" : ["RAT"],
-        "active"     :    true,
-        "cost"       :    10,
-        "hunger"     :    true,
-        "thirst"     :    true,
-        "fatigue"    :    true
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "SABER_TEETH",
@@ -5414,6 +5410,15 @@
         "valid" : false,
         "description" : "Lets you instantly install torsion ratchets for your eight legs.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_BIONIC_POWER",
+        "name" : "Debug Bionic Power",
+        "points" : 99,
+        "valid" : false,
+        "description" : "For fueling your inner cybug. Activate to increase power capacity by 100 (can be repeated.)",
+        "threshold" : true,
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "SQUEAMISH",

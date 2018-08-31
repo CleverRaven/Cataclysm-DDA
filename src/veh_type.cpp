@@ -762,12 +762,9 @@ void vehicle_prototype::load( JsonObject &jo )
 
     vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
 
-    JsonArray parts = jo.get_array( "parts" );
-    while( parts.has_more() ) {
-        JsonObject part = parts.next_object();
-
+    const auto add_part_obj = [&]( JsonObject part, point pos ) {
         part_def pt;
-        pt.pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+        pt.pos = pos;
         pt.part = vpart_id( part.get_string( "part" ) );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
@@ -776,6 +773,34 @@ void vehicle_prototype::load( JsonObject &jo )
         assign( part, "fuel", pt.fuel, true );
 
         vproto.parts.push_back( pt );
+    };
+
+    const auto add_part_string = [&]( std::string part, point pos ) {
+        part_def pt;
+        pt.pos = pos;
+        pt.part = vpart_id( part );
+        vproto.parts.push_back( pt );
+    };
+
+    JsonArray parts = jo.get_array( "parts" );
+    while( parts.has_more() ) {
+        JsonObject part = parts.next_object();
+        point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+
+        if( part.has_string( "part" ) ) {
+            add_part_obj( part, pos );
+        } else if( part.has_array( "parts" ) ) {
+            JsonArray subparts = part.get_array( "parts" );
+            while( subparts.has_more() ) {
+                if( subparts.test_string() ) {
+                    std::string part_name = subparts.next_string();
+                    add_part_string( part_name, pos );
+                } else {
+                    JsonObject subpart = subparts.next_object();
+                    add_part_obj( subpart, pos );
+                }
+            }
+        }
     }
 
     JsonArray items = jo.get_array( "items" );

@@ -1,6 +1,7 @@
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
+#include "itype.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -242,7 +243,7 @@ void item::load_info( const std::string &data )
     convert( idtmp );
 
     invlet = char(lettmp);
-    set_damage( damtmp );
+    set_damage( damtmp * itype::damage_scale );
     active = false;
     if (acttmp == 1) {
         active = true;

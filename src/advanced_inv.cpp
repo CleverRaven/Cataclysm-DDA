@@ -1533,7 +1533,7 @@ void advanced_inventory::display()
                         auto map_stack = g->m.i_at( sq.pos );
                         auto veh_stack = sq.veh->get_items( sq.vstor );
                         // auto switch to vehicle storage if vehicle items are there, or neither are there
-                        if( !veh_stack.empty() || ( map_stack.empty() && veh_stack.empty() ) ) {
+                        if( !veh_stack.empty() || map_stack.empty() ) {
                             in_vehicle_cargo = true;
                         }
                     }

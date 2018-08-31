@@ -45,3 +45,53 @@ TEST_CASE( "default_overmap_generation_always_succeeds" )
         }
     }
 }
+
+TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
+{
+    point origin = point( 0, 0 );
+
+    overmap_special mandatory;
+    overmap_special optional;
+
+    // Get some specific overmap specials so we can assert their presence later.
+    // This should probably be replaced with some custom specials created in
+    // memory rather than tying this test to these, but it works for now...
+    for( const auto &elem : overmap_specials::get_all() ) {
+        if( elem.id == "Cabin" ) {
+            optional = elem;
+        } else if( elem.id == "Lab" ) {
+            mandatory = elem;
+        }
+    }
+
+    // Make this mandatory special impossible to place.
+    mandatory.city_size.min = 999;
+
+    // Construct our own overmap_special_batch containing only our single mandatory
+    // and single optional special, so we can make some assertions.
+    std::vector<const overmap_special *> specials;
+    specials.push_back( &mandatory );
+    specials.push_back( &optional );
+    overmap_special_batch test_specials = overmap_special_batch( origin, specials );
+
+    // Run the overmap creation, which will try to place our specials.
+    overmap_buffer.create_custom_overmap( origin.x, origin.y, test_specials );
+
+    // Get the origin overmap...
+    overmap *test_overmap = overmap_buffer.get_existing( origin.x, origin.y );
+
+    // ...and assert that the optional special exists on this map.
+    bool found_optional = false;
+    for( int x = 0; x < 180; ++x ) {
+        for( int y = 0; y < 180; ++y ) {
+            auto t = test_overmap->get_ter( x, y, 0 );
+            if( t->id == "cabin" ) {
+                found_optional = true;
+            }
+        }
+    }
+
+    INFO( "Failed to place optional special on origin " );
+    CHECK( found_optional == true );
+}
+

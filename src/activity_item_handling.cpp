@@ -26,6 +26,7 @@
 #include "debug.h"
 #include "pickup.h"
 #include "requirements.h"
+#include "clzones.h"
 
 #include <list>
 #include <vector>
@@ -73,13 +74,7 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
     int fallen_count = 0;
 
     for( auto it : items ) { // cant use constant reference here because of the spill_contents()
-        if( it.is_bucket_nonempty() && !it.spill_contents( p ) ) {
-            p.add_msg_player_or_npc(
-                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
-                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name().c_str(), ter_name.c_str()
-            );
-            g->m.add_item_or_charges( where, it );
+        if( Pickup::handle_spillable_contents( p, it, g->m ) ) {
             continue;
         }
         if( !veh.add_item( part, it ) ) {
@@ -308,13 +303,13 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     while( !worn.empty() && !inv.empty() ) {
         storage_loss += worn.front().it->get_storage();
         remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
-
-        if( remaining_storage < inv.front().it->volume() ) {
+        units::volume inventory_item_volume = inv.front().it->volume();
+        if( remaining_storage < inventory_item_volume ) {
             break; // Does not fit
         }
 
-        while( !inv.empty() && remaining_storage >= inv.front().it->volume() ) {
-            remaining_storage -= inv.front().it->volume();
+        while( !inv.empty() && remaining_storage >= inventory_item_volume ) {
+            remaining_storage -= inventory_item_volume;
 
             res.push_back( inv.front() );
             res.back().consumed_moves = 0; // Free of charge
@@ -647,6 +642,187 @@ void activity_on_turn_move_items()
             quantities.pop_front();
         }
     }
+}
+
+static double get_capacity_fraction( int capacity, int volume )
+{
+    // fration of capacity the item would occupy
+    // fr = 1 is for capacity smaller than is size of item
+    // in such case, let's assume player does the trip for full cost with item in hands
+    double fr = 1;
+
+    if( capacity > volume ) {
+        fr = ( double )volume / capacity;
+    }
+
+    return fr;
+}
+
+static int move_cost_inv( const item &it, const tripoint &src, const tripoint &dest )
+{
+    // to prevent potentially ridiculous number
+    const int MAX_COST = 500;
+
+    // it seems that pickup cost is flat 100
+    // in function pick_one_up, varible moves_taken has initial value of 100
+    // and never changes until it is finally used in function
+    // remove_from_map_or_vehicle
+    const int pickup_cost = 100;
+
+    // drop cost for non-tumbling items (from inventory overload) is also flat 100
+    // according to convert_to_items (it does contain todo to use calculated costs)
+    const int drop_cost = 100;
+
+    // typical flat ground move cost
+    const int mc_per_tile = 100;
+
+    // only free inventory capacity
+    const int inventory_capacity = units::to_milliliter( g->u.volume_capacity() -
+                                   g->u.volume_carried() );
+
+    const int item_volume = units::to_milliliter( it.volume() );
+
+    const double fr = get_capacity_fraction( inventory_capacity, item_volume );
+
+    // approximation of movement cost between source and destination
+    const int move_cost = mc_per_tile * rl_dist( src, dest ) * fr;
+
+    return std::min( pickup_cost + drop_cost + move_cost, MAX_COST );
+}
+
+static int move_cost_cart( const item &it, const tripoint &src, const tripoint &dest,
+                           const units::volume &capacity )
+{
+    // to prevent potentially ridiculous number
+    const int MAX_COST = 500;
+
+    // cost to move item into the cart
+    const int pickup_cost = Pickup::cost_to_move_item( g->u, it );
+
+    // cost to move item out of the cart
+    const int drop_cost = pickup_cost;
+
+    // typical flat ground move cost
+    const int mc_per_tile = 100;
+
+    // only free cart capacity
+    const int cart_capacity = units::to_milliliter( capacity );
+
+    const int item_volume = units::to_milliliter( it.volume() );
+
+    const double fr = get_capacity_fraction( cart_capacity, item_volume );
+
+    // approximation of movement cost between source and destination
+    const int move_cost = mc_per_tile * rl_dist( src, dest ) * fr;
+
+    return std::min( pickup_cost + drop_cost + move_cost, MAX_COST );
+}
+
+static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
+{
+    if( g->u.grab_type == OBJECT_VEHICLE ) {
+        tripoint cart_position = g->u.pos() + g->u.grab_point;
+
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                    cart_position ).part_with_feature( "CARGO", false ) ) {
+            auto veh = vp->vehicle();
+            auto vstor = vp->part_index();
+            auto capacity = veh.free_volume( vstor );
+
+            return move_cost_cart( it, src, dest, capacity );
+        }
+    }
+
+    return move_cost_inv( it, src, dest );
+}
+
+static void move_item( item &it, int quantity, const tripoint &src, const tripoint &dest )
+{
+    item leftovers = it;
+
+    if( quantity != 0 && it.count_by_charges() ) {
+        // Reinserting leftovers happens after item removal to avoid stacking issues.
+        leftovers.charges = it.charges - quantity;
+        if( leftovers.charges > 0 ) {
+            it.charges = quantity;
+        }
+    } else {
+        leftovers.charges = 0;
+    }
+
+    // Check that we can pick it up.
+    if( !it.made_of( LIQUID ) ) {
+        g->u.mod_moves( -move_cost( it, src, dest ) );
+        drop_on_map( g->u, { it }, dest );
+        // Remove from map.
+        g->m.i_rem( src, &it );
+    }
+
+    // If we didn't pick up a whole stack, put the remainder back where it came from.
+    if( leftovers.charges > 0 ) {
+        g->m.add_item_or_charges( src, leftovers );
+    }
+}
+
+void activity_on_turn_move_loot( player_activity &, player &p )
+{
+    const auto &mgr = zone_manager::get_manager();
+    const auto abspos = g->m.getabs( p.pos() );
+    const auto &src_set = mgr.get_near( zone_type_id( "LOOT_UNSORTED" ), abspos );
+
+    // Nuke the current activity, leaving the backlog alone.
+    p.activity = player_activity();
+
+    for( auto &src : src_set ) {
+        const auto &src_loc = g->m.getlocal( src );
+
+        // skip tiles in IGNORE zone and tiles on fire (to prevent taking out wood off the lit brazier)
+        // and inaccessible furniture, like filled charcoal kiln
+        if( mgr.has( zone_type_id( "LOOT_IGNORE" ), src ) ||
+            g->m.get_field( src_loc, fd_fire ) != nullptr ||
+            !g->m.can_put_items_ter_furn( src_loc ) ) {
+            continue;
+        }
+
+        auto items = std::vector<item *>();
+        for( auto &it : g->m.i_at( src_loc ) ) {
+            items.push_back( &it );
+        }
+
+        for( auto it : items ) {
+            const auto id = mgr.get_near_zone_type_for_item( *it, abspos );
+
+            // checks whether the item is already on correct loot zone or not
+            // if it is, we can skip such item, if not we move the item to correct pile
+            // think empty bag on food pile, after you ate the content
+            if( !mgr.has( id, src ) ) {
+                const auto &dest_set = mgr.get_near( id, abspos );
+
+                for( auto &dest : dest_set ) {
+                    const auto &dest_loc = g->m.getlocal( dest );
+
+                    // skip tiles with inaccessible furniture, like filled charcoal kiln
+                    if( !g->m.can_put_items_ter_furn( dest_loc ) ) {
+                        continue;
+                    }
+
+                    if( g->m.free_volume( dest_loc ) > it->volume() ) {
+                        move_item( *it, it->count_by_charges() ? it->charges : 1, src_loc, dest_loc );
+                        break;
+                    }
+                }
+
+                if( p.moves <= 0 ) {
+                    // Restart activity and break from cycle.
+                    p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+                    return;
+                }
+            }
+        }
+    }
+
+    // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, _( "You sorted out every item you could." ) );
 }
 
 cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )

@@ -89,7 +89,7 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 }};
 
 const std::array<type, 1 + om_direction::bits> all = {{
-    {         0, 4, "_isolated"  },   // 0  ----
+    { LINE_XXXX, 4, "_isolated"  },   // 0  ----
     { LINE_XOXO, 2, "_end_south" },   // 1  ---n
     { LINE_OXOX, 2, "_end_west"  },   // 2  --e-
     { LINE_XXOO, 1, "_ne"        },   // 3  --en
@@ -641,7 +641,6 @@ bool oter_t::is_hardcoded() const
         "spider_pit_under",
         "spiral",
         "spiral_hub",
-        "station_radio",
         "temple",
         "temple_finale",
         "temple_stairs",
@@ -2030,8 +2029,15 @@ void overmap::move_hordes()
             movement_chance = 10;
         }
 
-        if( one_in(movement_chance) && rng(0, 100) < mg.interest ) {
-            // @todo: Adjust for monster speed.
+        // If the average horde speed is 50% that of normal, then the chance to
+        // move should be 1/2 what it would be if the speed was 100%.
+        // Since the max speed for a horde is one map space per 2.5 minutes,
+        // choose that to be the speed of the fastest horde monster, which is
+        // roughly 200 at the time of writing. So a horde with average speed
+        // 200 or over will move at max speed, and slower hordes will move less
+        // frequently. The average horde speed for regular Z's is around 100,
+        // or one space per 5 minutes.
+        if( one_in(movement_chance) && rng(0, 100) < mg.interest && rng(0, 200) < mg.avg_speed() ) {
             // @todo: Handle moving to adjacent overmaps.
             if( mg.pos.x > mg.target.x) {
                 mg.pos.x--;
@@ -3445,7 +3451,6 @@ void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
 // and when a special reaches max instances it is also removed.
 void overmap::place_specials( overmap_special_batch &enabled_specials )
 {
-
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
         if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {
             const int min = iter->special_details->occurrences.min;
@@ -3468,9 +3473,21 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     }
     std::vector<point> sectors = get_sectors();
 
-    // First insure that all minimum instance counts are met.
+    // First, place the mandatory specials to ensure that all minimum instance 
+    // counts are met.
     place_specials_pass( enabled_specials, sectors, false );
-    if( std::any_of( enabled_specials.begin(), enabled_specials.end(),
+
+    // Snapshot remaining specials, which will be the optional specials and
+    // any unplaced mandatory specials. By passing a copy into the creation of
+    // the adjacent overmaps, we ensure that when we unwind the overmap creation
+    // back to filling in our non-mandatory specials for this overmap, we won't
+    // count the placement of the specials in those maps when looking for optional
+    // specials to place here.
+    overmap_special_batch custom_overmap_specials = overmap_special_batch( enabled_specials );
+
+    // Check for any unplaced mandatory specials, and if there are any, attempt to
+    // place them on adajacent uncreated overmaps.
+    if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
                      []( overmap_special_placement placement ) {
                          return placement.instances_placed <
                                 placement.special_details->occurrences.min;
@@ -3480,7 +3497,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         std::vector<point> nearest_candidates;
         // Since this starts at enabled_specials::origin, it will only place new overmaps
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
-        for( point candidate_addr : closest_points_first( 2, enabled_specials.get_origin() ) ) {
+        for( point candidate_addr : closest_points_first( 2, custom_overmap_specials.get_origin() ) ) {
             if( !overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
                 int current_distance = square_dist( pos().x, pos().y,
                                                     candidate_addr.x, candidate_addr.y );
@@ -3495,13 +3512,52 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         if( !nearest_candidates.empty() ) {
             std::random_shuffle( nearest_candidates.begin(), nearest_candidates.end() );
             point new_om_addr = nearest_candidates.front();
-            overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, enabled_specials );
+            overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, custom_overmap_specials );
         } else {
             add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
         }
     }
     // Then fill in non-mandatory specials.
     place_specials_pass( enabled_specials, sectors, true );
+
+    // Clean up...
+    // Because we passed a copy of the specials for placement in adjacent overmaps rather than
+    // the original, but our caller is concerned with whether or not they were placed at all,
+    // regardless of whether we placed them or our callee did, we need to reconcile the placement
+    // that we did of the optional specials with the placement our callee did of optional
+    // and mandatory.
+
+    // Make a lookup of our callee's specials after processing.
+    // Because specials are removed from the list once they meet their maximum
+    // occurrences, this will only contain those which have not yet met their
+    // maximum.
+    std::map<overmap_special_id, int> processed_specials;
+    std::map<overmap_special_id, int>::iterator iter;
+    for( auto &elem : custom_overmap_specials ) {
+        processed_specials[elem.special_details->id] = elem.instances_placed;
+    }
+
+    // Loop through the specials we started with.
+    for( auto it = enabled_specials.begin(); it != enabled_specials.end(); ) {
+        // Determine if this special is still in our callee's list of specials...
+        iter = processed_specials.find( it->special_details->id );
+        if( iter != processed_specials.end() ) {
+            // ... and if so, increment the placement count to reflect the callee's.
+            it->instances_placed += ( iter->second - it->instances_placed );
+
+            // If, after incrementing the placement count, we're at our max, remove
+            // this special from our list.
+            if( it->instances_placed >= it->special_details->occurrences.max ) {
+                enabled_specials.erase( it );
+            } else {
+                it++;
+            }
+        } else {
+            // This special is no longer in our callee's list, which means it was completely
+            // placed, and we can remove it from our list.
+            enabled_specials.erase( it );
+        }
+    }
 }
 
 void overmap::place_mongroups()

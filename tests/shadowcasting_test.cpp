@@ -96,30 +96,6 @@ bool bresenham_visibility_check( int offsetX, int offsetY, int x, int y,
     return visible;
 }
 
-static void castLightAll( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                          const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                          const int offsetX, const int offsetY ) {
-        castLight<0, 1, 1, 0, float, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, 1, float, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-
-        castLight<0, -1, 1, 0, float, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, 1, float, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-
-        castLight<0, 1, -1, 0, float, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, -1, float, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-
-        castLight<0, -1, -1, 0, float, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, -1, float, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-}
-
 void shadowcasting_runoff(int iterations, bool test_bresenham = false ) {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
@@ -169,7 +145,8 @@ void shadowcasting_runoff(int iterations, bool test_bresenham = false ) {
     auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
-        castLightAll( seen_squares_experiment, transparency_cache, offsetX, offsetY );
+        castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -301,7 +278,8 @@ void shadowcasting_3d_2d( int iterations )
     auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
-        castLightAll( seen_squares_control, transparency_cache, offsetX, offsetY );
+        castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+            seen_squares_control, transparency_cache, offsetX, offsetY );
     }
     auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -470,7 +448,8 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         }
     }
 
-    castLightAll( seen_squares, transparency_cache, ORIGIN.x, ORIGIN.y );
+    castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+        seen_squares, transparency_cache, ORIGIN.x, ORIGIN.y );
 
     // Compares the whole grid, but out-of-bounds compares will de-facto pass.
     for( int y = 0; y < expected_result.height(); ++y ) {
