@@ -7506,6 +7506,52 @@ void game::examine()
     examine( examp );
 }
 
+const std::string get_fire_fuel_string( tripoint examp )
+{
+    if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) || g->m.ter( examp ) == t_pit_shallow || g->m.ter( examp ) == t_pit ) {
+        field_entry *fire = g->m.get_field( examp, fd_fire );
+        if( fire ) {
+            time_duration fire_age = fire->getFieldAge();
+            std::stringstream ss;
+            ss << string_format( _( "There is a fire here." ) ) << " ";
+            // half-life inclusion
+            int mod = 5 - g->u.get_skill_level( skill_survival );
+            mod = std::min( mod, 4 );
+            if( fire_age >= 0 ) {
+                if( mod >= 4 ) { // = survival level 0-1
+                    ss << string_format( _( "It's going to go out soon without extra fuel." ) );
+                    return ss.str();
+                } else {
+                fire_age = 30_minutes - fire_age;
+                fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                ss << string_format( _( "Without extra fuel it might burn yet for %s, but might also go out sooner." ), to_string_approx( fire_age ) );
+                return ss.str();
+                }
+            } else {
+                fire_age = fire_age * -1 + 30_minutes;
+                if( mod >= 4 ) { // = survival level 0-1
+                    if( fire_age <= 1_hours ) {
+                        ss << string_format( _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
+                        return ss.str();
+                    } else if( fire_age <= 3_hours ) {
+                        ss << string_format( _( "It's looks solid, and will burn for a few hours without extra fuel." ) );
+                        return ss.str();
+                    } else {
+                        ss << string_format( _( "It's very well supplied and even without extra fuel might burn for at least s part of a day." ) );
+                        return ss.str();
+                    }
+                } else {
+                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                    ss << string_format( _( "Without extra fuel it will burn for %s.") , to_string_approx( fire_age ) );
+                    return ss.str();
+                }
+            }
+        }
+    }
+    static const std::string empty_string;
+    return empty_string;
+}  
+
 void game::examine( const tripoint &examp )
 {
     Creature *c = critter_at( examp );
@@ -7575,38 +7621,9 @@ void game::examine( const tripoint &examp )
     }
 
     // Feedback for fire lasting time
-    if( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) || m.ter( examp ) == t_pit_shallow || m.ter( examp ) == t_pit ) {
-        field_entry *fire = g->m.get_field( examp, fd_fire );
-        if( fire ) {
-            time_duration fire_age = fire->getFieldAge();
-            add_msg( _( "There is a fire here." ) );
-            // half-life inclusion
-            int mod = 5 - u.get_skill_level( skill_survival );
-            mod = std::min( mod, 4 );
-            if( fire_age >= 0 ) {
-                if( mod >= 4 ) { // = survival level 0-1
-                    add_msg( _( "It's going to go out soon without extra fuel." ) );
-                } else {
-                fire_age = 30_minutes - fire_age;
-                fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
-                add_msg( _( "Without extra fuel it might burn yet for %s, but might also go out sooner." ), to_string_approx( fire_age ) );
-                }
-            } else {
-                fire_age = fire_age * -1 + 30_minutes;
-                if( mod >= 4 ) { // = survival level 0-1
-                    if( fire_age <= 1_hours ) {
-                        add_msg( _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
-                    } else if( fire_age <= 3_hours ) {
-                        add_msg( _( "It's looks solid, and will burn for a few hours without extra fuel." ) );
-                    } else {
-                        add_msg( _( "It's very well supplied and even without extra fuel might burn for at least s part of a day." ) );
-                    }
-                } else {
-                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
-                    add_msg( _( "Without extra fuel it will burn for %s.") , to_string_approx( fire_age ) );
-                }
-            }
-        }
+    const std::string fire_fuel = get_fire_fuel_string( examp );
+    if( !fire_fuel.empty() ) {
+        add_msg( fire_fuel );
     }
 
     if (m.has_flag("SEALED", examp)) {
@@ -7812,7 +7829,12 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
-        mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
+        if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) || m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+            const int max_width = getmaxx( w_look ) - column - 2;
+            line += fold_and_print( w_look, ++line, column, max_width, cur.color(), get_fire_fuel_string( lp ) ) - 1;
+        } else {
+            mvwprintz( w_look, ++line, column, cur.color(), cur.name() );  
+        }              
     }
 }
 
