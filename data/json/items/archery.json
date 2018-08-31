@@ -455,7 +455,7 @@
       "symbol" : "(",
       "color" : "yellow",
       "name" : "composite bow",
-      "description" : "A bow made from multiple materials for increased energy efficiency.  Complicated to make, but stronger than an all-wood shortbow.",
+      "description" : "A bow made from multiple materials for increased energy efficiency.  Complicated to make, but stronger than an all-wood short bow.",
       "price" : 32000,
       "material" : ["wood", "bone"],
       "flags" : ["FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED"],
