@@ -27,8 +27,8 @@ class player_activity
         int moves_total;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left;
-        /** The number of moves used so far in the activity */
-        int moves_used = 0;
+        /** The turn the activity began. */
+        int start_turn;
         /** An activity specific value. */
         int index;
         /** An activity specific value. */

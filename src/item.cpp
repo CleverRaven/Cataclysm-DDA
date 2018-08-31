@@ -3096,9 +3096,12 @@ double item::get_relative_rot() const
 {
     return goes_bad() ? rot / type->comestible->spoils : 0;
 }
-double item::get_relative_rot( const double make_time ) const
+double item::get_relative_rot( const int craft_start_turn ) const
 {
-    return to_turns<double>( rot ) / ( to_turns<double>( type->comestible->spoils ) + make_time );
+    const time_duration craft_time_rot = get_rot_since( craft_start_turn,
+        calendar::turn, g->u.global_square_location() );
+
+    return ( rot - craft_time_rot ) / type->comestible->spoils;
 }
 
 void item::set_relative_rot( double val )

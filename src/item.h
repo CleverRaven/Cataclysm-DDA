@@ -648,7 +648,7 @@ class item : public visitable<item>
         double get_relative_rot() const;
 
         /** Get @ref rot value relative to shelf life plus make time (or 0 if item does not spoil) */
-        double get_relative_rot( double make_time ) const;
+        double get_relative_rot( const int craft_start_turn ) const;
 
         /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
         void set_relative_rot( double val );
