@@ -309,7 +309,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 );
+        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) || u.has_amount( "vine_30", 1 ) ;
         bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
         bool big_corpse = corpse.size >= MS_MEDIUM;
 
