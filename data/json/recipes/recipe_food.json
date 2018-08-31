@@ -5827,7 +5827,6 @@
       { "id": "HAMMER", "level": 1 },
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 3 }
-
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
