@@ -483,8 +483,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        const time_duration get_time_left_rounded( const item_location &loc )
-        {
+        const time_duration get_time_left_rounded( const item_location &loc ) {
             const time_duration age = loc.get_item()->age();
             const time_duration spoils = get_edible_comestible( loc ).spoils;
             const time_duration time_left = spoils - age; // estimate. food can be ok if this is <0

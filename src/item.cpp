@@ -1030,27 +1030,32 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             // Good cooks and survivalists can estimate food's age on fresh-to-rotten scale
             const double rot_progress = food_item->get_relative_rot();
-            if( !food_item->rotten() && ( g->u.get_skill_level( skill_cooking ) >= 3 ||
-                                          g->u.get_skill_level( skill_survival ) >= 4 ) ) {
+            const bool skilled = g->u.get_skill_level( skill_cooking ) >= 3 ||
+                                 g->u.get_skill_level( skill_survival ) >= 4;
+            if( !food_item->rotten() ) {
                 if( food_item->is_fresh() ) {
                     info.emplace_back( "DESCRIPTION", _( "* This food looks as <good>fresh</good> as it can be." ) );
-                } else if( rot_progress >= 0.1 && rot_progress < 0.3 ) {
-                    info.emplace_back( "DESCRIPTION", _( "* This food looks <good>still quite fresh</good>. "
+                } else if( !food_item->is_fresh() && rot_progress < 0.3 && skilled ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks <good>still quite fresh</good>.  "
                                                          "It's far from becoming old." ) );
-                } else if( rot_progress >= 0.3 && rot_progress < 0.5 ) {
+                } else if( rot_progress >= 0.3 && rot_progress < 0.5 && skilled ) {
                     info.emplace_back( "DESCRIPTION",
-                                       _( "* This food looks like it is reaching its <neutral>midlife</neutral>. "
+                                       _( "* This food looks like it is reaching its <neutral>midlife</neutral>.  "
                                           "It has some time ahead before spoiling." ) );
-                } else if( rot_progress >= 0.5 && rot_progress < 0.7 ) {
+                } else if( rot_progress >= 0.5 && rot_progress < 0.7 && skilled ) {
                     info.emplace_back( "DESCRIPTION",
-                                       _( "* This food looks like it has <neutral>passed its midlife</neutral>. "
+                                       _( "* This food looks like it has <neutral>passed its midlife</neutral>.  "
                                           "Edible, but will go old sooner rather then later." ) );
-                } else if( rot_progress >= 0.7 && rot_progress <= 0.9 ) {
-                    info.emplace_back( "DESCRIPTION", _( "* This food looks like it <bad>will be old soon</bad>. "
+                } else if( rot_progress >= 0.7 && !food_item->is_going_bad() && skilled ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks like it <bad>will be old soon</bad>.  "
                                                          "It's now or never, if you plan to use it." ) );
                 } else if( food_item->is_going_bad() ) {
-                    info.emplace_back( "DESCRIPTION", _( "* This food looks <bad>old</bad>. "
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks <bad>old</bad>.  "
                                                          "It's on a brink of becoming inedible." ) );
+                } else { // unskilled and neither fresh nor old
+                    info.emplace_back( "DESCRIPTION", _( "* This food looks <neutral>fine</neutral>.  "
+                                                         "If you were more skilled in cooking or survival "
+                                                         "you might be able to make a better estimation." ) );
                 }
             }
             if( food_item->has_flag( "FREEZERBURN" ) && !food_item->rotten() &&
