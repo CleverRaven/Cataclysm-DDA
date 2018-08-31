@@ -27,11 +27,11 @@ std::string good_bad_none( int value, bool warning = false )
 {
     if( warning ) {
         if( value > 0 ) {
-            return string_format( "<color_c_yellow_green>+%d</color>", value );
+            return string_format( "<color_yellow_green>+%d</color>", value );
         } else if( value < 0 ) {
-            return string_format( "<color_c_yellow_red>%d</color>", value );
+            return string_format( "<color_yellow_red>%d</color>", value );
         } else if( value == 0 ) {
-            return string_format( "<color_c_yellow>%d</color>", value );
+            return string_format( "<color_yellow>%d</color>", value );
         }
     }
     if( value > 0 ) {
