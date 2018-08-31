@@ -394,8 +394,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0 ) {
                         if( !get_comestible_item( loc ).rotten() ) {
-                            const time_duration time_left = get_time_left_rounded( loc );
-                            return to_string_clipped( time_left );
+                            const std::string time_left = get_time_left_rounded( loc );
+                            return time_left;
                         }
                     }
                 }
@@ -501,7 +501,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        const time_duration get_time_left_rounded( const item_location &loc )
+        const std::string get_time_left_rounded( const item_location &loc )
         {
             const item *item = loc.get_item();
             const double relative_rot = item->is_food_container() ? item->contents.front().get_relative_rot() :
@@ -512,11 +512,15 @@ class comestible_inventory_preset : public inventory_selector_preset
             const int skill = p.get_skill_level( skill_survival );
             const float days_left = to_days<float>( time_left );
             if( days_left <= 0.25 ) {
-                return time_duration::from_hours( 6 );
+                if( item->is_going_bad() ) {
+                    return _( "soon!" );
+                } else {
+                    return to_string_clipped( time_duration::from_hours( 6 ) );
+                }
             } else if( days_left <= 7 ) {
-                return time_duration::from_days( ceilf( days_left ) );
+                return to_string_clipped( time_duration::from_days( ceilf( days_left ) ) );
             }
-            return time_duration::from_days( ceilf( days_left / 7 ) * 7 );
+            return to_string_clipped( time_duration::from_days( ceilf( days_left / 7 ) * 7 ) );
         }
 
         const std::string get_freshness( const item_location &loc )
@@ -534,7 +538,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "past midlife" );
             } else if( rot_progress >= 0.7 && rot_progress < 0.9 ) {
                 return _( "getting older" );
-            } else if( item->is_going_bad() ) {
+            } else if( item->is_going_bad() && !item->rotten() ) {
                 return _( "old" );
             } else {
                 return _( "rotten" );
