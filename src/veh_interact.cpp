@@ -606,9 +606,6 @@ bool veh_interact::can_install_part() {
 
     const auto reqs = sel_vpart_info->install_requirements();
 
-    /* Make sure lifting quality is fresh in case this part needs it */
-    cache_tool_availability_update_lifting();
-
     std::ostringstream msg;
     bool ok = format_reqs( msg, reqs, sel_vpart_info->install_skills, sel_vpart_info->install_time( g->u ) );
 
@@ -1372,9 +1369,6 @@ bool veh_interact::can_remove_part( int idx ) {
     sel_vpart_info = &sel_vehicle_part->info();
 
     const auto reqs = sel_vpart_info->removal_requirements();
-    
-    /* Make sure lifting quality is fresh in case this part needs it */
-    cache_tool_availability_update_lifting();
 
     std::ostringstream msg;
     bool ok = format_reqs( msg, reqs, sel_vpart_info->removal_skills, sel_vpart_info->removal_time( g->u ) );
@@ -1741,6 +1735,9 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
             }
         }
     }
+
+    /* Update the lifting quality to be the that is available for this newly selected tile */
+    cache_tool_availability_update_lifting();
 }
 
 void veh_interact::display_grid()
