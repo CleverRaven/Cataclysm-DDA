@@ -524,12 +524,17 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( item->is_going_bad() ) {
                     return _( "soon!" );
                 } else {
-                    return to_string_clipped( time_duration::from_hours( 6 ) );
+                    const time_duration time_left = time_duration::from_hours( 6 );
                 }
             } else if( days_left <= 7 ) {
-                return to_string_clipped( time_duration::from_days( ceilf( days_left ) ) );
+                const time_duration time_left = time_duration::from_days( ceilf( days_left ) );
+            } else {
+                const time_duration time_left = time_duration::from_days( ceilf( days_left / 7 ) * 7 );
             }
-            return to_string_clipped( time_duration::from_days( ceilf( days_left / 7 ) * 7 ) );
+            if( time_left > get_edible_comestible( loc ).spoils ) {
+                const time_duration time_left = get_edible_comestible( loc ).spoils;
+            }
+            return to_string_clipped( time_left );
         }
 
         const std::string get_freshness( const item_location &loc ) {
