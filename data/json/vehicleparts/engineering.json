@@ -119,7 +119,7 @@
   {
     "type": "vehicle_part",
     "id": "air_jack",
-    "name": "Air Jack System",
+    "name": "air jack system",
     "item": "v_airjack_item",
     "location": "structure",
     "symbol": "[",
@@ -136,5 +136,24 @@
     ],
     "qualities": [ [ "SELF_JACK", 17 ] ],
     "flags": [ "PROTRUSION", "SELF_JACK" ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "motorcycle_kickstand",
+    "name": "motorcycle kickstand",
+    "item": "v_motorcycle_kickstand_item",
+    "symbol": "[",
+    "broken_symbol": "/",
+    "color": "light_gray",
+    "broken_color": "light_blue",
+    "difficulty": 2,
+    "durability": 200,
+    "description": "A kickstand to keep the bike from falling over.  You could use this to lean it forward or backward to change a tire.",
+    "breaks_into": [
+      { "item": "pipe", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "qualities": [ [ "SELF_JACK", 1 ] ],
+    "flags": [ "SELF_JACK" ]
   }
 ]

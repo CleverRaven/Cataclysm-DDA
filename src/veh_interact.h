@@ -47,9 +47,6 @@ class veh_interact
 
         static void complete_vehicle();
 
-        /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
-        static bool can_self_jack( const vehicle *veh );
-
     private:
         veh_interact( vehicle &veh, int x = 0, int y = 0 );
         ~veh_interact();
@@ -216,6 +213,9 @@ class veh_interact
 
         tripoint world_cursor_pos;
         void cache_tool_availability_update_lifting();
+
+        /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
+        bool can_self_jack();
 };
 
 #endif
