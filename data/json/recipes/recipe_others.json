@@ -4051,8 +4051,8 @@
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
       [ [ "nail", 12 ] ],
-      [ [ "wire", 6 ], [ "rope_6", 6 ] ],
-      [ [ "chain", 1 ], [ "rope_30", 1 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ],
       [ [ "spike", 2 ] ]
     ]
   },
