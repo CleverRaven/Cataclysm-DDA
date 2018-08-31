@@ -583,5 +583,53 @@
     "stack_size": 40,
     "material": "wheat",
     "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": 120 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_chive",
+    "copy-from": "seed",
+    "price": 120,
+    "name": "chive seed",
+    "name_plural": "chive seeds",
+    "color": "green",
+    "description": "Some chive seeds.  You could probably plant these.",
+    "charges": 2,
+    "seed_data": { "plant_name": "chive", "fruit": "chive", "grow": 75 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_oregano",
+    "copy-from": "seed",
+    "price": 120,
+    "name": "oregano seed",
+    "name_plural": "oregano seeds",
+    "color": "green",
+    "description": "Oregano seeds.  You can plant this to grow more.",
+    "charges": 2,
+    "seed_data": { "plant_name": "oregano", "fruit": "oregano", "grow": 20 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_cilantro",
+    "copy-from": "seed",
+    "price": 120,
+    "name": "cilantro seed",
+    "name_plural": "cilantro seeds",
+    "color": "green",
+    "description": "Some cilantro seeds.  Plant them and grow some more!",
+    "charges": 2,
+    "seed_data": { "plant_name": "cilantro", "fruit": "cilantro", "grow": 28 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_dill",
+    "copy-from": "seed",
+    "price": 120,
+    "name": "dill seed",
+    "name_plural": "dill seeds",
+    "color": "green",
+    "description": "These are dill seeds.  You can plant them, or use for pickling.",
+    "charges": 2,
+    "seed_data": { "plant_name": "dill", "fruit": "dill", "grow": 56 }
   }
 ]
