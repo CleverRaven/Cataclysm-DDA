@@ -1648,8 +1648,8 @@ class player : public Character
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
-        bool has_fire(const int quantity) const;
-        void use_fire(const int quantity);
+        bool has_fire( const int quantity ) const;
+        void use_fire( const int quantity );
 
         /** Determine player's capability of recharging their CBMs. */
         bool can_feed_battery_with( const item &it ) const;

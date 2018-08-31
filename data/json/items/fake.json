@@ -12,9 +12,9 @@
         "copy-from": "fake_item",
         "type": "TOOL",
         "name": "integrated toolset",
-        "flags": "TRADER_AVOID",
+        "flags": [ "FIRESTARTER", "TRADER_AVOID" ],
         "max_charges": 10000,
-        "use_action": [ "HAMMER", "CROWBAR" ],
+        "use_action": [ "HAMMER", "CROWBAR", { "type": "firestarter" } ],
         "qualities": [
             [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ],
             [ "SAW_W", 1 ], [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ],
@@ -55,6 +55,16 @@
         "artifact_data": {
            "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ]
         }
+    },
+    {
+        "id": "fake_firestarter",
+        "copy-from": "fake_item",
+        "type": "TOOL",
+        "name": "bionic firestarter",
+        "use_action": {
+            "type": "firestarter"
+        },
+        "flags": [ "FIRESTARTER" ]
     },
     {
         "id": "acid_spit",
@@ -113,4 +123,5 @@
         "emits": [ "emit_small_smoke_plume" ],
         "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
       }
+>>>>>>> master
 ]
