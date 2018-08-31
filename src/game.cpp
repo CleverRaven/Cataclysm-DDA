@@ -7831,7 +7831,9 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
         const field_entry &cur = fld.second;
         if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) || m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
-            line += fold_and_print( w_look, ++line, column, max_width, cur.color(), get_fire_fuel_string( lp ) ) - 1;
+            int lines;
+            lines = fold_and_print( w_look, ++line, column, max_width, cur.color(), get_fire_fuel_string( lp ) ) - 1;
+            line += lines;
         } else {
             mvwprintz( w_look, ++line, column, cur.color(), cur.name() );  
         }              
