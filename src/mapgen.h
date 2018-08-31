@@ -258,7 +258,7 @@ class mapgen_function_json_base {
         std::string jdata;
 
     protected:
-        mapgen_function_json_base( const std::string s );
+        mapgen_function_json_base( const std::string &s );
         virtual ~mapgen_function_json_base();
 
         void setup_common();
@@ -286,7 +286,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
     public:
         void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
         void setup() override;
-        mapgen_function_json( const std::string s, int w,
+        mapgen_function_json( const std::string &s, int w,
                               const int x_grid_offset = 0, const int y_grid_offset = 0 );
         ~mapgen_function_json() override = default;
 
@@ -303,7 +303,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 class mapgen_function_json_nested : public mapgen_function_json_base {
     public:
         void setup();
-        mapgen_function_json_nested( const std::string s );
+        mapgen_function_json_nested( const std::string &s );
         ~mapgen_function_json_nested() override = default;
 
         void nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
@@ -329,7 +329,7 @@ class mapgen_function_lua : public virtual mapgen_function {
 /*
  * Load mapgen function of any type from a json object
  */
-std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string id_base, int default_idx, int x_offset = 0, int y_offset = 0 );
+std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string &id_base, int default_idx, int x_offset = 0, int y_offset = 0 );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )

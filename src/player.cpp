@@ -11608,7 +11608,7 @@ float player::speed_rating() const
     return ret;
 }
 
-std::vector<const item *> player::all_items_with_flag( const std::string flag ) const
+std::vector<const item *> player::all_items_with_flag( const std::string &flag ) const
 {
     return items_with( [&flag]( const item & it ) {
         return it.has_flag( flag );

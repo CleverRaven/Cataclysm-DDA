@@ -179,7 +179,7 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
     return "!BUG!";
 }
 
-bool advanced_inventory::get_square( const std::string action, aim_location &ret )
+bool advanced_inventory::get_square( const std::string &action, aim_location &ret )
 {
     if( action == "ITEMS_INVENTORY" ) {
         ret = AIM_INVENTORY;

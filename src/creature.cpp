@@ -1026,17 +1026,17 @@ bool Creature::has_trait( const trait_id &flag ) const
 }
 
 // Methods for setting/getting misc key/value pairs.
-void Creature::set_value( const std::string key, const std::string value )
+void Creature::set_value( const std::string &key, const std::string &value )
 {
     values[ key ] = value;
 }
 
-void Creature::remove_value( const std::string key )
+void Creature::remove_value( const std::string &key )
 {
     values.erase( key );
 }
 
-std::string Creature::get_value( const std::string key ) const
+std::string Creature::get_value( const std::string &key ) const
 {
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;

@@ -417,8 +417,8 @@ bool is_ot_subtype(const char* otype, const oter_id &oter)
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
  */
-void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base,
-                                  const std::string suffix = "")
+void load_overmap_terrain_mapgens(JsonObject &jo, const std::string &id_base,
+                                  const std::string &suffix = "")
 {
     const std::string fmapkey(id_base + suffix);
     const std::string jsonkey("mapgen" + suffix);
@@ -2515,7 +2515,7 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
     }
 }
 
-bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points, const std::string prefix, int train_odds )
+bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points, const std::string &prefix, int train_odds )
 {
     std::vector<point> generated_lab;
     const oter_id labt( prefix + "lab" );

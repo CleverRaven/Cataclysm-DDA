@@ -268,7 +268,7 @@ void calculate_mapgen_weights() { // @todo: rename as it runs jsonfunction setup
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-    load_mapgen_function( JsonObject &jio, const std::string id_base,
+    load_mapgen_function( JsonObject &jio, const std::string &id_base,
                           int default_idx, const int x_offset, const int y_offset ) {
     int mgweight = jio.get_int( "weight", 1000 );
     std::shared_ptr<mapgen_function> ret;
@@ -337,7 +337,7 @@ std::shared_ptr<mapgen_function>
     return ret;
 }
 
-std::shared_ptr<mapgen_function_json_nested> load_nested_mapgen( JsonObject &jio, const std::string id_base ) {
+std::shared_ptr<mapgen_function_json_nested> load_nested_mapgen( JsonObject &jio, const std::string &id_base ) {
     std::shared_ptr<mapgen_function_json_nested> ret;
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -435,7 +435,7 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
     return true;
 }
 
-mapgen_function_json_base::mapgen_function_json_base( const std::string s )
+mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
 : jdata( std::move( s ) )
 , do_format( false )
 , is_ready( false )
@@ -451,7 +451,7 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string s )
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
-mapgen_function_json::mapgen_function_json( const std::string s, const int w,
+mapgen_function_json::mapgen_function_json( const std::string &s, const int w,
                                             const int x_grid_offset, const int y_grid_offset )
 : mapgen_function( w )
 , mapgen_function_json_base( s )
@@ -463,7 +463,7 @@ mapgen_function_json::mapgen_function_json( const std::string s, const int w,
     objects = jmapgen_objects( x_offset, y_offset, mapgensize_x, mapgensize_y );
 }
 
-mapgen_function_json_nested::mapgen_function_json_nested( const std::string s )
+mapgen_function_json_nested::mapgen_function_json_nested( const std::string &s )
 : mapgen_function_json_base( s )
 , rotation( 0 )
 {

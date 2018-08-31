@@ -434,7 +434,7 @@ public:
   void place_building( const tripoint &p, om_direction::type dir, const city &town );
 
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
-  bool build_lab(int x, int y, int z, int s, std::vector<point> *lab_train_points, const std::string prefix, int train_odds);
+  bool build_lab(int x, int y, int z, int s, std::vector<point> *lab_train_points, const std::string &prefix, int train_odds);
   void build_anthill(int x, int y, int z, int s);
   void build_acid_anthill(int x, int y, int z, int s);
   void build_tunnel( int x, int y, int z, int s, om_direction::type dir );

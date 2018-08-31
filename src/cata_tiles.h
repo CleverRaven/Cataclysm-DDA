@@ -372,11 +372,11 @@ struct formatted_text {
     int color;
     text_alignment alignment;
 
-    formatted_text( const std::string text, const int color, const text_alignment alignment )
+    formatted_text( const std::string &text, const int color, const text_alignment alignment )
         : text( text ), color( color ), alignment( alignment ) {
     }
 
-    formatted_text( const std::string text, const int color, const direction direction );
+    formatted_text( const std::string &text, const int color, const direction direction );
 };
 
 class cata_tiles

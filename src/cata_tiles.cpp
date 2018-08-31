@@ -168,7 +168,7 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
     return -1;
 }
 
-formatted_text::formatted_text( const std::string text, const int color, const direction direction )
+formatted_text::formatted_text( const std::string &text, const int color, const direction direction )
     : text( text ), color( color )
 {
     switch( direction ) {
