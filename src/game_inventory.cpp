@@ -382,8 +382,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                     if( item.spoils > 0 ) {
                         const std::string freshness = get_freshness( loc );
                         return freshness;
-
-
                     }
                 }
                 return std::string();
@@ -505,26 +503,26 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         const time_duration get_time_left_rounded( const item_location &loc )
         {
-            const time_duration age = loc.get_item()->age();
-            const time_duration spoils = get_edible_comestible( loc ).spoils;
-            const time_duration time_left = spoils - age; // estimate. food can be ok if this is <0
+            const item *item = loc.get_item();
+            const double relative_rot = item->is_food_container() ? item->contents.front().get_relative_rot() :
+                                        item->get_relative_rot();
+            const time_duration shelf_life = get_edible_comestible( loc ).spoils;
+            const time_duration time_left = shelf_life - shelf_life * relative_rot;
 
             const int skill = p.get_skill_level( skill_survival );
-
             const float days_left = to_days<float>( time_left );
-            if( days_left <= 1 ) {
-                return time_duration::from_days( 1 );
+            if( days_left <= 0.25 ) {
+                return time_duration::from_hours( 6 );
+            } else if( days_left <= 7 ) {
+                return time_duration::from_days( ceilf( days_left ) );
             }
-            float round_up = 7;
-            if( skill >= 4 && days_left <= 7 ) {
-                round_up = 1;
-            }
-            return time_duration::from_days( ceilf( days_left / round_up ) * round_up );
+            return time_duration::from_days( ceilf( days_left / 7 ) * 7 );
         }
 
         const std::string get_freshness( const item_location &loc )
         {
-            const item *item = loc.get_item();
+            const item *item = loc.get_item()->is_food_container() ? &loc.get_item()->contents.front() :
+                               loc.get_item();
             const double rot_progress = item->get_relative_rot();
             if( item->is_fresh() ) {
                 return _( "fresh" );
