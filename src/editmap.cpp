@@ -662,16 +662,17 @@ void editmap::update_view( bool update_info )
             vp->vehicle().print_part_list( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
             off += 6;
         }
-
-        if( !g->m.has_flag( "CONTAINER", target ) && g->m.i_at( target ).size() > 0 ) {
+        map_stack target_stack = g->m.i_at( target );
+        const int target_stack_size = target_stack.size();
+        if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
             trim_and_print( w_info, off, 1, getmaxx( w_info ), c_light_gray, _( "There is a %s there." ),
-                            g->m.i_at( target ).front().tname().c_str() );
+                            target_stack.front().tname().c_str() );
             off++;
-            if( g->m.i_at( target ).size() > 1 ) {
+            if( target_stack_size > 1 ) {
                 mvwprintw( w_info, off, 1, ngettext( "There is %d other item there as well.",
                                                      "There are %d other items there as well.",
-                                                     g->m.i_at( target ).size() - 1 ),
-                           g->m.i_at( target ).size() - 1 );
+                                                     target_stack_size - 1 ),
+                           target_stack_size - 1 );
                 off++;
             }
         }

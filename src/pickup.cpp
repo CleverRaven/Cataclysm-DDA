@@ -326,9 +326,10 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
     for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
         for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
-            if( here[i].begin()->_item.volume() / units::legacy_volume_factor == ( int )iVol ) {
+            std::list<item_idx>::iterator begin_iterator = here[i].begin();
+            if( begin_iterator->_item.volume() / units::legacy_volume_factor == ( int )iVol ) {
                 iNumChecked++;
-                const std::string sItemName = here[i].begin()->_item.tname( 1, false );
+                const std::string sItemName = begin_iterator->_item.tname( 1, false );
 
                 //Check the Pickup Rules
                 if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
@@ -349,8 +350,8 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
                     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
                     if( weight_limit && volume_limit ) {
-                        if( here[i].begin()->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            here[i].begin()->_item.weight() <= weight_limit * 50_gram &&
+                        if( begin_iterator->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
+                            begin_iterator->_item.weight() <= weight_limit * 50_gram &&
                             get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                             bPickup = true;
                         }
