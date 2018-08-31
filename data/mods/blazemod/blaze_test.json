@@ -44,7 +44,6 @@
     "time": 108000,
     "reversible": false,
     "autolearn": true,
-    "byproducts": [ [ "vpower" ] ],
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -74,7 +73,6 @@
     "skills_required": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
     "time": 108000,
     "autolearn": true,
-    "byproducts": [ [ "vpower" ] ],
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -929,10 +927,10 @@
   },
   {
     "id": "vgen",
-    "type": "CONTAINER",
+    "type": "TOOL",
     "category": "veh_parts",
     "name": "vortex engine",
-    "description": "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allows it to be attached to a vehicle to render it mobile. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
+    "description": "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allows it to be attached to a vehicle to render it mobile.",
     "weight": 62071,
     "volume": 225,
     "price": 1500000,
@@ -940,16 +938,12 @@
     "rigid": true,
     "material": [ "steel" ],
     "symbol": ",",
-    "color": "magenta",
-    "contains": 1,
-    "seals": true,
-    "watertight": true
+    "color": "magenta"
   },
   {
     "id": "vgen",
     "type": "vehicle_part",
     "name": "vortex generator",
-    "//": "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
     "item": "vgen2",
     "location": "engine_block",
     "fuel_type": "vpower",
@@ -957,13 +951,15 @@
     "broken_symbol": "x",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 1,
+    "difficulty": 6,
     "durability": 400,
-    "power": 500000000,
-    "epower": 315,
+    "//": "Here power is a multiplier on power efficiency, though ignored because of the PERPTUAL flag",
+    "power": 100,
+    "epower": 37300,
     "size": 100,
     "damage_modifier": 10,
     "breaks_into": [
+      { "item": "spiral_stone" },
       { "item": "foot_crank", "count": [ 0, 2 ] },
       { "item": "chain", "count": [ 0, 4 ] },
       { "item": "hose", "count": [ 0, 4 ] },
@@ -971,7 +967,7 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "REACTOR" ]
+    "flags": [ "REACTOR", "PERPETUAL" ]
   },
   {
     "id": "vgen2",
@@ -984,12 +980,12 @@
     "broken_symbol": "x",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 1,
+    "difficulty": 6,
     "durability": 400,
-    "power": 800,
-    "epower": 1,
+    "power": 100,
+    "epower": 5,
     "noise_factor": 25,
-    "m2c": 70,
+    "m2c": 90,
     "size": 100,
     "damage_modifier": 10,
     "breaks_into": [
@@ -1000,14 +996,14 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "ENGINE", "TOOL_NONE", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL" ]
+    "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL", "E_ALTERNATOR" ]
   },
   {
     "id": "vgen2",
-    "type": "CONTAINER",
+    "type": "TOOL",
     "category": "veh_parts",
     "name": "vortex generator",
-    "description": "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allow it to be hooked up to a battery to store the power generated. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
+    "description": "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allow it to be hooked up to a battery to store the power generated.",
     "weight": 48066,
     "volume": 200,
     "price": 1500000,
@@ -1015,10 +1011,7 @@
     "rigid": true,
     "material": [ "steel" ],
     "symbol": ",",
-    "color": "magenta",
-    "contains": 1,
-    "seals": true,
-    "watertight": true
+    "color": "magenta"
   },
   {
     "id": "vortexaccelerator",
@@ -1226,14 +1219,15 @@
     "category": "chems",
     "name": "vortex core",
     "name_plural": "vortex core",
-    "description": "An unknown, but powerful force contained within spiral and vortex stones. Can be harnessed by those with the knowledge to do so.",
+    "description": "Seeing this is a bug.",
     "weight": 0,
-    "volume": 1,
+    "volume": 0,
     "bashing": 1,
     "phase": "solid",
     "material": "diamond",
+    "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 },
-    "symbol": "=",
+    "symbol": "?",
     "color": "magenta",
     "count": 1,
     "ammo_type": "vpower"
