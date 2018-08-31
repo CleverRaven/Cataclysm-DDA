@@ -3042,7 +3042,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FIX_FARSIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_eye",
@@ -3081,7 +3081,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
+    "flags": [ "SUPER_FANCY", "FIRESTARTER", "FIX_NEARSIGHT" ]
   },
   {
     "id": "glasses_reading",
@@ -3101,7 +3101,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIX_FARSIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT" ]
   },
   {
     "id": "glasses_safety",
