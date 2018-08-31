@@ -296,7 +296,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexacceleratornc",
@@ -312,7 +312,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexbolter",
@@ -329,7 +329,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexbolternc",
@@ -345,7 +345,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexrifle",
@@ -362,7 +362,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "avortexriflenc",
@@ -378,7 +378,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "charcoal",
@@ -399,7 +399,7 @@
     "color": "white",
     "broken_color": "white",
     "description": "A transparent, solid sheet of self-sustaining crystals.",
-    "difficulty": 1,
+    "difficulty": 6,
     "durability": 5000,
     "breaks_into": [
       { "item": "spiral_matrix" },
@@ -450,6 +450,7 @@
     "material": "diamond",
     "symbol": "*",
     "color": "white",
+    "looks_like": "diamond",
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
@@ -471,7 +472,7 @@
     "color": "white",
     "broken_color": "white",
     "description": "A framework of super-strong crystal.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
-    "difficulty": 1,
+    "difficulty": 6,
     "durability": 3000,
     "breaks_into": [
       { "item": "spiral_matrix" },
@@ -572,8 +573,8 @@
     "pierce": 100,
     "sight_dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 50,
+    "reload": 20,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -593,7 +594,7 @@
     "damage_modifier": 80,
     "folded_volume": 22,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "diamondnova",
@@ -610,7 +611,7 @@
     "damage_modifier": 80,
     "folded_volume": 22,
     "breaks_into": [ { "item": "diamondnova", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "diamondnova",
@@ -633,8 +634,8 @@
     "pierce": 20,
     "sight_dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 50,
+    "reload": 20,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT", "FRAG", "FLASHBANG" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -667,6 +668,7 @@
     "material": "diamond",
     "symbol": "=",
     "color": "white",
+    "looks_like": "diamond",
     "count": 100,
     "ammo_type": "BB",
     "damage": 1,
@@ -719,7 +721,7 @@
     "broken_symbol": "O",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 1,
+    "difficulty": 8,
     "durability": 400,
     "size": 1000000,
     "breaks_into": [],
@@ -738,6 +740,7 @@
     "material": "diamond",
     "symbol": "*",
     "color": "white",
+    "looks_like": "spiral_stone",
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
@@ -856,8 +859,8 @@
     "dispersion": 300,
     "sight_dispersion": 150,
     "durability": 10,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 250,
+    "reload": 10,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -877,7 +880,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexbolter",
@@ -894,7 +897,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexbolter",
@@ -918,8 +921,8 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 3,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 30,
+    "reload": 40,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -939,7 +942,7 @@
     "damage_modifier": 80,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexcannon",
@@ -957,7 +960,7 @@
     "damage_modifier": 80,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexcannon",
@@ -978,8 +981,8 @@
     "ranged_damage": 120,
     "sight_dispersion": 150,
     "durability": 8,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 12,
+    "reload": 100,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -999,7 +1002,7 @@
     "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "FOLDABLE", "TURRET", "CARGO", "MANUAL" ]
+    "flags": [ "TURRET" ]
   },
   {
     "id": "vortexrifle",
@@ -1023,8 +1026,8 @@
     "sight_dispersion": 150,
     "durability": 8,
     "burst": 5,
-    "clip_size": 1,
-    "reload": 1000,
+    "clip_size": 250,
+    "reload": 10,
     "valid_mod_locations": [],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
