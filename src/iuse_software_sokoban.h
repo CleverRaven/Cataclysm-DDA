@@ -18,8 +18,8 @@ class sokoban_game
         class cUndo
         {
             public:
-                int iOldY;
-                int iOldX;
+                int iOldY = 0;
+                int iOldX = 0;
                 std::string sTileOld;
 
                 cUndo() {
@@ -34,11 +34,11 @@ class sokoban_game
                     iOldX = arg_x;
                     sTileOld = arg_tile;
                 }
-
-                ~cUndo() {};
         };
 
-        int iCurrentLevel, iNumLevel, iTotalMoves;
+        int iCurrentLevel = 0;
+        int iNumLevel = 0;
+        int iTotalMoves = 0;
         std::map<int, std::map<int, std::string> > mLevel;
         std::map<int, std::map<std::string, size_t> > mLevelInfo;
         std::vector<std::map<int, std::map<int, std::string> > > vLevel;

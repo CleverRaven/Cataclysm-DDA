@@ -71,7 +71,13 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_vomited" ),
 
+            morale_type( "morale_pyromania_startfire" ),
+            morale_type( "morale_pyromania_nearfire" ),
+            morale_type( "morale_pyromania_nofire" ),
+
             morale_type( "morale_perm_filthy" ),
+
+            morale_type( "morale_butcher" ),
 
             morale_type( "morale_null" )
         }
@@ -142,8 +148,12 @@ const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
 const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
+const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );
+const morale_type MORALE_PYROMANIA_NEARFIRE( "morale_pyromania_nearfire" );
+const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
+const morale_type MORALE_BUTCHER( "morale_butcher" );
 
 namespace
 {
@@ -191,7 +201,7 @@ void morale_type_data::load( JsonObject &jo, const std::string & )
 void morale_type_data::check() const
 {
     if( needs_item != ( text.find( "%s" ) != std::string::npos ) ) {
-        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%s'" );
+        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%%s'", id.c_str() );
     }
 }
 

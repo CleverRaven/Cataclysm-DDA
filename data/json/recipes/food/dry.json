@@ -209,7 +209,7 @@
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
-    "components": [ [ [ "egg_bird", 12 ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
   },
   {
     "result": "protein_powder",

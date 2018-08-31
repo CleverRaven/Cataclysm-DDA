@@ -8,6 +8,7 @@
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
+#include "recipe_dictionary.h"
 #include "player.h"
 #include "vehicle.h"
 #include "string_formatter.h"
@@ -25,7 +26,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     try {
         loading_ui ui( false );
         load_core_data( ui );
-        load_packs( _( "Loading content packs" ), { "dda" }, ui );
+        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
         DynamicDataLoader::get_instance().finalize_loaded_data( ui );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
@@ -73,8 +74,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 r.push_back( to_string( obj.type->ammo->range ) );
                 r.push_back( to_string( obj.type->ammo->dispersion ) );
                 r.push_back( to_string( obj.type->ammo->recoil ) );
-                r.push_back( to_string( obj.type->ammo->damage ) );
-                r.push_back( to_string( obj.type->ammo->pierce ) );
+                damage_instance damage = obj.type->ammo->damage;
+                r.push_back( to_string( damage.total_damage() ) );
+                r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
                 rows.push_back( r );
             }
         };
@@ -178,8 +180,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
             r.push_back( to_string( obj.gun_recoil( who ) ) );
-            r.push_back( to_string( obj.gun_damage() ) );
-            r.push_back( to_string( obj.gun_pierce() ) );
+            damage_instance damage = obj.gun_damage();
+            r.push_back( to_string( damage.total_damage() ) );
+            r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
 
             r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
 
@@ -294,37 +297,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         };
         for( const auto &e : vpart_info::all() ) {
             dump( e.second );
-        }
-
-    } else if( what == "EXPLOSIVE" ) {
-        header = {
-            // @todo: Should display more useful data: shrapnel damage, safe range
-            "Name", "Power", "Power at 5 tiles", "Power halves at", "Shrapnel count", "Shrapnel mass"
-        };
-
-        auto dump = [&rows]( const std::string & name, const explosion_data & ex ) {
-            std::vector<std::string> r;
-            r.push_back( name );
-            r.push_back( to_string( ex.power ) );
-            r.push_back( string_format( "%.1f", ex.power_at_range( 5.0f ) ) );
-            r.push_back( string_format( "%.1f", ex.expected_range( 0.5f ) ) );
-            r.push_back( to_string( ex.shrapnel.count ) );
-            r.push_back( to_string( ex.shrapnel.mass ) );
-            rows.push_back( r );
-        };
-        for( const itype *e : item_controller->all() ) {
-            const auto use = e->get_use( "explosion" );
-            if( use != nullptr && use->get_actor_ptr() != nullptr ) {
-                const auto actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
-                if( actor != nullptr ) {
-                    dump( e->nname( 1 ), actor->explosion );
-                }
-            }
-
-            auto c_ex = dynamic_cast<const explosion_iuse *>( e->countdown_action.get_actor_ptr() );
-            if( c_ex != nullptr ) {
-                dump( e->nname( 1 ), c_ex->explosion );
-            }
         }
 
     } else {

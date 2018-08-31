@@ -8,8 +8,7 @@
     "time": 80000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 35 ] ] ]
   },
   {
@@ -22,12 +21,12 @@
     "time": 120000,
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
     ],
@@ -61,8 +60,7 @@
     "time": 85000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 20 ] ],
     "components": [
       [ [ "rag", 35 ] ],
       [ [ "down_feather", 160 ] ]
@@ -80,8 +78,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "using": [ [ "filament", 24 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 24 ] ],
     "components": [
       [ [ "rag", 30 ] ],
       [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ]
@@ -96,11 +93,7 @@
     "difficulty": 3,
     "time": 30000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "filament", 10 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
@@ -117,11 +110,7 @@
     "difficulty": 3,
     "time": 20000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "filament", 5 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 5 ] ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "fur", 2 ] ],
@@ -137,11 +126,7 @@
     "difficulty": 3,
     "time": 30000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "filament", 10 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
@@ -158,11 +143,7 @@
     "difficulty": 3,
     "time": 20000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "filament", 5 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 5 ] ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "leather", 2 ] ],
@@ -191,6 +172,62 @@
     ]
   },
   {
+    "result": "gasfilter_s",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "fabrication", 2 ],
+    "time": 5000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "result": "gasfilter_m",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "fabrication", 2 ],
+    "time": 10000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "result": "gasfilter_l",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "cooking", 1 ],
+    "time": 60000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [
+      [ "textbook_fireman", 4 ],
+      [ "atomic_survival", 4 ],
+      [ "adv_chemistry", 4 ],
+      [ "textbook_chemistry", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 4 ]
+    ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "oxy_powder", 50 ] ],
+      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
+    ]
+  },
+  {
     "result": "sleeping_bag",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -201,8 +238,7 @@
     "time": 75000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 30 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "rag", 30 ] ] ]
   },
   {
@@ -218,8 +254,7 @@
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
-    "using": [ [ "filament", 30 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 30 ] ],
     "components": [
       [ [ "rag", 10 ] ],
       [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ]
@@ -253,11 +288,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 140 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "using": [ [ "sewing_standard", 140 ] ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
       [ [ "duct_tape", 100 ] ],
@@ -274,8 +305,17 @@
     "skill_used": "tailor",
     "time": 6000,
     "autolearn": true,
-    "using": [ [ "filament", 7 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 7 ] ],
     "components": [ [ [ "rag", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "towel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "survival",
+    "time": 4000,
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "towel_soiled", 1 ] ] ]
   }
 ]

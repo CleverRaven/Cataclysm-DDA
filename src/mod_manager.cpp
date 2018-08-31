@@ -9,6 +9,7 @@
 #include "cata_utility.h"
 #include "path_info.h"
 #include "translations.h"
+#include "dependency_tree.h"
 
 #include <math.h>
 #include <queue>
@@ -16,41 +17,71 @@
 #include <fstream>
 #include <unordered_set>
 
-#define MOD_SEARCH_FILE "modinfo.json"
+static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
-/** Second field is optional replacement mod */
-static std::map<std::string, std::string> mod_replacements;
+template<>
+const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
+{
+    const auto &map = world_generator->get_mod_manager().mod_map;
+    const auto iter = map.find( *this );
+    if( iter == map.end() ) {
+        debugmsg( "Invalid mod %s requested", str() );
+        static const MOD_INFORMATION dummy{};
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<MOD_INFORMATION>::is_valid() const
+{
+    return world_generator->get_mod_manager().mod_map.count( *this ) > 0;
+}
+
+std::string MOD_INFORMATION::name() const
+{
+    if( name_.empty() ) {
+        // "No name" gets confusing if many mods have no name
+        //~ name of a mod that has no name entry, (%s is the mods identifier)
+        return string_format( _( "No name (%s)" ), ident.c_str() );
+    } else {
+        return _( name_.c_str() );
+    }
+}
 
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
+{
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
-        {"content", translate_marker("CORE CONTENT PACKS")},
-        {"items", translate_marker("ITEM ADDITION MODS")},
-        {"creatures", translate_marker("CREATURE MODS")},
-        {"misc_additions", translate_marker("MISC ADDITIONS")},
-        {"buildings", translate_marker("BUILDINGS MODS")},
-        {"vehicles", translate_marker("VEHICLE MODS")},
-        {"rebalance", translate_marker("REBALANCING MODS")},
-        {"magical", translate_marker("MAGICAL MODS")},
-        {"item_exclude", translate_marker("ITEM EXCLUSION MODS")},
-        {"monster_exclude", translate_marker("MONSTER EXCLUSION MODS")},
-        {"", translate_marker("NO CATEGORY")}
+        {"content", translate_marker( "CORE CONTENT PACKS" )},
+        {"items", translate_marker( "ITEM ADDITION MODS" )},
+        {"creatures", translate_marker( "CREATURE MODS" )},
+        {"misc_additions", translate_marker( "MISC ADDITIONS" )},
+        {"buildings", translate_marker( "BUILDINGS MODS" )},
+        {"vehicles", translate_marker( "VEHICLE MODS" )},
+        {"rebalance", translate_marker( "REBALANCING MODS" )},
+        {"magical", translate_marker( "MAGICAL MODS" )},
+        {"item_exclude", translate_marker( "ITEM EXCLUSION MODS" )},
+        {"monster_exclude", translate_marker( "MONSTER EXCLUSION MODS" )},
+        {"", translate_marker( "NO CATEGORY" )}
     };
 
     return mod_list_categories;
 }
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs()
+{
     static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
-        {"tab_default", translate_marker("Default")},
-        {"tab_blacklist", translate_marker("Blacklist")},
-        {"tab_balance", translate_marker("Balance")}
+        {"tab_default", translate_marker( "Default" )},
+        {"tab_blacklist", translate_marker( "Blacklist" )},
+        {"tab_balance", translate_marker( "Balance" )}
     };
 
     return mod_list_tabs;
 }
 
-const std::map<std::string, std::string> &get_mod_list_cat_tab() {
+const std::map<std::string, std::string> &get_mod_list_cat_tab()
+{
     static const std::map<std::string, std::string> mod_list_cat_tab = {
         {"item_exclude", "tab_blacklist"},
         {"monster_exclude", "tab_blacklist"},
@@ -60,13 +91,14 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab() {
     return mod_list_cat_tab;
 }
 
-static void load_replacement_mods( const std::string path )
+void mod_manager::load_replacement_mods( const std::string path )
 {
-    read_from_file_optional_json( path, [&]( JsonIn &jsin ) {
+    read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
         jsin.start_array();
-        while (!jsin.end_array()) {
+        while( !jsin.end_array() ) {
             auto arr = jsin.get_array();
-            mod_replacements.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_string( 1 ) : "" );
+            mod_replacements.emplace( mod_id( arr.get_string( 0 ) ),
+                                      mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
         }
     } );
 }
@@ -78,22 +110,31 @@ bool MOD_INFORMATION::need_lua() const
 
 mod_manager::mod_manager()
 {
-    // Insure mod_replacements is initialized.
-    if( mod_replacements.empty() && file_exist(FILENAMES["mods-replacements"]) ) {
-        load_replacement_mods(FILENAMES["mods-replacements"]);
-    }
+    load_replacement_mods( FILENAMES["mods-replacements"] );
+    refresh_mod_list();
+    set_usable_mods();
 }
 
 mod_manager::~mod_manager() = default;
 
+std::vector<mod_id> mod_manager::all_mods() const
+{
+    std::vector<mod_id> result;
+    std::transform( mod_map.begin(), mod_map.end(),
+    std::back_inserter( result ), []( const decltype( mod_manager::mod_map )::value_type & pair ) {
+        return pair.first;
+    } );
+    return result;
+}
+
 dependency_tree &mod_manager::get_tree()
 {
-    return tree;
+    return *tree;
 }
 
 void mod_manager::clear()
 {
-    tree.clear();
+    tree->clear();
     mod_map.clear();
     default_mods.clear();
 }
@@ -102,196 +143,188 @@ void mod_manager::refresh_mod_list()
 {
     clear();
 
-    std::map<std::string, std::vector<std::string> > mod_dependency_map;
-    load_mods_from(FILENAMES["moddir"]);
-    load_mods_from(FILENAMES["user_moddir"]);
+    std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
+    load_mods_from( FILENAMES["moddir"] );
+    load_mods_from( FILENAMES["user_moddir"] );
 
-    if (file_exist(FILENAMES["mods-dev-default"])) {
-        load_mod_info(FILENAMES["mods-dev-default"]);
+    if( file_exist( FILENAMES["mods-dev-default"] ) ) {
+        load_mod_info( FILENAMES["mods-dev-default"] );
     }
-    if (file_exist(FILENAMES["mods-user-default"])) {
-        load_mod_info(FILENAMES["mods-user-default"]);
+    if( file_exist( FILENAMES["mods-user-default"] ) ) {
+        load_mod_info( FILENAMES["mods-user-default"] );
     }
 
-    if (set_default_mods("user:default")) {
-    } else if(set_default_mods("dev:default")) {
+    if( set_default_mods( mod_id( "user:default" ) ) ) {
+    } else if( set_default_mods( mod_id( "dev:default" ) ) ) {
     }
     // remove these mods from the list, so they do not appear to the user
-    remove_mod("user:default");
-    remove_mod("dev:default");
+    remove_mod( mod_id( "user:default" ) );
+    remove_mod( mod_id( "dev:default" ) );
     for( auto &elem : mod_map ) {
-        const auto &deps = elem.second->dependencies;
-        mod_dependency_map[elem.second->ident] = std::vector<std::string>( deps.begin(), deps.end() );
+        const auto &deps = elem.second.dependencies;
+        mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
     }
-    tree.init(mod_dependency_map);
+    tree->init( mod_dependency_map );
 }
 
-void mod_manager::remove_mod(const std::string &ident)
+void mod_manager::remove_mod( const mod_id &ident )
 {
-    t_mod_map::iterator a = mod_map.find(ident);
-    if (a != mod_map.end()) {
-        mod_map.erase(a);
+    const auto a = mod_map.find( ident );
+    if( a != mod_map.end() ) {
+        mod_map.erase( a );
     }
 }
 
-void mod_manager::remove_invalid_mods( std::vector<std::string> &m ) const
+void mod_manager::remove_invalid_mods( std::vector<mod_id> &m ) const
 {
-    m.erase( std::remove_if( m.begin(), m.end(), [this]( const std::string &mod ) {
-        return !has_mod( mod );
+    m.erase( std::remove_if( m.begin(), m.end(), [this]( const mod_id & mod ) {
+        return mod_map.count( mod ) == 0;
     } ), m.end() );
 }
 
-bool mod_manager::set_default_mods(const std::string &ident)
+bool mod_manager::set_default_mods( const mod_id &ident )
 {
-    if (!has_mod(ident)) {
+    // can't use string_id::is_valid as the global mod_manger instance does not exist yet
+    const auto iter = mod_map.find( ident );
+    if( iter == mod_map.end() ) {
         return false;
     }
-    MOD_INFORMATION &mod = *mod_map[ident];
-    auto deps = std::vector<std::string>( mod.dependencies.begin(), mod.dependencies.end() );
+    const MOD_INFORMATION &mod = iter->second;
+    auto deps = std::vector<mod_id>( mod.dependencies.begin(), mod.dependencies.end() );
     remove_invalid_mods( deps );
     default_mods = deps;
     return true;
 }
 
-bool mod_manager::has_mod(const std::string &ident) const
+void mod_manager::load_mods_from( const std::string &path )
 {
-    return mod_map.count(ident) > 0;
-}
-
-void mod_manager::load_mods_from(std::string path)
-{
-    for( auto &mod_file : get_files_from_path(MOD_SEARCH_FILE, path, true) ) {
+    for( auto &mod_file : get_files_from_path( MOD_SEARCH_FILE, path, true ) ) {
         load_mod_info( mod_file );
     }
 }
 
 void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 {
-    if (!jo.has_string("type") || jo.get_string("type") != "MOD_INFO") {
+    if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
         return;
     }
 
-    std::string m_ident = jo.get_string("ident");
-    if (has_mod(m_ident)) {
-        // TODO: change this to make unique ident for the mod
+    const mod_id m_ident( jo.get_string( "ident" ) );
+    // can't use string_id::is_valid as the global mod_manger instance does not exist yet
+    if( mod_map.count( m_ident ) > 0 ) {
+        // @todo: change this to make unique ident for the mod
         // (instead of discarding it?)
-        debugmsg("there is already a mod with ident %s", m_ident.c_str());
+        debugmsg( "there is already a mod with ident %s", m_ident.c_str() );
         return;
     }
 
-    std::string m_name = jo.get_string("name", "");
-    if (m_name.empty()) {
-        // "No name" gets confusing if many mods have no name
-        //~ name of a mod that has no name entry, (%s is the mods identifier)
-        m_name = string_format(_("No name (%s)"), m_ident.c_str());
-    } else {
-        m_name = _(m_name.c_str());
-    }
+    std::string m_name = jo.get_string( "name", "" );
 
-    std::string m_cat = jo.get_string("category", "");
+    std::string m_cat = jo.get_string( "category", "" );
     std::pair<int, std::string> p_cat = {-1, ""};
     bool bCatFound = false;
 
     do {
         for( size_t i = 0; i < get_mod_list_categories().size(); ++i ) {
             if( get_mod_list_categories()[i].first == m_cat ) {
-                p_cat = { int(i), get_mod_list_categories()[i].second };
+                p_cat = { int( i ), get_mod_list_categories()[i].second };
                 bCatFound = true;
                 break;
             }
         }
 
-        if( !bCatFound && m_cat != "" ) {
-            m_cat = "";
+        if( !bCatFound && !m_cat.empty() ) {
+            m_cat.clear();
         } else {
             break;
         }
     } while( !bCatFound );
 
-    std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
-    modfile->ident = m_ident;
-    modfile->name = m_name;
-    modfile->category = p_cat;
+    MOD_INFORMATION modfile;
+    modfile.ident = m_ident;
+    modfile.name_ = m_name;
+    modfile.category = p_cat;
 
-    if( assign( jo, "path", modfile->path ) ) {
-        modfile->path = path + "/" + modfile->path;
+    if( assign( jo, "path", modfile.path ) ) {
+        modfile.path = path + "/" + modfile.path;
     } else {
-        modfile->path = path;
+        modfile.path = path;
     }
-    if( assign( jo, "legacy", modfile->legacy ) ) {
-        modfile->legacy = path + "/" + modfile->legacy;
+    if( assign( jo, "legacy", modfile.legacy ) ) {
+        modfile.legacy = path + "/" + modfile.legacy;
     }
 
-    assign( jo, "authors", modfile->authors );
-    assign( jo, "maintainers", modfile->maintainers );
-    assign( jo, "description", modfile->description );
-    assign( jo, "dependencies", modfile->dependencies );
-    assign( jo, "core", modfile->core );
-    assign( jo, "obsolete", modfile->obsolete );
+    assign( jo, "authors", modfile.authors );
+    assign( jo, "maintainers", modfile.maintainers );
+    assign( jo, "description", modfile.description );
+    assign( jo, "version", modfile.version );
+    assign( jo, "dependencies", modfile.dependencies );
+    assign( jo, "core", modfile.core );
+    assign( jo, "obsolete", modfile.obsolete );
 
-    if( modfile->dependencies.count( modfile->ident ) ) {
+    if( modfile.dependencies.count( modfile.ident ) ) {
         jo.throw_error( "mod specifies self as a dependency", "dependencies" );
     }
 
-    mod_map[modfile->ident] = std::move( modfile );
+    mod_map[modfile.ident] = std::move( modfile );
 }
 
-bool mod_manager::set_default_mods(const t_mod_list &mods)
+bool mod_manager::set_default_mods( const t_mod_list &mods )
 {
     default_mods = mods;
-    return write_to_file( FILENAMES["mods-user-default"], [&]( std::ostream &fout ) {
+    return write_to_file( FILENAMES["mods-user-default"], [&]( std::ostream & fout ) {
         JsonOut json( fout, true ); // pretty-print
         json.start_object();
-        json.member("type", "MOD_INFO");
-        json.member("ident", "user:default");
-        json.member("dependencies");
-        json.write(mods);
+        json.member( "type", "MOD_INFO" );
+        json.member( "ident", "user:default" );
+        json.member( "dependencies" );
+        json.write( mods );
         json.end_object();
     }, _( "list of default mods" ) );
 }
 
-bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
-                                    const std::string &output_base_path)
+bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
+                                     const std::string &output_base_path )
 {
-    if (mods_to_copy.empty()) {
+    if( mods_to_copy.empty() ) {
         // nothing to copy, so technically we succeeded already!
         return true;
     }
     std::vector<std::string> search_extensions;
-    search_extensions.push_back(".json");
+    search_extensions.push_back( ".json" );
 
     DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 
-    if (!assure_dir_exist(output_base_path)) {
+    if( !assure_dir_exist( output_base_path ) ) {
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" << output_base_path <<
                                     "] for saving";
         return false;
     }
 
     std::ostringstream number_stream;
-    for (size_t i = 0; i < mods_to_copy.size(); ++i) {
-        number_stream.str(std::string());
-        number_stream.width(5);
-        number_stream.fill('0');
-        number_stream << (i + 1);
-        MOD_INFORMATION &mod = *mod_map[mods_to_copy[i]];
+    for( size_t i = 0; i < mods_to_copy.size(); ++i ) {
+        number_stream.str( std::string() );
+        number_stream.width( 5 );
+        number_stream.fill( '0' );
+        number_stream << ( i + 1 );
+        const MOD_INFORMATION &mod = *mods_to_copy[i];
         size_t start_index = mod.path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
-        auto input_files = get_files_from_path(".json", mod.path, true, true);
-        auto input_dirs  = get_directories_with(search_extensions, mod.path, true);
+        auto input_files = get_files_from_path( ".json", mod.path, true, true );
+        auto input_dirs  = get_directories_with( search_extensions, mod.path, true );
 
-        if (input_files.empty() && mod.path.find(MOD_SEARCH_FILE) != std::string::npos) {
+        if( input_files.empty() && mod.path.find( MOD_SEARCH_FILE ) != std::string::npos ) {
             // Self contained mod, all data is inside the modinfo.json file
-            input_files.push_back(mod.path);
-            start_index = mod.path.find_last_of("/\\");
-            if (start_index == std::string::npos) {
+            input_files.push_back( mod.path );
+            start_index = mod.path.find_last_of( "/\\" );
+            if( start_index == std::string::npos ) {
                 start_index = 0;
             }
         }
 
-        if (input_files.empty()) {
+        if( input_files.empty() ) {
             continue;
         }
 
@@ -300,13 +333,13 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         cur_mod_dir << output_base_path << "/mod_" << number_stream.str();
 
         std::queue<std::string> dir_to_make;
-        dir_to_make.push(cur_mod_dir.str());
+        dir_to_make.push( cur_mod_dir.str() );
         for( auto &input_dir : input_dirs ) {
             dir_to_make.push( cur_mod_dir.str() + "/" + input_dir.substr( start_index ) );
         }
 
-        while (!dir_to_make.empty()) {
-            if (!assure_dir_exist(dir_to_make.front())) {
+        while( !dir_to_make.empty() ) {
+            if( !assure_dir_exist( dir_to_make.front() ) ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" <<
                                             dir_to_make.front() << "] for saving";
             }
@@ -314,32 +347,31 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
             dir_to_make.pop();
         }
 
-        std::ofstream fout;
         // trim file paths from full length down to just /data forward
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;
-            output_path = cur_mod_dir.str() + output_path.substr(start_index);
+            output_path = cur_mod_dir.str() + output_path.substr( start_index );
             copy_file( input_file, output_path );
         }
     }
     return true;
 }
 
-void mod_manager::load_mod_info(std::string info_file_path)
+void mod_manager::load_mod_info( const std::string &info_file_path )
 {
-    const std::string main_path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
-    read_from_file_optional_json( info_file_path, [&]( JsonIn &jsin ) {
+    const std::string main_path = info_file_path.substr( 0, info_file_path.find_last_of( "/\\" ) );
+    read_from_file_optional_json( info_file_path, [&]( JsonIn & jsin ) {
         if( jsin.test_object() ) {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
-            load_modfile(jo, main_path);
+            load_modfile( jo, main_path );
             jo.finish();
         } else if( jsin.test_array() ) {
             jsin.start_array();
             // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
+            while( !jsin.end_array() ) {
                 JsonObject jo = jsin.get_object();
-                load_modfile(jo, main_path);
+                load_modfile( jo, main_path );
                 jo.finish();
             }
         } else {
@@ -349,59 +381,94 @@ void mod_manager::load_mod_info(std::string info_file_path)
     } );
 }
 
-std::string mod_manager::get_mods_list_file(const WORLDPTR world)
+std::string mod_manager::get_mods_list_file( const WORLDPTR world )
 {
-    return world->world_path + "/mods.json";
+    return world->folder_path() + "/mods.json";
 }
 
-void mod_manager::save_mods_list(WORLDPTR world) const
+void mod_manager::save_mods_list( WORLDPTR world ) const
 {
     if( world == NULL ) {
         return;
     }
-    const std::string path = get_mods_list_file(world);
+    const std::string path = get_mods_list_file( world );
     if( world->active_mod_order.empty() ) {
         // If we were called from load_mods_list to prune the list,
         // and it's empty now, delete the file.
-        remove_file(path);
+        remove_file( path );
         return;
     }
-    write_to_file( path, [&]( std::ostream &fout ) {
+    write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true ); // pretty-print
-        json.write(world->active_mod_order);
+        json.write( world->active_mod_order );
     }, _( "list of mods" ) );
 }
 
-void mod_manager::load_mods_list(WORLDPTR world) const
+void mod_manager::load_mods_list( WORLDPTR world ) const
 {
-    if (world == NULL) {
+    if( world == NULL ) {
         return;
     }
-    std::vector<std::string> &amo = world->active_mod_order;
+    std::vector<mod_id> &amo = world->active_mod_order;
     amo.clear();
     bool obsolete_mod_found = false;
-    read_from_file_optional_json( get_mods_list_file( world ), [&]( JsonIn &jsin ) {
+    read_from_file_optional_json( get_mods_list_file( world ), [&]( JsonIn & jsin ) {
         JsonArray ja = jsin.get_array();
-        while (ja.has_more()) {
-            const std::string mod = ja.next_string();
-            if( mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end() ) {
+        while( ja.has_more() ) {
+            const mod_id mod( ja.next_string() );
+            if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;
             }
-            if( mod_replacements.count( mod ) ) {
-                amo.push_back( mod_replacements[ mod ] );
+            const auto iter = mod_replacements.find( mod );
+            if( iter != mod_replacements.end() ) {
+                amo.push_back( iter->second );
                 obsolete_mod_found = true;
             } else {
-                amo.push_back(mod);
+                amo.push_back( mod );
             }
         }
     } );
     if( obsolete_mod_found ) {
         // If we found an obsolete mod, overwrite the mod list without the obsolete one.
-        save_mods_list(world);
+        save_mods_list( world );
     }
 }
 
 const mod_manager::t_mod_list &mod_manager::get_default_mods() const
 {
     return default_mods;
+}
+
+inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
+        const MOD_INFORMATION *const b )
+{
+    return ( a->category < b->category ) || ( ( a->category == b->category ) &&
+            ( a->name() < b->name() ) );
+}
+
+void mod_manager::set_usable_mods()
+{
+    std::vector<mod_id> available_cores, available_supplementals;
+    std::vector<mod_id> ordered_mods;
+
+    std::vector<const MOD_INFORMATION *> mods;
+    for( const auto &pair : mod_map ) {
+        if( !pair.second.obsolete ) {
+            mods.push_back( &pair.second );
+        }
+    }
+    std::sort( mods.begin(), mods.end(), &compare_mod_by_name_and_category );
+
+    for( const MOD_INFORMATION *const modinfo : mods ) {
+        if( modinfo->core ) {
+            available_cores.push_back( modinfo->ident );
+        } else {
+            available_supplementals.push_back( modinfo->ident );
+        }
+    }
+    ordered_mods.insert( ordered_mods.begin(), available_supplementals.begin(),
+                         available_supplementals.end() );
+    ordered_mods.insert( ordered_mods.begin(), available_cores.begin(), available_cores.end() );
+
+    usable_mods = ordered_mods;
 }

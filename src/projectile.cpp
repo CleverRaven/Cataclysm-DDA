@@ -9,12 +9,10 @@
 #include "item.h"
 
 projectile::projectile() :
-    speed( 0 ), range( 0 ), momentum_loss( 0.125f ), drop( nullptr ), custom_explosion( nullptr )
+    speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
-projectile::~projectile()
-{
-}
+projectile::~projectile() = default;
 
 projectile::projectile( const projectile &other )
 {
@@ -26,7 +24,6 @@ projectile &projectile::operator=( const projectile &other )
     impact = other.impact;
     speed = other.speed;
     range = other.range;
-    momentum_loss = other.momentum_loss;
     proj_effects = other.proj_effects;
     set_drop( other.get_drop() );
     set_custom_explosion( other.get_custom_explosion() );
@@ -90,72 +87,71 @@ void projectile::unset_custom_explosion()
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
-        g->explosion( p, 24, 0.4 );
+        // @todo: double-check if this is sensible.
+        g->explosion( p, 360, 0.4 );
     }
 
     if( effects.count( "EXPLOSIVE" ) > 0 ) {
-        g->explosion( p, 24 );
+        // @todo: double-check if this is sensible.
+        g->explosion( p, 360 );
     }
 
     if( effects.count( "FRAG" ) > 0 ) {
-        explosion_data frag;
-        frag.power = 1.0f;
-        frag.shrapnel.count = 50;
-        frag.shrapnel.mass = 5;
-        frag.shrapnel.recovery = 100;
-        frag.shrapnel.drop = "shrapnel";
-        g->explosion( p, frag );
+        // Same as a standard thrown frag grenade.
+        g->explosion( p, 185, 0.8, false, 212, 0.05 );
     }
 
     if( effects.count( "NAPALM" ) > 0 ) {
-        g->explosion( p, 4, 0.7, true );
+        g->explosion( p, 60, 0.7, true );
         // More intense fire near the center
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_fire, 1, 0 );
+            g->m.add_field( pt, fd_fire, 1 );
         }
     }
 
     if( effects.count( "NAPALM_BIG" ) > 0 ) {
-        g->explosion( p, 24, 0.8, true );
+        g->explosion( p, 360, 0.8, true );
         // More intense fire near the center
         for( auto &pt : g->m.points_in_radius( p, 3, 0 ) ) {
-            g->m.add_field( pt, fd_fire, 1, 0 );
+            g->m.add_field( pt, fd_fire, 1 );
         }
     }
 
     if( effects.count( "MININUKE_MOD" ) > 0 ) {
-        g->explosion( p, 450 );
-        for( auto &pt : g->m.points_in_radius( p, 6, 0 ) ) {
+        g->explosion( p, 72000000 );
+        for( auto &pt : g->m.points_in_radius( p, 18, 0 ) ) {
             if( g->m.sees( p, pt, 3 ) &&
                 g->m.passable( pt ) ) {
-                g->m.add_field( pt, fd_nuke_gas, 3, 0 );
+                g->m.add_field( pt, fd_nuke_gas, 3 );
             }
         }
     }
 
     if( effects.count( "ACIDBOMB" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_acid, 3, 0 );
+            g->m.add_field( pt, fd_acid, 3 );
         }
     }
 
 
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
-        g->explosion( p, 40 );
+        // @todo: double-check if this is sensible.
+        g->explosion( p, 600 );
     }
 
     if( effects.count( "EXPLOSIVE_HUGE" ) > 0 ) {
-        g->explosion( p, 80 );
+        // @todo: double-check if this is sensible.
+        g->explosion( p, 1200 );
     }
 
     if( effects.count( "TOXICGAS" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_toxic_gas, 3, 0 );
+            g->m.add_field( pt, fd_toxic_gas, 3 );
         }
     }
     if( effects.count( "GAS_FUNGICIDAL" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_fungicidal_gas, 3, 0 );
+            g->m.add_field( pt, fd_fungicidal_gas, 3 );
         }
     }
     if( effects.count( "SMOKE" ) > 0 ) {
@@ -179,24 +175,24 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
 
     if( effects.count( "NO_BOOM" ) == 0 && effects.count( "FLAME" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_fire, 1, 0 );
+            g->m.add_field( pt, fd_fire, 1 );
         }
     }
 
     if( effects.count( "FLARE" ) > 0 ) {
-        g->m.add_field( p, fd_fire, 1, 0 );
+        g->m.add_field( p, fd_fire, 1 );
     }
 
     if( effects.count( "LIGHTNING" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_electricity, 3, 0 );
+            g->m.add_field( pt, fd_electricity, 3 );
         }
     }
 
     if( effects.count( "PLASMA" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
             if( one_in( 2 ) ) {
-                g->m.add_field( pt, fd_plasma, rng( 2, 3 ), 0 );
+                g->m.add_field( pt, fd_plasma, rng( 2, 3 ) );
             }
         }
     }
@@ -212,14 +208,14 @@ int aoe_size( const std::set<std::string> &tags )
                tags.count( "EXPLOSIVE_BIG" ) ) {
         return 3;
     } else if( tags.count( "EXPLOSIVE" ) ||
-               tags.count( "EXPLOSIVE_SMALL" ) ||
-               tags.count( "FRAG" ) ) {
+               tags.count( "EXPLOSIVE_SMALL" ) ) {
         return 2;
+    } else if( tags.count( "FRAG" ) ) {
+        return 15;
     } else if( tags.count( "ACIDBOMB" ) ||
                tags.count( "FLAME" ) ) {
         return 1;
     }
-
 
     return 0;
 }

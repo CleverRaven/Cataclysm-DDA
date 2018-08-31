@@ -43,8 +43,8 @@ warning_suppressed_list = {
     "data/mods/alt_map_key/overmap_terrain.json",
     "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
-    "data/mods/PKs_Rebalance/monsters/",
     "data/mods/More_Survival_Tools/start_locations.json",
+    "data/mods/NPC_Traits/npc_classes.json",
     "data/mods/Tanks/monsters.json"
 }
 
@@ -67,9 +67,8 @@ ignorable = {
     "city_building",
     "colordef",
     "emit",
-    "epilogue", # FIXME right now this object can't be translated correctly
+    "EXTERNAL_OPTION",
     "GAME_OPTION",
-    "harvest",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
@@ -119,6 +118,7 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
+    "epilogue",
     "faction",
     "fault",
     "furniture",
@@ -179,6 +179,11 @@ use_format_strings = {
 ##
 ##  SPECIALIZED EXTRACTION FUNCTIONS
 ##
+
+def extract_harvest(item):
+    outfile = get_outfile("harvest")
+    if "message" in item:
+        writestr(outfile, item["message"])
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
@@ -288,7 +293,7 @@ def extract_effect_type(item):
         else:
             writestr(outfile, item.get("speed_name"), comment="Speed name of effect(s) '{}'.".format(', '.join(name)))
 
-    # aplly and remove memorial messages.
+    # apply and remove memorial messages.
     msg = item.get("apply_memorial_log")
     if not name:
         writestr(outfile, msg, context="memorial_male")
@@ -363,6 +368,10 @@ def extract_gunmod(item):
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
+    if "mode_modifier" in item:
+        modes = item.get("mode_modifier")
+        for fire_mode in modes:
+            writestr(outfile, fire_mode[1])
     if "location" in item:
         location = item.get("location")
         writestr(outfile, location)
@@ -439,6 +448,13 @@ def extract_mapgen(item):
             for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
                 sign = v.get("signage", None)
                 writestr(outfile, sign, comment="Sign")
+        elif objkey == "computers":
+            for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
+                if "name" in v:
+                    writestr(outfile, v.get("name"), comment="Computer name")
+                if "options" in v:
+                    for opt in v.get("options"):
+                        writestr(outfile, opt.get("name"), comment="Computer option")
 
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")
@@ -458,6 +474,16 @@ def extract_recipes(item):
         for arr in item["book_learn"]:
             if len(arr) >= 3 and len(arr[2]) > 0:
                 writestr(outfile, arr[2])
+    if "description" in item:
+        writestr(outfile, item["description"])
+
+
+def extract_recipe_group(item):
+    outfile = get_outfile("recipe_group")
+    if "recipes" in item:
+        for i in item.get("recipes"):
+            writestr(outfile, i.get("description"))
+
 
 def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
@@ -622,6 +648,7 @@ def extract_gate(item):
 
 # these objects need to have their strings specially extracted
 extract_specials = {
+    "harvest" : extract_harvest,
     "body_part": extract_bodypart,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
@@ -637,6 +664,7 @@ extract_specials = {
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
+    "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
     "talk_topic": extract_talk_topic,
     "gate": extract_gate,

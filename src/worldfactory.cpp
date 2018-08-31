@@ -18,16 +18,18 @@
 #include "name.h"
 #include "json.h"
 
+#include <algorithm>
+
 using namespace std::placeholders;
 
-#define SAVE_MASTER "master.gsav"
-#define SAVE_EXTENSION ".sav"
+static const std::string SAVE_MASTER( "master.gsav" );
+static const std::string SAVE_EXTENSION( ".sav" );
 
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
 save_t::save_t( const std::string &name )
-: name( name )
+    : name( name )
 {
 }
 
@@ -61,13 +63,15 @@ std::string get_next_valid_worldname()
 WORLD::WORLD()
 {
     world_name = get_next_valid_worldname();
-    std::ostringstream path;
-    path << FILENAMES["savedir"] << utf8_to_native( world_name );
-    world_path = path.str();
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     world_saves.clear();
-    active_mod_order = world_generator->get_mod_manager()->get_default_mods();
+    active_mod_order = world_generator->get_mod_manager().get_default_mods();
+}
+
+std::string WORLD::folder_path() const
+{
+    return FILENAMES["savedir"] + utf8_to_native( world_name );
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -83,15 +87,11 @@ void WORLD::add_save( const save_t &name )
 }
 
 worldfactory::worldfactory()
-: active_world( nullptr )
-, all_worlds()
-, mman( nullptr )
-, mman_ui( nullptr )
+    : active_world( nullptr )
+    , all_worlds()
+    , mman()
+    , mman_ui( *mman )
 {
-    mman.reset( new mod_manager );
-    mman->refresh_mod_list();
-    mman_ui.reset( new mod_ui( mman.get() ) );
-
     // prepare tab display order
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1, _2));
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
@@ -110,10 +110,6 @@ WORLDPTR worldfactory::add_world( WORLDPTR retworld )
     // add world to world list
     all_worlds[ retworld->world_name ] = retworld;
 
-    std::ostringstream path;
-    path << FILENAMES[ "savedir" ] << utf8_to_native( retworld->world_name );
-    retworld->world_path = path.str();
-
     if( !save_world( retworld ) ) {
         std::string worldname = retworld->world_name;
         if( all_worlds[ worldname ] != retworld ) {
@@ -126,7 +122,7 @@ WORLDPTR worldfactory::add_world( WORLDPTR retworld )
     return retworld;
 }
 
-WORLDPTR worldfactory::make_new_world( const std::vector<std::string> &mods )
+WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
     WORLDPTR retworld = new WORLD();
     retworld->active_mod_order = mods;
@@ -146,28 +142,28 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
-        const int numtabs = tabs.size();
-        while (curtab >= 0 && curtab < numtabs) {
+        const size_t numtabs = tabs.size();
+        while( (size_t)curtab < numtabs ) {
             lasttab = curtab;
-            draw_worldgen_tabs(wf_win, curtab);
+            draw_worldgen_tabs( wf_win, (size_t)curtab );
             curtab += tabs[curtab](wf_win, retworld);
 
-            if (curtab < 0) {
-                if (!query_yn(_("Do you want to abort World Generation?"))) {
+            // If it is -1, or for unsigned size_t, it would be max.
+            if( curtab < 0 ) {
+                if( !query_yn( _( "Do you want to abort World Generation?" ) ) ) {
                     curtab = lasttab;
                 }
             }
         }
-        if (curtab < 0) {
+        if( curtab < 0 ) {
             delete retworld;
             return nullptr;
         }
     } else { // 'Play NOW'
 #ifndef LUA
         // Silently remove all Lua mods set by default.
-        std::vector<std::string>::iterator mod_it;
-        for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
-            MOD_INFORMATION &minfo = *mman->mod_map[*mod_it];
+        for( auto mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end(); ) {
+            const MOD_INFORMATION &minfo = **mod_it;
             if ( minfo.need_lua() ) {
                 mod_it = retworld->active_mod_order.erase(mod_it);
             } else {
@@ -203,14 +199,10 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     WORLDPTR special_world = new WORLD();
     special_world->world_name = worldname;
 
-    special_world->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
+    special_world->WORLD_OPTIONS["WORLD_END"].setValue("delete");
 
     // add world to world list!
     all_worlds[worldname] = special_world;
-
-    std::ostringstream path;
-    path << FILENAMES["savedir"] << utf8_to_native( worldname );
-    special_world->world_path = path.str();
 
     if (!save_world(special_world)) {
         delete all_worlds[worldname];
@@ -222,7 +214,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     return special_world;
 }
 
-WORLDPTR worldfactory::convert_to_world(std::string origin_path)
+WORLDPTR worldfactory::convert_to_world(const std::string &origin_path)
 {
     // prompt for worldname? Nah, just make a worldname... the user can fix it later if they really don't want this as a name...
     std::string worldname = get_next_valid_worldname();
@@ -233,17 +225,13 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     WORLDPTR newworld = new WORLD();
     newworld->world_name = worldname;
 
-    std::ostringstream path;
-    path << FILENAMES["savedir"] << utf8_to_native( worldname );
-    newworld->world_path = path.str();
-
     // save world as conversion world
     if (save_world(newworld, true)) {
         // move files from origin_path into new world path
         for( auto &origin_file : get_files_from_path(".", origin_path, false) ) {
             std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-            rename( origin_file.c_str(), std::string( newworld->world_path + filename ).c_str() );
+            rename( origin_file.c_str(), std::string( newworld->folder_path() + filename ).c_str() );
         }
 
         DebugLog( D_INFO, DC_ALL ) << "worldfactory::convert_to_world -- World Converted Successfully!";
@@ -271,20 +259,21 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         return false;
     }
 
-    if (!assure_dir_exist(world->world_path)) {
+    if (!assure_dir_exist(world->folder_path())) {
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world->world_name <<
                                     "] directory for saving";
         return false;
     }
 
     if (!is_conversion) {
-        const auto savefile = world->world_path + "/" + FILENAMES["worldoptions"];
+        const auto savefile = world->folder_path() + "/" + FILENAMES["worldoptions"];
         const bool saved = write_to_file( savefile, [&]( std::ostream &fout ) {
             JsonOut jout( fout );
 
             jout.start_array();
 
             for( auto &elem : world->WORLD_OPTIONS ) {
+                // Skip hidden option because it is set by mod and should not be saved
                 if( elem.second.getDefaultText() != "" ) {
                     jout.start_object();
 
@@ -334,7 +323,7 @@ void worldfactory::init()
         }
         // the directory name is the name of the world
         std::string worldname;
-        unsigned name_index = world_dir.find_last_of( "/\\" );
+        size_t name_index = world_dir.find_last_of( "/\\" );
         worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
 
         // create and store the world
@@ -345,14 +334,12 @@ void worldfactory::init()
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
         }
-        // set world path
-        all_worlds[worldname]->world_path = world_dir;
         mman->load_mods_list(all_worlds[worldname]);
 
         // load options into the world
         if ( !load_world_options(all_worlds[worldname]) ) {
             all_worlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
-            all_worlds[worldname]->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
+            all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue("delete");
             save_world(all_worlds[worldname]);
         }
     }
@@ -360,7 +347,7 @@ void worldfactory::init()
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
     // directory and not in a sub-world directory
     if( has_world( "save" ) ) {
-        WORLDPTR converted_world = convert_to_world(all_worlds["save"]->world_path);
+        WORLDPTR converted_world = convert_to_world(all_worlds["save"]->folder_path());
         if (converted_world) {
             converted_world->world_saves = all_worlds["save"]->world_saves;
             converted_world->WORLD_OPTIONS = all_worlds["save"]->WORLD_OPTIONS;
@@ -416,7 +403,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     const int iTooltipHeight = 3;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight;
-    const unsigned int num_pages = world_names.size() / iContentHeight + 1; // at least 1 page
+    const size_t num_pages = world_names.size() / iContentHeight + 1; // at least 1 page
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
@@ -430,7 +417,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             world_pages[i].push_back( world_names[ worldnum++ ] );
         }
     }
-    unsigned int sel = 0, selpage = 0;
+    size_t sel = 0, selpage = 0;
 
     catacurses::window w_worlds_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
     catacurses::window w_worlds_tooltip = catacurses::newwin( iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
@@ -485,19 +472,19 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         }
 
         //Draw World Names
-        for (size_t i = 0; i < world_pages[selpage].size(); ++i) {
+        for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
             sTemp.str("");
             sTemp << i + 1;
-            mvwprintz( w_worlds, i, 0, c_white, sTemp.str() );
-            wmove( w_worlds, i, 4 );
+            mvwprintz( w_worlds, (int)i, 0, c_white, sTemp.str() );
+            wmove( w_worlds, (int)i, 4 );
 
             std::string world_name = (world_pages[selpage])[i];
-            unsigned long saves_num = get_world( world_name )->world_saves.size();
+            size_t saves_num = get_world( world_name )->world_saves.size();
 
-            if (i == sel) {
-                wprintz(w_worlds, c_yellow, ">> ");
+            if( i == sel ) {
+                wprintz( w_worlds, c_yellow, ">> " );
             } else {
-                wprintz(w_worlds, c_yellow, "   ");
+                wprintz( w_worlds, c_yellow, "   " );
             }
 
             if( world_need_lua_build( world_name ) ) {
@@ -510,9 +497,9 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         //Draw Tabs
         wmove( w_worlds_header, 0, 7 );
 
-        for( unsigned long i = 0; i < num_pages; ++i ) {
-            nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
-            if( !world_pages[i].empty() ) { //skip empty pages
+        for( size_t i = 0; i < num_pages; ++i ) {
+            if (!world_pages[i].empty()) { //skip empty pages
+                nc_color tabcolor = (selpage == i) ? hilite(c_white) : c_white;
                 wprintz( w_worlds_header, c_white, "[" );
                 wprintz( w_worlds_header, tabcolor, _("Page %lu"), i + 1) ;
                 wprintz( w_worlds_header, c_white, "]" );
@@ -582,7 +569,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     return nullptr;
 }
 
-void worldfactory::remove_world(std::string worldname)
+void worldfactory::remove_world(const std::string &worldname)
 {
     auto it = all_worlds.find(worldname);
     if( it != all_worlds.end() ) {
@@ -618,14 +605,16 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, 
     return 0;
 }
 
-void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty, const catacurses::window &w_shift )
+void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
+                                  const std::vector<mod_id> &mods, bool is_active_list,
+                                  const std::string &text_if_empty, const catacurses::window &w_shift )
 {
     werase( w );
     werase(w_shift);
 
     const int iMaxRows = getmaxy( w );
-    int iModNum = mods.size();
-    int iActive = cursor;
+    size_t iModNum = mods.size();
+    size_t iActive = cursor;
     bool first_line_is_category = false;
 
     if( mods.empty() ) {
@@ -637,7 +626,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
         mSortCategory[0] = sLastCategoryName;
 
         for( size_t i = 0; i < mods.size(); ++i ) {
-            const std::string category_name = _( mman->mod_map[mods[i]]->category.second.c_str() );
+            const std::string category_name = _( mods[i]->category.second.c_str() );
             if ( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
                 mSortCategory[ i + iCatSortNum++ ] = sLastCategoryName;
@@ -648,15 +637,15 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
             }
         }
 
-        const size_t wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
+        const int wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
 
-        int iNum = 0;
+        unsigned int iNum = 0;
         int index = 0;
         bool bKeepIter = false;
         int iCatBeforeCursor = 0;
 
-        for( int i = 0; i <= iActive; i++ ) {
-            if( mSortCategory[i] != "" ) {
+        for( size_t i = 0; i <= iActive; i++ ) {
+            if( !mSortCategory[i].empty() ) {
                 iActive++;
                 iCatBeforeCursor++;
             }
@@ -665,43 +654,44 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
         calcStartPos( start, iActive, iMaxRows, iModNum );
 
         for( int i = 0; i < start; i++ ) {
-            if( mSortCategory[i] != "" ) {
+            if( !mSortCategory[i].empty() ) {
                 iNum++;
             }
         }
 
+        int larger = ( iMaxRows > (int)iModNum ) ? (int)iModNum : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
-            if( iNum >= start && iNum < start + ((iMaxRows > iModNum) ? iModNum : iMaxRows) ) {
-                if( mSortCategory[iNum] != "" ) {
+            if( iNum >= (size_t)start && iNum < (size_t)( start + larger ) ) {
+                if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
-                    trim_and_print( w, iNum - start, 1, wwidth, c_magenta, mSortCategory[iNum] );
+                    trim_and_print( w, iNum-start, 1, wwidth, c_magenta, mSortCategory[iNum] );
 
                 } else {
                     if( iNum == iActive ) {
                         cursor = iActive - iCatBeforeCursor;
                         //mvwprintw( w, iNum - start + iCatSortOffset, 1, "   " );
                         if( is_active_list ) {
-                            mvwprintz( w, iNum - start, 1, c_yellow, ">> " );
+                            mvwprintz( w, iNum-start, 1, c_yellow, ">> " );
                         } else {
-                            mvwprintz( w, iNum - start, 1, c_blue, ">> " );
+                            mvwprintz( w, iNum-start, 1, c_blue, ">> " );
                         }
                     }
 
-                    auto &mod = *mman->mod_map[*iter];
+                    const MOD_INFORMATION &mod = **iter;
 #ifndef LUA
                     if( mod.need_lua() ) {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_dark_gray, mod.name );
+                        trim_and_print( w, iNum-start, 4, wwidth, c_dark_gray, mod.name() );
                     } else {
-                        trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name );
+                        trim_and_print( w, iNum-start, 4, wwidth, c_white, mod.name() );
                     }
 #else
-                    trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name );
+                    trim_and_print( w, iNum - start, 4, wwidth, c_white, mod.name() );
 #endif
 
                     if( w_shift ) {
                         // get shift information for the active item
                         std::string shift_display = "";
-                        const size_t iPos = std::distance( mods.begin(), iter );
+                        const long iPos = std::distance( mods.begin(), iter );
 
                         if( mman_ui->can_shift_up(iPos, mods) ) {
                             shift_display += "<color_blue>+</color> ";
@@ -731,16 +721,16 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, int &
     }
 
     if( first_line_is_category && iActive == 1 ) {  // Ensure that the scrollbar starts at zero position
-        draw_scrollbar( w, 0, iMaxRows, iModNum, 0);
+        draw_scrollbar( w, 0, iMaxRows, int(iModNum), 0);
     } else {
-        draw_scrollbar( w, iActive, iMaxRows, iModNum, 0);
+        draw_scrollbar( w, int(iActive), iMaxRows, int(iModNum), 0);
     }
 
     wrefresh( w );
     wrefresh( w_shift );
 }
 
-void worldfactory::show_active_world_mods( const std::vector<std::string> &world_mods ) {
+void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods ) {
     const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
     const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
@@ -750,13 +740,13 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
 
     int start = 0;
     int cursor = 0;
-    const int num_mods = world_mods.size();
+    const size_t num_mods = world_mods.size();
 
     draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
     wrefresh( w_border );
 
     while( true ) {
-        draw_mod_list( w_mods, start, cursor, world_mods, true, _("--NO ACTIVE MODS--"), catacurses::window() );
+        draw_mod_list( w_mods, start, (size_t)cursor, world_mods, true, _("--NO ACTIVE MODS--"), catacurses::window() );
         wrefresh( w_mods );
 
         input_context ctxt( "DEFAULT" );
@@ -767,13 +757,15 @@ void worldfactory::show_active_world_mods( const std::vector<std::string> &world
 
         if( action == "UP" ) {
             cursor--;
+            // If it went under 0, loop back to the end of the list.
             if( cursor < 0 ) {
-                cursor = num_mods - 1;
+                cursor = (int)(num_mods - 1);
             }
 
         } else if( action == "DOWN" ) {
             cursor++;
-            if( cursor > num_mods - 1 ) {
+            // If it went over the end of the list, loop back to the start of the list.
+            if( cursor > (int)(num_mods - 1) ) {
                 cursor = 0;
             }
 
@@ -787,9 +779,9 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 {
     // Use active_mod_order of the world,
     // saves us from writing 'world->active_mod_order' all the time.
-    std::vector<std::string> &active_mod_order = world->active_mod_order;
+    std::vector<mod_id> &active_mod_order = world->active_mod_order;
     {
-        std::vector<std::string> tmp_mod_order;
+        std::vector<mod_id> tmp_mod_order;
         // clear active_mod_order and re-add all the mods, his ensures
         // that changes (like changing dependencies) get updated
         tmp_mod_order.swap(active_mod_order);
@@ -824,7 +816,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     catacurses::window w_active  = catacurses::newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX );
     catacurses::window w_description = catacurses::newwin( 4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX );
 
-    draw_modselection_borders(win, &ctxt);
+    draw_modselection_borders( win, ctxt );
     std::vector<std::string> headers;
     headers.push_back(_("Mod List"));
     headers.push_back(_("Mod Load Order"));
@@ -833,13 +825,13 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     header_windows.push_back(w_header2);
 
     int tab_output = 0;
-    int last_active_header = 0;
+    size_t last_active_header = 0;
     size_t active_header = 0;
-    size_t useable_mod_count = mman_ui->usable_mods.size();
+    size_t useable_mod_count = mman->get_usable_mods().size();
     int startsel[2] = {0, 0};
-    int cursel[2] = {0, 0};
-    int iCurrentTab = 0;
-    std::vector<std::string> current_tab_mods;
+    size_t cursel[2] = {0, 0};
+    size_t iCurrentTab = 0;
+    std::vector<mod_id> current_tab_mods;
 
     bool redraw_headers = true;
     bool redraw_description = true;
@@ -852,12 +844,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if (redraw_headers) {
             for (size_t i = 0; i < headers.size(); ++i) {
                 werase(header_windows[i]);
-                const int header_x = (getmaxx(header_windows[i]) - headers[i].size()) / 2;
+                const int header_x = int ((getmaxx(header_windows[i]) - headers[i].size()) / 2);
                 mvwprintz( header_windows[i], 0, header_x, c_cyan, headers[i] );
 
                 if (active_header == i) {
                     mvwputch(header_windows[i], 0, header_x - 3, c_red, '<');
-                    mvwputch(header_windows[i], 0, header_x + headers[i].size() + 2, c_red, '>');
+                    mvwputch(header_windows[i], 0, header_x + int(headers[i].size()) + 2, c_red, '>');
                 }
                 wrefresh(header_windows[i]);
             }
@@ -869,8 +861,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( recalc_tabs ) {
             current_tab_mods.clear();
 
-            for( const auto &item : mman_ui->usable_mods ) {
-                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item]->category.first].first);
+            for( const auto &item : mman->get_usable_mods() ) {
+                const auto &iter = get_mod_list_cat_tab().find( get_mod_list_categories()[item->category.first].first );
 
                 std::string sCatTab = "tab_default";
                 if( iter != get_mod_list_cat_tab().end() ) {
@@ -901,13 +893,13 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( redraw_description ) {
             werase( w_description );
 
-            MOD_INFORMATION *selmod = nullptr;
+            const MOD_INFORMATION *selmod = nullptr;
             if( current_tab_mods.empty() ) {
                 // Do nothing, leave selmod == nullptr
             } else if( active_header == 0 ) {
-                selmod = mman->mod_map[current_tab_mods[cursel[0]]].get();
+                selmod = &current_tab_mods[cursel[0]].obj();
             } else if( !active_mod_order.empty() ) {
-                selmod = mman->mod_map[active_mod_order[cursel[1]]].get();
+                selmod = &active_mod_order[cursel[1]].obj();
             }
 
             if( selmod != nullptr ) {
@@ -919,7 +911,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             wmove( win, 4, 2 );
             for( size_t i = 0; i < get_mod_list_tabs().size(); i++ ) {
                 wprintz(win, c_white, "[");
-                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_light_green) : c_light_green, _((get_mod_list_tabs()[i].second).c_str()));
+                wprintz(win, (iCurrentTab == i) ? hilite(c_light_green) : c_light_green, _((get_mod_list_tabs()[i].second).c_str()));
                 wprintz(win, c_white, "]");
                 wputch(win, BORDER_COLOR, LINE_OXOX);
             }
@@ -941,16 +933,16 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         const int next_header = (active_header == 1) ? 0 : 1;
         const int prev_header = (active_header == 0) ? 1 : 0;
 
-        int selection = (active_header == 0) ? cursel[0] : cursel[1];
-        int last_selection = selection;
-        unsigned int next_selection = selection + 1;
-        int prev_selection = selection - 1;
+        size_t selection = (active_header == 0) ? cursel[0] : cursel[1];
+        size_t last_selection = selection;
+        size_t next_selection = selection + 1;
+        size_t prev_selection = selection - 1;
         if (active_header == 0) {
             next_selection = (next_selection >= useable_mod_count) ? 0 : next_selection;
-            prev_selection = (prev_selection < 0) ? useable_mod_count - 1 : prev_selection;
+            prev_selection = (prev_selection > useable_mod_count) ? useable_mod_count - 1 : prev_selection;
         } else {
             next_selection = (next_selection >= active_mod_order.size()) ? 0 : next_selection;
-            prev_selection = (prev_selection < 0) ? active_mod_order.size() - 1 : prev_selection;
+            prev_selection = (prev_selection > active_mod_order.size()) ? active_mod_order.size() - 1 : prev_selection;
         }
 
         const std::string action = ctxt.handle_input();
@@ -966,10 +958,10 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "CONFIRM" ) {
             if( active_header == 0 && !current_tab_mods.empty() ) {
 #ifndef LUA
-                if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua() ) {
+                if( current_tab_mods[cursel[0]]->need_lua() ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
-                    draw_modselection_borders(win, &ctxt);
+                    draw_modselection_borders( win, ctxt );
                     redraw_description = true;
                     continue;
                 }
@@ -1001,7 +993,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             }
         } else if( action == "NEXT_CATEGORY_TAB" ) {
             if(  active_header == 0  ) {
-                if(  ++iCurrentTab >= (int)get_mod_list_tabs().size()  ) {
+                if( ++iCurrentTab >= get_mod_list_tabs().size() ) {
                     iCurrentTab = 0;
                 }
 
@@ -1014,7 +1006,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
         } else if( action == "PREV_CATEGORY_TAB" ) {
             if(  active_header == 0  ) {
-                if(  --iCurrentTab < 0  ) {
+                if( --iCurrentTab > get_mod_list_tabs().size() ) {
                     iCurrentTab = get_mod_list_tabs().size()-1;
                 }
 
@@ -1031,24 +1023,22 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "SAVE_DEFAULT_MODS" ) {
             if(mman->set_default_mods(active_mod_order) ) {
                 popup(_("Saved list of active mods as default"));
-                draw_modselection_borders(win, &ctxt);
+                draw_modselection_borders( win, ctxt );
                 redraw_description = true;
                 redraw_headers = true;
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Redraw all the things!
             redraw_headers = true;
-            redraw_description = true;
             redraw_list = true;
             redraw_active = true;
             draw_worldgen_tabs( win, 0 );
-            draw_modselection_borders( win, &ctxt );
-            redraw_description = true;
+            draw_modselection_borders( win, ctxt );
         } else if( action == "QUIT" ) {
             tab_output = -999;
         }
         // RESOLVE INPUTS
-        if( last_active_header != (int)active_header ) {
+        if( last_active_header != active_header ) {
             redraw_headers = true;
             redraw_description = true;
         }
@@ -1071,9 +1061,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( active_mod_order.empty() ) {
                 cursel[1] = 0;
             } else {
-                if( cursel[1] < 0 ) {
+                // If it goes below 0, it'll loop back to max (or at least, greater than AMO size*10.
+                if( cursel[1] > active_mod_order.size()*10 ) {
                     cursel[1] = 0;
-                } else if( cursel[1] >= (int)active_mod_order.size() ) {
+                }
+                // If it goes above AMO.size(), cap to size.
+                else if( cursel[1] >= active_mod_order.size() ) {
                     cursel[1] = active_mod_order.size() - 1;
                 }
             }
@@ -1095,10 +1088,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
     catacurses::window w_confirmation = catacurses::newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
-    unsigned namebar_y = 1;
-    unsigned namebar_x = 3 + utf8_width(_("World Name:"));
+    int namebar_y = 1;
+    int namebar_x = 3 + utf8_width(_("World Name:"));
 
-    int line = 1;
     bool noname = false;
     input_context ctxt("WORLDGEN_CONFIRM_DIALOG");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -1119,9 +1111,7 @@ Press <color_yellow>%s</color> when you are satisfied with the world as it is an
 to continue, or <color_yellow>%s</color> to go back and review your world."), ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
         if (!noname) {
             mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
-            if (line == 1) {
-                wprintz(w_confirmation, h_light_gray, "_");
-            }
+            wprintz(w_confirmation, h_light_gray, "_");
         }
         if (noname) {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
@@ -1135,19 +1125,20 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
 #ifndef LUA
-            for (std::string &mod : world->active_mod_order) {
-                auto &temp = *mman->mod_map[mod];
+            for( const mod_id &mod : world->active_mod_order ) {
+                const MOD_INFORMATION &temp = *mod;
                 if ( temp.need_lua() ) {
-                    popup(_("Mod '%s' requires Lua support."), temp.name.c_str());
+                    popup( _( "Mod '%s' requires Lua support." ), temp.name() );
                     return -2; // Move back to modselect tab.
                 }
             }
 #endif
             if (worldname.empty()) {
-                mvwprintz(w_confirmation, namebar_y, namebar_x, h_light_gray, _("_______NO NAME ENTERED!!!!______"));
+                mvwprintz(w_confirmation, namebar_y, namebar_x, h_light_gray, _("________NO NAME ENTERED!________"));
                 noname = true;
                 wrefresh(w_confirmation);
                 if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
+                    werase( w_confirmation );
                     continue;
                 } else {
                     world->world_name = pick_random_name();
@@ -1156,10 +1147,20 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                     }
                     return 1;
                 }
-            } else if (query_yn(_("Are you SURE you're finished?")) && valid_worldname(worldname)) {
-                world->world_name = worldname;
-                return 1;
+            } else if( query_yn( _("Are you SURE you're finished?" ) ) ) {
+                // erase entire window to avoid overlapping of query with possible popup about invalid worldname
+                werase( w_confirmation );
+                wrefresh( w_confirmation );
+                catacurses::refresh();
+
+                if( valid_worldname( worldname ) ) {
+                    world->world_name = worldname;
+                    return 1;
+                } else {
+                    continue;
+                }
             } else {
+                werase( w_confirmation );
                 continue;
             }
         } else if (action == "PREV_TAB") {
@@ -1175,50 +1176,47 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         } else if (action == "ANY_INPUT") {
             const input_event ev = ctxt.get_raw_input();
             const long ch = ev.get_first_input();
-            switch (line) {
-            case 1: {
-                utf8_wrapper wrap(worldname);
-                utf8_wrapper newtext( ev.text );
-                if( ch == KEY_BACKSPACE ) {
-                    if (!wrap.empty()) {
-                        wrap.erase(wrap.length() - 1, 1);
-                        worldname = wrap.str();
-                    }
-                } else if(ch == KEY_F(2)) {
-                    std::string tmp = get_input_string_from_file();
-                    int tmplen = utf8_width( tmp );
-                    if(tmplen > 0 && tmplen + utf8_width(worldname) < 30) {
-                        worldname.append(tmp);
-                    }
-                } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
-                    // No empty string, no slash, no backslash, no control sequence
-                    wrap.append( newtext );
+            utf8_wrapper wrap(worldname);
+            utf8_wrapper newtext( ev.text );
+            if( ch == KEY_BACKSPACE ) {
+                if (!wrap.empty()) {
+                    wrap.erase(wrap.length() - 1, 1);
                     worldname = wrap.str();
                 }
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
-                mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
-                wprintz(w_confirmation, h_light_gray, "_");
+            } else if(ch == KEY_F(2)) {
+                std::string tmp = get_input_string_from_file();
+                int tmplen = utf8_width( tmp );
+                if(tmplen > 0 && tmplen + utf8_width(worldname) < 30) {
+                    worldname.append(tmp);
+                }
+            } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
+                // No empty string, no slash, no backslash, no control sequence
+                wrap.append( newtext );
+                worldname = wrap.str();
             }
-            break;
-            }
+            mvwprintz(w_confirmation, namebar_y, namebar_x, c_light_gray, line_of_32_underscores);
+            mvwprintz( w_confirmation, namebar_y, namebar_x, c_light_gray, worldname );
+            wprintz(w_confirmation, h_light_gray, "_");
         }
     } while (true);
 
     return 0;
 }
 
-void worldfactory::draw_modselection_borders( const catacurses::window &win, input_context *ctxtp )
+void worldfactory::draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp )
 {
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{
-        1, 1, ( FULL_SCREEN_WIDTH / 2 ) + 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
-        ( FULL_SCREEN_WIDTH / 2 ) + 2
-    }};
+            1, 1, ( FULL_SCREEN_WIDTH / 2 ) + 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
+            ( FULL_SCREEN_WIDTH / 2 ) + 2
+        }
+    };
     std::array<int, 5> ys = {{FULL_SCREEN_HEIGHT - 8, 4, 4, 3, 3}};
     std::array<int, 5> ls = {{
-        FULL_SCREEN_WIDTH - 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
-        ( FULL_SCREEN_WIDTH / 2 ) - 3, FULL_SCREEN_HEIGHT - 11, 1
-    }};
+            FULL_SCREEN_WIDTH - 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
+            ( FULL_SCREEN_WIDTH / 2 ) - 3, FULL_SCREEN_HEIGHT - 11, 1
+        }
+    };
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for (int i = 0; i < 5; ++i) {
@@ -1254,14 +1252,14 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, inp
     // Add tips & hints
     fold_and_print(win, FULL_SCREEN_HEIGHT - 7, 2, getmaxx(win) - 4, c_green,
                    _("Press %s to save the list of active mods as default. Press %s for help."),
-                   ctxtp->get_desc("SAVE_DEFAULT_MODS").c_str(),
-                   ctxtp->get_desc("HELP_KEYBINDINGS").c_str()
+                   ctxtp.get_desc( "SAVE_DEFAULT_MODS" ).c_str(),
+                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str()
                   );
     wrefresh(win);
     catacurses::refresh();
 }
 
-void worldfactory::draw_worldgen_tabs( const catacurses::window &w, unsigned int current )
+void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t current )
 {
     werase(w);
 
@@ -1276,14 +1274,15 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, unsigned int
     }
 
     static const std::vector<std::string> tab_strings = { {
-        translate_marker( "World Mods" ),
-        translate_marker( "World Options" ),
-        translate_marker( "Finalize World" )
-    } };
+            translate_marker( "World Mods" ),
+            translate_marker( "World Options" ),
+            translate_marker( "Finalize World" )
+        }
+    };
 
     int x = 2;
     for (size_t i = 0; i < tab_strings.size(); ++i) {
-        draw_tab(w, x, _( tab_strings[i].c_str() ), (i == current) ? true : false);
+        draw_tab( w, x, _( tab_strings[i].c_str() ), (i == current) );
         x += utf8_width( _( tab_strings[i].c_str() ) ) + 7;
     }
 
@@ -1306,8 +1305,8 @@ bool worldfactory::world_need_lua_build(std::string world_name)
     if( world == nullptr ) {
         return false;
     }
-    for (std::string &mod : world->active_mod_order) {
-        if( mman->has_mod( mod ) && mman->mod_map[mod]->need_lua() ) {
+    for( const mod_id &mod : world->active_mod_order ) {
+        if( mod.is_valid() && mod->need_lua() ) {
             return true;
         }
     }
@@ -1317,7 +1316,7 @@ bool worldfactory::world_need_lua_build(std::string world_name)
     return false;
 }
 
-bool worldfactory::valid_worldname(std::string name, bool automated)
+bool worldfactory::valid_worldname(const std::string &name, bool automated)
 {
     std::string msg;
 
@@ -1344,8 +1343,8 @@ void WORLD::load_options( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
-        const std::string name = jo.get_string( "name" );
-        const std::string value = jo.get_string( "value" );
+        const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
+        const std::string value = opts.migrateOptionValue( jo.get_string( "name" ), jo.get_string( "value" ) );
 
         if( name == "CORE_VERSION" ) {
             version = std::max( std::atoi( value.c_str() ), 0 );
@@ -1366,16 +1365,21 @@ void WORLD::load_options( JsonIn &jsin )
 
 void WORLD::load_legacy_options( std::istream &fin )
 {
+    auto &opts = get_options();
+
     //load legacy txt
     std::string sLine;
     while( !fin.eof() ) {
         getline( fin, sLine );
-        if( sLine != "" && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-            int ipos = sLine.find( ' ' );
+        if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
+            size_t ipos = sLine.find( ' ' );
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else
-            if( ipos != 0 && get_options().get_option( sLine.substr( 0, ipos ) ).getPage() == "world_default" ) {
-                WORLD_OPTIONS[sLine.substr( 0, ipos )].setValue( sLine.substr( ipos + 1, sLine.length() ) );
+            const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
+            const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1, sLine.length() ) );
+
+            if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
+                WORLD_OPTIONS[name].setValue( value );
             }
         }
     }
@@ -1386,12 +1390,12 @@ bool worldfactory::load_world_options(WORLDPTR &world)
     world->WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
+    const auto path = world->folder_path() + "/" + FILENAMES["worldoptions"];
     if( read_from_file_optional_json( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
         return true;
     }
 
-    const auto legacy_path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
+    const auto legacy_path = world->folder_path() + "/" + FILENAMES["legacy_worldoptions"];
     if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
         if( save_world( world ) ) {
             // Remove old file as the options have been saved to the new file.
@@ -1414,9 +1418,38 @@ void load_world_option( JsonObject &jo )
     }
 }
 
-mod_manager *worldfactory::get_mod_manager()
+//load external option from json
+void load_external_option( JsonObject &jo )
 {
-    return mman.get();
+    auto name = jo.get_string( "name" );
+    auto stype = jo.get_string( "stype" );
+    options_manager &opts = get_options();
+    if( !opts.has_option( name ) ) {
+        auto sinfo = jo.get_string( "info" );
+        opts.add_external( name, "world_default", stype, sinfo, sinfo );
+    }
+    options_manager::cOpt &opt = opts.get_option( name );
+    if( stype == "float" ) {
+        opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
+    } else if( stype == "int" ) {
+        opt.setValue( jo.get_int( "value" ) );
+    } else if( stype == "bool" ) {
+        if( jo.get_bool( "value" ) ) {
+            opt.setValue( "true" );
+        } else {
+            opt.setValue( "false" );
+        }
+    } else if( stype == "string" ) {
+        opt.setValue( jo.get_string( "value" ) );
+    } else {
+        jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+    }
+}
+
+
+mod_manager &worldfactory::get_mod_manager()
+{
+    return *mman;
 }
 
 WORLDPTR worldfactory::get_world( const std::string &name )
@@ -1430,10 +1463,10 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden(std::string candidate)
+static bool isForbidden(const std::string &candidate)
 {
     if (candidate.find(FILENAMES["worldoptions"]) != std::string::npos ||
-        candidate.find("mods.json") != std::string::npos) {
+            candidate.find("mods.json") != std::string::npos) {
         return true;
     }
     return false;
@@ -1441,7 +1474,7 @@ static bool isForbidden(std::string candidate)
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    std::string worldpath = get_world( worldname )->world_path;
+    std::string worldpath = get_world( worldname )->folder_path();
     std::set<std::string> directory_paths;
 
     auto file_paths = get_files_from_path("", worldpath, true, true);
@@ -1457,8 +1490,8 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         // strip to path and remove worldpath from it
         std::string part = file_path.substr( worldpath.size(),
                                              file_path.find_last_of( "/\\" ) - worldpath.size() );
-        int last_separator = part.find_last_of("/\\");
-        while (last_separator != (int)std::string::npos && part.size() > 1) {
+        size_t last_separator = part.find_last_of("/\\");
+        while (last_separator != std::string::npos && part.size() > 1) {
             directory_paths.insert(part);
             part = part.substr(0, last_separator);
             last_separator = part.find_last_of("/\\");

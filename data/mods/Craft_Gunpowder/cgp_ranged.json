@@ -2,6 +2,7 @@
   {
     "id": "rifle_45",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "pipe rifle: .45",
@@ -27,6 +28,7 @@
   {
     "id": "rifle_38",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "pipe rifle: .38",
@@ -52,6 +54,7 @@
   {
     "id": "rifle_44",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "pipe rifle: .44",
@@ -77,6 +80,7 @@
   {
     "id": "rifle_40",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
     "name": "pipe rifle: .40",
@@ -102,6 +106,7 @@
   {
     "id": "rifle_223",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "pipe rifle: .223",
     "name_plural": "pipe rifles: .223",
     "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.  This one is made to support more gun attachments.",
@@ -128,9 +133,11 @@
   {
     "id": "smg_22",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "[",
     "color": "dark_gray",
     "name": "pipe SMG: .22",
+    "name_plural": "pipe SMGs: .22",
     "description": "A makeshift SMG crudely constructed out of scrap metal for mechanisms, pipe for the body and scrap wood for the stock and handguard.  Uses custom magazines",
     "price": 20000,
     "material": "steel",
@@ -153,9 +160,11 @@
   {
     "id": "smg_38",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "[",
     "color": "dark_gray",
     "name": "pipe SMG: .38",
+    "name_plural": "pipe SMGs: .38",
     "description": "A makeshift SMG crudely constructed out of scrap metal for mechanisms, pipe for the body and scrap wood for the stock and handguard.  Uses custom magazines",
     "price": 20000,
     "material": "steel",
@@ -178,9 +187,11 @@
   {
     "id": "smg_9mm",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "[",
     "color": "dark_gray",
     "name": "pipe SMG: 9x19mm",
+    "name_plural": "pipe SMGs: 9x19mm",
     "description": "A makeshift SMG crudely constructed out of scrap metal for mechanisms, pipe for the body and scrap wood for the stock and handguard.  Uses custom magazines",
     "price": 20000,
     "material": "steel",
@@ -203,9 +214,11 @@
   {
     "id": "smg_40",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "[",
     "color": "dark_gray",
     "name": "pipe SMG: .40",
+    "name_plural": "pipe SMGs: .40",
     "description": "A makeshift SMG crudely constructed out of scrap metal for mechanisms, pipe for the body and scrap wood for the stock and handguard.  Uses custom magazines",
     "price": 20000,
     "material": "steel",
@@ -228,9 +241,11 @@
   {
     "id": "smg_45",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "[",
     "color": "dark_gray",
     "name": "pipe SMG: .45",
+    "name_plural": "pipe SMGs: .45",
     "description": "A makeshift SMG crudely constructed out of scrap metal for mechanisms, pipe for the body and scrap wood for the stock and handguard.  Uses custom magazines",
     "price": 20000,
     "material": "steel",

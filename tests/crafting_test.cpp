@@ -137,7 +137,7 @@ TEST_CASE( "available_recipes", "[.]" )
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player read it and has an appropriate skill" ) {
-            dummy.do_read( &cookbook );
+            dummy.do_read( cookbook );
             dummy.set_skill_level( r->skill_used, 2 );
 
             AND_WHEN( "he searches for the recipe in the book" ) {
@@ -164,7 +164,7 @@ TEST_CASE( "available_recipes", "[.]" )
     GIVEN( "a companion who can help with crafting" ) {
         standard_npc who( "helper", {}, 0 );
 
-        who.attitude = NPCATT_FOLLOW;
+        who.set_attitude( NPCATT_FOLLOW );
         who.spawn_at_sm( 0, 0, 0 );
 
         g->load_npcs();
@@ -232,6 +232,7 @@ TEST_CASE( "charge_handling" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         tools.emplace_back( "soldering_iron", -1, 20 );
+        tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "mold_plastic" );
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
@@ -251,6 +252,7 @@ TEST_CASE( "charge_handling" )
         tools.emplace_back( "hotplate", -1, 5 );
         tools.emplace_back( "soldering_iron", -1, 5 );
         tools.emplace_back( "soldering_iron", -1, 5 );
+        tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "mold_plastic" );
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
@@ -270,6 +272,7 @@ TEST_CASE( "charge_handling" )
         hotplate.contents.emplace_back( "battery_ups" );
         tools.push_back( hotplate );
         item soldering_iron( "soldering_iron", -1, 0 );
+        tools.insert( tools.end(), 10, item( "solder_wire" ) );
         soldering_iron.contents.emplace_back( "battery_ups" );
         tools.push_back( soldering_iron );
         tools.emplace_back( "screwdriver" );
@@ -293,6 +296,7 @@ TEST_CASE( "charge_handling" )
         hotplate.contents.emplace_back( "battery_ups" );
         tools.push_back( hotplate );
         item soldering_iron( "soldering_iron", -1, 0 );
+        tools.insert( tools.end(), 10, item( "solder_wire" ) );
         soldering_iron.contents.emplace_back( "battery_ups" );
         tools.push_back( soldering_iron );
         tools.emplace_back( "screwdriver" );

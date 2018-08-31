@@ -17,6 +17,7 @@
 class game;
 class item;
 class player;
+class npc;
 class map;
 struct tripoint;
 struct itype;
@@ -49,6 +50,7 @@ void rubble( player &p, const tripoint &examp );
 void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );
 void bars( player &p, const tripoint &examp );
+void deployed_furniture( player &p, const tripoint &pos );
 void portable_structure( player &p, const tripoint &examp );
 void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
@@ -84,7 +86,7 @@ void tree_maple_tapped( player &p, const tripoint &examp );
 void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );
 void shrub_wildveggies( player &p, const tripoint &examp );
-void recycler( player &p, const tripoint &examp );
+void recycle_compactor( player &p, const tripoint &examp );
 void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
@@ -97,6 +99,9 @@ void curtains( player &p, const tripoint &examp );
 void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
+void autodoc( player &p, const tripoint &examp );
+void on_smoke_out( const tripoint &examp ); //activates end of smoking effects
+void smoker_options( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );

@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "skill.h"
+#include "map.h"
 
 #include <algorithm>
 #include <functional>
@@ -34,18 +35,14 @@ std::string good_bad_none( int value )
 
 }
 
-class inventory_filter_preset : public inventory_selector_preset
+inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
+    : filter( filter )
+{}
+
+bool inventory_filter_preset::is_shown( const item_location &location ) const
 {
-    public:
-        inventory_filter_preset( const item_location_filter &filter ) : filter( filter ) {}
-
-        bool is_shown( const item_location &location ) const override {
-            return filter( location );
-        }
-
-    private:
-        item_location_filter filter;
-};
+    return filter( location );
+}
 
 item_location_filter convert_filter( const item_filter &filter )
 {
@@ -59,8 +56,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
 {
-    u.inv.restack( &u );
-    u.inv.sort();
+    u.inv.restack( u );
 
     inventory_pick_selector inv_s( u, preset );
 
@@ -86,8 +82,7 @@ void game_menus::inv::common( player &p )
 {
     static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
 
-    p.inv.restack( &p );
-    p.inv.sort();
+    p.inv.restack( p );
 
     inventory_pick_selector inv_s( p );
 
@@ -117,9 +112,9 @@ int game::inv_for_filter( const std::string &title, item_filter filter,
 
 int game::inv_for_all( const std::string &title, const std::string &none_message )
 {
-    const std::string msg = ( none_message.empty() ) ? _( "Your inventory is empty." ) : none_message;
-    return u.get_item_position( inv_internal( u, inventory_selector_preset(),
-                                title, -1, none_message ).get_item() );
+    const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
+    return u.get_item_position( inv_internal( u, inventory_selector_preset(), title, -1,
+                                msg ).get_item() );
 }
 
 int game::inv_for_flag( const std::string &flag, const std::string &title )
@@ -368,9 +363,9 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const int spoils = get_edible_comestible( loc ).spoils;
+                const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
-                    return to_string_clipped( time_duration::from_turns( spoils ) );
+                    return to_string_clipped( spoils );
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
@@ -412,7 +407,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            if( loc->made_of( LIQUID ) ) {
+            if( loc->made_of( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
@@ -512,12 +507,17 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( !p.has_enough_charges( *loc, false ) ) {
                 return string_format(
-                           ngettext( _( "Needs at least %d charge" ),
-                                     _( "Needs at least %d charges" ), loc->ammo_required() ),
+                           ngettext( "Needs at least %d charge",
+                                     "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
-            return pickup_inventory_preset::get_denial( loc );
+            const item &it = *loc;
+            if( !it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
+                return pickup_inventory_preset::get_denial( loc );
+            }
+
+            return std::string();
         }
 
     protected:
@@ -646,11 +646,11 @@ class read_inventory_preset: public pickup_inventory_preset
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
 
-            append_cell( [ this ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                return good_bad_none( get_book( loc ).fun );
+                return good_bad_none( p.book_fun_for( *loc ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
@@ -663,9 +663,9 @@ class read_inventory_preset: public pickup_inventory_preset
                     return std::string();  // Just to make sure
                 }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = p.time_to_read( *loc, *reader ) / MOVES( 1 );
+                const int actual_turns = p.time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
-                const int normal_turns = get_book( loc ).time * reader->read_speed() / MOVES( 1 );
+                const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
                 const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
@@ -747,11 +747,11 @@ class weapon_inventory_preset: public inventory_selector_preset
                     return std::string();
                 }
 
-                const int total_damage = loc->gun_damage( true );
+                const int total_damage = loc->gun_damage( true ).total_damage();
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
-                    const int basic_damage = loc->gun_damage( false );
-                    const int ammo_damage = loc->ammo_data()->ammo->damage;
+                    const int basic_damage = loc->gun_damage( false ).total_damage();
+                    const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
 
                     return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
                                           get_damage_string( basic_damage, true ).c_str(),
@@ -907,8 +907,7 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
 
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 {
-    p.inv.restack( &p );
-    p.inv.sort();
+    p.inv.restack( p );
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
         return p.can_unwield( *location ).success();
@@ -930,8 +929,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 
 void game_menus::inv::compare( player &p, const tripoint &offset )
 {
-    p.inv.restack( &p );
-    p.inv.sort();
+    p.inv.restack( p );
 
     inventory_compare_selector inv_s( p );
 
@@ -951,6 +949,15 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
         return;
     }
 
+    std::string action;
+    input_context ctxt;
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+
     do {
         const auto to_compare = inv_s.execute();
 
@@ -958,8 +965,12 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
             break;
         }
 
-        std::vector<iteminfo> vItemLastCh, vItemCh;
-        std::string sItemLastCh, sItemCh, sItemLastTn, sItemTn;
+        std::vector<iteminfo> vItemLastCh;
+        std::vector<iteminfo> vItemCh;
+        std::string sItemLastCh;
+        std::string sItemCh;
+        std::string sItemLastTn;
+        std::string sItemTn;
 
         to_compare.first->info( true, vItemCh );
         sItemCh = to_compare.first->tname();
@@ -971,25 +982,26 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
 
         int iScrollPos = 0;
         int iScrollPosLast = 0;
-        int ch = ( int ) ' ';
 
         do {
             draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch(
-            ch = draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                                 0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
-                                 iScrollPos ).get_first_input();
+                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true );
+            draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
+                            0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
+                            iScrollPos, true );
 
-            if( ch == KEY_PPAGE ) {
+            action = ctxt.handle_input();
+
+            if( action == "UP" || action == "PAGE_UP" ) {
                 iScrollPos--;
                 iScrollPosLast--;
-            } else if( ch == KEY_NPAGE ) {
+            } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
                 iScrollPos++;
                 iScrollPosLast++;
             }
 
-            g->refresh_all();
-        } while( ch == KEY_PPAGE || ch == KEY_NPAGE );
+        } while( action != "QUIT" );
+        g->refresh_all();
     } while( true );
 }
 
@@ -1013,8 +1025,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 
 void game_menus::inv::swap_letters( player &p )
 {
-    p.inv.restack( &p );
-    p.inv.sort();
+    p.inv.restack( p );
 
     inventory_pick_selector inv_s( p );
 

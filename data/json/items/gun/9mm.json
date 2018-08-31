@@ -2,6 +2,7 @@
   {
     "id": "briefcase_smg",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "briefcase SMG",
     "description": "A custom built 9x19mm submachine gun camouflaged to look as the average businessman suitcase, panes of cutting edge materials and its clever internal construction allowed it to bypass even the most scrupulous of security checkpoints.  Due to the fact that the average security guard is now only concerned in eating you, this million dollar baby has been reduced to little more than a novelty item.",
     "weight": 2640,
@@ -38,9 +39,10 @@
   {
     "id": "calico",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Calico M960",
     "name_plural": "Calico M960",
-	"//": "Automatic variant.  Cyclic fire rate: 750 rpm",
+    "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
     "description": "The Calico M960 is an automatic carbine with a unique circular magazine that allows for high capacities and reduced recoil.",
     "weight": 1680,
     "volume": 4,
@@ -56,7 +58,6 @@
     "dispersion": 280,
     "durability": 6,
     "burst": 13,
-    "reload_noise_volume": 10,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -69,6 +70,7 @@
   {
     "id": "cx4",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Cx4 Storm",
     "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns.",
     "weight": 2300,
@@ -126,6 +128,7 @@
   {
     "id": "hk_mp5",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "H&K MP5",
     "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.",
     "weight": 2550,
@@ -158,6 +161,7 @@
   {
     "id": "ksub2000",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Kel-Tec SUB-2000",
     "name_plural": "Kel-Tec SUB-2000",
     "description": "A uniquely designed pistol caliber carbine with an integral folding stock and that makes use of 9x19mm Glock magazines.",
@@ -193,7 +197,7 @@
     "type": "GUN",
     "name": "L2032 Lookout",
     "name_plural": "L2032 Lookout",
-    "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9x19mm market.  The Lookout, released in 2032, takes advantage of the smaller 9x19mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.",
+    "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9x19mm market.  The Lookout takes advantage of the smaller 9x19mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "9mm",
     "clip_size": 7
   },
@@ -203,7 +207,7 @@
     "type": "GUN",
     "name": "L39B",
     "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
-    "description": "A selective-firing 9x19mm handgun introduced in 2039, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "A selective-firing 9x19mm handgun introduced by Leadworks LLC's, L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Comes with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "price": 95000,
     "burst": 3,
     "relative": {
@@ -217,7 +221,7 @@
     "type": "GUN",
     "name": "L39",
     "//": "L39s are based off the Robocop Auto-9, in turn a dolled-up Beretta 93R.",
-    "description": "A semiautomatic 9x19mm handgun introduced in 2039, Leadworks LLC's L39 provides accurate single-shot placement in a very robust frame.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "A semiautomatic 9x19mm handgun introduced by Leadworks LLC's, L39 provides accurate single-shot placement in a very robust frame with built in red dot and laser sights.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": 935,
     "volume": 2,
     "price": 70000,
@@ -230,7 +234,8 @@
     "range": 1,
     "dispersion": 340,
     "durability": 9,
-    "valid_mod_locations": [ [ "accessories", 2 ] ],
+    "built_in_mods": [ "lead_red_dot_sight", "lead_laser_sight"],
+    "valid_mod_locations": [ [ "accessories", 2 ],  [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
       [ "9mm", [ "lw21mag" ] ],
@@ -268,6 +273,7 @@
   {
     "id": "rifle_9mm",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "pipe rifle: 9x19mm",
     "name_plural": "pipe rifles: 9x19mm",
     "//": "Despite its quality, it IS a small rifle, although not as effective as a genuine pistol carbine.",
@@ -295,6 +301,7 @@
   {
     "id": "sten",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "STEN",
     "description": "A British submachine gun developed during World War II, to make up for shortages of supplies.  Designed to be made using unskilled labor and not known for reliability, its main advantages were low cost and being able to use German 9mm ammunition.",
     "weight": 2945,
@@ -322,6 +329,7 @@
   {
     "id": "tec9",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "TEC-9",
     "name_plural": "TEC-9",
     "description": "The TEC-9 is a machine pistol made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks and low cost.",
@@ -353,6 +361,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": "USP 9mm",
+    "name_plural": "USP 9mm",
     "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
     "weight": 520,
     "volume": 2,
@@ -380,9 +389,10 @@
     "copy-from": "smg_base",
     "type": "GUN",
     "name": "Uzi 9mm",
-    "//": "SMGs aren't as commercially traded as rifles/handguns/SGs, so no cite for price points.",
+    "name_plural": "Uzi 9mm",
+    "//": "SMGs aren't as commercially traded as rifles/handguns/SGs, so no cite for price points.  Total weight of gun 3500 grams.  Current weight of folding stock 200 grams.",
     "description": "The Uzi 9x19mm has enjoyed immense popularity, selling more units than any other submachine gun.  It is widely used as a personal defense weapon, or as a primary weapon by elite frontline forces.",
-    "weight": 3280,
+    "weight": 3300,
     "volume": 5,
     "price": 208000,
     "to_hit": -2,
@@ -394,6 +404,7 @@
     "dispersion": 360,
     "durability": 7,
     "burst": 10,
+    "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [

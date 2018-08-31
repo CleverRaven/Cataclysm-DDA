@@ -52,7 +52,7 @@
         [ "wax", 1 ],
         [ "lamp_oil", 200 ],
         [ "salt_water", 5 ],
-        [ "ash", 5 ],
+        [ "ash", 50 ],
         [ "tin", 50 ]
       ]
     ]
@@ -86,5 +86,23 @@
     "type": "requirement",
     "//": "Materials for waterproofing leather and wooden items.",
     "components": [ [ [ "wax", 1 ], [ "pine_bough", 5 ] ] ]
+  },
+  {
+    "id": "fletching",
+    "type": "requirement",
+    "//": "Materials for fletching arrows.",
+    "components": [
+      [
+        [ "feather", 10 ],
+        [ "duct_tape", 40 ],
+        [ "paper", 40 ],
+        [ "bag_plastic", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "box_small", 1 ],
+        [ "plastic_chunk", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "cash_card", 2 ]
+      ]
+    ]
   }
 ]

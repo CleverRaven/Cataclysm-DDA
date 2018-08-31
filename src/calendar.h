@@ -10,31 +10,6 @@ class JsonOut;
 class JsonIn;
 
 /**
- * Convert turns to ticks
- *
- * "Moves" is time for an unmodified player to move one square.  This function converts that value
- * to 'ticks', which is the time taken up by one displayed movement point.
- *
- * @param n Time in six-second turns
- * @returns Time in ticks
- */
-constexpr int MOVES( int n )
-{
-    return n * 100;
-}
-
-/**
- * Convert seconds to six-second turns
- *
- * @param n Time in seconds
- * @returns Time in six-second turns
- */
-constexpr int SECONDS( int n )
-{
-    return n / 6;
-}
-
-/**
  * Convert minutes to six-second turns
  *
  * @param n Time in minutes
@@ -159,8 +134,6 @@ class calendar
     public:
         /** Initializers */
         /**
-         * Default constructor
-         *
          * Starts at turn count zero, (midnight of first day, year zero, spring time)
          */
         calendar();
@@ -175,17 +148,12 @@ class calendar
          */
         calendar( int turn );
 
-        /** @returns the current turn_number. */
-        int get_turn() const;
-
         /**
-         * Alternative accessor for current turn_number.
+         * Accessor for current turn_number.
          *
-         * @deprecated Use get_turn() instead
-         *
-         * @returns same value as @ref get_turn()
+         * @returns Current turn number (`get_turn()` function for `calendar` class in Lua bindings.)
          */
-        operator int() const; // Returns get_turn() for backwards compatibility
+        operator int() const;
 
         // Basic calendar operators. Usually modifies or checks the turn_number of the calendar
         calendar &operator = ( const calendar &rhs ) = default;
@@ -205,8 +173,6 @@ class calendar
         void increment();
 
         // Sunlight and day/night calculations
-        /** Returns the current light level of the moon. */
-        moon_phase moon() const;
         /** Returns the current sunrise time based on the time of year. */
         calendar sunrise() const;
         /** Returns the current sunset time based on the time of year. */
@@ -252,9 +218,6 @@ class calendar
         /// @returns relative length of game season to real life season.
         static float season_ratio();
 
-        /** @returns Number of turns elapsed in current year */
-        int turn_of_year() const;
-
         /** @returns Number of days elapsed in current year */
         int day_of_year() const;
         /**
@@ -263,15 +226,6 @@ class calendar
          * option) to actual in-game length.
          */
         static float season_from_default_ratio();
-
-        /** Returns the current time in a string according to the options set */
-        std::string print_time( bool just_hour = false ) const;
-        /**
-         * Returns the name of the current day of the week
-         *
-         * @note: Day 0 is a Thursday for highly technical reasons which are hard to explain
-         */
-        std::string day_of_week() const;
 
         /** Returns the translated name of the season (with first letter being uppercase). */
         static const std::string name_season( season_type s );
@@ -302,6 +256,8 @@ template<typename T>
 constexpr T to_hours( const time_duration duration );
 template<typename T>
 constexpr T to_days( const time_duration duration );
+template<typename T>
+constexpr T to_moves( const time_duration duration );
 
 template<typename T>
 constexpr T to_turn( const time_point point );
@@ -350,6 +306,9 @@ class time_duration
     public:
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
         /**
          * Named constructors to get a duration representing a multiple of the named time
@@ -405,6 +364,10 @@ class time_duration
         template<typename T>
         friend constexpr T to_days( const time_duration duration ) {
             return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 );
+        }
+        template<typename T>
+        friend constexpr T to_moves( const time_duration duration ) {
+            return to_turns<int>( duration ) * 100;
         }
         /**@{*/
 
@@ -474,6 +437,9 @@ class time_duration
         friend time_duration rng( time_duration lo, time_duration hi );
 };
 
+/// @see x_in_y(int,int)
+bool x_in_y( const time_duration &a, const time_duration &b );
+
 /**
  * Convert the given number into an duration by calling the matching
  * `time_duration::from_*` function.
@@ -541,7 +507,7 @@ class time_point
 
     public:
         //@todo: replace usage of `calendar` with `time_point`, remove this constructor
-        time_point( const calendar &c ) : turn_( c.get_turn() ) { }
+        time_point( const calendar &c ) : turn_( c ) { }
         /// Allows writing `time_point p = 0;`
         constexpr time_point( const std::nullptr_t ) : turn_( 0 ) { }
         //@todo: remove this, nobody should need it, one should use a constant `time_point`
@@ -613,6 +579,11 @@ inline time_duration time_past_midnight( const time_point &p )
     return ( p - calendar::time_of_cataclysm ) % 1_days;
 }
 
+inline time_duration time_past_new_year( const time_point &p )
+{
+    return ( p - calendar::time_of_cataclysm ) % calendar::year_length();
+}
+
 template<typename T>
 inline T minute_of_hour( const time_point &p )
 {
@@ -635,5 +606,23 @@ inline T day_of_season( const time_point &p )
 /// @returns The season of the of the given time point. Returns the same season for
 /// any input if the calendar::eternal_season yields true.
 season_type season_of_year( const time_point &p );
+/// @returns The time point formatted to be shown to the player. Contains year, season, day and time of day.
+std::string to_string( const time_point &p );
+/// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
+std::string to_string_time_of_day( const time_point &p );
+/** Returns the current light level of the moon. */
+moon_phase get_moon_phase( const time_point &p );
+
+enum class weekdays : int {
+    SUNDAY = 0,
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+};
+
+weekdays day_of_week( const time_point &p );
 
 #endif

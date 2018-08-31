@@ -22,18 +22,12 @@
 #define BODYTEMP_SCORCHING 9500 //!< Level 3 hotness.
 ///@}
 
-/**
- * How far into the future we should generate weather, in hours.
- * 168 hours in a week.
- */
-#define MAX_FUTURE_WEATHER 168
-
-#include "calendar.h"
-
 #include <string>
 #include <vector>
 #include <utility>
 
+class time_duration;
+class time_point;
 class item;
 struct point;
 struct tripoint;
@@ -87,7 +81,10 @@ struct weather_printable {
     std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
     nc_color colGlyph; //!< Color to draw glyph this animation frame.
     char cGlyph; //!< Glyph to draw this animation frame.
-    int startx, starty, endx, endy;
+    int startx;
+    int starty;
+    int endx;
+    int endy;
 };
 
 /**
@@ -154,11 +151,9 @@ weather_sum sum_conditions( const time_point &start,
  * @param pos The absolute position of the funnel (in the map square system, the one used
  * by the @ref map, but absolute).
  * @param tr The funnel (trap which acts as a funnel).
- * @param startturn First turn of the retroactive filling.
- * @param endturn Last turn of the retroactive filling.
  */
-void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, int endturn,
-                                     const tripoint &pos );
+void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
+                                     const time_point &end, const tripoint &pos );
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
@@ -167,9 +162,14 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
  * locations.
  * The location is in absolute maps squares (the system which the @ref map uses),
  * but absolute (@ref map::getabs).
- * The returned value is in turns (at standard conditions it is endturn-startturn).
+ * The returned value is in time at standard conditions it is `end - start`.
  */
-int get_rot_since( int startturn, int endturn, const tripoint &pos );
+time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
+
+/**
+* Calculates rot per hour at given temperature. Reference in weather_data.cpp
+*/
+int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?

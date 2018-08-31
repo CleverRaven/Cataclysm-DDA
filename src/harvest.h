@@ -34,6 +34,8 @@ class harvest_list
 
         const harvest_id &id() const;
 
+        std::string message() const;
+
         bool is_null() const;
 
         const std::list<harvest_entry> &entries() const {
@@ -78,6 +80,7 @@ class harvest_list
         harvest_id id_;
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
+        std::string message_;
 
         void finalize();
 };

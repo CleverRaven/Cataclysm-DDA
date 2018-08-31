@@ -1,0 +1,26 @@
+[
+  {
+    "id": "m3_carlgustav",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "symbol": "(",
+    "color": "green",
+    "name": "M3 recoilless rifle",
+    "description": "Manufactured in Sweden, the Carl Gustav M3 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle commonly used by the US military.",
+    "price": 1300000,
+    "material": "steel",
+    "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],
+    "skill": "launcher",
+    "ammo": "84x246mm",
+    "weight": 6900,
+    "volume": 18,
+    "bashing": 8,
+    "to_hit": -3,
+    "dispersion": 300,
+    "durability": 8,
+    "clip_size": 1,
+    "reload": 300,
+    "loudness": 200,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ]
+  }
+]

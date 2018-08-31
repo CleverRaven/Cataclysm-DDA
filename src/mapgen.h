@@ -9,6 +9,7 @@
 
 #include "int_id.h"
 
+class time_point;
 struct ter_t;
 using ter_id = int_id<ter_t>;
 struct furn_t;
@@ -21,7 +22,7 @@ class JsonObject;
 struct mapgendata;
 struct tripoint;
 class map;
-typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
+typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,const time_point &,float);
 struct ter_furn_id;
 
 //////////////////////////////////////////////////////////////////////////
@@ -34,9 +35,9 @@ class mapgen_function {
     protected:
     mapgen_function( const int w ) : weight( w ) { }
     public:
-    virtual ~mapgen_function() { }
+    virtual ~mapgen_function() = default;
     virtual void setup() { } // throws
-    virtual void generate(map*, const oter_id &, const mapgendata &, int, float) = 0;
+    virtual void generate(map*, const oter_id &, const mapgendata &, const time_point &, float) = 0;
 };
 
 
@@ -47,7 +48,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    void generate(map*m, const oter_id &o, const mapgendata &mgd, int i, float d) override;
+    void generate(map*m, const oter_id &o, const mapgendata &mgd, const time_point &i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -145,7 +146,7 @@ protected:
 public:
     /** Place something on the map from mapgendata dat, at (x,y). mon_density */
     virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
-    virtual ~jmapgen_piece() { }
+    virtual ~jmapgen_piece() = default;
 };
 
 /**
@@ -283,11 +284,11 @@ class mapgen_function_json_base {
 
 class mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function {
     public:
-        void generate( map *, const oter_id &, const mapgendata &, int, float ) override;
+        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
         void setup() override;
         mapgen_function_json( const std::string s, int w,
                               const int x_grid_offset = 0, const int y_grid_offset = 0 );
-        ~mapgen_function_json() override { }
+        ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
         std::string luascript;
@@ -303,11 +304,14 @@ class mapgen_function_json_nested : public mapgen_function_json_base {
     public:
         void setup();
         mapgen_function_json_nested( const std::string s );
-        ~mapgen_function_json_nested() override { }
+        ~mapgen_function_json_nested() override = default;
 
         void nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
     protected:
         bool setup_internal( JsonObject &jo ) override;
+
+    private:
+        jmapgen_int rotation;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -318,7 +322,7 @@ class mapgen_function_lua : public virtual mapgen_function {
     mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
         // scr = s; // @todo: if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
-    void generate(map*, const oter_id &, const mapgendata &, int, float) override;
+    void generate(map*, const oter_id &, const mapgendata &, const time_point &, float) override;
 };
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
@@ -368,17 +372,6 @@ enum room_type {
     room_mine_storage,
     room_mine_fuel,
     room_mine_housing,
-    room_mansion_courtyard,
-    room_mansion_entry,
-    room_mansion_bedroom,
-    room_mansion_library,
-    room_mansion_kitchen,
-    room_mansion_dining,
-    room_mansion_game,
-    room_mansion_pool,
-    room_mansion_study,
-    room_mansion_bathroom,
-    room_mansion_gallery,
     room_split
 };
 
@@ -402,9 +395,5 @@ void circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
 typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);
-
-namespace MapExtras {
-    map_special_pointer get_function(const std::string &name);
-};
 
 #endif

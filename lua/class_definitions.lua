@@ -82,6 +82,13 @@ no connection at all to the monster.
 --]]
 
 classes = {
+    gun_mode = {
+        string_id = "gun_mode_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
     effect_type = {
         string_id = "efftype_id",
         attributes = {
@@ -97,17 +104,21 @@ classes = {
         },
         by_value_and_reference = true,
         attributes = {
+            before_time_starts = { type = "time_point", writable = false },
+            time_of_cataclysm = { type = "time_point", writable = false },
         },
         functions = {
-            { name = "day_of_week", rval = "string", args = { } },
+            { name = "eternal_season", rval = "bool", args = { } },
+            { name = "year_length", rval = "time_duration", args = { } },
+            { name = "season_length", rval = "time_duration", args = { } },
+            { name = "season_ratio", rval = "float", args = { } },
+            { name = "season_from_default_ratio", rval = "float", args = { } },
+            { name = "name_season", rval = "string", args = { "season_type" } },
             { name = "day_of_year", rval = "int", args = { } },
-            { name = "get_turn", rval = "int", args = { } },
+            { name = "get_turn", rval = "int", cpp_name = "operator int", args = { } },
             { name = "increment", rval = nil, args = { } },
-            { name = "print_time", rval = "string", args = { "bool" } },
-            { name = "print_time", rval = "string", args = { } },
             { name = "is_night", rval = "bool", args = { } },
             { name = "sunlight", rval = "float", args = { } },
-            { name = "turn_of_year", rval = "int", args = { } },
             { name = "years", rval = "int", args = { } },
             { name = "sunset", rval = "calendar", args = { } },
             { name = "sunrise", rval = "calendar", args = { } },
@@ -158,11 +169,6 @@ classes = {
             weapon = { type = "item", writable = true },
         },
         functions = {
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int", "bool" } },
             { name = "add_traits", rval = nil, args = { } },
             { name = "aim_per_move", rval = "float", args = { "item", "float" } },
             { name = "bloodType", rval = "field_id", args = { } },
@@ -310,7 +316,6 @@ classes = {
         functions = {
             { name = "add_zombie", rval = "bool", args = { "monster" } },
             { name = "add_zombie", rval = "bool", args = { "monster", "bool" } },
-            { name = "assign_faction_id", rval = "int", args = { } },
             { name = "assign_mission_id", rval = "int", args = { } },
             { name = "assign_npc_id", rval = "int", args = { } },
             { name = "cancel_activity", rval = nil, args = { } },
@@ -345,7 +350,7 @@ classes = {
             { name = "get_levx", rval = "int", args = { } },
             { name = "get_levy", rval = "int", args = { } },
             { name = "get_levz", rval = "int", args = { } },
-            { name = "get_temperature", rval = "int", args = { } },
+            { name = "get_temperature", rval = "int", args = { "tripoint" } },
             { name = "handle_liquid", rval = "bool", args = { "item" } },
             { name = "increase_kill_count", rval = nil, args = { "mtype_id" } },
             { name = "inv_for_all", rval = "int", args = { "string" } },
@@ -519,7 +524,6 @@ classes = {
             { name = "disp_name", rval = "string", args = { } },
             { name = "do_read", rval = nil, args = { "item" } },
             { name = "dodge_roll", rval = "float", args = { } },
-            { name = "drench", rval = nil, args = { "int", "int", "bool" } },
             { name = "drench_mut_calc", rval = nil, args = { } },
             { name = "apply_wetness_morale", rval = nil, args = { "int" } },
             { name = "drink_from_hands", rval = "int", args = { "item" } },
@@ -527,7 +531,7 @@ classes = {
             { name = "eat", rval = "bool", args = { "item" } },
             { name = "eat", rval = "bool", args = { "item", "bool" } },
             { name = "environmental_revert_effect", rval = nil, args = { } },
-            { name = "fall_asleep", rval = nil, args = { "int" } },
+            { name = "fall_asleep", rval = nil, args = { "time_duration" } },
             { name = "fall_damage_mod", rval = "float", args = { } },
             { name = "fine_detail_vision_mod", rval = "float", args = { } },
             { name = "fire_gun", rval = "int", args = { "tripoint" } },
@@ -607,15 +611,17 @@ classes = {
             { name = "i_at", rval = "item&", args = { "int" } },
             { name = "impact", rval = "int", args = { "int", "tripoint" } },
             { name = "in_climate_control", rval = "bool", args = { } },
-            { name = "install_bionics", rval = "bool", args = { "itype" } },
-            { name = "install_bionics", rval = "bool", args = { "itype", "int" } },
+            { name = "install_bionics", rval = "bool", args = { "itype", "player", "bool", "int" } },
+            { name = "install_bionics", rval = "bool", args = { "itype", "player", "int" } },
+            { name = "install_bionics", rval = "bool", args = { "itype", "player", "bool" } },
+            { name = "install_bionics", rval = "bool", args = { "itype", "player" } },
             { name = "intimidation", rval = "int", args = { } },
             { name = "invalidate_crafting_inventory", rval = nil, args = { } },
             { name = "invlet_to_position", rval = "int", args = { "int" } },
             { name = "invoke_item", rval = "bool", args = { "item" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string", "tripoint" } },
-            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },            
+            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },
             { name = "is_armed", rval = "bool", args = { } },
             { name = "is_dead_state", rval = "bool", args = { } },
             { name = "is_deaf", rval = "bool", args = { } },
@@ -633,7 +639,7 @@ classes = {
             { name = "is_underwater", rval = "bool", args = { } },
             { name = "is_wearing_active_power_armor", rval = "bool", args = { } },
             { name = "is_wearing_power_armor", rval = "bool", args = { } },
-            { name = "is_wearing_shoes", rval = "bool", args = { "string" } },
+            { name = "is_wearing_shoes", rval = "bool", args = { "side" } },
             { name = "is_wearing_shoes", rval = "bool", args = { } },
             { name = "item_handling_cost", rval = "int", args = { "item" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool" } },
@@ -827,7 +833,7 @@ classes = {
             burnt = { type = "int", writable = true },
             charges = { type = "int", writable = true },
             frequency = { type = "int", writable = true },
-            fridge = { type = "int", writable = true },
+            fridge = { type = "time_point", writable = true },
             invlet = { type = "int", writable = true },
             irridation = { type = "int", writable = true },
             item_counter = { type = "int", writable = true },
@@ -905,7 +911,7 @@ classes = {
             { name = "get_relative_rot", rval = "float", args = { } },
             { name = "get_remaining_capacity_for_liquid", rval = "int", args = { "item", "bool" } },
             { name = "get_remaining_chapters", rval = "int", args = { "player" } },
-            { name = "get_rot", rval = "int", args = { } },
+            { name = "get_rot", rval = "time_duration", args = { } },
             { name = "get_side", rval = "side", args = { } },
             { name = "get_storage", rval = "volume", args = { } },
             { name = "get_thickness", rval = "int", args = { } },
@@ -919,18 +925,15 @@ classes = {
             { name = "getlight_emit", rval = "int", args = { } },
             { name = "goes_bad", rval = "bool", args = { } },
             { name = "gun_cycle_mode", rval = nil, args = { } },
-            { name = "gun_damage", rval = "int", args = { "bool" } },
-            { name = "gun_damage", rval = "int", args = { } },
             { name = "gun_dispersion", rval = "int", args = { "bool" } },
             { name = "gun_dispersion", rval = "int", args = { } },
-            { name = "gun_pierce", rval = "int", args = { "bool" } },
-            { name = "gun_pierce", rval = "int", args = { } },
+            { name = "gun_get_mode_id", rval = "gun_mode_id", args = { } },
             { name = "gun_range", rval = "int", args = { "bool" } },
             { name = "gun_range", rval = "int", args = { "player" } },
             { name = "gun_range", rval = "int", args = { } },
             { name = "gun_recoil", rval = "int", args = { "player" } },
             { name = "gun_recoil", rval = "int", args = { "player", "bool" } },
-            { name = "gun_set_mode", rval = nil, args = { "string" } },
+            { name = "gun_set_mode", rval = nil, args = { "gun_mode_id" } },
             { name = "gun_skill", rval = "skill_id", args = { } },
             { name = "gunmod_find", rval = "item&", args = { "string" } },
             { name = "has_flag", rval = "bool", args = { "string" } },
@@ -1111,14 +1114,14 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "getFieldAge", rval = "int", args = { } },
+            { name = "getFieldAge", rval = "time_duration", args = { } },
             { name = "getFieldDensity", rval = "int", args = { } },
             { name = "getFieldType", rval = "field_id", args = { } },
             { name = "isAlive", rval = "bool", args = { } },
             { name = "is_dangerous", rval = "bool", args = { } },
             { name = "move_cost", rval = "int", args = { } },
             { name = "name", rval = "string", args = { } },
-            { name = "setFieldAge", rval = "int", args = { "int" } },
+            { name = "setFieldAge", rval = "time_duration", args = { "time_duration" } },
             { name = "setFieldDensity", rval = "int", args = { "int" } },
             { name = "setFieldType", rval = "field_id", args = { "field_id" } },
         }
@@ -1129,7 +1132,7 @@ classes = {
         functions = {
             { name = "addField", rval = "bool", args = { "field_id" } },
             { name = "addField", rval = "bool", args = { "field_id", "int" } },
-            { name = "addField", rval = "bool", args = { "field_id", "int", "int" } },
+            { name = "addField", rval = "bool", args = { "field_id", "int", "time_duration" } },
             { name = "fieldCount", rval = "int", args = { } },
             { name = "fieldSymbol", rval = "field_id", args = { } },
             { name = "findField", rval = "field_entry&", args = { "field_id" } },
@@ -1142,11 +1145,10 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "accessible_furniture", rval = "bool", args = { "tripoint", "tripoint", "int" } },
-            { name = "accessible_items", rval = "bool", args = { "tripoint", "tripoint", "int" } },
+            { name = "accessible_items", rval = "bool", args = { "tripoint" } },
             { name = "add_camp", rval = nil, args = { "tripoint", "string" } },
             { name = "add_corpse", rval = nil, args = { "tripoint" } },
-            { name = "add_field", rval = "bool", args = { "tripoint", "field_id", "int", "int" } },
+            { name = "add_field", rval = "bool", args = { "tripoint", "field_id", "int", "time_duration" } },
             { name = "add_item", rval = "item&", args = { "tripoint", "item" } },
             { name = "add_item_or_charges", rval = "item&", args = { "tripoint", "item" } },
             { name = "add_item_or_charges", rval = "item&", args = { "tripoint", "item", "bool" } },
@@ -1155,7 +1157,7 @@ classes = {
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int", "int", "string" } },
-            { name = "adjust_field_age", rval = "int", args = { "tripoint", "field_id", "int" } },
+            { name = "adjust_field_age", rval = "time_duration", args = { "tripoint", "field_id", "time_duration" } },
             { name = "adjust_field_strength", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_radiation", rval = nil, args = { "tripoint", "int" } },
             { name = "allow_camp", rval = "bool", args = { "tripoint", "int" } },
@@ -1184,7 +1186,7 @@ classes = {
             { name = "creature_on_trap", rval = nil, args = { "Creature" } },
             { name = "creature_on_trap", rval = nil, args = { "Creature", "bool" } },
             { name = "crush", rval = nil, args = { "tripoint" } },
-            { name = "decay_fields_and_scent", rval = nil, args = { "int" } },
+            { name = "decay_fields_and_scent", rval = nil, args = { "time_duration" } },
             { name = "delete_graffiti", rval = nil, args = { "tripoint" } },
             { name = "delete_signage", rval = nil, args = { "tripoint" } },
             { name = "destroy", rval = nil, args = { "tripoint" } },
@@ -1224,7 +1226,7 @@ classes = {
             { name = "furnname", rval = "string", args = { "tripoint" } },
             { name = "get_abs_sub", rval = "tripoint", args = { } },
             { name = "get_field", rval = "field_entry&", args = { "tripoint", "field_id" } },
-            { name = "get_field_age", rval = "int", args = { "tripoint", "field_id" } },
+            { name = "get_field_age", rval = "time_duration", args = { "tripoint", "field_id" } },
             { name = "get_field_strength", rval = "int", args = { "tripoint", "field_id" } },
             { name = "get_radiation", rval = "int", args = { "tripoint" } },
             { name = "get_signage", rval = "string", args = { "tripoint" } },
@@ -1299,8 +1301,8 @@ classes = {
             { name = "save", rval = nil, args = { } },
             { name = "sees", rval = "bool", args = { "tripoint", "tripoint", "int" } },
             { name = "sees_some_items", rval = "bool", args = { "tripoint", "Creature" } },
-            { name = "set_field_age", rval = "int", args = { "tripoint", "field_id", "int" } },
-            { name = "set_field_age", rval = "int", args = { "tripoint", "field_id", "int", "bool" } },
+            { name = "set_field_age", rval = "time_duration", args = { "tripoint", "field_id", "time_duration" } },
+            { name = "set_field_age", rval = "time_duration", args = { "tripoint", "field_id", "time_duration", "bool" } },
             { name = "set_field_strength", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "set_field_strength", rval = "int", args = { "tripoint", "field_id", "int", "bool" } },
             { name = "set_graffiti", rval = nil, args = { "tripoint", "string" } },
@@ -1377,23 +1379,22 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int", "bool" } },
-            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int" } },
-            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int", "body_part" } },
-            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int", "body_part", "bool" } },
-            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int", "body_part", "bool", "int" } },
-            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int", "body_part", "bool", "int", "bool" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool", "int" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool", "int", "bool" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "time_duration" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "time_duration", "body_part" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "time_duration", "body_part", "bool" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "time_duration", "body_part", "bool", "int" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "time_duration", "body_part", "bool", "int", "bool" } },
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "basic_symbol_color", rval = "nc_color", args = { } },
             { name = "bloodType", rval = "field_id", args = { } },
             { name = "check_dead_state", rval = nil, args = { } },
             { name = "clear_effects", rval = nil, args = { } },
-            { name = "deal_melee_attack", rval = "int", args = { "Creature", "int" } },
             { name = "die", rval = nil, args = { "Creature" } },
             { name = "digging", rval = "bool", args = { } },
             { name = "disp_name", rval = "string", args = { "bool" } },
@@ -1414,8 +1415,8 @@ classes = {
             { name = "get_dodge", rval = "float", args = { } },
             { name = "get_dodge_base", rval = "float", args = { } },
             { name = "get_dodge_bonus", rval = "float", args = { } },
-            { name = "get_effect_dur", rval = "int", args = { "efftype_id" } },
-            { name = "get_effect_dur", rval = "int", args = { "efftype_id", "body_part" } },
+            { name = "get_effect_dur", rval = "time_duration", args = { "efftype_id" } },
+            { name = "get_effect_dur", rval = "time_duration", args = { "efftype_id", "body_part" } },
             { name = "get_effect_int", rval = "int", args = { "efftype_id" } },
             { name = "get_effect_int", rval = "int", args = { "efftype_id", "body_part" } },
             { name = "get_env_resist", rval = "int", args = { "body_part" } },
@@ -1467,8 +1468,6 @@ classes = {
             { name = "is_underwater", rval = "bool", args = { } },
             { name = "is_warm", rval = "bool", args = { } },
             { name = "knock_back_from", rval = nil, args = { "tripoint" } },
-            { name = "melee_attack", rval = nil, args = { "Creature", "bool" } },
-            { name = "melee_attack", rval = nil, args = { "Creature", "bool", "matec_id" } },
             { name = "mod_bash_bonus", rval = nil, args = { "int" } },
             { name = "mod_block_bonus", rval = nil, args = { "int" } },
             { name = "mod_cut_bonus", rval = nil, args = { "int" } },
@@ -1541,7 +1540,7 @@ classes = {
             friendly = { type = "int", writable = true },
             hallucination = { type = "bool", writable = true },
             ignoring = { type = "int", writable = true },
-            last_updated = { type = "int", writable = true },
+            last_updated = { type = "time_point", writable = true },
             made_footstep = { type = "bool", writable = true },
             mission_id = { type = "int", writable = true },
             morale = { type = "int", writable = true },
@@ -1554,11 +1553,6 @@ classes = {
             wandf = { type = "int", writable = true },
         },
         functions = {
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int", "bool" } },
             { name = "add_item", rval = nil, args = { "item" } },
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "attack_at", rval = "bool", args = { "tripoint" } },
@@ -1628,7 +1622,7 @@ classes = {
             { name = "make_ally", rval = nil, args = { "monster" } },
             { name = "make_friendly", rval = nil, args = { } },
             { name = "make_fungus", rval = "bool", args = { } },
-            { name = "melee_attack", rval = nil, args = { "Creature", "bool", "matec_id" } },
+            { name = "melee_attack", rval = nil, args = { "Creature", "float" } },
             { name = "move", rval = nil, args = { } },
             { name = "move_effects", rval = "bool", args = { "bool" } },
             { name = "move_target", rval = "tripoint", args = { } },
@@ -1765,7 +1759,7 @@ classes = {
         attributes = {
             defaultMonster = { type = "mtype_id", writable = true },
             is_safe = { type = "bool", writable = true },
-            monster_group_time = { type = "int", writable = true },
+            monster_group_time = { type = "time_duration", writable = true },
             name = { type = "mongroup_id", writable = true },
             new_monster_group = { type = "mongroup_id", writable = true },
             replace_monster_group = { type = "bool", writable = true },
@@ -1840,17 +1834,24 @@ classes = {
             { name = "set_interest", rval = nil, args = { "int" } },
         }
     },
+    -- You can get reference to current overmap using `g:get_cur_om()` or return value of overmap with given coordinates using `overmap(x, y)`.
     overmap = {
+        by_value_and_reference = true,
+        new = {
+            { "int", "int" },
+        },
         attributes = {
         },
         functions = {
-            { name = "add_note", rval = nil, args = { "int", "int", "int", "string" } },
-            { name = "clear_mon_groups", rval = nil, args = { } },
-            { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
+            { name = "pos", rval = "point", args = { } },
             { name = "find_random_omt", rval = "tripoint", args = { "string" } },
-            { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "is_explored", rval = "bool", args = { "int", "int", "int" } },
+            { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "note", rval = "string", args = { "int", "int", "int" } },
+            { name = "add_note", rval = nil, args = { "int", "int", "int", "string" } },
+            { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
+            { name = "global_base_point", rval = "point", args = { } },
+            { name = "clear_mon_groups", rval = nil, args = { } },
         }
     },
     volume = {
@@ -1878,6 +1879,10 @@ classes = {
     },
     time_duration = {
         by_value = true,
+        has_equal = true,
+        new = {
+            { "time_duration" },
+        },
         attributes = {
         },
         functions = {
@@ -1885,6 +1890,12 @@ classes = {
     },
     time_point = {
         by_value = true,
+        has_equal = true,
+        new = {
+            { "calendar" },
+            { "int" },
+            { "time_point" },
+        },
         attributes = {
         },
         functions = {
@@ -1967,6 +1978,14 @@ classes = {
 }
 
 enums = {
+    overmap_direction = {
+        "overmap_direction::invalid",
+        "overmap_direction::none",
+        "overmap_direction::north",
+        "overmap_direction::east",
+        "overmap_direction::south",
+        "overmap_direction::west",
+    },
     body_part = {
         "bp_torso",
         "bp_head",
@@ -2103,6 +2122,12 @@ global_functions = {
         rval = nil,
         desc = "Write a message to the game's standard message window."
     },
+    query_yn = {
+        cpp_name = "query_yn_wrapper",
+        args     = { "string" },
+        argnames = { "message" },
+        rval = "bool"
+    },
     popup = {
         cpp_name = "popup_wrapper",
         args = { "string" },
@@ -2148,6 +2173,18 @@ global_functions = {
         args = { "string", "string", "int" },
         rval = "bool"
     },
+    get_monster_at = {
+        cpp_name = "get_monster_at",
+        args = { "tripoint" },
+        rval = "monster&",
+        desc = "Returns a reference to monster at given tripoint, *or* nil if there is no monster."
+    },
+    get_critter_at = {
+        cpp_name = "get_critter_at",
+        args = { "tripoint" },
+        rval = "Creature&",
+        desc = "Returns a reference to creature at given tripoint, *or* nil if there is no creature."
+    },
     create_monster = {
         cpp_name = "create_monster",
         args = { "mtype_id", "tripoint" },
@@ -2158,6 +2195,27 @@ global_functions = {
         cpp_name = "get_calendar_turn_wrapper",
         args = {},
         rval = "calendar&"
+    },
+    get_time_duration = {
+        cpp_name = "get_time_duration_wrapper",
+        args = { "int" },
+        rval = "time_duration",
+        desc = "Constructs `time_duration` with given `int` value (which is number of turns). You can also use TURNS(n), MINUTES(n), HOURS(n) and DAYS(n) wrapper functions from `autoexec.lua`."
+    },
+	-- Returns id of overmap terrain on given overmap with given tripoint in global overmap terrain coordinates.
+	-- Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return id of overmap terrain of current player location.
+    get_omt_id = {
+        cpp_name = "get_omt_id",
+        args = { "overmap", "tripoint" },
+        rval = "string"
+    },
+	-- Returns enum, indicating direction of overmap terrain on given overmap with given tripoint in global overmap terrain coordinates.
+	-- Possible return values are in `overmap_direction` in `enums` section above.
+	-- Use `game.get_omt_dir (g:get_cur_om(), player:global_omt_location())` to return direction of overmap terrain of current player location.
+    get_omt_dir = {
+        cpp_name = "get_omt_dir",
+        args = { "overmap", "tripoint" },
+        rval = "overmap_direction"
     }
 }
 

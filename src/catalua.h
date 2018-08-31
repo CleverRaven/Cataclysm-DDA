@@ -9,6 +9,7 @@
 
 class map;
 class monster;
+class time_point;
 struct mapgendata;
 struct oter_t;
 
@@ -25,9 +26,9 @@ int lua_monster_move( monster *m );
 /**
  * Call the given string as lua code, used for interactive debugging.
  */
-int call_lua( std::string tocall );
-int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &md, int t, float d,
-                const std::string &scr );
+int call_lua( const std::string &tocall );
+int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &md, const time_point &t,
+                float d, const std::string &scr );
 
 /**
  * Execute a callback that can be overridden by all mods.
@@ -40,6 +41,6 @@ void lua_callback( const char *callback_name );
  * @param base_path The base path of the mod.
  * @param main_file_name The file name of the lua file, usually "main.lua"
  */
-void lua_loadmod( std::string base_path, std::string main_file_name );
+void lua_loadmod( const std::string &base_path, const std::string &main_file_name );
 
 #endif

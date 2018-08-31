@@ -46,16 +46,23 @@
     "vision_day": 5,
     "vision_night": 5,
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 15
-      },
-      [ "impale", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BONES", "FEATHER", "FAT", "SWIMS", "SUNDEATH" ]
+    "flags": [
+      "HEARS",
+      "KEENNOSE",
+      "GOODHEARING",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "BONES",
+      "FEATHER",
+      "FAT",
+      "SWIMS",
+      "SUNDEATH"
+    ]
   },
   {
     "id": "mon_alpha_razorclaw",
@@ -83,10 +90,7 @@
     "vision_day": 30,
     "vision_night": 20,
     "path_settings": { "max_dist": 50 },
-    "special_attacks": [
-      [ "SHRIEK_ALERT", 6 ],
-      [ "SHRIEK_STUN", 1 ]
-    ],
+    "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
@@ -118,141 +122,6 @@
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ]
   },
   {
-    "id": "mon_ant",
-    "type": "MONSTER",
-    "name": "giant ant",
-    "description": "An enormous red ant covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
-    "default_faction": "ant",
-    "species": [ "INSECT" ],
-    "diff": 7,
-    "size": "MEDIUM",
-    "hp": 40,
-    "speed": 100,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "brown",
-    "morale": 60,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 6,
-    "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 10,
-    "vision_day": 5,
-    "vision_night": 5,
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
-  },
-  {
-    "id": "mon_ant_fungus",
-    "type": "MONSTER",
-    "name": "fungal ant",
-    "description": "Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
-    "default_faction": "fungus",
-    "species": [ "FUNGUS" ],
-    "diff": 5,
-    "size": "MEDIUM",
-    "hp": 40,
-    "speed": 60,
-    "material": [ "veggy" ],
-    "symbol": "a",
-    "color": "light_gray",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 5,
-    "melee_cut": 3,
-    "dodge": 1,
-    "armor_bash": 1,
-    "armor_cut": 1,
-    "vision_day": 3,
-    "vision_night": 3,
-    "special_attacks": [ [ "FUNGUS", 200 ] ],
-    "death_function": [ "NORMAL", "FUNGUS" ],
-    "flags": [ "SEES", "SMELLS", "POISON", "CLIMBS" ]
-  },
-  {
-    "id": "mon_ant_larva",
-    "type": "MONSTER",
-    "name": "ant larva",
-    "description": "A pulsating sausage of glistening white flesh, the size of a large cat.  On one end is a set of squirming mouth parts.",
-    "default_faction": "ant",
-    "species": [ "INSECT" ],
-    "size": "SMALL",
-    "hp": 10,
-    "speed": 15,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "white",
-    "aggression": -1,
-    "morale": 10,
-    "melee_skill": 2,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_cut": 0,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "LARVA" ]
-  },
-  {
-    "id": "mon_ant_queen",
-    "type": "MONSTER",
-    "name": "queen ant",
-    "description": "A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.",
-    "default_faction": "ant",
-    "species": [ "INSECT" ],
-    "diff": 13,
-    "size": "LARGE",
-    "hp": 80,
-    "speed": 40,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "light_red",
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 3,
-    "melee_dice_sides": 4,
-    "melee_cut": 4,
-    "dodge": 1,
-    "armor_bash": 6,
-    "armor_cut": 14,
-    "special_attacks": [ [ "ANTQUEEN", 1 ] ],
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "QUEEN", "CHITIN", "FAT", "CLIMBS" ]
-  },
-  {
-    "id": "mon_ant_soldier",
-    "type": "MONSTER",
-    "name": "soldier ant",
-    "description": "A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.",
-    "default_faction": "ant",
-    "species": [ "INSECT" ],
-    "diff": 16,
-    "size": "MEDIUM",
-    "hp": 80,
-    "speed": 100,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "red",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 7,
-    "melee_dice": 1,
-    "melee_dice_sides": 8,
-    "melee_cut": 6,
-    "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 12,
-    "vision_day": 5,
-    "vision_night": 5,
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
-  },
-  {
     "id": "mon_bat",
     "type": "MONSTER",
     "name": "bat",
@@ -282,44 +151,11 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "BONES", "LEATHER" ]
   },
   {
-    "id": "mon_bear",
-    "type": "MONSTER",
-    "name": "bear",
-    "description": "The American black bear.  A large omnivorous scavenger, it has powerful claws and jaws, and is an effective ambush hunter.  It can pose a considerable threat, although most individuals are shy around humans.",
-    "default_faction": "bear",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 10,
-    "size": "LARGE",
-    "hp": 100,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "B",
-    "color": "dark_gray",
-    "aggression": -10,
-    "morale": 60,
-    "melee_skill": 6,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_cut": 4,
-    "dodge": 3,
-    "armor_bash": 2,
-    "vision_day": 30,
-    "vision_night": 10,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT" ]
-  },
-  {
     "id": "mon_bear_smoky",
     "type": "MONSTER",
     "name": "Smoky bear",
     "description": "A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "default_faction": "bear",
-    "categories": [ "WILDLIFE" ],
     "species": [ "ZOMBIE" ],
     "diff": 10,
     "size": "LARGE",
@@ -340,75 +176,27 @@
     "vision_day": 30,
     "vision_night": 10,
     "emit_fields": [ "emit_smoke_stream" ],
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "SMOKEBURST" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT", "FIREPROOF", "NO_BREATHE", "POISON" ]
-  },
-  {
-    "id": "mon_beaver",
-    "type": "MONSTER",
-    "name": "beaver",
-    "description": "The North American beaver, the continent's largest rodent.  Its paddle-shaped tail helps ferry it through the water, and its prominent teeth can chew through wood, which it uses to build dam-like nests in lakes and streams.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "SMALL",
-    "hp": 16,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": -10,
-    "morale": 40,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 6,
-    "dodge": 2,
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "fear_triggers": [ "SOUND" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_bee",
-    "type": "MONSTER",
-    "name": "giant bee",
-    "description": "With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
-    "default_faction": "bee",
-    "species": [ "INSECT" ],
-    "diff": 14,
-    "size": "SMALL",
-    "hp": 30,
-    "speed": 140,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "yellow",
-    "aggression": -10,
-    "morale": 20,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_cut": 4,
-    "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "vision_day": 10,
-    "vision_night": 5,
-    "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "bees", 50 ] ],
-      "//": "50% chance of an item from group bees"
-    },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN", "SWARMS", "GROUP_MORALE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "FUR",
+      "BLEED",
+      "BASHES",
+      "ATTACKMON",
+      "BONES",
+      "FAT",
+      "FIREPROOF",
+      "NO_BREATHE",
+      "POISON"
+    ]
   },
   {
     "id": "mon_beekeeper",
@@ -432,86 +220,34 @@
     "melee_cut": 2,
     "armor_bash": 6,
     "armor_cut": 8,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "hive", 80 ]
-      ],
+      "groups": [ [ "default_zombie_clothes", 100 ], [ "hive", 80 ] ],
       "//": "cloth as any other zombie (always), additional items from group hive (sometimes)"
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
-  },
-  {
-    "id": "mon_biollante",
-    "type": "MONSTER",
-    "name": "biollante",
-    "description": "A drooped, quivering plant with a thick stalk adorned by a purple flower.  Its petals are closed, and pulsate ominously.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 20,
-    "size": "LARGE",
-    "hp": 120,
-    "speed": 100,
-    "material": [ "veggy" ],
-    "symbol": "F",
-    "color": "magenta",
-    "aggression": 100,
-    "morale": 100,
-    "melee_cut": 0,
-    "special_attacks": [ [ "SPIT_SAP", 2 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "biollante", 8 ] ],
-      "//": "80% chance of an item from group biollante"
-    },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "NOHEAD", "IMMOBILE" ]
-  },
-  {
-    "id": "mon_black_rat",
-    "type": "MONSTER",
-    "name": "black rat",
-    "description": "The black rat, an omnivorous rodent with sheer black fur and a long, rough tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm over the dead or dying.",
-    "default_faction": "rat",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 3,
-    "size": "TINY",
-    "hp": 6,
-    "speed": 100,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "dark_gray",
-    "aggression": 5,
-    "morale": 5,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 1,
-    "dodge": 2,
-    "vision_day": 30,
-    "vision_night": 10,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "PLAYER_WEAK" ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES" ]
+    "flags": [
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_blank",
     "type": "MONSTER",
     "name": "blank body",
     "name_plural": "blank bodies",
-    "description": "This looks like a human body, but its flesh is snow-white, and its face is featureless save for a perfectly round mouth.",
+    "description": "This is some form of unnatural changeling creature; its appearance is a bland mockery of the human form.  Featureless and pale, its repugnant countenance is all the more unsettling due to its lack of eyes and distinguishing features except for a perfectly round mouth.  Naked and trembling, it almost seems pitiful but for the way that its unearthly presence makes the hair on the back of your neck stand up in nameless horror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 5,
@@ -655,43 +391,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 5,
     "melee_cut": 2,
-    "special_attacks": [
-      [ "FEAR_PARALYZE", 0 ],
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES" ]
-  },
-  {
-    "id": "mon_bobcat",
-    "type": "MONSTER",
-    "name": "bobcat",
-    "description": "A spotted wild cat living across much of North America.  It is not a serious threat to humans, but it can be aggressive if not left alone.",
-    "default_faction": "cat",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "SMALL",
-    "hp": 16,
-    "speed": 150,
-    "material": [ "flesh" ],
-    "symbol": "c",
-    "color": "brown",
-    "aggression": -25,
-    "morale": 1,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 2,
-    "dodge": 8,
-    "vision_night": 20,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "BONES", "FAT" ]
   },
   {
     "id": "mon_boomer",
@@ -714,17 +417,27 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "vision_night": 3,
-    "special_attacks": [
-      [ "BOOMER", 20 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER" ],
-    "upgrades": {
-      "half_life": 14,
-      "into": "mon_boomer_huge"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1" ]
+    "upgrades": { "half_life": 14, "into": "mon_boomer_huge" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BILE_BLOOD",
+      "BONES",
+      "FAT",
+      "PUSH_MON",
+      "PATH_AVOID_DANGER_1"
+    ]
   },
   {
     "id": "mon_boomer_fungus",
@@ -749,15 +462,24 @@
     "armor_bash": 2,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [
-      [ "FUNGUS", 100 ],
-      [ "BOOMER", 20 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "FUNGUS", 100 ], [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "FUNGUS", "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "FAT", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "BONES",
+      "FAT",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_boomer_huge",
@@ -782,19 +504,32 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "vision_night": 3,
-    "special_attacks": [
-      [ "BOOMER_GLOW", 20 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER_GLOW" ],
-    "flags": [ "SEES", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1" ]
+    "flags": [
+      "SEES",
+      "GOODHEARING",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BILE_BLOOD",
+      "BONES",
+      "FAT",
+      "PUSH_MON",
+      "PATH_AVOID_DANGER_1"
+    ]
   },
   {
     "id": "mon_breather",
     "type": "MONSTER",
     "name": "breather",
-    "description": "A weird mass of immobile pink goo.  It seems to breathe.",
+    "description": "This is some sort of unearthly pink flesh sac; moist and ridged with veins, it is otherwise without discernable exterior features.  Seemingly immobile and defenseless, it sits in place, swelling and collapsing upon itself as it breathes.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 2,
@@ -852,63 +587,20 @@
     "vision_day": 50,
     "special_attacks": [ [ "PARROT", 80 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "REVIVES", "WARM", "STUMBLES", "CBM_POWER", "HUMAN", "BONES", "NO_NECRO" ]
-  },
-  {
-    "id": "mon_cat",
-    "type": "MONSTER",
-    "name": "cat",
-    "description": "A small domesticated predator gone feral in the absence of human stewardship.  Harried by the elements and the rigors of survival, it is scruffy and skittish.",
-    "default_faction": "cat",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "TINY",
-    "hp": 12,
-    "speed": 150,
-    "material": [ "flesh" ],
-    "symbol": "c",
-    "color": "light_gray",
-    "aggression": -99,
-    "morale": 2,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 2,
-    "melee_cut": 2,
-    "dodge": 8,
-    "vision_night": 20,
-    "special_attacks": [ [ "scratch", 10 ] ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_centipede_giant",
-    "type": "MONSTER",
-    "name": "giant centipede",
-    "description": "A meter-long centipede with a menacing pair of pincers, moving swiftly on dozens of spindly legs.",
-    "default_faction": "centipede",
-    "species": [ "INSECT" ],
-    "diff": 12,
-    "size": "MEDIUM",
-    "hp": 70,
-    "speed": 140,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "light_green",
-    "aggression": 40,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 8,
-    "melee_cut": 6,
-    "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "vision_day": 5,
-    "vision_night": 5,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CHITIN", "FAT" ]
+    "harvest": "mon_broken_cyborg",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ATTACKMON",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "REVIVES",
+      "WARM",
+      "STUMBLES",
+      "HUMAN",
+      "NO_NECRO"
+    ]
   },
   {
     "id": "mon_charred_nightmare",
@@ -935,46 +627,10 @@
     "armor_cut": 6,
     "vision_day": 50,
     "vision_night": 3,
-    "special_attacks": [
-      [ "LONGSWIPE", 8 ],
-      {
-        "id": "scratch",
-        "damage_max_instance": [
-          {
-            "damage_type": "cut",
-            "amount": 21
-          }
-        ]
-      }
-    ],
+    "special_attacks": [ [ "LONGSWIPE", 8 ], { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 21 } ] } ],
     "death_drops": { "groups": [ [ "vault_wanderer", 1 ] ] },
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON" ]
-  },
-  {
-    "id": "mon_chicken",
-    "type": "MONSTER",
-    "name": "chicken",
-    "description": "A domesticated descendant of junglefowl, it may still be the most numerous bird in the world.  Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "diff": 10,
-    "size": "TINY",
-    "hp": 8,
-    "speed": 80,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "white",
-    "aggression": -99,
-    "morale": -8,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 1,
-    "dodge": 4,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
   },
   {
     "id": "mon_chickenbot",
@@ -1003,40 +659,9 @@
     "starting_ammo": { "40mm_frag": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "chickenbot", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "chickenbot", 1 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS" ]
-  },
-  {
-    "id": "mon_chipmunk",
-    "type": "MONSTER",
-    "name": "chipmunk",
-    "description": "The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped coat.  It spends much of the day patrolling its elaborate burrow and the precious stores of foraged food within.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 3,
-    "size": "TINY",
-    "hp": 4,
-    "speed": 110,
-    "material": [ "flesh" ],
-    "symbol": ".",
-    "color": "brown",
-    "aggression": -90,
-    "morale": -55,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 1,
-    "dodge": 4,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "BONES" ]
   },
   {
     "id": "mon_chud",
@@ -1063,14 +688,7 @@
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [
-        [ "subway", 40 ],
-        [ "sewer", 20 ],
-        [ "trash", 5 ],
-        [ "bedroom", 1 ],
-        [ "dresser", 5 ],
-        [ "ammo", 18 ]
-      ]
+      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
     },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "LEATHER", "BONES" ]
@@ -1101,146 +719,9 @@
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "COPBOT", 3 ] ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "copbot", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
-  },
-  {
-    "id": "mon_cougar",
-    "type": "MONSTER",
-    "name": "cougar",
-    "description": "The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.",
-    "default_faction": "big_cat",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 12,
-    "size": "MEDIUM",
-    "hp": 60,
-    "speed": 180,
-    "material": [ "flesh" ],
-    "symbol": "C",
-    "color": "brown",
-    "morale": 40,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
-    "melee_cut": 6,
-    "dodge": 5,
-    "armor_bash": 1,
-    "vision_night": 10,
-    "path_settings": { "max_dist": 10 },
-    "special_attacks": [
-      [ "scratch", 10 ],
-      {
-        "type": "leap",
-        "cooldown": 5,
-        "max_range": 5
-      }
-    ],
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_cow",
-    "type": "MONSTER",
-    "name": "cow",
-    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
-    "default_faction": "herbivore",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 10,
-    "size": "LARGE",
-    "hp": 100,
-    "speed": 130,
-    "material": [ "flesh" ],
-    "symbol": "C",
-    "color": "light_gray",
-    "aggression": -50,
-    "morale": 60,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 10,
-    "melee_cut": 6,
-    "dodge": 2,
-    "armor_bash": 2,
-    "starting_ammo": { "milk": 4 },
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "HURT" ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "cow", 25 ] ],
-      "//": "25% chance of an item from group cow"
-    },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT", "MILKABLE", "PET_WONT_FOLLOW" ]
-  },
-  {
-    "id": "mon_coyote",
-    "type": "MONSTER",
-    "name": "coyote",
-    "description": "The Eastern coyote, also called the tweed wolf, is a territorial canine descended from the offspring of gray wolves and true coyotes.  It is intimidated by humans and other predators, but will fight if threatened.",
-    "default_faction": "dog",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 10,
-    "size": "MEDIUM",
-    "hp": 22,
-    "speed": 155,
-    "material": [ "flesh" ],
-    "symbol": "d",
-    "color": "brown",
-    "morale": 20,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 2,
-    "dodge": 3,
-    "armor_bash": 1,
-    "vision_night": 5,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES" ]
-  },
-  {
-    "id": "mon_coyote_wolf",
-    "type": "MONSTER",
-    "name": "coyote",
-    "description": "The Northeastern coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey.",
-    "default_faction": "dog",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 8,
-    "size": "MEDIUM",
-    "hp": 20,
-    "speed": 155,
-    "material": [ "flesh" ],
-    "symbol": "d",
-    "color": "brown",
-    "morale": 12,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 2,
-    "dodge": 3,
-    "armor_bash": 1,
-    "vision_night": 5,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_crawler",
@@ -1267,75 +748,6 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "BONES" ]
-  },
-  {
-    "id": "mon_creeper_hub",
-    "type": "MONSTER",
-    "name": "creeper hub",
-    "description": "A thick stalk, rooted to the ground.  It rapidly sprouts thorny vines in all directions.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 16,
-    "size": "MEDIUM",
-    "hp": 100,
-    "speed": 100,
-    "material": [ "veggy" ],
-    "symbol": "V",
-    "color": "green",
-    "aggression": 100,
-    "morale": 100,
-    "melee_cut": 0,
-    "armor_bash": 8,
-    "special_attacks": [ [ "GROW_VINE", 2 ] ],
-    "death_function": [ "KILL_VINES" ],
-    "flags": [ "NOHEAD", "IMMOBILE" ]
-  },
-  {
-    "id": "mon_creeper_vine",
-    "type": "MONSTER",
-    "name": "creeper vine",
-    "description": "A thorny vine, twisting wildly as it grows with incredible speed.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 4,
-    "size": "TINY",
-    "hp": 2,
-    "speed": 75,
-    "material": [ "veggy" ],
-    "symbol": "v",
-    "color": "green",
-    "aggression": 100,
-    "morale": 100,
-    "melee_cut": 0,
-    "armor_bash": 2,
-    "special_attacks": [ [ "VINE", 5 ] ],
-    "death_function": [ "VINE_CUT" ],
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE" ]
-  },
-  {
-    "id": "mon_crow",
-    "type": "MONSTER",
-    "name": "crow",
-    "description": "A small, elegant black bird, famous for its distinctive call.  An intelligent bird, there is a glitter of mischief behind its eyes.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "diff": 1,
-    "size": "TINY",
-    "hp": 4,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "dark_gray",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 0,
-    "dodge": 4,
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER" ]
   },
   {
     "id": "mon_dark_wyrm",
@@ -1386,40 +798,20 @@
     "armor_cut": 8,
     "vision_day": 50,
     "luminance": 6,
-    "special_attacks": [
-      [ "DARKMAN", 5 ],
-      [ "scratch", 15 ]
-    ],
+    "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
     "death_function": [ "DARKMAN" ],
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "REGENERATES_IN_DARK", "NO_BREATHE" ]
-  },
-  {
-    "id": "mon_deer",
-    "type": "MONSTER",
-    "name": "deer",
-    "description": "The northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.",
-    "default_faction": "herbivore",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 1,
-    "size": "LARGE",
-    "hp": 60,
-    "speed": 300,
-    "material": [ "flesh" ],
-    "symbol": "D",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -5,
-    "melee_skill": 3,
-    "melee_dice": 3,
-    "melee_dice_sides": 3,
-    "melee_cut": 0,
-    "dodge": 3,
-    "vision_night": 12,
-    "path_settings": { "max_dist": 10 },
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
+    "flags": [
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "WEBWALK",
+      "FLIES",
+      "PLASTIC",
+      "ELECTRIC",
+      "ACIDPROOF",
+      "SUNDEATH",
+      "REGENERATES_IN_DARK",
+      "NO_BREATHE"
+    ]
   },
   {
     "id": "mon_dementia",
@@ -1448,97 +840,16 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "LEATHER", "BONES" ]
   },
   {
-    "id": "mon_dermatik",
-    "type": "MONSTER",
-    "name": "dermatik",
-    "description": "A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding from the abdomen.",
-    "default_faction": "dermatik",
-    "species": [ "INSECT" ],
-    "diff": 18,
-    "size": "TINY",
-    "hp": 60,
-    "speed": 110,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "red",
-    "aggression": 90,
-    "morale": 70,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 3,
-    "dodge": 8,
-    "armor_cut": 6,
-    "special_attacks": [ [ "DERMATIK", 25 ] ],
-    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "HEARS", "SMELLS", "STUMBLES", "POISON", "FLIES", "CHITIN" ]
-  },
-  {
-    "id": "mon_dermatik_larva",
-    "type": "MONSTER",
-    "name": "dermatik larva",
-    "description": "A fat white grub as big as a squirrel, with a pair of large, spadelike mandibles.",
-    "default_faction": "dermatik",
-    "species": [ "INSECT" ],
-    "diff": 4,
-    "size": "TINY",
-    "hp": 10,
-    "speed": 20,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "white",
-    "aggression": -20,
-    "morale": -20,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 1,
-    "dodge": 1,
-    "special_attacks": [ [ "DERMATIK_GROWTH", 14400 ] ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA" ]
-  },
-  {
-    "id": "mon_dog",
-    "type": "MONSTER",
-    "name": "dog",
-    "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral.",
-    "default_faction": "dog",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 5,
-    "size": "SMALL",
-    "hp": 30,
-    "speed": 150,
-    "material": [ "flesh" ],
-    "symbol": "d",
-    "color": "light_gray",
-    "aggression": 2,
-    "morale": 15,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 3,
-    "dodge": 3,
-    "vision_night": 5,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT" ]
-  },
-  {
     "id": "mon_dog_skeleton",
     "type": "MONSTER",
     "name": "skeletal dog",
-    "description": "This canines see-through thin, black veined and scab riddled skin, is tightly compressed around its skeletal frame.",
+    "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 12,
     "size": "SMALL",
     "hp": 12,
-    "speed": 120,
+    "speed": 100,
     "material": [ "bone" ],
     "symbol": "d",
     "color": "white",
@@ -1549,16 +860,11 @@
     "melee_dice_sides": 9,
     "melee_cut": 6,
     "dodge": 3,
-    "armor_cut": 10,
-    "armor_stab": 20,
+    "armor_cut": 15,
+    "armor_stab": 30,
     "armor_acid": 3,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "BONES" ]
   },
@@ -1613,19 +919,23 @@
     "armor_cut": 6,
     "vision_day": 50,
     "vision_night": 4,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "dog_cop", 40 ] ],
-      "//": "40% chance of an item from group dog_cop"
-    },
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FUR",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_dog_zombie_rot",
@@ -1650,71 +960,9 @@
     "dodge": 1,
     "vision_day": 30,
     "vision_night": 4,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 2,
-        "accuracy": 4,
-        "no_infection_chance": 12
-      }
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
-  },
-  {
-    "id": "mon_dragonfly_giant",
-    "type": "MONSTER",
-    "name": "giant dragonfly",
-    "name_plural": "giant dragonflies",
-    "description": "A ferocious mutant dragonfly as big as a cat, darting through the air with a cluster of fangs for a mouth.",
-    "default_faction": "dragonfly",
-    "species": [ "INSECT" ],
-    "diff": 13,
-    "size": "SMALL",
-    "hp": 70,
-    "speed": 150,
-    "material": [ "iflesh" ],
-    "symbol": "y",
-    "color": "light_green",
-    "aggression": 20,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 6,
-    "dodge": 8,
-    "armor_cut": 6,
-    "vision_day": 30,
-    "vision_night": 5,
-    "anger_triggers": [ "PLAYER_WEAK" ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "CHITIN" ]
-  },
-  {
-    "id": "mon_duck",
-    "type": "MONSTER",
-    "name": "duck",
-    "description": "A mallard duck, often seen around rivers and other bodies of water.  It feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "diff": 1,
-    "size": "TINY",
-    "hp": 4,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 0,
-    "dodge": 4,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
   },
   {
     "id": "mon_eyebot",
@@ -1736,20 +984,52 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "eyebot", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "FLIES", "ELECTRONIC", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
+  },
+  {
+    "id": "mon_zombie_flamer",
+    "type": "MONSTER",
+    "name": "zombie burner",
+    "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 20,
+    "size": "MEDIUM",
+    "hp": 100,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "dark_gray_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "dodge": 1,
+    "armor_bash": 12,
+    "armor_cut": 25,
+    "vision_day": 30,
+    "vision_night": 3,
+    "luminance": 8,
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [
+        [ "mon_zombie_soldier_death_drops", 100 ],
+        [ "mon_zombie_flamer", 100 ]
+      ]
+    },
+    "death_function": [ "FIREBALL" ],
+    "burn_into": "mon_zombie_scorched",
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "BLEED", "PUSH_MON", "DRIPS_NAPALM" ]
   },
   {
     "id": "mon_flaming_eye",
     "type": "MONSTER",
     "name": "flaming eye",
-    "description": "An eyeball the size of an easy chair, covered in rolling blue flames.  It floats through the air, spinning slowly to draw its gaze in every direction.",
+    "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat and trails a set of flailing black tendrils as it slowly drifts about; its unearthly presence filling you with dread at the prospect of falling under its baleful gaze.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 27,
@@ -1791,50 +1071,16 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 2,
-    "special_attacks": [
-      [ "FEAR_PARALYZE", 0 ],
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES", "BONES" ]
   },
   {
-    "id": "mon_fly",
-    "type": "MONSTER",
-    "name": "giant fly",
-    "name_plural": "giant flies",
-    "description": "A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
-    "default_faction": "small_animal",
-    "species": [ "INSECT" ],
-    "diff": 8,
-    "size": "SMALL",
-    "hp": 25,
-    "speed": 120,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "light_green",
-    "aggression": -50,
-    "morale": 30,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_cut": 0,
-    "dodge": 5,
-    "vision_day": 5,
-    "vision_night": 5,
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN", "FAT" ]
-  },
-  {
     "id": "mon_flying_polyp",
     "type": "MONSTER",
     "name": "flying polyp",
-    "description": "An amorphous mound of twisting black flesh that flits through the air at incredible speeds.",
+    "description": "A half polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises which send cold shivers of primal terror down your spine",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 42,
@@ -1853,103 +1099,19 @@
     "dodge": 7,
     "armor_bash": 8,
     "death_function": [ "MELT" ],
-    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "FLIES", "ATTACKMON", "PLASTIC", "NO_BREATHE", "HIT_AND_RUN", "NOGIB" ]
-  },
-  {
-    "id": "mon_fox_gray",
-    "type": "MONSTER",
-    "name": "fox",
-    "name_plural": "foxes",
-    "description": "A small omnivorous canine with an almost cat-like manner.  It is a solitary hunter, and one of the only canids able to climb trees.",
-    "default_faction": "fox",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 4,
-    "size": "SMALL",
-    "hp": 20,
-    "speed": 130,
-    "material": [ "flesh" ],
-    "symbol": "d",
-    "color": "light_gray",
-    "aggression": -5,
-    "morale": 30,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 2,
-    "dodge": 6,
-    "vision_night": 5,
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES" ]
-  },
-  {
-    "id": "mon_fox_red",
-    "type": "MONSTER",
-    "name": "fox",
-    "name_plural": "foxes",
-    "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.",
-    "default_faction": "fox",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 5,
-    "size": "SMALL",
-    "hp": 30,
-    "speed": 145,
-    "material": [ "flesh" ],
-    "symbol": "d",
-    "color": "red",
-    "aggression": -5,
-    "morale": 60,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 2,
-    "dodge": 6,
-    "vision_night": 5,
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_frog_giant",
-    "type": "MONSTER",
-    "name": "giant frog",
-    "description": "A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
-    "default_faction": "frog",
-    "species": [ "AMPHIBIAN" ],
-    "diff": 12,
-    "size": "LARGE",
-    "hp": 70,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "M",
-    "color": "light_green",
-    "aggression": 10,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 12,
-    "melee_cut": 1,
-    "dodge": 2,
-    "armor_bash": 4,
-    "path_settings": { "max_dist": 5 },
-    "special_attacks": [
-      {
-        "type": "leap",
-        "cooldown": 10,
-        "move_cost": 0,
-        "max_range": 10,
-        "min_consider_range": 2
-      }
-    ],
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "BONES", "FAT" ]
+    "flags": [
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "BASHES",
+      "FLIES",
+      "ATTACKMON",
+      "PLASTIC",
+      "NO_BREATHE",
+      "HIT_AND_RUN",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_fungal_blossom",
@@ -1974,52 +1136,6 @@
     "special_attacks": [ [ "FUNGUS_HAZE", 25 ] ],
     "death_function": [ "FUNGUS" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE" ]
-  },
-  {
-    "id": "mon_fungal_fighter",
-    "type": "MONSTER",
-    "name": "fungal fighter",
-    "description": "A stout woody plant that can dig through the ground and flick spines from its branches.  The thorns carry a fungicidal compound with paralytic effects.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 8,
-    "size": "SMALL",
-    "hp": 60,
-    "speed": 50,
-    "material": [ "veggy" ],
-    "symbol": "F",
-    "color": "green",
-    "aggression": 10,
-    "morale": 10,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 4,
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "attack_effs": [
-      {
-        "id": "paralyzepoison",
-        "//": "applying this multiple times makes intensity go up by 3 instead of 1",
-        "duration": 33
-      },
-      {
-        "id": "paralyzepoison",
-        "duration": 33
-      },
-      {
-        "id": "paralyzepoison",
-        "duration": 33
-      }
-    ],
-    "special_attacks": [ [ "PARA_STING", 10 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "fungal_sting", 80 ] ],
-      "//": "80% chance of an item from group fungal_sting"
-    },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "CAN_DIG" ]
   },
   {
     "id": "mon_fungal_hedgerow",
@@ -2144,6 +1260,7 @@
     "armor_cut": 10,
     "special_attacks": [ [ "FUNGUS_SPROUT", 10 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
+    "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN" ]
   },
   {
@@ -2168,6 +1285,7 @@
     "luminance": 200,
     "special_attacks": [ [ "FUNGUS_BIG_BLOSSOM", 10 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
+    "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN" ]
   },
   {
@@ -2196,6 +1314,7 @@
     "special_attacks": [ [ "FUNGUS_FORTIFY", 10 ] ],
     "death_drops": "marloss_yellow_drops",
     "death_function": [ "FUNGUS", "NORMAL" ],
+    "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "HARDTOSHOOT", "NO_BREATHE", "QUEEN" ]
   },
   {
@@ -2224,60 +1343,6 @@
     "special_attacks": [ [ "FUNGUS_GROWTH", 100 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "POISON", "NO_BREATHE", "NOHEAD" ]
-  },
-  {
-    "id": "mon_gator",
-    "type": "MONSTER",
-    "name": "sewer gator",
-    "description": "In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it is used to humans as anything other than a meal.",
-    "default_faction": "gator",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
-    "diff": 22,
-    "size": "LARGE",
-    "hp": 90,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "A",
-    "color": "light_green",
-    "aggression": 30,
-    "morale": 50,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 10,
-    "melee_cut": 12,
-    "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 8,
-    "vision_day": 3,
-    "vision_night": 35,
-    "path_settings": { "max_dist": 8 },
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 20,
-        "accuracy": 6,
-        "damage_max_instance": [
-          {
-            "damage_type": "stab",
-            "amount": 9,
-            "armor_multiplier": 0.5
-          },
-          {
-            "damage_type": "bash",
-            "amount": 27,
-            "armor_multiplier": 0.5
-          }
-        ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "TORSO" } ],
-        "no_infection_chance": 2
-      }
-    ],
-    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS" ]
   },
   {
     "id": "mon_gelatin",
@@ -2324,59 +1389,6 @@
     "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE" ]
   },
   {
-    "id": "mon_giant_cockroach",
-    "type": "MONSTER",
-    "name": "giant cockroach",
-    "description": "A mutant cockroach the size of a small dog.",
-    "default_faction": "roach",
-    "species": [ "INSECT" ],
-    "diff": 7,
-    "size": "SMALL",
-    "hp": 40,
-    "speed": 100,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "brown",
-    "aggression": 30,
-    "morale": 60,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 3,
-    "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 10,
-    "vision_day": 5,
-    "vision_night": 5,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
-  },
-  {
-    "id": "mon_giant_cockroach_nymph",
-    "type": "MONSTER",
-    "name": "giant cockroach nymph",
-    "description": "A baby mutant cockroach about the size of a rat.",
-    "default_faction": "roach",
-    "species": [ "INSECT" ],
-    "diff": 3,
-    "size": "TINY",
-    "hp": 10,
-    "speed": 50,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "brown",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 3,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 0,
-    "vision_day": 10,
-    "vision_night": 3,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
-  },
-  {
     "id": "mon_giant_crayfish",
     "type": "MONSTER",
     "name": "giant crayfish",
@@ -2406,7 +1418,7 @@
     "id": "mon_gozu",
     "type": "MONSTER",
     "name": "gozu",
-    "description": "A monster with an obese human body and the head of a cow.  It treads slowly, and milky white drool drips from its mouth.",
+    "description": "This is some sort of unnatural cross between a bull and a man.  Quite different from the minotaur of legend, it possesses a shaggy white bull’s head on an otherwise unremarkable human body.  Clad in sagging socks and stained jockey shorts, it grunts and snuffles, drooling ropey strands of white slobber down its chest.  Its mere presence fills you with an unfathomable dread.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 20,
@@ -2426,13 +1438,27 @@
     "vision_day": 30,
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "NO_BREATHE", "BONES", "FAT", "PATH_AVOID_DANGER_1" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "FUR",
+      "NO_BREATHE",
+      "BONES",
+      "FAT",
+      "PATH_AVOID_DANGER_1"
+    ]
   },
   {
     "id": "mon_graboid",
     "type": "MONSTER",
     "name": "graboid",
-    "description": "A monstrous beast with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
+    "description": "A monstrous beast the size of a semi truck with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
     "default_faction": "worm",
     "species": [ "WORM" ],
     "diff": 25,
@@ -2457,7 +1483,7 @@
     "id": "mon_gracke",
     "type": "MONSTER",
     "name": "gracken",
-    "description": "A bizarre humanoid creature with a calculating stare.  Its twitching hands move so fast they appear to be nothing but blurs.",
+    "description": "This is some form of eldritch monstrosity; an uncouth black being with smooth, oily, skin and unpleasant horns that curve inward toward each other.  Tall and thin, the shadows cling unnaturally to its vaguely defined humanoid form as it shuffles along, its hands twitching and spasming so rapidly as to appear a little more than a black blur of claws.  Gazing upon its disturbing form fills you with an unspeakable terror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 15,
@@ -2475,30 +1501,6 @@
     "dodge": 4,
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "BONES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
-  },
-  {
-    "id": "mon_groundhog",
-    "type": "MONSTER",
-    "name": "groundhog",
-    "description": "Also known as the woodchuck, this ground squirrel has no actual talent for chucking wood.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "TINY",
-    "hp": 12,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "light_gray",
-    "aggression": -99,
-    "morale": -20,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 2,
-    "dodge": 4,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_halfworm",
@@ -2549,7 +1551,7 @@
     "id": "mon_hallu_multicooker",
     "type": "MONSTER",
     "name": "evil multi-cooker",
-    "description": "The multi-cooker's got a mind of its own!  Look out!!",
+    "description": "The multi-cooker's got a mind of its own!  Look out!",
     "default_faction": "factionless",
     "species": [ "HALLUCINATION" ],
     "size": "SMALL",
@@ -2565,28 +1567,6 @@
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
     "death_function": [ "DISAPPEAR" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
-  },
-  {
-    "id": "mon_hare",
-    "type": "MONSTER",
-    "name": "jackrabbit",
-    "description": "The snowshoe hare, a small grass-eater with a brown fur coat that changes to white in the wintertime.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "TINY",
-    "hp": 10,
-    "speed": 170,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -5,
-    "melee_cut": 0,
-    "dodge": 6,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES" ]
   },
   {
     "id": "mon_hazmatbot",
@@ -2637,6 +1617,27 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
   },
   {
+    "id": "mon_hologram",
+    "type": "MONSTER",
+    "name": "hologram",
+    "description": "An image made from light, nearly identical to the real deal.",
+    "default_faction": "factionless",
+    "species": [ "UNKNOWN" ],
+    "size": "MEDIUM",
+    "hp": 1,
+    "speed": 150,
+    "symbol": "@",
+    "color": "cyan",
+    "aggression": -99,
+    "morale": 2,
+    "luminance": 16,
+    "dodge": 6,
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
+    "death_function": [ "DISAPPEAR" ],
+    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+  },
+  {
     "id": "mon_homunculus",
     "type": "MONSTER",
     "name": "homunculus",
@@ -2662,34 +1663,6 @@
     "armor_cut": 2,
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS", "LEATHER", "BONES" ]
-  },
-  {
-    "id": "mon_horse",
-    "type": "MONSTER",
-    "name": "horse",
-    "description": "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.",
-    "default_faction": "herbivore",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 10,
-    "size": "LARGE",
-    "hp": 90,
-    "speed": 210,
-    "material": [ "flesh" ],
-    "symbol": "H",
-    "color": "brown",
-    "morale": 20,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 12,
-    "melee_cut": 0,
-    "dodge": 2,
-    "armor_bash": 2,
-    "anger_triggers": [ "FRIEND_ATTACKED" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_human_snail",
@@ -2721,7 +1694,7 @@
     "id": "mon_hunting_horror",
     "type": "MONSTER",
     "name": "hunting horror",
-    "description": "A man-sized worm-like creature that swoops around on bat-like wings.  Its form dramatically shifts and changes from moment to moment, although its gigantic eyes and teeth are always prominent.",
+    "description": "This is some sort of great viperine creature, possessed of a curiously distorted head and massive clawed appendages.  It partially supports itself with the aid of black rubbery wings of monstrous dimensions.  Its form writhes and changes before your eyes, filling you with unnameable horror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 28,
@@ -2739,7 +1712,19 @@
     "dodge": 8,
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "SUNDEATH", "NO_BREATHE", "HIT_AND_RUN", "NOGIB" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "FLIES",
+      "PLASTIC",
+      "SUNDEATH",
+      "NO_BREATHE",
+      "HIT_AND_RUN",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_irradiated_wanderer_1",
@@ -2891,13 +1876,28 @@
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
     "death_function": [ "JABBERWOCKY" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "LEATHER", "BONES", "POISON", "BONES", "FAT" ]
+    "harvest": "jabberwock",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "DESTROYS",
+      "ATTACKMON",
+      "LEATHER",
+      "BONES",
+      "POISON",
+      "BONES",
+      "FAT"
+    ]
   },
   {
     "id": "mon_kreck",
     "type": "MONSTER",
     "name": "kreck",
-    "description": "A fat humanoid the size of a dog, with twisted red flesh and a distended neck.  It scampers around, panting and grunting.",
+    "description": "This is some form of otherworldly hound.  Lean and hungry looking, its twisted red flesh is stretched tightly across its misshapen, angular frame.  Loping grotesquely along, its unusually long neck stretches forward, its skull-like head near the ground as it sniffs out its prey.  Its foulness partially veiled by some arcane force, it seems to almost flicker in and out of your perceptions in a fashion that awakens ancient nameless terrors in the back of your mind",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 6,
@@ -2921,34 +1921,10 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "BONES", "NOGIB" ]
   },
   {
-    "id": "mon_lemming",
-    "type": "MONSTER",
-    "name": "lemming",
-    "description": "The Northern bog lemming, a small, predominantly vegetarian rodent that spends its life in the murk of swamps and other wetlands.  Contrary to popular belief, these creatures are not particularly hapless or suicidal, but they can eat themselves into scarcity within a few generations.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 2,
-    "size": "TINY",
-    "hp": 4,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": ".",
-    "color": "light_gray",
-    "aggression": -50,
-    "morale": -50,
-    "melee_skill": 4,
-    "melee_cut": 0,
-    "dodge": 2,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
-  },
-  {
     "id": "mon_mi_go",
     "type": "MONSTER",
     "name": "mi-go",
-    "description": "A flexuous monstrosity seeming as a giant crab covered in writhing antennae, clawed tentacles, and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
+    "description": "This is an alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and simply gazing upon the unnatural beast fills you with primordial dread.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 26,
@@ -2971,47 +1947,22 @@
     "path_settings": { "max_dist": 50 },
     "special_attacks": [
       [ "PARROT", 0 ],
-      {
-        "id": "scratch",
-        "damage_max_instance": [
-          {
-            "damage_type": "cut",
-            "amount": 23,
-            "armor_multiplier": 0.8
-          }
-        ]
-      }
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
-  },
-  {
-    "id": "mon_mink",
-    "type": "MONSTER",
-    "name": "mink",
-    "description": "The American mink, a partially-aquatic weasel, once factory-farmed for its fur.  It is a capable fisher, but the presence of otters in these parts makes it rely more on food from the land.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 4,
-    "size": "SMALL",
-    "hp": 30,
-    "speed": 130,
-    "material": [ "flesh" ],
-    "symbol": "m",
-    "color": "dark_gray",
-    "aggression": 10,
-    "morale": 40,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 2,
-    "dodge": 6,
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "ARTHROPOD_BLOOD",
+      "FAT",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "mon_molebot",
@@ -3034,98 +1985,9 @@
     "melee_dice_sides": 10,
     "melee_cut": 10,
     "armor_cut": 12,
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "molebot", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "PATH_AVOID_DANGER_1" ]
-  },
-  {
-    "id": "mon_moose",
-    "type": "MONSTER",
-    "name": "moose",
-    "description": "The Eastern moose, the largest living species of deer.  The bulls are quite ill-tempered, especially in the rutting season.",
-    "default_faction": "herbivore",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 1,
-    "size": "LARGE",
-    "hp": 120,
-    "speed": 200,
-    "material": [ "flesh" ],
-    "symbol": "M",
-    "color": "brown",
-    "aggression": -15,
-    "morale": 80,
-    "melee_skill": 6,
-    "melee_dice": 3,
-    "melee_dice_sides": 4,
-    "melee_cut": 0,
-    "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "vision_night": 7,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_mosquito_giant",
-    "type": "MONSTER",
-    "name": "giant mosquito",
-    "description": "An enormous mutant mosquito, fluttering erratically.  Its face is dominated by a long, spear-tipped proboscis.",
-    "default_faction": "mosquito",
-    "species": [ "INSECT" ],
-    "diff": 12,
-    "size": "SMALL",
-    "hp": 20,
-    "speed": 120,
-    "material": [ "iflesh" ],
-    "symbol": "y",
-    "color": "brown",
-    "aggression": 20,
-    "morale": 20,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 1,
-    "dodge": 8,
-    "vision_day": 5,
-    "vision_night": 5,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "CHITIN" ]
-  },
-  {
-    "id": "mon_muskrat",
-    "type": "MONSTER",
-    "name": "muskrat",
-    "description": "A large omnivorous rodent with a thick furry pelt, found in wetlands across the northern hemisphere.  It marks its territory with a musky odor for which it is named.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 3,
-    "size": "SMALL",
-    "hp": 10,
-    "speed": 100,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": -45,
-    "morale": -50,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 2,
-    "dodge": 2,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES", "FAT" ]
   },
   {
     "id": "mon_one_eye",
@@ -3150,97 +2012,10 @@
     "dodge": 5,
     "death_drops": {
       "subtype": "collection",
-      "groups": [
-        [ "subway", 40 ],
-        [ "sewer", 20 ],
-        [ "trash", 5 ],
-        [ "bedroom", 1 ],
-        [ "dresser", 5 ],
-        [ "ammo", 18 ]
-      ]
+      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
     },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "LEATHER", "BONES" ]
-  },
-  {
-    "id": "mon_opossum",
-    "type": "MONSTER",
-    "name": "opossum",
-    "description": "The Virginia opossum, a small omnivorous marsupial native to North America.  About the size of a cat, it is hardy and adaptive, and a fairly common sight in urban areas.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 10,
-    "size": "TINY",
-    "hp": 12,
-    "speed": 110,
-    "material": [ "flesh" ],
-    "symbol": "p",
-    "color": "white",
-    "aggression": -99,
-    "morale": 10,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 1,
-    "dodge": 2,
-    "vision_night": 5,
-    "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_otter",
-    "type": "MONSTER",
-    "name": "otter",
-    "description": "The North American river otter is a shy water dwelling relative of the weasel living in large families along the banks of streams.  It is an excellent fisher and a resourceful survivor, using the abandoned dens of beavers and other animals to raise its own young.",
-    "default_faction": "otter",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "SMALL",
-    "hp": 12,
-    "speed": 110,
-    "material": [ "flesh" ],
-    "symbol": "m",
-    "color": "brown",
-    "aggression": -10,
-    "morale": 40,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 2,
-    "dodge": 4,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_pig",
-    "type": "MONSTER",
-    "name": "pig",
-    "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.",
-    "default_faction": "pig",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 8,
-    "size": "MEDIUM",
-    "hp": 50,
-    "speed": 100,
-    "material": [ "flesh" ],
-    "symbol": "p",
-    "color": "pink",
-    "aggression": 10,
-    "morale": 30,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 8,
-    "melee_cut": 4,
-    "dodge": 2,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_player_blob",
@@ -3270,182 +2045,6 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT" ]
   },
   {
-    "id": "mon_pregnant_giant_cockroach",
-    "type": "MONSTER",
-    "name": "pregnant giant cockroach",
-    "description": "A mutant cockroach the size of a small dog.  It's abdomen is heavily swollen.",
-    "default_faction": "roach",
-    "species": [ "INSECT" ],
-    "diff": 8,
-    "size": "SMALL",
-    "hp": 40,
-    "speed": 100,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "brown",
-    "aggression": 30,
-    "morale": 60,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 3,
-    "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 10,
-    "vision_day": 5,
-    "vision_night": 5,
-    "death_function": [ "NORMAL", "PREG_ROACH" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS" ]
-  },
-  {
-    "id": "mon_rabbit",
-    "type": "MONSTER",
-    "name": "rabbit",
-    "description": "A small mammal with a cute wiggling nose, cotton tail, and made of delicious flesh.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "TINY",
-    "hp": 8,
-    "speed": 160,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -7,
-    "melee_cut": 0,
-    "dodge": 6,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES" ]
-  },
-  {
-    "id": "mon_raccoon",
-    "type": "MONSTER",
-    "name": "raccoon",
-    "description": "A small mammal native to North America, distinctive for its dexterous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 10,
-    "size": "TINY",
-    "hp": 14,
-    "speed": 100,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "light_gray",
-    "aggression": -10,
-    "morale": 10,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 1,
-    "dodge": 3,
-    "vision_night": 5,
-    "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_rat_king",
-    "type": "MONSTER",
-    "name": "rat king",
-    "description": "A towering swarm of mutated rats, their tails knotted together in a filthy mass.  A fetid stench flows from its filthy presence.",
-    "default_faction": "rat",
-    "species": [ "MAMMAL" ],
-    "diff": 18,
-    "size": "MEDIUM",
-    "hp": 220,
-    "speed": 40,
-    "material": [ "flesh" ],
-    "symbol": "&",
-    "color": "dark_gray",
-    "aggression": 10,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_cut": 1,
-    "special_attacks": [ [ "RATKING", 3 ] ],
-    "death_function": [ "RATKING" ]
-  },
-  {
-    "id": "mon_rattlesnake",
-    "type": "MONSTER",
-    "name": "rattlesnake",
-    "description": "The timber rattlesnake is the most venomous viper native to New England.  Climatic changes have extended its range far into the north.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
-    "diff": 2,
-    "size": "TINY",
-    "hp": 12,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "s",
-    "color": "brown",
-    "aggression": -50,
-    "morale": 60,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 4,
-    "dodge": 1,
-    "vision_day": 30,
-    "vision_night": 5,
-    "special_attacks": [ [ "RATTLE", 6 ] ],
-    "anger_triggers": [ "HURT" ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "LEATHER", "BONES" ]
-  },
-  {
-    "id": "mon_rattlesnake_giant",
-    "type": "MONSTER",
-    "name": "giant rattlesnake",
-    "description": "A mutated timber rattlesnake, about three times as large as the norm.  While it isn't big enough to regard humans as potential prey, it is more aggresive and dangerous compared to a normal rattler.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
-    "diff": 8,
-    "size": "MEDIUM",
-    "hp": 48,
-    "speed": 100,
-    "material": [ "flesh" ],
-    "symbol": "s",
-    "color": "brown",
-    "aggression": -10,
-    "morale": 60,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 8,
-    "melee_cut": 8,
-    "dodge": 1,
-    "armor_bash": 2,
-    "armor_cut": 4,
-    "vision_day": 30,
-    "vision_night": 5,
-    "special_attacks": [
-      [ "RATTLE", 6 ],
-      {
-        "type": "bite",
-        "cooldown": 5,
-        "damage_max_instance": [
-          {
-            "damage_type": "stab",
-            "amount": 10,
-            "armor_multiplier": 0.7
-          }
-        ]
-      }
-    ],
-    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "LEATHER", "BONES" ]
-  },
-  {
     "id": "mon_razorclaw",
     "type": "MONSTER",
     "name": "razorclaw",
@@ -3471,10 +2070,7 @@
     "vision_day": 30,
     "vision_night": 15,
     "path_settings": { "max_dist": 50 },
-    "special_attacks": [
-      [ "SHRIEK_ALERT", 6 ],
-      [ "SHRIEK_STUN", 1 ]
-    ],
+    "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
@@ -3504,103 +2100,15 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "RIOTBOT", 1 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "copbot", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
-  },
-  {
-    "id": "mon_sewer_fish",
-    "type": "MONSTER",
-    "name": "seweranha",
-    "description": "A large mutant variety of carp.  It has shimmering green scales and a mouth lined with three jagged rows of razor-sharp teeth.",
-    "default_faction": "mutant",
-    "species": [ "FISH" ],
-    "diff": 13,
-    "size": "SMALL",
-    "hp": 20,
-    "speed": 180,
-    "material": [ "flesh" ],
-    "symbol": "t",
-    "color": "light_green",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 4,
-    "dodge": 6,
-    "vision_day": 1,
-    "vision_night": 30,
-    "path_settings": { "max_dist": 5 },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "AQUATIC", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_sewer_rat",
-    "type": "MONSTER",
-    "name": "sewer rat",
-    "description": "A worm-tailed rodent with long whiskers and beady eyes.  The way it squeaks makes it sound...  hungry.",
-    "default_faction": "rat",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 3,
-    "size": "TINY",
-    "hp": 10,
-    "speed": 100,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "light_gray",
-    "aggression": 20,
-    "morale": 40,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 2,
-    "melee_cut": 1,
-    "dodge": 2,
-    "vision_day": 1,
-    "vision_night": 30,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES" ]
-  },
-  {
-    "id": "mon_sewer_snake",
-    "type": "MONSTER",
-    "name": "sewer snake",
-    "description": "An aggressive mutant variety of the worm snake, turned pale yellow from its underground life.  It swarms beneath the ground and is named for its habit of infesting sewer lines.",
-    "default_faction": "mutant",
-    "species": [ "REPTILE" ],
-    "diff": 2,
-    "size": "SMALL",
-    "hp": 10,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "s",
-    "color": "yellow",
-    "aggression": 20,
-    "morale": 40,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 2,
-    "dodge": 1,
-    "vision_day": 1,
-    "vision_night": 30,
-    "path_settings": { "max_dist": 5 },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS", "LEATHER", "BONES" ]
   },
   {
     "id": "mon_shadow",
     "type": "MONSTER",
     "name": "shadow",
-    "description": "A strange moving darkness, bringing with it the softest of whispers.",
+    "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 14,
@@ -3617,16 +2125,33 @@
     "melee_cut": 0,
     "dodge": 4,
     "vision_day": 50,
-    "special_attacks": [ [ "DISAPPEAR", 20 ] ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "GRABS",
+      "WEBWALK",
+      "FLIES",
+      "PLASTIC",
+      "SUNDEATH",
+      "ELECTRIC",
+      "ACIDPROOF",
+      "HIT_AND_RUN",
+      "NO_BREATHE",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_shadow_snake",
     "type": "MONSTER",
     "name": "shadow snake",
-    "description": "A translucent black snake, long and fearsome looking.",
+    "description": "This is an animate shadow in the form of a long and sinuous snake.  Translucent and dark, it glides silently across the floor, wriggling and flexing as it moves.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 6,
@@ -3643,36 +2168,9 @@
     "melee_dice_sides": 4,
     "melee_cut": 4,
     "dodge": 1,
-    "special_attacks": [ [ "DISAPPEAR", 20 ] ],
+    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "LEATHER", "PLASTIC", "SUNDEATH", "NOGIB" ]
-  },
-  {
-    "id": "mon_sheep",
-    "type": "MONSTER",
-    "name": "sheep",
-    "name_plural": "sheep",
-    "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated, its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
-    "default_faction": "herbivore",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 10,
-    "size": "LARGE",
-    "hp": 90,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "s",
-    "color": "white",
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 2,
-    "dodge": 2,
-    "anger_triggers": [],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "WOOL", "BONES", "FAT" ]
   },
   {
     "id": "mon_shia",
@@ -3703,7 +2201,18 @@
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "BONES", "BLEED", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "BONES",
+      "BLEED",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "mon_shoggoth",
@@ -3723,31 +2232,39 @@
     "melee_skill": 10,
     "melee_dice": 7,
     "melee_dice_sides": 5,
-    "melee_damage": [
-      {
-        "damage_type": "acid",
-        "amount": 20
-      }
-    ],
+    "melee_damage": [ { "damage_type": "acid", "amount": 20 } ],
     "melee_cut": 6,
     "armor_bash": 10,
     "armor_cut": 30,
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "SWIMS",
+      "PLASTIC",
+      "SLUDGEPROOF",
+      "ACID_BLOOD",
+      "ACIDPROOF",
+      "NOHEAD",
+      "REGENERATES_50",
+      "ABSORBS_SPLITS",
+      "REGEN_MORALE",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_skeleton",
     "type": "MONSTER",
     "name": "skeleton",
-    "description": "With its skin so tight the cracked bones are visible beneath it, covered in scar tissue and coils of scabbed black liquid and with eyes so deeply sunken into its skull they are barely visible, it's a wonder this once-human creature can move at all.",
+    "description": "A monstrous overgrowth of ossified tissue has replaced this zombie's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the air around it.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
     "size": "MEDIUM",
     "hp": 30,
-    "speed": 90,
+    "speed": 60,
     "material": [ "bone" ],
     "symbol": "Z",
     "color": "white",
@@ -3758,18 +2275,13 @@
     "melee_dice_sides": 6,
     "melee_cut": 4,
     "dodge": 2,
-    "armor_cut": 10,
-    "armor_stab": 20,
+    "armor_cut": 15,
+    "armor_stab": 30,
     "armor_acid": 3,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [
-      [ "scratch", 10 ],
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": { "half_life": 15, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES" ]
@@ -3796,12 +2308,7 @@
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "TAZER", 5 ] ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "skitterbot", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
@@ -3830,7 +2337,19 @@
     "vision_day": 10,
     "vision_night": 30,
     "death_function": [ "MELT" ],
-    "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
+    "flags": [
+      "NOHEAD",
+      "SEES",
+      "POISON",
+      "HEARS",
+      "REGENERATES_50",
+      "SMELLS",
+      "SLUDGEPROOF",
+      "SLUDGETRAIL",
+      "SWIMS",
+      "FLAMMABLE",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_slug_giant",
@@ -3861,273 +2380,6 @@
     "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "FAT", "ARTHROPOD_BLOOD" ]
   },
   {
-    "id": "mon_spider_cellar_giant",
-    "type": "MONSTER",
-    "name": "giant cellar spider",
-    "description": "A twitchy mutant brown spider, with a relatively small body and spindly long legs.  Its smaller brethren are known for being agile, and for preying upon other spiders.",
-    "default_faction": "spider_cellar",
-    "species": [ "SPIDER" ],
-    "diff": 20,
-    "size": "SMALL",
-    "hp": 45,
-    "speed": 150,
-    "material": [ "iflesh" ],
-    "symbol": "s",
-    "color": "brown",
-    "aggression": -10,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 8,
-    "melee_cut": 4,
-    "dodge": 7,
-    "armor_bash": 1,
-    "armor_cut": 2,
-    "armor_acid": 3,
-    "vision_day": 5,
-    "vision_night": 5,
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
-    "//": "No, they are not in fact the most venomous spider in the world."
-  },
-  {
-    "id": "mon_spider_cellar_giant_s",
-    "type": "MONSTER",
-    "name": "immature giant cellar spider",
-    "description": "A newly-hatched giant cellar spider.  Too small to possess much venom, but still quick and agile like an adult.",
-    "default_faction": "spider_cellar",
-    "species": [ "SPIDER" ],
-    "diff": 10,
-    "size": "TINY",
-    "hp": 23,
-    "speed": 150,
-    "material": [ "iflesh" ],
-    "symbol": "c",
-    "color": "brown",
-    "aggression": -10,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_cut": 2,
-    "dodge": 6,
-    "armor_bash": 1,
-    "armor_cut": 2,
-    "armor_acid": 3,
-    "vision_day": 5,
-    "vision_night": 5,
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT" ]
-  },
-  {
-    "id": "mon_spider_jumping_giant",
-    "type": "MONSTER",
-    "name": "giant jumping spider",
-    "description": "A giant spider with big forelegs and two pairs of inquisitive-looking eyes.  It can leap quite quickly, even into the treetops.",
-    "default_faction": "spider_jumping",
-    "species": [ "SPIDER" ],
-    "diff": 4,
-    "size": "SMALL",
-    "hp": 30,
-    "speed": 100,
-    "material": [ "iflesh" ],
-    "symbol": "s",
-    "color": "white",
-    "aggression": -20,
-    "morale": 80,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 4,
-    "dodge": 8,
-    "armor_cut": 3,
-    "vision_day": 5,
-    "vision_night": 5,
-    "special_attacks": [
-      {
-        "type": "leap",
-        "cooldown": 2,
-        "max_range": 5
-      }
-    ],
-    "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CHITIN", "CLIMBS" ]
-  },
-  {
-    "id": "mon_spider_trapdoor_giant",
-    "type": "MONSTER",
-    "name": "giant trapdoor spider",
-    "description": "A gigantic spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
-    "default_faction": "spider_trapdoor",
-    "species": [ "SPIDER" ],
-    "diff": 20,
-    "size": "MEDIUM",
-    "hp": 70,
-    "speed": 110,
-    "material": [ "iflesh" ],
-    "symbol": "s",
-    "color": "blue",
-    "aggression": 60,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 8,
-    "dodge": 2,
-    "armor_bash": 4,
-    "armor_cut": 8,
-    "vision_day": 5,
-    "vision_night": 5,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS" ]
-  },
-  {
-    "id": "mon_spider_web",
-    "type": "MONSTER",
-    "name": "giant web spider",
-    "description": "A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
-    "default_faction": "spider_web",
-    "species": [ "SPIDER" ],
-    "diff": 14,
-    "size": "MEDIUM",
-    "hp": 40,
-    "speed": 110,
-    "material": [ "iflesh" ],
-    "symbol": "s",
-    "color": "yellow",
-    "aggression": 20,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 6,
-    "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 6,
-    "vision_day": 5,
-    "vision_night": 5,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS" ]
-  },
-  {
-    "id": "mon_spider_web_s",
-    "type": "MONSTER",
-    "name": "immature giant web spider",
-    "description": "A still immature giant grass spider.  Too young to be venomous, or to walk proficiently for that matter",
-    "default_faction": "spider_web",
-    "species": [ "SPIDER" ],
-    "diff": 7,
-    "size": "SMALL",
-    "hp": 20,
-    "speed": 40,
-    "material": [ "iflesh" ],
-    "symbol": "c",
-    "color": "yellow",
-    "aggression": 20,
-    "morale": 100,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_cut": 6,
-    "dodge": 1,
-    "armor_bash": 2,
-    "armor_cut": 6,
-    "vision_day": 5,
-    "vision_night": 5,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CHITIN", "CLIMBS" ]
-  },
-  {
-    "id": "mon_spider_widow_giant",
-    "type": "MONSTER",
-    "name": "giant black widow",
-    "description": "A giant mutated black widow spider.  A highly venomous nightmare come to life.",
-    "default_faction": "spider_widow",
-    "species": [ "SPIDER" ],
-    "diff": 20,
-    "size": "SMALL",
-    "hp": 60,
-    "speed": 90,
-    "material": [ "iflesh" ],
-    "symbol": "s",
-    "color": "dark_gray",
-    "aggression": -10,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 2,
-    "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 4,
-    "vision_day": 5,
-    "vision_night": 5,
-    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CHITIN", "CLIMBS" ]
-  },
-  {
-    "id": "mon_spider_widow_giant_s",
-    "type": "MONSTER",
-    "name": "giant black widow spiderling",
-    "description": "The horrid spawn of a giant black widow spider.  Even as a newborn, this foul creature knows only how to kill.",
-    "default_faction": "spider_widow",
-    "species": [ "SPIDER" ],
-    "diff": 10,
-    "size": "SMALL",
-    "hp": 30,
-    "speed": 90,
-    "material": [ "iflesh" ],
-    "symbol": "c",
-    "color": "dark_gray",
-    "aggression": -10,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_cut": 2,
-    "dodge": 1,
-    "armor_bash": 2,
-    "armor_cut": 4,
-    "vision_day": 5,
-    "vision_night": 5,
-    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS" ]
-  },
-  {
-    "id": "mon_spider_wolf_giant",
-    "type": "MONSTER",
-    "name": "giant wolf spider",
-    "description": "A wolf spider mutated to about thirty times its normal size, it moves quickly and aggressively to catch and consume prey.",
-    "default_faction": "spider_wolf",
-    "species": [ "SPIDER" ],
-    "diff": 20,
-    "size": "MEDIUM",
-    "hp": 40,
-    "speed": 150,
-    "material": [ "iflesh" ],
-    "symbol": "s",
-    "color": "brown",
-    "aggression": 20,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 8,
-    "melee_cut": 8,
-    "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 8,
-    "vision_day": 5,
-    "vision_night": 5,
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CHITIN", "FAT", "CLIMBS" ]
-  },
-  {
     "id": "mon_spore",
     "type": "MONSTER",
     "name": "spore cloud",
@@ -4147,59 +2399,8 @@
     "dodge": 2,
     "special_attacks": [ [ "PLANT", 100 ] ],
     "death_function": [ "DISINTEGRATE" ],
-    "upgrades": {
-      "half_life": 10,
-      "into": "mon_fungaloid"
-    },
+    "upgrades": { "half_life": 10, "into": "mon_fungaloid" },
     "flags": [ "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB" ]
-  },
-  {
-    "id": "mon_squirrel",
-    "type": "MONSTER",
-    "name": "squirrel",
-    "description": "A small granivorous rodent with a long bushy tail, often seen darting amid the branches of trees.  A skittish varmint with an expression of unwavering austerity, it is the mortal enemy of cat and dog alike.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "TINY",
-    "hp": 6,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "light_gray",
-    "aggression": -89,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 0,
-    "dodge": 4,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES" ]
-  },
-  {
-    "id": "mon_squirrel_red",
-    "type": "MONSTER",
-    "name": "squirrel",
-    "description": "A tiny opportunistic rodent with a long bushy tail.  The pine squirrel is clever and cute, and hunted by nearly everything in the woods with a taste for meat.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "TINY",
-    "hp": 6,
-    "speed": 130,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -9,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 0,
-    "dodge": 3,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES" ]
   },
   {
     "id": "mon_tankbot",
@@ -4227,12 +2428,7 @@
     "starting_ammo": { "120mm_HEAT": 40, "40mm_frag": 100, "556": 1000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "tankbot", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "tankbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS" ]
   },
@@ -4263,103 +2459,6 @@
     "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
   },
   {
-    "id": "mon_triffid",
-    "type": "MONSTER",
-    "name": "triffid",
-    "description": "A creeping animate plant, growing as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 16,
-    "size": "MEDIUM",
-    "hp": 80,
-    "speed": 50,
-    "material": [ "veggy" ],
-    "symbol": "F",
-    "color": "light_green",
-    "aggression": 20,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
-    "melee_cut": 6,
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
-  },
-  {
-    "id": "mon_triffid_heart",
-    "type": "MONSTER",
-    "name": "triffid heart",
-    "description": "A knot of tubular roots, flowing with sap and beating like a heart.  Strands of vascular tissue reach out to the surrounding root walls.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 50,
-    "size": "HUGE",
-    "hp": 500,
-    "speed": 100,
-    "material": [ "veggy" ],
-    "symbol": "T",
-    "color": "red",
-    "aggression": 100,
-    "morale": 100,
-    "melee_cut": 0,
-    "armor_bash": 12,
-    "armor_cut": 16,
-    "special_attacks": [ [ "TRIFFID_HEARTBEAT", 5 ] ],
-    "death_function": [ "TRIFFID_HEART" ],
-    "flags": [ "NOHEAD", "IMMOBILE", "QUEEN" ]
-  },
-  {
-    "id": "mon_triffid_queen",
-    "type": "MONSTER",
-    "name": "triffid queen",
-    "description": "A ponderous and particularly arborescent triffid.  It has enormous red petals surrounded by a haze of spores, and two thick barbed vines stick out from the stems like wary harpoons.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 28,
-    "size": "LARGE",
-    "hp": 280,
-    "speed": 85,
-    "material": [ "veggy" ],
-    "symbol": "F",
-    "color": "red",
-    "aggression": 100,
-    "morale": 200,
-    "melee_skill": 7,
-    "melee_dice": 2,
-    "melee_dice_sides": 8,
-    "melee_cut": 8,
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "special_attacks": [ [ "GROWPLANTS", 2 ] ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]
-  },
-  {
-    "id": "mon_triffid_young",
-    "type": "MONSTER",
-    "name": "triffid sprout",
-    "description": "A small triffid, only a few feet tall.  It has not yet developed bark, but its sting is still sharp and deadly.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 8,
-    "size": "SMALL",
-    "hp": 40,
-    "speed": 50,
-    "material": [ "veggy" ],
-    "symbol": "1",
-    "color": "light_green",
-    "morale": 10,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 4,
-    "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ]
-  },
-  {
     "id": "mon_tripod",
     "type": "MONSTER",
     "name": "tribot",
@@ -4383,40 +2482,9 @@
     "armor_cut": 8,
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "tripod", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
-  },
-  {
-    "id": "mon_turkey",
-    "type": "MONSTER",
-    "name": "turkey",
-    "description": "A large and colorful game bird native to the forests of North America.  Its head and beak are covered in fleshy protuberances.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "diff": 10,
-    "size": "SMALL",
-    "hp": 15,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "brown",
-    "aggression": -80,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 0,
-    "dodge": 3,
-    "vision_day": 50,
-    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
   },
   {
     "id": "mon_turret_searchlight",
@@ -4439,12 +2507,7 @@
     "armor_cut": 16,
     "luminance": 4,
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 1 ],
-        [ "turret_searchlight", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": [ "FOCUSEDBEAM" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
   },
@@ -4474,31 +2537,6 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "LEATHER", "CLIMBS" ]
   },
   {
-    "id": "mon_vinebeast",
-    "type": "MONSTER",
-    "name": "vine beast",
-    "description": "An animated mass of roots and vines, creeping along the ground with alarming speed.  The tangle is thick enough that the center from which they grow is concealed.",
-    "default_faction": "triffid",
-    "species": [ "PLANT" ],
-    "diff": 14,
-    "size": "LARGE",
-    "hp": 100,
-    "speed": 100,
-    "material": [ "veggy" ],
-    "symbol": "V",
-    "color": "light_green",
-    "aggression": 60,
-    "morale": 40,
-    "melee_skill": 8,
-    "melee_dice": 2,
-    "melee_dice_sides": 10,
-    "melee_cut": 0,
-    "dodge": 4,
-    "armor_bash": 18,
-    "death_function": [ "NORMAL" ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC" ]
-  },
-  {
     "id": "mon_vortex",
     "type": "MONSTER",
     "name": "vortex",
@@ -4518,94 +2556,6 @@
     "melee_cut": 0,
     "death_function": [ "MELT" ],
     "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB" ]
-  },
-  {
-    "id": "mon_wasp",
-    "type": "MONSTER",
-    "name": "giant wasp",
-    "description": "A gigantic slender-bodied wasp with an evil-looking stinger protruding from its abdomen.  Its exoskeleton glowers with ominous red markings.",
-    "default_faction": "wasp",
-    "species": [ "INSECT" ],
-    "diff": 20,
-    "size": "MEDIUM",
-    "hp": 40,
-    "speed": 150,
-    "material": [ "iflesh" ],
-    "symbol": "a",
-    "color": "dark_gray",
-    "aggression": 10,
-    "morale": 40,
-    "melee_skill": 5,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_cut": 8,
-    "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 8,
-    "vision_day": 10,
-    "vision_night": 5,
-    "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "wasps", 40 ] ],
-      "//": "40% chance of an item from group bees"
-    },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "CHITIN", "SWARMS", "GROUP_MORALE" ]
-  },
-  {
-    "id": "mon_weasel",
-    "type": "MONSTER",
-    "name": "weasel",
-    "description": "The long-tailed weasel, a small but ubiquitous predator whose range extends across the continent.  It forms its den in small burrows, preferring to occupy the nesting holes of its prey.",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "size": "TINY",
-    "hp": 20,
-    "speed": 110,
-    "material": [ "flesh" ],
-    "symbol": "m",
-    "color": "brown",
-    "morale": 40,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 2,
-    "dodge": 4,
-    "vision_night": 5,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT" ]
-  },
-  {
-    "id": "mon_wolf",
-    "type": "MONSTER",
-    "name": "wolf",
-    "name_plural": "wolves",
-    "description": "A cunning pack predator, once extinct in the New England area, the wolf was successfully reintroduced and their numbers reached record highs in the decade before the cataclysm.  Lucky you.",
-    "default_faction": "wolf",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "diff": 12,
-    "size": "MEDIUM",
-    "hp": 40,
-    "speed": 165,
-    "material": [ "flesh" ],
-    "symbol": "w",
-    "color": "light_gray",
-    "morale": 20,
-    "melee_skill": 7,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 4,
-    "dodge": 4,
-    "armor_bash": 1,
-    "vision_night": 5,
-    "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
   {
     "id": "mon_worm",
@@ -4635,7 +2585,7 @@
     "id": "mon_yugg",
     "type": "MONSTER",
     "name": "yugg",
-    "description": "An enormous white flatworm that burrows beneath the earth.  Its mouth is lined with pointed teeth, and it is covered in fine hairs which can be shed and fired like darts.",
+    "description": "This is a huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.  The mere sight of its putrid whitish visage is enough to loose prehistoric terrors within the darkest recesses of your mind.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 32,
@@ -4683,13 +2633,26 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "KEENNOSE",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FUR",
+      "BONES"
+    ]
   },
   {
     "id": "mon_zombear",
     "type": "MONSTER",
     "name": "zombear",
-    "description": "This black bear's eyes ooze with black fluid, and its flesh is torn and scarred.  It shuffles as it walks.",
+    "description": "This black bear's eyes ooze with dark, oily fluid, and its flesh is torn and scarred.  It shuffles as it walks.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
     "diff": 12,
@@ -4713,7 +2676,21 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "FAT", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FUR",
+      "BONES",
+      "FAT",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie",
@@ -4737,22 +2714,26 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      },
-      [ "GRAB", 7 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 28,
-      "into_group": "GROUP_ZOMBIE_UPGRADE"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_acidic",
@@ -4780,11 +2761,23 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 10,
-      "into": "mon_zombie_spitter"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 10, "into": "mon_zombie_spitter" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "ACIDPROOF",
+      "ACID_BLOOD",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_armored",
@@ -4837,12 +2830,7 @@
     "melee_skill": 7,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "electric",
-        "amount": 4
-      }
-    ],
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "melee_cut": 0,
     "dodge": 3,
     "armor_bash": 10,
@@ -4854,7 +2842,21 @@
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "CBM_OP", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "CBM_OP",
+      "ACIDPROOF",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES"
+    ]
   },
   {
     "id": "mon_zombie_biter",
@@ -4887,16 +2889,8 @@
         "cooldown": 4,
         "accuracy": 5,
         "damage_max_instance": [
-          {
-            "damage_type": "stab",
-            "amount": 10,
-            "armor_multiplier": 0.3
-          },
-          {
-            "damage_type": "bash",
-            "amount": 10,
-            "armor_multiplier": 0.3
-          }
+          { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.3 },
+          { "damage_type": "bash", "amount": 10, "armor_multiplier": 0.3 }
         ]
       },
       [ "GRAB", 4 ]
@@ -4904,7 +2898,23 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "GRABS",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_brute",
@@ -4929,18 +2939,25 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "vision_night": 4,
-    "special_attacks": [
-      [ "SMASH", 30 ],
-      [ "GRAB", 7 ]
-    ],
+    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
-    "upgrades": {
-      "half_life": 21,
-      "into_group": "GROUP_ZOMBIE_BRUTE"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 21, "into_group": "GROUP_ZOMBIE_BRUTE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_brute_grappler",
@@ -4967,16 +2984,24 @@
     "armor_cut": 14,
     "armor_stab": 8,
     "vision_night": 3,
-    "special_attacks": [
-      [ "SMASH", 30 ],
-      [ "BIO_OP_TAKEDOWN", 20 ],
-      [ "RANGED_PULL", 20 ],
-      [ "GRAB_DRAG", 10 ]
-    ],
+    "special_attacks": [ [ "SMASH", 30 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_brute_ninja",
@@ -5003,15 +3028,25 @@
     "armor_cut": 5,
     "vision_day": 5,
     "vision_night": 40,
-    "special_attacks": [
-      [ "SMASH", 40 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ]
-    ],
+    "special_attacks": [ [ "SMASH", 40 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON",
+      "NIGHT_INVISIBILITY"
+    ]
   },
   {
     "id": "mon_zombie_brute_shocker",
@@ -5032,25 +3067,70 @@
     "melee_skill": 3,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "melee_damage": [
-      {
-        "damage_type": "electric",
-        "amount": 4
-      }
-    ],
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "melee_cut": 2,
     "armor_bash": 3,
     "armor_cut": 8,
     "vision_night": 3,
     "luminance": 16,
-    "special_attacks": [
-      [ "SHOCKSTORM", 15 ],
-      [ "SMASH", 30 ]
-    ],
+    "special_attacks": [ [ "SHOCKSTORM", 15 ], [ "SMASH", 30 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_SUBS", "NO_BREATHE", "REVIVES", "BONES" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "ELECTRIC",
+      "CBM_SUBS",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES"
+    ]
+  },
+  {
+    "id": "mon_zombie_nullfield",
+    "type": "MONSTER",
+    "name": "incandescent husk",
+    "description": "This once-human is visible only as a glowing white silhouette that you have to squint to see, cloaked in a crackling field of lightning that pulses like a beating heart.  It walks slowly and deliberately, the thunderstorm surrounding it eagerly jumping to anything conductive within its grasp.",
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 50,
+    "size": "MEDIUM",
+    "hp": 200,
+    "speed": 50, "//": "slow walk speed - intimidating!",
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "i_cyan",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 2, "//": "melee damage is quite weak since the shockfield around it is its most dangerous function",
+    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "vision_night": 3,
+    "luminance": 16,
+    "emit_fields": [ "emit_shock_cloud" ],
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "death_drops": "default_zombie_death_drops",
+    "death_function": [ "NORMAL" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "POISON",
+      "ELECTRIC",
+      "CBM_SUBS",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "ELECTRIC_FIELD"
+    ]
   },
   {
     "id": "mon_zombie_cop",
@@ -5078,14 +3158,25 @@
     "armor_stab": 6,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [
-      [ "GRAB", 7 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_corrosive",
@@ -5113,14 +3204,40 @@
     "vision_night": 3,
     "luminance": 0,
     "special_attacks": [
-      [ "ACID_ACCURATE", 5 ],
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 50,
+        "gun_type": "acid_spit",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 8,
+        "fake_per": 8,
+        "require_targeting_player": false,
+        "description": "The corrosive zombie spits a glob of acid!",
+        "ranges": [ [ 2, 10, "DEFAULT" ] ]
+      },
       [ "ACID_BARF", 5 ]
     ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "ACIDPROOF",
+      "ACID_BLOOD",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_crawler",
@@ -5144,17 +3261,24 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "vision_day": 10,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      },
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GRABS",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES"
+    ]
   },
   {
     "id": "mon_zombie_dancer",
@@ -5207,12 +3331,7 @@
     "melee_cut": 2,
     "dodge": 1,
     "vision_night": 4,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES" ]
   },
@@ -5235,12 +3354,7 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 3,
-    "melee_damage": [
-      {
-        "damage_type": "electric",
-        "amount": 8
-      }
-    ],
+    "melee_damage": [ { "damage_type": "electric", "amount": 8 } ],
     "melee_cut": 0,
     "dodge": 2,
     "luminance": 8,
@@ -5248,7 +3362,23 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_CIV", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 28, "into": "mon_zombie_nullfield" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "ELECTRIC",
+      "CBM_CIV",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_fat",
@@ -5259,7 +3389,7 @@
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 3,
-    "size": "LARGE",
+    "size": "MEDIUM",
     "hp": 95,
     "speed": 55,
     "material": [ "flesh" ],
@@ -5274,23 +3404,27 @@
     "armor_bash": 5,
     "armor_cut": 3,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5,
-        "min_mul": 0.75,
-        "//": "Fat zombies have stronger jaws"
-      },
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.75, "//": "Fat zombies have stronger jaws" }, [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 10,
-      "into_group": "GROUP_ZOMBIE_FAT"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON" ]
+    "upgrades": { "half_life": 10, "into_group": "GROUP_ZOMBIE_FAT" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "FAT",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_fiend",
@@ -5321,10 +3455,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 8,
-      "into": "mon_zombie_brute"
-    },
+    "upgrades": { "half_life": 8, "into": "mon_zombie_brute" },
     "flags": [ "SEES", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES" ]
   },
   {
@@ -5357,7 +3488,21 @@
     "death_drops": "mon_zombie_fireman_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "ACIDPROOF",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_fungus",
@@ -5382,13 +3527,7 @@
     "armor_bash": 3,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [
-      [ "FUNGUS", 200 ],
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
@@ -5402,7 +3541,7 @@
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "size": "LARGE",
+    "size": "MEDIUM",
     "hp": 15,
     "speed": 80,
     "material": [ "flesh" ],
@@ -5416,10 +3555,7 @@
     "melee_cut": 0,
     "vision_night": 3,
     "emit_fields": [ "emit_toxic_leak" ],
-    "special_attacks": [
-      [ "SUICIDE", 20 ],
-      [ "scratch", 15 ]
-    ],
+    "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "BONES" ]
@@ -5447,21 +3583,27 @@
     "dodge": 1,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      },
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 14,
-      "into_group": "GROUP_ZOMBIE_GRAB"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_GRAB" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "GRABS",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_grappler",
@@ -5486,18 +3628,25 @@
     "dodge": 2,
     "vision_day": 30,
     "vision_night": 5,
-    "special_attacks": [
-      [ "RANGED_PULL", 20 ],
-      [ "GRAB_DRAG", 3 ],
-      {
-        "type": "bite",
-        "cooldown": 5
-      }
-    ],
+    "special_attacks": [ [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 3 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_hazmat",
@@ -5527,7 +3676,21 @@
     "death_drops": "mon_zombie_hazmat_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "ACIDPROOF",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_hollow",
@@ -5555,10 +3718,7 @@
     "armor_stab": 10,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [
-      [ "STRETCH_BITE", 10 ],
-      [ "STRETCH_ATTACK", 5 ]
-    ],
+    "special_attacks": [ [ "STRETCH_BITE", 10 ], [ "STRETCH_ATTACK", 5 ] ],
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE" ]
   },
@@ -5589,7 +3749,23 @@
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "DESTROYS",
+      "POISON",
+      "ATTACKMON",
+      "LEATHER",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "FAT",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_hunter",
@@ -5614,39 +3790,18 @@
     "dodge": 3,
     "vision_night": 5,
     "special_attacks": [
-      {
-        "id": "scratch",
-        "damage_max_instance": [
-          {
-            "damage_type": "cut",
-            "amount": 12
-          }
-        ]
-      },
-      {
-        "type": "leap",
-        "cooldown": 5,
-        "max_range": 5
-      },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
+      { "type": "leap", "cooldown": 5, "max_range": 5 },
       {
         "type": "bite",
         "cooldown": 10,
-        "damage_max_instance": [
-          {
-            "damage_type": "stab",
-            "amount": 12,
-            "armor_multiplier": 0.7
-          }
-        ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       }
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 28,
-      "into": "mon_zombie_predator"
-    },
+    "upgrades": { "half_life": 28, "into": "mon_zombie_predator" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "PUSH_MON" ]
   },
   {
@@ -5710,16 +3865,8 @@
         "cooldown": 10,
         "accuracy": 6,
         "damage_max_instance": [
-          {
-            "damage_type": "stab",
-            "amount": 8,
-            "armor_multiplier": 0.3
-          },
-          {
-            "damage_type": "bash",
-            "amount": 16,
-            "armor_multiplier": 0.3
-          }
+          { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.3 },
+          { "damage_type": "bash", "amount": 16, "armor_multiplier": 0.3 }
         ]
       },
       [ "GRAB", 20 ],
@@ -5728,7 +3875,23 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "SWIMS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "GRABS",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON",
+      "SWIMS"
+    ]
   },
   {
     "id": "mon_zombie_master",
@@ -5761,7 +3924,19 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "mon_zombie_necro",
@@ -5792,7 +3967,20 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PATH_AVOID_DANGER_1",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "mon_zombie_pig",
@@ -5817,16 +4005,26 @@
     "dodge": 1,
     "vision_day": 50,
     "path_settings": { "max_dist": 10 },
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 2
-      }
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "LEATHER", "FAT" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "KEENNOSE",
+      "BLEED",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "LEATHER",
+      "FAT"
+    ],
     "//": "1d8->2d5, minor bonus over 1d9"
   },
   {
@@ -5867,13 +4065,7 @@
       {
         "type": "bite",
         "cooldown": 10,
-        "damage_max_instance": [
-          {
-            "damage_type": "stab",
-            "amount": 10,
-            "armor_multiplier": 0.2
-          }
-        ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
       },
       { "id": "impale" }
     ],
@@ -5904,20 +4096,25 @@
     "melee_dice_sides": 2,
     "melee_cut": 0,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 2,
-        "accuracy": 3,
-        "no_infection_chance": 10
-      },
-      [ "GRAB", 7 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 3, "no_infection_chance": 10 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_runner",
@@ -5947,22 +4144,13 @@
       {
         "type": "bite",
         "cooldown": 5,
-        "damage_max_instance": [
-          {
-            "damage_type": "stab",
-            "amount": 10,
-            "armor_multiplier": 0.7
-          }
-        ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
       }
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 10,
-      "into": "mon_zombie_hunter"
-    },
+    "upgrades": { "half_life": 10, "into": "mon_zombie_hunter" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
   },
   {
@@ -5990,14 +4178,28 @@
     "vision_night": 3,
     "starting_ammo": { "bot_manhack": 3 },
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [
-      [ "SCIENCE", 20 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "SCIENCE", 20 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM_SCI", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "BLEED",
+      "CBM_SCI",
+      "ACIDPROOF",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "mon_zombie_scorched",
@@ -6027,10 +4229,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
-    "upgrades": {
-      "half_life": 28,
-      "into_group": "GROUP_ZOMBIE_UPGRADE"
-    },
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES" ]
   },
   {
@@ -6056,11 +4255,7 @@
     "dodge": 2,
     "vision_day": 50,
     "vision_night": 8,
-    "special_attacks": [
-      [ "SHRIEK_ALERT", 20 ],
-      [ "SHRIEK_STUN", 1 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
@@ -6089,18 +4284,26 @@
     "melee_cut": 0,
     "vision_day": 3,
     "vision_night": 40,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      },
-      [ "GRAB", 7 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON",
+      "NIGHT_INVISIBILITY"
+    ]
   },
   {
     "id": "mon_zombie_shrieker",
@@ -6125,19 +4328,25 @@
     "dodge": 1,
     "vision_day": 50,
     "vision_night": 4,
-    "special_attacks": [
-      [ "SHRIEK", 10 ],
-      [ "GRAB", 7 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 10,
-      "into": "mon_zombie_screecher"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 10, "into": "mon_zombie_screecher" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_smoker",
@@ -6164,15 +4373,23 @@
     "vision_day": 50,
     "vision_night": 3,
     "emit_fields": [ "emit_smoke_stream" ],
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      },
-      [ "scratch", 15 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "SMOKEBURST" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "HARDTOSHOOT",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_soldier",
@@ -6200,17 +4417,70 @@
     "armor_cut": 25,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5,
-        "min_mul": 0.8
-      }
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
     "death_drops": "mon_zombie_soldier_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
+  },
+  {
+    "id": "mon_zombie_military_pilot",
+    "type": "MONSTER",
+    "name": "zombie military pilot",
+    "description": "Once a pilot, it is dressed in basic military fatigues, aviator sunglasses, and a sturdy looking helmet.",
+    "default_faction": "zombie",
+    "categories": [ "CLASSIC" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
+    "size": "MEDIUM",
+    "hp": 90,
+    "speed": 85,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "light_green_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 0,
+    "dodge": 1,
+    "armor_bash": 5,
+    "armor_cut": 5,
+    "vision_day": 35,
+    "vision_night": 5,
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "death_drops": "mon_zombie_military_pilot_death_drops",
+    "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON",
+      "NOHEAD"
+    ]
   },
   {
     "id": "mon_zombie_spitter",
@@ -6238,11 +4508,23 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 28,
-      "into": "mon_zombie_corrosive"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 28, "into": "mon_zombie_corrosive" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "ACIDPROOF",
+      "ACID_BLOOD",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_survivor",
@@ -6273,21 +4555,9 @@
     "path_settings": { "max_dist": 3 },
     "special_attacks": [
       [ "SHRIEK", 20 ],
-      {
-        "type": "bite",
-        "cooldown": 5,
-        "min_mul": 1
-      },
+      { "type": "bite", "cooldown": 5, "min_mul": 1 },
       [ "GRAB", 7 ],
-      {
-        "id": "scratch",
-        "damage_max_instance": [
-          {
-            "damage_type": "cut",
-            "amount": 16
-          }
-        ]
-      }
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 16 } ] }
     ],
     "death_drops": "mon_zombie_survivor_death_drops",
     "death_function": [ "NORMAL" ],
@@ -6316,22 +4586,27 @@
     "melee_cut": 2,
     "dodge": 2,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5
-      },
-      [ "GRAB", 7 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 28,
-      "into": "mon_zombie_mancroc"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BLEED", "SWIMS", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 28, "into": "mon_zombie_mancroc" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "BLEED",
+      "SWIMS",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zombie_technician",
@@ -6358,13 +4633,7 @@
     "armor_cut": 2,
     "vision_day": 15,
     "vision_night": 2,
-    "special_attacks": [
-      [ "PULL_METAL_WEAPON", 25 ],
-      {
-        "type": "bite",
-        "cooldown": 20
-      }
-    ],
+    "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CBM_TECH", "BONES" ]
@@ -6394,23 +4663,26 @@
     "armor_bash": 2,
     "armor_cut": 1,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 5,
-        "min_mul": 0.7
-      },
-      [ "GRAB", 7 ],
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": {
-      "half_life": 28,
-      "into_group": "GROUP_ZOMBIE_UPGRADE"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON"
+    ]
   },
   {
     "id": "mon_zoose",
@@ -6465,16 +4737,57 @@
     "armor_bash": 1,
     "vision_day": 30,
     "vision_night": 10,
-    "special_attacks": [
-      {
-        "type": "leap",
-        "cooldown": 10,
-        "max_range": 5
-      }
-    ],
+    "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES" ]
+  },
+  {
+    "id": "mon_skeleton_hulk",
+    "type": "MONSTER",
+    "name": "skeletal juggernaut",
+    "description": "This hideous golem of plated bones and misshapen flesh drags its heavy, pointed limbs behind it like an unwanted burden.  Formerly soft and vulnerable, bones grew around its form to protect it - only, they kept growing.  And growing.  And growing.",
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE" ],
+    "diff": 50,
+    "size": "HUGE",
+    "hp": 480,
+    "speed": 60,
+    "material": [ "bone" ],
+    "symbol": "Z",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_cut": 15,
+    "armor_bash": 20,
+    "armor_cut": 45,
+    "vision_day": 50,
+    "vision_night": 4,
+    "special_attacks": [ [ "SMASH", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ],
+    { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] } ],
+    "death_drops": "mon_zombie_hulk_death_drops",
+    "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_fiend",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "DESTROYS",
+      "BLEED",
+      "POISON",
+      "ATTACKMON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BONES",
+      "PUSH_MON",
+      "NOGIB"
+    ]
   }
 ]

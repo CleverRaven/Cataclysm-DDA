@@ -220,6 +220,7 @@ enum color_id {
 
     def_c_unset,
 
+    def_c_black_red,
     def_c_white_red,
     def_c_light_gray_red,
     def_c_dark_gray_red,
@@ -368,6 +369,12 @@ class nc_color
         // Returns this attribute plus A_BLINK.
         nc_color blink() const;
         bool is_blink() const;
+        // Returns this attribute plus A_ITALIC.
+        nc_color italic() const;
+        bool is_italic() const;
+        // Returns this attribute plus A_UNDERLINE.
+        nc_color underline() const;
+        bool is_underline() const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

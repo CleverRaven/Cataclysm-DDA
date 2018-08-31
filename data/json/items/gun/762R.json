@@ -47,9 +47,9 @@
     "dispersion": 90,
     "durability": 10,
     "clip_size": 5,
-    "reload": 75,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
+    "magazines": [ [ "762R", [ "762R_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {

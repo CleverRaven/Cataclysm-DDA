@@ -1,7 +1,7 @@
 TODO: document the "npc" structure, used to load NPC template
 
 # Writing dialogues
-Dialogues work like state machines, it starts with a certain topic (the NPC says something), the player character can respond (choosing one of several responses), and that responses sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
+Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
 
 Note that it is perfectly fine to have a response that switches the topic back to itself.
 
@@ -16,7 +16,7 @@ Each topic consists of:
 2. a dynamic line, spoken by the NPC.
 3. a list of responses that can be spoken by the player character.
 
-One can specify those topic in json. It is currently not possible to define the starting topic, so you have to add a response to some of the default topics (e.g. "TALK_STRANGER_FRIENDLY" or "TALK_STRANGER_NEUTRAL") or to topics that can be reached somehow.
+One can specify new topics in json. It is currently not possible to define the starting topic, so you have to add a response to some of the default topics (e.g. "TALK_STRANGER_FRIENDLY" or "TALK_STRANGER_NEUTRAL") or to topics that can be reached somehow.
 
 Format:
 ```JSON
@@ -37,11 +37,11 @@ Format:
 Must always be there and must always be "talk_topic".
 
 ### id
-The topic id, can be one of the build in topics, but if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
+The topic id can be one of the built-in topics or a new id. However, if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
 
-It can also be an array of strings. This is loaded as if several topics with the exact same content had been given in json, each associated with an id from the `id`, array. Note that loading from json will append responses and, if defined in json, override the `dynamic_line` and the `replace_built_in_responses` setting. This allows to add responses to several topics at once.
+The topic id can also be an array of strings. This is loaded as if several topics with the exact same content have been given in json, each associated with an id from the `id`, array. Note that loading from json will append responses and, if defined in json, override the `dynamic_line` and the `replace_built_in_responses` setting. This allows adding responses to several topics at once.
 
-This example adds the "I'm going now!" to the all the listed topics.
+This example adds the "I'm going now!" response to all the listed topics.
 ```JSON
 {
     "type": "talk_topic",
@@ -57,13 +57,13 @@ This example adds the "I'm going now!" to the all the listed topics.
 ```
 
 ### dynamic_line
-This is the line spoken by the NPC. See the chapter for dynamic_line below. It is optional, if it's not defined and this topic has the same id as a built in topic, the `dynamic_line` from that built in topic will be used. Otherwise the NPC will say nothing.
+The `dynamic_line` is the line spoken by the NPC. It is optional. If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used. Otherwise the NPC will say nothing. See the chapter about dynamic_line below for more details.
 
 ### response
-An array with possible responses, it must not be empty. Each entry must be a response object, see below.
+The `responses` entry is an array with possible responses. It must not be empty. Each entry must be a response object. See the chapter about Responses below for more details.
 
 ### replace_built_in_responses
-A boolean (optional, default is `false`) that defines whether to dismiss the build in responses for that topic. If there are no built in responses, this won't do anything. If `true`, the built in responses are ignored and only those from this definition in json are used. If `false`, the responses from json are used *and* the built in responses (if any).
+`replace_built_in_responses` is an optional boolean that defines whether to dismiss the built-in responses for that topic (default is `false`). If there are no built-in responses, this won't do anything. If `true`, the built-in responses are ignored and only those from this definition in the current json are used. If `false`, the responses from the current json are used along with the built-in responses (if any).
 
 ---
 
@@ -188,7 +188,7 @@ Optional, if not defined, "NONE" is used. Otherwise one of "NONE", "LIE", "PERSU
 The `difficulty` is only required if type is not "NONE" and specifies the success chance in percent (it is however modified by various things like mutations).
 
 ### success and failure
-Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the the response, see below.
+Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, see below.
 
 The opinion of the NPC affects several aspects of the interaction with NPCs:
 - Higher trust makes it easier to lie and persuade, and it usually a good thing.

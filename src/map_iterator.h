@@ -57,6 +57,10 @@ class tripoint_range
                     const tripoint &pt = other.p;
                     return p.z != pt.z || p.y != pt.y || p.x != pt.x;
                 }
+
+                inline bool operator==( const point_generator &other ) const {
+                    return !( *this != other );
+                }
         };
 
         tripoint minp;

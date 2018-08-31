@@ -29,9 +29,11 @@ mission mission_type::create( const int npc_id ) const
     ret.item_count = item_count;
     ret.value = value;
     ret.follow_up = follow_up;
+    ret.monster_species = monster_species;
+    ret.monster_kill_goal = monster_kill_goal;
 
     if( deadline_low != 0 || deadline_high != 0 ) {
-        ret.deadline = int( calendar::turn ) + rng( deadline_low, deadline_high );
+        ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
     } else {
         ret.deadline = 0;
     }
@@ -39,22 +41,21 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
-std::unordered_map<int, std::unique_ptr<mission>> world_missions;
+static std::unordered_map<int, mission> world_missions;
 
-mission *mission::reserve_new( const mission_type_id type, const int npc_id )
+mission *mission::reserve_new( const mission_type_id &type, const int npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
     // @todo: Warn about overwrite?
-    auto &iter = world_missions[ tmp.uid ];
-    iter = std::unique_ptr<mission>( new mission( tmp ) );
-    return iter.get();
+    mission &miss = world_missions[tmp.uid] = tmp;
+    return &miss;
 }
 
 mission *mission::find( int id )
 {
     const auto iter = world_missions.find( id );
     if( iter != world_missions.end() ) {
-        return iter->second.get();
+        return &iter->second;
     }
     dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
     debugmsg( "requested mission with uid %d does not exist", id );
@@ -65,7 +66,7 @@ std::vector<mission *> mission::get_all_active()
 {
     std::vector<mission *> ret;
     for( auto &pr : world_missions ) {
-        ret.push_back( pr.second.get() );
+        ret.push_back( &pr.second );
     }
 
     return ret;
@@ -73,13 +74,13 @@ std::vector<mission *> mission::get_all_active()
 
 void mission::add_existing( const mission &m )
 {
-    world_missions[ m.uid ] = std::unique_ptr<mission>( new mission( m ) );
+    world_missions[ m.uid ] = m;
 }
 
 void mission::process_all()
 {
     for( auto &e : world_missions ) {
-        e.second->process();
+        e.second.process();
     }
 }
 
@@ -143,7 +144,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
     const auto dead_guys_id = p->getID();
     for( auto &e : world_missions ) {
-        auto &i = *e.second;
+        mission &i = e.second;
         if( !i.in_progress() ) {
             continue;
         }
@@ -303,13 +304,13 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_RECRUIT_NPC: {
             npc *p = g->find_npc( target_npc_id );
-            return p != nullptr && p->attitude == NPCATT_FOLLOW;
+            return p != nullptr && p->get_attitude() == NPCATT_FOLLOW;
         }
 
         case MGOAL_RECRUIT_NPC_CLASS: {
             const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
             for( auto &npc : npcs ) {
-                if( npc->myclass == recruit_class && npc->attitude == NPCATT_FOLLOW ) {
+                if( npc->myclass == recruit_class && npc->get_attitude() == NPCATT_FOLLOW ) {
                     return true;
                 }
             }
@@ -326,7 +327,10 @@ bool mission::is_complete( const int _npc_id ) const
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
-            return g->kill_count( mtype_id( monster_type ) ) >= monster_kill_goal;
+            return g->kill_count( mtype_id( monster_type ) ) >= kill_count_to_reach;
+
+        case MGOAL_KILL_MONSTER_SPEC:
+            return g->kill_count( monster_species ) >= kill_count_to_reach;
 
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
@@ -342,7 +346,7 @@ bool mission::has_deadline() const
     return deadline != 0;
 }
 
-calendar mission::get_deadline() const
+time_point mission::get_deadline() const
 {
     return deadline;
 }
@@ -413,7 +417,7 @@ void mission::process()
         return;
     }
 
-    if( deadline > 0 && calendar::turn.get_turn() > deadline ) {
+    if( deadline > 0 && calendar::turn > deadline ) {
         fail();
     } else if( npc_id < 0 && is_complete( npc_id ) ) { // No quest giver.
         wrap_up();
@@ -468,8 +472,16 @@ mission_type_id mission::mission_id()
 
 void mission::load_info( std::istream &data )
 {
-    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
-    std::string rew_item, itemid;
+    int type_id = 0;
+    int rewtype = 0;
+    int reward_id = 0;
+    int rew_skill = 0;
+    int tmpfollow = 0;
+    int item_num = 0;
+    int target_npc_id = 0;
+    int deadline_ = 0;
+    std::string rew_item;
+    std::string itemid;
     data >> type_id;
     type = mission_type::get( mission_type::from_legacy( type_id ) );
     std::string tmpdesc;
@@ -482,8 +494,9 @@ void mission::load_info( std::istream &data )
     description = description.substr( 0, description.size() - 1 ); // Ending ' '
     bool failed; // Dummy, no one has saves this old
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
-         uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
+         uid >> target.x >> target.y >> itemid >> item_num >> deadline_ >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
+    deadline = time_point::from_turn( deadline_ );
     target.z = 0;
     follow_up = mission_type::from_legacy( tmpfollow );
     reward.type = npc_favor_type( reward_id );
@@ -522,9 +535,9 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 }
 
 mission::mission()
+    : deadline( 0 )
 {
     type = NULL;
-    description = "";
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
@@ -536,7 +549,6 @@ mission::mission()
     target_npc_id = -1;
     monster_type = "mon_null";
     monster_kill_goal = -1;
-    deadline = 0;
     npc_id = -1;
     good_fac_id = -1;
     bad_fac_id = -1;

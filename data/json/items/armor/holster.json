@@ -41,10 +41,34 @@
     "use_action" : {
       "type": "holster",
       "max_volume": 2,
+      "min_volume": 0,
       "max_weight": 1000,
       "draw_cost": 150,
       "skills": ["pistol"]
     }
+  },
+  {
+    "id": "bow_sling",
+    "type": "ARMOR",
+    "name": "bow sling",
+    "name_plural": "bow slings",
+    "description": "A somewhat complicated set of straps and fabric to keep your bow close to hand and (mostly) out of harms way.  Activate to holster/draw your bow.",
+    "weight": 320,
+    "volume": 2,
+    "price": 8000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 7,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "WAIST" ],
+    "use_action": {
+        "type": "holster",
+        "max_volume": 20,
+        "min_volume": 2,
+        "skills": [ "archery" ] }
   },
   {
     "id" : "holster",
@@ -64,6 +88,7 @@
     "use_action" : {
       "type": "holster",
       "max_volume": 5,
+      "min_volume": 2,
       "skills": ["pistol", "smg", "shotgun"]
     },
     "flags" : ["WAIST", "OVERSIZE"]
@@ -101,7 +126,8 @@
     "material_thickness" : 2,
     "use_action": {
         "type": "holster",
-         "max_volume": 8,
+         "max_volume": 15,
+         "min_volume": 5,
          "skills": ["smg", "shotgun", "rifle"]
     },
     "flags": ["WATER_FRIENDLY", "STURDY", "WAIST"]

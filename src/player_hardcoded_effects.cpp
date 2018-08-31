@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "vitamin.h"
 #include "mongroup.h"
+#include "field.h"
 
 #ifdef TILES
 #include "SDL.h"
@@ -24,6 +25,7 @@ const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
+const efftype_id effect_antibiotic( "antibiotic" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
 const efftype_id effect_bite( "bite" );
@@ -33,6 +35,7 @@ const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cold( "cold" );
+const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
@@ -48,8 +51,10 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_rat( "rat" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_shakes( "shakes" );
@@ -57,13 +62,14 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
+const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
+const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 const vitamin_id vitamin_iron( "iron" );
 
@@ -78,12 +84,12 @@ static void eff_fun_spores( player &u, effect &it )
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_id( "M_IMMUNE" ) ) ) && ( one_in( 100 ) &&
             x_in_y( intense, 150 + u.get_healthy() / 10 ) ) ) {
-        u.add_effect( effect_fungus, 1, num_bp, true );
+        u.add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 }
 static void eff_fun_fungus( player &u, effect &it )
 {
-    const int dur = it.get_duration();
+    const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
     int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
     switch( intense ) {
@@ -97,8 +103,8 @@ static void eff_fun_fungus( player &u, effect &it )
             if( one_in( 100 + bonus ) ) {
                 u.add_msg_if_player( m_warning, _( "You smell and taste mushrooms." ) );
             }
-            it.mod_duration( 1 );
-            if( dur > 600 ) {
+            it.mod_duration( 1_turns );
+            if( dur > 1_hours ) {
                 it.mod_intensity( 1 );
             }
             break;
@@ -119,8 +125,8 @@ static void eff_fun_fungus( player &u, effect &it )
                 ///\EFFECT_STR decreases damage taken by fungus effect
                 u.apply_damage( nullptr, bp_torso, awfulness / std::max( u.str_cur, 1 ) ); // can't be healthy
             }
-            it.mod_duration( 1 );
-            if( dur > 3600 ) {
+            it.mod_duration( 1_turns );
+            if( dur > 6_hours ) {
                 it.mod_intensity( 1 );
             }
             break;
@@ -131,15 +137,11 @@ static void eff_fun_fungus( player &u, effect &it )
 
                 u.moves = -500;
                 fungal_effects fe( *g, g->m );
-                for( int i = -1; i <= 1; i++ ) {
-                    for( int j = -1; j <= 1; j++ ) {
-                        if( i == 0 && j == 0 ) {
-                            continue;
-                        }
-
-                        tripoint sporep( u.posx() + i, u.posy() + j, u.posz() );
-                        fe.fungalize( sporep, &u, 0.25 );
+                for( const tripoint &sporep : g->m.points_in_radius( u.pos(), 1 ) ) {
+                    if( sporep == u.pos() ) {
+                        continue;
                     }
+                    fe.fungalize( sporep, &u, 0.25 );
                 }
                 // We're fucked
             } else if( one_in( 6000 + bonus * 20 ) ) {
@@ -165,23 +167,23 @@ static void eff_fun_fungus( player &u, effect &it )
 }
 static void eff_fun_rat( player &u, effect &it )
 {
-    const int dur = it.get_duration();
+    const int dur = to_turns<int>( it.get_duration() );
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( "MUTCAT_RAT" );
+            u.mutate_category( "RAT" );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( "MUTCAT_TROGLOBITE" );
+            u.mutate_category( "TROGLOBITE" );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
         if( one_in( 3 ) ) {
             u.vomit();
-            it.mod_duration( -10 );
+            it.mod_duration( -10_turns );
         } else {
             u.add_msg_if_player( m_bad, _( "You feel nauseous!" ) );
-            it.mod_duration( 3 );
+            it.mod_duration( 3_turns );
         }
     }
 }
@@ -210,7 +212,7 @@ static void eff_fun_hallu( player &u, effect &it )
     constexpr int noticeTime = int( comeupTime + ( maxDuration - comeupTime ) / 2 );
     constexpr int peakTime = int( maxDuration * 0.8 );
     constexpr int comedownTime = int( maxDuration * 0.3 );
-    const int dur = it.get_duration();
+    const int dur = to_turns<int>( it.get_duration() );
     // Baseline
     if( dur == noticeTime ) {
         u.add_msg_if_player( m_warning, _( "You feel a little strange." ) );
@@ -254,7 +256,7 @@ static void eff_fun_hallu( player &u, effect &it )
     } else if( dur == peakTime ) {
         // Visuals start
         u.add_msg_if_player( m_bad, _( "Fractal patterns dance across your vision." ) );
-        u.add_effect( effect_visuals, peakTime - comedownTime );
+        u.add_effect( effect_visuals, time_duration::from_turns( peakTime - comedownTime ) );
     } else if( dur > comedownTime && dur < peakTime ) {
         // Full symptoms
         u.mod_per_bonus( -2 );
@@ -411,7 +413,7 @@ void player::hardcoded_effects( effect &it )
         if( buff->is_valid_player( *this ) ) {
             buff->apply_player( *this );
         } else {
-            it.set_duration( 0 ); // removes the effect
+            it.set_duration( 0_turns ); // removes the effect
         }
         return;
     }
@@ -435,24 +437,24 @@ void player::hardcoded_effects( effect &it )
         return;
     }
 
-    int start = it.get_start_turn();
-    int dur = it.get_duration();
+    const time_point start = it.get_start_time();
+    const time_duration dur = it.get_duration();
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
     bool sleeping = has_effect( effect_sleep );
     if( id == effect_dermatik ) {
         bool triggered = false;
         int formication_chance = 600;
-        if( dur < 2400 ) {
-            formication_chance += 2400 - dur;
+        if( dur < 4_hours ) {
+            formication_chance += 2400 - to_turns<int>( dur );
         }
         if( one_in( formication_chance ) ) {
-            add_effect( effect_formication, 600, bp );
+            add_effect( effect_formication, 60_minutes, bp );
         }
-        if( dur < 14400 && one_in( 2400 ) ) {
+        if( dur < 1_days && one_in( 2400 ) ) {
             vomit();
         }
-        if( dur > 14400 ) {
+        if( dur > 1_days ) {
             // Spawn some larvae!
             // Choose how many insects; more for large characters
             ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
@@ -462,25 +464,19 @@ void player::hardcoded_effects( effect &it )
             add_msg_player_or_npc( m_bad,
                                    _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
                                    _( "Insects begin to emerge from <npcname>'s skin!" ) );
-            for( int i = posx() - 1; i <= posx() + 1; i++ ) {
-                for( int j = posy() - 1; j <= posy() + 1; j++ ) {
-                    if( num_insects == 0 ) {
-                        break;
-                    } else if( i == 0 && j == 0 ) {
-                        continue;
-                    }
-                    tripoint dest( i, j, posz() );
-                    if( !g->critter_at( dest ) ) {
-                        if( monster *const grub = g->summon_mon( mon_dermatik_larva, dest ) ) {
-                            if( one_in( 3 ) ) {
-                                grub->friendly = -1;
-                            }
-                        }
-                        num_insects--;
-                    }
-                }
+            for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
                 if( num_insects == 0 ) {
                     break;
+                } else if( pos() == dest ) {
+                    continue;
+                }
+                if( !g->critter_at( dest ) ) {
+                    if( monster *const grub = g->summon_mon( mon_dermatik_larva, dest ) ) {
+                        if( one_in( 3 ) ) {
+                            grub->friendly = -1;
+                        }
+                    }
+                    num_insects--;
                 }
             }
             add_memorial_log( pgettext( "memorial_male", "Dermatik eggs hatched." ),
@@ -491,10 +487,10 @@ void player::hardcoded_effects( effect &it )
         }
         if( triggered ) {
             // Set ourselves up for removal
-            it.set_duration( 0 );
+            it.set_duration( 0_turns );
         } else {
             // Count duration up
-            it.mod_duration( 1 );
+            it.mod_duration( 1_turns );
         }
     } else if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
@@ -524,27 +520,28 @@ void player::hardcoded_effects( effect &it )
         }
         if( lesserEvil ) {
             // Only minor effects, some even good!
-            mod_str_bonus( dur > 4500 ? 10 : int( dur / 450 ) );
-            if( dur < 600 ) {
+            mod_str_bonus( dur > 450_minutes ? 10.0 : dur / 45_minutes );
+            if( dur < 1_hours ) {
                 mod_dex_bonus( 1 );
             } else {
-                int dex_mod = -( dur > 3600 ? 10 : int( ( dur - 600 ) / 300 ) );
+                int dex_mod = -( dur > 360_minutes ? 10.0 : ( dur - 1_hours ) / 30_minutes );
                 mod_dex_bonus( dex_mod );
                 add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
             }
-            mod_int_bonus( -( dur > 3000 ? 10 : int( ( dur - 500 ) / 250 ) ) );
-            mod_per_bonus( -( dur > 4800 ? 10 : int( ( dur - 800 ) / 400 ) ) );
+            mod_int_bonus( -( dur > 300_minutes ? 10.0 : ( dur - 50_minutes ) / 25_minutes ) );
+            mod_per_bonus( -( dur > 480_minutes ? 10.0 : ( dur - 80_minutes ) / 40_minutes ) );
         } else {
             // Major effects, all bad.
-            mod_str_bonus( -( dur > 5000 ? 10 : int( dur / 500 ) ) );
-            int dex_mod = -( dur > 6000 ? 10 : int( dur / 600 ) );
+            mod_str_bonus( -( dur > 500_minutes ? 10.0 : dur / 50_minutes ) );
+            int dex_mod = -( dur > 600_minutes ? 10.0 : dur / 60_minutes );
             mod_dex_bonus( dex_mod );
             add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
-            mod_int_bonus( -( dur > 4500 ? 10 : int( dur / 450 ) ) );
-            mod_per_bonus( -( dur > 4000 ? 10 : int( dur / 400 ) ) );
+            mod_int_bonus( -( dur > 450_minutes ? 10.0 : dur / 45_minutes ) );
+            mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
         }
     } else if( id == effect_attention ) {
-        if( one_in( 100000 / dur ) && one_in( 100000 / dur ) && one_in( 250 ) ) {
+        if( one_in( 100000 / to_turns<int>( dur ) ) && one_in( 100000 / to_turns<int>( dur ) ) &&
+            one_in( 250 ) ) {
             tripoint dest( 0, 0, posz() );
             int tries = 0;
             do {
@@ -580,7 +577,7 @@ void player::hardcoded_effects( effect &it )
             } else if( one_in( 500 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
                 body_part itch = random_body_part( true );
-                add_effect( effect_formication, 600, itch );
+                add_effect( effect_formication, 60_minutes, itch );
                 mod_pain( 1 );
             } else if( one_in( 500 ) ) {
                 add_msg_if_player( m_bad,
@@ -598,9 +595,9 @@ void player::hardcoded_effects( effect &it )
             // NO, no teleporting around the player because an NPC has teleglow!
             return;
         }
-        if( dur > 6000 ) {
+        if( dur > 10_hours ) {
             // 20 teleports (no decay; in practice at least 21)
-            if( one_in( 1000 - ( ( dur - 6000 ) / 10 ) ) ) {
+            if( one_in( 1000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                     add_memorial_log( pgettext( "memorial_male", "Spontaneous teleport." ),
@@ -609,23 +606,23 @@ void player::hardcoded_effects( effect &it )
                 g->teleport();
                 if( one_in( 10 ) ) {
                     // Set ourselves up for removal
-                    it.set_duration( 0 );
+                    it.set_duration( 0_turns );
                 }
             }
-            if( one_in( 1200 - ( ( dur - 6000 ) / 5 ) ) && one_in( 20 ) ) {
+            if( one_in( 1200 - ( ( dur - 600_minutes ) / 5_turns ) ) && one_in( 20 ) ) {
                 if( !is_npc() ) {
                     add_msg( m_bad, _( "You pass out." ) );
                 }
-                fall_asleep( 1200 );
+                fall_asleep( 2_hours );
                 if( one_in( 6 ) ) {
                     // Set ourselves up for removal
-                    it.set_duration( 0 );
+                    it.set_duration( 0_turns );
                 }
             }
         }
-        if( dur > 3600 ) {
+        if( dur > 6_hours ) {
             // 12 teleports
-            if( one_in( 4000 - int( .25 * ( dur - 3600 ) ) ) ) {
+            if( one_in( 4000 - ( dur - 360_minutes ) / 4_turns ) ) {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
                 int &y = dest.y;
@@ -651,69 +648,69 @@ void player::hardcoded_effects( effect &it )
                     }
                     if( one_in( 2 ) ) {
                         // Set ourselves up for removal
-                        it.set_duration( 0 );
+                        it.set_duration( 0_turns );
                     }
                 }
             }
-            if( one_in( 3500 - int( .25 * ( dur - 3600 ) ) ) ) {
+            if( one_in( 3500 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
                 if( one_in( 4 ) ) {
                     // Set ourselves up for removal
-                    it.set_duration( 0 );
+                    it.set_duration( 0_turns );
                 }
             }
         }
-        if( dur > 2400 ) {
+        if( dur > 4_hours ) {
             // 8 teleports
-            if( one_in( 10000 - dur ) && !has_effect( effect_valium ) ) {
-                add_effect( effect_shakes, rng( 40, 80 ) );
+            if( one_in( 10000 - to_turns<int>( dur ) ) && !has_effect( effect_valium ) ) {
+                add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
-            if( one_in( 12000 - dur ) ) {
+            if( one_in( 12000 - to_turns<int>( dur ) ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights..." ) );
-                add_effect( effect_blind, rng( 10, 20 ) );
+                add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 if( one_in( 8 ) ) {
                     // Set ourselves up for removal
-                    it.set_duration( 0 );
+                    it.set_duration( 0_turns );
                 }
             }
             if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
-                add_effect( effect_hallu, 3600 );
+                add_effect( effect_hallu, 6_hours );
                 if( one_in( 5 ) ) {
                     // Set ourselves up for removal
-                    it.set_duration( 0 );
+                    it.set_duration( 0_turns );
                 }
             }
         }
         if( one_in( 4000 ) ) {
             add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
-            add_effect( effect_boomered, 100 );
+            add_effect( effect_boomered, 10_minutes );
             if( one_in( 4 ) ) {
                 // Set ourselves up for removal
-                it.set_duration( 0 );
+                it.set_duration( 0_turns );
             }
         }
         if( one_in( 10000 ) ) {
             if( !has_trait( trait_id( "M_IMMUNE" ) ) ) {
-                add_effect( effect_fungus, 1, num_bp, true );
+                add_effect( effect_fungus, 1_turns, num_bp, true );
             } else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
             }
             // Set ourselves up for removal
-            it.set_duration( 0 );
+            it.set_duration( 0_turns );
         }
     } else if( id == effect_asthma ) {
         if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) ) {
             add_msg_if_player( m_good, _( "Your asthma attack stops." ) );
-            it.set_duration( 0 );
-        } else if( dur > 1200 ) {
+            it.set_duration( 0_turns );
+        } else if( dur > 2_hours ) {
             add_msg_if_player( m_bad, _( "Your asthma overcomes you.\nYou asphyxiate." ) );
             if( is_player() ) {
                 add_memorial_log( pgettext( "memorial_male", "Succumbed to an asthma attack." ),
                                   pgettext( "memorial_female", "Succumbed to an asthma attack." ) );
             }
             hurtall( 500, nullptr );
-        } else if( dur > 700 ) {
+        } else if( dur > 70_minutes ) {
             if( one_in( 20 ) ) {
                 add_msg_if_player( m_bad, _( "You wheeze and gasp for air." ) );
             }
@@ -740,7 +737,7 @@ void player::hardcoded_effects( effect &it )
             apply_damage( nullptr, bp_head, rng( 0, 1 ) );
             if( !has_effect( effect_visuals ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is getting fuzzy." ) );
-                add_effect( effect_visuals, rng( 10, 600 ) );
+                add_effect( effect_visuals, rng( 1_minutes, 60_minutes ) );
             }
         }
         if( one_in( 4096 ) ) {
@@ -748,7 +745,7 @@ void player::hardcoded_effects( effect &it )
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
             if( !has_effect( effect_blind ) ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
-                add_effect( effect_blind, rng( 5, 20 ) );
+                add_effect( effect_blind, rng( 5_turns, 20_turns ) );
             }
         }
     } else if( id == effect_tapeworm ) {
@@ -771,61 +768,61 @@ void player::hardcoded_effects( effect &it )
             add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
             if( one_in( 512 ) ) {
                 add_msg_if_player( m_bad, _( "Your muscles spasm." ) );
-                add_effect( effect_downed, rng( 1, 4 ), num_bp, false, 0, true );
-                add_effect( effect_stunned, rng( 1, 4 ) );
+                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+                add_effect( effect_stunned, rng( 1_turns, 4_turns ) );
                 if( one_in( 10 ) ) {
                     mod_pain( rng( 1, 10 ) );
                 }
             }
         }
     } else if( id == effect_datura ) {
-        if( dur > 1000 && focus_pool >= 1 && one_in( 4 ) ) {
+        if( dur > 100_minutes && focus_pool >= 1 && one_in( 4 ) ) {
             focus_pool--;
         }
-        if( dur > 2000 && one_in( 8 ) && stim < 20 ) {
+        if( dur > 200_minutes && one_in( 8 ) && stim < 20 ) {
             stim++;
         }
-        if( dur > 3000 && focus_pool >= 1 && one_in( 2 ) ) {
+        if( dur > 300_minutes && focus_pool >= 1 && one_in( 2 ) ) {
             focus_pool--;
         }
-        if( dur > 4000 && one_in( 64 ) ) {
+        if( dur > 400_minutes && one_in( 64 ) ) {
             mod_pain( rng( -1, -8 ) );
         }
-        if( ( !has_effect( effect_hallu ) ) && ( dur > 5000 && one_in( 4 ) ) ) {
-            add_effect( effect_hallu, 3600 );
+        if( ( !has_effect( effect_hallu ) ) && ( dur > 500_minutes && one_in( 4 ) ) ) {
+            add_effect( effect_hallu, 6_hours );
         }
-        if( dur > 6000 && one_in( 128 ) ) {
+        if( dur > 600_minutes && one_in( 128 ) ) {
             mod_pain( rng( -3, -24 ) );
-            if( dur > 8000 && one_in( 16 ) ) {
+            if( dur > 800_minutes && one_in( 16 ) ) {
                 add_msg_if_player( m_bad,
                                    _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
                 add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
-                add_effect( effect_downed, rng( 1, 4 ), num_bp, false, 0, true );
+                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
                 if( one_in( 8 ) || x_in_y( vomit_mod(), 10 ) ) {
                     vomit();
                 }
             }
         }
-        if( dur > 7000 && focus_pool >= 1 ) {
+        if( dur > 700_minutes && focus_pool >= 1 ) {
             focus_pool--;
         }
-        if( dur > 8000 && one_in( 256 ) ) {
-            add_effect( effect_visuals, rng( 40, 200 ) );
+        if( dur > 800_minutes && one_in( 256 ) ) {
+            add_effect( effect_visuals, rng( 4_minutes, 20_minutes ) );
             mod_pain( rng( -8, -40 ) );
         }
-        if( dur > 12000 && one_in( 256 ) ) {
+        if( dur > 1200_minutes && one_in( 256 ) ) {
             add_msg_if_player( m_bad, _( "There's some kind of big machine in the sky." ) );
-            add_effect( effect_visuals, rng( 80, 400 ) );
+            add_effect( effect_visuals, rng( 8_minutes, 40_minutes ) );
             if( one_in( 32 ) ) {
                 add_msg_if_player( m_bad, _( "It's some kind of electric snake, coming right at you!" ) );
                 mod_pain( rng( 4, 40 ) );
                 vomit();
             }
         }
-        if( dur > 14000 && one_in( 128 ) ) {
+        if( dur > 1400_minutes && one_in( 128 ) ) {
             add_msg_if_player( m_bad,
                                _( "Order us some golf shoes, otherwise we'll never get out of this place alive." ) );
-            add_effect( effect_visuals, rng( 400, 2000 ) );
+            add_effect( effect_visuals, rng( 40_minutes, 200_minutes ) );
             if( one_in( 8 ) ) {
                 add_msg_if_player( m_bad,
                                    _( "The possibility of physical and mental collapse is now very real." ) );
@@ -837,7 +834,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
 
-        if( dur > 18000 && one_in( MINUTES( 5 ) * 512 ) ) {
+        if( dur > 1800_minutes && one_in( 50 * 512 ) ) {
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
                 add_msg_if_player( m_bad,
                                    _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
@@ -858,7 +855,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( zed_number > 0 ) {
-            add_effect( effect_grabbed, 2, bp_torso, false,
+            add_effect( effect_grabbed, 2_turns, bp_torso, false,
                         ( intense + zed_number ) / 2 ); //If intensity isn't pass the cap, average it with # of zeds
         }
     } else if( id == effect_bite ) {
@@ -886,52 +883,80 @@ void player::hardcoded_effects( effect &it )
          *    0 health - 63.2%
          *  200 health - 65.6%
          */
-        if( dur % 10 == 0 )  {
+        if( dur % 10_turns == 0_turns )  {
             int recover_factor = 100;
             if( has_effect( effect_recover ) ) {
-                recover_factor -= get_effect_dur( effect_recover ) / 600;
+                recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
             }
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
+            }
+            if( has_effect( effect_panacea ) ) {
+                recover_factor = 108000; //panacea is a guaranteed cure
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                recover_factor += 400;
+            } else if( has_effect( effect_antibiotic ) ) {
+                recover_factor += 200;
+            } else if( has_effect( effect_weak_antibiotic ) ) {
+                recover_factor += 100;
             }
             recover_factor += get_healthy() / 10;
 
             if( x_in_y( recover_factor, 108000 ) ) {
                 //~ %s is bodypart name.
-                add_msg_if_player( m_good, _( "Your %s wound begins to feel better." ),
+                add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ).c_str() );
                 // Set ourselves up for removal
-                it.set_duration( 0 );
+                it.set_duration( 0_turns );
                 recovered = true;
             }
         }
         if( !recovered ) {
             // Move up to infection
-            if( dur > 3600 ) {
-                add_effect( effect_infected, 1, bp, true );
+            if( dur > 6_hours ) {
+                add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
-                it.set_duration( 0 );
-            } else {
-                it.mod_duration( 1 );
+                it.set_duration( 0_turns );
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                it.mod_duration( -1_turns ); //strong antibiotic reverses!
+            } else if( has_effect( effect_antibiotic ) ) {
+                if( calendar::once_every( 8_turns ) ) {
+                    it.mod_duration( 1_turns ); //normal antibiotic slows down progression by a factor of 8
+                }
+            } else if( has_effect( effect_weak_antibiotic ) ) {
+                if( calendar::once_every( 2_turns ) ) {
+                    it.mod_duration( 1_turns ); //weak antibiotic slows down by half
+                } else {
+                    it.mod_duration( 1_turns );
+                }
             }
         }
     } else if( id == effect_infected ) {
         bool recovered = false;
         // Recovery chance, use binomial distributions if balancing here.
         // See "bite" for balancing notes on this.
-        if( dur % 10 == 0 )  {
+        if( dur % 10_turns == 0_turns )  {
             int recover_factor = 100;
             if( has_effect( effect_recover ) ) {
-                recover_factor -= get_effect_dur( effect_recover ) / 600;
+                recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
             }
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
+            }
+            if( has_effect( effect_panacea ) ) {
+                recover_factor = 864000;
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                recover_factor += 400;
+            } else if( has_effect( effect_antibiotic ) ) {
+                recover_factor += 200;
+            } else if( has_effect( effect_weak_antibiotic ) ) {
+                recover_factor += 100;
             }
             recover_factor += get_healthy() / 10;
 
             if( x_in_y( recover_factor, 864000 ) ) {
                 //~ %s is bodypart name.
-                add_msg_if_player( m_good, _( "Your %s wound begins to feel better." ),
+                add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ).c_str() );
                 add_effect( effect_recover, 4 * dur );
                 // Set ourselves up for removal
@@ -941,13 +966,24 @@ void player::hardcoded_effects( effect &it )
         }
         if( !recovered ) {
             // Death happens
-            if( dur > 14400 ) {
+            if( dur > 1_days ) {
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
                 add_memorial_log( pgettext( "memorial_male", "Succumbed to the infection." ),
                                   pgettext( "memorial_female", "Succumbed to the infection." ) );
                 hurtall( 500, nullptr );
+            } else if( has_effect( effect_strong_antibiotic ) ) {
+                it.mod_duration( -1_turns );
+            } else if( has_effect( effect_antibiotic ) ) {
+                if( calendar::once_every( 8_turns ) ) {
+                    it.mod_duration( 1_turns );
+                }
+            } else if( has_effect( effect_weak_antibiotic ) ) {
+                if( calendar::once_every( 2_turns ) ) {
+                    it.mod_duration( 1_turns );
+                }
+            } else {
+                it.mod_duration( 1_turns );
             }
-            it.mod_duration( 1 );
         }
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
@@ -971,18 +1007,18 @@ void player::hardcoded_effects( effect &it )
             if( has_active_mutation( trait_id( "HIBERNATE" ) ) && get_hunger() < -60 ) {
                 add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
                                   pgettext( "memorial_female", "Entered hibernation." ) );
-                // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
-                fall_asleep( 144000 );
+                // some days worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                fall_asleep( 10_days );
                 // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
                 // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
                 // will last about 8 days.
             }
 
-            fall_asleep( 6000 ); //10 hours, default max sleep time.
+            fall_asleep( 10_hours ); // default max sleep time.
             // Set ourselves up for removal
             it.set_duration( 0 );
         }
-        if( dur == 1 && !sleeping ) {
+        if( dur == 1_turns && !sleeping ) {
             add_msg_if_player( _( "You try to sleep, but can't..." ) );
         }
     } else if( id == effect_sleep ) {
@@ -993,31 +1029,55 @@ void player::hardcoded_effects( effect &it )
         }
 #endif // TILES
 
-        if( intense < 24 ) {
-            it.mod_intensity( 1 );
-        } else if( intense < 1 ) {
+        if( intense < 1 ) {
             it.set_intensity( 1 );
+        } else if( intense < 24 ) {
+            it.mod_intensity( 1 );
         }
 
-        if( get_fatigue() < -25 && it.get_duration() > 30 ) {
-            it.set_duration( dice( 3, 10 ) );
+        if( has_effect( effect_narcosis ) && get_fatigue() <= 25 ) {
+            set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
         }
 
-        if( get_fatigue() <= 0 && get_fatigue() > -20 ) {
+        if( get_fatigue() < -25 && it.get_duration() > 3_minutes && !has_effect( effect_narcosis ) ) {
+            it.set_duration( 1_turns * dice( 3, 10 ) );
+        }
+
+        if( get_fatigue() <= 0 && get_fatigue() > -20 && !has_effect( effect_narcosis ) ) {
             mod_fatigue( -25 );
             add_msg_if_player( m_good, _( "You feel well rested." ) );
-            it.set_duration( dice( 3, 100 ) );
+            it.set_duration( 1_turns * dice( 3, 100 ) );
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
-        if( calendar::once_every( 10_minutes ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
-            g->is_in_sunlight( pos() ) ) {
-            // Hunger and thirst fall before your Chloromorphic physiology!
-            if( get_hunger() >= -30 ) {
-                mod_hunger( -5 );
+        bool compatible_weather_types = g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY
+                                        || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY || g->weather == WEATHER_FLURRIES
+                                        || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
+
+        if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
+                has_trait( trait_id( "M_SKIN3" ) ) ) &&
+            g->m.is_outside( pos() ) ) {
+            if( has_trait( trait_id( "CHLOROMORPH" ) ) ) {
+                // Hunger and thirst fall before your Chloromorphic physiology!
+                if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
+                    if( get_hunger() >= -30 ) {
+                        mod_hunger( -5 );
+                    }
+                    if( get_thirst() >= -30 ) {
+                        mod_thirst( -5 );
+                    }
+                }
             }
-            if( get_thirst() >= -30 ) {
-                mod_thirst( -5 );
+            if( has_trait( trait_id( "M_SKIN3" ) ) ) {
+                // Spores happen!
+                if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+                    if( get_fatigue() >= 0 ) {
+                        mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
+                    }
+                    if( calendar::once_every( 1_hours ) ) {
+                        spores(); // spawn some P O O F Y   B O I S
+                    }
+                }
             }
         }
 
@@ -1040,7 +1100,7 @@ void player::hardcoded_effects( effect &it )
         // Get a dream if category strength is high enough.
         if( strength != 0 ) {
             //Once every 6 / 3 / 2 hours, with a bit of randomness
-            if( ( int( calendar::turn ) % ( 3600 / strength ) == 0 ) && one_in( 3 ) ) {
+            if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
                 // Select a dream
                 std::string dream = get_category_dream( highcat, strength );
                 if( !dream.empty() ) {
@@ -1049,7 +1109,7 @@ void player::hardcoded_effects( effect &it )
                 // Mycus folks upgrade in their sleep.
                 if( has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                     if( one_in( 8 ) ) {
-                        mutate_category( "MUTCAT_MYCUS" );
+                        mutate_category( "MYCUS" );
                         mod_hunger( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );
@@ -1060,7 +1120,7 @@ void player::hardcoded_effects( effect &it )
 
         bool woke_up = false;
         int tirednessVal = rng( 5, 200 ) + rng( 0, abs( get_fatigue() * 2 * 5 ) );
-        if( !is_blind() ) {
+        if( !is_blind() && !has_effect( effect_narcosis ) ) {
             if( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && !has_trait( trait_id( "HIBERNATE" ) ) ) {
                 // So you can too sleep through noon
                 if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
@@ -1089,28 +1149,28 @@ void player::hardcoded_effects( effect &it )
         }
 
         // Have we already woken up?
-        if( !woke_up ) {
+        if( !woke_up && !has_effect( effect_narcosis ) ) {
             // Cold or heat may wake you up.
             // Player will sleep through cold or heat if fatigued enough
-            for( int i = 0 ; i < num_bp ; i++ ) {
-                if( temp_cur[i] < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
+            for( const body_part bp : all_body_parts ) {
+                if( temp_cur[bp] < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
                     if( one_in( 5000 ) ) {
                         add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                     }
-                    if( temp_cur[i] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
-                        one_in( temp_cur[i] + 5000 ) ) {
+                    if( temp_cur[bp] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
+                        one_in( temp_cur[bp] + 5000 ) ) {
                         add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0 );
                         woke_up = true;
                         break;
                     }
-                } else if( temp_cur[i] > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
+                } else if( temp_cur[bp] > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
                     if( one_in( 5000 ) ) {
                         add_msg_if_player( _( "You toss and turn in the heat." ) );
                     }
-                    if( temp_cur[i] > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
-                        one_in( 15000 - temp_cur[i] ) ) {
+                    if( temp_cur[bp] > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
+                        one_in( 15000 - temp_cur[bp] ) ) {
                         add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0 );
@@ -1119,12 +1179,35 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
+            if( ( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
+                  one_in( 7200 ) && is_player() ) ) {
+                if( one_in( 2 ) ) {
+                    sound_hallu();
+                } else {
+                    int max_count = rng( 1, 3 );
+                    int count = 0;
+                    for( const tripoint &mp : g->m.points_in_radius( pos(), 1 ) ) {
+                        if( mp == pos() ) {
+                            continue;
+                        }
+                        if( g->m.has_flag( "FLAT", mp ) &&
+                            g->m.pl_sees( mp, 2 ) ) {
+                            g->spawn_hallucination( mp );
+                            if( ++count > max_count ) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                it.set_duration( 0 );
+                woke_up = true;
+            }
         }
 
         // A bit of a hack: check if we are about to wake up for any reason,
         // including regular timing out of sleep
-        if( it.get_duration() == 1 || woke_up ) {
-            if( calendar::turn - start > HOURS( 2 ) ) {
+        if( it.get_duration() == 1_turns || woke_up ) {
+            if( calendar::turn - start > 2_hours ) {
                 print_health();
             }
             if( has_effect( effect_slept_through_alarm ) ) {
@@ -1139,7 +1222,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_alarm_clock ) {
         if( has_effect( effect_sleep ) ) {
             if( has_bionic( bionic_id( "bio_watch" ) ) ) {
-                if( dur == 1 ) {
+                if( dur == 1_turns ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
                     // normal/HEAVYSLEEPER/HEAVYSLEEPER2.
                     //
@@ -1160,20 +1243,20 @@ void player::hardcoded_effects( effect &it )
                         }
                     } else {
                         if( !has_effect( effect_slept_through_alarm ) ) {
-                            add_effect( effect_slept_through_alarm, 1, num_bp, true );
+                            add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                         }
                         // 10 minute cyber-snooze
-                        it.mod_duration( 100 );
+                        it.mod_duration( 10_minutes );
                     }
                 }
             } else {
-                if( dur <= 1 ) {
+                if( dur <= 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
-                        add_effect( effect_slept_through_alarm, 1, num_bp, true );
+                        add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                     }
                     // 10 minute automatic snooze
-                    it.mod_duration( 100 );
-                } else if( dur <= 2 ) {
+                    it.mod_duration( 10_minutes );
+                } else if( dur <= 2_turns ) {
                     sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
                     // let the sound code handle the wake-up part
                 }
@@ -1190,5 +1273,11 @@ void player::hardcoded_effects( effect &it )
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();
         }
+    } else if( id == effect_panacea ) {
+        // restore health all body parts, dramatically reduce pain
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            hp_cur[i] += 10;
+        }
+        mod_pain( -10 );
     }
 }

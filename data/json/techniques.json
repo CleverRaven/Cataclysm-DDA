@@ -138,8 +138,8 @@
         "crit_tec" : true,
         "weighting" : -250,
         "messages" : [
-            "Snicker-snack!  You behead %s",
-            "Snicker-snack!  <npcname> beheads %s"
+            "Snicker-snack! You slice through %s like hot knife slices through butter",
+            "Snicker-snack! <npcname> slices through %s like hot knife slices through butter"
         ],
         "description" : "Cut damage multiply by 99, crit only"
     },{
@@ -188,8 +188,8 @@
         "melee_allowed" : true,
         "disarms" : true,
         "messages" : [
-            "You disarm %s using your whip!",
-            "<npcname> disarm %s using their whip!"
+            "You disarm %s using your whip",
+            "<npcname> disarms %s using their whip"
         ],
         "description" : "Unwield target's weapon"
     },{
@@ -201,11 +201,11 @@
         "block_counter": true,
         "dodge_counter": true,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You counter-attack %s",
             "<npcname> counter-attacks %s"
-        ]
+        ],
+        "description" : "Counterattack on block, counterattack on dodge"
     },{
         "type" : "technique",
         "id" : "tec_feint",
@@ -213,7 +213,8 @@
         "unarmed_allowed" : true,
         "melee_allowed" : true,
         "defensive" : true,
-        "miss_recovery" : true
+        "miss_recovery" : true,
+        "description" : "Free recovery from a miss"
     },{
         "type" : "technique",
         "id" : "tec_break",
@@ -221,7 +222,8 @@
         "unarmed_allowed" : true,
         "melee_allowed" : true,
         "defensive" : true,
-        "grab_break" : true
+        "grab_break" : true,
+        "description" : "Break a grab"
     },{
         "type" : "technique",
         "id" : "tec_precise",
@@ -234,7 +236,8 @@
             "You jab deftly at %s",
             "<npcname> jabs deftly at %s"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, crit only"
     },{
         "type" : "technique",
         "id" : "tec_boxing_cross",
@@ -245,7 +248,8 @@
             "You throw a heavy cross at %s",
             "<npcname> throws a cross at %s"
         ],
-        "bash_mult" : 1.2
+        "bash_mult" : 1.2,
+        "description" : "x1.2 bash damage, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_boxing_rapid",
@@ -261,7 +265,8 @@
             ["damage", "bash", 0.66],
             ["damage", "cut", 0.66],
             ["damage", "stab", 0.66]
-        ]
+        ],
+        "description" : "50% moves, 66% damage, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_boxing_upper",
@@ -274,7 +279,8 @@
             "<npcname> uppercuts %s"
         ],
         "bash_mult" : 1.4,
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, x1.4 bash damage, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_boxing_counter",
@@ -288,12 +294,12 @@
             "boxing_counter"
             ],
         "messages" : [
-            "You Cross-Counter %s",
+            "You cross-counter %s",
             "<npcname> throws a perfect counter at %s"
         ],
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, knockback 1 tile, crit only, min 5 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_karate_rapid",
@@ -309,7 +315,8 @@
             ["damage", "bash", 0.66],
             ["damage", "cut", 0.66],
             ["damage", "stab", 0.66]
-        ]
+        ],
+        "description" : "50% moves, 66% damage"
     },{
         "type" : "technique",
         "id" : "tec_karate_precise",
@@ -321,7 +328,8 @@
             "You karate chop %s",
             "<npcname> karate chops %s"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, crit only, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_aikido_throw",
@@ -334,7 +342,8 @@
         "messages" : [
             "You throw %s",
             "<npcname> throws %s"
-        ]
+        ],
+        "description" : "Down 1 turn, knockback 1 tile, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_aikido_dodgethrow",
@@ -346,11 +355,11 @@
         "knockback_dist" : 1,
         "knockback_spread" : 1,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You smoothly throw %s",
             "<npcname> smoothly throws %s"
-        ]
+        ],
+        "description" : "Down 1 turn, knockback 1 tile, counterattack on dodge, min 6 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_aikido_feint",
@@ -362,7 +371,8 @@
         "messages" : [
             "You feint at %s",
             "<npcname> feints at %s"
-        ]
+        ],
+        "description" : "Free recovery from a miss, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_aikido_disarm",
@@ -373,7 +383,8 @@
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"
-        ]
+        ],
+        "description" : "Unwield target's weapon, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_judo_throw",
@@ -386,7 +397,8 @@
         "messages" : [
             "You throw %s",
             "<npcname> throws %s"
-        ]
+        ],
+        "description" : "Down 1 turn, knockback 1 tile, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_judo_grab",
@@ -397,7 +409,8 @@
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
-        ]
+        ],
+        "description" : "Down 2 turns, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_taichi_disarm",
@@ -408,7 +421,8 @@
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"
-        ]
+        ],
+        "description" : "Unwield target's weapon, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_taichi_precise",
@@ -420,7 +434,8 @@
         "messages" : [
             "You strike %s",
             "<npcname> strikes %s"
-        ]
+        ],
+        "description" : "Stun 2 turns, crit only, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_capoeira_feint",
@@ -432,7 +447,8 @@
         "messages" : [
             "You feint at %s",
             "<npcname> feints at %s"
-        ]
+        ],
+        "description" : "Free recovery from a miss, min 1 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_elbow",
@@ -444,7 +460,8 @@
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "movecost_mult" : 0.5
+        "movecost_mult" : 0.5,
+        "description" : "50% moves, crit only, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_kick",
@@ -455,7 +472,8 @@
             "You power-kick %s",
             "<npcname> power-kicks %s"
         ],
-        "stun_dur" : 1
+        "stun_dur" : 1,
+        "description" : "Stun 1 turn, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_knee",
@@ -467,7 +485,8 @@
             "You flying knee %s",
             "<npcname> flying knees %s"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, crit only, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_rapid",
@@ -483,7 +502,8 @@
             ["damage", "bash", 0.66],
             ["damage", "cut", 0.66],
             ["damage", "stab", 0.66]
-        ]
+        ],
+        "description" : "50% moves, 66% damage, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_feint",
@@ -495,7 +515,8 @@
         "messages" : [
             "You feint at %s",
             "<npcname> feints at %s"
-        ]
+        ],
+        "description" : "Free recovery from a miss, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_precise",
@@ -507,7 +528,8 @@
             "You jab %s",
             "<npcname> jabs %s"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, crit only, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_disarm",
@@ -518,7 +540,8 @@
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"
-        ]
+        ],
+        "description" : "Unwield target's weapon, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_grab",
@@ -529,7 +552,8 @@
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
-        ]
+        ],
+        "description" : "Down 1 turn, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_break",
@@ -538,7 +562,8 @@
         "unarmed_allowed" : true,
         "melee_allowed" : true,
         "defensive" : true,
-        "grab_break" : true
+        "grab_break" : true,
+        "description" : "Break a grab, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_ninjutsu_precise",
@@ -554,7 +579,8 @@
         ],
         "stun_dur" : 2,
         "bash_mult" : 1.4,
-        "cut_mult" : 2
+        "cut_mult" : 2,
+        "description" : "Stun 2 turns, x1.4 bash damage, x2 cut damage, crit only, min 3 unarmed, min 3 melee"
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_precise",
@@ -566,7 +592,8 @@
         "messages" : [
             "You axe-kick %s",
             "<npcname> axe-kicks %s"
-        ]
+        ],
+        "description" : "Stun 2 turns, crit only, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_push",
@@ -578,7 +605,8 @@
             "<npcname> side-kicks %s"
         ],
         "stun_dur" : 1,
-        "knockback_dist" : 1
+        "knockback_dist" : 1,
+        "description" : "Stun 1 turn, knockback 1 tile, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_sweep",
@@ -589,7 +617,8 @@
             "You sweep-kick %s",
             "<npcname> sweep-kicks %s"
         ],
-        "down_dur" : 2
+        "down_dur" : 2,
+        "description" : "Down 2 turns, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_counter",
@@ -598,11 +627,11 @@
         "unarmed_allowed" : true,
         "block_counter": true,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You block and counter-attack %s",
             "<npcname> blocks and counter-attacks %s"
-        ]
+        ],
+        "description" : "Counterattack on block, min 4 melee"
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_rapid_unarmed",
@@ -618,7 +647,8 @@
             ["damage", "bash", 0.66],
             ["damage", "cut", 0.66],
             ["damage", "stab", 0.66]
-        ]
+        ],
+        "description" : "50% moves, 66% damage"
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_rapid_armed",
@@ -633,7 +663,8 @@
             ["damage", "bash", 0.66],
             ["damage", "cut", 0.66],
             ["damage", "stab", 0.66]
-        ]
+        ],
+        "description" : "50% moves, 66% damage"
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_impale",
@@ -646,7 +677,8 @@
             "You brutally impale %s",
             "<npcname> brutally impales %s"
         ],
-        "stun_dur" : 1
+        "stun_dur" : 1,
+        "description" : "Stun 1 turn, x1.5 cut damage, x1.5 bash damage, crit only, min 3 melee"
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_sweep",
@@ -657,7 +689,8 @@
             "You sweep-kick %s",
             "<npcname> sweep-kicks %s"
         ],
-        "down_dur" : 2
+        "down_dur" : 2,
+        "description" : "Down 2 turns, min 2 melee"
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_wide",
@@ -668,7 +701,8 @@
             "You cleave through %s",
             "<npcname> cleave through %s"
         ],
-        "aoe" : "wide"
+        "aoe" : "wide",
+        "description" : "Attack in a wide arc, crit only, min 5 melee"
     },{
         "type" : "technique",
         "id" : "tec_zuiquan_feint",
@@ -680,7 +714,8 @@
         "messages" : [
             "You stumble and leer at %s",
             "<npcname> stumbles and leers at %s"
-        ]
+        ],
+        "description" : "Free recovery from a miss, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_zuiquan_counter",
@@ -692,11 +727,11 @@
             ["movecost", 0.0],
             ["damage", "bash", 1.25]
         ],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
             "You lurch, and your wild swing hits %s",
             "<npcname> lurches, and hits %s"
-        ]
+        ],
+        "description" : "x1.25 bash damage, counterattack on dodge, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_fencing_lunge",
@@ -707,7 +742,8 @@
         "messages" : [
             "You lunge at %s",
             "<npcname> lunges at %s"
-        ]
+        ],
+        "description" : "75% moves, min 2 melee"
     },{
         "type" : "technique",
         "id" : "tec_fencing_thrust",
@@ -721,7 +757,8 @@
         "messages" : [
             "You thrust at %s",
             "<npcname> thrust at %s"
-        ]
+        ],
+        "description" : "90% moves, x1.25 stab damage, min 1 melee"
     },{
         "type" : "technique",
         "id" : "tec_fencing_stop_thrust",
@@ -732,12 +769,12 @@
             ["movecost", 0.0],
             ["damage", "stab", 1.5]
         ],
-        "flat_bonuses" : [["movecost", 20]],
         "stun_dur" : 1,
         "messages" : [
             "You deliver a perfect stop thrust to %s",
             "<npcname> delivers a perfect stop thrust to %s"
-        ]
+        ],
+        "description" : "x1.5 stab damage, stun 1 turn, counterattack on block, min 3 melee"
     },{
         "type" : "technique",
         "id" : "tec_eskrima_round",
@@ -747,7 +784,8 @@
         "messages" : [
             "You round strike %s",
             "<npcname> round strikes %s"
-        ]
+        ],
+        "description" : "60% moves, min 4 melee"
     },{
         "type" : "technique",
         "id" : "tec_eskrima_fan",
@@ -757,7 +795,8 @@
         "messages" : [
             "You fan strike %s",
             "<npcname> fan strikes %s"
-        ]
+        ],
+        "description" : "75% moves, min 2 melee"
     },{
         "type" : "technique",
         "id" : "tec_eskrima_snap",
@@ -767,7 +806,8 @@
         "messages" : [
             "You snap out at %s",
             "<npcname> snaps quickly at %s"
-        ]
+        ],
+        "description" : "80% moves"
     },{
         "type" : "technique",
         "id" : "tec_eskrima_combination",
@@ -785,7 +825,8 @@
         "messages" : [
             "You combination strike %s",
             "<npcname> combination strikes %s"
-        ]
+        ],
+        "description" : "80% moves, 150% damage, min 2 melee"
     },{
         "type" : "technique",
         "id" : "tec_eskrima_free",
@@ -798,7 +839,8 @@
         "messages" : [
             "You whip a free strike onto %s",
             "<npcname> free strikes %s"
-        ]
+        ],
+        "description" : "Free strike, min 4 melee"
     },{
         "type" : "technique",
         "id" : "tec_eskrima_puno",
@@ -815,7 +857,8 @@
         "messages" : [
             "You deliver a puño to %s",
             "<npcname> haftstrikes %s"
-        ]
+        ],
+        "description" : "Converts all damage into x4 bashing damage, stun 1 turn, min 3 melee, min 2 points of bashing damage delivered"
     },{
         "type" : "technique",
         "id" : "tec_eskrima_kick",
@@ -826,7 +869,8 @@
         "messages" : [
             "You deliver a knee strike to %s",
             "<npcname> knees %s"
-        ]
+        ],
+        "description" : "Down 2 turns, crit only, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_silat_hamstring",
@@ -835,9 +879,10 @@
         "crit_tec" : true,
         "down_dur" : 3,
         "messages" : [
-            "You ground %s with a low blow!",
+            "You ground %s with a low blow",
             "<npcname> grounds %s with a low blow"
-        ]
+        ],
+        "description" : "Down 3 turns, crit only, min 2 melee"
     },{
         "type" : "technique",
         "id" : "tec_silat_precise",
@@ -850,9 +895,10 @@
             ["damage", "stab", 1.5]
         ],
         "messages" : [
-            "You viciously wound %s!",
+            "You viciously wound %s",
             "<npcname> viciously wounds %s"
-        ]
+        ],
+        "description" : "150% damage, crit only, min 4 melee"
     },{
         "type" : "technique",
         "id" : "tec_silat_brutal",
@@ -862,9 +908,10 @@
         "stun_dur" : 1,
         "knockback_dist" : 1,
         "messages" : [
-            "You send %s reeling backwards!",
-            "<npcname> sends %s reeling!"
-        ]
+            "You send %s reeling backwards",
+            "<npcname> sends %s reeling"
+        ],
+        "description" : "Stun 1 turn, knockback 1 tile, crit only, min 3 melee"
     },{
         "type" : "technique",
         "id" : "tec_silat_dirty",
@@ -876,9 +923,10 @@
             "silat_dodge_buff"
         ],
         "messages" : [
-            "You hit %s with a dirty blow!",
-            "<npcname> delivers a dirty blow to %s!"
-        ]
+            "You hit %s with a dirty blow",
+            "<npcname> delivers a dirty blow to %s"
+        ],
+        "description" : "Stun 2 turns, crit only, min 1 melee"
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_feint",
@@ -890,7 +938,8 @@
         "messages" : [
             "You hiss threateningly at %s",
             "<npcname> hisses threateningly at %s"
-        ]
+        ],
+        "description" : "Free recovery from a miss"
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_rapid",
@@ -906,7 +955,8 @@
         "messages" : [
             "You quickly chop %s",
             "<npcname> quickly chops %s"
-        ]
+        ],
+        "description" : "50% moves, 66% damage, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_bite",
@@ -919,7 +969,8 @@
         "messages" : [
             "You Snakebite %s",
             "<npcname> Snakebites %s"
-        ]
+        ],
+        "description" : "Stun 2 turns, x1.5 bash damage, 2 turns duration"
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_strike",
@@ -930,9 +981,10 @@
             "venom_snake_combo_continue"
         ],
         "messages" : [
-            "You Viper Strike %s!",
-            "<npcname> Viper Strikes %s!"
-        ]
+            "You Viper Strike %s",
+            "<npcname> Viper Strikes %s"
+        ],
+        "description" : "x3 bash damage, 2 turns duration"
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_break",
@@ -940,7 +992,8 @@
         "unarmed_allowed" : true,
         "melee_allowed" : true,
         "defensive" : true,
-        "grab_break" : true
+        "grab_break" : true,
+        "description" : "Break a grab"
     },{
         "type" : "technique",
         "id" : "tec_scorpion_brutal",
@@ -953,9 +1006,10 @@
             ["damage", "bash", 2]
         ],
         "messages" : [
-            "Your Stinger Kick sends %s flying!",
-            "<npcname>'s Stinger Kick sends %s flying!"
-        ]
+            "Your Stinger Kick sends %s flying",
+            "<npcname>'s Stinger Kick sends %s flying"
+        ],
+        "description" : "Stun 3 turns, knockback 3 tiles, x2 bash damage, crit only"
     },{
         "type" : "technique",
         "id" : "tec_scorpion_precise",
@@ -966,10 +1020,11 @@
             ["damage", "bash", 1.25]
         ],
         "messages" : [
-            "You punch %s with your Pincer Fist!",
-            "<npcname> jabs %s with a Pincer Fist!"
+            "You punch %s with your Pincer Fist",
+            "<npcname> jabs %s with a Pincer Fist"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "x1.25 bash damage, stun 2 turns, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_toad_grab",
@@ -981,7 +1036,8 @@
         "messages" : [
             "You snatch and slug %s",
             "<npcname> snatches and slug %s"
-        ]
+        ],
+        "description" : "50% moves, down 1 turn, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_centipede_rapid",
@@ -997,7 +1053,8 @@
         "messages" : [
             "You swiftly hit %s",
             "<npcname> swiftly hits %s"
-        ]
+        ],
+        "description" : "50% moves, 66% damage, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_snake_rapid",
@@ -1013,7 +1070,8 @@
         "messages" : [
             "You swiftly jab %s",
             "<npcname> swiftly jabs %s"
-        ]
+        ],
+        "description" : "50% moves, 66% damage, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_snake_feint",
@@ -1025,7 +1083,8 @@
         "messages" : [
             "You make serpentine hand motions at %s",
             "<npcname> makes serpentine hand motions at %s"
-        ]
+        ],
+        "description" : "Free recovery from a miss, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_snake_break",
@@ -1035,9 +1094,10 @@
         "defensive" : true,
         "grab_break" : true,
         "messages" : [
-            "You slither free!",
-            "<npcname> slithers free!"
-        ]
+            "You slither free",
+            "<npcname> slithers free"
+        ],
+        "description" : "Break a grab, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_snake_precise",
@@ -1049,7 +1109,8 @@
             "You strike out at %s",
             "<npcname> strikes out at %s"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, crit only, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_tiger_grab",
@@ -1058,9 +1119,10 @@
         "unarmed_allowed" : true,
         "down_dur" : 1,
         "messages" : [
-            "You grab and ground %s!",
-            "<npcname> grabs and grounds %s!"
-        ]
+            "You grab and ground %s",
+            "<npcname> grabs and grounds %s"
+        ],
+        "description" : "Down 1 turns, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_leopard_precise",
@@ -1069,10 +1131,11 @@
         "unarmed_allowed" : true,
         "crit_tec" : true,
         "messages" : [
-            "You strike out at %s with your Leopard Fist!",
-            "<npcname> strikes out at %s with a Leopard Fist!"
+            "You strike out at %s with your Leopard Fist",
+            "<npcname> strikes out at %s with a Leopard Fist"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, crit only, min 5 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_leopard_rapid",
@@ -1088,7 +1151,8 @@
         "messages" : [
             "You quickly swipe at %s",
             "<npcname> quickly swipes at %s"
-        ]
+        ],
+        "description" : "50% moves, 66% damage, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_leopard_counter",
@@ -1100,11 +1164,11 @@
             ["movecost", 0.0],
             ["damage", "bash", 1.5]
         ],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
-            "You dodge the attack and swipe at %s's exposed flank!",
-            "<npcname> dodges and catches %s exposed!"
-        ]
+            "You dodge the attack and swipe at %s's exposed flank",
+            "<npcname> dodges and catches %s exposed"
+        ],
+        "description" : "x1.5 bash damage, counterattack on dodge, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_dragon_grab",
@@ -1114,9 +1178,10 @@
         "stun_dur" : 2,
         "bash_mult" : 1.2,
         "messages" : [
-            "You grab and knee %s!",
-            "<npcname> grabs and knees %s!"
-        ]
+            "You grab and knee %s",
+            "<npcname> grabs and knees %s"
+        ],
+        "description" : "Stun 2 turns, x1.2 bash damage, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_dragon_counter",
@@ -1126,12 +1191,12 @@
         "block_counter" : true,
         "dodge_counter" : true,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "stun_dur" : 2,
         "messages" : [
-            "You catch the attack and send %s spinning!",
-            "<npcname> catches and spins %s!"
-        ]
+            "You catch the attack and send %s spinning",
+            "<npcname> catches and spins %s"
+        ],
+        "description" : "Stun 2 turns, counterattack on dodge, counterattack on block, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_dragon_sweep",
@@ -1140,9 +1205,10 @@
         "unarmed_allowed" : true,
         "down_dur" : 2,
         "messages" : [
-            "You low-roundhouse %s 's legs!",
-            "<npcname> low-roundhouses %s 's legs!"
-        ]
+            "You low-roundhouse %s 's legs",
+            "<npcname> low-roundhouses %s 's legs"
+        ],
+        "description" : "Down 2 turns, min 5 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_dragon_brutal",
@@ -1153,9 +1219,10 @@
         "stun_dur" : 1,
         "knockback_dist" : 1,
         "messages" : [
-            "You send %s reeling with a Dragon Strike!",
-            "<npcname> sends %s reeling with a Dragon Strike!"
-        ]
+            "You send %s reeling with a Dragon Strike",
+            "<npcname> sends %s reeling with a Dragon Strike"
+        ],
+        "description" : "Stun 1 turn, knockback 1 tile, crit only, min 6 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_crane_feint",
@@ -1165,9 +1232,10 @@
         "defensive" : true,
         "miss_recovery" : true,
         "messages" : [
-            "You raise your arms intimidatingly!",
-            "<npcname> performs the Crane Wing!"
-        ]
+            "You raise your arms intimidatingly",
+            "<npcname> performs the Crane Wing"
+        ],
+        "description" : "Free recovery from a miss, min 2 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_crane_break",
@@ -1177,9 +1245,10 @@
         "defensive" : true,
         "grab_break" : true,
         "messages" : [
-            "You swing your arms and break free!",
-            "<npcname> flaps free!"
-        ]
+            "You swing your arms and break free",
+            "<npcname> flaps free"
+        ],
+        "description" : "Break a grab, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_crane_precise",
@@ -1191,7 +1260,8 @@
             "You hand-peck %s",
             "<npcname> hand-pecks %s"
         ],
-        "stun_dur" : 3
+        "stun_dur" : 3,
+        "description" : "Stun 3 turns, crit only, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_brawl_feint",
@@ -1204,7 +1274,8 @@
         "messages" : [
             "You fake a strike at %s",
             "<npcname> feints at %s"
-        ]
+        ],
+        "description" : "Free recovery from a miss, min 3 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_brawl_power",
@@ -1218,7 +1289,8 @@
         "messages" : [
             "You send %s reeling",
             "<npcname> sends %s reeling"
-        ]
+        ],
+        "description" : "Stun 1 turn, knockback 1 tile, crit only, min 4 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_brawl_counter",
@@ -1227,11 +1299,11 @@
         "unarmed_allowed" : true,
         "block_counter": true,
         "mult_bonuses" : [["movecost", 0.0]],
-        "flat_bonuses" : [["movecost", 20]],
         "messages" : [
-            "You catch %s's attack, and hit back!",
-            "<npcname> catches %s, and counters!"
-        ]
+            "You catch %s's attack, and hit back",
+            "<npcname> catches %s, and counters"
+        ],
+        "description" : "Counterattack on block, min 5 unarmed"
     },{
         "type" : "technique",
         "id" : "tec_brawl_trip",
@@ -1242,7 +1314,8 @@
         "messages" : [
             "You trip %s",
             "<npcname> trips %s"
-        ]
+        ],
+        "description" : "Down 2 turns, min 5 unarmed"
     },{
         "type" : "technique",
         "id" : "niten_water_cut",
@@ -1256,7 +1329,8 @@
         "messages" : [
             "You strike %s with the slow power of flowing water",
             "<npcname> strikes %s with the slow power of flowing water"
-        ]
+        ],
+        "description" : "175% moves, x2 bash damage, x2 cut damage, min 4 melee"
     },{
        "type" : "technique",
       "id" : "niten_red_leaf",
@@ -1266,7 +1340,8 @@
         "messages" : [
           "Your strike knocks %s off balance",
           "<npcname>'s strike knocks %s off balance"
-      ]
+      ],
+      "description" : "Down 2 turns, min 5 melee"
    },{
         "type" : "technique",
         "id" : "niten_stone_cut",
@@ -1278,10 +1353,11 @@
             ["damage", "cut", 1.5]
         ],
         "messages" : [
-            "You stun %s with the force of the blow!",
-            "<npcname> stuns %s with the force of the blow!"
+            "You stun %s with the force of the blow",
+            "<npcname> stuns %s with the force of the blow"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, x1.5 bash damage, x1.5 cut damage, crit only, min 6 melee"
    },{
         "type" : "technique",
         "id" : "niten_timing_attack",
@@ -1291,8 +1367,8 @@
             "niten_set-up"
         ],
         "messages" : [
-            "You strike at %s's weaknesses!",
-            "<npcname> strikes %s's weaknesses!"
+            "You strike at %s's weaknesses",
+            "<npcname> strikes %s's weaknesses"
         ],
         "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
         "mult_bonuses" : [
@@ -1301,7 +1377,8 @@
             ["damage", "cut", 1.5]
         ],
         "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "50% moves, x1.5 bash damage, x1.5 cut damage, stun 2 turns, min 5 melee"
    },{
        "type" : "technique",
       "id" : "niten_feint",
@@ -1314,7 +1391,8 @@
       "messages" : [
           "You feint at %s",
           "<npcname> feints at %s"
-        ]
+        ],
+      "description" : "80% moves, free recovery from a miss, min 2 melee"
     },{
         "type" : "technique",
         "id" : "tec_debug_slow",

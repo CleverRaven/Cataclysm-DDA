@@ -6,29 +6,34 @@
 #include "string_formatter.h"
 #include "output.h"
 #include "debug.h"
+#include "input.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "catacharset.h"
 
 #include "json.h"
 #include "translations.h"
+
+#include <map>
 #include <string>
 #include <cstdlib>
+
+static std::map<faction_id, faction_template> _all_faction_templates;
 
 std::string invent_name();
 std::string invent_adj();
 
-faction::faction()
+constexpr inline unsigned long mfb( const int v )
 {
-    // debugmsg("Warning: Faction created without UID!");
-    name = "null";
-    values = 0;
+    return 1 << v;
+}
+
+faction_template::faction_template()
+{
     likes_u = 0;
     respects_u = 0;
     known_by_u = true;
-    goal = FACGOAL_NULL;
-    job1 = FACJOB_NULL;
-    job2 = FACJOB_NULL;
     strength = 0;
     combat_ability = 0;
     food_supply = 0;
@@ -37,115 +42,52 @@ faction::faction()
     crime = 0;
     cult = 0;
     good = 0;
-    mapx = 0;
-    mapy = 0;
     size = 0;
     power = 0;
-    id = "";
-    desc = "";
 }
 
-faction::faction(std::string uid)
+faction::faction( const faction_template &templ )
 {
-    name = "";
     values = 0;
-    likes_u = 0;
-    respects_u = 0;
-    known_by_u = true;
     goal = FACGOAL_NULL;
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
-    strength = 0;
-    sneak = 0;
-    crime = 0;
-    cult = 0;
-    good = 0;
     mapx = 0;
     mapy = 0;
-    size = 0;
-    power = 0;
-    combat_ability = 0;
-    food_supply = 0;
-    wealth = 0;
-    id = uid;
-    desc = "";
+    id = templ.id;
+    randomize();
+    // first init *all* members, than copy those from the template
+    static_cast<faction_template&>( *this ) = templ;
 }
 
-faction_map faction::_all_faction;
-
-void faction::load_faction(JsonObject &jsobj)
+void faction_template::load( JsonObject &jsobj )
 {
-    faction fac;
-    fac.id = jsobj.get_string("id");
-    fac.name = jsobj.get_string("name");
-    fac.likes_u = jsobj.get_int("likes_u");
-    fac.respects_u = jsobj.get_int("respects_u");
-    fac.known_by_u = jsobj.get_bool("known_by_u");
-    fac.size = jsobj.get_int("size");
-    fac.power = jsobj.get_int("power");
-    fac.combat_ability = jsobj.get_int("combat_ability");
-    fac.food_supply = jsobj.get_int("food_supply");
-    fac.wealth = jsobj.get_int("wealth");
-    fac.good = jsobj.get_int("good");
-    fac.strength = jsobj.get_int("strength");
-    fac.sneak = jsobj.get_int("sneak");
-    fac.crime = jsobj.get_int("crime");
-    fac.cult = jsobj.get_int("cult");
-    fac.desc = jsobj.get_string("description");
-    _all_faction[jsobj.get_string("id")] = fac;
+    faction_template fac( jsobj );
+    _all_faction_templates.emplace( fac.id, fac );
 }
 
-faction *faction::find_faction(std::string ident)
+void faction_template::reset()
 {
-    faction_map::iterator found = _all_faction.find(ident);
-    if (found != _all_faction.end()) {
-        return &(found->second);
-    } else {
-        debugmsg("Tried to get invalid faction: %s", ident.c_str());
-        static faction null_faction;
-        return &null_faction;
-    }
+    _all_faction_templates.clear();
 }
 
-void faction::load_faction_template(std::string ident)
-{
-    faction_map::iterator found = _all_faction.find(ident);
-    if (found != _all_faction.end()) {
-        id = found->second.id;
-        name = found->second.name;
-        likes_u = found->second.likes_u;
-        respects_u = found->second.respects_u;
-        known_by_u = found->second.known_by_u;
-        size = found->second.size;
-        power = found->second.power;
-        combat_ability = found->second.combat_ability;
-        food_supply = found->second.food_supply;
-        wealth = found->second.wealth;
-        good = found->second.good;
-        strength = found->second.strength;
-        sneak = found->second.sneak;
-        crime = found->second.crime;
-        cult = found->second.cult;
-        desc = found->second.desc;
-
-        return;
-    } else {
-        debugmsg("Tried to get invalid faction: %s", ident.c_str());
-        return;
-    }
-}
-
-std::vector<std::string> faction::all_json_factions()
-{
-    std::vector<std::string> v;
-    for(std::map<std::string, faction>::const_iterator it = _all_faction.begin();
-        it != _all_faction.end(); it++) {
-        v.push_back(it -> first.c_str());
-    }
-    return v;
-}
-
-faction::~faction()
+faction_template::faction_template( JsonObject &jsobj )
+    : name( jsobj.get_string( "name" ) )
+    , likes_u( jsobj.get_int( "likes_u" ) )
+    , respects_u( jsobj.get_int( "respects_u" ) )
+    , known_by_u( jsobj.get_bool( "known_by_u" ) )
+    , id( faction_id( jsobj.get_string( "id" ) ) )
+    , desc( jsobj.get_string( "description" ) )
+    , strength( jsobj.get_int( "strength" ) )
+    , sneak( jsobj.get_int( "sneak" ) )
+    , crime( jsobj.get_int( "crime" ) )
+    , cult( jsobj.get_int( "cult" ) )
+    , good( jsobj.get_int( "good" ) )
+    , size( jsobj.get_int( "size" ) )
+    , power( jsobj.get_int( "power" ) )
+    , combat_ability( jsobj.get_int( "combat_ability" ) )
+    , food_supply( jsobj.get_int( "food_supply" ) )
+    , wealth( jsobj.get_int( "wealth" ) )
 {
 }
 
@@ -262,40 +204,6 @@ static const std::array<faction_value_datum, NUM_FACVALS> facval_data = {{
  * strength valued a bit higher than the others.
  */
 
-void faction::load_info(std::string data)
-{
-    std::stringstream dump;
-    int valuetmp, goaltmp, jobtmp1, jobtmp2;
-    int omx, omy;
-    dump << data;
-    dump >> id >> valuetmp >> goaltmp >> jobtmp1 >> jobtmp2 >> likes_u >>
-         respects_u >> known_by_u >> strength >> sneak >> crime >> cult >>
-         good >> omx >> omy >> mapx >> mapy >> size >> power >> combat_ability >>
-         food_supply >> wealth;
-    // Make mapx/mapy global coordinate
-    mapx += omx * OMAPX * 2;
-    mapy += omy * OMAPY * 2;
-    values = valuetmp;
-    goal = faction_goal(goaltmp);
-    job1 = faction_job(jobtmp1);
-    job2 = faction_job(jobtmp2);
-    int tmpsize, tmpop;
-    dump >> tmpsize;
-    for (int i = 0; i < tmpsize; i++) {
-        dump >> tmpop;
-        opinion_of.push_back(tmpop);
-    }
-    std::string subdesc;
-    while (dump >> subdesc) {
-        desc += " " + subdesc;
-    }
-
-    std::string subname;
-    while (dump >> subname) {
-        name += " " + subname;
-    }
-}
-
 void faction::randomize()
 {
     // Set up values
@@ -339,10 +247,11 @@ void faction::randomize()
         } else {
             tries++;
         }
-    } while((one_in(num_values) || one_in(num_values)) && tries < 15);
+    } while( ( one_in( num_values ) || one_in( num_values ) ) && tries < 15 );
 
     std::string noun;
-    int sel = 1, best = strength;
+    int sel = 1;
+    int best = strength;
     if (sneak > best) {
         sel = 2;
         best = sneak;
@@ -360,27 +269,27 @@ void faction::randomize()
 
     switch (sel) {
     case 1:
-        noun  = _( faction_noun_strong[rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_strong ).c_str() );
         power = dice(5, 20);
         size  = dice(5, 6);
         break;
     case 2:
-        noun  = _( faction_noun_sneak [rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_sneak ).c_str() );
         power = dice(5, 8);
         size  = dice(5, 8);
         break;
     case 3:
-        noun  = _( faction_noun_crime [rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_crime ).c_str() );
         power = dice(5, 16);
         size  = dice(5, 8);
         break;
     case 4:
-        noun  = _( faction_noun_cult  [rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_cult ).c_str() );
         power = dice(8, 8);
         size  = dice(4, 6);
         break;
     default:
-        noun  = _( faction_noun_none  [rng(0, 14)].c_str() );
+        noun  = _( random_entry_ref( faction_noun_none ).c_str() );
         power = dice(6, 8);
         size  = dice(6, 6);
     }
@@ -397,11 +306,11 @@ void faction::randomize()
         do {
             std::string adj;
             if (good >= 3) {
-                adj = _( faction_adj_pos[rng(0, 14)].c_str() );
+                adj = _( random_entry_ref( faction_adj_pos ).c_str() );
             } else if  (good <= -3) {
-                adj = _( faction_adj_bad[rng(0, 14)].c_str() );
+                adj = _( random_entry_ref( faction_adj_bad ).c_str() );
             } else {
-                adj = _( faction_adj_neu[rng(0, 14)].c_str() );
+                adj = _( random_entry_ref( faction_adj_neu ).c_str() );
             }
             name = string_format(_("The %1$s %2$s"), adj.c_str(), noun.c_str());
             if (one_in(4)) {
@@ -409,43 +318,6 @@ void faction::randomize()
             }
         } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     }
-}
-
-void faction::make_army()
-{
-    name = _("The army");
-    mapx = OMAPX / 2;
-    mapy = OMAPY / 2;
-    size = OMAPX * 2;
-    power = OMAPX;
-    goal = FACGOAL_DOMINANCE;
-    job1 = FACJOB_MERCENARIES;
-    job2 = FACJOB_NULL;
-    if (one_in(4)) {
-        values |= mfb(FACVAL_CHARITABLE);
-    }
-    if (!one_in(4)) {
-        values |= mfb(FACVAL_EXPLORATION);
-    }
-    if (one_in(3)) {
-        values |= mfb(FACVAL_BIONICS);
-    }
-    if (one_in(3)) {
-        values |= mfb(FACVAL_ROBOTS);
-    }
-    if (one_in(4)) {
-        values |= mfb(FACVAL_TREACHERY);
-    }
-    if (one_in(4)) {
-        values |= mfb(FACVAL_STRAIGHTEDGE);
-    }
-    if (!one_in(3)) {
-        values |= mfb(FACVAL_LAWFUL);
-    }
-    if (one_in(8)) {
-        values |= mfb(FACVAL_CRUELTY);
-    }
-    id = "army";
 }
 
 bool faction::has_job(faction_job j) const
@@ -506,9 +378,9 @@ bool faction::matches_us(faction_value v) const
 
 std::string faction::describe() const
 {
-    std::string ret;
-    ret = desc + "\n \n" + string_format( _("%1$s have the ultimate goal of %2$s."), name.c_str(),
-                                          _( facgoal_data[goal].name.c_str() ) );
+    std::string ret = _( desc.c_str() );
+    ret = ret + "\n\n" + string_format( _( "%1$s have the ultimate goal of %2$s." ), _( name.c_str() ),
+                                        _( facgoal_data[goal].name.c_str() ) );
     if (job2 == FACJOB_NULL) {
         ret += string_format( _(" Their primary concern is %s."), _( facjob_data[job1].name.c_str()));
     } else {
@@ -676,7 +548,8 @@ std::string invent_name()
 std::string invent_adj()
 {
     int syllables = dice(2, 2) - 1;
-    std::string ret,  tmp;
+    std::string ret;
+    std::string tmp;
     switch (rng(0, 25)) {
     case  0:
         ret = pgettext( "faction adjective", "Ald" );
@@ -818,7 +691,7 @@ std::string invent_adj()
     }
     switch (rng(0, 24)) {
     case  0:
-        tmp = "";
+        tmp.clear();
         break;
     case  1:
         tmp = pgettext( "faction adjective", "al" );
@@ -1069,4 +942,105 @@ std::string fac_combat_ability_text(int val)
         return _("Feeble");
     }
     return _("Worthless");
+}
+
+void faction_manager::clear()
+{
+    factions.clear();
+}
+
+void faction_manager::create_if_needed()
+{
+    if( !factions.empty() ) {
+        return;
+    }
+    for( const auto &elem : _all_faction_templates ) {
+        factions.emplace_back( elem.second );
+    }
+}
+
+faction *faction_manager::get( const faction_id &id )
+{
+    for( faction &elem : factions ) {
+        if( elem.id == id ) {
+            return &elem;
+        }
+    }
+    debugmsg( "Requested non-existing faction '%s'", id.str() );
+    return nullptr;
+}
+
+void faction_manager::display() const
+{
+    std::vector<const faction *> valfac; // Factions that we know of.
+    for( const faction &elem : factions ) {
+        if( elem.known_by_u ) {
+            valfac.push_back( &elem );
+        }
+    }
+    if( valfac.empty() ) { // We don't know of any factions!
+        popup( _( "You don't know of any factions.  Press Spacebar..." ) );
+        return;
+    }
+
+    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 2,
+                                FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
+                                1 + ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                MAX_FAC_NAME_SIZE + ( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+
+    const int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
+    size_t sel = 0;
+    bool redraw = true;
+
+    input_context ctxt( "FACTIONS" );
+    ctxt.register_action( "UP", _( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    while( true ) {
+        const faction &cur_frac = *valfac[sel];
+        if( redraw ) {
+            werase( w_list );
+            draw_border( w_list );
+            mvwprintz( w_list, 1, 1, c_white, _( "FACTIONS:" ) );
+            for( size_t i = 0; i < valfac.size(); i++ ) {
+                nc_color col = ( i == sel ? h_white : c_white );
+                mvwprintz( w_list, i + 2, 1, col, _( valfac[i]->name.c_str() ) );
+            }
+            wrefresh( w_list );
+            werase( w_info );
+            mvwprintz( w_info, 0, 0, c_white, _( "Ranking:           %s" ),
+                       fac_ranking_text( cur_frac.likes_u ) );
+            mvwprintz( w_info, 1, 0, c_white, _( "Respect:           %s" ),
+                       fac_respect_text( cur_frac.respects_u ) );
+            mvwprintz( w_info, 2, 0, c_white, _( "Wealth:            %s" ), fac_wealth_text( cur_frac.wealth,
+                       cur_frac.size ) );
+            mvwprintz( w_info, 3, 0, c_white, _( "Food Supply:       %s" ),
+                       fac_food_supply_text( cur_frac.food_supply, cur_frac.size ) );
+            mvwprintz( w_info, 4, 0, c_white, _( "Combat Ability:    %s" ),
+                       fac_combat_ability_text( cur_frac.combat_ability ) );
+            fold_and_print( w_info, 6, 0, maxlength, c_white, cur_frac.describe() );
+            wrefresh( w_info );
+            redraw = false;
+        }
+        const std::string action = ctxt.handle_input();
+        if( action == "DOWN" ) {
+            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac.name );
+            sel = ( sel + 1 ) % valfac.size();
+            redraw = true;
+        } else if( action == "UP" ) {
+            mvwprintz( w_list, sel + 2, 1, c_white, cur_frac.name );
+            sel = ( sel + valfac.size() - 1 ) % valfac.size();
+            redraw = true;
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            redraw = true;
+        } else if( action == "QUIT" ) {
+            break;
+        } else if( action == "CONFIRM" ) {
+            break;
+        }
+    }
 }

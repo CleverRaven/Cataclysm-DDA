@@ -82,6 +82,21 @@ bool isBetween( int test, int down, int up );
 bool lcmatch( const std::string &str, const std::string &qry );
 
 /**
+ * Matches text case insensitive with the include/exclude rules of the filter
+ *
+ * Multiple includes/excludes are possible
+ *
+ * Examle: bank,-house,tank,-car
+ * Will match text containing tank or bank while not containing house or car
+ *
+ * @param test String to be matched
+ * @param filter String with include/exclude rules
+ *
+ * @return true if include/exclude rules pass. See Example.
+ */
+bool match_include_exclude( const std::string &text, std::string filter );
+
+/**
  * Basic logistic function.
  *
  * Calculates the value at a single point on a standard logistic curve.
@@ -407,7 +422,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char( void )> f );
+std::string obscure_message( const std::string &str, std::function<char()> f );
 
 /**
  * @group JSON (de)serialization wrappers.

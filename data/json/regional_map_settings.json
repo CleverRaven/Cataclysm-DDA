@@ -68,7 +68,7 @@
                   "mx_anomaly": 3
               }
           },
-          "building": {
+          "build": {
               "chance": 90,                 "//": "one in # chance of spawning an extra",
               "extras": {                   "//": "weighted list",
                   "mx_military": 5,
@@ -104,11 +104,20 @@
       "city": {
           "type": "town",
           "shop_radius": 80,                "//": "determine radial frequency of shops / parks / houses for towns. tldr: less means more",
-          "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "park_radius": 90,                "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "house_basement_chance": 5,       "//": "one_in(n) chance a house has a basement",
           "houses": {
               "house_two_story_basement": 1,
               "house": 1000,
-              "house_base": 333
+              "house_prepper": 30,
+              "house_base": 333,
+              "duplex": 50,
+              "emptyresidentiallot": 20
+          },
+          "basements": {
+              "basement": 1000,
+              "basement_hidden_lab_stairs": 50,
+              "basement_bionic": 50
           },
           "parks": {                        "//": "weighted list for park overmap terrains",
               "park": 4,
@@ -116,7 +125,10 @@
               "skate_park": 1,
               "small_wooded_trail": 3,
               "pavilion": 2,
-              "cemetery_small":2
+              "cemetery_small": 2,
+              "Pond": 2,
+              "communitygarden": 2,
+              "publicgarden": 2
           },
           "shops": {                        "//": "weighted list of oterrains for commercial zoning",
               "s_gas": 5,
@@ -163,7 +175,11 @@
               "s_music": 2,
               "s_laundromat": 1,
               "veterinarian": 2,
+              "animalpound": 2,
+              "animalshelter": 1,
               "mortuary": 1,
+              "smallscrapyard": 1,
+              "stripclub": 2,
               "orchard": 2,
               "dispensary": 1,
               "small_office": 2,
@@ -175,7 +191,23 @@
               "bakery": 2,
               "icecream_shop": 2,
               "s_butcher": 2,
-              "s_bike_shop": 1
+              "s_bike_shop": 1,
+              "paintball_field": 1,
+              "smoke_lounge": 1,
+              "gambling_hall": 1,
+              "music_venue": 1,
+              "dump": 1 ,
+              "recyclecenter": 1,
+              "landfill": 1,
+              "warehouse": 1,
+              "abandonedwarehouse": 1,
+              "emptycommerciallot": 1,
+              "lancenter": 1,
+              "dollarstore": 3,
+              "s_vfw": 1,
+              "s_daycare": 1,
+              "s_thrift": 1,
+              "s_petstore": 1
           }
       },
       "weather": {

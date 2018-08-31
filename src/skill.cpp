@@ -113,7 +113,7 @@ skill_id Skill::from_legacy_int( const int legacy_id )
 
 skill_id Skill::random_skill()
 {
-    return skills[rng( 0, skills.size() - 1 )].ident();
+    return random_entry_ref( skills ).ident();
 }
 
 // used for the pacifist trait

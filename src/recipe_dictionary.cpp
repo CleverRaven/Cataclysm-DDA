@@ -121,6 +121,24 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     return res;
 }
 
+bool recipe_subset::empty_category( const std::string &cat,
+                                    const std::string &subcat ) const
+{
+    auto iter = category.find( cat );
+    if( iter != category.end() ) {
+        if( subcat.empty() ) {
+            return false;
+        } else {
+            for( auto &e : iter->second ) {
+                if( e->subcategory == subcat ) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
         const std::string &subcat ) const
 {

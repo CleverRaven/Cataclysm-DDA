@@ -55,7 +55,7 @@
     },
     {
       "type" : "item_group",
-      "id" : "prison_Weapons",
+      "id" : "prison_weapons",
       "items":[
         ["light_carb", 5]
       ]

@@ -134,7 +134,7 @@ void string_input_popup::add_to_history( const std::string &value ) const
 {
     if( !_identifier.empty() && !value.empty() ) {
         std::vector<std::string> &hist = uistate.gethistory( _identifier );
-        if( hist.size() == 0 || hist[hist.size() - 1] != value ) {
+        if( hist.empty() || hist[hist.size() - 1] != value ) {
             hist.push_back( value );
         }
     }
@@ -281,7 +281,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
 
         if( callbacks[ch] ) {
-            callbacks[ch]();
+            if( callbacks[ch]() ) {
+                continue;
+            }
         }
 
         // This class only registers the ANY_INPUT action by default. If the
@@ -292,7 +294,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         if( ch == KEY_ESCAPE ) {
-            _text = std::string();
+            _text.clear();
             _canceled = true;
             return _text;
         } else if( ch == '\n' ) {
@@ -366,7 +368,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             ctxt->set_edittext( edit.c_str() );
             redraw = true;
         }
-    } while( loop == true );
+    } while( loop );
     _text = ret.str();
     return _text;
 }

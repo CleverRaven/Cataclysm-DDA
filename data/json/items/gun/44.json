@@ -2,6 +2,7 @@
   {
     "id": "deagle_44",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Desert Eagle .44",
     "name_plural": "Desert Eagle .44",
     "description": "One of the most recognizable handguns due to its popularity in movies and video games, the Desert Eagle is better known for its menacing appearance than its performance.  It's a large pistol, but its heavy weight reduces recoil.",
@@ -39,8 +40,7 @@
     "type": "GUN",
     "name": "Henry Big Boy .44",
     "name_plural": "Henry Big Boy .44",
-    "//": "Modern reproduction M.S.R.P",
-    "description": "One of the most famous lever action rifles ever produced, the Henry Big Boy is chambered in the powerful .44 magnum cartridge.  Go get 'em cowboy!",
+    "description": "This fine lever action rifle is chambered in the powerful .44 magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!",
     "weight": 3937,
     "volume": 12,
     "price": 89995,

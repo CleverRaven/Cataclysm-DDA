@@ -1,6 +1,6 @@
 #pragma once
-#ifndef H_ASSIGN
-#define H_ASSIGN
+#ifndef ASSIGN_H
+#define ASSIGN_H
 
 #include <string>
 #include <vector>
@@ -80,10 +80,6 @@ inline bool assign( JsonObject &jo, const std::string &name, bool &val, bool str
 
     if( !jo.read( name, out ) ) {
         return false;
-    }
-
-    if( out != true && out != false ) {
-        err.throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {

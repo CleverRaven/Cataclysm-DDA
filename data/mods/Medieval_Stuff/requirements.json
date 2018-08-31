@@ -3,7 +3,7 @@
     "id": "bronzesmithing_tools",
     "type": "requirement",
     "//": "Tools for casting and work hardening items made from bronze",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "anvil", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   }
 ]

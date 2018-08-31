@@ -14,9 +14,7 @@ void wipe_map_terrain()
             g->m.set( x, y, t_grass, f_null );
         }
     }
-    for( wrapped_vehicle &veh :
-         g->m.get_vehicles( tripoint( 0, 0, 0 ),
-                            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
         g->m.destroy_vehicle( veh.v );
     }
     g->m.build_map_cache( 0, true );

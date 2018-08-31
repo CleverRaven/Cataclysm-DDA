@@ -12,12 +12,15 @@
 #include "translations.h"
 #include "input.h"
 #include "crafting.h"
+#include "map_iterator.h"
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "optional.h"
 
 #include <istream>
 #include <sstream>
@@ -49,7 +52,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
     while( !keymap_txt.eof() ) {
         std::string id;
         keymap_txt >> id;
-        if( id == "" ) {
+        if( id.empty() ) {
             getline( keymap_txt, id );  // Empty line, chomp it
         } else if( id == "unbind" ) {
             keymap_txt >> id;
@@ -175,6 +178,8 @@ std::string action_ident( action_id act )
             return "listitems";
         case ACTION_ZONES:
             return "zones";
+        case ACTION_LOOT:
+            return "loot";
         case ACTION_INVENTORY:
             return "inventory";
         case ACTION_COMPARE:
@@ -372,7 +377,7 @@ bool can_action_change_worldstate( const action_id act )
     }
 }
 
-action_id look_up_action( std::string ident )
+action_id look_up_action( const std::string &ident )
 {
     // Temporarily for the interface with the input manager!
     if( ident == "move_nw" ) {
@@ -411,13 +416,14 @@ std::string press_x( action_id act )
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), _( "Press " ), "", _( "Try" ) );
 }
-std::string press_x( action_id act, std::string key_bound, std::string key_unbound )
+std::string press_x( action_id act, const std::string &key_bound, const std::string &key_unbound )
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound, "", key_unbound );
 }
-std::string press_x( action_id act, std::string key_bound_pre, std::string key_bound_suf,
-                     std::string key_unbound )
+std::string press_x( action_id act, const std::string &key_bound_pre,
+                     const std::string &key_bound_suf,
+                     const std::string &key_unbound )
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
@@ -499,14 +505,13 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 
 bool can_examine_at( const tripoint &p )
 {
-    int veh_part = 0;
-    vehicle *veh = nullptr;
-
-    veh = g->m.veh_at( p, veh_part );
-    if( veh ) {
+    if( g->m.veh_at( p ) ) {
         return true;
     }
     if( g->m.has_flag( "CONSOLE", p ) ) {
+        return true;
+    }
+    if( g->m.has_items( p ) ) {
         return true;
     }
     const furn_t &xfurn_t = g->m.furn( p ).obj();
@@ -533,9 +538,10 @@ bool can_interact_at( action_id action, const tripoint &p )
             return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_CLOSE: {
-            int vpart;
-            const vehicle *const veh = g->m.veh_at( p, vpart );
-            return ( veh && veh->next_part_to_close( vpart, g->m.veh_at( g->u.pos() ) != veh ) >= 0 ) ||
+            const optional_vpart_position vp = g->m.veh_at( p );
+            return ( vp &&
+                     vp->vehicle().next_part_to_close( vp->part_index(),
+                             veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
                    g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         }
@@ -590,47 +596,35 @@ action_id handle_action_menu()
     }
 
     // Check if we're on a vehicle, if so, vehicle controls should be top.
-    {
-        int veh_part = 0;
-        vehicle *veh = nullptr;
-
-        veh = g->m.veh_at( g->u.pos(), veh_part );
-        if( veh ) {
-            // Make it 300 to prioritize it before examining the vehicle.
-            action_weightings[ACTION_CONTROL_VEHICLE] = 300;
-        }
+    if( g->m.veh_at( g->u.pos() ) ) {
+        // Make it 300 to prioritize it before examining the vehicle.
+        action_weightings[ACTION_CONTROL_VEHICLE] = 300;
     }
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( int dx = -1; dx <= 1; dx++ ) {
-        for( int dy = -1; dy <= 1; dy++ ) {
-            int x = g->u.posx() + dx;
-            int y = g->u.posy() + dy;
-            int z = g->u.posz();
-            const tripoint pos( x, y, z );
-            if( dx != 0 || dy != 0 ) {
-                // Check for actions that work on nearby tiles
-                if( can_interact_at( ACTION_OPEN, pos ) ) {
-                    action_weightings[ACTION_OPEN] = 200;
-                }
-                if( can_interact_at( ACTION_CLOSE, pos ) ) {
-                    action_weightings[ACTION_CLOSE] = 200;
-                }
-                if( can_interact_at( ACTION_EXAMINE, pos ) ) {
-                    action_weightings[ACTION_EXAMINE] = 200;
-                }
-            } else {
-                // Check for actions that work on own tile only
-                if( can_interact_at( ACTION_BUTCHER, pos ) ) {
-                    action_weightings[ACTION_BUTCHER] = 200;
-                }
-                if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
-                    action_weightings[ACTION_MOVE_UP] = 200;
-                }
-                if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
-                    action_weightings[ACTION_MOVE_DOWN] = 200;
-                }
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( pos != g->u.pos() ) {
+            // Check for actions that work on nearby tiles
+            if( can_interact_at( ACTION_OPEN, pos ) ) {
+                action_weightings[ACTION_OPEN] = 200;
+            }
+            if( can_interact_at( ACTION_CLOSE, pos ) ) {
+                action_weightings[ACTION_CLOSE] = 200;
+            }
+            if( can_interact_at( ACTION_EXAMINE, pos ) ) {
+                action_weightings[ACTION_EXAMINE] = 200;
+            }
+        } else {
+            // Check for actions that work on own tile only
+            if( can_interact_at( ACTION_BUTCHER, pos ) ) {
+                action_weightings[ACTION_BUTCHER] = 200;
+            }
+            if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
+                action_weightings[ACTION_MOVE_UP] = 200;
+            }
+            if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
+                action_weightings[ACTION_MOVE_DOWN] = 200;
             }
         }
     }
@@ -736,6 +730,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_BUTCHER );
+            REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
             REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );
@@ -915,7 +910,7 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     return false;
 }
 
-bool choose_adjacent( std::string message, int &x, int &y )
+bool choose_adjacent( const std::string &message, int &x, int &y )
 {
     tripoint temp( x, y, g->u.posz() );
     bool ret = choose_adjacent( message, temp );
@@ -924,7 +919,7 @@ bool choose_adjacent( std::string message, int &x, int &y )
     return ret;
 }
 
-bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
+bool choose_adjacent( const std::string &message, tripoint &p, bool allow_vertical )
 {
     if( !choose_direction( message, p, allow_vertical ) ) {
         return false;
@@ -933,7 +928,7 @@ bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
     return true;
 }
 
-bool choose_adjacent_highlight( std::string message, int &x, int &y,
+bool choose_adjacent_highlight( const std::string &message, int &x, int &y,
                                 action_id action_to_highlight )
 {
     tripoint temp( x, y, g->u.posz() );
@@ -943,23 +938,16 @@ bool choose_adjacent_highlight( std::string message, int &x, int &y,
     return ret;
 }
 
-bool choose_adjacent_highlight( std::string message, tripoint &p,
+bool choose_adjacent_highlight( const std::string &message, tripoint &p,
                                 action_id action_to_highlight )
 {
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
-    for( int dx = -1; dx <= 1; dx++ ) {
-        for( int dy = -1; dy <= 1; dy++ ) {
-            int x = g->u.posx() + dx;
-            int y = g->u.posy() + dy;
-            int z = g->u.posz(); // TODO: Z
-            tripoint pos( x, y, z );
-
-            if( can_interact_at( action_to_highlight, pos ) ) {
-                highlighted = true;
-                g->m.drawsq( g->w_terrain, g->u, pos,
-                             true, true, g->u.pos() + g->u.view_offset );
-            }
+    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( can_interact_at( action_to_highlight, pos ) ) {
+            highlighted = true;
+            g->m.drawsq( g->w_terrain, g->u, pos,
+                         true, true, g->u.pos() + g->u.view_offset );
         }
     }
     if( highlighted ) {

@@ -1,12 +1,105 @@
 [
-    {
-        "type" : "npc_class",
-        "id" : "NC_NPC_WITH_STARTING_TRAITS",
-        "name" : "NPC with starting traits",
-        "job_description" : "I'm just wandering.",
-        "skills" : [],
-        "traits": [
-            {"group": "starting_trait_n_rolls"}
-        ]
-    }
+  {
+    "type": "npc_class",
+    "id": "NC_NONE",
+    "copy-from": "NC_NONE",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EVAC_SHOPKEEP",
+    "copy-from": "NC_EVAC_SHOPKEEP",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SHOPKEEP",
+    "copy-from": "NC_SHOPKEEP",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_HACKER",
+    "copy-from": "NC_HACKER",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_DOCTOR",
+    "copy-from": "NC_DOCTOR",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TRADER",
+    "copy-from": "NC_TRADER",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NINJA",
+    "copy-from": "NC_NINJA",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_COWBOY",
+    "copy-from": "NC_COWBOY",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SCIENTIST",
+    "copy-from": "NC_SCIENTIST",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BOUNTY_HUNTER",
+    "copy-from": "NC_BOUNTY_HUNTER",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_THUG",
+    "copy-from": "NC_THUG",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SCAVENGER",
+    "copy-from": "NC_SCAVENGER",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ARSONIST",
+    "copy-from": "NC_ARSONIST",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_HUNTER",
+    "copy-from": "NC_HUNTER",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SOLDIER",
+    "copy-from": "NC_SOLDIER",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BARTENDER",
+    "copy-from": "NC_BARTENDER",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_JUNK_SHOPKEEP",
+    "copy-from": "NC_JUNK_SHOPKEEP",
+    "traits": [ { "group": "starting_trait_n_rolls" } ]
+  }
 ]
+

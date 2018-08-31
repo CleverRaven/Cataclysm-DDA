@@ -13,14 +13,18 @@
 #include <numeric>
 #include <math.h>
 
+struct oter_t;
+using oter_str_id = string_id<oter_t>;
+
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
-    if( multiplier == 0.0f ) {  // TODO: Don't compare floats this way!
-        return time * batch; // how did we even get here?
+    if( multiplier == 0.0f ) {
+        // If an item isn't craftable in the dark, show the time to complete as if you could craft it
+        multiplier = 1.0f;
     }
 
     const float local_time = float( time ) / multiplier;
@@ -128,6 +132,11 @@ void recipe::load( JsonObject &jo, const std::string &src )
         }
     }
 
+    // Never let the player have a debug or NPC recipe
+    if( jo.has_bool( "never_learn" ) ) {
+        assign( jo, "never_learn", never_learn );
+    }
+
     if( jo.has_member( "decomp_learn" ) ) {
         learn_by_disassembly.clear();
 
@@ -182,6 +191,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
         assign( jo, "category", category, strict );
         assign( jo, "subcategory", subcategory, strict );
+        assign( jo, "description", description, strict );
         assign( jo, "reversible", reversible, strict );
 
         if( jo.has_member( "byproducts" ) ) {
@@ -235,7 +245,11 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result_ ) ) {
+    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING" ) {
+        return "defines invalid result";
+    }
+
+    if( category == "CC_BUILDING" && !oter_str_id( result_.c_str() ).is_valid() ) {
         return "defines invalid result";
     }
 
@@ -297,7 +311,7 @@ item recipe::create_result() const
         newit.item_tags.insert( "FIT" );
     }
 
-    if( contained == true ) {
+    if( contained ) {
         newit = newit.in_container( container );
     }
 
@@ -352,7 +366,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
 
 bool recipe::has_byproducts() const
 {
-    return byproducts.size() != 0;
+    return !byproducts.empty();
 }
 
 std::string recipe::required_skills_string() const

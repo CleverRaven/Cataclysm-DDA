@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-oldpwd=`pwd`
-
 if [ ! -d lang/po ]
 then
     if [ -d ../lang/po ]
@@ -64,6 +62,3 @@ else
         msgmerge -F -U $f lang/po/cataclysm-dda.pot
     done
 fi
-
-cd $oldpwd
-

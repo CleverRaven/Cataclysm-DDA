@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "string_formatter.h"
 #include "veh_type.h"
+#include "gun_mode.h"
 #include "vehicle_selector.h"
 #include "npc.h"
 #include "ranged.h"
@@ -237,7 +238,7 @@ turret_data::status turret_data::query() const
 void turret_data::prepare_fire( player &p )
 {
     // prevent turrets from shooting their own vehicles
-    p.add_effect( effect_on_roof, 1 );
+    p.add_effect( effect_on_roof, 1_turns );
 
     // turrets are subject only to recoil_vehicle()
     cached_recoil = p.recoil;
@@ -352,7 +353,7 @@ void vehicle::turrets_set_mode()
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
-                           p->name().c_str(), p->base.gun_current_mode().mode.c_str() );
+                           p->name().c_str(), p->base.gun_current_mode().name() );
         }
 
         menu.query();
@@ -502,7 +503,7 @@ npc vehicle::get_targeting_npc( vehicle_part &pt )
     cpu.per_cur = 12;
     cpu.setpos( global_part_pos3( pt ) );
     // Assume vehicle turrets are friendly to the player.
-    cpu.attitude = NPCATT_FOLLOW;
+    cpu.set_attitude( NPCATT_FOLLOW );
     return cpu;
 }
 
@@ -511,6 +512,10 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     turret_data gun = turret_query( pt );
 
     int shots = 0;
+
+    if( gun.query() != turret_data::status::ready ) {
+        return shots;
+    }
 
     // The position of the vehicle part.
     tripoint pos = global_part_pos3( pt );
@@ -524,8 +529,6 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         area += area == 1 ? 1 : 2;
     }
 
-    // The position on which we are firing
-    tripoint targ = pos;
     const bool u_see = g->u.sees( pos );
     // The current target of the turret.
     auto &target = pt.target;
@@ -562,7 +565,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // Get the turret's target and reset it
-    targ = target.second;
+    tripoint targ = target.second;
     pt.reset_target( pos );
 
     shots = gun.fire( cpu, targ );

@@ -57,6 +57,7 @@
   {
     "id": "m134",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "M134D-H Minigun",
     "description": "The M134D-H Minigun is a (relatively) lightweight heavy rotary machine gun.  Its six barrels are rotated by an electric motor, powered by UPS or vehicle.  If you could find enough ammo for it, it would become a devastating weapon.  It must be mounted on a vehicle before use.",
     "weight": 19500,
@@ -74,7 +75,10 @@
     "durability": 9,
     "ups_charges": 1,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 100 ] ],
+    "modes": [
+      [ "DEFAULT", "low auto", 50 ],
+      [ "AUTO", "high auto", 100 ]
+    ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -228,5 +232,29 @@
     "ammo": "308",
     "ranged_damage": -3,
     "magazine_well": 1
+  },
+  {
+    "id": "M24",
+    "copy-from": "rifle_manual",
+    "type": "GUN",
+    "name": "M24",
+    "name_plural": "M24",
+    "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988. The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
+    "weight": 4500,
+    "volume": 11,
+    "price": 350000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "blue",
+    "ammo": "308",
+    "dispersion": 85,
+    "durability": 9,
+    "barrel_length": 2,
+    "default_mods": [ "rifle_scope", "cheek_pad" ],
+    "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   }
 ]

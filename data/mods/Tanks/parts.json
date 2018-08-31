@@ -1,157 +1,117 @@
 [
-    {
-        "type" : "vehicle_part",
-        "id" : "mounted_tank_manual",
-        "name" : "120mm tank gun",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 800,
-        "range" : 25,
-        "item" : "tank_gun_manual",
-        "difficulty" : 8,
-        "size" : 10,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "MANUAL"],
-        "breaks_into" : [
-            {"item": "tank_gun_manual", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_tank_auto",
-        "name" : "120mm tank gun (AL)",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 800,
-        "range" : 25,
-        "item" : "tank_gun_auto",
-        "difficulty" : 8,
-        "size" : 50,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "MANUAL"],
-        "breaks_into" : [
-            {"item": "tank_gun_auto", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_tank_rws",
-        "name" : "120mm RWS",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 800,
-        "range" : 25,
-        "item" : "tank_gun_rws",
-        "difficulty" : 8,
-        "size" : 100,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT"],
-        "breaks_into" : [
-            {"item": "tank_gun_rws", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_howitzer",
-        "name" : "155mm howitzer",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 800,
-        "range" : 50,
-        "item" : "howitzer_gun",
-        "difficulty" : 8,
-        "size" : 15,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "MANUAL"],
-        "breaks_into" : [
-            {"item": "howitzer_gun", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "forklift_fork",
-        "name" : "forklift arm",
-        "symbol" : "|",
-        "color" : "light_gray",
-        "broken_symbol" : "x",
-        "broken_color" : "light_gray",
-        "damage_modifier" : 200,
-        "durability" : 300,
-        "size" : 50,
-        "item" : "frame",
-        "difficulty" : 2,
-        "location" : "structure",
-        "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
-        "flags" : ["CARGO", "PROTRUSION"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "tow_launcher",
-        "name" : "mounted ATGM launcher",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 800,
-        "range" : 50,
-        "item" : "atgm_launcher",
-        "difficulty" : 8,
-        "size" : 35,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "MANUAL"],
-        "breaks_into" : [
-            {"item": "atgm_launcher", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "tow_turret",
-        "name" : "ATGM turret",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 800,
-        "range" : 50,
-        "item" : "atgm_turret",
-        "difficulty" : 8,
-        "size" : 35,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT"],
-        "breaks_into" : [
-            {"item": "atgm_turret", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "mounted_30mm_autocannon",
-        "name" : "30mm chaingun",
-        "symbol" : "t",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "green",
-        "damage_modifier" : 80,
-        "durability" : 800,
-        "range" : 25,
-        "item" : "30mm_autocannon",
-        "difficulty" : 8,
-        "size" : 50,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "MANUAL"],
-        "breaks_into" : [
-            {"item": "30mm_autocannon", "prob": 50}
-        ]
+  {
+    "abstract": "turret_tank",
+    "type": "vehicle_part",
+    "copy-from": "turret",
+    "color": "green",
+    "broken_symbol": "#",
+    "broken_color": "green",
+    "durability": 800,
+    "difficulty": 8
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_tank_manual",
+    "copy-from": "turret_tank",
+    "name": "120mm tank gun",
+    "range": 25,
+    "item": "tank_gun_manual",
+    "size": 10,
+    "extend": { "flags": [ "MANUAL" ] },
+    "breaks_into": [ { "item": "tank_gun_manual", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_tank_auto",
+    "copy-from": "turret_tank",
+    "name": "120mm tank gun (AL)",
+    "range": 25,
+    "item": "tank_gun_auto",
+    "size": 50,
+    "extend": { "flags": [ "MANUAL" ] },
+    "breaks_into": [ { "item": "tank_gun_auto", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_tank_rws",
+    "copy-from": "turret_tank",
+    "name": "120mm RWS",
+    "range": 25,
+    "item": "tank_gun_rws",
+    "size": 100,
+    "extend": { "flags": [ "NEEDS_BATTERY_MOUNT" ] },
+    "breaks_into": [ { "item": "tank_gun_rws", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_howitzer",
+    "copy-from": "turret_tank",
+    "name": "155mm howitzer",
+    "range": 50,
+    "item": "howitzer_gun",
+    "size": 15,
+    "extend": { "flags": [ "MANUAL" ] },
+    "breaks_into": [ { "item": "howitzer_gun", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tow_launcher",
+    "copy-from": "turret_tank",
+    "name": "mounted ATGM launcher",
+    "range": 50,
+    "item": "atgm_launcher",
+    "size": 35,
+    "extend": { "flags": [ "MANUAL" ] },
+    "breaks_into": [ { "item": "atgm_launcher", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "tow_turret",
+    "copy-from": "turret_tank",
+    "name": "ATGM turret",
+    "range": 50,
+    "item": "atgm_turret",
+    "size": 35,
+    "extend": { "flags": [ "NEEDS_BATTERY_MOUNT" ] },
+    "breaks_into": [ { "item": "atgm_turret", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_30mm_autocannon",
+    "copy-from": "turret_tank",
+    "name": "30mm chaingun",
+    "range": 25,
+    "item": "30mm_autocannon",
+    "size": 50,
+    "extend": { "flags": [ "MANUAL" ] },
+    "breaks_into": [ { "item": "30mm_autocannon", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 3 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  }
 ]

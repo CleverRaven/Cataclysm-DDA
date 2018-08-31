@@ -3,6 +3,7 @@
     "id": "bio_scalpel",
     "type": "TOOL",
     "name": "autonomous surgical razors",
+    "name_plural": "autonomous surgical razors",
     "description": "Implanted on the user's fingers is a system of surgical grade razors.  While activated, they will continously drain power to make automated precise cuts but you will be unable to wield anything.",
     "weight": 10,
     "volume": 1,

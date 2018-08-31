@@ -7,6 +7,7 @@
 
 #include "animation.h"
 #include "lightmap.h"
+#include "line.h"
 #include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
@@ -225,11 +226,10 @@ struct minimap_submap_cache {
 
     //reserve the SEEX * SEEY submap tiles
     minimap_submap_cache( minimap_shared_texture_pool &pool );
+    minimap_submap_cache( minimap_submap_cache && );
     //handle the release of the borrowed texture
     ~minimap_submap_cache();
 };
-
-using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
 
 class tileset
 {
@@ -361,12 +361,28 @@ class tileset_loader
         void load( const std::string &tileset_id, bool precheck );
 };
 
+enum text_alignment {
+    TEXT_ALIGNMENT_LEFT,
+    TEXT_ALIGNMENT_CENTER,
+    TEXT_ALIGNMENT_RIGHT,
+};
+
+struct formatted_text {
+    std::string text;
+    int color;
+    text_alignment alignment;
+
+    formatted_text( const std::string text, const int color, const text_alignment alignment )
+        : text( text ), color( color ), alignment( alignment ) {
+    }
+
+    formatted_text( const std::string text, const int color, const direction direction );
+};
+
 class cata_tiles
 {
     public:
-        /** Default constructor */
         cata_tiles( SDL_Renderer *render );
-        /** Default destructor */
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -375,7 +391,8 @@ class cata_tiles
 
     public:
         /** Draw to screen */
-        void draw( int destx, int desty, const tripoint &center, int width, int height );
+        void draw( int destx, int desty, const tripoint &center, int width, int height,
+                   std::multimap<point, formatted_text> &overlay_strings );
 
         /** Minimap functionality */
         void draw_minimap( int destx, int desty, const tripoint &center, int width, int height );
@@ -384,6 +401,9 @@ class cata_tiles
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts( const int width, const int height, int &columns, int &rows ) const;
+
+        const tile_type *find_tile_with_season( std::string &id );
+        const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
 
         bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
@@ -464,7 +484,7 @@ class cata_tiles
         void void_weather();
 
         void init_draw_sct();
-        void draw_sct_frame();
+        void draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings );
         void void_sct();
 
         void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
@@ -503,6 +523,7 @@ class cata_tiles
             return tile_ratioy;
         }
         void do_tile_loading_report();
+        point player_to_screen( int x, int y ) const;
     protected:
         template <typename maptype>
         void tile_loading_report( maptype const &tiletypemap, std::string const &label,
@@ -526,11 +547,14 @@ class cata_tiles
         SDL_Renderer *renderer;
         std::unique_ptr<tileset> tileset_ptr;
 
-        int tile_height = 0, tile_width = 0;
+        int tile_height = 0;
+        int tile_width = 0;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
-        int screentile_width, screentile_height;
-        float tile_ratiox, tile_ratioy;
+        int screentile_width = 0;
+        int screentile_height = 0;
+        float tile_ratiox = 0.0;
+        float tile_ratioy = 0.0;
 
         bool in_animation;
 
@@ -567,12 +591,15 @@ class cata_tiles
         tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
-        int o_x, o_y;
+        int o_x = 0;
+        int o_y = 0;
         // offset for drawing, in pixels.
-        int op_x, op_y;
+        int op_x = 0;
+        int op_y = 0;
 
     private:
-        int last_pos_x, last_pos_y;
+        int last_pos_x = 0;
+        int last_pos_y = 0;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
@@ -588,7 +615,7 @@ class cata_tiles
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         minimap_shared_texture_pool tex_pool;
-        std::map< tripoint, minimap_cache_ptr> minimap_cache;
+        std::map<tripoint, minimap_submap_cache> minimap_cache;
 
         //persistent tiled minimap values
         void init_minimap( int destx, int desty, int width, int height );

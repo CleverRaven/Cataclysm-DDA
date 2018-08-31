@@ -9,6 +9,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "active_item_cache.h"
+#include "calendar.h"
 
 #include <vector>
 #include <list>
@@ -31,7 +32,8 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 
 struct spawn_point {
-    int posx, posy;
+    int posx;
+    int posy;
     int count;
     mtype_id type;
     int faction_id;
@@ -139,7 +141,7 @@ struct submap {
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    void set_signage( const int x, const int y, std::string s ) {
+    void set_signage( const int x, const int y, const std::string &s ) {
         is_uniform = false;
         cosmetics[x][y]["SIGNAGE"] = s;
     }
@@ -167,7 +169,7 @@ struct submap {
     active_item_cache active_items;
 
     int field_count = 0;
-    int turn_last_touched = 0;
+    time_point last_touched = 0;
     int temperature = 0;
     std::vector<spawn_point> spawns;
     /**
@@ -233,7 +235,7 @@ struct maptile {
             return sm->fld[x][y].findField( field_to_find );
         }
 
-        bool add_field( const field_id field_to_add, const int new_density, const int new_age ) {
+        bool add_field( const field_id field_to_add, const int new_density, const time_duration new_age ) {
             const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
             if( ret ) {
                 sm->field_count++;

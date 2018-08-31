@@ -1,6 +1,7 @@
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
+#include "itype.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -197,14 +198,22 @@ void item::load_info( const std::string &data )
 
     unset_flags();
     clear_vars();
-    std::string idtmp, ammotmp, item_tag, mode;
-    int lettmp, damtmp, acttmp, corp, tag_count, bday_;
+    std::string idtmp;
+    std::string ammotmp;
+    std::string item_tag;
+    std::string mode;
+    int lettmp = 0;
+    int damtmp = 0;
+    int acttmp = 0;
+    int corp = 0;
+    int tag_count = 0;
+    int bday_ = 0;
     int owned; // Ignoring an obsolete member.
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
     {
         dump >> item_tag;
-        if( itag2ivar(item_tag, item_vars ) == false ) {
+        if( !itag2ivar( item_tag, item_vars ) ) {
             item_tags.insert( item_tag );
         }
     }
@@ -215,7 +224,7 @@ void item::load_info( const std::string &data )
     corpse = NULL;
     getline(dump, corpse_name);
     if( corpse_name == " ''" ) {
-        corpse_name = "";
+        corpse_name.clear();
     } else {
         size_t pos = corpse_name.find_first_of( "@@" );
         while (pos != std::string::npos)  {
@@ -224,7 +233,7 @@ void item::load_info( const std::string &data )
         }
         corpse_name = corpse_name.substr( 2, corpse_name.size() - 3 ); // s/^ '(.*)'$/\1/
     }
-    gun_set_mode( mode );
+    gun_set_mode( gun_mode_id( mode ) );
 
     if( idtmp == "UPS_on" ) {
         idtmp = "UPS_off";
@@ -234,7 +243,7 @@ void item::load_info( const std::string &data )
     convert( idtmp );
 
     invlet = char(lettmp);
-    set_damage( damtmp );
+    set_damage( damtmp * itype::damage_scale );
     active = false;
     if (acttmp == 1) {
         active = true;
@@ -247,7 +256,17 @@ void overmap::unserialize_legacy(std::istream & fin) {
     // DEBUG VARS
     int nummg = 0;
     char datatype;
-    int cx, cy, cz, cs, cp, cd, cdying, horde, tx, ty, intr;
+    int cx = 0;
+    int cy = 0;
+    int cz = 0;
+    int cs = 0;
+    int cp = 0;
+    int cd = 0;
+    int cdying = 0;
+    int horde = 0;
+    int tx = 0;
+    int ty = 0;
+    int intr = 0;
     std::string cstr;
     city tmp;
     std::list<item> npc_inventory;
@@ -376,7 +395,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
             std::string itemdata;
             getline(fin, itemdata);
             if (npcs.empty()) {
-                debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
+                debugmsg("Overmap %d:%d tried to load object data, without an NPC!\n%s",
                          loc.x, loc.y, itemdata.c_str());
             } else {
                 item tmp;
@@ -450,7 +469,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             getline(fin, dataline); // Chomp endl
 
             int count = 0;
-            int vis;
+            int vis = 0;
             if (z >= 0 && z < OVERMAP_LAYERS) {
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {
@@ -469,7 +488,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             getline(fin, dataline); // Chomp endl
 
             int count = 0;
-            int explored;
+            int explored = 0;
             if (z >= 0 && z < OVERMAP_LAYERS) {
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {

@@ -14,5 +14,20 @@
     "capacity": 10,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "38_speedloader",
+    "type": "MAGAZINE",
+    "name": ".38 speedloader",
+    "description": "This speedloader can hold 7 rounds of .38 and quickly reload a compatible revolver.",
+    "weight": 80,
+    "volume": 1,
+    "price": 1000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "38",
+    "capacity": 7,
+    "flags": [ "SPEEDLOADER" ]
   }
 ]

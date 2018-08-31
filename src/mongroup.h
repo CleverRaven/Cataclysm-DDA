@@ -8,6 +8,7 @@
 #include <string>
 #include "enums.h"
 #include "string_id.h"
+#include "calendar.h"
 #include "monster.h"
 
 // from overmap.h
@@ -37,15 +38,14 @@ struct MonsterGroupEntry {
     int pack_minimum;
     int pack_maximum;
     std::vector<std::string> conditions;
-    int starts;
-    int ends;
+    time_duration starts;
+    time_duration ends;
     bool lasts_forever() const {
         return ( ends <= 0 );
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
-                       int new_pack_min, int new_pack_max, int new_starts,
-                       int new_ends )
+                       int new_pack_min, int new_pack_max, const time_duration &new_starts, const time_duration &new_ends )
         : name( id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
@@ -77,8 +77,9 @@ struct MonsterGroup {
     // time when exploring an unexplored portion of the map
     bool replace_monster_group;
     mongroup_id new_monster_group;
-    int monster_group_time;  //time in days
+    time_duration monster_group_time = 0;
     bool is_safe; /// Used for @ref mongroup::is_safe()
+    int freq_total; // Default 1000 unless specified - max number to roll for spawns
 };
 
 struct mongroup {
@@ -152,6 +153,7 @@ struct mongroup {
         }
         interest = set;
     }
+    float avg_speed() const;
 
     template<typename Archive>
     void io( Archive & );

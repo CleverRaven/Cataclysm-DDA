@@ -3,6 +3,7 @@
 #define GAME_INVENTORY_H
 
 #include "enums.h"
+#include "inventory_ui.h"
 
 #include <list>
 #include <string>
@@ -10,7 +11,18 @@
 class item;
 class item_location;
 class player;
+typedef std::function<bool( const item_location & )> item_location_filter;
 
+class inventory_filter_preset : public inventory_selector_preset
+{
+    public:
+        inventory_filter_preset( const item_location_filter &filter );
+
+        bool is_shown( const item_location &location ) const override;
+
+    private:
+        item_location_filter filter;
+};
 namespace game_menus
 {
 

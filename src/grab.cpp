@@ -1,6 +1,7 @@
 #include "game.h"
 #include "map.h"
 #include "output.h"
+#include "vpart_position.h"
 #include "player.h"
 #include "vehicle.h"
 #include "messages.h"
@@ -8,16 +9,17 @@
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
-    int grabbed_part = 0;
-    vehicle *grabbed_vehicle = m.veh_at( u.pos() + u.grab_point, grabbed_part );
-    if( nullptr == grabbed_vehicle ) {
+    const optional_vpart_position grabbed_vehicle_vp = m.veh_at( u.pos() + u.grab_point );
+    if( !grabbed_vehicle_vp ) {
         add_msg( m_info, _( "No vehicle at grabbed point." ) );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return false;
     }
+    vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
+    const int grabbed_part = grabbed_vehicle_vp->part_index();
 
-    const vehicle *veh_under_player = m.veh_at( u.pos() );
+    const vehicle *veh_under_player = veh_pointer_or_null( m.veh_at( u.pos() ) );
     if( grabbed_vehicle == veh_under_player ) {
         u.grab_point = -dp;
         return false;

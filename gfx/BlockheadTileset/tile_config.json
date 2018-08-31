@@ -583,13 +583,13 @@
             "rotates":false
         },
         {
-            "id":"t_door_glass_c",
+            "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
             "fg":105,
             "bg":64,
             "rotates":false
         },
         {
-            "id":"t_door_glass_o",
+            "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
             "fg":106,
             "bg":64,
             "rotates":false
@@ -764,25 +764,25 @@
             "id":"t_fence_v",
             "fg":92,
             "bg":1,
-            "rotates":false
+            "rotates":true
         },
         {
-            "id":"t_fence_h",
+            "id": [ "t_fence", "t_fence_h" ],
             "fg":91,
             "bg":1,
-            "rotates":false
+            "rotates":true
         },
         {
             "id":"t_chainfence_v",
             "fg":93,
             "bg":1,
-            "rotates":false
+            "rotates":true
         },
         {
-            "id":"t_chainfence_h",
+            "id": [ "t_chainfence", "t_chainfence_h" ],
             "fg":93,
             "bg":1,
-            "rotates":false
+            "rotates":true
         },
         {
             "id":"t_chainfence_posts",
@@ -884,13 +884,13 @@
             "id":"t_railing_v",
             "fg":168,
             "bg":3,
-            "rotates":false
+            "rotates":true
         },
         {
-            "id":"t_railing_h",
+            "id":[ "t_railing", "t_railing_h" ],
             "fg":167,
             "bg":3,
-            "rotates":false
+            "rotates":true
         },
         {
             "id":"t_marloss",
@@ -3169,7 +3169,7 @@
          "rotates": false
       },
       {
-         "id" : "novel_war",
+         "id" : [ "novel_war", "novel_war2" ],
          "fg" : 930,
          "bg" : 916,
          "rotates": false
@@ -6117,6 +6117,11 @@
             "rotates":true
         },
         {
+            "id":"762_51_casing",
+            "fg":577,
+            "rotates":true
+        },
+        {
             "id":"223_casing",
             "fg":577,
             "rotates":true
@@ -7938,7 +7943,7 @@
          "rotates": false
       },
       {
-         "id" : "novel_crime",
+         "id" : [ "novel_crime", "novel_crime2" ],
          "fg" : 928,
          "bg" : 914,
          "rotates": false
@@ -7962,7 +7967,7 @@
          "rotates": false
       },
       {
-         "id" : "novel_coa",
+         "id" : [ "novel_coa", "novel_coa2" ],
          "fg" : 928,
          "bg" : 913,
          "rotates": false

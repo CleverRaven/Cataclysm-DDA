@@ -88,7 +88,7 @@
             }
         }
     },
-    "flags": [ "BOMB", "NONCONDUCTIVE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NONCONDUCTIVE" ]
   },
   {
     "id": "smokebomb",

@@ -10,6 +10,15 @@
 #include <algorithm>
 #include <numeric>
 
+bool damage_unit::operator==( const damage_unit &other ) const
+{
+    return type == other.type &&
+           amount == other.amount &&
+           res_pen == other.res_pen &&
+           res_mult == other.res_mult &&
+           damage_multiplier == other.damage_multiplier;
+}
+
 damage_instance::damage_instance() { }
 damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
 {
@@ -26,10 +35,8 @@ damage_instance::damage_instance( damage_type dt, float a, float rp, float rm, f
 
 void damage_instance::add_damage( damage_type dt, float a, float rp, float rm, float mul )
 {
-    if( a * mul > 0.0f ) {
-        damage_unit du( dt, a, rp, rm, mul );
-        add( du );
-    }
+    damage_unit du( dt, a, rp, rm, mul );
+    add( du );
 }
 
 void damage_instance::mult_damage( double multiplier, bool pre_armor )
@@ -101,6 +108,38 @@ void damage_instance::add( const damage_unit &added_du )
         float t = added_du.damage_multiplier / ( added_du.damage_multiplier + du.damage_multiplier );
         du.res_mult = lerp( du.res_mult, added_du.damage_multiplier, t );
     }
+}
+
+std::vector<damage_unit>::iterator damage_instance::begin()
+{
+    return damage_units.begin();
+}
+
+std::vector<damage_unit>::const_iterator damage_instance::begin() const
+{
+    return damage_units.begin();
+}
+
+std::vector<damage_unit>::iterator damage_instance::end()
+{
+    return damage_units.end();
+}
+
+std::vector<damage_unit>::const_iterator damage_instance::end() const
+{
+    return damage_units.end();
+}
+
+bool damage_instance::operator==( const damage_instance &other ) const
+{
+    return damage_units == other.damage_units;
+}
+
+void damage_instance::deserialize( JsonIn &jsin )
+{
+    JsonObject jo( jsin );
+    // @todo Clean up
+    damage_units = load_damage_instance( jo ).damage_units;
 }
 
 dealt_damage_instance::dealt_damage_instance()

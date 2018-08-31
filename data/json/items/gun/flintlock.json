@@ -22,7 +22,7 @@
     "id": "carbine_flintlock_double",
     "copy-from": "carbine_flintlock",
     "type": "GUN",
-    "name": "survivor's double-barrel flintlock",
+    "name": "handmade double-barrel flintlock",
     "description": "This is a compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
     "clip_size": 2,
     "relative": {
@@ -36,6 +36,7 @@
   {
     "id": "pistol_flintlock",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "flintlock pistol",
     "description": "A beautifully decorated flintlock pistol.  If using this doesn't makes you feel a pirate, nothing will.",
     "weight": 753,
@@ -60,6 +61,7 @@
   {
     "id": "rifle_flintlock",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "flintlock rifle",
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
     "weight": 1950,

@@ -11,7 +11,8 @@
       [ "rifle_scope", 30 ],
       [ "shoulder_strap", 100 ],
       [ "suppressor", 60 ],
-      [ "suppressor_compact", 40 ]
+      [ "suppressor_compact", 40 ],
+      [ "cheek_pad", 25 ]
     ]
   },
   {
@@ -20,11 +21,8 @@
     "//" : "Less common gunmods including those only used by police/paramilitary forces.",
     "items": [
       [ "adjustable_stock", 80],
-      [ "barrel_big", 20 ],
       [ "barrel_ported", 20 ],
-      [ "barrel_rifled", 20 ],
       [ "bipod", 20 ],
-      [ "blowback", 20 ],
       [ "folding_stock", 60 ],
       [ "grip", 80 ],
       [ "gun_crossbow", 20 ],
@@ -39,14 +37,6 @@
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
       [ "recoil_stock", 60 ],
-      [ "retool_22", 20 ],
-      [ "retool_223", 20 ],
-      [ "retool_22", 20 ],
-      [ "retool_308", 20 ],
-      [ "retool_45", 20 ],
-      [ "retool_46", 20 ],
-      [ "retool_57", 20 ],
-      [ "retool_9mm", 20 ],
       [ "shot_suppressor", 10 ],
       [ "tuned_mechanism", 20 ],
       [ "u_shotgun", 60 ],

@@ -165,6 +165,8 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     { "WOODFENCE",                TERCONN_WOODFENCE },
     { "RAILING",                  TERCONN_RAILING },
     { "WATER",                    TERCONN_WATER },
+    { "PAVEMENT",                 TERCONN_PAVEMENT },
+    { "RAIL",                     TERCONN_RAIL },
 } };
 
 void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers ) {
@@ -181,7 +183,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
                                  drop_group( "EMPTY_GROUP" ),
                                  ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
 
-bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
+bool map_bash_info::load(JsonObject &jsobj, const std::string &member, bool is_furniture) {
     if( !jsobj.has_object(member) ) {
         return false;
     }
@@ -210,7 +212,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     sound = j.get_string("sound", _("smash!"));
     sound_fail = j.get_string("sound_fail", _("thump!"));
 
-    if( isfurniture ) {
+    if( is_furniture ) {
         furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
     } else {
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
@@ -233,7 +235,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
                                                ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
 
-bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
+bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, bool is_furniture )
 {
     if (!jsobj.has_object(member)) {
         return false;
@@ -241,7 +243,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     JsonObject j = jsobj.get_object(member);
     furn_set = furn_str_id( j.get_string("furn_set", "f_null" ) );
 
-    if (!isfurniture) {
+    if (!is_furniture) {
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
     }
     can_do = true;
@@ -318,6 +320,13 @@ std::string map_data_common_t::name() const
 
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
+    if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    if( jo.has_member( "looks_like" ) ) {
+        looks_like = jo.get_string( "looks_like" );
+    }
+
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string &str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;
@@ -424,7 +433,7 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_thconc_floor,
+    t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -453,7 +462,7 @@ ter_id t_null,
     t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
-    t_door_glass_c, t_door_glass_o,
+    t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
@@ -464,14 +473,14 @@ ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
+    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_coffee, t_tree_coffee_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
     t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
-    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_maple_tapped, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk, t_stump,
     t_root_wall,
     t_wax, t_floor_wax,
-    t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
+    t_fence, t_chainfence, t_chainfence_posts,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
-    t_railing_v, t_railing_h,
+    t_railing,
     // Nether
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
     t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
@@ -492,6 +501,7 @@ ter_id t_null,
     t_centrifuge,
     t_column,
     t_vat,
+    t_rootcellar,
     t_cvdbody, t_cvdmachine,
     t_water_pump,
     t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
@@ -508,7 +518,12 @@ ter_id t_null,
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
     t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
-    t_railroad_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
+    // Railroad and subway
+    t_railroad_rubble,
+    t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,
+    t_railroad_tie, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d,
+    t_railroad_track, t_railroad_track_h, t_railroad_track_v, t_railroad_track_d, t_railroad_track_d1, t_railroad_track_d2,
+    t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie, t_railroad_track_d_on_tie;
 
 // @todo: Put this crap into an inclusion, which should be generated automatically using JSON data
 
@@ -535,6 +550,8 @@ void set_ter_ids() {
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
     t_thconc_floor = ter_id( "t_thconc_floor" );
+    t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
+    t_strconc_floor = ter_id( "t_strconc_floor" );
     t_floor = ter_id( "t_floor" );
     t_floor_waxed = ter_id( "t_floor_waxed" );
     t_dirtfloor = ter_id( "t_dirtfloor" );
@@ -610,6 +627,8 @@ void set_ter_ids() {
     t_door_bar_locked = ter_id( "t_door_bar_locked" );
     t_door_glass_c = ter_id( "t_door_glass_c" );
     t_door_glass_o = ter_id( "t_door_glass_o" );
+    t_door_glass_frosted_c = ter_id( "t_door_glass_frosted_c" );
+    t_door_glass_frosted_o = ter_id( "t_door_glass_frosted_o" );
     t_portcullis = ter_id( "t_portcullis" );
     t_recycler = ter_id( "t_recycler" );
     t_window = ter_id( "t_window" );
@@ -645,6 +664,8 @@ void set_ter_ids() {
     t_tree_young = ter_id( "t_tree_young" );
     t_tree_apple = ter_id( "t_tree_apple" );
     t_tree_apple_harvested = ter_id( "t_tree_apple_harvested" );
+    t_tree_coffee = ter_id( "t_tree_coffee" );
+    t_tree_coffee_harvested = ter_id( "t_tree_coffee_harvested" );
     t_tree_pear = ter_id( "t_tree_pear" );
     t_tree_pear_harvested = ter_id( "t_tree_pear_harvested" );
     t_tree_cherry = ter_id( "t_tree_cherry" );
@@ -670,20 +691,18 @@ void set_ter_ids() {
     t_shrub_blueberry = ter_id( "t_shrub_blueberry" );
     t_shrub_strawberry = ter_id( "t_shrub_strawberry" );
     t_trunk = ter_id( "t_trunk" );
+    t_stump = ter_id( "t_stump" );
     t_root_wall = ter_id( "t_root_wall" );
     t_wax = ter_id( "t_wax" );
     t_floor_wax = ter_id( "t_floor_wax" );
-    t_fence_v = ter_id( "t_fence_v" );
-    t_fence_h = ter_id( "t_fence_h" );
-    t_chainfence_v = ter_id( "t_chainfence_v" );
-    t_chainfence_h = ter_id( "t_chainfence_h" );
+    t_fence = ter_id( "t_fence" );
+    t_chainfence = ter_id( "t_chainfence" );
     t_chainfence_posts = ter_id( "t_chainfence_posts" );
     t_fence_post = ter_id( "t_fence_post" );
     t_fence_wire = ter_id( "t_fence_wire" );
     t_fence_barbed = ter_id( "t_fence_barbed" );
     t_fence_rope = ter_id( "t_fence_rope" );
-    t_railing_v = ter_id( "t_railing_v" );
-    t_railing_h = ter_id( "t_railing_h" );
+    t_railing = ter_id( "t_railing" );
     t_marloss = ter_id( "t_marloss" );
     t_fungus_floor_in = ter_id( "t_fungus_floor_in" );
     t_fungus_floor_sup = ter_id( "t_fungus_floor_sup" );
@@ -729,6 +748,7 @@ void set_ter_ids() {
     t_centrifuge = ter_id( "t_centrifuge" );
     t_column = ter_id( "t_column" );
     t_vat = ter_id( "t_vat" );
+    t_rootcellar = ter_id( "t_rootcellar" );
     t_cvdbody = ter_id( "t_cvdbody" );
     t_cvdmachine = ter_id( "t_cvdmachine" );
     t_stairs_down = ter_id( "t_stairs_down" );
@@ -774,9 +794,24 @@ void set_ter_ids() {
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
     t_railroad_rubble = ter_id( "t_railroad_rubble" );
-    t_railroad_track = ter_id( "t_railroad_track" );
-    t_railroad_track_on_tie = ter_id( "t_railroad_track_on_tie" );
+    t_buffer_stop = ter_id( "t_buffer_stop" );
+    t_railroad_crossing_signal = ter_id( "t_railroad_crossing_signal" );
+    t_crossbuck_metal = ter_id( "t_crossbuck_metal" );
+    t_crossbuck_wood = ter_id( "t_crossbuck_wood" );
     t_railroad_tie = ter_id( "t_railroad_tie" );
+    t_railroad_tie_h = ter_id( "t_railroad_tie_h" );
+    t_railroad_tie_v = ter_id( "t_railroad_tie_v" );
+    t_railroad_tie_d = ter_id( "t_railroad_tie_d" );
+    t_railroad_track = ter_id( "t_railroad_track" );
+    t_railroad_track_h = ter_id( "t_railroad_track_h" );
+    t_railroad_track_v = ter_id( "t_railroad_track_v" );
+    t_railroad_track_d = ter_id( "t_railroad_track_d" );
+    t_railroad_track_d1 = ter_id( "t_railroad_track_d1" );
+    t_railroad_track_d2 = ter_id( "t_railroad_track_d2" );
+    t_railroad_track_on_tie = ter_id( "t_railroad_track_on_tie" );
+    t_railroad_track_h_on_tie = ter_id( "t_railroad_track_h_on_tie" );
+    t_railroad_track_v_on_tie = ter_id( "t_railroad_track_v_on_tie" );
+    t_railroad_track_d_on_tie = ter_id( "t_railroad_track_d_on_tie" );
 
     for( auto &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t&>( elem );
@@ -823,6 +858,7 @@ furn_id f_null,
     f_floor_canvas,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+    f_smoking_rack, f_smoking_rack_active,
     f_robotic_arm, f_vending_reinforced,
     f_brazier;
 
@@ -923,6 +959,8 @@ void set_furn_ids() {
     f_kiln_full = furn_id( "f_kiln_full" );
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
+    f_smoking_rack = furn_id( "f_smoking_rack" );
+    f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
 }
@@ -1091,6 +1129,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
+    optional( jo, was_loaded, "deployed_item", deployed_item );
 
     load_symbol( jo );
     transparent = false;

@@ -96,30 +96,6 @@ bool bresenham_visibility_check( int offsetX, int offsetY, int x, int y,
     return visible;
 }
 
-static void castLightAll( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                          const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                          const int offsetX, const int offsetY ) {
-        castLight<0, 1, 1, 0, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, 1, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-
-        castLight<0, -1, 1, 0, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-
-        castLight<0, 1, -1, 0, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, -1, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-
-        castLight<0, -1, -1, 0, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
-            output_cache, input_array, offsetX, offsetY, 0 );
-}
-
 void shadowcasting_runoff(int iterations, bool test_bresenham = false ) {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
@@ -169,7 +145,8 @@ void shadowcasting_runoff(int iterations, bool test_bresenham = false ) {
     auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
-        castLightAll( seen_squares_experiment, transparency_cache, offsetX, offsetY );
+        castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -301,7 +278,8 @@ void shadowcasting_3d_2d( int iterations )
     auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
-        castLightAll( seen_squares_control, transparency_cache, offsetX, offsetY );
+        castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+            seen_squares_control, transparency_cache, offsetX, offsetY );
     }
     auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -319,25 +297,8 @@ void shadowcasting_3d_2d( int iterations )
     auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the newer algorithm.
-        cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-        cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-
-        cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-        cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-
-        cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-        cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-
-        cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
-        cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+              seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -479,13 +440,16 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     float seen_squares[ MAPSIZE * SEEY ][ MAPSIZE * SEEX ] = {{ 0 }};
     float transparency_cache[ MAPSIZE * SEEY ][ MAPSIZE * SEEX ] = {{ 0 }};
 
-    for( int y = 0; y < sizeof( transparency_cache ) / sizeof( transparency_cache[0] ); ++y ) {
-        for( int x = 0; x < sizeof( transparency_cache[0] ) / sizeof( transparency_cache[0][0] ); ++x ) {
+    for( int y = 0; y < static_cast<int>( sizeof( transparency_cache ) /
+                                          sizeof( transparency_cache[0] ) ); ++y ) {
+        for( int x = 0; x < static_cast<int>( sizeof( transparency_cache[0] ) /
+                                              sizeof( transparency_cache[0][0] ) ); ++x ) {
             transparency_cache[ y ][ x ] = test_case.get_global( x, y );
         }
     }
 
-    castLightAll( seen_squares, transparency_cache, ORIGIN.x, ORIGIN.y );
+    castLightAll<float, sight_calc, sight_check, accumulate_transparency>(
+        seen_squares, transparency_cache, ORIGIN.x, ORIGIN.y );
 
     // Compares the whole grid, but out-of-bounds compares will de-facto pass.
     for( int y = 0; y < expected_result.height(); ++y ) {
@@ -501,7 +465,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     }
 }
 
-TEST_CASE( "shadowcasting_slope_inversion_regression_test" ) {
+TEST_CASE( "shadowcasting_slope_inversion_regression_test", "[shadowcasting]" ) {
     grid_overlay test_case( { 7, 8 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T,T},
@@ -535,7 +499,7 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test" ) {
     run_spot_check( test_case, expected_results );
 }
 
-TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent" ) {
+TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]" ) {
     grid_overlay test_case( { 1, 4 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T},
@@ -565,7 +529,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent" ) {
     run_spot_check( test_case, expected_results );
 }
 
-TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap" ) {
+TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" ) {
     grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
@@ -595,7 +559,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap" ) {
     run_spot_check( test_case, expected_results );
 }
 
-TEST_CASE( "shadowcasting_vision_along_a_wall" ) {
+TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" ) {
     grid_overlay test_case( { 8, 2 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},

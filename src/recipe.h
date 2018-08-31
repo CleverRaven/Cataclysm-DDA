@@ -40,6 +40,8 @@ class recipe
         std::string category;
         std::string subcategory;
 
+        std::string description;
+
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
 
@@ -55,6 +57,9 @@ class recipe
         bool is_blacklisted() const {
             return requirements_.is_blacklisted();
         }
+
+        /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
+        bool never_learn = false;
 
         /** If recipe can be used for disassembly fetch the combined requirements */
         requirement_data disassembly_requirements() const {

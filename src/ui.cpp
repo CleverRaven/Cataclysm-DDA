@@ -147,11 +147,11 @@ void uimenu::init()
     w_height =
         MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // @todo: fixme: scrolling list with offset
     ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
-    text = "";             // header text, after (maybe) folding, populates:
+    text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
     textalign = MENU_ALIGN_LEFT; // @todo:
-    title = "";            // Makes use of the top border, no folding, sets min width if w_width is auto
+    title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
@@ -177,7 +177,7 @@ void uimenu::init()
     vshift = 0;              // scrolling menu offset
     vmax = 0;                // max entries area rows
     callback = NULL;         // * uimenu_callback
-    filter = "";             // filter string. If "", show everything
+    filter.clear();          // filter string. If "", show everything
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
     fselected = 0;           // fentries[selected]
     filtering = true;        // enable list display filtering via '/' or '.'
@@ -204,9 +204,9 @@ void uimenu::init()
  */
 void uimenu::filterlist()
 {
-    bool notfiltering = ( ! filtering || filter.size() < 1 );
+    bool notfiltering = ( ! filtering || filter.empty() );
     int num_entries = entries.size();
-    bool nocase = (filtering_nocase == true); // @todo: && is_all_lc( filter )
+    bool nocase = filtering_nocase; // @todo: && is_all_lc( filter )
     std::string fstr = "";
     fstr.reserve(filter.size());
     if ( nocase ) {
@@ -218,7 +218,7 @@ void uimenu::filterlist()
     fselected = -1;
     int f = 0;
     for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( nocase == false && (int)entries[ i ].txt.find(filter) != -1 ) ||
+        if( notfiltering || ( !nocase && (int)entries[ i ].txt.find(filter) != -1 ) ||
             lcmatch(entries[i].txt, fstr ) ) {
             fentries.push_back( i );
             if ( i == selected ) {
@@ -277,7 +277,7 @@ std::string uimenu::inputfilter()
         event = popup.context().get_raw_input();
         // key = filter_input->keypress;
         if ( event.get_first_input() != KEY_ESCAPE ) {
-            if ( scrollby( scroll_amount_from_key( event.get_first_input() ) ) == false ) {
+            if( !scrollby( scroll_amount_from_key( event.get_first_input() ) ) ) {
                 filterlist();
             }
             show();
@@ -428,7 +428,7 @@ void uimenu::setup()
         } else if ( textwidth != -1 ) {
             realtextwidth = textwidth;
         }
-        if ( formattxt == true ) {
+        if ( formattxt ) {
             textformatted = foldstring(text, realtextwidth);
         }
     }
@@ -614,13 +614,14 @@ void uimenu::show()
                 trim_and_print( window, estart + si, pad_left + 4,
                                 w_width - 5 - pad_left - pad_right, co, "%s", entry.c_str() );
             }
-            if ( !entries[ei].extratxt.txt.empty() ) {
-                mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
-                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.txt );
+            mvwzstr menu_entry_extra_text = entries[ei].extratxt;
+            if ( !menu_entry_extra_text.txt.empty() ) {
+                mvwprintz( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                           menu_entry_extra_text.color, menu_entry_extra_text.txt );
             }
-            if ( entries[ei].extratxt.sym != 0 ) {
-                mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
-                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.sym );
+            if ( menu_entry_extra_text.sym != 0 ) {
+                mvwputch ( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
             if ( callback != NULL && ei == selected ) {
                 callback->select(ei, this);
@@ -818,7 +819,7 @@ void uimenu::query(bool loop)
 
         if ( skipkey ) {
             /* nothing */
-        } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
+        } else if( scrollby( scroll_amount_from_action( action ) ) ) {
             /* nothing */
         } else if ( action == "HELP_KEYBINDINGS" ) {
             /* nothing, handled by input_context */
@@ -856,14 +857,9 @@ void uimenu::query(bool loop)
 /**
  * cleanup
  */
-uimenu::~uimenu()
-{
-    reset();
-}
-
 void uimenu::reset()
 {
-	window = catacurses::window();
+    window = catacurses::window();
     init();
 }
 
@@ -910,6 +906,7 @@ void pointmenu_cb::refresh( uimenu *menu ) {
         last = menu->selected;
         g->u.view_offset = {0, 0, 0};
         g->draw_ter();
+        wrefresh( g->w_terrain );
         menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;

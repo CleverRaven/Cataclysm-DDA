@@ -2,6 +2,7 @@
   {
     "id": "flaregun",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "flaregun",
     "description": "A plastic single shot pistol that can be loaded with signal flares.",
     "weight": 213,

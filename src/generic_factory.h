@@ -1,6 +1,6 @@
 #pragma once
-#ifndef H_GENERIC_FACTORY
-#define H_GENERIC_FACTORY
+#ifndef GENERIC_FACTORY_H
+#define GENERIC_FACTORY_H
 
 #include "string_id.h"
 #include "int_id.h"
@@ -117,6 +117,10 @@ class string_id_reader;
 template<typename T>
 class generic_factory
 {
+
+    public:
+        virtual ~generic_factory() = default;
+
     private:
         DynamicDataLoader::deferred_json deferred;
 

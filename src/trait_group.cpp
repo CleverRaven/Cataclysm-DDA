@@ -129,11 +129,6 @@ Trait_group::Trait_group( int probability )
 {
 }
 
-Trait_group::~Trait_group()
-{
-    creators.clear();
-}
-
 Single_trait_creator::Single_trait_creator( const trait_id &id, int probability )
     : Trait_creation_data( probability ), id( id )
 {

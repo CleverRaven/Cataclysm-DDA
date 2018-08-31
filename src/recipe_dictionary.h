@@ -12,6 +12,8 @@
 #include <vector>
 #include <algorithm>
 
+class JsonIn;
+class JsonOut;
 class JsonObject;
 typedef std::string itype_id;
 class recipe;
@@ -98,6 +100,11 @@ class recipe_subset
          */
         int get_custom_difficulty( const recipe *r ) const;
 
+        /** Check if there is any recipes in given category (optionally restricted to subcategory) */
+        bool empty_category(
+            const std::string &cat,
+            const std::string &subcat = std::string() ) const;
+
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
             const std::string &cat,
@@ -143,5 +150,8 @@ class recipe_subset
         std::map<std::string, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
 };
+
+void serialize( const recipe_subset &value, JsonOut &jsout );
+void deserialize( recipe_subset &value, JsonIn &jsin );
 
 #endif

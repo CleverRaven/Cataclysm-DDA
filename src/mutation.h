@@ -2,9 +2,11 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
+#include "character.h"
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "damage.h"
+#include "calendar.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
@@ -45,7 +47,6 @@ struct dream {
     int strength; // The category strength required for the dream
 
     dream() {
-        category = "";
         strength = 0;
     }
 };
@@ -130,6 +131,9 @@ struct mutation_branch {
     // Modifier for the rate at which stamina regenerates.
     float stamina_regen_modifier = 0.0f;
 
+    // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
+    social_modifiers social_mods;
+
     /** The item, if any, spawned by the mutation */
     itype_id spawn_item;
     std::string spawn_item_message;
@@ -138,7 +142,7 @@ struct mutation_branch {
     std::vector<mut_attack> attacks_granted;
 
     /** Mutations may adjust one or more of the default vitamin usage rates */
-    std::map<vitamin_id, int> vitamin_rates;
+    std::map<vitamin_id, time_duration> vitamin_rates;
 
     std::vector<trait_id> prereqs; // Prerequisites; Only one is required
     std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
@@ -279,18 +283,11 @@ struct mutation_branch {
 
 struct mutation_category_trait {
     std::string name;
-    std::string id;
     // Mutation category i.e "BIRD", "CHIMERA"
-    std::string category;
-    // For some reason most code uses "MUTCAT_category" instead of just "category"
-    // This exists only to prevent ugly string hacks
-    // @todo: Make this not exist
-    std::string category_full;
+    std::string id;
     // The trait that you gain when you break the threshold for this category
     trait_id threshold_mut;
 
-    // The flag a mutagen needs to target this category
-    std::string mutagen_flag;
     std::string mutagen_message; // message when you consume mutagen
     int mutagen_hunger  = 10;//these are defaults
     int mutagen_thirst  = 10;
@@ -317,6 +314,7 @@ struct mutation_category_trait {
     std::string memorial_message; //memorial message when you cross a threshold
 
     static const std::map<std::string, mutation_category_trait> &get_all();
+    static const mutation_category_trait &get_category( std::string category_id );
     static void reset();
     static void check_consistency();
 };
@@ -326,5 +324,22 @@ void load_dream( JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+
+enum class mutagen_rejection {
+    accepted,
+    rejected,
+    destroyed
+};
+
+struct mutagen_attempt {
+    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c ) {}
+    bool allowed;
+    long charges_used;
+};
+
+mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+                                       const std::string &memorial_male, const std::string &memorial_female );
+
+void test_crossing_threshold( player &p, const mutation_category_trait &m_category );
 
 #endif

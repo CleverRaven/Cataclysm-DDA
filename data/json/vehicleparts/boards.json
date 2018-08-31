@@ -7,6 +7,7 @@
     "location": "center",
     "difficulty": 1,
     "durability": 240,
+    "description": "A metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_sheet_metal",
     "flags": [ "OPAQUE", "OBSTACLE" ]
   },
@@ -19,6 +20,7 @@
     "broken_color": "dark_gray",
     "difficulty": 1,
     "durability": 15,
+    "description": "A cloth wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "folded_volume": 15,
     "breaks_into": "ig_vp_cloth",
     "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE" ]
@@ -28,7 +30,8 @@
     "copy-from": "clothboard",
     "type": "vehicle_part",
     "name": "cloth quarterpanel",
-    "relative": { "durability": 0.8 },
+    "description": "A half-height cloth wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
@@ -36,8 +39,35 @@
     "copy-from": "board",
     "type": "vehicle_part",
     "name": "quarterpanel",
-    "relative": { "durability": 0.8 },
+    "description": "A half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
+  },
+  {
+    "abstract": "stowboard",
+    "type": "vehicle_part",
+    "name": "stow board",
+    "item": "sheet_metal",
+    "location": "center",
+    "color": "white",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "difficulty": 2,
+    "durability": 200,
+    "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "size": 250,
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED" ]
+  },
+  {
+    "abstract": "hdstowboard",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "name": "heavy duty stow board",
+    "item": "steel_plate",
+    "color": "brown",
+    "broken_color": "dark_gray",
+    "proportional": { "durability": 4.15, "size": 0.76 },
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED" ]
   },
   {
     "abstract": "hdboard",
@@ -48,6 +78,7 @@
     "color": "dark_gray",
     "difficulty": 1,
     "durability": 1000,
+    "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_steel_plate",
     "flags": [ "OPAQUE", "OBSTACLE" ]
   },
@@ -56,7 +87,8 @@
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "name": "heavy duty quarterpanel",
-    "relative": { "durability": 0.8 },
+    "description": "A half-height strong metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
@@ -69,6 +101,7 @@
     "broken_color": "brown",
     "difficulty": 1,
     "durability": 300,
+    "description": "A wooden wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_wood_plate",
     "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE" ]
   },
@@ -77,7 +110,8 @@
     "copy-from": "woodboard",
     "type": "vehicle_part",
     "name": "wooden quarterpanel",
-    "relative": { "durability": 0.8 },
+    "description": "A half-height wooden wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
     "delete": { "flags": [ "OPAQUE" ] }
   },
   {
@@ -88,6 +122,7 @@
     "location": "center",
     "difficulty": 1,
     "durability": 100,
+    "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
     "flags": [ "OBSTACLE" ]
   },
@@ -118,6 +153,18 @@
   {
     "id": "halfboard_horizontal",
     "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "stowboard_horizontal",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdstowboard_horizontal",
+    "copy-from": "hdstowboard",
     "type": "vehicle_part",
     "symbol": "h"
   },
@@ -206,6 +253,18 @@
     "symbol": "u"
   },
   {
+    "id": "stowboard_ne",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "hdstowboard_ne",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
     "id": "hdboard_ne",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -256,6 +315,18 @@
   {
     "id": "halfboard_nw",
     "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "stowboard_nw",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "hdstowboard_nw",
+    "copy-from": "hdstowboard",
     "type": "vehicle_part",
     "symbol": "y"
   },
@@ -314,6 +385,18 @@
     "symbol": "n"
   },
   {
+    "id": "stowboard_se",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "hdstowboard_se",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
     "id": "hdboard_se",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -368,6 +451,18 @@
     "symbol": "b"
   },
   {
+    "id": "stowboard_sw",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "hdstowboard_sw",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "hdboard_sw",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -418,6 +513,18 @@
   {
     "id": "halfboard_vertical",
     "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "stowboard_vertical",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "hdstowboard_vertical",
+    "copy-from": "hdstowboard",
     "type": "vehicle_part",
     "symbol": "j"
   },

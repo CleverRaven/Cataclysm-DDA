@@ -65,5 +65,155 @@
       [ [ "scrap", 1 ] ],
       [ [ "plastic_chunk", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "tele_sight",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ [ "gun", 4 ] ],
+    "time": 15000,
+    "decomp_learn": 3,
+    "book_learn": [ [ "manual_rifle", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+        [
+            [ "scrap", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ],
+            [ "canister_empty", 1 ], [ "plastic_chunk", 1 ]
+        ],
+        [ [ "lens", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "tele_sight_pistol",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ [ "pistol", 5 ] ],
+    "time": 15000,
+    "decomp_learn": 4,
+    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+        [
+            [ "scrap", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ],
+            [ "canister_empty", 1 ], [ "plastic_chunk", 1 ]
+        ],
+        [ [ "lens", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "pistol_stock",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ [ "pistol", 3 ] ],
+    "time": 15000,
+    "decomp_learn": 4,
+    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
+    "using": [ [ "welding_standard", 15 ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+        [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ],
+        [ [ "plastic_chunk", 1 ] ],
+        [ [ "spring", 1 ] ]
+    ]
+   },
+   {
+    "type": "recipe",
+    "result": "bow_sight_pin",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 2 ] ],
+    "difficulty": 2,
+    "time": 6000,
+    "autolearn": true,
+    "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
+    "using": [ [ "soldering_standard", 8 ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "components": [
+        [ [ "scrap", 1 ] ],
+        [ [ "plastic_chunk", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bow_scope",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ] ],
+    "difficulty": 4,
+    "time": 15000,
+    "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "components": [
+        [ [ "scrap", 2 ] ],
+        [ [ "plastic_chunk", 2 ] ],
+        [ [ "lens", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bow_stabilizer_set",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ] ],
+    "difficulty": 4,
+    "time": 15000,
+    "book_learn": [ [ "mag_archery", 3 ], [ "manual_archery", 2 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "components": [
+        [ [ "plastic_chunk", 2 ] ],
+        [ [ "scrap", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bow_silencer",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 2 ] ],
+    "difficulty": 2,
+    "time": 1500,
+    "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+        [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ],
+        [ [ "superglue", 1 ], [ "bone_glue", 1 ] ]
+    ]
   }
 ]

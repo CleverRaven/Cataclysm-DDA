@@ -29,6 +29,7 @@ class JsonObject;
 class JsonOut;
 struct tripoint;
 struct point;
+class time_duration;
 class material_type;
 enum damage_type : int;
 enum field_id : int;
@@ -73,26 +74,23 @@ class Creature
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
-        virtual std::string disp_name(bool possessive = false) const = 0; // displayname for Creature
+        virtual std::string disp_name( bool possessive = false ) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
 
-        virtual bool is_player() const
-        {
+        virtual bool is_player() const {
             return false;
         }
-        virtual bool is_npc () const
-        {
+        virtual bool is_npc() const {
             return false;
         }
-        virtual bool is_monster() const
-        {
+        virtual bool is_monster() const {
             return false;
         }
 
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
-        virtual bool is_fake () const;
+        virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
-        virtual void set_fake (const bool fake_value);
+        virtual void set_fake( const bool fake_value );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -107,7 +105,7 @@ class Creature
         /** Adds an appropriate blood splatter. */
         virtual void bleed() const;
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
-        virtual void die(Creature *killer) = 0;
+        virtual void die( Creature *killer ) = 0;
 
         /** Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual float hit_roll() const = 0;
@@ -180,23 +178,7 @@ class Creature
          * because the player is in the way.
          * @param area The area of effect of the projectile aimed.
          */
-        Creature *auto_find_hostile_target( int range, int &boo_hoo, int area = 0);
-
-        /** Make a single melee attack with the currently equipped weapon against the targeted
-         *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
-        virtual void melee_attack(Creature &t, bool allow_special,
-                                  const matec_id & technique) = 0;
-
-        /** Make a single melee attack with the currently equipped weapon against the targeted
-         *  creature with prerolled hitspread. Should always be overwritten by the appropriate
-         *  player/NPC/monster function. */
-        virtual void melee_attack(Creature &t, bool allow_special,
-                                  const matec_id & technique, int hitspread ) = 0;
-        /**
-         * Calls the to other melee_attack function with an empty technique id (meaning no specific
-         * technique should be used).
-         */
-        void melee_attack(Creature &t, bool allow_special);
+        Creature *auto_find_hostile_target( int range, int &boo_hoo, int area = 0 );
 
         /**
          * Size of the target this creature presents to ranged weapons.
@@ -205,28 +187,29 @@ class Creature
         double ranged_target_size() const;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit(Creature *source, body_part &bp_hit,
-                               damage_instance &dam) = 0;
+        virtual bool block_hit( Creature *source, body_part &bp_hit,
+                                damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
-        virtual void absorb_hit(body_part bp, damage_instance &dam) = 0;
+        virtual void absorb_hit( body_part bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         virtual void knock_back_from( const tripoint &p ) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
-        virtual int deal_melee_attack(Creature *source, int hitroll);
+        virtual int deal_melee_attack( Creature *source, int hitroll );
 
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
-        virtual void deal_melee_hit(Creature *source, int hit_spread, bool crit,
-                                    const damage_instance &d, dealt_damage_instance &dealt_dam);
+        virtual void deal_melee_hit( Creature *source, int hit_spread, bool crit,
+                                     const damage_instance &d, dealt_damage_instance &dealt_dam );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
-        virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack );
+        virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                             bool print_messages = true );
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
@@ -240,15 +223,15 @@ class Creature
          * @param bp The attacked body part
          * @param d The damage dealt
          */
-        virtual dealt_damage_instance deal_damage(Creature *source, body_part bp,
-                const damage_instance &d);
+        virtual dealt_damage_instance deal_damage( Creature *source, body_part bp,
+                const damage_instance &d );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
-        virtual void deal_damage_handle_type(const damage_unit &du,
-                                             body_part bp, int &damage, int &pain);
+        virtual void deal_damage_handle_type( const damage_unit &du,
+                                              body_part bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage(Creature *source, body_part bp, int amount) = 0;
+        virtual void apply_damage( Creature *source, body_part bp, int amount ) = 0;
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -260,7 +243,7 @@ class Creature
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
-                             float difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) = 0;
+                             float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) = 0;
 
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
@@ -313,14 +296,14 @@ class Creature
         virtual void setpos( const tripoint &pos ) = 0;
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
-        virtual bool move_effects(bool attacking) = 0;
+        virtual bool move_effects( bool attacking ) = 0;
 
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                 int intensity = 0, bool force = false );
+        virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+                                 bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,
+        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength, time_duration dur,
                              body_part bp = num_bp, bool permanent = false, int intensity = 1,
                              bool force = false );
         /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
@@ -335,11 +318,11 @@ class Creature
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
-        int get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns true if the creature resists an effect */
-        bool resists_effect(effect e);
+        bool resists_effect( const effect &e );
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string key, const std::string value );
@@ -353,14 +336,15 @@ class Creature
         virtual bool has_trait( const trait_id &flag ) const;
 
         // not-quite-stats, maybe group these with stats later
-        virtual void mod_pain(int npain);
-        virtual void mod_pain_noresist(int npain);
-        virtual void set_pain(int npain);
+        virtual void mod_pain( int npain );
+        virtual void mod_pain_noresist( int npain );
+        virtual void set_pain( int npain );
         virtual int get_pain() const;
         virtual int get_perceived_pain() const;
 
-        virtual void mod_moves(int nmoves);
-        virtual void set_moves(int nmoves);
+        int get_moves() const;
+        void mod_moves( int nmoves );
+        void set_moves( int nmoves );
 
         virtual bool in_sleep_state() const;
 
@@ -379,12 +363,12 @@ class Creature
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
 
-        virtual int get_env_resist(body_part bp) const;
+        virtual int get_env_resist( body_part bp ) const;
 
-        virtual int get_armor_bash(body_part bp) const;
-        virtual int get_armor_cut(body_part bp) const;
-        virtual int get_armor_bash_base(body_part bp) const;
-        virtual int get_armor_cut_base(body_part bp) const;
+        virtual int get_armor_bash( body_part bp ) const;
+        virtual int get_armor_cut( body_part bp ) const;
+        virtual int get_armor_bash_base( body_part bp ) const;
+        virtual int get_armor_cut_base( body_part bp ) const;
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
 
@@ -402,15 +386,13 @@ class Creature
         virtual int get_hp_max() const = 0;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
-        virtual field_id bloodType () const = 0;
-        virtual field_id gibType () const = 0;
+        virtual field_id bloodType() const = 0;
+        virtual field_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
-        virtual bool has_flag( const m_flag ) const
-        {
+        virtual bool has_flag( const m_flag ) const {
             return false;
         };
-        virtual bool uncanny_dodge()
-        {
+        virtual bool uncanny_dodge() {
             return false;
         };
 
@@ -445,22 +427,22 @@ class Creature
          */
         virtual void mod_stat( const std::string &stat, float modifier );
 
-        virtual void set_num_blocks_bonus(int nblocks);
-        virtual void set_num_dodges_bonus(int ndodges);
+        virtual void set_num_blocks_bonus( int nblocks );
+        virtual void set_num_dodges_bonus( int ndodges );
 
-        virtual void set_armor_bash_bonus(int nbasharm);
-        virtual void set_armor_cut_bonus(int ncutarm);
+        virtual void set_armor_bash_bonus( int nbasharm );
+        virtual void set_armor_cut_bonus( int ncutarm );
 
-        virtual void set_speed_base(int nspeed);
-        virtual void set_speed_bonus(int nspeed);
-        virtual void set_block_bonus(int nblock);
-        virtual void set_bash_bonus(int nbash);
-        virtual void set_cut_bonus(int ncut);
+        virtual void set_speed_base( int nspeed );
+        virtual void set_speed_bonus( int nspeed );
+        virtual void set_block_bonus( int nblock );
+        virtual void set_bash_bonus( int nbash );
+        virtual void set_cut_bonus( int ncut );
 
-        virtual void mod_speed_bonus(int nspeed);
-        virtual void mod_block_bonus(int nblock);
-        virtual void mod_bash_bonus(int nbash);
-        virtual void mod_cut_bonus(int ncut);
+        virtual void mod_speed_bonus( int nspeed );
+        virtual void mod_block_bonus( int nblock );
+        virtual void mod_bash_bonus( int nbash );
+        virtual void mod_cut_bonus( int ncut );
 
         virtual void set_dodge_bonus( float ndodge );
         virtual void set_hit_bonus( float nhit );
@@ -468,12 +450,12 @@ class Creature
         virtual void mod_dodge_bonus( float ndodge );
         virtual void mod_hit_bonus( float  nhit );
 
-        virtual void set_bash_mult(float nbashmult);
-        virtual void set_cut_mult(float ncutmult);
+        virtual void set_bash_mult( float nbashmult );
+        virtual void set_cut_mult( float ncutmult );
 
-        virtual void set_melee_quiet(bool nquiet);
-        virtual void set_grab_resist(int ngrabres);
-        virtual void set_throw_resist(int nthrowres);
+        virtual void set_melee_quiet( bool nquiet );
+        virtual void set_grab_resist( int ngrabres );
+        virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
         virtual units::mass get_weight() const;
@@ -508,7 +490,8 @@ class Creature
         }
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
         template<typename ...Args>
-        void add_msg_if_player( const game_message_type type, const char *const msg, Args &&... args ) const {
+        void add_msg_if_player( const game_message_type type, const char *const msg,
+                                Args &&... args ) const {
             return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
         }
         virtual void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
@@ -525,32 +508,46 @@ class Creature
         virtual void add_msg_if_npc( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
 
         template<typename ...Args>
-        void add_msg_player_or_npc( const char *const player_msg, const char *const npc_msg, Args &&... args ) const {
-            return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ), string_format( npc_msg, std::forward<Args>( args )... ) );
+        void add_msg_player_or_npc( const char *const player_msg, const char *const npc_msg,
+                                    Args &&... args ) const {
+            return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ),
+                                          string_format( npc_msg, std::forward<Args>( args )... ) );
         }
-        virtual void add_msg_player_or_npc( const std::string &/*player_msg*/, const std::string &/*npc_msg*/ ) const {}
+        virtual void add_msg_player_or_npc( const std::string &/*player_msg*/,
+                                            const std::string &/*npc_msg*/ ) const {}
         template<typename ...Args>
-        void add_msg_player_or_npc( const game_message_type type, const char *const player_msg, const char *const npc_msg, Args &&... args ) const {
-            return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ), string_format( npc_msg, std::forward<Args>( args )... ) );
+        void add_msg_player_or_npc( const game_message_type type, const char *const player_msg,
+                                    const char *const npc_msg, Args &&... args ) const {
+            return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
+                                          string_format( npc_msg, std::forward<Args>( args )... ) );
         }
-        virtual void add_msg_player_or_npc( game_message_type /*type*/, const std::string &/*player_msg*/, const std::string &/*npc_msg*/ ) const {}
+        virtual void add_msg_player_or_npc( game_message_type /*type*/, const std::string &/*player_msg*/,
+                                            const std::string &/*npc_msg*/ ) const {}
 
         template<typename ...Args>
-        void add_msg_player_or_say( const char *const player_msg, const char *const npc_speech, Args &&... args ) const {
-            return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ), string_format( npc_speech, std::forward<Args>( args )... ) );
+        void add_msg_player_or_say( const char *const player_msg, const char *const npc_speech,
+                                    Args &&... args ) const {
+            return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ),
+                                          string_format( npc_speech, std::forward<Args>( args )... ) );
         }
-        virtual void add_msg_player_or_say( const std::string &/*player_msg*/, const std::string &/*npc_speech*/ ) const {}
+        virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
+                                            const std::string &/*npc_speech*/ ) const {}
         template<typename ...Args>
-        void add_msg_player_or_say( const game_message_type type, const char *const player_msg, const char *const npc_speech, Args &&... args ) const {
-            return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ), string_format( npc_speech, std::forward<Args>( args )... ) );
+        void add_msg_player_or_say( const game_message_type type, const char *const player_msg,
+                                    const char *const npc_speech, Args &&... args ) const {
+            return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
+                                          string_format( npc_speech, std::forward<Args>( args )... ) );
         }
-        virtual void add_msg_player_or_say( game_message_type /*type*/, const std::string &/*player_msg*/, const std::string &/*npc_speech*/ ) const {}
+        virtual void add_msg_player_or_say( game_message_type /*type*/, const std::string &/*player_msg*/,
+                                            const std::string &/*npc_speech*/ ) const {}
 
         template<typename ...Args>
         void add_memorial_log( const char *const male_msg, const char *const female_msg, Args &&... args ) {
-            return add_memorial_log( string_format( male_msg, std::forward<Args>( args )... ), string_format( female_msg, std::forward<Args>( args )... ) );
+            return add_memorial_log( string_format( male_msg, std::forward<Args>( args )... ),
+                                     string_format( female_msg, std::forward<Args>( args )... ) );
         }
-        virtual void add_memorial_log( const std::string &/*male_msg*/, const std::string &/*female_msg*/ ) {}
+        virtual void add_memorial_log( const std::string &/*male_msg*/,
+                                       const std::string &/*female_msg*/ ) {}
 
         virtual std::string extended_description() const = 0;
 
@@ -603,18 +600,18 @@ class Creature
         bool fake;
 
         Creature();
-        Creature(const Creature &) = default;
-        Creature(Creature &&) = default;
-        Creature &operator=(const Creature &) = default;
-        Creature &operator=(Creature &&) = default;
+        Creature( const Creature & ) = default;
+        Creature( Creature && ) = default;
+        Creature &operator=( const Creature & ) = default;
+        Creature &operator=( Creature && ) = default;
 
- protected:
+    protected:
         virtual void on_stat_change( const std::string &, int ) {};
         virtual void on_effect_int_change( const efftype_id &, int, body_part ) {};
 
- public:
-        body_part select_body_part(Creature *source, int hit_roll) const;
- protected:
+    public:
+        body_part select_body_part( Creature *source, int hit_roll ) const;
+    protected:
         /**
          * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
@@ -648,9 +645,9 @@ class Creature
          * All data goes into the single json object created in player::serialize.
          */
         // Store data of *this* class in the stream
-        void store(JsonOut &jsout) const;
+        void store( JsonOut &jsout ) const;
         // Load creature data from the given json object.
-        void load(JsonObject &jsin);
+        void load( JsonObject &jsin );
 
     private:
         int pain;

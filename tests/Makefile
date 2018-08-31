@@ -21,12 +21,13 @@ LDFLAGS += -L.
 # Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
+CXXFLAGS += -Wall -Wextra
 
 TEST_TARGET = $(BUILD_PREFIX)cata_test
 
 tests: $(TEST_TARGET)
 
-$(BUILD_PREFIX)cata_test: $(ODIR) $(OBJS) $(CATA_LIB)
+$(BUILD_PREFIX)cata_test: $(OBJS) $(CATA_LIB)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
@@ -37,8 +38,8 @@ clean:
 	rm -rf *obj
 	rm -f *cata_test
 
-$(ODIR):
-	mkdir -p $(ODIR)
+#Unconditionally create object directory on invocation.
+$(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@

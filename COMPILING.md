@@ -284,35 +284,35 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 
 # Mac OS X
 
-To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the Cataclysm forumla on Homebrew Games.
+To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [Cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
 
 ## Simple build using Homebrew
 
+Homebrew installation will come with tiles, sound and lua suooprt enabled by default.
+
 Once you have Homebrew installed, open Terminal and run one of the following commands.
-
-For a curses build:
-
-    brew install cataclysm
 
 For a tiles build:
 
-    brew install cataclysm --with-tiles
-
-For an experimental curses build:
-
-    brew install cataclysm --HEAD
+    brew install cataclysm
 
 For an experimental tiles build:
 
-    brew install cataclysm --with-tiles --HEAD
+    brew install cataclysm --HEAD
 
 Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
 
 To launch Cataclysm, just open Terminal and run `cataclysm`.
 
-To update an experimental build, you must uninstall Cataclysm, then reinstall using one of the above commands. If you want to keep your saved games, be sure to backup the folder `/usr/local/Cellar/cataclysm/HEAD/libexec/save` first, then uninstall Cataclysm using the command:
+To update an experimental build, you must uninstall Cataclysm, then reinstall using one of the above commands. Reinstall Cataclysm using the one of the following commands.
 
-    brew rm cataclysm
+For a tiles build:
+
+    brew reinstall cataclysm
+
+For an experimental tiles build:
+
+    brew reinstall cataclysm --HEAD
 
 ## Advanced info for Developers
 
@@ -375,22 +375,22 @@ For MacPorts:
     hash -r
 
 ### gcc
-    
+
 The version of gcc/g++ installed with the [Command Line Tools for Xcode](https://developer.apple.com/downloads/) is actually just a front end for the same Apple LLVM as clang.  This doesn't necessarily cause issues, but this version of gcc/g++ will have clang error messages and essentially produce the same results as if using clang. To compile with the "real" gcc/g++, install it with homebrew:
 
     brew install gcc
-    
+
 However, homebrew installs gcc as gcc-6 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-6` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
-    
+
     cd /usr/local/bin
     ln -s gcc-6 gcc
     ln -s g++-6 g++
     ln -s c++-6 c++
-    
-Or, to do this for everything in `/usr/local/bin/` ending with `-6`, 
+
+Or, to do this for everything in `/usr/local/bin/` ending with `-6`,
 
     find /usr/local/bin -name "*-6" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
-    
+
 Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else this will not work.
 
 Check that `gcc -v` shows the homebrew version you installed.
@@ -488,13 +488,13 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 ## Visual Studio Guide
 
-Visual Studio 2015 is required to build Cataclysm. We created solution and project files in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, in Visual Studio project we added all build features, including tiles, sound, localization and lua.
+Visual Studio 2015 (or later) is required to build Cataclysm.  If you use a later version of Visual Studio, you will need to [enable the Visual Studio 2015 (v140) platform toolset](https://developercommunity.visualstudio.com/content/problem/48806/cant-find-v140-in-visual-studio-2017.html). We created solution and project files in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, in Visual Studio project we added all build features, including tiles, sound, localization and lua.
 
 ### Dependencies
 
 We've prepared an archive containing all the headers and libraries required to build Cataclysm: [http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip](http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip) or [http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z](http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z). The latter is smaller, but if you don't have a 7-zip archive extracter, the former one is easier to deal with.
 
-Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project.
+Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project. Run the "copy_dll_to_bin" batch file and then move the dll files from the bin folder into the root folder the Cataclysm project.
 
 ### Lua
 
@@ -532,8 +532,8 @@ If we want to compile with localization, we will need gettext and libintl. In "A
 If we want to compile with Tiles (SDL) we have to download a few libraries.
 * `SDL2` http://www.libsdl.org/download-2.0.php chose `SDL2-devel-2.0.X-mingw.tar.gz`.
 * `SDL_ttf` https://www.libsdl.org/projects/SDL_ttf/ chose `SDL2_ttf-devel-2.0.12-mingw.tar.gz`.
-* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz` 
-* `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`  
+* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz`
+* `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`
 
 #### Bundled Libraries
 The following archives were pre-bundled for convienience and reduction of head-aches, simply download and extract directly to the root directory of the CDDA source:
@@ -545,8 +545,8 @@ For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the incl
 For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
 
 #### ISSUE - "winapifamily.h" no such file or directoyr
-There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced. 
-https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h 
+There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced.
+https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h
 Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
 
 ### Makefile changes

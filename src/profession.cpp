@@ -400,14 +400,14 @@ const profession::StartingSkillList profession::skills() const
     return _starting_skills;
 }
 
-bool profession::has_flag( std::string flag ) const
+bool profession::has_flag( const std::string &flag ) const
 {
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( player *u, int points ) const
+bool profession::can_pick( const player &u, const int points ) const
 {
-    if( point_cost() - u->prof->point_cost() > points ) {
+    if( point_cost() - u.prof->point_cost() > points ) {
         return false;
     }
 

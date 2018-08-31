@@ -93,7 +93,7 @@
     "type": "tool_quality",
     "id": "DIG",
     "name": "digging",
-    "usages": [ [ 2, [ "DIG" ] ] ]
+    "usages": [ [ 1, [ "MAKEMOUND", "DIG", "FILL_PIT" ] ], [ 2, [ "CLEAR_RUBBLE" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -160,5 +160,10 @@
     "type": "tool_quality",
     "id": "PULL",
     "name": "bullet pulling"
+  },
+  {
+    "type": "tool_quality",
+    "id": "ANVIL",
+    "name": "anvil"
   }
 ]

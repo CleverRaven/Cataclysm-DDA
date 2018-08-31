@@ -1,5 +1,21 @@
 [
   {
+    "id": "762x39_clip",
+    "type": "MAGAZINE",
+    "name": "rifle clip - 7.62x39mm",
+    "//": "Provisional.",
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
+    "weight": 40,
+    "volume": "100ml",
+    "price": 1000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "762",
+    "capacity": 10,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
     "id": "akmbigmag",
     "type": "MAGAZINE",
     "name": "AKM extended magazine",

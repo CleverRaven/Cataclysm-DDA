@@ -34,7 +34,28 @@
     "repaired_with": "material_aluminium_ingot",
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "compacts_into": [ "material_aluminium_ingot" , "aluminum_foil" ]
+  },
+  {
+    "type": "material",
+    "ident": "acidchitin",
+    "name": "Biosilicified Chitin",
+    "density": 15,
+    "bash_resist": 3,
+    "cut_resist": 4,
+    "acid_resist": 13,
+    "fire_resist": 2,
+    "elec_resist": 2,
+    "chip_resist": 10,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 1, "smoke": 3, "burn": 1 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
   },
   {
     "type": "material",
@@ -54,7 +75,7 @@
     "vitamins": [ [ "calcium", 2 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
-      { "fuel": 0, "smoke": 1, "burn": 1, "chance": 1 },
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250_ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
   },
@@ -76,7 +97,7 @@
   {
     "type": "material",
     "ident": "budget_steel",
-    "name": "budget steel",
+    "name": "Budget Steel",
     "density": 30,
     "bash_resist": 6,
     "cut_resist": 6,
@@ -86,7 +107,8 @@
     "chip_resist": 11,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
@@ -118,7 +140,7 @@
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
     "burn_data": [
-      { "fuel": 0, "smoke": 1, "burn": 1, "chance": 5 },
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
       { "fuel": 1, "smoke": 3, "burn": 1 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
     ]
@@ -152,7 +174,9 @@
     "repaired_with": "scrap_copper",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap_copper", 1 ] ],
+    "compacts_into": [ "scrap_copper" , "copper" ]
   },
   {
     "type": "material",
@@ -172,7 +196,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
@@ -208,11 +232,7 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "vitamins": [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ],
-    "burn_data": [
-      { "fuel": 0, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 3, "burn": 2 },
-      { "fuel": 1, "smoke": 5, "burn": 5 }
-    ]
+    "burn_data": [ { "fuel": 0, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 3, "burn": 2 }, { "fuel": 1, "smoke": 5, "burn": 5 } ]
   },
   {
     "type": "material",
@@ -229,10 +249,10 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
-    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ],
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
-      { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000_ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
     ]
   },
@@ -268,7 +288,7 @@
     "cut_dmg_verb": "cut",
     "vitamins": [ [ "vitC", 2 ] ],
     "burn_data": [
-      { "fuel": 1, "smoke": 2, "burn": 1, "chance": 5 },
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "1250_ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 3 }
     ]
@@ -291,7 +311,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
     "burn_data": [
-      { "fuel": 1, "smoke": 3, "burn": 1, "chance": 5 },
+      { "fuel": 1, "smoke": 3, "burn": 1, "volume_per_turn": "1250_ml" },
       { "fuel": 1, "smoke": 5, "burn": 2 },
       { "fuel": 1, "smoke": 10, "burn": 4 }
     ]
@@ -313,7 +333,7 @@
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 0 },
-      { "fuel": 0, "smoke": 0, "burn": 1000, "chance": 20, "//": "More like shattering than melting" }
+      { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000_ml", "//": "More like shattering than melting" }
     ]
   },
   {
@@ -330,7 +350,9 @@
     "repaired_with": "gold_small",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "gold_small", 1 ] ],
+    "compacts_into": [ "gold_small" ]
   },
   {
     "type": "material",
@@ -346,7 +368,8 @@
     "repaired_with": "scrap",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
@@ -363,10 +386,10 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
-    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ],
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
-      { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000_ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
     ]
   },
@@ -385,11 +408,8 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 1, "burn": 2 },
-      { "fuel": 1, "smoke": 1, "burn": 3 }
-    ]
+    "vitamins": [ [ "iron", 0.2 ], [ "vitC", 0.1 ], [ "calcium", 0.1 ] ],
+    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
   },
   {
     "type": "material",
@@ -426,10 +446,10 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
-    "vitamins": [ [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 1, "iron", 1.3 ] ],
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
-      { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000_ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
     ]
   },
@@ -447,7 +467,8 @@
     "repaired_with": "scrap",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ]
   },
   {
     "type": "material",
@@ -464,11 +485,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
-    "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 1, "burn": 2 },
-      { "fuel": 1, "smoke": 1, "burn": 3 }
-    ]
+    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
   },
   {
     "type": "material",
@@ -500,7 +517,9 @@
     "chip_resist": 8,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "lead", 1 ] ],
+    "compacts_into": [ "lead" ]
   },
   {
     "type": "material",
@@ -521,7 +540,7 @@
     "cut_dmg_verb": "sliced",
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
-      { "fuel": 1, "smoke": 3, "burn": 2, "chance": 2 },
+      { "fuel": 1, "smoke": 3, "burn": 2, "volume_per_turn": "500_ml" },
       { "fuel": 1, "smoke": 3, "burn": 2 }
     ]
   },
@@ -540,7 +559,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "vitamins": [ [ "vitB", 0.5 ], [ "calcium", 1.5 ] ],
+    "vitamins": [ [ "vitB", 0.5 ], [ "calcium", 1.5 ], [ "iron", 0.1 ] ],
     "burn_data": [
       { "fuel": -100, "smoke": 1, "burn": 1 },
       { "fuel": -50, "smoke": 2, "burn": 1 },
@@ -565,7 +584,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
     "burn_data": [
-      { "fuel": 1, "smoke": 3, "burn": 1, "chance": 10 },
+      { "fuel": 1, "smoke": 3, "burn": 1, "volume_per_turn": "2500_ml" },
       { "fuel": 1, "smoke": 3, "burn": 2 },
       { "fuel": 1, "smoke": 3, "burn": 3 }
     ]
@@ -587,11 +606,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "burn_data": [
-      { "immune": true },
-      { "immune": true },
-      { "immune": true }
-    ]
+    "burn_data": [ { "immune": true }, { "immune": true }, { "immune": true } ]
   },
   {
     "type": "material",
@@ -643,11 +658,8 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "burn_data": [
-      { "fuel": 10, "smoke": 1, "burn": 10 },
-      { "fuel": 8, "smoke": 1, "burn": 20 },
-      { "fuel": 5, "smoke": 1, "burn": 50 }
-    ]
+    "burn_data": [ { "fuel": 10, "smoke": 1, "burn": 10 }, { "fuel": 8, "smoke": 1, "burn": 20 }, { "fuel": 5, "smoke": 1, "burn": 50 } ],
+    "burn_products": [ [ "ash", 0.013 ] ]
   },
   {
     "type": "material",
@@ -666,7 +678,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
     "burn_data": [
-      { "fuel": 1, "smoke": 2, "burn": 1, "chance": 3 },
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750_ml" },
       { "fuel": 1, "smoke": 3, "burn": 2 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
     ]
@@ -693,6 +705,21 @@
   },
   {
     "type": "material",
+    "ident": "powder_nonflam",
+    "name": "Powder",
+    "density": 1,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 0,
+    "fire_resist": 20,
+    "elec_resist": 2,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged"
+  },
+  {
+    "type": "material",
     "ident": "silver",
     "name": "Silver",
     "density": 70,
@@ -705,7 +732,9 @@
     "repaired_with": "silver_small",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "silver_small", 1 ] ],
+    "compacts_into": [ "silver_small" ]
   },
   {
     "type": "material",
@@ -721,7 +750,10 @@
     "repaired_with": "scrap",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ],
+    "compact_accepts": [ "budget_steel", "hardsteel", "iron" ],
+    "compacts_into": [ "steel_lump", "sheet_metal", "steel_chunk", "scrap" ]
   },
   {
     "type": "material",
@@ -751,7 +783,8 @@
     "chip_resist": 20,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "compacts_into": [ "alloy_sheet" ]
   },
   {
     "type": "material",
@@ -770,8 +803,118 @@
     "cut_dmg_verb": "cut",
     "vitamins": [ [ "calcium", 0.1 ], [ "vitA", 1 ], [ "vitC", 0.5 ] ],
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
-      { "fuel": 2, "smoke": 1, "burn": 2, "chance": 10 },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "tomato",
+    "name": "Tomato",
+    "density": 4,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 2,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": "cut",
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitA", 2 ], [ "vitC", 4 ], [ "iron", 0.1 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "bean",
+    "name": "Bean",
+    "density": 4,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 2,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": "cut",
+    "vitamins": [ [ "calcium", 0.3 ], [ "vitC", 0.6 ], [ "iron", 0.8 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "garlic",
+    "name": "Garlic",
+    "density": 4,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 2,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": "cut",
+    "vitamins": [ [ "calcium", 1.8 ], [ "vitC", 5.2 ], [ "iron", 0.9 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "nut",
+    "name": "Nut",
+    "density": 5,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 2,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "cut",
+    "vitamins": [ [ "calcium", 0.3 ], [ "iron", 1 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "mushroom",
+    "name": "Mushroom",
+    "density": 4,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 2,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": "cut",
+    "vitamins": [ [ "calcium", 0.4 ], [ "iron", 4 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
       { "fuel": 2, "smoke": 1, "burn": 3 }
     ]
   },
@@ -811,12 +954,8 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
-    "vitamins": [ [ "vitB", 1 ] ],
-    "burn_data": [
-      { "fuel": 1, "smoke": 2, "burn": 1 },
-      { "fuel": 1, "smoke": 2, "burn": 2 },
-      { "fuel": 1, "smoke": 1, "burn": 3 }
-    ]
+    "vitamins": [ [ "vitB", 1 ], [ "iron", 0.1 ] ],
+    "burn_data": [ { "fuel": 1, "smoke": 2, "burn": 1 }, { "fuel": 1, "smoke": 2, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
   },
   {
     "type": "material",
@@ -834,10 +973,11 @@
     "bash_dmg_verb": "splintered",
     "cut_dmg_verb": "gouged",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 0.02, "chance": 5 },
-      { "fuel": 2, "smoke": 1, "burn": 0.04, "chance": 20 },
+      { "fuel": 1, "smoke": 1, "burn": 0.02, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 0.04, "volume_per_turn": "5000_ml" },
       { "fuel": 3, "smoke": 1, "burn": 0.06 }
-    ]
+    ],
+    "burn_products": [ [ "ash", 0.018 ] ]
   },
   {
     "type": "material",
@@ -857,9 +997,30 @@
     "bash_dmg_verb": "torn",
     "cut_dmg_verb": "cut",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 5 }
     ]
+  },
+  {
+    "type": "material",
+    "ident": "feces",
+    "name": "Feces",
+    "density": 4,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 1,
+    "fire_resist": 0,
+    "elec_resist": 1,
+    "chip_resist": 1,
+    "dmg_adj": [ "squished", "squashed", "mashed", "mushed" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": "squished",
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
+    ]
   }
 ]
+

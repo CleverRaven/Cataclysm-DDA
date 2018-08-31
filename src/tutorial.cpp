@@ -8,6 +8,7 @@
 #include "action.h"
 #include "overmapbuffer.h"
 #include "translations.h"
+#include "map_iterator.h"
 #include "profession.h"
 #include "mapdata.h"
 #include "overmap.h"
@@ -76,12 +77,10 @@ bool tutorial_game::init()
 
 void tutorial_game::per_turn()
 {
-    if( calendar::turn == HOURS( 12 ) ) {
-        add_message( LESSON_INTRO );
-        add_message( LESSON_INTRO );
-    } else if( calendar::turn == HOURS( 12 ) + 3 ) {
-        add_message( LESSON_INTRO );
-    }
+    // note that add_message does nothing if the message was already shown
+    add_message( LESSON_INTRO );
+    add_message( LESSON_MOVE );
+    add_message( LESSON_LOOK );
 
     if( g->light_level( g->u.posz() ) == 1 ) {
         if( g->u.has_amount( "flashlight", 1 ) ) {
@@ -176,10 +175,9 @@ void tutorial_game::post_action( action_id act )
             if( g->u.has_amount( "grenade_act", 1 ) ) {
                 add_message( LESSON_ACT_GRENADE );
             }
-            for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
-                for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
-                    if( g->m.tr_at( {x, y, g->u.posz()} ).id == trap_str_id( "tr_bubblewrap" ) )
-                        add_message( LESSON_ACT_BUBBLEWRAP );
+            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+                if( g->m.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
+                    add_message( LESSON_ACT_BUBBLEWRAP );
                 }
             }
             break;
@@ -246,25 +244,6 @@ void tutorial_game::post_action( action_id act )
 
 void tutorial_game::add_message( tut_lesson lesson )
 {
-    // Cycle through intro lessons
-    if( lesson == LESSON_INTRO ) {
-        while( lesson != NUM_LESSONS && tutorials_seen[lesson] ) {
-            switch( lesson ) {
-                case LESSON_INTRO:
-                    lesson = LESSON_MOVE;
-                    break;
-                case LESSON_MOVE:
-                    lesson = LESSON_LOOK;
-                    break;
-                default:
-                    lesson = NUM_LESSONS;
-                    break;
-            }
-        }
-        if( lesson == NUM_LESSONS ) {
-            return;
-        }
-    }
     if( tutorials_seen[lesson] ) {
         return;
     }

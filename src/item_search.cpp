@@ -3,6 +3,7 @@
 #include "material.h"
 #include "cata_utility.h"
 #include "output.h"
+#include "item_category.h"
 
 #include <algorithm>
 
@@ -24,12 +25,12 @@ item_filter_from_string( std::string filter )
     if( filter.find( '}' ) != std::string::npos ) {
         filter.erase( std::remove( filter.begin(), filter.end(), '}' ) );
     }
-    if( filter.find( "," ) != std::string::npos ) {
+    if( filter.find( ',' ) != std::string::npos ) {
         // functions which only one of which must return true
         std::vector<std::function<bool( const item & )> > functions;
         // Functions that must all return true
         std::vector<std::function<bool( const item & )> > inv_functions;
-        size_t comma = filter.find( "," );
+        size_t comma = filter.find( ',' );
         while( !filter.empty() ) {
             const auto &current_filter = trim( filter.substr( 0, comma ) );
             if( !current_filter.empty() ) {
@@ -42,7 +43,7 @@ item_filter_from_string( std::string filter )
             }
             if( comma != std::string::npos ) {
                 filter = trim( filter.substr( comma + 1 ) );
-                comma = filter.find( "," );
+                comma = filter.find( ',' );
             } else {
                 break;
             }
@@ -75,7 +76,7 @@ item_filter_from_string( std::string filter )
     }
     size_t colon;
     char flag = '\0';
-    if( ( colon = filter.find( ":" ) ) != std::string::npos ) {
+    if( ( colon = filter.find( ':' ) ) != std::string::npos ) {
         if( colon >= 1 ) {
             flag = filter[colon - 1];
             filter = filter.substr( colon + 1 );
@@ -84,7 +85,7 @@ item_filter_from_string( std::string filter )
     switch( flag ) {
         case 'c'://category
             return [filter]( const item & i ) {
-                return lcmatch( i.get_category().name, filter );
+                return lcmatch( i.get_category().name(), filter );
             };
             break;
         case 'm'://material

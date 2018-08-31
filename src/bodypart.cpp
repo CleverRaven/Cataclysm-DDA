@@ -186,8 +186,8 @@ void body_part_struct::finalize()
 
 void body_part_struct::check_consistency()
 {
-    for( size_t i = 0; i < num_bp; i++ ) {
-        const auto &legacy_bp = convert_bp( static_cast<body_part>( i ) );
+    for( const body_part bp : all_body_parts ) {
+        const auto &legacy_bp = convert_bp( bp );
         if( !legacy_bp.is_valid() ) {
             debugmsg( "Mandatory body part %s was not loaded", legacy_bp.c_str() );
         }
@@ -200,7 +200,7 @@ void body_part_struct::check() const
 {
     const auto &under_token = get_bp( token );
     if( this != &under_token ) {
-        debugmsg( "Body part %s has duplicate token %d, mapped to %d", id.c_str(), token,
+        debugmsg( "Body part %s has duplicate token %d, mapped to %s", id.c_str(), token,
                   under_token.id.c_str() );
     }
 

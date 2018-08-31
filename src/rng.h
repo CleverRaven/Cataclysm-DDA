@@ -3,8 +3,10 @@
 #define RNG_H
 
 #include "compatibility.h"
+#include "optional.h"
 
 #include <functional>
+#include <array>
 
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
@@ -51,6 +53,22 @@ inline V random_entry( const C &container, D default_value )
     return *iter;
 }
 /**
+ * Same as above but returns a reference to the chosen entry (if the container
+ * is not empty) or an empty `optional` object (if the container is empty).
+ * This function handles empty containers without requiring an instance of the
+ * contained type when container is empty.
+ */
+template<typename C, typename V = const typename C::value_type>
+inline cata::optional<std::reference_wrapper<V>> random_entry_opt( const C &container )
+{
+    if( container.empty() ) {
+        return cata::nullopt;
+    }
+    auto iter = container.begin();
+    std::advance( iter, rng( 0, container.size() - 1 ) );
+    return std::ref( *iter );
+}
+/**
  * Same as above, but returns a default constructed value if the container
  * is empty.
  */
@@ -64,13 +82,28 @@ inline V random_entry( const C &container )
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
 }
+
+template<typename ...T>
+class is_std_array_helper : public std::false_type
+{
+};
+template<typename T, std::size_t N>
+class is_std_array_helper<std::array<T, N>> : public std::true_type
+{
+};
+template<typename T>
+class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
+{
+};
+
 /**
  * Same as above, but with a statically allocated default value (using the default
  * constructor). This allows to return a reference, either into the given container
  * or to the default value.
  */
 template<typename C, typename V = typename C::value_type>
-inline const V & random_entry_ref( const C &container )
+inline typename std::enable_if < !is_std_array<C>::value,
+       const V & >::type random_entry_ref( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();
@@ -79,6 +112,12 @@ inline const V & random_entry_ref( const C &container )
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
+}
+template<typename V, std::size_t N>
+inline const V &random_entry_ref( const std::array<V, N> &container )
+{
+    static_assert( N > 0, "Need a non-empty array to get a random value from it" );
+    return container[rng( 0, N - 1 )];
 }
 /**
  * Returns a random entry in the container and removes it from the container.
@@ -112,8 +151,5 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
 /// Same as other random_point with a range enclosing all valid points of the map.
 cata::optional<tripoint> random_point( const map &m,
                                        const std::function<bool( const tripoint & )> &predicate );
-
-/** Get random tile on circumference of a circle */
-tripoint random_perimeter( const tripoint &src, int radius );
 
 #endif

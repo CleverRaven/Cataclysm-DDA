@@ -353,7 +353,7 @@ Fires a gun at a target. If friendly, will avoid harming the player.
 (Required) Valid item id of a gun that will be used to perform the attack.
 
 ### "ammo_type"
-(Required) Valid item id of the ammo the gun will be loaded with.  
+(Required) Valid item id of the ammo the gun will be loaded with.
 Monster should also have a "starting_ammo" field with this ammo.
 For example
 ```

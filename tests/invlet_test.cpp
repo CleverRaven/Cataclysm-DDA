@@ -182,7 +182,7 @@ void drop_at_feet( player &p, int pos ) {
     auto size_before = g->m.i_at( p.pos() ).size();
     p.moves = 100;
     p.drop( pos, p.pos() );
-    p.activity.do_turn( &p );
+    p.activity.do_turn( p );
     REQUIRE( g->m.i_at( p.pos() ).size() == size_before + 1 );
 }
 
@@ -195,7 +195,7 @@ void pick_up_from_feet( player &p, int pos ) {
     p.activity.values.push_back( false );   // not from vehicle
     p.activity.values.push_back( pos );     // index of item to pick up
     p.activity.values.push_back( 0 );
-    p.activity.do_turn( &p );
+    p.activity.do_turn( p );
     REQUIRE( g->m.i_at( p.pos() ).size() == size_before - 1 );
 }
 
@@ -252,7 +252,7 @@ item &item_at( player &p, int pos, inventory_location loc ) {
         FAIL( "unimplemented" );
         break;
     }
-    return p.ret_null;
+    return null_item_reference();
 }
 
 void move_item( player &p, int pos, inventory_location from, inventory_location to ) {

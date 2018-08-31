@@ -18,14 +18,14 @@ constexpr double tau = 2 * PI;
 
 weather_generator::weather_generator() = default;
 
-w_point weather_generator::get_weather( const tripoint &location, const calendar &t,
+w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {
     const double x( location.x /
                     2000.0 ); // Integer x position / widening factor of the Perlin function.
     const double y( location.y /
                     2000.0 ); // Integer y position / widening factor of the Perlin function.
-    const double z( double( t.get_turn() + to_turns<int>( calendar::season_length() ) ) /
+    const double z( to_turn<int>( t + calendar::season_length() ) /
                     2000.0 ); // Integer turn / widening factor of the Perlin function.
 
     const double dayFraction = time_past_midnight( t ) / 1_days;
@@ -42,8 +42,8 @@ w_point weather_generator::get_weather( const tripoint &location, const calendar
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W;
 
-    const double now( double( t.turn_of_year() + to_turns<int>( calendar::season_length() ) / 2 ) /
-                      to_turns<int>( calendar::year_length() ) ); // [0,1)
+    const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
+                      calendar::year_length() ); // [0,1)
     const double ctn( cos( tau * now ) );
 
     // Temperature variation
@@ -86,12 +86,12 @@ w_point weather_generator::get_weather( const tripoint &location, const calendar
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
-        const calendar &t, unsigned seed ) const
+        const time_point &t, unsigned seed ) const
 {
     w_point w( get_weather( location, t, seed ) );
     weather_type wt = get_weather_conditions( w );
     // Make sure we don't say it's sunny at night! =P
-    if( wt == WEATHER_SUNNY && t.is_night() ) {
+    if( wt == WEATHER_SUNNY && calendar( to_turn<int>( t ) ).is_night() ) {
         return WEATHER_CLEAR;
     }
     return wt;
@@ -124,7 +124,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
             r = WEATHER_FLURRIES;
         } else if( r > WEATHER_DRIZZLE ) {
             r = WEATHER_SNOW;
-        } else if( r > WEATHER_THUNDER ) {
+        } else if( r > WEATHER_THUNDER ) { // @todo: that is always false!
             r = WEATHER_SNOWSTORM;
         }
     }

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-oldpwd=`pwd`
-
 if [ ! -d lang/po ]
 then
     if [ -d ../lang/po ]
@@ -18,7 +16,6 @@ echo "> Extracting strings from json"
 if ! lang/extract_json_strings.py
 then
     echo "Error in extract_json_strings.py. Aborting"
-    cd $oldpwd
     exit 1
 fi
 
@@ -37,7 +34,6 @@ xgettext --default-domain="cataclysm-dda" \
          src/*.cpp src/*.h lang/json/*.py lang/extra/android/*.cpp
 if [ $? -ne 0 ]; then
     echo "Error in xgettext. Aborting"
-    cd $oldpwd
     exit 1
 fi
 
@@ -59,7 +55,6 @@ echo "> Stripping .pot file from unneeded comments"
 if ! python lang/strip_line_numbers.py lang/po/cataclysm-dda.pot
 then
     echo "Error in strip_line_numbers.py. Aborting"
-    cd $oldpwd
     exit 1
 fi
 
@@ -68,7 +63,6 @@ echo "> Testing to compile the .pot file"
 if ! msgfmt -c -o /dev/null lang/po/cataclysm-dda.pot
 then
     echo "Updated pot file contain gettext errors. Aborting."
-    cd $oldpwd
     exit 1
 fi
 
@@ -77,9 +71,7 @@ echo "> Checking for wrong Unicode symbols"
 if ! python lang/unicode_check.py lang/po/cataclysm-dda.pot
 then
     echo "Updated pot file contain broken Unicode symbols. Aborting."
-    cd $oldpwd
     exit 1
 fi
 
 echo "ALL DONE!"
-cd $oldpwd

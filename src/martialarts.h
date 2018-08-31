@@ -4,6 +4,8 @@
 
 #include "string_id.h"
 #include "bonuses.h"
+#include "calendar.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -165,7 +167,7 @@ class ma_buff
 
         // mapped as buff_id -> min stacks of buff
 
-        int buff_duration; // total length this buff lasts
+        time_duration buff_duration; // total length this buff lasts
         int max_stacks; // total number of stacks this buff can have
 
         int dodges_bonus; // extra dodges, like karate

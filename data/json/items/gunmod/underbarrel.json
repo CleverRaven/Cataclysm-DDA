@@ -16,9 +16,10 @@
       "ammo": "flammable",
       "skill": "launcher",
       "dispersion": 300,
-      "durability": 10,
-      "clip_size": 400
+      "durability": 10
     },
+    "magazine_well": 1,
+    "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "FIRE_100" ]
@@ -56,14 +57,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": {
-      "ammo": "shot",
-      "skill": "shotgun",
-      "range": 2,
-      "dispersion": 45,
-      "durability": 10,
-      "clip_size": 2
-    },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
     "dispersion_modifier": 15,
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
   },
@@ -81,13 +75,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": {
-      "ammo": "shot",
-      "skill": "shotgun",
-      "dispersion": 180,
-      "durability": 6,
-      "clip_size": 2
-    },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -104,7 +92,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "handling_modifier": 6,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
   {
     "id": "inter_bayonet",
@@ -142,7 +131,7 @@
       "ammo": "shot",
       "skill": "shotgun",
       "ranged_damage": 3,
-      "dispersion": 45,
+      "dispersion": 345,
       "durability": 10,
       "clip_size": 7,
       "reload": 120
@@ -163,9 +152,10 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
-    "sight_dispersion": 300,
+    "sight_dispersion": 30,
     "aim_speed": 9,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
   {
     "id": "lemat_revolver_shotgun",
@@ -185,7 +175,7 @@
       "skill": "shotgun",
       "range": -2,
       "ranged_damage": 2,
-      "dispersion": 300,
+      "dispersion": 600,
       "durability": 10,
       "clip_size": 1
     },
@@ -205,13 +195,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": "40mm",
-      "skill": "launcher",
-      "dispersion": 300,
-      "durability": 10,
-      "clip_size": 1
-    },
+    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
@@ -230,13 +214,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": "40mm",
-      "skill": "launcher",
-      "dispersion": 20,
-      "durability": 10,
-      "clip_size": 1
-    },
+    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
@@ -268,13 +246,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": "shot",
-      "skill": "shotgun",
-      "dispersion": 30,
-      "durability": 10,
-      "clip_size": 4
-    },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
     "dispersion_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
@@ -292,13 +264,7 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": "40mm",
-      "skill": "launcher",
-      "dispersion": 450,
-      "durability": 10,
-      "clip_size": 1
-    },
+    "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
   },
@@ -334,13 +300,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": "20x66mm",
-      "skill": "shotgun",
-      "dispersion": 100,
-      "durability": 9,
-      "reload": 125
-    },
+    "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 400, "durability": 9, "reload": 125 },
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "magazine_well": 1,
@@ -360,15 +320,67 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": "shot",
-      "skill": "shotgun",
-      "dispersion": 75,
-      "durability": 10,
-      "clip_size": 2
-    },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
+  },
+  {
+    "id": "lead_laser_sight",
+    "copy-from": "laser_sight",
+    "type": "GUNMOD",
+    "name": "LW underbarrel laser sight",
+    "description": "A Leadworks built in visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_grip",
+    "copy-from": "grip",
+    "type": "GUNMOD",
+    "name": "LW forward grip",
+    "description": "A Leadworks built in grip placed forward on the barrel allows for greater control.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_bipod",
+    "copy-from": "bipod",
+    "type": "GUNMOD",
+    "name": "LW bipod",
+    "description": "Leadworks built in bipod designed to provide a forward rest and reduce motion.  Although it greatly improve handling of recoil it is usable only on certain surfaces and are slow to equip.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_u_shotgun",
+    "copy-from": "masterkey",
+    "type": "GUNMOD",
+    "name": "LW underslung shotgun",
+    "description": "Leadworks built in minimalist pump action shotgun module.  It allows 4 shotgun shells to be loaded and fired.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "dispersion_modifier": 0,
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "lead_glm",
+    "copy-from": "m320_mod",
+    "type": "GUNMOD",
+    "name": "LW GLM",
+    "name_plural": "LW GLM",
+    "description": "The Leadworks built in Grenade Launcher Module offers the functionality of larger launchers in a very small package.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "dispersion_modifier": 0,
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
   }
 ]

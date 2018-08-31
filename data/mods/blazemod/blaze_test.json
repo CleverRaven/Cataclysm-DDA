@@ -45,18 +45,16 @@
     "reversible": false,
     "autolearn": true,
     "byproducts": [ [ "vpower" ] ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
@@ -77,18 +75,16 @@
     "time": 108000,
     "autolearn": true,
     "byproducts": [ [ "vpower" ] ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
@@ -109,12 +105,11 @@
     "skills_required": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
     "time": 144000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ] ],
     "components": [
       [ [ "cargo_rack", 1 ] ],
       [ [ "teleporter", 1 ] ],
@@ -132,11 +127,11 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 12 ] ],
@@ -157,15 +152,15 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 90000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "2x4", 12 ], [ "stick", 12 ] ],
-      [ [ "nail", 60 ], [ "duct_tape", 100 ], [ "superglue", 5 ] ],
+      [ [ "nail", 60 ], [ "adhesive", 5, "LIST" ] ],
       [ [ "steel_chunk", 24 ], [ "steel_lump", 6 ] ],
       [ [ "string_36", 12 ] ],
       [ [ "foot_crank", 1 ] ],
@@ -183,11 +178,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 2 ] ],
@@ -207,11 +202,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 30 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 2 ] ],
@@ -231,11 +226,11 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 60000,
     "autolearn": true,
+    "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 50 ], [ "toolset", 50 ] ] ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 4 ] ],
@@ -253,11 +248,11 @@
     "difficulty": 10,
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
-    "tools": [ [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "charcoal", 50 ] ],
       [ [ "plasma", 10 ] ],
@@ -274,11 +269,11 @@
     "skills_required": [ "mechanics", 8 ],
     "time": 90000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 200 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 10 ] ],
@@ -293,7 +288,6 @@
     "type": "vehicle_part",
     "name": "vortex accelerator turret",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -311,7 +305,6 @@
     "type": "vehicle_part",
     "name": "automated vortex accelerator",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -328,7 +321,6 @@
     "type": "vehicle_part",
     "name": "vortex bolter turret",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -346,7 +338,6 @@
     "type": "vehicle_part",
     "name": "automated vortex bolter",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -363,7 +354,6 @@
     "type": "vehicle_part",
     "name": "vortex rifle turret",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -381,7 +371,6 @@
     "type": "vehicle_part",
     "name": "automated vortex rifle",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -775,7 +764,6 @@
     "type": "vehicle_part",
     "name": "diamond lance",
     "item": "diamondlance",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "white",
@@ -793,7 +781,6 @@
     "type": "vehicle_part",
     "name": "diamond nova",
     "item": "diamondnova",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "white",
@@ -811,7 +798,7 @@
     "type": "GUN",
     "name": "diamond nova",
     "//": "Behold, the bringer of light.",
-    "description": "A weapon that is as deadly as it is dazzling.  The diamond matrix in this weapon's center acts as a catalyst; rapidly changing carbon-heavy materials into a crystalline substance that is nearly equal to diamond in hardness.  The substance rapidly decays when separated from the catalyst, and at  sizes as large as the projectile used, also rapidly decays when in contact with other matter. Thus the projectile is held and launched by the use of pressurized air from a vortex stone.  Upon striking its target, the projectile undergoes explosive decomposition; shattering into a brilliant burst of diamond fragments.",
+    "description": "A weapon that is as deadly as it is dazzling.  The diamond matrix in this weapon's center acts as a catalyst; rapidly changing carbon-heavy materials into a crystalline substance that is nearly equal to diamond in hardness.  The substance rapidly decays when separated from the catalyst, and at sizes as large as the projectile used, also rapidly decays when in contact with other matter.  Thus the projectile is held and launched by the use of pressurized air from a vortex stone.  Upon striking its target, the projectile undergoes explosive decomposition; shattering into a brilliant burst of diamond fragments.",
     "weight": 25815,
     "volume": 22,
     "price": 60000,
@@ -1001,6 +988,8 @@
     "durability": 400,
     "power": 800,
     "epower": 1,
+    "noise_factor": 25,
+    "m2c": 70,
     "size": 100,
     "damage_modifier": 10,
     "breaks_into": [
@@ -1011,7 +1000,7 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "ENGINE", "TOOL_NONE" ]
+    "flags": [ "ENGINE", "TOOL_NONE", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL" ]
   },
   {
     "id": "vgen2",
@@ -1063,7 +1052,6 @@
     "type": "vehicle_part",
     "name": "vortex accelerator",
     "item": "vortexaccelerator",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1081,7 +1069,6 @@
     "type": "vehicle_part",
     "name": "vortex bolter",
     "item": "vortexbolter",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1127,7 +1114,6 @@
     "type": "vehicle_part",
     "name": "vortex cannon",
     "item": "vortexcannon",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1145,7 +1131,6 @@
     "type": "vehicle_part",
     "name": "vortex cannon turret",
     "item": "vortexcannon",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",
@@ -1189,7 +1174,6 @@
     "type": "vehicle_part",
     "name": "vortex rifle",
     "item": "vortexrifle",
-    "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "pink",

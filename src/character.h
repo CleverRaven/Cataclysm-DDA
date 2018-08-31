@@ -6,16 +6,16 @@
 #include "creature.h"
 #include "inventory.h"
 #include "pimpl.h"
-#include "map_selector.h"
-#include "pathfinding.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "pldata.h"
 
 #include <map>
 #include <vector>
+#include <bitset>
 
 class Skill;
+struct pathfinding_settings;
 using skill_id = string_id<Skill>;
 class SkillLevel;
 class SkillLevelMap;
@@ -31,6 +31,7 @@ struct mutation_branch;
 class bionic_collection;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+class recipe;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -60,14 +61,43 @@ enum fatigue_levels {
     MASSIVE_FATIGUE = 1000
 };
 
+struct layer_details {
+
+    std::vector<int> pieces;
+    int max = 0;
+    int total = 0;
+
+    void reset();
+    int layer( const int encumbrance );
+
+    bool operator ==( const layer_details &rhs ) const {
+        return max == rhs.max &&
+               total == rhs.total &&
+               pieces == rhs.pieces;
+    }
+};
+
 struct encumbrance_data {
     int encumbrance = 0;
     int armor_encumbrance = 0;
     int layer_penalty = 0;
+
+    std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
+    layer_penalty_details;
+
+    void layer( const layer_level level, const int emcumbrance ) {
+        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( emcumbrance );
+    }
+
+    void reset() {
+        *this = encumbrance_data();
+    }
+
     bool operator ==( const encumbrance_data &rhs ) const {
         return encumbrance == rhs.encumbrance &&
                armor_encumbrance == rhs.armor_encumbrance &&
-               layer_penalty == rhs.layer_penalty;
+               layer_penalty == rhs.layer_penalty &&
+               layer_penalty_details == rhs.layer_penalty_details;
     }
 };
 
@@ -78,6 +108,24 @@ struct aim_type {
     bool has_threshold;
     int threshold;
 };
+
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+};
+inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
+{
+    lhs += rhs;
+    return lhs;
+}
 
 class Character : public Creature, public visitable<Character>
 {
@@ -150,6 +198,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Getter for need values exclusive to characters */
         virtual int get_hunger() const;
+        virtual int get_starvation() const;
         virtual int get_thirst() const;
         virtual int get_fatigue() const;
         virtual int get_stomach_food() const;
@@ -157,6 +206,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_hunger( int nhunger );
+        virtual void mod_starvation( int nstarvation );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_stomach_food( int n_stomach_food );
@@ -164,6 +214,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Setters for need values exclusive to characters */
         virtual void set_hunger( int nhunger );
+        virtual void set_starvation( int nstarvation );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_stomach_food( int n_stomach_food );
@@ -176,7 +227,8 @@ class Character : public Creature, public visitable<Character>
 
         /* Accessors for aspects of aim speed. */
         std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_best_sight( const item &gun, double recoil ) const;
+        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
+        int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
         double aim_speed_encumbrance_modifier() const;
@@ -215,6 +267,8 @@ class Character : public Creature, public visitable<Character>
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
         std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
+        /** Get encumbrance penalty per layer & body part */
+        int extraEncumbrance( const layer_level level, const int bp ) const;
 
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
@@ -223,14 +277,15 @@ class Character : public Creature, public visitable<Character>
         bool is_blind() const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
-        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
+        body_part_set exclusive_flag_coverage( const std::string &flag ) const;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                         int intensity = 0, bool force = false ) override;
+        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+                         bool permanent = false,
+                         int intensity = 0, bool force = false, bool deferred = false ) override;
         /**
          * Handles end-of-turn processing.
          */
@@ -292,7 +347,7 @@ class Character : public Creature, public visitable<Character>
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             bool bleed, bool bite, bool infect ) const;
+                             bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
@@ -314,7 +369,8 @@ class Character : public Creature, public visitable<Character>
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const;
         /** Applies encumbrance from items only */
-        void item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const;
+        void item_encumb( std::array<encumbrance_data, num_bp> &vals,
+                          const item &new_item ) const;
     public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect( const trait_id &mut );
@@ -385,7 +441,7 @@ class Character : public Creature, public visitable<Character>
 
         /**
          * Returns a reference to the item which will be used to make attacks.
-         * At the moment it's always @ref weapon or @ref ret_null.
+         * At the moment it's always @ref weapon or a reference to a null item.
          */
         /*@{*/
         const item &used_weapon() const;
@@ -475,7 +531,7 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried() const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
-        units::volume volume_capacity_reduced_by( units::volume mod ) const;
+        units::volume volume_capacity_reduced_by( const units::volume &mod ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
@@ -576,12 +632,21 @@ class Character : public Creature, public visitable<Character>
          * Average hit points healed per turn.
          */
         float healing_rate( float at_rest_quality ) const;
+        /**
+         * Average hit points healed per turn from healing effects.
+         */
+        float healing_rate_medicine( float at_rest_quality, const body_part bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name
          * @return min( 0, lowest ) + max( 0, highest )
          */
         float mutation_value( const std::string &val ) const;
+
+        /**
+         * Goes over all mutations, returning the sum of the social modifiers
+         */
+        const social_modifiers get_mutation_social_mods() const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
@@ -609,13 +674,12 @@ class Character : public Creature, public visitable<Character>
         bool male;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> hp_cur, hp_max;
+        std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
         bool nv_cached;
 
         inventory inv;
         itype_id last_item;
         item weapon;
-        item ret_null; // Null item, sometimes returns by weapon() etc
 
         pimpl<bionic_collection> my_bionics;
 
@@ -695,11 +759,12 @@ class Character : public Creature, public visitable<Character>
          * Cache for pathfinding settings.
          * Most of it isn't changed too often, hence mutable.
          */
-        mutable pathfinding_settings path_settings;
+        mutable pimpl<pathfinding_settings> path_settings;
 
     private:
-        /** Needs (hunger, thirst, fatigue, etc.) */
+        /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int hunger;
+        int starvation;
         int thirst;
         int fatigue;
 

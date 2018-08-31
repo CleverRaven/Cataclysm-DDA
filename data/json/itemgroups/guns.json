@@ -13,7 +13,8 @@
       [ "sig_mosquito", 15 ],
       [ "sw_22", 15 ],
       [ "sw_610", 20 ],
-      [ "sw_619", 25 ]
+      [ "sw_619", 25 ],
+      [ "p226_357sig", 20 ]
     ]
   },
   {
@@ -166,6 +167,7 @@
       [ "l_dsr_223", 5 ],
       [ "l_long_45", 30 ],
       [ "m14ebr", 15 ],
+      [ "M24", 15 ],
       [ "m4a1", 45 ],
       [ "m1903", 15 ],
       [ "m1918", 30 ],
@@ -186,6 +188,7 @@
       [ "l_mbr_223", 100 ],
       [ "m107a1", 30 ],
       [ "m134", 10 ],
+      [ "m14ebr", 10 ],
       [ "m2010", 20 ],
       [ "m240", 15 ],
       [ "m249", 25 ],
@@ -293,6 +296,15 @@
   },
   {
     "type": "item_group",
+    "id": "guns_launcher_flame",
+    "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
+    "items": [
+      [ "flamethrower", 50 ],
+      [ "rm451_flamethrower", 40 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_launcher_grenade",
     "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
     "items": [
@@ -308,6 +320,13 @@
     "id": "guns_launcher_rocket",
     "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
     "items": [
+      [ "LAW_Packed", 200 ],
+      [ "m202_flash", 100 ],
+      [ "m235tpa", 150 ],
+      [ "m3_carlgustav", 50 ],
+      [ "84x246mm_he", 100 ],
+      [ "84x246mm_hedp", 80 ],
+      [ "84x246mm_smoke", 100 ]
     ]
   },
   {
@@ -315,6 +334,7 @@
     "id": "guns_launcher_milspec",
     "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
     "items": [
+      { "group": "guns_launcher_flame", "prob": 20 },
       { "group": "guns_launcher_grenade", "prob": 70 },
       { "group": "guns_launcher_rocket", "prob": 30 }
     ]

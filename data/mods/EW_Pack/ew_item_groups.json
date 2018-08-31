@@ -75,15 +75,6 @@
     },
     {
         "type": "item_group",
-        "id": "gunmod_rare",
-        "items": [
-          ["retool_654", 5],
-          ["retool_545", 10],
-          ["retool_762", 10]
-        ]
-    },
-    {
-        "type": "item_group",
         "id": "ammo_rifle_common",
         "items": [
           ["545", 50],

@@ -3,6 +3,7 @@
 #include <map>
 
 #include "calendar.h"
+#include "craft_command.h"
 #include "vehicle.h"
 #include "output.h"
 #include "veh_type.h"
@@ -36,7 +37,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, Character &who )
     //   5:  3 xp /h
     //   6:  2 xp /h
     //  7+:  1 xp /h
-    return std::ceil( double( vp.install_moves ) / MOVES( MINUTES( pow( lvl, 2 ) ) ) );
+    return std::ceil( double( vp.install_moves ) / to_moves<int>( 1_minutes * pow( lvl, 2 ) ) );
 }
 
 vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool only_repairable )
@@ -54,7 +55,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool o
     for( const vehicle_part &part : veh.parts ) {
         const auto &info = part.info();
         repairable_cache[ &part ] = not_repairable;
-        if( part.removed || part.damage() <= 0.0f ) {
+        if( part.removed || part.damage() <= 0 ) {
             continue;
         }
 
@@ -67,7 +68,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool o
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * part.damage() ).can_make_with_inventory( inv ) ) {
+            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv ) ) {
             repairable_cache[ &part ] = repairable;
         }
     }
@@ -102,10 +103,11 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // @todo: Expose base part damage somewhere, don't recalculate it here
     const auto reqs = pt.is_broken() ?
                       vp.install_requirements() :
-                      vp.repair_requirements() * pt.damage();
+                      vp.repair_requirements() * pt.damage_level( 4 );
 
-    inventory map_inv = who.crafting_inventory();
-    if( !reqs.can_make_with_inventory( map_inv ) ) {
+    inventory map_inv;
+    map_inv.form_from_map( who.pos(), PICKUP_RANGE );
+    if( !reqs.can_make_with_inventory( who.crafting_inventory() ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name().c_str() );
         return false;

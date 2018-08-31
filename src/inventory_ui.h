@@ -11,6 +11,7 @@
 #include "enums.h"
 #include "input.h"
 #include "item_location.h"
+#include "pimpl.h"
 
 class Character;
 
@@ -202,7 +203,7 @@ class inventory_column
             cells.resize( preset.get_cells_count() );
         }
 
-        virtual ~inventory_column() {}
+        virtual ~inventory_column() = default;
 
         bool empty() const {
             return entries.empty();
@@ -380,6 +381,7 @@ class selection_column : public inventory_column
 {
     public:
         selection_column( const std::string &id, const std::string &name );
+        ~selection_column() override;
 
         virtual bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
@@ -397,7 +399,7 @@ class selection_column : public inventory_column
         }
 
     private:
-        const std::unique_ptr<item_category> selected_cat;
+        const pimpl<item_category> selected_cat;
         inventory_entry last_changed;
 };
 
@@ -405,7 +407,7 @@ class inventory_selector
 {
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector() {}
+        ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
@@ -596,6 +598,26 @@ class inventory_compare_selector : public inventory_multiselector
         std::vector<inventory_entry *> compared;
 
         void toggle_entry( inventory_entry *entry );
+};
+
+// This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
+// Should accept a function to calculate dummy values.
+class inventory_iuse_selector : public inventory_multiselector
+{
+    public:
+        inventory_iuse_selector( const player &p,
+                                 const std::string &selector_title,
+                                 const inventory_selector_preset &preset = default_preset );
+        std::list<std::pair<int, int>> execute();
+
+    protected:
+        const player &get_player_for_stats() const;
+        void set_chosen_count( inventory_entry &entry, size_t count );
+
+    private:
+        std::map<const item *, int> to_use;
+        size_t max_chosen_count;
+        mutable std::unique_ptr<player> dummy;
 };
 
 class inventory_drop_selector : public inventory_multiselector

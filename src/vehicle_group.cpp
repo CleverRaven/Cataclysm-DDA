@@ -1,6 +1,7 @@
 #include "vehicle_group.h"
 #include "debug.h"
 #include "translations.h"
+#include "vpart_position.h"
 #include "vehicle.h"
 #include "map.h"
 #include "enums.h"
@@ -95,12 +96,11 @@ void VehiclePlacement::load( JsonObject &jo )
 
 const VehicleLocation *VehiclePlacement::pick() const
 {
-    if( locations.size() == 0 ) {
-        debugmsg( "vehicleplacement has no locations" );
-        return NULL;
+    if( const auto chosen = random_entry_opt( locations ) ) {
+        return &chosen->get();
     }
-
-    return &( locations[rng( 0, locations.size() - 1 )] );
+    debugmsg( "vehicleplacement has no locations" );
+    return nullptr;
 }
 
 VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
@@ -112,10 +112,8 @@ VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
     if( jo.has_string( "placement" ) ) {
         placement = jo.get_string( "placement" );
     } else {
-        //location = std::make_unique<Vehicle_Location>(jmapgen_int(jo, "x"), jmapgen_int(jo, "y"), facings);
-        // that would be better, but it won't exist until c++14, so for now we do this:
         VehicleFacings facings( jo, "facing" );
-        location.reset( new VehicleLocation( jmapgen_int( jo, "x" ), jmapgen_int( jo, "y" ), facings ) );
+        location.emplace( jmapgen_int( jo, "x" ), jmapgen_int( jo, "y" ), facings );
     }
 }
 
@@ -234,7 +232,7 @@ void builtin_jackknifed_semi( map &m, const std::string &terrainid )
     m.add_vehicle( vgroup_id( "truck_trailer" ), trailer_p, ( facing + 90 ) % 360, -1, 1 );
 }
 
-void builtin_pileup( map &m, const std::string & )
+void builtin_pileup( map &m, const std::string &, const std::string &vg )
 {
     vehicle *last_added_car = nullptr;
     int num_cars = rng( 5, 12 );
@@ -246,7 +244,7 @@ void builtin_pileup( map &m, const std::string & )
             return;
         }
 
-        last_added_car = m.add_vehicle( vgroup_id( "city_pileup" ), loc->pick_point(),
+        last_added_car = m.add_vehicle( vgroup_id( vg ), loc->pick_point(),
                                         loc->pick_facing(), -1, 1 );
         if( last_added_car != nullptr ) {
             last_added_car->name = _( "pile-up" );
@@ -256,26 +254,14 @@ void builtin_pileup( map &m, const std::string & )
     }
 }
 
-void builtin_policepileup( map &m, const std::string & )
+void builtin_citypileup( map &m, const std::string &t )
 {
-    vehicle *last_added_car = nullptr;
-    int num_cars = rng( 5, 12 );
+    builtin_pileup( m, t, "city_pileup" );
+}
 
-    for( int i = 0; i < num_cars; i++ ) {
-        const VehicleLocation *loc = vplacement_id( "pileup" ).obj().pick();
-        if( ! loc ) {
-            debugmsg( "builtin_policepileup unable to get location to place vehicle." );
-            return;
-        }
-
-        last_added_car = m.add_vehicle( vgroup_id( "policecar" ), loc->pick_point(),
-                                        loc->pick_facing(), -1, 1 );
-        if( last_added_car != nullptr ) {
-            last_added_car->name = _( "pile-up" );
-        } else {
-            break;
-        }
-    }
+void builtin_policepileup( map &m, const std::string &t )
+{
+    builtin_pileup( m, t, "police_pileup" );
 }
 
 void builtin_parkinglot( map &m, const std::string & )
@@ -298,7 +284,7 @@ void builtin_parkinglot( map &m, const std::string & )
 VehicleSpawn::FunctionMap VehicleSpawn::builtin_functions = {
     { "no_vehicles", VehicleSpawnFunction::builtin_no_vehicles },
     { "jack-knifed_semi", VehicleSpawnFunction::builtin_jackknifed_semi },
-    { "vehicle_pileup", VehicleSpawnFunction::builtin_pileup },
+    { "vehicle_pileup", VehicleSpawnFunction::builtin_citypileup },
     { "policecar_pileup", VehicleSpawnFunction::builtin_policepileup },
     { "parkinglot", VehicleSpawnFunction::builtin_parkinglot }
 };

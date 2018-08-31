@@ -80,7 +80,7 @@ void event::actualize()
             sounds::sound(g->u.pos(), 60, "");
             if (!g->u.is_deaf()) {
                 add_msg(_("The eye you're carrying lets out a tortured scream!"));
-                g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+                g->u.add_morale(MORALE_SCREAM, -15, 0, 30_minutes, 5_turns);
             }
         }
         if (!one_in(25)) { // They just keep coming!
@@ -92,7 +92,8 @@ void event::actualize()
         g->u.add_memorial_log(pgettext("memorial_male", "Angered a group of amigara horrors!"),
                               pgettext("memorial_female", "Angered a group of amigara horrors!"));
         int num_horrors = rng(3, 5);
-        int faultx = -1, faulty = -1;
+        int faultx = -1;
+        int faulty = -1;
         bool horizontal = false;
         for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++) {
             for (int y = 0; y < SEEY * MAPSIZE && faulty == -1; y++) {
@@ -105,7 +106,8 @@ void event::actualize()
         }
         for (int i = 0; i < num_horrors; i++) {
             int tries = 0;
-            int monx = -1, mony = -1;
+            int monx = -1;
+            int mony = -1;
             do {
                 if (horizontal) {
                     monx = rng(faultx, faultx + 2 * SEEX - 8);
@@ -224,7 +226,9 @@ void event::actualize()
             mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
         } };
         const mtype_id &montype = random_entry( temple_monsters );
-        int tries = 0, x, y;
+        int tries = 0;
+        int x = 0;
+        int y = 0;
         do {
             x = rng(g->u.posx() - 5, g->u.posx() + 5);
             y = rng(g->u.posy() - 5, g->u.posy() + 5);

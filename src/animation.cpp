@@ -476,11 +476,9 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, bool const dead )
 namespace {
 void draw_hit_player_curses(game const& g, player const &p, const int dam)
 {
-    nc_color const col = (!dam) ? yellow_background(p.symbol_color())
-                                : red_background(p.symbol_color());
-
     tripoint const q = relative_view_pos( g.u, p.pos() );
     if( q.z == 0 ) {
+        nc_color const col = !dam ? yellow_background( p.symbol_color() ) : red_background( p.symbol_color() );
         hit_animation( q.x, q.y, col, p.symbol() );
     }
 }

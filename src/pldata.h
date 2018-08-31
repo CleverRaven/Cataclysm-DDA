@@ -4,6 +4,8 @@
 
 #include "bodypart.h"
 #include "string_id.h"
+#include "calendar.h"
+
 #include <map>
 #include <string>
 
@@ -29,6 +31,7 @@ enum character_type : int {
     PLTYPE_RANDOM,
     PLTYPE_TEMPLATE,
     PLTYPE_NOW,
+    PLTYPE_FULL_RANDOM,
 };
 
 enum add_type : int {
@@ -53,7 +56,7 @@ class addiction
     public:
         add_type type      = ADD_NULL;
         int      intensity = 0;
-        int      sated     = 600;
+        time_duration sated = 1_hours;
 
         addiction() = default;
         addiction( add_type const t, int const i = 1 ) : type {t}, intensity {i} { }

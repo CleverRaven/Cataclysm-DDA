@@ -7,6 +7,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "monster.h"
+#include "vpart_position.h"
 #include "effect.h"
 #include "mtype.h"
 #include "npc.h"
@@ -229,14 +230,14 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = true;      // Need to check if player is in a cone between us and target
     int pldist = rl_dist( pos(), g->u.pos() );
-    int part;
-    vehicle *in_veh = is_fake() ? g->m.veh_at( pos(), part ) : nullptr;
+    vehicle *in_veh = is_fake() ? veh_pointer_or_null( g->m.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
-        if( in_veh && g->m.veh_at( u.pos(), part ) == in_veh && in_veh->is_inside( part ) ) {
+        const optional_vpart_position vp = g->m.veh_at( u.pos() );
+        if( in_veh && veh_pointer_or_null( vp ) == in_veh && vp->is_inside() ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
             iff_hangle = (pldist == 2 ? 30 : 60);    // granularity increases with proximity
@@ -255,7 +256,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         }
         if( const npc *const npc_ptr = dynamic_cast<const npc*>( &critter ) ) {
             // friendly to the player, not a target for us
-            return npc_ptr->attitude == NPCATT_KILL;
+            return npc_ptr->get_attitude() == NPCATT_KILL;
         }
         //@todo: what about g->u?
         return false;
@@ -278,7 +279,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->pos(), part ) == in_veh ) {
+        if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( m->pos() ) ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
@@ -325,12 +326,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     return target;
 }
 
-void Creature::melee_attack(Creature &t, bool allow_special)
-{
-    static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
-}
-
 /*
  * Damage-related functions
  */
@@ -366,8 +361,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     return hit_spread;
 }
 
-void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
-                              const damage_instance &dam, dealt_damage_instance &dealt_dam)
+void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+                               const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
@@ -377,7 +372,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
         if( d.type_damage(DT_BASH) * hit_spread > get_hp_max() ) {
-            add_effect( effect_stunned, 1 ); // 1 turn is enough
+            add_effect( effect_stunned, 1_turns ); // 1 turn is enough
         }
     }
 
@@ -396,7 +391,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
                                            disp_name().c_str() );
         }
 
-        add_effect( effect_downed, 1);
+        add_effect( effect_downed, 1_turns );
         mod_moves(-stab_moves / 2);
     } else {
         mod_moves(-stab_moves);
@@ -412,8 +407,10 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
  *
  * @param source Pointer to the creature who shot the projectile.
  * @param attack A structure describing the attack and its results.
+ * @param print_messages enables message printing by default.
  */
-void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                       bool print_messages )
 {
     const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 ) {
@@ -425,7 +422,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
     const auto &proj_effects = proj.proj_effects;
 
-    const bool u_see_this = g->u.sees(*this);
+    const bool u_see_this = g->u.sees( *this );
 
     const int avoid_roll = dodge_roll();
     // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
@@ -435,6 +432,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) ) ;
 
     if( goodhit >= 1.0 ) {
+        attack.missed_by = 1.0; // Arbitrary value
+        if( !print_messages ) {
+            return;
+        }
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
         if( source != nullptr && g->u.sees( *source ) ) {
@@ -449,18 +450,16 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 _("You avoid an incoming projectile!"),
                 _("<npcname> avoids an incoming projectile.") );
         }
-
-        attack.missed_by = 1.0; // Arbitrary value
         return;
     }
 
     // Bounce applies whether it does damage or not.
     if( proj.proj_effects.count( "BOUNCE" ) ) {
-        add_effect( effect_bounced, 1);
+        add_effect( effect_bounced, 1_turns );
     }
 
     body_part bp_hit;
-    double hit_value = missed_by + rng_float(-0.5, 0.5);
+    double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
     if( hit_value <= 0.4 ) {
         bp_hit = bp_torso;
@@ -486,13 +485,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( goodhit < accuracy_headshot ) {
         message = _("Headshot!");
         gmtSCTcolor = m_headshot;
-        damage_mult *= rng_float(2.45, 3.35);
+        damage_mult *= rng_float(1.95, 2.05);
         bp_hit = bp_head; // headshot hits the head, of course
 
     } else if( goodhit < accuracy_critical ) {
         message = _("Critical!");
         gmtSCTcolor = m_critical;
-        damage_mult *= rng_float(1.75, 2.3);
+        damage_mult *= rng_float(1.5, 2.0);
 
     } else if( goodhit < accuracy_goodhit ) {
         message = _("Good hit!");
@@ -508,8 +507,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult *= rng_float(0, .25);
     }
 
-    if( source != nullptr && !message.empty() ) {
-        source->add_msg_if_player(m_good, message.c_str());
+    if( print_messages && source != nullptr && !message.empty() ) {
+        source->add_msg_if_player( m_good, message.c_str() );
     }
 
     attack.missed_by = goodhit;
@@ -520,7 +519,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult = 1.0f;
     }
 
-    impact.mult_damage(damage_mult);
+    impact.mult_damage( damage_mult );
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
         float dmg_ratio = (float)impact.total_damage() / get_hp_max( player::bp_to_hp( bp_hit ) );
@@ -529,7 +528,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    dealt_dam = deal_damage(source, bp_hit, impact);
+    dealt_dam = deal_damage( source, bp_hit, impact );
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
@@ -537,43 +536,43 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(8, 20), bp_hit );
+            add_effect( effect_onfire, rng( 8_turns, 20_turns ), bp_hit );
         } else if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-            add_effect( effect_onfire, rng(5, 10), bp_hit );
+            add_effect( effect_onfire, rng( 5_turns, 10_turns ), bp_hit );
         }
     } else if (proj.proj_effects.count("INCENDIARY") ) {
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(2, 6), bp_hit );
+            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if ( (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) &&
                     one_in(4) ) {
-            add_effect( effect_onfire, rng(1, 4), bp_hit );
+            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if (proj.proj_effects.count("IGNITE")) {
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(6, 6), bp_hit );
+            add_effect( effect_onfire, 6_turns, bp_hit );
         } else if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-            add_effect( effect_onfire, rng(10, 10), bp_hit );
+            add_effect( effect_onfire, 10_turns, bp_hit );
         }
     }
 
     if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        add_env_effect( effect_blind, bp_eyes, 5, rng( 3, 10 ) );
+        add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
-        add_effect( effect_sap, dealt_dam.total_damage() );
+        add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
     }
 
     int stun_strength = 0;
-    if (proj.proj_effects.count("BEANBAG")) {
+    if( proj.proj_effects.count( "BEANBAG" ) ) {
         stun_strength = 4;
     }
-    if (proj.proj_effects.count("LARGE_BEANBAG")) {
+    if( proj.proj_effects.count( "LARGE_BEANBAG" ) ) {
         stun_strength = 16;
     }
     if( stun_strength > 0 ) {
@@ -594,10 +593,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             stun_strength /= 4;
             break;
         }
-        add_effect( effect_stunned, rng(stun_strength / 2, stun_strength) );
+        add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 
-    if(u_see_this) {
+    if( u_see_this && print_messages ) {
         if( damage_mult == 0 ) {
             if( source != nullptr ) {
                 add_msg( source->is_player() ? _("You miss!") : _("The shot misses!") );
@@ -611,33 +610,34 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         } else if( is_player() ) {
                 //monster hits player ranged
                 //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-                add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                                  body_part_name_accusative(bp_hit).c_str(),
-                                  dealt_dam.total_damage());
+                add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                   body_part_name_accusative( bp_hit ).c_str(),
+                                   dealt_dam.total_damage() );
         } else if( source != nullptr ) {
             if( source->is_player() ) {
                 //player hits monster ranged
-                SCT.add(posx(), posy(),
-                        direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
-                        get_hp_bar(dealt_dam.total_damage(), get_hp_max(), true).first,
-                        m_good, message, gmtSCTcolor);
+                SCT.add( posx(), posy(),
+                         direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
+                         get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
+                         m_good, message, gmtSCTcolor );
 
-                if (get_hp() > 0) {
-                    SCT.add(posx(), posy(),
-                            direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
-                            get_hp_bar(get_hp(), get_hp_max(), true).first, m_good,
-                            //~ "hit points", used in scrolling combat text
-                            _("hp"), m_neutral, "hp");
+                if( get_hp() > 0 ) {
+                    SCT.add( posx(), posy(),
+                             direction_from( 0, 0, posx() - source->posx(),
+                                             posy() - source->posy() ),
+                             get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
+                             //~ "hit points", used in scrolling combat text
+                             _( "hp" ), m_neutral, "hp" );
                 } else {
                     SCT.removeCreatureHP();
                 }
 
-                add_msg(m_good, _("You hit %s for %d damage."),
-                        disp_name().c_str(), dealt_dam.total_damage());
+                add_msg( m_good, _( "You hit %s for %d damage." ),
+                         disp_name().c_str(), dealt_dam.total_damage() );
             } else if( u_see_this ) {
                 //~ 1$ - shooter, 2$ - target
-                add_msg(_("%1$s shoots %2$s."),
-                        source->disp_name().c_str(), disp_name().c_str());
+                add_msg( _( "%1$s shoots %2$s."),
+                         source->disp_name().c_str(), disp_name().c_str() );
             }
         }
     }
@@ -647,8 +647,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
-dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
-        const damage_instance &dam)
+dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
+                                             const damage_instance &dam )
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();
@@ -659,7 +659,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 
     dealt_damage_instance dealt_dams;
 
-    absorb_hit(bp, d);
+    absorb_hit( bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
@@ -700,13 +700,13 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int 
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1, 3 ), bp );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
             }
             break;
 
         case DT_ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
-            add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
+            add_effect( effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
             break;
 
         case DT_ACID:
@@ -741,8 +741,8 @@ void Creature::set_fake(const bool fake_value)
     fake = fake_value;
 }
 
-void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
-                           bool permanent, int intensity, bool force )
+void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
+                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
     if( !force && is_immune_effect( eff_id ) ) {
@@ -771,10 +771,10 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
             effect &e = found_effect->second;
             const int prev_int = e.get_intensity();
             // If we do, mod the duration, factoring in the mod value
-            e.mod_duration(dur * e.get_dur_add_perc() / 100);
+            e.mod_duration( dur * e.get_dur_add_perc() / 100);
             // Limit to max duration
-            if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
-                e.set_duration(e.get_max_duration());
+            if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
+                e.set_duration( e.get_max_duration() );
             }
             // Adding a permanent effect makes it permanent
             if( e.is_permanent() ) {
@@ -782,7 +782,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
             }
             // int_dur_factor overrides all other intensity settings
             // ...but it's handled in set_duration, so explicitly do nothing here
-            if( e.get_int_dur_factor() > 0 ) {
+            if( e.get_int_dur_factor() > 0_turns ) {
                 // Set intensity if value is given
             } else if (intensity > 0) {
                 e.set_intensity(intensity);
@@ -804,13 +804,13 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
     }
 
-    if( found == false ) {
+    if( !found ) {
         // If we don't already have it then add a new one
 
         // Then check if the effect is blocked by another
         for( auto &elem : *effects ) {
             for( auto &_effect_it : elem.second ) {
-                for( const auto blocked_effect : _effect_it.second.get_blocks_effects() ) {
+                for( const auto& blocked_effect : _effect_it.second.get_blocks_effects() ) {
                     if (blocked_effect == eff_id) {
                         // The effect is blocked by another, return
                         return;
@@ -820,16 +820,16 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
 
         // Now we can make the new effect for application
-        effect e(&type, dur, bp, permanent, intensity, calendar::turn);
+        effect e( &type, dur, bp, permanent, intensity, calendar::turn );
         // Bound to max duration
-        if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
-            e.set_duration(e.get_max_duration());
+        if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
+            e.set_duration( e.get_max_duration() );
         }
 
         // Force intensity if it is duration based
-        if( e.get_int_dur_factor() != 0 ) {
+        if( e.get_int_dur_factor() != 0_turns ) {
             // + 1 here so that the lowest is intensity 1, not 0
-             e.set_intensity( ( e.get_duration() / e.get_int_dur_factor() ) + 1 );
+             e.set_intensity( e.get_duration() / e.get_int_dur_factor() + 1 );
         }
         // Bound new effect intensity by [1, max intensity]
         if (e.get_intensity() < 1) {
@@ -841,7 +841,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         ( *effects )[eff_id][bp] = e;
         if (is_player()) {
             // Only print the message if we didn't already have it
-            if(type.get_apply_message() != "") {
+            if( !type.get_apply_message().empty() ) {
                      add_msg(type.gain_game_message_type(),
                              _(type.get_apply_message().c_str()));
             }
@@ -852,11 +852,14 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
-        process_one_effect( e, true );
+        // only when not deferred
+        if( !deferred ) {
+            process_one_effect( e, true );
+        }
     }
 }
-bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,
-                               body_part bp, bool permanent, int intensity, bool force )
+bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+                               const time_duration dur, body_part bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
@@ -891,7 +894,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 
     if (is_player()) {
         // Print the removal message and add the memorial log if needed
-        if(type.get_remove_message() != "") {
+        if( !type.get_remove_message().empty() ) {
             add_msg(type.lose_game_message_type(),
                          _(type.get_remove_message().c_str()));
         }
@@ -950,14 +953,14 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
     }
     return effect::null_effect;
 }
-int Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
+time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
 {
     const effect &eff = get_effect(eff_id, bp);
     if( !eff.is_null() ) {
         return eff.get_duration();
     }
 
-    return 0;
+    return 0_turns;
 }
 int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
 {
@@ -980,7 +983,7 @@ void Creature::process_effects()
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
-            for( const auto removed_effect : _it.second.get_removes_effects() ) {
+            for( const auto& removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
                 rem_bps.push_back(num_bp);
             }
@@ -989,7 +992,7 @@ void Creature::process_effects()
             // Run decay effects, marking effects for removal as necessary.
             e.decay( rem_ids, rem_bps, calendar::turn, is_player() );
 
-            if( e.get_intensity() != prev_int && e.get_duration() > 0 ) {
+            if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
                 on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
             }
         }
@@ -1001,7 +1004,7 @@ void Creature::process_effects()
     }
 }
 
-bool Creature::resists_effect(effect e)
+bool Creature::resists_effect( const effect &e )
 {
     for (auto &i : e.get_resist_effects()) {
         if (has_effect(i)) {
@@ -1068,6 +1071,10 @@ int Creature::get_perceived_pain() const
     return get_pain();
 }
 
+int Creature::get_moves() const
+{
+    return moves;
+}
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;

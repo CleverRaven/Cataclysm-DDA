@@ -17,7 +17,7 @@
     "name": ".223 casing",
     "description": "An empty casing from a .223 round.",
     "weight": 5,
-    "volume": "8ml"
+    "volume": "5ml"
   },
   {
     "id": "22_casing",
@@ -52,6 +52,15 @@
     "type": "GENERIC",
     "name": ".308 casing",
     "description": "An empty casing from a .308 round.",
+    "weight": 6,
+    "volume": "9ml"
+  },
+  {
+    "id": "762_51_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "7.62x51mm casing",
+    "description": "An empty casing from a 7.62x51mm M80 round.",
     "weight": 6,
     "volume": "9ml"
   },
@@ -137,7 +146,7 @@
     "name": "5x50mm hull",
     "description": "An empty plastic hull from a 5x50mm flechette round.",
     "weight": 1,
-    "volume": "9ml",
+    "volume": "5ml",
     "material": "plastic",
     "color": "light_green"
   },
@@ -219,6 +228,15 @@
     "type": "GENERIC",
     "name": "9x19mm casing",
     "description": "An empty casing from a 9x19mm round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
+    "id": "357sig_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".357 SIG casing",
+    "description": "An empty casing from a .357 SIG round.",
     "weight": 3,
     "volume": "5ml"
   },

@@ -8,7 +8,6 @@
             ["sp_howitzer", 40],
             ["mobile_gun_system", 50],
             ["ifv", 30],
-            ["pickup_technical", 40],
             ["tractor_bandit", 25],
             ["tank_atomic", 25]
         ]
@@ -21,7 +20,6 @@
             ["sp_howitzer", 40],
             ["mobile_gun_system", 50],
             ["ifv", 30],
-            ["pickup_technical", 40],
             ["tractor_bandit", 20],
             ["tank_atomic", 25]
         ]
@@ -33,7 +31,6 @@
             ["tank_medium", 100],
             ["sp_howitzer", 100],
             ["mobile_gun_system", 75],
-            ["pickup_technical", 175],
             ["ifv", 75],
             ["tractor_bandit", 50],
             ["tank_atomic", 25]
@@ -53,7 +50,6 @@
         "type" : "vehicle_group",
         "id" : "bandit_vehicles",
         "vehicles" : [
-            ["pickup_technical", 150],
             ["tractor_bandit", 150]
         ]
     },{
@@ -64,13 +60,6 @@
             ["tractor_heavy_seed",250],
             ["tractor_heavy_reaper",250],
             ["tractor_bandit", 100]
-        ]
-    },
-    {
-        "id": "warehouse_vehicles",
-        "type": "vehicle_group",
-        "vehicles": [
-            [ "forklift", 100 ]
         ]
     }
 ]

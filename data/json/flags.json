@@ -12,6 +12,12 @@
     "info": "This clothing won't hinder special attacks that involve <info>mutated anatomy</info>."
   },
   {
+    "id": "ALLOWS_REMOTE_USE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item can be activated or reloaded from adjacent tile without picking it up."
+  },
+  {
     "id": "BAROMETER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -32,6 +38,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST" ]
   },
   {
+    "id": "BIONIC_NPC_USABLE",
+    "type": "json_flag",
+    "context": [ "BIONIC_ITEM" ],
+    "info": "A <good>follower</good> could <info>make use of this CBM</info> if installed properly."
+  },
+  {
     "id": "BLIND",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -43,6 +55,18 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This item can be used to block attacks when worn."
+  },
+  {
+    "id": "CBM",
+    "type": "json_flag",
+    "context": [ "BIONIC_ITEM" ],
+    "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
+  },
+  {
+    "id": "CLIMATE_CONTROL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This piece of clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
   },
   {
     "id": "COLLAR",
@@ -61,8 +85,33 @@
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This item has a <good>diamond coating</good> improving it's <info>cutting damage</info>.",
+    "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
     "inherit": false
+  },
+  {
+    "id": "DIG_TOOL",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ],
+    "info": "While wielded, this item allows you to mine thorough rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
+  },
+  {
+    "id": "DURABLE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
+    "conflicts": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "EATEN_COLD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This tastes <good>better</good> while <color_light_cyan>cold</color>."
+  },
+  {
+    "id": "EATEN_HOT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This tastes <good>better</good> while <color_red>hot</color>."
   },
   {
     "id": "ELECTRIC_IMMUNE",
@@ -71,12 +120,36 @@
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
   },
   {
+    "id": "ONLY_ONE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "You can wear <info>only one</info>."
+  },
+  {
     "id": "FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
     "info": "This piece of clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "FIREWOOD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item can serve as a firewood."
+  },
+  {
+    "id": "FIX_FARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects farsightedness</good>."
+  },
+  {
+    "id": "FIX_NEARSIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>corrects nearsightedness</good>."
   },
   {
     "id": "FILTHY",
@@ -103,6 +176,13 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
     "conflicts": [ "STURDY" ]
+  },
+  {
+    "id": "FRAGILE_MELEE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item is <bad>flimsy</bad> and <info>won't last long in combat</info> before breaking apart.",
+    "conflicts": [ "DURABLE_MELEE" ]
   },
   {
     "id": "GAS_PROOF",
@@ -139,7 +219,7 @@
     "id": "NO_QUICKDRAW",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
+    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
   },
   {
     "id": "NO_REPAIR",
@@ -147,6 +227,12 @@
     "context": [ "GENERIC" ],
     "description": "Prevents repairing of this item even if otherwise suitable tools exist.",
     "inherit": false
+  },
+  {
+    "id": "MELTS",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
   },
   {
     "id": "OUTER",
@@ -176,6 +262,19 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Increases warmth for hands if the player's hands are cold and the player is wielding nothing.",
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
+  },
+  {
+    "id": "POWERED",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "description": "If turned ON, it uses its own source of power, instead of relying on power of the user."
+  },
+  {
+    "id": "PSYSHIELD_PARTIAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "25% chance to protect against fear_paralyze monster attack.",
+    "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
   },
   {
     "id": "RAD_PROOF",
@@ -217,12 +316,36 @@
     "description": "This item can be stored in a scabbard of the appropriate size."
   },
   {
+    "id": "SHEATH_SPEAR",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a sling of the appropriate size."
+  },
+  {
+    "id": "SHEATH_GOLF",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a bag of the appropriate size."
+  },
+  {
     "id": "SKINTIGHT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Undergarment layer.",
     "info": "This clothing <info>lies close</info> to the skin.",
     "conflicts": [ "BELTED", "OUTER", "WAIST" ]
+  },
+  {
+    "id": "SLOWS_MOVEMENT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
+  },
+  {
+    "id": "SLOWS_THIRST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing <good>slows your thirst</good> by reducing moisture loss."
   },
   {
     "id": "STURDY",
@@ -270,7 +393,7 @@
     "id": "WAIST",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Layer for belts other things worn on the waist.",
+    "description": "Layer for belts and other things worn on the waist.",
     "info": "This gear is worn on or around your <info>waist</info>.",
     "conflicts": [ "BELTED", "OUTER", "SKINTIGHT" ]
   },
@@ -346,7 +469,7 @@
     "id": "BIONIC_TOGGLED",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic only has a function when activated, else it causes it's effect every turn."
+    "description": "This bionic only has a function when activated, else it causes its effect every turn."
   },
   {
     "id": "BIONIC_GUN",

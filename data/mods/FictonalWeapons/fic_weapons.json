@@ -48,6 +48,7 @@
   {
    "id": "gunsword",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "I",
     "color": "light_gray",
     "name": "gunsword",
@@ -74,6 +75,7 @@
   {
    "id": "gunknife",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "i",
     "color": "light_gray",
     "name": "gunknife",
@@ -96,12 +98,13 @@
     "reload": 80,
     "loudness" : 50,
     "valid_mod_locations": [[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 2 ],[ "muzzle", 1 ]],
-    "techniques": ["WBLOCK_2"],
+    "techniques": ["WBLOCK_1"],
     "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
   {
     "id": "50pistol",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "[",
     "color": "dark_gray",
     "name": "FiveO handcannon",
@@ -190,6 +193,7 @@
   {
     "id": "light_carb",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
     "name": "L.T. carbine",
@@ -216,6 +220,7 @@
   {
     "id": "arccan",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
     "name": "arc cannon",

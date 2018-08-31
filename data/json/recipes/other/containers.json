@@ -10,7 +10,7 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ] ],
-    "tools": [ [ [ "brick_kiln", 40 ] ] ],
+    "tools": [ [ [ "brick_kiln", 40 ], [ "kiln", 40 ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
@@ -24,12 +24,11 @@
     "time": 30000,
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ] ],
-    "tools": [ [ [ "brick_kiln", 60 ] ] ],
+    "tools": [ [ [ "brick_kiln", 60 ], [ "kiln", 60 ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "clay_lump", 2 ] ],
-      [ [ "leather", 2 ], [ "fur", 2 ] ],
-      [ [ "tallow", 1 ], [ "cooking_oil", 1 ], [ "wax", 1 ], [ "lamp_oil", 200 ] ]
+      [ [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
   {
@@ -43,7 +42,7 @@
     "time": 45000,
     "autolearn": true,
     "using": [ [ "cordage_short", 2 ], [ "glazing", 2 ] ],
-    "tools": [ [ [ "brick_kiln", 120 ] ] ],
+    "tools": [ [ [ "brick_kiln", 120 ], [ "kiln", 120 ] ] ],
     "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "clay_lump", 10 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
@@ -57,7 +56,7 @@
     "time": 80000,
     "autolearn": true,
     "using": [ [ "cordage_short", 2 ], [ "glazing", 3 ] ],
-    "tools": [ [ [ "brick_kiln", 160 ] ] ],
+    "tools": [ [ [ "brick_kiln", 160 ], [ "kiln", 160 ] ] ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "clay_lump", 20 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
@@ -71,7 +70,7 @@
     "time": 25000,
     "autolearn": true,
     "using": [ [ "cordage_short", 2 ], [ "glazing", 1 ] ],
-    "tools": [ [ [ "brick_kiln", 50 ] ] ],
+    "tools": [ [ [ "brick_kiln", 50 ], [ "kiln", 50 ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 6 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
@@ -84,8 +83,8 @@
     "time": 164062,
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "steel_standard", 13 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",

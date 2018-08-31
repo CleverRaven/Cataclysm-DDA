@@ -43,5 +43,21 @@
     "weight": 400,
     "volume": 3,
     "ammo_type": "410"
+  },
+  {
+    "id": "357_mag_speedloader",
+    "copy-from": "38_speedloader",
+    "type": "MAGAZINE",
+    "name": ".357 Magnum speedloader",
+    "description": "This speedloader can hold 7 rounds of .357 Magnum and quickly reload a compatible revolver.",
+    "ammo_type": "357_mag"
+  },
+  {
+    "id": "38_speedloader",
+    "copy-from": "38_speedloader",
+    "type": "MAGAZINE",
+    "name": ".38 Special speedloader",
+    "description": "This speedloader can hold 6 rounds of .38 Special and quickly reload a compatible revolver.",
+    "capacity": 6
   }
 ]

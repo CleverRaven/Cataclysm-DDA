@@ -11,6 +11,8 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "cata_utility.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 #include <algorithm>
 #include <queue>
@@ -323,7 +325,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         // To open and then move onto the tile
                         newg += 4;
                     } else if( veh != nullptr ) {
-                        part = veh->obstacle_at_part( part );
+                        const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
+                        part = vpobst ? vpobst->part_index() : -1;
                         int dummy = -1;
                         if( doors && veh->part_flag( part, VPFLAG_OPENABLE ) &&
                             ( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) ||

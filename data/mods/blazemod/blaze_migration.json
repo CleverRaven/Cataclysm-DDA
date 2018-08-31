@@ -1,0 +1,137 @@
+[
+  {
+    "id": "223rack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "22rack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "308rack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "45rack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "50bmgrack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "556rack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "9mmrack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "boltrack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "diskrack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "flintrack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "harpoonrack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "nailrack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "pebblerack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "sballistarack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "sboltrack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "shardack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "stonerack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "wballistarack",
+    "type": "MIGRATION",
+    "replace": "metal_tank_little"
+  },
+  {
+    "id": "Waisle_horizontal",
+    "type": "MIGRATION",
+    "replace": "frame_wood"
+  },
+  {
+    "id": "Waisle_vertical",
+    "type": "MIGRATION",
+    "replace": "frame_wood"
+  },
+  {
+    "id": "omnomnicam",
+    "type": "MIGRATION",
+    "replace": "omnicamera"
+  },
+  {
+    "id": "xfloodlight",
+    "type": "MIGRATION",
+    "replace": "floodlight"
+  },
+  {
+    "id": "xreinforced_solar_panel",
+    "type": "MIGRATION",
+    "replace": "reinforced_solar_panel"
+  },
+  {
+    "id": "xreinforced_solar_panel_v2",
+    "type": "MIGRATION",
+    "replace": "reinforced_solar_panel_v2"
+  },
+  {
+    "id": "xsolar_panel",
+    "type": "MIGRATION",
+    "replace": "solar_panel"
+  },
+  {
+    "id": "xsolar_panel_v2",
+    "type": "MIGRATION",
+    "replace": "solar_panel_v2"
+  },
+  {
+    "id": "xsolar_panel_v3",
+    "type": "MIGRATION",
+    "replace": "solar_panel_v3"
+  }
+]

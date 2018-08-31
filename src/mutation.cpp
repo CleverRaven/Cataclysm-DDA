@@ -3,10 +3,13 @@
 #include "action.h"
 #include "game.h"
 #include "map.h"
+#include "item.h"
+#include "itype.h"
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"
 #include "overmapbuffer.h"
+#include "map_iterator.h"
 #include "sounds.h"
 #include "options.h"
 #include "mapdata.h"
@@ -18,6 +21,8 @@
 
 #include <algorithm>
 
+const efftype_id effect_stunned( "stunned" );
+
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_BURROW( "BURROW" );
@@ -26,6 +31,7 @@ static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
+static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
@@ -33,6 +39,15 @@ static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
+static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -94,8 +109,8 @@ void Character::unset_mutation( const trait_id &flag )
     const auto iter = my_mutations.find( flag );
     if( iter != my_mutations.end() ) {
         my_mutations.erase( iter );
-        const mutation_branch *mut = &flag.obj();
-        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), mut ),
+        const mutation_branch &mut = *flag;
+        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                                 cached_mutations.end() );
     } else {
         return;
@@ -168,53 +183,29 @@ void Character::mutation_effect( const trait_id &mut )
         recalc_hp();
 
     } else if (mut == trait_STR_ALPHA) {
-        ///\EFFECT_STR_MAX determines bonus from STR mutation
-        if (str_max <= 6) {
-            str_max = 8;
-        } else if (str_max <= 7) {
-            str_max = 11;
-        } else if (str_max <= 14) {
-            str_max = 15;
-        } else {
-            str_max = 18;
+        if (str_max < 16) {
+            str_max = 8 + str_max / 2;
         }
+        apply_mods(mut, true);
         recalc_hp();
     } else if (mut == trait_DEX_ALPHA) {
-        ///\EFFECT_DEX_MAX determines bonus from DEX mutation
-        if (dex_max <= 6) {
-            dex_max = 8;
-        } else if (dex_max <= 7) {
-            dex_max = 11;
-        } else if (dex_max <= 14) {
-            dex_max = 15;
-        } else {
-            dex_max = 18;
+        if (dex_max < 16) {
+            dex_max = 8 + dex_max / 2;
         }
+        apply_mods(mut, true);
     } else if (mut == trait_INT_ALPHA) {
-        ///\EFFECT_INT_MAX determines bonus from INT mutation
-        if (int_max <= 6) {
-            int_max = 8;
-        } else if (int_max <= 7) {
-            int_max = 11;
-        } else if (int_max <= 14) {
-            int_max = 15;
-        } else {
-            int_max = 18;
+        if (int_max < 16) {
+            int_max = 8 + int_max / 2;
         }
+        apply_mods(mut, true);
     } else if (mut == trait_INT_SLIME) {
         int_max *= 2; // Now, can you keep it? :-)
 
     } else if (mut == trait_PER_ALPHA) {
-        ///\EFFECT_PER_MAX determines bonus from PER mutation
-        if (per_max <= 6) {
-            per_max = 8;
-        } else if (per_max <= 7) {
-            per_max = 11;
-        } else if (per_max <= 14) {
-            per_max = 15;
-        } else {
-            per_max = 18;
+        if (per_max < 16) {
+            per_max = 8 + per_max / 2;
         }
+        apply_mods(mut, true);
     } else {
         apply_mods(mut, true);
     }
@@ -264,52 +255,28 @@ void Character::mutation_loss_effect( const trait_id &mut )
         recalc_hp();
 
     } else if (mut == trait_STR_ALPHA) {
-        ///\EFFECT_STR_MAX determines penalty from STR mutation loss
-        if (str_max == 18) {
-            str_max = 15;
-        } else if (str_max == 15) {
-            str_max = 8;
-        } else if (str_max == 11) {
-            str_max = 7;
-        } else {
-            str_max = 4;
+        apply_mods(mut, false);
+        if (str_max < 16) {
+            str_max = 2 * (str_max - 8);
         }
         recalc_hp();
     } else if (mut == trait_DEX_ALPHA) {
-        ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
-        if (dex_max == 18) {
-            dex_max = 15;
-        } else if (dex_max == 15) {
-            dex_max = 8;
-        } else if (dex_max == 11) {
-            dex_max = 7;
-        } else {
-            dex_max = 4;
+        apply_mods(mut, false);
+        if (dex_max < 16) {
+            dex_max = 2 * (dex_max - 8);
         }
     } else if (mut == trait_INT_ALPHA) {
-        ///\EFFECT_INT_MAX determines penalty from INT mutation loss
-        if (int_max == 18) {
-            int_max = 15;
-        } else if (int_max == 15) {
-            int_max = 8;
-        } else if (int_max == 11) {
-            int_max = 7;
-        } else {
-            int_max = 4;
+        apply_mods(mut, false);
+        if (int_max < 16) {
+            int_max = 2 * (int_max - 8);
         }
     } else if (mut == trait_INT_SLIME) {
         int_max /= 2; // In case you have a freak accident with the debug menu ;-)
 
     } else if (mut == trait_PER_ALPHA) {
-        ///\EFFECT_PER_MAX determines penalty from PER mutation loss
-        if (per_max == 18) {
-            per_max = 15;
-        } else if (per_max == 15) {
-            per_max = 8;
-        } else if (per_max == 11) {
-            per_max = 7;
-        } else {
-            per_max = 4;
+        apply_mods(mut, false);
+        if (per_max < 16) {
+            per_max = 2 * (per_max - 8);
         }
     } else {
         apply_mods(mut, false);
@@ -337,7 +304,7 @@ void player::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
+    if((mdata.hunger && get_hunger() + get_starvation() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
       (mdata.fatigue && get_fatigue() >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
@@ -368,58 +335,97 @@ void player::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        g->m.add_field(pos(), fd_web, 1, 0);
+        g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
-        if( is_underwater() ) {
-            add_msg_if_player(m_info, _("You can't do that while underwater."));
-            tdata.powered = false;
-            return;
-        }
+        int choice = menu( true, _( "Perform which function:" ), _( "Turn on digging mode" ),
+                           _( "Dig pit" ), _( "Fill pit/tamp ground" ), _( "Clear rubble" ),
+                           _( "Churn up ground" ), NULL );
         tripoint dirp;
-        if (!choose_adjacent(_("Burrow where?"), dirp)) {
+        if( choice != 1 ) {
             tdata.powered = false;
-            return;
-        }
-
-        if( dirp == pos() ) {
-            add_msg_if_player(_("You've got places to go and critters to beat."));
-            add_msg_if_player(_("Let the lesser folks eat their hearts out."));
-            tdata.powered = false;
-            return;
-        }
-        int turns;
-        if (g->m.is_bashable(dirp) && g->m.has_flag("SUPPORTS_ROOF", dirp) &&
-            g->m.ter(dirp) != t_tree) {
-            // Takes 30 minutes
-            // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
-            turns = MINUTES( 30 );
-        } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
-                   g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
-            turns = MINUTES( 10 );
-        } else {
-            add_msg_if_player(m_info, _("You can't burrow there."));
-            tdata.powered = false;
-            return;
-        }
-        assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
-        activity.placement = dirp;
-        add_msg_if_player(_("You tear into the %s with your teeth and claws."),
-                          g->m.tername(dirp).c_str());
-        tdata.powered = false;
-        return; // handled when the activity finishes
-    } else if( mut == trait_SLIMESPAWNER ) {
-        std::vector<tripoint> valid;
-        for (int x = posx() - 1; x <= posx() + 1; x++) {
-            for (int y = posy() - 1; y <= posy() + 1; y++) {
-                tripoint dest(x, y, posz());
-                if (g->is_empty(dest)) {
-                    valid.push_back( dest );
+            if( is_underwater() ) {
+                add_msg_if_player(m_info, _("You can't do that while underwater.") );
+                return;
+            } else {
+                if( choice == 2 ) {
+                    if( !choose_adjacent( _( "Dig pit where?" ), dirp ) ) {
+                        return;
+                    }
+                    if( dirp == pos() ) {
+                        add_msg_if_player( m_info, _( "You delve into yourself." ) );
+                        return;
+                    }
+                    int moves;
+                    if( g->m.ter( dirp ) == t_pit_shallow ) {
+                        moves = MINUTES( 30 ) * 100;
+                    } else if ( g->m.has_flag( "DIGGABLE", dirp ) ) {
+                        moves = MINUTES( 10 ) * 100;
+                    } else {
+                        add_msg_if_player( _( "You can't dig a pit on this ground." ) );
+                        return;
+                    }
+                    assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
+                    activity.placement = dirp;
+                } else if( choice == 3 ) {
+                    if( !choose_adjacent( _( "Fill pit where?" ), dirp ) ) {
+                        return;
+                    }
+                    if( dirp == pos() ) {
+                        add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
+                        return;
+                    }
+                    int moves;
+                    if( g->m.ter( dirp ) == t_pit || g->m.ter( dirp ) == t_pit_spiked ||
+                        g->m.ter( dirp ) == t_pit_glass || g->m.ter( dirp ) == t_pit_corpsed ) {
+                        moves = MINUTES( 15 ) * 100;
+                    } else if( g->m.ter( dirp ) == t_pit_shallow ) {
+                        moves = MINUTES( 10 ) * 100;
+                    } else if( g->m.ter( dirp ) == t_dirtmound ) {
+                        moves = MINUTES( 5 ) * 100;
+                    } else {
+                        add_msg_if_player( _( "There is no pit to fill." ) );
+                        return;
+                    }
+                    assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
+                    activity.placement = dirp;
+                } else if ( choice == 4 ) {
+                    if( !choose_adjacent( _( "Clear rubble where?" ), dirp ) ) {
+                        return;
+                    }
+                    if( g->m.has_flag( "RUBBLE", dirp ) ) {
+                        // 75 seconds
+                        assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), 1250, -1, 0 );
+                        activity.placement = dirp;
+                    } else {
+                        add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
+                        return;
+                    }
+                } else if (choice == 5 ) {
+                    if( !choose_adjacent( _( "Churn up ground where?" ), dirp ) ) {
+                        return;
+                    }
+                    if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) &&
+                        g->m.ter( dirp ) != t_dirtmound ) {
+                        add_msg_if_player( _( "You churn up the earth here." ) );
+                        moves = -300;
+                        g->m.ter_set( dirp, t_dirtmound );
+                    } else {
+                        add_msg_if_player( _( "You can't churn up this ground." ) );
+                    }
                 }
             }
         }
+    return;  // handled when the activity finishes
+    } else if( mut == trait_SLIMESPAWNER ) {
+        std::vector<tripoint> valid;
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if (g->is_empty(dest)) {
+                valid.push_back( dest );
+            }
+        }
         // Oops, no room to divide!
-        if (valid.size() == 0) {
+        if( valid.empty() ) {
             add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
             tdata.powered = false;
             return;
@@ -456,8 +462,18 @@ void player::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
+    } else if( mut == trait_M_PROVENANCE ) {
+        spores(); // double trouble!
+        blossoms();
+        tdata.powered = false;
+        return;
     } else if( mut == trait_SELFAWARE ) {
         print_health();
+        tdata.powered = false;
+        return;
+    } else if( mut == trait_DEBUG_BIONIC_POWER ) {
+        max_power_level += 100;
+        add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
         return;
     } else if( !mdata.spawn_item.empty() ) {
@@ -579,7 +595,7 @@ void player::mutate()
                     // non-purifiable stuff should be pretty tenacious
                     // category-enforcement only targets it 25% of the time
                     // (purify_save defaults true, = false for non-purifiable)
-                    if((purify_save) || ((one_in(4)) && (!(purify_save))) ) {
+                    if( purify_save || one_in( 4 ) ) {
                         downgrades.push_back(base_mutation);
                     }
                 }
@@ -600,7 +616,7 @@ void player::mutate()
         }
     } else {
         // Remove existing mutations that don't fit into our category
-        if (!downgrades.empty() && cat != "") {
+        if( !downgrades.empty() && !cat.empty() ) {
             size_t roll = rng(0, downgrades.size() + 4);
             if (roll < downgrades.size()) {
                 remove_mutation(downgrades[roll]);
@@ -614,12 +630,12 @@ void player::mutate()
 
     do {
         // If we tried once with a non-NULL category, and couldn't find anything valid
-        // there, try again with MUTCAT_NULL
+        // there, try again with empty category
         if (!first_pass) {
-            cat = "";
+            cat.clear();
         }
 
-        if (cat == "") {
+        if( cat.empty() ) {
             // Pull the full list
             for( auto &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.second.valid ) {
@@ -645,7 +661,7 @@ void player::mutate()
             // So we won't repeat endlessly
             first_pass = false;
         }
-    } while (valid.empty() && cat != "");
+    } while ( valid.empty() && !cat.empty() );
 
     if (valid.empty()) {
         // Couldn't find anything at all!
@@ -664,7 +680,7 @@ void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // @todo: Turn it into the null id
-    if( cat == "MUTCAT_ANY" ) {
+    if( cat == "ANY" ) {
         mutate();
         return;
     }
@@ -1104,3 +1120,158 @@ void player::remove_child_flag( const trait_id &flag )
         }
     }
 }
+
+static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
+{
+    if( p.has_trait( trait_MUTAGEN_AVOID ) ) {
+        //~"Uh-uh" is a sound used for "nope", "no", etc.
+        p.add_msg_if_player( m_warning,
+                             _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
+        return mutagen_rejection::rejected;
+    }
+
+    static const std::vector<std::string> safe = {{
+            "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
+        }
+    };
+    if( std::any_of( safe.begin(), safe.end(), [it]( const std::string & flag ) {
+    return it.type->can_use( flag );
+    } ) ) {
+        return mutagen_rejection::accepted;
+    }
+
+    if( p.has_trait( trait_THRESH_MYCUS ) ) {
+        p.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
+        if( p.has_trait( trait_M_SPORES ) || p.has_trait( trait_M_FERTILE ) ||
+            p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
+            p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
+            g->m.ter_set( p.pos(), t_fungus );
+            p.add_memorial_log( pgettext( "memorial_male", "Destroyed a harmful invader." ),
+                                pgettext( "memorial_female", "Destroyed a harmful invader." ) );
+            return mutagen_rejection::destroyed;
+        } else {
+            p.add_msg_if_player( m_bad,
+                                 _( "We must eliminate this contaminant at the earliest opportunity." ) );
+            return mutagen_rejection::rejected;
+        }
+    }
+
+    if( p.has_trait( trait_THRESH_MARLOSS ) ) {
+        p.add_msg_player_or_npc( m_warning,
+                                 _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
+                                 _( "<npcname> writhes in agony and collapses to the ground!" ),
+                                 it.tname().c_str() );
+        p.vomit();
+        p.mod_pain( 35 + ( strong ? 20 : 0 ) );
+        // Lose a significant amount of HP, probably about 25-33%
+        p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
+        // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p.fall_asleep( 5_hours - 1_minutes * ( p.int_cur + ( strong ? 100 : 0 ) ) );
+        p.set_mutation( trait_MUTAGEN_AVOID );
+        // Injected mutagen purges marloss, ingested doesn't
+        if( strong ) {
+            p.unset_mutation( trait_THRESH_MARLOSS );
+            p.add_msg_if_player( m_warning,
+                                 _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
+            p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
+            p.add_memorial_log( pgettext( "memorial_male",
+                                          "Burned out a particularly nasty fungal infestation." ),
+                                pgettext( "memorial_female", "Burned out a particularly nasty fungal infestation." ) );
+        } else {
+            p.add_msg_if_player( m_warning,
+                                 _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
+                                 it.tname().c_str() );
+            p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
+                                pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+        }
+
+        return mutagen_rejection::destroyed;
+    }
+
+
+    return mutagen_rejection::accepted;
+}
+
+mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+        const std::string &memorial_male, const std::string &memorial_female )
+{
+    mutagen_rejection status = try_reject_mutagen( p, it, strong );
+    if( status == mutagen_rejection::rejected ) {
+        return mutagen_attempt( false, 0 );
+    }
+    p.add_memorial_log( memorial_male.c_str(), memorial_female.c_str() );
+    if( status == mutagen_rejection::destroyed ) {
+        return mutagen_attempt( false, it.type->charges_to_use() );
+    }
+
+    return mutagen_attempt( true, 0 );
+}
+
+void test_crossing_threshold( player &p, const mutation_category_trait &m_category )
+{
+    // Threshold-check.  You only get to cross once!
+    if( p.crossed_threshold() ) {
+        return;
+    }
+
+    // If there is no threshold for this category, don't check it
+    const trait_id &mutation_thresh = m_category.threshold_mut;
+    if( mutation_thresh.is_empty() ) {
+        return;
+    }
+
+    std::string mutation_category = m_category.id;
+    int total = 0;
+    for( const auto &iter : mutation_category_trait::get_all() ) {
+        total += p.mutation_category_level[ iter.first ];
+    }
+    // Threshold-breaching
+    const std::string &primary = p.get_highest_category();
+    int breach_power = p.mutation_category_level[primary];
+    // Only if you were pushing for more in your primary category.
+    // You wanted to be more like it and less human.
+    // That said, you're required to have hit third-stage dreams first.
+    if( ( mutation_category == primary ) && ( breach_power > 50 ) ) {
+        // Little help for the categories that have a lot of crossover.
+        // Starting with Ursine as that's... a bear to get.  8-)
+        // Alpha is similarly eclipsed by other mutation categories.
+        // Will add others if there's serious/demonstrable need.
+        int booster = 0;
+        if( mutation_category == "URSINE"  || mutation_category == "ALPHA" ) {
+            booster = 50;
+        }
+        int breacher = breach_power + booster;
+        if( x_in_y( breacher, total ) ) {
+            p.add_msg_if_player( m_good,
+                                 _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
+            p.set_mutation( mutation_thresh );
+            p.add_memorial_log( pgettext( "memorial_male", m_category.memorial_message.c_str() ),
+                                pgettext( "memorial_female", m_category.memorial_message.c_str() ) );
+            // Manually removing Carnivore, since it tends to creep in
+            // This is because carnivore is a prerequisite for the
+            // predator-style post-threshold mutations.
+            if( mutation_category == "URSINE" && p.has_trait( trait_CARNIVORE ) ) {
+                p.unset_mutation( trait_CARNIVORE );
+                p.add_msg_if_player( _( "Your appetite for blood fades." ) );
+            }
+        }
+    } else if( p.has_trait( trait_NOPAIN ) ) {
+        //~NOPAIN is a post-Threshold trait, so you shouldn't
+        //~legitimately have it and get here!
+        p.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+    } else if( breach_power > 100 ) {
+        p.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
+        p.mod_pain_noresist( 8 );
+        p.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
+    } else if( breach_power > 80 ) {
+        p.add_msg_if_player( m_bad,
+                             _( "Your head throbs with memories of your life, before all this..." ) );
+        p.mod_pain_noresist( 6 );
+        p.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
+    } else if( breach_power > 60 ) {
+        p.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
+        p.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
+    }
+}
+
+

@@ -69,8 +69,8 @@
     "type": "ENGINE",
     "name": "Inline-4 engine",
     "description": "A small, yet powerful 4-cylinder combustion engine.",
-    "weight": 70000,
-    "volume": 6,
+    "weight": 130000,
+    "volume": 14,
     "price": 15000,
     "displacement": 250
   },
@@ -80,8 +80,8 @@
     "type": "ENGINE",
     "name": "I6 diesel engine",
     "description": "A powerful straight-6 diesel engine.",
-    "weight": 105000,
-    "volume": 15,
+    "weight": 185000,
+    "volume": 28,
     "price": 27000,
     "displacement": 600
   },
@@ -92,7 +92,7 @@
     "name": "V-twin engine",
     "description": "A 2-cylinder 4-stroke combustion engine.",
     "weight": 45000,
-    "volume": 6,
+    "volume": 8,
     "price": 10000,
     "displacement": 100
   },
@@ -102,8 +102,8 @@
     "type": "ENGINE",
     "name": "V6 engine",
     "description": "A powerful 6-cylinder combustion engine.",
-    "weight": 100000,
-    "volume": 14,
+    "weight": 180000,
+    "volume": 19,
     "price": 18000,
     "displacement": 400
   },
@@ -113,8 +113,8 @@
     "type": "ENGINE",
     "name": "V6 diesel engine",
     "description": "A powerful 6-cylinder diesel engine.",
-    "weight": 110000,
-    "volume": 15,
+    "weight": 190000,
+    "volume": 20,
     "price": 20000,
     "displacement": 400
   },
@@ -124,8 +124,8 @@
     "type": "ENGINE",
     "name": "V8 engine",
     "description": "A large and very powerful 8-cylinder combustion engine.",
-    "weight": 200000,
-    "volume": 25,
+    "weight": 250000,
+    "volume": 30,
     "price": 25000,
     "displacement": 650
   },
@@ -135,8 +135,8 @@
     "type": "ENGINE",
     "name": "V8 diesel engine",
     "description": "A powerful 8-cylinder diesel engine.",
-    "weight": 220000,
-    "volume": 26,
+    "weight": 255000,
+    "volume": 32,
     "price": 26500,
     "displacement": 650
   },
@@ -147,7 +147,7 @@
     "name": "V12 engine",
     "description": "A massive and extremely powerful V12 engine, usually built into high end sports cars.",
     "weight": 300000,
-    "volume": 32,
+    "volume": 58,
     "price": 36000,
     "displacement": 1200
   },
@@ -158,8 +158,63 @@
     "name": "V12 diesel engine",
     "description": "A massive and extremely powerful V12 engine, usually built into heavy trucks.",
     "weight": 310000,
-    "volume": 34,
+    "volume": 60,
     "price": 32000,
     "displacement": 1200
+  },
+  {
+    "id": "engine_block_massive",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "massive engine block",
+    "description": "The beginnings of a massive gas or diesel engine.  It's not good for much of anything on its own.",
+    "material": "iron",
+    "weight": 280000,
+    "volume": 25,
+    "price": 30000
+  },
+  {
+    "id": "engine_block_large",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "large engine block",
+    "description": "The beginnings of a large gas or diesel engine.  It's not good for much of anything on its own.",
+    "material": "iron",
+    "weight": 190000,
+    "volume": 20,
+    "price": 20000
+  },
+  {
+    "id": "engine_block_medium",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "medium engine block",
+    "description": "The beginnings of a medium gas or diesel engine.  It's not good for much of anything on its own.",
+    "material": "iron",
+    "weight": 90000,
+    "volume": 10,
+    "price": 10000
+  },
+  {
+    "id": "engine_block_small",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "small engine block",
+    "description": "The beginnings of a small gas or diesel engine.  It's not good for much of anything on its own.",
+    "material": "iron",
+    "weight": 40000,
+    "volume": 5,
+    "price": 5000
+  },
+  {
+    "id": "engine_block_tiny",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "tiny engine block",
+    "description": "The beginnings of a tiny gas or diesel engine.  It's not good for much of anything on its own.",
+    "material": "iron",
+    "weight": 8000,
+    "volume": 2,
+    "price": 3500
   }
 ]

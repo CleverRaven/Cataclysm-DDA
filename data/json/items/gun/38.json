@@ -2,6 +2,7 @@
   {
     "id": "2_shot_special",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "2 Shot Special",
     "name_plural": "2 Shot Specials",
     "//": "It's hard to say just how big this is, although it's (very large) pistol sized. But it is a handmade weapon.",
@@ -86,11 +87,13 @@
     "dispersion": 320,
     "durability": 10,
     "clip_size": 7,
+    "magazines": [ [ "38", [ "38_speedloader" ] ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "taurus_38",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Taurus Pro .38",
     "name_plural": "Taurus Pro .38",
     "description": "A popular .38 pistol.  Designed with numerous safety features and built from high-quality, durable materials.",

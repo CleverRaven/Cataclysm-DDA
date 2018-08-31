@@ -28,6 +28,7 @@ enum computer_action {
     COMPACT_RESEARCH,
     COMPACT_MAPS,
     COMPACT_MAP_SEWER,
+    COMPACT_MAP_SUBWAY,
     COMPACT_MISS_LAUNCH,
     COMPACT_MISS_DISARM,
     COMPACT_LIST_BIONICS,
@@ -109,7 +110,7 @@ class computer
         // Initialization
         void set_security( int Security );
         void add_option( const computer_option &opt );
-        void add_option( std::string opt_name, computer_action action, int security );
+        void add_option( const std::string &opt_name, computer_action action, int security );
         void add_failure( const computer_failure &failure );
         void add_failure( computer_failure_type failure );
         // Basic usage
@@ -119,10 +120,10 @@ class computer
         void use();
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( player *p, int Security = -1 );
+        bool hack_attempt( player &p, int Security = -1 );
         // Save/load
-        std::string save_data();
-        void load_data( std::string data );
+        std::string save_data() const;
+        void load_data( const std::string &data );
 
         std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         int mission_id; // Linked to a mission?

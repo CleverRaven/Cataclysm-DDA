@@ -5,14 +5,13 @@
 #include "json.h"
 #include "debug.h"
 #include "item_factory.h"
-#include "catacharset.h"
 #include "translations.h"
 #include "cata_utility.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "filesystem.h"
 #include "input.h"
-#include "worldfactory.h"
+#include "options.h"
 #include "itype.h"
 #include "string_input_popup.h"
 
@@ -158,7 +157,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
         const bool currentPageNonEmpty = !vRules[iTab].empty();
 
-        if (iTab == CHARACTER_TAB && g->u.name == "") {
+        if( iTab == CHARACTER_TAB && g->u.name.empty() ) {
             vRules[CHARACTER_TAB].clear();
             mvwprintz(w, 8, 15, c_white,
                       _("Please load a character first to use this page!"));
@@ -192,8 +191,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 wprintz(w, (iLine == i &&
                                         iColumn == 1) ? hilite(cLineColor) : cLineColor, "%s",
-                        ((vRules[iTab][i].sRule == "") ? _("<empty rule>") :
-                         vRules[iTab][i].sRule).c_str());
+                        ( ( vRules[iTab][i].sRule.empty() ) ? _( "<empty rule>" ) :
+                         vRules[iTab][i].sRule).c_str() );
 
                 mvwprintz(w, i - iStartPos, 52, (iLine == i &&
                           iColumn == 2) ? hilite(cLineColor) : cLineColor, "%s",
@@ -250,7 +249,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                         vRules[iTab][iLine].bExclude));
             iLine = vRules[iTab].size() - 1;
         } else if (action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty) {
-            if ((iTab == GLOBAL_TAB && g->u.name != "") || iTab == CHARACTER_TAB) {
+            if( ( iTab == GLOBAL_TAB && !g->u.name.empty() ) || iTab == CHARACTER_TAB ) {
                 bStuffChanged = true;
                 //copy over
                 vRules[(iTab == GLOBAL_TAB) ? CHARACTER_TAB : GLOBAL_TAB].push_back(cRules(
@@ -336,7 +335,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 iLine--;
                 iColumn = 1;
             }
-        } else if (action == "TEST_RULE" && currentPageNonEmpty && g->u.name != "") {
+        } else if (action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
             test_pattern(iTab, iLine);
         } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
             // @todo: Now that NPCs use this function, it could be used for them too
@@ -355,7 +354,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         // NPC pickup rules don't need to be saved explicitly
         if( is_autopickup ) {
             save_global();
-            if( g->u.name != "" ) {
+            if( !g->u.name.empty() ) {
                 save_character();
             }
         }
@@ -371,7 +370,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     std::vector<std::string> vMatchingItems;
     std::string sItemName = "";
 
-    if (vRules[iTab][iRow].sRule == "") {
+    if ( vRules[iTab][iRow].sRule.empty() ) {
         return;
     }
 
@@ -396,17 +395,12 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
     catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX );
     catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX );
 
-    draw_border(w_test_rule_border);
-
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s",
                                     nmatch), nmatch, vRules[iTab][iRow].sRule.c_str());
-    mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf) / 2, hilite(c_white),
-              buf );
-
-    mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
-              _("Won't display bottled and suffixes=(fits)"));
-
+    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+    center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
+                  _( "Won't display bottled and suffixes=(fits)" ) );
     wrefresh(w_test_rule_border);
 
     int iLine = 0;
@@ -539,7 +533,7 @@ void auto_pickup::refresh_map_items() const
     //may have some performance issues since exclusion needs to check all items also
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
-            if ( elem.sRule != "" ) {
+            if ( !elem.sRule.empty() ) {
                 if( !elem.bExclude ) {
                     //Check include patterns against all itemfactory items
                     for( const itype *e : item_controller->all() ) {
@@ -600,9 +594,9 @@ bool auto_pickup::save(const bool bCharacter)
     auto savefile = FILENAMES["autopickup"];
 
         if (bCharacter) {
-            savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+            savefile = g->get_player_base_save_path() + ".apu.json";
 
-            const std::string player_save = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav";
+            const std::string player_save = g->get_player_base_save_path() + ".sav";
             if( !file_exist( player_save ) ) {
                 return true; //Character not saved yet.
             }
@@ -630,7 +624,7 @@ void auto_pickup::load(const bool bCharacter)
 
     std::string sFile = FILENAMES["autopickup"];
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+        sFile = g->get_player_base_save_path() + ".apu.json";
     }
 
     if( !read_from_file_optional_json( sFile, [this]( JsonIn &jsin ) { deserialize( jsin ); } ) ) {
@@ -683,7 +677,7 @@ bool auto_pickup::load_legacy(const bool bCharacter)
     std::string sFile = FILENAMES["legacy_autopickup2"];
 
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = g->get_player_base_save_path() + ".apu.txt";
     }
 
     auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
@@ -710,7 +704,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
     while(!fin.eof()) {
         getline(fin, sLine);
 
-        if(sLine != "" && sLine[0] != '#') {
+        if(!sLine.empty() && sLine[0] != '#') {
             int iNum = std::count(sLine.begin(), sLine.end(), ';');
 
             if(iNum != 2) {
@@ -723,7 +717,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
                 size_t iPos = 0;
                 int iCol = 1;
                 do {
-                    iPos = sLine.find(";");
+                    iPos = sLine.find( ';' );
 
                     std::string sTemp = (iPos == std::string::npos) ? sLine : sLine.substr(0, iPos);
 

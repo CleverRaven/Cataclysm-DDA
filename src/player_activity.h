@@ -21,7 +21,6 @@ using activity_id = string_id<activity_type>;
 class player_activity
 {
     private:
-        void finish( player *p );
         activity_id type;
     public:
         /** Total number of moves required to complete the activity */
@@ -95,7 +94,7 @@ class player_activity
          * at the end of the turn, do_turn also executes whatever actions, if
          * any, are needed to conclude the activity.
          */
-        void do_turn( player *p );
+        void do_turn( player &p );
 
         /**
          * Returns true if activities are similar enough that this activity

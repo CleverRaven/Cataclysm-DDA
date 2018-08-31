@@ -62,7 +62,6 @@ class inventory : public visitable<inventory>
         const_invslice const_slice() const;
         const std::list<item> &const_stack( int i ) const;
         size_t size() const;
-        bool is_sorted() const;
 
         std::map<char, itype_id> assigned_invlet;
 
@@ -81,7 +80,6 @@ class inventory : public visitable<inventory>
         inventory  operator+ ( const std::list<item> &rhs );
 
         void unsort(); // flags the inventory as unsorted
-        void sort();
         void clear();
         void push_back( std::list<item> newits );
         // returns a reference to the added item
@@ -93,7 +91,7 @@ class inventory : public visitable<inventory>
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
          */
-        void restack( player *p = NULL );
+        void restack( player &p );
 
         void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
 
@@ -123,7 +121,7 @@ class inventory : public visitable<inventory>
          * the container. All items that are part of the same stack have the same item position.
          */
         int position_by_item( const item *it ) const;
-        int position_by_type( itype_id type );
+        int position_by_type( const itype_id &type );
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
         int invlet_to_position( char invlet ) const;
@@ -132,9 +130,9 @@ class inventory : public visitable<inventory>
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity );
 
-        bool has_tools( itype_id it, int quantity ) const;
-        bool has_components( itype_id it, int quantity ) const;
-        bool has_charges( itype_id it, long quantity ) const;
+        bool has_tools( const itype_id &it, int quantity ) const;
+        bool has_components( const itype_id &it, int quantity ) const;
+        bool has_charges( const itype_id &it, long quantity ) const;
 
         int leak_level( std::string flag ) const; // level of leaked bad stuff from items
 
@@ -162,12 +160,9 @@ class inventory : public visitable<inventory>
         void json_save_invcache( JsonOut &jsout ) const;
         void json_save_items( JsonOut &jsout ) const;
 
-        item nullitem;
-        std::list<item> nullstack;
-
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
-        void assign_empty_invlet( item &it, Character *p, bool force = false );
+        void assign_empty_invlet( item &it, const Character &p, bool force = false );
         // Assigns the item with the given invlet, and updates the favorite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
@@ -183,13 +178,14 @@ class inventory : public visitable<inventory>
 
         void update_cache_with_item( item &newit );
 
+        void copy_invlet_of( const inventory &other );
+
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
         char find_usable_cached_invlet( const std::string &item_type );
 
         invstack items;
-        bool sorted;
 
         mutable bool binned;
         /**

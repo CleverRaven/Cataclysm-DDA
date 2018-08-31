@@ -13,11 +13,16 @@
 #include <curses.h>
 #endif
 
+#ifndef A_ITALIC
+#define A_ITALIC 0x00800000 /* Added characters are italic. */
+#endif
+
 #include "cursesdef.h"
 
 #include "catacharset.h"
 #include "color.h"
 
+#include "game_ui.h"
 #include <stdexcept>
 
 extern int VIEW_OFFSET_X; // X position of terrain window
@@ -197,6 +202,15 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
 
 catacurses::window catacurses::stdscr;
 
+void catacurses::resizeterm()
+{
+    const int new_x = ::getmaxx( stdscr.get<::WINDOW>() );
+    const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
+    if( ::is_term_resized( new_x, new_y ) ) {
+        game_ui::init_ui();
+    }
+}
+
 // init_interface is defined in another cpp file, depending on build type:
 // wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
 void catacurses::init_interface()
@@ -245,6 +259,8 @@ input_event input_manager::get_input_event()
             rval.type = CATA_INPUT_ERROR;
         }
         // ncurses mouse handling
+    } else if( key == KEY_RESIZE ) {
+        catacurses::resizeterm();
     } else if( key == KEY_MOUSE ) {
         MEVENT event;
         if( getmouse( &event ) == OK ) {
@@ -347,6 +363,26 @@ nc_color nc_color::blink() const
 bool nc_color::is_blink() const
 {
     return attribute_value & A_BLINK;
+}
+
+nc_color nc_color::italic() const
+{
+    return nc_color( attribute_value | A_ITALIC );
+}
+
+bool nc_color::is_italic() const
+{
+    return attribute_value & A_ITALIC;
+}
+
+nc_color nc_color::underline() const
+{
+    return nc_color( attribute_value | A_UNDERLINE );
+}
+
+bool nc_color::is_underline() const
+{
+    return attribute_value & A_UNDERLINE;
 }
 
 #endif

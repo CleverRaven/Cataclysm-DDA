@@ -27,12 +27,7 @@
     "type": "AMMO",
     "name": "7.62x25mm FMJ hot load",
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a 85 gr. FMJ bullet.  It is more powerful than the original.",
-    "relative": {
-      "price": 500,
-      "range": 2,
-      "damage": 4,
-      "pierce": 3
-    },
+    "relative": { "price": 500, "range": 2, "damage": 4, "pierce": 3 },
     "proportional": { "recoil": 1.4 }
   },
   {
@@ -44,24 +39,13 @@
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": 12,
     "count": 50,
-    "relative": {
-      "price": 2000,
-      "range": -1,
-      "damage": -9,
-      "pierce": 2,
-      "recoil": -270
-    }
+    "relative": { "price": 2000, "range": -1, "damage": -9, "pierce": 2, "recoil": -270 }
   },
   {
     "id": "reloaded_762_25",
     "copy-from": "762_25hot",
     "type": "AMMO",
     "name": "reloaded 7.62x25mm",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "pierce": 0.9,
-      "dispersion": 1.1
-    }
+    "proportional": { "price": 0.7, "damage": 0.9, "pierce": 0.9, "dispersion": 1.1 }
   }
 ]

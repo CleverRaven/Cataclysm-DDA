@@ -38,7 +38,6 @@ class auto_pickup
                 bool bExclude;
 
                 cRules() {
-                    this->sRule = "";
                     this->bActive = false;
                     this->bExclude = false;
                 }
@@ -48,8 +47,6 @@ class auto_pickup
                     this->bActive = bActiveIn;
                     this->bExclude = bExcludeIn;
                 }
-
-                ~cRules() {};
         };
 
         mutable bool ready; //< true if map_items has been populated from vRules

@@ -109,8 +109,14 @@ end
 
 function handle_previous_version()
     local loaded_version = tonumber(player:get_value("StatsThroughSkills"))
-    local is_older_than_day = game.get_calendar_turn():days() >= 1
-    if( (not loaded_version or loaded_version < 2) and is_older_than_day) then --handle upgrading from original StatsThroughSkills to version 2
+    local character_eligible_for_migration = false
+    local calendar = game.get_calendar_turn()
+    if( function_exists( "calendar.days" ) ) then
+        character_eligible_for_migration = calendar:days() >= 1
+    else
+        character_eligible_for_migration = calendar:years() >= 1
+    end
+    if( (not loaded_version or loaded_version < 2) and character_eligible_for_migration ) then --handle upgrading from original StatsThroughSkills to version 2
         game.add_msg("Migrating from version 1")
 
         local str_bonus = get_stat_bonus_for_skills_version_1(str_skills)

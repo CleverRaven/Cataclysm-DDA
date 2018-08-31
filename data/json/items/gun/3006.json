@@ -2,6 +2,7 @@
   {
     "id": "browning_blr",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Browning BLR",
     "name_plural": "Browning BLR",
     "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube.",
@@ -29,6 +30,7 @@
   {
     "id": "garand",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "M1 Garand",
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
     "weight": 4280,
@@ -68,14 +70,15 @@
     "dispersion": 120,
     "durability": 8,
     "clip_size": 5,
-    "reload": 75,
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
+    "magazines": [ [ "3006", [ "3006_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "m1918",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Browning Automatic Rifle",
     "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
     "weight": 7050,
@@ -122,6 +125,7 @@
   {
     "id": "rifle_3006",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "pipe rifle: .30-06",
     "name_plural": "pipe rifles: .30-06",
     "//": "It's the same size as the others, but it's still a scrap weapon.",
@@ -150,8 +154,8 @@
     "id": "survivor_special_700",
     "copy-from": "remington_700",
     "type": "GUN",
-    "name": "Survivor Special 700",
-    "name_plural": "Survivor Special 700",
+    "name": "Special 700",
+    "name_plural": "Special 700s",
     "description": "A rusty receiver, a R700 pattern barrel and half a broken crutch; all held together in the shape of a rifle with nothing more than glue, duct tape, and generous amounts of faith.",
     "price": 100000,
     "clip_size": 1,

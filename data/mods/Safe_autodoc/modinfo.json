@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "safeautodoc",
+    "name": "Safe Autodoc",
+    "authors": [ "John Candlebury" ],
+    "maintainers": [ "John Candlebury" ],
+    "description": "Makes Autodoc operations completely safe, independent of the player's skill.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

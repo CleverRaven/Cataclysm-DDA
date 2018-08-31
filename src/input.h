@@ -36,6 +36,9 @@ static constexpr int KEY_ENTER      = 0x157;    /* enter */
 static constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
 static constexpr int KEY_END        = 0x168;    /* End */
 
+static constexpr int LEGEND_HEIGHT = 11;
+static constexpr int BORDER_SPACE = 2;
+
 bool is_mouse_enabled();
 std::string get_input_string_from_file( std::string fname = "input.txt" );
 
@@ -85,13 +88,7 @@ struct input_event {
         sequence.push_back( s );
     }
 
-    long get_first_input() const {
-        if( sequence.empty() ) {
-            return 0;
-        }
-
-        return sequence[0];
-    }
+    long get_first_input() const;
 
     void add_input( const long input ) {
         sequence.push_back( input );
@@ -179,7 +176,13 @@ class input_manager
          *                           keybinding is overridden by something else in the given context.
          */
         const std::vector<input_event> &get_input_for_action( const std::string &action_descriptor,
-                const std::string context = "default", bool *overwrites_default = NULL );
+                const std::string &context = "default", bool *overwrites_default = NULL );
+
+        /**
+         * Return first char associated with an action ID in a given context.
+         */
+        long get_first_char_for_action( const std::string &action_descriptor,
+                                        const std::string &context = "default" );
 
         /**
          * Initializes the input manager, aka loads the input mapping configuration JSON.
@@ -296,7 +299,7 @@ class input_manager
          */
         const action_attributes &get_action_attributes(
             const std::string &action_id,
-            const std::string context = "default",
+            const std::string &context = "default",
             bool *overwrites_default = NULL );
 
         /**
@@ -448,7 +451,7 @@ class input_context
          * Displays the possible actions in the current context and their
          * keybindings.
          */
-        void display_help();
+        void display_menu();
 
         /**
          * Temporary method to retrieve the raw input received, so that input_contexts
@@ -496,7 +499,8 @@ class input_context
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
-        int coordinate_x, coordinate_y;
+        int coordinate_x;
+        int coordinate_y;
         bool coordinate_input_received;
         bool handling_coordinate_input;
         input_event next_action;

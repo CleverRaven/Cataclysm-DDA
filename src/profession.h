@@ -109,7 +109,7 @@ class profession
          *
          * Current flags: none
          */
-        bool has_flag( std::string flag ) const;
+        bool has_flag( const std::string &flag ) const;
 
         /**
          * Check if the given player can pick this job with the given amount
@@ -117,7 +117,7 @@ class profession
          *
          * @return true, if player can pick profession. Otherwise - false.
          */
-        bool can_pick( player *u, int points ) const;
+        bool can_pick( const player &u, int points ) const;
         bool is_locked_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;
 };
