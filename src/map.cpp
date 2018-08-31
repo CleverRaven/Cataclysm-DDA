@@ -4271,7 +4271,6 @@ int check_freezing_temperature( item &it )
     if( id == "bleach" ) {
         return 17; // -10C (assumption 8% sodium hypochlorite solution)
     }
-        }
     if( id == "salt_water" || id == "saline" ) {
         return 28; // -2C (https://oceanservice.noaa.gov/facts/oceanfreeze.html)
     }
