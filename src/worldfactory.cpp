@@ -1,3 +1,4 @@
+@@ -1,1517 +0,0 @@
 #include "worldfactory.h"
 #include "filesystem.h"
 #include "char_validity_check.h"
@@ -1251,9 +1252,13 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, con
 
     // Add tips & hints
     fold_and_print(win, FULL_SCREEN_HEIGHT - 7, 2, getmaxx(win) - 4, c_green,
-                   _("Press %s to save the list of active mods as default. Press %s for help."),
+                   _("Press %s = Save Load Order as default.  %s = Controls %s/%s= Prev/Next Option. %s/%s = Prev/Next Tab."),
                    ctxtp.get_desc( "SAVE_DEFAULT_MODS" ).c_str(),
-                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str()
+                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str(),
+				   ctxtp.get_desc( "PREV_CATEGORY_TAB" ).c_str(),
+				   ctxtp.get_desc( "NEXT_CATEGORY_TAB" ).c_str(),
+				   ctxtp.get_desc( "PREV_TAB" ).c_str(),
+				   ctxtp.get_desc( "NEXT_TAB" ).c_str()
                   );
     wrefresh(win);
     catacurses::refresh();

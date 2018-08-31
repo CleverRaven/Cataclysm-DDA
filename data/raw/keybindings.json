@@ -1149,7 +1149,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"TAB"
+                "key":">"
             }
         ]
     },
@@ -1161,7 +1161,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"BACKTAB"
+                "key":"<"
             }
         ]
     },
@@ -1540,13 +1540,9 @@
         "id": "NEXT_TAB",
         "name": "Go to next tab",
         "bindings":[
-            {
+                        {
                 "input_method":"keyboard",
                 "key":"TAB"
-            },
-            {
-                "input_method":"keyboard",
-                "key":">"
             }
         ]
     },
@@ -1555,13 +1551,9 @@
         "id": "PREV_TAB",
         "name": "Go to prev tab",
         "bindings":[
-            {
+                        {
                 "input_method":"keyboard",
                 "key":"BACKTAB"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"<"
             }
         ]
     },
