@@ -6412,3 +6412,18 @@ void item::set_birthday( const time_point bday )
 {
     this->bday = bday;
 }
+
+int check_freezing_temperature( const item &it )
+{
+   
+    if( it.made_of( material_id( "alcohol" ) ) && it.made_of( material_id( "water" ) ) ) {
+        return 23; // -5C, wine, beer etc. (assumption: 10% ethanol) 
+    }
+    if( it.made_of( material_id( "alcohol" ) ) && !it.made_of( material_id( "water" ) ) ) {
+        return -22; // -30C, vodka, whiskey etc. (assumption: 40% ethanol)
+    }
+    if( it.type->comestible->freezing_point != FREEZING_TEMPERATURE ) {
+        return it.type->comestible->freezing_point;
+    }
+    return FREEZING_TEMPERATURE;
+}

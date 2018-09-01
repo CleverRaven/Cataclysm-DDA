@@ -1777,5 +1777,10 @@ enum hint_rating {
  */
 item &null_item_reference();
 
+/**
+ * Returns freezing point temperature of item, mainly for non-water freezing points
+ */
+int check_freezing_temperature( const item &it );
+
 #endif
 

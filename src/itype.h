@@ -14,6 +14,7 @@
 #include "damage.h"
 #include "translations.h"
 #include "calendar.h"
+#include "game_constants.h"
 
 #include <string>
 #include <vector>
@@ -160,6 +161,9 @@ struct islot_comestible
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
     int parasites = 0;
+
+    /** freezing point, below this themperature in F it can freeze */
+    int freezing_point = FREEZING_TEMPERATURE;
 
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
