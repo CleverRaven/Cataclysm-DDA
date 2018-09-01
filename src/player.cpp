@@ -5243,7 +5243,7 @@ void player::suffer()
                     if( !mons.empty() &&
                         one_in( to_turns<int>( 12_minutes ) ) ) {
                         std::vector<std::string> mon_near{ _( "Hey, let's go kill that %1$s!" ),
-                                                           _( "Did you see that %1$s!" ),
+                                                           _( "Did you see that %1$s!?" ),
                                                            _( "I want to kill that %1$s!" ),
                                                            _( "Let me kill that %1$s!" ),
                                                            _( "Hey, I need to kill that %1$s!" ),
@@ -5356,7 +5356,7 @@ void player::suffer()
                                                      _( "\"It wasn't my fault!\"" ),
                                                      _( "\"I had to do it!\"" ),
                                                      _( "\"They made me do it!\"" ),
-                                                     _( "\"What are you!\"" ),
+                                                     _( "\"What are you!?\"" ),
                                                      _( "\"I should never have trusted you!\"" ) };
 
                     std::string i_shout = random_entry_ref( shouts );
