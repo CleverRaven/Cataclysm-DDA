@@ -4985,6 +4985,7 @@
       { "group": "supplies_spares_vehicle", "prob": 100 },
       { "group": "tools_common", "prob": 100 },
       { "group": "tools_mechanic", "prob": 150 },
+	  ["v_airjack_item", 20],
       ["jumper_cable", 15],
       ["jumper_cable_heavy", 5],
       ["stereo", 25],
