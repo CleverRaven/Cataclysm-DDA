@@ -121,6 +121,17 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     return res;
 }
 
+std::vector<const recipe *> recipe_subset::search_result( const itype_id &item ) const {
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        // TODO: check r->byproducts too
+        return item == r->result();
+    });
+
+    return res;
+}
+
 bool recipe_subset::empty_category( const std::string &cat,
                                     const std::string &subcat ) const
 {

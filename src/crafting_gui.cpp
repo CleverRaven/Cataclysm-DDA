@@ -15,6 +15,7 @@
 #include "output.h"
 #include "json.h"
 #include "string_input_popup.h"
+#include "ui.h"
 
 #include "debug.h"
 
@@ -205,6 +206,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
+    ctxt.register_action( "RELATED_RECIPES" );
 
     const inventory &crafting_inv = g->u.crafting_inventory();
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
@@ -655,6 +657,51 @@ const recipe *select_crafting_recipe( int &batch_size )
             } else {
                 line = batch_line;
                 keepline = true;
+            }
+            redraw = true;
+        } else if( action == "RELATED_RECIPES" ) {
+            if( current.empty() ) {
+                popup( _( "Nothing selected!" ) );
+                redraw = true;
+                continue;
+            }
+            std::vector<std::pair<itype_id, std::string>> related_results;
+            const requirement_data &req = current[ line ]->requirements();
+            for( const std::vector<item_comp> &comp_list: req.get_components() ) {
+                for( const item_comp &a: comp_list ) {
+                    related_results.push_back( { a.type, item::nname( a.type, 1 ) } );
+                }
+            }
+            tmp = current[ line ]->create_result();
+            itype_id tid;
+            if( tmp.contents.empty() ) { // use this item
+                tid = tmp.typeId();
+            } else { // use the contained item
+                tid = tmp.contents.front().typeId();
+            }
+            const std::set<const recipe*> &known_recipes = g->u.get_learned_recipes().of_component( tid );
+            for( const auto &b: known_recipes ) {
+                if( available_recipes.contains( b ) ) {
+                    related_results.push_back( { b->result(), b->result_name() } );
+                }
+            }
+
+            uimenu rmenu;
+            rmenu.reset();
+            int np = 0;
+            for( const std::pair<std::string, std::string> &p: related_results ) {
+                std::vector<const recipe *> current_part;
+                current_part = available_recipes.search_result( p.first );
+                if( !current_part.empty() ) {
+                    rmenu.addentry( np, true, -1, p.second );
+                }
+                np++;
+            }
+            rmenu.addentry( np, true, -1, _( "Quit" ) );
+            rmenu.settext( _( "Related recipes:" ));
+            rmenu.query();
+            if( rmenu.ret < np ) {
+                filterstring = related_results[rmenu.ret].second;
             }
             redraw = true;
         }

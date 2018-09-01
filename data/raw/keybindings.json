@@ -499,6 +499,13 @@
   },
   {
     "type": "keybinding",
+    "id": "RELATED_RECIPES",
+    "category": "CRAFTING",
+    "name": "Related recipes",
+    "bindings": [ { "input_method": "keyboard", "key": "L" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CENTER",
     "category": "OVERMAP",
     "name": "Center On Character",
