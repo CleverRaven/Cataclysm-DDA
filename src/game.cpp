@@ -6834,7 +6834,8 @@ void game::loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
-        TillPlots = 4
+        TillPlots = 4,
+        PlantPlots = 8
     };
 
     auto just_one = []( int flags ) {
@@ -6844,9 +6845,15 @@ void game::loot()
     int flags = 0;
     const auto &mgr = zone_manager::get_manager();
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
+    const bool has_seeds = u.has_item_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
 
     flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
-    flags |= check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ? TillPlots : 0;
+    if( check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
+        flags |= TillPlots;
+        flags |= PlantPlots;
+    }
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -6868,8 +6875,15 @@ void game::loot()
 
         if( flags & TillPlots ) {
             menu.addentry_desc( TillPlots, has_hoe, 't',
-                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with." ),
-                                _( "Tills nearby Farm: Plot zones" ) );
+                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
+                                _( "Tills nearby Farm: Plot zones." ) );
+        }
+
+        if( flags & PlantPlots ) {
+            menu.addentry_desc( PlantPlots, warm_enough_to_plant() && has_seeds, 'p',
+                                !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
+                                !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
+                                _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
 
         menu.addentry( None, true, 'q',  _( "Cancel" ) );
@@ -6890,6 +6904,15 @@ void game::loot()
                 u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
             } else {
                 add_msg( _( "You need a tool to dig with." ) );
+            }
+            break;
+        case PlantPlots:
+            if( !warm_enough_to_plant() ) {
+                add_msg( m_info, _( "It is too cold to plant anything now." ) );
+            } else if( !has_seeds ) {
+                add_msg( m_info, _( "You don't have any seeds." ) );
+            } else {
+                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
             }
             break;
         default:
@@ -7976,6 +7999,11 @@ bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) co
     return zone_manager::get_manager().has_near( type, m.getabs( where ) );
 }
 
+bool game::is_zone_manager_open()
+{
+    return zone_manager_open;
+};
+
 void game::zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase(w_info);
@@ -8050,6 +8078,7 @@ void game::zones_manager()
     pixel_minimap_option = 0;
 
     int zone_ui_height = 12;
+    int zone_options_height = 7;
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
                                         VIEW_OFFSET_X;
@@ -8058,10 +8087,12 @@ void game::zones_manager()
                              VIEW_OFFSET_Y + 1, offsetX + 1);
     catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width,
                                     VIEW_OFFSET_Y, offsetX);
-    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - 1, width - 2,
+    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1, width - 2,
                                   TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1);
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
                                          TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX);
+    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
+                                  TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1);
 
     zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
     zones_manager_shortcuts(w_zones_info);
@@ -8088,6 +8119,25 @@ void game::zones_manager()
     bool blink = false;
     bool redraw_info = true;
     bool stuff_changed = false;
+
+    auto zones_manager_options = [&]() {
+        werase( w_zones_options );
+
+        if( zone_num > 0 && zones.zones[active_index].has_options() ) {
+            const auto &descriptions = zones.zones[active_index].get_options().get_descriptions();
+
+            mvwprintz( w_zones_options, 0, 1, c_white, _( "Options" ) );
+
+            int y = 1;
+            for( const auto &desc : descriptions ) {
+                mvwprintz( w_zones_options, y, 3, c_white, desc.first );
+                mvwprintz( w_zones_options, y, 20, c_white, desc.second );
+                y++;
+            }
+        }
+
+        wrefresh( w_zones_options );
+    };
 
     auto query_position = [this, w_zones_info]() {
         werase( w_zones_info );
@@ -8120,16 +8170,20 @@ void game::zones_manager()
         return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
     };
 
+    zone_manager_open = true;
     do {
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
 
             const auto id = zones.query_type();
-            const auto name = zones.query_name( zones.get_name_from_type( id ) );
+            auto options = zone_options::create( id );
+            options->query_at_creation();
+            const auto name = zones.query_name( options->get_zone_name_suggestion() == "" ?
+                                                zones.get_name_from_type( id ) : options->get_zone_name_suggestion() );
             const auto position = query_position();
 
             if( position.first != tripoint_min ) {
-                zones.add( name, id, false, true, position.first, position.second );
+                zones.add( name, id, false, true, position.first, position.second, options );
 
                 zone_num = zones.size();
                 active_index = zone_num - 1;
@@ -8186,8 +8240,9 @@ void game::zones_manager()
                 as_m.text = _("What do you want to change:");
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
-                as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Edit position")));
-                as_m.entries.emplace_back(uimenu_entry(4, true, 'q', _("Cancel")));
+                as_m.entries.emplace_back(uimenu_entry(3, zones.zones[active_index].get_options().has_options() , '3', _("Edit options")));
+                as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Edit position")));
+                as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
@@ -8200,6 +8255,10 @@ void game::zones_manager()
                     stuff_changed = true;
                     break;
                 case 3:
+                    zones.zones[active_index].get_options().query();
+                    stuff_changed = true;
+                    break;
+                case 4:
                     zones.zones[active_index].set_position( query_position() );
                     stuff_changed = true;
                     break;
@@ -8311,6 +8370,9 @@ void game::zones_manager()
                 }
                 iNum++;
             }
+
+            // Display zone options
+            zones_manager_options();
         }
 
         if (zone_num > 0) {
@@ -8372,6 +8434,7 @@ void game::zones_manager()
         //Wait for input
         action = ctxt.handle_input();
     } while (action != "QUIT");
+    zone_manager_open = false;
     inp_mngr.reset_timeout();
 
     if( stuff_changed ) {
@@ -10267,29 +10330,104 @@ bool game::plfire( item &weapon, int bp_cost )
     return plfire();
 }
 
-// Helper for game::butcher
-void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
-    const std::vector<int> &indices, size_t &menu_index,
-    bool salvage )
+// Used to set up the first Hotkey in the display set
+int get_initial_hotkey( const size_t menu_index )
 {
-    for( size_t index : indices ) {
-        const item &it = items[index];
-        int hotkey = -1;
-        // First entry gets a hotkey matching the butcher command.
-        if( menu_index == 0 ) {
-            const long butcher_key = inp_mngr.get_previously_pressed_key();
-            if( butcher_key != 0 ) {
-                hotkey = butcher_key;
+    int hotkey = -1;
+    if( menu_index == 0 ) {
+        const long butcher_key = inp_mngr.get_previously_pressed_key();
+        if( butcher_key != 0 ) {
+            hotkey = butcher_key;
+        }
+    }
+    return hotkey;
+}
+
+// Returns a vector of pairs.
+//    Pair.first is the first items index with a unique tname.
+//    Pair.second is the number of equivalent items per unique tname
+// There are options for optimization here, but the function is hit infrequently
+// enough that optimizing now is not a useful time expenditure.
+const std::vector<std::pair<int, int>> generate_butcher_stack_display(
+    map_stack &items, const std::vector<int> &indices )
+{
+    std::vector<std::pair<int, int>> result;
+    std::vector<std::string> result_strings;
+    result.reserve( indices.size() );
+    result_strings.reserve( indices.size() );
+
+    for( const size_t ndx : indices ) {
+        const item &it = items[ ndx ];
+
+        const std::string tname = it.tname();
+        size_t s = 0;
+        // Search for the index with a string equivalent to tname
+        for( ; s < result_strings.size(); ++s ) {
+            if( result_strings[s] == tname ) {
+                break;
             }
         }
-        if( it.is_corpse() ) {
-            kmenu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
-        } else if( !salvage ) {
-            kmenu.addentry( menu_index++, true, hotkey, it.tname());
-        } else {
+        // If none is found, this is a unique tname so we need to add
+        // the tname to string vector, and make an empty result pair.
+        // Has the side effect of making 's' a valid index
+        if( s == result_strings.size() ) {
+            // make a new entry
+            result.push_back( std::make_pair<int, int>( (int)ndx, 0 ) );
+            // Also push new entry string
+            result_strings.push_back( tname );
+        }
+        // Increase count result pair at index s
+        ++result[s].second;
+    }
+
+    return result;
+}
+
+// Corpses are always individual items
+// Just add them individually to the menu
+void add_corpses( uimenu &menu, map_stack &items,
+    const std::vector<int> &indices, size_t &menu_index)
+{
+    int hotkey = get_initial_hotkey( menu_index );
+    
+    for( const auto index : indices ) {
+        const item &it = items[index];
+        menu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
+        hotkey = -1;
+    }
+}
+// Salvagables stack so we need to pass in a stack vector rather than an item index vector
+void add_salvagables( uimenu &menu, map_stack &items,
+    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+{
+    if (stacks.size() > 0){
+        int hotkey = get_initial_hotkey( menu_index );
+
+        for ( const auto stack : stacks ) {
+            const item &it = items[ stack.first ];
+
             std::stringstream ss;
-            ss << _("Cut up") << " " << it.tname();
-            kmenu.addentry( menu_index++, true, hotkey, ss.str() );
+            ss << _("Cut up") << " " << it.tname() << " (" << stack.second << ")";
+            menu.addentry( menu_index++, true, hotkey, ss.str() );
+            hotkey = -1;
+        }
+    }
+}
+
+// Disassemblables stack so we need to pass in a stack vector rather than an item index vector
+void add_disassemblables( uimenu &menu, map_stack &items,
+    const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+{
+    if( stacks.size() > 0 ) {
+        int hotkey = get_initial_hotkey( menu_index );
+
+        for( const auto stack : stacks ){
+            const item &it = items[ stack.first ];
+
+            std::stringstream ss;
+            ss << it.tname() << " (" << stack.second << ")";
+            menu.addentry( menu_index++, true, hotkey, ss.str());
+            hotkey = -1;
         }
     }
 }
@@ -10297,8 +10435,8 @@ void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
 void game::butcher()
 {
     const static std::string salvage_string = "salvage";
-    if (u.controlling_vehicle) {
-        add_msg(m_info, _("You can't butcher while driving!"));
+    if( u.controlling_vehicle ) {
+        add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
     }
 
@@ -10345,36 +10483,33 @@ void game::butcher()
             usable->get_use( salvage_string )->get_actor_ptr() );
     }
 
+    // Reserve capacity for each to hold entire item set if necessary to prevent
+    // reallocations later on
+    corpses.reserve( items.size() );
+    salvageables.reserve( items.size() );
+    disassembles.reserve( items.size() );
 
-    // check if we have a butchering tool
-    if( factor > INT_MIN ) {
-        // get corpses
-        for (size_t i = 0; i < items.size(); i++) {
-            if( items[i].is_corpse() ) {
-                corpses.push_back(i);
+    // Split into corpses, disassemble-able, and salvageable items
+    // It's not much additional work to just generate a corpse list and
+    // clear it later, but does make the splitting process nicer.
+    for (size_t i = 0; i < items.size(); ++i){
+        if ( items[i].is_corpse() ){
+            corpses.push_back(i);
+        } else {
+            if ( ( salvage_tool_index != INT_MIN) && salvage_iuse->valid_to_cut_up( items[i] ) ){
+                salvageables.push_back(i);
+            }
+            if ( u.can_disassemble( items[i], crafting_inv ).success() ){
+                disassembles.push_back(i);
+            } else if ( first_item_without_tools == nullptr ){
+                first_item_without_tools = &items[i];
             }
         }
     }
-    // Then get items to disassemble
-    for( size_t i = 0; i < items.size(); i++ ) {
-        if( items[i].is_corpse() ) {
-            continue;
-        }
-
-        if( u.can_disassemble( items[i], crafting_inv ).success() ) {
-            disassembles.push_back(i);
-        } else if( first_item_without_tools == nullptr ) {
-            first_item_without_tools = &items[i];
-        }
-    }
-    // Now salvageable items
-    if( salvage_tool_index != INT_MIN ) {
-        for( size_t i = 0; i < items.size(); i++ ) {
-            if( !items[i].is_corpse() &&
-                salvage_iuse->valid_to_cut_up( items[i] ) ) {
-                    salvageables.push_back(i);
-            }
-        }
+    
+    // Clear corpses if butcher factor is INT_MIN
+    if ( factor == INT_MIN ){
+        corpses.clear();
     }
 
     if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
@@ -10425,6 +10560,10 @@ void game::butcher()
     } butcher_type = BUTCHER_CORPSE;
     // Index to std::vector of indices...
     int indexer_index = 0;
+
+    // Generate the indexed stacks so we can display them nicely
+    const auto disassembly_stacks = generate_butcher_stack_display( items, disassembles );
+    const auto salvage_stacks = generate_butcher_stack_display( items, salvageables );
     // Always ask before cutting up/disassembly, but not before butchery
     if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
         uimenu kmenu;
@@ -10432,10 +10571,11 @@ void game::butcher()
 
         kmenu.selected = 0;
         size_t i = 0;
-        add_corpses_to_menu( kmenu, items, corpses, i, false );
-        add_corpses_to_menu( kmenu, items, disassembles, i, false );
-        add_corpses_to_menu( kmenu, items, salvageables, i, true );
-
+        // Add corpses, disassembleables, and salvagables to the UI
+        add_corpses( kmenu, items, corpses, i );
+        add_disassemblables( kmenu, items, disassembly_stacks, i );
+        add_salvagables( kmenu, items, salvage_stacks, i );
+        
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b',
             _("Butcher everything") );
@@ -10465,12 +10605,12 @@ void game::butcher()
         } else if( ret < corpses.size() ) {
             butcher_type = BUTCHER_CORPSE;
             indexer_index = ret;
-        } else if( ret < corpses.size() + disassembles.size() ) {
+        } else if( ret < corpses.size() + disassembly_stacks.size() ) {
             butcher_type = BUTCHER_DISASSEMBLE;
             indexer_index = ret - corpses.size();
-        } else if( ret < corpses.size() + disassembles.size() + salvageables.size() ) {
+        } else if( ret < corpses.size() + disassembly_stacks.size() + salvage_stacks.size() ) {
             butcher_type = BUTCHER_SALVAGE;
-            indexer_index = ret - corpses.size() - disassembles.size();
+            indexer_index = ret - corpses.size() - disassembly_stacks.size();
         } else {
             debugmsg( "Invalid butchery index: %d", ret );
             return;
@@ -10537,8 +10677,8 @@ void game::butcher()
             uimenu smenu;
             smenu.desc_enabled = true;
             smenu.text = _("Choose type of butchery:");
-            smenu.addentry_desc( BUTCHER, true, 'B' , _("Quick butchery"), _( "This techinque is used when you are in a hurry, but still want to harvest some flesh.  You aim for major muscles (or equivalents) and don't care for the rest, so be prepared for low yields and no variety.  Prevents zombies from raising." ) );
-            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools, including those that can saw and cut.  Yields are far better and varied, but it is time consuming." ) );
+            smenu.addentry_desc( BUTCHER, true, 'B' , _("Quick butchery"), _( "This techinque is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
+            smenu.addentry_desc( BUTCHER_FULL, true, 'b' , _("Full butchery"), _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
             smenu.addentry_desc( F_DRESS, true, 'f' , _("Field dress corpse"), _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
             smenu.addentry_desc( QUARTER, true, 'k' , _("Quarter corpse"), _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry_desc( DISSECT, true, 'd' , _("Dissect corpse"), _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
@@ -10572,13 +10712,15 @@ void game::butcher()
         break;
     case BUTCHER_DISASSEMBLE:
         {
-            size_t index = disassembles[indexer_index];
+            // Pick index of first item in the disassembly stack
+            size_t index = disassembly_stacks[indexer_index].first;
             u.disassemble( items[index], index, true );
         }
         break;
     case BUTCHER_SALVAGE:
         {
-            size_t index = salvageables[indexer_index];
+            // Pick index of first item in the salvage stack
+            size_t index = salvage_stacks[indexer_index].first;
             salvage_iuse->cut_up( u, *salvage_tool, items[index] );
         }
         break;
@@ -11723,7 +11865,7 @@ bool game::ramp_move( const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( u.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) <= 1.5f && m.has_flag( "RAMP_END", pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( "RAMP_END", pt ) ) {
             aligned_ramps = true;
             break;
         }
@@ -14297,7 +14439,6 @@ void game::add_artifact_dreams( ) {
     //If player is sleeping, get a dream from a carried artifact
     //Don't need to check that player is sleeping here, that's done before calling
     std::list<item *> art_items = g->u.get_artifact_items();
-    std::list<item *> arts_with_dream;
     std::vector<item *>      valid_arts;
     std::vector<std::vector<std::string>> valid_dreams; // Tracking separately so we only need to check its req once
     //Pull the list of dreams

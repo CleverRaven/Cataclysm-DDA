@@ -303,13 +303,13 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     while( !worn.empty() && !inv.empty() ) {
         storage_loss += worn.front().it->get_storage();
         remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
-
-        if( remaining_storage < inv.front().it->volume() ) {
+        units::volume inventory_item_volume = inv.front().it->volume();
+        if( remaining_storage < inventory_item_volume ) {
             break; // Does not fit
         }
 
-        while( !inv.empty() && remaining_storage >= inv.front().it->volume() ) {
-            remaining_storage -= inv.front().it->volume();
+        while( !inv.empty() && remaining_storage >= inventory_item_volume ) {
+            remaining_storage -= inventory_item_volume;
 
             res.push_back( inv.front() );
             res.back().consumed_moves = 0; // Free of charge
@@ -822,6 +822,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     }
 
     // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, _( "You sorted out every item you could." ) );
 }
 
 cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )

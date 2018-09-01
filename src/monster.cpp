@@ -1487,7 +1487,7 @@ bool monster::move_effects(bool)
 void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
                           bool permanent, int intensity, bool force, bool deferred )
 {
-    bp = num_bp;
+    bp = num_bp; // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
@@ -2216,9 +2216,9 @@ void monster::init_from_item( const item &itm )
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
-        if( itm.damage() > 0 ) {
-            set_speed_base( speed_base / ( itm.damage() + 1 ) );
-            hp /= itm.damage() + 1;
+        if( itm.damage_level( 4 ) > 0 ) {
+            set_speed_base( speed_base / ( itm.damage_level( 4 ) + 1 ) );
+            hp /= itm.damage_level( 4 ) + 1;
         }
 
         hp -= burnt_penalty;

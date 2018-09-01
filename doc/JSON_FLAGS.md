@@ -134,7 +134,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```pit_covered``` Uncover the pit.
 - ```pedestal_temple``` Opens the temple if you have a petrified eye.
 - ```pedestal_wyrm``` Spawn wyrms.
-- ```recycler``` Recycle metal objects.
+- ```recycle_compactor``` Compress pure metal objects into basic shapes.
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
@@ -814,6 +814,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
 - ```NO_FREEZE``` It spoils instantly when frozen.
+- ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
@@ -1094,9 +1095,16 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
-- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start
-- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors)
-- ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
+- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
+- ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
+- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
+- ```CHALLENGE``` Game won't choose this scenario in random game types.
+- ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
+- ```FIRE_START``` Player starts the game with fire nearby.
+- ```HELI_CRASH``` Player starts the game with various limbs wounds.
+- ```INFECTED``` Player starts the game infected.
+- ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
+- ```SUR_START``` Surrounded start, zombies outside the starting location.
 
 - ```WIN_START``` ... start in winter.
 - ```SPR_START``` ... start in spring.

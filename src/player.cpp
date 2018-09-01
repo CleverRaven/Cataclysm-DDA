@@ -1047,9 +1047,6 @@ void player::update_bodytemp()
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
                                 ( g->weather == WEATHER_SUNNY ? 1000 : 500 );
-    // CONVECTION HEAT; Hot air from a heat source
-    // times 50 to convert to weather.h BODYTEMP scale
-    const int fire_warmth = get_convection_temperature( pos() ) * 50;
     const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
@@ -1114,7 +1111,6 @@ void player::update_bodytemp()
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
         
         const int h_radiation = get_heat_radiation( pos(), false );
-        temp_conv[bp] += h_radiation * 50; // conversion to BODYTEMP see weather.h
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
@@ -1136,7 +1132,6 @@ void player::update_bodytemp()
             rem_morale( MORALE_PYROMANIA_NOFIRE );
         }
 
-        temp_conv[bp] += fire_warmth;
         temp_conv[bp] += sunlight_warmth;
         // DISEASES
         if( bp == bp_head && has_effect( effect_flu ) ) {
@@ -5248,7 +5243,7 @@ void player::suffer()
                     if( !mons.empty() &&
                         one_in( to_turns<int>( 12_minutes ) ) ) {
                         std::vector<std::string> mon_near{ _( "Hey, let's go kill that %1$s!" ),
-                                                           _( "Did you see that %1$s!" ),
+                                                           _( "Did you see that %1$s!?" ),
                                                            _( "I want to kill that %1$s!" ),
                                                            _( "Let me kill that %1$s!" ),
                                                            _( "Hey, I need to kill that %1$s!" ),
@@ -5361,7 +5356,7 @@ void player::suffer()
                                                      _( "\"It wasn't my fault!\"" ),
                                                      _( "\"I had to do it!\"" ),
                                                      _( "\"They made me do it!\"" ),
-                                                     _( "\"What are you!\"" ),
+                                                     _( "\"What are you!?\"" ),
                                                      _( "\"I should never have trusted you!\"" ) };
 
                     std::string i_shout = random_entry_ref( shouts );
@@ -8765,8 +8760,8 @@ std::pair<int, int> player::gunmod_installation_odds( const item& gun, const ite
     // dexterity and intelligence give +/-2% for each point above or below 12
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;
-    // each point of damage to the base gun reduces success by 10%
-    roll -= std::min( gun.damage(), 0 ) * 10;
+    // each level of damage to the base gun reduces success by 10%
+    roll -= std::max( gun.damage_level( 4 ), 0 ) * 10;
     roll = std::min( std::max( roll, 0 ), 100 );
 
     // risk of causing damage on failure increases with less durable guns
@@ -10207,7 +10202,7 @@ bool player::armor_absorb( damage_unit& du, item& armor )
         material.bash_dmg_verb() : material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage() );
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
 
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
@@ -10220,7 +10215,8 @@ bool player::armor_absorb( damage_unit& du, item& armor )
                 m_neutral, damage_verb, m_info);
     }
 
-    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ? rng( 2, 3 ) : 1, du.type );
+    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ?
+        rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
 float player::bionic_armor_bonus( body_part bp, damage_type dt ) const

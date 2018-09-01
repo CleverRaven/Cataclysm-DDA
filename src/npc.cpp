@@ -1316,12 +1316,13 @@ void npc::decide_needs()
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for( auto &i : slice ) {
-        if( i->front().is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( i->front() ) / 4;
-            needrank[ need_drink ] += i->front().type->comestible->quench / 4;
-        } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents.front() ) / 4;
-            needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
+        item inventory_item = i->front();
+        if( inventory_item.is_food( ) ) {
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
+            needrank[ need_drink ] += inventory_item.type->comestible->quench / 4;
+        } else if( inventory_item.is_food_container() ) {
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
+            needrank[ need_drink ] += inventory_item.contents.front().type->comestible->quench / 4;
         }
     }
     needs.clear();

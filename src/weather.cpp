@@ -17,7 +17,6 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "player.h"
-#include "itype.h"
 #include "game_constants.h"
 
 #include <vector>
@@ -98,177 +97,6 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
         ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
     }
     return ret;
-}
-
-void get_crops_grow( const tripoint &location )
-{
-    item &seed = g->m.i_at( location ).front();
-    const time_point seed_bday = seed.birthday();
-    time_duration seed_age = time_duration::from_turns( seed.get_var( "seed_age", 1 ) );
-    const time_point since = time_point::from_turn( seed.get_var( "last_grow_check",
-                             to_turn<int>( seed_bday ) ) );
-    const time_point until = calendar::turn;
-    seed.set_var( "last_grow_check", to_turn<int>( until ) );
-
-    int health = seed.get_var( "health", 0 );
-    int water = seed.get_var( "water", 0 );
-    int fertilizer = seed.get_var( "fertilizer", 0 );
-    int weed = seed.get_var( "weed", 0 );
-    bool is_mature = seed.get_var( "is_mature", 0 );
-    bool growing_was_started = seed.get_var( "growing_was_started", 0 );
-    bool can_be_harvested = seed.get_var( "can_be_harvested", 0 );
-
-    float water_requirement = seed.type->seed->water_requirement;
-    float weed_susceptibility = seed.type->seed->weed_susceptibility;
-    bool is_mushroom = seed.type->seed->is_mushroom;
-    bool is_shrub = seed.type->seed->is_shrub;
-
-    /*
-    1L = 10 units of water
-    One plant tile will absorb 33 L/week ( 0.2 L/hour, 430 L/season )
-    Precipitation is 300 L/season
-    Irrigation with 15L of water per week should be sufficient
-    Watering and weed control once per week is recommended for the best results
-    */
-    int water_max = 250;
-
-    // weeds will grow to max in 1 week ( 168 hours )
-    int weed_max = 168;
-
-    // only mushrooms can grow underground
-    if( !is_mushroom && location.z < 0 )
-        return;
-
-    const auto &wgen = g->get_cur_weather_gen();
-    for( time_point i = since; i < until; i += 1_hours ) {
-        w_point w = wgen.get_weather( location, i, g->get_seed() );
-        weather_type wtype = wgen.get_weather_conditions( location, i, g->get_seed() );
-        int temperature = ( location.z >= 0 ? w.temperature : g->get_temperature( location ) );
-
-        // Skip if the harvest is ready
-        if ( can_be_harvested )
-            continue;
-
-        // Plants will not start to grow if the temperature is too cold
-        if( temperature < 40 && !growing_was_started )
-            continue;
-
-        if( temperature < 23 ) {
-            // Freezing will kill the plant or reset fruit grow for perennial plants
-            if( is_mature ) {
-                growing_was_started = 0;
-                continue;
-            } else {
-                seed.set_var( "frozen", 1 );
-                return;
-            }
-        }
-
-        // Start growing and reset health
-        if( temperature > 40 && !growing_was_started ) {
-            growing_was_started = true;
-            health = 0;
-            seed_age = 0;
-        }
-
-        // plant grow speed
-        float temperature_coeff = 0.0f;
-        if( temperature > 70 ) {
-            temperature_coeff = 1.0f;
-        } else if( temperature > 32 ) {
-            temperature_coeff = ( temperature - 32 ) / 38.0f;
-        }
-
-        if( !is_mushroom ) {
-            seed_age += 1_hours * temperature_coeff;
-        } else if( water > 0 ) {
-            // Mushrooms will grow only if have enough water
-            seed_age += 1_hours * temperature_coeff;
-        }
-
-        // Low temperature damage the plant unless plant is mushroom or mature perennial
-        if( !seed.is_warm_enough( temperature ) && !is_mature && !is_mushroom ) {
-            health -= 2;
-        }
-
-        // Absorb fertilizer
-        if( fertilizer > 0 ) {
-            fertilizer -= 1;
-            health += roll_remainder( 3.0f * temperature_coeff );
-        }
-
-        // Absorb water
-        water -= roll_remainder( 2.0f * water_requirement );
-        if( water <= 0 ) {
-            health -= 1;
-        }
-
-        // Precipitation was reduced 10 times to compensate abnormal rain frequency
-        if( location.z >= 0 ) {
-            switch( wtype ) {
-                case WEATHER_DRIZZLE:
-                    water += 4;
-                    break;
-                case WEATHER_RAINY:
-                case WEATHER_THUNDER:
-                case WEATHER_LIGHTNING:
-                    water += 8;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // Air temperature above 80F(26C) increase water consumption
-        if( temperature > 80 ) {
-            water -= roll_remainder( 3.0f * water_requirement ) ;
-            if( water <= 0 ) {
-                health -= 2;
-            }
-        }
-
-        // Grow weeds
-        if( location.z >= 0 ) {
-            if( weed == weed_max ) {
-                health -= roll_remainder( 2.0f * weed_susceptibility ) ;
-                fertilizer -= 2;
-                water -= 4;
-            } else {
-                weed += roll_remainder( 1.0f / calendar::season_ratio() );
-                if( one_in( weed_max - weed ) ) {
-                    health -= roll_remainder( 1.0f * weed_susceptibility ) ;
-                    fertilizer -= 1;
-                    water -= 2;
-                }
-            }
-        }
-
-        time_duration seed_grow_time = 0;
-        if( is_mature ) {
-            seed_grow_time = seed.type->seed->grow_secondary * calendar::season_ratio();
-        } else {
-            seed_grow_time = seed.type->seed->grow * calendar::season_ratio();
-        }
-        if( seed_age > seed_grow_time ) {
-            can_be_harvested = true;
-            if( is_mushroom || is_shrub )
-                is_mature = true;
-        }
-
-        water = std::max( water, -water_max );
-        water = std::min( water, water_max );
-        fertilizer = std::max( fertilizer, 0 );
-        weed = std::min( weed, weed_max );
-    }
-    seed.set_var( "health", health );
-    seed.set_var( "water", water );
-    seed.set_var( "fertilizer", fertilizer );
-    seed.set_var( "weed", weed );
-    seed.set_var( "growing_was_started", growing_was_started );
-    seed.set_var( "is_mature", is_mature );
-    seed.set_var( "seed_age", to_turns<int>( seed_age ) );
-    seed.set_var( "can_be_harvested", can_be_harvested );
-    return;
 }
 
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
@@ -908,9 +736,7 @@ int get_local_windpower(double windpower, const oter_id &omter, bool sheltered)
 }
 
 bool warm_enough_to_plant() {
-    // It is possible but not recommended to plant at the temperature of the ice melting
-    return g->get_temperature( g-> u.pos() ) >= FREEZING_TEMPERATURE;
+    return g->get_temperature( g-> u.pos() ) >= 50; // semi-appropriate temperature for most plants
 }
-
 
 ///@}

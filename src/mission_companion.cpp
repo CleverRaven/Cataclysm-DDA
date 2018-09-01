@@ -2612,7 +2612,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     }
     tmp = item( seed_types[plant_index], calendar::turn );
     const islot_seed &seed_data = *tmp.type->seed;
-    if( seed_data.seed_count > 0 ){
+    if( seed_data.spawn_seeds ){
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
         }
@@ -3319,11 +3319,23 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
             if ( harvest && bay.furn(x,y) == furn_str_id( "f_plant_harvest" ) && !bay.i_at(x,y).empty()){
                 const item &seed = bay.i_at( x,y )[0];
                 if( seed.is_seed() && seed.typeId() != "fungal_seeds" && seed.typeId() != "marloss_seed") {
-                    item &seed_item = g->m.i_at( x,y ).front();
-                    for( auto &i : iexamine::get_harvest_items( seed_item ) ) {
+                    const itype &type = *seed.type;
+                    int skillLevel = comp->get_skill_level( skill_survival );
+                    ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+                    int plantCount = rng(skillLevel / 2, skillLevel);
+                    //this differs from
+                    if (plantCount >= 9) {
+                        plantCount = 9;
+                    } else if( plantCount <= 0 ) {
+                        plantCount = 1;
+                    }
+                    const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+                    for( auto &i : iexamine::get_harvest_items( type, plantCount, seedCount, true ) ) {
                         g->m.add_item_or_charges( g->u.posx(), g->u.posy(), i );
                     }
-                    iexamine::proceed_plant_after_harvest( x, y, g->u.posz() );
+                    bay.i_clear( x,y );
+                    bay.furn_set( x, y, f_null );
+                    bay.ter_set( x, y, t_dirt );
                 }
             }
         }

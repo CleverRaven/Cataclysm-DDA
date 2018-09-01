@@ -757,7 +757,7 @@ endif
 all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
-$(TARGET): $(ODIR) $(OBJS)
+$(TARGET): $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
   ifndef DEBUG_SYMBOLS
@@ -767,7 +767,7 @@ ifdef RELEASE
   endif
 endif
 
-$(BUILD_PREFIX)$(TARGET_NAME).a: $(ODIR) $(OBJS)
+$(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
@@ -780,8 +780,8 @@ version:
 json-verify:
 	$(LUA_BINARY) lua/json_verifier.lua
 
-$(ODIR):
-	mkdir -p $(ODIR)
+# Unconditionally create the object dir on every invocation.
+$(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@

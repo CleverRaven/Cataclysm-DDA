@@ -400,9 +400,6 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            if( loc->typeId() == "1st_aid" ) {
-                return false; // temporary fix for #12991
-            }
             return p.can_consume( *loc );
         }
 

@@ -1106,6 +1106,9 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
     furn_set( tripoint( x, y, abs_sub.z ), new_furniture );
 }
 
+std::string map::furnname(const int x, const int y) {
+    return furnname( tripoint( x, y, abs_sub.z ) );
+}
 // End of 2D overloads for furniture
 
 void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture)
@@ -4319,25 +4322,45 @@ void map::apply_in_fridge( item &it, int temp, bool vehicle )
     }
 }
 
+// This is an ugly and dirty hack to prevent invalidating the item_location
+// references the player is using for an activity.  What needs to happen is
+// activity targets gets refactored in some way that it can reference items
+// between turns that doesn't rely on a pointer to the item.  A really nice
+// solution would be something like UUIDs but that requires special
+// considerations.
+static bool item_is_in_activity( const item *it )
+{
+    const auto targs = &g->u.activity.targets;
+    return !targs->empty() && std::find_if( targs->begin(), targs->end(), [it]( const item_location &it_loc ) {
+            return it_loc.get_item() == it;
+        } ) != targs->end();
+}
+
 template <typename Iterator>
 static bool process_item( item_stack &items, Iterator &n, const tripoint &location, bool activate )
 {
-    // make a temporary copy, remove the item (in advance)
-    // and use that copy to process it
-    item temp_item = *n;
-    auto insertion_point = items.erase( n );
-    if( !temp_item.process( nullptr, location, activate ) ) {
-        // Not destroyed, must be inserted again.
-        // If the item lost its active flag in processing,
-        // it won't be re-added to the active list, tidy!
-        // Re-insert at the item's previous position.
-        // This assumes that the item didn't invalidate any iterators
-        // As a result of activation, because everything that does that
-        // destroys itself.
-        items.insert_at( insertion_point, temp_item );
-        return false;
+    if( !item_is_in_activity( &*n ) ) {
+        // make a temporary copy, remove the item (in advance)
+        // and use that copy to process it
+        item temp_item = *n;
+        auto insertion_point = items.erase( n );
+        if( !temp_item.process( nullptr, location, activate ) ) {
+            // Not destroyed, must be inserted again.
+            // If the item lost its active flag in processing,
+            // it won't be re-added to the active list, tidy!
+            // Re-insert at the item's previous position.
+            // This assumes that the item didn't invalidate any iterators
+            // As a result of activation, because everything that does that
+            // destroys itself.
+            items.insert_at( insertion_point, temp_item );
+            return false;
+        }
+        return true;
+    } else if( n->process( nullptr, location, activate ) ) {
+        items.erase( n );
+        return true;
     }
-    return true;
+    return false;
 }
 
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
@@ -6547,90 +6570,49 @@ void map::grow_plant( const tripoint &p )
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
-    if( i_at( p ).empty() ) {
+    auto items = i_at( p );
+    if( items.empty() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a seed item has vanished at " << p.x << "," << p.y << "," << p.z;
         furn_set( p, f_null );
         return;
     }
-    item &seed = i_at( p ).front();
+
+    auto seed = items.front();
     if( !seed.is_seed() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
         furn_set( p, f_null );
         return;
     }
-
-    get_crops_grow( p );
     const time_duration plantEpoch = seed.get_plant_epoch();
-    time_duration seed_age = time_duration::from_turns( seed.get_var( "seed_age", 1 ) );
-
-    furn_id cur_furn = this->furn( p ).id();
-
-    // The plant have died
-    if( seed.get_var( "frozen", 0 ) > 0 ) {
-        i_clear( p );
-        furn_set( p, f_null );
-        if( rng( 0, 1 ) > 0 ) {
-            spawn_item( p, "withered" );
-        }
-        return;
-    }
-
-    // Mushrooms
-    if( seed.type->seed->is_mushroom ) {
-        if( seed.get_var( "can_be_harvested", 0 ) ) {
-            furn_set( p, furn_str_id( "f_mushroom_mature_harvest" ) );
-        } else if( seed.get_var( "is_mature", 0 ) ) {
-            furn_set( p, furn_str_id( "f_mushroom_mature" ) );
-        } else if( seed_age > plantEpoch ) {
-            furn_set( p, furn_str_id( "f_mushroom_seedling" ) );
-        } else {
-            furn_set( p, furn_str_id( "f_mushroom_seed" ) );
-        }
-        return;
-    }
-
-    // Mature shrubs
-    if( seed.type->seed->is_shrub && seed.get_var( "is_mature", 0 ) ) {
-        if( seed.get_var( "can_be_harvested", 0 ) ){
-            furn_set( p, furn_str_id( seed.type->seed->grow_into_harvest ) );
-        } else {
-            furn_set( p, furn_str_id( seed.type->seed->grow_into ) );
-        }
-        return;
-    }
-
-    // Normal plant grow
-    if( seed.get_var( "can_be_harvested", 0 ) ) {
-        furn_set( p, furn_str_id( "f_plant_harvest" ) );
-        return;
-    }
-
-    if( seed_age >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ) {
-        if( seed_age < plantEpoch * 2 ) {
-            if( cur_furn == furn_str_id( "f_plant_seedling" ) ) {
+    furn_id cur_furn = this->furn(p).id();
+    if( seed.age() >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ){
+        if( seed.age() < plantEpoch * 2 ) {
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
                 return;
             }
+            i_rem( p, 1 );
             rotten_item_spawn( seed, p );
             furn_set(p, furn_str_id( "f_plant_seedling" ) );
-        } else if( seed_age < plantEpoch * 3 ) {
-            if( cur_furn == furn_str_id( "f_plant_mature" ) ) {
+        } else if( seed.age() < plantEpoch * 3 ) {
+            if( cur_furn == furn_str_id( "f_plant_mature" ) ){
                 return;
             }
+            i_rem(p, 1);
             rotten_item_spawn( seed, p );
             //You've skipped the seedling stage so roll monsters twice
-            if( cur_furn != furn_str_id( "f_plant_seedling" ) ) {
+            if( cur_furn != furn_str_id( "f_plant_seedling" ) ){
                 rotten_item_spawn( seed, p );
             }
             furn_set( p, furn_str_id( "f_plant_mature" ) );
         } else {
             //You've skipped two stages so roll monsters two times
-            if( cur_furn == furn_str_id( "f_plant_seedling" ) ) {
+            if( cur_furn == furn_str_id( "f_plant_seedling" ) ){
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             //One stage change
-            } else if( cur_furn == furn_str_id( "f_plant_mature" ) ) {
+            } else if( cur_furn == furn_str_id( "f_plant_mature" ) ){
                 rotten_item_spawn( seed, p );
             //Goes from seed to harvest in one check
             } else {
@@ -6638,7 +6620,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( "f_plant_harvest" ) );
+            furn_set(p, furn_str_id( "f_plant_harvest" ) );
         }
     }
 }

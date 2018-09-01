@@ -123,13 +123,22 @@ std::string vehicle_part::name() const
 
 int vehicle_part::hp() const
 {
-    double dur = info().durability;
-    return dur * health_percent();
+    int dur = info().durability;
+    if( base.max_damage() > 0 ) {
+        return dur - ( dur * base.damage() / base.max_damage() );
+    } else {
+        return dur;
+    }
 }
 
-float vehicle_part::damage() const
+int vehicle_part::damage() const
 {
     return base.damage();
+}
+
+int vehicle_part::damage_level( int max ) const
+{
+    return base.damage_level( max );
 }
 
 double vehicle_part::health_percent() const
@@ -442,22 +451,24 @@ const vpart_info &vehicle_part::info() const
 
 void vehicle::set_hp( vehicle_part &pt, int qty )
 {
-    if( qty == pt.info().durability ) {
+    if( qty == pt.info().durability || pt.info().durability <= 0 ) {
         pt.base.set_damage( 0 );
 
     } else if( qty == 0 ) {
         pt.base.set_damage( pt.base.max_damage() );
 
     } else {
-        double k = pt.base.max_damage() / double( pt.info().durability );
-        pt.base.set_damage( pt.base.max_damage() - ( qty * k ) );
+        pt.base.set_damage( pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability );
     }
 }
 
 bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 {
-    double k = pt.base.max_damage() / double( pt.info().durability );
-    return pt.base.mod_damage( - qty * k, dt );
+    if( pt.info().durability > 0 ) {
+        return pt.base.mod_damage( -( pt.base.max_damage() * qty / pt.info().durability ), dt );
+    } else {
+        return false;
+    }
 }
 
 bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const

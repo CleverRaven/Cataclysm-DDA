@@ -130,7 +130,7 @@ void computer::use()
     wrefresh(w_border);
 
     // Login
-    print_line(_("Logging into %s..."), name.c_str());
+    print_line(_("Logging into %s..."), _(name.c_str()));
     if (security > 0) {
         if( calendar::turn < next_attempt ) {
             print_error( _("Access is temporary blocked for security purposes.") );
