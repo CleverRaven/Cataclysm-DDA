@@ -39,7 +39,7 @@ std::string highlight_good_bad_none( int value )
         return string_format( "<color_yellow_green>+%d</color>", value );
     } else if( value < 0 ) {
         return string_format( "<color_yellow_red>%d</color>", value );
-    } 
+    }
     return string_format( "<color_yellow>%d</color>", value );
 }
 
