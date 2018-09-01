@@ -82,12 +82,12 @@ static tripoint random_house_in_closest_city()
  * and returns the mission target.
  */
 static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
-                               bool must_see )
+                               bool must_see, int target_z = 0)
 {
-    // The missions are coded to work on z-level 0, so we have to check for locations there
-    tripoint surface_loc = g->u.global_omt_location();
-    surface_loc.z = 0;
-    const tripoint place = overmap_buffer.find_closest( surface_loc, omter, 0, must_see );
+    // Missions are normally on z-level 0, but allow an optional argument.
+    tripoint loc = g->u.global_omt_location();
+    loc.z = target_z;
+    const tripoint place = overmap_buffer.find_closest( loc, omter, 0, must_see );
     if( place != overmap::invalid_tripoint && reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
@@ -365,7 +365,7 @@ void mission_start::kill_100_z( mission *miss )
 
 void mission_start::kill_20_nightmares( mission *miss )
 {
-    target_om_ter( "necropolis_c_44", 3, miss, false );
+    target_om_ter( "necropolis_c_44", 3, miss, false, -2 );
     miss->monster_type = mon_charred_nightmare.str();
     //kill count of the monster type you need to reach
     miss->kill_count_to_reach = g->kill_count( mon_charred_nightmare ) + miss->monster_kill_goal;
@@ -666,7 +666,7 @@ void mission_start::recruit_tracker( mission *miss )
 
 void mission_start::radio_repeater( mission *miss )
 {
-    target_om_ter( "necropolis_c_23", 3, miss, false );
+    target_om_ter( "necropolis_c_23", 3, miss, false, -2 );
     g->u.i_add( item( "repeater_mod_guide", calendar::turn ) );
 }
 

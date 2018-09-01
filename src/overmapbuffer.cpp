@@ -623,6 +623,11 @@ bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
 
 tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& type, int const radius, bool must_be_seen)
 {
+    // Check the origin before searching adjacent tiles!
+    if( check_ot_type( type, origin.x, origin.y, origin.z ) ) {
+        return origin;
+    }
+
     // By default search overmaps within a radius of 4,
     // i.e. C = current overmap, X = overmaps searched:
     // XXXXXXXXX
