@@ -610,7 +610,8 @@ void player::complete_craft()
 
             for( auto &elem : used ) {
                 if( elem.goes_bad() ) {
-                    used_age_tally += elem.get_relative_rot( activity.start_turn );
+                    used_age_tally += elem.get_relative_rot(
+                        time_duration::from_turns<int>( activity.start_turn ) );
                     ++used_age_count;
                 }
             }

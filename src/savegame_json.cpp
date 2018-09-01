@@ -147,6 +147,7 @@ void player_activity::serialize(JsonOut &json) const
     json.start_object();
     json.member( "type", type );
     json.member( "moves_left", moves_left );
+    json.member( "start_turn", start_turn );
     json.member( "index", index );
     json.member( "position", position );
     json.member( "coords", coords );
@@ -178,6 +179,7 @@ void player_activity::deserialize(JsonIn &jsin)
     }
 
     data.read( "moves_left", moves_left );
+    data.read( "start_turn", start_turn );
     data.read( "index", index );
     position = tmppos;
     data.read( "coords", coords );
