@@ -1583,10 +1583,6 @@ class map
  * Used in determining speed of temperature change of items
  */
 unsigned int temp_difference_ratio( int temp_one, int temp_two );
-/**
- * Returns freezing point temperature of item, mainly for non-water freezing points
- */
-int check_freezing_temperature( item &it );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

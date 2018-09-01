@@ -4259,34 +4259,6 @@ unsigned int temp_difference_ratio( int temp_one, int temp_two )
     return ratio;
 }
 
-int check_freezing_temperature( item &it )
-{
-    itype_id id = it.typeId();
-    if( id == "paper" ) {
-        return -460; // -273C = no freeze
-    }
-    if( id == "ammonia" ) {
-        return -108; // -78C
-    }
-    if( id == "bleach" ) {
-        return 17; // -10C (assumption 8% sodium hypochlorite solution)
-    }
-    if( id == "salt_water" || id == "saline" ) {
-        return 28; // -2C (https://oceanservice.noaa.gov/facts/oceanfreeze.html)
-    }
-    std::string action = it.type->use_methods.begin()->first;
-    if( action == "ALCOHOL_WEAK" ) {
-        return 23; // -5C, wine, beer etc. (assumption: 10% ethanol) 
-    }
-    if( action == "ALCOHOL" ) {
-        return -22; // -30C, vodka, whiskey etc. (assumption: 40% ethanol)
-    }
-    if( action == "ALCOHOL_STRONG" ) {
-        return -49; // -45C, moonshine etc. (assumption: 60% ethanol)
-    }
-    return FREEZING_TEMPERATURE;
-}
-
 // Check if it's in a fridge/freezer and is food, set the fridge/freezer
 // date to current time, and also check contents.
 void map::apply_in_fridge( item &it, int temp, bool vehicle )
