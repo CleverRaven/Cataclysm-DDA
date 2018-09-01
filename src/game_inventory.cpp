@@ -23,23 +23,24 @@ typedef std::function<bool( const item_location & )> item_location_filter;
 namespace
 {
 
-std::string good_bad_none( int value, bool warning = false )
+std::string good_bad_none( int value )
 {
-    if( warning ) {
-        if( value > 0 ) {
-            return string_format( "<color_yellow_green>+%d</color>", value );
-        } else if( value < 0 ) {
-            return string_format( "<color_yellow_red>%d</color>", value );
-        } else if( value == 0 ) {
-            return string_format( "<color_yellow>%d</color>", value );
-        }
-    }
     if( value > 0 ) {
         return string_format( "<good>+%d</good>", value );
     } else if( value < 0 ) {
         return string_format( "<bad>%d</bad>", value );
     }
     return std::string();
+}
+
+std::string highlight_good_bad_none( int value )
+{
+    if( value > 0 ) {
+        return string_format( "<color_yellow_green>+%d</color>", value );
+    } else if( value < 0 ) {
+        return string_format( "<color_yellow_red>%d</color>", value );
+    } 
+    return string_format( "<color_yellow>%d</color>", value );
 }
 
 }
@@ -368,9 +369,9 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [ p, this ]( const item_location & loc ) {
-                const item it = get_comestible_item( loc );
+                const item &it = get_comestible_item( loc );
                 if( it.has_flag( "MUSHY" ) ) {
-                    return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first, true );
+                    return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
                 } else {
                     return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
                 }
