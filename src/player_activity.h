@@ -2,6 +2,7 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
+#include "calendar.h"
 #include "enums.h"
 #include "item_location.h"
 #include "string_id.h"
@@ -27,8 +28,8 @@ class player_activity
         int moves_total;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left;
-        /** The turn the activity began. */
-        int start_turn;
+        /** Rot accumulated while crafting. */
+        time_duration accumulated_rot = 0;
         /** An activity specific value. */
         int index;
         /** An activity specific value. */

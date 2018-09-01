@@ -3096,25 +3096,18 @@ double item::get_relative_rot() const
 {
     return goes_bad() ? rot / type->comestible->spoils : 0;
 }
-double item::get_relative_rot( const time_duration craft_start_turn )
+double item::get_relative_rot( const time_duration accumulated_rot )
 {
-    time_duration craft_rot = craft_time_rot( craft_start_turn );
+    //check just in case we loaded an old autosave that's mid-craft
+    time_duration final_rot = accumulated_rot >= 0 ? accumulated_rot : 0;
 
-    // make sure we don't return negative rot
-    return rot >= craft_rot ? ( rot - craft_rot ) / type->comestible->spoils : 0;
-}
+    //if somehow this happens, we won't get negative rot.
+    //negative rot freezes the game.
+    if( final_rot > rot ) {
+        final_rot = rot;
+    }
 
-time_duration item::craft_time_rot( const time_duration craft_start_turn )
-{
-    // calc_rot calculates the rot for each item every 11 turns
-    time_duration calc_rot_turns = 11_turns;
-    time_duration lrc = last_rot_check - time_point( 0 );
-
-    // set our cst to the same offset as the item's last_rot_check
-    time_point cst = to_turns<int>( craft_start_turn +
-        ( lrc % calc_rot_turns - craft_start_turn % calc_rot_turns ) );
-
-    return get_rot_since( cst, last_rot_check, g->u.global_square_location() );
+    return ( rot - final_rot ) / type->comestible->spoils;
 }
 
 void item::set_relative_rot( double val )

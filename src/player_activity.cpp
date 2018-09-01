@@ -16,7 +16,7 @@ player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
                                   std::string name_in ) :
-    type( t ), moves_total( turns ), moves_left( turns ), start_turn( calendar::turn ),
+    type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ), ignore_trivial( false ), values(), str_values(),
     placement( tripoint_min ), warned_of_proximity( false ), auto_resume( false )
@@ -25,7 +25,7 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 
 player_activity::player_activity( const player_activity &rhs )
     : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
-      start_turn( calendar::turn ), index( rhs.index ), position( rhs.position ), name( rhs.name ),
+      index( rhs.index ), position( rhs.position ), name( rhs.name ),
       ignore_trivial( rhs.ignore_trivial ), values( rhs.values ), str_values( rhs.str_values ),
       coords( rhs.coords ), placement( rhs.placement ),
       warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
@@ -43,7 +43,7 @@ player_activity &player_activity::operator=( const player_activity &rhs )
     type = rhs.type;
     moves_total = rhs.moves_total;
     moves_left = rhs.moves_left;
-    start_turn = rhs.start_turn;
+    accumulated_rot = rhs.accumulated_rot;
     index = rhs.index;
     position = rhs.position;
     name = rhs.name;
