@@ -7516,7 +7516,7 @@ const std::string get_fire_fuel_string( tripoint examp )
             ss << string_format( _( "There is a fire here." ) ) << " ";
             // half-life inclusion
             int mod = 5 - g->u.get_skill_level( skill_survival );
-            mod = std::min( mod, 4 );
+            mod = std::max( mod, 0 );
             if( fire_age >= 0 ) {
                 if( mod >= 4 ) { // = survival level 0-1
                     ss << string_format( _( "It's going to go out soon without extra fuel." ) );
