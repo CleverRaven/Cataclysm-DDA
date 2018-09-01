@@ -374,7 +374,7 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 );
 
-    cache_tool_availability_update_lifting();
+    cache_tool_availability_update_lifting(g->u.pos());
 
     max_jack = std::max( { g->u.max_quality( JACK ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
@@ -387,7 +387,7 @@ void veh_interact::cache_tool_availability()
                vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual );
 }
 
-void veh_interact::cache_tool_availability_update_lifting()
+void veh_interact::cache_tool_availability_update_lifting(tripoint world_cursor_pos)
 {
     max_lift = std::max( { g->u.max_quality( LIFT ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
@@ -520,20 +520,15 @@ bool veh_interact::is_drive_conflict()
 
 bool veh_interact::can_self_jack()
 {
-    int lvl = jack_quality(*veh);    
+    int lvl = jack_quality( *veh );
 
-    auto self_jacking_parts = veh->get_parts("SELF_JACK", false);
-    bool can_self_jack = false;
-    for (auto jack : self_jacking_parts)
-    {
-        item jack_item(jack->properties_to_item());
-        if (jack_item.has_quality(SELF_JACK, lvl)) {
-            can_self_jack = true;
-            break;
+    std::vector<vehicle_part *> self_jacking_parts = veh->get_parts( "SELF_JACK", false );
+    for( auto jack : self_jacking_parts ) {
+        if( jack->base.has_quality( SELF_JACK, lvl ) ) {
+            return true;
         }
     }
-
-    return can_self_jack;
+    return false;
 }
 
 bool veh_interact::can_install_part() {
@@ -1671,7 +1666,6 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
     int vdy = -ddy;
     point q = veh->coord_translate( point( vdx, vdy ) );
     tripoint vehp = veh->global_pos3() + q;
-    world_cursor_pos = vehp;
     const bool has_critter = g->critter_at( vehp );
     bool obstruct = g->m.impassable_ter_furn( vehp );
     const optional_vpart_position ovp = g->m.veh_at( vehp );
@@ -1730,7 +1724,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
     }
 
     /* Update the lifting quality to be the that is available for this newly selected tile */
-    cache_tool_availability_update_lifting();
+    cache_tool_availability_update_lifting(vehp);
 }
 
 void veh_interact::display_grid()
