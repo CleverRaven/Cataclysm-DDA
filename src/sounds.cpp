@@ -41,8 +41,6 @@
 
 weather_type previous_weather;
 int prev_hostiles = 0;
-int deafness_turns = 0;
-int current_deafness_turns = 0;
 bool audio_muted = false;
 float g_sfx_volume_multiplier = 1;
 auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -271,7 +269,7 @@ void sounds::process_sound_markers( player *p )
         if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
             const time_duration deafness_duration = time_duration::from_turns( felt_volume - 130 ) / 4;
             p->add_effect( effect_deaf, deafness_duration );
-            if( p->is_deaf() ) {
+            if( p->is_deaf() && !is_deaf ) {
                 is_deaf = true;
                 sfx::do_hearing_loss( to_turns<int>( deafness_duration ) );
                 continue;
@@ -893,35 +891,30 @@ void sfx::do_fatigue()
 
 void sfx::do_hearing_loss( int turns )
 {
-    if( deafness_turns == 0 ) {
-        deafness_turns = turns;
-        g_sfx_volume_multiplier = .1;
-        fade_audio_group( 1, 50 );
-        fade_audio_group( 2, 50 );
-        play_variant_sound( "environment", "deafness_shock", 100 );
-        play_variant_sound( "environment", "deafness_tone_start", 100 );
-        if( deafness_turns <= 35 ) {
-            play_ambient_variant_sound( "environment", "deafness_tone_light", 90, 10, 100 );
-        } else if( deafness_turns <= 90 ) {
-            play_ambient_variant_sound( "environment", "deafness_tone_medium", 90, 10, 100 );
-        } else if( deafness_turns >= 91 ) {
-            play_ambient_variant_sound( "environment", "deafness_tone_heavy", 90, 10, 100 );
-        }
-    } else {
-        deafness_turns += turns;
+    g_sfx_volume_multiplier = .1;
+    fade_audio_group( 1, 50 );
+    fade_audio_group( 2, 50 );
+    // Negative duration is just insuring we stay in sync with player condition,
+    // don't play any of the sound effects for going deaf.
+    if( turns == -1 ) {
+        return;
+    }
+    play_variant_sound( "environment", "deafness_shock", 100 );
+    play_variant_sound( "environment", "deafness_tone_start", 100 );
+    if( turns <= 35 ) {
+        play_ambient_variant_sound( "environment", "deafness_tone_light", 90, 10, 100 );
+    } else if( turns <= 90 ) {
+        play_ambient_variant_sound( "environment", "deafness_tone_medium", 90, 10, 100 );
+    } else if( turns >= 91 ) {
+        play_ambient_variant_sound( "environment", "deafness_tone_heavy", 90, 10, 100 );
     }
 }
 
 void sfx::remove_hearing_loss()
 {
-    if( current_deafness_turns >= deafness_turns ) {
-        stop_sound_effect_fade( 10, 300 );
-        g_sfx_volume_multiplier = 1;
-        deafness_turns = 0;
-        current_deafness_turns = 0;
-        do_ambient();
-    }
-    current_deafness_turns++;
+    stop_sound_effect_fade( 10, 300 );
+    g_sfx_volume_multiplier = 1;
+    do_ambient();
 }
 
 void sfx::do_footstep()

@@ -1539,6 +1539,10 @@ bool game::do_turn()
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
 
+    if( u.is_deaf() ) {
+        sfx::do_hearing_loss();
+    }
+
     if (!u.in_sleep_state()) {
         if (u.moves > 0 || uquit == QUIT_WATCH) {
             while (u.moves > 0 || uquit == QUIT_WATCH) {
@@ -1669,7 +1673,9 @@ bool game::do_turn()
         u.check_and_recover_morale();
     }
 
-    sfx::remove_hearing_loss();
+    if( !u.is_deaf() ) {
+        sfx::remove_hearing_loss();
+    }
     sfx::do_danger_music();
     sfx::do_fatigue();
 
