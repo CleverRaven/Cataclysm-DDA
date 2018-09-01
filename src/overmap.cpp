@@ -3548,14 +3548,14 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             // If, after incrementing the placement count, we're at our max, remove
             // this special from our list.
             if( it->instances_placed >= it->special_details->occurrences.max ) {
-                enabled_specials.erase( it );
+                it = enabled_specials.erase( it );
             } else {
                 it++;
             }
         } else {
             // This special is no longer in our callee's list, which means it was completely
             // placed, and we can remove it from our list.
-            enabled_specials.erase( it );
+            it = enabled_specials.erase( it );
         }
     }
 }
