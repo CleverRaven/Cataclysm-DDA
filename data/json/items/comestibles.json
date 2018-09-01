@@ -7438,9 +7438,9 @@
     "price": 0,
     "material": "paper",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
-    "fun": -20
+    "fun": -20,
+    "freezing_point": -460
   },
   {
     "type": "COMESTIBLE",
