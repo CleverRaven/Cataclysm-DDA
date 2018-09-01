@@ -1254,10 +1254,10 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, con
                    _("%s = Save Load Order as default.  %s = Controls %s/%s = Prev/Next Option. %s/%s = Prev/Next Tab."),
                    ctxtp.get_desc( "SAVE_DEFAULT_MODS" ).c_str(),
                    ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str(),
-				   ctxtp.get_desc( "PREV_CATEGORY_TAB" ).c_str(),
-				   ctxtp.get_desc( "NEXT_CATEGORY_TAB" ).c_str(),
-				   ctxtp.get_desc( "PREV_TAB" ).c_str(),
-				   ctxtp.get_desc( "NEXT_TAB" ).c_str()
+                   ctxtp.get_desc( "PREV_CATEGORY_TAB" ).c_str(),
+                   ctxtp.get_desc( "NEXT_CATEGORY_TAB" ).c_str(),
+                   ctxtp.get_desc( "PREV_TAB" ).c_str(),
+                   ctxtp.get_desc( "NEXT_TAB" ).c_str()
                   );
     wrefresh(win);
     catacurses::refresh();
