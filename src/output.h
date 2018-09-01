@@ -591,11 +591,44 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
 void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected );
 void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
                   bool bDecorate = true, bool bDisabled = false );
+// Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
                      const int iContentHeight, const int iNumLines, const int iOffsetY = 0, const int iOffsetX = 0,
                      nc_color bar_color = c_white, const bool bDoNotScrollToEnd = false );
 void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHeight,
                    const int iNumEntries );
+
+class scrollbar
+{
+    public:
+        scrollbar();
+        // relative position of the scrollbar to the window
+        scrollbar &offset_x( int offx );
+        scrollbar &offset_y( int offy );
+        // total number of lines
+        scrollbar &content_size( int csize );
+        // index of the beginning line
+        scrollbar &viewport_pos( int vpos );
+        // number of lines shown
+        scrollbar &viewport_size( int vsize );
+        // window border color
+        scrollbar &border_color( nc_color border_c );
+        // scrollbar arrow color
+        scrollbar &arrow_color( nc_color arrow_c );
+        // scrollbar slot color
+        scrollbar &slot_color( nc_color slot_c );
+        // scrollbar bar color
+        scrollbar &bar_color( nc_color bar_c );
+        // can viewport_pos go beyond (content_size - viewport_size)?
+        scrollbar &scroll_to_last( bool scr2last );
+        // draw the scrollbar to the window
+        void apply( const catacurses::window &window );
+    private:
+        int offset_x_v, offset_y_v;
+        int content_size_v, viewport_pos_v, viewport_size_v;
+        nc_color border_color_v, arrow_color_v, slot_color_v, bar_color_v;
+        bool scroll_to_last_v;
+};
 
 class scrollingcombattext
 {

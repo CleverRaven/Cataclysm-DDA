@@ -1244,7 +1244,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
 }
 
 /**
- * Draw a scrollbar
+ * Draw a scrollbar (Legacy function, use class scrollbar instead!)
  * @param window Pointer of window to draw on
  * @param iCurrentLine The starting line or currently selected line out of the iNumLines lines
  * @param iContentHeight Height of the scrollbar
@@ -1260,38 +1260,116 @@ void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
                      const int iContentHeight, const int iNumLines, const int iOffsetY, const int iOffsetX,
                      nc_color bar_color, const bool bDoNotScrollToEnd )
 {
-    if( iContentHeight >= iNumLines ) {
-        //scrollbar is not required
-        bar_color = BORDER_COLOR;
-    }
+    scrollbar()
+    .offset_x( iOffsetX )
+    .offset_y( iOffsetY )
+    .content_size( iNumLines )
+    .viewport_pos( iCurrentLine )
+    .viewport_size( iContentHeight )
+    .slot_color( bar_color )
+    .scroll_to_last( !bDoNotScrollToEnd )
+    .apply( window );
+}
 
-    //Clear previous scrollbar
-    for( int i = iOffsetY; i < iOffsetY + iContentHeight; i++ ) {
-        mvwputch( window, i, iOffsetX, bar_color, LINE_XOXO );
-    }
+scrollbar::scrollbar()
+    : offset_x_v( 0 ), offset_y_v( 0 ), content_size_v( 0 ),
+      viewport_pos_v( 0 ), viewport_size_v( 0 ),
+      border_color_v( BORDER_COLOR ), arrow_color_v( c_light_green ),
+      slot_color_v( c_white ), bar_color_v( c_cyan_cyan ), scroll_to_last_v( false )
+{
+}
 
-    if( iContentHeight >= iNumLines ) {
-        return;
-    }
+scrollbar &scrollbar::offset_x( int offx )
+{
+    offset_x_v = offx;
+    return *this;
+}
 
-    if( iNumLines > 0 ) {
-        mvwputch( window, iOffsetY, iOffsetX, c_light_green, '^' );
-        mvwputch( window, iOffsetY + iContentHeight - 1, iOffsetX, c_light_green, 'v' );
+scrollbar &scrollbar::offset_y( int offy )
+{
+    offset_y_v = offy;
+    return *this;
+}
 
-        int iSBHeight = std::max( 2, ( ( iContentHeight - 2 ) * iContentHeight ) / iNumLines );
-        int iScrollableLines = bDoNotScrollToEnd ? iNumLines - iContentHeight + 1 : iNumLines;
+scrollbar &scrollbar::content_size( int csize )
+{
+    content_size_v = csize;
+    return *this;
+}
 
-        int iStartY;
-        if( iCurrentLine == 0 ) {
-            iStartY = -1;
-        } else if( iScrollableLines > 2 ) {
-            iStartY = ( ( iContentHeight - 3 - iSBHeight ) * ( iCurrentLine - 1 ) ) / ( iScrollableLines - 2 );
-        } else {
-            iStartY = iContentHeight - 3 - iSBHeight;
+scrollbar &scrollbar::viewport_pos( int vpos )
+{
+    viewport_pos_v = vpos;
+    return *this;
+}
+
+scrollbar &scrollbar::viewport_size( int vsize )
+{
+    viewport_size_v = vsize;
+    return *this;
+}
+
+scrollbar &scrollbar::border_color( nc_color border_c )
+{
+    border_color_v = border_c;
+    return *this;
+}
+
+scrollbar &scrollbar::arrow_color( nc_color arrow_c )
+{
+    arrow_color_v = arrow_c;
+    return *this;
+}
+
+scrollbar &scrollbar::slot_color( nc_color slot_c )
+{
+    slot_color_v = slot_c;
+    return *this;
+}
+
+scrollbar &scrollbar::bar_color( nc_color bar_c )
+{
+    bar_color_v = bar_c;
+    return *this;
+}
+
+scrollbar &scrollbar::scroll_to_last( bool scr2last )
+{
+    scroll_to_last_v = scr2last;
+    return *this;
+}
+
+void scrollbar::apply( const catacurses::window &window )
+{
+    if( viewport_size_v >= content_size_v || content_size_v <= 0 ) {
+        // scrollbar not needed, fill output area with borders
+        for( int i = offset_y_v; i < offset_y_v + viewport_size_v; ++i ) {
+            mvwputch( window, i, offset_x_v, border_color_v, LINE_XOXO );
         }
+    } else {
+        mvwputch( window, offset_y_v, offset_x_v, arrow_color_v, '^' );
+        mvwputch( window, offset_y_v + viewport_size_v - 1, offset_x_v, arrow_color_v, 'v' );
 
-        for( int i = 0; i < iSBHeight; i++ ) {
-            mvwputch( window, i + iOffsetY + 2 + iStartY, iOffsetX, c_cyan_cyan, LINE_XOXO );
+        int slot_size = viewport_size_v - 2;
+        int bar_size = std::max( 2, slot_size * viewport_size_v / content_size_v );
+        int scrollable_size = scroll_to_last_v ? content_size_v : content_size_v - viewport_size_v + 1;
+
+        int bar_start, bar_end;
+        if( viewport_pos_v == 0 ) {
+            bar_start = 0;
+        } else if( scrollable_size > 2 ) {
+            bar_start = ( slot_size - 1 - bar_size ) * ( viewport_pos_v - 1 ) / ( scrollable_size - 2 ) + 1;
+        } else {
+            bar_start = slot_size - bar_size;
+        }
+        bar_end = bar_start + bar_size;
+
+        for( int i = 0; i < slot_size; ++i ) {
+            if( i >= bar_start && i < bar_end ) {
+                mvwputch( window, offset_y_v + 1 + i, offset_x_v, bar_color_v, LINE_XOXO );
+            } else {
+                mvwputch( window, offset_y_v + 1 + i, offset_x_v, slot_color_v, LINE_XOXO );
+            }
         }
     }
 }
