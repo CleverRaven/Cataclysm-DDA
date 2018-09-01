@@ -7508,12 +7508,16 @@ void game::examine()
 
 const std::string get_fire_fuel_string( tripoint examp )
 {
-    if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) || g->m.ter( examp ) == t_pit_shallow || g->m.ter( examp ) == t_pit ) {
+    if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
         if( fire ) {
-            time_duration fire_age = fire->getFieldAge();
             std::stringstream ss;
             ss << string_format( _( "There is a fire here." ) ) << " ";
+            if( fire->getFieldDensity() > 1 ) {
+                ss << string_format( _( "It's too big and unpredictable to evaluate how long it will last." ) );
+                return ss.str();
+            }
+            time_duration fire_age = fire->getFieldAge();
             // half-life inclusion
             int mod = 5 - g->u.get_skill_level( skill_survival );
             mod = std::max( mod, 0 );
