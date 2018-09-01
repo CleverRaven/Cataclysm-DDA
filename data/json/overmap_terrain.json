@@ -1757,7 +1757,14 @@
     "see_cost": 5,
     "extras": "subway",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_train_depot",
+    "name": "central train depot",
+    "copy-from": "lab_train_depot",
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
   },
   {
     "type": "overmap_terrain",

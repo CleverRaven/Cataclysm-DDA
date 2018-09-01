@@ -1692,6 +1692,7 @@ bool overmap::generate_sub(int const z)
     std::vector<city> ice_lab_points;
     std::vector<city> central_lab_points;
     std::vector<point> lab_train_points;
+    std::vector<point> central_lab_train_points;
     std::vector<point> shaft_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
@@ -1827,7 +1828,7 @@ bool overmap::generate_sub(int const z)
         }
     }
     for (auto &i : central_lab_points) {
-        bool central_lab = build_lab(i.x, i.y, z, i.s, &lab_train_points, "central_", lab_train_odds);
+        bool central_lab = build_lab(i.x, i.y, z, i.s, &central_lab_train_points, "central_", lab_train_odds);
         requires_sub |= central_lab;
         if (!central_lab && ter(i.x, i.y, z) == "central_lab_core") {
             ter(i.x, i.y, z) = oter_id( "central_lab" );
@@ -1837,12 +1838,13 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
 
     subway_points.insert( subway_points.end(), lab_train_points.begin(), lab_train_points.end() );
+    subway_points.insert( subway_points.end(), central_lab_train_points.begin(), central_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
-    // If on z = 4 and central lab is present, also connect the first and last points to ensure
-    // that the central lab (last point) can reach other labs (first point).
-    if (z == -4 && !central_lab_points.empty() && !lab_train_points.empty()) {
+
+    // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
+    if (z == -4 && !central_lab_train_points.empty() && !lab_train_points.empty()) {
         std::vector<point> extra_route;
-        extra_route.push_back(lab_train_points.front());
+        extra_route.push_back(central_lab_train_points.back());
         extra_route.push_back(lab_train_points.back());
         connect_closest_points(extra_route, z, *subway_tunnel);
     }
@@ -1855,20 +1857,24 @@ bool overmap::generate_sub(int const z)
     }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
-    bool is_first_in_pair = true;
-    for( auto &i : lab_train_points ) {
-        if (is_first_in_pair) {
-            if (is_ot_subtype("subway", ter( i.x + 1, i.y, z)) ||
-                is_ot_subtype("subway", ter( i.x - 1, i.y, z)) ||
-                is_ot_subtype("subway", ter( i.x, i.y + 1, z)) ||
-                is_ot_subtype("subway", ter( i.x, i.y - 1, z))) {
-                ter( i.x, i.y, z ) = oter_id( "lab_train_depot" );
-            } else {
-                ter( i.x, i.y, z ) = oter_id ( "empty_rock");
+    const auto create_train_depots = [this, z]( const oter_id &train_type,  const std::vector<point> &train_points ) {
+        bool is_first_in_pair = true;
+        for( auto &i : train_points ) {
+            if (is_first_in_pair) {
+                if (is_ot_subtype("subway", ter( i.x + 1, i.y, z)) ||
+                    is_ot_subtype("subway", ter( i.x - 1, i.y, z)) ||
+                    is_ot_subtype("subway", ter( i.x, i.y + 1, z)) ||
+                    is_ot_subtype("subway", ter( i.x, i.y - 1, z))) {
+                    ter( i.x, i.y, z ) = train_type;
+                } else {
+                    ter( i.x, i.y, z ) = oter_id ( "empty_rock");
+                }
             }
+            is_first_in_pair = !is_first_in_pair;
         }
-        is_first_in_pair = !is_first_in_pair;
-    }
+    };
+    create_train_depots( oter_id( "lab_train_depot" ), lab_train_points );
+    create_train_depots( oter_id( "central_lab_train_depot" ), central_lab_train_points );
 
     for( auto &i : cities ) {
         if( one_in( 3 ) ) {

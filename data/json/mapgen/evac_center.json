@@ -731,7 +731,11 @@
         ".........ssssss........."
       ],
       "palettes": [ "evac_center" ],
-      "place_npcs": [ { "class": "arsonist", "x": 5, "y": 0 }, { "class": "evac_merchant", "x": 23, "y": 0 } ]
+      "place_npcs": [
+        { "class": "arsonist", "x": 5, "y": 0 },
+        { "class": "evac_merchant", "x": 23, "y": 0 },
+        { "class": "old_guard_lab", "x": 0, "y": 0 }
+      ]
     }
   },
   {

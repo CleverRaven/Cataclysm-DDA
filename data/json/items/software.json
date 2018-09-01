@@ -52,5 +52,14 @@
         "name_plural": "infection data",
         "description": "Medical data on zombie blood.",
         "price": 200
+    },
+    {
+        "id": "software_train_data",
+        "copy-from": "software",
+        "type":"GENERIC",
+        "name": "train data",
+        "name_plural": "train data",
+        "description": "Logistical data on subterranean train routes and schedules.",
+        "price": 200
     }
 ]

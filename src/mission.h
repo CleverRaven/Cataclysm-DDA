@@ -150,6 +150,7 @@ struct mission_start {
     static void reveal_doctors_office ( mission *); // Find patient records
     static void reveal_cathedral   ( mission *); // Find relic
     static void reveal_refugee_center ( mission *); // Find refugee center
+    static void reveal_lab_train_depot ( mission *); // Find lab train depot
 };
 
 struct mission_end { // These functions are run when a mission ends

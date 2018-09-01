@@ -1780,3 +1780,41 @@ void mission_start::reveal_refugee_center( mission *miss )
         add_msg( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );
     }
 }
+
+void mission_start::reveal_lab_train_depot( mission *miss )
+{
+    tripoint place = target_om_ter( "lab_train_depot", 1, miss, false, -4 );
+
+    npc *dev = g->find_npc( miss->npc_id );
+    if( dev == NULL ) {
+        debugmsg( "Couldn't find NPC! %d", miss->npc_id );
+        return;
+    }
+    g->u.i_add( item( "usb_drive", 0 ) );
+    add_msg( _( "%s gave you a USB drive." ), dev->name.c_str() );
+
+    tinymap compmap;
+    compmap.load( place.x * 2, place.y * 2, place.z, false );
+    tripoint comppoint;
+
+    bool comp_found = false;
+    for( int x = 0; x < SEEX * 2 && !comp_found; x++ ) {
+        for( int y = 0; y < SEEY * 2; y++ ) {
+            if( compmap.ter( x, y ) == t_console ) {
+                comppoint = tripoint(x, y, place.z);
+                comp_found = true;
+                break;
+            }
+        }
+    }
+    if (!comp_found) {
+        debugmsg( "Could not find a computer in the lab train depot, mission will fail." );
+        return;
+    }
+
+    computer *tmpcomp = compmap.computer_at( comppoint );
+    tmpcomp->mission_id = miss->uid;
+    tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
+
+    compmap.save();
+}
