@@ -2212,8 +2212,15 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = ( repeat_type )act->get_value( 0, REPEAT_INIT );
     weldrig_hack w_hack;
+    item_location *ploc = nullptr;
+
+    if( act->targets.size() > 0 ) {
+        ploc = &act->targets[0];
+    }
+
     item &main_tool = !w_hack.init( *act ) ?
-                      p->i_at( act->index ) : w_hack.get_item();
+                      ploc ?
+                      **ploc : p->i_at( act->index ) : w_hack.get_item();
 
     item *used_tool = main_tool.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
@@ -2248,7 +2255,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
         if( attempt != repair_item_actor::AS_CANT ) {
-            p->consume_charges( *used_tool, used_tool->ammo_required() );
+            if( ploc && ploc->where() == item_location::type::map ) {
+                used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
+            } else {
+                p->consume_charges( *used_tool, used_tool->ammo_required() );
+            }
         }
 
         // Print message explaining why we stopped

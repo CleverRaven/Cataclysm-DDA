@@ -42,6 +42,7 @@
 #include "options.h"
 #include "skill.h"
 #include "effect.h"
+#include "map_selector.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2395,7 +2396,16 @@ bool could_repair( const player &p, const item &it, bool print_msg )
     return true;
 }
 
-long repair_item_actor::use( player &p, item &it, bool, const tripoint & ) const
+static item_location get_item_location( player &p, item &it, const tripoint &pos )
+{
+    if( p.has_item( it ) ) {
+        return item_location( p, &it );
+    }
+
+    return item_location( pos, &it );
+}
+
+long repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const
 {
     if( !could_repair( p, it, true ) ) {
         return 0;
@@ -2413,6 +2423,8 @@ long repair_item_actor::use( player &p, item &it, bool, const tripoint & ) const
     p.assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p.get_item_position( &it ), pos );
     // We also need to store the repair actor subtype in the activity
     p.activity.str_values.push_back( type );
+    // storing of item_location to support repairs by tools on the ground
+    p.activity.targets.emplace_back( get_item_location( p, it, position ) );
     // All repairs are done in the activity, including charge cost
     return 0;
 }
