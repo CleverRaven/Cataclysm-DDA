@@ -2819,13 +2819,13 @@ units::volume item::volume( bool integral ) const
         ret += std::max( cur_mag->volume() - type->magazine_well, units::volume( 0 ) );
     }
 
-    if (is_gun()) {
+    if( is_gun() ) {
         for( const auto elem : gunmods() ) {
             ret += elem->volume( true );
         }
 
         // @todo: implement stock_length property for guns
-        if (has_flag("COLLAPSIBLE_STOCK")) {
+        if( has_flag("COLLAPSIBLE_STOCK") ) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
             if     ( tmpvol <=  3 ) ; // intentional NOP
@@ -4709,7 +4709,7 @@ item * item::magazine_current()
         return nullptr;
     }
 #endif
-    auto iter = std::find_if( contents.begin(), contents.end(), []( const item& it ) {
+    auto iter = std::find_if( contents.begin(), contents.end(), []( const item & it ) {
         return it.is_magazine();
     });
     return iter != contents.end() ? &*iter : nullptr;
