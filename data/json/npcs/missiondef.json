@@ -480,7 +480,7 @@
   {
     "id": "MISSION_JOIN_TRACKER",
     "type": "mission_definition",
-    "name": "Tracker",
+    "name": "Find Deputy Badge",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 0,
