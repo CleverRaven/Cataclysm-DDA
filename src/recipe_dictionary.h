@@ -37,6 +37,12 @@ class recipe_dictionary
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
 
+        /* Returns recipe 
+        ** @param id itype to retrieve recipe for
+        ** @param def If true, search for recipe tag "default" first
+        */
+        static const recipe &get_recipe( const itype_id &id, const bool &def = true );
+
         static void load_recipe( JsonObject &jo, const std::string &src );
         static void load_uncraft( JsonObject &jo, const std::string &src );
 

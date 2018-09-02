@@ -366,6 +366,12 @@ class item : public visitable<item>
         std::string info( std::vector<iteminfo> &dump, const iteminfo_query *parts = nullptr,
                           int batch = 1 ) const;
 
+    /* Generate a set of default components based on crafting recipes
+    ** Flag "GENERIC" for items that should never have default components, ie. batteries
+    ** Returns false if no components are added
+    */
+    bool generate_components();
+
 
         /**
          * Calculate all burning calculations, but don't actually apply them to item.

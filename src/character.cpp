@@ -742,6 +742,10 @@ item& Character::i_add(item it)
         inv.unsort();
     }
 
+    if( it.components.empty() ) {
+        it.generate_components();
+    }
+
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const std::set<char> cur_inv = allocated_invlets();

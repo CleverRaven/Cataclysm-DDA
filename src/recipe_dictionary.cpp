@@ -61,6 +61,15 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
+const recipe &recipe_dictionary::get_recipe( const itype_id &id, const bool &def ) {
+    std::string it_id = def ? id + "_default" : id;
+    auto iter = recipe_dict.recipes.find( recipe_id( it_id ) );
+    if( iter == recipe_dict.recipes.end() && def == true ) {
+        return get_recipe( id, false );
+    }
+    return iter != recipe_dict.recipes.end() ? iter->second : null_recipe;
+}
+
 // searches for left-anchored partial match in the relevant recipe requirements set
 template <class group>
 bool search_reqs( group gp, const std::string &txt )

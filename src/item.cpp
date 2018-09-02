@@ -6193,6 +6193,20 @@ bool item::is_seed() const
     return type->seed.has_value();
 }
 
+bool item::generate_components() {
+    recipe it_recipe = recipe_dict.get_recipe( typeId() );
+    requirement_data it_req = it_recipe.requirements();
+
+    if( has_flag( "GENERIC" ) || it_req.is_empty() ) {
+        return false;
+    }
+
+    for( auto &comp_vector : it_req.get_components() ) {
+        components.emplace_back( comp_vector.front().type );
+    }
+    return true;
+}
+
 time_duration item::get_plant_epoch() const
 {
     if( !type->seed ) {

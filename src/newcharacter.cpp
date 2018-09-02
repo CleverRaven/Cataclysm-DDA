@@ -584,6 +584,7 @@ bool player::create(character_type type, const std::string &tempname)
 
     for( item &it : prof_items ) {
         // TODO: debugmsg if food that isn't a seed is inedible
+        it.generate_components();
         if( it.has_flag( "no_auto_equip" ) ) {
             it.unset_flag( "no_auto_equip" );
             inv.push_back( it );

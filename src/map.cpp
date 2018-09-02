@@ -3980,11 +3980,11 @@ std::vector<item*> map::spawn_items(const tripoint &p, const std::vector<item> &
     }
     const bool swimmable = has_flag("SWIMMABLE", p);
     for( auto new_item : new_items ) {
-
         if (new_item.made_of(LIQUID) && swimmable) {
             continue;
         }
         item &it = add_item_or_charges(p, new_item);
+
         if( !it.is_null() ) {
             ret.push_back( &it );
         }
@@ -4079,6 +4079,9 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                     return e;
                 }
             }
+        }
+        if( obj.components.empty() ) {
+            obj.generate_components();
         }
 
         support_dirty( tile );
