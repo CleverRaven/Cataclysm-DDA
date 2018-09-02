@@ -503,7 +503,12 @@ void uimenu::apply_scrollbar()
     }
 
     int sbside = ( scrollbar_side == 0 ? 0 : w_width - 1 );
-    int estart = textformatted.size() + 2;
+    int estart = textformatted.size();
+    if( estart > 0 ) {
+        estart += 2;
+    } else {
+        estart = 1;
+    }
 
     scrollbar()
     .offset_x( sbside )
