@@ -277,11 +277,11 @@ class player : public Character
         void add_bionic(bionic_id const &b);
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(bionic_id const &b);
-	/** Calculate skill for (un)installing bionics */
+        /** Calculate skill for un/installing bionics */
         float bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
-                                      bool autodoc, int skill_level = -1 );
+                                      int skill_level = -1 );
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
