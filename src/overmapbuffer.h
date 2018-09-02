@@ -60,17 +60,17 @@ class overmapbuffer
     public:
         overmapbuffer();
 
-        static std::string terrain_filename( int const x, int const y );
-        static std::string player_filename( int const x, int const y );
+        static std::string terrain_filename( int x, int y );
+        static std::string player_filename( int x, int y );
 
         /**
          * Uses overmap coordinates, that means x and y are directly
          * compared with the position of the overmap.
          */
-        overmap &get( const int x, const int y );
+        overmap &get( int x, int y );
         void save();
         void clear();
-        void create_custom_overmap( int const x, int const y, overmap_special_batch &specials );
+        void create_custom_overmap( int x, int y, overmap_special_batch &specials );
 
         /**
          * Uses global overmap terrain coordinates, creates the

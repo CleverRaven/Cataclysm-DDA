@@ -216,6 +216,15 @@ inline point ms_to_omt_remain( point &p )
 }
 // overmap terrain to map segment.
 tripoint omt_to_seg_copy( const tripoint &p );
-
+// limits and loops coordinates to make limited size world (see WORLD_LIMIT_X and WORLD_LIMIT_Y options)
+void limit_and_loop_om_coordinates( int &x, int &y );
+inline void limit_and_loop_om_coordinates( point &p )
+{
+    limit_and_loop_om_coordinates( p.x, p.y );
+}
+inline void limit_and_loop_om_coordinates( tripoint &p )
+{
+    limit_and_loop_om_coordinates( p.x, p.y );
+}
 
 #endif
