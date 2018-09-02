@@ -480,7 +480,7 @@
   {
     "id": "MISSION_JOIN_TRACKER",
     "type": "mission_definition",
-    "name": "Tracker",
+    "name": "Find Deputy Badge",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 0,
@@ -990,7 +990,7 @@
     "followup": "MISSION_RANCH_FOREMAN_11",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 3 full kits I'm sure we could supplement them to make them last a bit longer.",
+      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 6 full kits I'm sure we could supplement them to make them last a bit longer.",
       "accepted": "We'll do our best to make them last...",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "Homes, hospitals, labs, and doctor offices would be where I'd check.",

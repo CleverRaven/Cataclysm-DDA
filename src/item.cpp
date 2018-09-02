@@ -2487,6 +2487,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_food() ) {
         if( rotten() ) {
             ret << _( " (rotten)" );
+        } else if( has_flag( "MUSHY" ) ) {
+            ret << _( " (mushy)" );
         } else if( is_going_bad() ) {
             ret << _( " (old)" );
         } else if( is_fresh() ) {
