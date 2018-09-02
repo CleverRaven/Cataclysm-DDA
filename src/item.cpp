@@ -4698,6 +4698,16 @@ std::set<itype_id> item::magazine_compatible( bool conversion ) const
 
 item * item::magazine_current()
 {
+#ifndef RELEASE
+    // This is a workaround to a bug in some versions of the Linux std library.
+    // In the debug build, it's possible for find_if to attempt to initialize
+    // and dereference the contents.begin() iterator here for an empty list
+    // which causes a segfault.  This doesn't appear to be an issue in the
+    // release version.
+    if( contents.empty() ) {
+        return nullptr;
+    }
+#endif
     auto iter = std::find_if( contents.begin(), contents.end(), []( const item& it ) {
         return it.is_magazine();
     });
