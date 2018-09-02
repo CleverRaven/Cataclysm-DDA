@@ -44,6 +44,7 @@ src/mutation_data.cpp
 src/newcharacter.cpp
 src/npctalk.cpp
 src/options.cpp
+src/overmap.cpp
 src/overmapbuffer.cpp
 src/path_info.cpp
 src/player.cpp
@@ -70,6 +71,7 @@ src/mapdata.h
 src/mapgen_functions.h
 src/mapgen.h
 src/mission.h
+src/overmap.h
 src/overmapbuffer.h
 src/player.h
 src/wcwidth.h
