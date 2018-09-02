@@ -2814,17 +2814,18 @@ units::volume item::volume( bool integral ) const
     }
 
     // Some magazines sit (partly) flush with the item so add less extra volume
-    if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->volume() - type->magazine_well, units::volume( 0 ) );
+    const item* cur_mag = magazine_current();
+    if( cur_mag != nullptr ) {
+        ret += std::max( cur_mag->volume() - type->magazine_well, units::volume( 0 ) );
     }
 
-    if (is_gun()) {
+    if( is_gun() ) {
         for( const auto elem : gunmods() ) {
             ret += elem->volume( true );
         }
 
         // @todo: implement stock_length property for guns
-        if (has_flag("COLLAPSIBLE_STOCK")) {
+        if( has_flag("COLLAPSIBLE_STOCK") ) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
             if     ( tmpvol <=  3 ) ; // intentional NOP
@@ -4698,7 +4699,17 @@ std::set<itype_id> item::magazine_compatible( bool conversion ) const
 
 item * item::magazine_current()
 {
-    auto iter = std::find_if( contents.begin(), contents.end(), []( const item& it ) {
+#ifndef RELEASE
+    // This is a workaround to a bug in some versions of the Linux std library.
+    // In the debug build, it's possible for find_if to attempt to initialize
+    // and dereference the contents.begin() iterator here for an empty list
+    // which causes a segfault.  This doesn't appear to be an issue in the
+    // release version.
+    if( contents.empty() ) {
+        return nullptr;
+    }
+#endif
+    auto iter = std::find_if( contents.begin(), contents.end(), []( const item & it ) {
         return it.is_magazine();
     });
     return iter != contents.end() ? &*iter : nullptr;
