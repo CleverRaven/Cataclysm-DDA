@@ -835,28 +835,6 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_LAB_1",
-    "type": "mission_definition",
-    "name": "Find Lab Tunnels",
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 5,
-    "value": 50000,
-    "item": "software_train_data",
-    "start": "reveal_lab_train_depot",
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "We need help...",
-      "offer": "I met a construction worker who says there was a big contract for tunneling equipment eight months ago.  He gave me an address to a government lab where they delivered the equipment.  I want you to go there, find the tunnels, and download their layout.  Maybe we can use it for safer transport.",
-      "accepted": "So glad for your help.",
-      "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "Come prepared: That tunnel entrance is going to be deeper inside a lab than a normal subway.  Maybe four stories down.",
-      "inquire": "Have you completed your mission?",
-      "success": "Fantastic!  I'll analyze the tunnel map and see if it's useful to anyone.",
-      "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
-    }
-  },
-  {
     "id": "MISSION_RANCH_BARTENDER_1",
     "type": "mission_definition",
     "name": "Make 2 Stills",
@@ -1879,5 +1857,96 @@
     "start": "reveal_refugee_center",
     "origins": [ "ORIGIN_COMPUTER" ],
     "destination": "evac_center"
+  },
+  {
+    "id": "MISSION_OLD_GUARD_LAB_1",
+    "type": "mission_definition",
+    "name": "Gather 3.75L of Disinfectant",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "disinfectant",
+    "count": 150,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_LAB_2",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Look, I would love help you do research on the cataclysm, but we've got wounded here.  Right now, I could use a gallon of disinfectant a lot more than a wandering hero.",
+      "accepted": "Wow, I'm surprised.  Or I will be surprised, if you actually come back with it.",
+      "rejected": "That's what I thought.  Come back if you change your mind.",
+      "advice": "Disinfectant?  Hospitals, doctor offices, maybe some of the government labs.",
+      "inquire": "Have you completed your mission?",
+      "success": "Wow, you really came through.  I'm sorry that I misjudged you.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_LAB_2",
+    "type": "mission_definition",
+    "name": "Analyze Zombie Blood",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_blood_data",
+    "start": "reveal_hospital",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_LAB_3",
+    "dialogue": {
+      "describe": "It could be very informative to perform an analysis of zombie blood...",
+      "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  Can you get a sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it?",
+      "accepted": "Excellent.  Take this blood draw kit; once you've produced a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
+      "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
+      "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
+      "inquire": "Well, do you have the data yet?",
+      "success": "Excellent!  This may be the key to removing the infection.",
+      "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
+      "failure": "What a shame, that data could have proved invaluable..."
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_LAB_3",
+    "type": "mission_definition",
+    "name": "Download Research Data",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_lab_data",
+    "start": "create_lab_console",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_LAB_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "A government scientist came through with a tip about some research databases which survived the cataclysm.  They're on the third basement level of the lab he worked at.  Find a database, pull the data onto this USB, and bring it back to us.",
+      "accepted": "So glad for your help.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "You'll need a laboratory id card or a lot of creativity.  Hopefully you can find the corpse of an employee who died in the evacuation.  Also brush up on your computer skills, the databases will have some security on them.",
+      "inquire": "Have you completed your mission?",
+      "success": "Thanks!  This is a lot of data to go through.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_LAB_4",
+    "type": "mission_definition",
+    "name": "Find Lab Tunnels",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_train_data",
+    "start": "reveal_lab_train_depot",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "We've been reviewing your data and found a massive contract for tunneling and train equipment eight months ago.  We have the address of the government lab where it was delivered.  I want you to go there, find the tunnels that they dug, and download all the train data for us.",
+      "accepted": "So glad for your help.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Maybe four stories down, so come prepared.",
+      "inquire": "Have you completed your mission?",
+      "success": "Fantastic!  I should be able to reconstruct what cargo moved between which labs.  I wonder what was really going on down there.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
   }
 ]

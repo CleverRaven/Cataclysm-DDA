@@ -3044,6 +3044,12 @@ bool overmap::check_ot_type(const std::string &otype, int x, int y, int z) const
     return is_ot_type(otype, oter);
 }
 
+bool overmap::check_ot_subtype(const std::string &otype, int x, int y, int z) const
+{
+    const oter_id oter = get_ter(x, y, z);
+    return is_ot_subtype(otype.c_str(), oter);
+}
+
 void overmap::good_river(int x, int y, int z)
 {
     if( !is_ot_type( "river", get_ter( x, y, z ) ) ) {

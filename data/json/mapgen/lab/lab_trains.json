@@ -40,7 +40,7 @@
             { "name": "Request Subway Train", "action": "disconnect", "security": 0 },
             { "name": "View Subway Routes", "action": "map_subway", "security": 0 }
           ],
-          "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "shutdown" } ]
+          "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "manhacks" } ]
         }
       },
       "terrain": {

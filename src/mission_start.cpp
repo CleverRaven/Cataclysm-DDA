@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "debug.h"
 #include "name.h"
@@ -76,6 +77,31 @@ static tripoint random_house_in_closest_city()
     }
     return random_house_in_city( cref );
 }
+
+static tripoint target_closest_lab( const tripoint origin, int reveal_rad, mission *miss )
+{
+    tripoint testpoint = tripoint(origin);
+    // Get the surface locations for labs and for spaces above hidden lab stairs.
+    testpoint.z = 0;
+    tripoint surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false, true);
+
+    testpoint.z = -1;
+    tripoint underground = overmap_buffer.find_closest( testpoint, "lab_hidden_stairs", 0, false, true);
+    underground.z = 0;
+
+    tripoint closest;
+    if( square_dist( surface.x, surface.y, origin.x, origin.y ) <= square_dist (underground.x, underground.y, origin.x, origin.y ) ) {
+        closest = surface;
+    } else {
+        closest = underground;
+    }
+
+    if( closest != overmap::invalid_tripoint && reveal_rad >= 0 ) {
+        overmap_buffer.reveal( closest, reveal_rad );
+    }
+    miss->set_target( closest );
+    return closest;
+}
 /**
  * Set target of mission to closest overmap terrain of that type,
  * reveal the area around it (uses reveal with reveal_rad),
@@ -96,9 +122,13 @@ static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission
 }
 
 static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
-                               bool must_see, int range )
+                               bool must_see, int range, tripoint loc = tripoint())
 {
-    auto places = overmap_buffer.find_all( g->u.global_omt_location(), omter, range, must_see );
+    if (loc == tripoint()) {
+        loc = g->u.global_omt_location();
+    }
+
+    auto places = overmap_buffer.find_all( loc, omter, range, must_see );
     if( places.empty() ) {
         return g->u.global_omt_location();
     }
@@ -408,6 +438,48 @@ void mission_start::kill_horde_master( mission *miss )
     tile.save();
 }
 
+/*
+ * Find a location to place a computer.  In order, prefer:
+ * 1) Broken consoles.
+ * 2) Corners or coords adjacent to a bed/dresser? (this logic may be flawed, dates from Whales in 2011)
+ * 3) A random spot near the center of the tile.
+ */
+static tripoint find_potential_computer_point(tinymap& compmap, int z) {
+    std::vector<tripoint> broken;
+    std::vector<tripoint> potential;
+    for( int x = 0; x < SEEX * 2; x++ ) {
+        for( int y = 0; y < SEEY * 2; y++ ) {
+            if( compmap.ter( x, y ) == t_console_broken ) {
+                broken.push_back( tripoint( x, y, z) );
+            } else if( compmap.ter( x, y ) == t_floor && compmap.furn( x, y ) == f_null ) {
+                bool okay = false;
+                int wall = 0;
+                for( int x2 = x - 1; x2 <= x + 1 && !okay; x2++ ) {
+                    for( int y2 = y - 1; y2 <= y + 1 && !okay; y2++ ) {
+                        if( compmap.furn( x2, y2 ) == f_bed || compmap.furn( x2, y2 ) == f_dresser ) {
+                            okay = true;
+                            potential.push_back( tripoint( x, y, z ) );
+                        }
+                        if( compmap.has_flag_ter( "WALL", x2, y2 ) ) {
+                            wall++;
+                        }
+                    }
+                }
+                if( wall == 5 ) {
+                    if( compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, NORTH ) &&
+                        compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, SOUTH ) &&
+                        compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, WEST ) &&
+                        compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, EAST ) ) {
+                        potential.push_back( tripoint( x, y, z ) );
+                    }
+                }
+            }
+        }
+    }
+    const tripoint fallback( rng( 10, SEEX * 2 - 11 ), rng( 10, SEEY * 2 - 11 ), z );
+    return random_entry( !broken.empty() ? broken : potential, fallback );    
+}
+
 void mission_start::place_npc_software( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
@@ -447,36 +519,7 @@ void mission_start::place_npc_software( mission *miss )
 
     oter_id oter = overmap_buffer.ter( place.x, place.y, place.z );
     if( is_ot_type( "house", oter ) || is_ot_type( "s_pharm", oter ) || oter == "" ) {
-        std::vector<tripoint> valid;
-        for( int x = 0; x < SEEX * 2; x++ ) {
-            for( int y = 0; y < SEEY * 2; y++ ) {
-                if( compmap.ter( x, y ) == t_floor && compmap.furn( x, y ) == f_null ) {
-                    bool okay = false;
-                    int wall = 0;
-                    for( int x2 = x - 1; x2 <= x + 1 && !okay; x2++ ) {
-                        for( int y2 = y - 1; y2 <= y + 1 && !okay; y2++ ) {
-                            if( compmap.furn( x2, y2 ) == f_bed || compmap.furn( x2, y2 ) == f_dresser ) {
-                                okay = true;
-                                valid.push_back( tripoint( x, y, place.z ) );
-                            }
-                            if( compmap.has_flag_ter( "WALL", x2, y2 ) ) {
-                                wall++;
-                            }
-                        }
-                    }
-                    if( wall == 5 ) {
-                        if( compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, NORTH ) &&
-                            compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, SOUTH ) &&
-                            compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, WEST ) &&
-                            compmap.is_last_ter_wall( true, x, y, SEEX * 2, SEEY * 2, EAST ) ) {
-                            valid.push_back( tripoint( x, y, place.z ) );
-                        }
-                    }
-                }
-            }
-        }
-        const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
-        comppoint = random_entry( valid, fallback );
+        comppoint = find_potential_computer_point( compmap, place.z);
     }
 
     compmap.ter_set( comppoint, t_console );
@@ -579,6 +622,8 @@ void mission_start::reveal_hospital( mission *miss )
     if( dev != NULL ) {
         g->u.i_add( item( "vacutainer", 0 ) );
         add_msg( _( "%s gave you a blood draw kit." ), dev->name.c_str() );
+        g->u.i_add( item( "usb_drive", 0 ) );
+        add_msg( _( "%s gave you a USB drive." ), dev->name.c_str() );
     }
     target_om_ter( "hospital_2", 3, miss, false );
 }
@@ -1781,10 +1826,9 @@ void mission_start::reveal_refugee_center( mission *miss )
     }
 }
 
-void mission_start::reveal_lab_train_depot( mission *miss )
+void mission_start::create_lab_console( mission *miss )
 {
-    tripoint place = target_om_ter( "lab_train_depot", 1, miss, false, -4 );
-
+    // Gear.
     npc *dev = g->find_npc( miss->npc_id );
     if( dev == NULL ) {
         debugmsg( "Couldn't find NPC! %d", miss->npc_id );
@@ -1793,21 +1837,65 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     g->u.i_add( item( "usb_drive", 0 ) );
     add_msg( _( "%s gave you a USB drive." ), dev->name.c_str() );
 
+
+    // Pick a lab that has spaces on the third basement level.
+    tripoint loc = g->u.global_omt_location();
+    loc.z = -3;
+    tripoint place = target_om_ter_random( "lab", 0, miss, false, 0, loc);
+
+    // Drop four computers in nearby lab spaces so the player can stumble upon one of them.
+    for (int i = 0; i < 4; ++i) {
+        tripoint om_place = target_om_ter_random( "lab", 0, miss, false, 4, place);
+        debugmsg("Placing computer at %d,%d,%d", om_place.x, om_place.y, om_place.z);
+        tinymap compmap;
+        compmap.load( om_place.x * 2, om_place.y * 2, om_place.z, false );
+
+        tripoint comppoint = find_potential_computer_point( compmap, om_place.z);
+
+        computer *tmpcomp = compmap.add_computer( comppoint, "Durable Storage Archive", 3 );
+        tmpcomp->mission_id = miss->uid;
+        tmpcomp->add_option( _( "Download Archival Data" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
+
+        compmap.save();
+    }
+
+    // Target the lab entrance.
+    const tripoint target = target_closest_lab( place, 2, miss );
+
+    const tripoint source_road = overmap_buffer.find_closest( g->u.global_omt_location(), "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( target, "road", 3, false );
+    overmap_buffer.reveal_route( source_road, dest_road );
+}
+
+void mission_start::reveal_lab_train_depot( mission *miss )
+{
+    // Gear.
+    npc *dev = g->find_npc( miss->npc_id );
+    if( dev == NULL ) {
+        debugmsg( "Couldn't find NPC! %d", miss->npc_id );
+        return;
+    }
+    g->u.i_add( item( "usb_drive", 0 ) );
+    add_msg( _( "%s gave you a USB drive." ), dev->name.c_str() );
+
+    // Find and prepare lab location.
+    tripoint loc = g->u.global_omt_location();
+    loc.z = -4;  // tunnels are at z = -4
+    const tripoint place = overmap_buffer.find_closest( loc, "lab_train_depot", 0, false );
+
     tinymap compmap;
     compmap.load( place.x * 2, place.y * 2, place.z, false );
     tripoint comppoint;
 
-    bool comp_found = false;
-    for( int x = 0; x < SEEX * 2 && !comp_found; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( compmap.ter( x, y ) == t_console ) {
-                comppoint = tripoint(x, y, place.z);
-                comp_found = true;
-                break;
-            }
+    for( tripoint point: compmap.points_in_rectangle(
+            tripoint( 0, 0, place.z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, place.z ) ) ) {
+        if( compmap.ter( point ) == t_console ) {
+            comppoint = point;
+            break;
         }
     }
-    if (!comp_found) {
+
+    if (comppoint == tripoint()) {
         debugmsg( "Could not find a computer in the lab train depot, mission will fail." );
         return;
     }
@@ -1817,4 +1905,11 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
 
     compmap.save();
+
+    // Target the lab entrance.
+    const tripoint target = target_closest_lab( place, 2, miss );
+
+    const tripoint source_road = overmap_buffer.find_closest( g->u.global_omt_location(), "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( target, "road", 3, false );
+    overmap_buffer.reveal_route( source_road, dest_road );
 }

@@ -451,6 +451,7 @@ public:
     void connect_closest_points( const std::vector<point> &points, int z, const overmap_connection &connection );
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
+  bool check_ot_subtype(const std::string &otype, int x, int y, int z) const;
   void chip_rock(int x, int y, int z);
 
   void polish_river();
