@@ -211,7 +211,7 @@ class veh_interact
         void allocate_windows();
         void do_main_loop();
 
-        void cache_tool_availability_update_lifting(tripoint world_cursor_pos);
+        void cache_tool_availability_update_lifting( tripoint world_cursor_pos );
 
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
         bool can_self_jack();
