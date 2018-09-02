@@ -6696,42 +6696,15 @@ bool player::has_fire(const int quantity) const
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return true;
-    } else if (has_charges("torch_lit", 1)) {
+    } else if( has_item_with_flag( "FIRE" ) ) {
         return true;
-    } else if (has_charges("battletorch_lit", quantity)) {
-        return true;
-    } else if (has_charges("handflare_lit", 1)) {
-        return true;
-    } else if (has_charges("candle_lit", 1)) {
-        return true;
-    } else if (has_charges("ref_lighter", quantity)) {
-        return true;
-    } else if (has_charges("matches", quantity)) {
-        return true;
-    } else if (has_charges("lighter", quantity)) {
-        return true;
-    } else if (has_charges("crude_firestarter", quantity)) {
-        return true;
-    } else if (has_charges("flamethrower", quantity)) {
-        return true;
-    } else if (has_charges("flamethrower_simple", quantity)) {
-        return true;
-    } else if (has_charges("hotplate", quantity)) {
-        return true;
-    } else if (has_charges("welder", quantity)) {
-        return true;
-    } else if (has_charges("welder_crude", quantity)) {
-        return true;
-    } else if (has_charges("shishkebab_on", quantity)) {
-        return true;
-    } else if (has_charges("firemachete_on", quantity)) {
-        return true;
-    } else if (has_charges("broadfire_on", quantity)) {
-        return true;
-    } else if (has_charges("firekatana_on", quantity)) {
-        return true;
-    } else if (has_charges("zweifire_on", quantity)) {
-        return true;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+        for( auto &i : firestarters ) {
+            if( has_charges( i->typeId(), quantity ) ) {
+                return true;
+            }
+        }
     } else if (has_active_bionic( bio_tools ) && power_level > quantity * 5 ) {
         return true;
     } else if (has_bionic( bio_lighter ) && power_level > quantity * 5 ) {
@@ -6756,66 +6729,16 @@ void player::use_fire(const int quantity)
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return;
-    } else if (has_charges("torch_lit", 1)) {
+    } else if( has_item_with_flag( "FIRE" ) ) {
         return;
-    } else if (has_charges("battletorch_lit", 1)) {
-        return;
-    } else if (has_charges("handflare_lit", 1)) {
-        return;
-    } else if (has_charges("candle_lit", 1)) {
-        return;
-    } else if (has_charges("shishkebab_on", quantity)) {
-        return;
-    } else if (has_charges("firemachete_on", quantity)) {
-        return;
-    } else if (has_charges("broadfire_on", quantity)) {
-        return;
-    } else if (has_charges("firekatana_on", quantity)) {
-        return;
-    } else if (has_charges("zweifire_on", quantity)) {
-        return;
-    } else if (has_charges("ref_lighter", quantity)) {
-        use_charges("ref_lighter", quantity);
-        return;
-    } else if (has_charges("matches", quantity)) {
-        use_charges("matches", quantity);
-        return;
-    } else if (has_charges("lighter", quantity)) {
-        use_charges("lighter", quantity);
-        return;
-    } else if (has_charges("crude_firestarter", quantity)) {
-        use_charges("crude_firestarter", quantity);
-        return;
-    } else if (has_charges("flamethrower", quantity)) {
-        use_charges("flamethrower", quantity);
-        return;
-    } else if (has_charges("flamethrower_simple", quantity)) {
-        use_charges("flamethrower_simple", quantity);
-        return;
-    } else if (has_charges("hotplate", quantity)) {
-        use_charges("hotplate", quantity);
-        return;
-    } else if (has_charges("welder", quantity)) {
-        use_charges("welder", quantity);
-        return;
-    } else if (has_charges("welder_crude", quantity)) {
-        use_charges("welder_crude", quantity);
-        return;
-    } else if (has_charges("shishkebab_off", quantity)) {
-        use_charges("shishkebab_off", quantity);
-        return;
-    } else if (has_charges("firemachete_off", quantity)) {
-        use_charges("firemachete_off", quantity);
-        return;
-    } else if (has_charges("broadfire_off", quantity)) {
-        use_charges("broadfire_off", quantity);
-        return;
-    } else if (has_charges("firekatana_off", quantity)) {
-        use_charges("firekatana_off", quantity);
-        return;
-    } else if (has_charges("zweifire_off", quantity)) {
-        use_charges("zweifire_off", quantity);
-        return;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+        for( auto &i : firestarters ) {
+            if( has_charges( i->typeId(), quantity ) ) {
+                use_charges( i->typeId(), quantity );
+                return;
+            }
+        }
     } else if (has_active_bionic( bio_tools ) && power_level > quantity * 5 ) {
         charge_power( -quantity * 5 );
         return;
