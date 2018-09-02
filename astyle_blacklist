@@ -45,7 +45,6 @@ src/newcharacter.cpp
 src/npctalk.cpp
 src/options.cpp
 src/overmapbuffer.cpp
-src/overmap.cpp
 src/path_info.cpp
 src/player.cpp
 src/ranged.cpp
@@ -72,7 +71,6 @@ src/mapgen_functions.h
 src/mapgen.h
 src/mission.h
 src/overmapbuffer.h
-src/overmap.h
 src/player.h
 src/wcwidth.h
 src/wdirent.h
