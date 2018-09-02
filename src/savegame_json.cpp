@@ -1895,12 +1895,16 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("passenger_id", passenger_id);
     json.member("crew_id", crew_id);
     json.member("items", items);
-    json.member("target_first_x", target.first.x);
-    json.member("target_first_y", target.first.y);
-    json.member("target_first_z", target.first.z);
-    json.member("target_second_x", target.second.x);
-    json.member("target_second_y", target.second.y);
-    json.member("target_second_z", target.second.z);
+    if( target.first != tripoint_min ) {
+        json.member("target_first_x", target.first.x);
+        json.member("target_first_y", target.first.y);
+        json.member("target_first_z", target.first.z);
+    }
+    if( target.second != tripoint_min ) {
+        json.member("target_second_x", target.second.x);
+        json.member("target_second_y", target.second.y);
+        json.member("target_second_z", target.second.z);
+    }
     json.member("ammo_pref", ammo_pref);
     json.end_object();
 }
