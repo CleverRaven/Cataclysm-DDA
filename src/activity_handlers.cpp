@@ -87,7 +87,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
-    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn }
+    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
+    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -308,7 +309,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 );
+        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) || u.has_amount( "vine_30", 1 ) ;
         bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
         bool big_corpse = corpse.size >= MS_MEDIUM;
 
@@ -2868,4 +2869,87 @@ void activity_handlers::till_plot_do_turn( player_activity*, player *p )
 
     // If we got here without restarting the activity, it means we're done
     add_msg( m_info, _( "You tilled every tile you could." ) );
+}
+
+void activity_handlers::plant_plot_do_turn( player_activity*, player *p )
+{
+    const auto &mgr = zone_manager::get_manager();
+    const auto abspos = g->m.getabs( p->pos() );
+    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+
+    std::vector<item *> seed_inv = p->items_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
+
+    // get seeds requested by zones on the tile (local coords)
+    auto get_seeds = [&]( const tripoint &tile ) {
+        auto seeds = std::vector<std::string>();
+        const auto &zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ), g->m.getabs( tile ) );
+        for( const auto &zone : zones ) {
+            const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
+            const auto seed = options.get_seed();
+
+            if( seed != "" && !( std::find( seeds.begin(), seeds.end(), seed ) != seeds.end() ) ) {
+                seeds.emplace_back( seed );
+            }
+        }
+
+        return seeds;
+    };
+
+    // cleanup unwanted tiles (local coords)
+    auto cleanup = [&]( const tripoint &tile ) {
+        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound ) {
+            return true;
+        }
+
+        const auto seeds = get_seeds( tile );
+
+        return std::all_of( seeds.begin(), seeds.end(), [&](std::string seed) { 
+            return std::all_of( seed_inv.begin(), seed_inv.end(), [seed](item *it) {  
+                return it->typeId() != itype_id( seed );
+            } );
+        } );
+    };
+    cleanup_tiles( unsorted_tiles, cleanup );
+
+    // sort remaining tiles by distance
+    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+
+    for( auto &tile : tiles ) {
+        const auto &tile_loc = g->m.getlocal( tile );
+
+        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
+        if( route.size() > 1 ) {
+            route.pop_back();
+            // check for safe mode, we don't want to trigger moving if it is activated
+            if( g->check_safe_mode_allowed() ) {
+                p->set_destination( route, player_activity( activity_id( "ACT_PLANT_PLOT" ) ) );
+            }
+            return;
+        } else { // we are at destination already
+            const auto seeds = get_seeds( tile_loc );
+            std::vector<item *> seed_inv = p->items_with( [seeds]( const item &itm ) {
+                return itm.is_seed() && std::any_of( seeds.begin() , seeds.end(), [itm]( std::string seed ) {
+                    return itm.typeId() == itype_id( seed );
+                } );
+            } );
+            if( seed_inv.size() > 0 ) {
+                auto it = seed_inv.front();
+                iexamine::plant_seed( *p, tile_loc, it->typeId() );
+            }
+
+            if( p->moves <= 0 ) {
+                // Restart activity and break from cycle.
+                p->assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
+                return;
+            }
+        }
+    }
+
+    // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, _( "You planted all seeds you could." ) );
 }
