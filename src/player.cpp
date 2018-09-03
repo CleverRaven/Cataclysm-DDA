@@ -1613,7 +1613,6 @@ int player::blood_loss( body_part bp ) const
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
 
-
 void player::temp_equalizer( body_part bp1, body_part bp2 )
 {
     // Body heat is moved around.
@@ -2038,7 +2037,6 @@ void player::set_underwater( bool u )
         recalc_sight_limits();
     }
 }
-
 
 nc_color player::basic_symbol_color() const
 {
@@ -2604,7 +2602,6 @@ void player::charge_power( int amount )
 {
     power_level = clamp( power_level + amount, 0, max_power_level );
 }
-
 
 /*
  * Calculate player brightness based on the brightest active item, as
@@ -7688,7 +7685,6 @@ hint_rating player::rate_action_wear( const item &it ) const
     return can_wear( it ).success() ? HINT_GOOD : HINT_IFFY;
 }
 
-
 hint_rating player::rate_action_change_side( const item &it ) const {
    if (!is_worn(it)) {
       return HINT_IFFY;
@@ -10327,7 +10323,6 @@ bool player::wearing_something_on(body_part bp) const
     return false;
 }
 
-
 bool player::natural_attack_restricted_on( body_part bp ) const
 {
     for( auto &i : worn ) {
@@ -10500,8 +10495,6 @@ void player::practice( const skill_id &id, int amount, int cap )
     if (isSavant && id != savantSkill ) {
         amount /= 2;
     }
-
-
 
     if (amount > 0 && get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
@@ -11434,7 +11427,6 @@ std::vector<std::string> player::get_overlay_ids() const
 {
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
-
 
     // first get effects
     for( const auto &eff_pr : *effects ) {

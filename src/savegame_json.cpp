@@ -748,7 +748,6 @@ void player::deserialize(JsonIn &jsin)
     temp_cur.fill( 5000 );
     data.read( "temp_cur", temp_cur );
 
-
     temp_conv.fill( 5000 );
     data.read( "temp_conv", temp_conv );
 
@@ -1326,7 +1325,6 @@ void inventory::json_save_items(JsonOut &json) const
     }
     json.end_array();
 }
-
 
 void inventory::json_load_items(JsonIn &jsin)
 {
@@ -2023,7 +2021,6 @@ void vehicle::deserialize(JsonIn &jsin)
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
 
-
     /** Legacy saved games did not store part enabled status within parts */
     auto set_legacy_state = [&]( const std::string &var, const std::string &flag ) {
         if( data.get_bool( var, false ) ) {
@@ -2293,7 +2290,6 @@ void Creature::store( JsonOut &jsout ) const
         }
     }
     jsout.member( "effects", tmp_map );
-
 
     jsout.member( "values", values );
 

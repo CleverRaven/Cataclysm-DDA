@@ -720,7 +720,6 @@ bool monster::can_act() const
           ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
-
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
@@ -881,7 +880,6 @@ monster_attitude monster::attitude( const Character *u ) const
             effective_anger -= 20;
         }
 
-
         if( u->has_trait( terrifying ) ) {
             effective_morale -= 10;
         }
@@ -969,7 +967,6 @@ void monster::process_trigger(monster_trigger trig, int amount)
         anger -= amount;
     }
 }
-
 
 int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
 {
@@ -1558,7 +1555,6 @@ float monster::get_dodge_base() const
 {
     return type->sk_dodge;
 }
-
 
 float monster::hit_roll() const {
     float hit = get_hit();
@@ -2176,7 +2172,6 @@ m_size monster::get_size() const {
     return type->size;
 }
 
-
 void monster::add_msg_if_npc( const std::string &msg ) const
 {
     if (g->u.sees(*this)) {
@@ -2414,7 +2409,6 @@ bool monster::will_join_horde(int size)
         return true;
     }
 }
-
 
 void monster::on_unload()
 {

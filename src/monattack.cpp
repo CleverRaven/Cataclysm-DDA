@@ -774,7 +774,6 @@ bool mattack::boomer_glow( monster *z )
     return true;
 }
 
-
 bool mattack::resurrect( monster *z )
 {
     // Chance to recover some of our missing speed (yes this will regain
@@ -1373,7 +1372,6 @@ bool mattack::vine( monster *z )
             z->moves -= 100;
             return true;
         }
-
 
         if( g->is_empty( dest ) ) {
             grow.push_back( dest );
@@ -2294,10 +2292,8 @@ bool mattack::jackson( monster *z )
         }
     }
     // This is telepathy, doesn't take any moves.
-
     return true;
 }
-
 
 bool mattack::dance( monster *z )
 {
@@ -2393,7 +2389,6 @@ bool mattack::tentacle( monster *z )
 
     return true;
 }
-
 
 bool mattack::ranged_pull( monster *z )
 {
@@ -3082,7 +3077,6 @@ bool mattack::searchlight( monster *z )
                 }
             }
         }
-
 
         int x = zposx + settings.get_var( "SL_SPOT_X", 0 );
         int y = zposy + settings.get_var( "SL_SPOT_Y", 0 );
@@ -3929,7 +3923,6 @@ bool mattack::longswipe( monster *z )
 
     return true;
 }
-
 
 bool mattack::parrot( monster *z )
 {

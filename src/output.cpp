@@ -1393,7 +1393,6 @@ std::string rewrite_vsnprintf( const char *msg )
             break;
         }
 
-
         // Write portion of the string that was before %
         rewritten_msg << std::string( msg, ptr );
         rewritten_msg_optimised << std::string( msg, ptr );

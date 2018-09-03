@@ -607,7 +607,6 @@ void input_context::register_action( const std::string &action_descriptor )
     register_action( action_descriptor, "" );
 }
 
-
 void input_context::register_action( const std::string &action_descriptor, const std::string &name )
 {
     if( action_descriptor == "ANY_INPUT" ) {
@@ -621,7 +620,6 @@ void input_context::register_action( const std::string &action_descriptor, const
         action_name_overrides[action_descriptor] = name;
     }
 }
-
 
 std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor ) const
 {

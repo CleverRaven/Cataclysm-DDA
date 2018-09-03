@@ -260,7 +260,6 @@ item& item::activate()
     return *this;
 }
 
-
 item& item::ammo_set( const itype_id& ammo, long qty )
 {
     if( qty < 0 ) {
@@ -1186,7 +1185,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           get_ranged_pierce( gun ) + ammo_pierce, true, "", true, false, false ) );
         }
 
-
         if (parts->test(iteminfo_parts::GUN_DISPERSION))
             info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
                                       mod->gun_dispersion( false, false ), true, "", !has_ammo, true ) );
@@ -1834,7 +1832,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
 }
 
-
         if( is_armor() ) {
             if( has_flag( "HELMET_COMPAT" ) && parts->test(iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT)) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -1985,7 +1982,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                enumerate_as_string( holsters.begin(), holsters.end(),
                                                     []( const itype *e ) { return e->nname( 1 ); } ) );
         }
-
 
         if (parts->test(iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION)) {
             for( auto &u : type->use_methods ) {
@@ -2944,8 +2940,6 @@ int item::reach_range( const player &p ) const
     return res;
 }
 
-
-
 void item::unset_flags()
 {
     item_tags.clear();
@@ -3331,7 +3325,6 @@ int item::get_warmth() const
 
     return result + fur_lined + wool_lined;
 }
-
 
 time_duration item::brewing_time() const
 {
@@ -3773,7 +3766,6 @@ bool item::made_of(phase_id phase) const
     }
     return (type->phase == phase);
 }
-
 
 bool item::conductive() const
 {

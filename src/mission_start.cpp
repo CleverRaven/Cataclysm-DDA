@@ -1124,7 +1124,6 @@ void mission_start::ranch_construct_11(mission *miss)
  bay.add_vehicle(vproto_id("schoolbus"), 22, 13, 135);
  bay.save();
 
-
  target_om_ter_random("ranch_camp_67", 1, miss, false, RANCH_SIZE);
 }
 

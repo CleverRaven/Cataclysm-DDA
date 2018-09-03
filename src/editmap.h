@@ -93,7 +93,6 @@ class editmap
 
         trap_id sel_trap;
 
-
         furn_id fsel;
         furn_id fset;
         trap_id trsel;

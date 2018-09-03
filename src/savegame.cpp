@@ -91,7 +91,6 @@ void game::serialize(std::ostream & fout) {
         json.member( "om_x", pos_om.x );
         json.member( "om_y", pos_om.y );
 
-
         json.member( "grscent", scent.serialize() );
 
         // Then each monster
@@ -1350,7 +1349,6 @@ void mongroup::deserialize_legacy(JsonIn &json)
         }
     }
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mapbuffer

@@ -40,7 +40,6 @@
 #include <cstdlib>
 #include <cstring>
 
-
 enum aim_exit {
     exit_none = 0,
     exit_okay,
@@ -214,7 +213,6 @@ bool advanced_inventory::get_square( const std::string action, aim_location &ret
     }
     return true;
 }
-
 
 void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
 {
@@ -1166,7 +1164,6 @@ bool advanced_inventory::move_all_items(bool nested_call)
 
         auto &sarea = squares[spane.get_area()];
         auto &darea = squares[dpane.get_area()];
-
 
         // Check first if the destination area still have enough room for moving all.
         if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
@@ -2442,7 +2439,6 @@ void advanced_inv_area::set_container_position()
         vstor = -1;
     }
 }
-
 
 void advanced_inv()
 {

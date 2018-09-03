@@ -435,7 +435,6 @@ void to_overmap_font_dimension(int &, int &) { }
 void reinitialize_framebuffer() { }
 #endif
 
-
 void game::init_ui( const bool resized )
 {
     // clear the screen
@@ -1721,7 +1720,6 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
     fish->no_corpse_quiet = true;
     fish->die( p );
 }
-
 
 void game::cancel_activity()
 {
@@ -4762,7 +4760,6 @@ void game::draw_pixel_minimap()
         wrefresh(w_pixel_minimap);
     }
 }
-
 
 void game::draw_sidebar()
 {
@@ -9517,7 +9514,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         ctxt.register_action("fire");
     }
     ctxt.register_action("HELP_KEYBINDINGS");
-
 
     // first integer is the row the attitude category string is printed in the menu
     std::map<int, Creature::Attitude> mSortCategory;
@@ -14498,7 +14494,6 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
     if (!stat_info.empty()) {
         add_msg(stat_info.c_str());
     }
-
 
     if (net_speed != 0) {
         add_msg(m_info, _("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);

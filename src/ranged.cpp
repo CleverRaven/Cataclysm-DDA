@@ -278,7 +278,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
-
         if( shot.missed_by <= .1 ) {
             lifetime_stats.headshots++; // @todo: check head existence for headshot
         }

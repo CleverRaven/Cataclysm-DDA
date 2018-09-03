@@ -728,7 +728,6 @@ void iexamine::crate(player &p, const tripoint &examp)
     dummy.crowbar( &p, &fakecrow, false, examp );
 }
 
-
 /**
  * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
  */

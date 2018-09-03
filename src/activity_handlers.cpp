@@ -786,7 +786,6 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         }
     }
 
-
     //now handle the meat, if there is any
     if( meat!= "null" ) {
         if( pieces <= 0 ) {
@@ -1530,7 +1529,6 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-
 void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
     //Gaming takes time, not speed
@@ -1548,7 +1546,6 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
         add_msg(m_info, _("The %s runs out of batteries."), game_item.tname().c_str());
     }
 }
-
 
 void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 {
@@ -1580,7 +1577,6 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
     act->set_to_null();
 }
 
-
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
     const static std::string salvage_string = "salvage";
@@ -1611,7 +1607,6 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
     add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
 }
-
 
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
@@ -1681,7 +1676,6 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
         }
     }
 }
-
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {

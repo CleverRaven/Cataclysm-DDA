@@ -101,7 +101,6 @@ static const morale_mult prozac( 1.0, 0.25 );
 static const morale_mult prozac_bad( 0.25, 1.0 );
 }
 
-
 std::string player_morale::morale_point::get_name() const
 {
     return type.obj().describe( item_type );

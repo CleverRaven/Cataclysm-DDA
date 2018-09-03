@@ -642,7 +642,6 @@ requirement_data vpart_info::repair_requirements() const
     } );
 }
 
-
 bool vpart_info::is_repairable() const
 {
     return !repair_requirements().is_empty();

@@ -1411,7 +1411,6 @@ void monster::knock_back_from( const tripoint &p )
     check_dead_state();
 }
 
-
 /* will_reach() is used for determining whether we'll get to stairs (and
  * potentially other locations of interest).  It is generally permissive.
  * TODO: Pathfinding;

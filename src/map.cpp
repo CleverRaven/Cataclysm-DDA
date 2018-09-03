@@ -1348,8 +1348,6 @@ bool map::is_harvestable( const tripoint &pos ) const
     return !harvest_here.is_null() && !harvest_here->empty();
 }
 
-
-
 /*
  * set terrain via string; this works for -any- terrain id
  */
