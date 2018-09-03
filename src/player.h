@@ -1267,8 +1267,6 @@ class player : public Character
         void craft();
         void recraft();
         void long_craft();
-        void show_craft( const recipe * filter );
-        void hide_craft( const recipe * filter );
         void make_craft( const recipe_id &id, int batch_size );
         void make_all_craft( const recipe_id &id, int batch_size );
         std::list<item> consume_components_for_craft( const recipe *making, int batch_size, bool ignore_last = false );

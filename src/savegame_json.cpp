@@ -760,7 +760,7 @@ void player::deserialize(JsonIn &jsin)
 
     data.read( "learned_recipes", *learned_recipes );
     valid_autolearn_skills->clear(); // Invalidates the cache
-    
+
     items_identified.clear();
     data.read( "items_identified", items_identified );
 
