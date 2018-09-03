@@ -194,7 +194,7 @@ monster::monster( const mtype_id& id ) : monster()
     faction = type->default_faction;
     ammo = type->starting_ammo;
     upgrades = type->upgrades && (type->half_life || type->age_grow);
-    reproduces = type->reproduces && type->baby_timer;
+    reproduces = type->reproduces && type->baby_timer && !has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
 }
 
@@ -356,18 +356,27 @@ void monster::try_reproduce() {
 
     bool season_spawn = false;
     bool season_match = true;
+
+    // only 50% of animals should reproduce
+    bool female = one_in( 2 );
     for( auto &elem : type->baby_flags ) {
         if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
             season_spawn = true;
         }
     }
 
+    // add a decreasing chance of additional spawns when "catching up" an existing animal
+    int chance = -1;
     while( true ) {
         if( baby_timer > current_day ) {
             return;
         }
+        const int next_baby = type->baby_timer;
+        if( next_baby < 0 ) {
+            return;
+        }
 
-        if( season_spawn ){
+        if( season_spawn ) {
             season_match = false;
             for( auto &elem : type->baby_flags ) {
                 if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
@@ -379,18 +388,16 @@ void monster::try_reproduce() {
             }
         }
 
-        if( season_match ){
+        chance += 2;
+        if( season_match && female && one_in( chance ) ) {
+            int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, type->baby_count, pos().x, pos().y );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().x, pos().y );
             } else {
-                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), type->baby_count ), true );
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), spawn_cnt ), true );
             }
         }
 
-        const int next_baby = type->baby_timer;
-        if( next_baby < 0 ) {
-            return;
-        }
         baby_timer += next_baby;
     }
 }
