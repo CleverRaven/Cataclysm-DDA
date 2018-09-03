@@ -34,6 +34,7 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
+static bool query_is_yes( std::string query );
 static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount );
 static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
                                       const recipe &rec );
@@ -286,8 +287,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 break;
                             }
 
-                            case 'h':
-                            {
+                            case 'h': {
                                 picking = available_recipes.get_all();
                                 if( query_is_yes( qry ) ) {
                                     show_hidden = true;
@@ -304,14 +304,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
 
                 current.clear();
-                for( auto i : picking )
-                {
+                for( auto i : picking ) {
                     if( ( uistate.hidden_recipes.find( i->ident() ) != uistate.hidden_recipes.end() ) == show_hidden ) {
                         current.push_back( i );
                     }
                 }
-                if( !show_hidden )
-                {
+                if( !show_hidden ) {
                     draw_hidden_amount( w_head, 0, picking.size() - current.size() );
                 }
 
@@ -357,7 +355,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                        _( "Press <ENTER> to attempt to craft object." ) );
             wprintz( w_data, c_white, "  " );
             if( !filterstring.empty() ) {
-                wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, %s [?] keybindings" ),
+                wprintz( w_data, c_white,
+                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
                 wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, %s [?] keybindings" ),
@@ -686,18 +685,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                 keepline = true;
             }
             redraw = true;
-        }
-        else if( action == "HIDE_SHOW_RECIPE" )
-        {
+        } else if( action == "HIDE_SHOW_RECIPE" ) {
             if( current.empty() ) {
                 popup( _( "Nothing selected!" ) );
                 redraw = true;
                 continue;
             }
             if( show_hidden ) {
-                uistate.hidden_recipes.erase(current[line]->ident());
+                uistate.hidden_recipes.erase( current[line]->ident() );
             } else {
-                uistate.hidden_recipes.insert(current[line]->ident());
+                uistate.hidden_recipes.insert( current[line]->ident() );
             }
 
             redraw = true;
