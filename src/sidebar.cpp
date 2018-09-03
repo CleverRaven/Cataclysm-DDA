@@ -444,7 +444,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     if( has_trait( trait_SELFAWARE ) && get_perceived_pain() > 0 ) {
         mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), get_perceived_pain() );
     } else if( get_perceived_pain() > 0 ) {
-        mvwprintz( w, sideStyle ? 1 : 2, 0, col_pain, get_pain_description() );
+        mvwprintz( w, sideStyle ? 0 : 2, 0, col_pain, get_pain_description() );
     }
 
     const int morale_cur = get_morale_level();
@@ -464,7 +464,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         fc = face_bird;
     }
 
-    mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale,
+    mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 9, col_morale,
                morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
 
     vehicle *veh = g->remoteveh();
