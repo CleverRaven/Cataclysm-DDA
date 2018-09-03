@@ -194,7 +194,7 @@ monster::monster( const mtype_id& id ) : monster()
     faction = type->default_faction;
     ammo = type->starting_ammo;
     upgrades = type->upgrades && (type->half_life || type->age_grow);
-    reproduces = type->reproduces && type->baby_timer;
+    reproduces = type->reproduces && type->baby_timer && !has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
 }
 
