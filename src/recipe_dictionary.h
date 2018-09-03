@@ -87,9 +87,6 @@ class recipe_subset
             }
         }
 
-        /** Remove a recipe from the subset. */
-        void remove( const recipe *r );
-
         /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe *r ) const {
             return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe * elem ) {

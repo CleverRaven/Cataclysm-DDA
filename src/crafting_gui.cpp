@@ -15,6 +15,7 @@
 #include "output.h"
 #include "json.h"
 #include "string_input_popup.h"
+#include "uistate.h"
 
 #include "debug.h"
 
@@ -274,8 +275,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                             case 'm': {
                                 auto &learned = g->u.get_learned_recipes();
-                                if( ( qry.substr( 2 ) == "yes" ) || ( qry.substr( 2 ) == "y" ) || ( qry.substr( 2 ) == "1" ) ||
-                                    ( qry.substr( 2 ) == "true" ) || ( qry.substr( 2 ) == "t" ) || ( qry.substr( 2 ) == "on" ) ) {
+                                if( query_is_yes( qry ) ) {
                                     std::set_intersection( available_recipes.begin(), available_recipes.end(), learned.begin(),
                                                            learned.end(), std::back_inserter( picking ) );
                                 } else {
@@ -289,8 +289,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                             case 'h':
                             {
                                 picking = available_recipes.get_all();
-                                if( ( qry.substr( 2 ) == "yes" ) || ( qry.substr( 2 ) == "y" ) || ( qry.substr( 2 ) == "1" ) ||
-                                    ( qry.substr( 2 ) == "true" ) || ( qry.substr( 2 ) == "t" ) || ( qry.substr( 2 ) == "on" ) ) {
+                                if( query_is_yes( qry ) ) {
                                     show_hidden = true;
                                 }
                                 break;
@@ -304,20 +303,17 @@ const recipe *select_crafting_recipe( int &batch_size )
                     }
                 }
 
-                auto &hidden = g->u.get_hidden_recipes();
                 current.clear();
-                if( show_hidden )
+                for( auto i : picking )
                 {
-                    std::set_intersection( picking.begin(), picking.end(), hidden.begin(), hidden.end(),
-                                           std::back_inserter( current ) );
-                } else
-                {
-                    std::set_difference( picking.begin(), picking.end(), hidden.begin(), hidden.end(),
-                                         std::back_inserter( current ) );
-                    int hidden_amount = picking.size() - current.size();
-                    draw_hidden_amount( w_head, 0, hidden_amount );
+                    if( ( uistate.hidden_recipes.find( i->ident() ) != uistate.hidden_recipes.end() ) == show_hidden ) {
+                        current.push_back( i );
+                    }
                 }
-
+                if( !show_hidden )
+                {
+                    draw_hidden_amount( w_head, 0, picking.size() - current.size() );
+                }
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
@@ -699,9 +695,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                 continue;
             }
             if( show_hidden ) {
-                g->u.show_craft( current[line] );
+                uistate.hidden_recipes.erase(current[line]->ident());
             } else {
-                g->u.hide_craft( current[line] );
+                uistate.hidden_recipes.insert(current[line]->ident());
             }
 
             redraw = true;
@@ -714,6 +710,17 @@ const recipe *select_crafting_recipe( int &batch_size )
     } while( !done );
 
     return chosen;
+}
+
+static bool query_is_yes( std::string query )
+{
+    std::string subquery = query.substr( 2 );
+
+    if( ( subquery == "yes" ) || ( subquery == "y" ) || ( subquery == "1" ) ||
+        ( subquery == "true" ) || ( subquery == "t" ) || ( subquery == "on" ) ) {
+        return true;
+    }
+    return false;
 }
 
 static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount )

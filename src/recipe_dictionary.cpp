@@ -346,18 +346,6 @@ void recipe_subset::include( const recipe_subset &subset )
     }
 }
 
-void recipe_subset::remove( const recipe *r )
-{
-    for( const auto &opts : r->requirements().get_components() ) {
-        for( const item_comp &comp : opts ) {
-            component[comp.type].erase( r );
-        }
-    }
-    difficulties.erase( r );
-    category[r->category].erase( r );
-    recipes.erase( r );
-}
-
 int recipe_subset::get_custom_difficulty( const recipe *r ) const
 {
     const auto iter = difficulties.find( r );
