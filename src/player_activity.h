@@ -2,7 +2,6 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
-#include "calendar.h"
 #include "enums.h"
 #include "item_location.h"
 #include "string_id.h"
