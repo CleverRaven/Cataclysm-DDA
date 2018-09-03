@@ -610,7 +610,11 @@ void player::complete_craft()
 
             for( auto &elem : used ) {
                 if( elem.goes_bad() ) {
-                    used_age_tally += elem.get_relative_rot( activity.accumulated_rot );
+                    // make sure we're not out of bounds when loading an autosave
+                    // for the first time with this commit while mid-craft
+                    time_duration initial_rot = activity.initial_rot.size() > 0 ? time_duration::from_turns(
+                                                    activity.initial_rot[used_age_count] ) : elem.get_rot();
+                    used_age_tally += elem.get_relative_rot( initial_rot );
                     ++used_age_count;
                 }
             }
@@ -638,6 +642,45 @@ void player::complete_craft()
     }
 
     inv.restack( *this );
+}
+
+std::vector<int> player::get_initial_rot( std::vector<comp_selection<item_comp>> item_selections )
+{
+    inventory map_inv;
+    std::list<item> used_items;
+
+    for( auto &it : item_selections ) {
+        usage item_location = it.use_from;
+        itype_id type = it.comp.type;
+
+        if( item_location == use_from_map || item_location == use_from_both ) {
+            // closer items are used first
+            for( int radius = 0; radius <= PICKUP_RANGE; radius++ ) {
+                map_inv.form_from_map( pos(), radius );
+                item map_item = map_item.least_rotten_item( map_inv.item_from_type( type ) );
+
+                // did we find the item?
+                if( map_item.type->get_id() == type ) {
+                    // no need to even check player items since
+                    // rot from map items is always used first
+                    used_items.push_back( map_item );
+                    break;
+                }
+            }
+        } else if( item_location == use_from_player ) {
+            used_items.push_back( item_from_type( type ).back() );
+        } 
+    }
+
+    std::vector<int> initial_rot;
+
+    for( auto &it : used_items ) {
+        if( it.goes_bad() ) {
+            initial_rot.emplace_back( to_turns<int>( it.get_rot() ) );
+        }
+    }
+
+    return initial_rot;
 }
 
 void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )

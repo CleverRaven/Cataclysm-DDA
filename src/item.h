@@ -644,11 +644,14 @@ class item : public visitable<item>
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
 
+        /** Return the least rotten item in a given list. */
+        item least_rotten_item( std::list<item> items );
+
         /** Get @ref rot value relative to shelf life (or 0 if item does not spoil) */
         double get_relative_rot() const;
 
         /** Get @ref rot value relative to current rot minus rot accumulated while crafting */
-        double get_relative_rot( const time_duration accumulated_rot );
+        double get_relative_rot( const time_duration initial_rot );
 
         /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
         void set_relative_rot( double val );

@@ -1271,6 +1271,8 @@ class player : public Character
         void make_all_craft( const recipe_id &id, int batch_size );
         std::list<item> consume_components_for_craft( const recipe *making, int batch_size, bool ignore_last = false );
         void complete_craft();
+        /** Gets the initial rot values of the components of a craft. */
+        std::vector<int> get_initial_rot( std::vector<comp_selection<item_comp>> item_selections );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
 

@@ -905,6 +905,28 @@ int visitable<Character>::amount_of( const std::string &what, bool pseudo, int l
     return amount_of_internal( *this, what, pseudo, limit );
 }
 
+template <typename T>
+static std::list<item> item_from_type_internal( const T &self, const itype_id &id )
+{
+    std::list<item> used;
+
+    self.visit_items( [&]( const item * e ) {
+        if( e->typeId() == id && e->allow_crafting_component() ) {
+            used.push_back( *e );
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    return used;
+}
+
+/** @relates visitable */
+template <typename T>
+std::list<item> visitable<T>::item_from_type( const std::string &what ) const
+{
+    return item_from_type_internal( *this, what );
+}
+
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
 template class visitable<inventory>;

@@ -3092,22 +3092,34 @@ bool item::goes_bad() const
     return is_food() && type->comestible->spoils != 0;
 }
 
+item item::least_rotten_item( std::list<item> items )
+{
+    item least_rotten;
+
+    if( items.size() > 0 ) {
+        least_rotten = items.front();
+
+        for( auto &it : items ) {
+            if( it.goes_bad() ) {
+                if( least_rotten.get_rot() > it.get_rot() ) {
+                    least_rotten = it;
+                }
+            } else {
+                break;
+            }
+        }
+    }
+
+    return least_rotten;
+}
+
 double item::get_relative_rot() const
 {
     return goes_bad() ? rot / type->comestible->spoils : 0;
 }
-double item::get_relative_rot( const time_duration accumulated_rot )
+double item::get_relative_rot( const time_duration initial_rot )
 {
-    //check just in case we loaded an old autosave that's mid-craft
-    time_duration final_rot = accumulated_rot >= 0 ? accumulated_rot : 0;
-
-    //if somehow this happens, we won't get negative rot.
-    //negative rot freezes the game.
-    if( final_rot > rot ) {
-        final_rot = rot;
-    }
-
-    return ( rot - final_rot ) / type->comestible->spoils;
+    return initial_rot / type->comestible->spoils;
 }
 
 void item::set_relative_rot( double val )

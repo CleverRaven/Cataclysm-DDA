@@ -83,6 +83,7 @@ void craft_command::execute()
     auto activity = player_activity( type, crafter->base_time_to_craft( *rec, batch_size ), -1, INT_MIN,
                                      rec->ident().str() );
     activity.values.push_back( batch_size );
+    activity.initial_rot = crafter->get_initial_rot( item_selections );
 
     crafter->assign_activity( activity );
 

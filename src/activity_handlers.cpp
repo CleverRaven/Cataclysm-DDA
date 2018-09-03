@@ -2527,12 +2527,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         // @todo Describe the causes of slowdown
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
-    // calc_rot() is calculated every 11 turns, so we'll calculate it at the same time.
-    if( calendar::turn % 11 == 0 )
-    {
-        act->accumulated_rot += get_rot_since( calendar::turn - 11, calendar::turn,
-                                               g->u.global_square_location() );
-    }
 }
 
 void activity_handlers::craft_finish( player_activity *act, player *p )
