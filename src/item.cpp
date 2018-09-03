@@ -5763,7 +5763,7 @@ int item::processing_speed() const
     return 1;
 }
 
-bool item::process_food( player * /*carrier*/, const tripoint &pos )
+bool item::process_food( player *p, const tripoint &pos )
 {
     calc_rot( g->m.getabs( pos ) );
     if( item_tags.count( "HOT" ) && item_counter == 0 ) {
@@ -5789,16 +5789,22 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     }
 
     // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
-    const auto temp = g->get_temperature( pos );
-    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) - 1; //effective 1-4
+    auto temp = g->get_temperature( pos );
+    if( p != nullptr && !is_null() && p->has_item( *this ) ) {
+        temp += 5; // body heat adds to item in inventory
+    }
+    const int freeze_point = check_freezing_temperature( *this );
+    unsigned int diff_freeze = temp_difference_ratio( temp, freeze_point ) - 1; //effective 1-4
     unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) - 1;
 
     // environment temperature applies COLD/FROZEN
     if( temp <= FRIDGE_TEMPERATURE ) {
         g->m.apply_in_fridge( *this, temp );
-    } else if ( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
+    } 
+    if ( temp > freeze_point && item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
         item_counter -= diff_freeze; // thaw
-    } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
+    } 
+    if( temp > FRIDGE_TEMPERATURE && item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
         item_counter -= diff_cold; // get warm
     }
     return false;
@@ -6409,4 +6415,19 @@ time_point item::birthday() const
 void item::set_birthday( const time_point bday )
 {
     this->bday = bday;
+}
+
+int check_freezing_temperature( const item &it )
+{
+    int temp = FREEZING_TEMPERATURE;
+    if( it.made_of( material_id( "alcohol" ) ) && it.made_of( material_id( "water" ) ) ) {
+        temp = 23; // -5C, wine, beer etc. (assumption: 10% ethanol) 
+    }
+    if( it.made_of( material_id( "alcohol" ) ) && !it.made_of( material_id( "water" ) ) ) {
+        temp = -22; // -30C, vodka, whiskey etc. (assumption: 40% ethanol)
+    }
+    if( it.type->comestible->freezing_point != temp ) {
+        temp = it.type->comestible->freezing_point;
+    }
+    return temp;
 }

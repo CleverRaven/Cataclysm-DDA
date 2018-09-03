@@ -4263,7 +4263,8 @@ unsigned int temp_difference_ratio( int temp_one, int temp_two )
 // date to current time, and also check contents.
 void map::apply_in_fridge( item &it, int temp, bool vehicle )
 {
-    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) + 1; //effective 1-4
+    const int freeze_point = check_freezing_temperature( it );
+    unsigned int diff_freeze = temp_difference_ratio( temp, freeze_point ) + 1; //effective 1-4
     unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) + 1;
     
     // this counters environmental effects trying to heat-up at the same ratio
@@ -4273,7 +4274,7 @@ void map::apply_in_fridge( item &it, int temp, bool vehicle )
     }
 
     if( it.is_food() ) {
-        if( temp <= FREEZING_TEMPERATURE ) {
+        if( temp <= freeze_point ) {
             if( it.freezer == calendar::before_time_starts ) {
                 it.freezer = calendar::turn;
             }
@@ -4300,7 +4301,7 @@ void map::apply_in_fridge( item &it, int temp, bool vehicle )
             it.item_counter += diff_cold;
         }
         // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
-        if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "COLD" ) && it.item_counter >= 600 &&
+            if ( temp <= freeze_point && it.item_tags.count( "COLD" ) && it.item_counter >= 600 &&
              !( it.item_tags.count( "FROZEN" ) || it.item_tags.count( "HOT" ) ) ) {
 
             it.item_tags.erase( "COLD" );
@@ -4310,7 +4311,7 @@ void map::apply_in_fridge( item &it, int temp, bool vehicle )
 
             // items that don't use COLD flag can go FROZEN bypassing COLD state
         }
-        if ( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "FROZEN" ) && it.item_counter <= 600 ) {
+            if ( temp <= freeze_point && it.item_tags.count( "FROZEN" ) && it.item_counter <= 600 ) {
             it.item_counter += diff_freeze;
             it.item_counter = it.item_counter > 600 ? 600 : it.item_counter;
         }

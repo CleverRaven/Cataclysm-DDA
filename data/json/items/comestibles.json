@@ -1370,7 +1370,8 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
-    "fun": 12
+    "fun": 12,
+    "freezing_point": -49
   },
   {
     "type": "COMESTIBLE",
@@ -7438,9 +7439,9 @@
     "price": 0,
     "material": "paper",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
-    "fun": -20
+    "fun": -20,
+    "freezing_point": -460
   },
   {
     "type": "COMESTIBLE",

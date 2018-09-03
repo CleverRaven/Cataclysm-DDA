@@ -907,6 +907,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
+"freezing_point" : 32       // (Optional) Below this temperature (in F) comestible can freeze (Default: water freezing temperature)
 ```
 
 ### Containers

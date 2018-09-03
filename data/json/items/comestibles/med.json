@@ -556,7 +556,8 @@
         "symbol" : "!",
         "color" : "light_blue",
         "use_action" : "EYEDROPS",
-        "flags" : "NPC_SAFE"
+        "flags" : "NPC_SAFE",
+        "freezing_point": 28
     },
     {
         "id" : "flu_shot",
