@@ -17,7 +17,11 @@
 /**
  * uimenu constants
  */
-const int UIMENU_INVALID = -1024;
+const int UIMENU_INVALID = -1024; // legacy constant
+const int UIMENU_ERROR = -1024;
+const int UIMENU_WAIT_INPUT = -1025;
+const int UIMENU_UNBOUND = -1026;
+const int UIMENU_CANCEL = -1027;
 const int MENU_ALIGN_LEFT = -1;
 const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
@@ -145,6 +149,8 @@ class uimenu_callback
  */
 class ui_element;
 class ui_element_input;
+
+// This class should be migrated out, use uilist instead!
 class uimenu: public ui_container
 {
     public:
@@ -175,7 +181,10 @@ class uimenu: public ui_container
         nc_color disabled_color;
         int pad_left;
         int pad_right;
-        bool return_invalid;
+        bool allow_disabled; // return on selecting disabled entry, default false
+        bool allow_anykey; // return UIMENU_UNBOUND on keys unbound & unhandled by callback, default false
+        bool allow_cancel; // return UIMENU_CANCEL on "QUIT" action, default true
+        bool return_invalid; // legacy flag
         bool hilight_disabled;
         bool hilight_full;
         int shift_retval;
@@ -239,7 +248,24 @@ class uimenu: public ui_container
         bool started;
         int last_fsize;
         int last_vshift;
+
+    protected:
         std::string hotkeys;
+};
+
+class uilist : virtual public uimenu
+{
+    public:
+        uilist();
+        uilist( std::string hotkeys_override );
+        // query() will be called at the end of these convenience constructors
+        uilist( std::string msg, std::vector<uimenu_entry> opts );
+        uilist( std::string msg, std::vector<std::string> opts );
+        uilist( std::string msg, std::initializer_list<char const *const> opts );
+        uilist( int startx, int width, int starty, std::string msg, std::vector<uimenu_entry> opts );
+        uilist( int startx, int width, int starty, std::string msg, std::vector<std::string> opts );
+        uilist( int startx, int width, int starty, std::string msg,
+                std::initializer_list<char const *const> opts );
 };
 
 /**
