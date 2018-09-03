@@ -8161,7 +8161,7 @@ void map::clip_to_bounds( int &x, int &y, int &z ) const
 {
     clip_to_bounds( x, y );
     if( z < -OVERMAP_DEPTH ) {
-        z = OVERMAP_DEPTH;
+        z = -OVERMAP_DEPTH;
     } else if( z > OVERMAP_HEIGHT ) {
         z = OVERMAP_HEIGHT;
     }
