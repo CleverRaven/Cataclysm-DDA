@@ -33,9 +33,11 @@ int getfoldedwidth (std::vector<std::string> foldedstring)
     return ret;
 }
 
+// legacy constructors
 ////////////////////////////////////
 uimenu::uimenu( const std::string &hotkeys_override )
 {
+    new_interface = false;
     init();
     if( !hotkeys_override.empty() ) {
         hotkeys = hotkeys_override;
@@ -43,26 +45,12 @@ uimenu::uimenu( const std::string &hotkeys_override )
 }
 
 /**
- * here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
- */
-uimenu::uimenu(bool, const char * const mes, ...)
-{
-    init();
-    va_list ap;
-    va_start(ap, mes);
-    int i = 0;
-    while (char const *const tmp = va_arg(ap, char *)) {
-        entries.push_back(uimenu_entry(i++, true, MENU_AUTOASSIGN, tmp ));
-    }
-    va_end(ap);
-    query();
-}
-/**
  * exact usage as menu_vec
  */
 uimenu::uimenu(bool cancelable, const char *mes,
                const std::vector<std::string> options)
 {
+    new_interface = false;
     init();
     if (options.empty()) {
         debugmsg("0-length menu (\"%s\")", mes);
@@ -77,45 +65,12 @@ uimenu::uimenu(bool cancelable, const char *mes,
         }
         query();
     }
-}
-
-uimenu::uimenu(bool cancelable, const char *mes,
-               const std::vector<std::string> &options,
-               const std::string &hotkeys_override)
-{
-    init();
-    hotkeys = hotkeys_override;
-    if (options.empty()) {
-        debugmsg("0-length menu (\"%s\")", mes);
-        ret = -1;
-    } else {
-        text = mes;
-        shift_retval = 1;
-        return_invalid = cancelable;
-
-        for (size_t i = 0; i < options.size(); i++) {
-            entries.push_back(uimenu_entry(i, true, MENU_AUTOASSIGN, options[i] ));
-        }
-        query();
-    }
-}
-
-uimenu::uimenu(int startx, int width, int starty, std::string title,
-               std::vector<uimenu_entry> ents)
-{
-    // another quick convenience constructor
-    init();
-    w_x = startx;
-    w_y = starty;
-    w_width = width;
-    text = title;
-    entries = ents;
-    query();
 }
 
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents)
 {
+    new_interface = false;
     // another quick convenience constructor
     init();
     return_invalid = cancelable;
@@ -124,6 +79,77 @@ uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string t
     w_width = width;
     text = title;
     entries = ents;
+    query();
+}
+
+// migration in progress
+uimenu::uimenu( uimenu_migration_tag )
+{
+    new_interface = true;
+    init();
+}
+
+uimenu::uimenu( uimenu_migration_tag, std::string hotkeys_override )
+{
+    new_interface = true;
+    init();
+    if( !hotkeys_override.empty() ) {
+        hotkeys = std::move( hotkeys_override );
+    }
+}
+
+uimenu::uimenu( std::string msg, std::vector<uimenu_entry> opts )
+    : uimenu( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, std::move( msg ), std::move( opts ) )
+{
+}
+
+uimenu::uimenu( std::string msg, std::vector<std::string> opts )
+    : uimenu( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, std::move( msg ), std::move( opts ) )
+{
+}
+
+uimenu::uimenu( std::string msg, std::initializer_list<char const *const> opts )
+    : uimenu( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, std::move( msg ), std::move( opts ) )
+{
+}
+
+uimenu::uimenu( int startx, int width, int starty, std::string msg, std::vector<uimenu_entry> opts )
+{
+    new_interface = true;
+    init();
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = std::move( msg );
+    entries = std::move( opts );
+    query();
+}
+
+uimenu::uimenu( int startx, int width, int starty, std::string msg, std::vector<std::string> opts )
+{
+    new_interface = true;
+    init();
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = std::move( msg );
+    for( auto it = opts.begin(); it != opts.end(); ++it ) {
+        entries.emplace_back( std::move( *it ) );
+    }
+    query();
+}
+
+uimenu::uimenu( int startx, int width, int starty, std::string msg, std::initializer_list<char const *const> opts )
+{
+    new_interface = true;
+    init();
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = std::move( msg );
+    for( auto it = opts.begin(); it != opts.end(); ++it ) {
+        entries.emplace_back( *it );
+    }
     query();
 }
 
@@ -146,7 +172,7 @@ void uimenu::init()
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
     w_height =
         MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // @todo: fixme: scrolling list with offset
-    ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
+    ret = new_interface ? UIMENU_WAIT_INPUT : UIMENU_INVALID;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
@@ -169,7 +195,10 @@ void uimenu::init()
     hilight_color = h_white; // highlight for up/down selection bar
     hotkey_color = c_light_green; // hotkey text to the right of menu entry's text
     disabled_color = c_dark_gray; // disabled menu entry
-    return_invalid = false;  // return 0-(int)invalidKeyCode
+    allow_disabled = false;  // disallow selecting disabled options
+    allow_anykey = false;    // do not return on unbound keys
+    allow_cancel = true;     // allow cancelling with "QUIT" action
+    return_invalid = false;  // legacy flag
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
@@ -786,10 +815,12 @@ void uimenu::query(bool loop)
 {
     keypress = 0;
     if ( entries.empty() ) {
+        if( new_interface ) {
+            ret = UIMENU_ERROR;
+        }
         return;
     }
-    int startret = UIMENU_INVALID;
-    ret = UIMENU_INVALID;
+    ret = ( new_interface ? UIMENU_WAIT_INPUT : UIMENU_INVALID );
 
     input_context ctxt( input_category );
     ctxt.register_updown();
@@ -797,7 +828,7 @@ void uimenu::query(bool loop)
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
-    if( return_invalid ) {
+    if( new_interface ? allow_cancel : return_invalid ) {
         ctxt.register_action( "QUIT" );
     }
     ctxt.register_action( "CONFIRM" );
@@ -811,15 +842,12 @@ void uimenu::query(bool loop)
 
     show();
     do {
-        bool skipkey = false;
         const auto action = ctxt.handle_input();
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
 
-        if ( skipkey ) {
-            /* nothing */
-        } else if( scrollby( scroll_amount_from_action( action ) ) ) {
+        if( scrollby( scroll_amount_from_action( action ) ) ) {
             /* nothing */
         } else if ( action == "HELP_KEYBINDINGS" ) {
             /* nothing, handled by input_context */
@@ -829,28 +857,34 @@ void uimenu::query(bool loop)
             selected = iter->second;
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
-            } else if( return_invalid ) {
+            } else if( !new_interface && return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
+            } else if( new_interface && allow_disabled ) {
+                ret = entries[selected].retval; // disabled
             }
         } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
-            } else if ( return_invalid ) {
+            } else if ( !new_interface && return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
+            } else if( new_interface && allow_disabled ) {
+                ret = entries[selected].retval; // disabled
             }
-        } else if( action == "QUIT" ) {
-            break;
-        } else {
-            if ( callback != nullptr ) {
-                skipkey = callback->key( ctxt, event, selected, this );
+        } else if( ( !new_interface || allow_cancel ) && action == "QUIT" ) {
+            if( new_interface ) {
+                ret = UIMENU_CANCEL;
+            } else {
+                break;
             }
-            if ( ! skipkey && return_invalid ) {
-                ret = -1;
+        } else if( action != "TIMEOUT" ) {
+            bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
+            if( unhandled && ( new_interface ? allow_anykey : return_invalid ) ) {
+                ret = new_interface ? UIMENU_UNBOUND : -1;
             }
         }
 
         show();
-    } while ( loop && (ret == startret ) );
+    } while( loop && ret == ( new_interface ? UIMENU_WAIT_INPUT : UIMENU_INVALID ) );
 }
 
 ///@}

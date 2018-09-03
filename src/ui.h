@@ -17,7 +17,11 @@
 /**
  * uimenu constants
  */
-const int UIMENU_INVALID = -1024;
+const int UIMENU_INVALID = -1024; // legacy constant
+const int UIMENU_ERROR = -1024;
+const int UIMENU_WAIT_INPUT = -1025;
+const int UIMENU_UNBOUND = -1027;
+const int UIMENU_CANCEL = -1028;
 const int MENU_ALIGN_LEFT = -1;
 const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
@@ -139,6 +143,13 @@ class uimenu_callback
         virtual void redraw( uimenu * ) {};
         virtual ~uimenu_callback() = default;
 };
+
+class uimenu_migration_tag
+{
+};
+
+const uimenu_migration_tag uimenu_migration{};
+
 /*@}*/
 /**
  * uimenu: scrolling vertical list menu
@@ -175,7 +186,10 @@ class uimenu: public ui_container
         nc_color disabled_color;
         int pad_left;
         int pad_right;
-        bool return_invalid;
+        bool allow_disabled; // return on selecting disabled entry, default false
+        bool allow_anykey; // return UIMENU_UNBOUND on keys unbound & unhandled by callback, default false
+        bool allow_cancel; // return UIMENU_CANCEL on "QUIT" action, default true
+        bool return_invalid; // legacy flag
         bool hilight_disabled;
         bool hilight_full;
         int shift_retval;
@@ -193,16 +207,25 @@ class uimenu: public ui_container
 
         uimenu_callback *callback;
 
+        // legacy constructors
         uimenu( const std::string &hotkeys = "" ); // bare init
 
-        uimenu( bool cancancel, const char *message, ... ); // legacy menu()
         uimenu( bool cancelable, const char *mes,
                 const std::vector<std::string> options ); // legacy menu_vec
-        uimenu( bool cancelable, const char *mes, const std::vector<std::string> &options,
-                const std::string &hotkeys );
         uimenu( bool cancelable, int startx, int width, int starty, std::string title,
                 std::vector<uimenu_entry> ents );
-        uimenu( int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents );
+
+        // migration in process
+        uimenu( uimenu_migration_tag );
+        uimenu( uimenu_migration_tag, std::string hotkeys_override );
+        // query() will be called at the end of these convenience constructors
+        uimenu( std::string msg, std::vector<uimenu_entry> opts );
+        uimenu( std::string msg, std::vector<std::string> opts );
+        uimenu( std::string msg, std::initializer_list<char const *const> opts );
+        uimenu( int startx, int width, int starty, std::string msg, std::vector<uimenu_entry> opts );
+        uimenu( int startx, int width, int starty, std::string msg, std::vector<std::string> opts );
+        uimenu( int startx, int width, int starty, std::string msg,
+                std::initializer_list<char const *const> opts );
 
         void init();
         void setup();
@@ -240,6 +263,7 @@ class uimenu: public ui_container
         int last_fsize;
         int last_vshift;
         std::string hotkeys;
+        bool new_interface; // migration flag
 };
 
 /**
