@@ -3647,6 +3647,19 @@
   },
   {
     "type": "recipe",
+    "result": "clay_pot_flower",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_GENERIC",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 35000,
+    "autolearn": true,
+    "tools": [ [ [ "brick_kiln", 75 ], [ "kiln", 75 ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
+  }
+  {
+    "type": "recipe",
     "result": "clay_quern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

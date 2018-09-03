@@ -2496,5 +2496,33 @@
     "symbol": ".",
     "color": "white",
     "ammo_type": "components"
+  },
+  {
+    "id": "clay_pot_flower",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "clay flower pot",
+    "description": "A nice looking clay pot used for planting.",
+    "weight": 480,
+    "volume": 10,
+    "price": 600,
+    "bashing": 1,
+    "material": "clay",
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "plastic_pot_flower",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "plastic flower pot",
+    "description": "A cheap plastic pot used for planting.",
+    "weight": 190,
+    "volume": 10,
+    "price": 300,
+    "bashing": 1,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "green"
   }
 ]
