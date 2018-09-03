@@ -86,7 +86,7 @@ static tripoint target_closest_lab( const tripoint origin, int reveal_rad, missi
     tripoint surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false, true);
 
     testpoint.z = -1;
-    tripoint underground = overmap_buffer.find_closest( testpoint, "lab_hidden_stairs", 0, false, true);
+    tripoint underground = overmap_buffer.find_closest( testpoint, "hidden_lab_stairs", 0, false, true);
     underground.z = 0;
 
     tripoint closest;
@@ -122,9 +122,9 @@ static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission
 }
 
 static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
-                               bool must_see, int range, tripoint loc = tripoint())
+                               bool must_see, int range, tripoint loc = overmap::invalid_tripoint)
 {
-    if (loc == tripoint()) {
+    if (loc == overmap::invalid_tripoint) {
         loc = g->u.global_omt_location();
     }
 
@@ -1841,11 +1841,11 @@ void mission_start::create_lab_console( mission *miss )
     // Pick a lab that has spaces on the third basement level.
     tripoint loc = g->u.global_omt_location();
     loc.z = -3;
-    tripoint place = target_om_ter_random( "lab", 0, miss, false, 0, loc);
+    tripoint place = target_om_ter_random( "lab", -1, miss, false, 0, loc);
 
     // Drop four computers in nearby lab spaces so the player can stumble upon one of them.
     for (int i = 0; i < 4; ++i) {
-        tripoint om_place = target_om_ter_random( "lab", 0, miss, false, 4, place);
+        tripoint om_place = target_om_ter_random( "lab", -1, miss, false, 4, place);
         tinymap compmap;
         compmap.load( om_place.x * 2, om_place.y * 2, om_place.z, false );
 
