@@ -305,8 +305,6 @@ bool Item_modifier::remove_item( const Item_tag &itemid )
     return false;
 }
 
-
-
 Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
     : Item_spawn_data( probability )
     , type( t )

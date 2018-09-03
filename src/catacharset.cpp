@@ -283,7 +283,6 @@ std::string base64_encode(std::string str)
     return "#" + encoded_data;
 }
 
-
 std::string base64_decode(std::string str)
 {
     // do not decode if it is not base64

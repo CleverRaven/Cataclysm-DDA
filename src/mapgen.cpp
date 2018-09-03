@@ -1938,8 +1938,6 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
                     m.set_radiation( i.x, i.y, (int)val.get() );
                 }
             } break;
-
-
             case JMAPGEN_SETMAP_SQUARE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
                 m.draw_square_ter( ter_id( val.get() ), x_get(), y_get(), x2_get(), y2_get() );
@@ -2250,7 +2248,6 @@ ssssss______ss______ssss\n",
             rotate(2);
         }
 
-
     } else if (terrain_type == "office_tower_1") {
 
         // Init to grass & dirt;
@@ -2469,7 +2466,6 @@ ssssssssssssssssssssssss\n\
             }
         }
 
-
     } else if (terrain_type == "office_tower_b_entrance") {
 
         dat.fill_groundcover();
@@ -2524,7 +2520,6 @@ ssssssssssssssssssssssss\n",
         } else if (t_west == "office_tower_b" && t_south == "office_tower_b") {
             rotate(2);
         }
-
 
     } else if (terrain_type == "office_tower_b") {
 
@@ -3932,7 +3927,6 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-
     } else if (terrain_type == "silo") {
 
         if (zlevel == 0) { // We're on ground level
@@ -3997,7 +3991,6 @@ ___DEEE|.R.|...,,...|sss\n",
             silo_rooms(this);
         }
 
-
     } else if (terrain_type == "silo_finale") {
 
         for (int i = 0; i < SEEX * 2; i++) {
@@ -4021,7 +4014,6 @@ ___DEEE|.R.|...,,...|sss\n",
         tmpcomp->add_option(_("Disarm Missile"), COMPACT_MISS_DISARM,  8);
         tmpcomp->add_failure(COMPFAIL_SECUBOTS);
         tmpcomp->add_failure(COMPFAIL_DAMAGE);
-
 
     } else if (terrain_type == "temple" ||
                terrain_type == "temple_stairs") {
@@ -4240,7 +4232,6 @@ ___DEEE|.R.|...,,...|sss\n",
 
         } // Done with underground-only stuff
 
-
     } else if (terrain_type == "temple_finale") {
 
         fill_background(this, t_rock);
@@ -4309,7 +4300,6 @@ ___DEEE|.R.|...,,...|sss\n",
         tmpcomp->add_option(_("Unlock stairs"), COMPACT_OPEN, 0);
         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
         place_items("sewage_plant", 80, 1, 6, 1, 13, false, 0);
-
 
     } else if (terrain_type == "sewage_treatment_hub") {
         // Stairs up, center of 3x3 of treatment_below
@@ -4433,7 +4423,6 @@ ___DEEE|.R.|...,,...|sss\n",
             place_items("sewage_plant", 60, 23, 1, 23, 4, false, 0);
         }
 
-
         // Finally, choose what the top-left and bottom-right rooms do.
         if (one_in(2)) { // Upper left is sampling, lower right valuable finds
             // Upper left...
@@ -4477,7 +4466,6 @@ ___DEEE|.R.|...,,...|sss\n",
             tmpcomp->add_failure(COMPFAIL_PUMP_LEAK);
         }
 
-
     } else if (terrain_type == "sewage_treatment_under") {
 
         fill_background(this, t_floor);
@@ -4519,7 +4507,6 @@ ___DEEE|.R.|...,,...|sss\n",
             square(this, t_sewage,  0, 10, 13, 13);
         }
 
-
     } else if (terrain_type == "mine_entrance") {
 
         dat.fill_groundcover();
@@ -4554,7 +4541,6 @@ ___DEEE|.R.|...,,...|sss\n",
         }
         ter_set(ladderx, laddery, t_manhole_cover);
 
-
     } else if (terrain_type == "mine_shaft") {
         // Not intended to actually be inhabited!
 
@@ -4564,7 +4550,6 @@ ___DEEE|.R.|...,,...|sss\n",
         ter_set(SEEX - 3, SEEY - 5, t_ladder_up);
         ter_set(SEEX + 2, SEEY - 5, t_ladder_down);
         rotate(rng(0, 3));
-
 
     } else if (terrain_type == "mine" ||
                terrain_type == "mine_down") {
@@ -4851,7 +4836,6 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         } // Done building a slope up
 
-
     } else if (terrain_type == "mine_finale") {
 
         // Set up the basic chamber
@@ -4968,7 +4952,6 @@ ___DEEE|.R.|...,,...|sss\n",
         break;
         }
 
-
     } else if (terrain_type == "spiral_hub") {
 
         fill_background(this, t_rock_floor);
@@ -4989,7 +4972,6 @@ ___DEEE|.R.|...,,...|sss\n",
         line(this, t_rock, 10, 11, 10, 13);
         square(this, t_slope_up, 11, 11, 12, 12);
         rotate(rng(0, 3));
-
 
     } else if (terrain_type == "spiral") {
 
@@ -5024,7 +5006,6 @@ ___DEEE|.R.|...,,...|sss\n",
             place_items("spiral", 60, orx + 2, ory + 3, orx + 2, ory + 3, false, 0);
         }
 
-
     } else if (terrain_type == "toxic_dump") {
 
         fill_background(this, t_dirt);
@@ -5052,7 +5033,6 @@ ___DEEE|.R.|...,,...|sss\n",
         ter_set(buildx, buildy + 4, t_door_locked);
 
         rotate(rng(0, 3));
-
 
     } else if (terrain_type == "haz_sar_entrance") {
 
@@ -5119,7 +5099,6 @@ ___DEEE|.R.|...,,...|sss\n",
         } else if (t_west == "haz_sar" && t_south == "haz_sar") {
             rotate(2);
         }
-
 
     } else if (terrain_type == "haz_sar") {
 
@@ -5342,7 +5321,6 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
             }
         }
 
-
     } else if (terrain_type == "haz_sar_entrance_b1") {
 
         // Init to grass & dirt;
@@ -5427,7 +5405,6 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
         } else if (t_west == "haz_sar_b1" && t_south == "haz_sar_b1") {
             rotate(2);
         }
-
 
     } else if (terrain_type == "haz_sar_b1") {
 
@@ -5769,7 +5746,6 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             rotate(3);
         }
 
-
     } else if (terrain_type == "megastore") {
 
         square(this, t_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
@@ -5901,7 +5877,6 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             line(this, t_wall, 0, 0, 0, SEEY * 2 - 1);
         }
 
-
     } else if (terrain_type == "fema_entrance") {
 
         fill_background(this, t_dirt);
@@ -5939,7 +5914,6 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         if (is_ot_type("road", t_west) || is_ot_type("bridge", t_west)) {
             rotate(3);
         }
-
 
     } else if (terrain_type == "fema") {
 
@@ -6275,7 +6249,6 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         } while (!done);
         square(this, t_slope_up, 2, 2, 3, 3);
         rotate(rng(0, 3));
-
 
     } else if (terrain_type == "triffid_finale") {
 

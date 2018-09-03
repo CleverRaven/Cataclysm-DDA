@@ -666,7 +666,6 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret.str().c_str() );
 }
 
-
 int get_local_windchill( double temperature, double humidity, double windpower )
 {
     double tmptemp = temperature;

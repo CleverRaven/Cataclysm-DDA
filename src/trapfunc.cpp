@@ -404,7 +404,6 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
     g->m.remove_trap( p );
 }
 
-
 void trapfunc::blade( Creature *c, const tripoint & )
 {
     if( c != nullptr ) {

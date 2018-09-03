@@ -385,8 +385,6 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-
-
 iuse_actor *unfold_vehicle_iuse::clone() const
 {
     return new unfold_vehicle_iuse( *this );
@@ -792,8 +790,6 @@ long ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & )
     }
     return 0;
 }
-
-
 
 iuse_actor *pick_lock_actor::clone() const
 {
@@ -1436,7 +1432,6 @@ bool inscribe_actor::item_inscription( item &cut ) const
 
     return true;
 }
-
 
 long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
@@ -2089,7 +2084,6 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
                          obj.tname().c_str(), holster.tname().c_str() );
 
@@ -2097,7 +2091,6 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     p.store( holster, obj, draw_cost, false );
     return true;
 }
-
 
 long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
@@ -2270,7 +2263,6 @@ bool bandolier_actor::reload( player &p, item &obj ) const
 
     return true;
 }
-
 
 long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
@@ -2512,7 +2504,6 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     return true;
 }
 
-
 // Returns the level of the lowest level recipe that results in item of `fix`'s type
 // If the recipe is not known by the player, +1 to difficulty
 // If player doesn't meet the requirements of the recipe, +1 to difficulty
@@ -2655,7 +2646,6 @@ std::pair<float, float> repair_item_actor::repair_chance(
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
     success_chance = std::max( 0.0f, std::min( 1.0f - damage_chance, success_chance ) );
-
 
     return std::make_pair( success_chance, damage_chance );
 }

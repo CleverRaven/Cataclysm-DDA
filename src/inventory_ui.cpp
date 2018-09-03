@@ -227,7 +227,6 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     }
 }
 
-
 bool inventory_selector_preset::is_stub_cell( const inventory_entry &entry, size_t cell_index ) const
 {
     if( !entry.is_item() ) {
@@ -483,8 +482,6 @@ size_t inventory_column::page_of( size_t index ) const {
 size_t inventory_column::page_of( const inventory_entry &entry ) const {
     return page_of( std::distance( entries.begin(), std::find( entries.begin(), entries.end(), entry ) ) );
 }
-
-
 bool inventory_column::has_available_choices() const
 {
     if( !allows_selecting() )
@@ -494,7 +491,6 @@ bool inventory_column::has_available_choices() const
             return true;
     return false;
 }
-
 
 bool inventory_column::is_selected( const inventory_entry &entry ) const
 {

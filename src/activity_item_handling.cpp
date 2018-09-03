@@ -625,7 +625,6 @@ void activity_on_turn_move_items()
     // Nuke the current activity, leaving the backlog alone.
     g->u.activity = player_activity();
 
-
     // *puts on 3d glasses from 90s cereal box*
     move_items( source, from_vehicle, destination, to_vehicle, indices, quantities );
 

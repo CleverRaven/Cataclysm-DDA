@@ -186,7 +186,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
 
-
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
         pimpl<player> u_ptr;
@@ -850,7 +849,6 @@ class game
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
-
         //pixel minimap management
         int pixel_minimap_option;
 
@@ -1030,7 +1028,6 @@ class game
 
         void item_action_menu(); // Displays item action menu
 
-
         void rcdrive( int dx, int dy ); //driving radio car
         /**
          * If there is a robot (that can be disabled), query the player
@@ -1100,7 +1097,6 @@ class game
         bool player_was_sleeping;
         /** Is Zone manager open or not - changes graphics of some zone tiles */
         bool zone_manager_open = false;
-
 
         std::unique_ptr<special_game> gamemode;
 

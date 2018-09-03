@@ -515,7 +515,6 @@ void Character::recalc_hp()
     }
 }
 
-
 // This must be called when any of the following change:
 // - effects
 // - bionics

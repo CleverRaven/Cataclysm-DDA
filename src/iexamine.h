@@ -110,7 +110,6 @@ bool pour_into_keg( const tripoint &pos, item &liquid );
 
 bool has_keg( const tripoint &pos );
 
-
 std::list<item> get_harvest_items( const itype &type, int plant_count,
                                    int seed_count, bool byproducts );
 

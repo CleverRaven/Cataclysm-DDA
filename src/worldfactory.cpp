@@ -1300,7 +1300,6 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
 
-
 bool worldfactory::world_need_lua_build(std::string world_name)
 {
 #ifndef LUA
@@ -1449,7 +1448,6 @@ void load_external_option( JsonObject &jo )
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
     }
 }
-
 
 mod_manager &worldfactory::get_mod_manager()
 {
