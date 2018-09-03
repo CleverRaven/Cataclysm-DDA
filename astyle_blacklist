@@ -28,8 +28,6 @@ src/lightmap.cpp
 src/line.cpp
 src/main.cpp
 src/map.cpp
-src/mapdata.cpp
-src/mapgen.cpp
 src/mapgen_functions.cpp
 src/melee.cpp
 src/mission_companion.cpp
@@ -44,8 +42,6 @@ src/mutation_data.cpp
 src/newcharacter.cpp
 src/npctalk.cpp
 src/options.cpp
-src/overmap.cpp
-src/overmapbuffer.cpp
 src/path_info.cpp
 src/player.cpp
 src/ranged.cpp
@@ -68,10 +64,7 @@ src/io.h
 src/itype.h
 src/json.h
 src/mapgen_functions.h
-src/mapgen.h
 src/mission.h
-src/overmap.h
-src/overmapbuffer.h
 src/player.h
 src/wcwidth.h
 src/wdirent.h
