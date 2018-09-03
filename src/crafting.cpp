@@ -644,12 +644,13 @@ void player::complete_craft()
     inv.restack( *this );
 }
 
-std::vector<int> player::get_initial_rot( std::vector<comp_selection<item_comp>> item_selections )
+std::vector<int> player::get_initial_rot( std::vector<comp_selection<item_comp>> &item_selections )
 {
     inventory map_inv;
+    item map_item;
     std::list<item> used_items;
 
-    for( auto &it : item_selections ) {
+    for( const auto &it : item_selections ) {
         usage item_location = it.use_from;
         itype_id type = it.comp.type;
 
@@ -657,8 +658,7 @@ std::vector<int> player::get_initial_rot( std::vector<comp_selection<item_comp>>
             // closer items are used first
             for( int radius = 0; radius <= PICKUP_RANGE; radius++ ) {
                 map_inv.form_from_map( pos(), radius );
-                item map_item;
-                map_item.least_rotten_item( map_inv.item_from_type( type ) );
+                map_item = item::least_rotten_item( map_inv.item_from_type( type ) );
 
                 // did we find the item?
                 if( map_item.type->get_id() == type ) {
