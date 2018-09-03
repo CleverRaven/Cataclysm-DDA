@@ -24,8 +24,12 @@ class JsonOut;
 /**
  * Greater-than comparison operator; required by the sort interface
  */
-struct pair_greater_cmp {
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b ) const;
+struct pair_greater_cmp_first {
+    template< class T, class U >
+    bool operator()( const std::pair<T, U> &a, const std::pair<T, U> &b ) const {
+        return a.first > b.first;
+    }
+
 };
 
 /**

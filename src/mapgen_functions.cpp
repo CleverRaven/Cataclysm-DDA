@@ -1003,7 +1003,8 @@ void coord_rotate_cw( int &x, int &y, int rot )
 
 bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
 {
-    return std::equal( std::begin( a2 ), std::end( a2 ), a1 );
+    return std::equal( std::begin( a2 ), std::end( a2 ), a1,
+        []( int a, bool b ) { return bool( a ) == b; } );
 }
 
 // mapgen_road replaces previous mapgen_road_straight _end _curved _tee _four_way

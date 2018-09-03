@@ -80,7 +80,7 @@ void game::do_blast( const tripoint &p, const float power,
 
     m.bash( p, fire ? power : ( 2 * power ), true, false, false );
 
-    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp >
+    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp_first >
     open;
     std::set<tripoint> closed;
     std::map<tripoint, float> dist_map;
