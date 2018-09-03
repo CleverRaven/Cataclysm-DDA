@@ -1251,9 +1251,13 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, con
 
     // Add tips & hints
     fold_and_print(win, FULL_SCREEN_HEIGHT - 7, 2, getmaxx(win) - 4, c_green,
-                   _("Press %s to save the list of active mods as default. Press %s for help."),
+                   _("%s = Save Load Order as default.  %s = Controls %s/%s = Prev/Next Option. %s/%s = Prev/Next Tab."),
                    ctxtp.get_desc( "SAVE_DEFAULT_MODS" ).c_str(),
-                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str()
+                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str(),
+                   ctxtp.get_desc( "PREV_CATEGORY_TAB" ).c_str(),
+                   ctxtp.get_desc( "NEXT_CATEGORY_TAB" ).c_str(),
+                   ctxtp.get_desc( "PREV_TAB" ).c_str(),
+                   ctxtp.get_desc( "NEXT_TAB" ).c_str()
                   );
     wrefresh(win);
     catacurses::refresh();
@@ -1295,7 +1299,6 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
-
 
 bool worldfactory::world_need_lua_build(std::string world_name)
 {
@@ -1445,7 +1448,6 @@ void load_external_option( JsonObject &jo )
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
     }
 }
-
 
 mod_manager &worldfactory::get_mod_manager()
 {

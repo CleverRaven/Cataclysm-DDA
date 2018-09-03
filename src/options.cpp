@@ -1363,7 +1363,6 @@ void options_manager::init()
 
     mOptionsSort["graphics"]++;
 
-
     add( "DISPLAY", "graphics", translate_marker( "Display" ),
         translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
         0, 10000, 0, COPT_CURSES_HIDE

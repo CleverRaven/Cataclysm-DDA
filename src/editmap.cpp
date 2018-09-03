@@ -102,7 +102,6 @@ std::vector<std::string> fld_string( const std::string &str, int width )
     return lines;
 }
 
-
 template<class SAVEOBJ>
 void edit_json( SAVEOBJ &it )
 {
@@ -346,7 +345,6 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
     wrefresh( w_help );
 }
 
-
 /*
  * main()
  */
@@ -434,7 +432,6 @@ tripoint editmap::edit()
     }
     return tripoint_min;
 }
-
 
 // pending radiation / misc edit
 enum edit_drawmode {
@@ -544,7 +541,6 @@ void editmap::update_view( bool update_info )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-
                 if( g->m.has_furn( p ) ) {
                     const furn_t &furniture_type = g->m.furn( p ).obj();
                     t_sym = furniture_type.symbol();
@@ -647,7 +643,6 @@ void editmap::update_view( bool update_info )
             off++; // 5ish
         }
 
-
         if( cur_trap != tr_null ) {
             auto &t = cur_trap.obj();
             mvwprintz( w_info, off, 1, t.color, _( "trap: %s (%d)" ), t.name().c_str(), cur_trap.to_i() );
@@ -677,12 +672,10 @@ void editmap::update_view( bool update_info )
             }
         }
 
-
         if( g->m.has_graffiti_at( target ) ) {
             mvwprintw( w_info, off, 1, _( "Graffiti: %s" ), g->m.graffiti_at( target ).c_str() );
         }
         off++;
-
 
         wrefresh( w_info );
 
@@ -1048,7 +1041,6 @@ int editmap::edit_ter()
     return ret;
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
@@ -1411,14 +1403,12 @@ int editmap::edit_critter( Creature &critter )
     return 0;
 }
 
-
 int editmap::edit_veh()
 {
     int ret = 0;
     edit_json( g->m.veh_at( target )->vehicle() );
     return ret;
 }
-
 
 /*
  *  Calculate target_list based on origin and target class variables, and shapetype.
@@ -1905,7 +1895,6 @@ bool editmap::mapgen_set( std::string om_name, tripoint omt_tgt, int r, bool cha
             std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
             std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
             std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
-
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {

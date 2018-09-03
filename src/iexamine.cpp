@@ -28,7 +28,6 @@
 #include "ui.h"
 #include "units.h"
 #include "trap.h"
-#include "itype.h"
 #include "basecamp.h"
 #include "mtype.h"
 #include "calendar.h"
@@ -728,7 +727,6 @@ void iexamine::crate(player &p, const tripoint &examp)
     iuse dummy;
     dummy.crowbar( &p, &fakecrow, false, examp );
 }
-
 
 /**
  * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
@@ -1615,6 +1613,80 @@ void iexamine::fungus(player &p, const tripoint &examp)
 }
 
 /**
+ *  Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
+ */
+std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &seed_inv )
+{
+    std::map<itype_id, int> seed_map;
+    for( auto &seed : seed_inv ) {
+        seed_map[seed->typeId()] += ( seed->charges > 0 ? seed->charges : 1 );
+    }
+
+    std::vector<seed_tuple> seed_entries;
+    for( const auto &pr : seed_map ) {
+        seed_entries.emplace_back(
+            pr.first, item::nname( pr.first, pr.second ), pr.second );
+    }
+
+    // Sort by name
+    std::sort( seed_entries.begin(), seed_entries.end(),
+    []( const seed_tuple & l, const seed_tuple & r ) {
+        return std::get<1>( l ).compare( std::get<1>( r ) ) < 0;
+    } );
+
+    return seed_entries;
+}
+
+/**
+ *  Choose seed for planting
+ */
+int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
+{
+    uimenu smenu;
+
+    // if true, it works fine for normal planting, but closes immediately if called
+    // from parent uimenu when adding new planting zone
+    // caused by inp_mngr.set_timeout( BLINK_SPEED );
+    // Unify uimenu behavior #25178 will fix the issue, can be set to true, once PR is merged
+    smenu.return_invalid = false;
+
+    smenu.text = _( "Use which seed?" );
+    int count = 0;
+    for( const auto &entry : seed_entries ) {
+        auto seed_name = std::get<1>( entry );
+        int seed_count = std::get<2>( entry );
+
+        std::string format = seed_count > 0 ? "%s (%d)" : "%s";
+
+        smenu.addentry( count++, true, MENU_AUTOASSIGN, format.c_str(),
+                        seed_name.c_str(), seed_count );
+    }
+    smenu.addentry( count++, true, 'q', ( "%s" ), _( "Cancel" ) );
+
+    smenu.query();
+
+    return smenu.ret;
+}
+
+/**
+ *  Actual planting of selected seed
+ */
+void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &seed_id )
+{
+    std::list<item> used_seed;
+    if( item::count_by_charges( seed_id ) ) {
+        used_seed = p.use_charges( seed_id, 1 );
+    } else {
+        used_seed = p.use_amount( seed_id, 1 );
+    }
+    used_seed.front().set_age( 0 );
+    g->m.add_item_or_charges( examp, used_seed.front() );
+    g->m.set( examp, t_dirt, f_plant_seed );
+    p.moves -= 500;
+    add_msg( _( "Planted %s." ), item::nname( seed_id ).c_str() );
+}
+
+/**
  * If it's warm enough, pick one of the player's seeds and plant it.
  */
 void iexamine::dirtmound(player &p, const tripoint &examp)
@@ -1641,38 +1713,9 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
         return;
     }
 
-    // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
-    std::map<itype_id, int> seed_map;
-    for( auto &seed : seed_inv ) {
-        seed_map[seed->typeId()] += (seed->charges > 0 ? seed->charges : 1);
-    }
+    auto seed_entries = get_seed_entries( seed_inv );
 
-    using seed_tuple = std::tuple<itype_id, std::string, int>;
-    std::vector<seed_tuple> seed_entries;
-    for( const auto &pr : seed_map ) {
-        seed_entries.emplace_back(
-            pr.first, item::nname( pr.first, pr.second ), pr.second );
-    }
-
-    // Sort by name
-    std::sort( seed_entries.begin(), seed_entries.end(),
-        []( const seed_tuple &l, const seed_tuple &r ) {
-            return std::get<1>( l ).compare( std::get<1>( r ) ) < 0;
-    } );
-
-    // Choose seed
-    // Don't use y/n prompt, stick with one kind of menu
-    uimenu smenu;
-    smenu.return_invalid = true;
-    smenu.text = _("Use which seed?");
-    int count = 0;
-    for( const auto &entry : seed_entries ) {
-        smenu.addentry( count++, true, MENU_AUTOASSIGN, _("%s (%d)"),
-            std::get<1>( entry ).c_str(), std::get<2>( entry ) );
-    }
-    smenu.query();
-
-    int seed_index = smenu.ret;
+    int seed_index = query_seed( seed_entries );
 
     // Did we cancel?
     if( seed_index < 0 || seed_index >= (int)seed_entries.size() ) {
@@ -1681,18 +1724,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
-    // Actual planting
-    std::list<item> used_seed;
-    if( item::count_by_charges( seed_id ) ) {
-        used_seed = p.use_charges( seed_id, 1 );
-    } else {
-        used_seed = p.use_amount( seed_id, 1 );
-    }
-    used_seed.front().set_age( 0 );
-    g->m.add_item_or_charges( examp, used_seed.front() );
-    g->m.set( examp, t_dirt, f_plant_seed );
-    p.moves -= 500;
-    add_msg(_("Planted %s"), std::get<1>( seed_entries[seed_index] ).c_str() );
+    plant_seed( p, examp, seed_id );
 }
 
 /**

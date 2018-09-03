@@ -114,7 +114,6 @@ bool Creature::digging() const
     return false;
 }
 
-
 bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
@@ -1240,7 +1239,6 @@ void Creature::mod_stat( const std::string &stat, float modifier )
         add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
     }
 }
-
 
 void Creature::set_num_blocks_bonus(int nblocks)
 {

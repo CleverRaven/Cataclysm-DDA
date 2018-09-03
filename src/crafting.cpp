@@ -436,7 +436,6 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     return used;
 }
 
-
 void player::complete_craft()
 {
     //@todo: change making to be a reference, it can never be null anyway

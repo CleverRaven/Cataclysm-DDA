@@ -14,7 +14,7 @@ See the Changelog Guidelines at https://github.com/CleverRaven/Cataclysm-DDA/blo
 
 #### Purpose of change
 <!--
-If theres an existing issue describing the problem this PR addresses or the feature it adds, please link it like: ```#1234```  
+If there's an existing issue describing the problem this PR addresses or the feature it adds, please link it like: ```#1234```  
 If it *fully* resolves an issue, link it like: ```Fixes #1234```  
 Even if the issue describes the problem, please provide a few-sentence summary here.  
 Example: ```Fixes #1234 - XL mutants cannot wear arm/leg splints due to missing OVERSIZE flag.```  

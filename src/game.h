@@ -186,7 +186,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
 
-
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
         pimpl<player> u_ptr;
@@ -555,6 +554,7 @@ class game
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
+        bool is_zone_manager_open();
         void zones_manager();
         void zones_manager_shortcuts( const catacurses::window &w_info );
         void zones_manager_draw_borders( const catacurses::window &w_border,
@@ -849,7 +849,6 @@ class game
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
-
         //pixel minimap management
         int pixel_minimap_option;
 
@@ -1029,7 +1028,6 @@ class game
 
         void item_action_menu(); // Displays item action menu
 
-
         void rcdrive( int dx, int dy ); //driving radio car
         /**
          * If there is a robot (that can be disabled), query the player
@@ -1097,6 +1095,8 @@ class game
         bool critter_died;
         /** Was the player sleeping during this turn. */
         bool player_was_sleeping;
+        /** Is Zone manager open or not - changes graphics of some zone tiles */
+        bool zone_manager_open = false;
 
         std::unique_ptr<special_game> gamemode;
 

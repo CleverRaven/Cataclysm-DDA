@@ -40,7 +40,6 @@ class mapgen_function {
     virtual void generate(map*, const oter_id &, const mapgendata &, const time_point &, float) = 0;
 };
 
-
 /////////////////////////////////////////////////////////////////////////////////
 ///// builtin mapgen
 class mapgen_function_builtin : public virtual mapgen_function {
@@ -93,8 +92,6 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_SQUARE_TRAP,
     JMAPGEN_SETMAP_SQUARE_RADIATION
 };
-
-
 
 struct jmapgen_setmap {
     jmapgen_int x;

@@ -1864,7 +1864,6 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     }
 }
 
-
 void npc::find_item()
 {
     if( is_following() && !rules.allow_pick_up ) {
@@ -2022,7 +2021,6 @@ void npc::pick_up_item()
         add_msg( m_debug, "Canceling pickup - no items or new zone" );
         return;
     }
-
 
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );

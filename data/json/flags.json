@@ -134,6 +134,18 @@
     "conflicts": [ "SUPER_FANCY" ]
   },
   {
+    "id": "FIRE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL", "TOOL_ARMOR" ],
+    "info": "This item counts as <color_red>fire</color> for crafting purposes."
+  },
+  {
+    "id": "FIRESTARTER",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL", "TOOL_ARMOR" ],
+    "info": "This item can start <color_red>fire</color>."
+  },
+  {
     "id": "FIREWOOD",
     "type": "json_flag",
     "context": [ "GENERIC" ],

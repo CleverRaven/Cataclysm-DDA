@@ -33,6 +33,16 @@ std::string good_bad_none( int value )
     return std::string();
 }
 
+std::string highlight_good_bad_none( int value )
+{
+    if( value > 0 ) {
+        return string_format( "<color_yellow_green>+%d</color>", value );
+    } else if( value < 0 ) {
+        return string_format( "<color_yellow_red>%d</color>", value );
+    }
+    return string_format( "<color_yellow>%d</color>", value );
+}
+
 }
 
 inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
@@ -359,7 +369,12 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [ p, this ]( const item_location & loc ) {
-                return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                const item &it = get_comestible_item( loc );
+                if( it.has_flag( "MUSHY" ) ) {
+                    return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                } else {
+                    return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                }
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -400,9 +415,6 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            if( loc->typeId() == "1st_aid" ) {
-                return false; // temporary fix for #12991
-            }
             return p.can_consume( *loc );
         }
 

@@ -10,7 +10,6 @@ src/cata_tiles.cpp
 src/character.cpp
 src/computer.cpp
 src/construction.cpp
-src/crash.cpp
 src/creature.cpp
 src/cursesport.cpp
 src/dump.cpp
@@ -45,8 +44,8 @@ src/mutation_data.cpp
 src/newcharacter.cpp
 src/npctalk.cpp
 src/options.cpp
-src/overmapbuffer.cpp
 src/overmap.cpp
+src/overmapbuffer.cpp
 src/path_info.cpp
 src/player.cpp
 src/ranged.cpp
@@ -68,12 +67,11 @@ src/field.h
 src/io.h
 src/itype.h
 src/json.h
-src/mapdata.h
 src/mapgen_functions.h
 src/mapgen.h
 src/mission.h
-src/overmapbuffer.h
 src/overmap.h
+src/overmapbuffer.h
 src/player.h
 src/wcwidth.h
 src/wdirent.h

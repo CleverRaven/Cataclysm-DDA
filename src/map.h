@@ -250,7 +250,6 @@ class map
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
 
-
         /**
          * Callback invoked when a vehicle has moved.
          */
@@ -408,7 +407,6 @@ class map
          * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
          */
         double ranged_target_size( const tripoint &p ) const;
-
 
         // 3D Sees:
         /**
@@ -746,7 +744,6 @@ class map
         void draw_circle_furn( furn_id type, int x, int y, int rad );
 
         void add_corpse( const tripoint &p );
-
 
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to

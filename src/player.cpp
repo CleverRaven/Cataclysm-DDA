@@ -1613,7 +1613,6 @@ int player::blood_loss( body_part bp ) const
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
 
-
 void player::temp_equalizer( body_part bp1, body_part bp2 )
 {
     // Body heat is moved around.
@@ -2038,7 +2037,6 @@ void player::set_underwater( bool u )
         recalc_sight_limits();
     }
 }
-
 
 nc_color player::basic_symbol_color() const
 {
@@ -2604,7 +2602,6 @@ void player::charge_power( int amount )
 {
     power_level = clamp( power_level + amount, 0, max_power_level );
 }
-
 
 /*
  * Calculate player brightness based on the brightest active item, as
@@ -5243,7 +5240,7 @@ void player::suffer()
                     if( !mons.empty() &&
                         one_in( to_turns<int>( 12_minutes ) ) ) {
                         std::vector<std::string> mon_near{ _( "Hey, let's go kill that %1$s!" ),
-                                                           _( "Did you see that %1$s!" ),
+                                                           _( "Did you see that %1$s!?" ),
                                                            _( "I want to kill that %1$s!" ),
                                                            _( "Let me kill that %1$s!" ),
                                                            _( "Hey, I need to kill that %1$s!" ),
@@ -5356,7 +5353,7 @@ void player::suffer()
                                                      _( "\"It wasn't my fault!\"" ),
                                                      _( "\"I had to do it!\"" ),
                                                      _( "\"They made me do it!\"" ),
-                                                     _( "\"What are you!\"" ),
+                                                     _( "\"What are you!?\"" ),
                                                      _( "\"I should never have trusted you!\"" ) };
 
                     std::string i_shout = random_entry_ref( shouts );
@@ -6696,42 +6693,15 @@ bool player::has_fire(const int quantity) const
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return true;
-    } else if (has_charges("torch_lit", 1)) {
+    } else if( has_item_with_flag( "FIRE" ) ) {
         return true;
-    } else if (has_charges("battletorch_lit", quantity)) {
-        return true;
-    } else if (has_charges("handflare_lit", 1)) {
-        return true;
-    } else if (has_charges("candle_lit", 1)) {
-        return true;
-    } else if (has_charges("ref_lighter", quantity)) {
-        return true;
-    } else if (has_charges("matches", quantity)) {
-        return true;
-    } else if (has_charges("lighter", quantity)) {
-        return true;
-    } else if (has_charges("crude_firestarter", quantity)) {
-        return true;
-    } else if (has_charges("flamethrower", quantity)) {
-        return true;
-    } else if (has_charges("flamethrower_simple", quantity)) {
-        return true;
-    } else if (has_charges("hotplate", quantity)) {
-        return true;
-    } else if (has_charges("welder", quantity)) {
-        return true;
-    } else if (has_charges("welder_crude", quantity)) {
-        return true;
-    } else if (has_charges("shishkebab_on", quantity)) {
-        return true;
-    } else if (has_charges("firemachete_on", quantity)) {
-        return true;
-    } else if (has_charges("broadfire_on", quantity)) {
-        return true;
-    } else if (has_charges("firekatana_on", quantity)) {
-        return true;
-    } else if (has_charges("zweifire_on", quantity)) {
-        return true;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+        for( auto &i : firestarters ) {
+            if( has_charges( i->typeId(), quantity ) ) {
+                return true;
+            }
+        }
     } else if (has_active_bionic( bio_tools ) && power_level > quantity * 5 ) {
         return true;
     } else if (has_bionic( bio_lighter ) && power_level > quantity * 5 ) {
@@ -6756,66 +6726,16 @@ void player::use_fire(const int quantity)
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return;
-    } else if (has_charges("torch_lit", 1)) {
+    } else if( has_item_with_flag( "FIRE" ) ) {
         return;
-    } else if (has_charges("battletorch_lit", 1)) {
-        return;
-    } else if (has_charges("handflare_lit", 1)) {
-        return;
-    } else if (has_charges("candle_lit", 1)) {
-        return;
-    } else if (has_charges("shishkebab_on", quantity)) {
-        return;
-    } else if (has_charges("firemachete_on", quantity)) {
-        return;
-    } else if (has_charges("broadfire_on", quantity)) {
-        return;
-    } else if (has_charges("firekatana_on", quantity)) {
-        return;
-    } else if (has_charges("zweifire_on", quantity)) {
-        return;
-    } else if (has_charges("ref_lighter", quantity)) {
-        use_charges("ref_lighter", quantity);
-        return;
-    } else if (has_charges("matches", quantity)) {
-        use_charges("matches", quantity);
-        return;
-    } else if (has_charges("lighter", quantity)) {
-        use_charges("lighter", quantity);
-        return;
-    } else if (has_charges("crude_firestarter", quantity)) {
-        use_charges("crude_firestarter", quantity);
-        return;
-    } else if (has_charges("flamethrower", quantity)) {
-        use_charges("flamethrower", quantity);
-        return;
-    } else if (has_charges("flamethrower_simple", quantity)) {
-        use_charges("flamethrower_simple", quantity);
-        return;
-    } else if (has_charges("hotplate", quantity)) {
-        use_charges("hotplate", quantity);
-        return;
-    } else if (has_charges("welder", quantity)) {
-        use_charges("welder", quantity);
-        return;
-    } else if (has_charges("welder_crude", quantity)) {
-        use_charges("welder_crude", quantity);
-        return;
-    } else if (has_charges("shishkebab_off", quantity)) {
-        use_charges("shishkebab_off", quantity);
-        return;
-    } else if (has_charges("firemachete_off", quantity)) {
-        use_charges("firemachete_off", quantity);
-        return;
-    } else if (has_charges("broadfire_off", quantity)) {
-        use_charges("broadfire_off", quantity);
-        return;
-    } else if (has_charges("firekatana_off", quantity)) {
-        use_charges("firekatana_off", quantity);
-        return;
-    } else if (has_charges("zweifire_off", quantity)) {
-        use_charges("zweifire_off", quantity);
-        return;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+        for( auto &i : firestarters ) {
+            if( has_charges( i->typeId(), quantity ) ) {
+                use_charges( i->typeId(), quantity );
+                return;
+            }
+        }
     } else if (has_active_bionic( bio_tools ) && power_level > quantity * 5 ) {
         charge_power( -quantity * 5 );
         return;
@@ -7764,7 +7684,6 @@ hint_rating player::rate_action_wear( const item &it ) const
 
     return can_wear( it ).success() ? HINT_GOOD : HINT_IFFY;
 }
-
 
 hint_rating player::rate_action_change_side( const item &it ) const {
    if (!is_worn(it)) {
@@ -10404,7 +10323,6 @@ bool player::wearing_something_on(body_part bp) const
     return false;
 }
 
-
 bool player::natural_attack_restricted_on( body_part bp ) const
 {
     for( auto &i : worn ) {
@@ -10577,8 +10495,6 @@ void player::practice( const skill_id &id, int amount, int cap )
     if (isSavant && id != savantSkill ) {
         amount /= 2;
     }
-
-
 
     if (amount > 0 && get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
@@ -11511,7 +11427,6 @@ std::vector<std::string> player::get_overlay_ids() const
 {
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
-
 
     // first get effects
     for( const auto &eff_pr : *effects ) {

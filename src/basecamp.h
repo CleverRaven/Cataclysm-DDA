@@ -34,5 +34,4 @@ class basecamp
         int posx, posy; // location of associated bulletin board
 };
 
-
 #endif

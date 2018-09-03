@@ -211,7 +211,6 @@ mission_goal string_to_enum<mission_goal>( const std::string &data )
 }
 } // namespace io
 
-
 generic_factory<mission_type> mission_type_factory( "mission_type" );
 
 /** @relates string_id */

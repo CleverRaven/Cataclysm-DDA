@@ -129,7 +129,6 @@ struct advanced_inv_area {
 // see item_factory.h
 class item_category;
 
-
 /**
  * Entry that is displayed in a adv. inv. pane. It can either contain a
  * single item or a category header or nothing (empty entry).

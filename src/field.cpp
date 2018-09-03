@@ -2454,7 +2454,6 @@ field_id field_entry::getFieldType() const{
     return type;
 }
 
-
 int field_entry::getFieldDensity() const{
     return density;
 }

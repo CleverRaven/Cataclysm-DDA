@@ -487,7 +487,6 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-
 int iuse::ecig( player *p, item *it, bool, const tripoint & )
 {
     if( it->typeId() == "ecig" ) {
@@ -1485,7 +1484,6 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
 
     return 1;
 }
-
 
 int iuse::dogfood( player *p, item *it, bool, const tripoint & )
 {
@@ -3421,7 +3419,6 @@ int iuse::mininuke( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-
 int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
 {
     if( !it->ammo_sufficient() ) {
@@ -3466,7 +3463,6 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     }
     return it->type->charges_to_use();
 }
-
 
 int iuse::portal( player *p, item *it, bool, const tripoint & )
 {
@@ -4315,7 +4311,6 @@ int iuse::portable_structure( player *p, item *it, bool, const tripoint & )
     return 1;
 }
 
-
 int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
 {
     if( p->is_underwater() ) {
@@ -4974,8 +4969,6 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
     if( it->has_flag( "WET" ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname().c_str() );
-
-
         // clean off the messes first, more important
     } else if( slime || boom || glow ) {
         p->remove_effect( effect_slimed ); // able to clean off all at once
@@ -5147,7 +5140,6 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
 
     return it->type->charges_to_use();
 }
-
 
 int iuse::contacts( player *p, item *it, bool, const tripoint & )
 {
@@ -5671,7 +5663,6 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
             }
 
-
         }
 
         if( candidates.size() > 0 ) {
@@ -5767,7 +5758,6 @@ static const std::string &photo_quality_name( const int index )
         } };
     return names[index];
 }
-
 
 int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 {
