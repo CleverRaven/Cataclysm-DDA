@@ -4130,9 +4130,10 @@ void game::debug()
                        _( "Show mutation category levels" ), // 29
                        _( "Overmap editor" ),         // 30
                        _( "Draw benchmark (5 seconds)" ),    // 31
-                       _( "Teleport - Adjacent overmap" ),   // 32
-                       _( "Test trait group" ),        // 33
-                       _( "Quit to Main Menu" ),    // 34
+                       _( "Draw benchmark (60 seconds)" ),    // 32
+                       _( "Teleport - Adjacent overmap" ),   // 33
+                       _( "Test trait group" ),        // 34
+                       _( "Quit to Main Menu" ),    // 35
                        _( "Cancel" ),
                        NULL );
     refresh_all();
@@ -4466,33 +4467,19 @@ void game::debug()
             ui::omap::display_editor();
             break;
 
-        case 31: {
-            // call the draw procedure as many times as possible in 5 seconds
-            auto start_tick = std::chrono::steady_clock::now();
-            auto end_tick = std::chrono::steady_clock::now();
-            long difference = 0;
-            int draw_counter = 0;
-            while( true ) {
-                end_tick = std::chrono::steady_clock::now();
-                difference = std::chrono::duration_cast<std::chrono::milliseconds>(end_tick - start_tick).count();
-                if( difference >= 5000 ) {
-                    break;
-                }
-                draw();
-                draw_counter++;
-            }
-            add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-                     difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
-        }
-        break;
-
+        case 31:
+            debug_menu::draw_benchmark( 5000 );
+            break;
         case 32:
-            debug_menu::teleport_overmap();
+            debug_menu::draw_benchmark( 60000 );
             break;
         case 33:
-            trait_group::debug_spawn();
+            debug_menu::teleport_overmap();
             break;
         case 34:
+            trait_group::debug_spawn();
+            break;
+        case 35:
             if( query_yn( _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
                 uquit = QUIT_NOSAVED;

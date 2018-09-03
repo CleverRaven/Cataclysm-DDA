@@ -16,6 +16,7 @@ class options_manager
     private:
         static std::vector<std::pair<std::string, std::string>> build_tilesets_list();
         static std::vector<std::pair<std::string, std::string>> build_soundpacks_list();
+        static std::vector<std::pair<std::string, std::string>> build_renderer_list();
         static std::vector<std::pair<std::string, std::string>> load_soundpack_from(
                     const std::string &path );
 

@@ -105,6 +105,10 @@ struct SDL_Surface_deleter {
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
 
+extern SDL_Texture_Ptr alt_rect_tex;
+extern bool alt_rect_tex_enabled;
+extern void draw_alt_rect( SDL_Rect &rect, int r, int g, int b );
+
 struct pixel {
     int r;
     int g;
@@ -637,6 +641,9 @@ class cata_tiles
         //place all submaps on this texture before rendering to screen
         //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
         SDL_Texture_Ptr main_minimap_tex;
+
+        // SDL_RenderFillRect replacement handler
+        void handle_draw_rect( SDL_Rect &rect, int r, int g, int b );
 };
 
 #endif

@@ -19,6 +19,7 @@
 
 #ifdef TILES
 #include "cata_tiles.h"
+#include <SDL.h>
 #endif // TILES
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
@@ -848,6 +849,32 @@ std::vector<std::pair<std::string, std::string>> options_manager::build_soundpac
     return result;
 }
 
+std::vector<std::pair<std::string, std::string>> options_manager::build_renderer_list()
+{
+    std::vector<std::pair<std::string, std::string>> renderer_names;
+
+#ifdef TILES
+    int numRenderDrivers = SDL_GetNumRenderDrivers();
+    DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
+    for( int ii = 0; ii < numRenderDrivers; ii++ ){
+        SDL_RendererInfo ri;
+        SDL_GetRenderDriverInfo( ii, &ri );
+        DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
+        renderer_names.emplace_back( ri.name, ri.name );
+    }
+#endif
+
+    if( renderer_names.empty() ) {
+#if (defined _WIN32 || defined WINDOWS )
+        renderer_names.emplace_back( "direct3d", translate_marker( "direct3d" ) );
+#endif
+        renderer_names.emplace_back( "opengl", translate_marker( "opengl" ) );
+        renderer_names.emplace_back( "opengles2", translate_marker( "opengles2" ) );
+        renderer_names.emplace_back( "software", translate_marker( "software" ) );
+    }
+    return renderer_names;
+}
+
 void options_manager::init()
 {
     options.clear();
@@ -1374,9 +1401,9 @@ void options_manager::init()
         { { "no", translate_marker( "No" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } }, "no", COPT_CURSES_HIDE
         );
 
-    add( "SOFTWARE_RENDERING", "graphics", translate_marker( "Software rendering" ),
-        translate_marker( "Use software renderer instead of graphics card acceleration.  Requires restart." ),
-        false, COPT_CURSES_HIDE
+    add( "RENDERER", "graphics", translate_marker( "Renderer" ),
+        translate_marker( "Set which renderer to use.  Requires restart." ),
+        build_renderer_list(), "opengl", COPT_CURSES_HIDE
         );
 
     add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
@@ -1385,6 +1412,11 @@ void options_manager::init()
         );
 
     get_option("FRAMEBUFFER_ACCEL").setPrerequisite("SOFTWARE_RENDERING");
+
+    add( "USE_COLOR_MODULATED_TEXTURES", "graphics", translate_marker( "Use color modulated textures" ),
+        translate_marker( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
+        false, COPT_CURSES_HIDE
+        );
 
     add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
         translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
