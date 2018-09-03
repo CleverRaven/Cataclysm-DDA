@@ -842,6 +842,11 @@ void complete_construction()
         }
     }
 
+    // Drop harvest items
+    if ( built.harvest_drop_group.size() > 0 ) {
+        g->m.spawn_items( u.pos(), item_group::items_from( built.harvest_drop_group, calendar::turn ) );
+    }
+
     add_msg( m_info, _( "You finish your construction: %s." ), built.description.c_str() );
 
     // clear the activity
@@ -1225,6 +1230,13 @@ void load_construction( JsonObject &jo )
     }
 
     con.pre_flags = jo.get_tags( "pre_flags" );
+
+    con.harvest_drop_group = "";
+    if ( jo.has_object( "harvest" ) ) {
+        JsonObject j = jo.get_object( "harvest" );
+        JsonIn& stream = *j.get_raw( "items" );
+        con.harvest_drop_group = item_group::load_item_group( stream, "collection" );
+    }
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
             { "", construct::check_nothing },

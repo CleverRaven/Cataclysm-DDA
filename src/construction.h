@@ -29,6 +29,7 @@ struct construction {
         std::string pre_note; // Additional note displayed along with construction requirements.
         std::string pre_terrain; // beginning terrain for construction
         std::string post_terrain;// final terrain after construction
+        std::string harvest_drop_group; // collection of items to be dropped.
 
         std::set<std::string> pre_flags; // flags beginning terrain must have
 

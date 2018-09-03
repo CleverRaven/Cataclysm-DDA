@@ -1333,6 +1333,13 @@ class map
          */
         void restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize );
         /**
+         * Try to restore a cut static plant to normal.
+         * @param p Place to restore
+         * @param time_since_last_actualise Time since this function has been
+         * called the last time.
+         */
+        void restore_cut_plant( const tripoint &p, const time_duration &time_since_last_actualize );
+        /**
          * Produce sap on tapped maple trees
          * @param p Location of tapped tree
          * @param time_since_last_actualize Time since this function has been

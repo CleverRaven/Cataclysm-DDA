@@ -6639,6 +6639,18 @@ void map::restock_fruits( const tripoint &p, const time_duration &time_since_las
     }
 }
 
+void map::restore_cut_plant( const tripoint &p, const time_duration &time_since_last_actualize )
+{
+    const auto &ter = this->ter( p ).obj();
+    if( !ter.has_flag( TFLAG_CUT ) ) {
+        return; // Plant isn't cut.  Do nothing.
+    }
+    // Restore the tree to normal growth so that eventually it can bear fruit.
+    if( time_since_last_actualize >= calendar::year_length() ) {
+        ter_set( p, ter.transforms_into );
+    }
+}
+
 void map::produce_sap( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     if( time_since_last_actualize <= 0 ) {
@@ -6839,6 +6851,8 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             grow_plant( pnt );
 
             restock_fruits( pnt, time_since_last_actualize );
+
+            restore_cut_plant( pnt, time_since_last_actualize );
 
             produce_sap( pnt, time_since_last_actualize );
 
