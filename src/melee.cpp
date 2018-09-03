@@ -283,7 +283,7 @@ float player::hit_roll() const
     return melee::melee_hit_range( hit );
 }
 
-void player::add_miss_reason( const std::string reason, const unsigned int weight )
+void player::add_miss_reason( const std::string &reason, const unsigned int weight )
 {
     melee_miss_reasons.add(reason, weight);
 
