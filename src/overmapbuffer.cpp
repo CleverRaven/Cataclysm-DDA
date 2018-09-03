@@ -638,7 +638,9 @@ tripoint overmapbuffer::find_closest( const tripoint& origin, const std::string&
                                       int const radius, bool must_be_seen, bool allow_subtype_matches)
 {
     // Check the origin before searching adjacent tiles!
-    if( check_ot_type( type, origin.x, origin.y, origin.z ) ) {
+    if( allow_subtype_matches
+            ? check_ot_subtype( type, origin.x, origin.y, origin.z )
+            : check_ot_type( type, origin.x, origin.y, origin.z ) ) {
         return origin;
     }
 
@@ -664,7 +666,7 @@ tripoint overmapbuffer::find_closest( const tripoint& origin, const std::string&
     for( int dist = 0; dist <= max; dist++ ) {
         // each edge length is 2*dist-2, because corners belong to one edge
         // south is +y, north is -y
-        for( int i = 0; i < dist * 2 - 1; i++ ) {
+        for( int i = 0; i < dist * 2; i++ ) {
             //start at northwest, scan north edge
             int x = origin.x - dist + i;
             int y = origin.y - dist;

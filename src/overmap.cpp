@@ -1781,7 +1781,7 @@ bool overmap::generate_sub( int const z )
             } else if( oter_above == "central_lab_stairs" ) {
                 ter( i, j, z ) = oter_id( "central_lab" );
             } else if( is_ot_subtype( "hidden_lab_stairs", oter_above ) ) {
-                ( one_in( 10 ) ? ice_lab_points : lab_points ).push_back( city( i, j, rng( 1, 5 + z ) ) );
+                lab_points.push_back( city( i, j, rng( 1, 5 + z ) ) );
             } else if( oter_above == "mine_entrance" ) {
                 shaft_points.push_back( point( i, j ) );
             } else if( oter_above == "mine_shaft" ||

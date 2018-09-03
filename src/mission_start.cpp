@@ -78,7 +78,7 @@ static tripoint random_house_in_closest_city()
     return random_house_in_city( cref );
 }
 
-static tripoint target_closest_lab( const tripoint origin, int reveal_rad, mission *miss )
+static tripoint target_closest_lab_entrance( const tripoint origin, int reveal_rad, mission *miss )
 {
     tripoint testpoint = tripoint(origin);
     // Get the surface locations for labs and for spaces above hidden lab stairs.
@@ -102,6 +102,14 @@ static tripoint target_closest_lab( const tripoint origin, int reveal_rad, missi
     miss->set_target( closest );
     return closest;
 }
+
+static bool reveal_road( tripoint source, tripoint dest, overmapbuffer& omb )
+{
+    const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( dest, "road", 3, false );
+    return omb.reveal_route( source_road, dest_road );
+}
+
 /**
  * Set target of mission to closest overmap terrain of that type,
  * reveal the area around it (uses reveal with reveal_rad),
@@ -132,10 +140,10 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
     if( places.empty() ) {
         return g->u.global_omt_location();
     }
-    const auto &cur_om = g->get_cur_om();
+    const auto loc_om = overmap_buffer.get_existing_om_global( loc );
     std::vector<tripoint> places_om;
     for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ) ) {
+        if( loc_om == overmap_buffer.get_existing_om_global( i ) ) {
             places_om.push_back( i );
         }
     }
@@ -1826,57 +1834,74 @@ void mission_start::reveal_refugee_center( mission *miss )
     }
 }
 
-void mission_start::create_lab_console( mission *miss )
+// Creates multiple lab consoles near tripoint place, which must have its z-level set to where consoles should go.
+void static create_lab_consoles( mission *miss, tripoint place, std::string otype, int security, std::string comp_name, std::string download_name )
 {
-    // Gear.
-    npc *dev = g->find_npc( miss->npc_id );
-    if( dev == NULL ) {
-        debugmsg( "Couldn't find NPC! %d", miss->npc_id );
-        return;
-    }
-    g->u.i_add( item( "usb_drive", 0 ) );
-    add_msg( _( "%s gave you a USB drive." ), dev->name.c_str() );
-
-
-    // Pick a lab that has spaces on the third basement level.
-    tripoint loc = g->u.global_omt_location();
-    loc.z = -3;
-    tripoint place = target_om_ter_random( "lab", -1, miss, false, 0, loc);
-
     // Drop four computers in nearby lab spaces so the player can stumble upon one of them.
     for (int i = 0; i < 4; ++i) {
-        tripoint om_place = target_om_ter_random( "lab", -1, miss, false, 4, place);
+        tripoint om_place = target_om_ter_random( otype, -1, miss, false, 4, place );
+
         tinymap compmap;
         compmap.load( om_place.x * 2, om_place.y * 2, om_place.z, false );
 
         tripoint comppoint = find_potential_computer_point( compmap, om_place.z);
 
-        computer *tmpcomp = compmap.add_computer( comppoint, "Durable Storage Archive", 3 );
-        tmpcomp->mission_id = miss->uid;
-        tmpcomp->add_option( _( "Download Archival Data" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
+        computer *tmpcomp = compmap.add_computer( comppoint, comp_name, security );
+        tmpcomp->mission_id = miss->get_id();
+        tmpcomp->add_option( _( download_name ), COMPACT_DOWNLOAD_SOFTWARE, security );
+        tmpcomp->add_failure(COMPFAIL_ALARM);
+        tmpcomp->add_failure(COMPFAIL_DAMAGE);
+        tmpcomp->add_failure(COMPFAIL_MANHACKS);
 
         compmap.save();
     }
+}
+
+void mission_start::create_lab_console( mission *miss )
+{
+    // Pick a lab that has spaces on z = -1: e.g., in hidden labs.
+    tripoint loc = g->u.global_omt_location();
+    loc.z = -1;
+    const tripoint place = overmap_buffer.find_closest( loc, "lab", 0, false );
+
+    create_lab_consoles( miss, place, "lab", 2, "Workstation", "Download Memory Contents" );
 
     // Target the lab entrance.
-    const tripoint target = target_closest_lab( place, 2, miss );
+    const tripoint target = target_closest_lab_entrance( place, 2, miss );
+    reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+}
 
-    const tripoint source_road = overmap_buffer.find_closest( g->u.global_omt_location(), "road", 3, false );
-    const tripoint dest_road = overmap_buffer.find_closest( target, "road", 3, false );
-    overmap_buffer.reveal_route( source_road, dest_road );
+void mission_start::create_hidden_lab_console( mission *miss )
+{
+    // Pick a hidden lab entrance.
+    tripoint loc = g->u.global_omt_location();
+    loc.z = -1;
+    tripoint place = target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false, 0, loc);
+    place.z = -2;  // then go down 1 z-level to place consoles.
+
+    create_lab_consoles( miss, place, "lab", 3, "Workstation", "Download Encryption Routines" );
+
+    // Target the lab entrance.
+    const tripoint target = target_closest_lab_entrance( place, 2, miss );
+    reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+}
+
+void mission_start::create_ice_lab_console( mission *miss )
+{
+    // Pick an ice lab with spaces on z = -4.
+    tripoint loc = g->u.global_omt_location();
+    loc.z = -4;
+    const tripoint place = overmap_buffer.find_closest( loc, "ice_lab", 0, false );
+
+    create_lab_consoles( miss, place, "ice_lab", 3, "Durable Storage Archive", "Download Archives" );
+
+    // Target the lab entrance.
+    const tripoint target = target_closest_lab_entrance( place, 2, miss );
+    reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
 
 void mission_start::reveal_lab_train_depot( mission *miss )
 {
-    // Gear.
-    npc *dev = g->find_npc( miss->npc_id );
-    if( dev == NULL ) {
-        debugmsg( "Couldn't find NPC! %d", miss->npc_id );
-        return;
-    }
-    g->u.i_add( item( "usb_drive", 0 ) );
-    add_msg( _( "%s gave you a USB drive." ), dev->name.c_str() );
-
     // Find and prepare lab location.
     tripoint loc = g->u.global_omt_location();
     loc.z = -4;  // tunnels are at z = -4
@@ -1906,9 +1931,6 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     compmap.save();
 
     // Target the lab entrance.
-    const tripoint target = target_closest_lab( place, 2, miss );
-
-    const tripoint source_road = overmap_buffer.find_closest( g->u.global_omt_location(), "road", 3, false );
-    const tripoint dest_road = overmap_buffer.find_closest( target, "road", 3, false );
-    overmap_buffer.reveal_route( source_road, dest_road );
+    const tripoint target = target_closest_lab_entrance( place, 2, miss );
+    reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }

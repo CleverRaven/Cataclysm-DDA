@@ -151,6 +151,8 @@ struct mission_start {
     static void reveal_cathedral   ( mission *); // Find relic
     static void reveal_refugee_center ( mission *); // Find refugee center
     static void create_lab_console ( mission *); // Reveal lab with an unlocked workstation
+    static void create_hidden_lab_console ( mission *); // Reveal hidden lab with an unlocked workstation
+    static void create_ice_lab_console ( mission *); // Reveal lab with an unlocked workstation
     static void reveal_lab_train_depot ( mission *); // Find lab train depot
 };
 
