@@ -1,4 +1,4 @@
-, bool allow_subtype_matches = false#pragma once
+#pragma once
 #ifndef OVERMAPBUFFER_H
 #define OVERMAPBUFFER_H
 
