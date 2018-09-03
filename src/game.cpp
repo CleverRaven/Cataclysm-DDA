@@ -152,6 +152,7 @@ const skill_id skill_melee( "melee" );
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
+const skill_id skill_survival( "survival" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id PLANT( "PLANT" );
@@ -7607,6 +7608,56 @@ void game::examine()
     examine( examp );
 }
 
+const std::string get_fire_fuel_string( tripoint examp )
+{
+    if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
+        field_entry *fire = g->m.get_field( examp, fd_fire );
+        if( fire ) {
+            std::stringstream ss;
+            ss << string_format( _( "There is a fire here." ) ) << " ";
+            if( fire->getFieldDensity() > 1 ) {
+                ss << string_format( _( "It's too big and unpredictable to evaluate how long it will last." ) );
+                return ss.str();
+            }
+            time_duration fire_age = fire->getFieldAge();
+            // half-life inclusion
+            int mod = 5 - g->u.get_skill_level( skill_survival );
+            mod = std::max( mod, 0 );
+            if( fire_age >= 0 ) {
+                if( mod >= 4 ) { // = survival level 0-1
+                    ss << string_format( _( "It's going to go out soon without extra fuel." ) );
+                    return ss.str();
+                } else {
+                fire_age = 30_minutes - fire_age;
+                fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                ss << string_format( _( "Without extra fuel it might burn yet for %s, but might also go out sooner." ), to_string_approx( fire_age ) );
+                return ss.str();
+                }
+            } else {
+                fire_age = fire_age * -1 + 30_minutes;
+                if( mod >= 4 ) { // = survival level 0-1
+                    if( fire_age <= 1_hours ) {
+                        ss << string_format( _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
+                        return ss.str();
+                    } else if( fire_age <= 3_hours ) {
+                        ss << string_format( _( "It's looks solid, and will burn for a few hours without extra fuel." ) );
+                        return ss.str();
+                    } else {
+                        ss << string_format( _( "It's very well supplied and even without extra fuel might burn for at least s part of a day." ) );
+                        return ss.str();
+                    }
+                } else {
+                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                    ss << string_format( _( "Without extra fuel it will burn for %s.") , to_string_approx( fire_age ) );
+                    return ss.str();
+                }
+            }
+        }
+    }
+    static const std::string empty_string;
+    return empty_string;
+}  
+
 void game::examine( const tripoint &examp )
 {
     Creature *c = critter_at( examp );
@@ -7673,6 +7724,12 @@ void game::examine( const tripoint &examp )
     // In case of teleport trap or somesuch
     if( player_pos != u.pos() ) {
         return;
+    }
+
+    // Feedback for fire lasting time
+    const std::string fire_fuel = get_fire_fuel_string( examp );
+    if( !fire_fuel.empty() ) {
+        add_msg( fire_fuel );
     }
 
     if (m.has_flag("SEALED", examp)) {
@@ -7878,7 +7935,14 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
-        mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
+        if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) || m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+            const int max_width = getmaxx( w_look ) - column - 2;
+            int lines;
+            lines = fold_and_print( w_look, ++line, column, max_width, cur.color(), get_fire_fuel_string( lp ) ) - 1;
+            line += lines;
+        } else {
+            mvwprintz( w_look, ++line, column, cur.color(), cur.name() );  
+        }              
     }
 }
 
