@@ -669,7 +669,7 @@ std::vector<int> player::get_initial_rot( std::vector<comp_selection<item_comp>>
             }
         } else if( item_location == use_from_player ) {
             used_items.push_back( item_from_type( type ).back() );
-        } 
+        }
     }
 
     std::vector<int> initial_rot;
