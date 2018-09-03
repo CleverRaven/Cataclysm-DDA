@@ -1244,6 +1244,8 @@ class vehicle
         //returns true if there's another engine with the same exclusion list; conflict_type holds
         //the exclusion
         bool has_engine_conflict( const vpart_info *possible_engine, std::string &conflict_type ) const;
+        //returns true if the engine doesn't consume fuel
+        bool is_perpetual_type( int e ) const;
         //prints message relating to vehicle start failure
         void msg_start_engine_fail();
         //if necessary, damage this engine

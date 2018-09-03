@@ -36,7 +36,7 @@
     "stackable": true,
     "price": 0,
     "volume": 0,
-    "flags": [ "PSEUDO" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
   {
