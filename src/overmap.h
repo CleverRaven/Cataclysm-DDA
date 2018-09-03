@@ -153,7 +153,6 @@ struct regional_settings {
     void finalize();
 };
 
-
 struct city {
     // in overmap terrain coordinates
     int x;

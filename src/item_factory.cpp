@@ -495,7 +495,6 @@ class iuse_function_wrapper : public iuse_actor
 use_function::use_function( const std::string &type, const use_function_pointer f )
     : use_function( new iuse_function_wrapper( type, f ) ) {}
 
-
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
     iuse_function_list[ type ] = use_function( type, f );

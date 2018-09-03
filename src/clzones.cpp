@@ -517,7 +517,6 @@ void zone_manager::deserialize( JsonIn &jsin )
     }
 }
 
-
 bool zone_manager::save_zones()
 {
     std::string savefile = g->get_player_base_save_path() + ".zones.json";

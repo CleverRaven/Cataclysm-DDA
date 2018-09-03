@@ -441,7 +441,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 set_hp( parts[ p ], 0 );
             }
 
-
             /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
             * the "front" of the vehicle (since the driver's seat is at (0, 0).
             * We'll be generous with the blood, since some may disappear before
@@ -543,8 +542,6 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
                 part.ammo_unset();
             }
         }
-
-
     }
 }
 
@@ -2949,7 +2946,6 @@ void vehicle::idle( bool on_map )
             e->enabled = false;
         }
     }
-
 
     if( has_part( "STEREO", true ) ) {
         play_music();

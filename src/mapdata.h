@@ -457,7 +457,6 @@ extern ter_id t_null,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
 
-
 /*
 runtime index: furn_id
 furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note

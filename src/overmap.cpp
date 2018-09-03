@@ -72,7 +72,6 @@ oter_id  ot_null,
          ot_forest_water,
          ot_river_center;
 
-
 const oter_type_t oter_type_t::null_type;
 
 namespace om_lines
@@ -1691,7 +1690,6 @@ void overmap::generate( const overmap *north, const overmap *east,
     dbg( D_INFO ) << "overmap::generate done";
 }
 
-
 bool overmap::generate_sub( int const z )
 {
     bool requires_sub = false;
@@ -1861,7 +1859,6 @@ bool overmap::generate_sub( int const z )
         extra_route.push_back( lab_train_points.back() );
         connect_closest_points( extra_route, z, *subway_tunnel );
     }
-
 
     for( auto &i : subway_points ) {
         if( is_ot_type( "sub_station", ter( i.x, i.y, z + 2 ) ) ) {
@@ -2076,7 +2073,6 @@ void overmap::move_hordes()
     }
     // and now back into the monster group map.
     zg.insert( tmpzg.begin(), tmpzg.end() );
-
 
     if( get_option<bool>( "WANDER_SPAWNS" ) ) {
         static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -3742,7 +3738,6 @@ void overmap::save() const
     serialize( fout_terrain );
     fout_terrain.close();
 }
-
 
 //////////////////////////
 

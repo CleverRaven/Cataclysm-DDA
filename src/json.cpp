@@ -64,7 +64,6 @@ std::string utf16_to_utf8(uint32_t ch)
     return out;
 }
 
-
 /* class JsonObject
  * represents a JSON object,
  * providing access to the underlying data.
@@ -162,7 +161,6 @@ std::string JsonObject::str()
     }
 }
 
-
 void JsonObject::throw_error(std::string err, const std::string &name)
 {
     jsin->seek(verify_position(name, false));
@@ -193,7 +191,6 @@ JsonIn *JsonObject::get_raw(const std::string &name)
     jsin->seek(pos);
     return jsin;
 }
-
 
 /* returning values by name */
 
@@ -404,7 +401,6 @@ bool JsonObject::has_object(const std::string &name)
     return false;
 }
 
-
 /* class JsonArray
  * represents a JSON array,
  * providing access to the underlying data.
@@ -475,7 +471,6 @@ void JsonArray::verify_index(int i)
         jsin->error(err.str());
     }
 }
-
 
 /* iterative access */
 

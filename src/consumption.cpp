@@ -97,7 +97,6 @@ int player::nutrition_for( const item &comest ) const
         nutr *= 0.6f;
     }
 
-
     if( has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping

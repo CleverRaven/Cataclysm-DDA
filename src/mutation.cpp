@@ -1188,7 +1188,6 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         return mutagen_rejection::destroyed;
     }
 
-
     return mutagen_rejection::accepted;
 }
 
@@ -1273,5 +1272,3 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
         p.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
 }
-
-

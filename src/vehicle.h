@@ -312,7 +312,6 @@ struct vehicle_part {
         /** Get part definition common to all parts of this type */
         const vpart_info &info() const;
 
-
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 

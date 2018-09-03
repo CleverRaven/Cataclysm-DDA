@@ -99,5 +99,4 @@ void flame( monster *z, Creature *target );
 bool dodge_check( monster *z, Creature *target );
 } //namespace mattack
 
-
 #endif

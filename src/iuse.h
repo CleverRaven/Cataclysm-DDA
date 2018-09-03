@@ -231,7 +231,6 @@ class iuse
 
 };
 
-
 typedef int ( iuse::*use_function_pointer )( player *, item *, bool, const tripoint & );
 
 class iuse_actor

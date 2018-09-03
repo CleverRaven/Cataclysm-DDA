@@ -181,7 +181,6 @@ class inventory_selector_preset
                     stub( stub ),
                     func( func ) {}
 
-
                 std::string get_text( const inventory_entry &entry ) const;
 
                 std::string title;

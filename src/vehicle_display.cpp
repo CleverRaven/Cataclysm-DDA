@@ -28,7 +28,6 @@
 #include <algorithm>
 #include <cassert>
 
-
 static const std::string part_location_structure( "structure" );
 
 const std::string vehicle::disp_name() const

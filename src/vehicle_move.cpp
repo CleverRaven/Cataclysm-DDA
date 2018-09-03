@@ -44,7 +44,6 @@
 #include <algorithm>
 #include <cassert>
 
-
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_gasoline( "gasoline" );

@@ -179,7 +179,6 @@ class wish_mutate_callback: public uimenu_callback
         ~wish_mutate_callback() override = default;
 };
 
-
 void debug_menu::wishmutate( player *p )
 {
     uimenu wmenu;
