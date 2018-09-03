@@ -28,7 +28,6 @@ src/lightmap.cpp
 src/line.cpp
 src/main.cpp
 src/map.cpp
-src/mapdata.cpp
 src/mapgen.cpp
 src/mapgen_functions.cpp
 src/melee.cpp
@@ -67,7 +66,6 @@ src/field.h
 src/io.h
 src/itype.h
 src/json.h
-src/mapdata.h
 src/mapgen_functions.h
 src/mapgen.h
 src/mission.h
