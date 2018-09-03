@@ -1448,6 +1448,8 @@
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
       [ "shovel", 40 ],
+      [ "clay_pot_flower", 40 ],
+      [ "plastic_pot_flower", 60 ],
       [ "fertilizer_commercial", 30 ],
       [ "material_quicklime", 30 ],
       [ "seed_sunflower", 30 ],
