@@ -978,8 +978,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         printErrorIf( SDL_RenderSetClipRect( renderer, &clipRect ) != 0, "SDL_RenderSetClipRect failed" );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        printErrorIf( SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
-        printErrorIf( SDL_RenderFillRect( renderer, &clipRect ) != 0, "SDL_RenderFillRect failed" );
+        handle_draw_rect( clipRect, 0, 0, 0 );
     }
 
     int posx = center.x;
@@ -1240,7 +1239,6 @@ void cata_tiles::process_minimap_cache_updates()
                 const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
                 const SDL_Color c = current_pix.getSdlColor();
 
-
                 printErrorIf( SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a ) != 0, "SDL_SetRenderDrawColor failed" );
 
                 if( draw_with_dots ) {
@@ -1249,7 +1247,7 @@ void cata_tiles::process_minimap_cache_updates()
                     rectangle.x = p.x * minimap_tile_size.x;
                     rectangle.y = p.y * minimap_tile_size.y;
 
-                    printErrorIf( SDL_RenderFillRect( renderer, &rectangle ) != 0, "SDL_RenderFillRect failed" );
+                    handle_draw_rect( rectangle, c.r, c.g, c.b );
                 }
             }
             mcp.second.update_list.clear();
@@ -2076,8 +2074,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
-    printErrorIf( SDL_SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
-    printErrorIf( SDL_RenderFillRect( renderer, &belowRect ) != 0, "SDL_RenderFillRect failed" );
+    handle_draw_rect( belowRect, tercol.r, tercol.g, tercol.b );
 
     return true;
 }
@@ -3001,6 +2998,16 @@ void cata_tiles::tile_loading_report(arraytype const & array, int array_length, 
                 []( decltype(begin) const v ) {
                     return v->id;
                 }, label, prefix );
+}
+
+inline void cata_tiles::handle_draw_rect( SDL_Rect &rect, int r, int g, int b )
+{
+    if( alt_rect_tex_enabled ){
+        draw_alt_rect( rect, r, g, b );
+    } else {
+        printErrorIf( SDL_SetRenderDrawColor( renderer, r, g, b, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
+        printErrorIf( SDL_RenderFillRect( renderer, &rect ) != 0, "SDL_RenderFillRect failed" );
+    }
 }
 
 #endif // SDL_TILES

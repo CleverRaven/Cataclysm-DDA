@@ -66,6 +66,18 @@ static unsigned long interval = 25;
 static bool needupdate = false;
 extern bool tile_iso;
 
+// used to replace SDL_RenderFillRect with a more efficient SDL_RenderCopy
+SDL_Texture_Ptr alt_rect_tex = NULL;
+bool alt_rect_tex_enabled = false;
+
+void printErrorIf( const bool condition, const std::string message )
+{
+    if( !condition ) {
+        return;
+    }
+    dbg( D_ERROR ) << message << ": " << SDL_GetError();
+}
+
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
 Mix_Music *current_music = NULL;
@@ -300,6 +312,58 @@ static inline bool check_sound( const int volume = 1 )
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
+void generate_alt_rect_texture()
+{
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
+#else
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
+#endif
+
+      SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
+      if( alt_surf ) {
+          if( !SDL_FillRect( alt_surf.get(), NULL, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) ) ){
+              alt_rect_tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
+              alt_surf.reset();
+              // test to make sure color modulation is supported by renderer
+              if( !SDL_SetTextureColorMod( alt_rect_tex.get(), 0, 0, 0 ) ){
+                  alt_rect_tex_enabled = true;
+                  DebugLog( D_INFO, DC_ALL ) << "Function generate_alt_rect_texture() success.  Variable alt_rect_tex_enabled is set to " << alt_rect_tex_enabled;
+                  return;
+              } else {
+                  DebugLog( D_ERROR, DC_ALL ) << "Color modulation test failed: " << SDL_GetError();
+              }
+          } else {
+              DebugLog( D_ERROR, DC_ALL ) << "SDL_FillRect failed: " << SDL_GetError();
+          }
+      } else {
+          DebugLog( D_ERROR, DC_ALL ) << "CreateRGBSurface failed: " << SDL_GetError();
+      }
+
+      alt_rect_tex_enabled = false;
+      alt_rect_tex.reset();
+
+      DebugLog( D_WARNING, DC_ALL ) << "Function generate_alt_rect_texture() failed.  Variable alt_rect_tex_enabled is set to " << alt_rect_tex_enabled;
+
+}
+
+void draw_alt_rect( SDL_Rect &rect, unsigned char color )
+{
+    printErrorIf( SDL_SetTextureColorMod( alt_rect_tex.get(), windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b ) != 0, "SDL_SetTextureColorMod failed");
+    printErrorIf( SDL_RenderCopy( renderer.get(), alt_rect_tex.get(), NULL, &rect ) != 0, "SDL_RenderCopy failed" );
+}
+
+void draw_alt_rect( SDL_Rect &rect, int r, int g, int b )
+{
+    printErrorIf( SDL_SetTextureColorMod( alt_rect_tex.get(), r, g, b ) != 0, "SDL_SetTextureColorMod failed" );
+    printErrorIf( SDL_RenderCopy( renderer.get(), alt_rect_tex.get(), NULL, &rect ) != 0, "SDL_RenderCopy failed" );
+}
 
 static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
 {
@@ -417,7 +481,7 @@ bool WinCreate()
         ) );
 
     if( !::window ) {
-        dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
+        dbg( D_ERROR ) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
     if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
@@ -441,15 +505,32 @@ bool WinCreate()
     const Uint32 wformat = SDL_GetWindowPixelFormat( ::window.get() );
     format.reset( SDL_AllocFormat( wformat ) );
     if( !format ) {
-        dbg(D_ERROR) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
+        dbg( D_ERROR ) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
         return false;
     }
 
-    bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
+    std::string riname = "opengl";
+    if( !get_option<std::string>( "RENDERER" ).empty() ) {
+        riname = get_option<std::string>( "RENDERER" );
+    }
+
+    int numRenderDrivers = SDL_GetNumRenderDrivers();
+    int rendertouse = -1;
+    for( int ii = 0; ii < numRenderDrivers; ii++ ){
+        SDL_RendererInfo ri;
+        SDL_GetRenderDriverInfo( ii, &ri );
+        if( riname == ri.name ){
+            rendertouse = ii;
+            DebugLog( D_INFO, DC_ALL ) << "Active renderer: " << rendertouse << "/" << ri.name;
+            break;
+        }
+    }
+    bool software_renderer = riname == "software";
+
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( ::window.get(), -1, SDL_RENDERER_ACCELERATED |
+        renderer.reset( SDL_CreateRenderer( ::window.get(), rendertouse, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
         if( !renderer ) {
             dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
@@ -510,6 +591,12 @@ bool WinCreate()
     // Set up audio mixer.
     init_sound();
 
+    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " << get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
+    //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
+    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) ){
+        generate_alt_rect_texture();
+    }
+
     return true;
 }
 
@@ -526,6 +613,8 @@ void WinDestroy()
 #endif
     tilecontext.reset();
 
+    alt_rect_tex.reset();
+
     if(joystick) {
         SDL_JoystickClose(joystick);
         joystick = 0;
@@ -536,13 +625,13 @@ void WinDestroy()
     ::window.reset();
 }
 
-inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    if( SDL_SetRenderDrawColor( renderer.get(), windowsPalette[color].r, windowsPalette[color].g,
-                                windowsPalette[color].b, 255 ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderDrawColor failed: " << SDL_GetError();
-    }
-    if( SDL_RenderFillRect( renderer.get(), &rect ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderFillRect failed: " << SDL_GetError();
+inline void FillRectDIB( SDL_Rect &rect, unsigned char color )
+{
+    if( alt_rect_tex_enabled ){
+        draw_alt_rect( rect, color );
+    } else {
+        printErrorIf( SDL_SetRenderDrawColor( renderer.get(), windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 ) != 0, "SDL_SetRenderDrawColor failed" );
+        printErrorIf( SDL_RenderFillRect( renderer.get(), &rect ) != 0, "SDL_RenderFillRect failed" );
     }
 }
 
@@ -653,7 +742,7 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
     }
     SDL_Rect rect {x, y, value.width, fontheight};
     if( SDL_RenderCopy( renderer.get(), value.texture.get(), nullptr, &rect ) ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+        dbg( D_ERROR ) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
 
@@ -679,7 +768,7 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     SDL_Rect rect;
     rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
     if( SDL_RenderCopy( renderer.get(), ascii[color].get(), &src, &rect ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+        dbg( D_ERROR ) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
 
@@ -691,14 +780,14 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     if( SDL_SetRenderTarget( renderer.get(), NULL ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+        dbg( D_ERROR ) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
     if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+        dbg( D_ERROR ) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
     SDL_RenderPresent( renderer.get() );
     if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+        dbg( D_ERROR ) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
 }
 
@@ -719,7 +808,7 @@ static void try_sdl_update()
 void set_displaybuffer_rendertarget()
 {
     if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+        dbg( D_ERROR ) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
 }
 
