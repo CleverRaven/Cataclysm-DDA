@@ -1859,7 +1859,7 @@
     "destination": "evac_center"
   },
   {
-    "id": "MISSION_OLD_GUARD_LAB_1",
+    "id": "MISSION_SCIENCE_LAB_1",
     "type": "mission_definition",
     "name": "Gather 3.75L of Disinfectant",
     "goal": "MGOAL_FIND_ITEM",
@@ -1868,7 +1868,7 @@
     "item": "disinfectant",
     "count": 150,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_LAB_2",
+    "followup": "MISSION_SCIENCE_LAB_2",
     "dialogue": {
       "describe": "We need help...",
       "offer": "Look, I would love help you do research on the cataclysm, but we've got wounded here.  Right now, I could use a gallon of disinfectant a lot more than a wandering hero.",
@@ -1882,7 +1882,7 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_LAB_2",
+    "id": "MISSION_SCIENCE_LAB_2",
     "type": "mission_definition",
     "name": "Analyze Zombie Blood",
     "goal": "MGOAL_FIND_ITEM",
@@ -1891,7 +1891,7 @@
     "item": "software_blood_data",
     "start": "reveal_hospital",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_LAB_3",
+    "followup": "MISSION_SCIENCE_LAB_3",
     "dialogue": {
       "describe": "It could be very informative to perform an analysis of zombie blood...",
       "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  Can you get a sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it?",
@@ -1905,7 +1905,7 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_LAB_3",
+    "id": "MISSION_SCIENCE_LAB_3",
     "type": "mission_definition",
     "name": "Download Research Data",
     "goal": "MGOAL_FIND_ANY_ITEM",
@@ -1914,7 +1914,7 @@
     "item": "software_lab_data",
     "start": "create_lab_console",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_LAB_4",
+    "followup": "MISSION_SCIENCE_LAB_4",
     "dialogue": {
       "describe": "We need help...",
       "offer": "A government scientist came through with a tip about some research databases which survived the cataclysm.  They're on the third basement level of the lab he worked at.  Find a database, pull the data onto this USB, and bring it back to us.",
@@ -1928,7 +1928,7 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_LAB_4",
+    "id": "MISSION_SCIENCE_LAB_4",
     "type": "mission_definition",
     "name": "Find Lab Tunnels",
     "goal": "MGOAL_FIND_ANY_ITEM",

@@ -31,16 +31,16 @@
     "faction" : "old_guard"
   },{
     "type" : "npc",
-    "id" : "old_guard_lab",
+    "id" : "science_rep",
     "//" : "Appears in the refugee center as a source of missions and info.  Faction critical.",
     "name_suffix" : "Doctor",
     "class" : "NC_DOCTOR",
     "attitude" : 0,
     "//" : "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
     "mission" : 7,
-    "chat" : "TALK_OLD_GUARD_LAB",
+    "chat" : "TALK_SCIENCE_REP",
     "faction" : "old_guard",
-    "mission_offered" : "MISSION_OLD_GUARD_LAB_1"
+    "mission_offered" : "MISSION_SCIENCE_REP_1"
   },{
     "type" : "npc",
     "id" : "old_guard_necropolis_cpt",
