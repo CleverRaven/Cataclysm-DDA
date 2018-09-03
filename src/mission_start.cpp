@@ -1846,7 +1846,6 @@ void mission_start::create_lab_console( mission *miss )
     // Drop four computers in nearby lab spaces so the player can stumble upon one of them.
     for (int i = 0; i < 4; ++i) {
         tripoint om_place = target_om_ter_random( "lab", 0, miss, false, 4, place);
-        debugmsg("Placing computer at %d,%d,%d", om_place.x, om_place.y, om_place.z);
         tinymap compmap;
         compmap.load( om_place.x * 2, om_place.y * 2, om_place.z, false );
 
