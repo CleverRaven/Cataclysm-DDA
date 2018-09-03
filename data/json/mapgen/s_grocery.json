@@ -114,7 +114,14 @@
   {
     "id": "groce_frozen",
     "type": "item_group",
-    "items": [ [ "frozen_dinner", 80 ], [ "pizza_veggy", 50 ], [ "pizza_meat", 50 ], [ "frozen_burrito", 50 ] ]
+    "items": [
+      [ "frozen_dinner", 80 ],
+      [ "pizza_veggy", 50 ],
+      [ "pizza_meat", 50 ],
+      [ "frozen_burrito", 50 ],
+      [ "icecream_artificial", 30 ],
+      [ "icecream_candy", 20 ]
+    ]
   },
   {
     "id": "groce_meat",
@@ -137,7 +144,9 @@
       { "item": "milk", "prob": 80 },
       { "item": "cheese", "prob": 60 },
       { "item": "yoghurt", "prob": 40 },
-      { "item": "pudding", "prob": 30 }
+      { "item": "pudding", "prob": 30 },
+      { "item": "icecream", "prob": 30 },
+      { "item": "icecream_artificial", "prob": 15 }
     ]
   },
   {

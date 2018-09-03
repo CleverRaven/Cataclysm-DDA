@@ -54,6 +54,7 @@ void jackhammer_do_turn( player_activity *act, player *p );
 void dig_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void till_plot_do_turn( player_activity *act, player *p );
+void plant_plot_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

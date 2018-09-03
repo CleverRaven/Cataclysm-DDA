@@ -1539,6 +1539,10 @@ bool game::do_turn()
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
 
+    if( u.is_deaf() ) {
+        sfx::do_hearing_loss();
+    }
+
     if (!u.in_sleep_state()) {
         if (u.moves > 0 || uquit == QUIT_WATCH) {
             while (u.moves > 0 || uquit == QUIT_WATCH) {
@@ -1669,7 +1673,9 @@ bool game::do_turn()
         u.check_and_recover_morale();
     }
 
-    sfx::remove_hearing_loss();
+    if( !u.is_deaf() ) {
+        sfx::remove_hearing_loss();
+    }
     sfx::do_danger_music();
     sfx::do_fatigue();
 
@@ -6834,7 +6840,8 @@ void game::loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
-        TillPlots = 4
+        TillPlots = 4,
+        PlantPlots = 8
     };
 
     auto just_one = []( int flags ) {
@@ -6844,9 +6851,15 @@ void game::loot()
     int flags = 0;
     const auto &mgr = zone_manager::get_manager();
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
+    const bool has_seeds = u.has_item_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
 
     flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
-    flags |= check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ? TillPlots : 0;
+    if( check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
+        flags |= TillPlots;
+        flags |= PlantPlots;
+    }
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -6868,8 +6881,15 @@ void game::loot()
 
         if( flags & TillPlots ) {
             menu.addentry_desc( TillPlots, has_hoe, 't',
-                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with." ),
-                                _( "Tills nearby Farm: Plot zones" ) );
+                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
+                                _( "Tills nearby Farm: Plot zones." ) );
+        }
+
+        if( flags & PlantPlots ) {
+            menu.addentry_desc( PlantPlots, warm_enough_to_plant() && has_seeds, 'p',
+                                !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
+                                !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
+                                _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
 
         menu.addentry( None, true, 'q',  _( "Cancel" ) );
@@ -6890,6 +6910,15 @@ void game::loot()
                 u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
             } else {
                 add_msg( _( "You need a tool to dig with." ) );
+            }
+            break;
+        case PlantPlots:
+            if( !warm_enough_to_plant() ) {
+                add_msg( m_info, _( "It is too cold to plant anything now." ) );
+            } else if( !has_seeds ) {
+                add_msg( m_info, _( "You don't have any seeds." ) );
+            } else {
+                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
             }
             break;
         default:
@@ -7976,6 +8005,11 @@ bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) co
     return zone_manager::get_manager().has_near( type, m.getabs( where ) );
 }
 
+bool game::is_zone_manager_open()
+{
+    return zone_manager_open;
+};
+
 void game::zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase(w_info);
@@ -8050,6 +8084,7 @@ void game::zones_manager()
     pixel_minimap_option = 0;
 
     int zone_ui_height = 12;
+    int zone_options_height = 7;
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
                                         VIEW_OFFSET_X;
@@ -8058,10 +8093,12 @@ void game::zones_manager()
                              VIEW_OFFSET_Y + 1, offsetX + 1);
     catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width,
                                     VIEW_OFFSET_Y, offsetX);
-    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - 1, width - 2,
+    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1, width - 2,
                                   TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1);
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
                                          TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX);
+    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
+                                  TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1);
 
     zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
     zones_manager_shortcuts(w_zones_info);
@@ -8088,6 +8125,25 @@ void game::zones_manager()
     bool blink = false;
     bool redraw_info = true;
     bool stuff_changed = false;
+
+    auto zones_manager_options = [&]() {
+        werase( w_zones_options );
+
+        if( zone_num > 0 && zones.zones[active_index].has_options() ) {
+            const auto &descriptions = zones.zones[active_index].get_options().get_descriptions();
+
+            mvwprintz( w_zones_options, 0, 1, c_white, _( "Options" ) );
+
+            int y = 1;
+            for( const auto &desc : descriptions ) {
+                mvwprintz( w_zones_options, y, 3, c_white, desc.first );
+                mvwprintz( w_zones_options, y, 20, c_white, desc.second );
+                y++;
+            }
+        }
+
+        wrefresh( w_zones_options );
+    };
 
     auto query_position = [this, w_zones_info]() {
         werase( w_zones_info );
@@ -8120,16 +8176,20 @@ void game::zones_manager()
         return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
     };
 
+    zone_manager_open = true;
     do {
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
 
             const auto id = zones.query_type();
-            const auto name = zones.query_name( zones.get_name_from_type( id ) );
+            auto options = zone_options::create( id );
+            options->query_at_creation();
+            const auto name = zones.query_name( options->get_zone_name_suggestion() == "" ?
+                                                zones.get_name_from_type( id ) : options->get_zone_name_suggestion() );
             const auto position = query_position();
 
             if( position.first != tripoint_min ) {
-                zones.add( name, id, false, true, position.first, position.second );
+                zones.add( name, id, false, true, position.first, position.second, options );
 
                 zone_num = zones.size();
                 active_index = zone_num - 1;
@@ -8186,8 +8246,9 @@ void game::zones_manager()
                 as_m.text = _("What do you want to change:");
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
-                as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Edit position")));
-                as_m.entries.emplace_back(uimenu_entry(4, true, 'q', _("Cancel")));
+                as_m.entries.emplace_back(uimenu_entry(3, zones.zones[active_index].get_options().has_options() , '3', _("Edit options")));
+                as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Edit position")));
+                as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
@@ -8200,6 +8261,10 @@ void game::zones_manager()
                     stuff_changed = true;
                     break;
                 case 3:
+                    zones.zones[active_index].get_options().query();
+                    stuff_changed = true;
+                    break;
+                case 4:
                     zones.zones[active_index].set_position( query_position() );
                     stuff_changed = true;
                     break;
@@ -8311,6 +8376,9 @@ void game::zones_manager()
                 }
                 iNum++;
             }
+
+            // Display zone options
+            zones_manager_options();
         }
 
         if (zone_num > 0) {
@@ -8372,6 +8440,7 @@ void game::zones_manager()
         //Wait for input
         action = ctxt.handle_input();
     } while (action != "QUIT");
+    zone_manager_open = false;
     inp_mngr.reset_timeout();
 
     if( stuff_changed ) {
@@ -11802,7 +11871,7 @@ bool game::ramp_move( const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( u.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) <= 1.5f && m.has_flag( "RAMP_END", pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( "RAMP_END", pt ) ) {
             aligned_ramps = true;
             break;
         }
@@ -14376,7 +14445,6 @@ void game::add_artifact_dreams( ) {
     //If player is sleeping, get a dream from a carried artifact
     //Don't need to check that player is sleeping here, that's done before calling
     std::list<item *> art_items = g->u.get_artifact_items();
-    std::list<item *> arts_with_dream;
     std::vector<item *>      valid_arts;
     std::vector<std::vector<std::string>> valid_dreams; // Tracking separately so we only need to check its req once
     //Pull the list of dreams

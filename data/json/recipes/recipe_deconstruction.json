@@ -2077,5 +2077,12 @@
     "time": 3000,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_lump", 4 ] ] ]
+  },
+  {
+    "result": "styrofoam_cup",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "paper", 10 ] ], [ [ "plastic_chunk", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
