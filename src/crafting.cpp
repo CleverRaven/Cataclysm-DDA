@@ -657,7 +657,8 @@ std::vector<int> player::get_initial_rot( std::vector<comp_selection<item_comp>>
             // closer items are used first
             for( int radius = 0; radius <= PICKUP_RANGE; radius++ ) {
                 map_inv.form_from_map( pos(), radius );
-                item map_item = map_item.least_rotten_item( map_inv.item_from_type( type ) );
+                item map_item;
+                map_item.least_rotten_item(map_inv.item_from_type(type));
 
                 // did we find the item?
                 if( map_item.type->get_id() == type ) {
