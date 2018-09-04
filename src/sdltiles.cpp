@@ -32,6 +32,7 @@
 #include <memory>
 #include <stdexcept>
 #include <limits>
+#include <mutex>
 
 #ifdef __linux__
 #   include <cstdlib> // getenv()/setenv()
@@ -2401,15 +2402,21 @@ const sound_effect* find_random_effect( const std::string &id, const std::string
 // Contains the chunks that have been dynamically created via do_pitch_shift. It is used to
 // distinguish between dynamically created chunks and static chunks (the later must not be freed).
 std::set<Mix_Chunk*> dynamic_chunks;
+
+std::mutex dynamic_chunks_mutex;
+
 // Deletes the dynamically created chunk (if such a chunk had been played).
 void cleanup_when_channel_finished( int channel )
 {
     Mix_Chunk *chunk = Mix_GetChunk( channel );
-    const auto iter = dynamic_chunks.find( chunk );
-    if( iter != dynamic_chunks.end() ) {
-        dynamic_chunks.erase( iter );
-        free( chunk->abuf );
-        free( chunk );
+    {
+        std::lock_guard<std::mutex> dyn_chunks_guard(dynamic_chunks_mutex);
+        const auto iter = dynamic_chunks.find(chunk);
+        if (iter != dynamic_chunks.end()) {
+            dynamic_chunks.erase(iter);
+            free(chunk->abuf);
+            free(chunk);
+        }
     }
 }
 
@@ -2420,7 +2427,10 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
     float pitch_real = ( float )s_out / ( float )s_in;
     Uint32 i, j;
     result = ( Mix_Chunk * )malloc( sizeof( Mix_Chunk ) );
-    dynamic_chunks.insert( result );
+    {
+        std::lock_guard<std::mutex> dyn_chunks_guard(dynamic_chunks_mutex);
+        dynamic_chunks.insert(result);
+    }
     result->allocated = 1;
     result->alen = s_out * 4;
     result->abuf = ( Uint8* )malloc( result->alen * sizeof( Uint8 ) );
