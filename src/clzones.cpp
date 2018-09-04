@@ -454,14 +454,9 @@ zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_
     return zones.back();
 }
 
-void zone_manager::swap( int a, int b )
+void zone_manager::swap( zone_data &a, zone_data &b )
 {
-    if( a < 0 || a >= zones.size() || b < 0 || b >= zones.size() ) {
-        debugmsg( "Index out of bounds" );
-        return;
-    }
-
-    std::swap( zones[a], zones[b] );
+    std::swap( a, b );
 }
 
 std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()

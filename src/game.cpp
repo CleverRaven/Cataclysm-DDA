@@ -8387,7 +8387,7 @@ void game::zones_manager()
 
             } else if (action == "MOVE_ZONE_UP" && zone_cnt > 1) {
                 if (active_index < zone_cnt - 1) {
-                    mgr.swap( active_index, active_index + 1 );
+                    mgr.swap( zones[active_index], zones[active_index + 1] );
                     zones = get_zones();
                     active_index++;
                 }
@@ -8397,7 +8397,7 @@ void game::zones_manager()
 
             } else if (action == "MOVE_ZONE_DOWN" && zone_cnt > 1) {
                 if (active_index > 0) {
-                    mgr.swap( active_index, active_index - 1 );
+                    mgr.swap( zones[active_index], zones[active_index - 1] );
                     zones = get_zones();
                     active_index--;
                 }

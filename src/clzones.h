@@ -164,7 +164,7 @@ class zone_manager
         const zone_data *get_bottom_zone( const tripoint &where ) const;
         std::string query_name( std::string default_name = "" ) const;
         zone_type_id query_type() const;
-        void swap(int a, int b);
+        void swap( zone_data &a, zone_data &b );
 
         // 'direct' access to zone_manager::zones, giving direct access was nono
         std::vector<ref_zone_data> get_zones();
