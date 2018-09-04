@@ -9425,5 +9425,13 @@
     "type": "item_group",
     "id": "flower_pots",
     "items": [ [ "clay_pot_flower", 65 ], [ "plastic_pot_flower", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "flower_pots_broken",
+    "items": [ 
+      { "item": "ceramic_shard", "prob": 65, "count-min": 2, "count-max": 5 },
+      { "item": "plastic_chunk", "prob": 100, "count-min": 2, "count-max": 5 }
+    ]
   }
 ]

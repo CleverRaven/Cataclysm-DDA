@@ -213,7 +213,7 @@
     "description": "A variety of plant, used for decoration.",
     "required_str": 5,
     "max_volume": 2000,
-    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "withered" },
@@ -221,7 +221,7 @@
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
 		{ "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
-        { "item": [ "clay_pot_flower", "plastic_pot_flower", "plastic_pot_flower" ] }
+        { "group": "flower_pots" }
       ]
     },
     "bash": {
@@ -235,7 +235,7 @@
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
 		{ "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
-        { "item": [ "ceramic_shard", "plastic_chunk", "plastic_chunk" ], "count": [ 1, 3 ] }
+        { "group": "flower_pots_broken" }
       ]
     }
   },
@@ -249,7 +249,7 @@
     "move_cost_mod": 2,
     "required_str": 5,
     "max_volume": 2000,
-    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "withered" },
@@ -257,7 +257,7 @@
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
 		{ "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
-        { "item": [ "clay_pot_flower", "plastic_pot_flower", "plastic_pot_flower" ] }
+        { "group": "flower_pots" }
       ]
     },
     "bash": {
@@ -271,7 +271,7 @@
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
 		{ "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
-        { "item": [ "ceramic_shard", "plastic_chunk", "plastic_chunk" ], "count": [ 1, 3 ] }
+        { "group": "flower_pots_broken" }
       ]
     }
   },

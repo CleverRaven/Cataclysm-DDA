@@ -3657,7 +3657,7 @@
     "autolearn": true,
     "tools": [ [ [ "brick_kiln", 75 ], [ "kiln", 75 ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
-  }
+  },
   {
     "type": "recipe",
     "result": "clay_quern",
