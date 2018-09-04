@@ -461,7 +461,7 @@ void zone_manager::swap( zone_data &a, zone_data &b )
 
 std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
 {
-    auto &zones = std::vector<ref_zone_data>();
+    auto zones = std::vector<ref_zone_data>();
 
     for( auto &zone : this->zones ) {
         zones.emplace_back( zone );
@@ -472,7 +472,7 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
 
 std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones() const
 {
-    auto &zones = std::vector<ref_const_zone_data>();
+    auto zones = std::vector<ref_const_zone_data>();
 
     for( auto &zone : this->zones ) {
         zones.emplace_back( zone );
