@@ -51,10 +51,7 @@
             "r": "t_floor",
             "|": "t_wall"
           },
-          "furniture": {
-            "#": "f_counter",
-            "r": "f_rack"
-          },
+          "furniture": { "#": "f_counter", "r": "f_rack" },
           "place_items": [
             { "item": "farming_tools", "x": [ 9, 14 ], "y": [ 11, 12 ], "chance": 80 },
             { "item": "farming_tools", "x": [ 9, 14 ], "y": [ 14, 15 ], "chance": 80 },

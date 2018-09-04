@@ -4,7 +4,6 @@ data/json/construction.json
 data/json/doll_speech.json
 data/json/dreams.json
 data/json/effects.json
-data/json/furniture.json
 data/json/gates.json
 data/json/health_msgs.json
 data/json/item_actions.json
@@ -19,7 +18,6 @@ data/json/itemgroups/locations.json
 data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
 data/json/itemgroups/map_extras.json
-data/json/itemgroups/mansion.json
 data/json/itemgroups/misc.json
 data/json/itemgroups/monster_drops.json
 data/json/itemgroups/supplies.json
@@ -94,7 +92,6 @@ data/json/mapgen/field_football.json
 data/json/mapgen/fire_station.json
 data/json/mapgen/garage_gas.json
 data/json/mapgen/garage.json
-data/json/mapgen/gardening_store.json
 data/json/mapgen/homeimprovement_superstore.json
 data/json/mapgen/hotel_tower.json
 data/json/mapgen/house/house_2story.json

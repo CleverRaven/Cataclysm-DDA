@@ -27,7 +27,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "TINY",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -40,7 +51,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "TINY",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -53,7 +75,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -66,7 +99,18 @@
     "move_cost_mod": 8,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -220,7 +264,7 @@
         { "item": "wrapper", "prob": 5 },
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
-		{ "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
         { "group": "flower_pots" }
       ]
     },
@@ -234,7 +278,7 @@
         { "item": "wrapper", "prob": 5 },
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
-		{ "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
         { "group": "flower_pots_broken" }
       ]
     }
@@ -256,7 +300,7 @@
         { "item": "wrapper", "prob": 5 },
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
-		{ "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
         { "group": "flower_pots" }
       ]
     },
@@ -270,7 +314,7 @@
         { "item": "wrapper", "prob": 5 },
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
-		{ "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
         { "group": "flower_pots_broken" }
       ]
     }
