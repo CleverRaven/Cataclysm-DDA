@@ -3092,7 +3092,7 @@ bool item::goes_bad() const
     return is_food() && type->comestible->spoils != 0;
 }
 
-item item::least_rotten_item( std::list<item> items )
+item item::least_rotten_item( const std::list<item> &items )
 {
     item least_rotten;
 

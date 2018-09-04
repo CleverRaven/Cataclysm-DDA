@@ -645,7 +645,7 @@ class item : public visitable<item>
         bool goes_bad() const;
 
         /** Return the least rotten item in a given list. */
-        static item least_rotten_item( std::list<item> items );
+        static item least_rotten_item( const std::list<item> &items );
 
         /** Get @ref rot value relative to shelf life (or 0 if item does not spoil) */
         double get_relative_rot() const;
