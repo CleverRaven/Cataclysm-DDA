@@ -2898,7 +2898,7 @@ void player::shout( std::string msg )
         base = 15;
         shout_multiplier = 3;
         if ( msg.empty() ) {
-            msg = _("yourself scream loudly!");
+            msg = is_player() ? _("yourself scream loudly!") : _("a loud scream!");
         }
     }
 
@@ -2906,7 +2906,7 @@ void player::shout( std::string msg )
         shout_multiplier = 4;
         base = 20;
         if ( msg.empty() ) {
-            msg = _("yourself let out a piercing howl!");
+            msg = is_player() ? _("yourself let out a piercing howl!") : _("a piercing howl!");
         }
     }
 
@@ -2941,11 +2941,15 @@ void player::shout( std::string msg )
     }
 
     if( noise <= minimum_noise ) {
-        add_msg( m_warning, _( "The sound of your voice is almost completely muffled!" ) );
+        add_msg_player_or_npc( m_warning,
+                               _( "The sound of your voice is almost completely muffled!" ),
+                               _( "The sound of <npcname>'s voice is almost completely muffled!" ) );
         msg.clear();
     } else if( noise * 2 <= noise + penalty ) {
         // The shout's volume is 1/2 or lower of what it would be without the penalty
-        add_msg( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+        add_msg_player_or_npc( m_warning,
+                               _( "The sound of your voice is significantly muffled!" ),
+                               _( "The sound of <npcname>'s voice is significantly muffled!" ) );
     }
     sounds::sound( pos(), noise, msg );
 }
