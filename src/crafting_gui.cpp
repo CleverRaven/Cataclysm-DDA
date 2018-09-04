@@ -34,7 +34,7 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
-static bool query_is_yes( std::string query );
+static bool query_is_yes( const std::string &query );
 static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount );
 static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
                                       const recipe &rec );
@@ -288,7 +288,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                             }
 
                             case 'h': {
-                                picking = available_recipes.get_all();
+                                std::copy( available_recipes.begin(), available_recipes.end(), std::back_inserter( picking ) );
                                 if( query_is_yes( qry ) ) {
                                     show_hidden = true;
                                 }
@@ -709,15 +709,12 @@ const recipe *select_crafting_recipe( int &batch_size )
     return chosen;
 }
 
-static bool query_is_yes( std::string query )
+static bool query_is_yes( const std::string &query )
 {
-    std::string subquery = query.substr( 2 );
+    const std::string subquery = query.substr( 2 );
 
-    if( ( subquery == "yes" ) || ( subquery == "y" ) || ( subquery == "1" ) ||
-        ( subquery == "true" ) || ( subquery == "t" ) || ( subquery == "on" ) ) {
-        return true;
-    }
-    return false;
+    return ( ( subquery == "yes" ) || ( subquery == "y" ) || ( subquery == "1" ) ||
+             ( subquery == "true" ) || ( subquery == "t" ) || ( subquery == "on" ) );
 }
 
 static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount )

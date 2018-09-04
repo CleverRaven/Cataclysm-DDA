@@ -84,13 +84,6 @@ bool search_reqs( std::vector<std::vector<item_comp> >  gp,
     } );
 }
 
-std::vector<const recipe *> recipe_subset::get_all() const
-{
-    std::vector<const recipe *> res;
-    std::copy( recipes.begin(), recipes.end(), std::back_inserter( res ) );
-    return res;
-}
-
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
 {

@@ -105,9 +105,6 @@ class recipe_subset
             const std::string &cat,
             const std::string &subcat = std::string() ) const;
 
-        /** Get all recipes */
-        std::vector<const recipe *> get_all() const;
-
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
             const std::string &cat,
