@@ -3367,6 +3367,108 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_mulberry",
+    "name": "mulberry tree",
+    "description": "This tree is a member of the 'Morus' genus, producing fruit commonly known as mulberries.  In the summer many berries can be picked.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "//": "barren in winter, fruits in summer",
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_mulberry_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "mulberries", "base_num": [ 8, 20 ], "scaled_num": [ 0, 0.5 ] },
+          { "drop": "seed_mulberries", "base_num": [ 3, 5 ], "scaled_num": [ 0, 0.25 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_mulberry_harvested",
+    "name": "mulberry tree",
+    "description": "This tree is a member of the 'Morus' genus, producing fruit commonly known as mulberries.  There doesn't appear to be any ripe mulberries now.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "barren in winter, no fruits anymore",
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_mulberry",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_elderburry",
+    "name": "elderburry tree",
+    "description": "This tree is a member of the 'Sambucus' genus, producing fruit commonly known as elderburries.  In the summer many berries can be picked.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "//": "barren in winter, fruits in summer",
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_elderburry_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "elderburries", "base_num": [ 8, 20 ], "scaled_num": [ 0, 0.5 ] },
+          { "drop": "seed_elderburries", "base_num": [ 3, 5 ], "scaled_num": [ 0, 0.25 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_elderburry_harvested",
+    "name": "elderburry tree",
+    "description": "This tree is a member of the 'Sambucus' genus, producing fruit commonly known as elderburries.  There doesn't appear to be any ripe elderburries now.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "barren in winter, no fruits anymore",
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_elderburry",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_pine",
     "name": "pine tree",
     "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  If you examined the tree more closely, you might find usable sticky whorls and unharvested pinecones.  Also, you could cut it down with the right tools.",
@@ -3826,6 +3928,147 @@
     "move_cost": 8,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
     "transforms_into": "t_shrub_strawberry",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_blackberry",
+    "name": "blackberry bush",
+    "symbol": "#",
+    "color": "light_black_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "transforms_into": "t_shrub_blackberry_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "blackberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] },
+          { "drop": "seed_blackberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_blackberry_harvested",
+    "name": "blackberry bush",
+    "symbol": "#",
+    "color": "black_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "transforms_into": "t_shrub_blackberry",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_huckleberry",
+    "name": "huckleberry bush",
+    "symbol": "#",
+    "color": "light_blue_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "transforms_into": "t_shrub_huckleberry_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "huckleberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] },
+          { "drop": "seed_huckleberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_huckleberry_harvested",
+    "name": "huckleberry bush",
+    "symbol": "#",
+    "color": "blue_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "transforms_into": "t_shrub_huckleberry",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_raspberry",
+    "name": "raspberry bush",
+    "symbol": "#",
+    "color": "light_red_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "transforms_into": "t_shrub_raspberry_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "raspberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] },
+          { "drop": "seed_raspberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_raspberry_harvested",
+    "name": "raspberry bush",
+    "symbol": "#",
+    "color": "red_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "transforms_into": "t_shrub_raspberry",
     "examine_action": "harvested_plant",
     "bash": {
       "str_min": 4,
