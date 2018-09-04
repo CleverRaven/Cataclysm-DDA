@@ -1176,12 +1176,12 @@ enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
-void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype )
+void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num, const item &liquid )
 {
     act.values.push_back( LST_VEHICLE );
-    act.values.push_back( 0 ); // dummy
+    act.values.push_back( part_num );
     act.coords.push_back( veh.global_pos3() );
-    act.str_values.push_back( ftype );
+    act.str_values.push_back( serialize( liquid ) );
 }
 
 void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid )
@@ -1251,13 +1251,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         monster *source_mon = nullptr;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
+        int part_num;
         switch( source_type ) {
         case LST_VEHICLE:
             source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
             if( source_veh == nullptr ) {
                 throw std::runtime_error( "could not find source vehicle for liquid transfer" );
             }
-            liquid = item( act.str_values.at( 0 ), calendar::turn, source_veh->fuel_left( act.str_values.at( 0 ) ) );
+            deserialize( liquid, act.str_values.at( 0 ) );
+            part_num = static_cast<int>( act.values.at( 1 ) );
             break;
         case LST_INFINITE_MAP:
             deserialize( liquid, act.str_values.at( 0 ) );
@@ -1324,7 +1326,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         // 3. Remove charges from source.
         switch( source_type ) {
         case LST_VEHICLE:
-            source_veh->drain( liquid.typeId(), removed_charges );
+            if( part_num != -1 ) {
+                source_veh->drain( part_num, removed_charges );
+            } else {
+                source_veh->drain( liquid.typeId(), removed_charges );
+            }
             if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
                 act.set_to_null();
             }
