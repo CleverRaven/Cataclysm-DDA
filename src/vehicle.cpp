@@ -2116,6 +2116,27 @@ int vehicle::drain( const itype_id & ftype, int amount )
     return drained;
 }
 
+int vehicle::drain( const int index, int amount )
+{
+    if( index < 0 || index >= static_cast<int>( parts.size() ) ) {
+        debugmsg( "Tried to drain an invalid part index: %d", index );
+        return 0;
+    }
+    vehicle_part &pt = parts[index];
+    if( pt.ammo_current() == fuel_type_battery ) {
+        return drain( fuel_type_battery, amount );
+    }
+    if( !pt.is_tank() || !pt.ammo_remaining() ) {
+        debugmsg( "Tried to drain something without any liquid: %s amount: %d ammo: %d",
+                  pt.name(), amount, pt.ammo_remaining() );
+        return 0;
+    }
+
+    const int drained = pt.ammo_consume( amount, global_part_pos3( pt ) );
+    invalidate_mass();
+    return drained;
+}
+
 int vehicle::basic_consumption( const itype_id &ftype ) const
 {
     int fcon = 0;

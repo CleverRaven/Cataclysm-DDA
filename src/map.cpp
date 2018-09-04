@@ -4533,6 +4533,13 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
         process_vehicle_items( cur_veh, part );
     }
 
+    std::vector<int> tanks = cur_veh.all_parts_with_feature( VPFLAG_FLUIDTANK, false );
+    for( const int &idx : tanks ) {
+        const point partloc = cur_veh.global_pos() + cur_veh.parts[idx].precalc[0];
+        const tripoint partpos = tripoint( partloc, abs_sub.z );
+        cur_veh.parts[idx].process_contents( partpos );
+    }
+
     for( auto &active_item : cur_veh.active_items.get() ) {
         if( cargo_parts.empty() ) {
             return;

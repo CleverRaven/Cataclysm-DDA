@@ -765,7 +765,7 @@ class game
          */
         bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
                             const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr,
+                            const vehicle *source_veh = nullptr, const int part_num = -1,
                             const monster *source_mon = nullptr );
         /**
              * These are helper functions for transfer liquid, for times when you just want to
@@ -777,7 +777,8 @@ class game
                                 const tripoint *source_pos, const vehicle *const source_veh,
                                 const monster *const source_mon, liquid_dest_opt &target );
         bool perform_liquid_transfer( item &liquid,
-                                      const tripoint *source_pos, const vehicle *const source_veh,
+                                      const tripoint *source_pos,
+                                      const vehicle *const source_veh, const int part_num,
                                       const monster *const source_mon, liquid_dest_opt &target );
         /**@}*/
 

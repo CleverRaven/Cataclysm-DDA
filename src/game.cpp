@@ -9848,7 +9848,7 @@ bool game::handle_liquid_from_container( item &container, int radius )
     return handle_liquid_from_container( container.contents.begin(), container, radius );
 }
 
-extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
+extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num, const item &liquid );
 extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
 extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
 
@@ -9912,8 +9912,7 @@ bool game::get_liquid_target( item &liquid, item * const source, const int radiu
     for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( g->m.veh_at( e ) );
         if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part &pt ) {
-            // cannot refill using active liquids (those that rot) due to #18570
-            return !liquid.active && pt.can_reload( liquid.typeId() );
+            return pt.can_reload( liquid.typeId() );
         } ) ) {
             opts.insert( veh );
         }
@@ -9995,7 +9994,7 @@ bool game::get_liquid_target( item &liquid, item * const source, const int radiu
 }
 
 bool game::perform_liquid_transfer( item &liquid, const tripoint * const source_pos,
-                                    const vehicle * const source_veh,
+                                    const vehicle * const source_veh, const int part_num,
                                     const monster * const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
@@ -10009,7 +10008,7 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint * const source_
     const auto create_activity = [&]() {
         if( source_veh != nullptr ) {
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( u.activity, *source_veh, liquid.typeId() );
+            serialize_liquid_source( u.activity, *source_veh, part_num, liquid );
             return true;
         } else if( source_pos != nullptr ) {
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
@@ -10089,7 +10088,7 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint * const source_
 
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
-                          const vehicle * const source_veh,
+                          const vehicle * const source_veh, const int part_num,
                           const monster * const source_mon)
 {
     if( !liquid.made_of(LIQUID) ) {
@@ -10100,7 +10099,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
     struct liquid_dest_opt liquid_target;
     if( get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon, liquid_target ) ) {
-        return perform_liquid_transfer( liquid, source_pos, source_veh, source_mon, liquid_target );
+        return perform_liquid_transfer( liquid, source_pos, source_veh, part_num, source_mon, liquid_target );
     }
     return false;
 }

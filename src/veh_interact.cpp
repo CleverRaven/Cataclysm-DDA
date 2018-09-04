@@ -1009,8 +1009,7 @@ bool veh_interact::do_refill( std::string &msg )
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
             if( pt.is_tank() ) {
-                // cannot refill using active liquids (those that rot) due to #18570
-                if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
+                if( obj.is_watertight_container() && !obj.contents.empty() ) {
                     return pt.can_reload( obj.contents.front().typeId() );
                 }
             } else if( pt.is_reactor() ) {
@@ -2326,7 +2325,7 @@ item consume_vpart_item( const vpart_id &vpid )
     return item_used.front();
 }
 
-void act_vehicle_siphon(vehicle* veh) {
+void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
     for( auto & e : veh->fuels_left() ) {
         const itype *type = item::find_type( e.first );
@@ -2340,25 +2339,22 @@ void act_vehicle_siphon(vehicle* veh) {
         add_msg(m_info, _("The vehicle has no liquid fuel left to siphon."));
         return;
     }
-    itype_id fuel;
-    if( fuels.size() > 1 ) {
-        uimenu smenu;
-        smenu.text = _("Siphon what?");
-        for( auto & fuel : fuels ) {
-            smenu.addentry( item::nname( fuel ) );
-        }
-        smenu.addentry(_("Never mind"));
-        smenu.query();
-        if( static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
-            add_msg(m_info, _("Never mind."));
-            return;
-        }
-        fuel = fuels[smenu.ret];
-    } else {
-        fuel = fuels.front();
-    }
 
-    g->u.siphon( *veh, fuel );
+    std::string title = string_format( _( "Select tank to siphon:" ) );
+    auto sel = []( const vehicle_part &pt ) {
+        return pt.is_tank() && pt.ammo_remaining() > 0;
+    };
+    vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
+    if( tank ) {
+        const item &base = tank.get_base();
+        const int idx = veh->find_part( base );
+        item liquid( base.contents.back() );
+        const int liq_charges = liquid.charges;
+        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+            veh->drain( idx, liq_charges - liquid.charges );
+            veh->invalidate_mass();
+        }
+    }
 }
 
 /**
