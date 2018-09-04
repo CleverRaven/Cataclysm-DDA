@@ -295,8 +295,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     const auto &zones = zone_manager::get_manager();
 
     if( data.iZoneIndex != -1 ) {
-        sZoneName = zones.zones[data.iZoneIndex].get_name();
-        tripointZone = ms_to_omt_copy( zones.zones[data.iZoneIndex].get_center_point() );
+        const auto &zone = zones.get_zones()[data.iZoneIndex].get();
+        sZoneName = zone.get_name();
+        tripointZone = ms_to_omt_copy( zone.get_center_point() );
     }
 
     // If we're debugging monster groups, find the monster group we've selected
