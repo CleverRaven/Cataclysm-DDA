@@ -1843,7 +1843,8 @@ bool overmap::generate_sub( int const z )
         }
     }
     for( auto &i : central_lab_points ) {
-        bool central_lab = build_lab( i.x, i.y, z, i.s, &central_lab_train_points, "central_", lab_train_odds );
+        bool central_lab = build_lab( i.x, i.y, z, i.s, &central_lab_train_points, "central_",
+                                      lab_train_odds );
         requires_sub |= central_lab;
         if( !central_lab && ter( i.x, i.y, z ) == "central_lab_core" ) {
             ter( i.x, i.y, z ) = oter_id( "central_lab" );
@@ -1853,7 +1854,8 @@ bool overmap::generate_sub( int const z )
     const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
 
     subway_points.insert( subway_points.end(), lab_train_points.begin(), lab_train_points.end() );
-    subway_points.insert( subway_points.end(), central_lab_train_points.begin(), central_lab_train_points.end() );
+    subway_points.insert( subway_points.end(), central_lab_train_points.begin(),
+                          central_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
     // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
     if( z == -4 && !central_lab_points.empty() && !lab_train_points.empty() ) {
@@ -1871,17 +1873,18 @@ bool overmap::generate_sub( int const z )
     }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
-    const auto create_train_depots = [this, z]( const oter_id &train_type,  const std::vector<point> &train_points ) {
+    const auto create_train_depots = [this, z]( const oter_id & train_type,
+    const std::vector<point> &train_points ) {
         bool is_first_in_pair = true;
         for( auto &i : train_points ) {
-            if (is_first_in_pair) {
+            if( is_first_in_pair ) {
                 if( is_ot_subtype( "subway", ter( i.x + 1, i.y, z ) ) ||
                     is_ot_subtype( "subway", ter( i.x - 1, i.y, z ) ) ||
                     is_ot_subtype( "subway", ter( i.x, i.y + 1, z ) ) ||
                     is_ot_subtype( "subway", ter( i.x, i.y - 1, z ) ) ) {
                     ter( i.x, i.y, z ) = train_type;
                 } else {
-                    ter( i.x, i.y, z ) = oter_id ( "empty_rock" );
+                    ter( i.x, i.y, z ) = oter_id( "empty_rock" );
                 }
             }
             is_first_in_pair = !is_first_in_pair;
@@ -3074,8 +3077,8 @@ bool overmap::check_ot_type( const std::string &otype, int x, int y, int z ) con
 
 bool overmap::check_ot_subtype( const std::string &otype, int x, int y, int z ) const
 {
-    const oter_id oter = get_ter(x, y, z);
-    return is_ot_subtype(otype.c_str(), oter);
+    const oter_id oter = get_ter( x, y, z );
+    return is_ot_subtype( otype.c_str(), oter );
 }
 
 void overmap::good_river( int x, int y, int z )
