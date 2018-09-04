@@ -515,7 +515,6 @@ void Character::recalc_hp()
     }
 }
 
-
 // This must be called when any of the following change:
 // - effects
 // - bionics
@@ -1982,7 +1981,7 @@ hp_part Character::body_window( const std::string &menu_header,
                                 int normal_bonus, int head_bonus, int torso_bonus,
                                 bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const
 {
-    catacurses::window hp_window = catacurses::newwin( 10, 31, ( TERMY - 10 ) / 2, ( TERMX - 31 ) / 2 );
+    catacurses::window hp_window = catacurses::newwin( 10, 65, ( TERMY - 10 ) / 2, ( TERMX - 65 ) / 2 );
     draw_border(hp_window);
 
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
@@ -2042,7 +2041,21 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const int line = i + y_off;
 
-        mvwprintz( hp_window, line, 1, all_state_col, "%d: %s", i + 1, e.name.c_str() );
+        mvwprintz( hp_window, line, 1, all_state_col, "%d: %s ", i + 1, e.name.c_str() );
+
+        bool bandaged = has_effect( effect_bandaged, e.bp );
+        bool disinfected = has_effect( effect_disinfected, e.bp );
+        
+        if( bandaged && disinfected ) {
+            mvwprintz( hp_window, line, 29, all_state_col, _( "(bandaged [%s] & disinfected [%s])" ),
+                get_effect_int( effect_bandaged, e.bp ), get_effect_int( effect_disinfected, e.bp ) );
+        } else if( bandaged ) {
+            mvwprintz( hp_window, line, 29, all_state_col, _( "(bandaged [%s])" ),
+                get_effect_int( effect_bandaged, e.bp ) );
+        } else if( disinfected ) {
+            mvwprintz( hp_window, line, 29, all_state_col, _( "(disinfected [%s])" ),
+                get_effect_int( effect_disinfected, e.bp ) );
+        }
 
         const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
             const auto bar = get_hp_bar( hp, maximal_hp, false );

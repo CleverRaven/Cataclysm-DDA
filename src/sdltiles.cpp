@@ -575,7 +575,6 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     FillRectDIB(rect, color);
 }
 
-
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color, cata_cursesport::font_style FS )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
@@ -712,8 +711,6 @@ static void try_sdl_update()
         needupdate = true;
     }
 }
-
-
 
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
@@ -2047,8 +2044,6 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
             break;
     }
 }
-
-
 
 CachedTTFFont::CachedTTFFont( const int w, const int h, std::string _typeface, int _fontsize, const bool _fontblending )
 : Font( w, h )

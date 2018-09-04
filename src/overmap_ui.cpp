@@ -1086,7 +1086,6 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
 } // anonymous namespace
 
-
 void ui::omap::display()
 {
     ::display( g->u.global_omt_location(), draw_data_t() );

@@ -378,7 +378,6 @@ bool ma_technique::is_valid_player( const player &u ) const
     return reqs.is_valid_player( u );
 }
 
-
 ma_buff::ma_buff()
     : buff_duration( 2_turns )
 {
@@ -520,7 +519,6 @@ void martialart::apply_ongethit_buffs( player &u ) const
 {
     simultaneous_add( u, ongethit_buffs );
 }
-
 
 bool martialart::has_technique( const player &u, const matec_id &tec_id ) const
 {

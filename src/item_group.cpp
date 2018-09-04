@@ -76,8 +76,9 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     ItemList result;
     int cnt = 1;
     if( modifier ) {
-        cnt = ( modifier->count.first == modifier->count.second ) ? modifier->count.first : rng(
-                  modifier->count.first, modifier->count.second );
+        auto modifier_count = modifier->count;
+        cnt = ( modifier_count.first == modifier_count.second ) ? modifier_count.first : rng(
+                  modifier_count.first, modifier_count.second );
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
@@ -303,8 +304,6 @@ bool Item_modifier::remove_item( const Item_tag &itemid )
     }
     return false;
 }
-
-
 
 Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
     : Item_spawn_data( probability )

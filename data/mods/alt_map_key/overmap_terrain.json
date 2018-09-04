@@ -1590,6 +1590,24 @@
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
+        "id" : "ants_lab",
+        "name" : "science lab",
+        "sym" : 108,
+        "color" : "i_pink",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
+        "see_cost" : 5,
+        "flags" : [ "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ants_lab_stairs",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "i_pink",
+        "see_cost" : 5,
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
+        "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
+    },{
+        "type" : "overmap_terrain",
         "id" : "ice_lab",
         "name" : "science lab",
         "sym" : 108,
@@ -1624,6 +1642,24 @@
         "spawns" : { "group": "GROUP_ICE_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ]
+    },{
+        "type": "overmap_terrain",
+        "id": "lab_train_depot",
+        "name": "science train depot",
+        "sym": 108,
+        "color": "i_pink",
+        "see_cost": 5,
+        "extras": "subway",
+        "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+        "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    },{
+        "type": "overmap_terrain",
+        "id": "central_lab_entrance",
+        "name" : "forest",
+        "sym" : 35,
+        "color": "green",
+        "see_cost": 3,
+        "flags": [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "bunker",

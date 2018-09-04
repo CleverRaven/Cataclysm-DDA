@@ -487,7 +487,6 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-
 int iuse::ecig( player *p, item *it, bool, const tripoint & )
 {
     if( it->typeId() == "ecig" ) {
@@ -1485,7 +1484,6 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
 
     return 1;
 }
-
 
 int iuse::dogfood( player *p, item *it, bool, const tripoint & )
 {
@@ -2541,7 +2539,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint &pos )
 
     if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) ) {
         p->add_msg_if_player( _( "You churn up the earth here." ) );
-        p->moves = -300;
+        p->mod_moves( -300 );
         g->m.ter_set( dirp, t_dirtmound );
         return it->type->charges_to_use();
     } else {
@@ -3421,7 +3419,6 @@ int iuse::mininuke( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-
 int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
 {
     if( !it->ammo_sufficient() ) {
@@ -3466,7 +3463,6 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     }
     return it->type->charges_to_use();
 }
-
 
 int iuse::portal( player *p, item *it, bool, const tripoint & )
 {
@@ -4315,7 +4311,6 @@ int iuse::portable_structure( player *p, item *it, bool, const tripoint & )
     return 1;
 }
 
-
 int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
 {
     if( p->is_underwater() ) {
@@ -4829,7 +4824,7 @@ int iuse::spray_can( player *p, item *it, bool, const tripoint & )
     return handle_ground_graffiti( *p, it, ismarker ? _( "Write what?" ) : _( "Spray what?" ) );
 }
 
-int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix )
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -4974,8 +4969,6 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
     if( it->has_flag( "WET" ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname().c_str() );
-
-
         // clean off the messes first, more important
     } else if( slime || boom || glow ) {
         p->remove_effect( effect_slimed ); // able to clean off all at once
@@ -5147,7 +5140,6 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
 
     return it->type->charges_to_use();
 }
-
 
 int iuse::contacts( player *p, item *it, bool, const tripoint & )
 {
@@ -5671,7 +5663,6 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
             }
 
-
         }
 
         if( candidates.size() > 0 ) {
@@ -5767,7 +5758,6 @@ static const std::string &photo_quality_name( const int index )
         } };
     return names[index];
 }
-
 
 int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 {
@@ -7635,7 +7625,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
     std::list<std::pair<int, int>> to_clean;
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-        to_clean = std::list<std::pair<int, int> >();
         return 0;
     }
 

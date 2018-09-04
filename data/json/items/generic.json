@@ -36,7 +36,7 @@
     "stackable": true,
     "price": 0,
     "volume": 0,
-    "flags": [ "PSEUDO" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
   {
@@ -1121,7 +1121,8 @@
     "weight": 340,
     "volume": 0,
     "to_hit": -3,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true }
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -1166,6 +1167,19 @@
     "weight": 68,
     "volume": 1,
     "to_hit": 2
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_micro",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "micro motor",
+    "category": "spare_parts",
+    "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 70,
+    "volume": 1
   },
   {
     "type": "GENERIC",

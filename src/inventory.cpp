@@ -249,7 +249,6 @@ void inventory::push_back(item newit)
     add_item(newit);
 }
 
-
 void inventory::restack( player &p )
 {
     // tasks that the old restack seemed to do:

@@ -1088,7 +1088,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_RANCH_BARBER_CUT" ) {
         return _( "Stand still while I get my clippers..." );
 
-
     } else if( topic == "TALK_SHELTER" ) {
         switch( rng( 1, 2 ) ) {
             case 1:
@@ -3205,7 +3204,6 @@ void talk_function::buy_100_logs( npc &p )
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
 
-
 void talk_function::follow( npc &p )
 {
     p.set_attitude( NPCATT_FOLLOW );
@@ -3536,7 +3534,6 @@ void dialogue::add_topic( const talk_topic &topic )
 {
     topic_stack.push_back( topic );
 }
-
 
 void talk_response::do_formatting( const dialogue &d, char const letter )
 {

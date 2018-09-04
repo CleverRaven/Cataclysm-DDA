@@ -102,7 +102,6 @@ class it_artifact_armor : public itype
         void create_name( const std::string &type );
 };
 
-
 /* FUNCTIONS */
 
 std::string new_artifact();

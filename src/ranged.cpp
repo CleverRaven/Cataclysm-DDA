@@ -278,7 +278,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
-
         if( shot.missed_by <= .1 ) {
             lifetime_stats.headshots++; // @todo: check head existence for headshot
         }
@@ -986,7 +985,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_mode = aim_types.begin();
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "",
+    int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(),
                                                        pc, mode, ctxt, aim_types,
                                                        bool( on_mode_change ),
                                                        bool( on_ammo_change ), tiny );

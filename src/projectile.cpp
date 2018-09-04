@@ -133,7 +133,6 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
         }
     }
 
-
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
         // @todo: double-check if this is sensible.
         g->explosion( p, 600 );
@@ -197,7 +196,6 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
         }
     }
 }
-
 
 int aoe_size( const std::set<std::string> &tags )
 {

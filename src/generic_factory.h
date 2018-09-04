@@ -524,7 +524,6 @@ inline void optional( JsonObject &jo, const bool was_loaded, const std::string &
 }
 /**@}*/
 
-
 /**
  * Reads a string from JSON and (if not empty) applies the translation function to it.
  */

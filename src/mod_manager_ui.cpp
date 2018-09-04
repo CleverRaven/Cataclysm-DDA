@@ -196,9 +196,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         oldsel = selection + 1;
 
         selshift = +1;
-    }
-
-    if( !selshift ) { // false if selshift is 0, true if selshift is +/- 1: bool(int(0)) evaluates to false and bool(int(!0)) evaluates to true
+    } else {
         return;
     }
 
