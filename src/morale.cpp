@@ -109,7 +109,8 @@ std::string player_morale::morale_point::get_name() const
 int player_morale::morale_point::get_net_bonus() const
 {
     return bonus * ( ( !is_permanent() && age > decay_start ) ?
-                     logarithmic_range( to_turns<int>( decay_start ), to_turns<int>( duration ), to_turns<int>( age ) ) : 1 );
+                     logarithmic_range( to_turns<int>( decay_start ), to_turns<int>( duration ),
+                                        to_turns<int>( age ) ) : 1 );
 }
 
 int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
