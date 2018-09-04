@@ -644,7 +644,8 @@ void player::complete_craft()
     inv.restack( *this );
 }
 
-std::vector<int> player::get_initial_rot( const std::vector<comp_selection<item_comp>> &item_selections )
+std::vector<int> player::get_initial_rot( const std::vector<comp_selection<item_comp>>
+        &item_selections )
 {
     inventory map_inv;
     item map_item;
