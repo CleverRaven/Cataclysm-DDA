@@ -57,7 +57,8 @@ class inventory_entry
             cached_name( entry.cached_name ),
             stack_size( entry.stack_size ),
             custom_category( entry.custom_category ),
-            enabled( entry.enabled ) {}
+            enabled( entry.enabled ),
+            cached_name( entry.cached_name ) {}
 
         inventory_entry operator=( const inventory_entry &rhs ) {
             location = rhs.location.clone();
