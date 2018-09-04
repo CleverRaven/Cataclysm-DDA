@@ -1846,9 +1846,9 @@ void static create_lab_consoles( mission *miss, tripoint place, std::string otyp
 
         tripoint comppoint = find_potential_computer_point( compmap, om_place.z);
 
-        computer *tmpcomp = compmap.add_computer( comppoint, comp_name, security );
+        computer *tmpcomp = compmap.add_computer( comppoint, _(comp_name.c_str() ), security );
         tmpcomp->mission_id = miss->get_id();
-        tmpcomp->add_option( _( download_name ), COMPACT_DOWNLOAD_SOFTWARE, security );
+        tmpcomp->add_option( _( download_name.c_str() ), COMPACT_DOWNLOAD_SOFTWARE, security );
         tmpcomp->add_failure(COMPFAIL_ALARM);
         tmpcomp->add_failure(COMPFAIL_DAMAGE);
         tmpcomp->add_failure(COMPFAIL_MANHACKS);
