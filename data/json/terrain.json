@@ -3846,7 +3846,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_rose_harvested",
     "examine_action": "harvest_ter_nectar",
-    "//": "Insert rose harvest once flowers have a use (same for other generic flowers)."
+    "//": "Insert rose harvest once flowers have a use (same for other generic flowers).",
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -3885,7 +3885,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_hydrangea_harvested",
     "examine_action": "harvest_ter_nectar",
-    "//": "Insert hydrangea harvest once flowers have a use (same for other generic flowers)."
+    "//": "Insert hydrangea harvest once flowers have a use (same for other generic flowers).",
     "bash": {
       "str_min": 4,
       "str_max": 60,
