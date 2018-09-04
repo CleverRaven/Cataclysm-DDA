@@ -316,6 +316,10 @@ void veh_interact::do_main_loop()
             // Siphoning may have started a player activity. If so, we should close the
             // vehicle dialog and continue with the activity.
             finish = !g->u.activity.is_null();
+            if( !finish ) {
+                // it's possible we just invalidated our crafting inventory
+                cache_tool_availability();
+            }
         } else if( action == "TIRE_CHANGE" ) {
             redraw = do_tirechange( msg );
         } else if( action == "ASSIGN_CREW" ) {
@@ -344,10 +348,6 @@ void veh_interact::do_main_loop()
             display_name();
             display_stats();
             display_veh();
-            // Horrible hack warning:
-            // Part display doesn't have a dedicated display function
-            // Siphon menu obscures it, so it has to be redrawn
-            move_cursor( 0, 0 );
         }
 
         if( !msg.empty() ) {
@@ -1464,8 +1464,25 @@ bool veh_interact::do_siphon( std::string &msg )
         default: break;
     }
 
-    act_vehicle_siphon( veh );
-    return true; // force redraw
+    set_title( _( "Select part to siphon: " ) );
+
+    auto sel = [&]( const vehicle_part & pt ) {
+        return( pt.is_tank() && ( pt.ammo_remaining() > 0 ) &&
+                item::find_type( pt.ammo_current() )->phase == LIQUID );
+    };
+
+    auto act = [&]( const vehicle_part & pt ) {
+        const item &base = pt.get_base();
+        const int idx = veh->find_part( base );
+        item liquid( base.contents.back() );
+        const int liq_charges = liquid.charges;
+        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+            veh->drain( idx, liq_charges - liquid.charges );
+        }
+        return true;
+    };
+
+    return overview( sel, act );
 }
 
 bool veh_interact::do_tirechange( std::string &msg )
