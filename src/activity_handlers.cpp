@@ -1251,7 +1251,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         monster *source_mon = nullptr;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
-        int part_num;
+        int part_num = -1;
         switch( source_type ) {
         case LST_VEHICLE:
             source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
