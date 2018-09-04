@@ -97,7 +97,7 @@ player_activity veh_interact::serialize_activity()
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         time = 1;
     }
-    player_activity res( activity_id( "ACT_VEHICLE" ), time, ( int ) sel_cmd );
+    player_activity res( activity_id( "ACT_VEHICLE" ), time, static_cast<int>( sel_cmd ) );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
@@ -645,7 +645,7 @@ bool veh_interact::can_install_part() {
  */
 void veh_interact::move_fuel_cursor(int delta)
 {
-    int max_fuel_indicators = (int)veh->get_printable_fuel_types().size();
+    int max_fuel_indicators = static_cast<int>( veh->get_printable_fuel_types().size() );
     int height = 5;
     fuel_index += delta;
 

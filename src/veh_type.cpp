@@ -610,7 +610,7 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
                 qual.second, qual.first.obj().name.c_str() );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg << string_format( _( " and is rated at %1$d %2$s" ),
-                                  ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ),
+                                  static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
         msg << ".</color>\n";

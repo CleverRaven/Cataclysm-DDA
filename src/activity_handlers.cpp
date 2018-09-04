@@ -1559,11 +1559,11 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
     if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
-        if( mech_skill > (int)rng(1, 6) ) {
+        if( mech_skill > static_cast<int>( rng(1, 6) ) ) {
             //success
             veh->is_locked = false;
             add_msg(_("This wire will start the engine."));
-        } else if( mech_skill > (int)rng(0, 4) ) {
+        } else if( mech_skill > static_cast<int>( rng(0, 4) ) ) {
             //soft fail
             veh->is_locked = false;
             veh->is_alarm_on = veh->has_security_working();
@@ -2315,7 +2315,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
 
-        act->values[0] = ( int )answer;
+        act->values[0] = static_cast<int>( answer );
     }
 
     // Otherwise keep retrying
