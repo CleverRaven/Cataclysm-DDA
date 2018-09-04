@@ -1421,6 +1421,38 @@ void iexamine::flower_bluebell(player &p, const tripoint &examp)
 }
 
 /**
+ * It's a flower, drink nectar if your able to.
+ */
+void iexamine::flower_tulip(player &p, const tripoint &examp)
+{
+    if( dead_plant( true, p, examp ) ) {
+        return;
+    }
+
+    drink_nectar( p );
+
+    // Add flower spawn once flowers are useful.
+    none( p, examp );
+    return;
+}
+
+/**
+ * It's a flower, drink nectar if your able to.
+ */
+void iexamine::flower_spurge(player &p, const tripoint &examp)
+{
+    if( dead_plant( true, p, examp ) ) {
+        return;
+    }
+
+    drink_nectar( p );
+
+    // Add flower spawn once flowers are useful.
+    none( p, examp );
+    return;
+}
+
+/**
  * Dig up its roots or drink its nectar if you can.
  */
 void iexamine::flower_dahlia(player &p, const tripoint &examp)
@@ -4123,6 +4155,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "fswitch", &iexamine::fswitch },
         { "flower_poppy", &iexamine::flower_poppy },
         { "fungus", &iexamine::fungus },
+        { "flower_spurge", &iexamine::flower_spurge },
+        { "flower_tulip", &iexamine::flower_tulip },
         { "flower_bluebell", &iexamine::flower_bluebell },
         { "flower_dahlia", &iexamine::flower_dahlia },
         { "flower_marloss", &iexamine::flower_marloss },

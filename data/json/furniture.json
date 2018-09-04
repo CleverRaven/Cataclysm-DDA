@@ -1689,7 +1689,7 @@
     "id": "f_mutpoppy",
     "name": "mutated poppy flower",
     "symbol": "f",
-    "color": "red",
+    "color": "light_red",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
@@ -2117,6 +2117,30 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_tulip",
+    "name": "tulip",
+    "symbol": "f",
+    "color": "light_magenta",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "flower_tulip",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_spurge",
+    "name": "spurge flower",
+    "symbol": "f",
+    "color": "light_green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "flower_spurge",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
