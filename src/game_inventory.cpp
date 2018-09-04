@@ -436,11 +436,11 @@ class comestible_inventory_preset : public inventory_selector_preset
             return inventory_selector_preset::get_denial( loc );
         }
 
-        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            const auto &a = get_comestible_item( lhs );
-            const auto &b = get_comestible_item( rhs );
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const auto &a = get_comestible_item( lhs.location );
+            const auto &b = get_comestible_item( rhs.location );
 
-            const int freshness = rate_freshness( a, *lhs ) - rate_freshness( b, *rhs );
+            const int freshness = rate_freshness( a, *lhs.location ) - rate_freshness( b, *rhs.location );
             if( freshness != 0 ) {
                 return freshness > 0;
             }
@@ -598,9 +598,9 @@ class gunmod_inventory_preset : public inventory_selector_preset
             return std::string();
         }
 
-        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            const auto a = get_odds( lhs );
-            const auto b = get_odds( rhs );
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const auto a = get_odds( lhs.location );
+            const auto b = get_odds( rhs.location );
 
             if( a.first > b.first || ( a.first == b.first && a.second < b.second ) ) {
                 return true;
