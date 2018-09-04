@@ -1252,6 +1252,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
         int part_num = -1;
+        long veh_charges = 0;
         switch( source_type ) {
         case LST_VEHICLE:
             source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
@@ -1260,6 +1261,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             }
             deserialize( liquid, act.str_values.at( 0 ) );
             part_num = static_cast<int>( act.values.at( 1 ) );
+            veh_charges = liquid.charges;
             break;
         case LST_INFINITE_MAP:
             deserialize( liquid, act.str_values.at( 0 ) );
@@ -1328,6 +1330,16 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         case LST_VEHICLE:
             if( part_num != -1 ) {
                 source_veh->drain( part_num, removed_charges );
+                liquid.charges = veh_charges - removed_charges;
+                // If there's no liquid left in this tank we're done, otherwise
+                // we need to update our liquid serialization to reflect how
+                // many charges are actually left for the next time we come
+                // around this loop.
+                if( !liquid.charges ) {
+                    act.set_to_null();
+                } else {
+                    act.str_values.at( 0 ) = serialize( liquid );
+                }
             } else {
                 source_veh->drain( liquid.typeId(), removed_charges );
             }
