@@ -41,6 +41,7 @@ class inventory_entry
 
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
+        std::string cached_name;
 
         inventory_entry( const item_location &location, size_t stack_size,
                          const item_category *custom_category = nullptr, bool enabled = true ) :
@@ -55,7 +56,8 @@ class inventory_entry
             custom_invlet( entry.custom_invlet ),
             stack_size( entry.stack_size ),
             custom_category( entry.custom_category ),
-            enabled( entry.enabled ) {}
+            enabled( entry.enabled ),
+            cached_name( entry.cached_name ) {}
 
         inventory_entry operator=( const inventory_entry &rhs ) {
             location = rhs.location.clone();
@@ -64,6 +66,7 @@ class inventory_entry
             stack_size = rhs.stack_size;
             custom_category = rhs.custom_category;
             enabled = rhs.enabled;
+            cached_name = rhs.cached_name;
             return *this;
         }
 
@@ -115,6 +118,7 @@ class inventory_entry
         const item_category *get_category_ptr() const;
         long get_invlet() const;
         nc_color get_invlet_color() const;
+        void update_cache();
 
     private:
         size_t stack_size;
@@ -141,7 +145,7 @@ class inventory_selector_preset
             return std::string();
         }
         /** Whether the first item is considered to go before the second. */
-        virtual bool sort_compare( const item_location &lhs, const item_location &rhs ) const;
+        virtual bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const;
         /** Color that will be used to display the entry string. */
         virtual nc_color get_color( const inventory_entry &entry ) const;
 
