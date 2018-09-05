@@ -1379,7 +1379,7 @@ void game::calc_driving_offset(vehicle *veh)
         set_driving_view_offset(point(0, 0));
         return;
     }
-    const int g_light_level = (int)light_level( u.posz() );
+    const int g_light_level = static_cast<int>( light_level( u.posz() ) );
     const int light_sight_range = u.sight_range(g_light_level);
     int sight = std::max( veh_lumi( *veh ), light_sight_range );
 
@@ -1997,7 +1997,7 @@ void game::handle_key_blocking_activity()
 */
 int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_item_menu_positon position)
 {
-    int cMenu = (int)'+';
+    int cMenu = static_cast<int>( '+' );
 
     item &oThisItem = u.i_at( pos );
     if( u.has_item( oThisItem ) ) {
@@ -2473,7 +2473,7 @@ input_context game::get_player_input(std::string &action)
                 for (auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
                     const direction oCurDir = iter->getDirecton();
 
-                    for (int i = 0; i < (int)iter->getText().length(); ++i) {
+                    for (int i = 0; i < static_cast<int>( iter->getText().length() ); ++i) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
                         const Creature *critter = critter_at( tmp, true );
 
@@ -4235,7 +4235,7 @@ void game::debug()
                 }
                 veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "Cancel" ) );
                 veh_menu.query();
-                if( veh_menu.ret >= 0 && veh_menu.ret < ( int )veh_strings.size() ) {
+                if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
                     //Didn't pick Cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
@@ -8285,7 +8285,7 @@ void game::zones_manager()
                 redraw_info = true;
 
             } else if (action == "REMOVE_ZONE") {
-                if (active_index < (int)zones.size()) {
+                if (active_index < static_cast<int>( zones.size() ) ) {
                     zones.remove(active_index);
                     active_index--;
 
@@ -8344,7 +8344,7 @@ void game::zones_manager()
                 zones_manager_shortcuts(w_zones_info);
 
             } else if (action == "MOVE_ZONE_UP" && zones.size() > 1) {
-                if (active_index < (int)zones.size() - 1) {
+                if (active_index < static_cast<int>( zones.size() - 1 ) ) {
                     std::swap(zones.zones[active_index],
                               zones.zones[active_index + 1]);
                     active_index++;
@@ -9280,14 +9280,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iCatSortNum++;
             }
             std::string last_cat_name;
-            for( int i = std::max( 0, highPEnd ); i < std::min( lowPStart, ( int )filtered_items.size() ); i++ ) {
+            for( int i = std::max( 0, highPEnd ); i < std::min( lowPStart, static_cast<int>( filtered_items.size() ) ); i++ ) {
                 const std::string &cat_name = filtered_items[i].example->get_category().name();
                 if( cat_name != last_cat_name ) {
                     mSortCategory[i + iCatSortNum++] = cat_name;
                     last_cat_name = cat_name;
                 }
             }
-            if( lowPStart < (int)filtered_items.size() ) {
+            if( lowPStart < static_cast<int>( filtered_items.size() ) ) {
                 mSortCategory[lowPStart + iCatSortNum++] = _( "LOW PRIORITY" );
             }
             if( !mSortCategory[0].empty() ) {
@@ -9324,7 +9324,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
         } else if( action == "RIGHT" ) {
-            if( !filtered_items.empty() && ++page_num >= ( int )activeItem->vIG.size() ) {
+            if( !filtered_items.empty() && ++page_num >= static_cast<int>( activeItem->vIG.size() ) ) {
                 page_num = activeItem->vIG.size() - 1;
             }
         } else if( action == "LEFT" ) {
@@ -9518,7 +9518,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     // first integer is the row the attitude category string is printed in the menu
     std::map<int, Creature::Attitude> mSortCategory;
 
-    for( int i = 0, last_attitude = -1; i < ( int )monster_list.size(); i++ ) {
+    for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
         const auto attitude = monster_list[i]->attitude_to( u );
         if( attitude != last_attitude ) {
             mSortCategory[i + mSortCategory.size()] = attitude;
@@ -10437,7 +10437,7 @@ const std::vector<std::pair<int, int>> generate_butcher_stack_display(
         // Has the side effect of making 's' a valid index
         if( s == result_strings.size() ) {
             // make a new entry
-            result.push_back( std::make_pair<int, int>( (int)ndx, 0 ) );
+            result.push_back( std::make_pair<int, int>( static_cast<int>( ndx ), 0 ) );
             // Also push new entry string
             result_strings.push_back( tname );
         }
@@ -11337,7 +11337,7 @@ void game::chat()
         add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
         u.shout();
 
-    } else if( nmenu.ret <= ( int )available.size() ) {
+    } else if( nmenu.ret <= static_cast<int>(available.size() )) {
         available[nmenu.ret]->talk_to_u();
     } else {
         return;
@@ -12078,7 +12078,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) ) {
+        if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) && !u.has_trait( trait_id( "SMALL2" ) ) && !u.has_trait( trait_id( "SMALL_OK" ) ) ) {
             if( u.has_trait( trait_id( "LIGHTSTEP" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
                 sounds::sound( dest_loc, 2, "", true, "none", "none" );    // Sound of footsteps may awaken nearby monsters
                 sfx::do_footstep();

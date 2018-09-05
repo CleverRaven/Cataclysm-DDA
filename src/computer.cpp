@@ -627,7 +627,7 @@ void computer::activate_function( computer_action action )
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 for( auto &elem : g->m.i_at( x, y ) ) {
                     if( elem.is_bionic() ) {
-                        if ((int)names.size() < TERMY - 8) {
+                        if (static_cast<int>( names.size() ) < TERMY - 8) {
                             names.push_back( elem.tname() );
                         } else {
                             more++;

@@ -264,6 +264,7 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_CRAFTY( "CRAFTY" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -278,6 +279,7 @@ static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
+static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FASTHEALER( "FASTHEALER" );
 static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
@@ -294,6 +296,7 @@ static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GOODCARDIO( "GOODCARDIO" );
+static const trait_id trait_GOODCARDIO2( "GOODCARDIO2" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
@@ -329,6 +332,7 @@ static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MOREPAIN( "MORE_PAIN" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
 static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
+static const trait_id trait_MOUSE_EARS( "MOUSE_EARS" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
@@ -1712,6 +1716,9 @@ void player::recalc_speed_bonus()
     if( has_bionic( bio_speed ) ) { // multiply by 1.1
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
+    if( has_trait( trait_CRAFTY ) ) { // multiply by 1.15
+        set_speed_bonus( int( get_speed() * 1.15 ) - get_speed_base() );
+    }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = int( -0.75 * get_speed_base() );
@@ -1803,6 +1810,9 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     if( has_trait( trait_PONDEROUS3 ) ) {
         movecost *= 1.3f;
+    }
+    if( has_trait( trait_CRAFTY ) ) {
+        movecost *= 0.75f;
     }
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;
@@ -3763,6 +3773,8 @@ int player::impact( const int force, const tripoint &p )
     // Percentage armor penetration - armor won't help much here
     // TODO: Make cushioned items like bike helmets help more
     float armor_eff = 1.0f;
+    // Shock Absorber CBM heavily reduces damage
+    const bool shock_absorbers = has_active_bionic( bionic_id( "bio_shock_absorber" ) );
 
     // Being slammed against things rather than landing means we can't
     // control the impact as well
@@ -3829,32 +3841,49 @@ int player::impact( const int force, const tripoint &p )
         return 0;
     }
 
+    // Shock absorbers kick in only when they need to, so if our other protections fail, fall back on them
+    if( shock_absorbers ) {
+        effective_force -= 15; // Provide a flat reduction to force
+        if( mod > 0.25f ) {
+            mod = 0.25f; // And provide a 75% reduction against that force if we don't have it already
+        }
+        if( effective_force < 0 ) {
+            effective_force = 0;
+        }
+    }
+
     int total_dealt = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        int bash = ( effective_force * rng(60, 100) / 100 );
-        damage_instance di;
-        di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
-        // No good way to land on sharp stuff, so here modifier == 1.0f
-        di.add_damage( DT_CUT,  cut,  0, armor_eff, 1.0f );
-        total_dealt += deal_damage( nullptr, bp, di ).total_damage();
+    if( mod * effective_force >= 5 ) {
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+            const int bash = effective_force * rng( 60, 100 ) / 100;
+            damage_instance di;
+            di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
+            // No good way to land on sharp stuff, so here modifier == 1.0f
+            di.add_damage( DT_CUT, cut, 0, armor_eff, 1.0f );
+            total_dealt += deal_damage( nullptr, bp, di ).total_damage();
+        }
     }
 
     if( total_dealt > 0 && is_player() ) {
         // "You slam against the dirt" is fine
-        add_msg( m_bad, _("You are slammed against %s for %d damage."),
+        add_msg( m_bad, _( "You are slammed against %s for %d damage." ),
                  target_name.c_str(), total_dealt );
+    } else if( is_player() && shock_absorbers ) {
+        add_msg( m_bad, _( "You are slammed against %s!" ),
+                 target_name.c_str(), total_dealt );
+        add_msg( m_good, _( "...but your shock absorbers negate the damage!" ) );
     } else if( slam ) {
         // Only print this line if it is a slam and not a landing
         // Non-players should only get this one: player doesn't know how much damage was dealt
         // and landing messages for each slammed creature would be too much
         add_msg_player_or_npc( m_bad,
-                               _("You are slammed against %s."),
-                               _("<npcname> is slammed against %s."),
+                               _( "You are slammed against %s." ),
+                               _( "<npcname> is slammed against %s." ),
                                target_name.c_str() );
     } else {
         // No landing message for NPCs
-        add_msg_if_player( m_warning, _("You land on %s."), target_name.c_str() );
+        add_msg_if_player( m_warning, _( "You land on %s." ), target_name.c_str() );
     }
 
     if( x_in_y( mod, 1.0f ) ) {
@@ -7434,7 +7463,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( _( "Mutation %s prevents from wearing %s." ),
+                return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
                              branch.name.c_str(), it.type_name().c_str() );
             }
         }
@@ -8081,6 +8110,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     }
 
     const bool was_deaf = is_deaf();
+    const bool supertinymouse = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     last_item = to_wear.typeId();
     worn.push_back(to_wear);
 
@@ -8102,6 +8132,11 @@ bool player::wear_item( const item &to_wear, bool interactive )
         }
         if( !was_deaf && is_deaf() ) {
             add_msg_if_player( m_info, _( "You're deafened!" ) );
+        }
+        if( supertinymouse && to_wear.has_flag( "UNDERSIZE" ) ) {
+            add_msg_if_player( m_warning, _( "This %s is too big to wear comfortably! Maybe it could be refitted..."), to_wear.tname().c_str() );
+        } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
+            add_msg_if_player( m_warning, _( "This %s is too small to wear comfortably! Maybe it could be refitted..."), to_wear.tname().c_str() );
         }
     } else {
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
@@ -9629,6 +9664,10 @@ int player::sleep_spot( const tripoint &p ) const
         // so it's OK for the value to be that much higher
         sleepy += 24;
     }
+    if (has_trait( trait_EASYSLEEPER2 )) {
+        // Mousefolk can sleep just about anywhere.
+        sleepy += 40;
+    }
     if (has_trait( trait_CHLOROMORPH )) {
         plantsleep = true;
     }
@@ -10914,6 +10953,9 @@ int player::visibility( bool, int ) const
     if ( is_invisible() ) {
         return 0;
     }
+    if( has_trait( trait_CRAFTY ) ) {
+        return 60;
+    }
     // @todo:
     // if ( dark_clothing() && light check ...
     return 100;
@@ -11044,6 +11086,9 @@ int player::get_stamina_max() const
     }
     if( has_trait( trait_GOODCARDIO ) ) {
         return maxStamina * 1.25;
+    }
+    if( has_trait( trait_GOODCARDIO2 ) ) {
+        return maxStamina * 1.4;
     }
     return maxStamina;
 }
@@ -11283,6 +11328,9 @@ float player::hearing_ability() const
     }
     if( has_trait( trait_LUPINE_EARS ) ) {
         volume_multiplier *= 1.75;
+    }
+    if( has_trait( trait_MOUSE_EARS ) ) {
+        volume_multiplier *= 2;
     }
 
     if( has_effect( effect_deaf ) ) {

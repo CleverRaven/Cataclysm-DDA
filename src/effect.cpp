@@ -1237,7 +1237,7 @@ void effect::serialize(JsonOut &json) const
     json.start_object();
     json.member("eff_type", eff_type != NULL ? eff_type->id.str() : "");
     json.member( "duration", duration );
-    json.member("bp", (int)bp);
+    json.member("bp", static_cast<int>( bp ) );
     json.member("permanent", permanent);
     json.member("intensity", intensity);
     json.member( "start_turn", start_time );

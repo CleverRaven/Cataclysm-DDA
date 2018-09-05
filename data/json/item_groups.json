@@ -5203,6 +5203,7 @@
       ["iv_mutagen_ursine", 2],
       ["iv_mutagen_feline", 2],
       ["iv_mutagen_lupine", 2],
+      ["iv_mutagen_mouse", 2],
       ["purifier", 10],
       ["iv_purifier", 8],
       ["syringe", 8],
@@ -5660,7 +5661,8 @@
       ["bio_faraday", 10],
       ["bio_power_armor_interface_mkII", 5],
       ["bio_remote", 10],
-      ["bio_cable", 10]
+      ["bio_cable", 10],
+      ["bio_shock_absorber", 10]
     ]
   },{
     "type" : "item_group",
@@ -6368,6 +6370,7 @@
       ["bio_magnet", 10],
       ["bio_resonator", 10],
       ["bio_hydraulics", 10],
+      ["bio_shock_absorber", 10],
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
@@ -8676,7 +8679,8 @@
       ["bio_sunglasses", 20],
       ["bio_heatsink", 20],
       ["bio_watch", 20],
-      ["bio_faraday", 20]
+      ["bio_faraday", 20],
+      ["bio_shock_absorber", 20]
     ]
   },{
     "type" : "item_group",
