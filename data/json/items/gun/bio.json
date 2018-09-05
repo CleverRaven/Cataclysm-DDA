@@ -24,7 +24,7 @@
     "id": "bio_emp_gun",
     "type": "GUN",
     "name": "EMP Projector",
-    "description": "A ranged emp generator system is implanted on the palm of the user's right hand and arm.  Fires super-concentrated electric pulses for a short distance.  Extremely effective against electronic targets but mostly useless otherwise.",
+    "description": "this a pseudo item",
     "weight": 2950,
     "volume": 8,
     "price": 1600000,

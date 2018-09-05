@@ -2900,7 +2900,7 @@
     "type": "profession",
     "ident": "bio_medic",
     "name": "Bionic Surgeon",
-    "description": "As one of the top surgeons in the country, you were chosen for an augmentation program to expand the medical field. With your experties and augmentations, you can preform precise surgery with little assitance.",
+    "description": "As one of the top surgeons in the country, you were chosen for an augmentation program to expand the medical field.  With your expertise and augmentations, you can perform precise surgery with little assitance.",
     "points": 6,
     "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 8, "name": "firstaid" } ],
