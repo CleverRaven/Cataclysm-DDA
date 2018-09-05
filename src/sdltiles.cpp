@@ -2388,6 +2388,7 @@ const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
     }
     return &random_entry_ref( iter->second );
 }
+
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
 const sound_effect* find_random_effect( const std::string &id, const std::string& variant )
 {
@@ -2399,7 +2400,7 @@ const sound_effect* find_random_effect( const std::string &id, const std::string
 }
 
 // Deletes the dynamically created chunk (if such a chunk had been played).
-void cleanup_when_channel_finished( int channel, void * udata)
+void cleanup_when_channel_finished( int /* channel */, void * udata)
 {
     Mix_Chunk *chunk = (Mix_Chunk *)udata;
     free(chunk->abuf);
@@ -2408,7 +2409,7 @@ void cleanup_when_channel_finished( int channel, void * udata)
 
 // empty effect, as we cannot change the size of the output buffer,
 // therefore we cannot do the math from do_pitch_shift here
-void empty_effect(int chan, void * stream, int len, void * udata)
+void empty_effect(int /* chan */, void * /* stream */, int /* len */, void * /* udata */)
 {
 }
 
