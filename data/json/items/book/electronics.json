@@ -182,7 +182,8 @@
     "symbol": "?",
     "color": "pink",
     "skill": "electronics",
-    "max_level": 4,
+    "required_level": 2,
+    "max_level": 5,
     "intelligence": 9,
     "time": 30,
     "fun": 1
