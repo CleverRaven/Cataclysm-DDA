@@ -2107,7 +2107,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "frame", 1 ] ], [ [ "sheet_metal", 2 ] ] ]
+    "components": [ [ [ "frame", 1 ] ], [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3200,7 +3200,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "sheet_metal", 2 ] ],
+      [ [ "sheet_metal_small", 5 ] ],
       [ [ "nail", 11 ] ],
       [ [ "wire", 1 ] ],
       [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "switchblade", 1 ], [ "knife_steak", 1 ] ],
@@ -3391,7 +3391,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -3405,7 +3405,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
