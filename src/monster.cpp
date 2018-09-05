@@ -348,7 +348,7 @@ void monster::try_reproduce() {
 
     const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
     if( baby_timer < 0 ) {
-        baby_timer = type->baby_timer;
+        baby_timer = round(type->baby_timer * calendar::season_ratio());
         if( baby_timer < 0 ) {
             return;
         }
@@ -372,7 +372,7 @@ void monster::try_reproduce() {
         if( baby_timer > current_day ) {
             return;
         }
-        const int next_baby = type->baby_timer;
+        const int next_baby = round(type->baby_timer * calendar::season_ratio());
         if( next_baby < 0 ) {
             return;
         }

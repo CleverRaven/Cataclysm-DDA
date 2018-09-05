@@ -154,7 +154,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
-    "reproduction": { "baby_egg": "egg_reptile", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "egg_reptile", "baby_count": 3, "baby_timer": 65 },
     "baby_flags": [ "SPRING" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "LEATHER", "BONES" ]
   },

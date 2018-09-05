@@ -21,7 +21,7 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 4,
-    "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 5 },
+    "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 32 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "death_function": [ "NORMAL" ],
@@ -36,7 +36,7 @@
     "hp": 5,
     "speed": 110,
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_grouse", "baby_count": 2, "baby_timer": 6 },
+    "reproduction": { "baby_egg": "egg_grouse", "baby_count": 2, "baby_timer": 39 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
   },
@@ -63,7 +63,7 @@
     "dodge": 4,
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "reproduction": { "baby_egg": "egg_crow", "baby_count": 3, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_crow", "baby_count": 3, "baby_timer": 52 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER" ]
@@ -91,7 +91,7 @@
     "dodge": 4,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
+    "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 32 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
@@ -104,7 +104,7 @@
     "description": "A Canadian goose, a common waterfowl that regrets leaving Canada.",
     "hp": 8,
     "dodge": 3,
-    "reproduction": { "baby_egg": "egg_goose_canadian", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "egg_goose_canadian", "baby_count": 3, "baby_timer": 65 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 }
   },
@@ -132,7 +132,7 @@
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
-    "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 12 },
+    "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 78 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
@@ -147,7 +147,7 @@
     "hp": 6,
     "speed": 130,
     "dodge": 4,
-    "reproduction": { "baby_egg": "egg_pheasant", "baby_count": 5, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_pheasant", "baby_count": 5, "baby_timer": 52 },
     "baby_flags": [ "SPRING" ]
   },
   {
@@ -173,7 +173,7 @@
     "melee_dice_sides": 1,
     "melee_cut": 3,
     "dodge": 6,
-    "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 65 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "death_function": [ "NORMAL" ],
