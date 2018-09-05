@@ -353,19 +353,19 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
-            append_cell( [ p, this ]( const item_location & loc ) {
+            append_cell( [ p, this ]( const item_location &loc ) {
                 return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) );
             }, _( "NUTRITION" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location &loc ) {
                 return good_bad_none( get_edible_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
-            append_cell( [ p, this ]( const item_location & loc ) {
+            append_cell( [ p, this ]( const item_location &loc ) {
                 return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
             }, _( "JOY" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location &loc ) {
                 const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
                     return to_string_clipped( spoils );
@@ -373,7 +373,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "SHELF LIFE" ) );
 
-            append_cell( [this]( const item_location & loc ) {
+            append_cell( [this]( const item_location &loc ) {
                 if( g->u.get_skill_level( skill_cooking ) >= 3 ||
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
@@ -385,7 +385,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "FRESHNESS" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location &loc ) {
                 if( g->u.get_skill_level( skill_cooking ) >= 3 ||
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
@@ -399,7 +399,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "SPOILS IN" ) );
 
-            append_cell( [ this, &p ]( const item_location & loc ) {
+            append_cell( [ this, &p ]( const item_location &loc ) {
                 std::string cbm_name;
 
                 switch( p.get_cbm_rechargeable_with( get_comestible_item( loc ) ) ) {
