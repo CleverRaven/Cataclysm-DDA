@@ -363,15 +363,15 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
-            append_cell( [ p, this ]( const item_location &loc ) {
+            append_cell( [ p, this ]( const item_location & loc ) {
                 return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) );
             }, _( "NUTRITION" ) );
 
-            append_cell( [ this ]( const item_location &loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
-            append_cell( [ p, this ]( const item_location &loc ) {
+            append_cell( [ p, this ]( const item_location & loc ) {
                 const item &it = get_comestible_item( loc );
                 if( it.has_flag( "MUSHY" ) ) {
                     return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
@@ -380,7 +380,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
             }, _( "JOY" ) );
 
-            append_cell( [ this ]( const item_location &loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
                     return to_string_clipped( spoils );
@@ -388,25 +388,25 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "SHELF LIFE" ) );
 
-            append_cell( [this]( const item_location &loc ) {
+            append_cell( [this]( const item_location & loc ) {
                 if( g->u.get_skill_level( skill_cooking ) >= 3 ||
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0 ) {
-                        const std::string freshness = get_freshness( loc );
+                        std::string freshness = get_freshness( loc );
                         return freshness;
                     }
                 }
                 return std::string();
             }, _( "FRESHNESS" ) );
 
-            append_cell( [ this ]( const item_location &loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 if( g->u.get_skill_level( skill_cooking ) >= 3 ||
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0 ) {
                         if( !get_comestible_item( loc ).rotten() ) {
-                            const std::string time_left = get_time_left_rounded( loc );
+                            std::string time_left = get_time_left_rounded( loc );
                             return time_left;
                         }
                     }
@@ -414,7 +414,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "SPOILS IN" ) );
 
-            append_cell( [ this, &p ]( const item_location &loc ) {
+            append_cell( [ this, &p ]( const item_location & loc ) {
                 std::string cbm_name;
 
                 switch( p.get_cbm_rechargeable_with( get_comestible_item( loc ) ) ) {
@@ -510,35 +510,32 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        const std::string get_time_left_rounded( const item_location &loc )
-        {
+        const std::string get_time_left_rounded( const item_location &loc ) {
             const item *item = loc.get_item();
             const double relative_rot = item->is_food_container() ? item->contents.front().get_relative_rot() :
                                         item->get_relative_rot();
             const time_duration shelf_life = get_edible_comestible( loc ).spoils;
-            const time_duration time_left = shelf_life - shelf_life * relative_rot;
+            time_duration time_left = shelf_life - shelf_life * relative_rot;
 
-            const int skill = p.get_skill_level( skill_survival );
             const float days_left = to_days<float>( time_left );
             if( days_left <= 0.25 ) {
                 if( item->is_going_bad() ) {
                     return _( "soon!" );
                 } else {
-                    const time_duration time_left = time_duration::from_hours( 6 );
+                    time_left = time_duration::from_hours( 6 );
                 }
             } else if( days_left <= 7 ) {
-                const time_duration time_left = time_duration::from_days( ceilf( days_left ) );
+                time_left = time_duration::from_days( ceilf( days_left ) );
             } else {
-                const time_duration time_left = time_duration::from_days( ceilf( days_left / 7 ) * 7 );
+                time_left = time_duration::from_days( ceilf( days_left / 7 ) * 7 );
             }
             if( time_left > get_edible_comestible( loc ).spoils ) {
-                const time_duration time_left = get_edible_comestible( loc ).spoils;
+                time_left = get_edible_comestible( loc ).spoils;
             }
             return to_string_clipped( time_left );
         }
 
-        const std::string get_freshness( const item_location &loc )
-        {
+        const std::string get_freshness( const item_location &loc ) {
             const item *item = loc.get_item()->is_food_container() ? &loc.get_item()->contents.front() :
                                loc.get_item();
             const double rot_progress = item->get_relative_rot();

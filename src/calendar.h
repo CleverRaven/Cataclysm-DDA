@@ -257,6 +257,8 @@ constexpr T to_hours( const time_duration duration );
 template<typename T>
 constexpr T to_days( const time_duration duration );
 template<typename T>
+constexpr T to_weeks( const time_duration duration );
+template<typename T>
 constexpr T to_moves( const time_duration duration );
 
 template<typename T>
