@@ -7616,47 +7616,47 @@
     "id": "lumberyard_0_0",
     "name": "lumberyard",
     "copy-from": "generic_city_building",
-    "sym": 76,
-    "color": "i_green"
+    "sym": 108,
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_0_1",
     "name": "lumberyard",
     "copy-from": "generic_city_building_no_sidewalk",
-    "sym": 76,
-    "color": "i_green"
+    "sym": 108,
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_1_0",
     "name": "lumberyard",
     "copy-from": "generic_city_building_no_sidewalk",
-    "sym": 76,
-    "color": "i_green"
+    "sym": 108,
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "lumberyard_1_1",
     "name": "lumberyard",
     "copy-from": "generic_city_building_no_sidewalk",
-    "sym": 76,
-    "color": "i_green"
+    "sym": 108,
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
     "id": "construction_site",
     "name": "construction site",
     "copy-from": "generic_city_building",
-    "sym": 120,
-    "color": "i_light_gray"
+    "sym": 99,
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "post_office",
     "name": "post office",
     "copy-from": "generic_city_building",
-    "sym": 80,
+    "sym": 112,
     "color": "blue"
   },
   {
@@ -7664,24 +7664,24 @@
     "id": "candy_shop",
     "name": "candy shop",
     "copy-from": "generic_city_building",
-    "sym": 67,
-    "color": "yellow"
+    "sym": 99,
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
     "id": "bakery",
     "name": "bakery",
     "copy-from": "generic_city_building",
-    "sym": 66,
-    "color": "yellow"
+    "sym": 98,
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
     "id": "icecream_shop",
     "name": "icecream shop",
     "copy-from": "generic_city_building",
-    "sym": 73,
-    "color": "white"
+    "sym": 105,
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
@@ -7697,8 +7697,8 @@
     "type": "overmap_terrain",
     "id": "bandit_garage_2",
     "name": "forest",
-    "sym": 35,
-    "color": "green",
+    "sym": 98,
+    "color": "light_blue",
     "see_cost": 5,
     "extras": "field",
     "flags": [ "NO_ROTATE" ]
