@@ -344,6 +344,7 @@ static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_NO_THIRST( "NO_THIRST" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINREC1( "PAINREC1" );
@@ -1113,7 +1114,7 @@ void player::update_bodytemp()
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
-        
+
         const int h_radiation = get_heat_radiation( pos(), false );
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
@@ -4210,6 +4211,7 @@ void player::update_needs( int rate_multiplier )
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down );
     const bool hibernating = asleep && is_hibernating();
+    const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     float hunger_rate = metabolic_rate();
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
@@ -4264,6 +4266,9 @@ void player::update_needs( int rate_multiplier )
         } else if( get_thirst() > get_hunger() ) {
             set_hunger( get_thirst() );
         }
+    } else if( mouse ) {
+        // Metabolic Rehydration makes PT mice gain all their hydration from food.
+        set_thirst( get_hunger() );
     }
 
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
