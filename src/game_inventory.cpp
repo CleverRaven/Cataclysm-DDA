@@ -365,7 +365,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
             }, _( "JOY" ) );
 
-            append_cell( [ this ]( const item_location &loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
                     return to_string_clipped( spoils );
@@ -373,7 +373,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "SHELF LIFE" ) );
 
-            append_cell( [this]( const item_location &loc ) {
+            append_cell( [this]( const item_location & loc ) {
                 if( g->u.get_skill_level( skill_cooking ) >= 3 ||
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
@@ -385,7 +385,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "FRESHNESS" ) );
 
-            append_cell( [ this ]( const item_location &loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 if( g->u.get_skill_level( skill_cooking ) >= 3 ||
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
