@@ -449,6 +449,24 @@
         "cancels" : ["MYOPIC"]
     },{
         "type" : "mutation",
+        "id" : "UNOBSERVANT",
+        "name" : "Unobservant",
+        "points" : -2,
+        "description" : "You can't remember landmarks easily, and picking out unique locales is harder for you.  Your sight radius on the overmap is slightly shorter.",
+        "valid" : false,
+        "starting_trait" : true,
+        "cancels" : ["EAGLEEYED", "UNOBSERVANT2"]
+    },{
+        "type" : "mutation",
+        "id" : "UNOBSERVANT2",
+        "name" : "Impercipient",
+        "points" : -3,
+        "description" : "You can never remember landmarks; your sight radius on the overmap is limited only to the area directly around you.",
+        "valid" : false,
+        "starting_trait" : true,
+        "cancels" : ["EAGLEEYED", "UNOBSERVANT"]
+    },{
+        "type" : "mutation",
         "id" : "CANNIBAL",
         "name" : "Cannibal",
         "points" : 1,

@@ -410,6 +410,8 @@ static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 static const trait_id trait_UGLY( "UGLY" );
+static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
+static const trait_id trait_UNOBSERVANT2( "UNOBSERVANT2" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EARS( "URSINE_EARS" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -1113,7 +1115,7 @@ void player::update_bodytemp()
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
-        
+
         const int h_radiation = get_heat_radiation( pos(), false );
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
@@ -2723,11 +2725,19 @@ int player::overmap_sight_range( int light_level ) const
     }
     sight = has_trait( trait_BIRD_EYE ) ? 15 : 10;
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
-    if( has_optic && has_trait( trait_EAGLEEYED ) ) {
+
+    if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
         sight += 15;
-    } else if( has_optic != has_trait( trait_EAGLEEYED ) ) {
+    } else if( has_trait( trait_EAGLEEYED ) != has_optic ) { //optic OR scout = +10
         sight += 10;
     }
+
+    if( has_trait( trait_UNOBSERVANT ) ) {
+        sight -= 4;
+    } else if( has_trait( trait_UNOBSERVANT2 ) ) {
+        sight -= 7;
+    }
+
     return sight;
 }
 
