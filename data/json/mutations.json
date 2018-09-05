@@ -1446,7 +1446,7 @@
         "description" : "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
         "valid" : false,
         "purifiable": false,
-        "category" : ["MUTCAT_MYCUS"],
+        "category" : ["MYCUS"],
         "prereqs" : ["M_SKIN2"],
         "threshreq" : ["THRESH_MYCUS"],
         "wet_protection" : [
@@ -1990,7 +1990,7 @@
         "purifiable" : false,
         "cancels" : ["M_FERTILE", "M_BLOOM", "M_SPORES", "M_BLOSSOMS"],
         "threshreq" : ["THRESH_MYCUS"],
-        "category" : ["MUTCAT_MYCUS"],
+        "category" : ["MYCUS"],
         "active" : true,
         "cost" : 10,
         "hunger" : true,
