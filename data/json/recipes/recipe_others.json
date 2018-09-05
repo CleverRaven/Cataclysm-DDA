@@ -1543,6 +1543,7 @@
     "time": 2000,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
