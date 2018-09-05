@@ -363,15 +363,15 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
-            append_cell( [ p, this ]( const item_location &loc ) {
+            append_cell( [ p, this ]( const item_location & loc ) {
                 return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) );
             }, _( "NUTRITION" ) );
 
-            append_cell( [ this ]( const item_location &loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
-            append_cell( [ p, this ]( const item_location &loc ) {
+            append_cell( [ p, this ]( const item_location & loc ) {
                 const item &it = get_comestible_item( loc );
                 if( it.has_flag( "MUSHY" ) ) {
                     return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
@@ -380,7 +380,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
             }, _( "JOY" ) );
 
-            append_cell( [ this ]( const item_location &loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 const time_duration spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
                     return to_string_clipped( spoils );
@@ -388,7 +388,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "SHELF LIFE" ) );
 
-            append_cell( [this]( const item_location &loc ) {
+            append_cell( [this]( const item_location & loc ) {
                 if( g->u.get_skill_level( skill_cooking ) >= 3 ||
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
@@ -400,7 +400,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "FRESHNESS" ) );
 
-            append_cell( [ this ]( const item_location &loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 if( g->u.get_skill_level( skill_cooking ) >= 3 ||
                     g->u.get_skill_level( skill_survival ) >= 4 ) {
                     const islot_comestible item = get_edible_comestible( loc );
@@ -414,7 +414,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "SPOILS IN" ) );
 
-            append_cell( [ this, &p ]( const item_location &loc ) {
+            append_cell( [ this, &p ]( const item_location & loc ) {
                 std::string cbm_name;
 
                 switch( p.get_cbm_rechargeable_with( get_comestible_item( loc ) ) ) {
@@ -510,8 +510,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        const std::string get_time_left_rounded( const item_location &loc )
-        {
+        const std::string get_time_left_rounded( const item_location &loc ) {
             const item *item = loc.get_item();
             const double relative_rot = item->is_food_container() ? item->contents.front().get_relative_rot() :
                                         item->get_relative_rot();
@@ -537,8 +536,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return to_string_clipped( time_left );
         }
 
-        const std::string get_freshness( const item_location &loc )
-        {
+        const std::string get_freshness( const item_location &loc ) {
             const item *item = loc.get_item()->is_food_container() ? &loc.get_item()->contents.front() :
                                loc.get_item();
             const double rot_progress = item->get_relative_rot();
