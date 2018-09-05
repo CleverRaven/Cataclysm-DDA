@@ -344,6 +344,7 @@ static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_NO_THIRST( "NO_THIRST" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINREC1( "PAINREC1" );
@@ -1113,7 +1114,7 @@ void player::update_bodytemp()
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
-        
+
         const int h_radiation = get_heat_radiation( pos(), false );
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
@@ -4253,6 +4254,9 @@ void player::update_needs( int rate_multiplier )
         }
     }
 
+    if( has_trait( trait_NO_THIRST ) ) {
+        set_thirst(-25); //permanently display as Hydrated
+    }
     if( !foodless && thirst_rate > 0.0f ) {
         mod_thirst( divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 ) );
     }

@@ -457,7 +457,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else if( ( ( nutr > 0           && temp_hunger < stomach_capacity() ) ||
                      ( comest->quench > 0 && temp_thirst < stomach_capacity() ) ) &&
-                   !food.has_infinite_charges() ) {
+                   !food.has_infinite_charges() && !has_trait( trait_id( "NO_THIRST" ) ) ) {
             add_consequence( _( "You will not be able to finish it all." ), TOO_FULL );
         }
     }
@@ -759,7 +759,7 @@ bool player::eat( item &food, bool force )
 void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
 {
     if( ( food && p.get_hunger() < capacity ) ||
-        ( water && p.get_thirst() < capacity ) ) {
+        ( water && p.get_thirst() < capacity && !p.has_trait( trait_id( "NO_THIRST" ) ) ) ) {
         p.add_msg_if_player( _( "You can't finish it all!" ) );
     }
 
