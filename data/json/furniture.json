@@ -3131,9 +3131,9 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 0, 3 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
-        { "item": "sheet_metal", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [ 5, 15 ] },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] }
       ]
     }
   },
@@ -3282,7 +3282,11 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] }
+      ]
     }
   },
   {
