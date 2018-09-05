@@ -473,14 +473,16 @@ void npc::execute_action( npc_action action )
                     best_spot = p;
                 }
             }
-
+            if( is_following() ) {
+                complain_about( "napping", 30_minutes, _( "<warn_sleep>" ) );
+            }
             update_path( best_spot );
             // TODO: Handle empty path better
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
-                    if( g->u.sees( *this ) ) {
+                    if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name.c_str() );
                     }
                 }
@@ -1180,8 +1182,18 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
+    const auto could_sleep = [&]() {
+        if( danger <= 0.01 ) {
+            if( get_fatigue() >= TIRED ) {
+                return true;
+            } else if( is_following() && g->u.in_sleep_state() && get_fatigue() > ( TIRED / 2 ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
     // TODO: More risky attempts at sleep when exhausted
-    if( danger <= 0.01 && get_fatigue() >= TIRED ) {
+    if( could_sleep() ) {
         if( !is_following() ) {
             set_fatigue( 0 ); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
