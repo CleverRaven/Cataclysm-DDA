@@ -755,29 +755,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_MISSION_REWARD" ) {
         return _( "Sure, here you go!" );
 
-    } else if( topic == "TALK_EVAC_HUNTER_ADVICE" ) {
-        switch( rng( 1, 7 ) ) {
-            case 1:
-                return _( "Feed a man a fish, he's full for a day. Feed a man a bullet, "
-                          "he's full for the rest of his life." );
-            case 2:
-                return _( "Spot your prey before something nastier spots you." );
-            case 3:
-                return _( "I've heard that cougars sometimes leap. Maybe it's just a myth." );
-            case 4:
-                return _( "The Jabberwock is real, don't listen to what anybody else says. "
-                          "If you see it, RUN." );
-            case 5:
-                return _( "Zombie animal meat isn't good for eating, but sometimes you "
-                          "might find usable fur on 'em." );
-            case 6:
-                return _( "A steady diet of cooked meat and clean water will keep you "
-                          "alive forever, but your taste buds and your colon may start "
-                          "to get angry at you. Eat a piece of fruit every once in a while." );
-            case 7:
-                return _( "Smoke crack to get more shit done." );
-        }
-
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
         if( g->u.is_wearing( "badge_marshal" ) )
             switch( rng( 1, 4 ) ) {
