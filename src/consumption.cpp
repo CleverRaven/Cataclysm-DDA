@@ -819,10 +819,9 @@ void player::consume_effects( const item &food )
     if( effective_health != 0 ) {
         // Effectively no cap on health modifiers from food
         if( has_trait( trait_id( "PROJUNK2" ) ) && effective_health < 0 ) {
-            effective_health =
-                0; // Our digestive system is built around crappy food, so it can handle it just fine
+            effective_health = 0; // we can handle junk just fine!
         }
-        mod_healthy_mod( comest.healthy, ( comest.healthy >= 0 ) ? 200 : -200 );
+        mod_healthy_mod( effective_health, ( effective_health >= 0 ) ? 200 : -200 );
     }
 
     if( comest.stim != 0 &&

@@ -780,7 +780,7 @@
         "id" : "PROJUNK",
         "name" : "Sweet Tooth",
         "points" : 1,
-        "description" : "You have a soft spot for processed foods, and gain a morale bonus from eating it.",
+        "description" : "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
         "cancels" : ["ANTIJUNK"],
         "changes_to" : ["PROJUNK2"],
         "category" : ["MOUSE"]
@@ -3655,7 +3655,7 @@
         "points" : -4,
         "visibility" : 8,
         "mixed_effect" : true,
-        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you (since you're half their size), and your hit points are heavily reduced. However, your movement is silent, and your dodge skill is a little higher.",
+        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you unless you refit them (since you're half their size), and your hit points are heavily reduced. However, your movement is silent, and your dodge skill is a little higher.",
         "prereqs" : ["SMALL"],
         "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
         "changes_to": ["SMALL_OK"],
