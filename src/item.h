@@ -366,7 +366,6 @@ class item : public visitable<item>
         std::string info( std::vector<iteminfo> &dump, const iteminfo_query *parts = nullptr,
                           int batch = 1 ) const;
 
-
         /**
          * Calculate all burning calculations, but don't actually apply them to item.
          * DO apply them to @ref fire_data argument, though.
@@ -434,7 +433,6 @@ class item : public visitable<item>
          * otherwise returns approximate post-cataclysm value.
          */
         int price( bool practical ) const;
-
 
         bool stacks_with( const item &rhs ) const;
         /**
@@ -1264,10 +1262,6 @@ class item : public visitable<item>
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
-        /**
-         * Is temperature comfortable for this plant.
-         */
-        bool is_warm_enough( int temperature ) const;
         /*@}*/
 
         /**

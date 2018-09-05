@@ -495,7 +495,6 @@ class iuse_function_wrapper : public iuse_actor
 use_function::use_function( const std::string &type, const use_function_pointer f )
     : use_function( new iuse_function_wrapper( type, f ) ) {}
 
-
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
     iuse_function_list[ type ] = use_function( type, f );
@@ -1604,20 +1603,11 @@ void Item_factory::load_container( JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
-    assign( jo, "grow_secondary", slot.grow_secondary, false, 1_days );
+    slot.fruit_div = jo.get_int( "fruit_div", 1 );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
-    slot.comfortable_temperature = jo.get_int( "comfortable_temperature", 0 );
     slot.fruit_id = jo.get_string( "fruit" );
-    slot.fruit_count = jo.get_int( "fruit_count", 10 );
-    slot.seed_id = jo.get_string( "seed", slot.fruit_id );
-    slot.seed_count = jo.get_int( "seed_count", 0 );
+    slot.spawn_seeds = jo.get_bool( "seeds", true );
     slot.byproducts = jo.get_string_array( "byproducts" );
-    slot.water_requirement = jo.get_float( "water_requirement", 1.0f );
-    slot.weed_susceptibility = jo.get_float( "weed_susceptibility", 1.0f );
-    slot.grow_into = jo.get_string( "grow_into", "" );
-    slot.grow_into_harvest = jo.get_string( "grow_into_harvest", "" );
-    slot.is_mushroom = jo.get_bool( "is_mushroom", false );
-    slot.is_shrub = jo.get_bool( "is_shrub", false );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo, const std::string & )

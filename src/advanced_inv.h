@@ -129,7 +129,6 @@ struct advanced_inv_area {
 // see item_factory.h
 class item_category;
 
-
 /**
  * Entry that is displayed in a adv. inv. pane. It can either contain a
  * single item or a category header or nothing (empty entry).
@@ -419,7 +418,7 @@ class advanced_inventory
          * @return true if the action did refer to an location (which has been
          * stored in ret), false otherwise.
          */
-        static bool get_square( const std::string action, aim_location &ret );
+        static bool get_square( const std::string &action, aim_location &ret );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.

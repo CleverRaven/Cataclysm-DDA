@@ -379,7 +379,7 @@
     "points": 1,
     "description": "You were outside of civilization when the bombs fell; you didn't even know the end had come, or that everyone was (un)dead.  Will this ignorance save you from the fate of the rest?",
     "start_name": "Out of City",
-    "allowed_locs": [ "Swamp Shack", "campground", "survivalist farm", "cabin_woods" ],
+    "allowed_locs": [ "Swamp Shack", "survivalist farm", "cabin_woods" ],
     "flags": [ "LONE_START" ]
   },
   {
@@ -414,5 +414,15 @@
     "start_name": "Out Golfing",
     "allowed_locs": [ "golfcourse_11", "golfcourse_31" ],
     "professions": [ "golfer" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "camping",
+    "name": "Camping",
+    "description": "You and your friends decided to get away for the week and enjoy the outdoors via sleeping in a tent under the stars.",
+    "points": 0,
+    "start_name": "Camping",
+    "allowed_locs": [ "campsite_a", "campsite", "campground_1a", "campground_2b" ],
+    "professions": [ "camper" ]
   }
 ]

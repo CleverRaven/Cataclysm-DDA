@@ -160,6 +160,13 @@ struct vehicle_part {
         bool can_reload( const itype_id &obj = "" ) const;
 
         /**
+         * If this part is capable of wholly containing something, process the
+         * items in there.
+         * @param pos Position of this part for item::process
+         */
+        void process_contents( const tripoint &pos );
+
+        /**
          *  Try adding @param liquid to tank optionally limited by @param qty
          *  @return whether any of the liquid was consumed (which may be less than qty)
          */
@@ -311,7 +318,6 @@ struct vehicle_part {
     public:
         /** Get part definition common to all parts of this type */
         const vpart_info &info() const;
-
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -852,6 +858,7 @@ class vehicle
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount );
+        int drain( const int index, int amount );
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
@@ -1244,6 +1251,8 @@ class vehicle
         //returns true if there's another engine with the same exclusion list; conflict_type holds
         //the exclusion
         bool has_engine_conflict( const vpart_info *possible_engine, std::string &conflict_type ) const;
+        //returns true if the engine doesn't consume fuel
+        bool is_perpetual_type( int e ) const;
         //prints message relating to vehicle start failure
         void msg_start_engine_fail();
         //if necessary, damage this engine

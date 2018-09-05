@@ -449,9 +449,7 @@ int faction::response_time( const tripoint &abs_sm_pos ) const
     return base;
 }
 
-
 // END faction:: MEMBER FUNCTIONS
-
 
 std::string invent_name()
 {

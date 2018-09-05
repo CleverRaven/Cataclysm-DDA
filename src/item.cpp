@@ -260,7 +260,6 @@ item& item::activate()
     return *this;
 }
 
-
 item& item::ammo_set( const itype_id& ammo, long qty )
 {
     if( qty < 0 ) {
@@ -896,8 +895,8 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 if( food->item_tags.count( "FROZEN" ) ) {
                     info.push_back( iteminfo( "BASE", _( "FROZEN: " ), "",
                                                 food->item_counter, true, "", true, true ) );
-                }                      
-                    
+                }
+
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );
         }
@@ -1185,7 +1184,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "GUN", "sum_of_armor_pierce", _( " = <num>" ),
                                           get_ranged_pierce( gun ) + ammo_pierce, true, "", true, false, false ) );
         }
-
 
         if (parts->test(iteminfo_parts::GUN_DISPERSION))
             info.push_back( iteminfo( "GUN", _( "Dispersion: " ), "",
@@ -1834,7 +1832,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
 }
 
-
         if( is_armor() ) {
             if( has_flag( "HELMET_COMPAT" ) && parts->test(iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT)) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -1985,7 +1982,6 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                enumerate_as_string( holsters.begin(), holsters.end(),
                                                     []( const itype *e ) { return e->nname( 1 ); } ) );
         }
-
 
         if (parts->test(iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION)) {
             for( auto &u : type->use_methods ) {
@@ -2487,6 +2483,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_food() ) {
         if( rotten() ) {
             ret << _( " (rotten)" );
+        } else if( has_flag( "MUSHY" ) ) {
+            ret << _( " (mushy)" );
         } else if( is_going_bad() ) {
             ret << _( " (old)" );
         } else if( is_fresh() ) {
@@ -2501,12 +2499,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
         if( has_flag( "FROZEN" ) ) {
             ret << _( " (frozen)" );
+        } else if( has_flag( "MELTS" ) ) {
+            ret << _( " (melted)" ); // he melted
         }
     }
 
     if( has_flag( "FIT" ) ) {
         ret << _( " (fits)" );
     }
+
+    if( has_flag( "UNDERSIZE" ) ) {
+        ret << _( " (undersized)" );
+    }
+
 
     if( is_filthy() ) {
         ret << _( " (filthy)" );
@@ -2940,8 +2945,6 @@ int item::reach_range( const player &p ) const
     return res;
 }
 
-
-
 void item::unset_flags()
 {
     item_tags.clear();
@@ -3156,7 +3159,7 @@ void item::calc_rot(const tripoint &location)
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
         time_point until = fridge != calendar::before_time_starts ? fridge : now;
         until = freezer != calendar::before_time_starts ? freezer : now;
-        
+
         // rot modifier
         float factor = 1.0;
         if ( is_corpse() && has_flag( "FIELD_DRESS" ) ){
@@ -3253,6 +3256,13 @@ int item::get_encumber() const
         encumber = std::max( encumber / 2, encumber - 10 );
     }
 
+    const bool tiniest = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
+    if( !has_flag( "UNDERSIZE" ) && tiniest ) {
+        encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
+    } else if( !tiniest ) {
+        encumber *= 3; // normal humans have a HARD time wearing undersized clothing
+    }
+
     const int thickness = get_thickness();
     const int coverage = get_coverage();
     if( item_tags.count("wooled") ) {
@@ -3327,7 +3337,6 @@ int item::get_warmth() const
 
     return result + fur_lined + wool_lined;
 }
-
 
 time_duration item::brewing_time() const
 {
@@ -3769,7 +3778,6 @@ bool item::made_of(phase_id phase) const
     }
     return (type->phase == phase);
 }
-
 
 bool item::conductive() const
 {
@@ -5182,7 +5190,7 @@ float item::simulate_burn( fire_data &frd ) const
         const auto &bd = m.obj().burn_data( effective_intensity );
         if( bd.immune ) {
             // Made to protect from fire
-            return false;
+            return 0.0f;
         }
 
         // If fire is contained, burn rate is independent of volume
@@ -5763,7 +5771,7 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
 {
     calc_rot( g->m.getabs( pos ) );
     if( item_tags.count( "HOT" ) && item_counter == 0 ) {
-            item_tags.erase( "HOT" );   
+            item_tags.erase( "HOT" );
     }
     if( item_tags.count( "COLD" ) && item_counter == 0  ) {
             item_tags.erase( "COLD" );
@@ -6211,11 +6219,6 @@ std::string item::get_plant_name() const
     return type->seed->plant_name;
 }
 
-bool item::is_warm_enough( int temperature ) const
-{
-    return temp_to_celsius( temperature ) >= type->seed->comfortable_temperature;
-}
-
 bool item::is_dangerous() const
 {
     if( has_flag( "DANGEROUS" ) ) {
@@ -6277,7 +6280,7 @@ std::string item::type_name( unsigned int quantity ) const
             } else if( f_dressed && quartered ){
                 return string_format( npgettext( "item name", "quartered %s carcass",
                                         "quartered %s carcasses", quantity ),
-                            corpse->nname().c_str() );        
+                            corpse->nname().c_str() );
             }
             return string_format( npgettext( "item name", "%s corpse",
                                          "%s corpses", quantity ),
@@ -6290,7 +6293,7 @@ std::string item::type_name( unsigned int quantity ) const
             } else if( f_dressed && quartered ){
                 return string_format( npgettext( "item name", "quartered %s carcass",
                                         "quartered %s carcasses", quantity ),
-                            corpse->nname().c_str() );        
+                            corpse->nname().c_str() );
             }
             return string_format( npgettext( "item name", "%s corpse of %s",
                                          "%s corpses of %s", quantity ),

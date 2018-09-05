@@ -388,7 +388,7 @@
         "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Wearing this item or carrying it in your inventory will double the distance around you that is mapped during your travels.  You could also use them to focus the sunlight.",
         "price": 30000,
         "material": ["plastic", "glass"],
-        "flags" : [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
+        "flags" : [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "FIRESTARTER" ],
         "weight" : 708,
         "volume": 2,
         "bashing": 4,
@@ -2299,7 +2299,7 @@
             ]
         },
         "symbol" : "&",
-        "//~" : "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
+        "//" : "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
         "description" : "A big ol' tuba.  Much easier to play when wearing.",
         "price" : 5500,
         "material" : ["iron"],

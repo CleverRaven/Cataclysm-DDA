@@ -322,7 +322,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         bool avail = ( companion_list( p, "_faction_camp_gathering" ).size() < 3 );
         mission_key_push( mission_key_vectors, "Gather Materials", _("Gather Materials"), "", false, avail );
 
-
         col_missions["Distribute Food"] = string_format( _("Notes:\n"
             "Distribute food to your follower and fill you larders.  Place the food you wish to distribute opposite the tent door between "
             "the manager and wall.\n \n"
@@ -807,7 +806,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                 mission_key_push( mission_key_vectors, dir + " (Finish) Harvest Fields", dir + _(" (Finish) Harvest Fields"), dir, true );
             }
         }
-
 
         npc_list = companion_list( p, "_faction_exp_farm_crafting_", true );
         if( !npc_list.empty() ){
@@ -1702,8 +1700,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
                     if ( comp != nullptr ){
                         comp->companion_mission_time_ret = calendar::turn + work_time;
                         om_set_hide_site( *comp, forest, losing_equipment, gaining_equipment );
-
-
                         camp_food_supply( -need_food );
                     }
                 } else {
@@ -1714,7 +1710,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
             }
         }
     }
-
 
      if (cur_key.id == "Recover Hide Transport"){
         npc *comp = companion_choose_return( p, "_faction_camp_hide_trans", calendar::before_time_starts );
@@ -1867,7 +1862,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
         }
     }
 
-
     if (cur_key.id == "Recruit Companions"){
         std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, "_faction_camp_recruit_0" );
         int need_food = time_to_food ( 4_days );
@@ -1887,7 +1881,6 @@ bool talk_function::outpost_missions( npc &p, const std::string &id, const std::
     if( cur_key.id == "Recover Recruiter" ){
         camp_recruit_return( p, "_faction_camp_recruit_0", atoi( camp_recruit_evaluation( p, om_cur, om_expansions, true ).c_str() ) );
     }
-
 
     if( cur_key.id == "Scout Mission" || cur_key.id == "Combat Patrol" ){
         std::string mission_t = "_faction_camp_scout_0";
@@ -2199,7 +2192,6 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
         bandit_party.push_back(temp_npc(string_id<npc_template>( "bandit" )));
         bandit_party.push_back(temp_npc(string_id<npc_template>( "thug" )));
     }
-
 
     if (one_in(3)){
         if (one_in(2)){
@@ -2612,7 +2604,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     }
     tmp = item( seed_types[plant_index], calendar::turn );
     const islot_seed &seed_data = *tmp.type->seed;
-    if( seed_data.seed_count > 0 ){
+    if( seed_data.spawn_seeds ){
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
         }
@@ -3139,7 +3131,6 @@ bool talk_function::camp_gathering_return( npc &p, std::string task )
     return true;
 }
 
-
 bool talk_function::camp_garage_chop_start( npc &p, std::string task )
 {
     std::string dir = camp_direction( task );
@@ -3319,11 +3310,23 @@ bool talk_function::camp_farm_return( npc &p, std::string task, bool harvest, bo
             if ( harvest && bay.furn(x,y) == furn_str_id( "f_plant_harvest" ) && !bay.i_at(x,y).empty()){
                 const item &seed = bay.i_at( x,y )[0];
                 if( seed.is_seed() && seed.typeId() != "fungal_seeds" && seed.typeId() != "marloss_seed") {
-                    item &seed_item = g->m.i_at( x,y ).front();
-                    for( auto &i : iexamine::get_harvest_items( seed_item ) ) {
+                    const itype &type = *seed.type;
+                    int skillLevel = comp->get_skill_level( skill_survival );
+                    ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+                    int plantCount = rng(skillLevel / 2, skillLevel);
+                    //this differs from
+                    if (plantCount >= 9) {
+                        plantCount = 9;
+                    } else if( plantCount <= 0 ) {
+                        plantCount = 1;
+                    }
+                    const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+                    for( auto &i : iexamine::get_harvest_items( type, plantCount, seedCount, true ) ) {
                         g->m.add_item_or_charges( g->u.posx(), g->u.posy(), i );
                     }
-                    iexamine::proceed_plant_after_harvest( x, y, g->u.posz() );
+                    bay.i_clear( x,y );
+                    bay.furn_set( x, y, f_null );
+                    bay.ter_set( x, y, t_dirt );
                 }
             }
         }
@@ -5125,7 +5128,6 @@ void talk_function::camp_craft_construction( npc &p, mission_entry cur_key, std:
         }
     }
 }
-
 
 std::string talk_function::camp_recruit_evaluation( npc &p, std::string base, std::vector<std::pair<std::string, tripoint>> om_expansions,
                                                    bool raw_score ){

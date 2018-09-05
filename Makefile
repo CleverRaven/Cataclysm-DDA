@@ -545,7 +545,7 @@ ifdef TILES
       LDFLAGS += -lSDL2_image
       ifdef SOUND
         LDFLAGS += -lSDL2_mixer
-    	endif
+      endif
     endif
   else # not osx
     CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
@@ -754,10 +754,10 @@ ifdef LTO
   endif
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
 	@
 
-$(TARGET): $(ODIR) $(OBJS)
+$(TARGET): $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
   ifndef DEBUG_SYMBOLS
@@ -767,7 +767,7 @@ ifdef RELEASE
   endif
 endif
 
-$(BUILD_PREFIX)$(TARGET_NAME).a: $(ODIR) $(OBJS)
+$(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
@@ -780,8 +780,8 @@ version:
 json-verify:
 	$(LUA_BINARY) lua/json_verifier.lua
 
-$(ODIR):
-	mkdir -p $(ODIR)
+# Unconditionally create the object dir on every invocation.
+$(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
@@ -1068,7 +1068,10 @@ check: version $(BUILD_PREFIX)cataclysm.a
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests install lint
+validate-pr:
+	@build-scripts/validate_pr_in_jenkins
+
+.PHONY: tests check ctags etags clean-tests install lint validate-pr
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

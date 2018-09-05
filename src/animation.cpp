@@ -68,7 +68,6 @@ public:
     }
 };
 
-
 bool is_point_visible( const tripoint &p, int margin = 0 )
 {
     return g->is_in_viewport( p, margin ) && g->u.sees( p );
@@ -86,7 +85,6 @@ bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
         return is_point_visible( element.first );
     } );
 }
-
 
 //! Get (x, y) relative to u's current position and view
 tripoint relative_view_pos( player const &u, int const x, int const y, int const z ) noexcept

@@ -78,6 +78,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
+    { "FLUIDTANK", VPFLAG_FLUIDTANK },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -609,7 +610,7 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
                 qual.second, qual.first.obj().name.c_str() );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg << string_format( _( " and is rated at %1$d %2$s" ),
-                                  ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ),
+                                  static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
         msg << ".</color>\n";
@@ -641,7 +642,6 @@ requirement_data vpart_info::repair_requirements() const
         return lhs + ( *rhs.first * rhs.second );
     } );
 }
-
 
 bool vpart_info::is_repairable() const
 {
@@ -762,12 +762,9 @@ void vehicle_prototype::load( JsonObject &jo )
 
     vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
 
-    JsonArray parts = jo.get_array( "parts" );
-    while( parts.has_more() ) {
-        JsonObject part = parts.next_object();
-
+    const auto add_part_obj = [&]( JsonObject part, point pos ) {
         part_def pt;
-        pt.pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+        pt.pos = pos;
         pt.part = vpart_id( part.get_string( "part" ) );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
@@ -776,6 +773,34 @@ void vehicle_prototype::load( JsonObject &jo )
         assign( part, "fuel", pt.fuel, true );
 
         vproto.parts.push_back( pt );
+    };
+
+    const auto add_part_string = [&]( std::string part, point pos ) {
+        part_def pt;
+        pt.pos = pos;
+        pt.part = vpart_id( part );
+        vproto.parts.push_back( pt );
+    };
+
+    JsonArray parts = jo.get_array( "parts" );
+    while( parts.has_more() ) {
+        JsonObject part = parts.next_object();
+        point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+
+        if( part.has_string( "part" ) ) {
+            add_part_obj( part, pos );
+        } else if( part.has_array( "parts" ) ) {
+            JsonArray subparts = part.get_array( "parts" );
+            while( subparts.has_more() ) {
+                if( subparts.test_string() ) {
+                    std::string part_name = subparts.next_string();
+                    add_part_string( part_name, pos );
+                } else {
+                    JsonObject subpart = subparts.next_object();
+                    add_part_obj( subpart, pos );
+                }
+            }
+        }
     }
 
     JsonArray items = jo.get_array( "items" );
