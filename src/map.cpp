@@ -4317,7 +4317,8 @@ void map::apply_in_fridge( item &it, int temp, bool vehicle )
         }
         // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
         if( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "COLD" ) && it.item_counter >= 600 &&
-            !( it.item_tags.count( "FROZEN" ) || it.item_tags.count( "HOT" ) ) ) {
+            !( it.item_tags.count( "FROZEN" ) || it.item_tags.count( "HOT" ) ) &&
+            ( !get_option<bool>( "NO_FREEZING" ) || it.has_flag( "MELTS" ) ) ) {
 
             it.item_tags.erase( "COLD" );
             it.item_tags.insert( "FROZEN" );
