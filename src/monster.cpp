@@ -123,6 +123,7 @@ const efftype_id effect_tied( "tied" );
 const efftype_id effect_webbed( "webbed" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
+static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
@@ -902,6 +903,13 @@ monster_attitude monster::attitude( const Character *u ) const
                     effective_anger += 10;
                 }
                 if( effective_anger < 10 ) {
+                    effective_morale -= 5;
+                }
+            } else if( u->has_trait( trait_ANIMALDISCORD2 ) ) {
+                if( effective_anger >= 20 ) {
+                    effective_anger += 20;
+                }
+                if( effective_anger < 20 ) {
                     effective_morale -= 5;
                 }
             }

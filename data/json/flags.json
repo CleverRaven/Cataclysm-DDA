@@ -259,7 +259,14 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.",
-    "info": "This clothing is large enough to accommodate <info>mutated anatomy</info>."
+    "info": "This clothing is large enough to accommodate <info>abnormally large mutated anatomy</info>."
+  },
+  {
+    "id": "UNDERSIZE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Can be worn comfortably by mutants with Tiny or Unassuming. Too small for anyone else.",
+    "info": "This clothing is undersized and can accommodate <info>abnormally small mutated anatomy</info>."
   },
   {
     "id": "PARTIAL_DEAF",

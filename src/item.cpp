@@ -2508,6 +2508,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _( " (fits)" );
     }
 
+    if( has_flag( "UNDERSIZE" ) ) {
+        ret << _( " (undersized)" );
+    }
+
+
     if( is_filthy() ) {
         ret << _( " (filthy)" );
     }
@@ -3249,6 +3254,13 @@ int item::get_encumber() const
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( item_tags.count("FIT") && has_flag( "VARSIZE" ) ) {
         encumber = std::max( encumber / 2, encumber - 10 );
+    }
+
+    const bool tiniest = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
+    if( !has_flag( "UNDERSIZE" ) && tiniest ) {
+        encumber *= 2; // clothes bag up around smol mousefolk and encumber them more
+    } else if( !tiniest ) {
+        encumber *= 3; // normal humans have a HARD time wearing undersized clothing
     }
 
     const int thickness = get_thickness();
