@@ -50,38 +50,31 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_MAX_STAMINA_PENALTY",
-    "info": "How much will decrease stamina pool by using 10000 stamina.  Default: 100.  Set to 0 to turn it off.",
-    "stype": "int",
-    "value": 100
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_MAX_STAMINA_REGENERATE",
-    "info": "Stamina pool regenerating rate per turn while sleeping.  Default: 0.2",
+    "name": "PLAYER_STAMINA_PENALTY",
+    "info": "How much will decrease stamina pool by using 1 stamina point.  Default: 0.01.  Set to 0 to turn it off.",
     "stype": "float",
-    "value": 0.2
+    "value": 0.01
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER",
-    "info": "How much hunger will be added for recovering 10000 stamina.  Default: 80.  Set to 0 to turn it off.",
-    "stype": "int",
-    "value": 80
+    "info": "How much hunger will be added for recovering 1 stamina point.  Default: 0.008.  Set to 0 to turn it off.",
+    "stype": "float",
+    "value": 0.008
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_RECOVER_STAMINA_INCREASE_THIRST",
-    "info": "How much thirst will be added for recovering 10000 stamina.  Default: 80.  Set to 0 to turn it off.",
-    "stype": "int",
-    "value": 80
+    "info": "How much thirst will be added for recovering 1 stamina point.  Default: 0.008.  Set to 0 to turn it off.",
+    "stype": "float",
+    "value": 0.008
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE",
-    "info": "How much fatigue will be added for recovering 10000 stamina.  Default: 40.  Set to 0 to turn it off.",
-    "stype": "int",
-    "value": 40
+    "info": "How much fatigue will be added for recovering 1 stamina point.  Default: 0.004.  Set to 0 to turn it off.",
+    "stype": "float",
+    "value": 0.004
   },
   {
     "type": "EXTERNAL_OPTION",

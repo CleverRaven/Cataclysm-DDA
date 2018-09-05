@@ -822,10 +822,19 @@ class game
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );
 
+        /** Game settings from json */
+        int stamina_max_default;
+        float stamina_penalty_rate;
+        float stamina_increase_hunger;
+        float stamina_increase_thirst;
+        float stamina_increase_fatigue;
+        bool no_npc_food;
+
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
+        void load_external_options(); // Load from game_balance.json
         void load_weather( std::istream &fin );
         bool start_game(); // Starts a new game in the active world
         void start_special_game( special_game_id gametype ); // See gamemode.cpp

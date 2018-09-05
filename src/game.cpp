@@ -847,6 +847,7 @@ bool game::start_game()
     catacurses::refresh();
     popup_nowait(_("Please wait as we build your world"));
     load_master();
+    load_external_options();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = u.start_location.obj();
@@ -1770,7 +1771,7 @@ void game::update_weather()
 
 int game::get_temperature( const tripoint &location )
 {
-    
+
     if ( location.z < 0 ) {
         // underground temperature = average New England temperature = 43F/6C rounded to int
         return 43 + m.temperature( location );
@@ -3667,6 +3668,7 @@ void game::load( const save_t &name )
 
     // Now load up the master game data; factions (and more?)
     load_master();
+    load_external_options();
     u = player();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
@@ -3798,6 +3800,16 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     }
 
     return missing.empty();
+}
+
+void game::load_external_options()
+{
+    stamina_max_default = get_option< int >( "PLAYER_MAX_STAMINA" );
+    stamina_penalty_rate = get_option< float >( "PLAYER_STAMINA_PENALTY" );
+    stamina_increase_hunger = get_option< float >( "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER" );
+    stamina_increase_thirst = get_option< float >( "PLAYER_RECOVER_STAMINA_INCREASE_THIRST" );
+    stamina_increase_fatigue = get_option< float >( "PLAYER_RECOVER_STAMINA_INCREASE_FATIGUE" );
+    no_npc_food = get_option< bool >( "NO_NPC_FOOD" );
 }
 
 //Saves all factions and missions and npcs.
