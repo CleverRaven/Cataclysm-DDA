@@ -1925,25 +1925,25 @@ void map::player_in_field( player &u )
 
         case fd_tear_gas:
             //Tear gas will both give you teargas disease and/or blind you.
-            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_teargas, bp_mouth, 5, 2_minutes );
             }
-            if (cur.getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
+            if (cur.getFieldDensity() > 1 && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_blind, bp_eyes, cur.getFieldDensity() * 2, 1_minutes );
             }
             break;
 
         case fd_relax_gas:
-            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_relax_gas, bp_mouth, cur.getFieldDensity() * 2, 3_turns );
             }
             break;
 
         case fd_fungal_haze:
-            if (!u.has_trait( trait_id( "M_IMMUNE" ) ) && (!inside || (inside && one_in(4))) ) {
+            if (!u.has_trait( trait_id( "M_IMMUNE" ) ) && (!inside || one_in(4)) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
             }
@@ -2453,7 +2453,6 @@ char field_entry::symbol() const
 field_id field_entry::getFieldType() const{
     return type;
 }
-
 
 int field_entry::getFieldDensity() const{
     return density;

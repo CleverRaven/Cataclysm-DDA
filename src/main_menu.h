@@ -41,7 +41,6 @@ class main_menu
         /** Another helper function for @ref init_strings */
         std::vector<std::string> get_hotkeys( const std::string &s );
 
-
         // Play a sound whenever the user moves left or right in the main menu or its tabs
         void on_move() const;
 

@@ -211,7 +211,6 @@ mission_goal string_to_enum<mission_goal>( const std::string &data )
 }
 } // namespace io
 
-
 generic_factory<mission_type> mission_type_factory( "mission_type" );
 
 /** @relates string_id */
@@ -406,7 +405,7 @@ mission_type_id mission_type::from_legacy( int old_id )
         mission_type_id( "MISSION_NULL" )
     }};
 
-    if( old_id >= 0 && old_id < (int)old_id_vec.size() ) {
+    if( old_id >= 0 && old_id < static_cast<int>( old_id_vec.size() ) ) {
         return old_id_vec[ old_id ];
     }
 

@@ -184,7 +184,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             wprintz( w_HP, hp.second, hp.first );
 
             //Add the trailing symbols for a not-quite-full health bar
-            print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
+            print_symbol_num( w_HP, 5 - static_cast<int>( hp.first.size() ), ".", c_white );
         }
     }
 

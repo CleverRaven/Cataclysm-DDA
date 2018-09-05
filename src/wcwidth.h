@@ -89,7 +89,6 @@ static uint32_t bisearch(uint32_t ucs, const struct interval *table, uint32_t ma
   return 0;
 }
 
-
 /* The following two functions define the column width of an ISO 10646
  * character as follows:
  *
@@ -206,7 +205,6 @@ int mk_wcwidth(uint32_t ucs)
       (ucs >= 0x30000 && ucs <= 0x3fffd)));
 }
 
-
 int mk_wcswidth(const uint32_t *pwcs, size_t n)
 {
   int w = 0;
@@ -220,7 +218,6 @@ int mk_wcswidth(const uint32_t *pwcs, size_t n)
 
   return width;
 }
-
 
 /*
  * The following functions are the same as mk_wcwidth() and
@@ -297,7 +294,6 @@ int mk_wcwidth_cjk(uint32_t ucs)
 
   return mk_wcwidth(ucs);
 }
-
 
 int mk_wcswidth_cjk(const uint32_t *pwcs, size_t n)
 {

@@ -101,7 +101,6 @@ static const morale_mult prozac( 1.0, 0.25 );
 static const morale_mult prozac_bad( 0.25, 1.0 );
 }
 
-
 std::string player_morale::morale_point::get_name() const
 {
     return type.obj().describe( item_type );
@@ -110,7 +109,8 @@ std::string player_morale::morale_point::get_name() const
 int player_morale::morale_point::get_net_bonus() const
 {
     return bonus * ( ( !is_permanent() && age > decay_start ) ?
-                     logarithmic_range( to_turns<int>( decay_start ), to_turns<int>( duration ), to_turns<int>( age ) ) : 1 );
+                     logarithmic_range( to_turns<int>( decay_start ), to_turns<int>( duration ),
+                                        to_turns<int>( age ) ) : 1 );
 }
 
 int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const

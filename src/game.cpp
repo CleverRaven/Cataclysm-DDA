@@ -152,6 +152,7 @@ const skill_id skill_melee( "melee" );
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
+const skill_id skill_survival( "survival" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id PLANT( "PLANT" );
@@ -433,7 +434,6 @@ void to_overmap_font_dimension(int &, int &) { }
 //in pure curses, the framebuffer won't need reinitializing
 void reinitialize_framebuffer() { }
 #endif
-
 
 void game::init_ui( const bool resized )
 {
@@ -1379,7 +1379,7 @@ void game::calc_driving_offset(vehicle *veh)
         set_driving_view_offset(point(0, 0));
         return;
     }
-    const int g_light_level = (int)light_level( u.posz() );
+    const int g_light_level = static_cast<int>( light_level( u.posz() ) );
     const int light_sight_range = u.sight_range(g_light_level);
     int sight = std::max( veh_lumi( *veh ), light_sight_range );
 
@@ -1539,6 +1539,10 @@ bool game::do_turn()
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
 
+    if( u.is_deaf() ) {
+        sfx::do_hearing_loss();
+    }
+
     if (!u.in_sleep_state()) {
         if (u.moves > 0 || uquit == QUIT_WATCH) {
             while (u.moves > 0 || uquit == QUIT_WATCH) {
@@ -1669,7 +1673,9 @@ bool game::do_turn()
         u.check_and_recover_morale();
     }
 
-    sfx::remove_hearing_loss();
+    if( !u.is_deaf() ) {
+        sfx::remove_hearing_loss();
+    }
     sfx::do_danger_music();
     sfx::do_fatigue();
 
@@ -1714,7 +1720,6 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
     fish->no_corpse_quiet = true;
     fish->die( p );
 }
-
 
 void game::cancel_activity()
 {
@@ -1992,7 +1997,7 @@ void game::handle_key_blocking_activity()
 */
 int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_item_menu_positon position)
 {
-    int cMenu = (int)'+';
+    int cMenu = static_cast<int>( '+' );
 
     item &oThisItem = u.i_at( pos );
     if( u.has_item( oThisItem ) ) {
@@ -2468,7 +2473,7 @@ input_context game::get_player_input(std::string &action)
                 for (auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
                     const direction oCurDir = iter->getDirecton();
 
-                    for (int i = 0; i < (int)iter->getText().length(); ++i) {
+                    for (int i = 0; i < static_cast<int>( iter->getText().length() ); ++i) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
                         const Creature *critter = critter_at( tmp, true );
 
@@ -4230,7 +4235,7 @@ void game::debug()
                 }
                 veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "Cancel" ) );
                 veh_menu.query();
-                if( veh_menu.ret >= 0 && veh_menu.ret < ( int )veh_strings.size() ) {
+                if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
                     //Didn't pick Cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
@@ -4755,7 +4760,6 @@ void game::draw_pixel_minimap()
         wrefresh(w_pixel_minimap);
     }
 }
-
 
 void game::draw_sidebar()
 {
@@ -6834,7 +6838,8 @@ void game::loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
-        TillPlots = 4
+        TillPlots = 4,
+        PlantPlots = 8
     };
 
     auto just_one = []( int flags ) {
@@ -6844,9 +6849,15 @@ void game::loot()
     int flags = 0;
     const auto &mgr = zone_manager::get_manager();
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
+    const bool has_seeds = u.has_item_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
 
     flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
-    flags |= check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ? TillPlots : 0;
+    if( check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
+        flags |= TillPlots;
+        flags |= PlantPlots;
+    }
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -6868,8 +6879,15 @@ void game::loot()
 
         if( flags & TillPlots ) {
             menu.addentry_desc( TillPlots, has_hoe, 't',
-                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with." ),
-                                _( "Tills nearby Farm: Plot zones" ) );
+                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
+                                _( "Tills nearby Farm: Plot zones." ) );
+        }
+
+        if( flags & PlantPlots ) {
+            menu.addentry_desc( PlantPlots, warm_enough_to_plant() && has_seeds, 'p',
+                                !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
+                                !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
+                                _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
 
         menu.addentry( None, true, 'q',  _( "Cancel" ) );
@@ -6890,6 +6908,15 @@ void game::loot()
                 u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
             } else {
                 add_msg( _( "You need a tool to dig with." ) );
+            }
+            break;
+        case PlantPlots:
+            if( !warm_enough_to_plant() ) {
+                add_msg( m_info, _( "It is too cold to plant anything now." ) );
+            } else if( !has_seeds ) {
+                add_msg( m_info, _( "You don't have any seeds." ) );
+            } else {
+                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
             }
             break;
         default:
@@ -7578,6 +7605,56 @@ void game::examine()
     examine( examp );
 }
 
+const std::string get_fire_fuel_string( tripoint examp )
+{
+    if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
+        field_entry *fire = g->m.get_field( examp, fd_fire );
+        if( fire ) {
+            std::stringstream ss;
+            ss << string_format( _( "There is a fire here." ) ) << " ";
+            if( fire->getFieldDensity() > 1 ) {
+                ss << string_format( _( "It's too big and unpredictable to evaluate how long it will last." ) );
+                return ss.str();
+            }
+            time_duration fire_age = fire->getFieldAge();
+            // half-life inclusion
+            int mod = 5 - g->u.get_skill_level( skill_survival );
+            mod = std::max( mod, 0 );
+            if( fire_age >= 0 ) {
+                if( mod >= 4 ) { // = survival level 0-1
+                    ss << string_format( _( "It's going to go out soon without extra fuel." ) );
+                    return ss.str();
+                } else {
+                fire_age = 30_minutes - fire_age;
+                fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                ss << string_format( _( "Without extra fuel it might burn yet for %s, but might also go out sooner." ), to_string_approx( fire_age ) );
+                return ss.str();
+                }
+            } else {
+                fire_age = fire_age * -1 + 30_minutes;
+                if( mod >= 4 ) { // = survival level 0-1
+                    if( fire_age <= 1_hours ) {
+                        ss << string_format( _( "It's quite decent and looks like it'll burn for a bit without extra fuel." ) );
+                        return ss.str();
+                    } else if( fire_age <= 3_hours ) {
+                        ss << string_format( _( "It's looks solid, and will burn for a few hours without extra fuel." ) );
+                        return ss.str();
+                    } else {
+                        ss << string_format( _( "It's very well supplied and even without extra fuel might burn for at least s part of a day." ) );
+                        return ss.str();
+                    }
+                } else {
+                    fire_age = rng( fire_age - fire_age * mod / 5, fire_age + fire_age * mod / 5 );
+                    ss << string_format( _( "Without extra fuel it will burn for %s.") , to_string_approx( fire_age ) );
+                    return ss.str();
+                }
+            }
+        }
+    }
+    static const std::string empty_string;
+    return empty_string;
+}  
+
 void game::examine( const tripoint &examp )
 {
     Creature *c = critter_at( examp );
@@ -7644,6 +7721,12 @@ void game::examine( const tripoint &examp )
     // In case of teleport trap or somesuch
     if( player_pos != u.pos() ) {
         return;
+    }
+
+    // Feedback for fire lasting time
+    const std::string fire_fuel = get_fire_fuel_string( examp );
+    if( !fire_fuel.empty() ) {
+        add_msg( fire_fuel );
     }
 
     if (m.has_flag("SEALED", examp)) {
@@ -7849,7 +7932,14 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
-        mvwprintz( w_look, ++line, column, cur.color(), cur.name() );
+        if( fld.first == fd_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) || m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+            const int max_width = getmaxx( w_look ) - column - 2;
+            int lines;
+            lines = fold_and_print( w_look, ++line, column, max_width, cur.color(), get_fire_fuel_string( lp ) ) - 1;
+            line += lines;
+        } else {
+            mvwprintz( w_look, ++line, column, cur.color(), cur.name() );  
+        }              
     }
 }
 
@@ -7976,6 +8066,11 @@ bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) co
     return zone_manager::get_manager().has_near( type, m.getabs( where ) );
 }
 
+bool game::is_zone_manager_open()
+{
+    return zone_manager_open;
+};
+
 void game::zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase(w_info);
@@ -8050,6 +8145,7 @@ void game::zones_manager()
     pixel_minimap_option = 0;
 
     int zone_ui_height = 12;
+    int zone_options_height = 7;
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
                                         VIEW_OFFSET_X;
@@ -8058,10 +8154,12 @@ void game::zones_manager()
                              VIEW_OFFSET_Y + 1, offsetX + 1);
     catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width,
                                     VIEW_OFFSET_Y, offsetX);
-    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - 1, width - 2,
+    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1, width - 2,
                                   TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1);
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
                                          TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX);
+    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
+                                  TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1);
 
     zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
     zones_manager_shortcuts(w_zones_info);
@@ -8088,6 +8186,25 @@ void game::zones_manager()
     bool blink = false;
     bool redraw_info = true;
     bool stuff_changed = false;
+
+    auto zones_manager_options = [&]() {
+        werase( w_zones_options );
+
+        if( zone_num > 0 && zones.zones[active_index].has_options() ) {
+            const auto &descriptions = zones.zones[active_index].get_options().get_descriptions();
+
+            mvwprintz( w_zones_options, 0, 1, c_white, _( "Options" ) );
+
+            int y = 1;
+            for( const auto &desc : descriptions ) {
+                mvwprintz( w_zones_options, y, 3, c_white, desc.first );
+                mvwprintz( w_zones_options, y, 20, c_white, desc.second );
+                y++;
+            }
+        }
+
+        wrefresh( w_zones_options );
+    };
 
     auto query_position = [this, w_zones_info]() {
         werase( w_zones_info );
@@ -8120,16 +8237,20 @@ void game::zones_manager()
         return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
     };
 
+    zone_manager_open = true;
     do {
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
 
             const auto id = zones.query_type();
-            const auto name = zones.query_name( zones.get_name_from_type( id ) );
+            auto options = zone_options::create( id );
+            options->query_at_creation();
+            const auto name = zones.query_name( options->get_zone_name_suggestion() == "" ?
+                                                zones.get_name_from_type( id ) : options->get_zone_name_suggestion() );
             const auto position = query_position();
 
             if( position.first != tripoint_min ) {
-                zones.add( name, id, false, true, position.first, position.second );
+                zones.add( name, id, false, true, position.first, position.second, options );
 
                 zone_num = zones.size();
                 active_index = zone_num - 1;
@@ -8164,7 +8285,7 @@ void game::zones_manager()
                 redraw_info = true;
 
             } else if (action == "REMOVE_ZONE") {
-                if (active_index < (int)zones.size()) {
+                if (active_index < static_cast<int>( zones.size() ) ) {
                     zones.remove(active_index);
                     active_index--;
 
@@ -8186,8 +8307,9 @@ void game::zones_manager()
                 as_m.text = _("What do you want to change:");
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
-                as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Edit position")));
-                as_m.entries.emplace_back(uimenu_entry(4, true, 'q', _("Cancel")));
+                as_m.entries.emplace_back(uimenu_entry(3, zones.zones[active_index].get_options().has_options() , '3', _("Edit options")));
+                as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Edit position")));
+                as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
@@ -8200,6 +8322,10 @@ void game::zones_manager()
                     stuff_changed = true;
                     break;
                 case 3:
+                    zones.zones[active_index].get_options().query();
+                    stuff_changed = true;
+                    break;
+                case 4:
                     zones.zones[active_index].set_position( query_position() );
                     stuff_changed = true;
                     break;
@@ -8218,7 +8344,7 @@ void game::zones_manager()
                 zones_manager_shortcuts(w_zones_info);
 
             } else if (action == "MOVE_ZONE_UP" && zones.size() > 1) {
-                if (active_index < (int)zones.size() - 1) {
+                if (active_index < static_cast<int>( zones.size() - 1 ) ) {
                     std::swap(zones.zones[active_index],
                               zones.zones[active_index + 1]);
                     active_index++;
@@ -8311,6 +8437,9 @@ void game::zones_manager()
                 }
                 iNum++;
             }
+
+            // Display zone options
+            zones_manager_options();
         }
 
         if (zone_num > 0) {
@@ -8372,6 +8501,7 @@ void game::zones_manager()
         //Wait for input
         action = ctxt.handle_input();
     } while (action != "QUIT");
+    zone_manager_open = false;
     inp_mngr.reset_timeout();
 
     if( stuff_changed ) {
@@ -9150,14 +9280,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iCatSortNum++;
             }
             std::string last_cat_name;
-            for( int i = std::max( 0, highPEnd ); i < std::min( lowPStart, ( int )filtered_items.size() ); i++ ) {
+            for( int i = std::max( 0, highPEnd ); i < std::min( lowPStart, static_cast<int>( filtered_items.size() ) ); i++ ) {
                 const std::string &cat_name = filtered_items[i].example->get_category().name();
                 if( cat_name != last_cat_name ) {
                     mSortCategory[i + iCatSortNum++] = cat_name;
                     last_cat_name = cat_name;
                 }
             }
-            if( lowPStart < (int)filtered_items.size() ) {
+            if( lowPStart < static_cast<int>( filtered_items.size() ) ) {
                 mSortCategory[lowPStart + iCatSortNum++] = _( "LOW PRIORITY" );
             }
             if( !mSortCategory[0].empty() ) {
@@ -9194,7 +9324,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
         } else if( action == "RIGHT" ) {
-            if( !filtered_items.empty() && ++page_num >= ( int )activeItem->vIG.size() ) {
+            if( !filtered_items.empty() && ++page_num >= static_cast<int>( activeItem->vIG.size() ) ) {
                 page_num = activeItem->vIG.size() - 1;
             }
         } else if( action == "LEFT" ) {
@@ -9385,11 +9515,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     }
     ctxt.register_action("HELP_KEYBINDINGS");
 
-
     // first integer is the row the attitude category string is printed in the menu
     std::map<int, Creature::Attitude> mSortCategory;
 
-    for( int i = 0, last_attitude = -1; i < ( int )monster_list.size(); i++ ) {
+    for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
         const auto attitude = monster_list[i]->attitude_to( u );
         if( attitude != last_attitude ) {
             mSortCategory[i + mSortCategory.size()] = attitude;
@@ -9719,7 +9848,7 @@ bool game::handle_liquid_from_container( item &container, int radius )
     return handle_liquid_from_container( container.contents.begin(), container, radius );
 }
 
-extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
+extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num, const item &liquid );
 extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
 extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
 
@@ -9783,8 +9912,7 @@ bool game::get_liquid_target( item &liquid, item * const source, const int radiu
     for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( g->m.veh_at( e ) );
         if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part &pt ) {
-            // cannot refill using active liquids (those that rot) due to #18570
-            return !liquid.active && pt.can_reload( liquid.typeId() );
+            return pt.can_reload( liquid.typeId() );
         } ) ) {
             opts.insert( veh );
         }
@@ -9866,7 +9994,7 @@ bool game::get_liquid_target( item &liquid, item * const source, const int radiu
 }
 
 bool game::perform_liquid_transfer( item &liquid, const tripoint * const source_pos,
-                                    const vehicle * const source_veh,
+                                    const vehicle * const source_veh, const int part_num,
                                     const monster * const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
@@ -9880,7 +10008,7 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint * const source_
     const auto create_activity = [&]() {
         if( source_veh != nullptr ) {
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( u.activity, *source_veh, liquid.typeId() );
+            serialize_liquid_source( u.activity, *source_veh, part_num, liquid );
             return true;
         } else if( source_pos != nullptr ) {
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
@@ -9960,7 +10088,7 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint * const source_
 
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
-                          const vehicle * const source_veh,
+                          const vehicle * const source_veh, const int part_num,
                           const monster * const source_mon)
 {
     if( !liquid.made_of(LIQUID) ) {
@@ -9971,7 +10099,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
     struct liquid_dest_opt liquid_target;
     if( get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon, liquid_target ) ) {
-        return perform_liquid_transfer( liquid, source_pos, source_veh, source_mon, liquid_target );
+        return perform_liquid_transfer( liquid, source_pos, source_veh, part_num, source_mon, liquid_target );
     }
     return false;
 }
@@ -10309,7 +10437,7 @@ const std::vector<std::pair<int, int>> generate_butcher_stack_display(
         // Has the side effect of making 's' a valid index
         if( s == result_strings.size() ) {
             // make a new entry
-            result.push_back( std::make_pair<int, int>( (int)ndx, 0 ) );
+            result.push_back( std::make_pair<int, int>( static_cast<int>( ndx ), 0 ) );
             // Also push new entry string
             result_strings.push_back( tname );
         }
@@ -11209,7 +11337,7 @@ void game::chat()
         add_msg( _( "You yell, \"%s\"" ), sentence.c_str() );
         u.shout();
 
-    } else if( nmenu.ret <= ( int )available.size() ) {
+    } else if( nmenu.ret <= static_cast<int>(available.size() )) {
         available[nmenu.ret]->talk_to_u();
     } else {
         return;
@@ -11802,7 +11930,7 @@ bool game::ramp_move( const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( u.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) <= 1.5f && m.has_flag( "RAMP_END", pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( "RAMP_END", pt ) ) {
             aligned_ramps = true;
             break;
         }
@@ -11950,7 +12078,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) ) {
+        if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) && !u.has_trait( trait_id( "SMALL2" ) ) && !u.has_trait( trait_id( "SMALL_OK" ) ) ) {
             if( u.has_trait( trait_id( "LIGHTSTEP" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
                 sounds::sound( dest_loc, 2, "", true, "none", "none" );    // Sound of footsteps may awaken nearby monsters
                 sfx::do_footstep();
@@ -14366,7 +14494,6 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
         add_msg(stat_info.c_str());
     }
 
-
     if (net_speed != 0) {
         add_msg(m_info, _("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
     }
@@ -14376,7 +14503,6 @@ void game::add_artifact_dreams( ) {
     //If player is sleeping, get a dream from a carried artifact
     //Don't need to check that player is sleeping here, that's done before calling
     std::list<item *> art_items = g->u.get_artifact_items();
-    std::list<item *> arts_with_dream;
     std::vector<item *>      valid_arts;
     std::vector<std::vector<std::string>> valid_dreams; // Tracking separately so we only need to check its req once
     //Pull the list of dreams

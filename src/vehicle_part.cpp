@@ -36,7 +36,6 @@
 #include <algorithm>
 #include <cassert>
 
-
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_gasoline( "gasoline" );
 static const itype_id fuel_type_diesel( "diesel" );
@@ -314,13 +313,15 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
     return false;
 }
 
+void vehicle_part::process_contents( const tripoint &pos )
+{
+    if( !base.contents.empty() ) {
+        base.process( nullptr, pos, false );
+    }
+}
+
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
-    if( liquid.active || liquid.rotten() ) {
-        // cannot refill using active liquids (those that rot) due to #18570
-        return false;
-    }
-
     if( !is_tank() || !can_reload( liquid.typeId() ) ) {
         return false;
     }

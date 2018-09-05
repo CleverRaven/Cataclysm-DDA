@@ -615,7 +615,7 @@ class player : public Character
          * @param weight The weight used when choosing what reason to pick when the
          * player misses.
          */
-        void add_miss_reason( std::string reason, unsigned int weight);
+        void add_miss_reason( const std::string &reason, unsigned int weight);
         /** Clears the list of reasons for why the player would miss a melee attack. */
         void clear_miss_reasons();
         /**
@@ -1150,7 +1150,7 @@ class player : public Character
         /**
          * All items that have the given flag (@ref item::has_flag).
          */
-        std::vector<const item *> all_items_with_flag( const std::string flag ) const;
+        std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
 
         void process_active_items();
         /**
@@ -1273,7 +1273,6 @@ class player : public Character
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
-
 
         /**
          * Check if the player can disassemble an item using the current crafting inventory

@@ -698,7 +698,6 @@ void mdeath::detonate( monster &z )
         }
     }
 
-
     if( g->u.sees( z ) ) {
         if( dets.empty() ) {
             //~ %s is the possessive form of the monster's name

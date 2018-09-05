@@ -125,7 +125,6 @@ struct object_archive_tag {
     using OutputArchive = JsonObjectOutputArchive;
 };
 
-
 /**
  * The namespace contains classes that do write/read to/from JSON via either the Json classes in
  * "json.h" or via the `io` function of the object to be written/read.
