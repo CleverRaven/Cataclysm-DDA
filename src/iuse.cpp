@@ -4878,14 +4878,27 @@ static bool heat_item( player &p )
     p.mod_moves( -300 ); //initial preparations
     if( target.item_tags.count( "FROZEN" ) ) {
         add_msg( _( "You defrost the food." ) );
-        // simulates heat capacity of food, more weight = longer heating time
-        // this is x2 to simulate larger delta temperature of frozen food in relation to
-        // heating non-frozen food (x1); no real life physics here, only aproximations
-        p.mod_moves( -to_gram( target.weight() ) * 2 );
         target.item_tags.erase( "FROZEN" );
-        target.item_tags.insert( "HOT" );
+        if( target.has_flag( "EATEN_COLD" ) ) {
+            // heat just enough to thaw it
+            p.mod_moves( -to_gram( target.weight() ) );
+            target.item_tags.insert( "COLD" );
+            if( g->get_temperature( p.pos() ) <= FRIDGE_TEMPERATURE ) {
+                // environment is cold; heat more to prevent re-freeze
+                target.item_counter = 50;
+            } else {
+                // environment is warm; heat less to keep COLD longer
+                target.item_counter = 550;
+            }
+        } else {
+            // simulates heat capacity of food, more weight = longer heating time
+            // this is x2 to simulate larger delta temperature of frozen food in relation to
+            // heating non-frozen food (x1); no real life physics here, only aproximations
+            p.mod_moves( -to_gram( target.weight() ) * 2 );
+            target.item_tags.insert( "HOT" );
+            target.item_counter = 300; // prevents insta-freeze after defrosting
+        }
         target.active = true;
-        target.item_counter = 300; // prevents insta-freeze after defrosting
         if( target.has_flag( "NO_FREEZE" ) && !target.rotten() ) {
             target.item_tags.insert( "MUSHY" );
         } else if( target.has_flag( "NO_FREEZE" ) && target.has_flag( "MUSHY" ) &&
