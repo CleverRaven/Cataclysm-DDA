@@ -257,14 +257,16 @@ class uilist : virtual public uimenu
 {
     public:
         uilist();
-        uilist( std::string hotkeys_override );
+        uilist( const std::string &hotkeys_override );
         // query() will be called at the end of these convenience constructors
-        uilist( std::string msg, std::vector<uimenu_entry> opts );
-        uilist( std::string msg, std::vector<std::string> opts );
-        uilist( std::string msg, std::initializer_list<char const *const> opts );
-        uilist( int startx, int width, int starty, std::string msg, std::vector<uimenu_entry> opts );
-        uilist( int startx, int width, int starty, std::string msg, std::vector<std::string> opts );
-        uilist( int startx, int width, int starty, std::string msg,
+        uilist( const std::string &msg, const std::vector<uimenu_entry> &opts );
+        uilist( const std::string &msg, const std::vector<std::string> &opts );
+        uilist( const std::string &msg, std::initializer_list<char const *const> opts );
+        uilist( int startx, int width, int starty, const std::string &msg,
+                const std::vector<uimenu_entry> &opts );
+        uilist( int startx, int width, int starty, const std::string &msg,
+                const std::vector<std::string> &opts );
+        uilist( int startx, int width, int starty, const std::string &msg,
                 std::initializer_list<char const *const> opts );
 };
 

@@ -132,60 +132,63 @@ uilist::uilist()
     init();
 }
 
-uilist::uilist( std::string hotkeys_override )
+uilist::uilist( const std::string &hotkeys_override )
 {
     init();
     if( !hotkeys_override.empty() ) {
-        hotkeys = std::move( hotkeys_override );
+        hotkeys = hotkeys_override;
     }
 }
 
-uilist::uilist( std::string msg, std::vector<uimenu_entry> opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, std::move( msg ), std::move( opts ) )
+uilist::uilist( const std::string &msg, const std::vector<uimenu_entry> &opts )
+    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
-uilist::uilist( std::string msg, std::vector<std::string> opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, std::move( msg ), std::move( opts ) )
+uilist::uilist( const std::string &msg, const std::vector<std::string> &opts )
+    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
-uilist::uilist( std::string msg, std::initializer_list<char const *const> opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, std::move( msg ), std::move( opts ) )
+uilist::uilist( const std::string &msg, std::initializer_list<char const *const> opts )
+    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
-uilist::uilist( int startx, int width, int starty, std::string msg, std::vector<uimenu_entry> opts )
+uilist::uilist( int startx, int width, int starty, const std::string &msg,
+                const std::vector<uimenu_entry> &opts )
 {
     init();
     w_x = startx;
     w_y = starty;
     w_width = width;
-    text = std::move( msg );
-    entries = std::move( opts );
+    text = msg;
+    entries = opts;
     query();
 }
 
-uilist::uilist( int startx, int width, int starty, std::string msg, std::vector<std::string> opts )
+uilist::uilist( int startx, int width, int starty, const std::string &msg,
+                const std::vector<std::string> &opts )
 {
     init();
     w_x = startx;
     w_y = starty;
     w_width = width;
-    text = std::move( msg );
+    text = msg;
     for( auto it = opts.begin(); it != opts.end(); ++it ) {
-        entries.emplace_back( std::move( *it ) );
+        entries.emplace_back( *it );
     }
     query();
 }
 
-uilist::uilist( int startx, int width, int starty, std::string msg, std::initializer_list<char const *const> opts )
+uilist::uilist( int startx, int width, int starty, const std::string &msg,
+                std::initializer_list<char const *const> opts )
 {
     init();
     w_x = startx;
     w_y = starty;
     w_width = width;
-    text = std::move( msg );
+    text = msg;
     for( auto it = opts.begin(); it != opts.end(); ++it ) {
         entries.emplace_back( *it );
     }
