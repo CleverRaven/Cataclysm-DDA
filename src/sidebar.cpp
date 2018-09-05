@@ -184,7 +184,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             wprintz( w_HP, hp.second, hp.first );
 
             //Add the trailing symbols for a not-quite-full health bar
-            print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
+            print_symbol_num( w_HP, 5 - static_cast<int>( hp.first.size() ), ".", c_white );
         }
     }
 
@@ -315,11 +315,11 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     wmove( w, sideStyle ? 1 : 2, 0 );
-    if( get_hunger() > 2800 ) {
+    if( get_hunger() >= 300 && get_starvation() > 2500 ) {
         wprintz( w, c_red,    _( "Starving!" ) );
-    } else if( get_hunger() > 1400 ) {
+    } else if( get_hunger() >= 300 && get_starvation() > 1100 ) {
         wprintz( w, c_light_red,  _( "Near starving" ) );
-    } else if( get_hunger() > 300 ) {
+    } else if( get_hunger() > 250 ) {
         wprintz( w, c_light_red,  _( "Famished" ) );
     } else if( get_hunger() > 100 ) {
         wprintz( w, c_yellow, _( "Very hungry" ) );

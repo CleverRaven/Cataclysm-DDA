@@ -96,6 +96,11 @@ std::string player_activity::get_str_value( size_t index, std::string def ) cons
 
 void player_activity::do_turn( player &p )
 {
+    // Should happen before activity or it may fail du to 0 moves
+    if( *this && type->will_refuel_fires() ) {
+        try_refuel_fire( p );
+    }
+
     if( type->based_on() == based_on_type::TIME ) {
         moves_left -= 100;
     } else if( type->based_on() == based_on_type::SPEED ) {
@@ -131,6 +136,10 @@ void player_activity::do_turn( player &p )
             p.activity = p.backlog.front();
             p.backlog.pop_front();
         }
+
+        // If whatever activity we were doing forced us to pick something up to
+        // handle it, drop any overflow that may have caused
+        p.drop_inventory_overflow();
     }
 }
 

@@ -388,7 +388,7 @@
         "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Wearing this item or carrying it in your inventory will double the distance around you that is mapped during your travels.  You could also use them to focus the sunlight.",
         "price": 30000,
         "material": ["plastic", "glass"],
-        "flags" : [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
+        "flags" : [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "FIRESTARTER" ],
         "weight" : 708,
         "volume": 2,
         "bashing": 4,
@@ -560,7 +560,7 @@
         "name": "RM13 combat armor (on)",
         "name_plural": "RM13 combat armors (on)",
         "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It is turned on, and continually draining power.  Use it to turn it off.",
-        "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_PROOF", "ELECTRIC_IMMUNE", "THERMOMETER", "TRADER_AVOID"],
+        "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_PROOF", "ELECTRIC_IMMUNE", "THERMOMETER", "TRADER_AVOID", "CLIMATE_CONTROL"],
         "price": 50000000,
         "material": ["ceramic", "kevlar"],
         "weight" : 6820,
@@ -800,6 +800,7 @@
         "coverage": 100,
         "encumbrance": 30,
         "warmth": 15,
+        "qualities": [ [ "GLARE", 2 ] ],
         "material_thickness": 3,
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
@@ -807,7 +808,7 @@
         "initial_charges": 100,
         "ammo": "gasfilter_m",
         "use_action": "GASMASK",
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_fsurvivorxl",
@@ -826,6 +827,7 @@
         "coverage": 100,
         "encumbrance": 35,
         "warmth": 15,
+        "qualities": [ [ "GLARE", 2 ] ],
         "material_thickness": 3,
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
@@ -833,7 +835,7 @@
         "initial_charges": 100,
         "ammo": "gasfilter_m",
         "use_action": "GASMASK",
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "mask_bunker",
@@ -843,7 +845,7 @@
         "color": "light_gray",
         "name": "firefighter PBA mask",
         "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
-        "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+        "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ],
         "price": 100000,
         "material": [ "plastic", "nomex" ],
         "weight": 1260,
@@ -887,7 +889,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_lsurvivor",
@@ -915,7 +917,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_survivor",
@@ -942,7 +944,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_survivorxl",
@@ -969,7 +971,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "mask_wsurvivor",
@@ -996,7 +998,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY" ]
+        "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
     },
     {
         "id": "mask_wsurvivorxl",
@@ -1023,80 +1025,7 @@
         "environmental_protection": 1,
         "environmental_protection_with_filter": 15,
         "qualities": [ [ "GLARE", 1 ] ],
-        "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
-    },
-    {
-        "id": "hazmat_suit",
-        "type": "TOOL_ARMOR",
-        "name": "hazmat suit",
-        "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It must be prepared before use.",
-        "weight": 5000,
-        "volume": 68,
-        "price": 117500,
-        "max_charges": 100,
-        "initial_charges": 100,
-        "ammo": "gasfilter_l",
-        "use_action": "GASMASK",
-        "material": [ "plastic" ],
-        "symbol": "[",
-        "color": "yellow",
-        "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-        "coverage": 100,
-        "encumbrance": 37,
-        "warmth": 40,
-        "material_thickness": 2,
-        "environmental_protection": 1,
-        "environmental_protection_with_filter": 20,
-        "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
-    },
-    {
-        "id": "anbc_suit",
-        "type": "TOOL_ARMOR",
-        "category": "armor",
-        "name": "ANBC suit",
-        "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.  It must be prepared before use.",
-        "weight": 8700,
-        "volume": 80,
-        "price": 400000,
-        "max_charges": 100,
-        "initial_charges": 100,
-        "ammo": "gasfilter_l",
-        "use_action": "GASMASK",
-        "material": [ "kevlar", "plastic" ],
-        "symbol": "[",
-        "color": "light_red",
-        "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-        "coverage": 100,
-        "encumbrance": 45,
-        "warmth": 50,
-        "material_thickness": 3,
-        "environmental_protection": 1,
-        "environmental_protection_with_filter": 20,
-        "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
-    },
-    {
-        "id": "entry_suit",
-        "type": "TOOL_ARMOR",
-        "name": "entry suit",
-        "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  Though very restrictive, wearing it will provide excellent protection against fire and smoke.",
-        "weight": 2900,
-        "volume": 24,
-        "price": 240500,
-        "max_charges": 100,
-        "initial_charges": 100,
-        "ammo": "gasfilter_l",
-        "use_action": "GASMASK",
-        "material": [ "nomex", "kevlar" ],
-        "symbol": "[",
-        "color": "light_gray",
-        "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-        "coverage": 100,
-        "encumbrance": 50,
-        "warmth": 30,
-        "material_thickness": 5,
-        "environmental_protection": 1,
-        "environmental_protection_with_filter": 20,
-        "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "SUN_GLASSES" ]
+        "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
     },
     {
         "id": "goggles_nv",
@@ -2370,7 +2299,7 @@
             ]
         },
         "symbol" : "&",
-        "//~" : "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
+        "//" : "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
         "description" : "A big ol' tuba.  Much easier to play when wearing.",
         "price" : 5500,
         "material" : ["iron"],

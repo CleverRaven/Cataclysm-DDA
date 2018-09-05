@@ -51,6 +51,7 @@ const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_stunned( "stunned" );
 
@@ -267,8 +268,8 @@ float player::hit_roll() const
     }
 
     // Farsightedness makes us hit worse
-    if( has_trait( trait_HYPEROPIC ) && !is_wearing( "glasses_reading" )
-        && !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
+    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+        !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
 
@@ -282,7 +283,7 @@ float player::hit_roll() const
     return melee::melee_hit_range( hit );
 }
 
-void player::add_miss_reason( const std::string reason, const unsigned int weight )
+void player::add_miss_reason( const std::string &reason, const unsigned int weight )
 {
     melee_miss_reasons.add(reason, weight);
 
@@ -302,8 +303,7 @@ std::string player::get_miss_reason()
         _("Your torso encumbrance throws you off-balance."),
         divide_roll_remainder( encumb( bp_torso ), 10.0f ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
-                               !is_wearing("glasses_reading") &&
-                               !is_wearing("glasses_bifocal") &&
+                               !worn_with_flag( "FIX_FARSIGHT" ) &&
                                !has_effect( effect_contacts) );
     add_miss_reason(
         _("You can't hit reliably due to your farsightedness."),
@@ -654,7 +654,7 @@ float player::get_dodge_base() const
 float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if( in_sleep_state() ) {
+    if( in_sleep_state() || has_effect( effect_narcosis ) ) {
         return 0.0f;
     }
 
@@ -1882,7 +1882,7 @@ int player::attack_speed( const item &weap ) const
     const int base_move_cost = weap.attack_time() / 2;
     const int melee_skill = has_active_bionic(bionic_id( bio_cqb )) ? BIO_CQB_LEVEL : get_skill_level( skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
-    const int skill_cost = (int)( base_move_cost * ( 15 - melee_skill ) / 15 );
+    const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
     const int encumbrance_penalty = encumb( bp_torso ) +

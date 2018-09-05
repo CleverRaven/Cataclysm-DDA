@@ -446,7 +446,6 @@ function generate_accessors(class, class_name)
     end
 end
 
-
 function generate_class_function_wrappers(functions, class_name, cur_class_name)
     for index, func in pairs(functions) do
         cpp_output = cpp_output .. generate_class_function_wrapper(class_name, index, func, cur_class_name)

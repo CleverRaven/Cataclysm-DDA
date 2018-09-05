@@ -479,22 +479,10 @@
   {
     "type": "COMESTIBLE",
     "id": "broth_human",
+    "copy-from": "broth_bone",
     "name": "human broth",
-    "weight": 250,
-    "color": "yellow",
-    "spoils_in": 160,
-    "container": "can_food",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": 30,
-    "nutrition": 20,
     "description": "A nutritious broth made from human bones.",
-    "price": 350,
-    "material": [ "bone", "hflesh" ],
-    "volume": 1,
-    "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 10
+    "material": [ "bone", "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -633,24 +621,10 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_human",
+    "copy-from": "soup_meat",
     "name": "sap soup",
-    "weight": 125,
-    "color": "red",
-    "spoils_in": 120,
-    "container": "can_food",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": 8,
-    "nutrition": 40,
     "description": "A soup made from someone who is a far better meal than person.",
-    "price": 0,
-    "//": "Cannibal cuisine isn't generally traded.",
-    "material": "hflesh",
-    "volume": 1,
-    "phase": "liquid",
-    "charges": 4,
-    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "fun": 1
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -689,7 +663,7 @@
     "nutrition": 20,
     "description": "A mushy, gray semi-liquid soup made from mushrooms.",
     "price": 450,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "phase": "liquid",
     "charges": 4,
@@ -711,7 +685,7 @@
     "nutrition": 10,
     "description": "It smells of tomatoes.  Not very filling, but it goes well with grilled cheese.",
     "price": 400,
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
@@ -863,6 +837,7 @@
     "//": "Given the comment, presuming we're taking bourbon here.",
     "material": "alcohol",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "phase": "liquid",
     "charges": 7,
     "fun": 15
@@ -890,7 +865,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 15
   },
   {
@@ -916,7 +891,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 15
   },
   {
@@ -943,7 +918,7 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 15,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -969,7 +944,7 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 18,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -992,6 +967,7 @@
     "price": 950,
     "material": "alcohol",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "phase": "liquid",
     "charges": 7,
     "fun": 10
@@ -1045,7 +1021,7 @@
     "volume": 1,
     "phase": "liquid",
     "stack_size": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 5
   },
   {
@@ -1120,6 +1096,7 @@
     "price": 1300,
     "material": "alcohol",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "phase": "liquid",
     "charges": 7,
     "fun": 12
@@ -1295,7 +1272,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 14
   },
   {
@@ -1397,7 +1374,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 12
   },
   {
@@ -1781,6 +1758,7 @@
     "price": 500,
     "material": "flesh",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
   },
   {
@@ -1997,22 +1975,10 @@
   {
     "type": "COMESTIBLE",
     "id": "hfleshbologna",
+    "copy-from": "bologna",
     "name": "brat bologna",
-    "weight": 22,
-    "color": "red",
-    "spoils_in": 560,
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -1,
-    "nutrition": 3,
     "description": "A type of lunch meat made out of human flesh that comes pre-sliced.  Its first name may have been Oscar.  Can be eaten cold.",
-    "price": 2000,
-    "material": "hflesh",
-    "volume": 1,
-    "charges": 10,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 3
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -2028,7 +1994,7 @@
     "description": "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
     "price": 600,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
@@ -2051,6 +2017,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -10,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
   },
@@ -2129,6 +2096,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -14,
+    "flags": [ "EDIBLE_FROZEN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
   },
@@ -2151,6 +2119,7 @@
     "stack_size": 4,
     "charges": 2,
     "fun": -12,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 2
   },
@@ -2171,7 +2140,7 @@
     "material": "veggy",
     "volume": 1,
     "stack_size": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
@@ -2194,7 +2163,7 @@
     "volume": 1,
     "charges": 4,
     "stack_size": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 5,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 7
@@ -2265,21 +2234,12 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "bone_human",
-    "category": "spare_parts",
+    "copy-from": "bone",
     "name": "human bone",
-    "weight": 225,
-    "color": "white",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -1,
-    "nutrition": 4,
-    "description": "A bone from a human being.  Could be eaten or used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "price": 0,
-    "//": "Not for use in normal food recipes.",
-    "material": [ "bone", "hflesh" ],
-    "volume": 1
+    "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
+    "//": "Not for use in normal food recipes."
   },
   {
     "type": "COMESTIBLE",
@@ -2357,7 +2317,7 @@
     "description": "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
     "price": 0,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
     "volume": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -2383,21 +2343,10 @@
   {
     "type": "COMESTIBLE",
     "id": "hstomach_boiled",
+    "copy-from": "stomach_boiled",
     "name": "boiled large human stomach",
-    "weight": 145,
-    "color": "red",
-    "spoils_in": 24,
-    "comestible_type": "FOOD",
-    "symbol": ",",
-    "nutrition": 30,
     "description": "A boiled stomach from a large humanoid creature, nothing else.  It looks all but appetizing.",
-    "price": 750,
-    "material": "hflesh",
-    "volume": 1,
-    "flags": [ "EATEN_HOT" ],
-    "fun": -5,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 15
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -2421,21 +2370,32 @@
   {
     "type": "COMESTIBLE",
     "id": "small_hstomach_boiled",
+    "copy-from": "small_stomach_boiled",
     "name": "boiled human stomach",
-    "weight": 72,
+    "description": "A small boiled stomach from a human, nothing else.  It looks all but appetizing.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sausage_raw",
+    "name": "raw sausage",
+    "weight": 220,
     "color": "red",
     "spoils_in": 24,
     "comestible_type": "FOOD",
-    "symbol": ",",
-    "nutrition": 15,
-    "description": "A small boiled stomach from a human, nothing else.  It looks all but appetizing.",
-    "price": 375,
-    "material": "hflesh",
-    "volume": 1,
-    "flags": [ "EATEN_HOT" ],
-    "fun": -3,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 12
+    "symbol": "%",
+    "quench": -1,
+    "nutrition": 32,
+    "healthy": -1,
+    "parasites": 32,
+    "description": "A hefty raw sausage, prepared for smoking.",
+    "price": 1600,
+    "material": "flesh",
+    "volume": 2,
+    "charges": 6,
+    "//": "3 meats here.",
+    "flags": [ "SMOKABLE" ],
+    "fun": -10
   },
   {
     "type": "COMESTIBLE",
@@ -2448,13 +2408,13 @@
     "symbol": "%",
     "quench": -1,
     "nutrition": 32,
-    "description": "A hefty sausage that has been cured for long term storage.",
+    "description": "A hefty sausage that has been cured and smoked for long term storage.",
     "price": 1600,
     "material": "flesh",
     "volume": 2,
     "charges": 6,
     "//": "3 meats here.",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "fun": 5
   },
   {
@@ -2551,25 +2511,11 @@
   {
     "type": "COMESTIBLE",
     "id": "chilidogs_human",
+    "copy-from": "chilidogs",
     "name": "cheater chili dogs",
     "name_plural": "cheater chili dogs",
-    "weight": 80,
-    "color": "red",
-    "spoils_in": 24,
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -1,
-    "nutrition": 50,
     "description": "A hot dog, served with chili con cabron as a topping.  Delightful.",
-    "price": 8000,
-    "material": [ "hflesh", "junk", "wheat" ],
-    "volume": 1,
-    "charges": 4,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 15,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 15
+    "material": [ "hflesh", "junk", "wheat" ]
   },
   {
     "type": "COMESTIBLE",
@@ -2618,23 +2564,19 @@
   {
     "type": "COMESTIBLE",
     "id": "mannwurst",
+    "copy-from": "sausage",
     "name": "Mannwurst",
-    "weight": 220,
-    "color": "red",
-    "spoils_in": 1008,
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -1,
-    "healthy": -1,
-    "nutrition": 32,
-    "description": "A hefty long pork sausage that has been cured for long term storage.  Very tasty, if you're in the market for human flesh.",
-    "price": 16000,
-    "//": "Cannibal recipes are expensive pending buyer-side price modifiers.",
-    "material": "hflesh",
-    "volume": 2,
-    "charges": 6,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "flags": [ "EATEN_HOT", "SMOKED" ],
+    "description": "A hefty long pork sausage that has been cured and smoked for long term storage.  Very tasty, if you're in the market for human flesh.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurst_raw",
+    "copy-from": "sausage_raw",
+    "name": "raw Mannwurst",
+    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.",
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -2660,45 +2602,19 @@
   {
     "type": "COMESTIBLE",
     "id": "h_currywurst",
+    "copy-from": "currywurst",
     "name": "cheapskate currywurst",
-    "weight": 220,
-    "color": "red",
-    "spoils_in": 48,
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -3,
-    "nutrition": 38,
     "description": "Mannwurst covered in a curry ketchup sauce.  Fairly spicy and impressive at the same time!",
-    "price": 16000,
-    "material": "hflesh",
-    "volume": 2,
-    "charges": 6,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 12,
-    "rot_spawn": "GROUP_CARRION"
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
     "id": "mannwurstgravy",
+    "copy-from": "sausagegravy",
     "name": "Mannwurst gravy",
     "name_plural": "Mannwurst gravies",
-    "weight": 300,
-    "color": "light_gray",
-    "spoils_in": 48,
-    "//": "Semi-arbitrary spoilage of 48 hours set: pretty confident sausage gravy goes bad.",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 6,
-    "nutrition": 38,
     "description": "Biscuits, human flesh, and delicious mushroom soup all crammed together into a wonderfully greasy and tasteful mush.",
-    "price": 9000,
-    "material": [ "hflesh", "wheat" ],
-    "volume": 3,
-    "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 9,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "wheat", "mushroom" ]
   },
   {
     "type": "COMESTIBLE",
@@ -2715,7 +2631,7 @@
     "nutrition": 38,
     "description": "Biscuits, meat, and delicious mushroom soup all crammed together into a wonderfully greasy and tasteful mush.",
     "price": 1000,
-    "material": [ "flesh", "wheat" ],
+    "material": [ "flesh", "wheat", "mushroom" ],
     "volume": 3,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -2777,6 +2693,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -2814,6 +2731,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -2832,76 +2750,48 @@
     "price": 120,
     "material": "fruit",
     "volume": 1,
+    "flags": [ "NO_FREEZE" ],
     "fun": -4
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_apple",
+    "copy-from": "apple",
     "name": "irradiated apple",
-    "weight": 150,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 1,
-    "nutrition": 16,
     "description": "Mmm, irradiated.  Will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 100,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 3
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_banana",
+    "copy-from": "banana",
     "name": "irradiated banana",
-    "weight": 225,
-    "color": "yellow",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": 4,
-    "nutrition": 12,
     "description": "An irradiated banana will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 190,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 5
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_orange",
+    "copy-from": "orange",
     "name": "irradiated orange",
-    "weight": 170,
-    "color": "light_red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 8,
-    "nutrition": 14,
     "description": "An irradiated orange will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 190,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 3
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_lemon",
+    "copy-from": "lemon",
     "name": "irradiated lemon",
-    "weight": 98,
-    "color": "yellow",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 5,
-    "nutrition": 5,
     "description": "An irradiated lemon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 160,
-    "material": "fruit",
-    "volume": 1,
-    "fun": -4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -2918,6 +2808,7 @@
     "price": 160,
     "material": "fruit",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
@@ -2938,6 +2829,7 @@
     "price": 180,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 6
   },
@@ -2956,6 +2848,7 @@
     "price": 80,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
     "charges": 4,
     "fun": 3
   },
@@ -2976,6 +2869,7 @@
     "price": 400,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "fun": 10
   },
@@ -2997,6 +2891,7 @@
     "price": 300,
     "material": "wheat",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "fun": 8
   },
@@ -3017,6 +2912,7 @@
     "price": 300,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "fun": 6
   },
@@ -3141,6 +3037,7 @@
     "price": 135,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
@@ -3162,6 +3059,7 @@
     "//": "Favorite flavor varies.",
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 12
   },
@@ -3182,6 +3080,7 @@
     "price": 170,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 8
   },
@@ -3232,24 +3131,11 @@
   {
     "type": "COMESTIBLE",
     "id": "nachoshf",
+    "copy-from": "nachosm",
     "name": "niño nachos",
     "name_plural": "niño nachos",
-    "weight": 100,
-    "color": "yellow",
-    "spoils_in": 24,
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -10,
-    "nutrition": 12,
     "description": "Salted chips made from corn tortillas, with human flesh.  Some cheese might make it even better.",
-    "price": 250,
-    "material": [ "junk", "hflesh" ],
-    "volume": 1,
-    "charges": 3,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 16,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "junk", "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -3276,24 +3162,11 @@
   {
     "type": "COMESTIBLE",
     "id": "nachoshc",
+    "copy-from": "nachosmc",
     "name": "niño nachos with cheese",
     "name_plural": "niño nachos with cheese",
-    "weight": 180,
-    "color": "yellow",
-    "spoils_in": 20,
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -10,
-    "nutrition": 24,
     "description": "Salted chips made from corn tortillas with human flesh and smothered in cheese.  Delicious.",
-    "price": 300,
-    "material": [ "hflesh", "milk", "junk" ],
-    "volume": 1,
-    "charges": 3,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 20,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "milk", "junk" ]
   },
   {
     "type": "COMESTIBLE",
@@ -3310,6 +3183,7 @@
     "price": 100,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -6
   },
   {
@@ -3328,10 +3202,10 @@
     "nutrition": 10,
     "description": "Plain and unseasoned popcorn.  Not as tasty as other kinds, but healthier as a result.",
     "price": 115,
-    "material": "junk",
+    "material": "veggy",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 4
   },
   {
@@ -3353,7 +3227,7 @@
     "material": "junk",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 8
   },
   {
@@ -3375,7 +3249,7 @@
     "material": "junk",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 10
   },
   {
@@ -3395,6 +3269,7 @@
     "price": 185,
     "material": [ "wheat", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 4
   },
@@ -3414,6 +3289,7 @@
     "price": 200,
     "material": [ "wheat", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 6
   },
@@ -3433,6 +3309,7 @@
     "price": 130,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 10
   },
   {
@@ -3451,6 +3328,7 @@
     "price": 250,
     "material": "junk",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": 10
   },
@@ -3471,6 +3349,7 @@
     "price": 400,
     "material": [ "wheat", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 30
   },
   {
@@ -3489,7 +3368,7 @@
     "material": "flesh",
     "volume": 1,
     "charges": 2,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD", "NO_FREEZE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -3506,25 +3385,16 @@
     "material": "veggy",
     "volume": 2,
     "charges": 2,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD", "NO_FREEZE" ]
   },
   {
     "type": "COMESTIBLE",
     "id": "hflesh_aspic",
+    "copy-from": "meat_aspic",
     "name": "amoral aspic",
     "//": "See also: ableist, alogical, antihero, annoying, alliterate (made from illiterate person), antagonist, adversary, arrogant, asocial, the list goes on and on out from the chat where it began...",
-    "weight": 175,
-    "color": "red",
-    "spoils_in": 80,
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "nutrition": 25,
     "description": "A dish in which human meat has been set into a gelatin made from human bones.  Murderously delicious - if you're into that sort of thing.",
-    "price": 5000,
-    "material": "hflesh",
-    "volume": 2,
-    "charges": 2,
-    "flags": [ "EATEN_COLD" ]
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -3569,6 +3439,14 @@
     "//": "About 4 meats, depending on which gets used.",
     "fun": 3
   },
+   {
+    "type": "COMESTIBLE",
+    "id": "hflesh_pemmican",
+    "name": "prepper pemmican",
+    "copy-from": "pemmican",
+    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of tallow, edible plants, and an unfortunate prepper.",
+    "material": [ "hflesh", "veggy" ]
+  },
   {
     "type": "COMESTIBLE",
     "id": "sandwich_veggy",
@@ -3609,6 +3487,7 @@
     "price": 350,
     "material": [ "wheat", "fruit" ],
     "volume": 2,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": 3
   },
@@ -3628,6 +3507,7 @@
     "price": 220,
     "material": [ "flesh", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": 4
   },
@@ -3654,22 +3534,11 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_human",
+    "copy-from": "sandwich_t",
     "name": "slob sandwich",
     "name_plural": "slob sandwiches",
-    "weight": 186,
-    "color": "light_gray",
-    "spoils_in": 36,
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "nutrition": 30,
     "description": "Bread and human flesh, surprise!",
-    "price": 6000,
-    "material": [ "hflesh", "wheat" ],
-    "volume": 1,
-    "charges": 3,
-    "fun": 2,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "wheat" ]
   },
   {
     "type": "COMESTIBLE",
@@ -3770,6 +3639,7 @@
     "price": 180,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 4
   },
@@ -3791,6 +3661,7 @@
     "price": 180,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
@@ -3812,6 +3683,7 @@
     "price": 180,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
   },
@@ -3833,6 +3705,7 @@
     "price": 120,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 5,
     "fun": 6
   },
@@ -3855,6 +3728,7 @@
     "price": 600,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": 10
   },
@@ -3912,9 +3786,10 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": -3,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3931,9 +3806,9 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
-    "flags": [ "HIDDEN_POISON", "TRADER_AVOID" ],
+    "flags": [ "HIDDEN_POISON", "TRADER_AVOID", "NO_FREEZE" ],
     "fun": -3
   },
   {
@@ -3950,9 +3825,9 @@
     "nutrition": 14,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
     "price": 140,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
-    "flags": "HIDDEN_HALLU",
+    "flags": [ "HIDDEN_HALLU", "NO_FREEZE", "SMOKABLE" ],
     "fun": -3
   },
   {
@@ -3968,9 +3843,10 @@
     "nutrition": 18,
     "description": "A tasty cooked wild mushroom.",
     "price": 150,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 1,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3987,9 +3863,10 @@
     "nutrition": 12,
     "description": "Prized by chefs and woodsmen alike, morel mushrooms are delicious but must be cooked before they are safe to eat.",
     "price": 2000,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 1,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4004,9 +3881,10 @@
     "nutrition": 18,
     "description": "A tasty cooked morel mushroom.",
     "price": 1500,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "fun": 4,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4021,11 +3899,11 @@
     "nutrition": 16,
     "description": "A delicious serving of fried morsels of morel mushroom.",
     "price": 1500,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
     "charges": 2,
     "fun": 12,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4042,8 +3920,9 @@
     "nutrition": 8,
     "description": "Dried mushrooms are a tasty and healthy addition to many meals.",
     "price": 180,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": 1
   },
@@ -4061,8 +3940,9 @@
     "nutrition": 8,
     "description": "A hallucinogenic mushroom which has been dehydrated for storage.  Will still cause hallucinations if eaten.",
     "price": 180,
-    "material": "veggy",
+    "material": "mushroom",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": 1
   },
@@ -4090,21 +3970,13 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_blueberries",
+    "copy-from": "blueberries",
     "name": "irradiated blueberry",
     "name_plural": "irradiated blueberries",
-    "weight": 200,
-    "color": "blue",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "healthy": 1,
-    "nutrition": 16,
     "description": "An irradiated blueberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 410,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 2
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -4130,21 +4002,13 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_strawberries",
+    "copy-from": "strawberries",
     "name": "irradiated strawberry",
     "name_plural": "irradiated strawberries",
-    "weight": 200,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 1,
-    "nutrition": 18,
     "description": "An irradiated strawberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 410,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 5
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -4182,6 +4046,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -4201,6 +4066,7 @@
     "price": 90,
     "material": "veggy",
     "volume": 2,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": -10
   },
@@ -4240,8 +4106,9 @@
     "nutrition": 5,
     "description": "Tasty crunchy nuts from a pinecone.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": 2
   },
@@ -4260,7 +4127,8 @@
     "nutrition": 15,
     "description": "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
     "price": 0,
-    "material": "veggy",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "material": "nut",
     "volume": 1
   },
   {
@@ -4278,9 +4146,9 @@
     "nutrition": 15,
     "description": "A handful roasted nuts from a hickory tree.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 2
   },
   {
@@ -4297,7 +4165,7 @@
     "nutrition": 15,
     "description": "Delicious hickory nut ambrosia.  A drink worthy of the gods.",
     "price": 100,
-    "material": [ "veggy", "milk" ],
+    "material": [ "nut", "milk" ],
     "volume": 1,
     "phase": "liquid",
     "charges": 4,
@@ -4320,6 +4188,7 @@
     "price": 20,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -15
   },
@@ -4338,6 +4207,7 @@
     "price": 20,
     "material": "veggy",
     "volume": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -15
   },
@@ -4377,6 +4247,7 @@
     "material": "veggy",
     "volume": 3,
     "charges": 4,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4396,6 +4267,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -2,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4413,8 +4285,9 @@
     "nutrition": 18,
     "description": "Juicy red tomato.  It gained popularity in Italy after being brought back from the New World.",
     "price": 90,
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4439,6 +4312,27 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "coffee_pod",
+    "name": "coffee pod",
+    "name_plural": "coffee pods",
+    "category": "other",
+    "weight": 26,
+    "color": "light_green",
+    "comestible_type": "FOOD",
+	"looks_like": "hickory_nuts",
+    "symbol": "%",
+    "quench": -6,
+    "healthy": -2,
+    "nutrition": 1,
+    "description": "A hard casing filled with coffee seeds ready for roasting.  The seeds create a dark black, bitter, caffinated liquid not too much unlike coffee.",
+    "price": 100,
+    "material": [ "veggy" ],
+    "volume": 1,
+    "charges": 4,
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "broccoli",
     "name": "broccoli",
     "name_plural": "broccoli",
@@ -4453,7 +4347,7 @@
     "price": 400,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4471,7 +4365,7 @@
     "price": 300,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4490,6 +4384,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -1,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "fun_comment": "Raw onions probably aren't all that tasty to most people.",
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -4505,9 +4400,9 @@
     "quench": -18,
     "healthy": 1,
     "nutrition": 18,
-    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.",
+    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.  Can be disassembled to cloves.",
     "price": 600,
-    "material": "veggy",
+    "material": "garlic",
     "volume": 1,
     "fun": -18,
     "fun_comment": "Who in their right mind would eat an entire garlic bulb raw?"
@@ -4530,6 +4425,7 @@
     "volume": 1,
     "charges": 6,
     "fun": -1,
+    "flags": [ "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4567,149 +4463,91 @@
     "price": 50,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "NO_FREEZE" ],
     "fun": -2
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_lettuce",
+    "copy-from": "lettuce",
     "name": "irradiated lettuce",
-    "weight": 224,
-    "color": "light_green",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "nutrition": 13,
     "description": "An irradiated head of lettuce will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 180,
-    "material": "veggy",
-    "volume": 3,
-    "charges": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_cabbage",
+    "copy-from": "cabbage",
     "name": "irradiated cabbage",
-    "weight": 235,
-    "color": "white",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "healthy": 1,
-    "nutrition": 13,
     "description": "An irradiated head of cabbage will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 180,
-    "material": "veggy",
-    "volume": 1,
-    "fun": -2
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_tomato",
+    "copy-from": "tomato",
     "name": "irradiated tomato",
     "name_plural": "irradiated tomatoes",
-    "weight": 183,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 1,
-    "nutrition": 18,
     "description": "An irradiated tomato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 120,
-    "material": "veggy",
-    "volume": 1
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_broccoli",
+    "copy-from": "broccoli",
     "name": "irradiated broccoli",
     "name_plural": "irradiated broccoli",
-    "weight": 170,
-    "color": "green",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": 2,
-    "nutrition": 30,
     "description": "An irradiated cluster of broccoli will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 420,
-    "material": "veggy",
-    "volume": 1,
-    "flags": [ "EATEN_HOT" ]
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_zucchini",
+    "copy-from": "zucchini",
     "name": "irradiated zucchini",
-    "weight": 180,
-    "color": "light_green",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": 1,
-    "nutrition": 20,
     "description": "An irradiated zucchini will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 320,
-    "material": "veggy",
-    "volume": 1,
-    "flags": [ "EATEN_HOT" ]
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_onion",
+    "copy-from": "onion",
     "name": "irradiated onion",
-    "weight": 114,
-    "color": "white",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": 1,
-    "nutrition": 5,
     "description": "An irradiated onion will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 100,
-    "material": "veggy",
-    "volume": 1,
-    "fun": -1,
-    "fun_comment": "Raw onions probably aren't all that tasty to most people."
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_carrot",
+    "copy-from": "carrot",
     "name": "irradiated carrot",
-    "weight": 80,
-    "color": "light_red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": 1,
-    "nutrition": 5,
     "description": "An irradiated bundle of carrots will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 280,
-    "material": "veggy",
-    "volume": 1,
-    "charges": 6,
-    "fun": -1
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_corn",
+    "copy-from": "corn",
     "name": "irradiated corn",
     "name_plural": "irradiated corn",
-    "weight": 283,
-    "color": "light_green",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": 1,
-    "nutrition": 20,
     "description": "An irradiated ear of corn will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 210,
-    "material": "veggy",
-    "volume": 1,
-    "flags": [ "EATEN_HOT" ]
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -4808,6 +4646,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 3,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -8
   },
   {
@@ -4825,6 +4664,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 3,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -8
   },
   {
@@ -4883,6 +4723,7 @@
     "description": "It could be eaten raw if you're desperate, but is much better cooked.",
     "price": 150,
     "material": "wheat",
+    "flags": [ "EDIBLE_FROZEN" ],
     "volume": 3,
     "fun": -6
   },
@@ -4904,7 +4745,7 @@
     "material": [ "wheat", "milk" ],
     "volume": 4,
     "charges": 2,
-    "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
+    "flags": [ "EATEN_HOT", "TRADER_AVOID", "NO_FREEZE" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -4926,31 +4767,17 @@
     "material": [ "wheat", "flesh", "milk" ],
     "volume": 4,
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
     "id": "hobo_helper",
+    "copy-from": "macaroni_helper",
     "name": "hobo helper",
-    "weight": 380,
-    "color": "red",
-    "spoils_in": 10,
-    "container": "box_small",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 13,
-    "nutrition": 30,
     "description": "Some mac and cheese with ground human flesh added.  So good it's like murder.",
-    "price": 800,
-    "//": "Cannibal cuisine, not available in stores!",
-    "material": [ "wheat", "hflesh", "milk" ],
-    "volume": 4,
-    "charges": 4,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 5,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "wheat", "hflesh", "milk" ]
   },
   {
     "type": "COMESTIBLE",
@@ -4986,6 +4813,7 @@
     "material": "milk",
     "volume": 1,
     "phase": "liquid",
+    "flags": [ "NO_FREEZE" ],
     "fun": 15,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5006,6 +4834,7 @@
     "volume": 1,
     "phase": "liquid",
     "fun": 20,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_CARRION"
   },
   {
@@ -5023,7 +4852,7 @@
     "description": "Tomato sauce, yum yum.",
     "price": 320,
     "//": "Small cans--needs upsized after the string freeze.",
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
@@ -5045,7 +4874,7 @@
     "nutrition": 48,
     "description": "A spicy stew containing chili peppers, meat, tomatoes and beans.",
     "price": 290,
-    "material": [ "flesh", "veggy" ],
+    "material": [ "flesh", "veggy", "bean", "tomato" ],
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -5055,24 +4884,11 @@
   {
     "type": "COMESTIBLE",
     "id": "chili_human",
+    "copy-from": "chili",
     "name": "chili con cabron",
     "name_plural": "chilis con cabrones",
-    "weight": 300,
-    "color": "red",
-    "spoils_in": 24,
-    "container": "can_food",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": 1,
-    "nutrition": 48,
     "description": "A spicy stew containing chili peppers, human flesh, tomatoes and beans.",
-    "price": 2500,
-    "material": [ "hflesh", "veggy" ],
-    "volume": 1,
-    "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 5,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "veggy", "bean", "tomato" ]
   },
   {
     "type": "COMESTIBLE",
@@ -5088,7 +4904,7 @@
     "nutrition": 18,
     "description": "Olive oil, basil, garlic, pine nuts.  Simple and delicious.",
     "price": 230,
-    "material": "veggy",
+    "material": [ "veggy", "nut", "garlic" ],
     "volume": 1,
     "phase": "liquid",
     "fun": 4
@@ -5108,7 +4924,7 @@
     "nutrition": 40,
     "description": "Canned beans.  A staple among canned goods, these are reputedly good for one's coronary health.",
     "price": 150,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "rot_spawn": "GROUP_CARRION"
@@ -5128,7 +4944,7 @@
     "nutrition": 50,
     "description": "Greasy Prospector improved pork and beans with hickory smoked pig fat chunks.",
     "price": 200,
-    "material": [ "flesh", "veggy" ],
+    "material": [ "flesh", "bean" ],
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
@@ -5399,6 +5215,7 @@
     "price": 20000,
     "//": "Didn't precisely exist pre-cataclysm, so tough to price.",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 7
   },
   {
@@ -5430,8 +5247,11 @@
     "weight": 760,
     "color": "pink",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -12,
@@ -5451,8 +5271,11 @@
     "weight": 3767,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -5472,8 +5295,11 @@
     "weight": 11071,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK", "TRADER_AVOID" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -5505,7 +5331,7 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-    "flags": ["MYCUS_OK"],
+    "flags": [ "MYCUS_OK" ],
     "fun": 30
   },
   {
@@ -5548,7 +5374,8 @@
     "material": "fruit",
     "volume": 1,
     "stack_size": 4,
-     "fun": 30
+    "flags": [ "MYCUS_OK" ],
+    "fun": 30
   },
   {
     "type": "COMESTIBLE",
@@ -5567,6 +5394,7 @@
     "price": 450,
     "material": [ "wheat", "powder" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
     "fun": -5
   },
@@ -5586,6 +5414,7 @@
     "price": 450,
     "material": [ "veggy", "powder" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "fun": -5
   },
@@ -5604,6 +5433,7 @@
     "price": 7500,
     "material": "wheat",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
     "fun": -2
   },
@@ -5623,6 +5453,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -5642,8 +5473,9 @@
     "nutrition": 1,
     "description": "Dehydrated great northern beans.  Tasty and nutritious when cooked, virtually inedible when dry.",
     "price": 300,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": -6
   },
@@ -5662,7 +5494,7 @@
     "nutrition": 50,
     "description": "A hearty serving of cooked great northern beans.",
     "price": 100,
-    "material": "veggy",
+    "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
@@ -5681,7 +5513,7 @@
     "nutrition": 44,
     "description": "Slow-cooked beans with meat.  Tasty and very filling.",
     "price": 700,
-    "material": [ "veggy", "flesh" ],
+    "material": [ "bean", "flesh" ],
     "volume": 1,
     "charges": 4,
     "//": "One beans + one protein/veg = 2 servings",
@@ -5703,7 +5535,7 @@
     "nutrition": 39,
     "description": "Slow-cooked beans with vegetables.  Tasty and very filling.",
     "price": 700,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 4,
     "//": "One beans + one protein/veg = 2 servings",
@@ -5728,6 +5560,7 @@
     "price": 500,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
     "fun": -5
   },
@@ -5747,7 +5580,7 @@
     "price": 100,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 2,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -5768,7 +5601,7 @@
     "volume": 1,
     "charges": 4,
     "//": "One rice + one protein/veg = 2 servings",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5789,7 +5622,7 @@
     "material": "veggy",
     "volume": 1,
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 5,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -5807,10 +5640,10 @@
     "nutrition": 26,
     "description": "A serving of beans and rice that has been cooked together.  Delicious and healthy!",
     "price": 500,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 2,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5828,10 +5661,10 @@
     "nutrition": 36,
     "description": "Slow-cooked beans and rice with meat and seasonings.  Tasty and very filling.",
     "price": 750,
-    "material": [ "veggy", "flesh" ],
+    "material": [ "veggy", "bean", "flesh" ],
     "volume": 1,
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5849,10 +5682,10 @@
     "nutrition": 33,
     "description": "Slow-cooked beans and rice with vegetables and seasonings.  Tasty and very filling.",
     "price": 750,
-    "material": "veggy",
+    "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5909,6 +5742,7 @@
     "price": 550,
     "material": [ "powder", "junk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 100
   },
   {
@@ -5926,6 +5760,7 @@
     "price": 150,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 25,
     "fun": -10
   },
@@ -5941,6 +5776,7 @@
     "price": 25,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -5957,6 +5793,7 @@
     "price": 0,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -5975,6 +5812,7 @@
     "price": 25,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": -10
   },
@@ -5994,6 +5832,7 @@
     "material": "veggy",
     "volume": 1,
     "charges": 20,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 100,
     "fun": -1
   },
@@ -6057,8 +5896,9 @@
     "nutrition": 6,
     "description": "A handful of acorns, still in their shells.  Squirrels like them, but they're not very good for you to eat in this state.",
     "price": 0,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": -20
   },
@@ -6069,13 +5909,14 @@
     "name_plural": "cooked acorn meal",
     "weight": 212,
     "color": "brown",
+    "spoils_in": 8640,
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
     "nutrition": 42,
     "description": "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
     "price": 90,
-    "material": "veggy",
+    "material": "nut",
     "volume": 1
   },
   {
@@ -6094,6 +5935,7 @@
     "price": 1120,
     "material": [ "powder", "egg" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 100,
     "fun": -4
   },
@@ -6104,7 +5946,7 @@
     "name_plural": "scrambled eggs",
     "weight": 246,
     "color": "yellow",
-    "spoils_in": 240,
+    "spoils_in": 48,
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
@@ -6114,7 +5956,7 @@
     "material": "egg",
     "volume": 1,
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 3,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -6125,7 +5967,7 @@
     "name_plural": "deluxe scrambled eggs",
     "weight": 316,
     "color": "yellow",
-    "spoils_in": 240,
+    "spoils_in": 48,
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
@@ -6135,7 +5977,7 @@
     "material": [ "egg", "flesh" ],
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -6157,6 +5999,7 @@
     "material": "egg",
     "volume": 1,
     "fun": 2,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_CARRION"
   },
   {
@@ -6198,6 +6041,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -3,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -6224,40 +6068,23 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_pumpkin",
+    "copy-from": "pumpkin",
     "name": "irradiated pumpkin",
-    "weight": 600,
-    "color": "light_red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 5,
-    "healthy": 2,
-    "nutrition": 22,
     "description": "An irradiated pumpkin will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 900,
-    "material": "veggy",
-    "volume": 12,
-    "charges": 8,
-    "bashing": 2,
-    "fun": -1
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "potato_irradiated",
+    "copy-from": "potato_raw",
     "name": "irradiated potato",
     "name_plural": "irradiated potatoes",
-    "weight": 210,
-    "color": "brown",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -2,
-    "nutrition": 8,
     "description": "An irradiated potato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 100,
-    "material": "veggy",
-    "volume": 1,
-    "fun": -3
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -6314,7 +6141,7 @@
     "material": "wheat",
     "volume": 2,
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -6376,7 +6203,7 @@
     "material": "veggy",
     "volume": 3,
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -6578,6 +6405,7 @@
     "price": 110,
     "material": "wheat",
     "volume": 3,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": 2
   },
@@ -6598,6 +6426,7 @@
     "price": 110,
     "material": [ "wheat", "junk" ],
     "volume": 3,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "fun": 2
   },
@@ -6618,6 +6447,7 @@
     "material": [ "wheat", "junk" ],
     "volume": 1,
     "charges": 4,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 20,
     "fun": 7
   },
@@ -6695,6 +6525,7 @@
     "material": "wheat",
     "volume": 1,
     "charges": 8,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 20,
     "fun": -1
   },
@@ -6715,7 +6546,7 @@
     "material": "wheat",
     "volume": 4,
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -6790,24 +6621,10 @@
   {
     "type": "COMESTIBLE",
     "id": "pie_human",
+    "copy-from": "pie_meat",
     "name": "prick pie",
-    "weight": 260,
-    "color": "brown",
-    "spoils_in": 80,
-    "container": "box_small",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 5,
-    "healthy": 1,
-    "nutrition": 16,
     "description": "A meat pie with a little soldier, or maybe scientist, who knows.  God, that's good!",
-    "price": 1950,
-    "material": [ "wheat", "hflesh" ],
-    "volume": 4,
-    "charges": 6,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 3,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "wheat", "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -6845,7 +6662,7 @@
     "nutrition": 40,
     "description": "A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its smell brings back great memories.",
     "price": 990,
-    "material": [ "wheat", "veggy" ],
+    "material": [ "wheat", "veggy", "tomato" ],
     "volume": 8,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -6896,22 +6713,10 @@
   {
     "type": "COMESTIBLE",
     "id": "pizza_human",
+    "copy-from": "pizza_meat",
     "name": "poser pizza",
-    "weight": 175,
-    "color": "light_red",
-    "spoils_in": 48,
-    "container": "box_small",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "nutrition": 50,
     "description": "A meat pizza, for all the cannibals out there.  Chock full of minced human flesh and heavily seasoned.",
-    "price": 2800,
-    "material": [ "wheat", "hflesh" ],
-    "volume": 8,
-    "charges": 4,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 10,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "wheat", "hflesh" ]
   },
   {
     "id": "mre_beef_box",
@@ -6921,11 +6726,12 @@
     "name": "MRE - Beef",
     "name_plural": "MREs - beef",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_veggy_box",
@@ -6935,11 +6741,12 @@
     "name": "MRE - Vegetarian",
     "name_plural": "MREs - vegetarian",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_chicken_box",
@@ -6949,11 +6756,12 @@
     "name": "MRE - Chicken",
     "name_plural": "MREs - chicken",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1500,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_hotdog_box",
@@ -6963,11 +6771,12 @@
     "name": "MRE - Hotdogs",
     "name_plural": "MREs - hotdogs",
     "category": "food",
-    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1200,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "id": "mre_ravioli_box",
@@ -6977,11 +6786,12 @@
     "name": "MRE - Ravioli",
     "name_plural": "MREs - ravioli",
     "category": "food",
-    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+    "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "price": 1700,
     "weight": 900,
     "volume": 3,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "use_action": "DISASSEMBLE"
   },
   {
     "type": "COMESTIBLE",
@@ -7100,6 +6910,7 @@
     "price": 1030,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 20,
     "fun": -1
   },
@@ -7121,6 +6932,7 @@
     "price": 900,
     "material": "powder",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 20,
     "fun": -5
   },
@@ -7140,6 +6952,7 @@
     "price": 1100,
     "material": [ "powder", "milk" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
     "fun": -5
   },
@@ -7271,23 +7084,11 @@
   {
     "type": "COMESTIBLE",
     "id": "human_canned",
+    "copy-from": "meat_canned",
     "name": "soylent slice",
     "name_plural": "soylent slices",
-    "weight": 415,
-    "color": "red",
-    "spoils_in": 40,
-    "container": "can_food",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -1,
-    "nutrition": 38,
     "description": "Low-sodium preserved human meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
-    "price": 0,
-    "material": "hflesh",
-    "volume": 1,
-    "stack_size": 2,
-    "fun": 2,
-    "rot_spawn": "GROUP_CARRION"
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -7312,22 +7113,10 @@
   {
     "type": "COMESTIBLE",
     "id": "hflesh_vac",
+    "copy-from": "meat_vac",
     "name": "salted simpleton slices",
-    "weight": 120,
-    "color": "red",
-    "spoils_in": 48,
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -5,
-    "nutrition": 21,
     "description": "Human flesh slices cured in brine and vacuum-packed.  Salty but tasty in a pinch.",
-    "price": 500,
-    "material": "hflesh",
-    "volume": 1,
-    "charges": 2,
-    "fun": 2,
-    "rot_spawn": "GROUP_CARRION"
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -7387,29 +7176,18 @@
     "material": [ "wheat", "flesh" ],
     "volume": 7,
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_human",
+    "copy-from": "spaghetti_bolognese",
     "name": "scoundrel spaghetti",
     "name_plural": "scoundrel spaghetti",
-    "weight": 350,
-    "color": "red",
-    "spoils_in": 48,
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "nutrition": 25,
     "description": "Spaghetti covered with a thick human flesh sauce.  Tastes great if you enjoy that kind of thing.",
-    "price": 0,
-    "material": [ "wheat", "hflesh" ],
-    "volume": 7,
-    "charges": 8,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 4,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "wheat", "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -7425,10 +7203,10 @@
     "nutrition": 50,
     "description": "Spaghetti, with a generous helping of pesto on top.  Yum!",
     "price": 1000,
-    "material": [ "wheat", "veggy" ],
+    "material": [ "wheat", "veggy", "nut" ],
     "volume": 7,
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 15,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -7449,29 +7227,17 @@
     "material": [ "flesh", "wheat" ],
     "volume": 12,
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
     "fun": 15,
     "rot_spawn": "GROUP_CARRION"
   },
   {
     "type": "COMESTIBLE",
     "id": "luigilasagne",
+    "copy-from": "lasagne",
     "name": "Luigi lasagne",
-    "weight": 350,
-    "color": "red",
-    "spoils_in": 64,
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 5,
-    "nutrition": 38,
     "description": "A very old type of pasta made with several layers of lasagne sheets alternated with sauces and meats.  Made better with human flesh.",
-    "price": 0,
-    "material": [ "hflesh", "wheat" ],
-    "volume": 12,
-    "charges": 8,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 15,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "wheat" ]
   },
   {
     "id": "mayonnaise",
@@ -7491,6 +7257,7 @@
     "spoils_in": 160,
     "charges": 5,
     "fun": -1,
+    "flags": [ "NO_FREEZE" ],
     "phase": "liquid"
   },
   {
@@ -7683,6 +7450,7 @@
     "price": 0,
     "material": "paper",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
     "fun": -20
   },
@@ -7728,7 +7496,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 6,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 8
   },
   {
@@ -7754,7 +7522,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 6,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": -12
   },
   {
@@ -7789,8 +7557,10 @@
     "weight": 100,
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action": "MUTAGEN",
-    "flags": [ "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
     "stim": -60,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -7805,6 +7575,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -40
   },
   {
@@ -7872,23 +7643,10 @@
   {
     "type": "COMESTIBLE",
     "id": "cheeseburgerhuman",
+    "copy-from": "cheeseburger",
     "name": "chump cheeseburger",
-    "weight": 340,
-    "color": "brown",
-    "spoils_in": 36,
-    "stim": 1,
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "nutrition": 35,
     "description": "A sandwich of minced human flesh and cheese with condiments.  The apex of post-cataclysm cannibalistic culinary achievement.",
-    "price": 0,
-    "material": [ "hflesh", "wheat", "milk" ],
-    "volume": 1,
-    "charges": 4,
-    "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
-    "fun": 5,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "wheat", "milk" ]
   },
   {
     "type": "COMESTIBLE",
@@ -7914,23 +7672,10 @@
   {
     "type": "COMESTIBLE",
     "id": "bobburger",
+    "copy-from": "hamburger",
     "name": "bobburger",
-    "weight": 300,
-    "color": "brown",
-    "spoils_in": 36,
-    "stim": 1,
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "nutrition": 30,
     "description": "This hamburger contains more than the FDA allowable 4% human flesh content.",
-    "price": 0,
-    "material": [ "hflesh", "wheat" ],
-    "volume": 1,
-    "charges": 4,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 4,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "wheat" ]
   },
   {
     "type": "COMESTIBLE",
@@ -7946,7 +7691,7 @@
     "nutrition": 31,
     "description": "A sandwich, consisting of ground meat and tomato sauce served on a hamburger bun.",
     "price": 900,
-    "material": [ "flesh", "veggy", "wheat" ],
+    "material": [ "flesh", "tomato", "wheat" ],
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -7956,24 +7701,11 @@
   {
     "type": "COMESTIBLE",
     "id": "manwich",
+    "copy-from": "sloppyjoe",
     "name": "manwich",
     "name_plural": "manwiches",
-    "weight": 300,
-    "color": "brown",
-    "spoils_in": 36,
-    "stim": 1,
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "nutrition": 31,
     "description": "A sandwich is a sandwich, but this is made with people!",
-    "price": 0,
-    "material": [ "hflesh", "wheat" ],
-    "volume": 1,
-    "charges": 4,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 4,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "tomato", "wheat" ]
   },
   {
     "type": "COMESTIBLE",
@@ -7998,22 +7730,10 @@
   {
     "type": "COMESTIBLE",
     "id": "tiotaco",
+    "copy-from": "taco",
     "name": "tio taco",
-    "weight": 85,
-    "color": "yellow",
-    "spoils_in": 24,
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -5,
-    "nutrition": 15,
     "description": "A taco made with ground human flesh instead of ground beef.  For some reason you can hear a bell dinging in the distance.",
-    "price": 0,
-    "material": "hflesh",
-    "volume": 1,
-    "charges": 3,
-    "fun": 8,
-    "rot_spawn": "GROUP_CARRION"
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -8030,7 +7750,7 @@
     "nutrition": 33,
     "description": "A bacon, lettuce, and tomato sandwich on toasted bread.",
     "price": 400,
-    "material": [ "flesh", "veggy", "wheat" ],
+    "material": [ "flesh", "veggy", "wheat", "tomato" ],
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -8199,21 +7919,10 @@
   {
     "type": "COMESTIBLE",
     "id": "human_pickled",
+    "copy-from": "meat_pickled",
     "name": "pickled punk",
-    "weight": 459,
-    "color": "pink",
-    "spoils_in": 96,
-    "container": "jar_glass",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -1,
-    "nutrition": 50,
     "description": "This is a serving of crisply brined and canned human flesh.  Tasty and nutritious if you're into that sort of thing.",
-    "price": 0,
-    "material": "hflesh",
-    "volume": 1,
-    "stack_size": 2,
-    "fun": 6
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -8275,6 +7984,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -8293,43 +8003,28 @@
     "price": 180,
     "material": "fruit",
     "volume": 1,
+    "flags": [ "NO_FREEZE" ],
     "fun": 2
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_grapefruit",
+    "copy-from": "grapefruit",
     "name": "irradiated grapefruit",
-    "weight": 200,
-    "color": "yellow",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 18,
-    "healthy": 5,
-    "nutrition": 35,
     "description": "An irradiated grapefruit will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 200,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 2
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_pear",
+    "copy-from": "pear",
     "name": "irradiated pear",
-    "weight": 175,
-    "color": "yellow",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 7,
-    "healthy": 3,
-    "nutrition": 13,
     "description": "An irradiated pear will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 200,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -8347,6 +8042,7 @@
     "addiction_type": "caffeine",
     "addiction_potential": 1,
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 40,
     "weight": 1
   },
@@ -8366,6 +8062,7 @@
     "addiction_type": "caffeine",
     "addiction_potential": 1,
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 40,
     "weight": 1
   },
@@ -8392,21 +8089,13 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_cherries",
+    "copy-from": "cherries",
     "name": "irradiated cherry",
     "name_plural": "irradiated cherries",
-    "weight": 200,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "healthy": 1,
-    "nutrition": 14,
     "description": "An irradiated cherry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 140,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 3
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -8430,20 +8119,12 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_plums",
+    "copy-from": "plums",
     "name": "irradiated plum",
-    "weight": 200,
-    "color": "magenta",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 4,
-    "healthy": 2,
-    "nutrition": 19,
     "description": "A group of irradiated plums will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 210,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 3
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -8464,27 +8145,19 @@
     "volume": 1,
     "charges": 2,
     "fun": 4,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_grapes",
+    "copy-from": "grapes",
     "name": "irradiated grape",
     "name_plural": "irradiated grapes",
-    "weight": 300,
-    "color": "light_green",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 5,
-    "healthy": 2,
-    "nutrition": 18,
     "description": "An irradiated grape will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 170,
-    "material": "fruit",
-    "volume": 1,
-    "charges": 2,
-    "fun": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -8569,41 +8242,23 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_pineapple",
+    "copy-from": "pineapple",
     "name": "irradiated pineapple",
-    "weight": 250,
-    "color": "brown",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 9,
-    "healthy": 3,
-    "nutrition": 22,
     "description": "An irradiated pineapple will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 490,
-    "material": "fruit",
-    "volume": 4,
-    "charges": 4,
-    "bashing": 1,
-    "fun": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_peach",
+    "copy-from": "peach",
     "name": "irradiated peach",
     "name_plural": "irradiated peaches",
-    "weight": 150,
-    "color": "yellow",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 4,
-    "healthy": 1,
-    "nutrition": 14,
     "description": "An irradiated peach will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 160,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -8628,21 +8283,13 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_cranberries",
+    "copy-from": "cranberries",
     "name": "irradiated cranberry",
     "name_plural": "irradiated cranberries",
-    "weight": 340,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "healthy": 4,
-    "nutrition": 5,
     "description": "An irradiated cranberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 190,
-    "material": "fruit",
-    "volume": 1,
-    "charges": 3
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -8727,7 +8374,7 @@
     "material": [ "veggy", "junk" ],
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 6,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -8747,6 +8394,7 @@
     "price": 10,
     "material": [ "powder", "fruit" ],
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 15,
     "fun": 1
   },
@@ -8768,7 +8416,7 @@
     "volume": 12,
     "charges": 8,
     "bashing": 2,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_FREEZE" ],
     "fun": 4,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -8797,42 +8445,22 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_watermelon",
+    "copy-from": "watermelon",
     "name": "irradiated watermelon",
-    "weight": 600,
-    "color": "green",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 28,
-    "healthy": 1,
-    "nutrition": 15,
     "description": "An irradiated watermelon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 1200,
-    "material": "fruit",
-    "volume": 12,
-    "charges": 8,
-    "bashing": 2,
-    "fun": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_melon",
+    "copy-from": "melon",
     "name": "irradiated melon",
-    "weight": 300,
-    "color": "light_green",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 4,
-    "healthy": 1,
-    "nutrition": 9,
     "description": "An irradiated melon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 1200,
-    "material": "fruit",
-    "volume": 4,
-    "charges": 8,
-    "bashing": 1,
-    "fun": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -8857,21 +8485,13 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_raspberries",
+    "copy-from": "raspberries",
     "name": "irradiated raspberry",
     "name_plural": "irradiated raspberries",
-    "weight": 226,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 2,
-    "nutrition": 15,
     "description": "An irradiated raspberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 410,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -8891,6 +8511,7 @@
     "price": 100,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "fun": 6
   },
@@ -8917,21 +8538,13 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_blackberries",
+    "copy-from": "blackberries",
     "name": "irradiated blackberry",
     "name_plural": "irradiated blackberries",
-    "weight": 226,
-    "color": "blue",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 5,
-    "nutrition": 15,
     "description": "An irradiated blackberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 410,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -9077,56 +8690,32 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_mango",
+    "copy-from": "mango",
     "name": "irradiated mango",
-    "weight": 150,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 1,
-    "nutrition": 12,
     "description": "An irradiated mango will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 200,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 5
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_pomegranate",
+    "copy-from": "pomegranate",
     "name": "irradiated pomegranate",
-    "weight": 300,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 12,
-    "healthy": 2,
-    "nutrition": 27,
     "description": "An irradiated pomegranate will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 210,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 7
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_rhubarb",
+    "copy-from": "rhubarb",
     "name": "irradiated rhubarb",
-    "weight": 300,
-    "color": "red",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 3,
-    "nutrition": 8,
     "description": "An irradiated rhubarb will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 420,
-    "material": "veggy",
-    "volume": 1,
-    "charges": 4
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -9146,6 +8735,7 @@
     "price": 130,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 4
   },
@@ -9164,25 +8754,17 @@
     "price": 900,
     "material": "flesh",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
   },
   {
     "type": "COMESTIBLE",
     "id": "dry_hflesh",
+    "copy-from": "dry_meat",
     "name": "dehydrated human flesh",
     "name_plural": "dehydrated human flesh",
-    "weight": 56,
-    "color": "red",
-    "spoils_in": 8640,
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -3,
-    "nutrition": 20,
     "description": "Dehydrated human flesh flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
-    "price": 0,
-    "material": "hflesh",
-    "volume": 1,
-    "charges": 2
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -9205,21 +8787,11 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_hflesh",
+    "copy-from": "rehydrated_meat",
     "name": "rehydrated human flesh",
     "name_plural": "rehydrated human flesh",
-    "weight": 156,
-    "color": "light_red",
-    "spoils_in": 24,
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "nutrition": 22,
     "description": "Reconstituted human flesh flakes, which are much more enjoyable to eat now that they have been rehydrated.",
-    "price": 0,
-    "material": "hflesh",
-    "volume": 1,
-    "charges": 2,
-    "fun": 2,
-    "rot_spawn": "GROUP_CARRION"
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -9237,6 +8809,7 @@
     "price": 900,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
   },
   {
@@ -9275,6 +8848,7 @@
     "price": 900,
     "material": "fruit",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": 2
   },
@@ -9348,24 +8922,11 @@
   {
     "type": "COMESTIBLE",
     "id": "human_haggis",
+    "copy-from": "haggis",
     "name": "human haggis",
     "name_plural": "human haggii",
-    "weight": 156,
-    "color": "brown",
-    "spoils_in": 360,
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 2,
-    "healthy": 1,
-    "nutrition": 48,
     "description": "This traditional Scottish savory pudding is made of human meat and offal mixed with oatmeal, which is sewn into a human's stomach and boiled.  Surprisingly tasty if you enjoy that kind of thing and quite filling, it is best served with boiled root vegetables and strong whisky.",
-    "price": 750,
-    "material": [ "veggy", "hflesh" ],
-    "volume": 1,
-    "charges": 4,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 2,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "veggy", "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -9428,6 +8989,7 @@
     "price": 100,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 6,
     "fun": 4
   },
@@ -9491,56 +9053,32 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_papaya",
+    "copy-from": "papaya",
     "name": "irradiated papaya",
-    "weight": 200,
-    "color": "yellow",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 8,
-    "healthy": 2,
-    "nutrition": 21,
     "description": "An irradiated papaya will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 2700,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 5
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_kiwi",
+    "copy-from": "kiwi",
     "name": "irradiated kiwi",
-    "weight": 100,
-    "color": "brown",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 2,
-    "nutrition": 11,
     "description": "An irradiated kiwi will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 270,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 3
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
     "id": "irradiated_apricot",
+    "copy-from": "apricot",
     "name": "irradiated apricot",
-    "weight": 150,
-    "color": "yellow",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 3,
-    "healthy": 1,
-    "nutrition": 16,
     "description": "An irradiated apricot will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "price": 160,
-    "material": "fruit",
-    "volume": 1,
-    "fun": 3
+    "proportional": { "price": 2 },
+    "spoils_in": 0,
+    "container": "bag_plastic"
   },
   {
     "type": "COMESTIBLE",
@@ -9564,6 +9102,7 @@
     "price_note": "Priced by the 100 liter barrel, this is multiplied by 400 to achieve the final cost.",
     "material": "alcohol",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "phase": "liquid",
     "charges": 7,
     "fun": 17
@@ -9607,6 +9146,7 @@
     "price": 130,
     "material": "junk",
     "volume": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 6,
     "fun": 4
   },
@@ -9646,6 +9186,7 @@
     "price": 220,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -2
   },
   {
@@ -9682,6 +9223,7 @@
     "price": 300,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "NO_FREEZE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9716,6 +9258,7 @@
     "price": 200,
     "material": "veggy",
     "volume": 1,
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9989,6 +9532,7 @@
     "price": 0,
     "material": "flesh",
     "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
     "fun": -4
   },
@@ -10010,6 +9554,7 @@
     "description": "Pieces of poisonous veggy that have been dried to prevent them from rotting away.  It will still poison you if you eat this.",
     "price": 0,
     "material": "veggy",
+    "flags": [ "EDIBLE_FROZEN" ],
     "volume": 1,
     "charges": 2
   },
@@ -10060,23 +9605,10 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_hleather",
-    "category": "spare_parts",
+    "copy-from": "raw_leather",
     "name": "raw human skin",
-    "weight": 748,
-    "color": "pink",
-    "spoils_in": 36,
-    "comestible_type": "FOOD",
-    "symbol": ",",
-    "quench": -2,
-    "healthy": -1,
-    "nutrition": 6,
     "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
-    "price": 50,
-    "material": "hflesh",
-    "volume": 5,
-    "stack_size": 1,
-    "fun": -12,
-    "rot_spawn": "GROUP_CARRION"
+    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -10139,7 +9671,7 @@
     "nutrition": 18,
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": 350,
-    "material": "veggy",
+    "material": "tomato",
     "volume": 1,
     "stack_size": 2,
     "rot_spawn": "GROUP_ROTTING_PLANT"
@@ -10151,7 +9683,6 @@
     "weight": 250,
     "color": "yellow",
     "addiction_type": "alcohol",
-    "use_action": "MUTAGEN",
     "stim": -20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -10166,7 +9697,11 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD", "MUTAGEN_ANY", "MUTAGEN_WEAK" ],
+    "use_action" : {
+      "type" : "mutagen",
+      "is_weak" : true
+    },
+    "flags": [ "EATEN_COLD" ],
     "fun": -15
   },
   {
@@ -10190,7 +9725,7 @@
     "material": [ "alcohol", "junk" ],
     "volume": 2,
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 20
   },
   {
@@ -10384,25 +9919,11 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_dudeluxe",
+    "copy-from": "sandwich_deluxe",
     "name": "dudeluxe sandwich",
     "name_plural": "dudeluxe sandwiches",
-    "weight": 340,
-    "color": "brown",
-    "spoils_in": 32,
-    "stim": 1,
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 1,
-    "healthy": 1,
-    "nutrition": 38,
     "description": "A sandwich of human flesh, vegetables, and cheese with condiments.  Feast upon the souls of your enemies and tasty garden greens!",
-    "price": 1200,
-    "material": [ "hflesh", "veggy", "wheat", "milk" ],
-    "volume": 1,
-    "charges": 4,
-    "fun": 12,
-    "rot_spawn": "GROUP_CARRION"
+    "material": [ "hflesh", "veggy", "wheat", "milk" ]
   },
   {
     "type": "COMESTIBLE",
@@ -10829,7 +10350,22 @@
     "spoils_in": 1176,
     "quench": -7,
     "fun": -3,
-    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] }
+    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] },
+    "flags": [ "SMOKED" ]
+  },
+  {
+    "id": "sausage_wasteland_raw",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": "raw wasteland sausage",
+    "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
+    "charges": 6,
+    "parasites": 32,
+    "healthy": 0,
+    "quench": -7,
+    "fun": -10,
+    "proportional": { "calories": 1.6, "vitamins": [ [ "vitA", 0.64 ] ] },
+    "flags": [ "SMOKABLE" ]
   },
   {
     "id": "brownie_weed",
@@ -10849,5 +10385,44 @@
     "spoils_in": 420,
     "use_action": "WEED_BROWNIE",
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "jabberwock_heart",
+    "name": "putrid heart",
+    "weight": 4535,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -10,
+    "nutrition": 40,
+    "quench": 20,
+    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies...",
+    "price": 6500,
+    "material": [ "flesh" ],
+    "volume": 4,
+    "fun": -25,
+    "use_action" : {
+      "type" : "mutagen",
+       "mutation_category" : "BEAST",
+      "is_strong" : true
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "jabberwock_heart_desiccated",
+    "name": "desiccated putrid heart",
+    "weight": 1360,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -5,
+    "nutrition": 25,
+    "description": "A huge strip of muscle - all that remains of a putrid heart that has been sliced open and drained of blood.  It could be eaten if you're hungry, but looks *disgusting*.",
+    "price": 1000,
+    "material": [ "flesh" ],
+    "volume": 1,
+    "fun": -30
   }
 ]
+

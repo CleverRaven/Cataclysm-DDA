@@ -86,7 +86,6 @@ struct tutorial_game : public special_game {
         bool tutorials_seen[NUM_LESSONS];
 };
 
-
 // DEFENSE
 
 enum defense_style {
@@ -116,7 +115,8 @@ enum defense_location {
 enum caravan_category {
     CARAVAN_CART = 0,
     CARAVAN_MELEE,
-    CARAVAN_GUNS,
+    CARAVAN_RANGED,
+    CARAVAN_AMMUNITION,
     CARAVAN_COMPONENTS,
     CARAVAN_FOOD,
     CARAVAN_CLOTHES,
@@ -153,7 +153,6 @@ struct defense_game : public special_game {
         void spawn_wave_monster( const mtype_id &type );
 
         std::string special_wave_message( std::string name );
-
 
         // DATA
         int current_wave;

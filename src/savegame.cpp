@@ -91,7 +91,6 @@ void game::serialize(std::ostream & fout) {
         json.member( "om_x", pos_om.x );
         json.member( "om_y", pos_om.y );
 
-
         json.member( "grscent", scent.serialize() );
 
         // Then each monster
@@ -263,7 +262,7 @@ void game::unserialize(std::istream & fin)
 void scent_map::deserialize( const std::string &data )
 {
     std::istringstream buffer( data );
-    int stmp;
+    int stmp = 0;
     int count = 0;
     for( auto &elem : grscent ) {
         for( auto &val : elem ) {
@@ -912,7 +911,7 @@ void overmap::unserialize( std::istream &fin ) {
                 jsin.start_object();
                 tripoint pos;
                 time_point time = calendar::before_time_starts;
-                int strength;
+                int strength = 0;
                 while( !jsin.end_object() ) {
                     std::string scent_member_name = jsin.get_member_name();
                     if( scent_member_name == "pos" ) {
@@ -1350,7 +1349,6 @@ void mongroup::deserialize_legacy(JsonIn &json)
         }
     }
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mapbuffer

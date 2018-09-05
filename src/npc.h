@@ -8,6 +8,7 @@
 #include "calendar.h"
 
 #include <vector>
+#include <set>
 #include <string>
 #include <map>
 #include <memory>
@@ -23,6 +24,7 @@ class npc_class;
 class auto_pickup;
 class monfaction;
 struct mission_type;
+struct npc_companion_mission;
 struct overmap_location;
 
 enum game_message_type : int;
@@ -32,7 +34,7 @@ using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
-void parse_tags( std::string &phrase, const player &u, const npc &me );
+void parse_tags( std::string &phrase, const player &u, const player &me );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -87,7 +89,11 @@ enum npc_mission : int {
     NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
 };
 
-//std::string npc_mission_name(npc_mission);
+struct npc_companion_mission {
+    std::string mission_id;
+    tripoint position;
+    std::string role_id;
+};
 
 std::string npc_class_name( const npc_class_id & );
 std::string npc_class_name_str( const npc_class_id & );
@@ -182,7 +188,6 @@ enum aim_rule {
     // If you can't aim, don't shoot
     AIM_STRICTLY_PRECISE
 };
-
 
 struct npc_follower_rules {
     combat_engagement engagement;
@@ -541,7 +546,6 @@ class npc : public player
         // What happens when the player makes a request
         int  follow_distance() const; // How closely do we follow the player?
 
-
         // Dialogue and bartering--see npctalk.cpp
         void talk_to_u();
         // Re-roll the inventory of a shopkeeper
@@ -596,7 +600,6 @@ class npc : public player
          * 12 tiles), as well as our plans.
          */
         void shift( int sx, int sy );
-
 
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action
@@ -659,11 +662,14 @@ class npc : public player
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
-        void move_to( const tripoint &p, bool no_bashing = false );
+        // nomove is used to resolve recursive invocation
+        void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
         void escape_explosion();
-        void move_away_from( const tripoint &p, bool no_bashing = false );
+        // nomove is used to resolve recursive invocation
+        void move_away_from( const tripoint &p, bool no_bashing = false,
+                             std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         void move_pause(); // Same as if the player pressed '.'
 
@@ -818,7 +824,14 @@ class npc : public player
         // Personality & other defining characteristics
         string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac;
-        time_point companion_mission_time;
+
+        std::string companion_mission_role_id; //Set mission source or squad leader for a patrol
+        std::vector<tripoint>
+        companion_mission_points; //Mission leader use to determine item sorting, patrols use for points
+        time_point companion_mission_time; //When you left for ongoing/repeating missions
+        time_point
+        companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
+        inventory companion_mission_inv; //Inventory that is added and dropped on mission
         npc_mission mission;
         npc_personality personality;
         npc_opinion op_of_u;
@@ -841,13 +854,12 @@ class npc : public player
          */
         void on_load();
 
-
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &id );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
         bool has_companion_mission() const;
-        std::string get_companion_mission() const;
+        npc_companion_mission get_companion_mission() const;
 
     protected:
         void store( JsonOut &jsout ) const;
@@ -862,7 +874,7 @@ class npc : public player
 
         std::vector<sphere> find_dangerous_explosives() const;
 
-        std::string companion_mission;
+        npc_companion_mission comp_mission;
 };
 
 /** An NPC with standard stats */

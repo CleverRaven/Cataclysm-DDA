@@ -17,6 +17,8 @@
 #include "trap.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "vpart_position.h"
+#include "veh_type.h"
 
 namespace MapExtras
 {
@@ -39,6 +41,7 @@ static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
 
@@ -49,41 +52,163 @@ void mx_null( map &, const tripoint & )
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    int cx = rng( 4, SEEX * 2 - 5 ), cy = rng( 4, SEEY * 2 - 5 );
+    int cx = rng( 6, SEEX * 2 - 7 );
+    int cy = rng( 6, SEEY * 2 - 7 );
+
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            if( x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4 ) {
-                if( !one_in( 5 ) ) {
-                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
-                } else if( m.is_bashable( x, y ) ) {
-                    m.destroy( tripoint( x,  y, abs_sub.z ), true );
+            if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
+                m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+            } else {
+                if( x >= cx - dice( 1, 5 ) && x <= cx + dice( 1, 5 ) && y >= cy - dice( 1, 5 ) &&
+                    y <= cy + dice( 1, 5 ) ) {
+                    if( one_in( 7 ) && m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                        m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                    }
                 }
-            } else if( one_in( 10 ) ) { // 1 in 10 chance of being wreckage anyway
-                m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                if( x >= cx - dice( 1, 6 ) && x <= cx + dice( 1, 6 ) && y >= cy - dice( 1, 6 ) &&
+                    y <= cy + dice( 1, 6 ) ) {
+                    if( !one_in( 5 ) ) {
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    } else if( m.is_bashable( x, y ) ) {
+                        m.destroy( tripoint( x,  y, abs_sub.z ), true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    }
+
+                } else if( one_in( 4 + ( abs( x - cx ) + ( abs( y -
+                                         cy ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    if( !one_in( 3 ) ) {
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    }
+                }
             }
         }
     }
 
-    m.spawn_item( rng( 5, 18 ), rng( 5, 18 ), "black_box" );
-    m.place_items( "helicopter", 90, cx - 4, cy - 4, cx + 4, cy + 4, true, 0 );
-    m.place_items( "helicopter", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
-    items_location extra_items = "helicopter";
-    switch( rng( 1, 4 ) ) {
-        case 1:
-            extra_items = "military";
-            break;
-        case 2:
-            extra_items = "science";
-            break;
-        case 3:
-            extra_items = "guns_milspec";
-            break;
-        case 4:
-            extra_items = "bionics";
-            break;
+    int dir1 = rng( 0, 359 );
+
+    auto crashed_hull = vgroup_id( "crashed_helicopters" )->pick();
+
+    // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
+    auto veh = std::unique_ptr<vehicle>( new vehicle( crashed_hull, rng( 1, 33 ), 1 ) );
+
+    veh->turn( dir1 );
+
+    bounding_box bbox = veh->get_bounding_box();     // Get the bounding box, centered on mount(0,0)
+    int x_length = std::abs( bbox.p2.x -
+                             bbox.p1.x );  // Move the wreckage forward/backward half it's length so
+    int y_length = std::abs( bbox.p2.y -   // that it spawns more over the center of the debris area
+                             bbox.p1.y );
+
+    int x_offset = veh->dir_vec().x * ( x_length / 2 );   // cont.
+    int y_offset = veh->dir_vec().y * ( y_length / 2 );
+
+    int x_min = abs( bbox.p1.x ) + 0;
+    int y_min = abs( bbox.p1.y ) + 0;
+
+    int x_max = ( SEEX * 2 ) - ( bbox.p2.x + 1 );
+    int y_max = ( SEEX * 2 ) - ( bbox.p2.y + 1 );
+
+    int x1 = clamp( cx + x_offset, x_min,
+                    x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
+    int y1 = clamp( cy + y_offset, y_min, y_max ); // over the border of the submap.
+
+    vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
+                                       1 );
+
+    if( wreckage != nullptr ) {
+        const int clowncar_factor = dice( 1, 8 );
+
+        switch( clowncar_factor ) {
+            case 1:
+            case 2:
+            case 3: // Full clown car
+                for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
+                    const auto pos = wreckage->global_part_pos3( *p );
+                    // Spawn pilots in seats with controls.CTRL_ELECTRONIC
+                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0 ||
+                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                    } else {
+                        if( one_in( 5 ) ) {
+                            m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
+                        } else if( one_in( 5 ) ) {
+                            m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
+                        } else {
+                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                        }
+                    }
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 4:
+            case 5: // 2/3rds clown car
+                for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
+                    auto pos = wreckage->global_part_pos3( *p );
+                    // Spawn pilots in seats with controls.
+                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
+                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                    } else {
+                        if( !one_in( 3 ) ) {
+                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                        }
+                    }
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 6: // Just pilots
+                for( auto p : wreckage->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                    auto pos = wreckage->global_part_pos3( *p );
+                    m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 7: // Empty clown car
+            case 8:
+                break;
+            default:
+                break;
+        }
+        if( !one_in( 4 ) ) {
+            wreckage->smash( 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        } else {
+            wreckage->smash( 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        }
     }
-    m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f ); //0.1 = 1-5
-    m.place_items( extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0, 100, 20 );
 }
 
 void mx_military( map &m, const tripoint & )
@@ -206,14 +331,16 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
         line( &m, t_fence_barbed, 3, 4, 3, 10 );
         line( &m, t_fence_barbed, 1, 13, 1, 19 );
         if( one_in( 3 ) ) { // Chicken delivery
-            m.add_vehicle( vproto_id( "military_vehicles" ), 12, SEEY * 2 - 5, 0, 70, -1 );
+            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 5, abs_sub.z ), 0, 70,
+                           -1 );
             m.add_spawn( mon_chickenbot, 1, 12, 12 );
         } else if( one_in( 2 ) ) { // TAAANK
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1 );
             m.add_spawn( mon_tankbot, 1, 12, 12 );
         } else {  // Vehicle & turrets
-            m.add_vehicle( vproto_id( "military_vehicles" ), 12, SEEY * 2 - 5, 0, 70, -1 );
+            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 5, abs_sub.z ), 0, 70,
+                           -1 );
             m.add_spawn( mon_turret_bmg, 1, 12, 12 );
             m.add_spawn( mon_turret_rifle, 1, 9, 12 );
         }

@@ -53,6 +53,8 @@ std::vector<tripoint> get_footstep_markers();
 std::pair<std::vector<tripoint>, std::vector<tripoint>> get_monster_sounds();
 // retrieve the sound event(s?) at a location.
 std::string sound_at( const tripoint &location );
+/** Tells us if sound has been enabled in options */
+extern bool sound_enabled;
 }
 
 namespace sfx
@@ -68,7 +70,7 @@ void play_ambient_variant_sound( const std::string &id, const std::string &varia
 void generate_gun_sound( const player &source, const item &firing );
 void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
                            bool targ_mon = 0, const std::string &material = "flesh" );
-void do_hearing_loss( int turns );
+void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
 int get_heard_volume( const tripoint &source );

@@ -94,6 +94,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_tobacco",
+    "copy-from": "seed",
+    "name": "tobacco seeds",
+    "name_plural": "tobacco seeds",
+    "description": "Some tobacco seeds.",
+    "seed_data": { "plant_name": "tobacco", "fruit": "tobacco_raw", "grow": 91 }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_barley",
     "copy-from": "seed",
     "price": 160,
@@ -197,14 +206,30 @@
     "id": "seed_garlic",
     "copy-from": "seed",
     "price": 50,
+    "name": "garlic seeds",
+    "name_plural": "garlic seeds",
+    "description": "Some garlic seeds.",
+    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": 65 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "garlic_clove",
     "name": "garlic clove",
     "name_plural": "garlic cloves",
-    "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
-    "quench": -3,
-    "nutrition": 3,
     "weight": 3,
+    "color": "white",
+    "spoils_in": 8640,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -3,
+    "healthy": 1,
+    "nutrition": 3,
+    "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
+    "price": 50,
     "charges": 6,
     "stack_size": 6,
+    "material": "garlic",
+    "volume": 1,
     "fun": -3,
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": 65 }
   },
@@ -328,6 +353,7 @@
     "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
     "price": 90,
     "fun": -1,
+    "flags": [ "SMOKABLE" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": 91 }
   },
   {

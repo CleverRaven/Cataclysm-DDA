@@ -13,21 +13,21 @@
         "   w..BB..|-|-|....c|...",
         "   w.h....|STb|....O|.hc",
         "   |cxc...+.fb|..ccc|cxc",
-        "   |--|-+-|-+-|.....|-ww",
+        "   |--|-+-|-+-|....Q|-ww",
         "   RssX.............|^..",
         "   Rssw..F..........D...",
-        "   Rssw..F.......|+-|...",
-        "   Rss|..F...FFF^|.r|...",
+        "   Rssw..F.......|+-|p..",
+        "   Rss|..F...FFF^|.Y|...",
         "   |------|-|-|--|--|...",
         "   |.dBBd.+r|u+..eSc|...",
         "   w..BB..|-|-|....c|...",
         "   w......|STb|....O|...",
         "   |od....+.fb|..ccc|...",
-        "   |--|-+-|-+-|...hh|...",
+        "   |--|-+-|-+-|...QQ|...",
         "   RssX.............|...",
         "   Rssw.............D...",
-        "   Rssw..A.....F.|+-|...",
-        "   Rss|.....FFFF^|.r|...",
+        "   Rssw..A.....F.|+-|p..",
+        "   Rss|.....FFFF^|.Y|...",
         "   |------------||--|...",
         "   |############|EEE=...",
         "   |############|EEx=..."
@@ -58,9 +58,12 @@
         "O": "f_oven",
         "S": "f_sink",
         "T": "f_toilet",
+        "Q": "f_stool",
         "^": "f_indoor_plant",
         "b": "f_bathtub",
         "c": "f_counter",
+        "p": "f_mailbox",
+        "Y": "f_rack_coat",
         "d": "f_dresser",
         "e": "f_fridge",
         "h": "f_chair",
@@ -70,9 +73,7 @@
         "t": "f_table",
         "u": "f_cupboard"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         "B": { "item": "bed", "chance": 15 },
         "O": { "item": "oven", "chance": 70 },
@@ -82,11 +83,11 @@
         "f": [ { "item": "magazines", "chance": 70 }, { "item": "novels", "chance": 50 } ],
         "o": [ { "item": "magazines", "chance": 30 }, { "item": "novels", "chance": 40 }, { "item": "alcohol", "chance": 30 }, { "item": "manuals", "chance": 20 } ],
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
-        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ]
+        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -103,21 +104,21 @@
         "..l|c....|-|-|..BB..w   ",
         "..l|O....|bTS|......w   ",
         "...|ccc..|bf.+....d.|   ",
-        "-D-|.hh..|-+-|-+-|--|   ",
+        "-D-|.QQ..|-+-|-+-|--|   ",
         "...|.............XssR   ",
         "...D.............wssR   ",
-        "...|-+|..........wssR   ",
-        "...|r.|oo.FFFF..^|ssR   ",
+        "..p|-+|..........wssR   ",
+        "...|Y.|oo.FFFF..^|ssR   ",
         "...|--|--|-|-|------|   ",
         "...|cSe..+u|r+.dBBd.|   ",
         "...|c....|-|-|..BB..w   ",
         "...|O....|bTS|......w   ",
         "...|ccc..|bf.+....d.|   ",
-        "..^|h.h..|-+-|-+-|--|   ",
+        "..^|Q.Q..|-+-|-+-|--|   ",
         "...|.............XssR   ",
         "...D......A......wssR   ",
-        "...|-+|..........wssR   ",
-        "...|r.|^....FFF.o|ssR   ",
+        "..p|-+|..........wssR   ",
+        "...|Y.|^....FFF.o|ssR   ",
         "...|--||------------|   ",
         "...=xEE|############|   ",
         "...=EEE|############|   "
@@ -148,8 +149,11 @@
         "O": "f_oven",
         "S": "f_sink",
         "T": "f_toilet",
+        "Q": "f_stool",
         "^": "f_indoor_plant",
         "b": "f_bathtub",
+        "p": "f_mailbox",
+        "Y": "f_rack_coat",
         "c": "f_counter",
         "d": "f_dresser",
         "e": "f_fridge",
@@ -160,9 +164,7 @@
         "t": "f_table",
         "u": "f_cupboard"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         "B": { "item": "bed", "chance": 15 },
         "O": { "item": "oven", "chance": 70 },
@@ -173,7 +175,9 @@
         "l": { "item": "office", "chance": 70 },
         "o": [ { "item": "magazines", "chance": 30 }, { "item": "novels", "chance": 40 }, { "item": "alcohol", "chance": 30 }, { "item": "manuals", "chance": 20 } ],
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
-        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ]
+        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
@@ -194,21 +198,21 @@
         "   w..BB..|-|-|....c|...",
         "   w......|STb|....O|...",
         "   |oo....+..b|..ccc|^..",
-        "   |--|-+-|-+-|..hhh|...",
-        "   RssX.............|...",
+        "   |--|-+-|-+-|..QQQ|...",
+        "   RssX.............|p..",
         "   Rssw.............D...",
         "   Rssw..A....A..|+-|...",
-        "   Rss|...FFF...^|.r|...",
+        "   Rss|...FFF...^|.Y|...",
         "   |------|-|-|--|--|...",
         "   |.dBBd.+r|u+..eSc|...",
         "   w..BB..|-|-|....c|...",
         "   w......|STb|....O|...",
         "   |.d....+..b|..ccc|...",
         "   |--|-+-|-+-|....^|...",
-        "   RssX...A.........|...",
+        "   RssX...A.........|p..",
         "   Rssw.............D...",
         "   Rssw.........o|+-|...",
-        "   Rss|..A.FFF..o|.r|...",
+        "   Rss|..A.FFF..o|.Y|...",
         "   |--|--ww---ww-|--|w-G",
         "                      ss",
         "                      ss",
@@ -238,8 +242,11 @@
         "B": "f_bed",
         "F": "f_sofa",
         "O": "f_oven",
+        "p": "f_mailbox",
+        "Y": "f_rack_coat",
         "S": "f_sink",
         "T": "f_toilet",
+        "Q": "f_stool",
         "^": "f_indoor_plant",
         "b": "f_bathtub",
         "c": "f_counter",
@@ -252,9 +259,7 @@
         "t": "f_table",
         "u": "f_cupboard"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         "B": { "item": "bed", "chance": 15 },
         "O": { "item": "oven", "chance": 70 },
@@ -262,7 +267,9 @@
         "e": { "item": "fridge", "chance": 70 },
         "o": [ { "item": "magazines", "chance": 30 }, { "item": "novels", "chance": 40 }, { "item": "alcohol", "chance": 30 }, { "item": "manuals", "chance": 20 } ],
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
-        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ]
+        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ] },
@@ -283,21 +290,21 @@
         "...|c....|-|-|..BB..w   ",
         "...|O....|bTS|......w   ",
         "...|ccc..|bf.+....d.|   ",
-        "...|.....|-+-|-+-|--|   ",
-        "...|.............+ssR   ",
+        "...|.Q...|-+-|-+-|--|   ",
+        "..p|.............+ssR   ",
         "...D.............wssR   ",
         "...|-+|...htth...wssR   ",
-        "...|r.|^..htth.oo|ssR   ",
+        "...|Y.|^..htth.oo|ssR   ",
         "...|--|--|-|-|------|   ",
         "...|cSe..+u|r+.dBBd.|   ",
         "..^|c....|-|-|..BB..w   ",
         "...|O....|bTS|......w   ",
         "...|ccc..|bf.+....d.|   ",
         "...|.....|-+-|-+-|--|   ",
-        "...|.............+ssR   ",
+        "..p|.............+ssR   ",
         "...D...........A.wssR   ",
         "...|-+|..A...h...wssR   ",
-        "...|r.|o....cxc.^|ssR   ",
+        "...|Y.|o....cxc.^|ssR   ",
         "G-w|--|-ww---ww--|--|   ",
         "ss                      ",
         "ss                      ",
@@ -328,7 +335,10 @@
         "F": "f_sofa",
         "O": "f_oven",
         "S": "f_sink",
+        "p": "f_mailbox",
+        "Y": "f_rack_coat",
         "T": "f_toilet",
+        "Q": "f_stool",
         "^": "f_indoor_plant",
         "b": "f_bathtub",
         "c": "f_counter",
@@ -341,9 +351,7 @@
         "t": "f_table",
         "u": "f_cupboard"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         "B": { "item": "bed", "chance": 60 },
         "O": { "item": "oven", "chance": 70 },
@@ -353,7 +361,9 @@
         "f": [ { "item": "magazines", "chance": 70 }, { "item": "novels", "chance": 50 } ],
         "o": [ { "item": "magazines", "chance": 30 }, { "item": "novels", "chance": 40 }, { "item": "alcohol", "chance": 30 }, { "item": "manuals", "chance": 20 } ],
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
-        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ]
+        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ] },

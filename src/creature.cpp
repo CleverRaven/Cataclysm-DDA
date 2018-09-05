@@ -114,7 +114,6 @@ bool Creature::digging() const
     return false;
 }
 
-
 bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
@@ -407,8 +406,10 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
  *
  * @param source Pointer to the creature who shot the projectile.
  * @param attack A structure describing the attack and its results.
+ * @param print_messages enables message printing by default.
  */
-void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                       bool print_messages )
 {
     const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 ) {
@@ -420,7 +421,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
     const auto &proj_effects = proj.proj_effects;
 
-    const bool u_see_this = g->u.sees(*this);
+    const bool u_see_this = g->u.sees( *this );
 
     const int avoid_roll = dodge_roll();
     // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
@@ -430,6 +431,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) ) ;
 
     if( goodhit >= 1.0 ) {
+        attack.missed_by = 1.0; // Arbitrary value
+        if( !print_messages ) {
+            return;
+        }
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
         if( source != nullptr && g->u.sees( *source ) ) {
@@ -444,8 +449,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 _("You avoid an incoming projectile!"),
                 _("<npcname> avoids an incoming projectile.") );
         }
-
-        attack.missed_by = 1.0; // Arbitrary value
         return;
     }
 
@@ -455,7 +458,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     body_part bp_hit;
-    double hit_value = missed_by + rng_float(-0.5, 0.5);
+    double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
     if( hit_value <= 0.4 ) {
         bp_hit = bp_torso;
@@ -503,8 +506,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult *= rng_float(0, .25);
     }
 
-    if( source != nullptr && !message.empty() ) {
-        source->add_msg_if_player(m_good, message.c_str());
+    if( print_messages && source != nullptr && !message.empty() ) {
+        source->add_msg_if_player( m_good, message.c_str() );
     }
 
     attack.missed_by = goodhit;
@@ -515,7 +518,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult = 1.0f;
     }
 
-    impact.mult_damage(damage_mult);
+    impact.mult_damage( damage_mult );
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
         float dmg_ratio = (float)impact.total_damage() / get_hp_max( player::bp_to_hp( bp_hit ) );
@@ -524,7 +527,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    dealt_dam = deal_damage(source, bp_hit, impact);
+    dealt_dam = deal_damage( source, bp_hit, impact );
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
@@ -565,10 +568,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     int stun_strength = 0;
-    if (proj.proj_effects.count("BEANBAG")) {
+    if( proj.proj_effects.count( "BEANBAG" ) ) {
         stun_strength = 4;
     }
-    if (proj.proj_effects.count("LARGE_BEANBAG")) {
+    if( proj.proj_effects.count( "LARGE_BEANBAG" ) ) {
         stun_strength = 16;
     }
     if( stun_strength > 0 ) {
@@ -592,7 +595,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 
-    if(u_see_this) {
+    if( u_see_this && print_messages ) {
         if( damage_mult == 0 ) {
             if( source != nullptr ) {
                 add_msg( source->is_player() ? _("You miss!") : _("The shot misses!") );
@@ -606,33 +609,34 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         } else if( is_player() ) {
                 //monster hits player ranged
                 //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-                add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                                  body_part_name_accusative(bp_hit).c_str(),
-                                  dealt_dam.total_damage());
+                add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                   body_part_name_accusative( bp_hit ).c_str(),
+                                   dealt_dam.total_damage() );
         } else if( source != nullptr ) {
             if( source->is_player() ) {
                 //player hits monster ranged
-                SCT.add(posx(), posy(),
-                        direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
-                        get_hp_bar(dealt_dam.total_damage(), get_hp_max(), true).first,
-                        m_good, message, gmtSCTcolor);
+                SCT.add( posx(), posy(),
+                         direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
+                         get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
+                         m_good, message, gmtSCTcolor );
 
-                if (get_hp() > 0) {
-                    SCT.add(posx(), posy(),
-                            direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
-                            get_hp_bar(get_hp(), get_hp_max(), true).first, m_good,
-                            //~ "hit points", used in scrolling combat text
-                            _("hp"), m_neutral, "hp");
+                if( get_hp() > 0 ) {
+                    SCT.add( posx(), posy(),
+                             direction_from( 0, 0, posx() - source->posx(),
+                                             posy() - source->posy() ),
+                             get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
+                             //~ "hit points", used in scrolling combat text
+                             _( "hp" ), m_neutral, "hp" );
                 } else {
                     SCT.removeCreatureHP();
                 }
 
-                add_msg(m_good, _("You hit %s for %d damage."),
-                        disp_name().c_str(), dealt_dam.total_damage());
+                add_msg( m_good, _( "You hit %s for %d damage." ),
+                         disp_name().c_str(), dealt_dam.total_damage() );
             } else if( u_see_this ) {
                 //~ 1$ - shooter, 2$ - target
-                add_msg(_("%1$s shoots %2$s."),
-                        source->disp_name().c_str(), disp_name().c_str());
+                add_msg( _( "%1$s shoots %2$s."),
+                         source->disp_name().c_str(), disp_name().c_str() );
             }
         }
     }
@@ -642,8 +646,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
-dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
-        const damage_instance &dam)
+dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
+                                             const damage_instance &dam )
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();
@@ -654,7 +658,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 
     dealt_damage_instance dealt_dams;
 
-    absorb_hit(bp, d);
+    absorb_hit( bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
@@ -1021,17 +1025,17 @@ bool Creature::has_trait( const trait_id &flag ) const
 }
 
 // Methods for setting/getting misc key/value pairs.
-void Creature::set_value( const std::string key, const std::string value )
+void Creature::set_value( const std::string &key, const std::string &value )
 {
     values[ key ] = value;
 }
 
-void Creature::remove_value( const std::string key )
+void Creature::remove_value( const std::string &key )
 {
     values.erase( key );
 }
 
-std::string Creature::get_value( const std::string key ) const
+std::string Creature::get_value( const std::string &key ) const
 {
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
@@ -1235,7 +1239,6 @@ void Creature::mod_stat( const std::string &stat, float modifier )
         add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
     }
 }
-
 
 void Creature::set_num_blocks_bonus(int nblocks)
 {

@@ -179,30 +179,6 @@
     ]
   },
   {
-    "result": "mininuke",
-    "type" : "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "mechanics",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 10,
-    "time": 360000,
-    "reversible": true,
-    "decomp_learn": 10,
-    "book_learn": [[ "recipe_lab_elec", 5 ]],
-    "qualities" : [
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
-    "components": [
-      [ [ "can_food_unsealed", 2 ], [ "steel_chunk", 2 ], [ "scrap", 6 ], [ "canister_empty", 1 ], [ "can_drink_unsealed", 2 ] ],
-      [ [ "grenade", 1 ], [ "40mm_frag", 2 ], [ "40mm_concussive", 2 ] ],
-      [ [ "plut_cell", 6 ] ],
-      [ [ "battery", 2 ] ],
-      [ [ "power_supply", 1 ] ]
-    ]
-  },
-  {
     "result": "molotov",
     "type" : "recipe",
     "category": "CC_WEAPON",

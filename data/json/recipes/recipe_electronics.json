@@ -800,330 +800,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "bio_power_storage",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 6,
-  "time": 50000,
-  "reversible": true,
-  "decomp_learn": 5,
-  "book_learn": [[ "recipe_augs", 6 ] , [ "recipe_lab_elec", 6 ]],
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [
-      [ "power_supply", 6 ],
-      [ "UPS_off", 1 ]
-    ],
-    [ [ "amplifier", 4 ] ],
-    [ [ "plut_cell", 1 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_power_storage_mkII",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 10,
-  "time": 70000,
-  "reversible": true,
-  "decomp_learn": 8,
-  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_augs", 7 ]],
-  "using": [ [ "soldering_standard", 32 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [
-      [ "power_supply", 10 ],
-      [ "UPS_off", 2 ],
-      [ "adv_UPS_off", 1 ]
-    ],
-    [ [ "amplifier", 6 ] ],
-    [ [ "plut_cell", 2 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "//": "Should be removed after 0.D.",
-  "type" : "recipe",
-  "result": "bio_solar",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "decomp_learn": 7,
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "power_supply", 4 ] ],
-    [ [ "amplifier", 2 ] ],
-    [ [ "solar_cell", 4 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_batteries",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "decomp_learn": 7,
-  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "power_supply", 2 ] ],
-    [ [ "amplifier", 2 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_reactor",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "mechanics", 10 ],
-  "difficulty": 10,
-  "time": 50000,
-  "book_learn": [[ "recipe_lab_elec", 10 ]],
-  "using": [ [ "soldering_standard", 120 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "minireactor", 1 ] ],
-    [ [ "metal_tank_little", 1 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_plut_filter",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 10 ],
-  "difficulty": 10,
-  "time": 50000,
-  "book_learn": [[ "recipe_lab_elec", 10 ]],
-  "using": [ [ "soldering_standard", 80 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "tools": [
-    [
-      [ "laptop", -1 ],
-      [ "control_laptop", -1 ]
-    ]
-  ],
-  "components": [
-    [ [ "bio_blood_filter", 1 ] ],
-    [ [ "metal_tank_little", 1 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ],
-    [
-      [ "usb_drive", 1 ],
-      [ "RAM", 1 ],
-      [ "mobile_memory_card", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_reactor_upgrade",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "computer", 10 ],
-  "difficulty": 10,
-  "time": 50000,
-  "book_learn": [[ "recipe_lab_elec", 10 ]],
-  "using": [ [ "soldering_standard", 120 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "tools": [
-    [
-      [ "laptop", -1 ],
-      [ "control_laptop", -1 ]
-    ]
-  ],
-  "components": [
-    [ [ "bio_radscrubber", 1 ] ],
-    [ [ "bio_geiger", 1 ] ],
-    [
-      [ "usb_drive", 1 ],
-      [ "RAM", 1 ],
-      [ "mobile_memory_card", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_advreactor",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "computer", 10 ],
-  "difficulty": 10,
-  "time": 5000,
-  "book_learn": [[ "recipe_lab_elec", 10 ]],
-  "using": [ [ "soldering_standard", 10 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "bio_reactor", 1 ] ],
-    [ [ "bio_reactor_upgrade", 1 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_ups",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 6,
-  "time": 50000,
-  "reversible": true,
-  "book_learn": [[ "recipe_lab_elec", 7 ], [ "recipe_mil_augs", 6 ]],
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [[ "power_supply", 2]],
-    [[ "recharge_station", 1]],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_power_armor_interface",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 6,
-  "time": 50000,
-  "reversible": true,
-  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mil_augs", 6 ]],
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "power_supply", 2 ] ],
-    [ [ "amplifier", 2 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_power_armor_interface_mkII",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 9,
-  "time": 50000,
-  "reversible": true,
-  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_mil_augs", 7 ]],
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "power_supply", 5 ] ],
-    [ [ "amplifier", 3 ] ],
-    [ [ "plut_cell", 5 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_evap",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "decomp_learn": 7,
-  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 6 ]],
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "power_supply", 2 ] ],
-    [ [ "hose", 1 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_flashlight",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 6,
-  "time": 50000,
-  "reversible": true,
-  "decomp_learn": 5,
-  "book_learn": [[ "recipe_lab_elec", 5 ] , [ "recipe_augs", 5 ]],
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "power_supply", 1 ] ],
-    [ [ "amplifier", 1 ] ],
-    [ [ "lens", 2 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_water_extractor",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "decomp_learn": 7,
-  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
-  "using": [ [ "soldering_standard", 20 ] ],
-  "qualities" : [ {"id":"SCREW","level":1} ],
-  "components": [
-    [ [ "power_supply", 2 ] ],
-    [ [ "element", 1 ] ],
-    [ [ "hose", 1 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "bio_armor_head",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -1255,7 +931,7 @@
   "autolearn": true,
   "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
   "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
-  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
@@ -1278,7 +954,7 @@
   "autolearn": true,
   "book_learn": [ [ "recipe_augs" , 7 ], [ "recipe_lab_elec", 7 ], [ "advanced_electronics", 8 ] ],
   "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
-  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+  "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
@@ -1342,8 +1018,7 @@
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [[ "frame", 1 ]],
@@ -1374,6 +1049,25 @@
   ]
 },{
   "type" : "recipe",
+  "result": "kilnrig",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",4],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
+  "using": [ [ "soldering_standard", 10 ] ],
+  "qualities" : [ {"id":"SCREW","level":1} ],
+  "components": [
+    [ [ "power_supply", 2 ] ],
+    [ [ "kiln", 1 ] ],
+    [ [ "cable", 5] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "weldrig",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1388,8 +1082,7 @@
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "frame", 1 ] ],
@@ -1416,8 +1109,7 @@
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "frame", 1 ] ],
@@ -1444,8 +1136,7 @@
   "qualities":[
     {"id":"HAMMER","level":3},
     {"id":"SAW_M","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "frame", 1 ] ],
@@ -1776,8 +1467,7 @@
   "qualities":[
     {"id":"HAMMER","level":3},
     {"id":"SCREW","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "motor_small", 1 ] ],
@@ -1803,8 +1493,7 @@
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SCREW","level":1},
-    {"id":"WRENCH","level":1},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"WRENCH","level":1}
   ],
   "components": [
     [ [ "motor_small", 1 ] ],
@@ -1851,8 +1540,7 @@
       {"id":"HAMMER","level":2},
       {"id":"SAW_M","level":1},
       {"id":"WRENCH","level":1},
-      {"id":"SCREW","level":1},
-      { "id" : "GLARE", "level" : 2 }
+      {"id":"SCREW","level":1}
   ],
   "components": [
     [ [ "vehicle_controls", 1 ] ],
@@ -1861,6 +1549,27 @@
     [ [ "processor", 3 ] ],
     [ [ "RAM", 3 ] ],
     [ [ "circuit", 3 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "electronics_controls",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 1 ],
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "using": [ [ "soldering_standard", 150 ] ],
+  "qualities":[
+      {"id":"SCREW","level":1}
+  ],
+  "components": [
+    [ [ "e_scrap", 5 ] ],
+    [ [ "amplifier", 1 ] ],
+    [ [ "cable", 5 ] ],
+    [ [ "plastic_chunk", 5 ] ]
   ]
 },{
   "type" : "recipe",

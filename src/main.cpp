@@ -16,6 +16,7 @@
 #include "output.h"
 #include "main_menu.h"
 #include "loading_ui.h"
+#include "crash.h"
 
 #include <cstring>
 #include <ctime>
@@ -62,6 +63,7 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 int main(int argc, char *argv[])
 {
 #endif
+    init_crash_handlers();
     int seed = time(NULL);
     bool verifyexit = false;
     bool check_mods = false;
@@ -522,7 +524,6 @@ int main(int argc, char *argv[])
 
         while( !g->do_turn() );
     };
-
 
     exit_handler(-999);
     return 0;

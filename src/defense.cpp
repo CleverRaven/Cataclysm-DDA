@@ -23,6 +23,7 @@
 #include "player.h"
 #include "string_input_popup.h"
 #include "string_formatter.h"
+#include "item_group.h"
 
 #include <string>
 #include <vector>
@@ -256,35 +257,35 @@ void defense_game::init_map()
             starting_om.ter( 50, 50, 0 ) = oter_id( "bar_north" );
             break;
 
-    case DEFLOC_MANSION:
-        starting_om.ter( 49, 49, 0 ) = oter_id( "mansion_c3_north" );
-        starting_om.ter( 50, 49, 0 ) = oter_id( "mansion_e1_north" );
-        starting_om.ter( 51, 49, 0 ) = oter_id( "mansion_c1_east" );
-        starting_om.ter( 49, 50, 0 ) = oter_id( "mansion_t4_east" );
-        starting_om.ter( 50, 50, 0 ) = oter_id( "mansion_+4_north" );
-        starting_om.ter( 51, 50, 0 ) = oter_id( "mansion_t2_west" );
-        starting_om.ter( 49, 51, 0 ) = oter_id( "mansion_c2_west" );
-        starting_om.ter( 50, 51, 0 ) = oter_id( "mansion_t2_north" );
-        starting_om.ter( 51, 51, 0 ) = oter_id( "mansion_c4_south" );
-        starting_om.ter( 49, 49, 1 ) = oter_id( "mansion_c3u_north" );
-        starting_om.ter( 50, 49, 1 ) = oter_id( "mansion_e1u_north" );
-        starting_om.ter( 51, 49, 1 ) = oter_id( "mansion_c1u_east" );
-        starting_om.ter( 49, 50, 1 ) = oter_id( "mansion_t4u_east" );
-        starting_om.ter( 50, 50, 1 ) = oter_id( "mansion_+4u_north" );
-        starting_om.ter( 51, 50, 1 ) = oter_id( "mansion_t2u_west" );
-        starting_om.ter( 49, 51, 1 ) = oter_id( "mansion_c2u_west" );
-        starting_om.ter( 50, 51, 1 ) = oter_id( "mansion_t2u_north" );
-        starting_om.ter( 51, 51, 1 ) = oter_id( "mansion_c4u_south" );
-        starting_om.ter( 49, 49, -1 ) = oter_id( "mansion_c3d_north" );
-        starting_om.ter( 50, 49, -1 ) = oter_id( "mansion_e1d_north" );
-        starting_om.ter( 51, 49, -1 ) = oter_id( "mansion_c1d_east" );
-        starting_om.ter( 49, 50, -1 ) = oter_id( "mansion_t4d_east" );
-        starting_om.ter( 50, 50, -1 ) = oter_id( "mansion_+4d_north" );
-        starting_om.ter( 51, 50, -1 ) = oter_id( "mansion_t2d_west" );
-        starting_om.ter( 49, 51, -1 ) = oter_id( "mansion_c2d_west" );
-        starting_om.ter( 50, 51, -1 ) = oter_id( "mansion_t2d_north" );
-        starting_om.ter( 51, 51, -1 ) = oter_id( "mansion_c4d_south" );
-        break;
+        case DEFLOC_MANSION:
+            starting_om.ter( 49, 49, 0 ) = oter_id( "mansion_c3_north" );
+            starting_om.ter( 50, 49, 0 ) = oter_id( "mansion_e1_north" );
+            starting_om.ter( 51, 49, 0 ) = oter_id( "mansion_c1_east" );
+            starting_om.ter( 49, 50, 0 ) = oter_id( "mansion_t4_east" );
+            starting_om.ter( 50, 50, 0 ) = oter_id( "mansion_+4_north" );
+            starting_om.ter( 51, 50, 0 ) = oter_id( "mansion_t2_west" );
+            starting_om.ter( 49, 51, 0 ) = oter_id( "mansion_c2_west" );
+            starting_om.ter( 50, 51, 0 ) = oter_id( "mansion_t2_north" );
+            starting_om.ter( 51, 51, 0 ) = oter_id( "mansion_c4_south" );
+            starting_om.ter( 49, 49, 1 ) = oter_id( "mansion_c3u_north" );
+            starting_om.ter( 50, 49, 1 ) = oter_id( "mansion_e1u_north" );
+            starting_om.ter( 51, 49, 1 ) = oter_id( "mansion_c1u_east" );
+            starting_om.ter( 49, 50, 1 ) = oter_id( "mansion_t4u_east" );
+            starting_om.ter( 50, 50, 1 ) = oter_id( "mansion_+4u_north" );
+            starting_om.ter( 51, 50, 1 ) = oter_id( "mansion_t2u_west" );
+            starting_om.ter( 49, 51, 1 ) = oter_id( "mansion_c2u_west" );
+            starting_om.ter( 50, 51, 1 ) = oter_id( "mansion_t2u_north" );
+            starting_om.ter( 51, 51, 1 ) = oter_id( "mansion_c4u_south" );
+            starting_om.ter( 49, 49, -1 ) = oter_id( "mansion_c3d_north" );
+            starting_om.ter( 50, 49, -1 ) = oter_id( "mansion_e1d_north" );
+            starting_om.ter( 51, 49, -1 ) = oter_id( "mansion_c1d_east" );
+            starting_om.ter( 49, 50, -1 ) = oter_id( "mansion_t4d_east" );
+            starting_om.ter( 50, 50, -1 ) = oter_id( "mansion_+4d_north" );
+            starting_om.ter( 51, 50, -1 ) = oter_id( "mansion_t2d_west" );
+            starting_om.ter( 49, 51, -1 ) = oter_id( "mansion_c2d_west" );
+            starting_om.ter( 50, 51, -1 ) = oter_id( "mansion_t2d_north" );
+            starting_om.ter( 51, 51, -1 ) = oter_id( "mansion_c4d_south" );
+            break;
     }
     starting_om.save();
 
@@ -1100,11 +1101,11 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                 popup( _( "You can't afford those items!" ) );
             } else if( ( items[0].empty() && query_yn( _( "Really buy nothing?" ) ) ) ||
                        ( !items[0].empty() &&
-                         query_yn( ngettext( "Buy %d item, leaving you with $%.2f?",
-                                             "Buy %d items, leaving you with $%.2f?",
+                         query_yn( ngettext( "Buy %d item, leaving you with %s?",
+                                             "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),
-                                   ( static_cast<long>( g->u.cash ) - static_cast<long>( total_price ) ) / 100.0 ) ) ) {
+                                   format_money( static_cast<long>( g->u.cash ) - static_cast<long>( total_price ) ) ) ) ) {
                 done = true;
             }
             if( !done ) { // We canceled, so redraw everything
@@ -1152,8 +1153,10 @@ std::string caravan_category_name( caravan_category cat )
             return _( "Shopping Cart" );
         case CARAVAN_MELEE:
             return _( "Melee Weapons" );
-        case CARAVAN_GUNS:
-            return _( "Firearms & Ammo" );
+        case CARAVAN_RANGED:
+            return _( "Ranged Weapons" );
+        case CARAVAN_AMMUNITION:
+            return _( "Ammuniton" );
         case CARAVAN_COMPONENTS:
             return _( "Crafting & Construction Components" );
         case CARAVAN_FOOD:
@@ -1171,70 +1174,52 @@ std::string caravan_category_name( caravan_category cat )
 std::vector<itype_id> caravan_items( caravan_category cat )
 {
     std::vector<itype_id> ret;
+    item_group::ItemList item_list;
     switch( cat ) {
         case CARAVAN_CART:
             return ret;
 
         case CARAVAN_MELEE:
-            ret = {   "hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
-                      "knife_combat", "rapier", "machete", "katana", "spear_knife",
-                      "pike", "chainsaw_off"
-              };
+            item_list = item_group::items_from( "defense_caravan_melee" );
             break;
 
-        case CARAVAN_GUNS:
-            ret = {   "crossbow", "bolt_steel", "compbow", "arrow_cf", "marlin_9a",
-                      "22_lr", "hk_mp5", "9mm", "taurus_38", "38_special", "deagle_44",
-                      "44magnum", "m1911", "hk_ump45", "45_acp", "fn_p90", "57mm",
-                      "remington_870", "shot_00", "shot_slug", "browning_blr", "3006",
-                      "ak47", "762_m87", "m4a1", "556", "savage_111f", "hk_g3",
-                      "762_51", "hk_g80", "12mm", "plasma_rifle", "plasma"
-              };
+        case CARAVAN_RANGED:
+            item_list = item_group::items_from( "defense_caravan_ranged" );
+            break;
 
-            // Add the default magazine types for each gun.
-            for( unsigned i = 0, size = ret.size(); i < size; i++ ) {
-                item tmp( ret[i] );
-                if( tmp.is_gun() && !tmp.magazine_integral() ) {
-                    ret.emplace_back( tmp.magazine_default() );
-                }
-            }
+        case CARAVAN_AMMUNITION:
+            item_list = item_group::items_from( "defense_caravan_ammunition" );
             break;
 
         case CARAVAN_COMPONENTS:
-            ret = {   "rag", "fur", "leather", "superglue", "string_36", "chain",
-                      "processor", "RAM", "power_supply", "motor", "hose", "pot",
-                      "2x4", "battery", "nail", "gasoline"
-              };
+            item_list = item_group::items_from( "defense_caravan_components" );
             break;
 
         case CARAVAN_FOOD:
-            ret = {   "1st_aid", "water", "energy_drink", "whiskey", "can_beans",
-                      "mre_beef", "flour", "inhaler", "codeine", "oxycodone", "adderall",
-                      "cig", "meth", "royal_jelly", "mutagen", "purifier"
-              };
+            item_list = item_group::items_from( "defense_caravan_food" );
             break;
 
         case CARAVAN_CLOTHES:
-            ret = {   "backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
-                      "gloves_fingerless", "mask_filter", "mask_gas", "glasses_eye",
-                      "glasses_safety", "goggles_ski", "goggles_nv", "helmet_ball",
-                      "helmet_riot"
-              };
+            item_list = item_group::items_from( "defense_caravan_clothes" );
             break;
 
         case CARAVAN_TOOLS:
-            ret = {   "screwdriver", "wrench", "saw", "hacksaw", "lighter", "sewing_kit",
-                      "scissors", "extinguisher", "flashlight", "hotplate",
-                      "soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",
-                      "grenade", "flashbang", "EMPbomb", "smokebomb", "bot_manhack",
-                      "bot_turret", "UPS_off", "mininuke"
-              };
+            item_list = item_group::items_from( "defense_caravan_tools" );
             break;
+
         case NUM_CARAVAN_CATEGORIES:
             DebugLog( D_ERROR, D_GAME ) << "invalid caravan category: " << cat;
             break;
     }
 
+    for( auto &it : item_list ) {
+        itype_id item_type = it.typeId();
+        ret.emplace_back( item_type );
+        // Add the default magazine types for each gun.
+        if( it.is_gun() && !it.magazine_integral() ) {
+            ret.emplace_back( it.magazine_default() );
+        }
+    }
     return ret;
 }
 
@@ -1299,10 +1284,10 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     for( int i = 1; i <= 10; i++ ) {
         mvwprintz( w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
-    mvwprintz( w, 1, 1, c_white, _( "Your Cash: $%6.2f" ), cash / 100.0 );
+    mvwprintz( w, 1, 1, c_white, _( "Your Cash: %s" ), format_money( cash ) );
     wprintz( w, c_light_gray, " -> " );
-    wprintz( w, ( total_price > cash ? c_red : c_green ), "$%.2f",
-             ( static_cast<long>( cash ) - static_cast<long>( total_price ) ) / 100.0 );
+    wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
+             format_money( static_cast<long>( cash ) - static_cast<long>( total_price ) ) );
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ )
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
@@ -1337,7 +1322,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         if( ( *counts )[i] > 0 ) {
             unsigned long price = caravan_price( g->u, item( ( *items )[i],
                                                  0 ).price( false ) * ( *counts )[i] );
-            wprintz( w, ( price > g->u.cash ? c_red : c_green ), " ($%6.2f)", price / 100.0 );
+            wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }
     wrefresh( w );

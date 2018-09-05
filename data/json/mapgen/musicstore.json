@@ -72,6 +72,7 @@
     "items": [
       [ "novel_coa", 10 ],
       [ "child_book", 50 ],
+      [ "manual_dodge_kid", 25 ],
       [ "tall_tales", 20 ],
       [ "story_book", 4 ],
       [ "novel_pulp", 16 ],
@@ -154,13 +155,8 @@
         "d": "f_dumpster",
         "r": "f_rack"
       },
-      "vendingmachines": {
-        "1": { "item_group": "vending_drink" },
-        "2": { "item_group": "vending_food" }
-      },
-      "toilets": {
-        "T": {}
-      },
+      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "toilets": { "T": {} },
       "place_loot": [
         { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 30, "repeat": [ 1, 2 ] },
         { "group": "mussto_windinst", "x": [ 5, 10 ], "y": 11, "chance": 40, "repeat": [ 1, 2 ] },

@@ -77,6 +77,7 @@ npc::npc()
     : player()
     , restock( calendar::before_time_starts )
     , companion_mission_time( calendar::before_time_starts )
+    , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
 {
     submap_coords = point( 0, 0 );
@@ -98,6 +99,7 @@ npc::npc()
     my_fac = NULL;
     miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
+    death_drops = true;
     dead = false;
     hit_by_player = false;
     moves = 100;
@@ -375,7 +377,6 @@ void npc::randomize( const npc_class_id &type )
     } else if( type == NC_SCAVENGER ) {
         personality.aggression += rng( 1, 3 );
         personality.bravery += rng( 1, 4 );
-
 
     }
     //A universal barter boost to keep NPCs competitive with players
@@ -939,6 +940,7 @@ bool npc::wear_if_wanted( const item &it )
 
     const int it_encumber = it.get_encumber();
     while( !worn.empty() ) {
+        auto size_before = worn.size();
         bool encumb_ok = true;
         const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
@@ -979,9 +981,9 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( !took_off ) {
+        if( !took_off || worn.size() >= size_before ) {
             // Shouldn't happen, but does
-            return wear_item( it, false );
+            return false;
         }
     }
 
@@ -1297,7 +1299,6 @@ bool npc::fac_has_job( faction_job job ) const
     return my_fac->has_job( job );
 }
 
-
 void npc::decide_needs()
 {
     double needrank[num_needs];
@@ -1313,12 +1314,13 @@ void npc::decide_needs()
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for( auto &i : slice ) {
-        if( i->front().is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( i->front() ) / 4;
-            needrank[ need_drink ] += i->front().type->comestible->quench / 4;
-        } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents.front() ) / 4;
-            needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
+        item inventory_item = i->front();
+        if( inventory_item.is_food( ) ) {
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
+            needrank[ need_drink ] += inventory_item.type->comestible->quench / 4;
+        } else if( inventory_item.is_food_container() ) {
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
+            needrank[ need_drink ] += inventory_item.contents.front().type->comestible->quench / 4;
         }
     }
     needs.clear();
@@ -1439,7 +1441,6 @@ void npc::shop_restock()
     inv.clear();
     inv.push_back( ret );
 }
-
 
 int npc::minimum_item_value() const
 {
@@ -2389,24 +2390,27 @@ std::string npc::extended_description() const
 
 void npc::set_companion_mission( npc &p, const std::string &id )
 {
-    //@todo: store them separately
-    //@todo: set time here as well.
-    companion_mission = p.name + id;
+    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
+    comp_mission.position = tripoint( omt_pos.x, omt_pos.y, p.posz() );
+    comp_mission.mission_id =  id;
+    comp_mission.role_id = p.companion_mission_role_id;
 }
 
 void npc::reset_companion_mission()
 {
-    companion_mission.clear();
+    comp_mission.position = tripoint( -999, -999, -999 );
+    comp_mission.mission_id.clear();
+    comp_mission.role_id.clear();
 }
 
 bool npc::has_companion_mission() const
 {
-    return !companion_mission.empty();
+    return !comp_mission.mission_id.empty();
 }
 
-std::string npc::get_companion_mission() const
+npc_companion_mission npc::get_companion_mission() const
 {
-    return companion_mission;
+    return comp_mission;
 }
 
 attitude_group get_attitude_group( npc_attitude att )
@@ -2438,7 +2442,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         return;
     }
     add_msg( m_debug, "%s changes attitude from %s to %s",
-             npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
+             name.c_str(), npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() ) {

@@ -79,6 +79,7 @@ struct MonsterGroup {
     mongroup_id new_monster_group;
     time_duration monster_group_time = 0;
     bool is_safe; /// Used for @ref mongroup::is_safe()
+    int freq_total; // Default 1000 unless specified - max number to roll for spawns
 };
 
 struct mongroup {
@@ -152,6 +153,7 @@ struct mongroup {
         }
         interest = set;
     }
+    float avg_speed() const;
 
     template<typename Archive>
     void io( Archive & );

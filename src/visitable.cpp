@@ -422,7 +422,7 @@ VisitResponse visitable<map_cursor>::visit_items(
     auto cur = static_cast<map_cursor *>( this );
 
     // skip inaccessible items
-    if( g->m.has_flag( "SEALED", *cur ) ) {
+    if( g->m.has_flag( "SEALED", *cur ) && !g->m.has_flag( "LIQUIDCONT", *cur ) ) {
         return VisitResponse::NEXT;
     }
 
@@ -527,7 +527,6 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
     remove_internal( filter, *it, count, res );
     return res;
 }
-
 
 /** @relates visitable */
 template <>

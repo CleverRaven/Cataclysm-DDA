@@ -20,9 +20,6 @@ extern int message_ttl;
 namespace
 {
 
-// Messages object.
-Messages player_messages;
-
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
     time_point timestamp_in_turns  = 0;
@@ -90,15 +87,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     }
 };
 
-bool message_exceeds_ttl( const game_message &message )
-{
-    return message_ttl > 0 &&
-           message.timestamp_in_user_actions + message_ttl <= g->get_user_action_counter();
-}
-
-} //namespace
-
-class Messages::impl_t
+class messages_impl
 {
     public:
         std::deque<game_message> messages;   // Messages to be printed
@@ -179,23 +168,28 @@ class Messages::impl_t
         }
 };
 
-Messages::Messages() : impl_()
+// Messages object.
+messages_impl player_messages;
+
+bool message_exceeds_ttl( const game_message &message )
 {
+    return message_ttl > 0 &&
+           message.timestamp_in_user_actions + message_ttl <= g->get_user_action_counter();
 }
 
-Messages::~Messages() = default;
+} //namespace
 
 std::vector<std::pair<std::string, std::string>> Messages::recent_messages( const size_t count )
 {
-    return player_messages.impl_->recent_messages( count );
+    return player_messages.recent_messages( count );
 }
 
 void Messages::serialize( JsonOut &json )
 {
     json.member( "player_messages" );
     json.start_object();
-    json.member( "messages", player_messages.impl_->messages );
-    json.member( "curmes", player_messages.impl_->curmes );
+    json.member( "messages", player_messages.messages );
+    json.member( "curmes", player_messages.curmes );
     json.end_object();
 }
 
@@ -206,39 +200,39 @@ void Messages::deserialize( JsonObject &json )
     }
 
     JsonObject obj = json.get_object( "player_messages" );
-    obj.read( "messages", player_messages.impl_->messages );
-    obj.read( "curmes", player_messages.impl_->curmes );
+    obj.read( "messages", player_messages.messages );
+    obj.read( "curmes", player_messages.curmes );
 }
 
 void Messages::add_msg( std::string msg )
 {
-    player_messages.impl_->add_msg_string( std::move( msg ) );
+    player_messages.add_msg_string( std::move( msg ) );
 }
 
 void Messages::add_msg( const game_message_type type, std::string msg )
 {
-    player_messages.impl_->add_msg_string( std::move( msg ), type );
+    player_messages.add_msg_string( std::move( msg ), type );
 }
 
 void Messages::clear_messages()
 {
-    player_messages.impl_->messages.clear();
-    player_messages.impl_->active = true;
+    player_messages.messages.clear();
+    player_messages.active = true;
 }
 
 void Messages::deactivate()
 {
-    player_messages.impl_->active = false;
+    player_messages.active = false;
 }
 
 size_t Messages::size()
 {
-    return player_messages.impl_->messages.size();
+    return player_messages.messages.size();
 }
 
 bool Messages::has_undisplayed_messages()
 {
-    return player_messages.impl_->has_undisplayed_messages();
+    return player_messages.has_undisplayed_messages();
 }
 
 void Messages::display_messages()
@@ -291,94 +285,86 @@ void Messages::display_messages()
      * Much like how the sidebar can have variable scroll direction, so will the message box.
      * To properly differentiate the two methods of displaying text, we will label them NEWEST-TOP, and OLDEST-TOP. This labeling should be self explanatory.
      *
-     * Note that 'offset' tracks only our current position in the list; it shan't at all affect the manner in which the messages are drawn.
-     * Messages are always drawn top-to-bottom. If NEWEST-TOP is used, then the top line (line=1) corresponds to the newest message. The one further down the second-newest, etc.
-     * If the OLDEST-TOP method is used, then the top line (line=1) corresponds to the oldest message, and the bottom one to the newest.
-     * The 'for (;;)' block below is nearly completely method-agnostic, save for the `player_messages.impl_->history(i)` call.
+     * LIMITATIONS:
+     * 1. If there are multi-line messages among the oldest ones, the text cannot be fully scrolled to the top/bottom,
+     * since the message box is drawn using message index rather than actual line number.
+     * 2. Markers will change when skipping through multi-line messages, since `offset` is only the number of messages
+     * instead of the line count of these messages.
      *
-     * In case of NEWEST-TOP, the 'i' variable easily enough corresponds to the newest message.
-     * In case of OLDEST-TOP, the 'i' variable must be flipped- meaning the highest value of 'i' returns the result for the lowest value of 'i', etc.
-     * To achieve this, the 'flip_message' variable is set to either the value of 'msg_count', or '0'. This variable is then subtracted from 'i' in each call to player_messages.impl_->history();
-     *
-     * 'offset' refers to the corresponding message that will be displayed at the very TOP of the message box window.
-     *  NEWEST-TOP: 'offset' starts simply at '0' - the very top of the window.
-     *  OLDEST-TOP: 'offset' is set to the maximum value it could possibly be. That is- 'msg_count-bottom'. This way, the screen starts with the scrollbar all the way down.
-     * 'retrieve_history' refers to the line that should be displayed- this is either 'i' if it's NEWEST-TOP, or a flipped version of 'i' if it's OLDEST-TOP.
+     * log_from_top: display the newest message at the top if true, bottom if false.
+     * offset: index of the message from which to start displaying, from the newest to the oldest.
+     * line: the current line of folded message for display, either from the top or the bottom.
+     * scr_line: the current line of folded message for display, from the top.
+     * retrieve_history: the current index of message for display, from the newest to the oldest.
+     * folded_ind: current line index of the folded message.
      */
-    int offset = log_from_top ? 0 : ( msg_count - bottom );
-    const int flip = log_from_top ? 0 : msg_count - 1;
-
-    for( ;; ) {
+    for( int offset = 0;; ) {
         werase( w );
         draw_border( w );
         center_print( w, bottom + 1, c_red,
                       string_format( _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() ) );
-        draw_scrollbar( w, offset, bottom, msg_count, 1, 0, c_white, true );
+        int scroll = log_from_top ? offset : msg_count - bottom - offset;
+        draw_scrollbar( w, scroll, bottom, msg_count, 1, 0, c_white, true );
 
-        int line = 1;
         time_duration lasttime = -1_turns;
-        for( int i = offset; i < msg_count; ++i ) {
-            const int retrieve_history = abs( i - flip );
-            if( line > bottom ) {
-                break;
-                // This statement makes it so that no non-existent messages are printed (which usually results in a segfault)
-            } else if( retrieve_history >= msg_count ) {
-                continue;
-            }
-
-            const game_message &m     = player_messages.impl_->history( retrieve_history );
+        for( int line = 0, retrieve_history = offset;
+             line < bottom && retrieve_history < msg_count; ++retrieve_history ) {
+            const game_message &m     = player_messages.history( retrieve_history );
             const time_duration timepassed = calendar::turn - m.timestamp_in_turns;
             std::string long_ago      = to_string_clipped( timepassed );
             nc_color col              = msgtype_to_color( m.type, false );
 
+            auto &&folded_strings = foldstring( m.get_with_count(), maxlength );
+            int folded_size( folded_strings.size() );
+            int scr_line = log_from_top ? line : std::max( 0, bottom - line - folded_size );
             // Here we separate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
             // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
             const auto amount_len = long_ago.find_first_not_of( "0123456789" );
             std::string amount = long_ago.substr( 0, amount_len );
             std::string unit = long_ago.substr( amount_len );
             if( timepassed != lasttime ) {
-                right_print( w, line, 2, c_light_blue, string_format( _( "%-3s%-10s" ), amount.c_str(),
+                right_print( w, scr_line + 1, 2, c_light_blue, string_format( _( "%-3s%-10s" ), amount.c_str(),
                              unit.c_str() ) );
                 lasttime = timepassed;
             }
 
             nc_color col_out = col;
-            for( const std::string &folded : foldstring( m.get_with_count(), maxlength ) ) {
-                if( line > bottom ) {
-                    break;
-                }
-                print_colored_text( w, line, 2, col_out, col, folded );
-
+            for( int folded_ind = log_from_top ? 0 : folded_size - 1;
+                 folded_ind >= 0 && folded_ind < folded_size && line < bottom;
+                 ( log_from_top ? ++folded_ind : --folded_ind ), ++line ) {
+                scr_line = log_from_top ? line : bottom - line - 1;
+                print_colored_text( w, scr_line + 1, 2, col_out, col, folded_strings[folded_ind] );
 
                 // So-called special "markers"- alternating '=' and '-'s at the edges of te message window so players can properly make sense of which message belongs to which time interval.
                 // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
                 // On lines divisible by 4, draw a dark gray '-' at both horizontal extremes of the window.
                 if( ( line + offset % 4 ) % 4 == 0 ) {
-                    mvwprintz( w, line, 1, c_dark_gray, "-" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dark_gray, "-" );
+                    mvwprintz( w, scr_line + 1, 1, c_dark_gray, "-" );
+                    mvwprintz( w, scr_line + 1, FULL_SCREEN_WIDTH - 2, c_dark_gray, "-" );
                     // On lines divisible by 2 (but not 4), draw a light gray '=' at the horizontal extremes of the window.
                 } else if( ( line + offset % 4 ) % 2 == 0 ) {
-                    mvwprintz( w, line, 1, c_light_gray, "=" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_light_gray, "=" );
+                    mvwprintz( w, scr_line + 1, 1, c_light_gray, "=" );
+                    mvwprintz( w, scr_line + 1, FULL_SCREEN_WIDTH - 2, c_light_gray, "=" );
                 }
-
-                // Only now are we done with this line:
-                line++;
             }
         }
         wrefresh( w );
 
         const std::string &action = ctxt.handle_input();
-        if( action == "DOWN" && offset < msg_count - bottom ) {
-            offset++;
-        } else if( action == "UP" && offset > 0 ) {
-            offset--;
+        if( action == "DOWN" || action == "UP" ) {
+            if( ( action == "DOWN" ) ^ ( log_from_top ) ) {
+                if( offset > 0 ) {
+                    --offset;
+                }
+            } else if( offset < msg_count - bottom ) {
+                ++offset;
+            }
         } else if( action == "QUIT" ) {
             break;
         }
     }
 
-    player_messages.impl_->curmes = calendar::turn;
+    player_messages.curmes = calendar::turn;
 }
 
 void Messages::display_messages( const catacurses::window &ipk_target, int const left,
@@ -397,14 +383,14 @@ void Messages::display_messages( const catacurses::window &ipk_target, int const
                 break;
             }
 
-            const game_message &m = player_messages.impl_->messages[i];
+            const game_message &m = player_messages.messages[i];
             if( message_exceeds_ttl( m ) ) {
                 break;
             }
 
-            const nc_color col = m.get_color( player_messages.impl_->curmes );
+            const nc_color col = m.get_color( player_messages.curmes );
             std::string message_text = m.get_with_count();
-            if( !m.is_recent( player_messages.impl_->curmes ) ) {
+            if( !m.is_recent( player_messages.curmes ) ) {
                 message_text = remove_color_tags( message_text );
             }
 
@@ -425,14 +411,14 @@ void Messages::display_messages( const catacurses::window &ipk_target, int const
                 break;
             }
 
-            const game_message &m = player_messages.impl_->messages[i];
+            const game_message &m = player_messages.messages[i];
             if( message_exceeds_ttl( m ) ) {
                 break;
             }
 
-            const nc_color col = m.get_color( player_messages.impl_->curmes );
+            const nc_color col = m.get_color( player_messages.curmes );
             std::string message_text = m.get_with_count();
-            if( !m.is_recent( player_messages.impl_->curmes ) ) {
+            if( !m.is_recent( player_messages.curmes ) ) {
                 message_text = remove_color_tags( message_text );
             }
 
@@ -449,7 +435,7 @@ void Messages::display_messages( const catacurses::window &ipk_target, int const
         }
     }
 
-    player_messages.impl_->curmes = calendar::turn;
+    player_messages.curmes = calendar::turn;
 }
 
 void add_msg( std::string msg )

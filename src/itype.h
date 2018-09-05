@@ -45,6 +45,7 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
+struct artifact_dream_datum;
 class material_type;
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
@@ -385,11 +386,21 @@ struct islot_wheel
         int width = 0;
 };
 
-struct islot_fuel
-{
+struct fuel_explosion {
+    int explosion_chance_hot;
+    int explosion_chance_cold;
+    float explosion_factor;
+    bool fiery_explosion;
+    float fuel_size_factor;
+};
+
+struct islot_fuel {
     public:
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
+        struct fuel_explosion explosion_data;
+        bool has_explode_data;
+        std::string pump_terrain = "t_null";
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -653,7 +664,12 @@ struct islot_artifact {
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;
     std::vector<art_effect_passive> effects_worn;
+    std::vector<std::string> dream_msg_unmet;
+    std::vector<std::string> dream_msg_met;
+    int dream_freq_unmet;
+    int dream_freq_met;
 };
+bool check_art_charge_req( item& it );
 
 struct itype {
     friend class Item_factory;
@@ -698,6 +714,9 @@ public:
     itype() {
         melee.fill( 0 );
     }
+
+    // a hint for tilesets: if it doesn't have a tile, what does it look like?
+    std::string looks_like;
 
     std::string snippet_category;
     std::string description; // Flavor text
@@ -775,8 +794,9 @@ public:
     nc_color color = c_white; // Color on the map (color.h)
     std::string sym;
 
-    int damage_min = -1; /** Minimum amount of damage to an item (state of maximum repair) */
-    int damage_max =  4; /** Maximum amount of damage to an item (state before destroyed) */
+    int damage_min = -1000; /** Minimum amount of damage to an item (state of maximum repair) */
+    int damage_max =  4000; /** Maximum amount of damage to an item (state before destroyed) */
+    static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
     /** What items can be used to repair this item? @see Item_factory::finalize */
     std::set<itype_id> repair;

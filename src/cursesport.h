@@ -7,7 +7,6 @@
 #include <string>
 #include <bitset>
 
-
 class nc_color;
 
 namespace catacurses

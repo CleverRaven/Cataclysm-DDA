@@ -25,8 +25,10 @@
 #include "emit.h"
 #include "scent_map.h"
 #include "map_iterator.h"
+#include "morale_types.h"
 
 #include <queue>
+#include <algorithm>
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -168,7 +170,7 @@ const std::array<field_t, num_fields> fieldlist = { {
     {
         "fd_toxic_gas",
         {translate_marker( "hazy cloud" ),translate_marker( "toxic gas" ),translate_marker( "thick toxic gas" )}, '8', 8,
-        {def_c_white,def_c_light_green,def_c_green}, {true, false, false},{true, true, true}, 90_minutes,
+        {def_c_white,def_c_light_green,def_c_green}, {true, false, false},{true, true, true}, 10_minutes,
         {0,0,0},
         GAS,
         false
@@ -446,6 +448,14 @@ const std::array<field_t, num_fields> fieldlist = { {
         "fd_fungicidal_gas",
         {translate_marker( "hazy cloud" ),translate_marker( "fungicidal gas" ),translate_marker( "thick fungicidal gas" )}, '8', 8,
         {def_c_white,def_c_light_gray,def_c_dark_gray}, {true, true, false}, {true, true, true}, 90_minutes,
+        {0,0,0},
+        GAS,
+        false
+    },
+    {
+        "fd_smoke_vent",
+        {translate_marker( "smoke vent" ), translate_marker( "smoke vent" ), translate_marker( "smoke vent" )}, '%', 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0_turns,
         {0,0,0},
         GAS,
         false
@@ -896,7 +906,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
 
-                            fire_data frd{ cur.getFieldDensity(), 0.0f, 0.0f };
+                            fire_data frd( cur.getFieldDensity(), !can_spread );
                             // The highest # of items this fire can remove in one turn
                             int max_consume = cur.getFieldDensity() * 2;
 
@@ -905,7 +915,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // destroyed by the fire, this changes the item weight, but may not actually
                                 // destroy it. We need to spawn products anyway.
                                 const units::mass old_weight = fuel->weight( false );
-                                bool destroyed = fuel->burn( frd, can_spread);
+                                bool destroyed = fuel->burn( frd );
                                 // If the item is considered destroyed, it may have negative charge count,
                                 // see `item::burn?. This in turn means `item::weight` returns a negative value,
                                 // which we can not use, so only call `weight` when it's still an existing item.
@@ -916,9 +926,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
-                                    // But remember its contents
+                                    // But remember its contents, except for irremovable mods, if any
                                     std::copy( fuel->contents.begin(), fuel->contents.end(),
                                                std::back_inserter( new_content ) );
+                                    new_content.erase( std::remove_if( new_content.begin(), new_content.end(), [&]( const item & i ) {
+                                        return i.is_irremovable();
+                                    } ), new_content.end() );
                                     fuel = items_here.erase( fuel );
                                     consumed++;
                                 } else {
@@ -1204,10 +1217,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 dirty_transparency_cache = true; // Smoke affects transparency
                             }
 
-                        // Hot air is a heavy load on the CPU and it doesn't do much
+                        // Hot air is a load on the CPU
                         // Don't produce too much of it if we have a lot fires nearby, they produce
                         // radiant heat which does what hot air would do anyway
-                        if( rng( 0, adjacent_fires ) > 2 ) {
+                        if( adjacent_fires < 5 && rng( 0, 4 - adjacent_fires ) ) {
                             create_hot_air( p, cur.getFieldDensity() );
                         }
                     }
@@ -1314,13 +1327,28 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_gas_vent:
                     {
                         dirty_transparency_cache = true;
-                        for( const tripoint &pnt : points_in_radius( p, 1 ) ) {
+                        for( const tripoint &pnt : points_in_radius( p, cur.getFieldDensity() - 1 ) ) {
                             field &wandering_field = get_field( pnt );
                             tmpfld = wandering_field.findField(fd_toxic_gas);
-                            if (tmpfld && tmpfld->getFieldDensity() < 3) {
+                            if (tmpfld && tmpfld->getFieldDensity() < cur.getFieldDensity()) {
                                 tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
                             } else {
-                                add_field( pnt, fd_toxic_gas, 3 );
+                                add_field( pnt, fd_toxic_gas, cur.getFieldDensity() );
+                            }
+                        }
+                    }
+                        break;
+
+                    case fd_smoke_vent:
+                    {
+                        dirty_transparency_cache = true;
+                        for( const tripoint &pnt : points_in_radius( p, cur.getFieldDensity() - 1 ) ) {
+                            field &wandering_field = get_field( pnt );
+                            tmpfld = wandering_field.findField(fd_smoke);
+                            if (tmpfld && tmpfld->getFieldDensity() < cur.getFieldDensity()) {
+                                tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
+                            } else {
+                                add_field( pnt, fd_smoke, cur.getFieldDensity() );
                             }
                         }
                     }
@@ -1534,6 +1562,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_relax_gas ) ||
                             curfield.findField( fd_nuke_gas ) ||
                             curfield.findField( fd_gas_vent ) ||
+                            curfield.findField( fd_smoke_vent ) ||
                             curfield.findField( fd_fungicidal_gas ) ||
                             curfield.findField( fd_fire_vent ) ||
                             curfield.findField( fd_flame_burst ) ||
@@ -1896,25 +1925,25 @@ void map::player_in_field( player &u )
 
         case fd_tear_gas:
             //Tear gas will both give you teargas disease and/or blind you.
-            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_teargas, bp_mouth, 5, 2_minutes );
             }
-            if (cur.getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
+            if (cur.getFieldDensity() > 1 && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_blind, bp_eyes, cur.getFieldDensity() * 2, 1_minutes );
             }
             break;
 
         case fd_relax_gas:
-            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            if ((cur.getFieldDensity() > 1 || !one_in(3)) && (!inside || one_in(3)))
             {
                 u.add_env_effect( effect_relax_gas, bp_mouth, cur.getFieldDensity() * 2, 3_turns );
             }
             break;
 
         case fd_fungal_haze:
-            if (!u.has_trait( trait_id( "M_IMMUNE" ) ) && (!inside || (inside && one_in(4))) ) {
+            if (!u.has_trait( trait_id( "M_IMMUNE" ) ) && (!inside || one_in(4)) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
             }
@@ -1933,8 +1962,8 @@ void map::player_in_field( player &u )
             // Toxic gas at high levels will cause very nasty poison.
             {
                 bool inhaled = false;
-                if( cur.getFieldDensity() == 2 &&
-                    (!inside || (cur.getFieldDensity() == 3 && inside)) ) {
+                if( (cur.getFieldDensity() == 2 && !inside) || 
+                    (cur.getFieldDensity() == 3 && inside) ) {
                     inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, 3_minutes );
                 } else if( cur.getFieldDensity() == 3 && !inside ) {
                     inhaled = u.add_env_effect( effect_badpoison, bp_mouth, 5, 3_minutes );
@@ -2424,7 +2453,6 @@ char field_entry::symbol() const
 field_id field_entry::getFieldType() const{
     return type;
 }
-
 
 int field_entry::getFieldDensity() const{
     return density;

@@ -86,7 +86,8 @@
       [ "spear_forked", 10 ],
       [ "spear_knife", 10 ],
       [ "spear_rebar", 10 ],
-      [ "spear_wood", 10 ]
+      [ "spear_wood", 10 ],
+      [ "spear_homemade_halfpike", 10 ]
     ]
   },
   {

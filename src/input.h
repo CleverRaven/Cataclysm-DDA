@@ -88,13 +88,7 @@ struct input_event {
         sequence.push_back( s );
     }
 
-    long get_first_input() const {
-        if( sequence.empty() ) {
-            return 0;
-        }
-
-        return sequence[0];
-    }
+    long get_first_input() const;
 
     void add_input( const long input ) {
         sequence.push_back( input );

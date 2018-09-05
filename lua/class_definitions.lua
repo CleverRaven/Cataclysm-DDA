@@ -611,8 +611,10 @@ classes = {
             { name = "i_at", rval = "item&", args = { "int" } },
             { name = "impact", rval = "int", args = { "int", "tripoint" } },
             { name = "in_climate_control", rval = "bool", args = { } },
-            { name = "install_bionics", rval = "bool", args = { "itype" } },
-            { name = "install_bionics", rval = "bool", args = { "itype", "int" } },
+            { name = "install_bionics", rval = "bool", args = { "itype", "player", "bool", "int" } },
+            { name = "install_bionics", rval = "bool", args = { "itype", "player", "int" } },
+            { name = "install_bionics", rval = "bool", args = { "itype", "player", "bool" } },
+            { name = "install_bionics", rval = "bool", args = { "itype", "player" } },
             { name = "intimidation", rval = "int", args = { } },
             { name = "invalidate_crafting_inventory", rval = nil, args = { } },
             { name = "invlet_to_position", rval = "int", args = { "int" } },
@@ -1848,7 +1850,6 @@ classes = {
             { name = "note", rval = "string", args = { "int", "int", "int" } },
             { name = "add_note", rval = nil, args = { "int", "int", "int", "string" } },
             { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
-            { name = "display_notes", rval = "point", args = { "int" } },
             { name = "global_base_point", rval = "point", args = { } },
             { name = "clear_mon_groups", rval = nil, args = { } },
         }
@@ -2171,6 +2172,18 @@ global_functions = {
         cpp_name = "item_controller->add_item_to_group",
         args = { "string", "string", "int" },
         rval = "bool"
+    },
+    get_monster_at = {
+        cpp_name = "get_monster_at",
+        args = { "tripoint" },
+        rval = "monster&",
+        desc = "Returns a reference to monster at given tripoint, *or* nil if there is no monster."
+    },
+    get_critter_at = {
+        cpp_name = "get_critter_at",
+        args = { "tripoint" },
+        rval = "Creature&",
+        desc = "Returns a reference to creature at given tripoint, *or* nil if there is no creature."
     },
     create_monster = {
         cpp_name = "create_monster",

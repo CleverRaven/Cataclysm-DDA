@@ -35,6 +35,7 @@
 #include "cata_utility.h"
 #include "cursesport.h"
 #include "rect_range.h"
+#include "clzones.h"
 
 #include <cassert>
 #include <algorithm>
@@ -84,7 +85,6 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
     "hit_entity", // C_HIT_ENTITY,
     "weather", // C_WEATHER,
 }};
-
 
 namespace
 {
@@ -166,6 +166,26 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
     }
 
     return -1;
+}
+
+formatted_text::formatted_text( const std::string &text, const int color, const direction direction )
+    : text( text ), color( color )
+{
+    switch( direction ) {
+        case NORTHWEST:
+        case WEST:
+        case SOUTHWEST:
+            alignment = TEXT_ALIGNMENT_RIGHT;
+            break;
+        case NORTH:
+        case CENTER:
+        case SOUTH:
+            alignment = TEXT_ALIGNMENT_CENTER;
+            break;
+        default:
+            alignment = TEXT_ALIGNMENT_LEFT;
+            break;
+    }
 }
 
 cata_tiles::cata_tiles(SDL_Renderer *render)
@@ -944,7 +964,8 @@ struct tile_render_info {
     }
 };
 
-void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height )
+void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height, 
+                       std::multimap<point, formatted_text> &overlay_strings )
 {
     if (!g) {
         return;
@@ -1057,11 +1078,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-        const std::array<decltype ( &cata_tiles::draw_furniture ), 7> drawing_layers = {{
+        const std::array<decltype ( &cata_tiles::draw_furniture ), 8> drawing_layers = {{
             &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
             &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
             &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
-            &cata_tiles::draw_critter_at
+            &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark
         }};
         // for each of the drawing layers in order, back to front ...
         for( auto f : drawing_layers ) {
@@ -1101,7 +1122,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             void_weather();
         }
         if (do_draw_sct) {
-            draw_sct_frame();
+            draw_sct_frame( overlay_strings );
             void_sct();
         }
         if (do_draw_zones) {
@@ -1217,7 +1238,6 @@ void cata_tiles::process_minimap_cache_updates()
             for( const point &p : mcp.second.update_list ) {
                 const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
                 const SDL_Color c = current_pix.getSdlColor();
-
 
                 printErrorIf( SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a ) != 0, "SDL_SetRenderDrawColor failed" );
 
@@ -1522,10 +1542,10 @@ bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile,
                                             ll, apply_night_vision_goggles, nullint );
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                     const std::string &subcategory, tripoint pos,
-                                     int subtile, int rota, lit_level ll,
-                                     bool apply_night_vision_goggles )
+bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
+                                      const std::string &subcategory, tripoint pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles )
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
@@ -1539,10 +1559,81 @@ bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile,
                                             ll, apply_night_vision_goggles, height_3d );
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                     const std::string &subcategory, tripoint pos,
-                                     int subtile, int rota, lit_level ll,
-                                     bool apply_night_vision_goggles, int &height_3d )
+const tile_type *cata_tiles::find_tile_with_season( std::string &id )
+{
+    constexpr size_t suffix_len = 15;
+    constexpr char season_suffix[4][suffix_len] = {
+        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
+    };
+
+    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
+
+    const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
+    if( tt ) {
+        id = seasonal_id;
+    } else {
+        tt = tileset_ptr->find_tile_type( id );
+    }
+    return tt;
+}
+
+const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGORY category )
+{
+    std::string looks_like = id;
+    int cnt = 0;
+    while( !looks_like.empty() && cnt < 10 ) {
+        const tile_type *lltt = find_tile_with_season( looks_like );
+        if( lltt ) {
+            id = looks_like;
+            return lltt;
+        }
+        if( category == C_FURNITURE ) {
+            const furn_str_id fid( looks_like );
+            if( !fid.is_valid() ) {
+                return nullptr;
+            }
+            const furn_t &furn = fid.obj();
+            looks_like = furn.looks_like;
+        } else if( category == C_TERRAIN ) {
+            const ter_str_id tid( looks_like );
+            if( !tid.is_valid() ) {
+                return nullptr;
+            }
+            const ter_t &ter = tid.obj();
+            looks_like = ter.looks_like;
+        } else if( category == C_MONSTER ) {
+            const mtype_id mid( looks_like );
+            if( !mid.is_valid() ) {
+                return nullptr;
+            }
+            const mtype &mt = mid.obj();
+            looks_like = mt.looks_like;
+        } else if( category == C_VEHICLE_PART ) {
+            // vehicle parts start with vp_ for their tiles, but not their IDs
+            const vpart_id new_vpid( looks_like.substr( 3 ) );
+            if( !new_vpid.is_valid() ) {
+                return nullptr;
+            }
+            const vpart_info &new_vpi = new_vpid.obj();
+            looks_like = "vp_" + new_vpi.looks_like;
+        } else if( category == C_ITEM ) {
+            if( !item::type_is_defined( looks_like ) ) {
+                return nullptr;
+            }
+            const itype *new_it = item::find_type( looks_like );
+            looks_like = new_it->looks_like;
+        } else {
+            return nullptr;
+        }
+        cnt += 1;
+    }
+    return nullptr;
+}
+
+bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
+                                      const std::string &subcategory, tripoint pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles, int &height_3d )
 {
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
@@ -1557,71 +1648,59 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         return false;
     }
 
-
-    constexpr size_t suffix_len = 15;
-    constexpr char season_suffix[4][suffix_len] = {
-        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
-
-    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
-
-    const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
-    if( tt ) {
-        id = std::move(seasonal_id);
-    } else {
-        tt = tileset_ptr->find_tile_type( id );
-    }
+    const tile_type *tt = find_tile_looks_like( id, category );
 
     if( !tt ) {
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
-        if (category == C_FURNITURE) {
+        if( category == C_FURNITURE ) {
             const furn_str_id fid( id );
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 sym = f.symbol();
                 col = f.color();
             }
-        } else if (category == C_TERRAIN) {
+        } else if( category == C_TERRAIN ) {
             const ter_str_id tid( id );
-            if ( tid.is_valid() ) {
+            if( tid.is_valid() ) {
                 const ter_t &t = tid.obj();
                 sym = t.symbol();
                 col = t.color();
             }
-        } else if (category == C_MONSTER) {
+        } else if( category == C_MONSTER ) {
             const mtype_id mid( id );
             if( mid.is_valid() ) {
                 const mtype &mt = mid.obj();
                 int len = mt.sym.length();
                 const char *s = mt.sym.c_str();
-                sym = UTF8_getch(&s, &len);
+                sym = UTF8_getch( &s, &len );
                 col = mt.color;
             }
-        } else if (category == C_VEHICLE_PART) {
+        } else if( category == C_VEHICLE_PART ) {
             const vpart_id vpid( id.substr( 3 ) );
             if( vpid.is_valid() ) {
                 const vpart_info &v = vpid.obj();
                 sym = v.sym;
-                if (!subcategory.empty()) {
-                    sym = special_symbol(subcategory[0]);
+                if( !subcategory.empty() ) {
+                    sym = special_symbol( subcategory[0] );
                     rota = 0;
                     subtile = -1;
                 }
                 col = v.color;
             }
-        } else if (category == C_FIELD) {
+        } else if( category == C_FIELD ) {
             const field_id fid = field_from_ident( id );
             sym = fieldlist[fid].sym;
             // TODO: field density?
             col = fieldlist[fid].color[0];
-        } else if (category == C_TRAP) {
+        } else if( category == C_TRAP ) {
             const trap_str_id tmp( id );
             if( tmp.is_valid() ) {
                 const trap &t = tmp.obj();
                 sym = t.sym;
                 col = t.color;
             }
-        } else if (category == C_ITEM) {
+        } else if( category == C_ITEM ) {
             const auto tmp = item( id, 0 );
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
@@ -1707,21 +1786,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     // translate from player-relative to screen relative tile position
-    int screen_x = 0;
-    int screen_y = 0;
-    if( tile_iso ) {
-        screen_x = (( pos.x - o_x ) - ( o_y - pos.y ) + screentile_width - 2 ) * tile_width / 2 +
-        op_x;
-        // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = (( pos.y - o_y ) - ( pos.x - o_x ) - 4) * tile_width / 4 +
-            screentile_height * tile_height / 2 + // TODO: more obvious centering math
-            op_y;
-    } else {
-        screen_x = ( pos.x - o_x ) * tile_width + op_x;
-        screen_y = ( pos.y - o_y ) * tile_height + op_y;
-    }
-
+    const point screen_pos = player_to_screen( pos.x, pos.y );
 
     // seed the PRNG to get a reproducible random int
     // TODO faster solution here
@@ -1792,7 +1857,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     //draw it!
-    draw_tile_at( display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles, height_3d );
+    draw_tile_at( display_tile, screen_pos.x, screen_pos.y, loc_rand, rota, ll, apply_night_vision_goggles, height_3d );
 
     return true;
 }
@@ -2243,6 +2308,28 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     return false;
 }
 
+bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d )
+{
+    if( !g->is_zone_manager_open() ) {
+        return false;
+    }
+
+    const auto mgr = zone_manager::get_manager();
+    const tripoint &abs = g->m.getabs( p );
+    const auto zone = mgr.get_bottom_zone( abs );
+
+    if( zone && zone->has_options() ) {
+        auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
+
+        if( option && option->get_mark() != "" ) {
+            return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,
+                                        nv_goggles_activated, height_3d );
+        }
+    }
+
+    return false;
+}
+
 bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d )
 {
     if( !g->u.sees( critter ) ) {
@@ -2603,11 +2690,14 @@ void cata_tiles::draw_weather_frame()
     }
 }
 
-void cata_tiles::draw_sct_frame()
+void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings )
 {
+    const bool use_font = get_option<bool>("ANIMATION_SCT_USE_FONT");
+
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const int iDX = iter->getPosX();
         const int iDY = iter->getPosY();
+        const int full_text_length = iter->getText().length();
 
         int iOffsetX = 0;
         int iOffsetY = 0;
@@ -2617,22 +2707,34 @@ void cata_tiles::draw_sct_frame()
             int FG = msgtype_to_tilecolor( iter->getMsgType( ( j == 0 ) ? "first" : "second" ),
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
-            for( std::string::iterator it = sText.begin(); it != sText.end(); ++it ) {
-                const std::string generic_id = get_ascii_tile_id( *it, FG, -1 );
+            if( use_font ) {
+                const auto direction = iter->getDirecton();
+                // Compensate for string length offset added at SCT creation 
+                // (it will be readded using font size and proper encoding later).
+                const int direction_offset = (-direction_XY( direction ).x + 1) * full_text_length / 2;
 
-                if( tileset_ptr->find_tile_type( generic_id ) ) {
-                    draw_from_id_string( generic_id, C_NONE, empty_string,
-                                         { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
-                }
+                overlay_strings.emplace( 
+                    player_to_screen( iDX + direction_offset, iDY ),
+                    formatted_text( sText, FG, direction ) );
+            } else {
+                for (std::string::iterator it = sText.begin(); it != sText.end(); ++it) {
+                    const std::string generic_id = get_ascii_tile_id(*it, FG, -1);
 
-                if( tile_iso ) {
-                    iOffsetY++;
+                    if (tileset_ptr->find_tile_type(generic_id)) {
+                        draw_from_id_string(generic_id, C_NONE, empty_string,
+                            { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
+                    }
+
+                    if (tile_iso) {
+                        iOffsetY++;
+                    }
+                    iOffsetX++;
                 }
-                iOffsetX++;
             }
         }
     }
 }
+
 void cata_tiles::draw_zones_frame()
 {
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY) {
@@ -2832,6 +2934,26 @@ void cata_tiles::do_tile_loading_report() {
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );
+}
+
+point cata_tiles::player_to_screen( const int x, const int y ) const
+{
+    int screen_x = 0;
+    int screen_y = 0;
+    if (tile_iso) {
+        screen_x = ((x - o_x) - (o_y - y) + screentile_width - 2) * tile_width / 2 +
+            op_x;
+        // y uses tile_width because width is definitive for iso tiles
+        // tile footprints are half as tall as wide, arbitrarily tall
+        screen_y = ((y - o_y) - (x - o_x) - 4) * tile_width / 4 +
+            screentile_height * tile_height / 2 + // TODO: more obvious centering math
+            op_y;
+    }
+    else {
+        screen_x = (x - o_x) * tile_width + op_x;
+        screen_y = (y - o_y) * tile_height + op_y;
+    }
+    return {screen_x, screen_y};
 }
 
 template<typename Iter, typename Func>

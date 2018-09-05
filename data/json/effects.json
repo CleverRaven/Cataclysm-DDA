@@ -270,7 +270,7 @@
         "type": "effect_type",
         "id": "blind",
         "name": ["Blind"],
-        "desc": ["Range of Sight: 0"],
+        "desc": ["Range of Sight: 0.  You cannot see anything."],
         "removes_effects": ["glare", "darkness"],
         "apply_message": "You're blinded!",
         "remove_message": "Your sight returns!",
@@ -539,11 +539,23 @@
     },
     {
         "type": "effect_type",
+        "id": "took_xanax_visible",
+        "name": ["Took Xanax"],
+        "desc": ["You took Xanax some time ago and you might still be under it's influence."]
+    },
+    {
+        "type": "effect_type",
         "id": "took_prozac"
     },
     {
         "type": "effect_type",
         "id": "took_prozac_bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "took_prozac_visible",
+        "name": ["Took Prozac"],
+        "desc": ["You took Prozac some time ago and you might still be under it's influence."]
     },
     {
         "type": "effect_type",
@@ -642,7 +654,7 @@
         "desc": ["You have an infected wound."],
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
-        "apply_message": "Your bite wound feels infected",
+        "apply_message": "Your bite wound feels infected.",
         "resist_traits": ["INFRESIST"],
         "main_parts_only": true,
         "rating": "bad",
@@ -691,6 +703,46 @@
             "dex_mod": [-1],
             "vomit_chance": [-400],
             "sleep_chance": [101]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "bandaged",
+        "name": ["Bandaged"],
+        "desc": ["Your wounds are bandaged."],
+        "main_parts_only": true,
+        "rating": "good",
+        "int_dur_factor": 3600,
+        "max_intensity": 16,
+        "max_effective_intensity": 8,
+        "max_duration": 57600,
+        "base_mods": {
+            "healing_rate": [2],
+            "healing_head": [50],
+            "healing_torso": [150]
+        },
+        "scaling_mods": {
+            "healing_rate": [2]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "disinfected",
+        "name": ["Disinfected"],
+        "desc": ["Your wounds are disinfected."],
+        "main_parts_only": true,
+        "rating": "good",
+        "int_dur_factor": 3600,
+        "max_intensity": 16,
+        "max_effective_intensity": 8,
+        "max_duration": 57600,
+        "base_mods": {
+            "healing_rate": [2],
+            "healing_head": [50],
+            "healing_torso": [150]
+        },
+        "scaling_mods": {
+            "healing_rate": [2]
         }
     },
     {
@@ -988,7 +1040,7 @@
         "type": "effect_type",
         "id": "common_cold",
         "name": ["Common Cold"],
-        "desc": ["Symptoms alleviated by medication (cough syrup)."],
+        "desc": ["You have contracted the 'Common Cold'.  Symptoms can be alleviated by medication (cough syrup)."],
         "apply_memorial_log": "Caught a cold.",
         "remove_memorial_log": "Got over the cold.",
         "apply_message": "You feel a cold coming on...",
@@ -1011,7 +1063,7 @@
         "type": "effect_type",
         "id": "flu",
         "name": ["Influenza"],
-        "desc": ["Symptoms alleviated by medication (cough syrup)."],
+        "desc": ["You have contracted flu, or more technically speaking, the 'Influenza'.  Symptoms can be alleviated by medication (cough syrup)."],
         "apply_memorial_log": "Caught the flu.",
         "remove_memorial_log": "Got over the flu.",
         "apply_message": "You feel a flu coming on...",
@@ -1226,8 +1278,8 @@
         "id": "cig",
         "name": ["Nicotine"],
         "desc": [
-            "",
-            "You smoked too much"
+            "You had a puff or two.",
+            "You smoked too much."
         ],
         "max_intensity": 2,
         "int_dur_factor": 600,
@@ -1251,6 +1303,7 @@
         "type": "effect_type",
         "id": "high",
         "name": ["High"],
+        "desc": ["You are high as a kite."],
         "apply_message": "You feel lightheaded.",
         "base_mods": {
             "int_mod": [-1],
@@ -1286,6 +1339,10 @@
             "Trashed",
             "Wasted"
         ],
+        "desc": [ "You drank some alcohol.  You feel warm inside.",
+                  "You drank alcohol.  Party on!",
+                  "You drank lots of alcohol.  Are those white mice?",
+                  "You drank unholy amounts of alcohol.  It's the end of the world, what do you care?" ],
         "max_intensity": 4,
         "apply_message": "You feel lightheaded.",
         "int_dur_factor": 1000,
@@ -1331,6 +1388,7 @@
             "Heavy Asthma",
             "Heavy Asthma"
         ],
+        "desc": [ "You suffer from a respiratory disorder that makes breathing difficult.\nAn asthma attack can occur from time to time, so have your inhaler nearby." ],
         "apply_message": "You can't breathe... asthma attack!",
         "rating": "bad",
         "max_intensity": 6,
@@ -1369,6 +1427,12 @@
             "stim_min": [1],
             "stim_min_val": [-1]
         }
+    },
+    {
+        "type": "effect_type",
+        "id": "took_anticonvulsant_visible",
+        "name": ["Took anticonvulsant drugs"],
+        "desc": ["You took anticonvulsant drugs some time ago and you might still be under it's influence.\nPrescription note says it's effect duration may vary, so your estimate may be inaccurate."]
     },
     {
         "type": "effect_type",
@@ -1695,6 +1759,7 @@
         "type": "effect_type",
         "id": "pkill",
         "name": [ "Painkillers" ],
+        "desc": [ "You are under the influence of analgesic substances to relieve pain, but they may numb you a bit." ],
         "max_intensity": 30,
         "int_dur_factor": 10,
         "scaling_mods": {
@@ -1707,6 +1772,11 @@
         "name": [ "Happy", "Happy", "Happy", "Happy", "Happy",
                   "Joyful", "Joyful", "Joyful", "Joyful", "Joyful",
                   "Elated" ],
+        "desc": [ "Life is good.", "Life is good.", "Life is good.", "Life is good.", "Life is good.",
+                  "Oh what a day!  What a lovely day!",
+                  "Oh what a day!  What a lovely day!", "Oh what a day!  What a lovely day!",
+                  "Oh what a day!  What a lovely day!", "Oh what a day!  What a lovely day!",
+                  "I'm on top of the world, baby!" ],
         "max_intensity": 25,
         "int_dur_factor": 10,
         "scaling_mods": {
@@ -1723,6 +1793,12 @@
         "name": [ "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Unhappy",
                   "Sad", "Sad", "Sad", "Sad", "Sad",
                   "Depressed" ],
+        "desc": [ "You are not content with your life.", "You are not content with your life.",
+                  "You are not content with your life.", "You are not content with your life.",
+                  "You are not content with your life.", "This is not what you planned for your life.",
+                  "This is not what you planned for your life.", "This is not what you planned for your life.",
+                  "This is not what you planned for your life.", "This is not what you planned for your life.",
+                  "When will all your suffering end?" ],
         "max_intensity": 1000,
         "int_dur_factor": 10,
         "scaling_mods": {
@@ -1738,6 +1814,7 @@
         "type": "effect_type",
         "id": "irradiated",
         "name": [ "Irradiated" ],
+        "desc": [ "You suffer symptoms of a radiation sickness that weakens your body." ],
         "max_intensity": 2000,
         "int_dur_factor": 10,
         "scaling_mods": {
@@ -1753,6 +1830,7 @@
         "type": "effect_type",
         "id": "stim",
         "name": [ "Stimulants" ],
+        "desc": [ "You're very jittery and pumped up, probably from some stimulants." ],
         "max_intensity": 1000,
         "int_dur_factor": 1,
         "scaling_mods": {
@@ -1766,6 +1844,7 @@
         "type": "effect_type",
         "id": "depressants",
         "name": [ "Depressants" ],
+        "desc": [ "You are under the influence of depressants, and in a bit of a daze." ],
         "max_intensity": 1000,
         "int_dur_factor": 1,
         "scaling_mods": {
@@ -1780,6 +1859,7 @@
         "type": "effect_type",
         "id": "stim_overdose",
         "name": [ "Stimulant Overdose" ],
+        "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
         "max_intensity": 1000,
         "int_dur_factor": 1,
         "base_mods": {
@@ -1794,5 +1874,67 @@
             "per_mod": [-0.071]
         },
         "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
+    },
+    {
+        "type": "effect_type",
+        "id": "weak_antibiotic_visible",
+        "name": ["Took weak antibiotic"],
+        "desc": [ "You consumed mild antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage." ]
+    },
+    {
+        "type": "effect_type",
+        "id": "antibiotic_visible",
+        "name": ["Took antibiotic"],
+        "desc": [ "You consumed antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage." ]
+    },
+    {
+        "type": "effect_type",
+        "id": "strong_antibiotic_visible",
+        "name": ["Took strong antibiotic"],
+        "desc": [ "You consumed perscription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage." ]
+    },
+    {
+        "type": "effect_type",
+        "id": "weak_antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "strong_antibiotic"
+    },
+    {
+        "type": "effect_type",
+        "id": "panacea",
+        "name": [ "Panacea" ],
+        "desc": [ "You feel incredible! You could take on the world!" ],
+        "max_duration": 10,
+        "base_mods": {
+            "speed_mod": [20],
+            "str_mod": [2],
+            "dex_mod": [2],
+            "int_mod": [2],
+            "per_mod": [2]
+        }
+    },
+    {
+        "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
+        "type": "effect_type",
+        "id": "emp",
+        "name": [ "Discharge" ],
+        "desc": [ "You've been recently affected by an electromagnetic pulse." ],
+        "max_duration": 30
+    },
+    {
+        "type": "effect_type",
+        "id": "supercharged",
+        "//": "not given to players by default",
+        "name": [ "Supercharged" ],
+        "desc": [ "You've been struck by lightning, and feel... different." ],
+        "base_mods": {
+            "speed_mod": [50]
+        }
     }
 ]

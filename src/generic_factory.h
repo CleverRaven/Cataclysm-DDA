@@ -1,6 +1,6 @@
 #pragma once
-#ifndef H_GENERIC_FACTORY
-#define H_GENERIC_FACTORY
+#ifndef GENERIC_FACTORY_H
+#define GENERIC_FACTORY_H
 
 #include "string_id.h"
 #include "int_id.h"
@@ -523,7 +523,6 @@ inline void optional( JsonObject &jo, const bool was_loaded, const std::string &
     }
 }
 /**@}*/
-
 
 /**
  * Reads a string from JSON and (if not empty) applies the translation function to it.

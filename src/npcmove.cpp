@@ -32,6 +32,7 @@
 #include "cata_algo.h"
 
 #include <algorithm>
+#include <memory>
 #include <numeric>
 #include <sstream>
 
@@ -343,7 +344,7 @@ void npc::move()
      * NPC won't avoid dangerous terrain while accompanying the player inside a vehicle
      * to keep them from inadvertantly getting themselves run over and/or cause vehicle related errors.
      */
-    if( sees_dangerous_field( pos() ) && ( !g->u.in_vehicle && is_following() ) ) {
+    if( sees_dangerous_field( pos() ) && !in_vehicle ) {
         const tripoint escape_dir = good_escape_direction( *this );
         if( escape_dir != pos() ) {
             move_to( escape_dir );
@@ -1482,21 +1483,18 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
           );
 }
 
-void npc::move_to( const tripoint &pt, bool no_bashing )
+void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomove )
 {
-    if( g->m.has_flag( "UNSTABLE", pt ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
-    } else if( has_effect( effect_bouldering ) ) {
-        remove_effect( effect_bouldering );
-    }
-
     tripoint p = pt;
-    if( sees_dangerous_field( pt ) ) {
+    if( sees_dangerous_field( p )
+        || ( nomove != nullptr && nomove->find( p ) != nomove->end() ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        auto other_points = g->m.get_dir_circle( pos(), pt );
+        auto other_points = g->m.get_dir_circle( pos(), p );
         for( const tripoint &ot : other_points ) {
-            if( could_move_onto( ot ) ) {
+            if( could_move_onto( ot )
+                && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+
                 p = ot;
                 break;
             }
@@ -1509,6 +1507,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         p.x = rng( posx() - 1, posx() + 1 );
         p.y = rng( posy() - 1, posy() + 1 );
         p.z = posz();
+    }
+
+    // nomove is used to resolve recursive invocation, so reset destination no
+    // matter it was changed by stunned effect or not.
+    if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+        p = pos();
     }
 
     // "Long steps" are allowed when crossing z-levels
@@ -1552,7 +1556,19 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         // TODO: Have them attack each other when hostile
         npc *np = dynamic_cast<npc *>( critter );
         if( np != nullptr && !np->in_sleep_state() ) {
-            np->move_away_from( pos(), true );
+            std::unique_ptr<std::set<tripoint>> newnomove;
+            std::set<tripoint> *realnomove;
+            if( nomove != nullptr ) {
+                realnomove = nomove;
+            } else {
+                // create the no-move list
+                newnomove.reset( new std::set<tripoint>() );
+                realnomove = newnomove.get();
+            }
+            // other npcs should not try to move into this npc anymore,
+            // so infinite loop can be avoided.
+            realnomove->insert( pos() );
+            np->move_away_from( pos(), true, realnomove );
         }
 
         if( critter->pos() == p ) {
@@ -1615,6 +1631,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
+
+        if( g->m.has_flag( "UNSTABLE", pos() ) ) {
+            add_effect( effect_bouldering, 1_turns, num_bp, true );
+        } else if( has_effect( effect_bouldering ) ) {
+            remove_effect( effect_bouldering );
+        }
+
         if( in_vehicle ) {
             g->m.unboard_vehicle( old_pos );
         }
@@ -1708,12 +1731,16 @@ void npc::escape_explosion()
     move_away_from( ai_cache.dangerous_explosives, true );
 }
 
-void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
+void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoint> *nomove )
 {
     tripoint best_pos = pos();
     int best = -1;
     int chance = 2;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+            continue;
+        }
+
         if( p == pos() ) {
             continue;
         }
@@ -1740,7 +1767,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
         }
     }
 
-    move_to( best_pos, no_bash_atk );
+    move_to( best_pos, no_bash_atk, nomove );
 }
 
 void npc::move_pause()
@@ -1836,7 +1863,6 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         move_pause();
     }
 }
-
 
 void npc::find_item()
 {
@@ -1995,7 +2021,6 @@ void npc::pick_up_item()
         add_msg( m_debug, "Canceling pickup - no items or new zone" );
         return;
     }
-
 
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
@@ -2681,7 +2706,7 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( food->parasites ) {
+    if( food->parasites && !it.has_flag( "NO_PARASITES" ) ) {
         return 0.0;
     }
 

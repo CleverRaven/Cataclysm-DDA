@@ -12,7 +12,7 @@
       "fill_ter": "t_dirt",
       "rows": [
         "                                                 FFFFFFFFFFFFFFFFFFFFFF ",
-        "                                                 F                    F ",
+        "                                            P    F                    F ",
         "                                                 F  DDDDDDDDDDDDDDDD  F ",
         "                O                                F                    F ",
         "  ##W##MMMMMMMMM##W##                            F  DDDDDDDDDDDDDDDD  F ",
@@ -23,7 +23,7 @@
         "  #333__________ 233W                            F                    F ",
         "  #__2__________ 2__#             $$$       $$$  F  DDDDDDDDDDDDDDDD  F ",
         "  #__2__________ 2__#   ###++### --w---+-----w-- F                    F ",
-        "  W__g__________ g__W   #EE____# -uSeuu........- F  DDDDDDDDDDDDDDDD  F ",
+        "  W__g__________ g__W   #EE____# -uSeuu...Y....- F  DDDDDDDDDDDDDDDD  F ",
         "  W__g__________ g__W   #E_____# -o............- F                    F ",
         "  #__2__________ 2__#   #_1__1_# -u..........H.- F  DDDDDDDDDDDDDDDD  F ",
         "  #__2__________ 2__#   #______# -u...----+----- F                    F ",
@@ -35,7 +35,7 @@
         "FF##W##MMMMMMMMM##W##FF                          F                    F ",
         "F               O     F                          F  DDDDDDDDDDDDDDDD  F ",
         "F                     FFFFFFFFFFFFFFFFFFFFFFFFFFFF                    F ",
-        "F                       ,,,,,,,,,,,,,,,,,,,,,,,                       FF",
+        "F                       ,,,,,,,,,,,,,,,,,,,,,,,                       F ",
         "F                                                                     F ",
         "F  DDDDDDDDDDDDDDDDD        DDDDDDDDDDDDDDDD        DDDDDDDDDDDDDDDD  F ",
         "F                                                                     F ",
@@ -104,9 +104,11 @@
         "H": [ "t_floor" ],
         "M": [ "t_door_metal_locked" ],
         "O": [ "t_barndoor" ],
+        "P": [ "t_grass" ],
         "S": [ "t_floor" ],
         "T": [ "t_floor" ],
         "W": [ "t_window_boarded" ],
+        "Y": [ "t_floor" ],
         "_": [ "t_dirtfloor" ],
         "b": [ "t_floor" ],
         "d": [ "t_floor" ],
@@ -124,8 +126,10 @@
       "furniture": {
         "B": [ "f_bed" ],
         "H": [ "f_armchair" ],
+        "P": [ "f_mailbox" ],
         "S": [ "f_sink" ],
         "T": [ "f_toilet" ],
+        "Y": [ "f_rack_coat" ],
         "b": [ "f_bathtub" ],
         "d": [ "f_dresser" ],
         "e": [ "f_fridge" ],
@@ -136,9 +140,7 @@
         "u": [ "f_cupboard" ],
         "y": [ "f_hay" ]
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         "B": { "item": "bed", "chance": 60 },
         "D": { "item": "hydro", "chance": 5 },
@@ -148,14 +150,19 @@
         "e": { "item": "fridge", "chance": 65 },
         "h": { "item": "bedroom", "chance": 65 },
         "k": { "item": "bedroom", "chance": 65 },
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "P": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
         "l": [ { "item": "tools_earthworking", "chance": 65 }, { "item": "mechanics", "chance": 40 }, { "item": "home_hw", "chance": 50 }, { "item": "tools_common", "chance": 50 } ],
         "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 65 }, { "item": "moonshine_brew", "chance": 65 } ]
       },
       "place_items": [],
-      "add": [
+      "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
-        { "item": "straw_pile", "x": [ 3, 3 ], "y": [ 10, 15 ], "amount": [ 5, 15 ] },
-        { "item": "straw_pile", "x": [ 19, 19 ], "y": [ 10, 15 ], "amount": [ 5, 15 ] }
+        { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },
+        { "item": "straw_pile", "x": [ 3, 3 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] },
+        { "item": "cattlefodder", "x": [ 3, 3 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] },
+        { "item": "straw_pile", "x": [ 19, 19 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] },
+        { "item": "cattlefodder", "x": [ 19, 19 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 4, 4 ], "y": [ 14, 14 ], "repeat": [ 1, 6 ], "density": 0.2 },
@@ -172,7 +179,7 @@
       "fill_ter": "t_dirt",
       "rows": [
         "                        ",
-        "                        ",
+        "P                       ",
         "                        ",
         "                        ",
         "                        ",
@@ -217,6 +224,7 @@
         "H": [ "t_floor" ],
         "M": [ "t_door_metal_locked" ],
         "O": [ "t_barndoor" ],
+        "P": [ "t_grass" ],
         "S": [ "t_floor" ],
         "T": [ "t_floor" ],
         "W": [ "t_window_boarded" ],
@@ -237,6 +245,7 @@
       "furniture": {
         "B": [ "f_bed" ],
         "H": [ "f_armchair" ],
+        "P": [ "f_mailbox" ],
         "S": [ "f_sink" ],
         "T": [ "f_toilet" ],
         "b": [ "f_bathtub" ],
@@ -250,9 +259,7 @@
         "u": [ "f_cupboard" ],
         "y": [ "f_hay" ]
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {} },
       "items": {
         ".": { "item": "trash", "chance": 20 },
         "B": [ { "item": "livingroom", "chance": 20 }, { "item": "survival_armor", "chance": 20 }, { "item": "camping", "chance": 20 }, { "item": "gear_survival", "chance": 20 }, { "item": "bed", "chance": 40 } ],
@@ -263,6 +270,7 @@
         "e": { "item": "fridge", "chance": 65 },
         "h": { "item": "bedroom", "chance": 65 },
         "k": { "item": "bedroom", "chance": 65 },
+        "P": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
         "l": [ { "item": "tools_earthworking", "chance": 65 }, { "item": "mechanics", "chance": 40 }, { "item": "home_hw", "chance": 50 }, { "item": "tools_common", "chance": 50 } ],
         "m": [ { "item": "livingroom", "chance": 20 }, { "item": "survival_armor", "chance": 20 }, { "item": "camping", "chance": 20 }, { "item": "gear_survival", "chance": 20 }, { "item": "bed", "chance": 40 } ],
         "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 40 }, { "item": "softdrugs", "chance": 40 } ]

@@ -339,7 +339,6 @@ const std::map<requirement_id, requirement_data> &requirement_data::all()
     return requirements_all;
 }
 
-
 void requirement_data::check_consistency()
 {
     for( const auto &r : all() ) {
@@ -388,22 +387,6 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 
             already_nested.insert( req_id );
             const auto &req = req_id.obj();
-            if( !req.get_qualities().empty() ) {
-                debugmsg( "Tried to inline requirement %s with qualities set (not supported)", req_id.c_str() );
-                return;
-            }
-
-            // The inlined requirement must have ONLY the type of component we are inlining
-            // That is, tools or components, not both (nor neither)
-            // Also, it must only offer alternatives, not more than one component "family" at a time
-            // @todo: Remove the requirement to separate tools and components
-            // @todo: Remove the requirement to have only one component "family" per inlined requirement
-            if( req.get_components().size() + req.get_tools().size() != 1 ) {
-                debugmsg( "Tried to inline requirement %s which has more than one set of elements",
-                          req_id.c_str() );
-                return;
-            }
-
             const requirement_data multiplied = req * iter->count;
             iter = vec.erase( iter );
 
@@ -485,7 +468,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 }
             }
             if( already_has ) {
-                    continue;
+                continue;
             }
 
             if( a != comp_list.begin() ) {
@@ -573,7 +556,8 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
         int UPS_charges_used = std::numeric_limits<int>::max();
         for( const auto &tool : set_of_tools ) {
             if( tool.has( crafting_inv, batch, [ &UPS_charges_used ]( int charges ) {
-                  UPS_charges_used = std::min( UPS_charges_used, charges ); } ) ) {
+            UPS_charges_used = std::min( UPS_charges_used, charges );
+            } ) ) {
                 tool.available = a_true;
             } else {
                 tool.available = a_false;
@@ -581,7 +565,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
             has_tool_in_set = has_tool_in_set || tool.available == a_true;
         }
         if( !has_tool_in_set ) {
-            return false;
+            retval = false;
         }
         if( UPS_charges_used != std::numeric_limits<int>::max() ) {
             total_UPS_charges_used += UPS_charges_used;
@@ -893,26 +877,26 @@ requirement_data requirement_data::disassembly_requirements() const
     // Remove duplicate qualities
     {
         auto itr = std::unique( qualities.begin(), qualities.end(),
-                                []( const quality_requirement & a, const quality_requirement & b ) {
-                                    return a.type == b.type;
-                                } );
+        []( const quality_requirement & a, const quality_requirement & b ) {
+            return a.type == b.type;
+        } );
         qualities.resize( std::distance( qualities.begin(), itr ) );
     }
 
     // Remove empty variant sections
     ret.tools.erase( std::remove_if( ret.tools.begin(), ret.tools.end(),
-                                     []( const std::vector<tool_comp> &tcv ) {
-                                         return tcv.empty();
-                                     } ), ret.tools.end() );
+    []( const std::vector<tool_comp> &tcv ) {
+        return tcv.empty();
+    } ), ret.tools.end() );
     // Remove unrecoverable components
     ret.components.erase( std::remove_if( ret.components.begin(), ret.components.end(),
-        []( std::vector<item_comp> &cov ) {
-            cov.erase( std::remove_if( cov.begin(), cov.end(),
-                []( const item_comp &comp ) {
-                    return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
-                } ), cov.end() );
-            return cov.empty();
-        } ), ret.components.end() );
+    []( std::vector<item_comp> &cov ) {
+        cov.erase( std::remove_if( cov.begin(), cov.end(),
+        []( const item_comp & comp ) {
+            return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
+        } ), cov.end() );
+        return cov.empty();
+    } ), ret.components.end() );
 
     return ret;
 }

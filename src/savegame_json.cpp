@@ -262,6 +262,7 @@ void Character::load(JsonObject &data)
     // needs
     data.read("thirst", thirst);
     data.read("hunger", hunger);
+    data.read("starvation", starvation);
     data.read( "fatigue", fatigue );
     data.read( "stomach_food", stomach_food);
     data.read( "stomach_water", stomach_water);
@@ -269,6 +270,9 @@ void Character::load(JsonObject &data)
     // health
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
+
+    data.read( "damage_bandaged", damage_bandaged );
+    data.read( "damage_disinfected", damage_disinfected );
 
     JsonArray parray;
 
@@ -359,6 +363,7 @@ void Character::load(JsonObject &data)
 
     on_stat_change( "thirst", thirst );
     on_stat_change( "hunger", hunger );
+    on_stat_change( "starvation", starvation );
     on_stat_change( "fatigue", fatigue );
 }
 
@@ -388,6 +393,7 @@ void Character::store(JsonOut &json) const
     // needs
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
+    json.member( "starvation", starvation );
     json.member( "fatigue", fatigue);
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
@@ -554,6 +560,8 @@ void player::store(JsonOut &json) const
     // @todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
+    json.member( "damage_bandaged", damage_bandaged );
+    json.member( "damage_disinfected", damage_disinfected );
 
     // npc; unimplemented
     json.member( "power_level", power_level );
@@ -748,7 +756,6 @@ void player::deserialize(JsonIn &jsin)
     }
     temp_cur.fill( 5000 );
     data.read( "temp_cur", temp_cur );
-
 
     temp_conv.fill( 5000 );
     data.read( "temp_conv", temp_conv );
@@ -1039,8 +1046,13 @@ void npc::load(JsonObject &data)
     int classtmp = 0;
     int atttmp = 0;
     std::string facID;
-    std::string comp_miss;
+    std::string comp_miss_id;
+    std::string comp_miss_role;
+    tripoint comp_miss_pt;
     std::string classid;
+    std::string companion_mission_role;
+    time_point companion_mission_t = 0;
+    time_point companion_mission_t_r = 0;
 
     data.read("name", name);
     data.read("marked_for_death", marked_for_death);
@@ -1124,12 +1136,46 @@ void npc::load(JsonObject &data)
         }
     }
 
-    if ( data.read( "companion_mission", comp_miss) ) {
-        companion_mission = comp_miss;
+    if ( data.read( "comp_mission_id", comp_miss_id) ) {
+        comp_mission.mission_id = comp_miss_id;
     }
 
-    if( !data.read( "companion_mission_time", companion_mission_time ) ) {
+    if ( data.read( "comp_mission_pt", comp_miss_pt) ) {
+        comp_mission.position = comp_miss_pt;
+    }
+
+    if ( data.read( "comp_mission_role", comp_miss_role) ) {
+        comp_mission.role_id = comp_miss_role;
+    }
+
+    if ( data.read( "companion_mission_role_id", companion_mission_role ) ) {
+        companion_mission_role_id = companion_mission_role;
+    }
+
+    std::vector<tripoint> companion_mission_pts;
+    data.read("companion_mission_points", companion_mission_pts);
+    if( !companion_mission_pts.empty() ) {
+        for( auto pt : companion_mission_pts ){
+            companion_mission_points.push_back( pt );
+        }
+    }
+
+    if( !data.read( "companion_mission_time", companion_mission_t ) ) {
         companion_mission_time = calendar::before_time_starts;
+    } else {
+        companion_mission_time = companion_mission_t;
+    }
+
+    if( !data.read( "companion_mission_time_ret", companion_mission_t_r ) ) {
+        companion_mission_time_ret = calendar::before_time_starts;
+    } else {
+        companion_mission_time_ret = companion_mission_t_r;
+    }
+
+    companion_mission_inv.clear();
+    if ( data.has_member( "companion_mission_inv" ) ) {
+        JsonIn *invin_mission = data.get_raw( "companion_mission_inv" );
+        companion_mission_inv.json_load_items( *invin_mission );
     }
 
     if( !data.read( "restock", restock ) ) {
@@ -1215,8 +1261,15 @@ void npc::store(JsonOut &json) const
     json.member("chatbin", chatbin);
     json.member("rules", rules);
 
-    json.member("companion_mission", companion_mission);
+    json.member("comp_mission_id", comp_mission.mission_id);
+    json.member("comp_mission_pt", comp_mission.position);
+    json.member("comp_mission_role", comp_mission.role_id);
+    json.member("companion_mission_role_id", companion_mission_role_id);
+    json.member("companion_mission_points", companion_mission_points);
     json.member("companion_mission_time", companion_mission_time);
+    json.member("companion_mission_time_ret", companion_mission_time_ret);
+    json.member( "companion_mission_inv" );
+    companion_mission_inv.json_save_items( json );
     json.member("restock", restock);
 
     json.member("last_updated", last_updated);
@@ -1281,7 +1334,6 @@ void inventory::json_save_items(JsonOut &json) const
     }
     json.end_array();
 }
-
 
 void inventory::json_load_items(JsonIn &jsin)
 {
@@ -1399,6 +1451,8 @@ void monster::load(JsonObject &data)
     biosignatures = data.get_bool("biosignatures", type->biosignatures);
     biosig_timer = data.get_int("biosig_timer", -1);
 
+    horde_attraction = static_cast<monster_horde_attraction>(data.get_int("horde_attraction", 0));
+
     data.read("inv", inv);
     if( data.has_int("ammo") && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
@@ -1465,6 +1519,9 @@ void monster::store(JsonOut &json) const
     json.member("biosignatures", biosignatures);
     json.member("biosig_timer", biosig_timer);
     json.member("last_biosig", last_biosig);
+    if (horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION) {
+        json.member("horde_attraction", horde_attraction);
+    }
 
     json.member( "inv", inv );
 
@@ -1543,7 +1600,7 @@ void item::io( Archive& archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
     archive.io( "invlet", invlet, '\0' );
-    archive.io( "damage", damage_, 0.0 );
+    archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype(item_counter)>( 0 ) );
     archive.io( "fridge", fridge, calendar::before_time_starts );
@@ -1569,6 +1626,11 @@ void item::io( Archive& archive )
     }
     /* Loading has finished, following code is to ensure consistency and fixes bugs in saves. */
 
+    double float_damage = 0;
+    if( archive.read( "damage", float_damage ) ) {
+        damage_ = std::min( std::max( min_damage(), int( float_damage * itype::damage_scale ) ), max_damage() );
+    }
+
     // Old saves used to only contain one of those values (stored under "poison"), it would be
     // loaded into a union of those members. Now they are separate members and must be set separately.
     if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
@@ -1587,14 +1649,8 @@ void item::io( Archive& archive )
     if( count_by_charges() && charges <= 0 ) {
         charges = item( type, 0 ).charges;
     }
-    if( !active && !rotten() && goes_bad() ) {
-        // Rotting found *must* be active to trigger the rotting process,
-        // if it's already rotten, no need to do this.
+    if( is_food() ) {
         active = true;
-    }
-    if( is_food() && active && ( rotten() || !goes_bad() ) ) {
-        // There was a bug that set all comestibles active, this reverses that.
-        active = false;
     }
     if( !active &&
         (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
@@ -1816,9 +1872,9 @@ void vehicle_part::deserialize(JsonIn &jsin)
         base.item_tags.insert( "VEHICLE" );
     }
 
-    if( data.has_int( "hp" ) ) {
+    if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
         // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
-        base.set_damage( 4 - ( 4 / double( id.obj().durability ) * data.get_int( "hp" ) ) );
+        base.set_damage( 4 * itype::damage_scale - 4 * itype::damage_scale * data.get_int( "hp" ) / id.obj().durability );
     }
 
     // legacy turrets loaded ammo via a pseudo CARGO space
@@ -1846,12 +1902,16 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("passenger_id", passenger_id);
     json.member("crew_id", crew_id);
     json.member("items", items);
-    json.member("target_first_x", target.first.x);
-    json.member("target_first_y", target.first.y);
-    json.member("target_first_z", target.first.z);
-    json.member("target_second_x", target.second.x);
-    json.member("target_second_y", target.second.y);
-    json.member("target_second_z", target.second.z);
+    if( target.first != tripoint_min ) {
+        json.member("target_first_x", target.first.x);
+        json.member("target_first_y", target.first.y);
+        json.member("target_first_z", target.first.z);
+    }
+    if( target.second != tripoint_min ) {
+        json.member("target_second_x", target.second.x);
+        json.member("target_second_y", target.second.y);
+        json.member("target_second_z", target.second.z);
+    }
     json.member("ammo_pref", ammo_pref);
     json.end_object();
 }
@@ -1969,7 +2029,6 @@ void vehicle::deserialize(JsonIn &jsin)
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
-
 
     /** Legacy saved games did not store part enabled status within parts */
     auto set_legacy_state = [&]( const std::string &var, const std::string &flag ) {
@@ -2240,7 +2299,6 @@ void Creature::store( JsonOut &jsout ) const
         }
     }
     jsout.member( "effects", tmp_map );
-
 
     jsout.member( "values", values );
 

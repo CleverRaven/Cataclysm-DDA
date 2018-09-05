@@ -181,10 +181,13 @@ enum struct tab_direction {
 tab_direction set_points( const catacurses::window &w, player &u, points_left &points );
 tab_direction set_stats( const catacurses::window &w, player &u, points_left &points );
 tab_direction set_traits( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points );
+tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points,
+                            const tab_direction direction );
+tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
+                              const tab_direction direction );
 tab_direction set_skills( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_description( const catacurses::window &w, player &u, bool allow_reroll, points_left &points );
+tab_direction set_description( const catacurses::window &w, player &u, bool allow_reroll,
+                               points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
 static void save_template( const player &u, const std::string &name );
@@ -438,7 +441,6 @@ bool player::create(character_type type, const std::string &tempname)
     prof = profession::generic();
     g->scen = scenario::generic();
 
-
     catacurses::window w;
     if( type != PLTYPE_NOW && type != PLTYPE_FULL_RANDOM ) {
         w = catacurses::newwin( TERMY, TERMX, 0, 0 );
@@ -482,6 +484,7 @@ bool player::create(character_type type, const std::string &tempname)
     };
 
     const bool allow_reroll = type == PLTYPE_RANDOM;
+    tab_direction result = tab_direction::QUIT;
     do {
         if( !w ) {
             // assert( type == PLTYPE_NOW );
@@ -494,25 +497,24 @@ bool player::create(character_type type, const std::string &tempname)
         }
         werase( w );
         wrefresh( w );
-        tab_direction result = tab_direction::QUIT;
         switch( tab ) {
             case 0:
-                result = set_points     ( w, *this, points );
+                result = set_points( w, *this, points );
                 break;
             case 1:
-                result = set_scenario   ( w, *this, points );
+                result = set_scenario( w, *this, points, result );
                 break;
             case 2:
-                result = set_profession ( w, *this, points );
+                result = set_profession( w, *this, points, result );
                 break;
             case 3:
-                result = set_traits     ( w, *this, points );
+                result = set_traits( w, *this, points );
                 break;
             case 4:
-                result = set_stats      ( w, *this, points );
+                result = set_stats( w, *this, points );
                 break;
             case 5:
-                result = set_skills     ( w, *this, points );
+                result = set_skills( w, *this, points );
                 break;
             case 6:
                 result = set_description( w, *this, allow_reroll, points );
@@ -747,7 +749,6 @@ tab_direction set_points( const catacurses::window &w, player &, points_left &po
     using point_limit_tuple = std::tuple<points_left::point_limit, std::string, std::string>;
     std::vector<point_limit_tuple> opts;
 
-
     const point_limit_tuple multi_pool = std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
                          _( "Stats, traits and skills have separate point pools.\n\
 Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
@@ -758,7 +759,6 @@ Scenarios and professions affect skill point pool" ) );
 
     const point_limit_tuple freeform = std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
                          _( "No point limits are enforced" ) );
-
 
     if( point_pool == "multi_pool" ) {
         opts = {{ multi_pool }};
@@ -1312,8 +1312,9 @@ struct {
     }
 } profession_sorter;
 
-/** Handle the profession tab of teh character generation menu */
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points )
+/** Handle the profession tab of the character generation menu */
+tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
+                              const tab_direction direction )
 {
     draw_tabs( w, _("PROFESSION") );
     int cur_id = 0;
@@ -1344,6 +1345,10 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
     int profs_length = 0;
     std::string filterstring;
     std::vector<string_id<profession>> sorted_profs;
+
+    if( direction == tab_direction::FORWARD ) {
+        points.skill_points -= u.prof->point_cost();
+    }
 
     do {
         if (recalc_profs) {
@@ -1829,7 +1834,8 @@ struct {
     }
 } scenario_sorter;
 
-tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points )
+tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points, 
+                            const tab_direction direction )
 {
     draw_tabs( w, _("SCENARIO") );
 
@@ -1860,6 +1866,10 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
     int scens_length = 0;
     std::string filterstring;
     std::vector<const scenario *> sorted_scens;
+
+    if( direction == tab_direction::BACKWARD ) {
+        points.skill_points += u.prof->point_cost();
+    }
 
     do {
         if (recalc_scens) {
@@ -2005,10 +2015,12 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
         const auto permitted = sorted_scens[cur_id]->permitted_professions();
         const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
         const int prof_points = default_prof->point_cost();
-        wprintz( w_profession, prof_points > 0 ? c_green : c_light_gray,
+        wprintz( w_profession, c_light_gray, 
                  default_prof->gender_appropriate_name( u.male ).c_str() );
         if ( prof_points > 0 ) {
-            wprintz(w_profession, c_green, " (+%d)", prof_points);
+            wprintz(w_profession, c_red, " (-%d)", prof_points);
+        } else if( prof_points < 0 ) {
+            wprintz(w_profession, c_green, " (+%d)", -prof_points);
         }
 
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
@@ -2054,6 +2066,11 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
         if ( sorted_scens[cur_id]->has_flag("HELI_CRASH") ) {
             wprintz(w_flags, c_light_gray, _("Various limb wounds"));
             wprintz(w_flags, c_light_gray, ("\n"));
+        }
+        if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
+            sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
+            wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
+            wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
 
         draw_scrollbar(w, cur_id, iContentHeight, scens_length, 5);

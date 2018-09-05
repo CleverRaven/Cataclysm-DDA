@@ -8,6 +8,7 @@
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
+#include "mutation.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "translations.h"
@@ -40,6 +41,8 @@
 #include "string_input_popup.h"
 #include "options.h"
 #include "skill.h"
+#include "effect.h"
+#include "map_selector.h"
 
 #include <sstream>
 #include <algorithm>
@@ -53,8 +56,10 @@ const skill_id skill_fabrication( "fabrication" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_playing_instrument( "playing_instrument" );
@@ -62,6 +67,7 @@ const efftype_id effect_recover( "recover" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_asthma( "asthma" );
+const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
@@ -74,9 +80,11 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
 iuse_actor *iuse_transform::clone() const
 {
@@ -127,7 +135,8 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
         return 0; // invoked from active item processing, do nothing.
     }
 
-    const bool possess = p.has_item( it );
+    const bool possess = p.has_item( it ) ||
+                         ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
     if( need_charges && it.ammo_remaining() < need_charges ) {
         if( possess ) {
@@ -370,13 +379,11 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 
     dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), "", explosion.power );
     const auto &sd = explosion.shrapnel;
-    if( sd.count > 0 ) {
-        dump.emplace_back( "TOOL", _( "Shrapnel <bold>count</bold>: " ), "", sd.count );
-        dump.emplace_back( "TOOL", _( "Shrapnel <bold>mass</bold>: " ), "", sd.mass );
+    if( sd.casing_mass > 0 ) {
+        dump.emplace_back( "TOOL", _( "Casing <bold>mass</bold>: " ), "", sd.casing_mass );
+        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), "", sd.fragment_mass );
     }
 }
-
-
 
 iuse_actor *unfold_vehicle_iuse::clone() const
 {
@@ -497,6 +504,9 @@ void consume_drug_iuse::load( JsonObject &obj )
         auto hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
         vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
     }
+
+    used_up_item = obj.get_string( "used_up_item", used_up_item );
+
 }
 
 void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
@@ -586,6 +596,12 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
             p.use_charges( consumable->first, consumable->second );
         }
     }
+
+    if( !used_up_item.empty() ) {
+        item used_up( used_up_item, it.birthday() );
+        p.i_add_or_drop( used_up );
+    }
+
     p.moves -= moves;
     return it.type->charges_to_use();
 }
@@ -775,8 +791,6 @@ long ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & )
     return 0;
 }
 
-
-
 iuse_actor *pick_lock_actor::clone() const
 {
     return new pick_lock_actor( *this );
@@ -846,7 +860,7 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
-                      p.dex_cur ) - it.damage() / 2 ) * pick_quality;
+                      p.dex_cur ) - it.damage_level( 4 ) / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
         p.practice( skill_mechanics, 1 );
@@ -907,12 +921,13 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
         return 0;
     }
 
-    if( g->m.has_furn( pos ) ) {
+    if( g->m.has_furn( dir ) ) {
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return 0;
     }
 
     g->m.furn_set( dir, furn_type );
+    p.mod_moves( -200 );
     return 1;
 }
 
@@ -1011,10 +1026,21 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
 }
 
-void firestarter_actor::resolve_firestarter_use( const player &p, const tripoint &pos )
+void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
 {
     if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
-        p.add_msg_if_player( _( "You successfully light a fire." ) );
+        if( !p.has_trait( trait_PYROMANIA ) ) {
+            p.add_msg_if_player( _( "You successfully light a fire." ) );
+        } else {
+            if( one_in( 4 ) ) {
+                p.add_msg_if_player( m_mixed,
+                                     _( "You light a fire, but it isn't enough. You need to light more." ) );
+            } else {
+                p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 24_hours, 8_hours );
+                p.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
+        }
     }
 }
 
@@ -1259,7 +1285,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
     if( count > 0 && cut.damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.damage() ), 1.0 );
+        float component_success_chance = std::min( std::pow( 0.8, cut.damage_level( 4 ) ), 1.0 );
         for( int i = count; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
                 count--;
@@ -1406,7 +1432,6 @@ bool inscribe_actor::item_inscription( item &cut ) const
 
     return true;
 }
-
 
 long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
@@ -1664,7 +1689,7 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)
     // This gives us a difficulty ranging roughly from 10 - 40, with up to +25 for corpse damage.
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
-    int difficulty = ( body->damage() * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
+    int difficulty = ( body->damage_level( 4 ) * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
     // 0 - 30
     /** @EFFECT_DEX increases chance of success for enzlavement */
 
@@ -1737,7 +1762,7 @@ long fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) 
     }
 
     p.moves -= moves;
-    if( rng( 0, 10 ) - it.damage() > success_chance && !p.is_underwater() ) {
+    if( rng( 0, 10 ) - it.damage_level( 4 ) > success_chance && !p.is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, _( success_message.c_str() ) );
         } else {
@@ -2059,7 +2084,6 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
                          obj.tname().c_str(), holster.tname().c_str() );
 
@@ -2067,7 +2091,6 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     p.store( holster, obj, draw_cost, false );
     return true;
 }
-
 
 long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
@@ -2092,7 +2115,12 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     } );
 
     if( opts.size() > 1 ) {
-        pos += uimenu( false, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+        pos += uimenu( true, string_format( _( "Use %s" ), it.tname().c_str() ).c_str(), opts ) - 1;
+    }
+
+    if( pos < -1 ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
     }
 
     if( pos >= 0 ) {
@@ -2236,7 +2264,6 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     return true;
 }
 
-
 long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( &p.weapon == &it ) {
@@ -2361,7 +2388,16 @@ bool could_repair( const player &p, const item &it, bool print_msg )
     return true;
 }
 
-long repair_item_actor::use( player &p, item &it, bool, const tripoint & ) const
+static item_location get_item_location( player &p, item &it, const tripoint &pos )
+{
+    if( p.has_item( it ) ) {
+        return item_location( p, &it );
+    }
+
+    return item_location( pos, &it );
+}
+
+long repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const
 {
     if( !could_repair( p, it, true ) ) {
         return 0;
@@ -2379,6 +2415,8 @@ long repair_item_actor::use( player &p, item &it, bool, const tripoint & ) const
     p.assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p.get_item_position( &it ), pos );
     // We also need to store the repair actor subtype in the activity
     p.activity.str_values.push_back( type );
+    // storing of item_location to support repairs by tools on the ground
+    p.activity.targets.emplace_back( get_item_location( p, it, position ) );
     // All repairs are done in the activity, including charge cost
     return 0;
 }
@@ -2466,7 +2504,6 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     return true;
 }
 
-
 // Returns the level of the lowest level recipe that results in item of `fix`'s type
 // If the recipe is not known by the player, +1 to difficulty
 // If player doesn't meet the requirements of the recipe, +1 to difficulty
@@ -2526,7 +2563,8 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
     }
 
     if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id & mat ) {
-    return mat.obj().repaired_with() == fix.typeId();
+    return mat.obj()
+               .repaired_with() == fix.typeId();
     } ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "This can be used to repair other items, not itself." ) );
@@ -2546,7 +2584,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return true;
     }
 
-    if( fix.precise_damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "Your %s is already enhanced to its maximum potential." ),
                                   fix.tname().c_str() );
@@ -2575,15 +2613,15 @@ std::pair<float, float> repair_item_actor::repair_chance(
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_REPAIR:
-            action_difficulty = fix.damage();
+            action_difficulty = fix.damage_level( 4 );
             break;
         case RT_REFIT:
             // Let's make refitting as hard as recovering an almost-wrecked item
-            action_difficulty = fix.max_damage();
+            action_difficulty = fix.max_damage() / itype::damage_scale;
             break;
         case RT_REINFORCE:
             // Reinforcing is at least as hard as refitting
-            action_difficulty = std::max( fix.max_damage(), recipe_difficulty );
+            action_difficulty = std::max( fix.max_damage() / itype::damage_scale, recipe_difficulty );
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
@@ -2609,22 +2647,25 @@ std::pair<float, float> repair_item_actor::repair_chance(
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
     success_chance = std::max( 0.0f, std::min( 1.0f - damage_chance, success_chance ) );
 
-
     return std::make_pair( success_chance, damage_chance );
 }
 
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
+    const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
+                      g->u.has_trait( trait_id( "SMALL_OK" ) );
     if( fix.damage() > 0 ) {
         return RT_REPAIR;
     }
 
-    if( fix.has_flag( "VARSIZE" ) && !fix.has_flag( "FIT" ) ) {
+    if( ( fix.has_flag( "VARSIZE" ) && !fix.has_flag( "FIT" ) ) ||
+        ( smol && !fix.has_flag( "UNDERSIZE" ) )  ||
+        ( !smol && fix.has_flag( "UNDERSIZE" ) ) ) {
         return RT_REFIT;
     }
 
-    if( fix.precise_damage() > fix.min_damage() ) {
+    if( fix.damage() > fix.min_damage() ) {
         return RT_REINFORCE;
     }
 
@@ -2663,7 +2704,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     const int current_skill_level = pl.get_skill_level( used_skill );
     const auto action = default_action( fix, current_skill_level );
     const auto chance = repair_chance( pl, fix, action );
-    const int practice_amount = repair_recipe_difficulty( pl, fix, true );
+    int practice_amount = repair_recipe_difficulty( pl, fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -2685,9 +2726,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     // If not for this if, it would spam a lot
-    if( current_skill_level <= trains_skill_to ) {
-        pl.practice( used_skill, practice_amount / 2 + 1, trains_skill_to );
+    if( current_skill_level > trains_skill_to ) {
+        practice_amount = 0;
     }
+    pl.practice( used_skill, practice_amount, trains_skill_to );
 
     if( roll == FAILURE ) {
         return damage_item( pl, fix ) ? AS_DESTROYED : AS_FAILURE;
@@ -2699,9 +2741,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
-            pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+            if( fix.damage() > itype::damage_scale ) {
+                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+            } else {
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
+            }
             handle_components( pl, fix, false, false );
-            fix.mod_damage( -1 );
+            fix.set_damage( std::max( fix.damage() - itype::damage_scale, 0 ) );
             return AS_SUCCESS;
         }
 
@@ -2710,9 +2756,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REFIT ) {
         if( roll == SUCCESS ) {
+            const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
+                              g->u.has_trait( trait_id( "SMALL_OK" ) );
             pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                   fix.tname().c_str() );
             fix.item_tags.insert( "FIT" );
+            if( smol && !fix.has_flag( "UNDERSIZE" ) ) {
+                pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
+                                      fix.tname().c_str() );
+                fix.item_tags.insert( "UNDERSIZE" );
+            } else if( !smol && fix.has_flag( "UNDERSIZE" ) ) {
+                pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
+                                      fix.tname().c_str() );
+                fix.item_tags.erase( "UNDERSIZE" );
+            }
             handle_components( pl, fix, false, false );
             return AS_SUCCESS;
         }
@@ -2729,7 +2786,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix.tname().c_str() );
-            fix.mod_damage( -1 );
+            fix.mod_damage( -itype::damage_scale );
             handle_components( pl, fix, false, false );
             return AS_SUCCESS;
         }
@@ -2768,9 +2825,14 @@ void heal_actor::load( JsonObject &obj )
 {
     // Mandatory
     move_cost = obj.get_int( "move_cost" );
-    limb_power = obj.get_float( "limb_power" );
+    limb_power = obj.get_float( "limb_power", 0 );
 
     // Optional
+    bandages_power = obj.get_float( "bandages_power", 0 );
+    bandages_scaling = obj.get_float( "bandages_scaling", 0.25f * bandages_power );
+    disinfectant_power = obj.get_float( "disinfectant_power", 0 );
+    disinfectant_scaling = obj.get_float( "disinfectant_scaling", 0.25f * disinfectant_power );
+
     head_power = obj.get_float( "head_power", 0.8f * limb_power );
     torso_power = obj.get_float( "torso_power", 1.5f * limb_power );
 
@@ -2888,9 +2950,29 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     return heal_base;
 }
 
+int heal_actor::get_bandaged_level( const player &healer ) const
+{
+    if( bandages_power > 0 ) {
+        /** @EFFECT_FIRSTAID increases healing item effects */
+        return bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+    }
+
+    return bandages_power;
+}
+
+int heal_actor::get_disinfected_level( const player &healer ) const
+{
+    if( disinfectant_power > 0 ) {
+        /** @EFFECT_FIRSTAID increases healing item effects */
+        return disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+    }
+
+    return disinfectant_power;
+}
+
 long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
-    float practice_amount = std::max( 9.0f, limb_power * 3.0f );
+    float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
 
     if( ( patient.hp_cur[healed] >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
@@ -2979,6 +3061,25 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         }
     }
 
+    // apply healing over time effects
+    if( bandages_power > 0 ) {
+        int bandages_intensity = get_bandaged_level( healer );
+        patient.add_effect( effect_bandaged, 1_turns, bp_healed );
+        effect &e = patient.get_effect( effect_bandaged, bp_healed );
+        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
+        patient.damage_bandaged[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+        practice_amount += 2 * bandages_intensity;
+    }
+    if( disinfectant_power > 0 ) {
+        int disinfectant_intensity = get_disinfected_level( healer );
+        patient.add_effect( effect_disinfected, 1_turns, bp_healed );
+        effect &e = patient.get_effect( effect_disinfected, bp_healed );
+        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
+        patient.damage_disinfected[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+        practice_amount += 2 * disinfectant_intensity;
+    }
+    practice_amount = std::max( 9.0f, practice_amount );
+
     healer.practice( skill_firstaid, ( int )practice_amount );
     return it.type->charges_to_use();
 }
@@ -2988,7 +3089,7 @@ hp_part pick_part_to_heal(
     const std::string &menu_header,
     int limb_power, int head_bonus, int torso_bonus,
     float bleed_chance, float bite_chance, float infect_chance,
-    bool force )
+    bool force, bool is_bandage, bool is_disinfectant )
 {
     const bool bleed = bleed_chance > 0.0f;
     const bool bite = bite_chance > 0.0f;
@@ -3002,7 +3103,7 @@ hp_part pick_part_to_heal(
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,
                               limb_power, head_bonus, torso_bonus,
-                              bleed, bite, infect );
+                              bleed, bite, infect, is_bandage, is_disinfectant );
         if( healed_part == num_hp_parts ) {
             return num_hp_parts;
         }
@@ -3068,9 +3169,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing self - let player select
         if( healer.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
             const std::string menu_header = it.tname();
+            bool is_bandages = bandages_power;
+            bool is_disinfectant = disinfectant_power;
             healed = pick_part_to_heal( healer, patient, menu_header,
                                         limb_power, head_bonus, torso_bonus,
-                                        bleed, bite, infect, force );
+                                        bleed, bite, infect, force, is_bandages, is_disinfectant );
             if( healed == num_hp_parts ) {
                 return num_hp_parts; // canceled
             }
@@ -3087,9 +3190,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
         const std::string menu_header = it.tname();
+        bool is_bandages = bandages_power;
+        bool is_disinfectant = disinfectant_power;
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
-                                    bleed, bite, infect, force );
+                                    bleed, bite, infect, force, is_bandages, is_disinfectant );
     }
 
     if( healed != num_hp_parts ) {
@@ -3112,6 +3217,24 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
             dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "",
                                false );
             dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
+        }
+    }
+
+    if( bandages_power > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Base bandaging quality:</bold> " ), "", bandages_power, true,
+                           "", true );
+        if( g != nullptr ) {
+            dump.emplace_back( "TOOL", _( "<bold>Actual bandaging quality:</bold> " ), "",
+                               get_bandaged_level( g->u ), true, "", true );
+        }
+    }
+
+    if( disinfectant_power > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Base disinfecting quality:</bold> " ), "", disinfectant_power,
+                           true, "", true );
+        if( g != nullptr ) {
+            dump.emplace_back( "TOOL", _( "<bold>Actual disinfecting quality:</bold> " ), "",
+                               get_disinfected_level( g->u ), true, "", true );
         }
     }
 
@@ -3378,7 +3501,7 @@ iuse_actor *saw_barrel_actor::clone() const
 
 long install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    return p.install_bionics( *it.type ) ? it.type->charges_to_use() : 0;
+    return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
 }
 
 ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,
@@ -3386,6 +3509,11 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
 {
     if( !it.is_bionic() ) {
         return ret_val<bool>::make_failure();
+    }
+
+    if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
+        !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     }
 
     const bionic_id &bid = it.type->bionic->id;
@@ -3438,9 +3566,10 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
+        const auto mod_name = gm->tname();
         p.gunmod_remove( it, *gm );
         //~ %1$s - gunmod, %2$s - gun.
-        p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), gm->tname().c_str(),
+        p.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), mod_name.c_str(),
                              it.tname().c_str() );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
@@ -3483,4 +3612,143 @@ void detach_gunmods_actor::finalize( const itype_id &my_item_type )
     if( !item::find_type( my_item_type )->gun ) {
         debugmsg( "Item %s has detach_gunmods_actor actor, but it's a gun.", my_item_type.c_str() );
     }
+}
+
+iuse_actor *mutagen_actor::clone() const
+{
+    return new mutagen_actor( *this );
+}
+
+void mutagen_actor::load( JsonObject &obj )
+{
+    mutation_category = obj.get_string( "mutation_category", "ANY" );
+    is_weak = obj.get_bool( "is_weak", false );
+    is_strong = obj.get_bool( "is_strong", false );
+}
+
+long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    mutagen_attempt checks = mutagen_common_checks( p, it, false,
+                             pgettext( "memorial_male", "Consumed mutagen." ),
+                             pgettext( "memorial_female", "Consumed mutagen." ) );
+
+    if( !checks.allowed ) {
+        return checks.charges_used;
+    }
+
+    if( is_weak && !one_in( 3 ) ) {
+        // Nothing! Mutagenic flesh often just fails to work.
+        return it.type->charges_to_use();
+    }
+
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                mutation_category );
+
+    if( p.has_trait( trait_MUT_JUNKIE ) ) {
+        p.add_msg_if_player( m_good, _( "You quiver with anticipation..." ) );
+        p.add_morale( MORALE_MUTAGEN, 5, 50 );
+    }
+
+    p.add_msg_if_player( m_category.mutagen_message.c_str() );
+
+    if( one_in( 6 ) ) {
+        p.add_msg_player_or_npc( m_bad,
+                                 _( "You suddenly feel dizzy, and collapse to the ground." ),
+                                 _( "<npcname> suddenly collapses to the ground!" ) );
+        p.add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+    }
+
+    int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
+
+    for( int i = 0; i < mut_count; i++ ) {
+        p.mutate_category( m_category.id );
+        p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
+    }
+
+    if( m_category.mutagen_hunger * mut_count + p.get_hunger() > 300 ) {
+        // in this case starvation is directly updated
+        p.mod_starvation( m_category.mutagen_hunger * mut_count - ( 300 - p.get_hunger() ) );
+        p.set_hunger( 300 );
+    } else {
+        p.mod_hunger( m_category.mutagen_hunger * mut_count ) ;
+    }
+    p.mod_thirst( m_category.mutagen_thirst * mut_count );
+    p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
+
+    return it.type->charges_to_use();
+}
+
+iuse_actor *mutagen_iv_actor::clone() const
+{
+    return new mutagen_iv_actor( *this );
+}
+
+void mutagen_iv_actor::load( JsonObject &obj )
+{
+    mutation_category = obj.get_string( "mutation_category", "ANY" );
+}
+
+long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    mutagen_attempt checks = mutagen_common_checks( p, it, false,
+                             pgettext( "memorial_male", "Injected mutagen." ),
+                             pgettext( "memorial_female", "Injected mutagen." ) );
+
+    if( !checks.allowed ) {
+        return checks.charges_used;
+    }
+
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                mutation_category );
+
+    if( p.has_trait( trait_MUT_JUNKIE ) ) {
+        p.add_msg_if_player( m_category.junkie_message.c_str() );
+    } else {
+        p.add_msg_if_player( m_category.iv_message.c_str() );
+    }
+
+    // try to cross the threshold to be able to get post-threshold mutations this iv.
+    test_crossing_threshold( p, m_category );
+
+    // TODO: Remove the "is_player" part, implement NPC screams
+    if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+        p.mod_pain( m_category.iv_pain );
+        /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
+        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, m_category.iv_sound_message );
+    }
+
+    int mut_count = m_category.iv_min_mutations;
+    for( int i = 0; i < m_category.iv_additional_mutations; ++i ) {
+        if( !one_in( m_category.iv_additional_mutations_chance ) ) {
+            ++mut_count;
+        }
+    }
+
+    for( int i = 0; i < mut_count; i++ ) {
+        p.mutate_category( m_category.id );
+        p.mod_pain( m_category.iv_pain  * rng( 1, 5 ) );
+    }
+
+    p.mod_hunger( m_category.iv_hunger * mut_count );
+    p.mod_thirst( m_category.iv_thirst * mut_count );
+    p.mod_fatigue( m_category.iv_fatigue * mut_count );
+
+    if( m_category.id == "CHIMERA" ) {
+        p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
+    } else if( m_category.id == "ELFA" ) {
+        p.add_morale( MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max );
+    } else if( m_category.iv_morale > 0 ) {
+        p.add_morale( MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max );
+    }
+
+    if( m_category.iv_sleep && !one_in( 3 ) ) {
+        p.add_msg_if_player( m_bad, m_category.iv_sleep_message.c_str() );
+        /** @EFFECT_INT reduces sleep duration when using IV mutagen */
+        p.fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p.int_cur * 5 ) );
+    }
+
+    // try crossing again after getting new in-category mutations.
+    test_crossing_threshold( p, m_category );
+
+    return it.type->charges_to_use();
 }

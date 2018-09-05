@@ -15,6 +15,9 @@
 #include "mapdata.h"
 #include "map_iterator.h"
 #include <algorithm>
+#include "messages.h" //for rust message
+#include "output.h"
+#include "translations.h"
 
 const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}");
 
@@ -52,7 +55,7 @@ const_invslice inventory::const_slice() const
 
 const std::list<item> &inventory::const_stack(int i) const
 {
-    if (i < 0 || i >= (int)items.size()) {
+    if (i < 0 || i >= static_cast<int>( items.size() ) ) {
         debugmsg("Attempted to access stack %d in an inventory (size %d)", i, items.size());
         static const std::list<item> nullstack{};
         return nullstack;
@@ -246,7 +249,6 @@ void inventory::push_back(item newit)
     add_item(newit);
 }
 
-
 void inventory::restack( player &p )
 {
     // tasks that the old restack seemed to do:
@@ -398,6 +400,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
         const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
 
@@ -467,6 +470,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             forge.item_tags.insert("PSEUDO");
             add_item(forge);
         }
+        if( kilnpart ) {
+            item kiln("kiln", 0);
+            kiln.charges = veh->fuel_left("battery", true);
+            kiln.item_tags.insert("PSEUDO");
+            add_item(kiln);
+        }
         if( chempart ) {
             item hotplate("hotplate", 0);
             hotplate.charges = veh->fuel_left("battery", true);
@@ -488,7 +497,7 @@ std::list<item> inventory::reduce_stack( const int position, const int quantity 
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if( position == pos ) {
             binned = false;
-            if(quantity >= (int)iter->size() || quantity < 0) {
+            if(quantity >= static_cast<int>( iter->size() ) || quantity < 0) {
                 ret = *iter;
                 items.erase(iter);
             } else {
@@ -582,7 +591,7 @@ void inventory::dump(std::vector<item *> &dest)
 
 const item &inventory::find_item(int position) const
 {
-    if (position < 0 || position >= (int)items.size()) {
+    if (position < 0 || position >= static_cast<int>( items.size() ) ) {
         return null_item_reference();
     }
     invstack::const_iterator iter = items.begin();
@@ -685,7 +694,7 @@ int inventory::leak_level(std::string flag) const
                 if( elem_stack_iter.has_flag( "LEAK_ALWAYS" ) ) {
                     ret += elem_stack_iter.volume() / units::legacy_volume_factor;
                 } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage();
+                    ret += elem_stack_iter.damage_level( 4 );
                 }
             }
         }
@@ -793,9 +802,15 @@ void inventory::rust_iron_items()
         for( auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
-                !elem_stack_iter.has_flag( "WATERPROOF" ) && elem_stack_iter.damage() < elem_stack_iter.max_damage() &&
-                one_in( 500 ) ) {
+                !elem_stack_iter.has_flag( "WATERPROOF" ) &&
+                elem_stack_iter.damage() < elem_stack_iter.max_damage()/2 && //Passivation layer prevents further rusting
+                one_in( 500 ) &&
+                //Scale with volume, bigger = slower (see #24204)
+                one_in(static_cast<int>( 14 * std::cbrt(  0.5 * std::max( 0.05, (double)(elem_stack_iter.base_volume().value())/250 ) )) ) &&
+                //                       ^season length   ^14/5*0.75/3.14 (from volume of sphere)
+                g->m.water_from(g->u.pos()).typeId() == "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
+                add_msg(m_bad, _("Your %s is damaged by rust."), elem_stack_iter.tname().c_str() );
             }
         }
     }
@@ -970,4 +985,10 @@ const itype_bin &inventory::get_binned_items() const
 
     binned = true;
     return binned_items;
+}
+
+void inventory::copy_invlet_of( const inventory &other )
+{
+    assigned_invlet = other.assigned_invlet;
+    invlet_cache = other.invlet_cache;
 }

@@ -102,7 +102,6 @@ class it_artifact_armor : public itype
         void create_name( const std::string &type );
 };
 
-
 /* FUNCTIONS */
 
 std::string new_artifact();
@@ -113,5 +112,7 @@ std::string architects_cube();
 void load_artifacts( const std::string &filename );
 // save artifact definitions to json, path must be the same as for loading.
 bool save_artifacts( const std::string &path );
+
+bool check_art_charge_req( item &it );
 
 #endif

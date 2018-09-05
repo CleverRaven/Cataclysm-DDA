@@ -52,6 +52,7 @@ enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
+struct fragment_cloud;
 struct submap;
 class item_location;
 class map_cursor;
@@ -177,6 +178,7 @@ struct level_cache {
     bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float seen_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    float camera_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     lit_level visibility_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
 
     bool veh_in_active_range;
@@ -247,7 +249,6 @@ class map
 
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
-
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -406,7 +407,6 @@ class map
          * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
          */
         double ranged_target_size( const tripoint &p ) const;
-
 
         // 3D Sees:
         /**
@@ -745,10 +745,11 @@ class map
 
         void add_corpse( const tripoint &p );
 
-
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
-        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p );
+        // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
+        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p,
+                               const bool same_submap = false );
         bool close_door( const tripoint &p, const bool inside, const bool check_only );
         bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
         // Destruction
@@ -893,6 +894,19 @@ class map
         void make_active( item_location &loc );
 
         /**
+         * Update luminosity before and after item's transformation
+         */
+        void update_lum( item_location &loc, bool add );
+
+        /**
+         * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
+         * and sets item's fridge/freezer status variables.
+         * @param it Item processed.
+         * @param temperature Temperature affecting item.
+         */
+        void apply_in_fridge( item &it, int temperature, bool vehicle = false );
+
+        /**
          * @name Consume items on the map
          *
          * The functions here consume accessible items / item charges on the map or in vehicles
@@ -947,7 +961,8 @@ class map
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
-        void create_anomaly( const tripoint &p, artifact_natural_property prop );
+
+        void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
 
         /**
          * Fetch an item from this map location, with sanity checks to ensure it still exists.
@@ -1160,6 +1175,9 @@ class map
 
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
+        // Unlike the other caches, this populates a supplied cache instead of an internal cache.
+        void build_obstacle_cache( const tripoint &start, const tripoint &end,
+                                   fragment_cloud( &obstacle_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -1336,7 +1354,7 @@ class map
         void draw_map( const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                        const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                        const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
-                       const oter_id t_above, const time_point &when, const float density,
+                       const oter_id t_above, const oter_id t_below, const time_point &when, const float density,
                        const int zlevel, const regional_settings *rsettings );
 
         void build_transparency_cache( int zlev );
@@ -1556,6 +1574,12 @@ class map
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
 };
+
+/**
+ * Gives ratio for temperature differential of two temperatures
+ * Used in determining speed of temperature change of items
+ */
+unsigned int temp_difference_ratio( int temp_one, int temp_two );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

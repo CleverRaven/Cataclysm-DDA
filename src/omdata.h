@@ -271,7 +271,6 @@ struct oter_t {
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 
-
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
 // (thus, LINE_OXXX looks like 'T'). LINE_ is defined in output.h.  The ACS_
@@ -373,7 +372,7 @@ void check_consistency();
 void finalize();
 void reset();
 
-size_t count();
+const std::vector<oter_t> &get_all();
 
 }
 
@@ -384,6 +383,9 @@ void load( JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
+
+const std::vector<overmap_special> &get_all();
+
 overmap_special_batch get_default_batch( const point &origin );
 /**
  * Generates a simple special from a building id.

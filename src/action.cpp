@@ -178,6 +178,8 @@ std::string action_ident( action_id act )
             return "listitems";
         case ACTION_ZONES:
             return "zones";
+        case ACTION_LOOT:
+            return "loot";
         case ACTION_INVENTORY:
             return "inventory";
         case ACTION_COMPARE:
@@ -509,6 +511,9 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_flag( "CONSOLE", p ) ) {
         return true;
     }
+    if( g->m.has_items( p ) ) {
+        return true;
+    }
     const furn_t &xfurn_t = g->m.furn( p ).obj();
     const ter_t &xter_t = g->m.ter( p ).obj();
 
@@ -630,7 +635,6 @@ action_id handle_action_menu()
                std::back_inserter<std::vector<std::pair<action_id, int> > >( sorted_pairs ) );
     std::reverse( sorted_pairs.begin(), sorted_pairs.end() );
 
-
     // Default category is called "back"
     std::string category = "back";
 
@@ -725,6 +729,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_BUTCHER );
+            REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
             REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );

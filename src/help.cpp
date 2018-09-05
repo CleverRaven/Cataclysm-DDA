@@ -50,18 +50,18 @@ Press q or ESC to return to the game." ) ) + 1;
     headers.push_back( _( "a: Introduction" ) );
     headers.push_back( _( "b: Movement" ) );
     headers.push_back( _( "c: Viewing" ) );
-    headers.push_back( _( "d: Hunger, Thirst, and Sleep" ) );
-    headers.push_back( _( "e: Pain and Stimulants" ) );
+    headers.push_back( _( "d: Hunger, thirst, and sleep" ) );
+    headers.push_back( _( "e: Pain and stimulants" ) );
     headers.push_back( _( "f: Addiction" ) );
-    headers.push_back( _( "g: Morale and Learning" ) );
-    headers.push_back( _( "h: Radioactivity and Mutation" ) );
+    headers.push_back( _( "g: Morale and learning" ) );
+    headers.push_back( _( "h: Radioactivity and mutation" ) );
     headers.push_back( _( "i: Bionics" ) );
     headers.push_back( _( "j: Crafting" ) );
     headers.push_back( _( "k: Traps" ) );
-    headers.push_back( _( "l: Items Overview" ) );
+    headers.push_back( _( "l: Items overview" ) );
     headers.push_back( _( "m: Combat" ) );
-    headers.push_back( _( "n: Unarmed Styles" ) );
-    headers.push_back( _( "o: Survival Tips" ) );
+    headers.push_back( _( "n: Unarmed styles" ) );
+    headers.push_back( _( "o: Survival tips" ) );
     headers.push_back( _( "p: Driving" ) );
 
     size_t half_size = headers.size() / 2;
@@ -78,7 +78,7 @@ Press q or ESC to return to the game." ) ) + 1;
     headers.push_back( _( "1: List of item types and data" ) );
     headers.push_back( _( "2: Description of map symbols" ) );
     headers.push_back( _( "3: Description of gun types" ) );
-    headers.push_back( _( "4: Frequently Asked Questions (Some spoilers!)" ) );
+    headers.push_back( _( "4: Frequently Asked Questions (some spoilers!)" ) );
     headers.push_back( _( " " ) );
     headers.push_back( _( "q: Return to game" ) );
 
@@ -171,7 +171,7 @@ available cargo space, various fuel level indicators, and so on." ) ) );
 
     text.push_back( string_format( _( "Becoming a skilled mechanic, you may want \
 to tune your car up.  The coefficients of aerodynamics, friction and mass efficiency \
-play significant roles it this process.  Named coefficients are measured in the range \
+play significant roles in this process.  Named coefficients are measured in the range \
 from 0%% (which means terrible inefficiency) to 100%% (ideal conditions)." ) ) );
 
     int fig_last_line = pos_y + 8;
@@ -403,10 +403,9 @@ require the installation of a special bionic just for fuel consumption." ) );
 
     text.push_back( _( "\
 Bionics come in ready-to-install canisters. Installation of a bionic is best left to a trained \
-professional or to an autodoc, if you manage to find one. However, you may attempt to perform \
-a self-installation. Performing such a task requires high levels of intelligence, \
-first aid, mechanics, and electronics. Beware though, a failure may cripple you! \
-Many bionic canisters are difficult to find, but may be purchased from certain \
+professional or to specialized medical apparatus. Using machinery to manipulate bionics requires \
+high levels of Intelligence, first aid, mechanics, and electronics. Beware, though, a failure \
+may cripple you!  Many bionic canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price." ) );
 
     text.push_back( _( "\

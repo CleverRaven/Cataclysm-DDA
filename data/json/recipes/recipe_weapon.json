@@ -19,7 +19,7 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ] ], [ [ "stick_long", 1 ], [ "2x4", 1 ], [ "broom", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -109,9 +109,11 @@
     "time": 1000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+    "components": [ 
+      [ [ "filament", 20, "LIST" ] ],
+      [ [ "leather", 1 ], [ "fur", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -209,6 +211,24 @@
   },
   {
     "type": "recipe",
+    "result": "spear_homemade_halfpike",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ], [ "stabbing", 1 ] ],
+    "difficulty": 3,
+    "time": 30000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
+    "components": [
+      [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
+      [ [ "spike", 1 ] ],
+      [ [ "rag", 3 ], [ "felt_patch", 3 ], [ "leather", 3 ], [ "fur", 3 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "filament", 75, "LIST" ], [ "duct_tape", 75 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "javelin",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -245,8 +265,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "time": 600,
+    "time": 1000,
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -271,6 +290,22 @@
     "book_learn": [ [ "manual_archery", 2 ], [ "recipe_bows", 1 ], [ "book_archery", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "woodgreatbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ "archery", 3 ],
+    "difficulty": 4,
+    "time": 40000,
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "book_learn": [ [ "manual_archery", 3 ], [ "recipe_bows", 2 ], [ "book_archery", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 4 ], [ "2x4", 4 ] ], [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -316,6 +351,101 @@
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "bone", 3 ], [ "bone_human", 3 ] ],
       [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "compositebow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 2 ] ],
+    "difficulty": 4,
+    "time": 15000,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "stick", 3 ], [ "2x4", 2 ] ],
+      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "recurbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 2 ] ],
+    "difficulty": 5,
+    "time": 30000,
+    "book_learn": [ [ "recipe_bows", 6 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [
+      [ [ "stick", 3 ], [ "2x4", 2 ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "adhesive", 2, "LIST" ] ],
+      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "compbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 4 ] ],
+    "using": [ [ "forging_standard", 4 ] ],
+    "difficulty": 7,
+    "time": 240000,
+    "book_learn": [ [ "recipe_bows", 8 ], [ "welding_book", 7 ], [ "textbook_mechanics", 7 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "CUT", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "leaf_spring", 2 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
+      [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "compgreatbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 5 ] ],
+    "using": [ [ "forging_standard", 10 ] ],
+    "difficulty": 8,
+    "time": 240000,
+    "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "CUT", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "steel_standard", 2, "LIST" ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "leaf_spring", 4 ] ],
+      [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
+      [ [ "cordage", 18, "LIST" ], [ "filament", 1800, "LIST" ] ]
     ]
   },
   {
@@ -382,12 +512,12 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 3 ] ],
     "difficulty": 3,
-    "time": 6000,
+    "time": 60000,
     "autolearn": true,
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_pistol", 2 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "GLARE", "level": 2 } ],
     "tools": [
-      [
+	[
         [ "oxy_torch", 6 ],
         [ "welder", 30 ],
         [ "welder_crude", 45 ],
@@ -396,7 +526,7 @@
         [ "large_repairkit", 30 ]
       ]
     ],
-    "components": [ [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ], [ [ "pipe", 3 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ], [ [ "pipe", 3 ] ], [ [ "spring", 1 ] ],[ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -406,7 +536,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 3 ] ],
     "difficulty": 4,
-    "time": 400000,
+    "time": 90000,
     "autolearn": true,
     "book_learn": [ [ "manual_pistol", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "GLARE", "level": 2 } ],
@@ -420,7 +550,7 @@
         [ "large_repairkit", 30 ]
       ]
     ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -430,7 +560,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 4 ] ],
     "difficulty": 5,
-    "time": 600000,
+    "time": 120000,
     "autolearn": true,
     "book_learn": [ [ "manual_pistol", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "GLARE", "level": 2 } ],
@@ -444,7 +574,7 @@
         [ "large_repairkit", 30 ]
       ]
     ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ] , [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -613,6 +743,61 @@
   },
   {
     "type": "recipe",
+    "result": "compositecrossbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 3 ] ],
+    "difficulty": 5,
+    "time": 15000,
+    "autolearn": true,
+    "book_learn": [
+      [ "recipe_bows", 5 ],
+      [ "manual_archery", 6 ]
+    ],
+    "qualities": [
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [ [ "stick", 5 ], [ "2x4", 3 ] ],
+      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "filament", 100, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "compcrossbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 5 ] ],
+    "using": [ [ "forging_standard", 4 ] ],
+    "difficulty": 7,
+    "time": 240000,
+    "book_learn": [
+      [ "recipe_bows", 9 ],
+      [ "welding_book", 8 ],
+      [ "textbook_mechanics", 8 ]
+    ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "leaf_spring", 2 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
+      [ [ "plastic_chunk", 15 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
+      [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "bullet_crossbow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -646,11 +831,11 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
-    "time": 12000,
+    "time": 30000,
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -663,9 +848,9 @@
     "time": 12000,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
-  {
+ {
     "type": "recipe",
     "result": "pipe_shotgun",
     "category": "CC_WEAPON",
@@ -743,11 +928,12 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 3 ],
     "difficulty": 5,
-    "time": 14000,
+    "time": 30000,
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+	"tools": [ [ [ "pliers", -1 ], [ "multitool", -1] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ], [ [ "spring", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -757,16 +943,16 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 5 ],
     "difficulty": 7,
-    "time": 14000,
+    "time": 120000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ] ]
+	"tools": [ [ [ "pliers", -1], [ "multitool", -1] ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -778,9 +964,14 @@
     "difficulty": 6,
     "time": 240000,
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "qualities": [
+		{ "id": "SAW_M_FINE", "level": 1 },
+		{ "id": "SCREW_FINE", "level": 1 },
+		{ "id": "WRENCH_FINE", "level": 1 },
+		{ "id": "GLARE", "level": 2 } 
+		],
     "tools": [
-      [
+	[
         [ "oxy_torch", 30 ],
         [ "welder", 150 ],
         [ "large_repairkit", 75 ],
@@ -789,7 +980,7 @@
         [ "toolset", 225 ]
       ]
     ],
-    "components": [ [ [ "pipe", 3 ] ], [ [ "spring", 2 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ] ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "spring", 2 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -827,7 +1018,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 3 ],
     "difficulty": 6,
-    "time": 12000,
+    "time": 30000,
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
@@ -847,11 +1038,11 @@
     "skill_used": "mechanics",
     "skills_required": [ "launcher", 3 ],
     "difficulty": 6,
-    "time": 6000,
+    "time": 30000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "nail", 1 ] ] ]
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "nail", 1 ] ], [ [ "spring", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -862,7 +1053,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "launcher", 3 ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 30000,
     "book_learn": [ [ "manual_launcher", 3 ], [ "mag_launcher", 4 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "duct_tape", 50 ] ], [ [ "nail", 1 ] ] ]
@@ -887,7 +1078,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "shotgun", 3 ],
     "difficulty": 6,
-    "time": 8000,
+    "time": 20000,
     "book_learn": [ [ "manual_shotgun", 4 ], [ "mag_shotgun", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "duct_tape", 75 ] ], [ [ "nail", 2 ] ] ]
@@ -925,14 +1116,13 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_mechanics", 4 ], [ "recipe_melee", 5 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 20 ], [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ] ],
     "components": [ [ [ "chainsaw_off", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
@@ -1052,8 +1242,7 @@
     "time": 65000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 4 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
   },
   {
@@ -1167,19 +1356,6 @@
       ]
     ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "blowback",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 8,
-    "time": 20000,
-    "book_learn": [ [ "book_icef", 4 ], [ "textbook_mechanics", 4 ], [ "manual_pistol", 6 ], [ "manual_smg", 5 ], [ "manual_rifle", 5 ] ],
-    "tools": [ [ [ "large_repairkit", 50 ] ] ],
-    "components": [ [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1491,8 +1667,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "machete", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
   },
   {
@@ -1506,8 +1681,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "broadsword", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
   },
   {
@@ -1521,8 +1695,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "katana", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
   },
   {
@@ -1536,8 +1709,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "using": [ [ "welding_standard", 2 ] ],
     "components": [ [ [ "leather", 5 ] ], [ [ "pipe", 1 ] ], [ [ "zweihander", 1 ] ], [ [ "flamethrower_crude", 1 ] ] ]
   },
   {
@@ -1550,13 +1722,12 @@
     "difficulty": 6,
     "time": 160000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 15 ] ],
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 30 ], [ "welder", 150 ], [ "welder_crude", 225 ], [ "toolset", 225 ] ] ],
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
@@ -1573,16 +1744,15 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 2 ],
     "difficulty": 7,
-    "time": 17000,
+    "time": 180000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ] ] ],
     "components": [
       [ [ "xlframe", 1 ] ],
       [ [ "foot_crank", 1 ] ],
@@ -1602,13 +1772,12 @@
     "difficulty": 8,
     "time": 180000,
     "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
     "components": [
       [ [ "pipe", 8 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
@@ -1627,13 +1796,12 @@
     "difficulty": 8,
     "time": 240000,
     "book_learn": [ [ "recipe_mininuke_launch", 5 ] ],
+    "using": [ [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ] ] ],
     "components": [
       [ [ "pipe", 2 ], [ "rebar", 2 ] ],
       [ [ "duct_tape", 200 ] ],
@@ -2829,7 +2997,6 @@
   "difficulty": 8,
   "time": 480000,
   "book_learn": [[ "textbook_armschina", 7 ]],
-  "using": [ [ "filament", 100 ] ],
   "qualities": [
     { "id": "ANVIL", "level": 3 },
     {"id":"HAMMER","level":3},
@@ -2844,6 +3011,7 @@
     ]
   ],
   "components": [
+    [ [ "filament", 100, "LIST" ] ],
     [
       [ "steel_lump", 3 ],
       [ "steel_chunk", 12 ],
@@ -3326,8 +3494,8 @@
      [ "scrap", 24 ]
      ],
      [
-      [ "2x4", 4 ],
-      [ "stick", 8 ]
+      [ "2x4", 1 ],
+      [ "stick_long", 1 ]
      ],
      [
       [ "fur", 2 ],
@@ -3666,10 +3834,9 @@
   "difficulty": 7,
   "time": 460000,
   "book_learn": [[ "textbook_armschina", 6 ]],
-  "using": [ [ "filament", 100 ] ],
   "qualities" : [
     { "id": "ANVIL", "level": 3 },
-    {"id":"HAMMER","level":3},
+    { "id": "HAMMER", "level":3 },
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -3681,14 +3848,15 @@
     ]
   ],
   "components": [
+    [ [ "filament", 100, "LIST" ] ],
     [
       [ "steel_lump", 1 ],
       [ "steel_chunk", 4 ],
       [ "scrap", 12 ]
     ],
     [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
+      [ "2x4", 1 ],
+      [ "stick_long", 1 ]
     ],
     [
       [ "fur", 2 ],
@@ -3724,8 +3892,8 @@
       [ "scrap", 36 ]
     ],
     [
-      [ "2x4", 4 ],
-      [ "stick", 8 ]
+      [ "2x4", 1 ],
+      [ "stick_long", 1 ]
     ],
     [
       [ "fur", 2 ],
@@ -3761,8 +3929,8 @@
      [ "scrap", 24 ]
     ],
     [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
+      [ "2x4", 1 ],
+      [ "stick_long", 1 ]
     ],
     [
       [ "fur", 2 ],
@@ -3798,8 +3966,8 @@
       [ "scrap", 24 ]
     ],
     [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
+      [ "2x4", 1 ],
+      [ "stick_long", 1 ]
     ],
     [
       [ "fur", 2 ],
@@ -3832,8 +4000,8 @@
   "components": [
     [ [ "katana", 1 ] ],
     [
-      [ "2x4", 2 ],
-      [ "stick", 4 ]
+      [ "2x4", 1 ],
+      [ "stick_long", 1 ]
     ]
   ]
 },{
@@ -3945,17 +4113,10 @@
 "difficulty": 6,
 "time": 210000,
 "book_learn": [[ "manual_launcher", 7 ]],
+    "using": [ [ "welding_standard", 3 ] ],
 "qualities":[
 {"id":"HAMMER","level":3},
-{"id":"SAW_M","level":1},
-{ "id" : "GLARE", "level" : 2 }
-], "tools": [
-[
-[ "oxy_torch", 6 ],
-[ "welder", 30 ],
-[ "welder_crude", 45 ],
-[ "toolset", 45 ]
-]
+{"id":"SAW_M","level":1}
 ],
 "components":
 [
@@ -3992,7 +4153,6 @@
       {"id":"SCREW_FINE","level":1},
       {"id":"WRENCH_FINE","level":1},
       {"id":"HAMMER","level":3},
-      { "id" : "GLARE", "level" : 2 },
       { "id": "CHISEL", "level": 3 }
     ],
   "tools":
@@ -4103,23 +4263,14 @@
   "skill_used": "mechanics",
   "skills_required": [ "launcher", 2 ],
   "difficulty": 6,
-  "time": 12000,
+  "time": 30000,
   "reversible": true,
   "autolearn": true,
+    "using": [ [ "welding_standard", 40 ] ],
   "qualities":[
     {"id":"SAW_M_FINE","level":1},
     {"id":"SCREW_FINE","level":1},
-    {"id":"HAMMER","level":2},
-    { "id" : "GLARE", "level" : 2 }
-  ],
-  "tools":
-  [
-    [
-      ["oxy_torch", 80],
-      ["welder", 400],
-      ["welder_crude", 600],
-      ["toolset", 600]
-    ]
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [
