@@ -1627,6 +1627,12 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     if( has_bionic( bionic_id( "bio_pokedeye" ) ) ) {
         vals[bp_eyes].encumbrance += 10;
     }
+    if( has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        for( auto &val : vals ) {
+            val.encumbrance += 3; // Slight encumbrance to all parts except eyes
+        }
+        vals[bp_eyes].encumbrance -= 3;
+    }
 
     // Lower penalty for bps covered only by XL armor
     const auto oversize = exclusive_flag_coverage( "OVERSIZE" );
