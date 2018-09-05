@@ -76,7 +76,7 @@
     "name_plural" : "limestone",
     "symbol" : "=",
     "color" : "dark_gray",
-    "description" : "A handful of small chunks of limestone.  Useful for experiments at science fairs, but pretty useless as ammo.  Maybe something could be crafted from this stuff…",
+    "description" : "A handful of small chunks of limestone.  Useful for experiments at science fairs, but pretty useless as ammo.  Maybe something could be crafted from this stuff...",
     "material" : "stone",
     "volume" : 1,
     "weight" : 14,
