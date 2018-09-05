@@ -446,7 +446,7 @@
         "valid" : false,
         "starting_trait" : true,
         "category" : ["MOUSE"],
-        "cancels" : ["MYOPIC"]
+        "cancels" : ["MYOPIC", "UNOBSERVANT", "UNOBSERVANT2"]
     },{
         "type" : "mutation",
         "id" : "UNOBSERVANT",
