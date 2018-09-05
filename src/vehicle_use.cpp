@@ -219,6 +219,7 @@ void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
     add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
     add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
     add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+    add_toggle( _( "freezer" ), keybind( "TOGGLE_FEEZER" ), "FREEZER" );
     add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
@@ -1212,13 +1213,10 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     item base = item( parts[part].get_base() );
     base.type->invoke( g->u, base, pos );
     parts[part].set_base( base );
-    /* captured animals take up all the cargo space */
-    /*
     if( base.has_var( "contained_name" ) ) {
-        part_info( part ).size = 0;
+        parts[part].set_flag( vehicle_part::animal_flag );
     } else {
-        part_info( part ).size = base.get_container_capacity();
+        parts[part].remove_flag( vehicle_part::animal_flag );
     }
-    */
-    parts[part].set_base( base );
+    invalidate_mass();
 }

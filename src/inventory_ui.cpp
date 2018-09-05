@@ -135,6 +135,11 @@ nc_color inventory_entry::get_invlet_color() const
     }
 }
 
+void inventory_entry::update_cache()
+{
+    cached_name = location->tname( 1 );
+}
+
 const item_category *inventory_entry::get_category_ptr() const {
     if( custom_category != nullptr ) {
         return custom_category;
@@ -176,14 +181,14 @@ inventory_selector_preset::inventory_selector_preset()
     } ) );
 }
 
-bool inventory_selector_preset::sort_compare( const item_location &lhs, const item_location &rhs ) const
+bool inventory_selector_preset::sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const
 {
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
-    const bool left_fav  = g->u.inv.assigned_invlet.count(lhs->invlet);
-    const bool right_fav = g->u.inv.assigned_invlet.count(rhs->invlet);
-    if ((left_fav && right_fav) || (!left_fav && !right_fav)) {
-        return lhs->tname(1).compare(rhs->tname(1)) < 0; // Simple alphabetic order
-    } else if (left_fav) {
+    const bool left_fav  = g->u.inv.assigned_invlet.count( lhs.location->invlet );
+    const bool right_fav = g->u.inv.assigned_invlet.count( rhs.location->invlet );
+    if( ( left_fav && right_fav ) || ( !left_fav && !right_fav ) ) {
+        return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
+    } else if( left_fav ) {
         return true;
     }
     return false;
@@ -226,7 +231,6 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
         return entry.get_category_ptr()->name();
     }
 }
-
 
 bool inventory_selector_preset::is_stub_cell( const inventory_entry &entry, size_t cell_index ) const
 {
@@ -483,8 +487,6 @@ size_t inventory_column::page_of( size_t index ) const {
 size_t inventory_column::page_of( const inventory_entry &entry ) const {
     return page_of( std::distance( entries.begin(), std::find( entries.begin(), entries.end(), entry ) ) );
 }
-
-
 bool inventory_column::has_available_choices() const
 {
     if( !allows_selecting() )
@@ -494,7 +496,6 @@ bool inventory_column::has_available_choices() const
             return true;
     return false;
 }
-
 
 bool inventory_column::is_selected( const inventory_entry &entry ) const
 {
@@ -601,6 +602,7 @@ void inventory_column::prepare_paging( const std::string &filter )
     while( from != entries.end() ) {
         auto to = std::next( from );
         while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
+            to->update_cache();
             std::advance( to, 1 );
         }
         if( ordered_categories.count( from->get_category_ptr()->id() ) == 0 ) {
@@ -608,7 +610,7 @@ void inventory_column::prepare_paging( const std::string &filter )
                 if( lhs.is_selectable() != rhs.is_selectable() ) {
                     return lhs.is_selectable(); // Disabled items always go last
                 }
-                return preset.sort_compare( lhs.location, rhs.location );
+                return preset.sort_compare( lhs, rhs );
             } );
         }
         from = to;

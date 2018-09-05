@@ -35,6 +35,7 @@
 #include "cata_utility.h"
 #include "cursesport.h"
 #include "rect_range.h"
+#include "clzones.h"
 
 #include <cassert>
 #include <algorithm>
@@ -84,7 +85,6 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
     "hit_entity", // C_HIT_ENTITY,
     "weather", // C_WEATHER,
 }};
-
 
 namespace
 {
@@ -168,7 +168,7 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
     return -1;
 }
 
-formatted_text::formatted_text( const std::string text, const int color, const direction direction )
+formatted_text::formatted_text( const std::string &text, const int color, const direction direction )
     : text( text ), color( color )
 {
     switch( direction ) {
@@ -1078,11 +1078,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-        const std::array<decltype ( &cata_tiles::draw_furniture ), 7> drawing_layers = {{
+        const std::array<decltype ( &cata_tiles::draw_furniture ), 8> drawing_layers = {{
             &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
             &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
             &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
-            &cata_tiles::draw_critter_at
+            &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark
         }};
         // for each of the drawing layers in order, back to front ...
         for( auto f : drawing_layers ) {
@@ -1238,7 +1238,6 @@ void cata_tiles::process_minimap_cache_updates()
             for( const point &p : mcp.second.update_list ) {
                 const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
                 const SDL_Color c = current_pix.getSdlColor();
-
 
                 printErrorIf( SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a ) != 0, "SDL_SetRenderDrawColor failed" );
 
@@ -1630,7 +1629,6 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
     }
     return nullptr;
 }
-
 
 bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                                       const std::string &subcategory, tripoint pos,
@@ -2307,6 +2305,28 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     if( critter != nullptr ) {
         return draw_entity( *critter, p, ll, height_3d );
     }
+    return false;
+}
+
+bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d )
+{
+    if( !g->is_zone_manager_open() ) {
+        return false;
+    }
+
+    const auto mgr = zone_manager::get_manager();
+    const tripoint &abs = g->m.getabs( p );
+    const auto zone = mgr.get_bottom_zone( abs );
+
+    if( zone && zone->has_options() ) {
+        auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
+
+        if( option && option->get_mark() != "" ) {
+            return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,
+                                        nv_goggles_activated, height_3d );
+        }
+    }
+
     return false;
 }
 

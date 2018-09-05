@@ -195,7 +195,7 @@ monster::monster( const mtype_id& id ) : monster()
     faction = type->default_faction;
     ammo = type->starting_ammo;
     upgrades = type->upgrades && (type->half_life || type->age_grow);
-    reproduces = type->reproduces && type->baby_timer;
+    reproduces = type->reproduces && type->baby_timer && !has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
 }
 
@@ -357,18 +357,27 @@ void monster::try_reproduce() {
 
     bool season_spawn = false;
     bool season_match = true;
+
+    // only 50% of animals should reproduce
+    bool female = one_in( 2 );
     for( auto &elem : type->baby_flags ) {
         if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
             season_spawn = true;
         }
     }
 
+    // add a decreasing chance of additional spawns when "catching up" an existing animal
+    int chance = -1;
     while( true ) {
         if( baby_timer > current_day ) {
             return;
         }
+        const int next_baby = type->baby_timer;
+        if( next_baby < 0 ) {
+            return;
+        }
 
-        if( season_spawn ){
+        if( season_spawn ) {
             season_match = false;
             for( auto &elem : type->baby_flags ) {
                 if( ( season_of_year( DAYS( baby_timer ) ) == SUMMER && elem == "SUMMER" ) ||
@@ -380,18 +389,16 @@ void monster::try_reproduce() {
             }
         }
 
-        if( season_match ){
+        chance += 2;
+        if( season_match && female && one_in( chance ) ) {
+            int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, type->baby_count, pos().x, pos().y );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().x, pos().y );
             } else {
-                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), type->baby_count ), true );
+                g->m.add_item_or_charges( pos(), item( type->baby_egg, DAYS( baby_timer ), spawn_cnt ), true );
             }
         }
 
-        const int next_baby = type->baby_timer;
-        if( next_baby < 0 ) {
-            return;
-        }
         baby_timer += next_baby;
     }
 }
@@ -721,7 +728,6 @@ bool monster::can_act() const
           ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
-
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
@@ -882,7 +888,6 @@ monster_attitude monster::attitude( const Character *u ) const
             effective_anger -= 20;
         }
 
-
         if( u->has_trait( terrifying ) ) {
             effective_morale -= 10;
         }
@@ -977,7 +982,6 @@ void monster::process_trigger(monster_trigger trig, int amount)
         anger -= amount;
     }
 }
-
 
 int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
 {
@@ -1495,7 +1499,7 @@ bool monster::move_effects(bool)
 void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
                           bool permanent, int intensity, bool force, bool deferred )
 {
-    bp = num_bp;
+    bp = num_bp; // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
@@ -1566,7 +1570,6 @@ float monster::get_dodge_base() const
 {
     return type->sk_dodge;
 }
-
 
 float monster::hit_roll() const {
     float hit = get_hit();
@@ -2184,7 +2187,6 @@ m_size monster::get_size() const {
     return type->size;
 }
 
-
 void monster::add_msg_if_npc( const std::string &msg ) const
 {
     if (g->u.sees(*this)) {
@@ -2224,9 +2226,9 @@ void monster::init_from_item( const item &itm )
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
-        if( itm.damage() > 0 ) {
-            set_speed_base( speed_base / ( itm.damage() + 1 ) );
-            hp /= itm.damage() + 1;
+        if( itm.damage_level( 4 ) > 0 ) {
+            set_speed_base( speed_base / ( itm.damage_level( 4 ) + 1 ) );
+            hp /= itm.damage_level( 4 ) + 1;
         }
 
         hp -= burnt_penalty;
@@ -2422,7 +2424,6 @@ bool monster::will_join_horde(int size)
         return true;
     }
 }
-
 
 void monster::on_unload()
 {

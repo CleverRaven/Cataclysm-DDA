@@ -36,7 +36,6 @@
 #include <algorithm>
 #include <cassert>
 
-
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_gasoline( "gasoline" );
 static const itype_id fuel_type_diesel( "diesel" );
@@ -123,13 +122,22 @@ std::string vehicle_part::name() const
 
 int vehicle_part::hp() const
 {
-    double dur = info().durability;
-    return dur * health_percent();
+    int dur = info().durability;
+    if( base.max_damage() > 0 ) {
+        return dur - ( dur * base.damage() / base.max_damage() );
+    } else {
+        return dur;
+    }
 }
 
-float vehicle_part::damage() const
+int vehicle_part::damage() const
 {
     return base.damage();
+}
+
+int vehicle_part::damage_level( int max ) const
+{
+    return base.damage_level( max );
 }
 
 double vehicle_part::health_percent() const
@@ -305,13 +313,15 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
     return false;
 }
 
+void vehicle_part::process_contents( const tripoint &pos )
+{
+    if( !base.contents.empty() ) {
+        base.process( nullptr, pos, false );
+    }
+}
+
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
-    if( liquid.active || liquid.rotten() ) {
-        // cannot refill using active liquids (those that rot) due to #18570
-        return false;
-    }
-
     if( !is_tank() || !can_reload( liquid.typeId() ) ) {
         return false;
     }
@@ -442,22 +452,24 @@ const vpart_info &vehicle_part::info() const
 
 void vehicle::set_hp( vehicle_part &pt, int qty )
 {
-    if( qty == pt.info().durability ) {
+    if( qty == pt.info().durability || pt.info().durability <= 0 ) {
         pt.base.set_damage( 0 );
 
     } else if( qty == 0 ) {
         pt.base.set_damage( pt.base.max_damage() );
 
     } else {
-        double k = pt.base.max_damage() / double( pt.info().durability );
-        pt.base.set_damage( pt.base.max_damage() - ( qty * k ) );
+        pt.base.set_damage( pt.base.max_damage() - pt.base.max_damage() * qty / pt.info().durability );
     }
 }
 
 bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 {
-    double k = pt.base.max_damage() / double( pt.info().durability );
-    return pt.base.mod_damage( - qty * k, dt );
+    if( pt.info().durability > 0 ) {
+        return pt.base.mod_damage( -( pt.base.max_damage() * qty / pt.info().durability ), dt );
+    } else {
+        return false;
+    }
 }
 
 bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const

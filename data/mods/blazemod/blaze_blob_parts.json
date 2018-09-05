@@ -283,21 +283,9 @@
   {
     "id": "gloople_cross",
     "type": "vehicle_part",
-    "name": "gel framework",
-    "item": "gloople",
-    "location": "structure",
+    "copy-from": "gloople_horizontal",
     "symbol": "c",
-    "broken_symbol": "#",
-    "color": "light_green",
-    "broken_color": "light_green",
-    "difficulty": 1,
-    "durability": 250,
-    "damage_modifier": 10,
-    "folded_volume": 1,
-    "breaks_into": [ { "item": "glooplegrow" } ],
-    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "gloople_tank",
@@ -322,25 +310,38 @@
   {
     "id": "gloople_horizontal",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
-    "symbol": "h"
+    "name": "gel framework",
+    "item": "gloople",
+    "location": "structure",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "light_green",
+    "broken_color": "light_green",
+    "difficulty": 1,
+    "durability": 250,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "glooplegrow" } ],
+    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_horizontal_2",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "="
   },
   {
     "id": "gloople_ne",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "u"
   },
   {
     "id": "gloople_nw",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "y"
   },
   {
@@ -384,7 +385,7 @@
   {
     "id": "gloople_se",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "n"
   },
   {
@@ -409,7 +410,7 @@
   {
     "id": "gloople_sw",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "b"
   },
   {
@@ -442,13 +443,13 @@
   {
     "id": "gloople_vertical",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "j"
   },
   {
     "id": "gloople_vertical_2",
     "type": "vehicle_part",
-    "copy-from": "gloople_cross",
+    "copy-from": "gloople_horizontal",
     "symbol": "H"
   },
   {
@@ -676,21 +677,9 @@
   {
     "id": "gray_cross",
     "type": "vehicle_part",
-    "name": "gray frame",
-    "item": "gray",
-    "location": "structure",
+    "copy-from": "gray_horizontal",
     "symbol": "c",
-    "broken_symbol": "#",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "difficulty": 1,
-    "durability": 1000,
-    "damage_modifier": 10,
-    "folded_volume": 1,
-    "breaks_into": [ { "item": "graygrow" } ],
-    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "gray_tank",
@@ -715,25 +704,39 @@
   {
     "id": "gray_horizontal",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
-    "symbol": "h"
+    "name": "gray frame",
+    "item": "gray",
+    "location": "structure",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "difficulty": 1,
+    "durability": 1000,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "graygrow" } ],
+    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+
   },
   {
     "id": "gray_horizontal_2",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "broken_symbol": "#"
   },
   {
     "id": "gray_ne",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "u"
   },
   {
     "id": "gray_nw",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "y"
   },
   {
@@ -777,7 +780,7 @@
   {
     "id": "gray_se",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "n"
   },
   {
@@ -802,7 +805,7 @@
   {
     "id": "gray_sw",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "b"
   },
   {
@@ -835,13 +838,13 @@
   {
     "id": "gray_vertical",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "j"
   },
   {
     "id": "gray_vertical_2",
     "type": "vehicle_part",
-    "copy-from": "gray_cross",
+    "copy-from": "gray_horizontal",
     "symbol": "H"
   },
   {
@@ -1277,21 +1280,9 @@
   {
     "id": "oozle_cross",
     "type": "vehicle_part",
-    "name": "ooze chassis",
-    "item": "oozle",
-    "location": "structure",
+    "copy-from": "oozle_horizontal",
     "symbol": "c",
-    "broken_symbol": "#",
-    "color": "green",
-    "broken_color": "green",
-    "difficulty": 1,
-    "durability": 500,
-    "damage_modifier": 10,
-    "folded_volume": 1,
-    "breaks_into": [ { "item": "oozlegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "oozle_tank",
@@ -1316,25 +1307,38 @@
   {
     "id": "oozle_horizontal",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
-    "symbol": "h"
+    "name": "ooze chassis",
+    "item": "oozle",
+    "location": "structure",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "green",
+    "broken_color": "green",
+    "difficulty": 1,
+    "durability": 500,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "oozlegrow" } ],
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
+    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_horizontal_2",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "="
   },
   {
     "id": "oozle_ne",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "u"
   },
   {
     "id": "oozle_nw",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "y"
   },
   {
@@ -1378,7 +1382,7 @@
   {
     "id": "oozle_se",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "n"
   },
   {
@@ -1403,7 +1407,7 @@
   {
     "id": "oozle_sw",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "b"
   },
   {
@@ -1436,13 +1440,13 @@
   {
     "id": "oozle_vertical",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "j"
   },
   {
     "id": "oozle_vertical_2",
     "type": "vehicle_part",
-    "copy-from": "oozle_cross",
+    "copy-from": "oozle_horizontal",
     "symbol": "H"
   },
   {

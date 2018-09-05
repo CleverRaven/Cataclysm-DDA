@@ -615,7 +615,7 @@ class player : public Character
          * @param weight The weight used when choosing what reason to pick when the
          * player misses.
          */
-        void add_miss_reason( std::string reason, unsigned int weight);
+        void add_miss_reason( const std::string &reason, unsigned int weight);
         /** Clears the list of reasons for why the player would miss a melee attack. */
         void clear_miss_reasons();
         /**
@@ -1150,7 +1150,7 @@ class player : public Character
         /**
          * All items that have the given flag (@ref item::has_flag).
          */
-        std::vector<const item *> all_items_with_flag( const std::string flag ) const;
+        std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
 
         void process_active_items();
         /**
@@ -1274,7 +1274,6 @@ class player : public Character
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
 
-
         /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly
@@ -1307,7 +1306,8 @@ class player : public Character
                             const std::string &hotkeys = DEFAULT_HOTKEYS );
 
         // Auto move methods
-        void set_destination( const std::vector<tripoint> &route );
+        void set_destination( const std::vector<tripoint> &route,
+                              const player_activity &destination_activity = player_activity() );
         void clear_destination();
         bool has_destination() const;
         std::vector<tripoint> &get_auto_move_route();
@@ -1633,8 +1633,6 @@ class player : public Character
         static int floor_item_warmth( const tripoint &pos );
         /** Final warmth from the floor **/
         int floor_warmth( const tripoint &pos ) const;
-        /** Correction factor of the body temperature due to fire **/
-        int bodytemp_modifier_fire() const;
         /** Correction factor of the body temperature due to traits and mutations **/
         int bodytemp_modifier_traits( bool overheated ) const;
         /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
@@ -1677,6 +1675,7 @@ class player : public Character
         int pkill;
 
         std::vector<tripoint> auto_move_route;
+        player_activity destination_activity;
         // Used to make sure auto move is canceled if we stumble off course
         tripoint next_expected_position;
 
