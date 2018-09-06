@@ -803,6 +803,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 color_notes += string_format( "%s:%s, ", color_pair.first.c_str(),
                                               _( color_pair.second.c_str() ) );
             }
+            color_notes = color_notes.replace(color_notes.end() - 2, color_notes.end(), ".");
             const std::string old_note = overmap_buffer.note( curs );
             const std::string new_note = string_input_popup()
                                          .title( _( "Note (X:TEXT for custom symbol, G; for color):" ) )
