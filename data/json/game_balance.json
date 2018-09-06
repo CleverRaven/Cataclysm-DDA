@@ -131,5 +131,12 @@
     "info": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_FREEZING",
+    "info": "Disables freezing of food and drink.  If true, food and drink will not freeze, except those that are meant to be consumed frozen (e.g. ice cream).",
+    "stype": "bool",
+    "value": false
   }
 ]

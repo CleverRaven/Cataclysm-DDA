@@ -1,0 +1,17 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "nofreezing",
+    "name": "No Freezing",
+    "description": "Prevents food and drink from freezing, except those that are meant to be consumed frozen (e.g. ice cream).",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_FREEZING",
+    "info": "Disables freezing of food and drink.  If true, food and drink will not freeze, except those that are meant to be consumed frozen (e.g. ice cream).",
+    "stype": "bool",
+    "value": true
+  }
+]
