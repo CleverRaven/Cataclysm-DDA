@@ -2476,7 +2476,7 @@ std::set<tripoint> monster::get_path_avoid() const
 
 units::mass monster::weight_capacity() const
 {
-    if (type->weight_capacity > -1) {
+    if (type->weight_capacity > units::mass( -1, units::mass::unit_type{} )) {
         return type->weight_capacity;
     }
     return Creature::weight_capacity();
