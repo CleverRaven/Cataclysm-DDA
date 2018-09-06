@@ -55,7 +55,7 @@ const_invslice inventory::const_slice() const
 
 const std::list<item> &inventory::const_stack(int i) const
 {
-    if (i < 0 || i >= (int)items.size()) {
+    if (i < 0 || i >= static_cast<int>( items.size() ) ) {
         debugmsg("Attempted to access stack %d in an inventory (size %d)", i, items.size());
         static const std::list<item> nullstack{};
         return nullstack;
@@ -248,7 +248,6 @@ void inventory::push_back(item newit)
 {
     add_item(newit);
 }
-
 
 void inventory::restack( player &p )
 {
@@ -498,7 +497,7 @@ std::list<item> inventory::reduce_stack( const int position, const int quantity 
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if( position == pos ) {
             binned = false;
-            if(quantity >= (int)iter->size() || quantity < 0) {
+            if(quantity >= static_cast<int>( iter->size() ) || quantity < 0) {
                 ret = *iter;
                 items.erase(iter);
             } else {
@@ -592,7 +591,7 @@ void inventory::dump(std::vector<item *> &dest)
 
 const item &inventory::find_item(int position) const
 {
-    if (position < 0 || position >= (int)items.size()) {
+    if (position < 0 || position >= static_cast<int>( items.size() ) ) {
         return null_item_reference();
     }
     invstack::const_iterator iter = items.begin();
@@ -695,7 +694,7 @@ int inventory::leak_level(std::string flag) const
                 if( elem_stack_iter.has_flag( "LEAK_ALWAYS" ) ) {
                     ret += elem_stack_iter.volume() / units::legacy_volume_factor;
                 } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage();
+                    ret += elem_stack_iter.damage_level( 4 );
                 }
             }
         }

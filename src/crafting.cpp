@@ -436,7 +436,6 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     return used;
 }
 
-
 void player::complete_craft()
 {
     //@todo: change making to be a reference, it can never be null anyway
@@ -1285,7 +1284,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     // has been removed.
     item dis_item = org_item;
 
-    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage() ), 1.0 );
+    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first

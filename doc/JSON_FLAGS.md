@@ -134,7 +134,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```pit_covered``` Uncover the pit.
 - ```pedestal_temple``` Opens the temple if you have a petrified eye.
 - ```pedestal_wyrm``` Spawn wyrms.
-- ```recycler``` Recycle metal objects.
+- ```recycle_compactor``` Compress pure metal objects into basic shapes.
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
@@ -265,6 +265,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```NOHEAD``` Headshots not allowed!
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
+- ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
@@ -521,11 +522,12 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```OPENABLE``` Can be opened or closed.
 - ```OPENCLOSE_INSIDE```  Can be opened or closed, but only from inside the vehicle.
 - ```OVER``` Can be mounted over other parts.
+- ```PERPETUAL``` If paired with REACTOR, part produces electrical power without consuming fuel.
 - ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. It is damaged by running it over non-```DIGGABLE``` surfaces.
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
-- ```REACTOR```
+- ```REACTOR``` When enabled, part consumes fuel to generate epower.
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```REMOTE_CONTROLS```
@@ -814,6 +816,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
 - ```NO_FREEZE``` It spoils instantly when frozen.
+- ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
@@ -899,6 +902,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.
 - ```FIRE``` Counts as a fire for crafting purposes.
+- ```FIRESTARTER``` Item will start fire.
 - ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
@@ -1094,9 +1098,16 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
-- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start
-- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors)
-- ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
+- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
+- ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
+- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
+- ```CHALLENGE``` Game won't choose this scenario in random game types.
+- ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
+- ```FIRE_START``` Player starts the game with fire nearby.
+- ```HELI_CRASH``` Player starts the game with various limbs wounds.
+- ```INFECTED``` Player starts the game infected.
+- ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
+- ```SUR_START``` Surrounded start, zombies outside the starting location.
 
 - ```WIN_START``` ... start in winter.
 - ```SPR_START``` ... start in spring.

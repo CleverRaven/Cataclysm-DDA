@@ -13,7 +13,7 @@
 #endif
 
 #include "crash.h"
-#include "version.h"
+#include "get_version.h"
 #include "platform_win.h"
 
 #include <dbghelp.h>
@@ -103,7 +103,7 @@ extern "C" {
         char *beg = buf, *end = buf + BUF_SIZE;
         FILE *file = fopen( "config/crash.log", "w" );
         append_str( file, &beg, end, "VERSION: " );
-        append_str( file, &beg, end, VERSION );
+        append_str( file, &beg, end, getVersionString() );
         append_str( file, &beg, end, "\nTYPE: " );
         append_str( file, &beg, end, type );
         append_str( file, &beg, end, "\nMESSAGE: " );
@@ -217,7 +217,7 @@ void init_crash_handlers()
     SymInitialize( GetCurrentProcess(), NULL, TRUE );
     ULONG stacksize = 2048;
     SetThreadStackGuarantee( &stacksize );
-    for( auto && sig : {
+    for( auto sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
          } ) {
 

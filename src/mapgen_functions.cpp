@@ -618,7 +618,6 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, const t
         m->add_spawn(mon_shia, 1, SEEX, SEEY);
     }
 
-
     // One in 100 forests has a spider living in it :o
     if (one_in(100)) {
         for (int i = 0; i < SEEX * 2; i++) {
@@ -1956,7 +1955,6 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             break;
         }
 
-
         break;
     case room_kitchen: {
         placed = "kitchen";
@@ -2145,7 +2143,6 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
     }
     m->place_items(placed, chance, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, turn);
 }
-
 
 void mapgen_generic_house_boxy(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density) {
     mapgen_generic_house(m, terrain_type, dat, turn, density, 1);
@@ -2873,7 +2870,6 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, const time_poin
 
         m->place_spawns( mongroup_id( "GROUP_POLICE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
-
 }
 
 void mapgen_cave(map *m, oter_id, mapgendata dat, const time_point &turn, float density)
@@ -2970,12 +2966,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, const time_point &turn, float 
             square(m, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
         }
 
-
-
-
-
 }
-
 
 void mapgen_cave_rat(map *m, oter_id, mapgendata dat, const time_point &turn, float)
 {
@@ -3046,7 +3037,6 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, const time_point &turn, fl
             m->ter_set(stairsx, stairsy, t_slope_down);
         }
 }
-
 
 void mapgen_cavern(map *m, oter_id, mapgendata dat, const time_point &turn, float)
 {
@@ -3134,8 +3124,6 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, const time_point &turn, floa
         }
     }
 
-
-
 }
 
 void mapgen_rock_partial(map *m, oter_id, mapgendata dat, const time_point &, float)
@@ -3165,11 +3153,9 @@ void mapgen_rock(map *m, oter_id, mapgendata, const time_point &, float)
     fill_background( m, t_rock );
 }
 
-
 void mapgen_open_air(map *m, oter_id, mapgendata, const time_point &, float){
     fill_background( m, t_open_air );
 }
-
 
 void mapgen_rift(map *m, oter_id, mapgendata dat, const time_point &, float)
 {
@@ -3219,10 +3205,7 @@ void mapgen_rift(map *m, oter_id, mapgendata dat, const time_point &, float)
         }
     }
 
-
-
 }
-
 
 void mapgen_hellmouth(map *m, oter_id, mapgendata dat, const time_point &, float)
 {
@@ -3327,9 +3310,7 @@ void mapgen_hellmouth(map *m, oter_id, mapgendata dat, const time_point &, float
             break;
     }
 
-
 }
-
 
 void mapgen_ants_curved(map *m, oter_id terrain_type, mapgendata dat, const time_point &, float)
 {
@@ -3387,7 +3368,6 @@ void mapgen_ants_curved(map *m, oter_id terrain_type, mapgendata dat, const time
     if (terrain_type == "ants_wn") {
         m->rotate(3);
     }
-
 
 }
 
@@ -3510,7 +3490,6 @@ void mapgen_ants_tee(map *m, oter_id terrain_type, mapgendata dat, const time_po
 
 }
 
-
 void mapgen_ants_generic(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float)
 {
 
@@ -3540,28 +3519,28 @@ void mapgen_ants_generic(map *m, oter_id terrain_type, mapgendata dat, const tim
             }
         }
     }
-    if (connects_to(dat.north(), 2)) {
+    if (connects_to(dat.north(), 2) || is_ot_subtype("ants_lab", dat.north())) {
         for (int i = SEEX - 2; i <= SEEX + 3; i++) {
             for (int j = 0; j <= SEEY; j++) {
                 m->ter_set(i, j, t_rock_floor);
             }
         }
     }
-    if (connects_to(dat.east(), 3)) {
+    if (connects_to(dat.east(), 3) || is_ot_subtype("ants_lab", dat.east())) {
         for (int i = SEEX; i <= SEEX * 2 - 1; i++) {
             for (int j = SEEY - 2; j <= SEEY + 3; j++) {
                 m->ter_set(i, j, t_rock_floor);
             }
         }
     }
-    if (connects_to(dat.south(), 0)) {
+    if (connects_to(dat.south(), 0) || is_ot_subtype("ants_lab", dat.south())) {
         for (int i = SEEX - 2; i <= SEEX + 3; i++) {
             for (int j = SEEY; j <= SEEY * 2 - 1; j++) {
                 m->ter_set(i, j, t_rock_floor);
             }
         }
     }
-    if (connects_to(dat.west(), 1)) {
+    if (connects_to(dat.west(), 1) || is_ot_subtype("ants_lab", dat.west())) {
         for (int i = 0; i <= SEEX; i++) {
             for (int j = SEEY - 2; j <= SEEY + 3; j++) {
                 m->ter_set(i, j, t_rock_floor);
@@ -3579,16 +3558,13 @@ void mapgen_ants_generic(map *m, oter_id terrain_type, mapgendata dat, const tim
         m->add_spawn(mon_ant_larva, 10, SEEX, SEEY);
     }
 
-
 }
-
 
 void mapgen_ants_food(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density)
 {
     mapgen_ants_generic(m, terrain_type, dat, turn, density);
     m->place_items("ant_food", 92, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 }
-
 
 void mapgen_ants_larvae(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density)
 {
@@ -3597,7 +3573,6 @@ void mapgen_ants_larvae(map *m, oter_id terrain_type, mapgendata dat, const time
     m->add_spawn(mon_ant_larva, 10, SEEX, SEEY);
 }
 
-
 void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density)
 {
     mapgen_ants_generic(m, terrain_type, dat, turn, density);
@@ -3605,7 +3580,6 @@ void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, const time_
     m->add_spawn(mon_ant_queen, 1, SEEX, SEEY);
 
 }
-
 
 void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float density)
 {

@@ -83,10 +83,8 @@ player_activity veh_interact::serialize_activity()
         case 'r':
             if( pt->is_broken() ) {
                 time = vp->install_time( g->u );
-            } else {
-                // why repairing part that cannot be damaged?
-                assert( pt->base.max_damage() > 0 );
-                time = vp->repair_time( g->u ) * double( pt->base.damage() ) / pt->base.max_damage();
+            } else if( pt->base.max_damage() > 0 ) {
+                time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
             }
             break;
         case 'o':
@@ -99,7 +97,7 @@ player_activity veh_interact::serialize_activity()
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         time = 1;
     }
-    player_activity res( activity_id( "ACT_VEHICLE" ), time, ( int ) sel_cmd );
+    player_activity res( activity_id( "ACT_VEHICLE" ), time, static_cast<int>( sel_cmd ) );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
@@ -318,6 +316,10 @@ void veh_interact::do_main_loop()
             // Siphoning may have started a player activity. If so, we should close the
             // vehicle dialog and continue with the activity.
             finish = !g->u.activity.is_null();
+            if( !finish ) {
+                // it's possible we just invalidated our crafting inventory
+                cache_tool_availability();
+            }
         } else if( action == "TIRE_CHANGE" ) {
             redraw = do_tirechange( msg );
         } else if( action == "ASSIGN_CREW" ) {
@@ -346,10 +348,6 @@ void veh_interact::do_main_loop()
             display_name();
             display_stats();
             display_veh();
-            // Horrible hack warning:
-            // Part display doesn't have a dedicated display function
-            // Siphon menu obscures it, so it has to be redrawn
-            move_cursor( 0, 0 );
         }
 
         if( !msg.empty() ) {
@@ -647,7 +645,7 @@ bool veh_interact::can_install_part() {
  */
 void veh_interact::move_fuel_cursor(int delta)
 {
-    int max_fuel_indicators = (int)veh->get_printable_fuel_types().size();
+    int max_fuel_indicators = static_cast<int>( veh->get_printable_fuel_types().size() );
     int height = 5;
     fuel_index += delta;
 
@@ -927,9 +925,9 @@ bool veh_interact::do_repair( std::string &msg )
         if( pt.is_broken() ) {
             ok = format_reqs( msg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            if( !vp.repair_requirements().is_empty() ) {
-                ok = format_reqs( msg, vp.repair_requirements() * pt.base.damage(), vp.repair_skills,
-                                  vp.repair_time( g->u ) * double( pt.base.damage() ) / pt.base.max_damage() );
+            if( !vp.repair_requirements().is_empty() && pt.base.max_damage() > 0 ) {
+                ok = format_reqs( msg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
+                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
             } else {
                 msg << "<color_light_red>" << _( "This part cannot be repaired" ) << "</color>";
                 ok = false;
@@ -1011,8 +1009,7 @@ bool veh_interact::do_refill( std::string &msg )
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
             if( pt.is_tank() ) {
-                // cannot refill using active liquids (those that rot) due to #18570
-                if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
+                if( obj.is_watertight_container() && !obj.contents.empty() ) {
                     return pt.can_reload( obj.contents.front().typeId() );
                 }
             } else if( pt.is_reactor() ) {
@@ -1374,8 +1371,9 @@ bool veh_interact::can_remove_part( int idx ) {
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
 
-    if( !veh->can_unmount( idx ) ) {
-        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), _( "Remove attached parts first" ) ) << "\n";
+    std::string reason;
+    if( !veh->can_unmount( idx, reason ) ) {
+        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), reason ) << "\n";
         ok = false;
     }
 
@@ -1466,8 +1464,25 @@ bool veh_interact::do_siphon( std::string &msg )
         default: break;
     }
 
-    act_vehicle_siphon( veh );
-    return true; // force redraw
+    set_title( _( "Select part to siphon: " ) );
+
+    auto sel = [&]( const vehicle_part & pt ) {
+        return( pt.is_tank() && ( pt.ammo_remaining() > 0 ) &&
+                item::find_type( pt.ammo_current() )->phase == LIQUID );
+    };
+
+    auto act = [&]( const vehicle_part & pt ) {
+        const item &base = pt.get_base();
+        const int idx = veh->find_part( base );
+        item liquid( base.contents.back() );
+        const int liq_charges = liquid.charges;
+        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+            veh->drain( idx, liq_charges - liquid.charges );
+        }
+        return true;
+    };
+
+    return overview( sel, act );
 }
 
 bool veh_interact::do_tirechange( std::string &msg )
@@ -1917,7 +1932,6 @@ void veh_interact::display_stats()
 
     fold_and_print( w_stats, y[5], x[5], w[5], c_light_gray, wheel_state_description( *veh ).c_str() );
 
-
     //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
     //for the veh_interact ui
     auto print_part = [&]( const char * str, int slot, vehicle_part *pt )
@@ -2328,7 +2342,7 @@ item consume_vpart_item( const vpart_id &vpid )
     return item_used.front();
 }
 
-void act_vehicle_siphon(vehicle* veh) {
+void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
     for( auto & e : veh->fuels_left() ) {
         const itype *type = item::find_type( e.first );
@@ -2342,25 +2356,22 @@ void act_vehicle_siphon(vehicle* veh) {
         add_msg(m_info, _("The vehicle has no liquid fuel left to siphon."));
         return;
     }
-    itype_id fuel;
-    if( fuels.size() > 1 ) {
-        uimenu smenu;
-        smenu.text = _("Siphon what?");
-        for( auto & fuel : fuels ) {
-            smenu.addentry( item::nname( fuel ) );
-        }
-        smenu.addentry(_("Never mind"));
-        smenu.query();
-        if( static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
-            add_msg(m_info, _("Never mind."));
-            return;
-        }
-        fuel = fuels[smenu.ret];
-    } else {
-        fuel = fuels.front();
-    }
 
-    g->u.siphon( *veh, fuel );
+    std::string title = string_format( _( "Select tank to siphon:" ) );
+    auto sel = []( const vehicle_part &pt ) {
+        return pt.is_tank() && pt.ammo_remaining() > 0;
+    };
+    vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
+    if( tank ) {
+        const item &base = tank.get_base();
+        const int idx = veh->find_part( base );
+        item liquid( base.contents.back() );
+        const int liq_charges = liquid.charges;
+        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+            veh->drain( idx, liq_charges - liquid.charges );
+            veh->invalidate_mass();
+        }
+    }
 }
 
 /**

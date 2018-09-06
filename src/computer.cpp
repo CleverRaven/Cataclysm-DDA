@@ -130,7 +130,7 @@ void computer::use()
     wrefresh(w_border);
 
     // Login
-    print_line(_("Logging into %s..."), name.c_str());
+    print_line(_("Logging into %s..."), _(name.c_str()));
     if (security > 0) {
         if( calendar::turn < next_attempt ) {
             print_error( _("Access is temporary blocked for security purposes.") );
@@ -606,7 +606,6 @@ void computer::activate_function( computer_action action )
     }
     break;
 
-
     case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
         if(query_yn(_("Disarm missile."))) {
             g->u.add_memorial_log(pgettext("memorial_male", "Disarmed a nuclear missile."),
@@ -628,7 +627,7 @@ void computer::activate_function( computer_action action )
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 for( auto &elem : g->m.i_at( x, y ) ) {
                     if( elem.is_bionic() ) {
-                        if ((int)names.size() < TERMY - 8) {
+                        if (static_cast<int>( names.size() ) < TERMY - 8) {
                             names.push_back( elem.tname() );
                         } else {
                             more++;

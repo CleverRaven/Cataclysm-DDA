@@ -73,7 +73,7 @@ class safemode
 
         void create_rules();
         void add_rules( std::vector<rules_class> &rules_in );
-        void set_rule( const rules_class rule_in, const std::string name_in, rule_state rs_in );
+        void set_rule( const rules_class rule_in, const std::string &name_in, rule_state rs_in );
 
     public:
         std::string lastmon_whitelist;

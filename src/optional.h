@@ -157,7 +157,6 @@ class optional
             }
         }
 
-
         optional &operator=( nullopt_t ) noexcept {
             reset();
             return *this;

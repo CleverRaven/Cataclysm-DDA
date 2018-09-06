@@ -595,7 +595,7 @@ void player::mutate()
                     // non-purifiable stuff should be pretty tenacious
                     // category-enforcement only targets it 25% of the time
                     // (purify_save defaults true, = false for non-purifiable)
-                    if( purify_save || ( one_in( 4 ) && !purify_save ) ) {
+                    if( purify_save || one_in( 4 ) ) {
                         downgrades.push_back(base_mutation);
                     }
                 }
@@ -1216,7 +1216,6 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         return mutagen_rejection::destroyed;
     }
 
-
     return mutagen_rejection::accepted;
 }
 
@@ -1301,5 +1300,3 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
         p.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
 }
-
-

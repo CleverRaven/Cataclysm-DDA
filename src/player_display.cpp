@@ -116,7 +116,6 @@ void player::print_encumbrance( const catacurses::window &win, int line,
 
 }
 
-
 std::string swim_cost_text( int moves )
 {
     return string_format( ngettext( "Swimming costs %+d movement point. ",
@@ -153,7 +152,6 @@ std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
 }
-
 
 int get_encumbrance( const player &p, body_part bp, bool combine )
 {
@@ -272,7 +270,6 @@ void player::disp_info()
             starvation_text <<
                             _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
         }
-
 
         if( starvation_base_penalty > 500 ) {
             starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";

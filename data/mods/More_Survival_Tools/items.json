@@ -71,7 +71,8 @@
       "type": "firestarter",
       "moves": 1000,
       "moves_slow": 5000
-    }
+    },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "tinderbox",
@@ -124,7 +125,8 @@
         "menu_text": "Extinguish",
         "type": "transform"
       }
-    ]
+    ],
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "bottle_metal",
@@ -597,7 +599,7 @@
         "need_sunlight": true
       }
     ],
-    "flags": [ "THERMOMETER" ]
+    "flags": [ "FIRESTARTER", "THERMOMETER" ]
   },
   {
     "id": "crossbow_makeshift",

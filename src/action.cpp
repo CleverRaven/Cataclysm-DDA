@@ -635,7 +635,6 @@ action_id handle_action_menu()
                std::back_inserter<std::vector<std::pair<action_id, int> > >( sorted_pairs ) );
     std::reverse( sorted_pairs.begin(), sorted_pairs.end() );
 
-
     // Default category is called "back"
     std::string category = "back";
 

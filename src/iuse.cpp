@@ -487,7 +487,6 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-
 int iuse::ecig( player *p, item *it, bool, const tripoint & )
 {
     if( it->typeId() == "ecig" ) {
@@ -1485,7 +1484,6 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
 
     return 1;
 }
-
 
 int iuse::dogfood( player *p, item *it, bool, const tripoint & )
 {
@@ -2541,7 +2539,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint &pos )
 
     if( g->m.has_flag( "DIGGABLE", dirp ) && !g->m.has_flag( "PLANT", dirp ) ) {
         p->add_msg_if_player( _( "You churn up the earth here." ) );
-        p->moves = -300;
+        p->mod_moves( -300 );
         g->m.ter_set( dirp, t_dirtmound );
         return it->type->charges_to_use();
     } else {
@@ -2708,7 +2706,7 @@ int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
                            20, _( "With a roar, the chainsaw leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -2717,7 +2715,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
@@ -2726,7 +2724,7 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a roar, the chainsaws leap to life!" ),
                            _( "You yank the cords, but nothing happens." ) );
 }
@@ -2744,7 +2742,7 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage() > 3,
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 3,
                            15, _( "With a roar, the hedge trimmer leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -3421,7 +3419,6 @@ int iuse::mininuke( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-
 int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
 {
     if( !it->ammo_sufficient() ) {
@@ -3466,7 +3463,6 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     }
     return it->type->charges_to_use();
 }
-
 
 int iuse::portal( player *p, item *it, bool, const tripoint & )
 {
@@ -4315,7 +4311,6 @@ int iuse::portable_structure( player *p, item *it, bool, const tripoint & )
     return 1;
 }
 
-
 int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
 {
     if( p->is_underwater() ) {
@@ -4829,7 +4824,7 @@ int iuse::spray_can( player *p, item *it, bool, const tripoint & )
     return handle_ground_graffiti( *p, it, ismarker ? _( "Write what?" ) : _( "Spray what?" ) );
 }
 
-int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix )
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -4883,14 +4878,27 @@ static bool heat_item( player &p )
     p.mod_moves( -300 ); //initial preparations
     if( target.item_tags.count( "FROZEN" ) ) {
         add_msg( _( "You defrost the food." ) );
-        // simulates heat capacity of food, more weight = longer heating time
-        // this is x2 to simulate larger delta temperature of frozen food in relation to
-        // heating non-frozen food (x1); no real life physics here, only aproximations
-        p.mod_moves( -to_gram( target.weight() ) * 2 );
         target.item_tags.erase( "FROZEN" );
-        target.item_tags.insert( "HOT" );
+        if( target.has_flag( "EATEN_COLD" ) ) {
+            // heat just enough to thaw it
+            p.mod_moves( -to_gram( target.weight() ) );
+            target.item_tags.insert( "COLD" );
+            if( g->get_temperature( p.pos() ) <= FRIDGE_TEMPERATURE ) {
+                // environment is cold; heat more to prevent re-freeze
+                target.item_counter = 50;
+            } else {
+                // environment is warm; heat less to keep COLD longer
+                target.item_counter = 550;
+            }
+        } else {
+            // simulates heat capacity of food, more weight = longer heating time
+            // this is x2 to simulate larger delta temperature of frozen food in relation to
+            // heating non-frozen food (x1); no real life physics here, only aproximations
+            p.mod_moves( -to_gram( target.weight() ) * 2 );
+            target.item_tags.insert( "HOT" );
+            target.item_counter = 300; // prevents insta-freeze after defrosting
+        }
         target.active = true;
-        target.item_counter = 300; // prevents insta-freeze after defrosting
         if( target.has_flag( "NO_FREEZE" ) && !target.rotten() ) {
             target.item_tags.insert( "MUSHY" );
         } else if( target.has_flag( "NO_FREEZE" ) && target.has_flag( "MUSHY" ) &&
@@ -4974,8 +4982,6 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
     if( it->has_flag( "WET" ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname().c_str() );
-
-
         // clean off the messes first, more important
     } else if( slime || boom || glow ) {
         p->remove_effect( effect_slimed ); // able to clean off all at once
@@ -5148,7 +5154,6 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-
 int iuse::contacts( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
@@ -5221,31 +5226,31 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
+    if( fix.damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
         p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname().c_str() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return 0;
     }
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
-    if( fix.precise_damage() <= 0 ) {
+    if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, "" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
-    } else if( fix.precise_damage() > 1 ) {
+    } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, "" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
     } else {
         sounds::sound( p->pos(), 8, "" );
@@ -5352,27 +5357,27 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    if( fix.precise_damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( fix.damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname().c_str() );
         return 0;
     }
-    if( fix.precise_damage() <= 0 ) {
+    if( fix.damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
         p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
-    } else if( fix.precise_damage() > 1 ) {
+    } else if( fix.damage() > itype::damage_scale ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
         p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
-        fix.mod_damage( -1 );
+        fix.mod_damage( -itype::damage_scale );
 
     } else {
         p->moves -= 250 * p->fine_detail_vision_mod();
@@ -5671,7 +5676,6 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
             }
 
-
         }
 
         if( candidates.size() > 0 ) {
@@ -5767,7 +5771,6 @@ static const std::string &photo_quality_name( const int index )
         } };
     return names[index];
 }
-
 
 int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 {
@@ -7445,6 +7448,64 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
     return 0;
 }
 
+int item::release_monster( const tripoint &target, bool spawn )
+{
+    monster new_monster;
+    try {
+        ::deserialize( new_monster, get_var( "contained_json", "" ) );
+    } catch( const std::exception &e ) {
+        debugmsg( _( "Error restoring monster: %s" ), e.what() );
+        return 0;
+    }
+    if( spawn ) {
+        new_monster.spawn( target );
+        g->add_zombie( new_monster );
+    }
+    erase_var( "contained_name" );
+    erase_var( "contained_json" );
+    erase_var( "name" );
+    erase_var( "weight" );
+    return 0;
+}
+
+// didn't want to drag the monster:: definition into item.h, so just reacquire the monster
+// at target
+int item::contain_monster( const tripoint &target )
+{
+    const monster *const mon_ptr = g->critter_at<monster>( target );
+    if( !mon_ptr ) {
+        return 0;
+    }
+    const monster &f = *mon_ptr;
+
+    set_var( "contained_json", ::serialize( f ) );
+    set_var( "contained_name", f.type->nname() );
+    set_var( "name", string_format( _( "%s holding %s" ), type->nname( 1 ).c_str(),
+                                    f.type->nname().c_str() ) );
+    m_size mon_size = f.get_size();
+    int new_weight = 0;
+    switch( mon_size ) {
+        case MS_TINY:
+            new_weight = 1000;
+            break;
+        case MS_SMALL:
+            new_weight = 40750;
+            break;
+        case MS_MEDIUM:
+            new_weight = 81500;
+            break;
+        case MS_LARGE:
+            new_weight = 120000;
+            break;
+        case MS_HUGE:
+            new_weight = 200000;
+            break;
+    }
+    set_var( "weight", new_weight );
+    g->remove_zombie( f );
+    return 0;
+}
+
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 {
     if( it->has_var( "contained_name" ) ) {
@@ -7479,20 +7540,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 }
             }
         }
-        monster new_monster;
-        try {
-            deserialize( new_monster, it->get_var( "contained_json", "" ) );
-        } catch( const std::exception &e ) {
-            debugmsg( _( "Error restoring monster: %s" ), e.what() );
-            return 0;
-        }
-        new_monster.spawn( target );
-        g->add_zombie( new_monster );
-        it->erase_var( "contained_name" );
-        it->erase_var( "contained_json" );
-        it->erase_var( "name" );
-        it->erase_var( "weight" );
-        return 0;
+        return it->release_monster( target );
     } else {
         tripoint target = pos;
         const std::string query = string_format( _( "Capture what with the %s?" ), it->tname().c_str() );
@@ -7525,32 +7573,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // If the monster is friendly, then put it in the item
             // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
-                it->set_var( "contained_json", serialize( f ) );
-                it->set_var( "contained_name", f.type->nname() );
-                it->set_var( "name", string_format( _( "%s holding %s" ), it->type->nname( 1 ).c_str(),
-                                                    f.type->nname().c_str() ) );
-                m_size mon_size = f.get_size();
-                int new_weight = 0;
-                switch( mon_size ) {
-                    case MS_TINY:
-                        new_weight = 1000;
-                        break;
-                    case MS_SMALL:
-                        new_weight = 40750;
-                        break;
-                    case MS_MEDIUM:
-                        new_weight = 81500;
-                        break;
-                    case MS_LARGE:
-                        new_weight = 120000;
-                        break;
-                    case MS_HUGE:
-                        new_weight = 200000;
-                        break;
-                }
-                it->set_var( "weight", new_weight );
-                g->remove_zombie( f );
-                return 0;
+                return it->contain_monster( target );
             } else {
                 p->add_msg_if_player( m_bad, _( "The %1$s avoids your attempts to put it in the %2$s." ),
                                       f.type->nname().c_str(), it->type->nname( 1 ).c_str() );
@@ -7615,7 +7638,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint & )
     std::list<std::pair<int, int>> to_clean;
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-        to_clean = std::list<std::pair<int, int> >();
         return 0;
     }
 

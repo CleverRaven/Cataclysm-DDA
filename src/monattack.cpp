@@ -774,7 +774,6 @@ bool mattack::boomer_glow( monster *z )
     return true;
 }
 
-
 bool mattack::resurrect( monster *z )
 {
     // Chance to recover some of our missing speed (yes this will regain
@@ -823,7 +822,7 @@ bool mattack::resurrect( monster *z )
                 }
                 return false;
             }
-            int raise_score = ( i.damage() + 1 ) * mt->hp + i.burnt;
+            int raise_score = ( i.damage_level( 4 ) + 1 ) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
                 corpses.push_back( std::make_pair( p, &i ) );
@@ -876,7 +875,7 @@ bool mattack::resurrect( monster *z )
     }
 
     std::pair<tripoint, item *> raised = random_entry( corpses );
-    float corpse_damage = raised.second->damage();
+    float corpse_damage = raised.second->damage_level( 4 );
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         g->m.i_rem( raised.first, raised.second );
@@ -1373,7 +1372,6 @@ bool mattack::vine( monster *z )
             z->moves -= 100;
             return true;
         }
-
 
         if( g->is_empty( dest ) ) {
             grow.push_back( dest );
@@ -2294,10 +2292,8 @@ bool mattack::jackson( monster *z )
         }
     }
     // This is telepathy, doesn't take any moves.
-
     return true;
 }
-
 
 bool mattack::dance( monster *z )
 {
@@ -2393,7 +2389,6 @@ bool mattack::tentacle( monster *z )
 
     return true;
 }
-
 
 bool mattack::ranged_pull( monster *z )
 {
@@ -2661,12 +2656,13 @@ bool mattack::fear_paralyze( monster *z )
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if ( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in(4))) {
-            add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
-        ///\EFFECT_INT decreases chance of being paralyzed by fear attack
-        } else if ( rng(0, 20) > g->u.get_int() ) {
-            add_msg( m_bad, _("The terrifying visage of the %s paralyzes you."), z->name().c_str() );
+    if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
+        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+                one_in( 4 ) ) ) {
+            add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name().c_str() );
+            ///\EFFECT_INT decreases chance of being paralyzed by fear attack
+        } else if( rng( 0, 20 ) > g->u.get_int() ) {
+            add_msg( m_bad, _( "The terrifying visage of the %s paralyzes you." ), z->name().c_str() );
             g->u.add_effect( effect_fearparalyze, 5_turns );
             g->u.moves -= 400;
         } else {
@@ -3082,7 +3078,6 @@ bool mattack::searchlight( monster *z )
                 }
             }
         }
-
 
         int x = zposx + settings.get_var( "SL_SPOT_X", 0 );
         int y = zposy + settings.get_var( "SL_SPOT_Y", 0 );
@@ -3929,7 +3924,6 @@ bool mattack::longswipe( monster *z )
 
     return true;
 }
-
 
 bool mattack::parrot( monster *z )
 {

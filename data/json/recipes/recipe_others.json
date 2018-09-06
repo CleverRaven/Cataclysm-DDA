@@ -20,15 +20,10 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 30000,
+    "time": 10000,
     "autolearn": true,
     "tools": [ [ [ "con_mix", 50 ] ] ],
-    "components": [
-      [ [ "material_cement", 50 ] ],
-      [ [ "material_sand", 25 ] ],
-      [ [ "pebble", 20 ] ],
-      [ [ "water_clean", 5 ], [ "water", 5 ] ]
-    ]
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -3133,7 +3128,8 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 3,
-    "time": 90000,
+    "time": 60000,
+    "batch_time_factors": [ 75, 4 ],
     "autolearn": true,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_limestone", 50 ] ] ]
@@ -3148,6 +3144,7 @@
     "difficulty": 4,
     "time": 90000,
     "autolearn": true,
+    "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ] ] ]
   },
@@ -3683,6 +3680,7 @@
     "difficulty": 2,
     "time": 40000,
     "autolearn": true,
+    "batch_time_factors": [ 75, 4 ],
     "tools": [ [ [ "brick_kiln", 60 ], [ "kiln", 60 ] ] ],
     "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -3693,10 +3691,10 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": 30000,
+    "time": 10000,
     "autolearn": true,
     "tools": [ [ [ "con_mix", 50 ] ] ],
-    "components": [ [ [ "material_cement", 50 ] ], [ [ "pebble", 20 ] ] ]
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },
   {
     "type": "recipe",
@@ -4051,11 +4049,10 @@
     ],
     "components": [
       [ [ "scrap", 6 ] ],
-      [ [ "pipe", 6 ] ],
-      [ [ "cu_pipe", 6 ] ],
+      [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
       [ [ "nail", 12 ] ],
-      [ [ "wire", 6 ] ],
-      [ [ "chain", 1 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ],
       [ [ "spike", 2 ] ]
     ]
   },

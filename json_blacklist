@@ -235,7 +235,6 @@ data/json/recipes/food/distill.json
 data/json/recipes/food/dry.json
 data/json/recipes/food/pasta.json
 data/json/recipes/other/containers.json
-data/json/recipes/other/medical.json
 data/json/recipes/other/tool.json
 data/json/recipes/other/vehicle.json
 data/json/recipes/recipe_ammo.json
@@ -253,13 +252,10 @@ data/json/recipes/weapon/ranged.json
 data/json/regional_map_settings.json
 data/json/requirements/ammo.json
 data/json/road_vehicles.json
-data/json/scenarios/scenarios.json
 data/json/snippets.json
 data/json/species.json
 data/json/speech.json
-data/json/start_locations.json
 data/json/techniques.json
-data/json/terrain.json
 data/json/test_regions.json
 data/json/traps.json
 data/json/tutorial.json
