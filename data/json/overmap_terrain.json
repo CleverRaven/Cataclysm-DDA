@@ -8807,7 +8807,7 @@
     "type": "overmap_terrain",
     "id": "dirtroad",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Dirt Road",
+    "name": "dirt road",
     "sym": 35,
     "color": "brown"
   },
@@ -8815,7 +8815,7 @@
     "type": "overmap_terrain",
     "id": "rural_house",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Rural House",
+    "name": "rural house",
     "sym": 35,
     "color": "blue"
   },
@@ -8823,7 +8823,7 @@
     "type": "overmap_terrain",
     "id": "moonshine_still",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Moonshine Still",
+    "name": "moonshine still",
     "sym": 83,
     "color": "i_brown"
   },
@@ -9680,7 +9680,7 @@
   {
   "type": "overmap_terrain",
   "id": "mass_grave",
-  "name": "Mass Grave",
+  "name": "mass grave",
   "sym": 88,
   "color": "yellow"
   }
