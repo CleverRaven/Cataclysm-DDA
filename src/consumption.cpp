@@ -759,7 +759,7 @@ bool player::eat( item &food, bool force )
 void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
 {
     if( ( food && p.get_hunger() < capacity ) ||
-        ( water && p.get_thirst() < capacity && !p.has_trait( trait_id( "NO_THIRST" ) ) ) ) {
+        ( water && p.get_thirst() < capacity ) ) {
         p.add_msg_if_player( _( "You can't finish it all!" ) );
     }
 
@@ -771,6 +771,10 @@ void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
     if( p.get_thirst() < capacity ) {
         p.mod_stomach_water( p.get_thirst() - capacity );
         p.set_thirst( capacity );
+    }
+
+    if( p.has_trait( trait_id( "NO_THIRST" ) ) ) {
+        p.set_thirst( p.get_hunger() );
     }
 
     add_msg( m_debug, "%s nutrition cap: hunger %d, thirst %d, stomach food %d, stomach water %d",

@@ -4210,6 +4210,7 @@ void player::update_needs( int rate_multiplier )
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down );
     const bool hibernating = asleep && is_hibernating();
+    const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     float hunger_rate = metabolic_rate();
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
@@ -4254,9 +4255,6 @@ void player::update_needs( int rate_multiplier )
         }
     }
 
-    if( has_trait( trait_NO_THIRST ) ) {
-        set_thirst(-25); //permanently display as Hydrated
-    }
     if( !foodless && thirst_rate > 0.0f ) {
         mod_thirst( divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 ) );
     }
@@ -4267,6 +4265,9 @@ void player::update_needs( int rate_multiplier )
         } else if( get_thirst() > get_hunger() ) {
             set_hunger( get_thirst() );
         }
+    } else if( mouse ) {
+        // Metabolic Rehydration makes PT mice gain all their hydration from food.
+        set_thirst( get_hunger() );
     }
 
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;

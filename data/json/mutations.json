@@ -64,7 +64,6 @@
         "name" : "Hyperactive",
         "points" : 4,
         "description" : "Your body's efficiency is like that of a tiny furnace, increasing your maximum stamina by 40%.",
-        "starting_trait" : true,
         "valid" : false,
         "prereqs" : ["GOODCARDIO"],
         "cancels" : ["BADCARDIO"],
@@ -4123,11 +4122,10 @@
         "id" : "NO_THIRST",
         "name" : "Metabolic Rehydration",
         "points" : 6,
-        "description" : "Your body gets all the hydration it needs from the food that you eat!  You no longer need to drink water.",
+        "description" : "Your body gets everything it needs from the food that you eat!  You no longer gain hydration from fluids - instead, your thirst will be equal to, and change with, your hunger.",
         "threshreq" : ["THRESH_MOUSE"],
         "cancels" : ["THIRST", "THIRST2", "THIRST3"],
-        "purifiable": false,
-        "thirst_modifier": -1.0
+        "purifiable": false
     },{
         "type" : "mutation",
         "id" : "HEAVYSLEEPER2",
