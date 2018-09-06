@@ -9675,7 +9675,7 @@
   {
   "type": "overmap_terrain",
   "id": "mass_grave",
-  "name": "Mass Grave",
+  "name": "mass grave",
   "sym": 88,
   "color": "yellow"
   }
