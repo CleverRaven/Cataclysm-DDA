@@ -557,7 +557,8 @@ void player::hardcoded_effects( effect &it )
                                                        mongroup_id( "GROUP_NETHER" ) );
                 g->summon_mon( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
-                    g->cancel_activity_query( _( "A monster appears nearby!" ) );
+                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                        _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                 }
                 it.mult_duration( .25 );
@@ -643,7 +644,8 @@ void player::hardcoded_effects( effect &it )
                                                            mongroup_id( "GROUP_NETHER" ) );
                     g->summon_mon( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
-                        g->cancel_activity_query( _( "A monster appears nearby!" ) );
+                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                            _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
                     if( one_in( 2 ) ) {
