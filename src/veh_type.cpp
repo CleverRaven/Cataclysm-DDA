@@ -906,13 +906,13 @@ void vehicle_prototype::finalize()
                 }
             }
 
-            if( base->container ) {
+            if( base->container || base->magazine ) {
                 if( !item::type_is_defined( pt.fuel ) ) {
                     debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             } else {
                 if( pt.fuel != "null" ) {
-                    debugmsg( "init_vehicles: non-tank %s with fuel in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             }
 

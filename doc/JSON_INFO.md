@@ -1211,7 +1211,11 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 ```JSON
 "fuel" : {
-   "energy": 34.2,               // battery charges per unit of fuel. batteries have energy 1.
+    energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
+                                 // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
+                                 // assumes stacksize 250 per volume 1 (250mL). Multiply
+                                 // by 250 / stacksize * volume for other stack sizes and
+                                 // volumes
    "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
    "explosion_data": {           // optional for fuels that can cause explosions
         "chance_hot": 2,         // 1 in chance_hot of explosion when attacked by HEAT weapons
