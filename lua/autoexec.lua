@@ -1,5 +1,8 @@
 --dofile("./class_definitions.lua")
 
+log = require("./lua/log")
+log.init("./config/lua-log.log")
+
 outdated_metatable = {
     __index = function(userdata, key)
         error("Attempt to access outdated gamedata.")
