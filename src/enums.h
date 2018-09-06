@@ -350,8 +350,7 @@ struct sphere {
 };
 
 /** Possible reasons to interrupt an activity. */
-enum class distraction_type
-{
+enum class distraction_type {
     noise,
     pain,
     attacked,
