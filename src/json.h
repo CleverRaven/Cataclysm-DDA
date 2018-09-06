@@ -376,7 +376,6 @@ class JsonIn
             return true;
         }
 
-
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
         template <typename T, typename std::enable_if<
@@ -411,7 +410,6 @@ class JsonIn
         void rewind(int max_lines = -1, int max_chars = -1);
         std::string substr(size_t pos, size_t len = std::string::npos);
 };
-
 
 /* JsonOut
  * =======
@@ -583,7 +581,6 @@ class JsonOut
         }
 };
 
-
 /* JsonObject
  * ==========
  *
@@ -751,7 +748,6 @@ class JsonObject
         // useful debug info
         std::string line_number(); // for occasional use only
 };
-
 
 /* JsonArray
  * =========
@@ -970,7 +966,6 @@ std::set<T> JsonObject::get_tags( const std::string &name )
 
     return res;
 }
-
 
 /* JsonSerializer
  * ==============

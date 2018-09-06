@@ -528,7 +528,6 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
     return res;
 }
 
-
 /** @relates visitable */
 template <>
 std::list<item> visitable<inventory>::remove_items_with( const

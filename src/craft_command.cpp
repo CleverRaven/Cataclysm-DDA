@@ -17,7 +17,6 @@
 #include <string>
 #include <vector>
 
-
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
 {

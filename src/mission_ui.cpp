@@ -12,7 +12,6 @@
 #include <string>
 #include <map>
 
-
 void game::list_missions()
 {
     catacurses::window w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,

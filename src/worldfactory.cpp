@@ -475,8 +475,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
             sTemp.str("");
             sTemp << i + 1;
-            mvwprintz( w_worlds, (int)i, 0, c_white, sTemp.str() );
-            wmove( w_worlds, (int)i, 4 );
+            mvwprintz( w_worlds, static_cast<int>( i ), 0, c_white, sTemp.str() );
+            wmove( w_worlds, static_cast<int>( i ), 4 );
 
             std::string world_name = (world_pages[selpage])[i];
             size_t saves_num = get_world( world_name )->world_saves.size();
@@ -659,7 +659,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
             }
         }
 
-        int larger = ( iMaxRows > (int)iModNum ) ? (int)iModNum : iMaxRows;
+        int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ): iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
             if( iNum >= (size_t)start && iNum < (size_t)( start + larger ) ) {
                 if( !mSortCategory[iNum].empty() ) {
@@ -759,13 +759,13 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             cursor--;
             // If it went under 0, loop back to the end of the list.
             if( cursor < 0 ) {
-                cursor = (int)(num_mods - 1);
+                cursor = static_cast<int>(num_mods - 1);
             }
 
         } else if( action == "DOWN" ) {
             cursor++;
             // If it went over the end of the list, loop back to the start of the list.
-            if( cursor > (int)(num_mods - 1) ) {
+            if( cursor > static_cast<int>(num_mods - 1) ) {
                 cursor = 0;
             }
 
@@ -1251,9 +1251,13 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win, con
 
     // Add tips & hints
     fold_and_print(win, FULL_SCREEN_HEIGHT - 7, 2, getmaxx(win) - 4, c_green,
-                   _("Press %s to save the list of active mods as default. Press %s for help."),
+                   _("%s = Save Load Order as default.  %s = Controls %s/%s = Prev/Next Option. %s/%s = Prev/Next Tab."),
                    ctxtp.get_desc( "SAVE_DEFAULT_MODS" ).c_str(),
-                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str()
+                   ctxtp.get_desc( "HELP_KEYBINDINGS" ).c_str(),
+                   ctxtp.get_desc( "PREV_CATEGORY_TAB" ).c_str(),
+                   ctxtp.get_desc( "NEXT_CATEGORY_TAB" ).c_str(),
+                   ctxtp.get_desc( "PREV_TAB" ).c_str(),
+                   ctxtp.get_desc( "NEXT_TAB" ).c_str()
                   );
     wrefresh(win);
     catacurses::refresh();
@@ -1295,7 +1299,6 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
-
 
 bool worldfactory::world_need_lua_build(std::string world_name)
 {
@@ -1445,7 +1448,6 @@ void load_external_option( JsonObject &jo )
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
     }
 }
-
 
 mod_manager &worldfactory::get_mod_manager()
 {

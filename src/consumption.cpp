@@ -97,7 +97,6 @@ int player::nutrition_for( const item &comest ) const
         nutr *= 0.6f;
     }
 
-
     if( has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
@@ -128,7 +127,9 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     static const trait_id trait_SAPROVORE( "SAPROVORE" );
     static const std::string flag_EATEN_COLD( "EATEN_COLD" );
     static const std::string flag_COLD( "COLD" );
+    static const std::string flag_FROZEN( "FROZEN" );
     static const std::string flag_MUSHY( "MUSHY" );
+    static const std::string flag_MELTS( "MELTS" );
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
     }
@@ -161,6 +162,15 @@ std::pair<int, int> player::fun_for( const item &comest ) const
         } else {
             fun = 1;
             fun_max = 5;
+        }
+    }
+
+    if( comest.has_flag( flag_MELTS ) && !comest.has_flag( flag_FROZEN ) ) {
+        if( fun > 0 ) {
+            fun *= 0.5;
+        } else {
+            fun *= 1.25; // melted freezable food tastes 25% worse than frozen freezable food
+            // frozen freezable food... say that 5 times fast
         }
     }
 
@@ -337,7 +347,8 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
             }
         }
     }
-    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) ) {
+    if( food.item_tags.count( "FROZEN" ) && !food.has_flag( "EDIBLE_FROZEN" ) &&
+        !food.has_flag( "MELTS" ) ) {
         if( edible ) {
             return ret_val<edible_rating>::make_failure(
                        _( "It's frozen solid.  You must defrost it before you can eat it." ) );
@@ -664,6 +675,20 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad, _( "Yuck! How can anybody eat this stuff?" ) );
         add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
     }
+    if( food.has_flag( "ALLERGEN_JUNK" ) ) {
+        if( has_trait( trait_id( "PROJUNK" ) ) ) {
+            add_msg_if_player( m_good, _( "Mmm, junk food." ) );
+            add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
+        }
+        if( has_trait( trait_id( "PROJUNK2" ) ) ) {
+            if( !one_in( 100 ) ) {
+                add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
+            } else {
+                add_msg_if_player( m_good, _( "They may do what they must... you've already won." ) );
+            }
+            add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
+        }
+    }
     // Carnivores CAN eat junk food, but they won't like it much.
     // Pizza-scraping happens in consume_effects.
     if( has_trait( trait_id( "CARNIVORE" ) ) && food.has_flag( "ALLERGEN_JUNK" ) &&
@@ -790,8 +815,13 @@ void player::consume_effects( const item &food )
     mod_thirst( -comest.quench );
     mod_stomach_food( nutr );
     mod_stomach_water( comest.quench );
-    if( comest.healthy != 0 ) {
+    int effective_health = comest.healthy;
+    if( effective_health != 0 ) {
         // Effectively no cap on health modifiers from food
+        if( has_trait( trait_id( "PROJUNK2" ) ) && effective_health < 0 ) {
+            effective_health =
+                0; // Our digestive system is built around crappy food, so it can handle it just fine
+        }
         mod_healthy_mod( comest.healthy, ( comest.healthy >= 0 ) ? 200 : -200 );
     }
 

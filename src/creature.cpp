@@ -114,7 +114,6 @@ bool Creature::digging() const
     return false;
 }
 
-
 bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
@@ -1026,17 +1025,17 @@ bool Creature::has_trait( const trait_id &flag ) const
 }
 
 // Methods for setting/getting misc key/value pairs.
-void Creature::set_value( const std::string key, const std::string value )
+void Creature::set_value( const std::string &key, const std::string &value )
 {
     values[ key ] = value;
 }
 
-void Creature::remove_value( const std::string key )
+void Creature::remove_value( const std::string &key )
 {
     values.erase( key );
 }
 
-std::string Creature::get_value( const std::string key ) const
+std::string Creature::get_value( const std::string &key ) const
 {
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
@@ -1069,6 +1068,30 @@ int Creature::get_pain() const
 int Creature::get_perceived_pain() const
 {
     return get_pain();
+}
+
+std::string Creature::get_pain_description() const
+{
+    float scale = get_perceived_pain() / 10.f;
+    if(scale > 7) {
+        return _("Severe pain");
+    } else if(scale > 6) {
+        return _("Intense pain");
+    } else if(scale > 5) {
+        return _("Unmanageable pain");
+    } else if(scale > 4) {
+        return _("Distressing pain");
+    } else if(scale > 3) {
+        return _("Distracting pain");
+    } else if(scale > 2) {
+        return _("Moderate pain");
+    } else if(scale > 1) {
+        return _("Mild pain");
+    } else if(scale > 0) {
+        return _("Minimal pain");
+    } else {
+        return _("No pain");
+    }
 }
 
 int Creature::get_moves() const
@@ -1240,7 +1263,6 @@ void Creature::mod_stat( const std::string &stat, float modifier )
         add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
     }
 }
-
 
 void Creature::set_num_blocks_bonus(int nblocks)
 {

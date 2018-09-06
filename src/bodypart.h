@@ -205,5 +205,4 @@ std::string get_body_part_id( body_part bp );
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
 
-
 #endif

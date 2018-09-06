@@ -378,7 +378,6 @@ void npc::randomize( const npc_class_id &type )
         personality.aggression += rng( 1, 3 );
         personality.bravery += rng( 1, 4 );
 
-
     }
     //A universal barter boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
@@ -1300,7 +1299,6 @@ bool npc::fac_has_job( faction_job job ) const
     return my_fac->has_job( job );
 }
 
-
 void npc::decide_needs()
 {
     double needrank[num_needs];
@@ -1316,12 +1314,13 @@ void npc::decide_needs()
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for( auto &i : slice ) {
-        if( i->front().is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( i->front() ) / 4;
-            needrank[ need_drink ] += i->front().type->comestible->quench / 4;
-        } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents.front() ) / 4;
-            needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
+        item inventory_item = i->front();
+        if( inventory_item.is_food( ) ) {
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
+            needrank[ need_drink ] += inventory_item.type->comestible->quench / 4;
+        } else if( inventory_item.is_food_container() ) {
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
+            needrank[ need_drink ] += inventory_item.contents.front().type->comestible->quench / 4;
         }
     }
     needs.clear();
@@ -1442,7 +1441,6 @@ void npc::shop_restock()
     inv.clear();
     inv.push_back( ret );
 }
-
 
 int npc::minimum_item_value() const
 {

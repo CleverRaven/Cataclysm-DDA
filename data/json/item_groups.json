@@ -48,7 +48,8 @@
       ["radiocontrol", 5],
       ["whistle", 3],
       ["slingshot", 10],
-      ["dnd_handbook", 1]
+      ["dnd_handbook", 1],
+      ["milkshake_fastfood", 3]
     ]
   },{
     "type" : "item_group",
@@ -139,6 +140,9 @@
       ["v6_combustion", 10],
       ["v8_combustion", 10],
       ["1cyl_combustion_small", 10],
+      ["steam_triple_small", 1],
+      ["steam_triple_medium", 1],
+      ["steam_watts_small",1],
       ["battery_motorbike", 6],
       ["battery_car", 6],
       ["alternator_motorbike", 6],
@@ -719,7 +723,12 @@
       ["protein_shake", 10],
       ["fries", 8],
       ["cheese_fries", 6],
-      ["onion_rings", 8]
+      ["onion_rings", 8],
+      ["milkshake", 4],
+      ["milkshake_fastfood", 8],
+      ["milkshake_deluxe", 2],
+      ["icecream_artificial", 3],
+      ["icecream_candy", 3]
     ]
   },{
     "type" : "item_group",
@@ -1323,6 +1332,22 @@
       ["pie_meat", 18],
       ["pie_maple", 9]
     ]
+  },{    
+    "type" : "item_group",
+    "id" : "dessert",
+    "items":[
+      ["milkshake", 15],
+      ["milkshake_deluxe", 5],
+      ["icecream", 10],
+      ["icecream_candy", 8],
+      ["icecream_custard", 4],
+      ["icecream_sorbet", 4],
+      ["icecream_gelato", 4],
+      ["pie", 20],
+      ["pie_veggy", 15],
+      ["pie_meat", 15],
+      ["pie_maple", 10]
+    ]
   },{
     "type" : "item_group",
     "id" : "fast_food",
@@ -1389,7 +1414,8 @@
       ["cheese", 30],
       ["restaurantmap", 5],
       ["touristmap", 2],
-      ["noodles_fast", 30]
+      ["noodles_fast", 30],
+      ["milkshake_fastfood", 15]
     ]
   },{
     "type" : "item_group",
@@ -4977,6 +5003,9 @@
       ["v2_combustion", 10],
       ["i4_combustion", 10],
       ["v6_combustion", 10],
+      ["steam_triple_small", 1],
+      ["steam_triple_medium", 1],
+      ["steam_watts_small",1],
       ["1cyl_combustion_small", 10],
       ["vehicle_controls", 3],
       ["horn_car", 10],
@@ -5180,6 +5209,7 @@
       ["iv_mutagen_ursine", 2],
       ["iv_mutagen_feline", 2],
       ["iv_mutagen_lupine", 2],
+      ["iv_mutagen_mouse", 2],
       ["purifier", 10],
       ["iv_purifier", 8],
       ["syringe", 8],
@@ -5637,7 +5667,8 @@
       ["bio_faraday", 10],
       ["bio_power_armor_interface_mkII", 5],
       ["bio_remote", 10],
-      ["bio_cable", 10]
+      ["bio_cable", 10],
+      ["bio_shock_absorber", 10]
     ]
   },{
     "type" : "item_group",
@@ -6345,6 +6376,7 @@
       ["bio_magnet", 10],
       ["bio_resonator", 10],
       ["bio_hydraulics", 10],
+      ["bio_shock_absorber", 10],
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
@@ -6465,6 +6497,8 @@
       ["sm_extinguisher", 10],
       ["55gal_drum", 40],
       ["30gal_drum", 30],
+      ["steam_triple_small", 1],
+      ["steam_triple_medium", 1],
       ["wearable_light", 10],
       ["antiparasitic", 5],
       ["diazepam", 5],
@@ -8493,6 +8527,8 @@
       ["tree_spile", 40],
       ["material_quicklime", 30],
       ["pitchfork", 40],
+      ["steam_triple_small", 1],
+      ["steam_triple_medium", 1],
       ["v_plow_item", 41],
       ["v_planter_item", 41],
       ["v_reaper_item", 41],
@@ -8653,7 +8689,8 @@
       ["bio_sunglasses", 20],
       ["bio_heatsink", 20],
       ["bio_watch", 20],
-      ["bio_faraday", 20]
+      ["bio_faraday", 20],
+      ["bio_shock_absorber", 20]
     ]
   },{
     "type" : "item_group",
@@ -9234,6 +9271,8 @@
     "items": [
       { "item": "bolt_metal", "prob": 15, "charges-min": 1, "charges-max": 3 },
       { "item": "oil_lamp", "prob": 20, "charges-min": 0, "charges-max": 3 },
+      ["steam_triple_small", 1],
+      ["steam_triple_medium", 1],
       [ "waffleiron", 20 ],
       [ "spring", 45 ],
       { "item": "rebar_rail", "prob": 45, "charges-min": 1, "charges-max": 50 },

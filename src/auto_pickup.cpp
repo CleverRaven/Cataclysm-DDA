@@ -171,10 +171,10 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                      vRules[iTab].size());
 
         // display auto pickup
-        for (int i = iStartPos; i < (int)vRules[iTab].size(); i++) {
+        for (int i = iStartPos; i < static_cast<int>( vRules[iTab].size() ); i++) {
             if (i >= iStartPos &&
-                i < iStartPos + ((iContentHeight > (int)vRules[iTab].size()) ?
-                                 (int)vRules[iTab].size() : iContentHeight)) {
+                i < iStartPos + ((iContentHeight > static_cast<int>( vRules[iTab].size() ) ) ?
+                                 static_cast<int>( vRules[iTab].size() ) : iContentHeight)) {
                 nc_color cLineColor = (vRules[iTab][i].bActive) ?
                                       c_white : c_light_gray;
 
@@ -223,7 +223,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         } else if (action == "DOWN") {
             iLine++;
             iColumn = 1;
-            if (iLine >= (int)vRules[iTab].size()) {
+            if (iLine >= static_cast<int>( vRules[iTab].size() )) {
                 iLine = 0;
             }
         } else if (action == "UP") {
@@ -235,7 +235,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         } else if (action == "REMOVE_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
             vRules[iTab].erase(vRules[iTab].begin() + iLine);
-            if (iLine > (int)vRules[iTab].size() - 1) {
+            if (iLine > static_cast<int>( vRules[iTab].size()) - 1 ) {
                 iLine--;
             }
             if(iLine < 0){
@@ -321,7 +321,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             }
         } else if (action == "MOVE_RULE_UP" && currentPageNonEmpty) {
             bStuffChanged = true;
-            if (iLine < (int)vRules[iTab].size() - 1) {
+            if (iLine < static_cast<int>( vRules[iTab].size()) - 1 ) {
                 std::swap(vRules[iTab][iLine],
                           vRules[iTab][iLine + 1]);
                 iLine++;
@@ -420,9 +420,9 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
         calcStartPos(iStartPos, iLine, iContentHeight, vMatchingItems.size());
 
         // display auto pickup
-        for (int i = iStartPos; i < (int)vMatchingItems.size(); i++) {
+        for (int i = iStartPos; i < static_cast<int>( vMatchingItems.size() ); i++) {
             if (i >= iStartPos &&
-                i < iStartPos + ((iContentHeight > (int)vMatchingItems.size()) ? (int)vMatchingItems.size() :
+                i < iStartPos + ((iContentHeight > static_cast<int>( vMatchingItems.size() ) ) ? static_cast<int>( vMatchingItems.size() ) :
                                  iContentHeight)) {
                 nc_color cLineColor = c_white;
 
@@ -447,7 +447,7 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             iLine++;
-            if (iLine >= (int)vMatchingItems.size()) {
+            if (iLine >= static_cast<int>( vMatchingItems.size() ) ) {
                 iLine = 0;
             }
         } else if (action == "UP") {

@@ -87,7 +87,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
-    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn }
+    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
+    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::finish_functions =
@@ -308,7 +309,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 );
+        bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) || u.has_amount( "vine_30", 1 ) ;
         bool b_rack_present = g->m.has_flag_furn( "BUTCHER_EQ", u.pos() );
         bool big_corpse = corpse.size >= MS_MEDIUM;
 
@@ -524,18 +525,20 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     // in quick butchery you aim for meat and don't care about the rest
     if( action == BUTCHER && ( !corpse_item->has_flag( "FIELD_DRESS" ) || !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         pieces /= 4;
-        skins = 0;
-        bones = 0;
-        fats = 0;
-        sinews = 0;
-        feathers = 0;
-        wool = 0;
-        stomach = false;
+        if( corpse->size >= MS_MEDIUM ) {
+            skins /= 2;
+        }
+        bones /= 2;
+        fats /= 4;
+        sinews /= 4;
+        // feathers unchanged
+        wool /= 4;
+        stomach = roll_butchery() >= 0;
     }
 
     //FIELD DRESSING
     if( action == F_DRESS ) {
-        // "pieces" left unchanged becouse they are 'converted' to offal and don't yield meat
+        // "pieces" left unchanged because they are 'converted' to offal and don't yield meat
         skins = 0;
         bones =  rng( 0, bones / 2 );
         fats = 0;
@@ -783,7 +786,6 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         }
     }
 
-
     //now handle the meat, if there is any
     if( meat!= "null" ) {
         if( pieces <= 0 ) {
@@ -869,13 +871,21 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             continue;
         }
         
-        // QUICK BUTCHERY aims for meat and doesn't care about the rest
+        // QUICK BUTCHERY
         if( action == BUTCHER ) {
             if( entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
-                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ) {
+                entry.drop == "veggy" || entry.drop == "veggy_tainted" || entry.drop == "scrap" ||
+                entry.drop == "wool_staple" || entry.drop == "fat" || entry.drop == "fat_tainted" ) {
                 roll = roll / 4;
+            } else if( entry.drop != "bone" ) {
+                roll = roll / 2;
+            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
+                entry.drop == "raw_hleather" || entry.drop == "chitin_piece" ||
+                entry.drop == "acidchitin_piece" ) ) {
+                roll /= 2 ;
             } else {
-                continue; 
+                continue;
             }
         }
         // field dressing ignores everything outside below list
@@ -883,8 +893,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.drop != "bone" ) {
                  roll = rng( 0, roll / 2 );
             }
-            if( entry.drop == "fat" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
+            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" || 
+                entry.drop == "meat_tainted" || entry.drop == "fish" ||
                 entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
                 entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
                 continue;
@@ -912,8 +924,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( entry.drop == "bone" || entry.drop == "bone_human" ) {
                  roll = ( roll / 2 ) + rng( roll / 2 , roll);
             }
-            if( entry.drop == "fat" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
+            if( entry.drop == "fat" || entry.drop == "fat_tainted" || entry.drop == "meat" || entry.drop == "meat_tainted" || entry.drop == "fish" ||
                 entry.drop == "feathers" || entry.drop == "raw_fur" || entry.drop == "raw_leather" ||
+                entry.drop == "raw_tainted_fur" || entry.drop == "raw_tainted_leather" ||
                 entry.drop == "raw_hleather" || entry.drop == "wool_staple" || entry.drop == "chitin_piece" ||
                 entry.drop == "acidchitin_piece" || entry.drop == "veggy" || entry.drop == "veggy tainted" ) {
                 roll = rng( 0, roll );
@@ -1163,12 +1176,12 @@ enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
-void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype )
+void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num, const item &liquid )
 {
     act.values.push_back( LST_VEHICLE );
-    act.values.push_back( 0 ); // dummy
+    act.values.push_back( part_num );
     act.coords.push_back( veh.global_pos3() );
-    act.str_values.push_back( ftype );
+    act.str_values.push_back( serialize( liquid ) );
 }
 
 void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid )
@@ -1238,13 +1251,17 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         monster *source_mon = nullptr;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
+        int part_num = -1;
+        long veh_charges = 0;
         switch( source_type ) {
         case LST_VEHICLE:
             source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
             if( source_veh == nullptr ) {
                 throw std::runtime_error( "could not find source vehicle for liquid transfer" );
             }
-            liquid = item( act.str_values.at( 0 ), calendar::turn, source_veh->fuel_left( act.str_values.at( 0 ) ) );
+            deserialize( liquid, act.str_values.at( 0 ) );
+            part_num = static_cast<int>( act.values.at( 1 ) );
+            veh_charges = liquid.charges;
             break;
         case LST_INFINITE_MAP:
             deserialize( liquid, act.str_values.at( 0 ) );
@@ -1311,7 +1328,21 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         // 3. Remove charges from source.
         switch( source_type ) {
         case LST_VEHICLE:
-            source_veh->drain( liquid.typeId(), removed_charges );
+            if( part_num != -1 ) {
+                source_veh->drain( part_num, removed_charges );
+                liquid.charges = veh_charges - removed_charges;
+                // If there's no liquid left in this tank we're done, otherwise
+                // we need to update our liquid serialization to reflect how
+                // many charges are actually left for the next time we come
+                // around this loop.
+                if( !liquid.charges ) {
+                    act.set_to_null();
+                } else {
+                    act.str_values.at( 0 ) = serialize( liquid );
+                }
+            } else {
+                source_veh->drain( liquid.typeId(), removed_charges );
+            }
             if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
                 act.set_to_null();
             }
@@ -1516,7 +1547,6 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-
 void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
     //Gaming takes time, not speed
@@ -1535,18 +1565,17 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     }
 }
 
-
 void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
     if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
-        if( mech_skill > (int)rng(1, 6) ) {
+        if( mech_skill > static_cast<int>( rng(1, 6) ) ) {
             //success
             veh->is_locked = false;
             add_msg(_("This wire will start the engine."));
-        } else if( mech_skill > (int)rng(0, 4) ) {
+        } else if( mech_skill > static_cast<int>( rng(0, 4) ) ) {
             //soft fail
             veh->is_locked = false;
             veh->is_alarm_on = veh->has_security_working();
@@ -1565,7 +1594,6 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
     }
     act->set_to_null();
 }
-
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
@@ -1597,7 +1625,6 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
     add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
 }
-
 
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
@@ -1668,7 +1695,6 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     }
 }
 
-
 void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
@@ -1731,9 +1757,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
     auto corpse_pile = g->m.i_at( pos );
     for( auto &corpse : corpse_pile ) {
-        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES ) ||
+        const mtype *corpse_mtype = corpse.get_mtype();
+        if( !corpse.is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
             ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
-              act->str_values.end() && corpse.get_mtype()->bloodType() == fd_acid ) ) {
+              act->str_values.end() && corpse_mtype->bloodType() == fd_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
         }
@@ -2197,8 +2224,15 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = ( repeat_type )act->get_value( 0, REPEAT_INIT );
     weldrig_hack w_hack;
+    item_location *ploc = nullptr;
+
+    if( act->targets.size() > 0 ) {
+        ploc = &act->targets[0];
+    }
+
     item &main_tool = !w_hack.init( *act ) ?
-                      p->i_at( act->index ) : w_hack.get_item();
+                      ploc ?
+                      **ploc : p->i_at( act->index ) : w_hack.get_item();
 
     item *used_tool = main_tool.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
@@ -2233,7 +2267,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
         if( attempt != repair_item_actor::AS_CANT ) {
-            p->consume_charges( *used_tool, used_tool->ammo_required() );
+            if( ploc && ploc->where() == item_location::type::map ) {
+                used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
+            } else {
+                p->consume_charges( *used_tool, used_tool->ammo_required() );
+            }
         }
 
         // Print message explaining why we stopped
@@ -2289,7 +2327,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
 
-        act->values[0] = ( int )answer;
+        act->values[0] = static_cast<int>( answer );
     }
 
     // Otherwise keep retrying
@@ -2834,11 +2872,14 @@ void activity_handlers::till_plot_do_turn( player_activity*, player *p )
         auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
-            p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
+            // check for safe mode, we don't want to trigger moving if it is activated
+            if( g->check_safe_mode_allowed() ) {
+                p->set_destination( route, player_activity( activity_id( "ACT_TILL_PLOT" ) ) );
+            }
             return;
         } else { // we are at destination already
             p->add_msg_if_player( _( "You churn up the earth here." ) );
-            p->moves = -300;
+            p->mod_moves( -300 );
             g->m.ter_set( tile_loc, t_dirtmound );
 
             if( p->moves <= 0 ) {
@@ -2850,4 +2891,88 @@ void activity_handlers::till_plot_do_turn( player_activity*, player *p )
     }
 
     // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, _( "You tilled every tile you could." ) );
+}
+
+void activity_handlers::plant_plot_do_turn( player_activity*, player *p )
+{
+    const auto &mgr = zone_manager::get_manager();
+    const auto abspos = g->m.getabs( p->pos() );
+    auto unsorted_tiles = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos );
+
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+
+    std::vector<item *> seed_inv = p->items_with( []( const item &itm ) {
+        return itm.is_seed();
+    } );
+
+    // get seeds requested by zones on the tile (local coords)
+    auto get_seeds = [&]( const tripoint &tile ) {
+        auto seeds = std::vector<std::string>();
+        const auto &zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ), g->m.getabs( tile ) );
+        for( const auto &zone : zones ) {
+            const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
+            const auto seed = options.get_seed();
+
+            if( seed != "" && !( std::find( seeds.begin(), seeds.end(), seed ) != seeds.end() ) ) {
+                seeds.emplace_back( seed );
+            }
+        }
+
+        return seeds;
+    };
+
+    // cleanup unwanted tiles (local coords)
+    auto cleanup = [&]( const tripoint &tile ) {
+        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound ) {
+            return true;
+        }
+
+        const auto seeds = get_seeds( tile );
+
+        return std::all_of( seeds.begin(), seeds.end(), [&](std::string seed) { 
+            return std::all_of( seed_inv.begin(), seed_inv.end(), [seed](item *it) {  
+                return it->typeId() != itype_id( seed );
+            } );
+        } );
+    };
+    cleanup_tiles( unsorted_tiles, cleanup );
+
+    // sort remaining tiles by distance
+    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+
+    for( auto &tile : tiles ) {
+        const auto &tile_loc = g->m.getlocal( tile );
+
+        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
+        if( route.size() > 1 ) {
+            route.pop_back();
+            // check for safe mode, we don't want to trigger moving if it is activated
+            if( g->check_safe_mode_allowed() ) {
+                p->set_destination( route, player_activity( activity_id( "ACT_PLANT_PLOT" ) ) );
+            }
+            return;
+        } else { // we are at destination already
+            const auto seeds = get_seeds( tile_loc );
+            std::vector<item *> seed_inv = p->items_with( [seeds]( const item &itm ) {
+                return itm.is_seed() && std::any_of( seeds.begin() , seeds.end(), [itm]( std::string seed ) {
+                    return itm.typeId() == itype_id( seed );
+                } );
+            } );
+            if( seed_inv.size() > 0 ) {
+                auto it = seed_inv.front();
+                iexamine::plant_seed( *p, tile_loc, it->typeId() );
+            }
+
+            if( p->moves <= 0 ) {
+                // Restart activity and break from cycle.
+                p->assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
+                return;
+            }
+        }
+    }
+
+    // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, _( "You planted all seeds you could." ) );
 }

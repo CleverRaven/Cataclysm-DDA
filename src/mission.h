@@ -309,7 +309,6 @@ public:
     void set_target( const tripoint &target );
     /*@}*/
 
-
     /** Assigns the mission to the player. */
     void assign( player &u );
 

@@ -250,7 +250,6 @@ class map
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
 
-
         /**
          * Callback invoked when a vehicle has moved.
          */
@@ -408,7 +407,6 @@ class map
          * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
          */
         double ranged_target_size( const tripoint &p ) const;
-
 
         // 3D Sees:
         /**
@@ -746,7 +744,6 @@ class map
         void draw_circle_furn( furn_id type, int x, int y, int rad );
 
         void add_corpse( const tripoint &p );
-
 
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
@@ -1275,10 +1272,6 @@ class map
          * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
-        /**
-         * Try to grow a harvestable plant to the next stage(s).
-         */
-        void grow_plant( const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
@@ -1325,6 +1318,10 @@ class map
          * @param p The location in this map where to fill funnels.
          */
         void fill_funnels( const tripoint &p, const time_point &since );
+        /**
+         * Try to grow a harvestable plant to the next stage(s).
+         */
+        void grow_plant( const tripoint &p );
         /**
          * Try to grow fruits on static plants (not planted by the player)
          * @param p Place to restock

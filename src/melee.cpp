@@ -283,7 +283,7 @@ float player::hit_roll() const
     return melee::melee_hit_range( hit );
 }
 
-void player::add_miss_reason( const std::string reason, const unsigned int weight )
+void player::add_miss_reason( const std::string &reason, const unsigned int weight )
 {
     melee_miss_reasons.add(reason, weight);
 
@@ -1882,7 +1882,7 @@ int player::attack_speed( const item &weap ) const
     const int base_move_cost = weap.attack_time() / 2;
     const int melee_skill = has_active_bionic(bionic_id( bio_cqb )) ? BIO_CQB_LEVEL : get_skill_level( skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
-    const int skill_cost = (int)( base_move_cost * ( 15 - melee_skill ) / 15 );
+    const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
     const int encumbrance_penalty = encumb( bp_torso ) +
