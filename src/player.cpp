@@ -2911,7 +2911,7 @@ void player::shout( std::string msg )
     }
 
     if ( msg.empty() ) {
-        msg = _("yourself shout loudly!");
+        msg = msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
