@@ -452,16 +452,16 @@
         "id" : "UNOBSERVANT",
         "name" : "Unobservant",
         "points" : -2,
-        "description" : "You can't remember landmarks easily, and picking out unique locales is harder for you.  Your sight radius on the overmap is slightly shorter.",
+        "description" : "You can't remember the area around you easily, and picking out unique locales is harder for you.  Your sight radius on the overmap is slightly shorter.",
         "valid" : false,
         "starting_trait" : true,
         "cancels" : ["EAGLEEYED", "UNOBSERVANT2"]
     },{
         "type" : "mutation",
         "id" : "UNOBSERVANT2",
-        "name" : "Impercipient",
+        "name" : "Topographagnosia",
         "points" : -3,
-        "description" : "You can never remember landmarks; your sight radius on the overmap is limited only to the area directly around you.",
+        "description" : "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
         "valid" : false,
         "starting_trait" : true,
         "cancels" : ["EAGLEEYED", "UNOBSERVANT"]
