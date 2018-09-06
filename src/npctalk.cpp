@@ -833,29 +833,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                   "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
                   "text messages can get picked up though." );
 
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
-        return _( "Hope you're here to trade." );
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_NEW" ) {
-        return _( "I oversee the food stocks for the center.  There was significant looting during "
-                  "the panic when we first arrived so most of our food was carried away.  I manage "
-                  "what we have left and do everything I can to increase our supplies.  Rot and mold "
-                  "are more significant in the damp basement so I prioritize non-perishable food, "
-                  "such as cornmeal, jerky, and fruit wine." );
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_WHY" ) {
-        return _( "All three are easy to locally produce in significant quantities and are "
-                  "non-perishable.  We have a local farmer or two and a few hunter types that have "
-                  "been making attempts to provide us with the nutritious supplies.  We do always "
-                  "need more suppliers though.  Because this stuff is rather cheap in bulk I can "
-                  "pay a premium for any you have on you.  Canned food and other edibles are "
-                  "handled by the merchant in the front." );
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_ALL" ) {
-        return _( "I'm actually accepting a number of different foodstuffs: beer, sugar, flour, "
-                  "smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, cornmeal, "
-                  "and fruit wine." );
-
     } else if( topic == "TALK_DELIVER_ASK" ) {
         return bulk_trade_inquire( *p, the_topic.item_type );
 
@@ -1804,7 +1781,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( msg, "TALK_DELIVER_ASK", id );
             }
         }
-        add_response_done( _( "Well, bye." ) );
 
     } else if( topic == "TALK_DELIVER_ASK" ) {
         if( the_topic.item_type == "null" ) {
@@ -1817,13 +1793,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         bulk_trade_accept( *p, the_topic.item_type );
         add_response_done( _( "You might be seeing more of me..." ) );
 
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_NEW" ) {
-        add_response( _( "Why cornmeal, jerky, and fruit wine?" ), "TALK_FREE_MERCHANT_STOCKS_WHY" );
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_WHY" ) {
-        add_response( _( "Are you looking to buy anything else?" ), "TALK_FREE_MERCHANT_STOCKS_ALL" );
-        add_response( _( "Very well..." ), "TALK_FREE_MERCHANT_STOCKS" );
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_ALL" ) {
-        add_response( _( "Interesting..." ), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         for( auto miss_it : g->u.get_active_missions() ) {
             if( miss_it->mission_id() == mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ) &&
