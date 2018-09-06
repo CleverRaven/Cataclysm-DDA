@@ -1149,7 +1149,6 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             break;
     }
 
-
     if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
         add_msg( m_neutral, _( "%s training helps %s minimize the complications." ),

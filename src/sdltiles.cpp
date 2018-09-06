@@ -575,7 +575,6 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     FillRectDIB(rect, color);
 }
 
-
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color, cata_cursesport::font_style FS )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
@@ -712,8 +711,6 @@ static void try_sdl_update()
         needupdate = true;
     }
 }
-
-
 
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
@@ -2048,8 +2045,6 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
     }
 }
 
-
-
 CachedTTFFont::CachedTTFFont( const int w, const int h, std::string _typeface, int _fontsize, const bool _fontblending )
 : Font( w, h )
 , fontblending( _fontblending )
@@ -2296,6 +2291,43 @@ void update_music_volume() {
 }
 
 #ifdef SDL_SOUND
+static std::unordered_map<std::string, Mix_Chunk*> unique_chunks;
+
+// Allocate new Mix_Chunk as copy of input, sets ::allocated to 0 so copy's 
+// ::abuf is not freed during Mix_FreeChunk at EOL of struct sound_effect
+static Mix_Chunk* copy_chunk(const Mix_Chunk* ref){
+    // SDL_malloc to match up with Mix_FreeChunk's SDL_free call
+    // to free the Mix_Chunk object memory
+    Mix_Chunk *nchunk = (Mix_Chunk*)SDL_malloc(sizeof(Mix_Chunk));
+
+    // Assign as copy of ref
+    (*nchunk) = *ref;
+    // nchunk does not own ::abuf memory, set ::allocated to 0 to prevent
+    // deallocation
+    nchunk->allocated = 0;
+    return nchunk;
+}
+
+// Searches for path in loaded sfx resources.
+// - Found: Returns a copy of the Mix_Chunk loaded from path
+// - Not Found: Loads Resource and stores path and resource Mix_Chunk pointer
+static Mix_Chunk* load_chunk(const std::string& path){
+    Mix_Chunk *result = nullptr;
+
+    auto find_result = unique_chunks.find( path );
+    if ( find_result != unique_chunks.end() ){
+        result = copy_chunk( find_result->second );
+    } else{
+        result = Mix_LoadWAV( path.c_str() );
+        // Store only if valid
+        if ( result != nullptr ){
+            unique_chunks[path] = result;
+        }
+    }
+
+    return result;
+}
+
 void sfx::load_sound_effects( JsonObject &jsobj ) {
     if ( !sound_init_success ) {
         return;
@@ -2310,7 +2342,7 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
         sound_effect new_sound_effect;
         const std::string file = jsarr.next_string();
         std::string path = ( current_soundpack_path + "/" + file );
-        new_sound_effect.chunk.reset( Mix_LoadWAV( path.c_str() ) );
+        new_sound_effect.chunk.reset( load_chunk( path ) );
         if( !new_sound_effect.chunk ) {
             dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
             continue; // don't want empty chunks in the map
@@ -2484,6 +2516,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
     }
 }
+
 #endif
 
 void load_soundset() {
@@ -2518,6 +2551,12 @@ void load_soundset() {
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to load sounds: " << err.what();
     }
+
+    unique_chunks.clear();
+    // Memory of unique_chunks no longer required, swap with locally scoped unordered_map
+    // to force deallocation of resources.
+    std::unordered_map<std::string, Mix_Chunk*> t_swap;
+    unique_chunks.swap(t_swap);
 #endif
 }
 

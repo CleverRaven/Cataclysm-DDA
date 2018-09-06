@@ -111,9 +111,9 @@ options_manager::cOpt::cOpt()
 }
 
 //add hidden external option with value
-void options_manager::add_external( const std::string sNameIn, const std::string sPageIn,
-                                    const std::string sType,
-                                    const std::string sMenuTextIn, const std::string sTooltipIn )
+void options_manager::add_external( const std::string &sNameIn, const std::string &sPageIn,
+                                    const std::string &sType,
+                                    const std::string &sMenuTextIn, const std::string &sTooltipIn )
 {
     cOpt thisOpt;
 
@@ -136,8 +136,8 @@ void options_manager::add_external( const std::string sNameIn, const std::string
 }
 
 //add string select option
-void options_manager::add( const std::string sNameIn, const std::string sPageIn,
-                           const std::string sMenuTextIn, const std::string sTooltipIn,
+void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
+                           const std::string &sMenuTextIn, const std::string &sTooltipIn,
                            std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
                            copt_hide_t opt_hide )
 {
@@ -165,9 +165,9 @@ void options_manager::add( const std::string sNameIn, const std::string sPageIn,
 }
 
 //add string input option
-void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn,
-                            const std::string sDefaultIn, const int iMaxLengthIn,
+void options_manager::add(const std::string &sNameIn, const std::string &sPageIn,
+                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                            const std::string &sDefaultIn, const int iMaxLengthIn,
                             copt_hide_t opt_hide)
 {
     cOpt thisOpt;
@@ -190,8 +190,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 }
 
 //add bool option
-void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn,
+void options_manager::add(const std::string &sNameIn, const std::string &sPageIn,
+                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
                             const bool bDefaultIn, copt_hide_t opt_hide)
 {
     cOpt thisOpt;
@@ -213,8 +213,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 }
 
 //add int option
-void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn,
+void options_manager::add(const std::string &sNameIn, const std::string &sPageIn,
+                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
                             const int iMinIn, int iMaxIn, int iDefaultIn,
                             copt_hide_t opt_hide, const std::string &format )
 {
@@ -250,8 +250,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 }
 
 //add int map option
-void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn,
+void options_manager::add(const std::string &sNameIn, const std::string &sPageIn,
+                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
                             const std::map<int, std::string> mIntValuesIn, int iInitialIn,
                             int iDefaultIn, copt_hide_t opt_hide)
 {
@@ -288,8 +288,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 }
 
 //add float option
-void options_manager::add(const std::string sNameIn, const std::string sPageIn,
-                            const std::string sMenuTextIn, const std::string sTooltipIn,
+void options_manager::add(const std::string &sNameIn, const std::string &sPageIn,
+                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
                             const float fMinIn, float fMaxIn, float fDefaultIn,
                             float fStepIn, copt_hide_t opt_hide, const std::string &format )
 {
@@ -394,7 +394,7 @@ bool options_manager::cOpt::is_hidden() const
     return false;
 }
 
-void options_manager::cOpt::setSortPos(const std::string sPageIn)
+void options_manager::cOpt::setSortPos(const std::string &sPageIn)
 {
     if (!is_hidden()) {
         mOptionsSort[sPageIn]++;
@@ -543,7 +543,7 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
         } );
         const std::string defaultName = iter == vItems.end() ? std::string() :
                                         ( bTranslated ? _( iter->second.c_str() ) : iter->first );
-        const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
+        const std::string &sItems = enumerate_as_string( vItems.begin(), vItems.end(),
         [bTranslated]( const std::pair<std::string, std::string> &elem ) {
             return bTranslated ? _( elem.second.c_str() ) : elem.first;
         }, false );
@@ -569,7 +569,7 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
     return "";
 }
 
-int options_manager::cOpt::getItemPos(const std::string sSearch) const
+int options_manager::cOpt::getItemPos(const std::string &sSearch) const
 {
     if (sType == "string_select") {
         for (size_t i = 0; i < vItems.size(); i++) {
@@ -1016,6 +1016,13 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "AUTO_MINING", "general", translate_marker( "Automatic mining" ),
+        translate_marker("If true, enables automatic use of wielded pickaxes and jackhammers whenever trying to move into mineable terrain."),
+        true
+        );
+
+    mOptionsSort["general"]++;
+
     add( "SOUND_ENABLED", "general", translate_marker( "Sound Enabled" ),
         translate_marker( "If true, music and sound are enabled." ),
         true, COPT_NO_SOUND_HIDE
@@ -1355,7 +1362,6 @@ void options_manager::init()
     get_option("PIXEL_MINIMAP_BLINK").setPrerequisite("PIXEL_MINIMAP");
 
     mOptionsSort["graphics"]++;
-
 
     add( "DISPLAY", "graphics", translate_marker( "Display" ),
         translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),

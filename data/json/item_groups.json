@@ -36,6 +36,7 @@
       ["novel_coa", 10],
       ["novel_coa2", 10],
       ["child_book", 50],
+      ["manual_dodge_kid", 20],
       ["tall_tales", 20],
       ["story_book", 4],
       ["novel_pulp", 16],
@@ -47,7 +48,8 @@
       ["radiocontrol", 5],
       ["whistle", 3],
       ["slingshot", 10],
-      ["dnd_handbook", 1]
+      ["dnd_handbook", 1],
+      ["milkshake_fastfood", 3]
     ]
   },{
     "type" : "item_group",
@@ -196,6 +198,7 @@
       ["mag_cutting", 10],
       ["mag_stabbing", 5],
       ["child_book", 50],
+      ["manual_dodge_kid", 20],
       ["tall_tales", 10],
       ["story_book", 4],
       ["novel_pulp", 16],
@@ -717,7 +720,12 @@
       ["protein_shake", 10],
       ["fries", 8],
       ["cheese_fries", 6],
-      ["onion_rings", 8]
+      ["onion_rings", 8],
+      ["milkshake", 4],
+      ["milkshake_fastfood", 8],
+      ["milkshake_deluxe", 2],
+      ["icecream_artificial", 3],
+      ["icecream_candy", 3]
     ]
   },{
     "type" : "item_group",
@@ -907,6 +915,7 @@
       ["manual_business", 40],
       ["manual_computers", 20],
       ["child_book", 20],
+      ["manual_dodge_kid", 10],
       ["tall_tales", 10],
       ["story_book", 4],
       ["novel_pulp", 16],
@@ -1320,6 +1329,22 @@
       ["pie_meat", 18],
       ["pie_maple", 9]
     ]
+  },{    
+    "type" : "item_group",
+    "id" : "dessert",
+    "items":[
+      ["milkshake", 15],
+      ["milkshake_deluxe", 5],
+      ["icecream", 10],
+      ["icecream_candy", 8],
+      ["icecream_custard", 4],
+      ["icecream_sorbet", 4],
+      ["icecream_gelato", 4],
+      ["pie", 20],
+      ["pie_veggy", 15],
+      ["pie_meat", 15],
+      ["pie_maple", 10]
+    ]
   },{
     "type" : "item_group",
     "id" : "fast_food",
@@ -1386,7 +1411,8 @@
       ["cheese", 30],
       ["restaurantmap", 5],
       ["touristmap", 2],
-      ["noodles_fast", 30]
+      ["noodles_fast", 30],
+      ["milkshake_fastfood", 15]
     ]
   },{
     "type" : "item_group",
@@ -5179,6 +5205,7 @@
       ["iv_mutagen_ursine", 2],
       ["iv_mutagen_feline", 2],
       ["iv_mutagen_lupine", 2],
+      ["iv_mutagen_mouse", 2],
       ["purifier", 10],
       ["iv_purifier", 8],
       ["syringe", 8],
@@ -5636,6 +5663,8 @@
       ["bio_faraday", 10],
       ["bio_power_armor_interface_mkII", 5],
       ["bio_remote", 10],
+      ["bio_cable", 10],
+      ["bio_shock_absorber", 10],
       ["bio_cable", 10],
       ["bio_health_view", 10],
       ["bio_evil_nanobots", 10],
@@ -6351,6 +6380,7 @@
       ["bio_magnet", 10],
       ["bio_resonator", 10],
       ["bio_hydraulics", 10],
+      ["bio_shock_absorber", 10],
       ["bio_crafting", 10],
       ["jerrycan", 10],
       ["jerrycan_big", 10],
@@ -6685,6 +6715,7 @@
       ["lsd", 4],
       ["pocketwatch", 5],
       ["child_book", 20],
+      ["manual_dodge_kid", 5],
       ["e_tool", 10],
       ["survivormap", 5],
       ["halligan", 10],
@@ -8240,7 +8271,7 @@
       ["portable_game", 60],
       ["game_watch", 15],
       ["atomic_light", 1],
-      ["child_book", 25],
+      ["manual_dodge_kid", 5],
       ["chocolate", 30],
       ["candy", 45],
       ["candy2", 45],
@@ -8661,6 +8692,8 @@
       ["bio_heatsink", 20],
       ["bio_watch", 20],
       ["bio_faraday", 20],
+      ["bio_shock_absorber", 20],
+      ["bio_faraday", 20],
       ["bio_crafting", 20]
     ]
   },{
@@ -8828,6 +8861,7 @@
       ["mag_throwing", 30],
       ["mag_swimming", 100],
       ["child_book", 30],
+      ["manual_dodge_kid", 5],
       ["mag_tailor", 100],
       ["mag_fabrication", 50],
       ["recipe_augs", 20],
@@ -9084,6 +9118,7 @@
       [ "glassblowing_book", 15 ],
       [ "textbook_chemistry", 15 ],
       [ "child_book", 15 ],
+      [ "manual_dodge_kid", 5 ],
       [ "holybook_bible1", 5 ],
       [ "holybook_quran", 5 ],
       [ "novel_thriller", 15 ],
@@ -9382,6 +9417,7 @@
       [ "mag_carpentry", 15 ],
       [ "mag_cars", 15 ],
       [ "child_book", 20 ],
+      [ "manual_dodge_kid", 10 ],
       [ "fairy_tales", 20 ],
       [ "family_cookbook", 25 ]
     ]

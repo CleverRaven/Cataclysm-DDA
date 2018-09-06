@@ -117,7 +117,6 @@ inline void addedchar(cata_cursesport::WINDOW *win)
     }
 }
 
-
 //Borders the window with fancy lines!
 void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
             chtype bl, chtype br)

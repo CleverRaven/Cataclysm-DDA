@@ -382,7 +382,6 @@ void map::generate_lightmap( const int zlev )
         }
     }
 
-
     if (g->u.has_active_bionic( bionic_id( "bio_night" ) ) ) {
         for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
             if( rl_dist( p, g->u.pos() ) < 15 ) {
@@ -1060,7 +1059,6 @@ void map::apply_light_source( const tripoint &p, float luminance )
         castLight<0, -1, 1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
         castLight<0, -1, -1, 0, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );
     }
-
 
     if( south ) {
         castLight<1, 0, 0, 1, float, light_calc, light_check, accumulate_transparency>( lm, transparency_cache, x, y, 0, luminance );

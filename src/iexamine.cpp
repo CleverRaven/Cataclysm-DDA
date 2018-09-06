@@ -28,7 +28,6 @@
 #include "ui.h"
 #include "units.h"
 #include "trap.h"
-#include "itype.h"
 #include "basecamp.h"
 #include "mtype.h"
 #include "calendar.h"
@@ -39,6 +38,7 @@
 #include "bionics.h"
 #include "inventory.h"
 #include "craft_command.h"
+#include "material.h"
 
 #include <sstream>
 #include <algorithm>
@@ -79,6 +79,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_BURROW( "BURROW" );
 
 static const bionic_id bio_health_view( "bio_health_view" );
 
@@ -678,32 +679,23 @@ void iexamine::cardreader( player &p, const tripoint &examp )
  */
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    static quality_id quality_dig( "DIG" );
-    auto shovels = p.items_with( []( const item &e ) {
-        return e.get_quality( quality_dig ) >= 2;
-    } );
-
-    if( shovels.empty() ) {
-        add_msg(m_info, _("If only you had a shovel..."));
+    int moves;
+    if( p.has_quality( quality_id( "DIG" ), 3 ) || p.has_trait( trait_BURROW ) ) {
+        moves = 1250;
+    } else if( p.has_quality( quality_id( "DIG" ), 2 ) ) {
+        moves = 2500;
+    } else {
+        add_msg( m_info, _("If only you had a shovel...") );
         return;
     }
-
-    // Ask if there's something possibly more interesting than this rubble here
-    std::string xname = g->m.furnname(examp);
-    if( ( g->m.veh_at( examp ) ||
-          !g->m.tr_at( examp ).is_null() ||
+    if( ( g->m.veh_at( examp ) || !g->m.tr_at( examp ).is_null() ||
           g->critter_at( examp ) != nullptr ) &&
-          !query_yn(_("Clear up that %s?"), xname.c_str() ) ) {
-        none( p, examp );
+          !query_yn(_("Clear up that %s?"), g->m.furnname( examp ).c_str() ) ) {
         return;
     }
-
-    // Select our best shovel
-    auto it = std::max_element( shovels.begin(), shovels.end(), []( const item *lhs, const item *rhs ) {
-        return lhs->get_quality( quality_dig ) < rhs->get_quality( quality_dig );
-    } );
-
-    p.invoke_item( *it, "CLEAR_RUBBLE", examp );
+    p.assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), moves, -1, 0 );
+    p.activity.placement = examp;
+    return;
 }
 
 /**
@@ -737,7 +729,6 @@ void iexamine::crate(player &p, const tripoint &examp)
     iuse dummy;
     dummy.crowbar( &p, &fakecrow, false, examp );
 }
-
 
 /**
  * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
@@ -1624,6 +1615,80 @@ void iexamine::fungus(player &p, const tripoint &examp)
 }
 
 /**
+ *  Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
+ */
+std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &seed_inv )
+{
+    std::map<itype_id, int> seed_map;
+    for( auto &seed : seed_inv ) {
+        seed_map[seed->typeId()] += ( seed->charges > 0 ? seed->charges : 1 );
+    }
+
+    std::vector<seed_tuple> seed_entries;
+    for( const auto &pr : seed_map ) {
+        seed_entries.emplace_back(
+            pr.first, item::nname( pr.first, pr.second ), pr.second );
+    }
+
+    // Sort by name
+    std::sort( seed_entries.begin(), seed_entries.end(),
+    []( const seed_tuple & l, const seed_tuple & r ) {
+        return std::get<1>( l ).compare( std::get<1>( r ) ) < 0;
+    } );
+
+    return seed_entries;
+}
+
+/**
+ *  Choose seed for planting
+ */
+int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
+{
+    uimenu smenu;
+
+    // if true, it works fine for normal planting, but closes immediately if called
+    // from parent uimenu when adding new planting zone
+    // caused by inp_mngr.set_timeout( BLINK_SPEED );
+    // Unify uimenu behavior #25178 will fix the issue, can be set to true, once PR is merged
+    smenu.return_invalid = false;
+
+    smenu.text = _( "Use which seed?" );
+    int count = 0;
+    for( const auto &entry : seed_entries ) {
+        auto seed_name = std::get<1>( entry );
+        int seed_count = std::get<2>( entry );
+
+        std::string format = seed_count > 0 ? "%s (%d)" : "%s";
+
+        smenu.addentry( count++, true, MENU_AUTOASSIGN, format.c_str(),
+                        seed_name.c_str(), seed_count );
+    }
+    smenu.addentry( count++, true, 'q', ( "%s" ), _( "Cancel" ) );
+
+    smenu.query();
+
+    return smenu.ret;
+}
+
+/**
+ *  Actual planting of selected seed
+ */
+void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &seed_id )
+{
+    std::list<item> used_seed;
+    if( item::count_by_charges( seed_id ) ) {
+        used_seed = p.use_charges( seed_id, 1 );
+    } else {
+        used_seed = p.use_amount( seed_id, 1 );
+    }
+    used_seed.front().set_age( 0 );
+    g->m.add_item_or_charges( examp, used_seed.front() );
+    g->m.set( examp, t_dirt, f_plant_seed );
+    p.moves -= 500;
+    add_msg( _( "Planted %s." ), item::nname( seed_id ).c_str() );
+}
+
+/**
  * If it's warm enough, pick one of the player's seeds and plant it.
  */
 void iexamine::dirtmound(player &p, const tripoint &examp)
@@ -1650,38 +1715,9 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
         return;
     }
 
-    // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
-    std::map<itype_id, int> seed_map;
-    for( auto &seed : seed_inv ) {
-        seed_map[seed->typeId()] += (seed->charges > 0 ? seed->charges : 1);
-    }
+    auto seed_entries = get_seed_entries( seed_inv );
 
-    using seed_tuple = std::tuple<itype_id, std::string, int>;
-    std::vector<seed_tuple> seed_entries;
-    for( const auto &pr : seed_map ) {
-        seed_entries.emplace_back(
-            pr.first, item::nname( pr.first, pr.second ), pr.second );
-    }
-
-    // Sort by name
-    std::sort( seed_entries.begin(), seed_entries.end(),
-        []( const seed_tuple &l, const seed_tuple &r ) {
-            return std::get<1>( l ).compare( std::get<1>( r ) ) < 0;
-    } );
-
-    // Choose seed
-    // Don't use y/n prompt, stick with one kind of menu
-    uimenu smenu;
-    smenu.return_invalid = true;
-    smenu.text = _("Use which seed?");
-    int count = 0;
-    for( const auto &entry : seed_entries ) {
-        smenu.addentry( count++, true, MENU_AUTOASSIGN, _("%s (%d)"),
-            std::get<1>( entry ).c_str(), std::get<2>( entry ) );
-    }
-    smenu.query();
-
-    int seed_index = smenu.ret;
+    int seed_index = query_seed( seed_entries );
 
     // Did we cancel?
     if( seed_index < 0 || seed_index >= (int)seed_entries.size() ) {
@@ -1690,18 +1726,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
-    // Actual planting
-    std::list<item> used_seed;
-    if( item::count_by_charges( seed_id ) ) {
-        used_seed = p.use_charges( seed_id, 1 );
-    } else {
-        used_seed = p.use_amount( seed_id, 1 );
-    }
-    used_seed.front().set_age( 0 );
-    g->m.add_item_or_charges( examp, used_seed.front() );
-    g->m.set( examp, t_dirt, f_plant_seed );
-    p.moves -= 500;
-    add_msg(_("Planted %s"), std::get<1>( seed_entries[seed_index] ).c_str() );
+    plant_seed( p, examp, seed_id );
 }
 
 /**
@@ -2618,159 +2643,116 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
-/**
- * Returns the weight of all the items on tile made of specific material.
- *
- * @param &stack item stack.
- * @param &material the material whose mass we want.
- * @param remove_items are the items getting consumed in the process?
- * @param include_contents dose item contents count towards the weight?
- */
-units::mass sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
+void iexamine::recycle_compactor( player &, const tripoint &examp )
 {
-    units::mass sum_weight = 0;
-    for( auto item_it = stack.begin(); item_it != stack.end(); ) {
-        if( item_it->made_of(material) && item_it->weight() > 0) {
-            sum_weight += item_it->weight( include_contents );
-            if( remove_items ) {
-                item_it = stack.erase( item_it );
-            } else {
-                ++item_it;
-            }
-        } else {
-            ++item_it;
-        }
+    // choose what metal to recycle
+    auto metals = materials::get_compactable();
+    uimenu choose_metal;
+    choose_metal.text = _( "Recycle what metal?" );
+    for( auto &m : metals ) {
+        choose_metal.addentry( m.name() );
     }
-    return sum_weight;
-}
-
-void add_recyle_menu_entry( uimenu &menu, const units::mass &w, char hk, const std::string &type )
-{
-    const auto itt = item( type, 0 );
-    const int amount = w / itt.weight();
-    menu.addentry(
-        menu.entries.size() + 1, // value return by uimenu for this entry
-        true, // enabled
-        hk, // hotkey
-        string_format(_("about %d %s"), amount, itt.tname( amount ).c_str())
-    );
-}
-
-void iexamine::recycler(player &p, const tripoint &examp)
-{
-    auto items_on_map = g->m.i_at(examp);
-
-    // check for how much steel, by weight, is in the recycler
-    // only items made of STEEL are checked
-    // IRON and other metals cannot be turned into STEEL for now
-    units::mass steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false, false );
-    if (steel_weight == 0) {
-        add_msg(m_info,
-                _("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
+    choose_metal.entries.push_back( uimenu_entry( -1, true, 'c', _( "Cancel" ) ) );
+    choose_metal.selected = choose_metal.entries.size();
+    choose_metal.query();
+    int m_idx = choose_metal.ret;
+    if( m_idx < 0 || m_idx >= static_cast<int>( metals.size() ) ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
+    material_type m = metals.at( m_idx );
+
+    // check inputs and tally total mass
+    auto inputs = g->m.i_at( examp );
+    units::mass sum_weight = 0;
+    auto ca = m.compact_accepts();
+    std::set<material_id> accepts( ca.begin(), ca.end() );
+    accepts.insert( m.id );
+    for( auto it = inputs.begin(); it != inputs.end(); ++it ) {
+        if( !it->only_made_of( accepts ) ) {
+            //~ %1$s: an item in the compactor , %2$s: desired compactor output material
+            add_msg( _( "You realize this isn't going to work because %1$s is not made purely of %2$s." ),
+                     it->tname().c_str(), m.name().c_str() );
+            return;
+        }
+        if( it->is_container() && !it->is_container_empty() ) {
+            //~ %1$s: an item in the compactor
+            add_msg( _( "You realize this isn't going to work because %1$s has not been emptied of its contents." ),
+                     it->tname().c_str() );
+            return;
+        }
+        sum_weight += it->weight();
+    }
+    if( sum_weight <= 0 ) {
+        //~ %1$s: desired compactor output material
+        add_msg( _( "There is no %1$s in the compactor.  Drop some metal items onto it and try again." ),
+                 m.name().c_str() );
+        return;
+    }
+
     // See below for recover_factor (rng(6,9)/10), this
     // is the normal value of that recover factor.
     static const double norm_recover_factor = 8.0 / 10.0;
-    const units::mass norm_recover_weight = steel_weight * norm_recover_factor;
-    uimenu as_m;
-    const std::string weight_str = string_format("%.3f %s", convert_weight(steel_weight),
-                                                            weight_units());
-    as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'm', "sheet_metal");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 'C', "steel_chunk");
-    add_recyle_menu_entry(as_m, norm_recover_weight, 's', "scrap");
-    as_m.entries.push_back(uimenu_entry(0, true, 'c', _("Cancel")));
-    as_m.selected = 4;
-    as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
-    int ch = as_m.ret;
-    int num_lumps = 0;
-    int num_sheets = 0;
-    int num_chunks = 0;
-    int num_scraps = 0;
+    const units::mass norm_recover_weight = sum_weight * norm_recover_factor;
 
-    if (ch >= 5 || ch <= 0) {
-        add_msg(_("Never mind."));
+    // choose output
+    uimenu choose_output;
+    //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
+    choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
+                                        convert_weight( sum_weight ), weight_units(), m.name().c_str() );
+    for( auto &ci : m.compacts_into() ) {
+        auto it = item( ci, 0, item::solitary_tag{} );
+        const int amount = norm_recover_weight / it.weight();
+        //~ %1$d: number of, %2$s: output item
+        choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
+                                               it.tname( amount ).c_str() ) );
+    }
+    choose_output.entries.push_back( uimenu_entry( -1, true, 'c', _( "Cancel" ) ) );
+    choose_output.selected = choose_output.entries.size();
+    choose_output.query();
+    int o_idx = choose_output.ret;
+    if( o_idx < 0 || o_idx >= static_cast<int>( m.compacts_into().size() ) ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
 
-    // Sum up again, this time remove the items,
-    // ignore result, should be the same as before.
-    sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true, false );
+    // remove items
+    for( auto it = inputs.begin(); it != inputs.end(); ) {
+        it = inputs.erase( it );
+    }
 
-    double recover_factor = rng(6, 9) / 10.0;
-    steel_weight = steel_weight * recover_factor;
+    // produce outputs
+    double recover_factor = rng( 6, 9 ) / 10.0;
+    sum_weight = sum_weight * recover_factor;
+    sounds::sound( examp, 80, _( "Ka-klunk!" ) );
+    bool out_desired = false;
+    bool out_any = false;
+    for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
+        const units::mass ow = item( *it, 0, item::solitary_tag{} ).weight();
+        int count = sum_weight / ow;
+        sum_weight -= count * ow;
+        if( count > 0 ) {
+            g->m.spawn_item( examp, *it, count, 1, calendar::turn );
+            if( !out_any ) {
+                out_any = true;
+                if( it == m.compacts_into().begin() + o_idx ) {
+                    out_desired = true;
+                }
+            }
+        }
+    }
 
-    sounds::sound(examp, 80, _("Ka-klunk!"));
-
-    units::mass lump_weight = item( "steel_lump", 0 ).weight();
-    units::mass sheet_weight = item( "sheet_metal", 0 ).weight();
-    units::mass chunk_weight = item( "steel_chunk", 0 ).weight();
-    units::mass scrap_weight = item( "scrap", 0 ).weight();
-
-    if (steel_weight < scrap_weight) {
-        add_msg(_("The recycler chews up all the items in its hopper."));
-        add_msg(_("The recycler beeps: \"No steel to process!\""));
+    // feedback to user
+    if( !out_any ) {
+        add_msg( _( "The compactor chews up all the items in its hopper." ) );
+        //~ %1$s: compactor output material
+        add_msg( _( "The compactor beeps: \"No %1$s to process!\"" ), m.name().c_str() );
         return;
     }
-
-    switch(ch) {
-    case 1: // 1 steel lump = weight 1360
-        num_lumps = steel_weight / (lump_weight);
-        steel_weight -= num_lumps * (lump_weight);
-        num_sheets = steel_weight / (sheet_weight);
-        steel_weight -= num_sheets * (sheet_weight);
-        num_chunks = steel_weight / (chunk_weight);
-        steel_weight -= num_chunks * (chunk_weight);
-        num_scraps = steel_weight / (scrap_weight);
-        if (num_lumps == 0) {
-            add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-            add_msg(_("It spits out an assortment of smaller pieces instead."));
-        }
-        break;
-
-    case 2: // 1 metal sheet = weight 1000
-        num_sheets = steel_weight / (sheet_weight);
-        steel_weight -= num_sheets * (sheet_weight);
-        num_chunks = steel_weight / (chunk_weight);
-        steel_weight -= num_chunks * (chunk_weight);
-        num_scraps = steel_weight / (scrap_weight);
-        if (num_sheets == 0) {
-            add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-            add_msg(_("It spits out an assortment of smaller pieces instead."));
-        }
-        break;
-
-    case 3: // 1 steel chunk = weight 340
-        num_chunks = steel_weight / (chunk_weight);
-        steel_weight -= num_chunks * (chunk_weight);
-        num_scraps = steel_weight / (scrap_weight);
-        if (num_chunks == 0) {
-            add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-            add_msg(_("It spits out an assortment of smaller pieces instead."));
-        }
-        break;
-
-    case 4: // 1 metal scrap = weight 113
-        num_scraps = steel_weight / (scrap_weight);
-        break;
-    }
-
-    for (int i = 0; i < num_lumps; i++) {
-        g->m.spawn_item( p.pos(), "steel_lump", 1, 0, calendar::turn );
-    }
-
-    for (int i = 0; i < num_sheets; i++) {
-        g->m.spawn_item( p.pos(), "sheet_metal", 1, 0, calendar::turn );
-    }
-
-    for (int i = 0; i < num_chunks; i++) {
-        g->m.spawn_item( p.pos(), "steel_chunk", 1, 0, calendar::turn );
-    }
-
-    for (int i = 0; i < num_scraps; i++) {
-        g->m.spawn_item( p.pos(), "scrap", 1, 0, calendar::turn );
+    if( !out_desired ) {
+        //~ %1$s: compactor output material
+        add_msg( _( "The compactor beeps: \"Insufficient %1$s!\"" ), m.name().c_str() );
+        add_msg( _( "It spits out an assortment of smaller pieces instead." ) );
     }
 }
 
@@ -3852,6 +3834,7 @@ void smoker_load_food( player &p, const tripoint &examp )
     // count and ask for item to be placed ...
     int count = 0;
     std::list<std::string> names;
+    std::vector<const item *> entries;
     for( const item *smokable_item : filtered ) {
 
         if( smokable_item->count_by_charges() ) {
@@ -3863,6 +3846,7 @@ void smoker_load_food( player &p, const tripoint &examp )
             auto on_list = std::find( names.begin(), names.end(), item::nname( smokable_item->typeId(), 1 ) );
             if( on_list == names.end() ) {
                 smenu.addentry( item::nname( smokable_item->typeId(), 1 ) );
+                entries.push_back( smokable_item );
             }
             names.push_back( item::nname( smokable_item->typeId(), 1 ) );
             comps.push_back( item_comp( smokable_item->typeId(), count ) );
@@ -3878,12 +3862,12 @@ void smoker_load_food( player &p, const tripoint &examp )
     smenu.addentry( -1, true, 'q', _( "Cancel" ) );
     smenu.query();
 
-    if( static_cast<size_t>( smenu.ret ) >= filtered.size() || smenu.ret == -1 ) {
+    if( static_cast<size_t>( smenu.ret ) >= entries.size() || smenu.ret == -1 ) {
         add_msg(m_info, _( "Never mind." ) );
         return;
     }
     count = 0;
-    auto what = filtered[smenu.ret];
+    auto what = entries[smenu.ret];
     for( auto c : comps ) {
         if( c.type == what->typeId() ) {
             count = c.count;
@@ -4165,7 +4149,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "tree_maple", &iexamine::tree_maple },
         { "tree_maple_tapped", &iexamine::tree_maple_tapped },
         { "shrub_wildveggies", &iexamine::shrub_wildveggies },
-        { "recycler", &iexamine::recycler },
+        { "recycle_compactor", &iexamine::recycle_compactor },
         { "trap", &iexamine::trap },
         { "water_source", &iexamine::water_source },
         { "reload_furniture", &iexamine::reload_furniture },

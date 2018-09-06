@@ -714,6 +714,7 @@ Vehicle components when installed on a vehicle.
 ```
 
 ### Vehicles
+See also VEHICLE_JSON.md
 
 ```JSON
 "id": "shopping_cart",                     // Internally-used name.
@@ -1204,7 +1205,9 @@ Every item type can have software data, it does not have any behavior:
 
 ### Fuel data
 
-Every item type can have fuel data that determines how much horse power it produces per unit consumed. Currently, no engines support fuels other than gasoline, diesel, or battery.
+Every item type can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
+
+If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
 
 ```JSON
 "fuel" : {

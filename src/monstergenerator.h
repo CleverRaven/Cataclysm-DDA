@@ -66,7 +66,6 @@ class MonsterGenerator
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
 
-
         void check_monster_definitions() const;
 
         const std::vector<mtype> &get_all_mtypes() const;
