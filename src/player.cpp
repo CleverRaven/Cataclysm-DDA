@@ -2724,6 +2724,9 @@ int player::overmap_sight_range( int light_level ) const
         return ( sight / ( SEEX / 2 ) );
     }
     sight = has_trait( trait_BIRD_EYE ) ? 15 : 10;
+
+    /** @EFFECT_PER determines overmap sight range */
+    sight += ( -4 + (int)( get_per() / 2 ) );
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
 
     if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
