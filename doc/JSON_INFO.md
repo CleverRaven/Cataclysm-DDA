@@ -700,7 +700,7 @@ Vehicle components when installed on a vehicle.
 "spawn_types":[ {       // List of spawntypes. When this vehicle_spawn is applied, it will choose from one of the spawntypes randomly, based on the weight.
   "description" : "Clear section of road",           //    A description of this spawntype
   "weight" : 33,          //    The chance of this spawn type being used.
-  "vehicle_function" : ""jack-knifed_semi" // This is only needed if the spawntype uses a built-in json function.
+  "vehicle_function" : "jack-knifed_semi", // This is only needed if the spawntype uses a built-in json function.
   "vehicle_json" : {      // This is only needed for a json-specified spawntype.
   "vehicle" : "car",      // The vehicle or vehicle_group to spawn.
   "placement" : "%t_parked",  // The vehicle_placement to use when spawning the vehicle. This is not needed if the x, y, and facing are specified.
@@ -709,7 +709,7 @@ Vehicle components when installed on a vehicle.
   "facing" : [90,270], // The facing of the vehicle. Can be a single value or an array of possible values. Not needed if placement is specified.
   "number" : 1, // The number of vehicles to spawn.
   "fuel" : -1, // The fuel of the new vehicles.
-  "status" : 1,  // The status of the new vehicles.
+  "status" : 1  // The status of the new vehicles.
 } } ]
 ```
 
@@ -821,7 +821,7 @@ Armor can be defined like this:
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
 "coverage" : 80,      // What percentage of body part
-"material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
+"material_thickness" : 1,  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
@@ -835,7 +835,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "environmental_protection" : 0,
     "encumbrance" : 0,
     "coverage" : 80,
-    "material_thickness" : 1
+    "material_thickness" : 1,
     "power_armor" : false
 }
 ```
@@ -1211,7 +1211,7 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 ```JSON
 "fuel" : {
-    energy": 34.2,               // battery charges per unit of fuel. batteries have energy 1.
+   "energy": 34.2,               // battery charges per unit of fuel. batteries have energy 1.
    "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
    "explosion_data": {           // optional for fuels that can cause explosions
         "chance_hot": 2,         // 1 in chance_hot of explosion when attacked by HEAT weapons
@@ -1236,7 +1236,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_fire": 1,                 // Whether fire is needed to activate.
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
     "need_charges": 1,                      // Number of charges the item needs to transform.
-    "need_charges_msg": "The lamp is empty." // Message to display if there aren't enough charges.
+    "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
     "target_charges" : 3, // Number of charges the transformed item has.
     "container" : "jar",  // Container holding the target item.
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
@@ -1248,7 +1248,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
     "explosion": { // Optional: physical explosion data
         // Specified like `"explosion"` field in generic items
-    }
+    },
     "draw_explosion_radius" : 5, // How large to draw the radius of the explosion.
     "draw_explosion_color" : "ltblue", // The color to use when drawing the explosion.
     "do_flashbang" : true, // Whether to do the flashbang effect.
@@ -1409,9 +1409,9 @@ The contents of use_action fields can either be a string indicating a built-in f
     "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
     "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
     "bleed" : 0.4,          // Chance to remove bleed effect.
-    "bite" : 0.95           // Chance to remove bite effect.
-    "infect" : 0.1          // Chance to remove infected effect.
-    "move_cost" : 250       // Cost in moves to use the item.
+    "bite" : 0.95,          // Chance to remove bite effect.
+    "infect" : 0.1,         // Chance to remove infected effect.
+    "move_cost" : 250,      // Cost in moves to use the item.
     "long_action" : true,   // Is using this item a long action. Setting this to true will divide move cost by (first aid skill + 1).
     "limb_scaling" : 1.2,   // How much extra limb hp should be healed per first aid level. Defaults to 0.25 * limb_power.
     "head_scaling" : 1.0,   // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * head_power.
@@ -1464,7 +1464,7 @@ or several snippets at once:
         "more flavor",
         // entries can also bo of this form to have a id to reference that specific snippet.
         { "id" : "snippet-id", "text" : "another flavor text" }
-    ]
+    ],
     "text": [ "your flavor text", "another flavor text", "more flavor" ]
 }
 ```
@@ -1593,7 +1593,7 @@ Same as for furniture, see below in the chapter "Common to furniture and terrain
 
 #### `move_cost`
 
-Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2*50 = 100 move points when moving across the terrain.
+Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
 
 #### `trap`
 
