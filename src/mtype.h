@@ -5,6 +5,7 @@
 // monster may carry.
 
 #include "enums.h"
+#include "units.h"
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
@@ -249,6 +250,8 @@ struct mtype {
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
+
+        units::mass weight_capacity = units::mass( -1, units::mass::unit_type{} );    /** custom weight capacity */
 
         damage_instance melee_damage; // Basic melee attack damage
 

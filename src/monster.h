@@ -460,6 +460,8 @@ class monster : public Creature
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
 
+        units::mass weight_capacity() const override;
+
     private:
         int hp;
         std::map<std::string, mon_special_attack> special_attacks;

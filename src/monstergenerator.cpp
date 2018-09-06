@@ -576,6 +576,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
 
+    optional( jo, was_loaded, "weight_capacity", weight_capacity, units::mass( -1, units::mass::unit_type{} ));
+
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
         JsonArray arr = jo.get_array( "melee_damage" );
