@@ -122,7 +122,8 @@ float player::external_craft_speed_multiplier( const recipe &rec ) const
     }
 
     if( has_bionic( bio_crafting ) && rec.category != "CC_FOOD" &&
-        rec.category != "CC_CHEM" ) { // mechanical motors in your hands can't do chemistry or cooking faster
+        rec.category !=
+        "CC_CHEM" ) { // mechanical motors in your hands can't do chemistry or cooking faster
         modifier += 0.3f; // 30% flat speed increase
     }
 
