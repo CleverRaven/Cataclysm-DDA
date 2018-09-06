@@ -1203,6 +1203,8 @@ class vehicle
          */
         void open_all_at( int p );
 
+        bool turn_on_internal_lights();
+
         // upgrades/refilling/etc. see veh_interact.cpp
         void interact();
         // Honk the vehicle's horn, if there are any

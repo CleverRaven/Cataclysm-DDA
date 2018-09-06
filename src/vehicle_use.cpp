@@ -1130,6 +1130,31 @@ void vehicle::open_all_at( int p )
     }
 }
 
+bool vehicle::turn_on_internal_lights()
+{
+    bool success = false;
+
+    auto found = get_parts( VPFLAG_AISLE_LIGHT );
+
+    for( vehicle_part *e : found )
+    {
+        e->enabled = true;
+        success = true;
+    }
+
+    /*for( auto&& part : parts ) {
+        bool can = can_enable(part);
+        if( can && ( part.has_flag( VPFLAG_AISLE_LIGHT ) || part.has_flag( VPFLAG_ATOMIC_LIGHT ) ) ) {
+            part.enabled = true;
+            success = true;
+        }
+    }*/
+    if( success ) {
+        refresh();
+    }
+    return success;
+}
+
 void vehicle::open_or_close( int const part_index, bool const opening )
 {
     parts[part_index].open = opening ? 1 : 0;

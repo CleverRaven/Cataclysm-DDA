@@ -39,6 +39,7 @@
 #include <math.h>
 #include <sstream>
 #include <algorithm>
+#include "veh_type.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -2538,17 +2539,31 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
     const recipe &rec = recipe_id( act->name ).obj();
     float crafting_speed = p->crafting_speed_multiplier( rec, true );
-    if( crafting_speed <= 0.0f ) {
-        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
-        } else {
-            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+    bool changed_light = false;
+
+    if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f &&
+        g->m.veh_at( p->pos() ).has_value() &&
+        query_yn( "It's getting too dark to craft.  Would turning on aisle lights on help?" ) ) {
+        auto veh = g->m.veh_at( p->pos() );
+        changed_light = veh->vehicle().turn_on_internal_lights();
+        crafting_speed = 0.1f;
+        p->mod_moves( -300 );
+    } else {
+        if( crafting_speed <= 0.0f ) {
+            if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+                p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+            } else {
+                p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+            }
+            p->cancel_activity();
+            return;
         }
-        p->cancel_activity();
-        return;
     }
+
     act->moves_left -= crafting_speed * p->get_moves();
-    p->set_moves( 0 );
+    if( !changed_light ) {
+        p->set_moves( 0 );
+    }
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
         // @todo Describe the causes of slowdown
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
