@@ -3304,7 +3304,8 @@ bool game::handle_action()
                                 _("new default binding is '^'.")).c_str());
             } else {
                 uimenu as_m;
-                as_m.return_invalid = false; // Only accept valid input
+                // Only accept valid input
+                as_m.return_invalid = false;
                 as_m.text = _("Are you sure you want to sleep?");
                 // (Y)es/(S)ave before sleeping/(N)o
                 as_m.entries.emplace_back( uimenu_entry( 0, true,
@@ -3343,7 +3344,7 @@ bool game::handle_action()
                 }
                 for ( auto &mut : g->u.get_mutations() ) {
                     const auto &mdata = mut.obj();
-                    if ( mdata.cost > 0 && u.has_active_mutation(mut) ) {
+                    if ( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
                         active.push_back( mdata.name );
                     }
                 }
@@ -3352,7 +3353,7 @@ bool game::handle_action()
                     data << as_m.text << std::endl;
                     data << _( "You may want to deactivate these before you sleep." ) << std::endl;
                     data << " " << std::endl;
-                    for (auto &a : active) {
+                    for ( auto &a : active ) {
                         data << a << std::endl;
                     }
                     as_m.text = data.str();
