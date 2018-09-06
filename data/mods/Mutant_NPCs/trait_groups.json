@@ -657,7 +657,7 @@
     "type": "trait_group",
     "id": "trait_group_mouse_nonthres",
     "subtype": "collection",
-    "traits": [ ]
+    "traits": [  ]
   },
   {
     "type": "trait_group",
