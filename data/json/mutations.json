@@ -2355,9 +2355,8 @@
         "name" : "Alcohol Metabolism",
         "points" : 2,
         "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
-        "prereqs" : ["TOLERANCE", "EATPOISON"],
-        "prereqs2" : ["SAPROVORE", "EATPOISON"],
-        "//" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
+        "prereqs" : ["TOLERANCE"],
+        "prereqs2" : ["SAPROVORE"],
         "category" : ["TROGLOBITE"],
         "valid" : false
     },{
@@ -2936,7 +2935,7 @@
         "description" : "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.  You are less bothered by death of others: their own weakness invited these fates upon them.",
         "purifiable" : false,
         "changes_to" : ["PRED2"],
-        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
+        "prereqs" : ["CARNIVORE"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
         "cancels" : ["PACIFIST"],
         "category" : ["BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER"]
