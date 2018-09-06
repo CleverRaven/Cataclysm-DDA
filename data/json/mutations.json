@@ -64,7 +64,6 @@
         "name" : "Hyperactive",
         "points" : 4,
         "description" : "Your body's efficiency is like that of a tiny furnace, increasing your maximum stamina by 40%.",
-        "starting_trait" : true,
         "valid" : false,
         "prereqs" : ["GOODCARDIO"],
         "cancels" : ["BADCARDIO"],
