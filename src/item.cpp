@@ -1839,7 +1839,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
 
 
-            const bool lil = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
+            const bool little = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
             if( has_flag( "FIT" ) && parts->test(iteminfo_parts::DESCRIPTION_FLAGS_FITS)) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );
@@ -1847,7 +1847,7 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>can be refitted</info>." ) ) );
             }
-            if( lil ) {
+            if( little && get_encumber() ) {
                 if( !has_flag( "UNDERSIZE" ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "* These clothes are <bad>too large</bad> but <info>can be undersized</info>." ) ) );
@@ -2518,25 +2518,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
 
-    const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
+    const bool small = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     const bool fits = has_flag( "FIT" );
     const bool undersize = has_flag( "UNDERSIZE" );
-    if( fits ) {
-        if( smol ) {
-            if( undersize ) {
-                ret << _( " (fits)" );
-            } else {
-                ret << _( " (oversize)");
-            }
-        } else {
-            if( undersize ) {
-                ret << _( " (undersize)" );
-            } else {
-                ret << _( " (fits)" );
-            }
+    if( get_encumber() ) {
+        if( small && !undersize ) {
+            ret << _( " (oversize)" );
+        } else if( !small && undersize ) {
+            ret << _( " (undersize)" );
+        } else if( fits ) {
+            ret << _( " (fits)" );
         }
     }
-
 
     if( is_filthy() ) {
         ret << _( " (filthy)" );
