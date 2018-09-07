@@ -63,6 +63,7 @@ const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_playing_instrument( "playing_instrument" );
+const efftype_id effect_pet( "pet" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
@@ -700,6 +701,10 @@ long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/
                                  newmon.name().c_str() );
             amdef.second = ammo_item.charges;
         }
+    }
+    if( newmon.has_flag( MF_PET ) ) {
+        newmon.friendly = -1;
+        newmon.add_effect( effect_pet, 1_turns, num_bp, true );
     }
     newmon.init_from_item( it );
     int skill_offset = 0;

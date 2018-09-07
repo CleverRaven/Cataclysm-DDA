@@ -27,6 +27,7 @@
 #include "pickup.h"
 #include "requirements.h"
 #include "clzones.h"
+#include "mtype.h"
 
 #include <list>
 #include <vector>
@@ -113,10 +114,16 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
     }
 }
 
+units::volume pet_storage_volume( monster &pet )
+{
+    if( pet.has_flag( MF_INTERNAL_STORAGE ) ) {
+        return pet.type->storage_capacity;
+    }
+    return pet.inv.empty() ? units::volume( 0 ) : pet.inv.front().get_storage();
+}
 void stash_on_pet( const std::list<item> &items, monster &pet )
 {
-    units::volume remaining_volume = pet.inv.empty() ? units::volume( 0 ) :
-                                     pet.inv.front().get_storage();
+    units::volume remaining_volume = pet_storage_volume( pet );
     units::mass remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {

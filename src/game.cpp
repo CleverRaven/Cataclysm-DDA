@@ -6344,6 +6344,12 @@ void game::emp_blast( const tripoint &p )
                         m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
                     }
                 }
+                if( critter.has_flag( MF_INTERNAL_STORAGE ) ) {
+                    for( auto &it : critter.inv ) {
+                        g->m.add_item_or_charges( critter.pos(), it );
+                    }
+                    critter.inv.clear();
+                }
                 remove_zombie( critter );
             } else {
                 if( sight ) {
@@ -7251,7 +7257,10 @@ bool pet_menu(monster *z)
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
     amenu.addentry( rename, true, 'e', _("Rename") );
 
-    if (z->has_effect( effect_has_bag)) {
+    if (z->has_flag( MF_INTERNAL_STORAGE )) {
+        amenu.addentry(give_items, true, 'g', _("Place items into storage"));
+        amenu.addentry(drop_all, true, 'd', _("Drop all items"));
+    } else if (z->has_effect( effect_has_bag )) {
         amenu.addentry(give_items, true, 'g', _("Place items into bag"));
         amenu.addentry(drop_all, true, 'd', _("Drop all items"));
     } else {
@@ -7260,7 +7269,7 @@ bool pet_menu(monster *z)
 
     if (z->has_effect( effect_tied)) {
         amenu.addentry(rope, true, 'r', _("Untie"));
-    } else {
+    } else if (!z->has_flag( MF_ELECTRONIC )) {
         if (g->u.has_amount("rope_6", 1)) {
             amenu.addentry(rope, true, 'r', _("Tie"));
         } else {
@@ -7375,30 +7384,48 @@ bool pet_menu(monster *z)
 
         z->remove_effect( effect_has_bag);
 
-        add_msg(_("You dump the contents of the %s's bag on the ground."), pet_name.c_str());
+        if (z->has_flag( MF_INTERNAL_STORAGE )) {
+            add_msg(_("You dump the contents of the %s on the ground."), pet_name.c_str());
+        } else {
+            add_msg(_("You dump the contents of the %s's bag on the ground."), pet_name.c_str());
+        }
 
         g->u.moves -= 200;
         return true;
     }
 
     if (give_items == choice) {
+        const bool has_storage = z->has_flag( MF_INTERNAL_STORAGE );
+        units::volume max_cap;
+        units::mass max_weight = z->weight_capacity();
+        bool has_items_to_count;
+        std::string tname;
 
-        if (z->inv.empty()) {
-            add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
-            return true;
+        if (has_storage) {
+            max_cap = z->type->storage_capacity;
+            has_items_to_count = z->inv.size() > 0;
+        } else {
+            if (z->inv.empty()) {
+                add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
+                return true;
+            }
+
+            item &it = z->inv[0];
+
+            if (!it.is_armor()) {
+                add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
+                return true;
+            }
+
+            max_cap = it.get_storage();
+            max_weight -= it.weight();
+            tname = it.tname(1);
+
+            has_items_to_count = z->inv.size() > 1;
         }
 
-        item &it = z->inv[0];
 
-        if (!it.is_armor()) {
-            add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
-            return true;
-        }
-
-        units::volume max_cap = it.get_storage();
-        units::mass max_weight = z->weight_capacity() - it.weight();
-
-        if (z->inv.size() > 1) {
+        if (has_items_to_count) {
             for (auto &i : z->inv) {
                 max_cap -= i.volume();
                 max_weight -= i.weight();
@@ -7406,13 +7433,23 @@ bool pet_menu(monster *z)
         }
 
         if (max_weight <= 0) {
-            add_msg(_("%1$s is overburdened. You can't transfer your %2$s."),
-                    pet_name.c_str(), it.tname(1).c_str());
+            if (has_storage) {
+                add_msg(_("%1$s is overburdened. You can't transfer more."),
+                        pet_name.c_str());
+            } else {
+                add_msg(_("%1$s is overburdened. You can't transfer your %2$s."),
+                        pet_name.c_str(), tname.c_str());
+            }
             return true;
         }
         if (max_cap <= 0) {
-            add_msg(_("There's no room in your %1$s's %2$s for that, it's too bulky!"),
-                    pet_name.c_str(), it.tname(1).c_str() );
+            if (has_storage) {
+                add_msg(_("There's no room in your %1$s's for that, it's too bulky!"),
+                        pet_name.c_str());
+            } else {
+                add_msg(_("There's no room in your %1$s's %2$s for that, it's too bulky!"),
+                        pet_name.c_str(), tname.c_str());
+            }
             return true;
         }
 
@@ -11541,7 +11578,12 @@ bool game::disable_robot( const tripoint &p )
             return false;
         }
         u.moves -= 100;
-        m.add_item_or_charges( p.x, p.y, critter.to_item() );
+        if (critter.has_flag(MF_INTERNAL_STORAGE)) {
+            for (auto &it : critter.inv) {
+                m.add_item_or_charges(critter.pos(), it);
+            }
+            critter.inv.clear();
+        }
         if (!critter.has_flag(MF_INTERIOR_AMMO)) {
             for (auto & ammodef : critter.ammo) {
                 if (ammodef.second > 0) {
@@ -11549,6 +11591,7 @@ bool game::disable_robot( const tripoint &p )
                 }
             }
         }
+        m.add_item_or_charges( p.x, p.y, critter.to_item() );
         remove_zombie( critter );
         return true;
     }

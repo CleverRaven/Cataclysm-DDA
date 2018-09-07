@@ -464,6 +464,8 @@ void MonsterGenerator::init_flags()
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
     flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
     flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
+    flag_map["INTERNAL_STORAGE"] = MF_INTERNAL_STORAGE;
+    flag_map["PET"] = MF_PET;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -577,6 +579,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
 
     assign( jo, "weight_capacity", weight_capacity );
+    assign( jo, "storage_capacity", storage_capacity );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {

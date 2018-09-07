@@ -168,6 +168,8 @@ enum m_flag : int {
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
+    MF_INTERNAL_STORAGE,    // This monster has internal storage capacity
+    MF_PET,                 // This monster will become a pet immediately after birth
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -252,6 +254,7 @@ struct mtype {
         int vision_night = 1;   /** vision range in total darkness */
 
         units::mass weight_capacity = units::mass( -1, units::mass::unit_type{} );    /** custom weight capacity */
+        units::volume storage_capacity = units::volume( 0, units::volume::unit_type{} );    /** custom weight capacity */
 
         damage_instance melee_damage; // Basic melee attack damage
 
