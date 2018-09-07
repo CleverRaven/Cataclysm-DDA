@@ -116,8 +116,8 @@ std::vector<item *> individual_mission_give_equipment( std::vector<item *> equip
  * @param priority turns the mission key yellow and pushes to front of main tab
  * @param possible grays the mission key when false
  */
-void mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors, std::string id,
-                       std::string name_display = "", std::string dir = "", bool priority = false, bool possible = true );
+void mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors, const std::string &id,
+                       const std::string &name_display = "", const std::string &dir = "", bool priority = false, bool possible = true );
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
@@ -199,21 +199,21 @@ int om_carry_weight_to_trips( npc &comp, std::vector<item *> itms );
 /// Improve the camp tile to the next level and pushes the camp manager onto his correct position in case he moved
 bool om_camp_upgrade( npc &p, const point omt_pos );
 /// Returns the description for the recipe of the next building @ref bldg
-std::string om_upgrade_description( std::string bldg );
+std::string om_upgrade_description( const std::string &bldg );
 /// Currently does the same as om_upgrade_description but should convert fire charges to raw charcoal needed and allow dark craft
-std::string om_craft_description( std::string bldg );
+std::string om_craft_description( const std::string &bldg );
 /// Provides a "guess" for some of the things your gatherers will return with to upgrade the camp
-std::string om_gathering_description( npc &p, std::string bldg );
+std::string om_gathering_description( npc &p, const std::string &bldg );
 /// Returns the name of the building the current @ref bldg upgrades into, "null" if there isn't one
-std::string om_next_upgrade( std::string bldg );
+std::string om_next_upgrade( const std::string &bldg );
 /// Returns a vector of all upgrades the current build would have if it reached bldg level, "null" if there isn't one
-std::vector<std::string> om_all_upgrade_levels( std::string bldg );
+std::vector<std::string> om_all_upgrade_levels( const std::string &bldg );
 /// Is the @ref bldg of the same type as the @ref target and does the level of bldg meet or exceed the target level
-bool om_min_level( std::string target, std::string bldg );
+bool om_min_level( std::string target, const std::string &bldg );
 /// Is the @ref bldg of the same type as the @ref target and how many levels greater is it, -1 for no match, 0 for same
-int om_over_level( std::string target, std::string bldg );
+int om_over_level( std::string target, const std::string &bldg );
 /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
-bool upgrade_return( npc &p, point omt_pos, std::string miss );
+bool upgrade_return( npc &p, point omt_pos, const std::string &miss );
 /// Popups to explain what is going on for anyone who is unsure, called only on the first camp designation for a character
 void faction_camp_tutorial();
 /// Called when a companion completes a gathering @ref task mission
@@ -221,9 +221,9 @@ bool camp_gathering_return( npc &p, std::string task );
 /// Called on completion of recruiting, returns the new NPC.
 void camp_recruit_return( npc &p, std::string task, int score );
 void camp_craft_construction( npc &p, mission_entry cur_key,
-                              std::map<std::string, std::string> recipes, std::string miss_id,
+                              std::map<std::string, std::string> recipes, const std::string &miss_id,
                               tripoint omt_pos, std::vector<std::pair<std::string, tripoint>> om_expansions );
-std::string camp_recruit_evaluation( npc &p, std::string base,
+std::string camp_recruit_evaluation( npc &p, const std::string &base,
                                      std::vector<std::pair<std::string, tripoint>> om_expansions,
                                      bool raw_score = false );
 /// Called when a companion completes a chop shop @ref task mission

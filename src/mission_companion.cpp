@@ -3005,7 +3005,7 @@ bool talk_function::om_camp_upgrade( npc &comp, const point omt_pos )
     return true;
 }
 
-std::string talk_function::om_upgrade_description( std::string bldg )
+std::string talk_function::om_upgrade_description( const std::string &bldg )
 {
     const recipe *making = &recipe_id( bldg ).obj();
     const inventory &total_inv = g->u.crafting_inventory();
@@ -3029,7 +3029,7 @@ std::string talk_function::om_upgrade_description( std::string bldg )
     return comp;
 }
 
-std::string talk_function::om_craft_description( std::string itm )
+std::string talk_function::om_craft_description( const std::string &itm )
 {
     recipe making = recipe_id( itm ).obj();
     const inventory &total_inv = g->u.crafting_inventory();
@@ -3052,7 +3052,7 @@ std::string talk_function::om_craft_description( std::string itm )
     return comp;
 }
 
-std::string talk_function::om_gathering_description( npc &p, std::string bldg )
+std::string talk_function::om_gathering_description( npc &p, const std::string &bldg )
 {
     std::string itemlist;
     if( item_group::group_is_defined( "gathering_" + bldg ) ) {
@@ -3089,11 +3089,10 @@ std::string talk_function::om_gathering_description( npc &p, std::string bldg )
     return output;
 }
 
-std::string talk_function::om_next_upgrade( std::string bldg )
+std::string talk_function::om_next_upgrade( const std::string &bldg )
 {
-    std::string comp = "";
     int phase = bldg.find_last_of( "_" );
-    comp = bldg.substr( phase + 1 );
+    std::string comp = bldg.substr( phase + 1 );
     int value = atoi( comp.c_str() ) + 1;
     comp = bldg.substr( 0, phase + 1 ) + to_string( value );
     if( !oter_str_id( comp ).is_valid() ) {
@@ -3103,12 +3102,11 @@ std::string talk_function::om_next_upgrade( std::string bldg )
     return comp;
 }
 
-std::vector<std::string> talk_function::om_all_upgrade_levels( std::string bldg )
+std::vector<std::string> talk_function::om_all_upgrade_levels( const std::string &bldg )
 {
     std::vector<std::string> upgrades;
-    std::string comp = "";
     int phase = bldg.find_last_of( "_" );
-    comp = bldg.substr( phase + 1 );
+    std::string comp = bldg.substr( phase + 1 );
     int value = 0;
     int current = atoi( comp.c_str() );
     while( value <= current ) {
@@ -3121,12 +3119,12 @@ std::vector<std::string> talk_function::om_all_upgrade_levels( std::string bldg 
     return upgrades;
 }
 
-bool talk_function::om_min_level( std::string target, std::string bldg )
+bool talk_function::om_min_level( std::string target, const std::string &bldg )
 {
     return ( om_over_level( target, bldg ) >= 0 );
 }
 
-int talk_function::om_over_level( std::string target, std::string bldg )
+int talk_function::om_over_level( std::string target, const std::string &bldg )
 {
     std::string comp = "";
     int diff = 0;
@@ -3145,7 +3143,7 @@ int talk_function::om_over_level( std::string target, std::string bldg )
     return diff;
 }
 
-bool talk_function::upgrade_return( npc &p, point omt_pos, std::string miss )
+bool talk_function::upgrade_return( npc &p, point omt_pos, const std::string &miss )
 {
     //Ensure there are no vehicles before we update
     editmap edit;
@@ -4579,14 +4577,11 @@ std::vector<item *> talk_function::loot_building( const tripoint site )
 }
 
 void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors,
-                                      std::string id,
-                                      std::string name_display, std::string dir, bool priority, bool possible )
+                                      const std::string &id,
+                                      const std::string &name_display, const std::string &dir, bool priority, bool possible )
 {
-    if( name_display == "" ) {
-        name_display = id;
-    }
     mission_entry miss;
-    miss.id = id;
+    miss.id = name_display == "" ? id : name_display;
     miss.name_display = name_display;
     miss.dir = dir;
     miss.priority = priority;
@@ -5333,7 +5328,7 @@ void talk_function::faction_camp_tutorial()
 }
 
 void talk_function::camp_craft_construction( npc &p, mission_entry cur_key,
-        std::map<std::string, std::string> recipes, std::string miss_id,
+        std::map<std::string, std::string> recipes, const std::string &miss_id,
         tripoint omt_pos, std::vector<std::pair<std::string, tripoint>> om_expansions )
 {
     for( std::map<std::string, std::string>::const_iterator it = recipes.begin(); it != recipes.end();
@@ -5387,7 +5382,7 @@ void talk_function::camp_craft_construction( npc &p, mission_entry cur_key,
     }
 }
 
-std::string talk_function::camp_recruit_evaluation( npc &p, std::string base,
+std::string talk_function::camp_recruit_evaluation( npc &p, const std::string &base,
         std::vector<std::pair<std::string, tripoint>> om_expansions,
         bool raw_score )
 {

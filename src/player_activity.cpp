@@ -15,7 +15,7 @@
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
-                                  std::string name_in ) :
+                                  const std::string &name_in ) :
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
