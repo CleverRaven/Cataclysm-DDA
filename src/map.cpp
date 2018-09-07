@@ -7396,8 +7396,8 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
                                 fragment_cloud( &obstacle_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
-    const point max_submap{ std::min( my_MAPSIZE - 1, end.x / SEEX ),
-              std::min( my_MAPSIZE - 1, end.y / SEEY ) };
+    const point max_submap{
+        std::min( my_MAPSIZE - 1, end.x / SEEX ), std::min( my_MAPSIZE - 1, end.y / SEEY ) };
     // Find and cache all the map obstacles.
     // For now setting obstacles to be extremely dense and fill their squares.
     // In future, scale effective obstacle density by the thickness of the obstacle.
