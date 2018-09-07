@@ -8098,7 +8098,8 @@ void game::zones_manager_shortcuts( const catacurses::window &w_info )
     tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_light_green, _("<Enter>-Edit")) + 2;
 
     tmpx = 1;
-    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_light_green, _("Show on <M>ap")) + 2;
+    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_light_green, _("<S>how all / hide distant")) + 2;
+    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_light_green, _("<M>ap")) + 2;
 
     wrefresh(w_info);
 }
@@ -8188,30 +8189,63 @@ void game::zones_manager()
     ctxt.register_action("SHOW_ZONE_ON_MAP");
     ctxt.register_action("ENABLE_ZONE");
     ctxt.register_action("DISABLE_ZONE");
+    ctxt.register_action("SHOW_ALL_ZONES");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    auto &zones = zone_manager::get_manager();
-    int zone_num = zones.size();
+    auto &mgr = zone_manager::get_manager();
     const int max_rows = TERMY - zone_ui_height - 2 - VIEW_OFFSET_Y * 2;
     int start_index = 0;
     int active_index = 0;
     bool blink = false;
     bool redraw_info = true;
     bool stuff_changed = false;
+    bool show_all_zones = false;
+    int zone_cnt = 0;
+
+    // get zones on the same z-level, with distance between player and 
+    // zone center point <= 50 or all zones, if show_all_zones is true
+    auto get_zones = [&]() {
+        auto zones = mgr.get_zones();
+
+        if( !show_all_zones ) {
+            zones.erase(
+                std::remove_if(
+                    zones.begin(),
+                    zones.end(),
+                    [&]( zone_manager::ref_zone_data ref ) -> bool {
+                        const auto &zone = ref.get();
+                        const auto &a = m.getabs( u.pos() );
+                        const auto &b = zone.get_center_point();
+                        return a.z != b.z || rl_dist( a, b ) > 50;
+                    }
+                ),
+                zones.end()
+            );
+        }
+
+        zone_cnt = static_cast<int>( zones.size() );
+        return zones;
+    };
+
+    auto zones = get_zones();
 
     auto zones_manager_options = [&]() {
         werase( w_zones_options );
 
-        if( zone_num > 0 && zones.zones[active_index].has_options() ) {
-            const auto &descriptions = zones.zones[active_index].get_options().get_descriptions();
+        if( zone_cnt > 0 ) {
+            const auto &zone = zones[active_index].get();
 
-            mvwprintz( w_zones_options, 0, 1, c_white, _( "Options" ) );
+            if( zone.has_options() ) {
+                const auto &descriptions = zone.get_options().get_descriptions();
 
-            int y = 1;
-            for( const auto &desc : descriptions ) {
-                mvwprintz( w_zones_options, y, 3, c_white, desc.first );
-                mvwprintz( w_zones_options, y, 20, c_white, desc.second );
-                y++;
+                mvwprintz( w_zones_options, 0, 1, c_white, _( "Options" ) );
+
+                int y = 1;
+                for( const auto &desc : descriptions ) {
+                    mvwprintz( w_zones_options, y, 3, c_white, desc.first );
+                    mvwprintz( w_zones_options, y, 20, c_white, desc.second );
+                    y++;
+                }
             }
         }
 
@@ -8254,18 +8288,18 @@ void game::zones_manager()
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
 
-            const auto id = zones.query_type();
+            const auto id = mgr.query_type();
             auto options = zone_options::create( id );
             options->query_at_creation();
-            const auto name = zones.query_name( options->get_zone_name_suggestion() == "" ?
-                                                zones.get_name_from_type( id ) : options->get_zone_name_suggestion() );
+            const auto name = mgr.query_name( options->get_zone_name_suggestion() == "" ?
+                                              mgr.get_name_from_type( id ) : options->get_zone_name_suggestion() );
             const auto position = query_position();
 
             if( position.first != tripoint_min ) {
-                zones.add( name, id, false, true, position.first, position.second, options );
+                mgr.add( name, id, false, true, position.first, position.second, options );
 
-                zone_num = zones.size();
-                active_index = zone_num - 1;
+                zones = get_zones();
+                active_index = zone_cnt - 1;
 
                 stuff_changed = true;
             }
@@ -8277,11 +8311,18 @@ void game::zones_manager()
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
             zones_manager_shortcuts(w_zones_info);
 
-        } else if (zones.size() > 0) {
+        } else if (action == "SHOW_ALL_ZONES") {
+            show_all_zones = !show_all_zones;
+            zones = get_zones();
+            active_index = 0;
+            draw_ter();
+            redraw_info = true;
+
+        } else if (zone_cnt > 0) {
             if (action == "UP") {
                 active_index--;
                 if (active_index < 0) {
-                    active_index = zone_num - 1;
+                    active_index = zone_cnt - 1;
                 }
                 draw_ter();
                 blink = false;
@@ -8289,7 +8330,7 @@ void game::zones_manager()
 
             } else if (action == "DOWN") {
                 active_index++;
-                if (active_index >= zone_num) {
+                if (active_index >= zone_cnt) {
                     active_index = 0;
                 }
                 draw_ter();
@@ -8297,15 +8338,14 @@ void game::zones_manager()
                 redraw_info = true;
 
             } else if (action == "REMOVE_ZONE") {
-                if (active_index < static_cast<int>( zones.size() ) ) {
-                    zones.remove(active_index);
+                if (active_index < zone_cnt) {
+                    mgr.remove(active_index);
+                    zones = get_zones();
                     active_index--;
 
                     if (active_index < 0) {
                         active_index = 0;
                     }
-
-                    zone_num = zones.size();
 
                     draw_ter();
                     wrefresh(w_terrain);
@@ -8315,30 +8355,32 @@ void game::zones_manager()
                 stuff_changed = true;
 
             } else if (action == "CONFIRM") {
+                auto &zone = zones[active_index].get();
+
                 uimenu as_m;
                 as_m.text = _("What do you want to change:");
                 as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
                 as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
-                as_m.entries.emplace_back(uimenu_entry(3, zones.zones[active_index].get_options().has_options() , '3', _("Edit options")));
+                as_m.entries.emplace_back(uimenu_entry(3, zone.get_options().has_options() , '3', _("Edit options")));
                 as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Edit position")));
                 as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
                 case 1:
-                    zones.zones[active_index].set_name();
+                    zone.set_name();
                     stuff_changed = true;
                     break;
                 case 2:
-                    zones.zones[active_index].set_type();
+                    zone.set_type();
                     stuff_changed = true;
                     break;
                 case 3:
-                    zones.zones[active_index].get_options().query();
+                    zone.get_options().query();
                     stuff_changed = true;
                     break;
                 case 4:
-                    zones.zones[active_index].set_position( query_position() );
+                    zone.set_position( query_position() );
                     stuff_changed = true;
                     break;
                 default:
@@ -8355,20 +8397,20 @@ void game::zones_manager()
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
                 zones_manager_shortcuts(w_zones_info);
 
-            } else if (action == "MOVE_ZONE_UP" && zones.size() > 1) {
-                if (active_index < static_cast<int>( zones.size() - 1 ) ) {
-                    std::swap(zones.zones[active_index],
-                              zones.zones[active_index + 1]);
+            } else if (action == "MOVE_ZONE_UP" && zone_cnt > 1) {
+                if (active_index < zone_cnt - 1) {
+                    mgr.swap( zones[active_index], zones[active_index + 1] );
+                    zones = get_zones();
                     active_index++;
                 }
                 blink = false;
                 redraw_info = true;
                 stuff_changed = true;
 
-            } else if (action == "MOVE_ZONE_DOWN" && zones.size() > 1) {
+            } else if (action == "MOVE_ZONE_DOWN" && zone_cnt > 1) {
                 if (active_index > 0) {
-                    std::swap(zones.zones[active_index],
-                              zones.zones[active_index - 1]);
+                    mgr.swap( zones[active_index], zones[active_index - 1] );
+                    zones = get_zones();
                     active_index--;
                 }
                 blink = false;
@@ -8378,7 +8420,7 @@ void game::zones_manager()
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
                 tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
-                tripoint zone_overmap = ms_to_omt_copy( zones.zones[active_index].get_center_point() );
+                tripoint zone_overmap = ms_to_omt_copy( zones[active_index].get().get_center_point() );
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
 
@@ -8390,62 +8432,64 @@ void game::zones_manager()
                 redraw_info = true;
 
             } else if (action == "ENABLE_ZONE") {
-                zones.zones[active_index].set_enabled(true);
+                zones[active_index].get().set_enabled(true);
 
                 redraw_info = true;
                 stuff_changed = true;
 
             } else if (action == "DISABLE_ZONE") {
-                zones.zones[active_index].set_enabled(false);
+                zones[active_index].get().set_enabled(false);
 
                 redraw_info = true;
                 stuff_changed = true;
             }
         }
 
-        if (zone_num == 0) {
+        if (zone_cnt == 0) {
             werase(w_zones);
             wrefresh(w_zones_border);
             mvwprintz(w_zones, 5, 2, c_white, _("No Zones defined."));
 
         } else if (redraw_info) {
             redraw_info = false;
-            werase(w_zones);
+            werase( w_zones );
 
-            calcStartPos(start_index, active_index, max_rows, zone_num);
+            calcStartPos( start_index, active_index, max_rows, zone_cnt );
 
-            draw_scrollbar(w_zones_border, active_index, max_rows, zone_num, 1);
-            wrefresh(w_zones_border);
+            draw_scrollbar( w_zones_border, active_index, max_rows, zone_cnt, 1 );
+            wrefresh( w_zones_border );
 
             int iNum = 0;
 
             tripoint player_absolute_pos = m.getabs( u.pos() );
 
             //Display saved zones
-            for (auto &i : zones.zones) {
-                if (iNum >= start_index && iNum < start_index + ((max_rows > zone_num) ? zone_num : max_rows)) {
-                    nc_color colorLine = (i.get_enabled()) ? c_white : c_light_gray;
+            for( auto &i : zones ) {
+                if( iNum >= start_index &&
+                    iNum < start_index + ( ( max_rows > zone_cnt ) ? zone_cnt : max_rows ) ) {
+                    const auto &zone = i.get();
 
-                    if (iNum == active_index) {
-                        mvwprintz(w_zones, iNum - start_index, 0, c_yellow, "%s", ">>");
-                        colorLine = (i.get_enabled()) ? c_light_green : c_green;
+                    nc_color colorLine = ( zone.get_enabled() ) ? c_white : c_light_gray;
+
+                    if( iNum == active_index ) {
+                        mvwprintz( w_zones, iNum - start_index, 0, c_yellow, "%s", ">>" );
+                        colorLine = ( zone.get_enabled() ) ? c_light_green : c_green;
                     }
 
                     //Draw Zone name
                     mvwprintz( w_zones, iNum - start_index, 3, colorLine,
-                              zones.zones[iNum].get_name() );
+                               zone.get_name() );
 
                     //Draw Type name
                     mvwprintz( w_zones, iNum - start_index, 20, colorLine,
-                               zones.get_name_from_type( zones.zones[iNum].get_type() ) );
+                               mgr.get_name_from_type( zone.get_type() ) );
 
-                    tripoint center = i.get_center_point();
+                    tripoint center = zone.get_center_point();
 
                     //Draw direction + distance
-                    mvwprintz(w_zones, iNum - start_index, 32, colorLine, "%*d %s",
-                              5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
-                              direction_name_short( direction_from( player_absolute_pos, center ) ).c_str()
-                             );
+                    mvwprintz( w_zones, iNum - start_index, 32, colorLine, "%*d %s",
+                               5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
+                               direction_name_short( direction_from( player_absolute_pos, center ) ).c_str() );
                 }
                 iNum++;
             }
@@ -8454,11 +8498,13 @@ void game::zones_manager()
             zones_manager_options();
         }
 
-        if (zone_num > 0) {
+        if( zone_cnt > 0 ) {
+            const auto &zone = zones[active_index].get();
+
             blink = !blink;
 
-            tripoint start = m.getlocal(zones.zones[active_index].get_start_point());
-            tripoint end = m.getlocal(zones.zones[active_index].get_end_point());
+            tripoint start = m.getlocal( zone.get_start_point() );
+            tripoint end = m.getlocal( zone.get_end_point() );
 
             if( blink ) {
                 //draw marked area
