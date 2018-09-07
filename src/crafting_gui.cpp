@@ -667,8 +667,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
             std::vector<std::pair<itype_id, std::string>> related_results;
             const requirement_data &req = current[ line ]->requirements();
-            for( const std::vector<item_comp> &comp_list: req.get_components() ) {
-                for( const item_comp &a: comp_list ) {
+            for( const std::vector<item_comp> &comp_list : req.get_components() ) {
+                for( const item_comp &a : comp_list ) {
                     related_results.push_back( { a.type, item::nname( a.type, 1 ) } );
                 }
             }
@@ -679,8 +679,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             } else { // use the contained item
                 tid = tmp.contents.front().typeId();
             }
-            const std::set<const recipe*> &known_recipes = g->u.get_learned_recipes().of_component( tid );
-            for( const auto &b: known_recipes ) {
+            const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
+            for( const auto &b : known_recipes ) {
                 if( available_recipes.contains( b ) ) {
                     related_results.push_back( { b->result(), b->result_name() } );
                 }
@@ -689,7 +689,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             uimenu rmenu;
             rmenu.reset();
             int np = 0;
-            for( const std::pair<std::string, std::string> &p: related_results ) {
+            for( const std::pair<std::string, std::string> &p : related_results ) {
                 std::vector<const recipe *> current_part;
                 current_part = available_recipes.search_result( p.first );
                 if( !current_part.empty() ) {
@@ -698,7 +698,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 np++;
             }
             rmenu.addentry( np, true, -1, _( "Quit" ) );
-            rmenu.settext( _( "Related recipes:" ));
+            rmenu.settext( _( "Related recipes:" ) );
             rmenu.query();
             if( rmenu.ret < np ) {
                 filterstring = related_results[rmenu.ret].second;
