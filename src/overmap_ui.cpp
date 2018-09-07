@@ -804,7 +804,9 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                                               _( color_pair.second.c_str() ) );
             }
             color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), 
-                                               ".\r\n \nSYMBOL:TEXT for custom symbol.\r\nCOLOR;TEXT for custom color.\r\n \n" );
+                                               ".\r\n \nType GLYPH:TEXT to set a custom glyph.\r\n"
+                                               "Type COLOR;TEXT to set a custom color.\r\n"
+                                               "Examples: B:Base | g;Loot | !:R;Minefield\r\n \n" );
 
             const std::string old_note = overmap_buffer.note( curs );
             const std::string new_note = string_input_popup()
