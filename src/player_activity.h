@@ -7,6 +7,7 @@
 #include "string_id.h"
 
 #include <climits>
+#include <set>
 #include <vector>
 
 class player;
@@ -22,6 +23,7 @@ class player_activity
 {
     private:
         activity_id type;
+        std::set<distraction_type> ignored_distractions;
     public:
         /** Total number of moves required to complete the activity */
         int moves_total;
@@ -34,15 +36,10 @@ class player_activity
         /** An activity specific value. */
         std::string name;
         std::vector<item_location> targets;
-        bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
         tripoint placement;
-        /** If true, the player has been warned of dangerously close monsters with
-         * respect to this activity.
-         */
-        bool warned_of_proximity;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */
@@ -101,6 +98,10 @@ class player_activity
          * can be resumed instead of starting the other activity.
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
+
+        bool is_distraction_ignored( distraction_type type ) const;
+        void ignore_distraction( distraction_type type );
+        void allow_distractions();
 };
 
 #endif

@@ -3244,9 +3244,10 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_query( string_format( _( "You were attacked by %s!" ), source->disp_name().c_str() ) );
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ), 
+                                                    source->disp_name().c_str() ) );
             } else {
-                g->cancel_activity_query( _( "You were hurt!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
             }
         }
     }
@@ -3543,7 +3544,7 @@ void player::react_to_felt_pain( int intensity )
         return;
     }
     if( is_player() && intensity >= 2 ) {
-        g->cancel_activity_query( _( "Ouch, something hurts!" ) );
+        g->cancel_activity_or_ignore_query( distraction_type::pain,  _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
     if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
@@ -5499,7 +5500,7 @@ void player::suffer()
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
             if ( !is_npc() ) {
-                g->cancel_activity_query( _( "You have an asthma attack!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
             }
         }
     }
@@ -10638,7 +10639,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    activity.warned_of_proximity = false;
+    activity.allow_distractions();
 
     if( activity.rooted() ) {
         rooted_message();

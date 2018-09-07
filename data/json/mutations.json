@@ -64,7 +64,6 @@
         "name" : "Hyperactive",
         "points" : 4,
         "description" : "Your body's efficiency is like that of a tiny furnace, increasing your maximum stamina by 40%.",
-        "starting_trait" : true,
         "valid" : false,
         "prereqs" : ["GOODCARDIO"],
         "cancels" : ["BADCARDIO"],
@@ -1446,7 +1445,7 @@
         "description" : "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
         "valid" : false,
         "purifiable": false,
-        "category" : ["MUTCAT_MYCUS"],
+        "category" : ["MYCUS"],
         "prereqs" : ["M_SKIN2"],
         "threshreq" : ["THRESH_MYCUS"],
         "wet_protection" : [
@@ -1990,7 +1989,7 @@
         "purifiable" : false,
         "cancels" : ["M_FERTILE", "M_BLOOM", "M_SPORES", "M_BLOSSOMS"],
         "threshreq" : ["THRESH_MYCUS"],
-        "category" : ["MUTCAT_MYCUS"],
+        "category" : ["MYCUS"],
         "active" : true,
         "cost" : 10,
         "hunger" : true,
@@ -2355,9 +2354,8 @@
         "name" : "Alcohol Metabolism",
         "points" : 2,
         "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
-        "prereqs" : ["TOLERANCE", "EATPOISON"],
-        "prereqs2" : ["SAPROVORE", "EATPOISON"],
-        "//" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
+        "prereqs" : ["TOLERANCE"],
+        "prereqs2" : ["SAPROVORE"],
         "category" : ["TROGLOBITE"],
         "valid" : false
     },{
@@ -2936,7 +2934,7 @@
         "description" : "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.  You are less bothered by death of others: their own weakness invited these fates upon them.",
         "purifiable" : false,
         "changes_to" : ["PRED2"],
-        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
+        "prereqs" : ["CARNIVORE"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
         "cancels" : ["PACIFIST"],
         "category" : ["BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER"]
@@ -3655,7 +3653,7 @@
         "points" : -4,
         "visibility" : 8,
         "mixed_effect" : true,
-        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you (since you're half their size), and your hit points are heavily reduced. However, your movement is silent, and your dodge skill is a little higher.",
+        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you (since you're half their size), and your hit points are heavily reduced.  However, your movement is silent, and your dodge skill is a little higher.",
         "prereqs" : ["SMALL"],
         "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
         "changes_to": ["SMALL_OK"],
@@ -5409,7 +5407,7 @@
         "id" : "PROF_DICEMASTER",
         "name" : "Dungeon Master",
         "points" : 0,
-        "description" : "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly. You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
+        "description" : "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly.  You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
         "valid": false,
         "purifiable": false,
         "profession": true,
@@ -5564,7 +5562,7 @@
         "name" : "Debug Bionic Power",
         "points" : 99,
         "valid" : false,
-        "description" : "For fueling your inner cybug. Activate to increase power capacity by 100 (can be repeated.)",
+        "description" : "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
         "threshold" : true,
         "active" : true
     },{

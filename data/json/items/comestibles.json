@@ -2427,7 +2427,7 @@
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "fun": -12,
+    "fun": -6,
     "rot_spawn": "GROUP_CARRION",
     "rot_spawn_chance": 15
   },
@@ -3328,7 +3328,7 @@
     "id": "smores",
     "name": "s'mores",
     "name_plural": "s'mores",
-    "weight": 6,
+    "weight": 76,
     "color": "brown",
     "spoils_in": 2160,
     "stim": 8,

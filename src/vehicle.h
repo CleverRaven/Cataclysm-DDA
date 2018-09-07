@@ -222,6 +222,11 @@ struct vehicle_part {
         /** Is this any type of vehicle light? */
         bool is_light() const;
 
+        /** Can this part store fuel of any type
+         * @skip_broke exclude broken parts
+         */
+        bool is_fuel_store( const bool skip_broke = true ) const;
+
         /** Can this part contain liquid fuels? */
         bool is_tank() const;
 
