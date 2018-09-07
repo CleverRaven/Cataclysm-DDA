@@ -156,9 +156,9 @@
         { "chance": 35, "item": "house_suicide_clothing", "x": 7, "y": 19 }
       ],
       "place_monsters": [
-        { "chance": 2, "density": 1, "monster": "GROUP_ZOMBIE", "x": 10, "y": 19 },
-        { "chance": 2, "density": 1, "monster": "GROUP_ZOMBIE", "x": 17, "y": 13 },
-        { "chance": 5, "density": 1, "monster": "GROUP_DOGS", "x": 3, "y": 14 }
+        { "chance": 50, "density": 1, "monster": "GROUP_ZOMBIE", "x": 10, "y": 19 },
+        { "chance": 50, "density": 1, "monster": "GROUP_ZOMBIE", "x": 17, "y": 13 },
+        { "chance": 20, "density": 1, "monster": "GROUP_DOGS", "x": 3, "y": 14 }
       ],
       "place_toilets": [ { "x": 8, "y": 21 } ],
       "rows": [
@@ -278,8 +278,8 @@
         { "chance": 30, "item": "kitchen", "x": 6, "y": 2 }
       ],
       "place_monsters": [
-        { "chance": 2, "density": 1, "monster": "GROUP_ZOMBIE", "x": 17, "y": 13 },
-        { "chance": 5, "density": 1, "monster": "GROUP_DOGS", "x": 3, "y": 14 }
+        { "chance": 50, "density": 1, "monster": "GROUP_ZOMBIE", "x": 17, "y": 13 },
+        { "chance": 20, "density": 1, "monster": "GROUP_DOGS", "x": 3, "y": 14 }
       ],
       "place_toilets": [ { "x": 18, "y": 2 }, { "x": 8, "y": 21 } ],
       "rows": [
