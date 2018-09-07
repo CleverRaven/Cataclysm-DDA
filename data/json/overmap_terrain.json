@@ -100,7 +100,7 @@
     "sym": 70,
     "color": "green",
     "see_cost": 3,
-    "extras": "field",
+    "extras": "forest",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 80 },
     "flags": [ "NO_ROTATE" ]
   },
@@ -111,7 +111,7 @@
     "sym": 70,
     "color": "green",
     "see_cost": 4,
-    "extras": "field",
+    "extras": "forest_thick",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 90 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE" ]
@@ -123,7 +123,7 @@
     "sym": 70,
     "color": "cyan",
     "see_cost": 4,
-    "extras": "field",
+    "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 100 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE" ]
