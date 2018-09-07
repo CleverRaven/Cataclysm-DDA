@@ -804,10 +804,12 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 color_notes += string_format( "%s:%s, ", color_pair.first.c_str(),
                                               _( color_pair.second.c_str() ) );
             }
-            color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), 
-                                               ".\r\n \nType GLYPH:TEXT to set a custom glyph.\r\n"
-                                               "Type COLOR;TEXT to set a custom color.\r\n"
-                                               "Examples: B:Base | g;Loot | !:R;Minefield\r\n \n" );
+
+            std::string helper_text = string_format( ".\r\n \n%s\r\n%s\r\n%s\r\n \n" ,
+                                                     _( "Type GLYPH:TEXT to set a custom glyph." ),
+                                                     _( "Type COLOR;TEXT to set a custom color." ), 
+                                                     _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
+            color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
 
             const std::string old_note = overmap_buffer.note( curs );
             const std::string new_note = string_input_popup()
