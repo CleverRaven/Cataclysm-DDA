@@ -2,6 +2,7 @@
 #define STRING_INPUT_POPUP_H
 
 #include "cursesdef.h"
+#include "color.h"
 
 #include <string>
 #include <memory>
@@ -46,6 +47,11 @@ class string_input_popup
         std::string _text;
         std::string _description;
         std::string _identifier;
+        nc_color _title_color = c_light_red;
+        nc_color _desc_color = c_green;
+        nc_color _string_color = c_magenta;
+        nc_color _cursor_color = h_light_gray;
+        nc_color _underscore_color = c_light_gray;
         int _width = 0;
         int _max_length = -1;
         bool _only_digits = false;
@@ -153,6 +159,46 @@ class string_input_popup
         string_input_popup &context( input_context &ctxt );
         input_context &context() const {
             return *ctxt;
+        }
+        /**
+         * Set / get the foreground color of the title.
+         * Optional, default value is c_light_red.
+         */
+        string_input_popup &title_color( nc_color color ) {
+            _title_color = color;
+            return *this;
+        }
+        /**
+         * Set / get the foreground color of the description.
+         * Optional, default value is c_green.
+         */
+        string_input_popup &desc_color( nc_color color ) {
+            _desc_color = color;
+            return *this;
+        }
+        /**
+         * Set / get the foreground color of the input string.
+         * Optional, default value is c_magenta.
+         */
+        string_input_popup &string_color( nc_color color ) {
+            _string_color = color;
+            return *this;
+        }
+        /**
+         * Set / get the foreground color of the caret.
+         * Optional, default value is h_light_gray.
+         */
+        string_input_popup &cursor_color( nc_color color ) {
+            _cursor_color = color;
+            return *this;
+        }
+        /**
+         * Set / get the foreground color of the dashed line.
+         * Optional, default value is c_light_gray.
+         */
+        string_input_popup &underscore_color( nc_color color ) {
+            _underscore_color = color;
+            return *this;
         }
         /**@}*/
         /**
