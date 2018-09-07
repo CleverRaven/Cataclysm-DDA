@@ -756,7 +756,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
  * Furthermore, it builds possible values list for cOpt class.
  */
 static std::vector<std::pair<std::string, std::string>> build_resource_list(
-    std::map<std::string, std::string> &resource_option, std::string operation_name,
+    std::map<std::string, std::string> &resource_option, const std::string &operation_name,
     const std::string &dirname_label, const std::string &filename_label ) {
     std::vector<std::pair<std::string, std::string>> resource_names;
 

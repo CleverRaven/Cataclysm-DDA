@@ -5604,8 +5604,8 @@ const item_category &item::get_category() const
     return type->category ? *type->category : null_category;
 }
 
-iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
-                   double Value, bool _is_int, std::string Plus,
+iteminfo::iteminfo(const std::string &Type, const std::string &Name, const std::string &Fmt,
+                   double Value, bool _is_int, const std::string &Plus,
                    bool NewLine, bool LowerIsBetter, bool DrawName)
 {
     sType = Type;

@@ -47,7 +47,7 @@ class player_activity
 
         player_activity();
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
-                         std::string name_in = "" );
+                         const std::string &name_in = "" );
         player_activity( player_activity && ) = default;
         player_activity( const player_activity & );
         player_activity &operator=( player_activity && ) = default;
