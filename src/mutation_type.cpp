@@ -15,12 +15,12 @@ void load_mutation_type( JsonObject &jsobj )
     mutation_types[new_type.id] = new_type;
 }
 
-bool mutation_type_exists( std::string id )
+bool mutation_type_exists( const std::string &id )
 {
     return mutation_types.find( id ) != mutation_types.end();
 }
 
-std::vector<trait_id> get_mutations_in_type( std::string id )
+std::vector<trait_id> get_mutations_in_type( const std::string &id )
 {
     std::vector<trait_id> ret;
     for( auto it : mutation_branch::get_all() ) {
@@ -31,7 +31,7 @@ std::vector<trait_id> get_mutations_in_type( std::string id )
     return ret;
 }
 
-std::vector<trait_id> get_mutations_in_types( std::set<std::string> ids )
+std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 {
     std::vector<trait_id> ret;
     for( auto it : ids ) {

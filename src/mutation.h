@@ -324,8 +324,8 @@ void load_mutation_type( JsonObject &jsobj );
 void load_mutation_category( JsonObject &jsobj );
 void load_dream( JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
-bool mutation_type_exists( std::string id );
-std::vector<trait_id> get_mutations_in_types( std::set<std::string> ids );
+bool mutation_type_exists( const std::string &id );
+std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 
