@@ -4576,8 +4576,8 @@ std::vector<item *> talk_function::loot_building( const tripoint site )
 }
 
 void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors,
-                                      const std::string &id,
-                                      const std::string &name_display, const std::string &dir, bool priority, bool possible )
+                                      const std::string &id, const std::string &name_display,
+                                      const std::string &dir, bool priority, bool possible )
 {
     mission_entry miss;
     miss.id = name_display == "" ? id : name_display;
