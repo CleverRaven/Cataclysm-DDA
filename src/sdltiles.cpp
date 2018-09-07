@@ -2400,20 +2400,21 @@ const sound_effect* find_random_effect( const std::string &id, const std::string
 }
 
 // Deletes the dynamically created chunk (if such a chunk had been played).
-void cleanup_when_channel_finished( int /* channel */, void * udata)
+void cleanup_when_channel_finished( int /* channel */, void *udata )
 {
-    Mix_Chunk *chunk = (Mix_Chunk *)udata;
-    free(chunk->abuf);
-    free(chunk);
+    Mix_Chunk *chunk = ( Mix_Chunk * )udata;
+    free( chunk->abuf );
+    free( chunk );
 }
 
 // empty effect, as we cannot change the size of the output buffer,
 // therefore we cannot do the math from do_pitch_shift here
-void empty_effect(int /* chan */, void * /* stream */, int /* len */, void * /* udata */)
+void empty_effect( int /* chan */, void * /* stream */, int /* len */, void * /* udata */ )
 {
 }
 
-Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
+Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
+{
     Mix_Chunk *result;
     Uint32 s_in = s->alen / 4;
     Uint32 s_out = ( Uint32 )( ( float )s_in * pitch );
@@ -2422,7 +2423,7 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
     result = ( Mix_Chunk * )malloc( sizeof( Mix_Chunk ) );
     result->allocated = 1;
     result->alen = s_out * 4;
-    result->abuf = ( Uint8* )malloc( result->alen * sizeof( Uint8 ) );
+    result->abuf = ( Uint8 * )malloc( result->alen * sizeof( Uint8 ) );
     result->volume = s->volume;
     for( i = 0; i < s_out; i++ ) {
         Sint16 lt;
@@ -2435,8 +2436,9 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
         Uint32 end = ( Uint32 )( ( float )( i + 1 ) / pitch_real );
 
         // check for boundary case
-        if( end > 0 && ( end >= ( s->alen / 4 ) ) )
+        if( end > 0 && ( end >= ( s->alen / 4 ) ) ) {
             end = begin;
+        }
 
         for( j = begin; j <= end; j++ ) {
             lt = ( s->abuf[( 4 * j ) + 1] << 8 ) | ( s->abuf[( 4 * j ) + 0] );
@@ -2446,27 +2448,28 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
         }
         lt_out = ( Sint16 )( ( float )lt_avg / ( float )( end - begin + 1 ) );
         rt_out = ( Sint16 )( ( float )rt_avg / ( float )( end - begin + 1 ) );
-        result->abuf[( 4 * i ) + 1] = (Uint8)(( lt_out >> 8 ) & 0xFF);
-        result->abuf[( 4 * i ) + 0] = (Uint8)(lt_out & 0xFF);
-        result->abuf[( 4 * i ) + 3] = (Uint8)(( rt_out >> 8 ) & 0xFF);
-        result->abuf[( 4 * i ) + 2] = (Uint8)(rt_out & 0xFF);
+        result->abuf[( 4 * i ) + 1] = ( Uint8 )( ( lt_out >> 8 ) & 0xFF );
+        result->abuf[( 4 * i ) + 0] = ( Uint8 )( lt_out & 0xFF );
+        result->abuf[( 4 * i ) + 3] = ( Uint8 )( ( rt_out >> 8 ) & 0xFF );
+        result->abuf[( 4 * i ) + 2] = ( Uint8 )( rt_out & 0xFF );
     }
     return result;
 }
 
-void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume ) {
+void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
+{
     if( !check_sound( volume ) ) {
         return;
     }
 
-    const sound_effect* eff = find_random_effect( id, variant );
+    const sound_effect *eff = find_random_effect( id, variant );
     if( eff == nullptr ) {
         eff = find_random_effect( id, "default" );
         if( eff == nullptr ) {
             return;
         }
     }
-    const sound_effect& selected_sound_effect = *eff;
+    const sound_effect &selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     Mix_VolumeChunk( effect_to_play,
@@ -2474,17 +2477,19 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_PlayChannel( -1, effect_to_play, 0 );
 }
 
-void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
-                              float pitch_min, float pitch_max ) {
+void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
+                              int angle,
+                              float pitch_min, float pitch_max )
+{
     if( !check_sound( volume ) ) {
         return;
     }
 
-    const sound_effect* eff = find_random_effect( id, variant );
+    const sound_effect *eff = find_random_effect( id, variant );
     if( eff == nullptr ) {
         return;
     }
-    const sound_effect& selected_sound_effect = *eff;
+    const sound_effect &selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     float pitch_random = rng_float( pitch_min, pitch_max );
@@ -2492,7 +2497,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_VolumeChunk( shifted_effect,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
-    Mix_RegisterEffect(channel, empty_effect, cleanup_when_channel_finished, shifted_effect);
+    Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished, shifted_effect );
     Mix_SetPosition( channel, angle, 1 );
 }
 
