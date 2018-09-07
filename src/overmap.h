@@ -111,6 +111,42 @@ struct groundcover_extra {
     groundcover_extra() = default;
 };
 
+struct forest_biome_component {
+    std::map<std::string, int> unfinalized_types;
+    weighted_int_list<ter_furn_id> types;
+    int sequence = 0;
+    int chance = 0;
+    bool clear_types = false;
+
+    void finalize();
+    forest_biome_component() = default;
+};
+
+struct forest_biome {
+    std::map<std::string, forest_biome_component> unfinalized_biome_components;
+    std::vector<forest_biome_component> biome_components;
+    std::map<std::string, int> unfinalized_groundcover;
+    weighted_int_list<ter_id> groundcover;
+    int sparseness_adjacency_factor = 0;
+    int item_group_chance = 0;
+    int item_spawn_iterations = 0;
+    std::string item_group;
+    bool clear_components = false;
+    bool clear_groundcover = false;
+
+    ter_furn_id pick() const;
+    void finalize();
+    forest_biome() = default;
+};
+
+struct forest_mapgen_settings {
+    std::map<std::string, forest_biome> unfinalized_biomes;
+    std::map<oter_id, forest_biome> biomes;
+
+    void finalize();
+    forest_mapgen_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<std::string> values;
@@ -141,7 +177,7 @@ struct regional_settings {
 
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
-    groundcover_extra forest_coverage;
+    forest_mapgen_settings forest_composition;
 
     weather_generator weather;
 
