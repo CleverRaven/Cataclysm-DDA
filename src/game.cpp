@@ -3298,7 +3298,7 @@ bool game::handle_action()
             break;
 
         case ACTION_SLEEP:
-            if (veh_ctrl) {
+            if( veh_ctrl ) {
                 add_msg(m_info, _("Vehicle control has moved, %s"),
                         press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
                                 _("new default binding is '^'.")).c_str());
@@ -3320,40 +3320,40 @@ bool game::handle_action()
 
                 // List all active items, bionics or mutations so player can deactivate them
                 std::vector<std::string> active;
-                for ( auto &it : g->u.inv_dump() ) {
-                    if ( it->active && it->charges > 0 && it->is_tool_reversible() ) {
+                for( auto &it : g->u.inv_dump() ) {
+                    if( it->active && it->charges > 0 && it->is_tool_reversible() ) {
                         active.push_back( it->tname() );
                     }
                 }
-                for ( int i = 0; i < g->u.num_bionics(); i++ ) {
+                for( int i = 0; i < g->u.num_bionics(); i++ ) {
                     bionic const &bio = g->u.bionic_at_index(i);
-                    if (!bio.powered) {
+                    if( !bio.powered ) {
                         continue;
                     }
 
                     // bio_alarm is useful for waking up during sleeping
                     // turning off bio_leukocyte has 'unpleasant side effects'
-                    if ( bio.id == bionic_id("bio_alarm") || bio.id == bionic_id("bio_leukocyte") ) {
+                    if( bio.id == bionic_id("bio_alarm") || bio.id == bionic_id("bio_leukocyte") ) {
                         continue;
                     }
 
                     auto const &info = bio.info();
-                    if ( info.power_over_time > 0 ) {
+                    if( info.power_over_time > 0 ) {
                         active.push_back( info.name );
                     }
                 }
-                for ( auto &mut : g->u.get_mutations() ) {
+                for( auto &mut : g->u.get_mutations() ) {
                     const auto &mdata = mut.obj();
-                    if ( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
+                    if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
                         active.push_back( mdata.name );
                     }
                 }
                 std::stringstream data;
-                if ( !active.empty() ) {
+                if( !active.empty() ) {
                     data << as_m.text << std::endl;
                     data << _( "You may want to deactivate these before you sleep." ) << std::endl;
                     data << " " << std::endl;
-                    for ( auto &a : active ) {
+                    for( auto &a : active ) {
                         data << a << std::endl;
                     }
                     as_m.text = data.str();
@@ -3363,10 +3363,10 @@ bool game::handle_action()
                    and loop until we get a valid answer. */
                 as_m.query();
 
-                if ( as_m.ret == 1 ) {
+                if( as_m.ret == 1 ) {
                     quicksave();
                 }
-                else if ( as_m.ret == 2 ) {
+                else if( as_m.ret == 2 ) {
                     break;
                 }
 
@@ -3378,19 +3378,19 @@ bool game::handle_action()
                             _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
                             _( "You have an alarm clock. Set an alarm?" );
 
-                if ( u.has_alarm_clock() ) {
+                if( u.has_alarm_clock() ) {
                     as_m.entries.emplace_back( uimenu_entry( 0, true,
                                                ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
                                                _( "No, don't set an alarm." ) ) );
 
-                    for ( int i = 3; i <= 9; ++i ) {
+                    for( int i = 3; i <= 9; ++i ) {
                         as_m.entries.emplace_back( uimenu_entry( i, true, '0' + i, 
                                                    string_format( _( "Set alarm to wake up in %i hours." ), i ) ) );
                     }
                 }
 
                 as_m.query();
-                if ( as_m.ret >= 3 && as_m.ret <= 9 ) {
+                if( as_m.ret >= 3 && as_m.ret <= 9 ) {
                     u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
                 }
 
