@@ -10168,6 +10168,14 @@ void game::plthrow( int pos )
         return;
     }
 
+    // you must wield the item to throw it
+    if( pos != -1 ) {
+        if( !u.wield( thrown ) ) {
+            return;
+        }
+        u.i_rem( -1 );
+    }
+
     if( u.has_effect( effect_relax_gas ) ) {
         if( one_in( 5 ) ) {
             add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
@@ -10186,10 +10194,6 @@ void game::plthrow( int pos )
     trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
     if( trajectory.empty() ) {
         return;
-    }
-
-    if( u.is_worn( u.i_at( pos ) ) ) {
-        thrown.on_takeoff( u );
     }
 
     // Throw a single charge of a stacking object.
