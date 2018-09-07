@@ -265,7 +265,7 @@
     "id": "UNDERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Can be worn comfortably by mutants with Tiny or Unassuming. Too small for anyone else.",
+    "description": "Can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else.",
     "info": "This clothing is undersized and can accommodate <info>abnormally small mutated anatomy</info>."
   },
   {
