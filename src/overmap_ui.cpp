@@ -804,7 +804,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                                               _( color_pair.second.c_str() ) );
             }
             color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), 
-                                               ".\r\nX:TEXT for custom symbol, Y;TEXT for color.\r\n" );
+                                               ".\r\nSYMBOL:TEXT for custom symbol, COLOR;TEXT for color.\r\n" );
 
             const std::string old_note = overmap_buffer.note( curs );
             const std::string new_note = string_input_popup()
