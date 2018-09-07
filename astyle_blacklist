@@ -25,9 +25,6 @@ src/lightmap.cpp
 src/line.cpp
 src/main.cpp
 src/melee.cpp
-src/mission_companion.cpp
-src/missiondef.cpp
-src/mission_start.cpp
 src/mondeath.cpp
 src/monster.cpp
 src/morale.cpp
