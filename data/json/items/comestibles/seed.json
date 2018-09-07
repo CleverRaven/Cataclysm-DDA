@@ -120,6 +120,15 @@
     "seed_data": { "plant_name": "strawberry", "fruit": "strawberries", "byproducts": [ "withered" ], "grow": 91 }
   },
   {
+    "id": "seed_rose",
+    "copy-from": "seed_fruit",
+    "type": "COMESTIBLE",
+    "name": "rose seed",
+    "name_plural": "rose seeds",
+    "description": "Some rose seeds.",
+    "seed_data": { "plant_name": "rose", "fruit": "rose_hip", "byproducts": [ "withered" ], "grow": 91 }
+  },
+  {
     "type": "COMESTIBLE",
     "id": "seed_tobacco",
     "copy-from": "seed",
