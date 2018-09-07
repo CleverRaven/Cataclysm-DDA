@@ -14,6 +14,7 @@ data/json/itemgroups/drugs.json
 data/json/itemgroups/gear.json
 data/json/itemgroups/gunmod.json
 data/json/itemgroups/guns.json
+data/json/item_groups.json
 data/json/itemgroups/locations.json
 data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
