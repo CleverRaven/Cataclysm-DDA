@@ -473,14 +473,16 @@ void npc::execute_action( npc_action action )
                     best_spot = p;
                 }
             }
-
+            if( is_following() ) {
+                complain_about( "napping", 30_minutes, _( "<warn_sleep>" ) );
+            }
             update_path( best_spot );
             // TODO: Handle empty path better
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
-                    if( g->u.sees( *this ) ) {
+                    if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name.c_str() );
                     }
                 }
@@ -1180,8 +1182,18 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
+    const auto could_sleep = [&]() {
+        if( danger <= 0.01 ) {
+            if( get_fatigue() >= TIRED ) {
+                return true;
+            } else if( is_following() && g->u.in_sleep_state() && get_fatigue() > ( TIRED / 2 ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
     // TODO: More risky attempts at sleep when exhausted
-    if( danger <= 0.01 && get_fatigue() >= TIRED ) {
+    if( could_sleep() ) {
         if( !is_following() ) {
             set_fatigue( 0 ); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
@@ -3181,23 +3193,9 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
-bool npc::complain()
+bool npc::complain_about( const std::string &issue, const time_duration &dur,
+                          const std::string &speech, const bool force )
 {
-    static const std::string infected_string = "infected";
-    static const std::string fatigue_string = "fatigue";
-    static const std::string bite_string = "bite";
-    static const std::string bleed_string = "bleed";
-    static const std::string radiation_string = "radiation";
-    static const std::string hunger_string = "hunger";
-    static const std::string thirst_string = "thirst";
-    // TODO: Allow calling for help when scared
-    if( !is_following() || !g->u.sees( *this ) ) {
-        return false;
-    }
-
-    // Don't wake player up with non-serious complaints
-    const bool do_complain = rules.allow_complain && !g->u.in_sleep_state();
-
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
     const auto complain_since = [this]( const std::string & key, const time_duration & d ) {
@@ -3213,15 +3211,41 @@ bool npc::complain()
         }
     };
 
+    // Don't wake player up with non-serious complaints
+    const bool do_complain = ( rules.allow_complain && !g->u.in_sleep_state() ) || force;
+
+    if( complain_since( issue, dur ) && do_complain ) {
+        say( speech );
+        set_complain_since( issue );
+        return true;
+    }
+    return false;
+}
+
+bool npc::complain()
+{
+    static const std::string infected_string = "infected";
+    static const std::string fatigue_string = "fatigue";
+    static const std::string bite_string = "bite";
+    static const std::string bleed_string = "bleed";
+    static const std::string radiation_string = "radiation";
+    static const std::string hunger_string = "hunger";
+    static const std::string thirst_string = "thirst";
+    // TODO: Allow calling for help when scared
+    if( !is_following() || !g->u.sees( *this ) ) {
+        return false;
+    }
+
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
-        if( complain_since( infected_string, time_duration::from_hours( 4 - eff.get_intensity() ) ) &&
-            ( do_complain || eff.get_intensity() >= 3 ) ) {
-            say( _( "My %s wound is infected..." ), body_part_name( bp ).c_str() );
-            set_complain_since( infected_string );
+        int intensity = eff.get_intensity();
+        const std::string speech = string_format( _( "My %s wound is infected..." ),
+                                   body_part_name( bp ).c_str() );
+        if( complain_about( infected_string, time_duration::from_hours( 4 - intensity ), speech,
+                            intensity >= 3 ) ) {
             // Only one complaint per turn
             return true;
         }
@@ -3230,55 +3254,47 @@ bool npc::complain()
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
         body_part bp = bp_affected( *this, effect_bite );
-        if( do_complain && complain_since( bite_string, 1_hours ) ) {
-            say( _( "The bite wound on my %s looks bad." ), body_part_name( bp ).c_str() );
-            set_complain_since( bite_string );
+        const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
+                                   body_part_name( bp ).c_str() );
+        if( complain_about( bite_string, 1_hours, speech ) ) {
             return true;
         }
     }
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( get_fatigue() > TIRED && complain_since( fatigue_string, 30_minutes ) &&
-        ( do_complain || get_fatigue() > MASSIVE_FATIGUE - 100 ) ) {
-        say( "<yawn>" );
-        set_complain_since( fatigue_string );
+    if( get_fatigue() > TIRED && complain_about( fatigue_string, 30_minutes, _( "<yawn>" ),
+            get_fatigue() > MASSIVE_FATIGUE - 100 ) )  {
         return true;
     }
 
     // Radiation every 10 minutes
-    if( radiation > 90 && complain_since( radiation_string, 10_minutes ) &&
-        ( do_complain || radiation > 150 ) ) {
-        say( _( "I'm suffering from radiation sickness..." ) );
-        set_complain_since( radiation_string );
-        return true;
+    if( radiation > 90 ) {
+        std::string speech = _( "I'm suffering from radiation sickness..." );
+        if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
+            return true;
+        }
     }
 
     // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
-    if( get_hunger() > 160 && complain_since( hunger_string, std::max( 3_hours,
-            time_duration::from_minutes( 60 * 8 - get_hunger() ) ) ) &&
-        do_complain ) {
-        say( _( "<hungry>" ) );
-        set_complain_since( hunger_string );
+    if( get_hunger() > 160 &&
+        complain_about( hunger_string, std::max( 3_hours,
+                        time_duration::from_minutes( 60 * 8 - get_hunger() ) ), _( "<hungry>" ) ) ) {
         return true;
     }
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
-    if( get_thirst() > 80 && complain_since( thirst_string, 2_hours ) &&
-        do_complain ) {
-        say( _( "<thirsty>" ) );
-        set_complain_since( thirst_string );
+    if( get_thirst() > 80 && complain_about( thirst_string, 2_hours, _( "<thirsty>" ) ) ) {
         return true;
     }
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
         body_part bp = bp_affected( *this, effect_bleed );
-        if( do_complain && complain_since( bleed_string, 5_minutes ) ) {
-            say( _( "My %s is bleeding!" ), body_part_name( bp ).c_str() );
-            set_complain_since( bleed_string );
+        std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ).c_str() );
+        if( complain_about( bleed_string, 5_minutes, speech ) ) {
             return true;
         }
     }
