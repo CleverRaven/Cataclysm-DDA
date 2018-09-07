@@ -1250,13 +1250,13 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             } else {
-                if( dur <= 1_turns ) {
+                if( dur == 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
                         add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 10_minutes );
-                } else if( dur <= 2_turns ) {
+                } else if( dur == 2_turns ) {
                     sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
                     // let the sound code handle the wake-up part
                 }
