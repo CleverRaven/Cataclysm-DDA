@@ -296,6 +296,6 @@ TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" 
     clear_map();
 
     SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
-        test_player_kills_monster( p, "mon_zombie", "rock", 15, 10, lo_skill_base_stats, 300 );
+        test_player_kills_monster( p, "mon_zombie", "rock", 15, 1, lo_skill_base_stats, 500 );
     }
 }
