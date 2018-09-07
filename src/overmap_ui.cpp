@@ -815,6 +815,9 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                                          .width( 45 )
                                          .text( old_note )
                                          .description( color_notes )
+                                         .title_color( c_white )
+                                         .desc_color( c_light_gray )
+                                         .string_color( c_yellow )
                                          .query_string();
             if( new_note.empty() && !old_note.empty() ) {
                 // do nothing, the player should be using [D]elete
