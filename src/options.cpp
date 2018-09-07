@@ -1541,8 +1541,8 @@ void options_manager::init()
         );
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
-        translate_marker( "Season length, in days." ),
-        14, 127, 14
+        translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
+        14, 127, 91
         );
 
     add( "CONSTRUCTION_SCALING", "world_default", translate_marker( "Construction scaling" ),
