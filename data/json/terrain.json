@@ -4089,6 +4089,55 @@
   },
   {
     "type": "terrain",
+    "id": "t_shrub_grape",
+    "name": "grape bush",
+    "description": "A bush of a different species invaded by vines of grapes.",
+    "symbol": "#",
+    "color": "light_green_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "transforms_into": "t_shrub_grape_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "grapes", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] },
+          { "drop": "seed_grapes", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_grape_harvested",
+    "name": "grape bush",
+    "description": "A bush of a different species invaded by grape vines but no grapes.",
+    "symbol": "#",
+    "color": "green_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "transforms_into": "t_shrub_grape",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_trunk",
     "name": "tree trunk",
     "symbol": "1",
