@@ -258,7 +258,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```INTERNAL_STORAGE``` Monster has internal storage capacity. Volume defined in monster 'storage_capacity' json config parameter.
-- ```PET``` Monster will become a pet immediately after birth.
+- ```PET``` Monster will become a pet immediately after birth, when spawned from item (`place_monster` action).
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
