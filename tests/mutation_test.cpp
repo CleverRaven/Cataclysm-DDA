@@ -29,7 +29,7 @@ void give_all_mutations( player &p, const mutation_category_trait &category,
                 INFO( "Mutating towards " << m.c_str() );
                 if( !p.mutate_towards( m ) ) {
                     --mutation_attempts;
-		}
+                }
                 CHECK( mutation_attempts > 0 );
             }
         }
