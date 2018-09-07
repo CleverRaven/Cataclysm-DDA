@@ -23,12 +23,14 @@ void give_all_mutations( player &p, const mutation_category_trait &category,
     for( auto &m : category_mutations ) {
         const auto &mdata = m.obj();
         if( include_postthresh || ( !mdata.threshold && mdata.threshreq.empty() ) ) {
-            bool mutate_successful = true;
-            while( mutate_successful && p.mutation_ok( m, false, false ) ) {
+            int mutation_attempts = 10;
+            while( mutation_attempts > 0 && p.mutation_ok( m, false, false ) ) {
                 INFO( "Current mutations: " << get_mutations_as_string( p ) );
                 INFO( "Mutating towards " << m.c_str() );
-                mutate_successful = p.mutate_towards( m );
-                CHECK( mutate_successful );
+                if( !p.mutate_towards( m ) ) {
+                    --mutation_attempts;
+		}
+                CHECK( mutation_attempts > 0 );
             }
         }
     }
