@@ -697,7 +697,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
                 np++;
             }
-            rmenu.addentry( np, true, -1, _( "Quit" ) );
+            rmenu.addentry( np, true, 'q', _( "Quit" ) );
             rmenu.settext( _( "Related recipes:" ) );
             rmenu.query();
             if( rmenu.ret < np ) {
