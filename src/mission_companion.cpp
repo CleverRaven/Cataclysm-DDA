@@ -3126,7 +3126,6 @@ bool talk_function::om_min_level( std::string target, const std::string &bldg )
 
 int talk_function::om_over_level( std::string target, const std::string &bldg )
 {
-    std::string comp = "";
     int diff = 0;
     int phase_target = target.find_last_of( "_" );
     int phase_bldg = bldg.find_last_of( "_" );
