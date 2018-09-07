@@ -831,6 +831,51 @@ void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
     iuse_function_list[name] = use_function( new lua_iuse_wrapper( lua_function, name ) );
 }
 
+class lua_mattack_wrapper : public mattack_actor
+{
+    private:
+        int lua_function;
+
+    public:
+        lua_mattack_wrapper( const mattack_id &id, const int f ) :
+        mattack_actor( id ),
+        lua_function( f ) {}
+
+        ~lua_mattack_wrapper() override = default;
+
+        bool call( monster &m ) const override {
+            lua_State * const L = lua_state;
+            // If it's a lua function, the arguments have to be wrapped in
+            // lua userdata's and passed on the lua stack.
+            // We will now call the function f(monster)
+            update_globals( L );
+            // Push the lua function on top of the stack
+            lua_rawgeti( L, LUA_REGISTRYINDEX, lua_function );
+            // Push the monster on top of the stack.
+            const int monster_in_registry = LuaReference<monster>::push_reg( L, m );
+            // Call the iuse function
+            int err = lua_pcall( L, 1, 1, 0 );
+            lua_report_error( L, err, "monattack function" );
+            // Make sure the now outdated parameters we passed to lua aren't
+            // being used anymore by setting a metatable that will error on
+            // access.
+            luah_remove_from_registry( L, monster_in_registry );
+            luah_setmetatable( L, "outdated_metatable" );
+            return lua_toboolean( L, -1 );
+        }
+
+        mattack_actor *clone() const override {
+            return new lua_mattack_wrapper( *this );
+        }
+
+        void load_internal( JsonObject &, const std::string & ) override {}
+};
+
+void MonsterGenerator::register_monattack_lua( const std::string &name, int lua_function )
+{
+    add_attack( mtype_special_attack( new lua_mattack_wrapper( name, lua_function ) ) );
+}
+
 // Call the given string directly, used in the lua debug command.
 int call_lua( const std::string &tocall )
 {
@@ -1099,6 +1144,23 @@ static int game_register_iuse(lua_State *L)
     return 0; // 0 return values
 }
 
+static int game_register_monattack( lua_State *L )
+{
+    // Make sure the first argument is a string.
+    const char *name = luaL_checkstring( L, 1 );
+    if( !name ) {
+        return luaL_error( L, "First argument to game.register_monattack is not a string." );
+    }
+    // Make sure the second argument is a function
+    luaL_checktype( L, 2, LUA_TFUNCTION );
+    // function_object is at the top of the stack, so we can just pop
+    // it with luaL_ref
+    int function_index = luaL_ref( L, LUA_REGISTRYINDEX );
+     // Now register function_object with our monattack's
+    MonsterGenerator::generator().register_monattack_lua( name, function_index );
+     return 0; // 0 return values
+}
+
 #include "lua/catabindings.cpp"
 
 // Load the main file of a mod
@@ -1181,6 +1243,7 @@ static int game_myPrint( lua_State *L )
 // -----------------------------------------------------------
 static const struct luaL_Reg global_funcs [] = {
     {"register_iuse", game_register_iuse},
+    {"register_monattack", game_register_monattack},
     //{"get_monsters", game_get_monsters},
     {"items_at", game_items_at},
     {"choose_adjacent", game_choose_adjacent},
