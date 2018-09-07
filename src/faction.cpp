@@ -95,8 +95,8 @@ faction_template::faction_template( JsonObject &jsobj )
 
 static const std::array<std::string, 15> faction_adj_pos = { {
     translate_marker_context("faction_adj","Shining"), translate_marker_context("faction_adj","Sacred"), translate_marker_context("faction_adj","Golden"), translate_marker_context("faction_adj","Holy"), translate_marker_context("faction_adj","Righteous"), translate_marker_context("faction_adj","Devoted"),
-	translate_marker_context("faction_adj","Virtuous"), translate_marker_context("faction_adj","Splendid"), translate_marker_context("faction_adj","Divine"), translate_marker_context("faction_adj","Radiant"), translate_marker_context("faction_adj","Noble"), translate_marker_context("faction_adj","Venerable"),
-	translate_marker_context("faction_adj","Immaculate"), translate_marker_context("faction_adj","Heroic"), translate_marker_context("faction_adj","Bright")
+    translate_marker_context("faction_adj","Virtuous"), translate_marker_context("faction_adj","Splendid"), translate_marker_context("faction_adj","Divine"), translate_marker_context("faction_adj","Radiant"), translate_marker_context("faction_adj","Noble"), translate_marker_context("faction_adj","Venerable"),
+    translate_marker_context("faction_adj","Immaculate"), translate_marker_context("faction_adj","Heroic"), translate_marker_context("faction_adj","Bright")
 } };
 
 static const std::array<std::string, 15> faction_adj_neu = {{
