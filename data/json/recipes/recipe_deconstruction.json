@@ -1990,7 +1990,7 @@
     ]
   },
   {
-    "//" : "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "solarpack",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -2012,7 +2012,7 @@
     ]
   },
   {
-    "//" : "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "solarpack_on",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -2034,7 +2034,7 @@
     ]
   },
   {
-    "//" : "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "q_solarpack",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -2056,7 +2056,7 @@
     ]
   },
   {
-    "//" : "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "q_solarpack_on",
     "type": "uncraft",
     "skill_used": "electronics",
