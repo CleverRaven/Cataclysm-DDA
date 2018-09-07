@@ -116,8 +116,10 @@ std::vector<item *> individual_mission_give_equipment( std::vector<item *> equip
  * @param priority turns the mission key yellow and pushes to front of main tab
  * @param possible grays the mission key when false
  */
-void mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors, const std::string &id,
-                       const std::string &name_display = "", const std::string &dir = "", bool priority = false, bool possible = true );
+void mission_key_push( std::vector<std::vector<mission_entry>> &mission_key_vectors,
+                       const std::string &id,
+                       const std::string &name_display = "", const std::string &dir = "", bool priority = false,
+                       bool possible = true );
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
