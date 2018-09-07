@@ -3298,104 +3298,104 @@ bool game::handle_action()
             break;
 
         case ACTION_SLEEP:
-            if (veh_ctrl) {
+            if( veh_ctrl ) {
                 add_msg(m_info, _("Vehicle control has moved, %s"),
                         press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
                                 _("new default binding is '^'.")).c_str());
             } else {
                 uimenu as_m;
-                as_m.return_invalid = true;
+                // Only accept valid input
+                as_m.return_invalid = false;
                 as_m.text = _("Are you sure you want to sleep?");
+                // (Y)es/(S)ave before sleeping/(N)o
                 as_m.entries.emplace_back( uimenu_entry( 0, true,
                                            ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y' ),
                                            _( "Yes." ) ) );
-
                 as_m.entries.emplace_back( uimenu_entry( 1, ( moves_since_last_save ),
                                            ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's' ),
                                            _( "Yes, and save game before sleeping." ) ) );
-                as_m.entries.emplace_back( uimenu_entry( 2, true, ( get_option<bool>( "FORCE_CAPITAL_YN" ) ?
-                                           'N' : 'n' ), _( "No." ) ) );
+                as_m.entries.emplace_back( uimenu_entry( 2, true,
+                                           ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
+                                           _( "No." ) ) );
 
-                if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE ) ) {
-                    as_m.text =
-                        _( "You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?" );
-                }
                 // List all active items, bionics or mutations so player can deactivate them
                 std::vector<std::string> active;
-                for ( auto &it : g->u.inv_dump() ) {
-                    if ( it->active && it->charges > 0 && it->is_tool_reversible() ) {
+                for( auto &it : g->u.inv_dump() ) {
+                    if( it->active && it->charges > 0 && it->is_tool_reversible() ) {
                         active.push_back( it->tname() );
                     }
                 }
-                for ( int i = 0; i < g->u.num_bionics(); i++ ) {
+                for( int i = 0; i < g->u.num_bionics(); i++ ) {
                     bionic const &bio = g->u.bionic_at_index(i);
-                    if (!bio.powered) {
+                    if( !bio.powered ) {
                         continue;
                     }
 
                     // bio_alarm is useful for waking up during sleeping
                     // turning off bio_leukocyte has 'unpleasant side effects'
-                    if( bio.id == bionic_id( "bio_alarm" ) || bio.id == bionic_id( "bio_leukocyte" ) ) {
+                    if( bio.id == bionic_id("bio_alarm") || bio.id == bionic_id("bio_leukocyte") ) {
                         continue;
                     }
 
                     auto const &info = bio.info();
-                    if ( info.power_over_time > 0 ) {
-                        active.push_back(info.name);
+                    if( info.power_over_time > 0 ) {
+                        active.push_back( info.name );
                     }
                 }
-                for ( auto &mut : g->u.get_mutations() ) {
+                for( auto &mut : g->u.get_mutations() ) {
                     const auto &mdata = mut.obj();
                     if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
                         active.push_back( mdata.name );
                     }
                 }
                 std::stringstream data;
-                if ( !active.empty() ) {
+                if( !active.empty() ) {
                     data << as_m.text << std::endl;
-                    data << _("You may want to deactivate these before you sleep.") << std::endl;
+                    data << _( "You may want to deactivate these before you sleep." ) << std::endl;
                     data << " " << std::endl;
-                    for ( auto &a : active ) {
+                    for( auto &a : active ) {
                         data << a << std::endl;
                     }
                     as_m.text = data.str();
                 }
-                if( u.has_alarm_clock() &&
-                    !( u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE ) ) ) {
-                    as_m.entries.emplace_back(uimenu_entry(3, true, '3',
-                                                        _("Set alarm to wake up in 3 hours.")));
-                    as_m.entries.emplace_back(uimenu_entry(4, true, '4',
-                                                        _("Set alarm to wake up in 4 hours.")));
-                    as_m.entries.emplace_back(uimenu_entry(5, true, '5',
-                                                        _("Set alarm to wake up in 5 hours.")));
-                    as_m.entries.emplace_back(uimenu_entry(6, true, '6',
-                                                        _("Set alarm to wake up in 6 hours.")));
-                    as_m.entries.emplace_back(uimenu_entry(7, true, '7',
-                                                        _("Set alarm to wake up in 7 hours.")));
-                    as_m.entries.emplace_back(uimenu_entry(8, true, '8',
-                                                        _("Set alarm to wake up in 8 hours.")));
-                    as_m.entries.emplace_back(uimenu_entry(9, true, '9',
-                                                        _("Set alarm to wake up in 9 hours.")));
-                }
+
                 /* Calculate key and window variables, generate window,
                    and loop until we get a valid answer. */
                 as_m.query();
 
-                bool bSleep = false;
-                if (as_m.ret == 0) {
-                    bSleep = true;
-                } else if (as_m.ret == 1) {
+                if( as_m.ret == 1 ) {
                     quicksave();
-                    bSleep = true;
-                } else if (as_m.ret >= 3 && as_m.ret <= 9) {
-                    u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
-                    bSleep = true;
+                }
+                else if( as_m.ret == 2 ) {
+                    break;
                 }
 
-                if (bSleep) {
-                    u.moves = 0;
-                    u.try_to_sleep();
+                /* Reuse menu to ask player whether they want to set an alarm. */
+                bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
+
+                as_m.reset();
+                as_m.text = can_hibernate ? 
+                            _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
+                            _( "You have an alarm clock. Set an alarm?" );
+
+                if( u.has_alarm_clock() ) {
+                    as_m.entries.emplace_back( uimenu_entry( 0, true,
+                                               ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
+                                               _( "No, don't set an alarm." ) ) );
+
+                    for( int i = 3; i <= 9; ++i ) {
+                        as_m.entries.emplace_back( uimenu_entry( i, true, '0' + i, 
+                                                   string_format( _( "Set alarm to wake up in %i hours." ), i ) ) );
+                    }
                 }
+
+                as_m.query();
+                if( as_m.ret >= 3 && as_m.ret <= 9 ) {
+                    u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
+                }
+
+                u.moves = 0;
+                u.try_to_sleep();
             }
             break;
 
