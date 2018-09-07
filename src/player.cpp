@@ -2909,7 +2909,7 @@ void player::shout( std::string msg )
         base = 15;
         shout_multiplier = 3;
         if ( msg.empty() ) {
-            msg = _("yourself scream loudly!");
+            msg = is_player() ? _("yourself scream loudly!") : _("a loud scream!");
         }
     }
 
@@ -2917,12 +2917,12 @@ void player::shout( std::string msg )
         shout_multiplier = 4;
         base = 20;
         if ( msg.empty() ) {
-            msg = _("yourself let out a piercing howl!");
+            msg = is_player() ? _("yourself let out a piercing howl!") : _("a piercing howl!");
         }
     }
 
     if ( msg.empty() ) {
-        msg = _("yourself shout loudly!");
+        msg = msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
@@ -2958,6 +2958,7 @@ void player::shout( std::string msg )
         // The shout's volume is 1/2 or lower of what it would be without the penalty
         add_msg( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
+
     sounds::sound( pos(), noise, msg );
 }
 
