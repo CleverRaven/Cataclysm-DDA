@@ -57,7 +57,7 @@
         "valid" : false,
         "cancels" : ["BADCARDIO"],
         "changes_to" : ["GOODCARDIO2"],
-        "category" : ["FISH", "LUPINE", "MOUSE"]
+        "category" : ["FISH", "LUPINE", "MOUSE", "INSECT"]
     },{
         "type" : "mutation",
         "id" : "GOODCARDIO2",
@@ -119,7 +119,7 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["INSOMNIA"],
-        "category" : ["MOUSE"]
+        "category" : ["MOUSE", "INSECT"]
     },{
         "type" : "mutation",
         "id" : "EASYSLEEPER2",
@@ -314,7 +314,7 @@
         "points" : 2,
         "description" : "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
         "starting_trait" : true,
-        "category" : ["MOUSE"],
+        "category" : ["MOUSE", "LUPINE"],
         "valid" : false,
         "active" : true
     },
@@ -616,7 +616,7 @@
         "description" : "You're quite the heavy sleeper.  Noises are unlikely to wake you up.",
         "changes_to" : ["HEAVYSLEEPER2"],
         "starting_trait" : true,
-        "category" : ["INSECT", "PLANT", "MEDICAL"]
+        "category" : ["INSECT", "PLANT", "MEDICAL", "LUPINE"]
     },{
         "type" : "mutation",
         "id" : "SLEEPY",
@@ -779,10 +779,10 @@
         "id" : "PROJUNK",
         "name" : "Sweet Tooth",
         "points" : 1,
-        "description" : "You have a soft spot for processed foods, and gain a morale bonus from eating it.",
+        "description" : "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
         "cancels" : ["ANTIJUNK"],
         "changes_to" : ["PROJUNK2"],
-        "category" : ["MOUSE"]
+        "category" : ["MOUSE", "INSECT"]
     },{
         "type" : "mutation",
         "id" : "PROJUNK2",
@@ -810,7 +810,7 @@
         "points" : -3,
         "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
         "starting_trait" : true,
-        "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE"],
+        "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT"],
         "cancels" : ["GOODMEMORY"]
     },{
         "type" : "mutation",
@@ -866,7 +866,7 @@
         "starting_trait" : true,
         "cancels" : ["ANIMALEMPATH"],
         "changes_to" : ["ANIMALDISCORD2"],
-        "category" : ["LUPINE", "BEAST", "RAPTOR"]
+        "category" : ["LUPINE", "BEAST", "RAPTOR", "INSECT"]
     },{
         "type" : "mutation",
         "id" : "ANIMALDISCORD2",
@@ -2463,7 +2463,7 @@
         "prereqs" : ["NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS"],
         "//" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
         "prereqs2" : ["SAPROVORE", "TOLERANCE"],
-        "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT"],
+        "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE"],
         "category" : ["TROGLOBITE", "RAPTOR", "RAT", "CHIMERA"],
         "valid" : false
     },{
@@ -3653,7 +3653,7 @@
         "points" : -4,
         "visibility" : 8,
         "mixed_effect" : true,
-        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you (since you're half their size), and your hit points are heavily reduced.  However, your movement is silent, and your dodge skill is a little higher.",
+        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you unless you refit them (since you're half their size), and your hit points are heavily reduced.  However, your movement is silent, and your dodge skill is a little higher.",
         "prereqs" : ["SMALL"],
         "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
         "changes_to": ["SMALL_OK"],
@@ -4121,11 +4121,11 @@
         "id" : "NO_THIRST",
         "name" : "Metabolic Rehydration",
         "points" : 6,
-        "description" : "Your body gets all the hydration it needs from the food that you eat!  You no longer need to drink water.",
+        "description" : "Your body gets everything it needs from the food that you eat!  You no longer gain hydration from fluids - instead, your thirst will be equal to, and change with, your hunger.",
         "threshreq" : ["THRESH_MOUSE"],
+        "category" : ["MOUSE"],
         "cancels" : ["THIRST", "THIRST2", "THIRST3"],
-        "purifiable": false,
-        "thirst_modifier": -1.0
+        "purifiable": false
     },{
         "type" : "mutation",
         "id" : "HEAVYSLEEPER2",
@@ -4738,7 +4738,7 @@
         "mixed_effect" : true,
         "description" : "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
-        "category" : ["BEAST", "CHIMERA", "FELINE"],
+        "category" : ["BEAST", "CHIMERA", "FELINE", "LUPINE"],
         "social_modifiers" : {
             "persuade" : -60,
             "intimidate" : 30

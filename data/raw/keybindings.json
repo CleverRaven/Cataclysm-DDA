@@ -2070,6 +2070,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SHOW_ALL_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Show all zones / hide distant zones",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "PAGE_DOWN",
     "category": "ADVANCED_INVENTORY",
     "name": "Page down",
