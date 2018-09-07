@@ -2232,9 +2232,10 @@ void npc::drop_items( int weight, int volume )
             rVol.erase( rVol.begin() );
             // Fix the rest of those indices.
             for( size_t i = 0; i < rVol.size(); i++ ) {
-                if( i > rVol.size() )
+                if( i > rVol.size() ) {
                     debugmsg( "npc::drop_items() - looping through rVol - Size is %d, i is %d",
                               rVol.size(), i );
+                }
                 if( rVol[i].index > index ) {
                     rVol[i].index--;
                 }
