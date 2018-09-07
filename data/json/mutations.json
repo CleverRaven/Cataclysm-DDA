@@ -57,7 +57,7 @@
         "valid" : false,
         "cancels" : ["BADCARDIO"],
         "changes_to" : ["GOODCARDIO2"],
-        "category" : ["FISH", "LUPINE", "MOUSE"]
+        "category" : ["FISH", "LUPINE", "MOUSE", "INSECT"]
     },{
         "type" : "mutation",
         "id" : "GOODCARDIO2",
@@ -119,7 +119,7 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["INSOMNIA"],
-        "category" : ["MOUSE"]
+        "category" : ["MOUSE", "INSECT"]
     },{
         "type" : "mutation",
         "id" : "EASYSLEEPER2",
@@ -314,7 +314,7 @@
         "points" : 2,
         "description" : "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
         "starting_trait" : true,
-        "category" : ["MOUSE"],
+        "category" : ["MOUSE", "LUPINE"],
         "valid" : false,
         "active" : true
     },
@@ -616,7 +616,7 @@
         "description" : "You're quite the heavy sleeper.  Noises are unlikely to wake you up.",
         "changes_to" : ["HEAVYSLEEPER2"],
         "starting_trait" : true,
-        "category" : ["INSECT", "PLANT", "MEDICAL"]
+        "category" : ["INSECT", "PLANT", "MEDICAL", "LUPINE"]
     },{
         "type" : "mutation",
         "id" : "SLEEPY",
@@ -782,7 +782,7 @@
         "description" : "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
         "cancels" : ["ANTIJUNK"],
         "changes_to" : ["PROJUNK2"],
-        "category" : ["MOUSE"]
+        "category" : ["MOUSE", "INSECT"]
     },{
         "type" : "mutation",
         "id" : "PROJUNK2",
@@ -810,7 +810,7 @@
         "points" : -3,
         "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
         "starting_trait" : true,
-        "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE"],
+        "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT"],
         "cancels" : ["GOODMEMORY"]
     },{
         "type" : "mutation",
@@ -866,7 +866,7 @@
         "starting_trait" : true,
         "cancels" : ["ANIMALEMPATH"],
         "changes_to" : ["ANIMALDISCORD2"],
-        "category" : ["LUPINE", "BEAST", "RAPTOR"]
+        "category" : ["LUPINE", "BEAST", "RAPTOR", "INSECT"]
     },{
         "type" : "mutation",
         "id" : "ANIMALDISCORD2",
@@ -4738,7 +4738,7 @@
         "mixed_effect" : true,
         "description" : "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
-        "category" : ["BEAST", "CHIMERA", "FELINE"],
+        "category" : ["BEAST", "CHIMERA", "FELINE", "LUPINE"],
         "social_modifiers" : {
             "persuade" : -60,
             "intimidate" : 30

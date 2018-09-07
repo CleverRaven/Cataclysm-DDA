@@ -2280,7 +2280,6 @@ void iexamine::keg(player &p, const tripoint &examp)
         return;
     } else {
         auto drink = g->m.i_at(examp).begin();
-        std::vector<std::string> menu_items;
         enum options {
             FILL_CONTAINER,
             HAVE_A_DRINK,
