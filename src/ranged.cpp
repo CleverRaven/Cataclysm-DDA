@@ -378,7 +378,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter ) co
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
     const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-    int dispersion = 10 * throw_difficulty / ( 3 * throw_skill + 10 );
+    int dispersion = 10 * throw_difficulty / ( 8 * throw_skill + 5 );
     // If the target is a creature, it moves around and ruins aim
     // @todo: Inform projectile functions if the attacker actually aims for the critter or just the tile
     if( critter != nullptr ) {
@@ -421,11 +421,15 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     bool do_railgun = has_active_bionic( bionic_id( "bio_railgun" ) ) && thrown.made_of_any( ferric );
 
-    // The damage dealt due to item's weight and player's strength
+    // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
     ///\EFFECT_STR increases throwing damage
-    impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, do_railgun ? get_str() : ( get_str() / 2.0 ) ) );
+    double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
+    // modify strength impact based on skill level, clamped to [0.15 - 1]
+    // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
+    stats_mod *= ( std::min( MAX_SKILL, get_skill_level( skill_throw ) ) / static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
+    impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
     if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
