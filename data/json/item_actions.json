@@ -557,6 +557,10 @@
         "name" : "Inject"
     },{
         "type" : "item_action",
+        "id" : "PURIFY_SMART",
+        "name" : "Inject"
+    },{
+        "type" : "item_action",
         "id" : "RADGLOVE",
         "name" : "Measure radiation"
     },{

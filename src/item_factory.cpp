@@ -643,6 +643,7 @@ void Item_factory::init()
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
     add_iuse( "PURIFY_IV", &iuse::purify_iv );
+    add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
     add_iuse( "RADIOCAR", &iuse::radiocar );
     add_iuse( "RADIOCARON", &iuse::radiocaron );
