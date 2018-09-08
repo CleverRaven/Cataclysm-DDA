@@ -35,9 +35,6 @@ src/npctalk.cpp
 src/options.cpp
 src/player.cpp
 src/ranged.cpp
-src/savegame.cpp
-src/savegame_json.cpp
-src/savegame_legacy.cpp
 src/sdltiles.cpp
 src/simplexnoise.cpp
 src/ui.cpp
