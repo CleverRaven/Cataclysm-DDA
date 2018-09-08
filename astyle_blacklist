@@ -1,7 +1,6 @@
 src/activity_handlers.cpp
 src/advanced_inv.cpp
 src/animation.cpp
-src/artifact.cpp
 src/auto_pickup.cpp
 src/catacharset.cpp
 src/catalua.cpp
