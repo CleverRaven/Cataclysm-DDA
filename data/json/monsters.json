@@ -2428,7 +2428,7 @@
     "starting_ammo": { "40mm_frag": 100, "556": 1000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "tankbot", 1 ] ] },
+    "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS" ]
   },
