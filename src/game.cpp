@@ -10168,20 +10168,32 @@ void game::plthrow( int pos )
         return;
     }
 
-    // you must wield the item to throw it
-    if( pos != -1 ) {
-        if( !u.wield( thrown ) ) {
-            return;
-        }
-        u.i_rem( -1 );
-    }
-
     if( u.has_effect( effect_relax_gas ) ) {
         if( one_in( 5 ) ) {
             add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
         } else {
             u.moves -= rng( 2, 5 ) * 10;
             add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
+            return;
+        }
+    }
+
+    // you must wield the item to throw it
+    if( pos != -1 ) {
+        // Throw a single charge of a stacking object.
+        if( thrown.count_by_charges() && thrown.charges > 1 ) {
+            u.i_at( pos ).charges--;
+            thrown.charges = 1;
+        } else {
+            u.i_rem( pos );
+        }
+
+        if( !u.wield( thrown ) ) {
+            // We have to remove the item before checking for wield because it
+            // can invalidate our pos index.  Which means we have to add it
+            // back if the player changed their mind about unwielding their
+            // current item
+            u.i_add( thrown );
             return;
         }
     }
@@ -10196,14 +10208,7 @@ void game::plthrow( int pos )
         return;
     }
 
-    // Throw a single charge of a stacking object.
-    if( thrown.count_by_charges() && thrown.charges > 1 ) {
-        u.i_at( pos ).charges--;
-        thrown.charges = 1;
-    } else {
-        u.i_rem( pos );
-    }
-
+    u.i_rem( -1 );
     u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
 }
