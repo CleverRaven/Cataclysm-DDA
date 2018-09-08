@@ -171,6 +171,7 @@ data/json/monsterdrops/zombie_survivor.json
 data/json/monstergroups.json
 data/json/monsters/defense_bot.json
 data/json/monsters/drones.json
+data/json/monsters/robots.json
 data/json/monsters.json
 data/json/monsters/military.json
 data/json/monsters/zed_children.json
