@@ -6827,7 +6827,9 @@
       ["ceramic_armor", 15],
       ["motor", 2],
       ["battery", 50],
-      ["plut_cell", 10]
+      ["plut_cell", 10],
+      ["bot_navigation", 2],
+      ["bot_power_supply", 2]
     ]
   },{
     "type" : "item_group",
@@ -6867,7 +6869,9 @@
       ["ceramic_armor", 15],
       ["tonfa", 10],
       ["shocktonfa_off", 5],
-      ["alloy_plate", 10]
+      ["alloy_plate", 10],
+      ["bot_chassis_large", 2],
+      ["bot_chassis_base_large", 2]
     ]
   },{
     "type" : "item_group",
@@ -6908,7 +6912,9 @@
       ["kevlar_plate", 10],
       ["ceramic_armor", 10],
       ["hard_plate", 30],
-      ["robot_controls", 5]
+      ["robot_controls", 5],
+      ["bot_chassis_large", 2],
+      ["bot_chassis_base_large", 5]
     ]
   },{
     "type" : "item_group",
