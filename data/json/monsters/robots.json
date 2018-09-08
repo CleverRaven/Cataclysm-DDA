@@ -1,0 +1,22 @@
+[
+  {
+    "id": "mon_bot_hauler_large",
+    "type": "MONSTER",
+    "name": "robot-hauler (large)",
+    "default_faction": "player",
+    "description": "This is a completely autonomous robot with AI. Has mounted cargo carrier and can transport up to 1000kg. It will follow you wherever you go. Capable of climbing stairs.",
+    "species": [ "ROBOT" ],
+    "size": "LARGE",
+    "hp": 100,
+    "material": [ "steel", "plastic" ],
+    "symbol": "R",
+    "luminance": 1,
+    "speed": 50,
+    "color": "light_blue",
+    "revert_to_itype": "bot_hauler_large",
+    "weight_capacity": 1000000,
+    "storage_capacity": 1000,
+    "flags": [ "HEARS", "SEES", "ELECTRONIC", "NO_BREATHE", "NOHEAD", "PUSH_MON", "PET", "INTERNAL_STORAGE" ],
+    "death_function": [ "BROKEN" ]
+  }
+]

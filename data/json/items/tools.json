@@ -8303,5 +8303,40 @@
       ]
     ],
     "magazine_well": 0
+  },
+  {
+    "id": "bot_hauler_large",
+    "type": "TOOL",
+    "name": "robot-hauler (large)",
+    "description": "This is a completely autonomous robot with AI. Has mounted cargo carrier and can transport up to 1000kg. It will follow you wherever you go. Capable of climbing stairs. It's folded and switched off.",
+    "category": "other",
+    "weight": 523000,
+    "volume": 400,
+    "price": 1160400,
+    "material": [ "steel", "plastic" ],
+    "symbol": "r",
+    "color": "light_blue",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_bot_hauler_large",
+      "friendly_msg": "You turn on robot power switch",
+      "difficulty": 0,
+      "moves": 60,
+      "place_randomly": true
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "broken_bot_hauler_large",
+    "type": "TOOL",
+    "name": "broken robot-hauler (large)",
+    "description": "This is a completely autonomous robot with AI. Has mounted cargo carrier and can transport up to 1000kg. It will follow you wherever you go. Capable of climbing stairs.\nIt's folded and not working. You can repair it using welding kit.",
+    "category": "other",
+    "weight": 523000,
+    "volume": 400,
+    "price": 1060400,
+    "material": [ "steel", "plastic" ],
+    "symbol": "r",
+    "color": "yellow"
   }
 ]

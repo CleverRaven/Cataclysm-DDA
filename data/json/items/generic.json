@@ -2496,5 +2496,82 @@
     "symbol": ".",
     "color": "white",
     "ammo_type": "components"
+  },
+  {
+    "id": "hp_compressor",
+    "copy-from": "pump_complex",
+    "type": "GENERIC",
+    "name": "high-pressure compressor",
+    "category": "other",
+    "description": "An complex electrical pump capable of achieving high pressures.",
+    "material": [ "steel", "plastic" ],
+    "weight": 4410,
+    "volume": 7,
+    "price": 47900
+  },
+  {
+    "type": "GENERIC",
+    "id": "hydraulic_platform",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "hydraulically adjustable platform",
+    "category": "other",
+    "description": "Steel frames with two hydraulic jacks, capable of lifting and inclining up to 1000kg using electrical power.",
+    "price": 93400,
+    "material": [ "steel", "plastic" ],
+    "weight": 70000,
+    "volume": 68
+  },
+  {
+    "type": "GENERIC",
+    "id": "bot_navigation",
+    "symbol": "$",
+    "color": "white",
+    "name": "robot navigation system",
+    "category": "other",
+    "description": "Programmed robot AI system for navigating through different terrain types and following specified entities.",
+    "price": 220000,
+    "material": [ "steel", "plastic" ],
+    "weight": 5310,
+    "volume": 21
+  },
+  {
+    "type": "GENERIC",
+    "id": "bot_power_supply",
+    "symbol": "$",
+    "color": "light_blue",
+    "name": "robot power supply system",
+    "category": "other",
+    "description": "Minireactor fueled with plutonium cells and connected to storage battery to provide robot with energy for years.",
+    "price": 607000,
+    "material": [ "steel", "plastic" ],
+    "weight": 182220,
+    "volume": 63
+  },
+  {
+    "type": "GENERIC",
+    "id": "bot_chassis_base_large",
+    "symbol": "#",
+    "color": "white",
+    "name": "large robot chassis (base)",
+    "category": "other",
+    "description": "Large robot chassis frame made of six 11-inch wheels, rubber tracks and few small supporting wheels. Designed to be able riding different types of surfaces, including stairs.",
+    "price": 120000,
+    "material": [ "steel", "plastic" ],
+    "weight": 100000,
+    "volume": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "bot_chassis_large",
+    "symbol": "#",
+    "color": "blue",
+    "name": "large robot chassis",
+    "category": "other",
+    "description": "Large robot chassis frame with 11-inch wheels and tracks, driven by large electric motor. Has small retractable wheels, which helps climbing steep slopes like stairs.",
+    "price": 200000,
+    "material": [ "steel", "plastic" ],
+    "weight": 184000,
+    "volume": 220
   }
 ]
