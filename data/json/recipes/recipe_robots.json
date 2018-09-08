@@ -1,0 +1,218 @@
+[
+  {
+    "type": "recipe",
+    "result": "hp_compressor",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "electronics", 1 ], [ "fabrication", 1 ] ],
+    "difficulty": 3,
+    "time": 20000,
+    "autolearn": true,
+    "reversible" : true,
+    "using": [ [ "welding_standard", 2 ], [ "soldering_standard", 2 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pump_complex", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "scrap", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "hydraulic_platform",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 4 ] ],
+    "difficulty": 5,
+    "time": 360000,
+    "autolearn": true,
+    "reversible" : true,
+    "using": [ [ "welding_standard", 15 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [ [ "frame", 1 ] ],
+      [ [ "jack", 2 ] ],
+      [ [ "hp_compressor", 1 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "spring", 4 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 16 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_navigation",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": 140000,
+    "autolearn": true,
+    "reversible" : true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [ [ "omnicamera", 1 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "transponder", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "processor", 2 ] ],
+      [ [ "RAM", 4 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "antenna", 2 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "plastic_chunk", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_power_supply",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 2 ], [ "fabrication", 2 ] ],
+    "difficulty": 2,
+    "time": 170000,
+    "autolearn": true,
+    "reversible" : true,
+    "using": [ [ "welding_standard", 4 ], [ "soldering_standard", 4 ] ],
+    "qualities": [
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [ [ "minireactor", 1 ] ],
+      [ [ "storage_battery", 1 ] ],
+      [ [ "plut_cell", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "steel_chunk", 2 ], [ "scrap", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_chassis_base_large",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 6 ] ],
+    "difficulty": 4,
+    "time": 480000,
+    "autolearn": true,
+    "reversible" : true,
+    "using": [ [ "welding_standard", 20 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "HAMMER", "level": 2 }
+    ],
+    "components": [
+      [ [ "frame", 1 ] ],
+      [ [ "wheel_motorbike", 6 ] ],
+      [ [ "wheel_caster", 2 ] ],
+      [ [ "pipe", 12 ] ],
+      [ [ "spring", 6 ] ],
+      [ [ "rebar", 3 ] ],
+      [ [ "plastic_chunk", 80 ] ],
+      [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 32 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_chassis_large",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "difficulty": 6,
+    "time": 360000,
+    "autolearn": true,
+    "reversible" : true,
+    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 5 ] ],
+    "tools": [ [ [ "crowbar", -1 ] ] ],
+    "qualities": [
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "JACK", "level": 3 }
+    ],
+    "components": [
+      [ [ "bot_chassis_base_large", 1 ] ],
+      [ [ "motor_large", 1 ] ],
+      [ [ "motor_small", 4 ] ],
+      [ [ "drivebelt", 4 ], [ "drivebelt_makeshift", 4 ] ],
+      [ [ "chain", 3 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "steel_lump", 4 ], [ "steel_chunk", 16 ], [ "scrap", 64 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_hauler_large",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 2 ] ],
+    "difficulty": 4,
+    "time": 120000,
+    "autolearn": true,
+    "reversible" : true,
+    "using": [ [ "welding_standard", 6 ], [ "soldering_standard", 2 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "JACK", "level": 3 }
+    ],
+    "components": [
+      [ [ "bot_chassis_large", 1 ] ],
+      [ [ "bot_power_supply", 1 ] ],
+      [ [ "bot_navigation", 1 ] ],
+      [ [ "hydraulic_platform", 1 ] ],
+      [ [ "cargo_rack", 1 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 16 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_hauler_large",
+    "id_suffix": "repair",
+    "description": "Repair broken robot-hauler (large).",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ], [ "soldering_standard", 1 ] ],
+    "components": [
+      [ [ "broken_bot_hauler_large", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 16 ] ]
+    ]
+  }
+]
