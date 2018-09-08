@@ -3,7 +3,6 @@ src/advanced_inv.cpp
 src/animation.cpp
 src/auto_pickup.cpp
 src/catacharset.cpp
-src/catalua.cpp
 src/cata_tiles.cpp
 src/character.cpp
 src/computer.cpp
