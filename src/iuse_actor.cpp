@@ -86,6 +86,8 @@ static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
+static const bionic_id bio_health_view( "bio_health_view" );
+
 iuse_actor *iuse_transform::clone() const
 {
     return new iuse_transform( *this );
@@ -2943,8 +2945,13 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     }
 
     if( heal_base > 0 ) {
-        /** @EFFECT_FIRSTAID increases healing item effects */
-        return heal_base + bonus_mult * healer.get_skill_level( skill_firstaid );
+        /** @EFFECT_FIRSTAID increases healing item effects
+        / Medical Assistant CBM increases minimum effectiveness */
+        int effective_firstaid = healer.get_skill_level( skill_firstaid );
+        if( healer.has_active_bionic( bio_health_view ) && effective_firstaid < 3 ) {
+            effective_firstaid = 3;
+        }
+        return heal_base + bonus_mult * effective_firstaid;
     }
 
     return heal_base;

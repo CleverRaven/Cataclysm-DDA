@@ -831,5 +831,32 @@
     "description": "A set of hydraulic springs and foldable padding that replaces most of the flesh in your limbs and upper torso.  While active, these absorbers will negate damage from severe impacts such as falling, at the cost of reducing your ability to move effectively.",
     "price": 10000,
     "difficulty": 4
+  },
+  {
+    "id": "bio_health_view",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Medical Assistant CBM",
+    "description": "This dime-sized disk holds a medical AI that hooks into your brain and sifts through information from your thoughts and vision, then feeds it back into your skull.  The net result is that you can see the exact health numbers of yourself and of creatures that you look at, and some medical activities are easier for you.",
+    "price": 50000,
+    "difficulty": 5
+  },
+  {
+    "id": "bio_evil_nanobots",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Autocannibalistic Nanobots CBM",
+    "description": "While this appears to be a small tube filled with gray liquid, it's actually a fleet of illegal nanobots, housed in your body.  Programmed to target organic matter, they can be activated to tear off parts of your body to generate massive amounts of power.  Deploying Repair Nanobots within 24 hours of this will destroy them.",
+    "price": 1000000,
+    "difficulty": 6
+  },
+  {
+    "id": "bio_crafting",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Mechanical Repeaters CBM",
+    "description": "This set of computerized motors is implanted into your joints, and is capable of sending signals to your brain to automatically repeat repetitive tasks and allows your wrists to rotate freely in any direction.  The end result is that you craft many objects faster.",
+    "price": 750000,
+    "difficulty": 4
   }
 ]

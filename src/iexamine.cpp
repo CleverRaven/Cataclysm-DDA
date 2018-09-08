@@ -81,6 +81,8 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_BURROW( "BURROW" );
 
+static const bionic_id bio_health_view( "bio_health_view" );
+
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType, ter_id new_ter,
                         bool seeds = false );
 
@@ -3959,7 +3961,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     int char_quantity = 0;
     bool f_check = false;
     bool c_check = false;
-    
+
     for( size_t i = 0; i < items_here.size(); i++ ) {
         auto &it = items_here[i];
         if( it.is_food() ) {
@@ -3975,7 +3977,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             minutes_left = to_minutes<int>( time_left ) + 1;
         }
     }
-    
+
     uimenu smenu;
     smenu.text = _( "What to do with the smoking rack:" );
     smenu.return_invalid = true;
@@ -4023,7 +4025,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
-            }          
+            }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
                 pop << "... that it is empty.";
@@ -4034,11 +4036,11 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     pop << "\n " << "<color_red>" << _( "You see some smoldering embers there." ) << "</color>" << "\n ";
                     continue;
                 }
-                pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) ); 
+                pop << "-> " << it.nname( it.typeId(), count_charges_in_list( it.type, items_here ) );
                 pop << " (" << std::to_string( count_charges_in_list( it.type, items_here ) ) << ") \n ";
                 }
             }
-            popup( pop.str(), PF_NONE ); 
+            popup( pop.str(), PF_NONE );
             break;
         }
         case 1: //activate

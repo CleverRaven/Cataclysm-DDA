@@ -1903,6 +1903,12 @@
         }
     },
     {
+        "type": "effect_type",
+        "id": "nanobot_maim",
+        "name": [ "Maimed" ],
+        "desc": [ "You can still feel crawling on your skin as the nanobots clean up the blood oozing from your wounds.  Introducing other nanobots would be a very bad idea." ]
+    },
+    {
         "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
         "type": "effect_type",
         "id": "emp",

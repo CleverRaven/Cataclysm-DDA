@@ -1057,5 +1057,31 @@
     "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_health_view",
+    "type": "bionic",
+    "name": "Medical Assistant",
+    "description": "Your brain has been outfitted with a second, synthetic corpus callosum, and wired to a tiny, narrow-purpose medical AI that rapidly compiles and analyzes feedback from your vision and body's signals.  The results from this are fed back into your brain, allowing you to see the exact health values of yourself and creatures around you, and to perform certain medical procedures with increased effectiveness.",
+    "occupied_bodyparts": [ [ "HEAD", 4 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": 5,
+    "react_cost": 1,
+    "time": 200
+  },
+  {
+    "id": "bio_evil_nanobots",
+    "type": "bionic",
+    "name": "Autocannibalistic Nanobots",
+    "description": "A highly-illegal fleet of nanobots are stored in your body.  While active, they will rapidly break down your own body and utilize the organic matter as fuel, damaging you rapidly but generating a large amount of power.  While this may bring you close to death, the bots will never outright kill you.  Note that these are also designed to hunt down and destroy other nanobots; using Repair Nanobots within 24 hours of Autocannibalistic Nanobots will permanently destroy the Repair Nanobots.",
+    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_crafting",
+    "type": "bionic",
+    "name": "Mechanical Repeaters",
+    "description": "Your hands and wrists have been wired to a set of computerized motors that interface with your brain to allow you to automatically perform repetitive, simple tasks.  Your wrists can also rotate freely in either direction.  The net result is 30% increased crafting speed on most crafting tasks other than cooking.",
+    "occupied_bodyparts": [ [ "HAND_L", 2 ], [ "HAND_R", 2 ] ]
   }
 ]

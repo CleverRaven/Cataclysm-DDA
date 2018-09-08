@@ -3691,7 +3691,8 @@
       ["jar_3l_glass", 15],
       ["magnifying_glass", 5],
       ["chem_hydrogen_peroxide", 5],
-      ["weak_antibiotic", 15]
+      ["weak_antibiotic", 15],
+      ["bio_health_view", 3]
     ]
   },{
     "type" : "item_group",
@@ -3844,7 +3845,8 @@
       ["smoxygen_tank", 25],
       ["bfipowder", 15],
       ["quikclot", 10],
-      ["anesthesia", 20]
+      ["anesthesia", 20],
+      ["bio_health_view", 2]
     ]
   },{
     "type" : "item_group",
@@ -5668,7 +5670,11 @@
       ["bio_power_armor_interface_mkII", 5],
       ["bio_remote", 10],
       ["bio_cable", 10],
-      ["bio_shock_absorber", 10]
+      ["bio_shock_absorber", 10],
+      ["bio_cable", 10],
+      ["bio_health_view", 10],
+      ["bio_evil_nanobots", 10],
+      ["bio_crafting", 10]
     ]
   },{
     "type" : "item_group",
@@ -5758,7 +5764,9 @@
       ["bio_watch", 20],
       ["bio_leukocyte", 20],
       ["bio_speed", 5],
-      ["bio_faraday", 15]
+      ["bio_faraday", 15],
+      ["bio_health_view", 10],
+      ["bio_evil_nanobots", 5]
     ]
   },{
     "type" : "item_group",
@@ -6071,7 +6079,8 @@
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5],
       ["bio_meteorologist", 10],
-      ["bio_cable", 10]
+      ["bio_cable", 10],
+      ["bio_crafting", 10]
     ]
   },{
       "type" : "item_group",
@@ -6135,7 +6144,8 @@
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5],
       ["bio_meteorologist", 10],
-      ["bio_cable", 10]
+      ["bio_cable", 10],
+      ["bio_crafting", 10]
     ]
   },{
     "type" : "item_group",
@@ -6377,6 +6387,7 @@
       ["bio_resonator", 10],
       ["bio_hydraulics", 10],
       ["bio_shock_absorber", 10],
+      ["bio_crafting", 10],
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
@@ -7353,6 +7364,7 @@
       ["bio_leukocyte", 10],
       ["bio_faraday", 10],
       ["bio_remote", 10],
+      ["bio_health_view", 10],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],
@@ -8690,7 +8702,9 @@
       ["bio_heatsink", 20],
       ["bio_watch", 20],
       ["bio_faraday", 20],
-      ["bio_shock_absorber", 20]
+      ["bio_shock_absorber", 20],
+      ["bio_faraday", 20],
+      ["bio_crafting", 20]
     ]
   },{
     "type" : "item_group",
@@ -8711,7 +8725,8 @@
       ["bio_emp", 20],
       ["bio_chain_lightning", 15],
       ["bio_adrenaline", 20],
-      ["bio_ods", 10]
+      ["bio_ods", 10],
+      ["bio_crafting", 10]
     ]
   },{
     "type" : "item_group",
