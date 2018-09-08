@@ -925,6 +925,7 @@ class map
                                     long &amount );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
                                      long &amount );
+        bool consume_charges( item& used, long qty, const tripoint &pt );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 

@@ -4944,7 +4944,40 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 
     return ret;
 }
+bool map::consume_charges( item& used, long qty, const tripoint &pt )
+{
+    if( qty < 0 ) {
+        debugmsg( "Tried to consume negative charges" );
+        return false;
+    }
 
+    if( qty == 0 ) {
+        return false;
+    }
+
+    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
+        debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
+        return false;
+    }
+
+    // Consume comestibles destroying them if no charges remain
+    if( used.is_food() || used.is_medication() ) {
+        used.charges -= qty;
+        if( used.charges <= 0 ) {
+            i_rem( pt, &used );
+            return true;
+        }
+        return false;
+    }
+
+    // Tools which don't require ammo are instead destroyed
+    if( used.is_tool() && !used.ammo_required() ) {
+        i_rem( pt, &used );
+        return true;
+    }
+
+    return false;
+}
 std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
 {
     std::list<std::pair<tripoint, item *> > rc_pairs;

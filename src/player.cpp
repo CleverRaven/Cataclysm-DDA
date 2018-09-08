@@ -8630,6 +8630,9 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     long charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
 
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
+        if( !inv.has_item( *actually_used ) ) {
+            return g->m.consume_charges( *actually_used, charges_used, pt );
+        }
         return consume_charges( *actually_used, charges_used );
     } else if( used->is_bionic() && charges_used > 0 ) {
         i_rem( used );
