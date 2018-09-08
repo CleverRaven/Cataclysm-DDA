@@ -4944,6 +4944,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 
     return ret;
 }
+
 bool map::consume_charges( item& used, long qty, const tripoint &pt )
 {
     if( qty < 0 ) {
@@ -4978,6 +4979,7 @@ bool map::consume_charges( item& used, long qty, const tripoint &pt )
 
     return false;
 }
+
 std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
 {
     std::list<std::pair<tripoint, item *> > rc_pairs;

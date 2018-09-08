@@ -706,7 +706,7 @@ long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/
     if( newmon.has_flag( MF_PET ) ) {
         newmon.friendly = -1;
         newmon.add_effect( effect_pet, 1_turns, num_bp, true );
-        if (newmon.has_flag( MF_ELECTRONIC )) {
+        if( newmon.has_flag( MF_ELECTRONIC ) ) {
             newmon.add_effect( effect_docile, 1_turns, num_bp, true );
         }
     }
