@@ -1130,28 +1130,30 @@ void vehicle::open_all_at( int p )
     }
 }
 
-bool vehicle::turn_on_internal_lights()
+bool vehicle::turn_on_internal_lights( bool dome_only )
 {
     bool success = false;
 
-    auto found = get_parts( VPFLAG_AISLE_LIGHT );
+    const auto turn_on_light_type = [&]( vpart_bitflags light_type ) {
+        bool switched = false;
+        auto light_parts = get_parts( light_type );
+        for( vehicle_part *e  : light_parts ) {
+            e->enabled = true;
+            switched = true;
+        }
+        return switched;
+    };
 
-    for( vehicle_part *e : found )
-    {
-        e->enabled = true;
-        success = true;
+    if( dome_only ) {
+        success = turn_on_light_type( VPFLAG_DOME_LIGHT );
+    } else {
+        success |= turn_on_light_type( VPFLAG_AISLE_LIGHT ) | turn_on_light_type( VPFLAG_ATOMIC_LIGHT );
     }
 
-    /*for( auto&& part : parts ) {
-        bool can = can_enable(part);
-        if( can && ( part.has_flag( VPFLAG_AISLE_LIGHT ) || part.has_flag( VPFLAG_ATOMIC_LIGHT ) ) ) {
-            part.enabled = true;
-            success = true;
-        }
-    }*/
     if( success ) {
         refresh();
     }
+
     return success;
 }
 

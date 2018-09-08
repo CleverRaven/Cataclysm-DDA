@@ -2543,10 +2543,16 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f &&
         g->m.veh_at( p->pos() ).has_value() &&
-        query_yn( "It's getting too dark to craft.  Would turning on aisle lights on help?" ) ) {
-        auto veh = g->m.veh_at( p->pos() );
-        changed_light = veh->vehicle().turn_on_internal_lights();
-        crafting_speed = 0.1f;
+        query_yn( "It's getting too dark to craft.  Would turning on lights on help?" ) ) {
+
+        /* If the player is on a tile with a dome light, we only need to turn on the dome lights. */
+        vehicle *veh = &( g->m.veh_at( p->pos() )->vehicle() );
+        if( veh->get_parts( p->pos(), "CONTROLS", false, false ).size() > 0 ||
+            veh->get_parts( p->pos(), "CTRL_ELECTRONIC", false, false ).size() > 0 ) {
+            changed_light = veh->turn_on_internal_lights( true );  // Turn on the dome lights
+        } else {
+            changed_light = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
+        }
         p->mod_moves( -300 );
     } else {
         if( crafting_speed <= 0.0f ) {
