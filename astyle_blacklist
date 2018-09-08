@@ -46,7 +46,6 @@ src/io.h
 src/itype.h
 src/json.h
 src/mapgen_functions.h
-src/mission.h
 src/player.h
 src/wcwidth.h
 src/wdirent.h
