@@ -29,7 +29,6 @@ src/newcharacter.cpp
 src/npctalk.cpp
 src/options.cpp
 src/player.cpp
-src/ranged.cpp
 src/sdltiles.cpp
 src/simplexnoise.cpp
 src/ui.cpp
