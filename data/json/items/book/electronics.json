@@ -93,25 +93,6 @@
     "fun": -3
   },
   {
-    "id": "recipe_augs",
-    "type": "BOOK",
-    "name": "Augmentative Tech Review",
-    "name_plural": "Augmentative Tech Review",
-    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
-    "weight": 1909,
-    "volume": 2,
-    "price": 3000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
-    "skill": "electronics",
-    "required_level": 4,
-    "max_level": 5,
-    "intelligence": 9,
-    "time": 45,
-    "fun": 1
-  },
-  {
     "id": "recipe_lab_elec",
     "type": "BOOK",
     "name": "lab journal-Herrera",
@@ -187,6 +168,25 @@
     "intelligence": 12,
     "time": 35,
     "fun": -1
+  },
+  {
+    "id": "recipe_augs",
+    "type": "BOOK",
+    "name": "Augmentative Tech Review",
+    "name_plural": "Augmentative Tech Review",
+    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
+    "weight": 1909,
+    "volume": 2,
+    "price": 3000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "electronics",
+    "required_level": 2,
+    "max_level": 5,
+    "intelligence": 9,
+    "time": 30,
+    "fun": 1
   },
   {
     "id": "textbook_robots",

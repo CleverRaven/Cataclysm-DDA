@@ -809,7 +809,7 @@ void player::bionics_uninstall_failure( player &installer )
 float player::bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
-                                      bool autodoc, int skill_level )
+                                      int skill_level )
 {
     int pl_skill;
     if( skill_level == -1 ) {
@@ -829,10 +829,10 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
                                _( "<npcname> prepares for surgery." ) );
     }
 
-    // People trained in using the Autodoc gain an additional advantage towards using it
-    if( autodoc && has_trait( trait_PROF_AUTODOC ) ) {
+    // People trained in bionics gain an additional advantage towards using it
+    if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
-        add_msg( m_neutral, _( "A lifetime of Autodoc use has taught %s a thing or two..." ),
+        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two..." ),
                  disp_name() );
     }
 
@@ -912,7 +912,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
     float adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                            skilll_computer,
                            skilll_electronics,
-                           autodoc, skill_level );
+                           skill_level );
     int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficulty + 2 );
 
     if( chance_of_success >= 100 ) {
@@ -982,12 +982,12 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                          skilll_computer,
                          skilll_electronics,
-                         autodoc, skill_level );
+                         skill_level );
     } else {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
                          skilll_firstaid,
                          skilll_mechanics,
-                         autodoc, skill_level );
+                         skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficult );
 
