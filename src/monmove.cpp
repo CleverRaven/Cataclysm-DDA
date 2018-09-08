@@ -238,9 +238,9 @@ void monster::plan( const mfactions &factions )
             if( target != nullptr ) {
                 set_dest( target->pos() );
             } else if( !has_flag( MF_PET_WONT_FOLLOW ) &&
-                    sees( g->u ) &&
-                    has_flag( MF_PET ) &&
-                    has_flag( MF_ELECTRONIC ) ) {
+                       sees( g->u ) &&
+                       has_flag( MF_PET ) &&
+                       has_flag( MF_ELECTRONIC ) ) {
                 dist = rl_dist( g->u.pos(), pos() );
                 if( dist > 3 ) {
                     set_dest( g->u.pos() );
