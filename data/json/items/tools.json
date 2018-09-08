@@ -8307,7 +8307,7 @@
   {
     "id": "bot_hauler_large",
     "type": "TOOL",
-    "name": "robot-hauler (large)",
+    "name": "large robot-hauler",
     "description": "This is a completely autonomous robot with AI. Has mounted cargo carrier and can transport up to 1000kg. It will follow you wherever you go. Capable of climbing stairs. It's folded and switched off.",
     "category": "other",
     "weight": 523000,
@@ -8329,7 +8329,7 @@
   {
     "id": "broken_bot_hauler_large",
     "type": "TOOL",
-    "name": "broken robot-hauler (large)",
+    "name": "broken large robot-hauler",
     "description": "This is a completely autonomous robot with AI. Has mounted cargo carrier and can transport up to 1000kg. It will follow you wherever you go. Capable of climbing stairs.\nIt's folded and not working. You can repair it using welding kit.",
     "category": "other",
     "weight": 523000,
