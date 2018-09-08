@@ -52,6 +52,17 @@ static bool crafting_allowed( const player &p, const recipe &rec )
     }
 
     if( p.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+        if( g->m.veh_at( p.pos() ).has_value() &&
+            query_yn( "It's too dark to craft.  Would turning on a vehicle light on help?" ) ) {
+            vehicle *veh = &( g->m.veh_at( p.pos() )->vehicle() );
+            if( veh->get_parts( p.pos(), "CONTROLS", false, false ).size() > 0 ||
+                veh->get_parts( p.pos(), "CTRL_ELECTRONIC", false, false ).size() > 0 ) {
+                return veh->turn_on_internal_lights( true );  // Turn on the dome lights
+            } else {
+                return veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
+            }
+        }
+
         add_msg( m_info, _( "You can't see to craft!" ) );
         return false;
     }
