@@ -20,7 +20,6 @@ src/inventory.cpp
 src/inventory_ui.cpp
 src/item.cpp
 src/json.cpp
-src/lightmap.cpp
 src/line.cpp
 src/main.cpp
 src/melee.cpp
