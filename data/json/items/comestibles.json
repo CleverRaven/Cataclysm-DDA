@@ -3784,6 +3784,7 @@
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
+    "//": "Should be removed after 0.D.",
     "type": "COMESTIBLE",
     "id": "mushroom_poison",
     "name": "mushroom",
@@ -3803,13 +3804,13 @@
     "fun": -3
   },
   {
+    "//": "Should be removed after 0.D.",
     "type": "COMESTIBLE",
     "id": "mushroom_magic",
     "name": "mushroom",
     "weight": 159,
     "color": "brown",
     "spoils_in": 48,
-    "use_action": "FUN_HALLU",
     "stim": -4,
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -3913,18 +3914,17 @@
     "price": 180,
     "material": "mushroom",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 4,
+    "flags": [ "EDIBLE_FROZEN", "STILL_POISONOUS" ],
     "fun": 1
   },
   {
+    "//": "Should be removed after 0.D.",
     "type": "COMESTIBLE",
     "id": "dry_mushroom_magic",
     "name": "dried hallucinogenic mushroom",
     "weight": 15,
     "color": "brown",
     "spoils_in": 8640,
-    "use_action": "FUN_HALLU",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,

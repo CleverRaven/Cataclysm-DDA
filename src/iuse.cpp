@@ -814,30 +814,6 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-/**
- * Hallucinogenic with a fun effect. Specifically used to have a comestible
- * give a morale boost without it being noticeable by examining the item (ie,
- * for magic mushrooms).
- */
-int iuse::fun_hallu( player *p, item *it, bool, const tripoint & )
-{
-    if( p->is_npc() ) {
-        // NPCs hallucinating doesn't work yet!
-        return 0;
-    }
-
-    //Fake a normal food morale effect
-    if( p->has_trait( trait_SPIRITUAL ) ) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
-    } else {
-        p->add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false, it->type );
-    }
-    if( !p->has_effect( effect_hallu ) ) {
-        p->add_effect( effect_hallu, 6_hours );
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::meditate( player *p, item *it, bool t, const tripoint & )
 {
     if( !p || t ) {

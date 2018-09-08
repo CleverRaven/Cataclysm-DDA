@@ -381,10 +381,6 @@
         "name" : "Take"
     },{
         "type" : "item_action",
-        "id" : "FUN_HALLU",
-        "name" : "Eat"
-    },{
-        "type" : "item_action",
         "id" : "GRANADE",
         "name" : "Activate"
     },{

@@ -503,6 +503,7 @@
     "copy-from": "seed_mushroom_base",
     "name": "mushroom spores",
     "name_plural": "mushroom spores",
+    "flags": "STILL_POISONOUS",
     "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": 91 }
   },
   {
