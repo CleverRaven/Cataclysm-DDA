@@ -120,7 +120,7 @@
     "seed_data": { "plant_name": "strawberry", "fruit": "strawberries", "byproducts": [ "withered" ], "grow": 91 }
   },
   {
-    "id": "seed_grape",
+    "id": "seed_grapes",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
     "name": "grape seeds",
