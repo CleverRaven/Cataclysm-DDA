@@ -29,7 +29,6 @@ src/monster.cpp
 src/morale.cpp
 src/mutation.cpp
 src/mutation_data.cpp
-src/newcharacter.cpp
 src/npctalk.cpp
 src/options.cpp
 src/player.cpp
