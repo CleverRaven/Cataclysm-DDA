@@ -44,7 +44,6 @@ src/worldfactory.cpp
 src/field.h
 src/io.h
 src/itype.h
-src/json.h
 src/mapgen_functions.h
 src/mission.h
 src/player.h
