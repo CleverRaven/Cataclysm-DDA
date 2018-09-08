@@ -3914,7 +3914,7 @@
     "price": 180,
     "material": "mushroom",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN", "STILL_POISONOUS" ],
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 1
   },
   {

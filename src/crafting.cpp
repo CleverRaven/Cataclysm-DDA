@@ -615,7 +615,7 @@ void player::complete_craft()
                 if( elem.has_flag( "HIDDEN_HALLU" ) ) {
                     newit.item_tags.insert( "HIDDEN_HALLU" );
                 }
-                if( elem.has_flag( "HIDDEN_POISON" ) && newit.has_flag( "STILL_POISONOUS" ) ) {
+                if( elem.has_flag( "HIDDEN_POISON" ) ) {
                     newit.item_tags.insert( "HIDDEN_POISON" );
                     newit.poison = elem.poison;
                 }

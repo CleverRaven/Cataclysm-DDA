@@ -828,7 +828,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_L``` Slow-release painkiller.
 - ```SMOKABLE``` Accepted by smoking rack.
 - ```SMOKED``` Not accepted by smoking rack (product of smoking).
-- ```STILL_POISONOUS``` Comestibles with this flag will become poisonous if crafted from mushrooms with HIDDEN_POISON flag.
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
