@@ -10,7 +10,6 @@ src/computer.cpp
 src/creature.cpp
 src/cursesport.cpp
 src/effect.cpp
-src/event.cpp
 src/faction.cpp
 src/field.cpp
 src/game.cpp
