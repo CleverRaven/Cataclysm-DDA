@@ -49,7 +49,6 @@ src/mapgen_functions.h
 src/mission.h
 src/player.h
 src/wcwidth.h
-src/wdirent.h
 tests/invlet_test.cpp
 tests/line_test.cpp
 tests/savegame_test.cpp
