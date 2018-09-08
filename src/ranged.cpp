@@ -378,7 +378,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter ) co
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
     const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-    int dispersion = 10 * throw_difficulty / ( 8 * throw_skill + 5 );
+    int dispersion = 10 * throw_difficulty / ( 8 * throw_skill + 4 );
     // If the target is a creature, it moves around and ruins aim
     // @todo: Inform projectile functions if the attacker actually aims for the critter or just the tile
     if( critter != nullptr ) {
