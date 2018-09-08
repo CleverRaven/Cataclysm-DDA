@@ -88,8 +88,8 @@ struct mission_start {
     static void need_drugs_npc( mission * );     // "need drugs" remove item
     static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    static void place_zombie_bay( mission
-                                  * );   // Put a boss zombie in the refugee/evac center back bay
+    // Put a boss zombie in the refugee/evac center back bay
+    static void place_zombie_bay( mission * );
     static void place_caravan_ambush( mission * ); // For Free Merchants mission
     static void place_bandit_cabin( mission * ); // For Old Guard mission
     static void place_informant( mission * );    // For Old Guard mission
@@ -116,12 +116,12 @@ struct mission_start {
     static void ranch_construct_3( mission * );  // Adds a couple of NPCs and fields
     static void ranch_construct_4( mission * );  // Begins work on wood yard, crop overseer added
     static void ranch_construct_5( mission * );  // Continues work on wood yard, crops, well (pit)
-    static void ranch_construct_6( mission
-                                   * );  // Continues work on wood yard, well (covered), fireplaces
-    static void ranch_construct_7( mission
-                                   * );  // Continues work on wood yard, well (finished), continues walling
-    static void ranch_construct_8( mission
-                                   * );  // Finishes wood yard, starts outhouse, starts tool shed
+    // Continues work on wood yard, well (covered), fireplaces
+    static void ranch_construct_6( mission * );
+    // Continues work on wood yard, well (finished), continues walling
+    static void ranch_construct_7( mission * );
+    // Finishes wood yard, starts outhouse, starts tool shed
+    static void ranch_construct_8( mission * );
     static void ranch_construct_9( mission * );  // Finishes outhouse, finishes tool shed, starts clinic
     static void ranch_construct_10( mission * ); // Continues clinic, starts chop-shop
     static void ranch_construct_11( mission * ); // Continues clinic, continues chop-shop
