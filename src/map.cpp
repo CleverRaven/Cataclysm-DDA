@@ -4945,7 +4945,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     return ret;
 }
 
-bool map::consume_charges( item& used, long qty, const tripoint &pt )
+bool map::consume_charges( item &used, long qty, const tripoint &pt )
 {
     if( qty < 0 ) {
         debugmsg( "Tried to consume negative charges" );
