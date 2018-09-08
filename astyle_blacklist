@@ -24,7 +24,6 @@ src/lightmap.cpp
 src/line.cpp
 src/main.cpp
 src/melee.cpp
-src/mondeath.cpp
 src/monster.cpp
 src/morale.cpp
 src/mutation.cpp
