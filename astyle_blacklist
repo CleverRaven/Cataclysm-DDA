@@ -24,12 +24,7 @@ src/json.cpp
 src/lightmap.cpp
 src/line.cpp
 src/main.cpp
-src/map.cpp
-src/mapgen_functions.cpp
 src/melee.cpp
-src/mission_companion.cpp
-src/missiondef.cpp
-src/mission_start.cpp
 src/mondeath.cpp
 src/monster.cpp
 src/morale.cpp
@@ -40,9 +35,6 @@ src/npctalk.cpp
 src/options.cpp
 src/player.cpp
 src/ranged.cpp
-src/savegame.cpp
-src/savegame_json.cpp
-src/savegame_legacy.cpp
 src/sdltiles.cpp
 src/simplexnoise.cpp
 src/ui.cpp

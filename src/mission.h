@@ -195,7 +195,7 @@ struct mission_type {
     std::map<std::string, std::string> dialogue;
 
     mission_type() = default;
-    mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
+    mission_type(mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
                  std::function<bool(const tripoint &)> PLACE,
                  std::function<void(mission *)> START,

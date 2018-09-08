@@ -1838,12 +1838,26 @@ std::string item::info(std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           _( "* This item can be <info>worn with a helmet</info>." ) ) );
             }
 
+
+            const bool little = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
             if( has_flag( "FIT" ) && parts->test(iteminfo_parts::DESCRIPTION_FLAGS_FITS)) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );
             } else if( has_flag( "VARSIZE" ) && parts->test(iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE)) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <info>can be refitted</info>." ) ) );
+            }
+            if( little && get_encumber() ) {
+                if( !has_flag( "UNDERSIZE" ) ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "* These clothes are <bad>too large</bad> but <info>can be undersized</info>." ) ) );
+                } else {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "* These clothes are <good>undersized</good> enough to accommodate <info>abnormally small mutated anatomy</info>.") ) );
+                }
+            } else if( has_flag( "UNDERSIZE" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* These clothes are <bad>undersized</bad> but <info>can be refitted</info>." ) ) );
             }
             if( is_sided() && parts->test(iteminfo_parts::DESCRIPTION_FLAGS_SIDED)) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -2481,6 +2495,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str( "" );
     if( is_food() ) {
+        if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
+            ret << _( " (poisonous)" );
+        } else if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
+            ret << _( " (hallucinogenic)" );
+        }
+
         if( rotten() ) {
             ret << _( " (rotten)" );
         } else if( has_flag( "MUSHY" ) ) {
@@ -2504,14 +2524,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
 
-    if( has_flag( "FIT" ) ) {
-        ret << _( " (fits)" );
+    const bool small = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
+    const bool fits = has_flag( "FIT" );
+    const bool undersize = has_flag( "UNDERSIZE" );
+    if( get_encumber() ) {
+        if( small && !undersize ) {
+            ret << _( " (oversize)" );
+        } else if( !small && undersize ) {
+            ret << _( " (undersize)" );
+        } else if( fits ) {
+            ret << _( " (fits)" );
+        }
     }
-
-    if( has_flag( "UNDERSIZE" ) ) {
-        ret << _( " (undersized)" );
-    }
-
 
     if( is_filthy() ) {
         ret << _( " (filthy)" );
@@ -5586,8 +5610,8 @@ const item_category &item::get_category() const
     return type->category ? *type->category : null_category;
 }
 
-iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
-                   double Value, bool _is_int, std::string Plus,
+iteminfo::iteminfo(const std::string &Type, const std::string &Name, const std::string &Fmt,
+                   double Value, bool _is_int, const std::string &Plus,
                    bool NewLine, bool LowerIsBetter, bool DrawName)
 {
     sType = Type;

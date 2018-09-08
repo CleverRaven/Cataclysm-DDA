@@ -382,6 +382,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             qty *= std::max( item::find_type( type->parts[p].fuel )->stack_size, 1 );
             qty /= to_milliliter( units::legacy_volume_factor );
             pt.ammo_set( type->parts[ p ].fuel, qty );
+        } else if( pt.is_fuel_store() && type->parts[p].fuel != "null" ) {
+            int qty = pt.ammo_capacity() * veh_fuel_mult / 100;
+            pt.ammo_set( type->parts[ p ].fuel, qty );
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
@@ -431,7 +434,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
 
             // Fuel tanks should be emptied as well
-            if( destroyTank && pt.is_tank() ) {
+            if( destroyTank && pt.is_fuel_store() ) {
                 set_hp( pt, 0 );
                 pt.ammo_unset();
             }
@@ -3015,11 +3018,6 @@ void vehicle::slow_leak()
         }
 
         auto fuel = p.ammo_current();
-        if( fuel != fuel_type_gasoline && fuel != fuel_type_diesel &&
-            fuel != fuel_type_battery && fuel != fuel_type_water ) {
-            continue; // not a liquid fuel or battery
-        }
-
         int qty = std::max( ( 0.5 - health ) * ( 0.5 - health ) * p.ammo_remaining() / 10, 1.0 );
 
         // damaged batteries self-discharge without leaking
@@ -3856,7 +3854,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
     int tsh = std::min( 20, part_info(p).durability / 10 );
     if( dmg < tsh && type != DT_TRUE ) {
-        if( type == DT_HEAT && parts[p].is_tank() ) {
+        if( type == DT_HEAT && parts[p].is_fuel_store() ) {
             explode_fuel( p, type );
         }
 
@@ -3880,7 +3878,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         invalidate_mass();
     }
 
-    if( parts[p].is_tank() ) {
+    if( parts[p].is_fuel_store() ) {
         explode_fuel( p, type );
     } else if( parts[ p ].is_broken() && part_flag(p, "UNMOUNT_ON_DAMAGE") ) {
         g->m.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
@@ -3919,7 +3917,7 @@ std::map<itype_id, long> vehicle::fuels_left() const
 {
     std::map<itype_id, long> result;
     for( const auto &p : parts ) {
-        if( p.is_tank() && p.ammo_current() != "null" ) {
+        if( p.is_fuel_store() && p.ammo_current() != "null" ) {
             result[ p.ammo_current() ] += p.ammo_remaining();
         }
     }
