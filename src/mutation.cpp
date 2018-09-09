@@ -758,8 +758,7 @@ bool player::mutate_towards( const trait_id &mut )
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
 
     // Check mutations of the same type - except for the ones we might need for pre-reqs
-    for( size_t i = 0; i < same_type.size(); ++i )
-    {
+    for( size_t i = 0; i < same_type.size(); ++i ) {
         trait_id consider = same_type[i];
         if( std::find( all_prereqs.begin(), all_prereqs.end(), consider ) == all_prereqs.end() ) {
             cancel.push_back( consider );

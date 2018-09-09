@@ -386,8 +386,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
             }
         }
-        for( const std::string type : mdata.types )
-        {
+        for( const std::string type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }
