@@ -5,16 +5,13 @@ src/cata_tiles.cpp
 src/character.cpp
 src/computer.cpp
 src/effect.cpp
-src/game.cpp
 src/iexamine.cpp
 src/init.cpp
 src/inventory_ui.cpp
 src/item.cpp
 src/json.cpp
 src/lightmap.cpp
-src/main.cpp
 src/npctalk.cpp
-src/options.cpp
 src/player.cpp
 src/ranged.cpp
 src/sdltiles.cpp
