@@ -13,7 +13,6 @@ src/item.cpp
 src/json.cpp
 src/lightmap.cpp
 src/main.cpp
-src/morale.cpp
 src/newcharacter.cpp
 src/npctalk.cpp
 src/options.cpp
