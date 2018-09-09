@@ -812,6 +812,14 @@ void uimenu::query( bool loop )
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();
+
+#ifdef __ANDROID__
+    for (const auto& entry : entries) {
+        if (entry.hotkey > 0 && entry.enabled)
+            ctxt.register_manual_key(entry.hotkey, entry.txt);
+    }
+#endif
+
     do {
         bool skipkey = false;
         const auto action = ctxt.handle_input();
