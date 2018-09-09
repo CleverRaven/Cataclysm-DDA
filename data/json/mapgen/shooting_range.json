@@ -1,8 +1,8 @@
 [
   {
     "type": "item_group",
-    "id" : "ear_protection",
-    "items":[ ["powered_earmuffs", 10], ["ear_plugs", 50] ]
+    "id": "ear_protection",
+    "items": [ [ "powered_earmuffs", 10 ], [ "ear_plugs", 50 ] ]
   },
   {
     "method": "json",
