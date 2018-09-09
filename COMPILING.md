@@ -9,6 +9,7 @@
   * [Cross-compiling to linux 32-bit from linux 64-bit](#cross-compiling-to-linux-32-bit-from-linux-64-bit)
   * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
   * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
+  * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
 * [Mac OS X](#mac-os-x)
   * [Simple build using Homebrew](#simple-build-using-homebrew)
   * [Advanced info for Developers](#advanced-info-for-developers)
@@ -281,6 +282,92 @@ To build full curses version with localizations and lua enabled:
       RELEASE=1 LOCALIZE=1 LANGUAGES=all LUA=1 OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
+
+## Cross-compile to Android from Linux
+
+The Android build uses [Gradle](https://gradle.org/) to compile the java and native C++ code, and is based heavily off SDL's [Android project template](https://hg.libsdl.org/SDL/file/f1084c419f33/android-project). See the official SDL documentation [README-android.md](https://hg.libsdl.org/SDL/file/f1084c419f33/docs/README-android.md) for further information.
+
+The Gradle project lives in the repository under `android/`. You can build it via the command line or open it in [Android Studio](https://developer.android.com/studio/). For simplicity, it only builds the SDL version with all features enabled, including tiles, sound, localization and lua.
+
+### Dependencies
+
+  * Java JDK 8
+  * SDL2 (tested with 2.0.8, though a custom fork is recommended with project-specific bugfixes)
+  * SDL2_ttf (tested with 2.0.14)
+  * SDL2_mixer (tested with 2.0.2)
+  * SDL2_image (tested with 2.0.3)
+  * libintl-lite (tested with a custom fork of libintl-lite 0.5)
+  * lua (tested with lua 5.1.5)
+  
+Some dependencies need their entire source code copied under the Android project folder so they can be built for Android - see below.
+
+### Setup
+
+Install Linux dependencies. For a desktop Ubuntu installation:
+
+    sudo apt-get install lua5.2 openjdk-8-jdk-headless
+
+Install Android SDK and NDK:
+
+    wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+    unzip sdk-tools-linux-4333796.zip -d ~/android-sdk
+    rm sdk-tools-linux-4333796.zip
+    ~/android-sdk/tools/bin/sdkmanager --update
+    ~/android-sdk/tools/bin/sdkmanager "tools" "platform-tools" "ndk-bundle"
+    ~/android-sdk/tools/bin/sdkmanager --licenses
+
+Export Android environment variables (you can add these to the end of `~/.bashrc`):
+
+    export ANDROID_SDK_ROOT=~/android-sdk
+    export ANDROID_HOME=~/android-sdk
+    export ANDROID_NDK_ROOT=~/android-sdk/ndk-bundle
+    export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+    export PATH=$PATH:$ANDROID_SDK_ROOT/tools
+    export PATH=$PATH:$ANDROID_NDK_ROOT
+
+Install custom Android dependencies. Change directory to `Cataclysm-DDA` (the root folder of this repository) and run:
+
+    git clone https://github.com/a1studmuffin/SDL2 ./android/app/jni/SDL2
+    git clone https://github.com/a1studmuffin/lua ./android/app/jni/lua
+    git clone https://github.com/a1studmuffin/libintl-lite ./android/app/jni/libintl-lite
+
+Install other Android dependencies SDL2_ttf, SDL2_mixer and SDL2_image. You may download the release ZIPs from from https://hg.libsdl.org/ and install them manually under `./android/app/jni/SDL2_xxx`, or clone latest dev with hg:
+
+    hg clone http://hg.libsdl.org/SDL_ttf ./android/app/jni/SDL2_ttf
+    hg clone http://hg.libsdl.org/SDL_mixer ./android/app/jni/SDL2_mixer
+    hg clone http://hg.libsdl.org/SDL_image ./android/app/jni/SDL2_image
+
+Manually generate version and lua bindings:
+
+    make version
+    cd src/lua && lua generate_bindings.lua
+
+### Android device setup
+
+Enable [Developer options on your Android device](https://developer.android.com/studio/debug/dev-options). Connect your device to your PC via USB cable and run:
+
+    adb devices
+    adb connect <devicename>
+
+### Building
+
+To build an APK, use the Gradle wrapper command line tool (gradlew). The Android Studio documentation provides a good summary of how to [build your app from the command line](https://developer.android.com/studio/build/building-cmdline).
+
+To build a debug APK, from the `android/` subfolder of the repository run:
+
+    ./gradlew assembleDebug
+
+This creates a debug APK in `./android/app/build/outputs/apk/` ready to be installed on your device.
+
+To build a debug APK and immediately deploy to your connected device over adb run:
+
+    ./gradlew installDebug
+
+To build a signed release APK (ie. one that can be installed on a device), [build an unsigned release APK and sign it manually](https://developer.android.com/studio/publish/app-signing#signing-manually).
+
+### Additional notes
+
+The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
 
 # Mac OS X
 
