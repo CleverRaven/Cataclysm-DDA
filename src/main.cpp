@@ -30,6 +30,55 @@
 #endif
 #include "translations.h"
 
+#ifdef __ANDROID__
+#include "SDL_system.h"
+#include "SDL_filesystem.h"
+#include "SDL_keyboard.h"
+#include <android/log.h>
+
+// Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
+// Force Android standard output to adb logcat output
+
+static int pfd[2];
+static pthread_t thr;
+static const char *tag = "cdda";
+
+static void *thread_func(void*)
+{
+    ssize_t rdsz;
+    char buf[128];
+    for(;;) {
+        if(((rdsz = read(pfd[0], buf, sizeof buf - 1)) > 0)) {
+            if(buf[rdsz - 1] == '\n') --rdsz;
+            buf[rdsz] = 0;  /* add null-terminator */
+            __android_log_write(ANDROID_LOG_DEBUG, tag, buf);
+        }
+    }
+    return 0;
+}
+
+int start_logger(const char *app_name)
+{
+    tag = app_name;
+
+    /* make stdout line-buffered and stderr unbuffered */
+    setvbuf(stdout, 0, _IOLBF, 0);
+    setvbuf(stderr, 0, _IONBF, 0);
+
+    /* create the pipe and redirect stdout and stderr */
+    pipe(pfd);
+    dup2(pfd[1], 1);
+    dup2(pfd[1], 2);
+
+    /* spawn the logging thread */
+    if(pthread_create(&thr, 0, thread_func, 0) == -1)
+        return -1;
+    pthread_detach(thr);
+    return 0;
+}
+
+#endif //__ANDROID__
+
 void exit_handler(int s);
 
 extern bool test_dirty;
@@ -54,11 +103,14 @@ void printHelpMessage(const arg_handler *first_pass_arguments, size_t num_first_
     const arg_handler *second_pass_arguments, size_t num_second_pass_arguments);
 }  // namespace
 
-#ifdef USE_WINMAIN
+#if defined USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     int argc = __argc;
     char **argv = __argv;
+#elif defined __ANDROID__
+extern "C" int SDL_main(int argc, char **argv)
+{
 #else
 int main(int argc, char *argv[])
 {
@@ -72,6 +124,18 @@ int main(int argc, char *argv[])
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
 
+#ifdef __ANDROID__
+	// Start the standard output logging redirector
+	start_logger("cdda");
+
+	// On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
+    // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
+    std::string external_storage_path(SDL_AndroidGetExternalStoragePath());
+    if (external_storage_path.back() != '/')
+        external_storage_path += '/';
+
+    PATH_INFO::init_base_path(external_storage_path);
+#else
     // Set default file paths
 #ifdef PREFIX
 #define Q(STR) #STR
@@ -80,11 +144,16 @@ int main(int argc, char *argv[])
 #else
     PATH_INFO::init_base_path("");
 #endif
+#endif
 
+#ifdef __ANDROID__
+	PATH_INFO::init_user_dir(external_storage_path.c_str());
+#else
 #if (defined USE_HOME_DIR || defined USE_XDG_DIR)
     PATH_INFO::init_user_dir();
 #else
     PATH_INFO::init_user_dir("./");
+#endif
 #endif
     PATH_INFO::set_standard_filenames();
 
