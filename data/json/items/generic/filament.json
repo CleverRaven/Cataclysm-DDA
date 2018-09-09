@@ -1,0 +1,57 @@
+[
+  {
+    "id": "generic_filament",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "filament",
+    "description": "A small quantity of filament that could be used when sewing.",
+    "weight": 1,
+    "volume": "1 ml",
+    "price": 0,
+    "stackable": true,
+    "count": 10,
+    "stack_size": 200,
+    "material": "cotton",
+    "symbol": "=",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "thread",
+    "copy-from": "generic_filament",
+    "type": "GENERIC",
+    "name": "thread",
+    "description": "A small quantity of thread that could be used when sewing.",
+    "price": 25,
+    "count": 50,
+    "material": "cotton",
+    "color": "light_gray"
+  },
+  {
+    "id": "sinew",
+    "copy-from": "generic_filament",
+    "type": "GENERIC",
+    "name": "sinew",
+    "description": "A tough sinew cut from a corpse, usable as thread.",
+    "material": "flesh",
+    "color": "light_red"
+  },
+  {
+    "id": "plant_fibre",
+    "copy-from": "generic_filament",
+    "type": "GENERIC",
+    "name": "plant fiber",
+    "description": "Tough thin fiber, taken from a plant.  Can be used as thread.",
+    "material": "veggy",
+    "color": "light_green"
+  },
+  {
+    "id": "yarn",
+    "copy-from": "generic_filament",
+    "type": "GENERIC",
+    "name": "yarn",
+    "description": "Wool yarn, could be used to knit wool clothing.  Also usable as thread.",
+    "material": "wool",
+    "color": "white"
+  }
+]

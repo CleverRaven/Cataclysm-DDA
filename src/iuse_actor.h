@@ -37,6 +37,8 @@ using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
 class material_type;
 using material_id = string_id<material_type>;
+struct requirement_data;
+using requirement_id = string_id<requirement_data>;
 class emit;
 using emit_id = string_id<emit>;
 struct bionic_data;
@@ -746,6 +748,8 @@ class repair_item_actor : public iuse_actor
     public:
         /** Materials we are allowed to repair */
         std::set<material_id> materials;
+        /** Requirements for repair (thread, solder, etc) */
+        std::set<requirement_id> requirements;
         /** Skill used */
         skill_id used_skill;
         /** Maximum skill level that can be gained by using this actor. */

@@ -89,6 +89,8 @@ const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_melee( "melee" );
 
+const requirement_id requirement_filament( "filament" );
+
 const species_id ROBOT( "ROBOT" );
 const species_id HALLUCINATION( "HALLUCINATION" );
 const species_id ZOMBIE( "ZOMBIE" );
@@ -1621,38 +1623,40 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
 
     // TODO: Wrap all the mods into structs, maybe even json-able
     // All possible mods here
-    std::array<std::string, 4> clothing_mods{
+    static const std::array<std::string, 4> clothing_mods{
         { "wooled", "furred", "leather_padded", "kevlar_padded" }
     };
 
     // Materials those mods use
-    std::array<std::string, 4> mod_materials{
+    static const std::array<std::string, 4> mod_materials{
         { "felt_patch", "fur", "leather", "kevlar_plate" }
     };
 
-    // Cache available materials
-    std::map< itype_id, bool > has_enough;
-    const int items_needed = mod.volume() / 750_ml + 1;
     const inventory &crafting_inv = p->crafting_inventory();
+
+    // Cache available materials
+    std::map< itype_id, bool > has_enough_materials;
+    const int items_needed = mod.volume() / 750_ml + 1;
     // Go through all discovered repair items and see if we have any of them available
     for( auto &material : mod_materials ) {
-        has_enough[material] = crafting_inv.has_amount( material, items_needed );
+        has_enough_materials[material] = crafting_inv.has_amount( material, items_needed );
     }
+    const int filament_required = mod.volume() / 125_ml;
+    const auto req = requirement_filament.obj() * filament_required;
 
+    const bool has_enough_filament = req.can_make_with_inventory( crafting_inv );
     const int mod_count = mod.item_tags.count( "wooled" ) + mod.item_tags.count( "furred" ) +
                           mod.item_tags.count( "leather_padded" ) + mod.item_tags.count( "kevlar_padded" );
 
-    // We need extra thread to lose it on bad rolls
-    const int thread_needed = mod.volume() / 125_ml + 10;
     // Returns true if the item already has the mod or if we have enough materials and thread to add it
     const auto can_add_mod = [&]( const std::string & new_mod, const itype_id & mat_item ) {
         return mod.item_tags.count( new_mod ) > 0 ||
-               ( it->charges >= thread_needed && has_enough[mat_item] );
+               ( has_enough_filament && has_enough_materials[mat_item] );
     };
 
     uimenu tmenu;
     // TODO: Tell how much thread will we use
-    if( it->charges >= thread_needed ) {
+    if( has_enough_filament ) {
         tmenu.text = _( "How do you want to modify it?" );
     } else {
         tmenu.text = _( "Not enough thread to modify. Which modification do you want to remove?" );
@@ -1665,31 +1669,39 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     item temp_item = modded_copy( mod, "wooled" );
     // Can we perform this addition or removal
     bool enab = can_add_mod( "wooled", "felt_patch" );
-    tmenu.addentry( 0, enab, MENU_AUTOASSIGN, _( "%s (Warmth: %d->%d, Encumbrance: %d->%d)" ),
+    tmenu.addentry( 0, enab, MENU_AUTOASSIGN,
+                    _( "%s (Warmth: %d->%d, Encumbrance: %d->%d, Thread required: %d)" ),
                     mod.item_tags.count( "wooled" ) == 0 ? _( "Line it with wool" ) : _( "Destroy wool lining" ),
-                    mod.get_warmth(), temp_item.get_warmth(), mod.get_encumber(), temp_item.get_encumber() );
+                    mod.get_warmth(), temp_item.get_warmth(), mod.get_encumber(), temp_item.get_encumber(),
+                    mod.item_tags.count( "wooled" ) == 0 ? filament_required : 0 );
 
     temp_item = modded_copy( mod, "furred" );
     enab = can_add_mod( "furred", "fur" );
-    tmenu.addentry( 1, enab, MENU_AUTOASSIGN, _( "%s (Warmth: %d->%d, Encumbrance: %d->%d)" ),
+    tmenu.addentry( 1, enab, MENU_AUTOASSIGN,
+                    _( "%s (Warmth: %d->%d, Encumbrance: %d->%d, Thread required: %d)" ),
                     mod.item_tags.count( "furred" ) == 0 ? _( "Line it with fur" ) : _( "Destroy fur lining" ),
-                    mod.get_warmth(), temp_item.get_warmth(), mod.get_encumber(), temp_item.get_encumber() );
+                    mod.get_warmth(), temp_item.get_warmth(), mod.get_encumber(), temp_item.get_encumber(),
+                    mod.item_tags.count( "furred" ) == 0 ? filament_required : 0 );
 
     temp_item = modded_copy( mod, "leather_padded" );
     enab = can_add_mod( "leather_padded", "leather" );
-    tmenu.addentry( 2, enab, MENU_AUTOASSIGN, _( "%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d)" ),
+    tmenu.addentry( 2, enab, MENU_AUTOASSIGN,
+                    _( "%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d, Thread required: %d)" ),
                     mod.item_tags.count( "leather_padded" ) == 0 ? _( "Pad with leather" ) :
                     _( "Destroy leather padding" ),
                     mod.bash_resist(), mod.cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
-                    mod.get_encumber(), temp_item.get_encumber() );
+                    mod.get_encumber(), temp_item.get_encumber(),
+                    mod.item_tags.count( "leather_padded" ) == 0 ? filament_required : 0 );
 
     temp_item = modded_copy( mod, "kevlar_padded" );
     enab = can_add_mod( "kevlar_padded", "kevlar_plate" );
-    tmenu.addentry( 3, enab, MENU_AUTOASSIGN, _( "%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d)" ),
+    tmenu.addentry( 3, enab, MENU_AUTOASSIGN,
+                    _( "%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d, Thread required: %d)" ),
                     mod.item_tags.count( "kevlar_padded" ) == 0 ? _( "Pad with Kevlar" ) :
                     _( "Destroy Kevlar padding" ),
                     mod.bash_resist(), mod.cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
-                    mod.get_encumber(), temp_item.get_encumber() );
+                    mod.get_encumber(), temp_item.get_encumber(),
+                    mod.item_tags.count( "kevlar_padded" ) == 0 ? filament_required : 0 );
 
     tmenu.addentry( 4, true, 'q', _( "Cancel" ) );
 
@@ -1728,30 +1740,32 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     rn -= mod_count * 10;                              // Other mods
 
     if( rn <= 8 ) {
-        p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!" ),
+        p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it and also waste thread!" ),
                               mod.tname().c_str() );
         if( mod.inc_damage() ) {
             p->add_msg_if_player( m_bad, _( "You destroy it!" ) );
             p->i_rem_keep_contents( pos );
         }
-        return thread_needed / 2;
-    } else if( rn <= 10 ) {
+    } else if( rn <= 14 ) {
         p->add_msg_if_player( m_bad,
                               _( "You fail to modify the clothing, and you waste thread and materials." ) );
-        p->consume_items( comps );
-        return thread_needed;
-    } else if( rn <= 14 ) {
-        p->add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
-                              mod.tname().c_str() );
-        p->consume_items( comps );
+    } else {
         mod.item_tags.insert( the_mod );
-        return thread_needed;
+        p->add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname().c_str() );
+    }
+    if( rn > 8 ) {
+        p->consume_items( comps );
     }
 
-    p->add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname().c_str() );
-    mod.item_tags.insert( the_mod );
-    p->consume_items( comps );
-    return thread_needed / 2;
+    p->add_msg_if_player( m_info,
+                          _( "You have used %d thread charges." ), filament_required );
+    for( const auto &it : req.get_components() ) {
+        p->consume_items( it );
+    }
+    for( const auto &it : req.get_tools() ) {
+        p->consume_tools( it );
+    }
+    return 0;
 }
 
 int iuse::radio_mod( player *p, item *, bool, const tripoint & )
