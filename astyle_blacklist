@@ -40,6 +40,5 @@ src/veh_interact.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
 tests/invlet_test.cpp
-tests/line_test.cpp
 tests/savegame_test.cpp
 tests/shadowcasting_test.cpp
