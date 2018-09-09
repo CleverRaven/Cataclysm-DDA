@@ -2536,7 +2536,7 @@ void item_group::debug_spawn()
     while( true ) {
         menu.query();
         const int index = menu.ret;
-        if( index >= ( int )groups.size() || index < 0 ) {
+        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
         // Spawn items from the group 100 times

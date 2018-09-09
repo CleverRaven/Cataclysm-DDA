@@ -73,9 +73,9 @@ void game::serialize( std::ostream &fout )
 
     json.start_object();
     // basic game state information.
-    json.member( "turn", ( int )calendar::turn );
-    json.member( "calendar_start", ( int )calendar::start );
-    json.member( "initial_season", ( int )calendar::initial_season );
+    json.member( "turn", static_cast<int>( calendar::turn ) );
+    json.member( "calendar_start", static_cast<int>( calendar::start ) );
+    json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
             json.member( "last_target", guy->getID() );
@@ -86,7 +86,7 @@ void game::serialize( std::ostream &fout )
             json.member( "last_target_type", -1 );
         }
     }
-    json.member( "run_mode", ( int )safe_mode );
+    json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
     tripoint pos_sm = m.get_abs_sub();
@@ -198,7 +198,7 @@ void game::unserialize( std::istream &fin )
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = ( season_type )data.get_int( "initial_season", ( int )SPRING );
+        calendar::initial_season = ( season_type )data.get_int( "initial_season", static_cast<int>( SPRING ) );
         data.read( "last_target", tmptar );
         data.read( "last_target_type", tmptartyp );
         data.read( "run_mode", tmprun );
