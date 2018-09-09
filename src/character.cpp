@@ -2121,6 +2121,12 @@ hp_part Character::body_window( const std::string &menu_header,
     }
     mvwprintz( hp_window, parts.size() + y_off, 1, c_light_gray, _("%d: Exit"), parts.size() + 1 );
 
+#ifdef __ANDROID__
+    input_context ctxt("CHARACTER_BODY_WINDOW");
+    for( size_t i = 0; i < parts.size() + 1; i++ )
+        ctxt.register_manual_key('1' + i);
+#endif
+
     wrefresh(hp_window);
     char ch;
     hp_part healed_part = num_hp_parts;
