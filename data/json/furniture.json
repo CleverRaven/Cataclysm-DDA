@@ -2076,7 +2076,8 @@
         { "item": "2x4", "count": 14 },
         { "item": "nail", "charges": [ 6, 12 ] },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal", "count": 2 }
+        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
       ]
     },
     "bash": {
@@ -2088,6 +2089,8 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
       ]
     }
@@ -2108,7 +2111,8 @@
         { "item": "2x4", "count": 14 },
         { "item": "nail", "charges": [ 6, 12 ] },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal", "count": 2 }
+        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
       ]
     },
     "bash": {
@@ -2120,6 +2124,8 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
       ]
     }
@@ -2140,7 +2146,8 @@
         { "item": "2x4", "count": 18 },
         { "item": "nail", "charges": [ 7, 14 ] },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal", "count": 3 }
+        { "item": "sheet_metal_small", "count": [ 12, 20 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
       ]
     },
     "bash": {
@@ -2152,6 +2159,8 @@
         { "item": "2x4", "count": [ 6, 12 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": 1 }
       ]
     }
