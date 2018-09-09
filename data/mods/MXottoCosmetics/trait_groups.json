@@ -1,0 +1,38 @@
+[
+  {
+    "//": "This group picks out several negative and positive traits",
+    "type": "trait_group",
+    "id": "starting_cosmetics",
+    "subtype": "collection",
+    "traits": [ { "group": "trait_group_HAIR", "prob": 100 },
+                { "group": "trait_group_SKIN", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_HAIR",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BLACKHAIR" }, 
+                { "trait": "BLONDHAIR" }, 
+                { "trait": "REDHAIR" }, 
+                { "trait": "BROWNHAIR" }, 
+                { "trait": "WHITEHAIR" }, 
+                { "trait": "GRAYHAIR" }, 
+                
+                { "trait": "BLACKHAIRLONG" }, 
+                { "trait": "BLONDHAIRLONG" }, 
+                { "trait": "REDHAIRLONG" }, 
+                { "trait": "BROWNHAIRLONG" }, 
+                { "trait": "WHITEHAIRLONG" }, 
+                { "trait": "GRAYHAIRLONG" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_SKIN",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PALESKIN" }, 
+                { "trait": "LIGHTSKIN" }, 
+                { "trait": "TANSKIN" }, 
+                { "trait": "DARKSKIN" } ]
+  }
+]
+
