@@ -31,6 +31,9 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
 #endif
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
 
 // Display data
 int TERMX;
@@ -555,6 +558,13 @@ bool query_yn( const std::string &text )
     bool result = true;
     bool gotkey = false;
 
+#ifdef __ANDROID__
+    // Ensure proper android input context for touch
+    input_context ctxt( "YESNO" );
+    ctxt.register_manual_key( ucselectors[0] );
+    ctxt.register_manual_key( ucselectors[1] );
+#endif
+
     while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE ) {
 
         // Upper case always works, lower case only if !force_uc.
@@ -721,6 +731,9 @@ long popup( const std::string &text, PopupFlags flags )
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
+#ifdef __ANDROID__
+        input_context ctxt( "POPUP_WAIT" );
+#endif
         wrefresh( w );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
@@ -1684,6 +1697,10 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int col_width = width / columns;
     int offset = 0;
 
+#ifdef __ANDROID__
+    // no bindings, but give it its own input context so stale buttons don't hang around.
+    input_context ctxt( "DISPLAY_TABLE" );
+#endif
     for( ;; ) {
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_white );
