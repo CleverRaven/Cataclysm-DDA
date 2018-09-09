@@ -80,17 +80,19 @@ static tripoint random_house_in_closest_city()
 
 static tripoint target_closest_lab_entrance( const tripoint origin, int reveal_rad, mission *miss )
 {
-    tripoint testpoint = tripoint(origin);
+    tripoint testpoint = tripoint( origin );
     // Get the surface locations for labs and for spaces above hidden lab stairs.
     testpoint.z = 0;
-    tripoint surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false, true);
+    tripoint surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false, true );
 
     testpoint.z = -1;
-    tripoint underground = overmap_buffer.find_closest( testpoint, "hidden_lab_stairs", 0, false, true);
+    tripoint underground = overmap_buffer.find_closest( testpoint, "hidden_lab_stairs", 0, false,
+                           true );
     underground.z = 0;
 
     tripoint closest;
-    if( square_dist( surface.x, surface.y, origin.x, origin.y ) <= square_dist (underground.x, underground.y, origin.x, origin.y ) ) {
+    if( square_dist( surface.x, surface.y, origin.x, origin.y ) <= square_dist( underground.x,
+            underground.y, origin.x, origin.y ) ) {
         closest = surface;
     } else {
         closest = underground;
@@ -103,7 +105,7 @@ static tripoint target_closest_lab_entrance( const tripoint origin, int reveal_r
     return closest;
 }
 
-static bool reveal_road( tripoint source, tripoint dest, overmapbuffer& omb )
+static bool reveal_road( tripoint source, tripoint dest, overmapbuffer &omb )
 {
     const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
     const tripoint dest_road = overmap_buffer.find_closest( dest, "road", 3, false );
@@ -132,7 +134,7 @@ static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission
 static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
                                       bool must_see, int range, tripoint loc = overmap::invalid_tripoint )
 {
-    if (loc == overmap::invalid_tripoint) {
+    if( loc == overmap::invalid_tripoint ) {
         loc = g->u.global_omt_location();
     }
 
@@ -453,13 +455,14 @@ void mission_start::kill_horde_master( mission *miss )
  * 2) Corners or coords adjacent to a bed/dresser? (this logic may be flawed, dates from Whales in 2011)
  * 3) A random spot near the center of the tile.
  */
-static tripoint find_potential_computer_point(tinymap& compmap, int z) {
+static tripoint find_potential_computer_point( tinymap &compmap, int z )
+{
     std::vector<tripoint> broken;
     std::vector<tripoint> potential;
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             if( compmap.ter( x, y ) == t_console_broken ) {
-                broken.push_back( tripoint( x, y, z) );
+                broken.push_back( tripoint( x, y, z ) );
             } else if( compmap.ter( x, y ) == t_floor && compmap.furn( x, y ) == f_null ) {
                 bool okay = false;
                 int wall = 0;
@@ -486,7 +489,7 @@ static tripoint find_potential_computer_point(tinymap& compmap, int z) {
         }
     }
     const tripoint fallback( rng( 10, SEEX * 2 - 11 ), rng( 10, SEEY * 2 - 11 ), z );
-    return random_entry( !broken.empty() ? broken : potential, fallback );    
+    return random_entry( !broken.empty() ? broken : potential, fallback );
 }
 
 void mission_start::place_npc_software( mission *miss )
@@ -528,7 +531,7 @@ void mission_start::place_npc_software( mission *miss )
 
     oter_id oter = overmap_buffer.ter( place.x, place.y, place.z );
     if( is_ot_type( "house", oter ) || is_ot_type( "s_pharm", oter ) || oter == "" ) {
-        comppoint = find_potential_computer_point( compmap, place.z);
+        comppoint = find_potential_computer_point( compmap, place.z );
     }
 
     compmap.ter_set( comppoint, t_console );
@@ -1838,23 +1841,24 @@ void mission_start::reveal_refugee_center( mission *miss )
 }
 
 // Creates multiple lab consoles near tripoint place, which must have its z-level set to where consoles should go.
-void static create_lab_consoles( mission *miss, tripoint place, std::string otype, int security, std::string comp_name, std::string download_name )
+void static create_lab_consoles( mission *miss, tripoint place, std::string otype, int security,
+                                 std::string comp_name, std::string download_name )
 {
     // Drop four computers in nearby lab spaces so the player can stumble upon one of them.
-    for (int i = 0; i < 4; ++i) {
+    for( int i = 0; i < 4; ++i ) {
         tripoint om_place = target_om_ter_random( otype, -1, miss, false, 4, place );
 
         tinymap compmap;
         compmap.load( om_place.x * 2, om_place.y * 2, om_place.z, false );
 
-        tripoint comppoint = find_potential_computer_point( compmap, om_place.z);
+        tripoint comppoint = find_potential_computer_point( compmap, om_place.z );
 
-        computer *tmpcomp = compmap.add_computer( comppoint, _(comp_name.c_str() ), security );
+        computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name.c_str() ), security );
         tmpcomp->mission_id = miss->get_id();
         tmpcomp->add_option( _( download_name.c_str() ), COMPACT_DOWNLOAD_SOFTWARE, security );
-        tmpcomp->add_failure(COMPFAIL_ALARM);
-        tmpcomp->add_failure(COMPFAIL_DAMAGE);
-        tmpcomp->add_failure(COMPFAIL_MANHACKS);
+        tmpcomp->add_failure( COMPFAIL_ALARM );
+        tmpcomp->add_failure( COMPFAIL_DAMAGE );
+        tmpcomp->add_failure( COMPFAIL_MANHACKS );
 
         compmap.save();
     }
@@ -1879,7 +1883,7 @@ void mission_start::create_hidden_lab_console( mission *miss )
     // Pick a hidden lab entrance.
     tripoint loc = g->u.global_omt_location();
     loc.z = -1;
-    tripoint place = target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false, 0, loc);
+    tripoint place = target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false, 0, loc );
     place.z = -2;  // then go down 1 z-level to place consoles.
 
     create_lab_consoles( miss, place, "lab", 3, "Workstation", "Download Encryption Routines" );
@@ -1914,15 +1918,15 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     compmap.load( place.x * 2, place.y * 2, place.z, false );
     tripoint comppoint;
 
-    for( tripoint point: compmap.points_in_rectangle(
-            tripoint( 0, 0, place.z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, place.z ) ) ) {
+    for( tripoint point : compmap.points_in_rectangle(
+             tripoint( 0, 0, place.z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, place.z ) ) ) {
         if( compmap.ter( point ) == t_console ) {
             comppoint = point;
             break;
         }
     }
 
-    if (comppoint == tripoint()) {
+    if( comppoint == tripoint() ) {
         debugmsg( "Could not find a computer in the lab train depot, mission will fail." );
         return;
     }
