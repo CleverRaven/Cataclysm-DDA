@@ -198,7 +198,8 @@ void game::unserialize( std::istream &fin )
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = ( season_type )data.get_int( "initial_season", static_cast<int>( SPRING ) );
+        calendar::initial_season = ( season_type )data.get_int( "initial_season",
+                                   static_cast<int>( SPRING ) );
         data.read( "last_target", tmptar );
         data.read( "last_target_type", tmptartyp );
         data.read( "run_mode", tmprun );

@@ -1315,7 +1315,8 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         mvwprintz( w, i, 40, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
     // Finally, print the item list on the right
-    for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < static_cast<int>( items->size() ); i++ ) {
+    for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 &&
+         i < static_cast<int>( items->size() ); i++ ) {
         mvwprintz( w, i - offset + 1, 40, ( item_selected == i ? h_white : c_white ),
                    item::nname( ( *items )[i], ( *counts )[i] ).c_str() );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );

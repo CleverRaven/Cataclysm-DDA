@@ -568,7 +568,8 @@ void debug_menu::wishskill( player *p )
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
             skmenu.ret = -2;
-        } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < static_cast<int>( Skill::skills.size() ) ) {
+        } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 &&
+                   sksel < static_cast<int>( Skill::skills.size() ) ) {
             skill_id = sksel;
             const Skill &skill = Skill::skills[skill_id];
             const int NUM_SKILL_LVL = 21;

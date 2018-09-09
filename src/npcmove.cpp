@@ -611,7 +611,8 @@ void npc::execute_action( npc_action action )
 
         case npc_follow_player:
             update_path( g->u.pos() );
-            if( static_cast<int>( path.size() ) <= follow_distance() && g->u.posz() == posz() ) { // We're close enough to u.
+            if( static_cast<int>( path.size() ) <= follow_distance() &&
+                g->u.posz() == posz() ) { // We're close enough to u.
                 move_pause();
             } else if( !path.empty() ) {
                 move_to_next();
