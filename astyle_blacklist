@@ -43,7 +43,6 @@ src/worldfactory.cpp
 src/itype.h
 src/json.h
 src/player.h
-src/wcwidth.h
 tests/invlet_test.cpp
 tests/line_test.cpp
 tests/savegame_test.cpp
