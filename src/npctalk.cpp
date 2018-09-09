@@ -3437,6 +3437,15 @@ bool dialogue::print_responses( int const yoffset )
 
 int dialogue::choose_response( int const hilight_lines )
 {
+#ifdef __ANDROID__
+    input_context ctxt("DIALOGUE_CHOOSE_RESPONSE");
+    for( size_t i = 0; i < responses.size(); i++ )
+        ctxt.register_manual_key('a' + i);
+    ctxt.register_manual_key('L', "Look at");
+    ctxt.register_manual_key('S', "Size up stats");
+    ctxt.register_manual_key('Y', "Yell");
+    ctxt.register_manual_key('O', "Check opinion");
+#endif
     int yoffset = 0;
     while( true ) {
         clear_window_texts();
@@ -3845,6 +3854,14 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     units::mass weight_left = temp.weight_capacity() - temp.weight_carried();
 
     do {
+#ifdef __ANDROID__
+        input_context ctxt("NPC_TRADE");
+        ctxt.register_manual_key('\t', "Switch lists");
+        ctxt.register_manual_key('<', "Back");
+        ctxt.register_manual_key('>', "More");
+        ctxt.register_manual_key('?', "Examine item");
+#endif
+
         auto &target_list = focus_them ? theirs : yours;
         auto &offset = focus_them ? them_off : you_off;
         if( update ) { // Time to re-draw
@@ -3929,6 +3946,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     }
                     trim_and_print( w_whose, i - offset + 1, 1, win_w, color, "%c %c %s",
                                     ( char )keychar, ip.selected ? '+' : '-', itname.c_str() );
+#ifdef __ANDROID__
+                    ctxt.register_manual_key(keychar, itname.c_str());
+#endif
 
                     std::string price_str = string_format( "%.2f", ip.price / 100.0 );
                     nc_color price_color = ex ? c_dark_gray : ( ip.selected ? c_white : c_light_gray );
