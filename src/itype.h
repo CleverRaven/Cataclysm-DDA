@@ -768,12 +768,12 @@ struct itype {
         int price           =  0; // Value before cataclysm
         int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
         int stack_size      =  0; // Maximum identical items that can stack per above unit volume
-        units::volume integral_volume = units::from_milliliter(
-                                            -1 ); // Space consumed when integrated as part of another item (defaults to volume)
+        // Space consumed when integrated as part of another item (defaults to volume)
+        units::volume integral_volume = units::from_milliliter( -1 );
         /*@}*/
 
-        bool rigid =
-            true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        bool rigid = true; 
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;
