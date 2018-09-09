@@ -26,4 +26,3 @@ src/sdltiles.cpp
 src/ui.cpp
 src/vehicle.cpp
 src/veh_interact.cpp
-src/wincurse.cpp
