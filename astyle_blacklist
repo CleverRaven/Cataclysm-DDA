@@ -7,7 +7,6 @@ src/computer.cpp
 src/creature.cpp
 src/cursesport.cpp
 src/effect.cpp
-src/event.cpp
 src/game.cpp
 src/iexamine.cpp
 src/init.cpp
