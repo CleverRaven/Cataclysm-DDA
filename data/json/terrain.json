@@ -3418,22 +3418,22 @@
   },
   {
     "type": "terrain",
-    "id": "t_tree_elderburry",
-    "name": "elderburry tree",
-    "description": "This tree is a member of the 'Sambucus' genus, producing fruit commonly known as elderburries.  In the summer many berries can be picked.  You could also cut it down with the right tools.",
+    "id": "t_tree_elderberry",
+    "name": "elderberry tree",
+    "description": "This tree is a member of the 'Sambucus' genus, producing fruit commonly known as elderberries.  In the summer many berries can be picked.  You could also cut it down with the right tools.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "red_green", "brown" ],
     "//": "barren in winter, fruits in summer",
     "move_cost": 0,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-    "transforms_into": "t_tree_elderburry_harvested",
+    "transforms_into": "t_tree_elderberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "elderburries", "base_num": [ 8, 20 ], "scaled_num": [ 0, 0.5 ] },
-          { "drop": "seed_elderburries", "base_num": [ 3, 5 ], "scaled_num": [ 0, 0.25 ] }
+          { "drop": "elderberries", "base_num": [ 8, 20 ], "scaled_num": [ 0, 0.5 ] },
+          { "drop": "seed_elderberries", "base_num": [ 3, 5 ], "scaled_num": [ 0, 0.25 ] }
         ]
       }
     ],
@@ -3448,16 +3448,16 @@
   },
   {
     "type": "terrain",
-    "id": "t_tree_elderburry_harvested",
-    "name": "elderburry tree",
-    "description": "This tree is a member of the 'Sambucus' genus, producing fruit commonly known as elderburries.  There doesn't appear to be any ripe elderburries now.  You could also cut it down with the right tools.",
+    "id": "t_tree_elderberry_harvested",
+    "name": "elderberry tree",
+    "description": "This tree is a member of the 'Sambucus' genus, producing fruit commonly known as elderberries.  There doesn't appear to be any ripe elderberries now.  You could also cut it down with the right tools.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
     "examine_action": "harvested_plant",
-    "transforms_into": "t_tree_elderburry",
+    "transforms_into": "t_tree_elderberry",
     "bash": {
       "str_min": 80,
       "str_max": 180,
