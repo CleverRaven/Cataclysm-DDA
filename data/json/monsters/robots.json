@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": "robot-hauler (large)",
     "default_faction": "player",
-    "description": "This is a completely autonomous robot with AI. Has mounted cargo carrier and can transport up to 1000kg. It will follow you wherever you go. Capable of climbing stairs.",
+    "description": "This is a completely autonomous robot with AI. Has mounted cargo carrier and can transport up to 1000 kg. It will follow you wherever you go. Capable of climbing stairs.",
     "species": [ "ROBOT" ],
     "size": "LARGE",
     "hp": 100,
