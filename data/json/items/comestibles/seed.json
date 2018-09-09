@@ -135,7 +135,7 @@
     "name": "rose seeds",
     "name_plural": "rose seeds",
     "description": "Some rose seeds.",
-    "seed_data": { "plant_name": "rose", "fruit": "rose_hip", "byproducts": [ "withered" ], "grow": 91 }
+    "seed_data": { "plant_name": "rose", "fruit": "rose_hips", "byproducts": [ "withered" ], "grow": 91 }
   },
   {
     "type": "COMESTIBLE",
