@@ -124,74 +124,74 @@ struct talk_topic {
  * This defines possible responses from the player character.
  */
 struct talk_response {
-        /**
-         * What the player character says (literally). Should already be translated and will be
-         * displayed.
-         */
-        std::string text;
-        talk_trial trial;
-        /**
-         * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
-         */
-        mission *mission_selected = nullptr;
-        skill_id skill = skill_id::NULL_ID();
-        matype_id style = matype_id::NULL_ID();
-        /**
-         * Defines what happens when the trial succeeds or fails. If trial is
-         * TALK_TRIAL_NONE it always succeeds.
-         */
-        struct effect_t {
-                /**
-                 * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
-                 */
-                npc_opinion opinion;
-                /**
-                 * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
-                 */
-                talk_topic next_topic = talk_topic( "TALK_NONE" );
+    /**
+     * What the player character says (literally). Should already be translated and will be
+     * displayed.
+     */
+    std::string text;
+    talk_trial trial;
+    /**
+     * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
+     */
+    mission *mission_selected = nullptr;
+    skill_id skill = skill_id::NULL_ID();
+    matype_id style = matype_id::NULL_ID();
+    /**
+     * Defines what happens when the trial succeeds or fails. If trial is
+     * TALK_TRIAL_NONE it always succeeds.
+     */
+    struct effect_t {
+            /**
+             * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u) will change.
+             */
+            npc_opinion opinion;
+            /**
+             * Topic to switch to. TALK_DONE ends the talking, TALK_NONE keeps the current topic.
+             */
+            talk_topic next_topic = talk_topic( "TALK_NONE" );
 
-                talk_topic apply( dialogue &d ) const;
-                dialogue_consequence get_consequence( const dialogue &d ) const;
+            talk_topic apply( dialogue &d ) const;
+            dialogue_consequence get_consequence( const dialogue &d ) const;
 
-                const std::function<void( npc & )> &get_effect() const {
-                    return effect;
-                }
+            const std::function<void( npc & )> &get_effect() const {
+                return effect;
+            }
 
-                /**
-                 * Sets the effect and consequence based on function pointer.
-                 */
-                void set_effect( dialogue_fun_ptr effect );
-                /**
-                 * Sets the effect to a function object and consequence to explicitly given one.
-                 */
-                void set_effect_consequence( std::function<void( npc & )> eff, dialogue_consequence con );
+            /**
+             * Sets the effect and consequence based on function pointer.
+             */
+            void set_effect( dialogue_fun_ptr effect );
+            /**
+             * Sets the effect to a function object and consequence to explicitly given one.
+             */
+            void set_effect_consequence( std::function<void( npc & )> eff, dialogue_consequence con );
 
-                void load_effect( JsonObject &jo );
+            void load_effect( JsonObject &jo );
 
-                effect_t() = default;
-                effect_t( JsonObject );
-            private:
-                /**
-                 * Function that is called when the response is chosen.
-                 */
-                std::function<void( npc & )> effect = &talk_function::nothing;
-                dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
-        };
-        effect_t success;
-        effect_t failure;
+            effect_t() = default;
+            effect_t( JsonObject );
+        private:
+            /**
+             * Function that is called when the response is chosen.
+             */
+            std::function<void( npc & )> effect = &talk_function::nothing;
+            dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
+    };
+    effect_t success;
+    effect_t failure;
 
-        /**
-         * Text (already folded) and color that is used to display this response.
-         * This is set up in @ref do_formatting.
-         */
-        std::vector<std::string> formatted_text;
-        nc_color color = c_white;
+    /**
+     * Text (already folded) and color that is used to display this response.
+     * This is set up in @ref do_formatting.
+     */
+    std::vector<std::string> formatted_text;
+    nc_color color = c_white;
 
-        void do_formatting( const dialogue &d, char letter );
-        std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
+    void do_formatting( const dialogue &d, char letter );
+    std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
-        talk_response() = default;
-        talk_response( JsonObject );
+    talk_response() = default;
+    talk_response( JsonObject );
 };
 
 struct dialogue {
@@ -635,8 +635,7 @@ void npc::talk_to_u()
 
         // Don't query if we're training the player
     } else if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
-        g->cancel_activity_or_ignore_query( distraction_type::talked_to,
-                                            string_format( _( "%s talked to you." ), name.c_str() ) );
+        g->cancel_activity_or_ignore_query( distraction_type::talked_to,  string_format( _( "%s talked to you." ), name.c_str() ) );
     }
 }
 
@@ -661,9 +660,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                    beta->name.c_str() );
     }
     if( topic == "TALK_SEDATED" ) {
-        return string_format(
-                   _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off." ),
-                   beta->name.c_str() );
+        return string_format( _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off." ),
+                              beta->name.c_str() );
     }
 
     const auto &p = beta; // for compatibility, later replace it in the code below
@@ -2252,8 +2250,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
     } else if( topic == "TALK_CAMP_OVERSEER" ) {
         p->companion_mission_role_id = "FACTION_CAMP";
-        add_response( _( "What needs to be done?" ), "TALK_CAMP_OVERSEER",
-                      &talk_function::companion_mission );
+        add_response( _( "What needs to be done?" ), "TALK_CAMP_OVERSEER", &talk_function::companion_mission );
         add_response( _( "We're abandoning this camp." ), "TALK_DONE", &talk_function::remove_overseer );
         add_response_done( _( "See you around." ) );
 
@@ -2299,9 +2296,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                                  3 * p->op_of_u.anger;
                 TRIAL( TALK_TRIAL_PERSUADE, commitment * 2 );
                 SUCCESS( "TALK_TRAIN" );
-                SUCCESS_ACTION( []( npc & p ) {
-                    p.chatbin.mission_selected = nullptr;
-                } );
+                SUCCESS_ACTION( []( npc &p ) { p.chatbin.mission_selected = nullptr; } );
                 FAILURE( "TALK_DENY_PERSONAL" );
                 FAILURE_ACTION( &talk_function::deny_train );
             }
@@ -2326,8 +2321,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "I'm going to go my own way for a while." ), "TALK_LEAVE" );
             add_response_done( _( "Let's go." ) );
 
-            add_response( _( "I want you to build a camp here." ), "TALK_DONE",
-                          &talk_function::become_overseer );
+            add_response( _( "I want you to build a camp here." ), "TALK_DONE", &talk_function::become_overseer );
         }
 
         if( !p->is_following() ) {
@@ -2892,23 +2886,23 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::become_overseer( npc &p )
 {
-    if( query_yn( _( "Would you like to review the faction camp description?" ) ) ) {
+    if( query_yn( _("Would you like to review the faction camp description?") ) ){
         faction_camp_tutorial();
     }
 
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
 
-    if( omt_ref.id() != "field" ) {
-        popup( _( "You must build your camp in an empty field." ) );
+    if( omt_ref.id() != "field" ){
+        popup( _("You must build your camp in an empty field.") );
         return;
     }
 
     std::vector<std::pair<std::string, tripoint>> om_region = om_building_region( p, 1 );
-    for( const auto &om_near : om_region ) {
-        if( om_near.first != "field" && om_near.first != "forest" && om_near.first != "forest_thick" &&
-            om_near.first != "forest_water" && om_near.first.find( "river_" ) == std::string::npos ) {
-            popup( _( "You need more room for camp expansions!" ) );
+    for( const auto &om_near : om_region ){
+        if ( om_near.first != "field" && om_near.first != "forest" && om_near.first != "forest_thick" &&
+                om_near.first != "forest_water" && om_near.first.find("river_") == std::string::npos ){
+            popup( _("You need more room for camp expansions!") );
             return;
         }
     }
@@ -2917,55 +2911,53 @@ void talk_function::become_overseer( npc &p )
     int waters = 0;
     int swamps = 0;
     int fields = 0;
-    for( const auto &om_near : om_region_extended ) {
-        if( om_near.first.find( "faction_base_camp" ) != std::string::npos ) {
-            popup( _( "You are too close to another camp!" ) );
+    for( const auto &om_near : om_region_extended ){
+        if( om_near.first.find("faction_base_camp") != std::string::npos ){
+            popup( _("You are too close to another camp!") );
             return;
         }
-        if( om_near.first == "forest" || om_near.first == "forest_thick" ) {
+        if( om_near.first == "forest" || om_near.first == "forest_thick" ){
             forests++;
-        } else if( om_near.first.find( "river_" ) != std::string::npos ) {
+        } else if( om_near.first.find("river_") != std::string::npos ){
             waters++;
-        } else if( om_near.first == "forest_water" ) {
+        } else if( om_near.first == "forest_water" ){
             swamps++;
-        } else if( om_near.first == "field" ) {
+        } else if( om_near.first == "field" ){
             fields++;
         }
     }
 
     bool display = false;
-    std::string buffer = _( "Warning, you have selected a region with the following issues:\n \n" );
-    if( forests < 3 ) {
+    std::string buffer = _("Warning, you have selected a region with the following issues:\n \n");
+    if( forests < 3 ){
         display = true;
-        buffer = buffer + _( "There are few forests.  Wood is your primary construction material.\n" );
+        buffer = buffer + _("There are few forests.  Wood is your primary construction material.\n");
     }
-    if( waters == 0 ) {
+    if( waters == 0 ){
         display = true;
-        buffer = buffer + _( "There are few large clean-ish water sources.\n" );
+        buffer = buffer + _("There are few large clean-ish water sources.\n");
     }
-    if( swamps == 0 ) {
+    if( swamps == 0 ){
         display = true;
-        buffer = buffer +
-                 _( "There are no swamps.  Swamps provide access to a few late game industries.\n" );
+        buffer = buffer + _("There are no swamps.  Swamps provide access to a few late game industries.\n");
     }
-    if( fields < 4 ) {
+    if( fields < 4 ){
         display = true;
-        buffer = buffer +
-                 _( "There are few fields.  Producing enough food to supply your camp may be difficult.\n" );
+        buffer = buffer + _("There are few fields.  Producing enough food to supply your camp may be difficult.\n");
     }
-    if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
+    if ( display && !query_yn( _("%s \nAre you sure you wish to continue? "), buffer )) {
         return;
     }
 
     editmap edit;
-    if( !edit.mapgen_set( "faction_base_camp_0", tripoint( omt_pos.x, omt_pos.y, p.posz() ) ) ) {
-        popup( _( "You weren't able to survey the camp site." ) );
+    if (!edit.mapgen_set( "faction_base_camp_0", tripoint(omt_pos.x, omt_pos.y, p.posz() ) ) ){
+        popup( _("You weren't able to survey the camp site.") );
         return;
     }
 
     add_msg( _( "%s has become a camp manager." ), p.name.c_str() );
-    if( p.name.find( _( ", Camp Manager" ) ) == std::string::npos ) {
-        p.name = p.name + _( ", Camp Manager" );
+    if( p.name.find( _(", Camp Manager") ) == std::string::npos ){
+        p.name = p.name + _(", Camp Manager");
     }
     p.companion_mission_role_id = "FACTION_CAMP";
     p.set_attitude( NPCATT_NULL );
@@ -2976,13 +2968,13 @@ void talk_function::become_overseer( npc &p )
 
 void talk_function::remove_overseer( npc &p )
 {
-    if( !query_yn( "This is permanent, any companions away on mission will be lost and the camp cannot be reclaimed!  Are "
-                   "you sure?" ) ) {
+    if ( !query_yn( "This is permanent, any companions away on mission will be lost and the camp cannot be reclaimed!  Are "
+                   "you sure?") ) {
         return;
     }
     add_msg( _( "%s has abandoned the camp." ), p.name.c_str() );
     p.companion_mission_role_id.clear();
-    stop_guard( p );
+    stop_guard(p);
 }
 
 void talk_function::wake_up( npc &p )

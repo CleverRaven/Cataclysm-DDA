@@ -19,6 +19,7 @@ src/lightmap.cpp
 src/main.cpp
 src/morale.cpp
 src/newcharacter.cpp
+src/npctalk.cpp
 src/options.cpp
 src/player.cpp
 src/ranged.cpp
