@@ -1968,7 +1968,7 @@
     "type": "furniture",
     "id": "f_target",
     "name": "target",
-    "description": "A shooting target in a rough shape of a human.",
+    "description": "A metal shooting target in the rough shape of a human.",
     "symbol": "@",
     "color": "black",
     "move_cost_mod": 2,
