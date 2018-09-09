@@ -210,6 +210,12 @@ static const trait_id trait_BURROW( "BURROW" );
 void advanced_inv(); // player_activity.cpp
 void intro();
 
+#ifdef __ANDROID__
+extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
+extern bool add_best_key_for_action_to_quick_shortcuts(action_id action, const std::string& category, bool back);
+extern bool add_key_to_quick_shortcuts(long key, const std::string& category, bool back);
+#endif
+
 //The one and only game instance
 game *g;
 #ifdef TILES
@@ -1353,6 +1359,10 @@ bool game::cleanup_at_end()
 
     MAPBUFFER.reset();
     overmap_buffer.clear();
+
+#ifdef __ANDROID__
+    quick_shortcuts_map.clear();
+#endif
     return true;
 }
 
@@ -1747,8 +1757,21 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
 
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     int ch = -1;
+
+#ifdef __ANDROID__
+    input_context ctxt("CANCEL_ACTIVITY_OR_IGNORE_QUERY");
+    ctxt.register_manual_key('Y', "Yes");
+    ctxt.register_manual_key('N', "No");
+    ctxt.register_manual_key('I', "Ignore further distractions and finish");
+#endif
     do {
+#ifdef __ANDROID__
+        // Don't use popup() as this creates its own input context which will override the one above
+        ch = popup( stop_message, PF_NO_WAIT );
+        ch = inp_mngr.get_input_event().get_first_input();
+#else
         ch = popup( stop_message, PF_GET_KEY );
+#endif
     } while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
              ch != 'Y' && ch != 'N' && ch != 'I' &&
              ( force_uc || ( ch != 'y' && ch != 'n' && ch != 'i') ) );
@@ -2013,6 +2036,11 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 
     item &oThisItem = u.i_at( pos );
     if( u.has_item( oThisItem ) ) {
+#ifdef __ANDROID__
+    if (get_option<bool>("ANDROID_INVENTORY_AUTOADD"))
+        add_key_to_quick_shortcuts(oThisItem.invlet, "INVENTORY", false);
+#endif
+
         std::vector<iteminfo> vThisItem;
         std::vector<iteminfo> vDummy;
 
@@ -2329,7 +2357,9 @@ input_context get_default_mode_input_context()
     ctxt.register_action("zoom_out");
     ctxt.register_action("zoom_in");
     ctxt.register_action("toggle_sidebar_style");
+#ifndef __ANDROID__
     ctxt.register_action("toggle_fullscreen");
+#endif
     ctxt.register_action("toggle_pixel_minimap");
     ctxt.register_action("toggle_auto_pulp_butcher");
     ctxt.register_action("action_menu");
@@ -2695,6 +2725,11 @@ bool game::handle_action()
             if (act == ACTION_NULL) {
                 return false;
             }
+#ifdef __ANDROID__
+            if (get_option<bool>("ANDROID_ACTIONMENU_AUTOADD") && ctxt.get_category() == "DEFAULTMODE") {
+                add_best_key_for_action_to_quick_shortcuts(act, ctxt.get_category(), false);
+            }
+#endif
         }
 
         if ( can_action_change_worldstate( act ) ) {
@@ -3843,6 +3878,10 @@ void game::load( const save_t &name )
 
     read_from_file_optional( worldpath + name.base_path() + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
 
+#ifdef __ANDROID__
+    read_from_file_optional( worldpath + name.base_path() + ".shortcuts", std::bind( &game::load_shortcuts, this, _1 ) );
+#endif
+
     // Now that the player's worn items are updated, their sight limits need to be
     // recalculated. (This would be cleaner if u.worn were private.)
     u.recalc_sight_limits();
@@ -4006,8 +4045,17 @@ bool game::save_player_data()
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream &fout ) {
         fout << u.dump_memorial();
     }, _( "player memorial" ) );
+#ifdef __ANDROID__
+    const bool saved_shortcuts = write_to_file( playerfile + ".shortcuts", [&]( std::ostream &fout ) {
+        save_shortcuts(fout);
+    }, _( "quick shortcuts" ) );
+#endif
 
-    return saved_data && saved_weather && saved_log;
+    return saved_data && saved_weather && saved_log
+#ifdef __ANDROID__
+    && saved_shortcuts
+#endif
+    ;
 }
 
 bool game::save()
@@ -9130,6 +9178,11 @@ void game::reset_zoom()
 #endif // TILES
 }
 
+int game::get_moves_since_last_save() const
+{
+    return moves_since_last_save;
+}
+
 int game::get_user_action_counter() const
 {
     return user_action_counter;
@@ -10261,6 +10314,26 @@ void game::plthrow( int pos )
         }
     }
 
+    // you must wield the item to throw it
+    if( pos != -1 ) {
+        // Throw a single charge of a stacking object.
+        if( thrown.count_by_charges() && thrown.charges > 1 ) {
+            u.i_at( pos ).charges--;
+            thrown.charges = 1;
+        } else {
+            u.i_rem( pos );
+        }
+
+        if( !u.wield( thrown ) ) {
+            // We have to remove the item before checking for wield because it
+            // can invalidate our pos index.  Which means we have to add it
+            // back if the player changed their mind about unwielding their
+            // current item
+            u.i_add( thrown );
+            return;
+        }
+    }
+
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
@@ -10271,18 +10344,7 @@ void game::plthrow( int pos )
         return;
     }
 
-    if( u.is_worn( u.i_at( pos ) ) ) {
-        thrown.on_takeoff( u );
-    }
-
-    // Throw a single charge of a stacking object.
-    if( thrown.count_by_charges() && thrown.charges > 1 ) {
-        u.i_at( pos ).charges--;
-        thrown.charges = 1;
-    } else {
-        u.i_rem( pos );
-    }
-
+    u.i_rem( -1 );
     u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
 }

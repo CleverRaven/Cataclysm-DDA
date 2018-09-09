@@ -39,6 +39,11 @@
 #include "weather_gen.h"
 #include "npc.h"
 
+#ifdef __ANDROID__
+#include "input.h"
+extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
+#endif
+
 /*
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
@@ -316,6 +321,60 @@ void game::save_weather( std::ostream &fout )
     fout << "lightning: " << ( lightning_active ? "1" : "0" ) << std::endl;
     fout << "seed: " << seed;
 }
+
+#ifdef __ANDROID__
+///// quick shortcuts
+void game::load_shortcuts( std::istream &fin )
+{
+    std::string linebuf;
+    std::stringstream linein;
+
+    JsonIn jsin( fin );
+    try {
+        JsonObject data = jsin.get_object();
+
+        if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
+            JsonObject qs = data.get_object( "quick_shortcuts" );
+            std::set<std::string> qsl_members = qs.get_member_names();
+            quick_shortcuts_map.clear();
+            for( std::set<std::string>::iterator it = qsl_members.begin();
+                 it != qsl_members.end(); ++it ) {
+                JsonArray ja = qs.get_array( *it );
+                std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
+                qslist.clear();
+                while( ja.has_more() ) {
+                    qslist.push_back( input_event( ja.next_long(), CATA_INPUT_KEYBOARD ) );
+                }
+            }
+        }
+    } catch( const JsonError &jsonerr ) {
+        debugmsg( "Bad shortcuts json\n%s", jsonerr.c_str() );
+        return;
+    }
+}
+
+void game::save_shortcuts( std::ostream &fout )
+{
+    JsonOut json( fout, true ); // pretty-print
+
+    json.start_object();
+    if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
+        json.member( "quick_shortcuts" );
+        json.start_object();
+        for( auto &e : quick_shortcuts_map ) {
+            json.member( e.first );
+            const std::list<input_event> &qsl = e.second;
+            json.start_array();
+            for( const auto &event : qsl ) {
+                json.write( event.get_first_input() );
+            }
+            json.end_array();
+        }
+        json.end_object();
+    }
+    json.end_object();
+}
+#endif
 
 bool overmap::obsolete_terrain( const std::string &ter )
 {
