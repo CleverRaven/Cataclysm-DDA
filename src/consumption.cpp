@@ -32,6 +32,7 @@ const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_nausea( "nausea" );
+const efftype_id effect_hallu( "hallu" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -96,7 +97,6 @@ int player::nutrition_for( const item &comest ) const
     if( has_trait( trait_GIZZARD ) ) {
         nutr *= 0.6f;
     }
-
 
     if( has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
@@ -458,7 +458,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else if( ( ( nutr > 0           && temp_hunger < stomach_capacity() ) ||
                      ( comest->quench > 0 && temp_thirst < stomach_capacity() ) ) &&
-                   !food.has_infinite_charges() ) {
+                   !food.has_infinite_charges() && !has_trait( trait_id( "NO_THIRST" ) ) ) {
             add_consequence( _( "You will not be able to finish it all." ), TOO_FULL );
         }
     }
@@ -588,6 +588,18 @@ bool player::eat( item &food, bool force )
         add_effect( effect_foodpoison, food.poison * 30_minutes );
     }
 
+    const bool spiritual = has_trait( trait_id( "SPIRITUAL" ) );
+    if( food.has_flag( "HIDDEN_HALLU" ) ) {
+        if( spiritual ) {
+            add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false );
+        } else {
+            add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false );
+        }
+        if( !has_effect( effect_hallu ) ) {
+            add_effect( effect_hallu, 6_hours );
+        }
+    }
+
     if( amorphous ) {
         add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                food.tname().c_str() );
@@ -633,7 +645,6 @@ bool player::eat( item &food, bool force )
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         const bool cannibal = has_trait( trait_id( "CANNIBAL" ) );
         const bool psycho = has_trait( trait_id( "PSYCHOPATH" ) ) || has_trait( trait_id( "SAPIOVORE" ) );
-        const bool spiritual = has_trait( trait_id( "SPIRITUAL" ) );
         if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
@@ -675,6 +686,20 @@ bool player::eat( item &food, bool force )
     if( allergy != MORALE_NULL ) {
         add_msg_if_player( m_bad, _( "Yuck! How can anybody eat this stuff?" ) );
         add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
+    }
+    if( food.has_flag( "ALLERGEN_JUNK" ) ) {
+        if( has_trait( trait_id( "PROJUNK" ) ) ) {
+            add_msg_if_player( m_good, _( "Mmm, junk food." ) );
+            add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
+        }
+        if( has_trait( trait_id( "PROJUNK2" ) ) ) {
+            if( !one_in( 100 ) ) {
+                add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
+            } else {
+                add_msg_if_player( m_good, _( "They may do what they must... you've already won." ) );
+            }
+            add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
+        }
     }
     // Carnivores CAN eat junk food, but they won't like it much.
     // Pizza-scraping happens in consume_effects.
@@ -760,6 +785,10 @@ void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
         p.set_thirst( capacity );
     }
 
+    if( p.has_trait( trait_id( "NO_THIRST" ) ) ) {
+        p.set_thirst( p.get_hunger() );
+    }
+
     add_msg( m_debug, "%s nutrition cap: hunger %d, thirst %d, stomach food %d, stomach water %d",
              p.disp_name().c_str(), p.get_hunger(), p.get_thirst(), p.get_stomach_food(),
              p.get_stomach_water() );
@@ -802,9 +831,13 @@ void player::consume_effects( const item &food )
     mod_thirst( -comest.quench );
     mod_stomach_food( nutr );
     mod_stomach_water( comest.quench );
-    if( comest.healthy != 0 ) {
+    int effective_health = comest.healthy;
+    if( effective_health != 0 ) {
         // Effectively no cap on health modifiers from food
-        mod_healthy_mod( comest.healthy, ( comest.healthy >= 0 ) ? 200 : -200 );
+        if( has_trait( trait_id( "PROJUNK2" ) ) && effective_health < 0 ) {
+            effective_health = 0; // we can handle junk just fine!
+        }
+        mod_healthy_mod( effective_health, ( effective_health >= 0 ) ? 200 : -200 );
     }
 
     if( comest.stim != 0 &&

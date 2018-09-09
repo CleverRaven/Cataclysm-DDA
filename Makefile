@@ -545,7 +545,7 @@ ifdef TILES
       LDFLAGS += -lSDL2_image
       ifdef SOUND
         LDFLAGS += -lSDL2_mixer
-    	endif
+      endif
     endif
   else # not osx
     CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
@@ -754,7 +754,7 @@ ifdef LTO
   endif
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
 	@
 
 $(TARGET): $(OBJS)
@@ -1068,7 +1068,10 @@ check: version $(BUILD_PREFIX)cataclysm.a
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests install lint
+validate-pr:
+	@build-scripts/validate_pr_in_jenkins
+
+.PHONY: tests check ctags etags clean-tests install lint validate-pr
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

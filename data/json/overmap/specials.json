@@ -361,7 +361,8 @@
         "locations" : [ "forest" ],
         "city_distance" : [20, -1],
         "city_sizes" : [0, 6],
-        "occurrences" : [0, 1],
+        "occurrences" : [15, 100],
+        "flags" : [ "UNIQUE" ],
         "rotate": false
     },{
         "type" : "overmap_special",
@@ -1359,7 +1360,8 @@
         "locations" : [ "wilderness" ],
         "city_distance" : [1, 5],
         "city_sizes" : [1, 12],
-        "occurrences" : [1, 1]
+        "occurrences" : [33, 100],
+        "flags" : [ "UNIQUE" ]
     },{
         "type" : "overmap_special",
         "id" : "evac_center",

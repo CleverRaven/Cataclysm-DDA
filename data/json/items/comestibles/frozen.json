@@ -141,7 +141,7 @@
     "quench": 8,
     "fun": 10,
     "price": 175,
-    "material": [  ]
+    "material": [ "water", "fruit" ]
   },
   {
     "type": "COMESTIBLE",

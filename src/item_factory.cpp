@@ -495,7 +495,6 @@ class iuse_function_wrapper : public iuse_actor
 use_function::use_function( const std::string &type, const use_function_pointer f )
     : use_function( new iuse_function_wrapper( type, f ) ) {}
 
-
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
     iuse_function_list[ type ] = use_function( type, f );
@@ -592,7 +591,6 @@ void Item_factory::init()
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
-    add_iuse( "FUN_HALLU", &iuse::fun_hallu );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
@@ -645,6 +643,7 @@ void Item_factory::init()
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
     add_iuse( "PURIFY_IV", &iuse::purify_iv );
+    add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
     add_iuse( "RADIOCAR", &iuse::radiocar );
     add_iuse( "RADIOCARON", &iuse::radiocaron );

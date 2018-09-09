@@ -86,7 +86,6 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
     "weather", // C_WEATHER,
 }};
 
-
 namespace
 {
 void printErrorIf( const bool condition, const std::string &message )
@@ -169,7 +168,7 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
     return -1;
 }
 
-formatted_text::formatted_text( const std::string text, const int color, const direction direction )
+formatted_text::formatted_text( const std::string &text, const int color, const direction direction )
     : text( text ), color( color )
 {
     switch( direction ) {
@@ -1240,7 +1239,6 @@ void cata_tiles::process_minimap_cache_updates()
                 const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
                 const SDL_Color c = current_pix.getSdlColor();
 
-
                 printErrorIf( SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a ) != 0, "SDL_SetRenderDrawColor failed" );
 
                 if( draw_with_dots ) {
@@ -1631,7 +1629,6 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
     }
     return nullptr;
 }
-
 
 bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                                       const std::string &subcategory, tripoint pos,

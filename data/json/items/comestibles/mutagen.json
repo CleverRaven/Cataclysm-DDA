@@ -283,6 +283,18 @@
         }
     },
     {
+        "id" : "iv_mutagen_mouse",
+        "copy-from" : "iv_mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "mouse serum",
+        "description" : "A super-concentrated mutagen strongly resembling liquefied metal.  You need a syringe to inject it...  if you really want to?",
+        "color" : "light_gray",
+        "use_action" : {
+          "type" : "mutagen_iv",
+          "mutation_category" : "MOUSE"
+        }
+    },
+    {
         "id" : "mutagen",
         "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
@@ -518,6 +530,16 @@
         }
     },
     {
+        "id" : "mutagen_mouse",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "mouse mutagen",
+        "use_action" : {
+          "type" : "mutagen",
+          "mutation_category" : "MOUSE"
+        }
+    },
+    {
         "id" : "purifier",
         "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
@@ -539,5 +561,24 @@
         "color" : "magenta",
         "addiction_potential" : 8,
         "use_action" : "PURIFY_IV"
+    },
+    {
+        "id" : "purifier_smart_shot",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "category" : "mutagen",
+        "name" : "purifier smart shot",
+        "description" : "An experimental stem cell treatment, offering limited control over which mutations are purified.  The liquid sloshes strangely inside of this syringe.",
+        "weight" : 10,
+        "volume" : 1,
+        "price" : 1200000,
+        "stack_size" : 40,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "magenta",
+        "healthy" : -6,
+        "stim" : -5,
+        "use_action" : "PURIFY_SMART",
+        "flags" : [ "NPC_SAFE", "TRADER_AVOID" ]
     }
 ]

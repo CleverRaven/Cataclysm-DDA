@@ -278,7 +278,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
-
         if( shot.missed_by <= .1 ) {
             lifetime_stats.headshots++; // @todo: check head existence for headshot
         }
@@ -320,7 +319,7 @@ int throw_cost( const player &c, const item &to_throw )
     const int base_move_cost = to_throw.attack_time() / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
-    const int skill_cost = ( int )( base_move_cost * ( 20 - throw_skill ) / 20 );
+    const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
     const int encumbrance_penalty = c.encumb( bp_torso ) +
@@ -379,7 +378,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter ) co
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
     const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-    int dispersion = 10 * throw_difficulty / ( 3 * throw_skill + 10 );
+    int dispersion = 10 * throw_difficulty / ( 8 * throw_skill + 4 );
     // If the target is a creature, it moves around and ruins aim
     // @todo: Inform projectile functions if the attacker actually aims for the critter or just the tile
     if( critter != nullptr ) {
@@ -422,11 +421,15 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     bool do_railgun = has_active_bionic( bionic_id( "bio_railgun" ) ) && thrown.made_of_any( ferric );
 
-    // The damage dealt due to item's weight and player's strength
+    // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
     ///\EFFECT_STR increases throwing damage
-    impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, do_railgun ? get_str() : ( get_str() / 2.0 ) ) );
+    double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
+    // modify strength impact based on skill level, clamped to [0.15 - 1]
+    // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
+    stats_mod *= ( std::min( MAX_SKILL, get_skill_level( skill_throw ) ) / static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
+    impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
     if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
@@ -659,7 +662,7 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
 
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
         std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
-                                                  (int)( 100.0 * steadiness ) );
+                                                  static_cast<int>( 100.0 * steadiness ) );
         mvwprintw( w, line_number++, 1, steadiness_s );
     } else {
         const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
@@ -1212,7 +1215,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             dst = t[newtarget]->pos();
         } else if( (action == "NEXT_TARGET") && (target != -1) ) {
             int newtarget = find_target( t, dst ) + 1;
-            if( newtarget == (int)t.size() ) {
+            if( newtarget == static_cast<int>( t.size() ) ) {
                 newtarget = 0;
             }
             dst = t[newtarget]->pos();

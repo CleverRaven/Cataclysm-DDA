@@ -55,68 +55,68 @@ int savegame_loading_version = savegame_version;
 /*
  * Save to opened character.sav
  */
-void game::serialize(std::ostream & fout) {
-/*
- * Format version 12: Fully json, save the header. Weather and memorial exist elsewhere.
- * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
- */
-        // Header
-        fout << "# version " << savegame_version << std::endl;
+void game::serialize( std::ostream &fout )
+{
+    /*
+     * Format version 12: Fully json, save the header. Weather and memorial exist elsewhere.
+     * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
+     */
+    // Header
+    fout << "# version " << savegame_version << std::endl;
 
-        JsonOut json(fout, true); // pretty-print
+    JsonOut json( fout, true ); // pretty-print
 
-        json.start_object();
-        // basic game state information.
-        json.member("turn", (int)calendar::turn);
-        json.member("calendar_start", (int)calendar::start);
-        json.member("initial_season", (int)calendar::initial_season);
-        if( const auto lt_ptr = last_target.lock() ) {
-            if( const npc * const guy = dynamic_cast<const npc*>( lt_ptr.get() ) ) {
-                json.member( "last_target", guy->getID() );
-                json.member( "last_target_type", +1 );
-            } else if( const monster * const mon = dynamic_cast<const monster*>( lt_ptr.get() ) ) {
-                // monsters don't have IDs, so get its index in the Creature_tracker instead
-                json.member( "last_target", critter_tracker->temporary_id( *mon ) );
-                json.member( "last_target_type", -1 );
-            }
+    json.start_object();
+    // basic game state information.
+    json.member( "turn", ( int )calendar::turn );
+    json.member( "calendar_start", ( int )calendar::start );
+    json.member( "initial_season", ( int )calendar::initial_season );
+    if( const auto lt_ptr = last_target.lock() ) {
+        if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
+            json.member( "last_target", guy->getID() );
+            json.member( "last_target_type", +1 );
+        } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
+            // monsters don't have IDs, so get its index in the Creature_tracker instead
+            json.member( "last_target", critter_tracker->temporary_id( *mon ) );
+            json.member( "last_target_type", -1 );
         }
-        json.member( "run_mode", (int)safe_mode );
-        json.member( "mostseen", mostseen );
-        // current map coordinates
-        tripoint pos_sm = m.get_abs_sub();
-        const point pos_om = sm_to_om_remain( pos_sm.x, pos_sm.y );
-        json.member( "levx", pos_sm.x );
-        json.member( "levy", pos_sm.y );
-        json.member( "levz", pos_sm.z );
-        json.member( "om_x", pos_om.x );
-        json.member( "om_y", pos_om.y );
+    }
+    json.member( "run_mode", ( int )safe_mode );
+    json.member( "mostseen", mostseen );
+    // current map coordinates
+    tripoint pos_sm = m.get_abs_sub();
+    const point pos_om = sm_to_om_remain( pos_sm.x, pos_sm.y );
+    json.member( "levx", pos_sm.x );
+    json.member( "levy", pos_sm.y );
+    json.member( "levz", pos_sm.z );
+    json.member( "om_x", pos_om.x );
+    json.member( "om_y", pos_om.y );
 
+    json.member( "grscent", scent.serialize() );
 
-        json.member( "grscent", scent.serialize() );
+    // Then each monster
+    json.member( "active_monsters", *critter_tracker );
+    json.member( "stair_monsters", coming_to_stairs );
 
-        // Then each monster
-        json.member( "active_monsters", *critter_tracker );
-        json.member( "stair_monsters", coming_to_stairs );
+    // save killcounts.
+    json.member( "kills" );
+    json.start_object();
+    for( auto &elem : kills ) {
+        json.member( elem.first.str(), elem.second );
+    }
+    json.end_object();
 
-        // save killcounts.
-        json.member( "kills" );
-        json.start_object();
-        for( auto &elem : kills ) {
-            json.member( elem.first.str(), elem.second );
-        }
-        json.end_object();
+    json.member( "npc_kills" );
+    json.start_array();
+    for( auto &elem : npc_kills ) {
+        json.write( elem );
+    }
+    json.end_array();
 
-        json.member( "npc_kills" );
-        json.start_array();
-        for( auto &elem : npc_kills ) {
-            json.write( elem );
-        }
-        json.end_array();
+    json.member( "player", u );
+    Messages::serialize( json );
 
-        json.member( "player", u );
-        Messages::serialize( json );
-
-        json.end_object();
+    json.end_object();
 }
 
 std::string scent_map::serialize() const
@@ -142,35 +142,36 @@ std::string scent_map::serialize() const
     return rle_out.str();
 }
 
-void chkversion(std::istream & fin) {
-   if ( fin.peek() == '#' ) {
-       std::string vline;
-       getline(fin, vline);
-       std::string tmphash;
-       std::string tmpver;
-       int savedver=-1;
-       std::stringstream vliness(vline);
-       vliness >> tmphash >> tmpver >> savedver;
-       if ( tmpver == "version" && savedver != -1 ) {
-           savegame_loading_version = savedver;
-       }
-   }
+void chkversion( std::istream &fin )
+{
+    if( fin.peek() == '#' ) {
+        std::string vline;
+        getline( fin, vline );
+        std::string tmphash;
+        std::string tmpver;
+        int savedver = -1;
+        std::stringstream vliness( vline );
+        vliness >> tmphash >> tmpver >> savedver;
+        if( tmpver == "version" && savedver != -1 ) {
+            savegame_loading_version = savedver;
+        }
+    }
 }
 
 /*
  * Parse an open .sav file.
  */
-void game::unserialize(std::istream & fin)
+void game::unserialize( std::istream &fin )
 {
-    if ( fin.peek() == '#' ) {
+    if( fin.peek() == '#' ) {
         std::string vline;
-        getline(fin, vline);
+        getline( fin, vline );
         std::string tmphash;
         std::string tmpver;
-        int savedver=-1;
-        std::stringstream vliness(vline);
+        int savedver = -1;
+        std::stringstream vliness( vline );
         vliness >> tmphash >> tmpver >> savedver;
-        if ( tmpver == "version" && savedver != -1 ) {
+        if( tmpver == "version" && savedver != -1 ) {
             savegame_loading_version = savedver;
         }
     }
@@ -186,22 +187,22 @@ void game::unserialize(std::istream & fin)
     int levz = 0;
     int comx = 0;
     int comy = 0;
-    JsonIn jsin(fin);
+    JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
 
-        data.read("turn",tmpturn);
-        data.read("calendar_start",tmpcalstart);
-        calendar::initial_season = (season_type)data.get_int("initial_season",(int)SPRING);
-        data.read("last_target",tmptar);
+        data.read( "turn", tmpturn );
+        data.read( "calendar_start", tmpcalstart );
+        calendar::initial_season = ( season_type )data.get_int( "initial_season", ( int )SPRING );
+        data.read( "last_target", tmptar );
         data.read( "last_target_type", tmptartyp );
-        data.read("run_mode", tmprun);
-        data.read("mostseen", mostseen);
-        data.read("levx",levx);
-        data.read("levy",levy);
-        data.read("levz",levz);
-        data.read("om_x",comx);
-        data.read("om_y",comy);
+        data.read( "run_mode", tmprun );
+        data.read( "mostseen", mostseen );
+        data.read( "levx", levx );
+        data.read( "levy", levy );
+        data.read( "levz", levz );
+        data.read( "om_x", comx );
+        data.read( "om_y", comy );
 
         calendar::turn = tmpturn;
         calendar::start = tmpcalstart;
@@ -209,12 +210,12 @@ void game::unserialize(std::istream & fin)
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
-        if (get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF) {
+        if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
             safe_mode = SAFE_MODE_ON;
         }
 
         linebuf.clear();
-        if ( data.read("grscent",linebuf) ) {
+        if( data.read( "grscent", linebuf ) ) {
             scent.deserialize( linebuf );
         } else {
             scent.reset();
@@ -230,32 +231,32 @@ void game::unserialize(std::istream & fin)
             last_target = critter_tracker->from_temporary_id( tmptar );
         }
 
-        JsonArray vdata = data.get_array("stair_monsters");
+        JsonArray vdata = data.get_array( "stair_monsters" );
         coming_to_stairs.clear();
-        while (vdata.has_more()) {
+        while( vdata.has_more() ) {
             monster stairtmp;
-            vdata.read_next(stairtmp);
-            coming_to_stairs.push_back(stairtmp);
+            vdata.read_next( stairtmp );
+            coming_to_stairs.push_back( stairtmp );
         }
 
-        JsonObject odata = data.get_object("kills");
+        JsonObject odata = data.get_object( "kills" );
         std::set<std::string> members = odata.get_member_names();
         for( const auto &member : members ) {
             kills[mtype_id( member )] = odata.get_int( member );
         }
 
-        vdata = data.get_array("npc_kills");
+        vdata = data.get_array( "npc_kills" );
         while( vdata.has_more() ) {
-           std::string npc_name;
-           vdata.read_next(npc_name);
-           npc_kills.push_back(npc_name);
+            std::string npc_name;
+            vdata.read_next( npc_name );
+            npc_kills.push_back( npc_name );
         }
 
-        data.read("player", u);
+        data.read( "player", u );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
-        debugmsg("Bad save json\n%s", jsonerr.c_str() );
+        debugmsg( "Bad save json\n%s", jsonerr.c_str() );
         return;
     }
 }
@@ -277,44 +278,47 @@ void scent_map::deserialize( const std::string &data )
 }
 
 ///// weather
-void game::load_weather(std::istream & fin) {
-   if ( fin.peek() == '#' ) {
-       std::string vline;
-       getline(fin, vline);
-       std::string tmphash;
-       std::string tmpver;
-       int savedver=-1;
-       std::stringstream vliness(vline);
-       vliness >> tmphash >> tmpver >> savedver;
-       if ( tmpver == "version" && savedver != -1 ) {
-           savegame_loading_version = savedver;
-       }
-   }
+void game::load_weather( std::istream &fin )
+{
+    if( fin.peek() == '#' ) {
+        std::string vline;
+        getline( fin, vline );
+        std::string tmphash;
+        std::string tmpver;
+        int savedver = -1;
+        std::stringstream vliness( vline );
+        vliness >> tmphash >> tmpver >> savedver;
+        if( tmpver == "version" && savedver != -1 ) {
+            savegame_loading_version = savedver;
+        }
+    }
 
-   //Check for "lightning:" marker - if absent, ignore
-   if (fin.peek() == 'l') {
-       std::string line;
-       getline(fin, line);
-       lightning_active = (line.compare("lightning: 1") == 0);
-   } else {
-       lightning_active = false;
-   }
-    if (fin.peek() == 's') {
+    //Check for "lightning:" marker - if absent, ignore
+    if( fin.peek() == 'l' ) {
+        std::string line;
+        getline( fin, line );
+        lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+    } else {
+        lightning_active = false;
+    }
+    if( fin.peek() == 's' ) {
         std::string line;
         std::string label;
-        getline(fin, line);
-        std::stringstream liness(line);
+        getline( fin, line );
+        std::stringstream liness( line );
         liness >> label >> seed;
     }
 }
 
-void game::save_weather(std::ostream &fout) {
+void game::save_weather( std::ostream &fout )
+{
     fout << "# version " << savegame_version << std::endl;
-    fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
+    fout << "lightning: " << ( lightning_active ? "1" : "0" ) << std::endl;
     fout << "seed: " << seed;
 }
 
-bool overmap::obsolete_terrain( const std::string &ter ) {
+bool overmap::obsolete_terrain( const std::string &ter )
+{
     static const std::unordered_set<std::string> obsolete = {
         "apartments_con_tower_1", "apartments_con_tower_1_entrance",
         "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
@@ -368,7 +372,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
             nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
             nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
+            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
 
         } else if( old == "apartments_con_tower_1" || old == "apartments_mod_tower_1" ) {
             const std::string base = old.substr( 0, old.rfind( '1' ) );
@@ -398,7 +402,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
             nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
             nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
+            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
 
         } else if( old == "public_works" ) {
             const std::string base = "public_works_";
@@ -550,7 +554,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
             nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
             nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
+            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
 
         } else if( old == "cathedral_1" ) {
             const std::string base = "cathedral_1_";
@@ -574,7 +578,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
             nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
             nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
+            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
 
         } else if( old == "cathedral_b" ) {
             const std::string base = "cathedral_b_";
@@ -742,19 +746,20 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
 }
 
 // throws std::exception
-void overmap::unserialize( std::istream &fin ) {
+void overmap::unserialize( std::istream &fin )
+{
 
-    if ( fin.peek() == '#' ) {
+    if( fin.peek() == '#' ) {
         // This was the last savegame version that produced the old format.
         static int overmap_legacy_save_version = 24;
         std::string vline;
-        getline(fin, vline);
+        getline( fin, vline );
         std::string tmphash;
         std::string tmpver;
         int savedver = -1;
-        std::stringstream vliness(vline);
+        std::stringstream vliness( vline );
         vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version  ) {
+        if( savedver <= overmap_legacy_save_version ) {
             unserialize_legacy( fin );
             return;
         }
@@ -771,24 +776,24 @@ void overmap::unserialize( std::istream &fin ) {
                 jsin.start_array();
                 int count = 0;
                 std::string tmp_ter;
-                oter_id tmp_otid(0);
-                for (int j = 0; j < OMAPY; j++) {
-                    for (int i = 0; i < OMAPX; i++) {
-                        if (count == 0) {
+                oter_id tmp_otid( 0 );
+                for( int j = 0; j < OMAPY; j++ ) {
+                    for( int i = 0; i < OMAPX; i++ ) {
+                        if( count == 0 ) {
                             jsin.start_array();
                             jsin.read( tmp_ter );
                             jsin.read( count );
                             jsin.end_array();
                             if( obsolete_terrain( tmp_ter ) ) {
-                                for( int p = i; p < i+count; p++ ) {
-                                    needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
+                                for( int p = i; p < i + count; p++ ) {
+                                    needs_conversion.emplace( tripoint( p, j, z - OVERMAP_DEPTH ),
                                                               tmp_ter );
                                 }
                                 tmp_otid = oter_id( 0 );
                             } else if( oter_str_id( tmp_ter ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter );
                             } else {
-                                debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
+                                debugmsg( "Loaded bad ter! ter %s", tmp_ter.c_str() );
                                 tmp_otid = oter_id( 0 );
                             }
                         }
@@ -803,9 +808,9 @@ void overmap::unserialize( std::istream &fin ) {
         } else if( name == "region_id" ) {
             std::string new_region_id;
             jsin.read( new_region_id );
-            if ( settings.id != new_region_id ) {
+            if( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
-                if ( rit != region_settings_map.end() ) {
+                if( rit != region_settings_map.end() ) {
                     settings = rit->second; // @todo: optimize
                 }
             }
@@ -857,10 +862,10 @@ void overmap::unserialize( std::istream &fin ) {
                     if( radio_member_name == "type" ) {
                         const std::string radio_name = jsin.get_string();
                         const auto mapping =
-                            find_if(radio_type_names.begin(), radio_type_names.end(),
-                                    [radio_name](const std::pair<int, std::string> &p) {
-                                        return p.second == radio_name;
-                                    });
+                            find_if( radio_type_names.begin(), radio_type_names.end(),
+                        [radio_name]( const std::pair<int, std::string> &p ) {
+                            return p.second == radio_name;
+                        } );
                         if( mapping != radio_type_names.end() ) {
                             new_radio.type = mapping->first;
                         }
@@ -884,7 +889,7 @@ void overmap::unserialize( std::istream &fin ) {
                 monster_location.deserialize( jsin );
                 new_monster.deserialize( jsin );
                 monster_map.insert( std::make_pair( std::move( monster_location ),
-                                                    std::move(new_monster) ) );
+                                                    std::move( new_monster ) ) );
             }
         } else if( name == "tracked_vehicles" ) {
             jsin.start_array();
@@ -939,16 +944,16 @@ void overmap::unserialize( std::istream &fin ) {
     }
 }
 
-static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool (&array)[OMAPX][OMAPY] )
+static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
 {
     int count = 0;
     bool value = false;
-    for (int j = 0; j < OMAPY; j++) {
-        for (int i = 0; i < OMAPX; i++) {
-            if (count == 0) {
+    for( int j = 0; j < OMAPY; j++ ) {
+        for( int i = 0; i < OMAPX; i++ ) {
+            if( count == 0 ) {
                 jsin.start_array();
-                jsin.read(value);
-                jsin.read(count);
+                jsin.read( value );
+                jsin.read( count );
                 jsin.end_array();
             }
             count--;
@@ -958,20 +963,20 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool (&arra
 }
 
 // throws std::exception
-void overmap::unserialize_view(std::istream &fin)
+void overmap::unserialize_view( std::istream &fin )
 {
     // Private/per-character view of the overmap.
-    if ( fin.peek() == '#' ) {
+    if( fin.peek() == '#' ) {
         // This was the last savegame version that produced the old format.
         static int overmap_legacy_save_version = 24;
         std::string vline;
-        getline(fin, vline);
+        getline( fin, vline );
         std::string tmphash;
         std::string tmpver;
         int savedver = -1;
-        std::stringstream vliness(vline);
+        std::stringstream vliness( vline );
         vliness >> tmphash >> tmpver >> savedver;
-        if( savedver <= overmap_legacy_save_version  ) {
+        if( savedver <= overmap_legacy_save_version ) {
             unserialize_view_legacy( fin );
             return;
         }
@@ -989,7 +994,7 @@ void overmap::unserialize_view(std::istream &fin)
                 jsin.end_array();
             }
             jsin.end_array();
-        } else if( name == "explored") {
+        } else if( name == "explored" ) {
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
@@ -997,19 +1002,19 @@ void overmap::unserialize_view(std::istream &fin)
                 jsin.end_array();
             }
             jsin.end_array();
-        } else if( name == "notes") {
+        } else if( name == "notes" ) {
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     om_note tmp;
                     jsin.start_array();
-                    jsin.read(tmp.x);
-                    jsin.read(tmp.y);
-                    jsin.read(tmp.text);
+                    jsin.read( tmp.x );
+                    jsin.read( tmp.y );
+                    jsin.read( tmp.text );
                     jsin.end_array();
 
-                    layer[z].notes.push_back(tmp);
+                    layer[z].notes.push_back( tmp );
                 }
             }
             jsin.end_array();
@@ -1017,27 +1022,29 @@ void overmap::unserialize_view(std::istream &fin)
     }
 }
 
-static void serialize_array_to_compacted_sequence( JsonOut &json, const bool (&array)[OMAPX][OMAPY] ) {
+static void serialize_array_to_compacted_sequence( JsonOut &json,
+        const bool ( &array )[OMAPX][OMAPY] )
+{
     int count = 0;
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
         for( int i = 0; i < OMAPX; i++ ) {
             int value = array[i][j];
             if( value != lastval ) {
-                if (count) {
-                    json.write(count);
+                if( count ) {
+                    json.write( count );
                     json.end_array();
                 }
                 lastval = value;
                 json.start_array();
-                json.write( (bool)value );
+                json.write( ( bool )value );
                 count = 1;
             } else {
                 count++;
             }
         }
     }
-    json.write(count);
+    json.write( count );
     json.end_array();
 }
 
@@ -1046,12 +1053,12 @@ void overmap::serialize_view( std::ostream &fout ) const
     static const int first_overmap_view_json_version = 25;
     fout << "# version " << first_overmap_view_json_version << std::endl;
 
-    JsonOut json(fout, false);
+    JsonOut json( fout, false );
     json.start_object();
 
-    json.member("visible");
+    json.member( "visible" );
     json.start_array();
-    for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].visible );
         json.end_array();
@@ -1059,9 +1066,9 @@ void overmap::serialize_view( std::ostream &fout ) const
     }
     json.end_array();
 
-    json.member("explored");
+    json.member( "explored" );
     json.start_array();
-    for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].explored );
         json.end_array();
@@ -1069,15 +1076,15 @@ void overmap::serialize_view( std::ostream &fout ) const
     }
     json.end_array();
 
-    json.member("notes");
+    json.member( "notes" );
     json.start_array();
-    for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
-        for (auto &i : layer[z].notes) {
+        for( auto &i : layer[z].notes ) {
             json.start_array();
-            json.write(i.x);
-            json.write(i.y);
-            json.write(i.text);
+            json.write( i.x );
+            json.write( i.y );
+            json.write( i.text );
             json.end_array();
             fout << std::endl;
         }
@@ -1090,9 +1097,8 @@ void overmap::serialize_view( std::ostream &fout ) const
 
 // Compares all fields except position and monsters
 // If any group has monsters, it is never equal to any group (because monsters are unique)
-struct mongroup_bin_eq
-{
-    bool operator()( const mongroup& a, const mongroup& b ) const {
+struct mongroup_bin_eq {
+    bool operator()( const mongroup &a, const mongroup &b ) const {
         return a.monsters.empty() &&
                b.monsters.empty() &&
                a.type == b.type &&
@@ -1107,10 +1113,8 @@ struct mongroup_bin_eq
     }
 };
 
-struct mongroup_hash
-{
-    std::size_t operator()( const mongroup& mg ) const
-    {
+struct mongroup_hash {
+    std::size_t operator()( const mongroup &mg ) const {
         // Note: not hashing monsters or position
         size_t ret = std::hash<mongroup_id>()( mg.type );
         std::hash_combine( ret, mg.radius );
@@ -1158,21 +1162,21 @@ void overmap::serialize( std::ostream &fout ) const
     static const int first_overmap_json_version = 26;
     fout << "# version " << first_overmap_json_version << std::endl;
 
-    JsonOut json(fout, false);
+    JsonOut json( fout, false );
     json.start_object();
 
-    json.member("layers");
+    json.member( "layers" );
     json.start_array();
-    for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         int count = 0;
-        oter_id last_tertype(-1);
+        oter_id last_tertype( -1 );
         json.start_array();
-        for (int j = 0; j < OMAPY; j++) {
-            for (int i = 0; i < OMAPX; i++) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            for( int i = 0; i < OMAPX; i++ ) {
                 oter_id t = layer[z].terrain[i][j];
-                if (t != last_tertype) {
-                    if (count) {
-                        json.write(count);
+                if( t != last_tertype ) {
+                    if( count ) {
+                        json.write( count );
                         json.end_array();
                     }
                     last_tertype = t;
@@ -1184,7 +1188,7 @@ void overmap::serialize( std::ostream &fout ) const
                 }
             }
         }
-        json.write(count);
+        json.write( count );
         // End the last entry for a z-level.
         json.end_array();
         // End the z-level
@@ -1195,73 +1199,73 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
 
     // temporary, to allow user to manually switch regions during play until regionmap is done.
-    json.member("region_id", settings.id);
+    json.member( "region_id", settings.id );
     fout << std::endl;
 
     save_monster_groups( json );
     fout << std::endl;
 
-    json.member("cities");
+    json.member( "cities" );
     json.start_array();
     for( auto &i : cities ) {
         json.start_object();
-        json.member("name", i.name);
-        json.member("x", i.x);
-        json.member("y", i.y);
-        json.member("size", i.s);
+        json.member( "name", i.name );
+        json.member( "x", i.x );
+        json.member( "y", i.y );
+        json.member( "size", i.s );
         json.end_object();
     }
     json.end_array();
     fout << std::endl;
 
-    json.member("roads_out");
+    json.member( "roads_out" );
     json.start_array();
     for( auto &i : roads_out ) {
         json.start_object();
-        json.member("x", i.x);
-        json.member("y", i.y);
+        json.member( "x", i.x );
+        json.member( "y", i.y );
         json.end_object();
     }
     json.end_array();
     fout << std::endl;
 
-    json.member("radios");
+    json.member( "radios" );
     json.start_array();
     for( auto &i : radios ) {
         json.start_object();
-        json.member("x", i.x);
-        json.member("y", i.y);
-        json.member("strength", i.strength);
-        json.member("type", radio_type_names[i.type]);
-        json.member("message", i.message);
+        json.member( "x", i.x );
+        json.member( "y", i.y );
+        json.member( "strength", i.strength );
+        json.member( "type", radio_type_names[i.type] );
+        json.member( "message", i.message );
         json.end_object();
     }
     json.end_array();
     fout << std::endl;
 
-    json.member("monster_map");
+    json.member( "monster_map" );
     json.start_array();
     for( auto &i : monster_map ) {
-        i.first.serialize(json);
-        i.second.serialize(json);
+        i.first.serialize( json );
+        i.second.serialize( json );
     }
     json.end_array();
     fout << std::endl;
 
-    json.member("tracked_vehicles");
+    json.member( "tracked_vehicles" );
     json.start_array();
     for( const auto &i : vehicles ) {
         json.start_object();
-        json.member("id", i.first);
-        json.member("name", i.second.name);
-        json.member("x", i.second.x);
-        json.member("y", i.second.y);
+        json.member( "id", i.first );
+        json.member( "name", i.second.name );
+        json.member( "x", i.second.x );
+        json.member( "y", i.second.y );
         json.end_object();
     }
     json.end_array();
     fout << std::endl;
 
-    json.member("scent_traces");
+    json.member( "scent_traces" );
     json.start_array();
     for( const auto &scent : scents ) {
         json.start_object();
@@ -1273,9 +1277,9 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
-    json.member("npcs");
+    json.member( "npcs" );
     json.start_array();
-    for (auto &i : npcs) {
+    for( auto &i : npcs ) {
         json.write( *i );
     }
     json.end_array();
@@ -1288,7 +1292,7 @@ void overmap::serialize( std::ostream &fout ) const
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mongroup
 template<typename Archive>
-void mongroup::io( Archive& archive )
+void mongroup::io( Archive &archive )
 {
     archive.io( "type", type );
     archive.io( "pos", pos, tripoint_zero );
@@ -1312,18 +1316,18 @@ void mongroup::deserialize( JsonIn &data )
 void mongroup::serialize( JsonOut &json ) const
 {
     io::JsonObjectOutputArchive archive( json );
-    const_cast<mongroup*>( this )->io( archive );
+    const_cast<mongroup *>( this )->io( archive );
 }
 
-void mongroup::deserialize_legacy(JsonIn &json)
+void mongroup::deserialize_legacy( JsonIn &json )
 {
     json.start_object();
     while( !json.end_object() ) {
         std::string name = json.get_member_name();
         if( name == "type" ) {
-            type = mongroup_id(json.get_string());
+            type = mongroup_id( json.get_string() );
         } else if( name == "pos" ) {
-            pos.deserialize(json);
+            pos.deserialize( json );
         } else if( name == "radius" ) {
             radius = json.get_int();
         } else if( name == "population" ) {
@@ -1335,7 +1339,7 @@ void mongroup::deserialize_legacy(JsonIn &json)
         } else if( name == "horde" ) {
             horde = json.get_bool();
         } else if( name == "target" ) {
-            target.deserialize(json);
+            target.deserialize( json );
         } else if( name == "interest" ) {
             interest = json.get_int();
         } else if( name == "horde_behaviour" ) {
@@ -1350,7 +1354,6 @@ void mongroup::deserialize_legacy(JsonIn &json)
         }
     }
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mapbuffer
@@ -1368,25 +1371,28 @@ void mission::unserialize_all( JsonIn &jsin )
     }
 }
 
-void game::unserialize_master(std::istream &fin) {
+void game::unserialize_master( std::istream &fin )
+{
     savegame_loading_version = 0;
-    chkversion(fin);
-    if (savegame_loading_version != savegame_version && savegame_loading_version < 11) {
-       popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+    chkversion( fin );
+    if( savegame_loading_version != savegame_version && savegame_loading_version < 11 ) {
+        popup_nowait(
+            _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
+            savegame_loading_version, savegame_version );
     }
     try {
         // single-pass parsing example
-        JsonIn jsin(fin);
+        JsonIn jsin( fin );
         jsin.start_object();
-        while (!jsin.end_object()) {
+        while( !jsin.end_object() ) {
             std::string name = jsin.get_member_name();
-            if (name == "next_mission_id") {
+            if( name == "next_mission_id" ) {
                 next_mission_id = jsin.get_int();
-            } else if (name == "next_npc_id") {
+            } else if( name == "next_npc_id" ) {
                 next_npc_id = jsin.get_int();
-            } else if (name == "active_missions") {
+            } else if( name == "active_missions" ) {
                 mission::unserialize_all( jsin );
-            } else if (name == "factions") {
+            } else if( name == "factions" ) {
                 jsin.read( *faction_manager_ptr );
             } else {
                 // silently ignore anything else
@@ -1394,36 +1400,37 @@ void game::unserialize_master(std::istream &fin) {
             }
         }
     } catch( const JsonError &e ) {
-        debugmsg("error loading master.gsav: %s", e.c_str());
+        debugmsg( "error loading master.gsav: %s", e.c_str() );
     }
 }
 
 void mission::serialize_all( JsonOut &json )
 {
     json.start_array();
-    for( auto & e : get_all_active() ) {
+    for( auto &e : get_all_active() ) {
         e->serialize( json );
     }
     json.end_array();
 }
 
-void game::serialize_master(std::ostream &fout) {
+void game::serialize_master( std::ostream &fout )
+{
     fout << "# version " << savegame_version << std::endl;
     try {
-        JsonOut json(fout, true); // pretty-print
+        JsonOut json( fout, true ); // pretty-print
         json.start_object();
 
-        json.member("next_mission_id", next_mission_id);
-        json.member("next_npc_id", next_npc_id);
+        json.member( "next_mission_id", next_mission_id );
+        json.member( "next_npc_id", next_npc_id );
 
-        json.member("active_missions");
+        json.member( "active_missions" );
         mission::serialize_all( json );
 
         json.member( "factions", *faction_manager_ptr );
 
         json.end_object();
     } catch( const JsonError &e ) {
-        debugmsg("error saving to master.gsav: %s", e.c_str());
+        debugmsg( "error saving to master.gsav: %s", e.c_str() );
     }
 }
 

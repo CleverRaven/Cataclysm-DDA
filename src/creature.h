@@ -325,9 +325,9 @@ class Creature
         bool resists_effect( const effect &e );
 
         // Methods for setting/getting misc key/value pairs.
-        void set_value( const std::string key, const std::string value );
-        void remove_value( const std::string key );
-        std::string get_value( const std::string key ) const;
+        void set_value( const std::string &key, const std::string &value );
+        void remove_value( const std::string &key );
+        std::string get_value( const std::string &key ) const;
 
         /** Processes through all the effects on the Creature. */
         virtual void process_effects();
@@ -341,6 +341,7 @@ class Creature
         virtual void set_pain( int npain );
         virtual int get_pain() const;
         virtual int get_perceived_pain() const;
+        virtual std::string get_pain_description() const;
 
         int get_moves() const;
         void mod_moves( int nmoves );

@@ -786,7 +786,6 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         }
     }
 
-
     //now handle the meat, if there is any
     if( meat!= "null" ) {
         if( pieces <= 0 ) {
@@ -1177,12 +1176,12 @@ enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
-void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype )
+void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num, const item &liquid )
 {
     act.values.push_back( LST_VEHICLE );
-    act.values.push_back( 0 ); // dummy
+    act.values.push_back( part_num );
     act.coords.push_back( veh.global_pos3() );
-    act.str_values.push_back( ftype );
+    act.str_values.push_back( serialize( liquid ) );
 }
 
 void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid )
@@ -1252,13 +1251,17 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         monster *source_mon = nullptr;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
+        int part_num = -1;
+        long veh_charges = 0;
         switch( source_type ) {
         case LST_VEHICLE:
             source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
             if( source_veh == nullptr ) {
                 throw std::runtime_error( "could not find source vehicle for liquid transfer" );
             }
-            liquid = item( act.str_values.at( 0 ), calendar::turn, source_veh->fuel_left( act.str_values.at( 0 ) ) );
+            deserialize( liquid, act.str_values.at( 0 ) );
+            part_num = static_cast<int>( act.values.at( 1 ) );
+            veh_charges = liquid.charges;
             break;
         case LST_INFINITE_MAP:
             deserialize( liquid, act.str_values.at( 0 ) );
@@ -1325,7 +1328,21 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         // 3. Remove charges from source.
         switch( source_type ) {
         case LST_VEHICLE:
-            source_veh->drain( liquid.typeId(), removed_charges );
+            if( part_num != -1 ) {
+                source_veh->drain( part_num, removed_charges );
+                liquid.charges = veh_charges - removed_charges;
+                // If there's no liquid left in this tank we're done, otherwise
+                // we need to update our liquid serialization to reflect how
+                // many charges are actually left for the next time we come
+                // around this loop.
+                if( !liquid.charges ) {
+                    act.set_to_null();
+                } else {
+                    act.str_values.at( 0 ) = serialize( liquid );
+                }
+            } else {
+                source_veh->drain( liquid.typeId(), removed_charges );
+            }
             if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
                 act.set_to_null();
             }
@@ -1513,6 +1530,16 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
+            if( it->typeId() == "mushroom" ) {
+                if( one_in( 10 ) ) {
+                    it->item_tags.insert( "HIDDEN_POISON" );
+                    it->poison = rng( 2, 7 );
+                    break;
+                } else if( one_in( 10 ) ) {
+                    it->item_tags.insert( "HIDDEN_HALLU" );
+                    break;
+                }
+            }
         }
     }
 
@@ -1529,7 +1556,6 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     act->set_to_null();
 }
-
 
 void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
@@ -1549,18 +1575,17 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     }
 }
 
-
 void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
     if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) ) ) {
         vehicle *const veh = &vp->vehicle();
         int mech_skill = act->values[2];
-        if( mech_skill > (int)rng(1, 6) ) {
+        if( mech_skill > static_cast<int>( rng(1, 6) ) ) {
             //success
             veh->is_locked = false;
             add_msg(_("This wire will start the engine."));
-        } else if( mech_skill > (int)rng(0, 4) ) {
+        } else if( mech_skill > static_cast<int>( rng(0, 4) ) ) {
             //soft fail
             veh->is_locked = false;
             veh->is_alarm_on = veh->has_security_working();
@@ -1579,7 +1604,6 @@ void activity_handlers::hotwire_finish( player_activity *act, player *pl )
     }
     act->set_to_null();
 }
-
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
@@ -1611,7 +1635,6 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
     add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
 }
-
 
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
@@ -1681,7 +1704,6 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
         }
     }
 }
-
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
@@ -2212,8 +2234,15 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = ( repeat_type )act->get_value( 0, REPEAT_INIT );
     weldrig_hack w_hack;
+    item_location *ploc = nullptr;
+
+    if( act->targets.size() > 0 ) {
+        ploc = &act->targets[0];
+    }
+
     item &main_tool = !w_hack.init( *act ) ?
-                      p->i_at( act->index ) : w_hack.get_item();
+                      ploc ?
+                      **ploc : p->i_at( act->index ) : w_hack.get_item();
 
     item *used_tool = main_tool.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
@@ -2248,7 +2277,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
         if( attempt != repair_item_actor::AS_CANT ) {
-            p->consume_charges( *used_tool, used_tool->ammo_required() );
+            if( ploc && ploc->where() == item_location::type::map ) {
+                used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
+            } else {
+                p->consume_charges( *used_tool, used_tool->ammo_required() );
+            }
         }
 
         // Print message explaining why we stopped
@@ -2304,7 +2337,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
 
-        act->values[0] = ( int )answer;
+        act->values[0] = static_cast<int>( answer );
     }
 
     // Otherwise keep retrying

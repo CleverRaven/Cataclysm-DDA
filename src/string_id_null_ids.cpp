@@ -26,7 +26,6 @@ MAKE_NULL_ID( anatomy, "null_anatomy" );
 MAKE_NULL_ID( martialart, "style_none" );
 MAKE_NULL_ID( recipe, "null" );
 
-
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \
     template<> const string_id<type> &string_id<type>::NULL_ID() { \

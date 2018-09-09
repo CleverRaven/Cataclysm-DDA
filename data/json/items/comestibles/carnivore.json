@@ -141,7 +141,7 @@
     "spoils_in": 36,
     "quench": -1,
     "fun": -1,
-    "proportional": { "calories": 0.5 }
+    "proportional": { "calories": 2 }
   },
   {
     "id": "offal_canned",
@@ -156,7 +156,7 @@
     "healthy": 1,
     "container": "can_food",
     "fun": -2,
-    "proportional": { "calories": 0.5 }
+    "proportional": { "calories": 2 }
   },
   {
     "id": "stomach",

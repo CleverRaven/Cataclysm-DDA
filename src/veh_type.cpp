@@ -78,6 +78,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
+    { "FLUIDTANK", VPFLAG_FLUIDTANK },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -609,7 +610,7 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
                 qual.second, qual.first.obj().name.c_str() );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg << string_format( _( " and is rated at %1$d %2$s" ),
-                                  ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ),
+                                  static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
         msg << ".</color>\n";
@@ -641,7 +642,6 @@ requirement_data vpart_info::repair_requirements() const
         return lhs + ( *rhs.first * rhs.second );
     } );
 }
-
 
 bool vpart_info::is_repairable() const
 {
@@ -906,13 +906,13 @@ void vehicle_prototype::finalize()
                 }
             }
 
-            if( base->container ) {
+            if( base->container || base->magazine ) {
                 if( !item::type_is_defined( pt.fuel ) ) {
                     debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             } else {
                 if( pt.fuel != "null" ) {
-                    debugmsg( "init_vehicles: non-tank %s with fuel in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             }
 

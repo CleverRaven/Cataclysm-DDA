@@ -339,7 +339,6 @@ const std::map<requirement_id, requirement_data> &requirement_data::all()
     return requirements_all;
 }
 
-
 void requirement_data::check_consistency()
 {
     for( const auto &r : all() ) {

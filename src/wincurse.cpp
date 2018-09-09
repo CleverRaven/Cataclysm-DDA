@@ -224,7 +224,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
     {
     case WM_DEADCHAR:
     case WM_CHAR:
-        lastchar = (int)wParam;
+        lastchar = static_cast<int>( wParam );
         switch (lastchar){
             case VK_RETURN: //Reroute ENTER key for compatibility purposes
                 lastchar=10;

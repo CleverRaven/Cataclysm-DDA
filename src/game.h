@@ -186,7 +186,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
 
-
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
         pimpl<player> u_ptr;
@@ -485,7 +484,7 @@ class game
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query( const std::string &reason );
+        bool cancel_activity_or_ignore_query( const distraction_type type, const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -766,7 +765,7 @@ class game
          */
         bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
                             const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr,
+                            const vehicle *source_veh = nullptr, const int part_num = -1,
                             const monster *source_mon = nullptr );
         /**
              * These are helper functions for transfer liquid, for times when you just want to
@@ -778,7 +777,8 @@ class game
                                 const tripoint *source_pos, const vehicle *const source_veh,
                                 const monster *const source_mon, liquid_dest_opt &target );
         bool perform_liquid_transfer( item &liquid,
-                                      const tripoint *source_pos, const vehicle *const source_veh,
+                                      const tripoint *source_pos,
+                                      const vehicle *const source_veh, const int part_num,
                                       const monster *const source_mon, liquid_dest_opt &target );
         /**@}*/
 
@@ -849,7 +849,6 @@ class game
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
-
 
         //pixel minimap management
         int pixel_minimap_option;
@@ -1030,7 +1029,6 @@ class game
 
         void item_action_menu(); // Displays item action menu
 
-
         void rcdrive( int dx, int dy ); //driving radio car
         /**
          * If there is a robot (that can be disabled), query the player
@@ -1100,7 +1098,6 @@ class game
         bool player_was_sleeping;
         /** Is Zone manager open or not - changes graphics of some zone tiles */
         bool zone_manager_open = false;
-
 
         std::unique_ptr<special_game> gamemode;
 

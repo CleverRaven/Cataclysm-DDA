@@ -28,7 +28,6 @@
 #include <algorithm>
 #include <cassert>
 
-
 static const std::string part_location_structure( "structure" );
 
 const std::string vehicle::disp_name() const
@@ -159,7 +158,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
 
         std::string partname = vp.name();
 
-        if( vp.is_tank() && vp.ammo_current() != "null" ) {
+        if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
             partname += string_format( " (%s)", item::nname( vp.ammo_current() ).c_str() );
         }
 
@@ -284,7 +283,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( ( pt.is_tank() || pt.is_battery() || pt.is_reactor() ) && pt.ammo_current() != "null" ) {
+        if( ( pt.is_fuel_store() ) && pt.ammo_current() != "null" ) {
             opts.emplace( pt.ammo_current() );
         }
     }

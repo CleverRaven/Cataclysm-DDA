@@ -525,7 +525,6 @@ int main(int argc, char *argv[])
         while( !g->do_turn() );
     };
 
-
     exit_handler(-999);
     return 0;
 }

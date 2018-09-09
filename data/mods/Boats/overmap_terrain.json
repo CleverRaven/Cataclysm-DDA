@@ -3,7 +3,7 @@
     "//": "Add the following to overmap_terrain.json in /data/json/",
     "type": "overmap_terrain",
     "id": "boat_rental",
-    "name": "Boat Rental",
+    "name": "boat rental",
     "sym": 35,
     "color": "white",
     "see_cost": 5,
@@ -13,7 +13,7 @@
   {
     "type": "overmap_terrain",
     "id": "riverside_dwelling",
-    "name": "Riverside Dwelling",
+    "name": "riverside dwelling",
     "sym": 43,
     "color": "i_yellow",
     "see_cost": 5,

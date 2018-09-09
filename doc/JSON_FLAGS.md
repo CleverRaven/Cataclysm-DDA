@@ -265,6 +265,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```NOHEAD``` Headshots not allowed!
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
+- ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
@@ -521,11 +522,12 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```OPENABLE``` Can be opened or closed.
 - ```OPENCLOSE_INSIDE```  Can be opened or closed, but only from inside the vehicle.
 - ```OVER``` Can be mounted over other parts.
+- ```PERPETUAL``` If paired with REACTOR, part produces electrical power without consuming fuel.
 - ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. It is damaged by running it over non-```DIGGABLE``` surfaces.
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
-- ```REACTOR```
+- ```REACTOR``` When enabled, part consumes fuel to generate epower.
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```REMOTE_CONTROLS```
@@ -824,11 +826,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_4``` "You shoot up."
 - ```PKILL_L``` Slow-release painkiller.
+- ```SMOKABLE``` Accepted by smoking rack.
+- ```SMOKED``` Not accepted by smoking rack (product of smoking).
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
-- ```SMOKED``` Not accepted by smoking rack (product of smoking).
-- ```SMOKABLE``` Accepted by smoking rack.
 
 ## Melee
 
