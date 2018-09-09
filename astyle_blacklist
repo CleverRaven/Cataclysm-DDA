@@ -1,6 +1,5 @@
 src/advanced_inv.cpp
 src/character.cpp
-src/effect.cpp
 src/iexamine.cpp
 src/json.cpp
 src/lightmap.cpp
