@@ -199,6 +199,16 @@ nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) co
     return entry.is_item() ? entry.location->color_in_inventory() : c_magenta;
 }
 
+std::function<bool( const inventory_entry & )> inventory_selector_preset::get_filter(
+    const std::string &filter ) const
+{
+    auto item_filter = basic_item_filter( filter );
+
+    return [item_filter]( const inventory_entry & e ) {
+        return item_filter( *e.location );
+    };
+}
+
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
 {
     const size_t count = entry.get_stack_size();
@@ -590,11 +600,14 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
-    const auto filter_fn = item_filter_from_string( filter );
+    const auto filter_fn = filter_from_string<inventory_entry>(
+        filter, [this]( const std::string &filter ) {
+        return preset.get_filter( filter );
+    });
 
     // First, remove all non-items
     const auto new_end = std::remove_if( entries.begin(), entries.end(), [&filter_fn]( const inventory_entry &entry ) {
-        return !entry.is_item() || !filter_fn( *(entry.location) );
+        return !entry.is_item() || !filter_fn( entry );
     } );
     entries.erase( new_end, entries.end() );
     // Then sort them with respect to categories
@@ -1817,7 +1830,11 @@ const player &inventory_iuse_selector::get_player_for_stats() const
 inventory_drop_selector::inventory_drop_selector( const player &p,
         const inventory_selector_preset &preset ) :
     inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ) {}
+    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ) {
+#ifdef __ANDROID__
+    ctxt.allow_text_entry = true; // allow user to type a drop number without dismissing virtual keyboard after each keypress
+#endif
+    }
 
 std::list<std::pair<int, int>> inventory_drop_selector::execute()
 {

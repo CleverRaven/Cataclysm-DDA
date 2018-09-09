@@ -484,7 +484,7 @@ class game
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query( const std::string &reason );
+        bool cancel_activity_or_ignore_query( const distraction_type type, const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -604,6 +604,7 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
@@ -861,6 +862,9 @@ class game
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
         void load_weather( std::istream &fin );
+#ifdef __ANDROID__
+        void load_shortcuts( std::istream &fin );
+#endif
         bool start_game(); // Starts a new game in the active world
         void start_special_game( special_game_id gametype ); // See gamemode.cpp
 
@@ -873,6 +877,9 @@ class game
         // returns false if saving failed for whatever reason
         bool save_maps();
         void save_weather( std::ostream &fout );
+#ifdef __ANDROID__
+        void save_shortcuts( std::ostream &fout );
+#endif
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
         void init_lua();          // Initializes lua interpreter.
@@ -1050,7 +1057,13 @@ class game
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
+#ifdef __ANDROID__
+    public:
+#endif
         void quicksave();        // Saves the game without quitting
+#ifdef __ANDROID__
+    private:
+#endif
         void quickload();        // Loads the previously saved game if it exists
 
         // Input related

@@ -218,6 +218,9 @@ point draw_notes( int z )
 
     mvwprintz( w_notes, 1, 1, c_light_gray, title.c_str() );
     do {
+#ifdef __ANDROID__
+        input_context ctxt( "DRAW_NOTES" );
+#endif
         if( redraw ) {
             for( int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
                 for( int j = 1; j < FULL_SCREEN_WIDTH - 1; j++ ) {
@@ -232,6 +235,9 @@ point draw_notes( int z )
                 // Print letter ('a' <=> cur_it == start)
                 mvwputch( w_notes, i + 2, 1, c_white, 'a' + i );
                 mvwprintz( w_notes, i + 2, 3, c_light_gray, "- %s", notes[cur_it].second.c_str() );
+#ifdef __ANDROID__
+                ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
+#endif
             }
             if( start >= maxitems ) {
                 mvwprintw( w_notes, maxitems + 2, 1, back_msg.c_str() );
@@ -295,8 +301,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     const auto &zones = zone_manager::get_manager();
 
     if( data.iZoneIndex != -1 ) {
-        sZoneName = zones.zones[data.iZoneIndex].get_name();
-        tripointZone = ms_to_omt_copy( zones.zones[data.iZoneIndex].get_center_point() );
+        const auto &zone = zones.get_zones()[data.iZoneIndex].get();
+        sZoneName = zone.get_name();
+        tripointZone = ms_to_omt_copy( zone.get_center_point() );
     }
 
     // If we're debugging monster groups, find the monster group we've selected
@@ -803,6 +810,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 color_notes += string_format( "%s:%s, ", color_pair.first.c_str(),
                                               _( color_pair.second.c_str() ) );
             }
+            color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), "." );
             const std::string old_note = overmap_buffer.note( curs );
             const std::string new_note = string_input_popup()
                                          .title( _( "Note (X:TEXT for custom symbol, G; for color):" ) )
