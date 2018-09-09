@@ -5036,7 +5036,11 @@
       ["cu_pipe", 15],
       ["eyedrops", 5],
       ["apron_leather", 5],
-      ["survnote", 1]
+      ["hydraulic_platform", 1],
+      ["bot_navigation", 1],
+      ["bot_power_supply", 1],
+      ["bot_chassis_base_large", 1],
+      ["bot_chassis_large", 1]
     ]
   },{
     "type" : "item_group",
