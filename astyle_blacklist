@@ -18,7 +18,6 @@ src/inventory_ui.cpp
 src/item.cpp
 src/json.cpp
 src/lightmap.cpp
-src/main.cpp
 src/melee.cpp
 src/mondeath.cpp
 src/monster.cpp
@@ -37,3 +36,4 @@ src/vehicle.cpp
 src/veh_interact.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
+src/itype.h
