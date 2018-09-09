@@ -1,4 +1,3 @@
-src/activity_handlers.cpp
 src/advanced_inv.cpp
 src/character.cpp
 src/effect.cpp
