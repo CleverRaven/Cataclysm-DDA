@@ -11,6 +11,8 @@
 #include "options.h"
 #include "test_statistics.h"
 
+typedef statistics<long> efficiency_stat;
+
 const efftype_id effect_blind( "blind" );
 
 void clear_game( const ter_id &terrain )
@@ -239,21 +241,21 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     return adjusted_tiles_travelled;
 }
 
-statistics find_inner( std::string type, std::string terrain, int delay, bool smooth )
+efficiency_stat find_inner( std::string type, std::string terrain, int delay, bool smooth )
 {
-    statistics efficiency;
+    efficiency_stat efficiency;
     for( int i = 0; i < 10; i++ ) {
         efficiency.add( test_efficiency( vproto_id( type ), ter_id( terrain ), delay, -1, smooth ) );
     }
     return efficiency;
 }
 
-void print_stats( const statistics &st )
+void print_stats( const efficiency_stat &st )
 {
     if( st.min() == st.max() ) {
-        printf( "All results %d.\n", st.min() );
+        printf( "All results %ld.\n", st.min() );
     } else {
-        printf( "Min %d, Max %d, Midpoint %f.\n", st.min(), st.max(), ( st.min() + st.max() ) / 2.0 );
+        printf( "Min %ld, Max %ld, Midpoint %f.\n", st.min(), st.max(), ( st.min() + st.max() ) / 2.0 );
     }
 }
 
@@ -274,7 +276,7 @@ void find_efficiency( std::string type )
     }
 }
 
-int average_from_stat( const statistics &st )
+int average_from_stat( const efficiency_stat &st )
 {
     int ugly_integer = ( st.min() + st.max() ) / 2.0;
     // Round to 4 most significant places
