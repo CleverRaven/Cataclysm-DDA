@@ -4,7 +4,6 @@ src/catacharset.cpp
 src/cata_tiles.cpp
 src/character.cpp
 src/computer.cpp
-src/cursesport.cpp
 src/effect.cpp
 src/game.cpp
 src/iexamine.cpp
