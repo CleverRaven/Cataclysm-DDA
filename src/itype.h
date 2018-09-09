@@ -62,50 +62,51 @@ enum field_id : int;
 
 class gun_modifier_data
 {
-    private:
-        std::string name_;
-        int qty_;
-        std::set<std::string> flags_;
+private:
+    std::string name_;
+    int qty_;
+    std::set<std::string> flags_;
 
-    public:
-        /**
-         * @param n A string that can be translated via @ref _ (must have been extracted for translation).
-         */
-        gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ), qty_( q ), flags_( f ) { }
-        /// @returns The translated name of the gun mode.
-        std::string name() const {
-            return _( name_.c_str() );
-        }
-        int qty() const {
-            return qty_;
-        }
-        const std::set<std::string> &flags() const {
-            return flags_;
-        }
+public:
+    /**
+     * @param n A string that can be translated via @ref _ (must have been extracted for translation).
+     */
+    gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
+        qty_( q ), flags_( f ) { }
+    /// @returns The translated name of the gun mode.
+    std::string name() const {
+        return _( name_.c_str() );
+    }
+    int qty() const {
+        return qty_;
+    }
+    const std::set<std::string> &flags() const {
+        return flags_;
+    }
 };
 
 class gunmod_location
 {
-    private:
-        std::string _id;
+private:
+    std::string _id;
 
-    public:
-        gunmod_location() = default;
-        gunmod_location( const std::string &id ) : _id( id ) { }
+public:
+    gunmod_location() = default;
+    gunmod_location( const std::string &id ) : _id( id ) { }
 
-        /// Returns the translated name.
-        std::string name() const;
-        /// Returns the location id.
-        std::string str() const {
-            return _id;
-        }
+    /// Returns the translated name.
+    std::string name() const;
+    /// Returns the location id.
+    std::string str() const {
+        return _id;
+    }
 
-        bool operator==( const gunmod_location &rhs ) const {
-            return _id == rhs._id;
-        }
-        bool operator<( const gunmod_location &rhs ) const {
-            return _id < rhs._id;
-        }
+    bool operator==( const gunmod_location &rhs ) const {
+        return _id == rhs._id;
+    }
+    bool operator<( const gunmod_location &rhs ) const {
+        return _id < rhs._id;
+    }
 };
 
 struct islot_tool {
@@ -123,12 +124,11 @@ struct islot_tool {
     unsigned char turns_per_charge = 0;
 };
 
-struct islot_comestible
-{
+struct islot_comestible {
     /** subtype, e.g. FOOD, DRINK, MED */
     std::string comesttype;
 
-     /** tool needed to consume (e.g. lighter for cigarettes) */
+    /** tool needed to consume (e.g. lighter for cigarettes) */
     std::string tool = "null";
 
     /** Defaults # of charges (drugs, loaf of bread? etc) */
@@ -304,12 +304,10 @@ struct islot_book {
          * Hidden means it does not show up in the description of the book.
          */
         bool hidden;
-        bool operator<( const recipe_with_description_t &rhs ) const
-        {
+        bool operator<( const recipe_with_description_t &rhs ) const {
             return recipe < rhs.recipe;
         }
-        bool is_hidden() const
-        {
+        bool is_hidden() const {
             return hidden;
         }
     };
@@ -359,28 +357,26 @@ struct common_ranged_data {
     /*@}*/
 };
 
-struct islot_engine
-{
+struct islot_engine {
     friend Item_factory;
     friend item;
 
-    public:
-        /** for combustion engines the displacement (cc) */
-        int displacement = 0;
+public:
+    /** for combustion engines the displacement (cc) */
+    int displacement = 0;
 
-    private:
-        /** What faults (if any) can occur */
-        std::set<fault_id> faults;
+private:
+    /** What faults (if any) can occur */
+    std::set<fault_id> faults;
 };
 
-struct islot_wheel
-{
-    public:
-        /** diameter of wheel (inches) */
-        int diameter = 0;
+struct islot_wheel {
+public:
+    /** diameter of wheel (inches) */
+    int diameter = 0;
 
-        /** width of wheel (inches) */
-        int width = 0;
+    /** width of wheel (inches) */
+    int width = 0;
 };
 
 struct fuel_explosion {
@@ -392,12 +388,12 @@ struct fuel_explosion {
 };
 
 struct islot_fuel {
-    public:
-        /** Energy of the fuel (kilojoules per charge) */
-        float energy = 0.0f;
-        struct fuel_explosion explosion_data;
-        bool has_explode_data;
-        std::string pump_terrain = "t_null";
+public:
+    /** Energy of the fuel (kilojoules per charge) */
+    float energy = 0.0f;
+    struct fuel_explosion explosion_data;
+    bool has_explode_data;
+    std::string pump_terrain = "t_null";
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -483,19 +479,19 @@ struct islot_gun : common_ranged_data {
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
 class gun_type_type
 {
-    private:
-        std::string name_;
+private:
+    std::string name_;
 
-    public:
-        /// @param name The untranslated name of the gun type. Must have been extracted
-        /// for translation with the context "gun_type_type".
-        gun_type_type( const std::string &name ) : name_( name ) {}
-        // arbitrary sorting, only here to allow usage in std::set
-        bool operator<( const gun_type_type &rhs ) const {
-            return name_ < rhs.name_;
-        }
-        /// Translated name.
-        std::string name() const;
+public:
+    /// @param name The untranslated name of the gun type. Must have been extracted
+    /// for translation with the context "gun_type_type".
+    gun_type_type( const std::string &name ) : name_( name ) {}
+    // arbitrary sorting, only here to allow usage in std::set
+    bool operator<( const gun_type_type &rhs ) const {
+        return name_ < rhs.name_;
+    }
+    /// Translated name.
+    std::string name() const;
 };
 
 struct islot_gunmod : common_ranged_data {
@@ -666,7 +662,7 @@ struct islot_artifact {
     int dream_freq_unmet;
     int dream_freq_met;
 };
-bool check_art_charge_req( item& it );
+bool check_art_charge_req( item &it );
 
 struct itype {
     friend class Item_factory;
@@ -772,10 +768,12 @@ public:
     int price           =  0; // Value before cataclysm
     int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
     int stack_size      =  0; // Maximum identical items that can stack per above unit volume
-    units::volume integral_volume = units::from_milliliter( -1 ); // Space consumed when integrated as part of another item (defaults to volume)
+    // Space consumed when integrated as part of another item (defaults to volume)
+    units::volume integral_volume = units::from_milliliter( -1 );
     /*@}*/
 
-    bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+    // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+    bool rigid = true;
 
     /** Damage output in melee for zero or more damage types */
     std::array<int, NUM_DT> melee;
@@ -807,8 +805,7 @@ public:
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     units::volume magazine_well = 0;
 
-    std::string get_item_type_string() const
-    {
+    std::string get_item_type_string() const {
         if( tool ) {
             return "TOOL";
         } else if( comestible ) {
@@ -831,14 +828,16 @@ public:
 
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-    std::string nname(unsigned int quantity) const;
+    std::string nname( unsigned int quantity ) const;
 
     // Allow direct access to the type id for the few cases that need it.
     itype_id get_id() const {
         return id;
     }
 
-    bool count_by_charges() const { return stackable; }
+    bool count_by_charges() const {
+        return stackable;
+    }
 
     int charges_default() const {
         if( tool ) {
@@ -851,16 +850,14 @@ public:
         return stackable ? 1 : 0;
     }
 
-    int charges_to_use() const
-    {
+    int charges_to_use() const {
         if( tool ) {
             return tool->charges_per_use;
         }
         return 1;
     }
 
-    int maximum_charges() const
-    {
+    int maximum_charges() const {
         if( tool ) {
             return tool->max_charges;
         }
