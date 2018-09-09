@@ -40,7 +40,6 @@ src/vehicle.cpp
 src/veh_interact.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
-src/json.h
 src/player.h
 tests/invlet_test.cpp
 tests/line_test.cpp
