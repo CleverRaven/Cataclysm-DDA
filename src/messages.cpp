@@ -302,10 +302,6 @@ void Messages::display_messages()
 
     // main UI loop
     while( true ) {
-        werase( w );
-        draw_border( w, border_color );
-        draw_scrollbar( w, offset, max_lines, folded_filtered.size(), border_width, 0, c_white, true );
-
         size_t line_from = 0, line_to;
         if( offset < folded_filtered.size() ) {
             line_to = std::min( max_lines, folded_filtered.size() - offset );
@@ -313,17 +309,43 @@ void Messages::display_messages()
             line_to = 0;
         }
 
-        nc_color col_out;
+        nc_color col_out, col;
+        // Hacky bit: print all folded lines of the first message to ensure correct color state
+        size_t lines_before = 0;
+        const size_t msg_ind_first = folded_all[folded_filtered[offset + line_from]].first;
+        while( lines_before + 1 <= offset + line_from ) {
+            const size_t folded_ind = offset + line_from - lines_before - 1;
+            const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
+            if( msg_ind == msg_ind_first ) {
+                ++lines_before;
+            } else {
+                break;
+            }
+        }
+        if( lines_before != 0 ) {
+            const size_t folded_ind = offset + line_from - lines_before;
+            const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
+            const game_message &msg = player_messages.history( msg_ind );
+            col_out = col = msgtype_to_color( msg.type, false );
+        }
+        for( ; lines_before != 0; --lines_before ) {
+            const size_t folded_ind = offset + line_from - lines_before;
+            print_colored_text( w, 0, 0, col_out, col, folded_all[folded_filtered[folded_ind]].second );
+        }
+
+        werase( w );
+        draw_border( w, border_color );
+        draw_scrollbar( w, offset, max_lines, folded_filtered.size(), border_width, 0, c_white, true );
+
         // Always print from top to bottom to preserve intermediate color state of folded strings
         for( size_t line = line_from; line != line_to; ++line ) {
             const size_t folded_ind = offset + line;
             const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
             const game_message &msg = player_messages.history( msg_ind );
-            nc_color col = msgtype_to_color( msg.type, false );
+            col = msgtype_to_color( msg.type, false );
 
-            // If it is the first printed line of a message
-            // @todo: correctly handle starting color of cut-off messages
-            if( line == 0 || folded_ind == 0 ||
+            // If it is the first line of a message
+            if( folded_ind == 0 ||
                 folded_all[folded_filtered[folded_ind - 1]].first !=
                 folded_all[folded_filtered[folded_ind]].first ) {
 
