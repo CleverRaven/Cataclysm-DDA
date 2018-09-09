@@ -10,7 +10,6 @@ src/effect.cpp
 src/event.cpp
 src/faction.cpp
 src/field.cpp
-src/game.cpp
 src/iexamine.cpp
 src/init.cpp
 src/inventory.cpp
@@ -37,3 +36,4 @@ src/vehicle.cpp
 src/veh_interact.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
+src/itype.h
