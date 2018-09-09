@@ -10224,6 +10224,26 @@ void game::plthrow( int pos )
         }
     }
 
+    // you must wield the item to throw it
+    if( pos != -1 ) {
+        // Throw a single charge of a stacking object.
+        if( thrown.count_by_charges() && thrown.charges > 1 ) {
+            u.i_at( pos ).charges--;
+            thrown.charges = 1;
+        } else {
+            u.i_rem( pos );
+        }
+
+        if( !u.wield( thrown ) ) {
+            // We have to remove the item before checking for wield because it
+            // can invalidate our pos index.  Which means we have to add it
+            // back if the player changed their mind about unwielding their
+            // current item
+            u.i_add( thrown );
+            return;
+        }
+    }
+
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
@@ -10234,18 +10254,7 @@ void game::plthrow( int pos )
         return;
     }
 
-    if( u.is_worn( u.i_at( pos ) ) ) {
-        thrown.on_takeoff( u );
-    }
-
-    // Throw a single charge of a stacking object.
-    if( thrown.count_by_charges() && thrown.charges > 1 ) {
-        u.i_at( pos ).charges--;
-        thrown.charges = 1;
-    } else {
-        u.i_rem( pos );
-    }
-
+    u.i_rem( -1 );
     u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
 }
