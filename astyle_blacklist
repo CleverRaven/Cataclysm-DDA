@@ -38,4 +38,3 @@ src/vehicle.cpp
 src/veh_interact.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
-tests/invlet_test.cpp
