@@ -3430,7 +3430,7 @@
     "//": "About 4 meats, depending on which gets used.",
     "fun": 3
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "hflesh_pemmican",
     "name": "prepper pemmican",
@@ -4500,7 +4500,7 @@
     "weight": 26,
     "color": "light_green",
     "comestible_type": "FOOD",
-	"looks_like": "hickory_nuts",
+    "looks_like": "hickory_nuts",
     "symbol": "%",
     "quench": -6,
     "healthy": -2,
@@ -5428,10 +5428,7 @@
     "weight": 760,
     "color": "pink",
     "spoils_in": 48,
-    "use_action" : {
-      "type" : "mutagen",
-      "is_weak" : true
-    },
+    "use_action": { "type": "mutagen", "is_weak": true },
     "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -5452,10 +5449,7 @@
     "weight": 3767,
     "color": "brown",
     "spoils_in": 48,
-    "use_action" : {
-      "type" : "mutagen",
-      "is_weak" : true
-    },
+    "use_action": { "type": "mutagen", "is_weak": true },
     "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -5476,10 +5470,7 @@
     "weight": 11071,
     "color": "brown",
     "spoils_in": 48,
-    "use_action" : {
-      "type" : "mutagen",
-      "is_weak" : true
-    },
+    "use_action": { "type": "mutagen", "is_weak": true },
     "flags": [ "TRADER_AVOID" ],
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -7734,10 +7725,7 @@
     "weight": 100,
     "color": "red",
     "addiction_type": "alcohol",
-    "use_action" : {
-      "type" : "mutagen",
-      "is_weak" : true
-    },
+    "use_action": { "type": "mutagen", "is_weak": true },
     "stim": -60,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -9811,10 +9799,7 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "use_action" : {
-      "type" : "mutagen",
-      "is_weak" : true
-    },
+    "use_action": { "type": "mutagen", "is_weak": true },
     "flags": [ "EATEN_COLD" ],
     "fun": -15
   },
@@ -10513,11 +10498,7 @@
     "material": [ "flesh" ],
     "volume": 4,
     "fun": -25,
-    "use_action" : {
-      "type" : "mutagen",
-       "mutation_category" : "BEAST",
-      "is_strong" : true
-    }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true }
   },
   {
     "type": "COMESTIBLE",
