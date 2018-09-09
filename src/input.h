@@ -5,6 +5,10 @@
 #include <string>
 #include <map>
 #include <vector>
+#ifdef __ANDROID__
+#include <list>
+#include <algorithm>
+#endif
 #include <utility>
 
 namespace catacurses
@@ -78,14 +82,25 @@ struct input_event {
     std::string edit;
     bool edit_refresh;
 
+#ifdef __ANDROID__
+    // Used exclusively by the quick shortcuts to determine how stale a shortcut is
+    int shortcut_last_used_action_counter;
+#endif
+
     input_event() {
         mouse_x = mouse_y = 0;
         type = CATA_INPUT_ERROR;
+#ifdef __ANDROID__
+        shortcut_last_used_action_counter = 0;
+#endif
     }
     input_event( long s, input_event_t t )
         : type( t ) {
         mouse_x = mouse_y = 0;
         sequence.push_back( s );
+#ifdef __ANDROID__
+        shortcut_last_used_action_counter = 0;
+#endif
     }
 
     long get_first_input() const;
@@ -93,6 +108,19 @@ struct input_event {
     void add_input( const long input ) {
         sequence.push_back( input );
     }
+
+#ifdef __ANDROID__
+    input_event &operator=( const input_event &other ) {
+        type = other.type;
+        modifiers = other.modifiers;
+        sequence = other.sequence;
+        mouse_x = other.mouse_x;
+        mouse_y = other.mouse_y;
+        text = other.text;
+        shortcut_last_used_action_counter = other.shortcut_last_used_action_counter;
+        return *this;
+    }
+#endif
 
     bool operator==( const input_event &other ) const {
         if( type != other.type ) {
@@ -332,12 +360,109 @@ extern input_manager inp_mngr;
 class input_context
 {
     public:
+#ifdef __ANDROID__
+        // Whatever's on top is our current input context.
+        static std::list<input_context *> input_context_stack;
+#endif
+
         input_context() : registered_any_input( false ), category( "default" ),
-            handling_coordinate_input( false ) {};
+            handling_coordinate_input( false ) {
+#ifdef __ANDROID__
+            input_context_stack.push_back( this );
+            allow_text_entry = false;
+#endif
+        };
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
         input_context( std::string category ) : registered_any_input( false ),
-            category( category ), handling_coordinate_input( false ) {};
+            category( category ), handling_coordinate_input( false ) {
+#ifdef __ANDROID__
+            input_context_stack.push_back( this );
+            allow_text_entry = false;
+#endif
+        };
+
+#ifdef __ANDROID__
+        virtual ~input_context() {
+            input_context_stack.remove( this );
+        }
+
+        // hack to allow creating manual keybindings for getch() instances, uimenus etc. that don't use an input_context outside of the Android version
+        struct manual_key {
+            manual_key( long _key, const std::string &_text ) : key( _key ), text( _text ) {}
+            long key;
+            std::string text;
+            bool operator==( const manual_key &other ) const {
+                return key == other.key && text == other.text;
+            }
+        };
+
+        std::vector<manual_key> registered_manual_keys;
+
+        // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
+        // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
+        bool allow_text_entry;
+
+        void register_manual_key( manual_key mk );
+        void register_manual_key( long key, const std::string text = "" );
+
+        std::string get_action_name_for_manual_key( long key ) {
+            for( const auto &manual_key : registered_manual_keys ) {
+                if( manual_key.key == key ) {
+                    return manual_key.text;
+                }
+            }
+            return std::string();
+        }
+        std::vector<manual_key> &get_registered_manual_keys() {
+            return registered_manual_keys;
+        }
+
+        std::string &get_category() {
+            return category;
+        }
+        std::vector<std::string> &get_registered_actions() {
+            return registered_actions;
+        }
+        bool is_action_registered( const std::string &action_descriptor ) const {
+            return std::find( registered_actions.begin(), registered_actions.end(),
+                              action_descriptor ) != registered_actions.end();
+        }
+
+        input_context &operator=( const input_context &other ) {
+            registered_actions = other.registered_actions;
+            registered_manual_keys = other.registered_manual_keys;
+            allow_text_entry = other.allow_text_entry;
+            registered_any_input = other.registered_any_input;
+            category = other.category;
+            coordinate_x = other.coordinate_x;
+            coordinate_y = other.coordinate_y;
+            coordinate_input_received = other.coordinate_input_received;
+            handling_coordinate_input = other.handling_coordinate_input;
+            next_action = other.next_action;
+            iso_mode = other.iso_mode;
+            action_name_overrides = other.action_name_overrides;
+            return *this;
+        }
+
+        bool operator==( const input_context &other ) const {
+            return category == other.category &&
+                   registered_actions == other.registered_actions &&
+                   registered_manual_keys == other.registered_manual_keys &&
+                   allow_text_entry == other.allow_text_entry &&
+                   registered_any_input == other.registered_any_input &&
+                   coordinate_x == other.coordinate_x &&
+                   coordinate_y == other.coordinate_y &&
+                   coordinate_input_received == other.coordinate_input_received &&
+                   handling_coordinate_input == other.handling_coordinate_input &&
+                   next_action == other.next_action &&
+                   iso_mode == other.iso_mode &&
+                   action_name_overrides == other.action_name_overrides;
+        }
+        bool operator!=( const input_context &other ) const {
+            return !( *this == other );
+        }
+#endif
 
         /**
          * Register an action with this input context.
