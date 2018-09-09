@@ -42,7 +42,6 @@ src/wincurse.cpp
 src/worldfactory.cpp
 src/itype.h
 src/json.h
-src/mapgen_functions.h
 src/player.h
 src/wcwidth.h
 tests/invlet_test.cpp
