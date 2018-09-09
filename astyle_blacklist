@@ -10,7 +10,6 @@ src/effect.cpp
 src/game.cpp
 src/iexamine.cpp
 src/init.cpp
-src/inventory.cpp
 src/inventory_ui.cpp
 src/item.cpp
 src/json.cpp
