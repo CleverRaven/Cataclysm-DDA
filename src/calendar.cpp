@@ -294,6 +294,11 @@ float calendar::sunlight() const
 
 std::string to_string_clipped( const time_duration &d )
 {
+    return to_string_clipped( "%d %s", d );
+}
+
+std::string to_string_clipped( const char *fmt, const time_duration &d )
+{
     //@todo: change INDEFINITELY_LONG to time_duration
     if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
         return _( "forever" );
@@ -303,28 +308,28 @@ std::string to_string_clipped( const time_duration &d )
         //@todo: add to_seconds,from_seconds, operator ""_seconds, but currently
         // this could be misleading as we only store turns, which are 6 whole seconds
         const int sec = to_turns<int>( d ) * 6;
-        return string_format( ngettext( "%d second", "%d seconds", sec ), sec );
+        return string_format( fmt, sec, ngettext( "second", "seconds", sec ) );
     } else if( d < 1_hours ) {
         const int min = to_minutes<int>( d );
-        return string_format( ngettext( "%d minute", "%d minutes", min ), min );
+        return string_format( fmt, min, ngettext( "minute", "minutes", min ) );
     } else if( d < 1_days ) {
         const int hour = to_hours<int>( d );
-        return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
+        return string_format( fmt, hour, ngettext( "hour", "hours", hour ) );
     } else if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
         // therefore no way to count them
         const int day = to_days<int>( d );
-        return string_format( ngettext( "%d day", "%d days", day ), day );
+        return string_format( fmt, day, ngettext( "day", "days", day ) );
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
         //@todo: consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
-        return string_format( ngettext( "%d season", "%d seasons", season ), season );
+        return string_format( fmt, season, ngettext( "season", "seasons", season ) );
     } else {
         //@todo: consider a to_year function, but year length is variable, so
         // this might be misleading
         const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
-        return string_format( ngettext( "%d year", "%d years", year ), year );
+        return string_format( fmt, year, ngettext( "year", "years", year ) );
     }
 }
 

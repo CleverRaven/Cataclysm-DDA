@@ -66,6 +66,7 @@ class string_input_popup
         input_context *ctxt = nullptr;
 
         bool _canceled = false;
+        bool _confirmed = false;
 
         void query_more( bool loop, bool dorefresh );
 
@@ -218,6 +219,12 @@ class string_input_popup
          */
         bool canceled() const {
             return _canceled;
+        }
+        /**
+         * Returns true if query was finished via the ENTER key.
+         */
+        bool confirmed() const {
+            return _confirmed;
         }
         /**
          * Edit values in place. This combines: calls to @ref text to set the

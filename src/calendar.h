@@ -480,6 +480,11 @@ std::string to_string( const time_duration &d );
  */
 std::string to_string_clipped( const time_duration &d );
 /**
+ * Returns the same string as to_string_clipped( const time_duration &d ), except
+ * formatted with the provided formatting string
+ */
+std::string to_string_clipped( const char *fmt, const time_duration &d );
+/**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
  */

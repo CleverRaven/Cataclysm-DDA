@@ -228,6 +228,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
     int ch = 0;
 
+    _canceled = false;
+    _confirmed = false;
     do {
 
         if( _position < 0 ) {
@@ -291,6 +293,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             return _text;
         } else if( ch == '\n' ) {
             add_to_history( ret.str() );
+            _confirmed = true;
             _text = ret.str();
             return _text;
         } else if( ch == KEY_UP ) {

@@ -8,6 +8,7 @@
 #include "calendar.h"
 #include "translations.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 
 #include <deque>
 #include <iterator>
@@ -245,122 +246,193 @@ void Messages::display_messages()
     input_context ctxt( "MESSAGE_LOG" );
     ctxt.register_action( "UP", _( "Scroll up" ) );
     ctxt.register_action( "DOWN", _( "Scroll down" ) );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    /* Right-Aligning Time Epochs For Readability
-     * ==========================================
-     * Given display_messages(); right-aligns epochs, we must declare one quick variable first:
-     * max_padlength refers to the length of the LONGEST possible unit of time returned by to_string_clipped() any language has to offer.
-     * This variable is, for now, set to '10', which seems most reasonable.
-     *
-     * The reason right-aligned epochs don't use a "shortened version" (e.g. only showing the first letter) boils down to:
-     * 1. The first letter of every time unit being unique is a property that might not carry across to other languages.
-     * 2. Languages where displayed characters change depending on the characters preceding/following it will become unclear.
-     * 3. Some polymorphic languages might not be able to appropriately convey meaning with one character (FRS is not a linguist- correct her on this if needed.)
-     *
-     * This right padlength is then incorporated into a so-called 'epoch_format' which, in turn, will be used to format the correct epoch.
-     * If an external language introduces time units longer than 10 characters in size, consider altering these variables.
-     * The game (likely) shan't segfault, though the text may appear a bit messed up if these variables aren't set properly.
-     */
-    const int max_padlength = 10;
+    nc_color border_color = BORDER_COLOR;
+    nc_color filter_color = c_white;
 
-    /* Dealing With Screen Extremities
-     * ===============================
-     * 'maxlength' corresponds to the most extreme length a log message may be before foldstring() wraps it around to two or more lines.
-     * The numbers subtracted from FULL_SCREEN_WIDTH are - in order:
-     * '-2' the characters reserved for the borders of the box, both on the left and right side.
-     * '-1' the leftmost guide character that's drawn on screen.
-     * '-4' the padded three-digit number each epoch starts with.
-     * '-max_padlength' the characters of space that are allocated to time units (e.g. "years", "minutes", etc.)
-     *
-     * 'bottom' works much like 'maxlength', but instead it refers to the amount of lines that the message box may hold.
-     */
-    const int maxlength = FULL_SCREEN_WIDTH - 2 - 1 - 4 - max_padlength;
-    const int bottom = FULL_SCREEN_HEIGHT - 2;
-    const int msg_count = size();
+    // border_width                       border_width
+    //      v                                  v
+    //
+    //      | 12 seconds  Never mind. x 2      |
+    //
+    //       '-----v-----''---------v---------'
+    //        time_width        msg_width
+    constexpr int border_width = 1;
+    constexpr int time_width = 13;
 
-    /* Dealing With Scroll Direction
-     * =============================
-     * Much like how the sidebar can have variable scroll direction, so will the message box.
-     * To properly differentiate the two methods of displaying text, we will label them NEWEST-TOP, and OLDEST-TOP. This labeling should be self explanatory.
-     *
-     * LIMITATIONS:
-     * 1. If there are multi-line messages among the oldest ones, the text cannot be fully scrolled to the top/bottom,
-     * since the message box is drawn using message index rather than actual line number.
-     * 2. Markers will change when skipping through multi-line messages, since `offset` is only the number of messages
-     * instead of the line count of these messages.
-     *
-     * log_from_top: display the newest message at the top if true, bottom if false.
-     * offset: index of the message from which to start displaying, from the newest to the oldest.
-     * line: the current line of folded message for display, either from the top or the bottom.
-     * scr_line: the current line of folded message for display, from the top.
-     * retrieve_history: the current index of message for display, from the newest to the oldest.
-     * folded_ind: current line index of the folded message.
-     */
-    for( int offset = 0;; ) {
+    if( border_width * 2 + time_width >= FULL_SCREEN_WIDTH ||
+        border_width * 2 >= FULL_SCREEN_HEIGHT ) {
+
+        debugmsg( "No enough space for the message window" );
+        return;
+    }
+    const int msg_width = FULL_SCREEN_WIDTH - border_width * 2 - time_width;
+    const size_t max_lines = static_cast<size_t>( FULL_SCREEN_HEIGHT - border_width * 2 );
+    const size_t msg_count = size();
+
+    // message indices and folded strings
+    std::vector<std::pair<size_t, std::string>> folded_all;
+    // indices of filtered messages
+    std::vector<size_t> folded_filtered;
+    for( size_t ind = 0; ind < msg_count; ++ind ) {
+        size_t msg_ind = log_from_top ? ind : msg_count - 1 - ind;
+        const game_message &msg = player_messages.history( msg_ind );
+        const auto &folded = foldstring( msg.get_with_count(), msg_width );
+        for( auto it = folded.begin(); it != folded.end(); ++it ) {
+            folded_filtered.emplace_back( folded_all.size() );
+            folded_all.emplace_back( msg_ind, *it );
+        }
+    }
+
+    size_t offset;
+    if( log_from_top || max_lines > folded_filtered.size() ) {
+        offset = 0;
+    } else {
+        offset = folded_filtered.size() - max_lines;
+    }
+    string_input_popup filter;
+    filter.window( w, border_width + 2, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - border_width - 2 );
+    bool filtering = false;
+    std::string filter_str;
+
+    // main UI loop
+    while( true ) {
         werase( w );
-        draw_border( w );
-        center_print( w, bottom + 1, c_red,
-                      string_format( _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() ) );
-        int scroll = log_from_top ? offset : msg_count - bottom - offset;
-        draw_scrollbar( w, scroll, bottom, msg_count, 1, 0, c_white, true );
+        draw_border( w, border_color );
+        draw_scrollbar( w, offset, max_lines, folded_filtered.size(), border_width, 0, c_white, true );
 
-        time_duration lasttime = -1_turns;
-        for( int line = 0, retrieve_history = offset;
-             line < bottom && retrieve_history < msg_count; ++retrieve_history ) {
-            const game_message &m     = player_messages.history( retrieve_history );
-            const time_duration timepassed = calendar::turn - m.timestamp_in_turns;
-            std::string long_ago      = to_string_clipped( timepassed );
-            nc_color col              = msgtype_to_color( m.type, false );
+        size_t line_from = 0, line_to;
+        if( offset < folded_filtered.size() ) {
+            line_to = std::min( max_lines, folded_filtered.size() - offset );
+        } else {
+            line_to = 0;
+        }
 
-            auto &&folded_strings = foldstring( m.get_with_count(), maxlength );
-            int folded_size( folded_strings.size() );
-            int scr_line = log_from_top ? line : std::max( 0, bottom - line - folded_size );
-            // Here we separate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
-            // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
-            const auto amount_len = long_ago.find_first_not_of( "0123456789" );
-            std::string amount = long_ago.substr( 0, amount_len );
-            std::string unit = long_ago.substr( amount_len );
-            if( timepassed != lasttime ) {
-                right_print( w, scr_line + 1, 2, c_light_blue, string_format( _( "%-3s%-10s" ), amount.c_str(),
-                             unit.c_str() ) );
-                lasttime = timepassed;
+        nc_color col_out;
+        // Always print from top to bottom to preserve intermediate color state of folded strings
+        for( size_t line = line_from; line != line_to; ++line ) {
+            const size_t folded_ind = offset + line;
+            const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
+            const game_message &msg = player_messages.history( msg_ind );
+            nc_color col = msgtype_to_color( msg.type, false );
+
+            // If it is the first printed line of a message
+            // @todo: correctly handle starting color of cut-off messages
+            if( line == 0 || folded_ind == 0 ||
+                folded_all[folded_filtered[folded_ind - 1]].first !=
+                folded_all[folded_filtered[folded_ind]].first ) {
+
+                col_out = col;
             }
 
-            nc_color col_out = col;
-            for( int folded_ind = log_from_top ? 0 : folded_size - 1;
-                 folded_ind >= 0 && folded_ind < folded_size && line < bottom;
-                 ( log_from_top ? ++folded_ind : --folded_ind ), ++line ) {
-                scr_line = log_from_top ? line : bottom - line - 1;
-                print_colored_text( w, scr_line + 1, 2, col_out, col, folded_strings[folded_ind] );
+            print_colored_text( w, border_width + line, border_width + time_width, col_out, col,
+                                folded_all[folded_filtered[folded_ind]].second );
+        }
 
-                // So-called special "markers"- alternating '=' and '-'s at the edges of te message window so players can properly make sense of which message belongs to which time interval.
-                // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
-                // On lines divisible by 4, draw a dark gray '-' at both horizontal extremes of the window.
-                if( ( line + offset % 4 ) % 4 == 0 ) {
-                    mvwprintz( w, scr_line + 1, 1, c_dark_gray, "-" );
-                    mvwprintz( w, scr_line + 1, FULL_SCREEN_WIDTH - 2, c_dark_gray, "-" );
-                    // On lines divisible by 2 (but not 4), draw a light gray '=' at the horizontal extremes of the window.
-                } else if( ( line + offset % 4 ) % 2 == 0 ) {
-                    mvwprintz( w, scr_line + 1, 1, c_light_gray, "=" );
-                    mvwprintz( w, scr_line + 1, FULL_SCREEN_WIDTH - 2, c_light_gray, "=" );
+        if( !log_from_top ) {
+            // Always print time strings from new to old
+            std::swap( line_from, line_to );
+        }
+        std::string prev_time_str;
+        bool printing_range = false;
+        for( size_t line = line_from; line != line_to; ) {
+            // Decrement here if printing from bottom to get the correct line number
+            if( !log_from_top ) {
+                --line;
+            }
+
+            const size_t folded_ind = offset + line;
+            const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
+            const game_message &msg = player_messages.history( msg_ind );
+            const time_point msg_time = msg.timestamp_in_turns;
+            //~ Time marker in the message dialog. %3d is the time number, %8s is the time unit
+            const std::string time_str = to_string_clipped( _( "%3d %8s " ), calendar::turn - msg_time );
+            if( time_str != prev_time_str ) {
+                prev_time_str = time_str;
+                right_print( w, border_width + line, border_width + msg_width, c_light_blue, time_str );
+                printing_range = false;
+            } else {
+                if( printing_range ) {
+                    const size_t last_line = log_from_top ? line - 1 : line + 1;
+                    mvwaddch( w, border_width + last_line, border_width + time_width - 2, LINE_XOXO );
                 }
+                mvwaddch( w, border_width + line, border_width + time_width - 2,
+                          log_from_top ? LINE_XXOO : LINE_OXXO );
+                printing_range = true;
+            }
+
+            // Decrement for !log_from_top is done at the beginning
+            if( log_from_top ) {
+                ++line;
             }
         }
-        wrefresh( w );
 
-        const std::string &action = ctxt.handle_input();
-        if( action == "DOWN" || action == "UP" ) {
-            if( ( action == "DOWN" ) ^ ( log_from_top ) ) {
-                if( offset > 0 ) {
-                    --offset;
-                }
-            } else if( offset < msg_count - bottom ) {
-                ++offset;
+        if( filtering ) {
+            mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, "< " );
+            mvwprintz( w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - border_width - 2, border_color, " >" );
+            filter.query( false );
+            if( filter.confirmed() || filter.canceled() ) {
+                filtering = false;
             }
-        } else if( action == "QUIT" ) {
-            break;
+            const std::string &new_filter_str = filter.text();
+            if( new_filter_str != filter_str ) {
+                filter_str = new_filter_str;
+                folded_filtered.clear();
+                for( size_t folded_ind = 0; folded_ind < folded_all.size(); ) {
+                    const size_t msg_ind = folded_all[folded_ind].first;
+                    const game_message &msg = player_messages.history( msg_ind );
+                    bool match = ci_find_substr( msg.get_with_count(), filter_str ) >= 0;
+                    for( ; folded_ind < folded_all.size() && folded_all[folded_ind].first == msg_ind; ++folded_ind ) {
+                        if( match ) {
+                            folded_filtered.emplace_back( folded_ind );
+                        }
+                    }
+                }
+                // @todo fix position
+                if( max_lines > folded_filtered.size() ) {
+                    offset = 0;
+                } else if( offset + max_lines > folded_filtered.size() ) {
+                    offset = folded_filtered.size() - max_lines;
+                }
+            }
+        } else {
+            if( filter_str.empty() ) {
+                mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, _( "< press %s to filter >" ),
+                           ctxt.get_desc( "FILTER" ) );
+            } else {
+                mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, "< %s >", filter_str );
+                mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width + 2, filter_color, "%s", filter_str );
+            }
+            wrefresh( w );
+            const std::string &action = ctxt.handle_input();
+            if( action == "DOWN" && offset + max_lines < folded_filtered.size() ) {
+                ++offset;
+            } else if( action == "UP" && offset > 0 ) {
+                --offset;
+            } else if( action == "PAGE_DOWN" ) {
+                if( offset + max_lines * 2 <= folded_filtered.size() ) {
+                    offset += max_lines;
+                } else if( max_lines <= folded_filtered.size() ) {
+                    offset = folded_filtered.size() - max_lines;
+                } else {
+                    offset = 0;
+                }
+            } else if( action == "PAGE_UP" ) {
+                if( offset >= max_lines ) {
+                    offset -= max_lines;
+                } else {
+                    offset = 0;
+                }
+            } else if( action == "FILTER" ) {
+                filtering = true;
+            } else if( action == "QUIT" ) {
+                break;
+            }
         }
     }
 
