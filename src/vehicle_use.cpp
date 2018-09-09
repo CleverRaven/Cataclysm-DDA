@@ -204,6 +204,106 @@ void vehicle::control_doors()
     }
 }
 
+void vehicle::fire_ejection_seat(int part_index)
+{
+    tripoint seat_starting_position = global_part_pos3(parts[part_index]);
+    
+    // Calculate ejection seat trajectory
+    std::vector<tripoint> trajectory_locations;
+    int target_height = 5;
+    int target_side_move = 15;
+    for(int i = 0; i < target_height; i++)
+    {
+        tripoint new_pos = seat_starting_position;
+        new_pos.z += i;
+        trajectory_locations.push_back(new_pos);
+    }
+    for(int i = 0; i < target_side_move; i++)
+    {
+        tripoint new_pos = seat_starting_position;
+        new_pos.z += target_height - 1;
+        new_pos.x += i;
+        trajectory_locations.push_back(new_pos);
+    }
+    for(int i = target_height - 1; i >= 0; i--)
+    {
+        tripoint new_pos = seat_starting_position;
+        new_pos.z += i;
+        new_pos.x += target_side_move;
+        trajectory_locations.push_back(new_pos);
+    }
+
+    // Object = What's in the seat
+    //     Player
+    player *p = &( g->u );
+    if(p == nullptr)
+    {
+        debugmsg( "player was null, couldn't fire seat" );
+        return;
+    }
+    if(seat_starting_position == p->pos())
+    {
+        //debugmsg( "ejecting player!" );
+        g->ejection_seat_teleport(p, &trajectory_locations);
+    }
+    //     Monster
+    //     NPC
+    //     Nothing
+
+    // Check for a roof/ceiling obstruction, handle destroying it if its cloth or a hatch
+    
+    // Teleport the Object in the seat to their new location
+
+    // Remove ejection seat from old vehicle
+
+    // Create new vehicle as a result of ejecting
+
+}
+
+void vehicle::control_ejection_seats()
+{
+    std::vector< int > ejection_seats = all_parts_with_feature( "EJECTION_SEAT", true );
+    std::vector< tripoint > locations; // Locations used to display the ejection seats
+    locations.reserve( ejection_seats.size() * 2 );
+    if( ejection_seats.empty() ) {
+        debugmsg( "vehicle::control_ejection_seats called but no ejection seats found" );
+        return;
+    }
+
+    uimenu pmenu;
+    pmenu.title = _( "Select ejection seat to fire" );
+    int count = 0;
+    for( int p : ejection_seats ) {
+        locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
+        const char *actname = _( "Fire" );
+        pmenu.addentry( count, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ p ].name().c_str() );
+        count++;
+    }
+
+    pmenu.addentry( ejection_seats.size(), true, MENU_AUTOASSIGN,
+                    _( "Fire all ejection seats" ) );
+
+    pmenu.addentry( ejection_seats.size() + 1, true, 'q', _( "Cancel" ) );
+    pointmenu_cb callback( locations );
+    pmenu.callback = &callback;
+    pmenu.w_y = 0; // Move the menu so that we can see our vehicle
+    pmenu.query();
+
+    if( pmenu.ret >= 0 ) {
+        if(pmenu.ret < ejection_seats.size())
+        {
+            fire_ejection_seat(ejection_seats[pmenu.ret]);
+        }
+        else
+        {
+            for(int seat : ejection_seats)
+            {
+                fire_ejection_seat(seat);
+            }
+        }
+    }
+}
+
 void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
         std::vector<std::function<void()>> &actions )
 {
@@ -231,6 +331,11 @@ void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
     if( has_part( "DOOR_MOTOR" ) ) {
         options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
         actions.push_back( [&] { control_doors(); refresh(); } );
+    }
+
+    if( has_part( "EJECTION_SEAT" ) ) {
+        options.emplace_back( _( "Fire ejection seat" ), keybind( "TOGGLE_EJECTION_SEAT" ) );
+        actions.push_back( [&] { control_ejection_seats(); refresh(); } );
     }
 
     if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {

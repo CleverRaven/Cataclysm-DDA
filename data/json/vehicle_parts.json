@@ -2446,5 +2446,27 @@
     },
     "flags": [ "TURRET_MOUNT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ejection_seat",
+    "name": "ejection seat",
+    "symbol": "#",
+    "color": "red",
+    "broken_symbol": "*",
+    "broken_color": "red",
+    "damage_modifier": 20,
+    "durability": 80,
+    "description": "A fully integrated ejection seat, standard in all kinds of military aircraft.",
+    "folded_volume": 5,
+    "item": "v_ejection_seat_item",
+    "location": "center",
+    "requirements": {
+      "install": { "time": 120000, "skills": [ [ "mechanics", 4 ] ], "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": 2000, "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
+    "flags": [ "SEAT", "BOARDABLE", "EJECTION_SEAT" ],
+    "breaks_into": [ { "item": "leather", "count": [ 2, 9 ] }, { "item": "scrap", "count": [ 10, 12 ] }, { "item": "plastic_chunk", "count": [ 3, 9 ] } ]
   }
 ]

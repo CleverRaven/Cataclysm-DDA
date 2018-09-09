@@ -14174,6 +14174,54 @@ void game::teleport( player *p, bool add_teleglow )
     }
 }
 
+void game::ejection_seat_teleport( player *p , std::vector<tripoint>* trajectory)
+{
+    bool is_clear = true;
+    int last_clear_index = 0;
+    int count = 0;
+
+    for(auto&& pt : *trajectory)
+    {
+        if (m.impassable(pt) || m.has_floor(pt) && count != 0)
+        {
+            if(m.has_floor(pt) && !m.impassable(pt))
+            {
+                last_clear_index = count;
+                is_clear = false;
+            }
+            is_clear = false;
+            break;
+        }
+        else
+        {
+            last_clear_index = count;
+        }
+        count++;
+    }
+
+
+    if( p == nullptr ) {
+        p = &u;
+    }
+    if( p->in_vehicle ) {
+        m.unboard_vehicle( p->pos() );
+    }
+
+    tripoint landing_pos = trajectory->at(last_clear_index);
+    while(!m.has_floor(landing_pos))
+    {
+        landing_pos.z -= 1;
+    }
+
+    place_player(landing_pos);
+
+    bool is_u = ( p == &u );
+
+    if( is_u ) {
+        update_map( *p );
+    }
+}
+
 void game::nuke( const tripoint &p )
 {
     // TODO: nukes hit above surface, not critter = 0

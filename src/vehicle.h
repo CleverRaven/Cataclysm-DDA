@@ -1264,6 +1264,10 @@ class vehicle
         void do_engine_damage( size_t p, int strain );
         //remotely open/close doors
         void control_doors();
+        //remotely fire ejection seats
+        void control_ejection_seats();
+        //remotely fire ejection seats
+        void fire_ejection_seat(int part_index);
         // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
         rl_vec2d velo_vec() const;
         //normalized vectors, from tilerays face & move

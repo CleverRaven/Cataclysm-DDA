@@ -50,5 +50,18 @@
     "category": "veh_parts",
     "price": 8500,
     "volume": 29
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_ejection_seat_item",
+    "symbol": "&",
+    "name": "ejection seat",
+    "color": "dark_gray",
+    "description": "A fully integrated ejection seat, standard in all kinds of military aircraft.",
+    "weight": 62000,
+    "material": "steel",
+    "category": "veh_parts",
+    "price": 8500,
+    "volume": 60
   }
 ]

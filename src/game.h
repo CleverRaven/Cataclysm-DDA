@@ -512,9 +512,11 @@ class game
         void record_npc_kill( const npc &p );
         /** Return list of killed NPC */
         std::list<std::string> get_npc_kill();
-
+        
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = NULL, bool add_teleglow = true );
+        /** Performs a random short-distance teleport on the given player. */
+        void ejection_seat_teleport( player *p, std::vector<tripoint>* trajectory);
         /** Handles swimming by the player. Called by plmove(). */
         void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
