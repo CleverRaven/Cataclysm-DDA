@@ -1,9 +1,7 @@
 src/activity_handlers.cpp
 src/advanced_inv.cpp
 src/animation.cpp
-src/auto_pickup.cpp
 src/catacharset.cpp
-src/catalua.cpp
 src/cata_tiles.cpp
 src/character.cpp
 src/computer.cpp
@@ -21,7 +19,6 @@ src/inventory_ui.cpp
 src/item.cpp
 src/json.cpp
 src/lightmap.cpp
-src/line.cpp
 src/main.cpp
 src/melee.cpp
 src/mondeath.cpp
@@ -41,15 +38,4 @@ src/vehicle.cpp
 src/veh_interact.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
-src/field.h
-src/io.h
-src/itype.h
-src/json.h
-src/mapgen_functions.h
-src/mission.h
-src/player.h
-src/wcwidth.h
-src/wdirent.h
 tests/invlet_test.cpp
-tests/line_test.cpp
-tests/shadowcasting_test.cpp
