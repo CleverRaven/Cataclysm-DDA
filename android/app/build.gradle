@@ -1,0 +1,73 @@
+def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
+def buildAsApplication = !buildAsLibrary
+if (buildAsApplication) {
+    apply plugin: 'com.android.application'
+}
+else {
+    apply plugin: 'com.android.library'
+}
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionCode 1
+        versionName new File('app/jni/src/version.h').text.split("\"")[1]
+        if (buildAsApplication) {
+            applicationId "com.cleverraven.cataclysmdda"
+            setProperty("archivesBaseName", "cataclysmdda-" + versionName)
+        }
+	ndk {
+		abiFilters "armeabi-v7a"
+        //abiFilters "x86" // use this for testing on emulators
+	}
+    externalNativeBuild {
+        ndkBuild {
+            arguments "APP_PLATFORM=android-14", "-j8"
+        }
+    }
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
+        sourceSets.main {
+            jniLibs.srcDir 'libs'
+        }
+        externalNativeBuild {
+            ndkBuild {
+                path 'jni/Android.mk'
+            }
+        }
+       
+    }
+    lintOptions {
+        abortOnError false
+    }
+    
+    if (buildAsLibrary) {
+        libraryVariants.all { variant ->
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith(".aar")) {
+                    def fileName = "com.cleverraven.cataclysmdda.aar";
+                    output.outputFile = new File(outputFile.parent, fileName);
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+}
