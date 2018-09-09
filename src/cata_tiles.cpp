@@ -992,8 +992,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
 #ifdef __ANDROID__
     // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile width/height specified
-    if (tile_width == 0 || tile_height == 0)
+    if( tile_width == 0 || tile_height == 0 ) {
         return;
+    }
 #endif
 
     {
