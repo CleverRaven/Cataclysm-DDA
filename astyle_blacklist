@@ -27,7 +27,6 @@ src/mutation.cpp
 src/mutation_data.cpp
 src/newcharacter.cpp
 src/npctalk.cpp
-src/options.cpp
 src/player.cpp
 src/ranged.cpp
 src/sdltiles.cpp
@@ -37,3 +36,4 @@ src/vehicle.cpp
 src/veh_interact.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
+src/itype.h
