@@ -1,6 +1,5 @@
 src/activity_handlers.cpp
 src/advanced_inv.cpp
-src/animation.cpp
 src/catacharset.cpp
 src/cata_tiles.cpp
 src/character.cpp
