@@ -8,7 +8,6 @@ src/json.cpp
 src/lightmap.cpp
 src/npctalk.cpp
 src/player.cpp
-src/ranged.cpp
 src/sdltiles.cpp
 src/ui.cpp
 src/veh_interact.cpp
