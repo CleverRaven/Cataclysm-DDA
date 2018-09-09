@@ -3,7 +3,6 @@ src/advanced_inv.cpp
 src/catacharset.cpp
 src/cata_tiles.cpp
 src/character.cpp
-src/computer.cpp
 src/creature.cpp
 src/cursesport.cpp
 src/effect.cpp
@@ -37,3 +36,4 @@ src/vehicle.cpp
 src/veh_interact.cpp
 src/wincurse.cpp
 src/worldfactory.cpp
+src/itype.h
