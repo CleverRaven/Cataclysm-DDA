@@ -4,6 +4,5 @@ src/iexamine.cpp
 src/json.cpp
 src/npctalk.cpp
 src/player.cpp
-src/sdltiles.cpp
 src/ui.cpp
 src/veh_interact.cpp
