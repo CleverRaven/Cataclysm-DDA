@@ -4,7 +4,6 @@ src/animation.cpp
 src/auto_pickup.cpp
 src/catacharset.cpp
 src/cata_tiles.cpp
-src/character.cpp
 src/computer.cpp
 src/creature.cpp
 src/cursesport.cpp
