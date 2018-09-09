@@ -252,8 +252,8 @@ void Messages::display_messages()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    nc_color border_color = BORDER_COLOR;
-    nc_color filter_color = c_white;
+    const nc_color border_color = BORDER_COLOR;
+    const nc_color filter_color = c_white;
 
     // border_width                       border_width
     //      v                                  v
@@ -381,10 +381,14 @@ void Messages::display_messages()
             } else {
                 if( printing_range ) {
                     const size_t last_line = log_from_top ? line - 1 : line + 1;
+                    wattron( w, c_dark_gray );
                     mvwaddch( w, border_width + last_line, border_width + time_width - 2, LINE_XOXO );
+                    wattroff( w, c_dark_gray );
                 }
+                wattron( w, c_dark_gray );
                 mvwaddch( w, border_width + line, border_width + time_width - 2,
                           log_from_top ? LINE_XXOO : LINE_OXXO );
+                wattroff( w, c_dark_gray );
                 printing_range = true;
             }
 
