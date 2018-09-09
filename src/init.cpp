@@ -486,12 +486,14 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
-            { _( "Items" ), []()
+            {
+                _( "Items" ), []()
                 {
                     item_controller->finalize();
                 }
             },
-            { _( "Crafting requirements" ), []()
+            {
+                _( "Crafting requirements" ), []()
                 {
                     requirement_data::finalize();
                 }
@@ -506,7 +508,8 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
-            { _( "Monster types" ), []()
+            {
+                _( "Monster types" ), []()
                 {
                     MonsterGenerator::generator().finalize_mtypes();
                 }
@@ -547,7 +550,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::check_consistency },
-            { _( "Crafting requirements" ), []()
+            {
+                _( "Crafting requirements" ), []()
                 {
                     requirement_data::check_consistency();
                 }
@@ -555,7 +559,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
-            { _( "Items" ), []()
+            {
+                _( "Items" ), []()
                 {
                     item_controller->check_definitions();
                 }
@@ -563,7 +568,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Materials" ), &materials::check },
             { _( "Engine faults" ), &fault::check_consistency },
             { _( "Vehicle parts" ), &vpart_info::check },
-            { _( "Monster types" ), []()
+            {
+                _( "Monster types" ), []()
                 {
                     MonsterGenerator::generator().check_monster_definitions();
                 }
@@ -586,7 +592,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
             { _( "Mission types" ), &mission_type::check_consistency },
-            { _( "Item actions" ), []()
+            {
+                _( "Item actions" ), []()
                 {
                     item_action_generator::generator().check_consistency();
                 }
