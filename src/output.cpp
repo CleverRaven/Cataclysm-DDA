@@ -1193,6 +1193,7 @@ std::string word_rewrap( const std::string &in, int width )
             }
         }
 
+        const int old_j = j;
         j += ANY_LENGTH - len;
 
         if( skipping_tag ) {
@@ -1209,7 +1210,19 @@ std::string word_rewrap( const std::string &in, int width )
 
         x += mk_wcwidth( uc );
 
+        if( uc == ' ' || uc >= 0x2E80 ) { // space or CJK characters
+            if( x <= width ) {
+                lastwb = j; // break after character
+            } else {
+                lastwb = old_j; // break before character
+            }
+        }
+
         if( x > width ) {
+            if( lastwb == lastout ) {
+                lastwb = old_j;
+            }
+            // old_j may equal to lastout, this checks it and ensures there's at least one character in the line.
             if( lastwb == lastout ) {
                 lastwb = j;
             }
@@ -1222,10 +1235,6 @@ std::string word_rewrap( const std::string &in, int width )
             just_wrapped = true;
         } else {
             just_wrapped = false;
-        }
-
-        if( uc == ' ' || uc >= 0x2E80 ) {
-            lastwb = j;
         }
     }
     for( int k = lastout; k < ( int )in.size(); k++ ) {
