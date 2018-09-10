@@ -3,9 +3,72 @@
 #define CATALUA_H
 
 #include "int_id.h"
+#include "enums.h"
+#include "item.h"
+#include "creature.h"
 
 #include <string>
 #include <sstream>
+#include <list>
+
+enum CallbackArgumentType : int {
+    Integer,
+    Number,
+    Double = Number,
+    Float = Number,
+    Boolean,
+    String,
+    Tripoint,
+    Item,
+    Reference_Creature,
+    Enum_BodyPart,
+};
+
+struct CallbackArgument {
+    CallbackArgumentType type;
+
+    int value_integer;
+    float value_number;
+    bool value_boolean;
+    std::string value_string;
+    tripoint value_tripoint;
+    item value_item;
+    Creature *value_creature;
+    body_part value_body_part;
+
+    CallbackArgument( int arg_value ) :
+        type( CallbackArgumentType::Integer ), value_integer( arg_value ) {
+    }
+    CallbackArgument( double arg_value ) :
+        type( CallbackArgumentType::Number ), value_number( arg_value ) {
+    }
+    CallbackArgument( float arg_value ) :
+        type( CallbackArgumentType::Number ), value_number( arg_value ) {
+    }
+    CallbackArgument( bool arg_value ) :
+        type( CallbackArgumentType::Boolean ), value_boolean( arg_value ) {
+    }
+    CallbackArgument( const std::string &arg_value ) :
+        type( CallbackArgumentType::String ), value_string( arg_value ) {
+    }
+    CallbackArgument( const tripoint &arg_value ) :
+        type( CallbackArgumentType::Tripoint ), value_tripoint( arg_value ) {
+    }
+    CallbackArgument( const item &arg_value ) :
+        type( CallbackArgumentType::Item ), value_item( arg_value ) {
+    }
+    CallbackArgument( Creature *&arg_value ) :
+        type( CallbackArgumentType::Reference_Creature ), value_creature( arg_value ) {
+    }
+    CallbackArgument( const body_part &arg_value ) :
+        type( CallbackArgumentType::Enum_BodyPart ), value_body_part( arg_value ) {
+    }
+#ifdef LUA
+    void Save();
+#endif //LUA
+};
+
+typedef std::list<CallbackArgument> CallbackArgumentContainer;
 
 class map;
 class monster;
@@ -31,9 +94,13 @@ int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &md, const
                 float d, const std::string &scr );
 
 /**
- * Execute a callback that can be overridden by all mods.
+ * Execute a callback that can be overridden by all mods with optional accessible arguments.
  */
+void lua_callback( const char *callback_name, const CallbackArgumentContainer &callback_args );
 void lua_callback( const char *callback_name );
+
+std::string lua_callback_getstring( const char *callback_name,
+                                    const CallbackArgumentContainer &callback_args );
 
 /**
  * Load the main file of a lua mod.
