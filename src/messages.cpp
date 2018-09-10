@@ -313,21 +313,8 @@ void Messages::display_messages()
         draw_border( w, border_color );
         draw_scrollbar( w, offset, max_lines, folded_filtered.size(), border_width, 0, c_white, true );
 
-        // Always print from top to bottom to preserve intermediate color state of folded strings
-        for( size_t line = line_from; line != line_to; ++line ) {
-            const size_t folded_ind = offset + line;
-            const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
-            const game_message &msg = player_messages.history( msg_ind );
-
-            const nc_color col = msgtype_to_color( msg.type, false );
-            nc_color col_out = col;
-
-            print_colored_text( w, border_width + line, border_width + time_width, col_out, col,
-                                folded_all[folded_filtered[folded_ind]].second );
-        }
-
         if( !log_from_top ) {
-            // Always print time strings from new to old
+            // Always print from new to old
             std::swap( line_from, line_to );
         }
         std::string prev_time_str;
@@ -341,6 +328,13 @@ void Messages::display_messages()
             const size_t folded_ind = offset + line;
             const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
             const game_message &msg = player_messages.history( msg_ind );
+
+            const nc_color col = msgtype_to_color( msg.type, false );
+            nc_color col_out = col;
+
+            print_colored_text( w, border_width + line, border_width + time_width, col_out, col,
+                                folded_all[folded_filtered[folded_ind]].second );
+
             const time_point msg_time = msg.timestamp_in_turns;
             //~ Time marker in the message dialog. %3d is the time number, %8s is the time unit
             const std::string time_str = to_string_clipped( _( "%3d %8s " ), calendar::turn - msg_time );
