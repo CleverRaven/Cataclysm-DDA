@@ -186,7 +186,8 @@ struct requirement_data {
          * @param req Data to save
          * @param id provide (or override) unique id for this instance
          */
-        static void save_requirement( const requirement_data &req, const std::string &id = "" );
+        static void save_requirement( const requirement_data &req,
+                                      const requirement_id &id = requirement_id::NULL_ID() );
 
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();

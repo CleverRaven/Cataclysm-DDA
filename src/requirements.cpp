@@ -250,11 +250,11 @@ void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id
     save_requirement( req );
 }
 
-void requirement_data::save_requirement( const requirement_data &req, const std::string &id )
+void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id )
 {
     auto dup = req;
-    if( !id.empty() ) {
-        dup.id_ = requirement_id( id );
+    if( !id.is_null() ) {
+        dup.id_ = id;
     }
 
     requirements_all[ dup.id_ ] = dup;

@@ -407,9 +407,9 @@ void vpart_info::check()
         requirement_data ins;
         ins.components.push_back( { { { part.item, 1 } } } );
 
-        std::string ins_id = std::string( "inline_vehins_base_" ) += part.id.str();
+        const requirement_id ins_id( std::string( "inline_vehins_base_" ) + part.id.str() );
         requirement_data::save_requirement( ins, ins_id );
-        part.install_reqs.emplace_back( requirement_id( ins_id ), 1 );
+        part.install_reqs.emplace_back( ins_id, 1 );
 
         if( part.removal_moves < 0 ) {
             part.removal_moves = part.install_moves / 2;
