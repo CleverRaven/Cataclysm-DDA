@@ -1254,6 +1254,36 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
     return parts.size() - 1;
 }
 
+bool vehicle::find_rackable_vehicle( std::vector<std::vector<int>> list_of_racks )
+{
+    for( auto this_bike_rack : list_of_racks ) {
+        std::vector<vehicle *> carry_vehs;
+        carry_vehs.assign( 4, nullptr );
+        vehicle *test_veh = nullptr;
+        std::set<tripoint> veh_partial_match;
+        std::vector<std::set<tripoint>> partial_matches;
+        partial_matches.assign( 4, veh_partial_match );
+        for( auto rack_part : this_bike_rack ) {
+            tripoint rack_pos = global_part_pos3( rack_part );
+            for( int i = 0; i < 4; i++ ) {
+                tripoint search_pos( rack_pos + vehicles::cardinal_d[ i ] );
+                test_veh = veh_pointer_or_null( g->m.veh_at( search_pos ) );
+                if( test_veh == nullptr || test_veh == this ) {
+                    continue;
+                } else if( test_veh != carry_vehs[ i ] ) {
+                    carry_vehs[ i ] = test_veh;
+                    partial_matches[ i ].clear();
+                }
+                partial_matches[ i ].insert( search_pos );
+                if( partial_matches[ i ] == test_veh->get_points() ) {
+                    return merge_rackable_vehicle( test_veh, this_bike_rack );
+                }
+            }
+        }
+    }
+    return false;
+}
+
 bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_parts )
 {
     struct mapping {
@@ -1266,17 +1296,14 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
     bool found_all_parts = true;
-    const point mount_zero = carry_veh->pivot_anchor[0];
+    const point mount_zero = point( 0, 0 );
     std::string axis;
     if( carry_veh_structs.size() == 1 ) {
         axis = "X";
-    } else if( mount_zero.x || mount_zero.y ) {
-        axis = mount_zero.x ? "X" : "Y";
     } else {
         for( auto carry_part : carry_veh_structs ) {
             if( carry_veh->parts[ carry_part ].mount.x || carry_veh->parts[ carry_part ].mount.y ) {
                 axis = carry_veh->parts[ carry_part ].mount.x ? "X" : "Y";
-                break;
             }
         }
     }

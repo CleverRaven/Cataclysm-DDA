@@ -691,6 +691,8 @@ class vehicle
         /** install item specified item to vehicle as a vehicle part */
         int install_part( int dx, int dy, const vpart_id &id, item &&obj, bool force = false );
 
+        // find a single tile wide vehicle adjacent to a list of part indices
+        bool find_rackable_vehicle( std::vector<std::vector<int>> list_of_racks );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_parts );
 
