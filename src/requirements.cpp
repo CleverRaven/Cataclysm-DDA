@@ -457,8 +457,8 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         std::vector<std::string> buffer_has;
         for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
             const std::string col = a->get_color( has_one, crafting_inv, batch );
-            if( std::find( buffer_has.begin(), buffer_has.end(),
-                           a->to_string( batch ) + col ) != buffer_has.end() ) {
+            const std::string text = a->to_string( batch );
+            if( std::find( buffer_has.begin(), buffer_has.end(), text + col ) != buffer_has.end() ) {
                 continue;
             }
 
@@ -466,13 +466,13 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 buffer << "<color_white> " << _( "OR" ) << "</color> ";
             }
 
-            if( !hilite.empty() && lcmatch( a->to_string( batch ), hilite ) ) {
+            if( !hilite.empty() && lcmatch( text, hilite ) ) {
                 buffer << get_tag_from_color( yellow_background( color_from_string( col ) ) );
             } else {
                 buffer << "<color_" << col << ">";
             }
-            buffer << a->to_string( batch ) << "</color>" << "</color>";
-            buffer_has.push_back( a->to_string( batch ) + col );
+            buffer << text << "</color>" << "</color>";
+            buffer_has.push_back( text + col );
         }
         std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
 
