@@ -108,16 +108,18 @@ end
 MOD.DisplayCallbackMessages = function( callback_name, ... )
 
   MOD.MessageWithLog ("Callback name is <color_cyan>"..tostring(callback_name).."</color>")
-  local callback_arguments = {...}
-  local callback_data_length = #callback_arguments 
-  if callback_data_length > 0 then
-    MOD.MessageWithLog ("Callback data length is <color_blue>"..tostring(callback_data_length).."</color>")
-    for i = 1, callback_data_length do
-      local callback_arg_name = "callback_argument_"..i
-      MOD.MessageWithLog ("Callback argument <color_yellow>"..tostring(callback_arg_name).."</color> is <color_green>"..tostring(callback_arguments[i]).."</color>")
+  local callback_args = {...}
+  local callback_args_count = #callback_args
+  if callback_args_count > 0 then
+    MOD.MessageWithLog ("Callback data length is <color_blue>"..tostring(callback_args_count).."</color>")
+    for i = 1, callback_args_count do
+      local callback_arg_name = "callback_arg_"..i
+      local callback_arg_data = callback_args[i]
+      local callback_arg_type = type(callback_arg_data)
+      MOD.MessageWithLog ("Callback arg <color_yellow>"..tostring(callback_arg_name).."</color> is <color_green>"..tostring(callback_arg_data).."</color> of type <color_pink>"..tostring(callback_arg_type).."</color>")
     end
   else
-    MOD.MessageWithLog ("Callback data is <color_red>empty</color>")
+    MOD.MessageWithLog ("Callback args are <color_red>empty</color>")
   end
 end
 
