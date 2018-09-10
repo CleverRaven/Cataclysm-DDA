@@ -100,7 +100,7 @@ void plot_options::query_seed()
 
     int seed_index = iexamine::query_seed( seed_entries );
 
-    if( seed_index > 0 && seed_index < ( int )seed_entries.size() ) {
+    if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
         seed = std::get<0>( seed_entry );
 

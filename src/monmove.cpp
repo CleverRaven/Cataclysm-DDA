@@ -1039,7 +1039,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                            ( float )( climbs ? calc_climb_cost( pos(), p ) :
                                       calc_movecost( pos(), p ) );
         if( cost > 0.0f ) {
-            moves -= ( int )ceil( cost );
+            moves -= static_cast<int>( ceil( cost ) );
         } else {
             return false;
         }

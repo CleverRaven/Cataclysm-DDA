@@ -88,7 +88,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
             _burn_data[ intensity ] = load_mat_burn_data( brn );
         } else {
             // If not specified, supply default
-            bool flammable = _fire_resist <= ( int )intensity;
+            bool flammable = _fire_resist <= static_cast<int>( intensity );
             mat_burn_data mbd;
             if( flammable ) {
                 mbd.burn = 1;

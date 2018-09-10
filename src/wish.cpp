@@ -562,13 +562,14 @@ void debug_menu::wishskill( player *p )
         int skset = -1;
         int sksel = skmenu.selected - skoffset;
         if( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
-            if( sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
+            if( sksel >= 0 && sksel < static_cast<int>( Skill::skills.size() ) ) {
                 skill_id = sksel;
                 skset = p->get_skill_level( Skill::skills[skill_id].ident() ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
             skmenu.ret = -2;
-        } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
+        } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 &&
+                   sksel < static_cast<int>( Skill::skills.size() ) ) {
             skill_id = sksel;
             const Skill &skill = Skill::skills[skill_id];
             const int NUM_SKILL_LVL = 21;

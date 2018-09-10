@@ -2124,7 +2124,7 @@ static bool blobify( monster &blob, monster &target )
             break;
         default:
             debugmsg( "Tried to blobify %s with invalid size: %d",
-                      target.disp_name().c_str(), ( int )target.get_size() );
+                      target.disp_name().c_str(), static_cast<int>( target.get_size() ) );
             return false;
     }
 
