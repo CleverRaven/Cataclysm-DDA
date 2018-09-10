@@ -457,14 +457,8 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         std::vector<std::string> buffer_has;
         for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
             const std::string col = a->get_color( has_one, crafting_inv, batch );
-            bool already_has = false;
-            for( auto cont : buffer_has ) {
-                if( cont == a->to_string( batch ) + col ) {
-                    already_has = true;
-                    break;
-                }
-            }
-            if( already_has ) {
+            if( std::find( buffer_has.begin(), buffer_has.end(),
+                           a->to_string( batch ) + col ) != buffer_has.end() ) {
                 continue;
             }
 
