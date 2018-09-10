@@ -536,14 +536,12 @@ bool can_interact_at( action_id action, const tripoint &p )
     switch( action ) {
         case ACTION_OPEN:
             return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
-            break;
         case ACTION_CLOSE: {
             const optional_vpart_position vp = g->m.veh_at( p );
             return ( vp &&
                      vp->vehicle().next_part_to_close( vp->part_index(),
                              veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
                    g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
-            break;
         }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -551,13 +549,10 @@ bool can_interact_at( action_id action, const tripoint &p )
             return can_move_vertical_at( p, 1 );
         case ACTION_MOVE_DOWN:
             return can_move_vertical_at( p, -1 );
-            break;
         case ACTION_EXAMINE:
             return can_examine_at( p );
-            break;
         default:
             return false;
-            break;
     }
 }
 
@@ -634,7 +629,6 @@ action_id handle_action_menu()
     std::copy( action_weightings.begin(), action_weightings.end(),
                std::back_inserter<std::vector<std::pair<action_id, int> > >( sorted_pairs ) );
     std::reverse( sorted_pairs.begin(), sorted_pairs.end() );
-
 
     // Default category is called "back"
     std::string category = "back";

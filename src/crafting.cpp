@@ -436,7 +436,6 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     return used;
 }
 
-
 void player::complete_craft()
 {
     //@todo: change making to be a reference, it can never be null anyway
@@ -612,6 +611,13 @@ void player::complete_craft()
                 if( elem.goes_bad() ) {
                     used_age_tally += elem.get_relative_rot();
                     ++used_age_count;
+                }
+                if( elem.has_flag( "HIDDEN_HALLU" ) ) {
+                    newit.item_tags.insert( "HIDDEN_HALLU" );
+                }
+                if( elem.has_flag( "HIDDEN_POISON" ) ) {
+                    newit.item_tags.insert( "HIDDEN_POISON" );
+                    newit.poison = elem.poison;
                 }
             }
         }

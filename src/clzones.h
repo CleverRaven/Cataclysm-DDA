@@ -21,7 +21,7 @@ class zone_type
     private:
         std::string name_;
     public:
-        explicit zone_type( const std::string name ) : name_( name ) {}
+        explicit zone_type( const std::string &name ) : name_( name ) {}
         std::string name() const;
 };
 using zone_type_id = string_id<zone_type>;
@@ -104,14 +104,17 @@ class plot_options : public zone_options, public mark_option
 
 /**
  * These are zones the player can designate.
- *
- * They currently don't serve much use, other than to designate
- * where to auto-pickup and where not to and restricting friendly npc pickup.
  */
 class zone_manager
 {
+    public:
+        class zone_data;
+        using ref_zone_data = std::reference_wrapper<zone_manager::zone_data>;
+        using ref_const_zone_data = std::reference_wrapper<const zone_manager::zone_data>;
+
     private:
         const int MAX_DISTANCE = 10;
+        std::vector<zone_data> zones;
         std::map<zone_type_id, zone_type> types;
         std::unordered_map<zone_type_id, std::unordered_set<tripoint>> area_cache;
         std::unordered_set<tripoint> get_point_set( const zone_type_id &type ) const;
@@ -128,79 +131,6 @@ class zone_manager
             static zone_manager manager;
             return manager;
         }
-
-        class zone_data
-        {
-            private:
-                std::string name;
-                zone_type_id type;
-                bool invert;
-                bool enabled;
-                tripoint start;
-                tripoint end;
-                std::shared_ptr<zone_options> options;
-
-            public:
-                zone_data( const std::string &_name, const zone_type_id &_type,
-                           bool _invert, const bool _enabled,
-                           const tripoint &_start, const tripoint &_end,
-                           std::shared_ptr<zone_options> _options = nullptr ) {
-                    name = _name;
-                    type = _type;
-                    invert = _invert;
-                    enabled = _enabled;
-                    start = _start;
-                    end = _end;
-
-                    // ensure that suplied options is of correct class
-                    if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
-                        options = zone_options::create( type );
-                    } else {
-                        options = _options;
-                    }
-                }
-
-                void set_name();
-                void set_type();
-                void set_position( const std::pair<tripoint, tripoint> position );
-                void set_enabled( const bool enabled );
-
-                std::string get_name() const {
-                    return name;
-                }
-                const zone_type_id &get_type() const {
-                    return type;
-                }
-                bool get_invert() const {
-                    return invert;
-                }
-                bool get_enabled() const {
-                    return enabled;
-                }
-                tripoint get_start_point() const {
-                    return start;
-                }
-                tripoint get_end_point() const {
-                    return end;
-                }
-                tripoint get_center_point() const;
-                bool has_options() const {
-                    return options->has_options();
-                }
-                const zone_options &get_options() const {
-                    return *options;
-                }
-                zone_options &get_options() {
-                    return *options;
-                }
-                bool has_inside( const tripoint &p ) const {
-                    return p.x >= start.x && p.x <= end.x &&
-                           p.y >= start.y && p.y <= end.y &&
-                           p.z >= start.z && p.z <= end.z;
-                }
-        };
-
-        std::vector<zone_data> zones;
 
         zone_data &add( const std::string &name, const zone_type_id &type,
                         const bool invert, const bool enabled,
@@ -234,11 +164,88 @@ class zone_manager
         const zone_data *get_bottom_zone( const tripoint &where ) const;
         std::string query_name( std::string default_name = "" ) const;
         zone_type_id query_type() const;
+        void swap( zone_data &a, zone_data &b );
+
+        // 'direct' access to zone_manager::zones, giving direct access was nono
+        std::vector<ref_zone_data> get_zones();
+        std::vector<ref_const_zone_data> get_zones() const;
 
         bool save_zones();
         void load_zones();
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };
+
+class zone_manager::zone_data
+{
+    private:
+        std::string name;
+        zone_type_id type;
+        bool invert;
+        bool enabled;
+        tripoint start;
+        tripoint end;
+        std::shared_ptr<zone_options> options;
+
+    public:
+        zone_data( const std::string &_name, const zone_type_id &_type,
+                   bool _invert, const bool _enabled,
+                   const tripoint &_start, const tripoint &_end,
+                   std::shared_ptr<zone_options> _options = nullptr ) {
+            name = _name;
+            type = _type;
+            invert = _invert;
+            enabled = _enabled;
+            start = _start;
+            end = _end;
+
+            // ensure that suplied options is of correct class
+            if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
+                options = zone_options::create( type );
+            } else {
+                options = _options;
+            }
+        }
+
+        void set_name();
+        void set_type();
+        void set_position( const std::pair<tripoint, tripoint> position );
+        void set_enabled( const bool enabled );
+
+        std::string get_name() const {
+            return name;
+        }
+        const zone_type_id &get_type() const {
+            return type;
+        }
+        bool get_invert() const {
+            return invert;
+        }
+        bool get_enabled() const {
+            return enabled;
+        }
+        tripoint get_start_point() const {
+            return start;
+        }
+        tripoint get_end_point() const {
+            return end;
+        }
+        tripoint get_center_point() const;
+        bool has_options() const {
+            return options->has_options();
+        }
+        const zone_options &get_options() const {
+            return *options;
+        }
+        zone_options &get_options() {
+            return *options;
+        }
+        bool has_inside( const tripoint &p ) const {
+            return p.x >= start.x && p.x <= end.x &&
+                   p.y >= start.y && p.y <= end.y &&
+                   p.z >= start.z && p.z <= end.z;
+        }
+};
+
 
 #endif

@@ -285,6 +285,17 @@
         ]
     },{
         "type" : "snippet",
+        "category" : "<warn_sleep>",
+        "text" : [
+            "I'm going to sleep now.",
+            "I'm off to bed.  Wake me if you need me.",
+            "I'm going to sleep over there.",
+            "Time for bed!  See you in the morning.",
+            "There's a bed calling my name, and I'm going to it.",
+            "Good night!  Wake me if you need me."
+        ]
+    },{
+        "type" : "snippet",
         "category" : "<very>",
         "text" : [
             "extremely",

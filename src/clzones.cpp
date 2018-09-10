@@ -454,6 +454,33 @@ zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_
     return zones.back();
 }
 
+void zone_manager::swap( zone_data &a, zone_data &b )
+{
+    std::swap( a, b );
+}
+
+std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
+{
+    auto zones = std::vector<ref_zone_data>();
+
+    for( auto &zone : this->zones ) {
+        zones.emplace_back( zone );
+    }
+
+    return zones;
+}
+
+std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones() const
+{
+    auto zones = std::vector<ref_const_zone_data>();
+
+    for( auto &zone : this->zones ) {
+        zones.emplace_back( zone );
+    }
+
+    return zones;
+}
+
 void zone_manager::serialize( JsonOut &json ) const
 {
     json.start_array();
@@ -516,7 +543,6 @@ void zone_manager::deserialize( JsonIn &jsin )
         }
     }
 }
-
 
 bool zone_manager::save_zones()
 {

@@ -47,7 +47,6 @@ struct damage_unit {
     bool operator==( const damage_unit &other ) const;
 };
 
-
 // a single atomic unit of damage from an attack. Can include multiple types
 // of damage at different armor mitigation/penetration values
 struct damage_instance {

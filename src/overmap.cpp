@@ -72,7 +72,6 @@ oter_id  ot_null,
          ot_forest_water,
          ot_river_center;
 
-
 const oter_type_t oter_type_t::null_type;
 
 namespace om_lines
@@ -422,8 +421,8 @@ bool is_ot_subtype( const char *otype, const oter_id &oter )
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
  */
-void load_overmap_terrain_mapgens( JsonObject &jo, const std::string id_base,
-                                   const std::string suffix = "" )
+void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
+                                   const std::string &suffix = "" )
 {
     const std::string fmapkey( id_base + suffix );
     const std::string jsonkey( "mapgen" + suffix );
@@ -1691,7 +1690,6 @@ void overmap::generate( const overmap *north, const overmap *east,
     dbg( D_INFO ) << "overmap::generate done";
 }
 
-
 bool overmap::generate_sub( int const z )
 {
     bool requires_sub = false;
@@ -1861,7 +1859,6 @@ bool overmap::generate_sub( int const z )
         extra_route.push_back( lab_train_points.back() );
         connect_closest_points( extra_route, z, *subway_tunnel );
     }
-
 
     for( auto &i : subway_points ) {
         if( is_ot_type( "sub_station", ter( i.x, i.y, z + 2 ) ) ) {
@@ -2076,7 +2073,6 @@ void overmap::move_hordes()
     }
     // and now back into the monster group map.
     zg.insert( tmpzg.begin(), tmpzg.end() );
-
 
     if( get_option<bool>( "WANDER_SPAWNS" ) ) {
         static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -2536,7 +2532,7 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
 }
 
 bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points,
-                         const std::string prefix, int train_odds )
+                         const std::string &prefix, int train_odds )
 {
     std::vector<point> generated_lab;
     const oter_id labt( prefix + "lab" );
@@ -3742,7 +3738,6 @@ void overmap::save() const
     serialize( fout_terrain );
     fout_terrain.close();
 }
-
 
 //////////////////////////
 

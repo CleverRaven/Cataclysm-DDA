@@ -7,7 +7,7 @@
         "description" : "You can move more quickly than most, resulting in a 15% speed bonus on sure footing.",
         "starting_trait" : true,
         "changes_to" : ["FLEET2"],
-        "category" : ["SPIDER"],
+        "category" : ["SPIDER", "MOUSE"],
         "cancels" : ["SLOWRUNNER", "PONDEROUS1", "PONDEROUS2", "PONDEROUS3"]
     },{
         "type" : "mutation",
@@ -16,7 +16,7 @@
         "points" : 1,
         "description" : "Your hearing is better than average, and you can hear distant sounds more easily.",
         "starting_trait" : true,
-        "category" : ["ALPHA"],
+        "category" : ["ALPHA", "MOUSE"],
         "cancels" : ["BADHEARING"]
     },{
         "type" : "mutation",
@@ -56,7 +56,19 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["BADCARDIO"],
-        "category" : ["FISH", "LUPINE"]
+        "changes_to" : ["GOODCARDIO2"],
+        "category" : ["FISH", "LUPINE", "MOUSE", "INSECT"]
+    },{
+        "type" : "mutation",
+        "id" : "GOODCARDIO2",
+        "name" : "Hyperactive",
+        "points" : 4,
+        "description" : "Your body's efficiency is like that of a tiny furnace, increasing your maximum stamina by 40%.",
+        "valid" : false,
+        "prereqs" : ["GOODCARDIO"],
+        "cancels" : ["BADCARDIO"],
+        "threshreq" : ["THRESH_MOUSE"],
+        "category" : ["MOUSE"]
     },{
         "type" : "mutation",
         "id" : "QUICK",
@@ -64,7 +76,7 @@
         "points" : 3,
         "description" : "You're just generally quick!  You get a 10% bonus to action points.",
         "starting_trait" : true,
-        "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR"]
+        "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "OPTIMISTIC",
@@ -103,9 +115,21 @@
         "name" : "Accomplished Sleeper",
         "points" : 1,
         "description" : "You have always been able to fall asleep easily, even when sleeping in less than ideal circumstances.",
+        "changes_to" : ["EASYSLEEPER2"],
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["INSOMNIA"]
+        "cancels" : ["INSOMNIA"],
+        "category" : ["MOUSE", "INSECT"]
+    },{
+        "type" : "mutation",
+        "id" : "EASYSLEEPER2",
+        "name" : "Practiced Sleeper",
+        "points" : 2,
+        "description" : "Your body's demanding energy needs mean you can fall asleep just about anywhere.",
+        "prereqs" : ["MET_RAT"],
+        "cancels" : ["INSOMNIA"],
+        "threshreq" : ["THRESH_MOUSE"],
+        "category" : ["MOUSE"]
     },{
         "type" : "mutation",
         "id" : "PAINRESIST",
@@ -256,7 +280,7 @@
         "points" : 1,
         "description" : "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
         "starting_trait" : true,
-        "category" : ["BIRD", "BEAST", "RAPTOR"]
+        "category" : ["BIRD", "BEAST", "RAPTOR", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "DRUNKEN",
@@ -290,6 +314,7 @@
         "points" : 2,
         "description" : "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
         "starting_trait" : true,
+        "category" : ["MOUSE", "LUPINE"],
         "valid" : false,
         "active" : true
     },
@@ -419,6 +444,7 @@
         "description" : "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
         "valid" : false,
         "starting_trait" : true,
+        "category" : ["MOUSE"],
         "cancels" : ["MYOPIC"]
     },{
         "type" : "mutation",
@@ -590,7 +616,7 @@
         "description" : "You're quite the heavy sleeper.  Noises are unlikely to wake you up.",
         "changes_to" : ["HEAVYSLEEPER2"],
         "starting_trait" : true,
-        "category" : ["INSECT", "PLANT", "MEDICAL"]
+        "category" : ["INSECT", "PLANT", "MEDICAL", "LUPINE"]
     },{
         "type" : "mutation",
         "id" : "SLEEPY",
@@ -600,7 +626,7 @@
         "changes_to" : ["SLEEPY2", "MET_RAT"],
         "starting_trait" : true,
         "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
-        "category" : ["BEAST", "CHIMERA"],
+        "category" : ["BEAST", "CHIMERA", "MOUSE"],
         "fatigue_modifier": 0.333,
         "fatigue_regen_modifier": 0.333
     },{
@@ -738,6 +764,7 @@
         "points" : -1,
         "description" : "Something in those heavily processed foods doesn't agree with you.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
+        "cancels" : ["PROJUNK"],
         "category" : ["BEAST", "RAPTOR", "ALPHA"]
     },{
         "type" : "mutation",
@@ -747,6 +774,26 @@
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
         "description" : "You have a rare allergy that prevents you from eating most types of grains such as wheat or oats.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
+    },{
+        "type" : "mutation",
+        "id" : "PROJUNK",
+        "name" : "Sweet Tooth",
+        "points" : 1,
+        "description" : "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
+        "cancels" : ["ANTIJUNK"],
+        "changes_to" : ["PROJUNK2"],
+        "category" : ["MOUSE", "INSECT"]
+    },{
+        "type" : "mutation",
+        "id" : "PROJUNK2",
+        "name" : "Sugar-Loving",
+        "points" : 2,
+        "description" : "You *adore* the taste of junk food, and find it preferable to everything else!",
+        "purifiable" : false,
+        "prereqs" : ["PROJUNK"],
+        "cancels" : ["ANTIJUNK"],
+        "threshreq" : ["THRESH_MOUSE"],
+        "category" : ["MOUSE"]
     },{
         "type" : "mutation",
         "id" : "GLASSJAW",
@@ -763,7 +810,7 @@
         "points" : -3,
         "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
         "starting_trait" : true,
-        "category" : ["BEAST", "MEDICAL", "CHIMERA"],
+        "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT"],
         "cancels" : ["GOODMEMORY"]
     },{
         "type" : "mutation",
@@ -782,7 +829,7 @@
         "description" : "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MEDICAL"],
+        "category" : ["MEDICAL", "MOUSE"],
         "cancels" : ["NONADDICTIVE"]
     },{
         "type" : "mutation",
@@ -801,7 +848,7 @@
         "starting_trait" : true,
         "changes_to" : ["SMELLY2"],
         "cancels" : ["WEAKSCENT"],
-        "category" : ["FELINE", "LUPINE"]
+        "category" : ["FELINE", "LUPINE", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "CHEMIMBALANCE",
@@ -818,7 +865,17 @@
         "description" : "Most animals don't like you, and aggressive animals are more likely to attack you.  This only applies to natural animals such as woodland creatures.",
         "starting_trait" : true,
         "cancels" : ["ANIMALEMPATH"],
-        "category" : ["LUPINE", "BEAST", "RAPTOR"]
+        "changes_to" : ["ANIMALDISCORD2"],
+        "category" : ["LUPINE", "BEAST", "RAPTOR", "INSECT"]
+    },{
+        "type" : "mutation",
+        "id" : "ANIMALDISCORD2",
+        "name" : "Prey Animal",
+        "points" : -3,
+        "description" : "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
+        "cancels" : ["ANIMALEMPATH"],
+        "prereqs" : ["ANIMALDISCORD"],
+        "category" : ["MOUSE"]
     },{
         "type" : "mutation",
         "id" : "SLOWREADER",
@@ -862,7 +919,7 @@
         "description" : "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your dexterity.",
         "starting_trait" : true,
         "valid" : false,
-        "category" : ["MEDICAL"]
+        "category" : ["MEDICAL", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "HOARDER",
@@ -952,7 +1009,7 @@
         "description" : "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and a sunglasses when going out in the sun.",
         "starting_trait" : true,
         "changes_to" : ["SUNBURN"],
-        "category" : ["TROGLOBITE"]
+        "category" : ["TROGLOBITE", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "FLIMSY",
@@ -962,6 +1019,7 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
+        "category" : ["MOUSE"],
         "changes_to" : ["FLIMSY2"],
         "hp_modifier" : -0.25
     },{
@@ -1006,7 +1064,7 @@
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
-        "category" : ["FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE"],
+        "category" : ["FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE"],
         "active" : true,
         "starts_active" : true
     },{
@@ -1387,7 +1445,7 @@
         "description" : "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
         "valid" : false,
         "purifiable": false,
-        "category" : ["MUTCAT_MYCUS"],
+        "category" : ["MYCUS"],
         "prereqs" : ["M_SKIN2"],
         "threshreq" : ["THRESH_MYCUS"],
         "wet_protection" : [
@@ -1483,6 +1541,7 @@
         "name" : "Light Bones",
         "points" : 2,
         "description" : "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
+        "category" : ["MOUSE"],
         "changes_to" : ["HOLLOW_BONES"]
     },{
         "type" : "mutation",
@@ -1521,7 +1580,7 @@
         "bodytemp_modifiers" : [250, 500],
         "bodytemp_sleep" : 100,
         "description" : "Light fur has grown to cover your entire body, providing slight protection from cold.",
-        "category" : ["CHIMERA", "SPIDER"],
+        "category" : ["CHIMERA", "SPIDER", "MOUSE"],
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
         "changes_to" : ["FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR"]
@@ -1581,7 +1640,7 @@
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "leads_to" : ["LYNX_FUR"],
-        "category" : ["BEAST", "FELINE"]
+        "category" : ["BEAST", "FELINE", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "LYNX_FUR",
@@ -1930,7 +1989,7 @@
         "purifiable" : false,
         "cancels" : ["M_FERTILE", "M_BLOOM", "M_SPORES", "M_BLOSSOMS"],
         "threshreq" : ["THRESH_MYCUS"],
-        "category" : ["MUTCAT_MYCUS"],
+        "category" : ["MYCUS"],
         "active" : true,
         "cost" : 10,
         "hunger" : true,
@@ -2295,9 +2354,8 @@
         "name" : "Alcohol Metabolism",
         "points" : 2,
         "description" : "So it's fermented?  Whatever, it's still good drinking.  You've developed the ability to metabolize alcohol as a food source.",
-        "prereqs" : ["TOLERANCE", "EATPOISON"],
-        "prereqs2" : ["SAPROVORE", "EATPOISON"],
-        "//" : "It's unlikely but possible to get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
+        "prereqs" : ["TOLERANCE"],
+        "prereqs2" : ["SAPROVORE"],
         "category" : ["TROGLOBITE"],
         "valid" : false
     },{
@@ -2405,7 +2463,7 @@
         "prereqs" : ["NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS"],
         "//" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
         "prereqs2" : ["SAPROVORE", "TOLERANCE"],
-        "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT"],
+        "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE"],
         "category" : ["TROGLOBITE", "RAPTOR", "RAT", "CHIMERA"],
         "valid" : false
     },{
@@ -2415,8 +2473,8 @@
         "points" : 4,
         "description" : "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
         "prereqs" : ["EATPOISON"],
-        "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT"],
-        "category" : ["RAT", "CHIMERA"],
+        "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE"],
+        "category" : ["RAT", "CHIMERA", "MOUSE"],
         "valid" : false
     },{
         "type" : "mutation",
@@ -2626,14 +2684,14 @@
     },{
         "type" : "mutation",
         "id" : "TAIL_RAT",
-        "name" : "Rat Tail",
+        "name" : "Rodent Tail",
         "points" : 1,
         "visibility" : 6,
         "ugliness" : 4,
         "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_LONG", "TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR", "TAIL_CATTLE"],
-        "category" : ["RAT"],
+        "category" : ["RAT", "MOUSE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true
     },{
@@ -2876,7 +2934,7 @@
         "description" : "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.  You are less bothered by death of others: their own weakness invited these fates upon them.",
         "purifiable" : false,
         "changes_to" : ["PRED2"],
-        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
+        "prereqs" : ["CARNIVORE"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
         "cancels" : ["PACIFIST"],
         "category" : ["BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER"]
@@ -3055,7 +3113,7 @@
         "description" : "Your ears have extended into long, pointed ones, like those of a canine.  They enhance your hearing, allowing you to hear at greater distances.",
         "category" : ["BEAST", "CATTLE", "CHIMERA"],
         "changes_to" : ["LUPINE_EARS"],
-        "cancels" : ["FELINE_EARS", "URSINE_EARS", "ELFA_EARS"]
+        "cancels" : ["FELINE_EARS", "URSINE_EARS", "ELFA_EARS", "MOUSE_EARS"]
     },{
         "type" : "mutation",
         "id" : "LUPINE_EARS",
@@ -3065,7 +3123,7 @@
         "ugliness" : 1,
         "description" : "Your hearing has evolved further and is now on par with wolves.  You can hear things significantly farther away.",
         "category" : ["LUPINE"],
-        "cancels" : ["URSINE_EARS", "FELINE_EARS", "CANINE_EARS", "ELFA_EARS"]
+        "cancels" : ["URSINE_EARS", "FELINE_EARS", "CANINE_EARS", "ELFA_EARS", "MOUSE_EARS"]
     },{
         "type" : "mutation",
         "id" : "FELINE_EARS",
@@ -3074,7 +3132,7 @@
         "visibility" : 4,
         "description" : "Your ears have extended into long, pointed, velvety ones, like those of a feline.  You find it easier to tune in on sounds from afar.",
         "category" : ["FELINE"],
-        "cancels" : ["LUPINE_EARS", "URSINE_EARS", "CANINE_EARS", "ELFA_EARS"]
+        "cancels" : ["LUPINE_EARS", "URSINE_EARS", "CANINE_EARS", "ELFA_EARS", "MOUSE_EARS"]
     },{
         "type" : "mutation",
         "id" : "URSINE_EARS",
@@ -3084,7 +3142,7 @@
         "ugliness" : 1,
         "description" : "Your ears have grown longer and rounder, much like those of a bear.  You can hear things a little farther away.",
         "category" : ["URSINE"],
-        "cancels" : ["LUPINE_EARS", "FELINE_EARS", "CANINE_EARS", "ELFA_EARS"]
+        "cancels" : ["LUPINE_EARS", "FELINE_EARS", "CANINE_EARS", "ELFA_EARS", "MOUSE_EARS"]
     },{
         "type" : "mutation",
         "id" : "ELFA_EARS",
@@ -3096,6 +3154,17 @@
         "valid" : false,
         "category" : ["ELFA"],
         "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
+    },{
+        "type" : "mutation",
+        "id" : "MOUSE_EARS",
+        "name" : "Rodent Ears",
+        "points" : 1,
+        "visibility" : 8,
+        "ugliness" : 1,
+        "description" : "Your ears are huge, round, and gray!  They're rather fascinating, and help you hear from a much greater distance.",
+        "valid" : false,
+        "category" : ["MOUSE", "RAT"],
+        "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS", "ELFA_EARS"]
     },{
         "type" : "mutation",
         "id" : "WEB_WALKER",
@@ -3171,7 +3240,7 @@
         "ugliness" : 1,
         "description" : "You have a set of prominent rodent-like whiskers around your mouth.  These make you more aware of vibrations in the air, and improve your ability to dodge slightly.",
         "prereqs" : ["MUZZLE_RAT"],
-        "category" : ["RAT"]
+        "category" : ["RAT", "MOUSE"]
     },{
         "type" : "mutation",
         "id" : "FAT",
@@ -3201,6 +3270,7 @@
         ],
         "description" : "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance).",
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "cancels" : ["SMALL", "SMALL2"],
         "changes_to": ["LARGE_OK", "HUGE"],
         "category" : ["URSINE", "CATTLE", "LIZARD"],
         "passive_mods" : {
@@ -3215,6 +3285,7 @@
         "description" : "You carry your rugged body with the dignity you deserve.  Strength +2.",
         "prereqs" : ["LARGE"],
         "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "cancels" : ["SMALL", "SMALL2"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD"],
         "changes_to": ["HUGE"],
         "leads_to" : ["MUT_TOUGH"],
@@ -3233,6 +3304,7 @@
         "description" : "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
         "prereqs" : ["LARGE", "LARGE_OK"],
         "prereqs2" : ["STR_UP_3", "STR_UP_4"],
+        "cancels" : ["SMALL", "SMALL2"],
         "changes_to": ["HUGE_OK"],
         "category" : ["URSINE", "CATTLE"],
         "passive_mods" : {
@@ -3253,6 +3325,7 @@
         "description" : "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
         "prereqs" : ["HUGE"],
         "prereqs2" : ["STR_UP_3", "STR_UP_4"],
+        "cancels" : ["SMALL", "SMALL2"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
         "leads_to" : ["MUT_TOUGH"],
         "category" : ["URSINE", "CATTLE"],
@@ -3345,7 +3418,7 @@
         "description" : "You are nimbler.  Dexterity + 2",
         "prereqs" : ["DEX_UP"],
         "changes_to" : ["DEX_UP_3"],
-        "category" : ["LIZARD", "SPIDER", "CHIMERA", "RAPTOR"],
+        "category" : ["LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE"],
         "passive_mods" : {
             "dex_mod" : 2
         }
@@ -3561,6 +3634,56 @@
         "passive_mods" : {
             "per_mod" : 5
         }
+    },{
+        "type" : "mutation",
+        "id" : "SMALL",
+        "name" : "Little",
+        "points" : -2,
+        "visibility" : 5,
+        "mixed_effect" : true,
+        "description" : "You've noticeably shrunk in size.  You're able to move with increased litheness, but your smaller stature prevents you from carrying as much.",
+        "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
+        "changes_to": ["SMALL2"],
+        "category" : ["MOUSE"],
+        "hp_modifier" : -0.05
+    },{
+        "type" : "mutation",
+        "id" : "SMALL2",
+        "name" : "Tiny",
+        "points" : -4,
+        "visibility" : 8,
+        "mixed_effect" : true,
+        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you unless you refit them (since you're half their size), and your hit points are heavily reduced.  However, your movement is silent, and your dodge skill is a little higher.",
+        "prereqs" : ["SMALL"],
+        "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
+        "changes_to": ["SMALL_OK"],
+        "category" : ["MOUSE"],
+        "hp_modifier" : -0.3
+    },{
+        "type" : "mutation",
+        "id" : "SMALL_OK",
+        "name" : "Unassuming",
+        "points" : 3,
+        "mixed_effect" : true,
+        "description" : "You've mastered your tiny form!  Item encumbrance and carry weight penalties are reduced, and you've learned to use your increased nimbleness to offset your reduced capacity to absorb damage.",
+        "prereqs" : ["SMALL2"],
+        "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
+        "valid" : false,
+        "purifiable" : false,
+        "threshreq" : ["THRESH_MOUSE"],
+        "category" : ["MOUSE"],
+        "hp_modifier" : -0.25
+    },{
+        "type" : "mutation",
+        "id" : "CRAFTY",
+        "name" : "Crafty",
+        "points" : 5,
+        "description" : "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["SMALL_OK"],
+        "threshreq" : ["THRESH_MOUSE"],
+        "category" : ["MOUSE"]
     },{
         "type" : "mutation",
         "id" : "MUT_JUNKIE",
@@ -3831,7 +3954,7 @@
     },{
         "type" : "mutation",
         "id" : "MUZZLE_RAT",
-        "name" : "Ratlike Muzzle",
+        "name" : "Rodent Muzzle",
         "points" : -2,
         "visibility" : 6,
         "ugliness" : 4,
@@ -3918,7 +4041,7 @@
         "starting_trait" : true,
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
         "changes_to" :["HUNGER2", "MET_RAT"],
-        "category" : ["RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA"],
+        "category" : ["RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE"],
         "metabolism_modifier": 0.5,
         "stamina_regen_modifier": 0.1
     },{
@@ -3927,11 +4050,12 @@
         "name" : "Rapid Metabolism",
         "points" : -2,
         "valid" : false,
+        "purifiable" : false,
         "description" : "You require more resources than most, but heal more rapidly as well.  Provides weak regeneration even when not asleep.",
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "FASTHEALER", "FASTHEALER2", "REGEN", "ROT1", "ROT2", "ROT3", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "prereqs" : ["HUNGER"],
         "prereqs2" : ["SLEEPY"],
-        "category" : ["RAT"],
+        "category" : ["RAT", "MOUSE"],
         "healing_awake" : 0.2,
         "healing_resting" : 0.5,
         "fatigue_modifier": 0.5,
@@ -3969,6 +4093,7 @@
         "description" : "Your body dries out easily; you need to drink more water.",
         "starting_trait" : true,
         "changes_to" : ["THIRST2"],
+        "cancels" : ["NO_THIRST" ],
         "category" : ["SLIME", "CEPHALOPOD", "CHIMERA", "ELFA"],
         "thirst_modifier": 0.5
     },{
@@ -3979,6 +4104,7 @@
         "description" : "Ugh, out of water already?  You need about twice the fluids of an average human.",
         "prereqs" : ["THIRST"],
         "changes_to" :["THIRST3"],
+        "cancels" : ["NO_THIRST" ],
         "category" : ["FISH", "SLIME", "CEPHALOPOD"],
         "thirst_modifier": 1.0
     },{
@@ -3987,8 +4113,19 @@
         "name" : "Extremely Thirsty",
         "points" : -5,
         "description" : "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
+        "cancels" : ["NO_THIRST" ],
         "prereqs" : ["THIRST2"],
         "thirst_modifier": 2.0
+    },{
+        "type" : "mutation",
+        "id" : "NO_THIRST",
+        "name" : "Metabolic Rehydration",
+        "points" : 6,
+        "description" : "Your body gets everything it needs from the food that you eat!  You no longer gain hydration from fluids - instead, your thirst will be equal to, and change with, your hunger.",
+        "threshreq" : ["THRESH_MOUSE"],
+        "category" : ["MOUSE"],
+        "cancels" : ["THIRST", "THIRST2", "THIRST3"],
+        "purifiable": false
     },{
         "type" : "mutation",
         "id" : "HEAVYSLEEPER2",
@@ -4601,7 +4738,7 @@
         "mixed_effect" : true,
         "description" : "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs" : ["GROWL"],
-        "category" : ["BEAST", "CHIMERA", "FELINE"],
+        "category" : ["BEAST", "CHIMERA", "FELINE", "LUPINE"],
         "social_modifiers" : {
             "persuade" : -60,
             "intimidate" : 30
@@ -5103,6 +5240,15 @@
         "threshold": true
     },{
         "type" : "mutation",
+        "id" : "THRESH_MOUSE",
+        "name" : "Diminutive",
+        "points" : 1,
+        "description" : "So much food, everywhere!  And nobody's even guarding it anymore!  These are good times.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
         "id" : "THRESH_MARLOSS",
         "name" : "Marloss Gateway",
         "points" : 1,
@@ -5261,7 +5407,7 @@
         "id" : "PROF_DICEMASTER",
         "name" : "Dungeon Master",
         "points" : 0,
-        "description" : "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly. You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
+        "description" : "Weeks spent picking through manuals and researching topics you aren't versed in has taught you to find what you need to know more quickly.  You read slightly faster, and suffer no reading time penalty for books too complex for you to easily understand.",
         "valid": false,
         "purifiable": false,
         "profession": true,
@@ -5416,7 +5562,7 @@
         "name" : "Debug Bionic Power",
         "points" : 99,
         "valid" : false,
-        "description" : "For fueling your inner cybug. Activate to increase power capacity by 100 (can be repeated.)",
+        "description" : "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
         "threshold" : true,
         "active" : true
     },{
