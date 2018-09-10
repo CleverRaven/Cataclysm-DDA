@@ -98,7 +98,10 @@ struct vehicle_part {
         friend item_location;
         friend class turret_data;
 
-        enum : int { passenger_flag = 1, animal_flag };
+        enum : int { passenger_flag = 1,
+                     animal_flag = 2,
+                     carried_flag = 4,
+        };
 
         vehicle_part(); /** DefaultConstructible */
 
@@ -267,6 +270,11 @@ struct vehicle_part {
 
         /** parts are considered broken at zero health */
         bool is_broken() const;
+
+        /** parts are unavailable if broken or if carried is true, if they have the CARRIED flag */
+        bool is_unavailable( const bool carried = true ) const;
+        /** parts are available if they aren't unavailable */
+        bool is_available( const bool carried = true ) const;
 
         /** how much blood covers part (in turns). */
         int blood = 0;
@@ -698,6 +706,12 @@ class vehicle
         int part_with_feature_at_relative( const point &pt, const std::string &f,
                                            bool unbroken = true ) const;
         int part_with_feature( int p, vpart_bitflags f, bool unbroken = true ) const;
+
+        // returns index of part, inner to given, with certain flag, or -1
+        int avail_part_with_feature( int p, const std::string &f, bool unbroken = true ) const;
+        int avail_part_with_feature_at_relative( const point &pt, const std::string &f,
+                bool unbroken = true ) const;
+        int avail_part_with_feature( int p, vpart_bitflags f, bool unbroken = true ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with specified flag

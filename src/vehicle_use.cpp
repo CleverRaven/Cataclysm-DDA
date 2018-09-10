@@ -131,6 +131,9 @@ void vehicle::control_doors()
     pmenu.title = _( "Select door to toggle" );
     int doors[2]; // one door to open and one to close
     for( int p : door_motors ) {
+        if( parts[ p ].is_unavailable() ) {
+            continue;
+        }
         doors[0] = next_part_to_open( p );
         doors[1] = next_part_to_close( p );
         for( int door : doors ) {
@@ -333,6 +336,9 @@ int vehicle::select_engine()
     std::string name;
     tmenu.text = _( "Toggle which?" );
     for( size_t e = 0; e < engines.size(); ++e ) {
+        if( parts[ engines[ e] ].is_unavailable() ) {
+            continue;
+        }
         name = parts[ engines[ e ] ].name();
         tmenu.addentry( e, true, -1, "[%s] %s",
                         ( ( parts[engines[e]].enabled ) ? "x" : " " ), name.c_str() );

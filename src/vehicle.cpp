@@ -85,7 +85,7 @@ void vehicle_stack::insert_at( std::list<item>::iterator index,
 
 units::volume vehicle_stack::max_volume() const
 {
-    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
+    if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
         return myorigin->parts[part_num].info().size;
     }
     return 0;
@@ -476,7 +476,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             }
         }
         //sets the vehicle to locked, if there is no key and an alarm part exists
-        if( part_flag( p, "SECURITY" ) && has_no_key && !parts[p].is_broken() ) {
+        if( part_flag( p, "SECURITY" ) && has_no_key && parts[p].is_available() ) {
             is_locked = true;
 
             if( one_in( 2 ) ) {
@@ -624,7 +624,7 @@ bool vehicle::is_perpetual_type( const int e ) const
 
 bool vehicle::is_engine_on( int const e ) const
 {
-    return !parts[ engines[ e ] ].is_broken() && is_part_on( engines[ e ] );
+    return parts[ engines[ e ] ].is_available() && is_part_on( engines[ e ] );
 }
 
 bool vehicle::is_part_on( int const p ) const
@@ -635,13 +635,13 @@ bool vehicle::is_part_on( int const p ) const
 bool vehicle::is_alternator_on( int const a ) const
 {
     auto alt = parts[ alternators [ a ] ];
-    if( alt.is_broken() ) {
+    if( alt.is_unavailable() ) {
         return false;
     }
 
     return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
         auto &eng = parts [ idx ];
-        return eng.enabled && !eng.is_broken() && eng.mount == alt.mount &&
+        return eng.enabled && eng.is_available() && eng.mount == alt.mount &&
                !eng.faults().count( fault_belt );
     } );
 }
@@ -650,7 +650,7 @@ bool vehicle::has_security_working() const
 {
     bool found_security = false;
     for( size_t s = 0; s < speciality.size(); s++ ) {
-        if( part_flag( speciality[ s ], "SECURITY" ) && !parts[ speciality[ s ] ].is_broken() ) {
+        if( part_flag( speciality[ s ], "SECURITY" ) && parts[ speciality[ s ] ].is_available() ) {
             found_security = true;
             break;
         }
@@ -1532,7 +1532,7 @@ cata::optional<vpart_reference> optional_vpart_position::obstacle_at_part() cons
 
 int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
 {
-    if( part_flag( part, flag ) ) {
+    if( part_flag( part, flag ) && ( !unbroken || !parts[part].is_broken() ) ) {
         return part;
     }
     const auto it = relative_parts.find( parts[part].mount );
@@ -1560,6 +1560,30 @@ int vehicle::part_with_feature_at_relative( const point &pt, const std::string &
         if( part_flag( elem, flag ) && ( !unbroken || !parts[ elem ].is_broken() ) ) {
             return elem;
         }
+    }
+    return -1;
+}
+
+int vehicle::avail_part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
+{
+    int part_a = part_with_feature( part, flag, unbroken );
+    if( ( part_a > 0 ) && parts[ part_a ].is_available() ) {
+        return part_a;
+    }
+    return -1;
+}
+
+int vehicle::avail_part_with_feature( int part, const std::string &flag, bool unbroken ) const
+{
+    return avail_part_with_feature_at_relative( parts[ part ].mount, flag, unbroken );
+}
+
+int vehicle::avail_part_with_feature_at_relative( const point &pt, const std::string &flag,
+        bool unbroken ) const
+{
+    int part_a = part_with_feature_at_relative( pt, flag, unbroken );
+    if( ( part_a > 0 ) && parts[ part_a ].is_available() ) {
+        return part_a;
     }
     return -1;
 }
@@ -1702,7 +1726,7 @@ int vehicle::next_part_to_close( int p, bool outside ) const
          ++part_it ) {
 
         if( part_flag( *part_it, VPFLAG_OPENABLE )
-            && !parts[ *part_it ].is_broken()
+            && parts[ *part_it ].is_available()
             && parts[*part_it].open == 1
             && ( !outside || !part_flag( *part_it, "OPENCLOSE_INSIDE" ) ) ) {
             return *part_it;
@@ -1717,7 +1741,7 @@ int vehicle::next_part_to_open( int p, bool outside ) const
 
     // We want forwards, since we open the innermost thing first (curtains), and then the innermost thing (door)
     for( auto &elem : parts_here ) {
-        if( part_flag( elem, VPFLAG_OPENABLE ) && !parts[ elem ].is_broken() && parts[elem].open == 0 &&
+        if( part_flag( elem, VPFLAG_OPENABLE ) && parts[ elem ].is_available() && parts[elem].open == 0 &&
             ( !outside || !part_flag( elem, "OPENCLOSE_INSIDE" ) ) ) {
             return elem;
         }
@@ -2542,7 +2566,7 @@ float vehicle::steering_effectiveness() const
     // (unbalanced, long wheelbase, back-heavy vehicle with front wheel steering,
     // etc)
     for( int p : steering ) {
-        if( !parts[ p ].is_broken() ) {
+        if( parts[ p ].is_available() ) {
             return 1.0;
         }
     }
@@ -2664,7 +2688,7 @@ std::vector<vehicle_part *> vehicle::lights( bool active )
 {
     std::vector<vehicle_part *> res;
     for( auto &e : parts ) {
-        if( ( !active || e.enabled ) && !e.is_broken() && e.is_light() ) {
+        if( ( !active || e.enabled ) && e.is_available() && e.is_light() ) {
             res.push_back( &e );
         }
     }
@@ -2723,7 +2747,7 @@ void vehicle::power_parts()
         // Produce additional epower from any reactors
         bool reactor_working = false;
         for( auto &elem : reactors ) {
-            if( parts[ elem ].is_broken() ) {
+            if( parts[ elem ].is_unavailable() ) {
                 continue;
             } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
                 reactor_working = true;
@@ -2891,7 +2915,7 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
         if( amount <= 0 ) {
             break;
         }
-        if( !p.is_broken() && p.is_battery() ) {
+        if( p.is_available() && p.is_battery() ) {
             int qty = std::min( long( amount ), p.ammo_capacity() - p.ammo_remaining() );
             p.ammo_set( fuel_type_battery, p.ammo_remaining() + qty );
             amount -= qty;
@@ -2916,7 +2940,7 @@ int vehicle::discharge_battery( int amount, bool recurse )
         if( amount <= 0 ) {
             break;
         }
-        if( !p.is_broken() && p.is_battery() ) {
+        if( p.is_available() && p.is_battery() ) {
             amount -= p.ammo_consume( amount, global_part_pos3( p ) );
         }
     }
@@ -3565,7 +3589,7 @@ void vehicle::refresh_insides()
         }
         /* If there's no roof, or there is a roof but it's broken, it's outside.
          * (Use short-circuiting && so broken frames don't screw this up) */
-        if( !( part_with_feature( p, "ROOF" ) >= 0 && !parts[ p ].is_broken() ) ) {
+        if( !( part_with_feature( p, "ROOF" ) >= 0 && parts[ p ].is_available() ) ) {
             parts[p].inside = false;
             continue;
         }
@@ -3578,10 +3602,11 @@ void vehicle::refresh_insides()
                                           parts[p].mount.y + ndy );
             bool cover = false; // if we aren't covered from sides, the roof at p won't save us
             for( auto &j : parts_n3ar ) {
-                if( part_flag( j, "ROOF" ) && !parts[ j ].is_broken() ) { // another roof -- cover
+                // another roof -- cover
+                if( part_flag( j, "ROOF" ) && parts[ j ].is_available() ) {
                     cover = true;
                     break;
-                } else if( part_flag( j, "OBSTACLE" ) && !parts[ j ].is_broken() ) {
+                } else if( part_flag( j, "OBSTACLE" ) && parts[ j ].is_available() ) {
                     // found an obstacle, like board or windshield or door
                     if( parts[j].inside || ( part_flag( j, "OPENABLE" ) && parts[j].open ) ) {
                         continue; // door and it's open -- can't cover
@@ -4072,7 +4097,7 @@ void vehicle::update_time( const time_point &update_to )
         const auto &pt = parts[idx];
 
         // we need an unbroken funnel mounted on the exterior of the vehicle
-        if( pt.is_broken() || !is_sm_tile_outside( veh_loc + pt.precalc[0] ) ) {
+        if( pt.is_unavailable() || !is_sm_tile_outside( veh_loc + pt.precalc[0] ) ) {
             continue;
         }
 
@@ -4107,7 +4132,7 @@ void vehicle::update_time( const time_point &update_to )
     if( !solar_panels.empty() ) {
         int epower = 0;
         for( int part : solar_panels ) {
-            if( parts[ part ].is_broken() ) {
+            if( parts[ part ].is_unavailable() ) {
                 continue;
             }
 

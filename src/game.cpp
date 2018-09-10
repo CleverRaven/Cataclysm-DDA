@@ -5790,7 +5790,7 @@ void game::control_vehicle()
 
     if( veh != nullptr && veh->player_in_control( u ) ) {
         veh->use_controls( u.pos() );
-    } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
+    } else if( veh && veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
             return;
         }
@@ -5811,7 +5811,8 @@ void game::control_vehicle()
             return;
         }
         vehicle *const veh = &vp->vehicle();
-        if( veh->interact_vehicle_locked() ) {
+        veh_part = vp->part_index();
+        if( veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
             veh->use_controls( examp );
         }
     }
