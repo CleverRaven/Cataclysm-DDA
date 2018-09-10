@@ -453,18 +453,16 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
-        std::ostringstream buffer;
+        std::vector<std::string> list_as_string;
         std::vector<std::string> buffer_has;
-        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            const std::string col = a->get_color( has_one, crafting_inv, batch );
-            const std::string text = a->to_string( batch );
+        for( const T &o : comp_list ) {
+            const std::string col = o.get_color( has_one, crafting_inv, batch );
+            const std::string text = o.to_string( batch );
             if( std::find( buffer_has.begin(), buffer_has.end(), text + col ) != buffer_has.end() ) {
                 continue;
             }
 
-            if( a != comp_list.begin() ) {
-                buffer << "<color_white> " << _( "OR" ) << "</color> ";
-            }
+            std::ostringstream buffer;
 
             if( !hilite.empty() && lcmatch( text, hilite ) ) {
                 buffer << get_tag_from_color( yellow_background( color_from_string( col ) ) );
@@ -472,9 +470,18 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 buffer << "<color_" << col << ">";
             }
             buffer << text << "</color>" << "</color>";
+            const auto iter = std::lower_bound( list_as_string.begin(), list_as_string.end(), buffer.str() );
+            list_as_string.insert( iter, buffer.str() );
             buffer_has.push_back( text + col );
         }
-        std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
+        std::string unfolded;
+        for( auto a = list_as_string.begin(); a != list_as_string.end(); ++a ) {
+            if( a != list_as_string.begin() ) {
+                unfolded += std::string( "<color_white> " ) + _( "OR" ) + "</color> ";
+            }
+            unfolded += *a;
+        }
+        std::vector<std::string> folded = foldstring( unfolded, width - 2 );
 
         for( size_t i = 0; i < folded.size(); i++ ) {
             if( i == 0 ) {
