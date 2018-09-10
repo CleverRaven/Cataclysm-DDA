@@ -819,6 +819,21 @@
       "flags": [ "TRADER_AVOID", "USE_PART_ITEM" ]
     },
     {
+      "id": "bike_rack",
+      "type": "GENERIC",
+      "name": "bike rack",
+      "description": "A collection of pipes, cams, and straps, mounted on the edge of a vehicle and used to support another vehicle for transport.  It must be mounted on a vehicle to be used.",
+      "weight": 4000,
+      "volume": 25,
+      "price": 16000,
+      "category": "veh_parts",
+      "material": [ "steel", "plastic" ],
+      "symbol": "]",
+      "color": "light_gray",
+      "looks_like": "foldframe",
+      "flags": [ "TRADER_AVOID" ]
+    },
+    {
         "type":"GENERIC",
         "id": "floodlight",
         "name": "floodlight",
