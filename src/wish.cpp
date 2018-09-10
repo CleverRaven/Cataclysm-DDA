@@ -142,6 +142,15 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
 
+            if( !mdata.types.empty() ) {
+                line2++;
+                mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Type:" ) );
+                for( auto &j : mdata.types ) {
+                    mvwprintw( menu->window, line2, startx + 11, j );
+                    line2++;
+                }
+            }
+
             if( !mdata.category.empty() ) {
                 line2++;
                 mvwprintz( menu->window, line2, startx, c_light_gray,  _( "Category:" ) );
