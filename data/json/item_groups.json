@@ -7873,6 +7873,8 @@
       ["wearable_light", 5],
       ["toolbox", 1],
       ["smoxygen_tank", 35],
+      ["nitrox_tank_carbon", 40],
+      ["nitrox_tank_metal", 40],
       ["watercannon", 10],
       ["l-stick", 1],
       ["solarpack", 2]
