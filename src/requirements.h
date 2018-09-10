@@ -178,7 +178,8 @@ struct requirement_data {
          * @param jsobj Object to load data from
          * @param id provide (or override) unique id for this instance
          */
-        static void load_requirement( JsonObject &jsobj, const std::string &id = "" );
+        static void load_requirement( JsonObject &jsobj,
+                                      const requirement_id &id = requirement_id::NULL_ID() );
 
         /**
          * Store requirement data for future lookup

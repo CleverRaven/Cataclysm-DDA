@@ -139,9 +139,9 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
         }
 
     } else {
-        auto req_id = string_format( "inline_%s_%s", key.c_str(), id.c_str() );
+        const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
         requirement_data::load_requirement( src, req_id );
-        reqs = { { requirement_id( req_id ), 1 } };
+        reqs = { { req_id, 1 } };
     }
 };
 

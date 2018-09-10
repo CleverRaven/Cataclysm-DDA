@@ -227,7 +227,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const std::string &id )
+void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 
@@ -239,8 +239,8 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
     jsarr = jsobj.get_array( "tools" );
     req.load_obj_list( jsarr, req.tools );
 
-    if( !id.empty() ) {
-        req.id_ = requirement_id( id );
+    if( !id.is_null() ) {
+        req.id_ = id;
     } else if( jsobj.has_string( "id" ) ) {
         req.id_ = requirement_id( jsobj.get_string( "id" ) );
     } else {
