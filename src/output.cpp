@@ -97,7 +97,7 @@ std::vector<std::string> foldstring( std::string str, int width )
                 } else {
                     auto tag_end = rawwline.find( '>', tag_pos );
                     if( tag_end != std::string::npos ) {
-                        tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 ) );
+                        tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
                     }
                 }
             }
