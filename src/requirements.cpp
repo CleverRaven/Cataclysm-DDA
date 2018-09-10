@@ -455,9 +455,8 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         const bool has_one = any_marked_available( comp_list );
         std::ostringstream buffer;
         std::vector<std::string> buffer_has;
-        bool already_has;
         for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            already_has = false;
+            bool already_has = false;
             for( auto cont : buffer_has ) {
                 if( cont == a->to_string( batch ) + a->get_color( has_one, crafting_inv, batch ) ) {
                     already_has = true;
