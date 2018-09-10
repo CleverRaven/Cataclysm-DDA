@@ -1555,6 +1555,87 @@ void vehicle::part_removal_cleanup()
     refresh(); // Rebuild cached indices
 }
 
+void vehicle::remove_carried_flag()
+{
+    for( vehicle_part &part : parts ) {
+        part.carry_names.pop();
+        if( part.carry_names.empty() ) {
+            part.remove_flag( vehicle_part::carried_flag );
+        }
+    }
+}
+
+bool vehicle::remove_carried_vehicle( std::vector<int> carried_parts )
+{
+    if( carried_parts.empty() ) {
+        return false;
+    }
+    std::string veh_record;
+    tripoint new_pos3;
+    bool x_aligned = false;
+    for( size_t i = 0; i < carried_parts.size(); i++ ) {
+        int carried_part = carried_parts[ i ];
+        std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
+        if( id_string == "X" || id_string == "Y" ) {
+            veh_record = parts[ carried_part ].carry_names.top();
+            new_pos3 = global_part_pos3( carried_part );
+            x_aligned = id_string == "X";
+            break;
+        }
+    }
+    if( veh_record.empty() ) {
+        return false;
+    }
+    int new_dir = modulo( std::stoi( veh_record.substr( 4, 3 ) ) + face.dir(), 360 );
+    int host_dir = modulo( face.dir(), 180 );
+    // if the host is skewed N/S, and the carried vehicle is going to come at an angle,
+    // force it to east/west instead
+    if( host_dir >= 45 && host_dir <= 135 ) {
+        if( new_dir <= 45 || new_dir >= 315 ) {
+            new_dir = 0;
+        } else if( new_dir >= 135 && new_dir <= 225 ) {
+            new_dir = 180;
+        }
+    }
+    vehicle *new_vehicle = g->m.add_vehicle( vproto_id( "none" ), new_pos3, new_dir );
+    if( new_vehicle == nullptr ) {
+        add_msg( m_debug, "Unable to unload bike rack, host face %d, new_dir %d!", face.dir(), new_dir );
+        return false;
+    }
+
+    std::vector<point> new_mounts;
+    new_vehicle->name = veh_record.substr( vehicle_part::name_offset );
+    for( auto carried_part : carried_parts ) {
+        std::string mount_str = parts[ carried_part ].carry_names.top().substr( 1, 3 );
+        point new_mount;
+        if( x_aligned ) {
+            new_mount.x = std::stoi( mount_str );
+        } else {
+            new_mount.y = std::stoi( mount_str );
+        }
+        new_mounts.push_back( new_mount );
+    }
+
+    std::vector<vehicle *> new_vehicles;
+    new_vehicles.push_back( new_vehicle );
+    std::vector<std::vector<int>> carried_vehicles;
+    carried_vehicles.push_back( carried_parts );
+    std::vector<std::vector<point>> carried_mounts;
+    carried_mounts.push_back( new_mounts );
+    bool success = split_vehicles( carried_vehicles, new_vehicles, carried_mounts );
+    if( success ) {
+        //~ %s is the vehicle being loaded onto the bicycle rack
+        add_msg( _( "You unload the %s from the bike rack. " ), new_vehicle->name );
+        new_vehicle->remove_carried_flag();
+        g->m.dirty_vehicle_list.insert( this );
+        part_removal_cleanup();
+    } else {
+        //~ %s is the vehicle being loaded onto the bicycle rack
+        add_msg( m_bad, _( "You can't unload the %s from the bike rack. " ), new_vehicle->name );
+    }
+    return success;
+}
+
 // Split a vehicle into an old vehicle and one or more new vehicles by moving vehicle_parts
 // from one the old vehicle to the new vehicles.
 // some of the logic borrowed from remove_part
