@@ -1338,6 +1338,7 @@ class vehicle
         void set_submap_moved( int x, int y );
         void use_washing_machine( int p );
         void use_monster_capture( int part, const tripoint &pos );
+        void use_bike_rack( int part );
 
         const std::string disp_name() const;
 

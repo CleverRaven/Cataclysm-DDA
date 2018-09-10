@@ -1226,3 +1226,61 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     }
     invalidate_mass();
 }
+
+void vehicle::use_bike_rack( int part )
+{
+    if( parts[part].is_unavailable() || parts[part].removed ) {
+        return;
+    }
+    std::vector<std::vector <int>> racks_parts = find_lines_of_parts( part, "BIKE_RACK_VEH" );
+    if( racks_parts.empty() ) {
+        return;
+    }
+
+    // check if we're storing a vehicle on this rack
+    std::vector<int> carried_parts;
+    std::vector<int> carry_rack;
+    bool found_vehicle = false;
+    for( auto rack_parts : racks_parts ) {
+        for( auto rack_part : rack_parts ) {
+            // skip parts that aren't carrying anything
+            if( !parts[ rack_part ].has_flag( vehicle_part::carrying_flag ) ) {
+                continue;
+            }
+            for( int i = 0; i < 4; i++ ) {
+                point near_loc = parts[ rack_part ].mount + vehicles::cardinal_d[ i ];
+                std::vector<int> near_parts = parts_at_relative( near_loc.x, near_loc.y );
+                if( near_parts.empty() ) {
+                    continue;
+                }
+                if( parts[ near_parts[ 0 ] ].has_flag( vehicle_part::carried_flag ) ) {
+                    found_vehicle = true;
+                    // found a carried vehicle part
+                    for( auto carried_part : near_parts ) {
+                        carried_parts.push_back( carried_part );
+                    }
+                    carry_rack.push_back( rack_part );
+                    // we're not adjacent to another carried vehicle on this rack
+                    break;
+                }
+            }
+        }
+        if( found_vehicle ) {
+            break;
+        }
+    }
+    bool success = false;
+    if( found_vehicle ) {
+        success = remove_carried_vehicle( carried_parts );
+        if( success ) {
+            for( auto rack_part : carry_rack ) {
+                parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
+            }
+        }
+    } else {
+        success = find_rackable_vehicle( racks_parts );
+    }
+    if( success ) {
+        g->refresh_all();
+    }
+}
