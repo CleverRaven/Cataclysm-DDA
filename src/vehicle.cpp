@@ -1803,6 +1803,100 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
     return parts_found;
 }
 
+/**
+ * Returns all parts in the vehicle that have the specified flag in their vpinfo and
+ * are on the same X-axis or Y-axis as the input part and are contiguous with each other.
+ * @param part The part to find adjacent parts to
+ * @param flag The flag to match
+ * @return A list of lists of indices of all parts sharing the flag and contiguous with the part
+ * on the X or Y axis. Returns 0, 1, or 2 lists of indices.
+ */
+std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std::string flag )
+{
+    std::vector<int> possible_parts = all_parts_with_feature( flag );
+    std::vector<std::vector<int>> ret_parts;
+    if( possible_parts.empty() ) {
+        return ret_parts;
+    }
+
+    std::vector<int> x_parts;
+    std::vector<int> y_parts;
+    vpart_id part_id = part_info( part ).get_id();
+    // create vectors of parts on the same X or Y axis
+    point target = parts[ part ].mount;
+    for( auto possible_part : possible_parts ) {
+        if( parts[ possible_part ].is_unavailable() ||
+            !part_info( possible_part ).has_flag( "MULTISQUARE" ) ||
+            parts[ possible_part ].removed || part_info( possible_part ).get_id() != part_id )  {
+            continue;
+        }
+        if( parts[ possible_part ].mount.x == target.x ) {
+            x_parts.push_back( possible_part );
+        }
+        if( parts[ possible_part ].mount.y == target.y ) {
+            y_parts.push_back( possible_part );
+        }
+    }
+
+    if( x_parts.size() > 1 ) {
+        std::vector<int> x_ret;
+        // sort by Y-axis, since they're all on the same X-axis
+        const auto x_sorter = [&]( const int lhs, const int rhs ) {
+            return( parts[lhs].mount.y > parts[rhs].mount.y );
+        };
+        std::sort( x_parts.begin(), x_parts.end(), x_sorter );
+        int first_part = 0;
+        int prev_y = parts[ x_parts[ 0 ] ].mount.y;
+        int i;
+        bool found_part = x_parts[ 0 ] == part;
+        for( i = 1; ( size_t )i < x_parts.size(); i++ ) {
+            found_part |= x_parts[ i ] == part;
+            // if the Y difference is > 1, there's a break in the run
+            if( std::abs( parts[ x_parts[ i ] ].mount.y - prev_y )  > 1 ) {
+                // if we found the part, this is the run we wanted
+                if( found_part ) {
+                    break;
+                }
+                first_part = i;
+            }
+            prev_y = parts[ x_parts[ i ] ].mount.y;
+        }
+        for( size_t j = first_part; j < ( size_t )i; j++ ) {
+            x_ret.push_back( x_parts[ j ] );
+        }
+        ret_parts.push_back( x_ret );
+    }
+    if( y_parts.size() > 1 ) {
+        std::vector<int> y_ret;
+        const auto y_sorter = [&]( const int lhs, const int rhs ) {
+            return( parts[lhs].mount.x > parts[rhs].mount.x );
+        };
+        std::sort( y_parts.begin(), y_parts.end(), y_sorter );
+        int first_part = 0;
+        int prev_x = parts[ y_parts[ 0 ] ].mount.x;
+        int i;
+        bool found_part = y_parts[ 0 ] == part;
+        for( i = 1; ( size_t )i < y_parts.size(); i++ ) {
+            found_part |= y_parts[ i ] == part;
+            if( std::abs( parts[ y_parts[ i ] ].mount.x - prev_x )  > 1 ) {
+                if( found_part ) {
+                    break;
+                }
+                first_part = i;
+            }
+            prev_x = parts[ y_parts[ i ] ].mount.x;
+        }
+        for( size_t j = first_part; j < ( size_t )i; j++ ) {
+            y_ret.push_back( y_parts[ j ] );
+        }
+        ret_parts.push_back( y_ret );
+    }
+    if( y_parts.size() == 1 && x_parts.size() == 1 ) {
+        ret_parts.push_back( x_parts );
+    }
+    return ret_parts;
+}
+
 bool vehicle::part_flag( int part, const std::string &flag ) const
 {
     if( part < 0 || part >= ( int )parts.size() || parts[part].removed ) {
