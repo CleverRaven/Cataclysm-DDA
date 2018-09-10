@@ -210,7 +210,7 @@ struct requirement_data {
          * @note if the last available component of a grouping is removed the recipe
          * will be marked as @ref blacklisted
          */
-        void blacklist_item( const std::string &id );
+        void blacklist_item( const itype_id &id );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
