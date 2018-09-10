@@ -2034,6 +2034,26 @@ void vehicle::coord_translate( int dir, const point &pivot, const point &p, poin
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
+point vehicle::rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const
+{
+    point q;
+    coord_translate( new_dir - old_dir, pivot, p, q );
+    return q;
+}
+
+tripoint vehicle::mount_to_tripoint( const point &mount ) const
+{
+    point offset_zero( 0, 0 );
+    return mount_to_tripoint( mount, offset_zero );
+}
+
+tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) const
+{
+    point mnt_translated;
+    coord_translate( pivot_rotation[0], pivot_anchor[ 0 ], mount + offset, mnt_translated );
+    return global_pos3() + mnt_translated;
+}
+
 void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {

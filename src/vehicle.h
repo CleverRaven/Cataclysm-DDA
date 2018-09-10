@@ -808,6 +808,12 @@ class vehicle
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
         void coord_translate( int dir, const point &pivot, const point &p, point &q ) const;
 
+        // Rotates mount coordinates "p" from old_dir to new_dir along pivot
+        point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;
+
+        tripoint mount_to_tripoint( const point &mount ) const;
+        tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
+
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( int dx, int dy ) const;
         int global_part_at( int x, int y ) const;
