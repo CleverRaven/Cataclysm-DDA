@@ -232,7 +232,7 @@ struct requirement_data {
         requirement_data disassembly_requirements() const;
 
     private:
-        requirement_id id_ = requirement_id( "null" );
+        requirement_id id_ = requirement_id::NULL_ID();
 
         bool blacklisted = false;
 
