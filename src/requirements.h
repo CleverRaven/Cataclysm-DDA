@@ -153,7 +153,7 @@ struct requirement_data {
 
         /** null requirements are always empty (were never initialized) */
         bool is_null() const {
-            return id_ == requirement_id( "null" );
+            return id_.is_null();
         }
 
         /** empty requirements are not necessary null */
