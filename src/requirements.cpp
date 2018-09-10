@@ -432,11 +432,8 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     if( components.empty() ) {
         return out_buffer;
     }
-    std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Components required:" ) <<
-                 "</color>";
-    out_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    out_buffer.push_back( "<color_" + string_from_color( col ) + ">" + _( "Components required:" ) +
+                          "</color>" );
 
     std::vector<std::string> folded_buffer =
         get_folded_list( width, crafting_inv, components, batch, hilite );
@@ -501,15 +498,11 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const inventory &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
-    std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Tools required:" ) <<
-                 "</color>";
-    output_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    output_buffer.push_back( "<color_" + string_from_color( col ) + ">" + _( "Tools required:" ) +
+                             "</color>" );
     if( tools.empty() && qualities.empty() ) {
-        current_line << "<color_" << string_from_color( col ) << ">" << "> " << "</color>";
-        current_line << "<color_" << string_from_color( c_green ) << ">" << _( "NONE" ) << "</color>";
-        output_buffer.push_back( current_line.str() );
+        output_buffer.push_back( "<color_" + string_from_color( col ) + ">> </color><color_" +
+                                 string_from_color( c_green ) + ">" + _( "NONE" ) + "</color>" );
         return output_buffer;
     }
 
