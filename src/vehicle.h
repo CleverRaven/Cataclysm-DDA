@@ -19,6 +19,7 @@
 #include <list>
 #include <string>
 #include <iosfwd>
+#include <stack>
 
 class nc_color;
 class map;
@@ -34,6 +35,10 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+namespace vehicles
+{
+extern point cardinal_d[5];
+}
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor( float delta_v );
 
@@ -101,7 +106,8 @@ struct vehicle_part {
         enum : int { passenger_flag = 1,
                      animal_flag = 2,
                      carried_flag = 4,
-        };
+                     carrying_flag = 8
+                   };
 
         vehicle_part(); /** DefaultConstructible */
 
@@ -122,6 +128,10 @@ struct vehicle_part {
 
         /** Translated name of a part inclusive of any current status effects */
         std::string name() const;
+
+        static constexpr int name_offset = 7;
+        /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
+        std::stack<std::string> carry_names;
 
         /** Specific type of fuel, charges or ammunition currently contained by a part */
         itype_id ammo_current() const;
@@ -680,6 +690,9 @@ class vehicle
 
         /** install item specified item to vehicle as a vehicle part */
         int install_part( int dx, int dy, const vpart_id &id, item &&obj, bool force = false );
+
+        // merge a previously found single tile vehicle into this vehicle
+        bool merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_parts );
 
         bool remove_part( int p );
         void part_removal_cleanup();

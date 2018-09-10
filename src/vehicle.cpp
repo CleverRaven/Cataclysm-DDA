@@ -67,6 +67,9 @@ static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 const skill_id skill_mechanics( "mechanics" );
 
 inline int modulo( int v, int m );
+//
+// Point dxs for the adjacent cardinal tiles.
+point vehicles::cardinal_d[5] = { point( -1, 0 ), point( 1, 0 ), point( 0, -1 ), point( 0, 1 ), point( 0, 0 ) };
 
 // Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
@@ -1135,8 +1138,7 @@ bool vehicle::is_connected( vehicle_part const &to, vehicle_part const &from,
         auto current = current_part.mount;
 
         for( int i = 0; i < 4; i++ ) {
-            point next( current.x + ( i < 2 ? ( i == 0 ? -1 : 1 ) : 0 ),
-                        current.y + ( i < 2 ? 0 : ( i == 2 ? -1 : 1 ) ) );
+            point next = current + vehicles::cardinal_d[i];
 
             if( next == target ) {
                 //Success!
@@ -1250,6 +1252,111 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 
     refresh();
     return parts.size() - 1;
+}
+
+bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_parts )
+{
+    struct mapping {
+        std::vector<int> carry_parts_here;
+        int rack_part;
+        point carry_mount;
+        point old_mount;
+    };
+    std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( part_location_structure );
+    std::vector<mapping> carry_data;
+    carry_data.reserve( carry_veh_structs.size() );
+    bool found_all_parts = true;
+    const point mount_zero = carry_veh->pivot_anchor[0];
+    std::string axis;
+    if( carry_veh_structs.size() == 1 ) {
+        axis = "X";
+    } else if( mount_zero.x || mount_zero.y ) {
+        axis = mount_zero.x ? "X" : "Y";
+    } else {
+        for( auto carry_part : carry_veh_structs ) {
+            if( carry_veh->parts[ carry_part ].mount.x || carry_veh->parts[ carry_part ].mount.y ) {
+                axis = carry_veh->parts[ carry_part ].mount.x ? "X" : "Y";
+                break;
+            }
+        }
+    }
+    int relative_dir = modulo( carry_veh->face.dir() - face.dir(), 360 );
+    int relative_180 = modulo( relative_dir, 180 );
+    int face_dir_180 = modulo( face.dir(), 180 );
+
+    // if the carrier is skewed N/S and the carried vehicle isn't aligned with
+    // the carrier, force the carried vehicle to be at a right angle
+    if( face_dir_180 >= 45 && face_dir_180 <= 135 ) {
+        if( relative_180 >= 45 && relative_180 <= 135 ) {
+            if( relative_dir < 180 ) {
+                relative_dir = 90;
+            } else {
+                relative_dir = 270;
+            }
+        }
+    }
+
+    for( auto carry_part : carry_veh_structs ) {
+        tripoint carry_pos = carry_veh->global_part_pos3( carry_part );
+        int rack_part;
+        bool merged_part = false;
+        size_t i;
+        for( i = 0; i < rack_parts.size(); i++ ) {
+            rack_part = rack_parts[ i ];
+            size_t j;
+            // There's no mathematical transform from global pos3 to vehicle mount, so search for the
+            // carry part in global pos3 after translating
+            point carry_mount;
+            for( j = 0; j < 4; j++ ) {
+                carry_mount = parts[ rack_part ].mount + vehicles::cardinal_d[ j ];
+                tripoint possible_pos = mount_to_tripoint( carry_mount );
+                if( possible_pos == carry_pos ) {
+                    break;
+                }
+            }
+            if( j < 4 ) {
+                mapping carry_map;
+                point old_mount = carry_veh->parts[ carry_part ].mount;
+                carry_map.carry_parts_here = carry_veh->parts_at_relative( old_mount.x, old_mount.y, true );
+                carry_map.rack_part = rack_part;
+                carry_map.carry_mount = carry_mount;
+                carry_map.old_mount = old_mount;
+                carry_data.push_back( carry_map );
+                merged_part = true;
+                break;
+            }
+        }
+        if( !merged_part ) {
+            found_all_parts = false;
+            break;
+        }
+    }
+    if( found_all_parts ) {
+        for( auto carry_map : carry_data ) {
+            std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
+                                                axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
+            std::string unique_id = string_format( "%s%3d%s", offset, relative_dir, carry_veh->name );
+            for( auto carry_part : carry_map.carry_parts_here ) {
+                parts.push_back( carry_veh->parts[ carry_part ] );
+                vehicle_part &carried_part = parts.back();
+                carried_part.mount = carry_map.carry_mount;
+                carried_part.carry_names.push( unique_id );
+                carried_part.enabled = 0;
+                carried_part.set_flag( vehicle_part::carried_flag );
+                parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
+            }
+        }
+        //~ %1$s is the vehicle being loaded onto the bicycle rack
+        add_msg( string_format( _( "You load the %1$s on the rack" ), carry_veh->name ) );
+        g->m.destroy_vehicle( carry_veh );
+        g->m.dirty_vehicle_list.insert( this );
+        g->m.set_transparency_cache_dirty( smz );
+        refresh();
+    } else {
+        //~ %1$s is the vehicle being loaded onto the bicycle rack
+        add_msg( m_bad, string_format( _( "You can't get the %1$s on the rack" ), carry_veh->name ) );
+    }
+    return found_all_parts;
 }
 
 /**
