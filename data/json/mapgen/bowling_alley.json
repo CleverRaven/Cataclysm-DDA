@@ -166,7 +166,7 @@
             "| ####     r    =  =   |",
             "|r   #c   &| GSSGSSGSSG|",
             "|r   #     | GSSGSSGSSG|",
-            "|r   #c    | GSSGSSGSSG|",
+            "|r  s#c    | GSSGSSGSSG|",
             "|-+--|     | GSSGSSGSSG|",
             "|F  r|     | GSSGSSGSSG|",
             "|F  r|+-|+-| GSSGSSGSSG|",
@@ -183,26 +183,20 @@
             "+": "t_door_c",
             ",": "t_sidewalk",
             "-": "t_wall",
-            ".": "t_grass",
-            ":": "t_floor",
             "=": "t_floor",
-            "@": "t_floor",
             "F": "t_floor",
             "G": "t_floor",
             "L": "t_linoleum_white",
-            "M": "t_door_metal_locked",
             "O": "t_window",
             "S": "t_floor_waxed",
             "T": "t_linoleum_white",
             "U": "t_linoleum_white",
-            "^": "t_floor",
             "_": "t_pavement",
             "c": "t_floor",
             "l": "t_floor",
             "r": "t_floor",
+            "s": "t_floor",
             "t": "t_floor",
-            "w": "t_gates_mech_control",
-            "x": "t_console_broken",
             "y": "t_pavement_y",
             "|": "t_wall"
           },
@@ -210,21 +204,17 @@
             "#": "f_counter",
             "%": "f_trashcan",
             "&": "f_trashcan",
-            ":": "f_dresser",
             "=": "f_ball_mach",
-            "@": "f_bed",
             "F": "f_fridge",
             "G": "f_lane",
             "U": "f_sink",
-            "^": "f_indoor_plant",
             "c": "f_chair",
             "l": "f_vending_c",
             "r": "f_rack",
+            "s": "f_stool",
             "t": "f_table"
           },
-          "toilets": {
-            "T": {}
-          },
+          "toilets": { "T": {} },
           "place_items": [
             { "item": "bowling_item", "x": [ 22, 22 ], "y": [ 8, 9 ], "chance": 70 },
             { "item": "bowling_item", "x": [ 4, 4 ], "y": [ 19, 22 ], "chance": 70 },
@@ -247,9 +237,7 @@
             { "item": "bowling_food", "x": [ 1, 1 ], "y": [ 15, 16 ], "chance": 60 },
             { "item": "bowling_fridge", "x": [ 1, 1 ], "y": [ 19, 21 ], "chance": 70 }
           ],
-          "place_monsters": [
-            { "monster": "GROUP_PLAIN", "x": [ 2, 21 ], "y": [ 7, 22 ], "chance": 1 }
-          ]
+          "place_monsters": [ { "monster": "GROUP_PLAIN", "x": [ 2, 21 ], "y": [ 7, 22 ], "chance": 1 } ]
         }
       }
     ],

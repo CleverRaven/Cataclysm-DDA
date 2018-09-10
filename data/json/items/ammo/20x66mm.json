@@ -114,7 +114,7 @@
     "count": 20,
     "stack_size": 20,
     "ammo_type": "20x66mm",
-    "range": 6,
+    "range": 12,
     "damage": 60,
     "recoil": 2500,
     "effects": [ "COOKOFF", "SHOT", "NEVER_MISFIRES" ]
@@ -126,7 +126,7 @@
     "name": "20x66mm slug",
     "description": "20x66mm caseless shotgun rounds, solid projectile type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 9000,
-    "relative": { "range": 6, "pierce": 8 },
+    "relative": { "range": 12, "pierce": 8 },
     "proportional": { "damage": 0.65, "dispersion": 1.3 },
     "delete": { "effects": [ "SHOT" ] }
   }

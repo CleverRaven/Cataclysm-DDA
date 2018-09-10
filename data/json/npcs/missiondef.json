@@ -270,7 +270,7 @@
       "inquire": "Rescued the standard yet?",
       "success": "America, fuck ya!",
       "success_lie": "What?!  You liar!",
-      "failure": "You give up?  This country fell apart because no one could find agood man to rely on... might as well give up, I guess."
+      "failure": "You give up?  This country fell apart because no one could find a good man to rely on... might as well give up, I guess."
     }
   },
   {
@@ -480,7 +480,7 @@
   {
     "id": "MISSION_JOIN_TRACKER",
     "type": "mission_definition",
-    "name": "Tracker",
+    "name": "Find Deputy Badge",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 0,
@@ -506,6 +506,7 @@
     "name": "Kill 100 Zombies",
     "goal": "MGOAL_KILL_MONSTER_SPEC",
     "monster_species": "ZOMBIE",
+    "monster_kill_goal": 100,
     "difficulty": 5,
     "value": 250000,
     "start": "kill_100_z",
@@ -646,6 +647,7 @@
     "difficulty": 5,
     "value": 250000,
     "start": "kill_20_nightmares",
+    "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help...",
@@ -714,7 +716,7 @@
     "followup": "MISSION_OLD_GUARD_NEC_COMMO_4",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Most of my essential gear has been brought back online so it is time for you to install your first radio repeater mod.  Head topside and locate the nearest radio station.  Install the mod on the backup terminal and return to me so that I can verify that everything was successful.  Radio towers must unfortunatly be ignored for now, without a dedicated emergency power system they won't be useful for some time.",
+      "offer": "Most of my essential gear has been brought back online so it is time for you to install your first radio repeater mod.  Head topside and locate the nearest radio station.  Install the mod on the backup terminal and return to me so that I can verify that everything was successful.  Radio towers must unfortunately be ignored for now, without a dedicated emergency power system they won't be useful for some time.",
       "accepted": "I'll be standing by down here once you are done.",
       "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks...",
       "advice": "If you could make some sort of directional antenna, it might help locating the radio stations.",
@@ -827,7 +829,7 @@
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies... it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
-      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you cound locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
+      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you could locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -988,7 +990,7 @@
     "followup": "MISSION_RANCH_FOREMAN_11",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 3 full kits I'm sure we could supplement them to make them last a bit longer.",
+      "offer": "We've started planning a medical clinic but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid kits are rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 6 full kits I'm sure we could supplement them to make them last a bit longer.",
       "accepted": "We'll do our best to make them last...",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "Homes, hospitals, labs, and doctor offices would be where I'd check.",

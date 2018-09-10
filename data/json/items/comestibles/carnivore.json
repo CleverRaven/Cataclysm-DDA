@@ -8,11 +8,8 @@
     "symbol": "%",
     "color": "red",
     "parasites": 32,
-    "vitamins": [
-      [ "calcium", 1 ],
-      [ "iron", 20 ],
-      [ "vitB", 10 ]
-    ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 20 ], [ "vitB", 10 ] ],
+    "rot_spawn": "GROUP_CARRION"
   },
   {
     "id": "fish",
@@ -25,6 +22,7 @@
     "volume": 1,
     "price": 500,
     "spoils_in": 12,
+    "flags": [ "SMOKABLE" ],
     "calories": 200
   },
   {
@@ -53,12 +51,7 @@
     "type": "COMESTIBLE",
     "name": "large human stomach",
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
-    "proportional": {
-      "weight": 2.0,
-      "volume": 2.0,
-      "price": 1.5,
-      "calories": 2.0
-    }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
     "id": "human_flesh",
@@ -67,7 +60,8 @@
     "name": "human flesh",
     "name_plural": "human fleshes",
     "description": "Freshly butchered from a human body.",
-    "material": "hflesh"
+    "material": "hflesh",
+    "flags": [ "SMOKABLE" ]
   },
   {
     "id": "human_cooked",
@@ -94,7 +88,8 @@
     "spoils_in": 24,
     "calories": 250,
     "healthy": -1,
-    "fun": -10
+    "fun": -10,
+    "flags": [ "SMOKABLE" ]
   },
   {
     "id": "meat_cooked",
@@ -114,14 +109,9 @@
     "type": "COMESTIBLE",
     "name": "raw offal",
     "description": "Uncooked internal organs and entrails.  Unappealing to eat but filled with essential vitamins.",
-    "proportional": {
-        "calories": 0.5,
-        "parasites": 2.0
-    },
-    "relative": {
-        "vitamins": [ [ "vitA", 5 ] ],
-        "fun": -5
-    }
+    "proportional": { "calories": 0.5, "parasites": 2.0 },
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
   {
     "id": "offal_cooked",
@@ -131,6 +121,7 @@
     "name_plural": "cooked offal",
     "description": "Freshly cooked entrails.  Unappetizing, but filled with essential vitamins.",
     "parasites": 0,
+    "healthy": 1,
     "fun": -5,
     "proportional": { "calories": 2 },
     "flags": [ "EATEN_HOT" ]
@@ -145,11 +136,12 @@
     "volume": 2,
     "stack_size": 2,
     "parasites": 0,
-    "container" : "jar_glass",
+    "healthy": 1,
+    "container": "jar_glass",
     "spoils_in": 36,
-    "quench" : -1,
+    "quench": -1,
     "fun": -1,
-    "proportional": { "calories": 0.5 }
+    "proportional": { "calories": 2 }
   },
   {
     "id": "offal_canned",
@@ -161,9 +153,10 @@
     "volume": 2,
     "stack_size": 2,
     "parasites": 0,
-    "container" : "can_food",
+    "healthy": 1,
+    "container": "can_food",
     "fun": -2,
-    "proportional": { "calories": 0.5 }
+    "proportional": { "calories": 2 }
   },
   {
     "id": "stomach",
@@ -186,12 +179,7 @@
     "type": "COMESTIBLE",
     "name": "large stomach",
     "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
-    "proportional": {
-      "weight": 2.0,
-      "volume": 2.0,
-      "price": 1.5,
-      "calories": 2.0
-    }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
     "id": "jerky",
@@ -199,21 +187,19 @@
     "type": "COMESTIBLE",
     "name": "meat jerky",
     "name_plural": "meat jerky",
-    "description": "Salty dried meat that never goes bad, but will make you thirsty.",
+    "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
     "weight": 40,
     "container": "bag_plastic",
     "color": "brown",
+    "spoils_in": 1008,
     "charges": 3,
     "stack_size": 3,
     "parasites": 0,
     "healthy": 0,
-    "spoils_in": 0,
     "quench": -5,
     "fun": 4,
-    "proportional": {
-      "price": 0.64,
-      "calories": 0.34
-    }
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "proportional": { "price": 0.64, "calories": 0.34 }
   },
   {
     "id": "salted_fish",
@@ -222,20 +208,17 @@
     "name": "salted fish",
     "name_plural": "salted fish",
     "//": "Two fillets of fish needed here.",
-    "description": "Salty dried fish that never goes bad, but will make you thirsty.",
+    "description": "Salty dried fish that lasts for a long time, but will make you thirsty.",
     "weight": 44,
     "container": "bag_plastic",
     "color": "light_gray",
+    "spoils_in": 1008,
     "charges": 4,
     "stack_size": 4,
     "parasites": 0,
-    "spoils_in": 0,
     "quench": -5,
     "fun": 4,
-    "proportional": {
-      "price": 2,
-      "calories": 0.45
-    }
+    "proportional": { "price": 2, "calories": 0.45 }
   },
   {
     "id": "jerky_human",
@@ -246,16 +229,14 @@
     "description": "Salty dried human flesh that never goes bad, but will make you thirsty.",
     "weight": 56,
     "color": "brown",
+    "spoils_in": 1008,
+    "healthy": 0,
     "charges": 3,
     "stack_size": 3,
     "parasites": 0,
-    "spoils_in": 0,
     "quench": -5,
     "fun": 4,
-    "proportional": {
-      "price": 0.44,
-      "calories": 0.34
-    }
+    "proportional": { "price": 0.44, "calories": 0.34 }
   },
   {
     "id": "meat_smoked",
@@ -269,15 +250,12 @@
     "color": "brown",
     "charges": 3,
     "parasites": 0,
-    "spoils_in": 0,
+    "spoils_in": 1008,
     "healthy": 0,
     "quench": -1,
     "fun": 5,
-    "proportional": {
-      "price": 6,
-      "calories": 0.95
-    },
-    "flags": [ "EATEN_HOT" ]
+    "proportional": { "price": 6, "calories": 0.95 },
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
   },
   {
     "id": "fish_smoked",
@@ -292,14 +270,10 @@
     "charges": 6,
     "stack_size": 6,
     "parasites": 0,
-    "spoils_in": 0,
-    "healthy": 1,
+    "spoils_in": 1008,
     "fun": 6,
-    "proportional": {
-      "price": 2,
-      "calories": 0.95
-    },
-    "flags": [ "EATEN_HOT" ]
+    "proportional": { "price": 2, "calories": 0.95 },
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
   },
   {
     "id": "human_smoked",
@@ -312,13 +286,12 @@
     "charges": 3,
     "stack_size": 1,
     "parasites": 0,
-    "spoils_in": 0,
+    "spoils_in": 1008,
+    "healthy": 0,
     "quench": -1,
     "fun": 5,
-    "proportional": {
-      "price": 20,
-      "calories": 0.95
-    },
-    "flags": [ "EATEN_HOT" ]
+    "proportional": { "price": 20, "calories": 0.95 },
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ]
   }
 ]
+

@@ -11,6 +11,8 @@
 #include "options.h"
 #include "test_statistics.h"
 
+typedef statistics<long> efficiency_stat;
+
 const efftype_id effect_blind( "blind" );
 
 void clear_game( const ter_id &terrain )
@@ -239,21 +241,21 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     return adjusted_tiles_travelled;
 }
 
-statistics find_inner( std::string type, std::string terrain, int delay, bool smooth )
+efficiency_stat find_inner( std::string type, std::string terrain, int delay, bool smooth )
 {
-    statistics efficiency;
+    efficiency_stat efficiency;
     for( int i = 0; i < 10; i++ ) {
         efficiency.add( test_efficiency( vproto_id( type ), ter_id( terrain ), delay, -1, smooth ) );
     }
     return efficiency;
 }
 
-void print_stats( const statistics &st )
+void print_stats( const efficiency_stat &st )
 {
     if( st.min() == st.max() ) {
-        printf( "All results %d.\n", st.min() );
+        printf( "All results %ld.\n", st.min() );
     } else {
-        printf( "Min %d, Max %d, Midpoint %f.\n", st.min(), st.max(), ( st.min() + st.max() ) / 2.0 );
+        printf( "Min %ld, Max %ld, Midpoint %f.\n", st.min(), st.max(), ( st.min() + st.max() ) / 2.0 );
     }
 }
 
@@ -274,7 +276,7 @@ void find_efficiency( std::string type )
     }
 }
 
-int average_from_stat( const statistics &st )
+int average_from_stat( const efficiency_stat &st )
 {
     int ugly_integer = ( st.min() + st.max() ) / 2.0;
     // Round to 4 most significant places
@@ -372,20 +374,20 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 117600, 113600, 12580, 11550 );
-    test_vehicle( "car", 115300, 95760, 12650, 8434 );
-    test_vehicle( "car_sports", 243500, 164300, 15780, 9458 );
-    test_vehicle( "electric_car", 62800, 45280, 3590, 2519 );
-    test_vehicle( "suv", 294300, 221000, 27040, 15720 );
-    test_vehicle( "motorcycle", 15370, 13050, 2304, 1322 );
-    test_vehicle( "quad_bike", 11400, 10650, 1963, 1302 );
-    test_vehicle( "scooter", 9692, 9692, 1723, 1723 );
-    test_vehicle( "superbike", 32350, 24760, 3322, 1576 );
-    test_vehicle( "ambulance", 253600, 233000, 22480, 19650 );
-    test_vehicle( "fire_engine", 296300, 286300, 24780, 23800 );
-    test_vehicle( "fire_truck", 220100, 66910, 18740, 4813 );
-    test_vehicle( "truck_swat", 198100, 69170, 21020, 4691 );
-    test_vehicle( "tractor_plow", 145500, 145500, 14120, 14120 );
-    test_vehicle( "apc", 623700, 593300, 65960, 60720 );
-    test_vehicle( "humvee", 293100, 189800, 25180, 13590 );
+    test_vehicle( "beetle", 117600, 107700, 12580, 10470 );
+    test_vehicle( "car", 115000, 92350, 12650, 7348 );
+    test_vehicle( "car_sports", 243800, 163000, 15780, 9458 );
+    test_vehicle( "electric_car", 62820, 45220, 3590, 2520 );
+    test_vehicle( "suv", 304300, 208600, 28500, 14250 );
+    test_vehicle( "motorcycle", 15180, 13280, 2304, 1302 );
+    test_vehicle( "quad_bike", 11720, 10570, 1963, 1302 );
+    test_vehicle( "scooter", 9650, 9650, 1723, 1723 );
+    test_vehicle( "superbike", 31970, 8073, 3152, 1224 );
+    test_vehicle( "ambulance", 252300, 229800, 22480, 18740 );
+    test_vehicle( "fire_engine", 294100, 281800, 24740, 22840 );
+    test_vehicle( "fire_truck", 217100, 65930, 18740, 4813 );
+    test_vehicle( "truck_swat", 198900, 64370, 21020, 4691 );
+    test_vehicle( "tractor_plow", 144000, 144000, 14120, 14120 );
+    test_vehicle( "apc", 627700, 580300, 65960, 60720 );
+    test_vehicle( "humvee", 286500, 169000, 25180, 11650 );
 }

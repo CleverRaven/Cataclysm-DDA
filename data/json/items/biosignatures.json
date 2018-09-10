@@ -1,0 +1,60 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_bird",
+    "name": "bird litter",
+    "weight": 40,
+    "color": "brown",
+    "spoils_in": 112,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -3,
+    "healthy": -10,
+    "nutrition": 3,
+    "description": "Bird dropping, feathers, and soiled bits of rubbish.",
+    "price": 0,
+    "material": "feces",
+    "volume": 1,
+    "charges": 4,
+    "stack_size": 4,
+    "fun": -25,
+    "rot_spawn": "GROUP_BIOSIG_BIRD",
+    "rot_spawn_chance": 5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_cow",
+    "name": "cow pie",
+    "copy-from": "feces_bird",
+    "weight": 750,
+    "volume": 4,
+    "description": "A fresh cow pie, could probably be used to make some great fertilizer.",
+    "rot_spawn": "GROUP_BIOSIG_LARGE_HERBIVORE",
+    "rot_spawn_chance": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_dog",
+    "name": "dog dung",
+    "copy-from": "feces_manure",
+    "description": "Droppings from a canine."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_manure",
+    "name": "manure",
+    "copy-from": "feces_bird",
+    "weight": 250,
+    "volume": 2,
+    "description": "Common manure, could probably be used to make some great fertilizer.",
+    "rot_spawn": "GROUP_BIOSIG_LARGE_HERBIVORE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_roach",
+    "name": "roach dirt",
+    "copy-from": "feces_bird",
+    "description": "Large black pellets of rotting material.",
+    "rot_spawn": "GROUP_BIOSIG_ROACH"
+  }
+]

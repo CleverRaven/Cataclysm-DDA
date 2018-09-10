@@ -48,6 +48,29 @@
     }
   },
   {
+    "id": "bow_sling",
+    "type": "ARMOR",
+    "name": "bow sling",
+    "name_plural": "bow slings",
+    "description": "A somewhat complicated set of straps and fabric to keep your bow close to hand and (mostly) out of harms way.  Activate to holster/draw your bow.",
+    "weight": 320,
+    "volume": 2,
+    "price": 8000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 7,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "WAIST" ],
+    "use_action": {
+        "type": "holster",
+        "max_volume": 20,
+        "min_volume": 2,
+        "skills": [ "archery" ] }
+  },
+  {
     "id" : "holster",
     "type" : "ARMOR",
     "name" : "holster",

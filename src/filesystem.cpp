@@ -6,6 +6,7 @@
 #include <cerrno>
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include <deque>
@@ -165,8 +166,29 @@ void for_each_dir_entry( std::string const &path, Function function )
 }
 
 //--------------------------------------------------------------------------------------------------
+#if !defined (_WIN32) && !defined (__WIN32__)
+std::string resolve_path( std::string const &full_path )
+{
+    auto const result_str = realpath( full_path.c_str(), nullptr );
+    if( !result_str ) {
+        auto const e_str = strerror( errno );
+        DebugLog( D_WARNING, D_MAIN ) << "realpath [" << full_path << "] failed with \"" << e_str << "\".";
+        return {};
+    }
+
+    std::string result( result_str );
+    free( result_str );
+    return result;
+}
+#endif
+
+//--------------------------------------------------------------------------------------------------
 bool is_directory_stat( std::string const &full_path )
 {
+    if( full_path.empty() ) {
+        return false;
+    }
+
     struct stat result;
     if( stat( full_path.c_str(), &result ) != 0 ) {
         auto const e_str = strerror( errno );
@@ -174,7 +196,17 @@ bool is_directory_stat( std::string const &full_path )
         return false;
     }
 
-    return S_ISDIR( result.st_mode );
+    if( S_ISDIR( result.st_mode ) ) {
+        return true;
+    }
+
+#if !defined (_WIN32) && !defined (__WIN32__)
+    if( S_ISLNK( result.st_mode ) ) {
+        return is_directory_stat( resolve_path( full_path ) );
+    }
+#endif
+
+    return false;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -192,11 +224,19 @@ bool is_directory( dirent const &entry, std::string const &full_path )
 {
     if( entry.d_type == DT_DIR ) {
         return true;
-    } else if( entry.d_type != DT_UNKNOWN ) {
-        return false;
     }
 
-    return is_directory_stat( full_path );
+#if !defined (_WIN32) && !defined (__WIN32__)
+    if( entry.d_type == DT_LNK ) {
+        return is_directory_stat( resolve_path( full_path ) );
+    }
+#endif
+
+    if( entry.d_type == DT_UNKNOWN ) {
+        return is_directory_stat( full_path );
+    }
+
+    return false;
 }
 #endif
 

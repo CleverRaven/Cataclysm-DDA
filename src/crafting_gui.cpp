@@ -35,12 +35,13 @@ std::map<std::string, std::string> normalized_names;
 
 static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
                                       const recipe &rec );
-static void draw_recipe_tabs( const catacurses::window &w, std::string tab,
+static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
                               TAB_MODE mode = NORMAL );
-static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
+                                 const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
-std::string get_cat_name( std::string prefixed_name )
+std::string get_cat_name( const std::string &prefixed_name )
 {
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
@@ -69,7 +70,7 @@ void load_recipe_category( JsonObject &jsobj )
     }
 }
 
-std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
+std::string get_subcat_name( const std::string &cat, const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_name( cat ) + "_";
 
@@ -96,7 +97,6 @@ void reset_recipe_categories()
     craft_cat_list.clear();
     craft_subcat_list.clear();
 }
-
 
 int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
                  int batch )
@@ -178,7 +178,9 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::string previous_tab = "";
     std::string previous_subtab = "";
     item tmp;
-    int line = 0, ypos, scroll_pos = 0;
+    int line = 0;
+    int ypos = 0;
+    int scroll_pos = 0;
     bool redraw = true;
     bool keepline = false;
     bool done = false;
@@ -186,7 +188,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     int batch_line = 0;
     int display_mode = 0;
     const recipe *chosen = NULL;
-    std::vector<iteminfo> thisItem, dummy;
+    std::vector<iteminfo> thisItem;
+    std::vector<iteminfo> dummy;
 
     input_context ctxt( "CRAFTING" );
     ctxt.register_cardinal();
@@ -311,7 +314,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( current.empty() ) {
                 line = 0;
             } else {
-                line = std::min( line, ( int )current.size() - 1 );
+                line = std::min( line, static_cast<int>( current.size() ) - 1 );
             }
         }
 
@@ -411,9 +414,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             for( size_t i = 0; i < current.size() && i < ( size_t )dataHeight + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), ( int )i + 1, tmp_name.c_str() );
+                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name.c_str() );
                 }
-                if( ( int )i == line ) {
+                if( static_cast<int>( i ) == line ) {
                     mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dark_gray ),
                                utf8_truncate( tmp_name, 28 ).c_str() );
                 } else {
@@ -498,7 +501,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
-                const int expected_turns = g->u.expected_time_to_craft( *current[line], count ) / MOVES( 1 );
+                const int expected_turns = g->u.expected_time_to_craft( *current[line],
+                                           count ) / to_moves<int>( 1_turns );
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col, _( "Time to complete: %s" ),
                                         to_string( time_duration::from_turns( expected_turns ) ) );
 
@@ -656,7 +660,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
         if( line < 0 ) {
             line = current.size() - 1;
-        } else if( line >= ( int )current.size() ) {
+        } else if( line >= static_cast<int>( current.size() ) ) {
             line = 0;
         }
     } while( !done );
@@ -686,7 +690,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
     }
 }
 
-static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_MODE mode )
+static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode )
 {
     werase( w );
     int width = getmaxx( w );
@@ -718,7 +722,8 @@ static void draw_recipe_tabs( const catacurses::window &w, std::string tab, TAB_
     wrefresh( w );
 }
 
-static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, std::string subtab,
+static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
+                                 const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode )
 {
     werase( w );
@@ -726,7 +731,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, s
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XXXO );
-        } else if( i == width ) {
+        } else if( i == width ) { // @todo: that is always false!
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XOXX );
         } else {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_OXOX );
@@ -742,7 +747,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, std::string tab, s
         case NORMAL: {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
-            for( const auto stt : craft_subcat_list[tab] ) {
+            for( const auto &stt : craft_subcat_list[tab] ) {
                 bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );
                 pos_x += utf8_width( normalized_names[stt] ) + tab_step;

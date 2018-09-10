@@ -178,6 +178,8 @@ std::string action_ident( action_id act )
             return "listitems";
         case ACTION_ZONES:
             return "zones";
+        case ACTION_LOOT:
+            return "loot";
         case ACTION_INVENTORY:
             return "inventory";
         case ACTION_COMPARE:
@@ -375,7 +377,7 @@ bool can_action_change_worldstate( const action_id act )
     }
 }
 
-action_id look_up_action( std::string ident )
+action_id look_up_action( const std::string &ident )
 {
     // Temporarily for the interface with the input manager!
     if( ident == "move_nw" ) {
@@ -414,13 +416,14 @@ std::string press_x( action_id act )
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), _( "Press " ), "", _( "Try" ) );
 }
-std::string press_x( action_id act, std::string key_bound, std::string key_unbound )
+std::string press_x( action_id act, const std::string &key_bound, const std::string &key_unbound )
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound, "", key_unbound );
 }
-std::string press_x( action_id act, std::string key_bound_pre, std::string key_bound_suf,
-                     std::string key_unbound )
+std::string press_x( action_id act, const std::string &key_bound_pre,
+                     const std::string &key_bound_suf,
+                     const std::string &key_unbound )
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
@@ -508,6 +511,9 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_flag( "CONSOLE", p ) ) {
         return true;
     }
+    if( g->m.has_items( p ) ) {
+        return true;
+    }
     const furn_t &xfurn_t = g->m.furn( p ).obj();
     const ter_t &xter_t = g->m.ter( p ).obj();
 
@@ -530,14 +536,12 @@ bool can_interact_at( action_id action, const tripoint &p )
     switch( action ) {
         case ACTION_OPEN:
             return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
-            break;
         case ACTION_CLOSE: {
             const optional_vpart_position vp = g->m.veh_at( p );
             return ( vp &&
                      vp->vehicle().next_part_to_close( vp->part_index(),
                              veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
                    g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
-            break;
         }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -545,13 +549,10 @@ bool can_interact_at( action_id action, const tripoint &p )
             return can_move_vertical_at( p, 1 );
         case ACTION_MOVE_DOWN:
             return can_move_vertical_at( p, -1 );
-            break;
         case ACTION_EXAMINE:
             return can_examine_at( p );
-            break;
         default:
             return false;
-            break;
     }
 }
 
@@ -628,7 +629,6 @@ action_id handle_action_menu()
     std::copy( action_weightings.begin(), action_weightings.end(),
                std::back_inserter<std::vector<std::pair<action_id, int> > >( sorted_pairs ) );
     std::reverse( sorted_pairs.begin(), sorted_pairs.end() );
-
 
     // Default category is called "back"
     std::string category = "back";
@@ -724,6 +724,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_BUTCHER );
+            REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
             REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );
@@ -903,7 +904,7 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     return false;
 }
 
-bool choose_adjacent( std::string message, int &x, int &y )
+bool choose_adjacent( const std::string &message, int &x, int &y )
 {
     tripoint temp( x, y, g->u.posz() );
     bool ret = choose_adjacent( message, temp );
@@ -912,7 +913,7 @@ bool choose_adjacent( std::string message, int &x, int &y )
     return ret;
 }
 
-bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
+bool choose_adjacent( const std::string &message, tripoint &p, bool allow_vertical )
 {
     if( !choose_direction( message, p, allow_vertical ) ) {
         return false;
@@ -921,7 +922,7 @@ bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
     return true;
 }
 
-bool choose_adjacent_highlight( std::string message, int &x, int &y,
+bool choose_adjacent_highlight( const std::string &message, int &x, int &y,
                                 action_id action_to_highlight )
 {
     tripoint temp( x, y, g->u.posz() );
@@ -931,7 +932,7 @@ bool choose_adjacent_highlight( std::string message, int &x, int &y,
     return ret;
 }
 
-bool choose_adjacent_highlight( std::string message, tripoint &p,
+bool choose_adjacent_highlight( const std::string &message, tripoint &p,
                                 action_id action_to_highlight )
 {
     // Highlight nearby terrain according to the highlight function

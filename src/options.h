@@ -16,6 +16,8 @@ class options_manager
     private:
         static std::vector<std::pair<std::string, std::string>> build_tilesets_list();
         static std::vector<std::pair<std::string, std::string>> build_soundpacks_list();
+        static std::vector<std::pair<std::string, std::string>> load_soundpack_from(
+                    const std::string &path );
 
         bool load_legacy();
 
@@ -41,7 +43,7 @@ class options_manager
             COPT_POSIX_CURSES_HIDE,
             /** Hide this option in builds without sound support */
             COPT_NO_SOUND_HIDE,
-            /** Hide this option always, it is set as a mod. **/
+            /** Hide this option always, it should not be changed by user directly through UI. **/
             COPT_ALWAYS_HIDE
         };
 
@@ -51,7 +53,7 @@ class options_manager
             public:
                 cOpt();
 
-                void setSortPos( const std::string sPageIn );
+                void setSortPos( const std::string &sPageIn );
 
                 //helper functions
                 int getSortPos() const;
@@ -75,7 +77,7 @@ class options_manager
                 std::string getValueName() const;
                 std::string getDefaultText( const bool bTranslated = true ) const;
 
-                int getItemPos( const std::string sSearch ) const;
+                int getItemPos( const std::string &sSearch ) const;
                 std::vector<std::pair<std::string, std::string>> getItems() const;
 
                 int getMaxLength() const;
@@ -175,43 +177,43 @@ class options_manager
         cOpt &get_option( const std::string &name );
 
         //add hidden external option with value
-        void add_external( const std::string sNameIn, const std::string sPageIn, const std::string sType,
-                           const std::string sMenuTextIn, const std::string sTooltipIn );
+        void add_external( const std::string &sNameIn, const std::string &sPageIn, const std::string &sType,
+                           const std::string &sMenuTextIn, const std::string &sTooltipIn );
 
         //add string select option
-        void add( const std::string sNameIn, const std::string sPageIn,
-                  const std::string sMenuTextIn, const std::string sTooltipIn,
+        void add( const std::string &sNameIn, const std::string &sPageIn,
+                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   // first is option value, second is display name of that value
                   std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add string input option
-        void add( const std::string sNameIn, const std::string sPageIn,
-                  const std::string sMenuTextIn, const std::string sTooltipIn,
-                  const std::string sDefaultIn, const int iMaxLengthIn,
+        void add( const std::string &sNameIn, const std::string &sPageIn,
+                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const std::string &sDefaultIn, const int iMaxLengthIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add bool option
-        void add( const std::string sNameIn, const std::string sPageIn,
-                  const std::string sMenuTextIn, const std::string sTooltipIn,
+        void add( const std::string &sNameIn, const std::string &sPageIn,
+                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add int option
-        void add( const std::string sNameIn, const std::string sPageIn,
-                  const std::string sMenuTextIn, const std::string sTooltipIn,
+        void add( const std::string &sNameIn, const std::string &sPageIn,
+                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   const int iMinIn, int iMaxIn, int iDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE,
                   const std::string &format = "%i" );
 
         //add int map option
-        void add( const std::string sNameIn, const std::string sPageIn,
-                  const std::string sMenuTextIn, const std::string sTooltipIn,
+        void add( const std::string &sNameIn, const std::string &sPageIn,
+                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   const std::map<int, std::string> mIntValuesIn, int iInitialIn,
                   int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add float option
-        void add( const std::string sNameIn, const std::string sPageIn,
-                  const std::string sMenuTextIn, const std::string sTooltipIn,
+        void add( const std::string &sNameIn, const std::string &sPageIn,
+                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   const float fMinIn, float fMaxIn,
                   float fDefaultIn, float fStepIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE,

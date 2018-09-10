@@ -8,11 +8,11 @@
       "fill_ter": "t_floor",
       "rows": [
         "sssssssssssssssssssssss.",
-        ".|-vvv-|sssssss|-vvv-|..",
+        ".|-vvv-|psssssp|-vvv-|..",
         ".|PcccP|sssssss|oo???|..",
         ".|     |v;-|-;v|     |..",
-        ".v? nn |  r|P  | hhh v..",
-        ".v? nn    o|r    nnn v..",
+        ".v? nn |  Y|P  | hhh v..",
+        ".v? nn    o|Y    nnn v..",
         ".v         |     nnn v..",
         ".|????     |     hhh |..",
         ".|         |         |..",
@@ -40,6 +40,7 @@
         "+": "t_door_c",
         "-": "t_wall",
         ".": "t_grass",
+        "p": "t_grass",
         ";": "t_door_locked",
         "?": "t_floor",
         "@": "t_floor",
@@ -47,6 +48,7 @@
         "C": "t_floor",
         "L": "t_floor",
         "O": "t_floor",
+        "Y": "t_floor",
         "P": "t_floor",
         "S": "t_linoleum_gray",
         "c": "t_floor",
@@ -71,6 +73,8 @@
         "C": "f_cupboard",
         "L": "f_locker",
         "O": "f_oven",
+        "p": "f_mailbox",
+        "Y": "f_rack_coat",
         "P": "f_indoor_plant",
         "S": "f_sink",
         "c": "f_counter",
@@ -84,6 +88,10 @@
         "u": "f_sink"
       },
       "toilets": { "t": {  } },
+      "items": {
+        "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+      },
       "place_loot": [
         { "group": "homebooks", "x": [ 3, 3 ], "y": [ 16, 16 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "homebooks", "x": [ 5, 5 ], "y": [ 16, 16 ], "chance": 70, "repeat": [ 1, 2 ] },

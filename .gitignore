@@ -29,6 +29,7 @@ build/
 dep/
 *.o
 *.d
+*.a
 cmake-build-debug/
 
 data/font/
@@ -148,3 +149,10 @@ stage
 
 # Snapcraft build file
 *.snap
+
+# Eclipse IDE
+.cproject
+.settings/
+
+# Apple Xcode IDE
+Xcode/

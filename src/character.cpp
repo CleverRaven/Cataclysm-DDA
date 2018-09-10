@@ -30,6 +30,7 @@
 #include <sstream>
 #include <numeric>
 
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
@@ -38,12 +39,14 @@ const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
+const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
@@ -90,6 +93,8 @@ static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
@@ -132,6 +137,7 @@ Character::Character() : Creature(), visitable<Character>(), hp_cur(
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
+    starvation = 0;
     thirst = 0;
     fatigue = 0;
     stomach_food = 0;
@@ -190,6 +196,8 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_healthy( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
+    } else if( stat == "starvation" ) {
+        mod_starvation( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -479,15 +487,14 @@ bool Character::move_effects(bool attacking)
 }
 
 void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
-                            bool permanent, int intensity, bool force )
+                            bool permanent, int intensity, bool force, bool deferred )
 {
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 void Character::process_turn()
 {
     Creature::process_turn();
-    drop_inventory_overflow();
 }
 
 void Character::recalc_hp()
@@ -510,7 +517,6 @@ void Character::recalc_hp()
     }
 }
 
-
 // This must be called when any of the following change:
 // - effects
 // - bionics
@@ -527,7 +533,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() ) {
+    if( is_blind() || in_sleep_state() || has_effect( effect_narcosis ) ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
@@ -541,8 +547,7 @@ void Character::recalc_sight_limits()
         // You can kinda see out a bit.
         sight_max = 2;
     } else if ( (has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE )) &&
-            !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
-            !is_wearing("glasses_bifocal") && !has_effect( effect_contacts )) {
+            !worn_with_flag( "FIX_NEARSIGHT" ) && !has_effect( effect_contacts )) {
         sight_max = 4;
     } else if (has_trait( trait_PER_SLIME )) {
         sight_max = 6;
@@ -1040,6 +1045,15 @@ units::mass Character::weight_capacity() const
     if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
         ret = ret * .60;
     }
+    if( has_trait( trait_id( "SMALL" ) ) ) {
+        ret = ret * .80;
+    }
+    if( has_trait( trait_id( "SMALL2" ) ) ) {
+        ret = ret * .50;
+    }
+    if( has_trait( trait_id( "SMALL_OK" ) ) ) {
+        ret = ret * .70;
+    }
     if (has_artifact_with(AEP_CARRY_MORE)) {
         ret += 22500_gram;
     }
@@ -1054,7 +1068,7 @@ units::volume Character::volume_capacity() const
     return volume_capacity_reduced_by( 0 );
 }
 
-units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
+units::volume Character::volume_capacity_reduced_by( const units::volume &mod ) const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         return units::volume_max;
@@ -1376,6 +1390,12 @@ void Character::reset_stats()
     if (has_trait( trait_TAIL_FLUFFY )) {
         mod_dodge_bonus(4);
     }
+    if( has_trait( trait_SMALL2 ) ) {
+        mod_dodge_bonus(2);
+    }
+    if( has_trait( trait_SMALL_OK ) ) {
+        mod_dodge_bonus(2);
+    }
     if (has_trait( trait_WINGS_BAT )) {
         mod_dodge_bonus(-3);
     }
@@ -1482,7 +1502,7 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
 
 int Character::extraEncumbrance( const layer_level level, const int bp ) const
 {
-	return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
+    return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
 void layer_item( std::array<encumbrance_data, num_bp> &vals,
@@ -1623,6 +1643,12 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     }
     if( has_bionic( bionic_id( "bio_pokedeye" ) ) ) {
         vals[bp_eyes].encumbrance += 10;
+    }
+    if( has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        for( auto &val : vals ) {
+            val.encumbrance += 3; // Slight encumbrance to all parts except eyes
+        }
+        vals[bp_eyes].encumbrance -= 3;
     }
 
     // Lower penalty for bps covered only by XL armor
@@ -1822,8 +1848,27 @@ void Character::mod_hunger(int nhunger)
 void Character::set_hunger(int nhunger)
 {
     if( hunger != nhunger ) {
-        hunger = nhunger;
+        // cap hunger at 300, just below famished
+        hunger = std::min(300, nhunger);
         on_stat_change( "hunger", hunger );
+    }
+}
+
+int Character::get_starvation() const
+{
+    return starvation;
+}
+
+void Character::mod_starvation(int nstarvation)
+{
+    set_starvation( starvation + nstarvation );
+}
+
+void Character::set_starvation(int nstarvation)
+{
+    if( starvation != nstarvation ) {
+        starvation = std::max(0, nstarvation);
+        on_stat_change( "starvation", starvation );
     }
 }
 
@@ -1951,15 +1996,15 @@ float Character::get_hit_base() const
 
 hp_part Character::body_window( bool precise ) const
 {
-    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0 );
+    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0, 0, 0 );
 }
 
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                bool bleed, bool bite, bool infect ) const
+                                bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const
 {
-    catacurses::window hp_window = catacurses::newwin( 10, 31, ( TERMY - 10 ) / 2, ( TERMX - 31 ) / 2 );
+    catacurses::window hp_window = catacurses::newwin( 10, 65, ( TERMY - 10 ) / 2, ( TERMX - 65 ) / 2 );
     draw_border(hp_window);
 
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_light_red, menu_header.c_str() );
@@ -2011,7 +2056,7 @@ hp_part Character::body_window( const std::string &menu_header,
             e.allowed = true;
         } else if( limb_is_broken ) {
             continue;
-        } else if( current_hp < maximal_hp && e.bonus != 0 ) {
+        } else if( current_hp < maximal_hp && ( e.bonus != 0 || is_bandage || is_disinfectant ) ) {
             e.allowed = true;
         } else {
             continue;
@@ -2019,7 +2064,21 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const int line = i + y_off;
 
-        mvwprintz( hp_window, line, 1, all_state_col, "%d: %s", i + 1, e.name.c_str() );
+        mvwprintz( hp_window, line, 1, all_state_col, "%d: %s ", i + 1, e.name.c_str() );
+
+        bool bandaged = has_effect( effect_bandaged, e.bp );
+        bool disinfected = has_effect( effect_disinfected, e.bp );
+        
+        if( bandaged && disinfected ) {
+            mvwprintz( hp_window, line, 29, all_state_col, _( "(bandaged [%s] & disinfected [%s])" ),
+                get_effect_int( effect_bandaged, e.bp ), get_effect_int( effect_disinfected, e.bp ) );
+        } else if( bandaged ) {
+            mvwprintz( hp_window, line, 29, all_state_col, _( "(bandaged [%s])" ),
+                get_effect_int( effect_bandaged, e.bp ) );
+        } else if( disinfected ) {
+            mvwprintz( hp_window, line, 29, all_state_col, _( "(disinfected [%s])" ),
+                get_effect_int( effect_disinfected, e.bp ) );
+        }
 
         const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
             const auto bar = get_hp_bar( hp, maximal_hp, false );
@@ -2061,6 +2120,12 @@ hp_part Character::body_window( const std::string &menu_header,
         }
     }
     mvwprintz( hp_window, parts.size() + y_off, 1, c_light_gray, _("%d: Exit"), parts.size() + 1 );
+
+#ifdef __ANDROID__
+    input_context ctxt("CHARACTER_BODY_WINDOW");
+    for( size_t i = 0; i < parts.size() + 1; i++ )
+        ctxt.register_manual_key('1' + i);
+#endif
 
     wrefresh(hp_window);
     char ch;
@@ -2249,7 +2314,7 @@ int Character::throw_range( const item &it ) const
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = ( str_cur * 8 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
+    int ret = ( str_cur * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
@@ -2262,8 +2327,8 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR caps throwing range */
 
     /** @EFFECT_THROW caps throwing range */
-    if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
-        return str_cur * 1.5 + get_skill_level( skill_throw );
+    if( ret > str_cur * 3 + get_skill_level( skill_throw ) ) {
+        return str_cur * 3 + get_skill_level( skill_throw );
     }
 
     return ret;
@@ -2550,6 +2615,16 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
+const social_modifiers Character::get_mutation_social_mods() const
+{
+    social_modifiers mods;
+    for( const mutation_branch *mut : cached_mutations ) {
+        mods += mut->social_mods;
+    }
+
+    return mods;
+}
+
 template <float mutation_branch::*member>
 float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
 {
@@ -2597,7 +2672,13 @@ float Character::mutation_value( const std::string &val ) const
 float Character::healing_rate( float at_rest_quality ) const
 {
     // @todo: Cache
-    float awake_rate = mutation_value( "healing_awake" );
+    float heal_rate;
+    if( !is_npc() ){
+        heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );
+    } else {
+        heal_rate = get_option< float >( "NPC_HEALING_RATE" );
+    }
+    float awake_rate = heal_rate * mutation_value( "healing_awake" );
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {
         final_rate += awake_rate;
@@ -2607,7 +2688,7 @@ float Character::healing_rate( float at_rest_quality ) const
     }
     float asleep_rate = 0.0f;
     if( at_rest_quality > 0.0f ) {
-        asleep_rate = at_rest_quality * ( 0.01f + mutation_value( "healing_resting" ) );
+        asleep_rate = at_rest_quality * heal_rate * ( 1.0f + mutation_value( "healing_resting" ) );
     }
     if( asleep_rate > 0.0f ) {
         final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );
@@ -2628,4 +2709,55 @@ float Character::healing_rate( float at_rest_quality ) const
     }
 
     return final_rate;
+}
+
+float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
+{
+    float rate_medicine = 0.0f;
+    float bandaged_rate = 0.0f;
+    float disinfected_rate = 0.0f;
+
+    const effect &e_bandaged = get_effect( effect_bandaged, bp );
+    const effect &e_disinfected = get_effect( effect_disinfected, bp );
+
+    if( !e_bandaged.is_null() ) {
+        bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
+        if( bp == bp_head ) {
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
+        }
+        if( bp == bp_torso ) {
+            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
+        }
+    }
+
+    if( !e_disinfected.is_null() ) {
+        disinfected_rate += static_cast<float>( e_disinfected.get_amount( "HEAL_RATE", 0 ) ) / HOURS( 24 );
+        if( bp == bp_head ) {
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD", 0 ) / 100.0f;
+        }
+        if( bp == bp_torso ) {
+            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO", 0 ) / 100.0f;
+        }
+    }
+
+    rate_medicine += bandaged_rate + disinfected_rate;
+    rate_medicine *= 1.0f + mutation_value( "healing_resting" );
+    rate_medicine *= 1.0f + at_rest_quality;
+
+    // increase healing if character has both effects
+    if( !e_bandaged.is_null() && !e_disinfected.is_null() ){
+        rate_medicine *= 2;
+    }
+
+    if( get_healthy() > 0.0f ) {
+        rate_medicine *= 1.0f + get_healthy() / 200.0f;
+    } else {
+        rate_medicine *= 1.0f + get_healthy() / 400.0f;
+    }
+    float primary_hp_mod = mutation_value( "hp_modifier" );
+    if( primary_hp_mod < 0.0f ) {
+        // HP mod can't get below -1.0
+        rate_medicine *= 1.0f + primary_hp_mod;
+    }
+    return rate_medicine;
 }

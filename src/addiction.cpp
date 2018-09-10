@@ -83,8 +83,8 @@ void addict_effect( player &u, addiction &add )
         case ADD_SLEEP:
             // No effects here--just in player::can_sleep()
             // EXCEPT!  Prolong this addiction longer than usual.
-            if( one_in( 2 ) && add.sated < 0 ) {
-                add.sated++;
+            if( one_in( 2 ) && add.sated < 0_turns ) {
+                add.sated += 1_turns;
             }
             break;
 
@@ -94,7 +94,7 @@ void addict_effect( player &u, addiction &add )
                 u.mod_painkiller( -1 );    // Tolerance increases!
             }
             if( u.get_painkiller() >= 35 ) { // No further effects if we're doped up.
-                add.sated = 0;
+                add.sated = 0_turns;
                 break;
             }
 

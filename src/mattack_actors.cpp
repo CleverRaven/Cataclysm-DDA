@@ -16,6 +16,7 @@
 #include "generic_factory.h"
 #include "line.h"
 
+const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -76,7 +77,7 @@ bool leap_actor::call( monster &z ) const
 
     // We wanted the float for range check
     // int here will make the jumps more random
-    int best = ( int )best_float;
+    int best = static_cast<int>( best_float );
     if( !allow_no_target && z.attack_target() == nullptr ) {
         return false;
     }
@@ -294,7 +295,7 @@ void bite_actor::load_internal( JsonObject &obj, const std::string &src )
 void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
     melee_actor::on_damage( z, target, dealt );
-    if( one_in( no_infection_chance - dealt.total_damage() ) ) {
+    if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
         const body_part hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit ) ) {
             target.add_effect( effect_bite, 40_minutes, hit, true );

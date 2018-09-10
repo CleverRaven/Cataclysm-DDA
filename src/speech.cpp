@@ -32,7 +32,7 @@ void reset_speech()
     speech.clear();
 }
 
-const SpeechBubble &get_speech( const std::string label )
+const SpeechBubble &get_speech( const std::string &label )
 {
     const std::map<std::string, std::vector<SpeechBubble> >::iterator speech_type = speech.find(
                 label );

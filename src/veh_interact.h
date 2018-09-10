@@ -55,6 +55,13 @@ class veh_interact
 
         int ddx = 0;
         int ddy = 0;
+        /* starting offset for vehicle parts description display and max offset for scrolling */
+        int start_at = 0;
+        int start_limit = 0;
+        /* starting offset for the overview and the max offset for scrolling */
+        int overview_offset = 0;
+        int overview_limit = 0;
+
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
@@ -92,7 +99,7 @@ class veh_interact
                           const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( int dx, int dy );
-        void move_cursor( int dx, int dy );
+        void move_cursor( int dx, int dy, int dstart_at = 0 );
         task_reason cant_do( char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
@@ -123,6 +130,7 @@ class veh_interact
         bool do_remove( std::string &msg );
         bool do_rename( std::string &msg );
         bool do_siphon( std::string &msg );
+        bool do_unload( std::string &msg );
         bool do_tirechange( std::string &msg );
         bool do_assign_crew( std::string &msg );
         bool do_relabel( std::string &msg );
@@ -133,7 +141,7 @@ class veh_interact
         void display_stats();
         void display_name();
         void display_mode();
-        void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
+        void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
         void display_details( const vpart_info *part );
         size_t display_esc( const catacurses::window &w );
 
@@ -148,6 +156,7 @@ class veh_interact
          */
         bool overview( std::function<bool( const vehicle_part &pt )> enable = {},
                        std::function<bool( vehicle_part &pt )> action = {} );
+        void move_overview_line( int );
 
         void countDurability();
 

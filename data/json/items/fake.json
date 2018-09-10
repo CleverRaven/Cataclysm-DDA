@@ -74,10 +74,43 @@
         }
     },
     {
+      "id" : "reach_bow",
+      "type" : "GUN",
+      "symbol" : "(",
+      "color" : "yellow",
+      "name" : "reach bow",
+      "description" : "A test item that is both a ranged weapon and a reach weapon",
+      "price" : 16000,
+      "material" : "steel",
+      "flags" : ["REACH_ATTACK"],
+      "skill" : "archery",
+      "ammo" : "arrow",
+      "weight" : 340,
+      "volume" : 6,
+      "bashing" : 6,
+      "ranged_damage" : 3,
+      "range" : 5,
+      "dispersion" : 210,
+      "durability" : 6,
+      "clip_size" : 1,
+      "reload" : 60,
+      "valid_mod_locations": [["underbarrel", 1],[ "sights", 1 ],[ "accessories", 2 ]]
+    },
+    {
         "id": "boulder_anvil",
         "type": "TOOL",
         "copy-from": "fake_item",
         "name": "boulder anvil",
         "qualities": [ [ "ANVIL", 1 ] ]
-    }
+    }, 
+    {
+        "id": "fake_smoke_plume",
+        "copy-from": "fake_item",
+        "type": "GENERIC",
+        "name": "smoldering embers",
+        "name_plural": "smoldering embers",
+        "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
+        "emits": [ "emit_small_smoke_plume" ],
+        "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
+      }
 ]

@@ -86,7 +86,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
                     ++iLine;
                 }
             }
-            mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, mmenu_title[i].c_str() );
+            mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
         }
     } else {
         center_print( w_open, iLine++, cColor1, mmenu_title[0] );
@@ -134,6 +134,54 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
         result.push_back( alt_text );
     }
     return result;
+}
+
+std::string main_menu::handle_input_timeout( input_context &ctxt )
+{
+    inp_mngr.set_timeout( 125 );
+
+    std::string action = ctxt.handle_input();
+
+    if( action == "TIMEOUT" ) {
+        init_windows();
+    }
+
+    inp_mngr.reset_timeout();
+
+    return action;
+}
+
+void main_menu::init_windows()
+{
+    if( LAST_TERMX == TERMX && LAST_TERMY == TERMY ) {
+        return;
+    }
+
+    w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
+    werase( w_background );
+    wrefresh( w_background );
+
+    // main window should also expand to use available display space.
+    // expanding to evenly use up half of extra space, for now.
+    extra_w = ( ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) - 1;
+    int extra_h = ( ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) - 1;
+    extra_w = ( extra_w > 0 ? extra_w : 0 );
+    extra_h = ( extra_h > 0 ? extra_h : 0 );
+    const int total_w = FULL_SCREEN_WIDTH + extra_w;
+    const int total_h = FULL_SCREEN_HEIGHT + extra_h;
+
+    // position of window within main display
+    const int x0 = ( TERMX - total_w ) / 2;
+    const int y0 = ( TERMY - total_h ) / 2;
+
+    w_open = catacurses::newwin( total_h, total_w, y0, x0 );
+
+    iMenuOffsetY = total_h - 3;
+    // note: if iMenuOffset is changed,
+    // please update MOTD and credits to indicate how long they can be.
+
+    LAST_TERMX = TERMX;
+    LAST_TERMY = TERMY;
 }
 
 void main_menu::init_strings()
@@ -199,6 +247,7 @@ void main_menu::init_strings()
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -261,29 +310,7 @@ bool main_menu::opening_screen()
     world_generator->set_active_world( NULL );
     world_generator->init();
 
-    w_background = catacurses::newwin( TERMY, TERMX, 0, 0 );
-    werase( w_background );
-    wrefresh( w_background );
-
-    // main window should also expand to use available display space.
-    // expanding to evenly use up half of extra space, for now.
-    extra_w = ( ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) - 1;
-    int extra_h = ( ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) - 1;
-    extra_w = ( extra_w > 0 ? extra_w : 0 );
-    extra_h = ( extra_h > 0 ? extra_h : 0 );
-    const int total_w = FULL_SCREEN_WIDTH + extra_w;
-    const int total_h = FULL_SCREEN_HEIGHT + extra_h;
-
-    // position of window within main display
-    const int x0 = ( TERMX - total_w ) / 2;
-    const int y0 = ( TERMY - total_h ) / 2;
-
-    w_open = catacurses::newwin( total_h, total_w, y0, x0 );
-
-    iMenuOffsetY = total_h - 3;
-    // note: if iMenuOffset is changed,
-    // please update MOTD and credits to indicate how long they can be.
-
+    init_windows();
     init_strings();
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
@@ -299,6 +326,11 @@ bool main_menu::opening_screen()
 
     if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
         popup( _( "Unable to make templates directory. Check permissions." ) );
+        return false;
+    }
+
+    if( !assure_dir_exist( FILENAMES["user_sound"] ) ) {
+        popup( _( "Unable to make sound directory. Check permissions." ) );
         return false;
     }
 
@@ -334,14 +366,15 @@ bool main_menu::opening_screen()
                 const int motdy = ( iMenuOffsetY - mmenu_motd.size() ) * 2 / 3;
                 const int motdx = 8 + extra_w / 2;
                 for( size_t i = 0; i < mmenu_motd.size(); i++ ) {
-                    mvwprintz( w_open, motdy + i, motdx, c_light_red, mmenu_motd[i].c_str() );
+                    mvwprintz( w_open, motdy + i, motdx, c_light_red, "%s", mmenu_motd[i].c_str() );
                 }
 
                 wrefresh( w_open );
                 catacurses::refresh();
             }
 
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
+
             std::string sInput = ctxt.get_raw_input().text;
             // check automatic menu shortcuts
             for( size_t i = 0; i < vMenuHotkeys.size(); ++i ) {
@@ -422,7 +455,7 @@ bool main_menu::opening_screen()
 
                 wrefresh( w_open );
                 catacurses::refresh();
-                std::string action = ctxt.handle_input();
+                std::string action = handle_input_timeout( ctxt );
                 if( action == "LEFT" ) {
                     if( sel2 > 0 ) {
                         sel2--;
@@ -482,7 +515,7 @@ bool main_menu::opening_screen()
                 print_menu_items( w_open, settings_subs, sel2, yoffset, xoffset - ( xlen / 4 ) );
                 wrefresh( w_open );
                 catacurses::refresh();
-                std::string action = ctxt.handle_input();
+                std::string action = handle_input_timeout( ctxt );
                 std::string sInput = ctxt.get_raw_input().text;
                 for( int i = 0; i < settings_subs_to_display; ++i ) {
                     for( auto hotkey : vSettingsHotkeys[i] ) {
@@ -519,7 +552,7 @@ bool main_menu::opening_screen()
                         print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
                     } else if( sel2 == 1 ) {
                         input_context ctxt_default = get_default_mode_input_context();
-                        ctxt_default.display_help();
+                        ctxt_default.display_menu();
                     } else if( sel2 == 2 ) {
                         get_auto_pickup().show();
                     } else if( sel2 == 3 ) {
@@ -569,7 +602,7 @@ bool main_menu::new_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
 
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vNewGameHotkeys.size(); ++i ) {
                 for( auto hotkey : vNewGameHotkeys[i] ) {
@@ -651,20 +684,20 @@ bool main_menu::new_character_tab()
             // Then view presets
             if( templates.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
-                           c_red, _( "No templates found!" ) );
+                           c_red, "%s", _( "No templates found!" ) );
                 sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
-                           c_white, _( "Press 'd' to delete a preset." ) );
+                           c_white, "%s", _( "Press 'd' to delete a preset." ) );
                 for( int i = 0; i < ( int )templates.size(); i++ ) {
                     int line = iMenuOffsetY - 4 - i;
                     mvwprintz( w_open, line, 20 + iMenuOffsetX + extra_w / 2,
-                               ( sel3 == i ? h_white : c_white ), templates[i].c_str() );
+                               ( sel3 == i ? h_white : c_white ), "%s", templates[i].c_str() );
                 }
             }
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     sel3--;
@@ -740,7 +773,7 @@ bool main_menu::load_character_tab()
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
-                           c_red, _( "No Worlds found!" ) );
+                           c_red, "%s", _( "No Worlds found!" ) );
                 sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 for( int i = 0; i < ( int )all_worldnames.size(); ++i ) {
@@ -767,7 +800,7 @@ bool main_menu::load_character_tab()
             }
             wrefresh( w_open );
             catacurses::refresh();
-            const std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             if( all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
                 layer = 1;
             } else if( action == "DOWN" ) {
@@ -802,16 +835,17 @@ bool main_menu::load_character_tab()
                 savegames.erase( new_end, savegames.end() );
             }
 
-            mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 15 + iMenuOffsetX + extra_w / 2, h_white, wn.c_str() );
+            mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 15 + iMenuOffsetX + extra_w / 2,
+                       h_white, "%s", wn.c_str() );
 
             if( ( wn != "TUTORIAL" && wn != "DEFENSE" ) && world_generator->world_need_lua_build( wn ) ) {
                 savegames.clear();
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
-                           c_red, _( "This world requires the game to be compiled with Lua." ) );
+                           c_red, "%s", _( "This world requires the game to be compiled with Lua." ) );
                 sfx::play_variant_sound( "menu_error", "default", 100 );
             } else if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
-                           c_red, _( "No save games found!" ) );
+                           c_red, "%s", _( "No save games found!" ) );
                 sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 int line = iMenuOffsetY - 2;
@@ -819,12 +853,13 @@ bool main_menu::load_character_tab()
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == iMenuOffsetY - 2;
                     mvwprintz( w_open, line--, 40 + iMenuOffsetX + extra_w / 2,
-                               selected ? h_white : c_white, savename.player_name().c_str() );
+                               selected ? h_white : c_white,
+                               "%s", savename.player_name().c_str() );
                 }
             }
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
                 layer = 2;
             } else if( action == "DOWN" ) {
@@ -881,7 +916,7 @@ void main_menu::world_tab()
             int yoffset = iMenuOffsetY - 2 - sel2;
 
             const auto all_worldnames = world_generator->all_worldnames();
-            mvwprintz( w_open, yoffset, xoffset - 15, h_white, all_worldnames[sel2 - 1].c_str() );
+            mvwprintz( w_open, yoffset, xoffset - 15, h_white, "%s", all_worldnames[sel2 - 1].c_str() );
 
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 nc_color text_color;
@@ -901,7 +936,7 @@ void main_menu::world_tab()
 
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
             std::string sInput = ctxt.get_raw_input().text;
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 for( auto hotkey : vWorldHotkeys[i] ) {
@@ -948,6 +983,9 @@ void main_menu::world_tab()
                             query_yes = true;
                             do_delete = false;
                         }
+                    } else if( sel3 == 3 ) { // Copy World settings
+                        layer = 2;
+                        world_generator->make_new_world( true, all_worldnames[sel2 - 1] );
                     }
 
                     if( query_yes ) {
@@ -973,7 +1011,7 @@ void main_menu::world_tab()
             }
 
             mvwprintz( w_open, iMenuOffsetY - 2, 25 + iMenuOffsetX + extra_w / 2,
-                       ( sel2 == 0 ? h_white : c_white ), _( "Create World" ) );
+                       ( sel2 == 0 ? h_white : c_white ), "%s", _( "Create World" ) );
 
             int i = 1;
             const auto all_worldnames = world_generator->all_worldnames();
@@ -994,7 +1032,7 @@ void main_menu::world_tab()
 
             wrefresh( w_open );
             catacurses::refresh();
-            std::string action = ctxt.handle_input();
+            std::string action = handle_input_timeout( ctxt );
 
             if( action == "DOWN" ) {
                 if( sel2 > 0 ) {

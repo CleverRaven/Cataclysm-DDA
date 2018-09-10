@@ -212,7 +212,7 @@
           "fg": 65
         },
         {
-          "id": ["t_concrete", "t_sidewalk", "t_sidewalk_bg_dp", "t_flat_roof", "t_strconc_floor", "t_strconc_floor_halfway", "t_thconc_floor" ],
+          "id": ["t_concrete", "t_sidewalk", "t_sidewalk_bg_dp", "t_flat_roof", "t_strconc_floor", "t_strconc_floor_halfway", "t_thconc_floor", "t_thconc_floor_olight" ],
           "fg": 66
         },
         {
@@ -1942,8 +1942,9 @@
           "fg": [ 526 , 527 ]
         },
         {
-          "id":["t_chainfence_v", "t_chainfence_h" ],
+          "id":[ "t_chainfence", "t_chainfence_v", "t_chainfence_h" ],
           "fg": [ 528 , 529 ],
+          "rotates": true,
           "multitile": true,
           "height_3d": 6,
           "additional_tiles": [
@@ -2076,12 +2077,12 @@
           "fg": 591
         },
         {
-          "id": ["t_door_glass_c" ],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "multitile": true,
           "fg": [ 592 , 593 ]
         },
         {
-          "id": ["t_door_glass_o" ],
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "multitile": true,
           "fg": [ 594 , 595 ]
         },
@@ -2191,10 +2192,11 @@
           "fg": 636
         },
         {
-          "id": ["t_fence_v", "t_fence_h", "t_wall_log_half" ],
+          "id": [ "t_fence", "t_fence_v", "t_fence_h", "t_wall_log_half" ],
           "fg": [ 640 , 641 ],
           "height_3d": 3,
           "bg": 13,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -2324,9 +2326,10 @@
           "fg": 687
         },
         {
-          "id": ["t_railing_v", "t_railing_h" ],
+          "id": [ "t_railing", "t_railing_v", "t_railing_h" ],
           "fg": [ 688 , 689 ],
           "bg": 13,
+          "rotates": true,
           "multitile": true,
           "height_3d": 2,
           "additional_tiles": [
@@ -6195,7 +6198,7 @@
           "fg": 1874
         },
         {
-          "id": ["5x50_hull", "9mm_casing", "9x18mm_casing", "22_casing", "22_casing_new", "38_casing", "40_casing", "44_casing", "45_casing", "454_casing", "500_casing", "57mm_casing", "46mm_casing", "762_casing", "545_casing", "223_casing", "3006_casing", "308_casing", "50_casing", "300_casing", "762R_casing", "32_casing" ],
+          "id": ["5x50_hull", "9mm_casing", "9x18mm_casing", "22_casing", "22_casing_new", "38_casing", "40_casing", "44_casing", "45_casing", "454_casing", "500_casing", "57mm_casing", "46mm_casing", "762_casing", "762_51_casing", "545_casing", "223_casing", "3006_casing", "308_casing", "50_casing", "300_casing", "762R_casing", "32_casing" ],
           "fg": 1875
         },
         {

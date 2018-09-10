@@ -457,6 +457,17 @@ void monster::move()
         g->m.creature_on_trap( *this, false );
     }
 
+    // The monster is in a deep water tile and has a chance to drown
+    if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ) {
+        if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in( 10 ) ) {
+            die( nullptr );
+            if( g->u.sees( pos() ) ) {
+                add_msg( _( "The %s drowns!" ), name().c_str() );
+            }
+            return;
+        }
+    }
+
     if( moves < 0 ) {
         return;
     }
@@ -554,6 +565,7 @@ void monster::move()
 
     tripoint next_step;
     const bool staggers = has_flag( MF_STUMBLES );
+    const bool can_climb = has_flag( MF_CLIMBS );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
@@ -570,9 +582,13 @@ void monster::move()
                     can_z_move = false;
                 }
 
-                if( can_z_move && !can_fly && candidate.z > posz() && !g->m.has_floor_or_support( candidate ) ) {
-                    // Can't "jump" up a whole z-level
-                    can_z_move = false;
+                // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
+                // This prevents non-climb/fly enemies running up walls
+                if( candidate.z > posz() && !can_fly ) {
+                    if( !can_climb || !g->m.has_floor_or_support( candidate ) ) {
+                        // Can't "jump" up a whole z-level
+                        can_z_move = false;
+                    }
                 }
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
@@ -1023,7 +1039,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                            ( float )( climbs ? calc_climb_cost( pos(), p ) :
                                       calc_movecost( pos(), p ) );
         if( cost > 0.0f ) {
-            moves -= ( int )ceil( cost );
+            moves -= static_cast<int>( ceil( cost ) );
         } else {
             return false;
         }
@@ -1109,6 +1125,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         }
     }
 
+    if( has_flag( MF_DRIPS_NAPALM ) ) {
+        if( one_in( 10 ) ) {
+            g->m.add_item_or_charges( pos(), item( "napalm" ) );
+        }
+    }
     return true;
 }
 
@@ -1389,7 +1410,6 @@ void monster::knock_back_from( const tripoint &p )
     }
     check_dead_state();
 }
-
 
 /* will_reach() is used for determining whether we'll get to stairs (and
  * potentially other locations of interest).  It is generally permissive.

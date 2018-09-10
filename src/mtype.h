@@ -83,7 +83,7 @@ enum m_flag : int {
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
     MF_NOHEAD,              // Headshots not allowed!
-    MF_HARDTOSHOOT,         // Some shots are actually misses
+    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then MS_TINY
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
@@ -159,9 +159,14 @@ enum m_flag : int {
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
+    MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
+    MF_BIRDFOOD,         // This monster will become friendly when fed bird food.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
+    MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
+    MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
+    MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -207,6 +212,8 @@ struct mtype {
         /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         nc_color color = c_white;
+        /** hint for tilesets that don't have a tile for this monster */
+        std::string looks_like;
         m_size size;
         std::vector<material_id> mat;
         phase_id phase;
@@ -265,9 +272,23 @@ struct mtype {
         // Monster upgrade variables
         bool upgrades;
         int half_life;
+        int age_grow;
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+
+        // Monster reproduction variables
+        bool reproduces;
+        int baby_timer;
+        int baby_count;
+        mtype_id baby_monster;
+        itype_id baby_egg;
+        std::vector<std::string> baby_flags;
+
+        // Monster biosignature variables
+        bool biosignatures;
+        int biosig_timer;
+        itype_id biosig_item;
 
         // Monster's ability to destroy terrain and vehicles
         int bash_skill;
@@ -294,13 +315,13 @@ struct mtype {
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
         bool has_flag( m_flag flag ) const;
-        bool has_flag( std::string flag ) const;
+        bool has_flag( const std::string &flag ) const;
         bool made_of( const material_id &material ) const;
-        void set_flag( std::string flag, bool state );
+        void set_flag( const std::string &flag, bool state );
         bool has_anger_trigger( monster_trigger trigger ) const;
         bool has_fear_trigger( monster_trigger trigger ) const;
         bool has_placate_trigger( monster_trigger trigger ) const;
-        bool in_category( std::string category ) const;
+        bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.

@@ -121,7 +121,7 @@ class inventory : public visitable<inventory>
          * the container. All items that are part of the same stack have the same item position.
          */
         int position_by_item( const item *it ) const;
-        int position_by_type( itype_id type );
+        int position_by_type( const itype_id &type );
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
         int invlet_to_position( char invlet ) const;
@@ -130,9 +130,9 @@ class inventory : public visitable<inventory>
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity );
 
-        bool has_tools( itype_id it, int quantity ) const;
-        bool has_components( itype_id it, int quantity ) const;
-        bool has_charges( itype_id it, long quantity ) const;
+        bool has_tools( const itype_id &it, int quantity ) const;
+        bool has_components( const itype_id &it, int quantity ) const;
+        bool has_charges( const itype_id &it, long quantity ) const;
 
         int leak_level( std::string flag ) const; // level of leaked bad stuff from items
 
@@ -177,6 +177,8 @@ class inventory : public visitable<inventory>
         const itype_bin &get_binned_items() const;
 
         void update_cache_with_item( item &newit );
+
+        void copy_invlet_of( const inventory &other );
 
     private:
         // For each item ID, store a set of "favorite" inventory letters.

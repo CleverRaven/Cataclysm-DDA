@@ -62,7 +62,7 @@
                 "mult_bonuses" : [["damage", "bash", 0.5]],
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
-                "description" : "Half damage to enemies"
+                "description" : "Half damage to enemies."
             }
         ],
         "techniques" : [
@@ -75,7 +75,7 @@
         "type" : "martial_art",
         "id" : "style_boxing",
         "name" : "Boxing",
-        "description" : "Sport of the true Gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
+        "description" : "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
         "arm_block" : 2,
         "leg_block" : 99,
            "static_buffs" : [
@@ -137,7 +137,7 @@
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
                 "throw_immune" : true,
-                "description" : "Immune to throws and knockdowns"
+                "description" : "Immune to throws and knockdowns."
             }
         ],
         "techniques" : ["tec_judo_grab", "tec_judo_throw"]
@@ -211,14 +211,14 @@
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "flat_bonuses" : [["damage", "bash", "str", 0.2]],
-                "description" : "Increased unarmed power"
+                "description" : "Increased unarmed power."
             },{
                 "id" : "krav_maga_static_edged",
                 "name" : "Krav Maga Edged",
                 "melee_allowed" : true,
                 "min_unarmed" : 0,
                 "mult_bonuses" : [["damage", "stab", 1.2]],
-                "description" : "Increased stabbing damage"
+                "description" : "Increased stabbing damage."
             }
         ],
         "techniques" : [
@@ -252,7 +252,7 @@
                     ["damage", "bash", -5.0],
                     ["damage", "bash", "str", 0.5]
                 ],
-                "description" : "Attacks scale better with strength"
+                "description" : "Attacks scale better with strength."
             }
         ],
         "techniques" : [
@@ -274,7 +274,7 @@
                 "unarmed_allowed" : true,
                 "melee_allowed" : true,
                 "quiet" : true,
-                "description" : "Silent melee attacks"
+                "description" : "Silent melee attacks."
             }
         ],
         "onmove_buffs" : [
@@ -305,7 +305,7 @@
                 "name" : "Taekwondo",
                 "unarmed_allowed" : true,
                 "flat_bonuses" : [["block", "str", 0.5]],
-                "description" : "Strength decreases damage when blocking"
+                "description" : "Strength decreases damage when blocking."
             }
         ],
         "techniques" : [
@@ -466,6 +466,7 @@
             "spear_steel",
             "spear_survivor",
             "spear_wood",
+            "spear_homemade_halfpike",
             "stick",
             "survivor_machete",
             "tanto",
@@ -604,7 +605,7 @@
                 "melee_allowed" : true,
                 "min_melee" : 1,
                 "mult_bonuses" : [["damage", "bash", 1.2]],
-                "description" : "Increased bashing damage"
+                "description" : "Increased bashing damage."
             }
         ],
         "onhit_buffs" : [

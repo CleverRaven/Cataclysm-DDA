@@ -101,7 +101,6 @@ static const morale_mult prozac( 1.0, 0.25 );
 static const morale_mult prozac_bad( 0.25, 1.0 );
 }
 
-
 std::string player_morale::morale_point::get_name() const
 {
     return type.obj().describe( item_type );
@@ -110,7 +109,8 @@ std::string player_morale::morale_point::get_name() const
 int player_morale::morale_point::get_net_bonus() const
 {
     return bonus * ( ( !is_permanent() && age > decay_start ) ?
-                     logarithmic_range( to_turns<int>( decay_start ), to_turns<int>( duration ), to_turns<int>( age ) ) : 1 );
+                     logarithmic_range( to_turns<int>( decay_start ), to_turns<int>( duration ),
+                                        to_turns<int>( age ) ) : 1 );
 }
 
 int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
@@ -129,7 +129,7 @@ bool player_morale::morale_point::is_permanent() const
     return ( duration == 0_turns );
 }
 
-bool player_morale::morale_point::matches( morale_type _type, const itype *_item_type ) const
+bool player_morale::morale_point::matches( const morale_type &_type, const itype *_item_type ) const
 {
     return ( _type == type ) && ( _item_type == nullptr || _item_type == item_type );
 }
@@ -273,12 +273,12 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
     }
 }
 
-void player_morale::set_permanent( morale_type type, int bonus, const itype *item_type )
+void player_morale::set_permanent( const morale_type &type, int bonus, const itype *item_type )
 {
     add( type, bonus, bonus, 0_turns, 0_turns, true, item_type );
 }
 
-int player_morale::has( morale_type type, const itype *item_type ) const
+int player_morale::has( const morale_type &type, const itype *item_type ) const
 {
     for( auto &m : points ) {
         if( m.matches( type, item_type ) ) {
@@ -298,7 +298,7 @@ void player_morale::remove_if( const std::function<bool( const morale_point & )>
     }
 }
 
-void player_morale::remove( morale_type type, const itype *item_type )
+void player_morale::remove( const morale_type &type, const itype *item_type )
 {
     remove_if( [ type, item_type ]( const morale_point & m ) -> bool {
         return m.matches( type, item_type );
@@ -395,7 +395,8 @@ void player_morale::display( double focus_gain )
             const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
             color = ( value > 0.0 ) ? c_green : c_red;
             mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
-        } else {
+        } else
+        {
             color = c_dark_gray;
             mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
         }

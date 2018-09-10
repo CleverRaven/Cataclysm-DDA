@@ -9,11 +9,9 @@
     "broken_symbol": "x",
     "difficulty": 2,
     "durability": 180,
+    "description": "A strong metal wheel.",
     "damage_modifier": 70,
-    "breaks_into": [
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 2, 3 ] }
-    ],
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
     "flags": [ "WHEEL" ]
   },
   {
@@ -27,13 +25,15 @@
     "color": "light_red",
     "difficulty": 5,
     "durability": 7500,
+    "description": "A strong metal wheel.",
     "damage_modifier": 500,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 25, 75 ] },
       { "item": "steel_chunk", "count": [ 30, 90 ] },
       { "item": "scrap", "count": [ 50, 150 ] }
     ],
-    "flags": [ "OBSTACLE", "WHEEL", "STEERABLE" ]
+    "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "STEERABLE" ],
+    "damage_reduction": { "all": 10000 }
   },
   {
     "id": "wheel",
@@ -46,11 +46,13 @@
     "color": "dark_gray",
     "difficulty": 3,
     "durability": 200,
+    "description": "A wheel.",
     "damage_modifier": 50,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "leaf_spring", "count": [ 1, 2 ] }
     ],
     "flags": [ "WHEEL" ]
   },
@@ -72,11 +74,13 @@
     "color": "green",
     "difficulty": 4,
     "durability": 800,
+    "description": "A very strong, armored metal wheel.",
     "damage_modifier": 50,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] }
+      { "item": "scrap", "count": [ 2, 3 ] },
+      { "item": "leaf_spring", "count": [ 2, 3 ] }
     ],
     "flags": [ "WHEEL" ]
   },
@@ -98,12 +102,9 @@
     "color": "dark_gray",
     "difficulty": 2,
     "durability": 70,
+    "description": "A small wheel.",
     "damage_modifier": 50,
-    "breaks_into": [
-      { "item": "steel_lump" },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] }
-    ],
+    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "flags": [ "WHEEL", "STABLE", "TOOL_WRENCH", "STEERABLE" ]
   },
   {
@@ -117,6 +118,7 @@
     "color": "dark_gray",
     "difficulty": 1,
     "durability": 40,
+    "description": "A thin bicycle wheel.",
     "damage_modifier": 50,
     "folded_volume": 14,
     "breaks_into": [
@@ -144,6 +146,7 @@
     "color": "dark_gray",
     "difficulty": 1,
     "durability": 70,
+    "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair or grocery cart.",
     "damage_modifier": 50,
     "folded_volume": 5,
     "breaks_into": [
@@ -164,6 +167,7 @@
     "color": "dark_gray",
     "difficulty": 2,
     "durability": 90,
+    "description": "A small wheel from a motorcycle.",
     "damage_modifier": 50,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 3 ] },
@@ -190,12 +194,9 @@
     "color": "dark_gray",
     "difficulty": 2,
     "durability": 70,
+    "description": "A small wheel.",
     "damage_modifier": 50,
-    "breaks_into": [
-      { "item": "steel_lump" },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] }
-    ],
+    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "flags": [ "WHEEL", "NO_JACK" ]
   },
   {
@@ -216,6 +217,7 @@
     "color": "dark_gray",
     "difficulty": 2,
     "durability": 40,
+    "description": "A small wheel.",
     "damage_modifier": 50,
     "folded_volume": 14,
     "breaks_into": [
@@ -236,6 +238,7 @@
     "color": "dark_gray",
     "difficulty": 2,
     "durability": 40,
+    "description": "A pair of wheelchair wheels.",
     "damage_modifier": 50,
     "folded_volume": 25,
     "breaks_into": [
@@ -256,11 +259,13 @@
     "color": "dark_gray",
     "difficulty": 4,
     "durability": 400,
+    "description": "A wide wheel that provides more traction and better off-road performance.",
     "damage_modifier": 50,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] }
+      { "item": "scrap", "count": [ 2, 3 ] },
+      { "item": "leaf_spring", "count": [ 2, 3 ] }
     ],
     "flags": [ "WHEEL" ]
   },
@@ -282,26 +287,13 @@
     "color": "brown",
     "broken_color": "brown",
     "durability": 30,
+    "description": "A wooden wheel.",
     "damage_modifier": 50,
-    "breaks_into": [
-      { "item": "2x4", "count": [ 0, 4 ] },
-      { "item": "nail", "charges": [ 5, 15 ] }
-    ],
+    "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": 30000,
-        "using": "vehicle_bolt"
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "using": "vehicle_bolt"
-      },
-      "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": 5000,
-        "using": [ [ "adhesive", 1 ] ]
-      }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "using": "vehicle_bolt" },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "using": "vehicle_bolt" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 5000, "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "WHEEL" ]
   },
@@ -317,9 +309,6 @@
       { "item": "nail", "charges": [ 5, 15 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "proportional": {
-      "durability": 2,
-      "damage_modifier": 2
-    }
+    "proportional": { "durability": 2, "damage_modifier": 2 }
   }
 ]

@@ -400,7 +400,7 @@ const profession::StartingSkillList profession::skills() const
     return _starting_skills;
 }
 
-bool profession::has_flag( std::string flag ) const
+bool profession::has_flag( const std::string &flag ) const
 {
     return flags.count( flag ) != 0;
 }

@@ -20,6 +20,7 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
+#include "vpart_reference.h"
 #include "translations.h"
 #include "ui.h"
 #include "vpart_position.h"
@@ -36,12 +37,12 @@
 
 const efftype_id effect_contacts( "contacts" );
 
-void remove_from_component_lookup( recipe *r );
 void drop_or_handle( const item &newit, player &p );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PAWS( "PAWS" );
+static const trait_id trait_BURROW( "BURROW" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
@@ -55,6 +56,10 @@ static bool crafting_allowed( const player &p, const recipe &rec )
         return false;
     }
 
+    if( rec.category == "CC_BUILDING" ) {
+        add_msg( m_info, _( "Overmap terrain building recipes are not implemented yet!" ) );
+        return false;
+    }
     return true;
 }
 
@@ -288,7 +293,11 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
     for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
-        if( g->m.accessible_items( pos(), loc, PICKUP_RANGE ) ) {
+        // can not reach this -> can not access its contents
+        if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
+            continue;
+        }
+        if( g->m.accessible_items( loc ) ) {
             for( const auto &it : g->m.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it, true ) ) {
                     conts.emplace_back( &it );
@@ -296,13 +305,10 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( optional_vpart_position vp = g->m.veh_at( loc ) ) {
-            const int part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO" );
-            if( part != -1 ) {
-                for( const auto &it : vp->vehicle().get_items( part ) ) {
-                    if( is_container_eligible_for_crafting( it, false ) ) {
-                        conts.emplace_back( &it );
-                    }
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO" ) ) {
+            for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
+                if( is_container_eligible_for_crafting( it, false ) ) {
+                    conts.emplace_back( &it );
                 }
             }
         }
@@ -340,6 +346,10 @@ const inventory &player::crafting_inventory()
             cached_crafting_inventory += item( bio.info().fake_item,
                                                calendar::turn, power_level );
         }
+    }
+    if( has_trait( trait_BURROW ) ) {
+        cached_crafting_inventory += item( "pickaxe", calendar::turn );
+        cached_crafting_inventory += item( "shovel", calendar::turn );
     }
 
     cached_moves = moves;
@@ -401,13 +411,14 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
     }
 }
 
-std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size )
+std::list<item> player::consume_components_for_craft( const recipe *making, int batch_size,
+        bool ignore_last )
 {
     std::list<item> used;
     if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
         return used;
     }
-    if( last_craft->has_cached_selections() ) {
+    if( last_craft->has_cached_selections() && !ignore_last ) {
         used = last_craft->consume_components();
     } else {
         // This should fail and return, but currently crafting_command isn't saved
@@ -424,7 +435,6 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     }
     return used;
 }
-
 
 void player::complete_craft()
 {
@@ -465,8 +475,8 @@ void player::complete_craft()
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait( trait_id( "HYPEROPIC" ) ) && !is_wearing( "glasses_reading" ) &&
-        !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
+    if( has_trait( trait_id( "HYPEROPIC" ) ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+        !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making->skill_used == skill_id( "electronics" ) ) {
             main_rank_penalty = 2;
@@ -602,6 +612,13 @@ void player::complete_craft()
                     used_age_tally += elem.get_relative_rot();
                     ++used_age_count;
                 }
+                if( elem.has_flag( "HIDDEN_HALLU" ) ) {
+                    newit.item_tags.insert( "HIDDEN_HALLU" );
+                }
+                if( elem.has_flag( "HIDDEN_POISON" ) ) {
+                    newit.item_tags.insert( "HIDDEN_POISON" );
+                    newit.poison = elem.poison;
+                }
             }
         }
 
@@ -640,6 +657,8 @@ void set_item_food( item &newit )
     int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
+        newit.item_tags.erase( "COLD" );
+        newit.item_tags.erase( "FROZEN" );
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
         newit.active = true;
@@ -691,7 +710,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     for( const auto &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
-        bool pl = false, mp = false;
+        bool pl = false;
+        bool mp = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
             if( has_charges( type, count ) ) {
@@ -1271,7 +1291,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     // has been removed.
     item dis_item = org_item;
 
-    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage() ), 1.0 );
+    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first
@@ -1319,6 +1339,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     std::vector<item> components = dis_item.components;
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
+        const bool uncraft_liquids_contained = dis.has_flag( "UNCRAFT_LIQUIDS_CONTAINED" );
         for( const auto &altercomps : dis_requirements.get_components() ) {
             const item_comp &comp = altercomps.front();
             int compcount = comp.count;
@@ -1328,16 +1349,25 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             if( dis_item.count_by_charges() && dis.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
             }
-            // Compress liquids and counted-by-charges items into one item,
-            // they are added together on the map anyway and handle_liquid
-            // should only be called once to put it all into a container at once.
-            if( newit.count_by_charges() || newit.made_of( LIQUID ) ) {
-                newit.charges = compcount;
-                compcount = 1;
-            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                // tools that can be unloaded should be created unloaded,
-                // tools that can't be unloaded will keep their default charges.
-                newit.charges = 0;
+            const bool is_liquid = newit.made_of( LIQUID );
+            if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
+                // Spawn liquid item in its default container
+                compcount = compcount / newit.charges;
+                if( compcount != 0 ) {
+                    newit = newit.in_its_container();
+                }
+            } else {
+                // Compress liquids and counted-by-charges items into one item,
+                // they are added together on the map anyway and handle_liquid
+                // should only be called once to put it all into a container at once.
+                if( newit.count_by_charges() || is_liquid ) {
+                    newit.charges = compcount;
+                    compcount = 1;
+                } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
+                    // tools that can be unloaded should be created unloaded,
+                    // tools that can't be unloaded will keep their default charges.
+                    newit.charges = 0;
+                }
             }
 
             for( ; compcount > 0; compcount-- ) {
@@ -1364,6 +1394,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         // use newit, the default constructed.
         item act_item = newit;
 
+        // Refitted clothing disassembles into refitted components (when applicable)
+        if( dis_item.has_flag( "FIT" ) && act_item.has_flag( "VARSIZE" ) ) {
+            act_item.item_tags.insert( "FIT" );
+        }
+
         if( filthy ) {
             act_item.item_tags.insert( "FILTHY" );
         }
@@ -1377,12 +1412,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        const optional_vpart_position vp = g->m.veh_at( pos() );
-        const int veh_part = vp ? vp->vehicle().part_with_feature( vp->part_index(), "CARGO" ) : -1;
+        const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( "CARGO" );
 
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
-        } else if( veh_part != -1 && vp->vehicle().add_item( veh_part, act_item ) ) {
+        } else if( vp && vp->vehicle().add_item( vp->part_index(), act_item ) ) {
             // add_item did put the items in the vehicle, nothing further to be done
         } else {
             // TODO: For items counted by charges, add as much as we can to the vehicle, and

@@ -17481,7 +17481,7 @@
           ],
           "bg": 640,
           "fg": [ 1967, 4191, 4192, 4193 ],
-          "id": ["t_chainfence_h", "t_chainfence_v"],
+          "id": ["t_chainfence", "t_chainfence_h", "t_chainfence_v"],
           "multitile": true,
           "rotates": true
         },
@@ -17621,8 +17621,8 @@
           ],
           "bg": 640,
           "fg": 2014,
-          "id": [ "t_fence_h", "t_fence_v" ],
-		  "rotates": false,
+          "id": [ "t_fence", "t_fence_h", "t_fence_v" ],
+		  "rotates": true,
           "multitile": true
         },
         {
@@ -18221,6 +18221,12 @@
           "rotates": false
         },
         {
+          "id": "t_thconc_floor_olight",
+          "fg": 658,
+          "bg": 659,
+          "rotates": false
+        },
+        {
           "bg": 659,
           "id": "t_thconc_floor",
           "rotates": false
@@ -18648,9 +18654,9 @@
           ],
           "bg": 660,
           "fg": 2097,
-          "id": ["t_railing_h", "t_railing_v"],
+          "id": ["t_railing", "t_railing_h", "t_railing_v"],
           "multitile": true,
-          "rotates": false
+          "rotates": true
         },
         {
           "bg": 660,
@@ -19022,7 +19028,7 @@
         {
           "bg": [ 5997, 5998 ],
           "fg": [ 2004, 4563 ],
-          "id": ["t_door_glass_o", "t_reinforced_glass_shutter_open", "t_reinforced_door_glass_o"],
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o", "t_reinforced_glass_shutter_open", "t_reinforced_door_glass_o"],
           "rotates": true
         },
         {
@@ -19143,7 +19149,7 @@
         {
           "bg": [ 5997, 5998 ],
           "fg": [ 2003, 4590 ],
-          "id": ["t_door_glass_c", "t_reinforced_glass_shutter", "t_reinforced_door_glass_c"],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_reinforced_glass_shutter", "t_reinforced_door_glass_c"],
           "rotates": true
         },
 		{
@@ -19231,7 +19237,7 @@
           ],
           "bg": 669,
           "fg": [ 1967, 4191, 4192, 4193 ],
-          "id": "t_chainfence_h_season_winter",
+          "id": [ "t_chainfence_season_winter", "t_chainfence_h_season_winter" ],
           "multitile": true,
           "rotates": true
         },
@@ -19482,8 +19488,8 @@
           ],
           "bg": 669,
           "fg": 4206,
-          "id": "t_fence_h_season_winter",
-		  "rotates": false,
+          "id": ["t_fence_season_winter", "t_fence_h_season_winter" ],
+		  "rotates": true,
           "multitile": true
         },
         {
@@ -19507,7 +19513,7 @@
           "bg": 669,
           "fg": 2014,
           "id": "t_fence_v_season_winter",
-		  "rotates": false,
+		  "rotates": true,
           "multitile": true
         },
         {

@@ -213,7 +213,8 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
 
 std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
 {
-    std::vector<dependency_node *> dependents, ret;
+    std::vector<dependency_node *> dependents;
+    std::vector<dependency_node *> ret;
     std::set<mod_id> found;
 
     std::stack<dependency_node *> nodes_to_check;
@@ -249,8 +250,6 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
 
     return ret;
 }
-
-
 
 dependency_tree::dependency_tree()
 {
@@ -339,7 +338,6 @@ std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( mo
     }
     return std::vector<dependency_node *>();
 }
-
 
 bool dependency_tree::is_available( mod_id key )
 {

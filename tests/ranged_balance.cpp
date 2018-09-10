@@ -13,6 +13,8 @@
 
 #include <vector>
 
+typedef statistics<bool> firing_statistics;
+
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
 {
@@ -79,10 +81,10 @@ static void equip_shooter( npc &shooter, std::vector<std::string> apparel )
 
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
-static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int range,
+static std::array<firing_statistics, 5> firing_test( dispersion_sources dispersion, int range,
         std::array<double, 5> thresholds )
 {
-    std::array<statistics, 5> firing_stats;
+    std::array<firing_statistics, 5> firing_stats;
     bool threshold_within_confidence_interval = false;
     do {
         // On each trip through the loop, grab a sample attack roll and add its results to
@@ -103,7 +105,7 @@ static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int
                 threshold_within_confidence_interval = true;
                 continue;
             }
-            double error = firing_stats[i].adj_wald_error();
+            double error = firing_stats[i].margin_of_error();
             double avg = firing_stats[i].avg();
             double threshold = thresholds[i];
             if( avg + error > threshold && avg - error < threshold ) {
@@ -136,38 +138,38 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
 {
     {
         dispersion_sources dispersion = get_dispersion( shooter, 0 );
-        std::array<statistics, 5> minimum_stats = firing_test( dispersion, min_quickdraw_range, {{ 0.2, 0.1, -1, -1, -1 }} );
+        std::array<firing_statistics, 5> minimum_stats = firing_test( dispersion, min_quickdraw_range, {{ 0.2, 0.1, -1, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
         CAPTURE( minimum_stats[0].n() );
-        CAPTURE( minimum_stats[0].adj_wald_error() );
+        CAPTURE( minimum_stats[0].margin_of_error() );
         CAPTURE( minimum_stats[1].n() );
-        CAPTURE( minimum_stats[1].adj_wald_error() );
+        CAPTURE( minimum_stats[1].margin_of_error() );
         CHECK( minimum_stats[0].avg() < 0.2 );
         CHECK( minimum_stats[1].avg() < 0.1 );
     }
     {
         dispersion_sources dispersion = get_dispersion( shooter, 300 );
-        std::array<statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
+        std::array<firing_statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
         CAPTURE( good_stats[2].n() );
-        CAPTURE( good_stats[2].adj_wald_error() );
+        CAPTURE( good_stats[2].margin_of_error() );
         CHECK( good_stats[2].avg() > 0.5 );
     }
     {
         dispersion_sources dispersion = get_dispersion( shooter, 500 );
-        std::array<statistics, 5> good_stats = firing_test( dispersion, max_good_range, {{ -1, -1, 0.1, -1, -1 }} );
+        std::array<firing_statistics, 5> good_stats = firing_test( dispersion, max_good_range, {{ -1, -1, 0.1, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
         CAPTURE( good_stats[2].n() );
-        CAPTURE( good_stats[2].adj_wald_error() );
+        CAPTURE( good_stats[2].margin_of_error() );
         CHECK( good_stats[2].avg() < 0.1 );
     }
 }
@@ -177,8 +179,8 @@ static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
     const int fast_shooting_range = 3;
     const float hit_rate_cap = hit_rate + 0.3;
     dispersion_sources dispersion = get_dispersion( shooter, moves );
-    std::array<statistics, 5> fast_stats = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate, -1, -1, -1 }} );
-    std::array<statistics, 5> fast_stats_upper = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate_cap, -1, -1, -1 }} );
+    std::array<firing_statistics, 5> fast_stats = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate, -1, -1, -1 }} );
+    std::array<firing_statistics, 5> fast_stats_upper = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate_cap, -1, -1, -1 }} );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
     INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
@@ -188,10 +190,10 @@ static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
     CAPTURE( shooter.get_dex() );
     CAPTURE( to_milliliter( shooter.weapon.volume() ) );
     CAPTURE( fast_stats[1].n() );
-    CAPTURE( fast_stats[1].adj_wald_error() );
+    CAPTURE( fast_stats[1].margin_of_error() );
     CHECK( fast_stats[1].avg() > hit_rate );
     CAPTURE( fast_stats_upper[1].n() );
-    CAPTURE( fast_stats_upper[1].adj_wald_error() );
+    CAPTURE( fast_stats_upper[1].margin_of_error() );
     CHECK( fast_stats_upper[1].avg() < hit_rate_cap );
 }
 
@@ -215,9 +217,14 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
         test_shooting_scenario( shooter, 4, 5, 15 );
         test_fast_shooting( shooter, 40, 0.3 );
     }
+    SECTION( "an unskilled shooter with basic shotgun" ) {
+        arm_shooter( shooter, "shotgun_d" );
+        test_shooting_scenario( shooter, 4, 6, 16 );
+        test_fast_shooting( shooter, 50, 0.3 );
+    }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
         arm_shooter( shooter, "tommygun", { "holo_sight", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 4, 7, 20 );
+        test_shooting_scenario( shooter, 4, 6, 18 );
         test_fast_shooting( shooter, 70, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
@@ -239,6 +246,11 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         test_shooting_scenario( shooter, 10, 13, 35 );
         test_fast_shooting( shooter, 30, 0.5 );
     }
+    SECTION( "a skilled shooter with a modded shotgun" ) {
+        arm_shooter( shooter, "ksg", { "red_dot_sight", "light_grip", "tuned_mechanism" } );
+        test_shooting_scenario( shooter, 9, 15, 37 );
+        test_fast_shooting( shooter, 50, 0.5 );
+    }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "pistol_scope", "barrel_big", "match_trigger", "adjustable_stock" } );
         test_shooting_scenario( shooter, 12, 20, 55 );
@@ -247,7 +259,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ruger_mini", { "rifle_scope", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 10, 30, 90 );
-        test_fast_shooting( shooter, 100, 0.3 );
+        test_fast_shooting( shooter, 85, 0.3 );
     }
 }
 
@@ -262,6 +274,11 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         arm_shooter( shooter, "sw629", { "holo_sight", "match_trigger" } );
         test_shooting_scenario( shooter, 18, 20, 120 );
         test_fast_shooting( shooter, 20, 0.6 );
+    }
+    SECTION( "an expert shooter with a heavily modded auto shotgun" ) {
+        arm_shooter( shooter, "abzats", { "holo_sight", "light_grip", "tuned_mechanism", "barrel_rifled" } );
+        test_shooting_scenario( shooter, 18, 24, 124 );
+        test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_shooter( shooter, "ppsh", { "pistol_scope", "barrel_big" } );
@@ -289,7 +306,7 @@ static void range_test( std::array<double, 5> test_thresholds )
         int found_dispersion = -1;
         // We carry forward prev_dispersion because we never expet the next tier of range to hit the target accuracy level with a lower dispersion.
         for( int d = prev_dispersion; d >= 0; --d ) {
-            std::array<statistics, 5> stats = firing_test( dispersion_sources( d ), r, test_thresholds );
+            std::array<firing_statistics, 5> stats = firing_test( dispersion_sources( d ), r, test_thresholds );
             // Switch this from INFO to WARN to debug the scanning process itself.
             INFO( "Samples: " << stats[index].n() << " Range: " << r << " Dispersion: " << d <<
                   " avg hit rate: " << stats[2].avg() );

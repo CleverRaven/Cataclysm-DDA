@@ -91,7 +91,7 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
     return mod_list_cat_tab;
 }
 
-void mod_manager::load_replacement_mods( const std::string path )
+void mod_manager::load_replacement_mods( const std::string &path )
 {
     read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
         jsin.start_array();
@@ -196,7 +196,7 @@ bool mod_manager::set_default_mods( const mod_id &ident )
     return true;
 }
 
-void mod_manager::load_mods_from( std::string path )
+void mod_manager::load_mods_from( const std::string &path )
 {
     for( auto &mod_file : get_files_from_path( MOD_SEARCH_FILE, path, true ) ) {
         load_mod_info( mod_file );
@@ -357,7 +357,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
     return true;
 }
 
-void mod_manager::load_mod_info( std::string info_file_path )
+void mod_manager::load_mod_info( const std::string &info_file_path )
 {
     const std::string main_path = info_file_path.substr( 0, info_file_path.find_last_of( "/\\" ) );
     read_from_file_optional_json( info_file_path, [&]( JsonIn & jsin ) {

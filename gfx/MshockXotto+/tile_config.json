@@ -35,6 +35,11 @@
           "fg": 2,
           "bg": 957
         },
+		{
+          "id": "155mm_frag",
+          "fg": 2,
+          "bg": 957
+        },
         {
           "id": "155mm_shot",
           "fg": 2,
@@ -553,7 +558,7 @@
           "rotates": false
         },
         {
-          "id": "8mm_fmj",
+          "id": ["8mm_fmj", "357sig_fmj"],
           "fg": 81,
           "bg": 957,
           "rotates": false
@@ -571,7 +576,7 @@
           "rotates": false
         },
         {
-          "id": "8mm_jhp",
+          "id": ["8mm_jhp", "357sig_jhp"],
           "fg": 84,
           "bg": 957,
           "rotates": false
@@ -619,7 +624,7 @@
           "rotates": false
         },
         {
-          "id": "aluminum_foil",
+          "id": ["aluminum_foil", "foil_alum"],
           "fg": 89,
           "bg": 957
         },
@@ -833,7 +838,8 @@
         },
         {
           "id": "garandclip",
-          "fg": 118
+          "fg": 5174,
+		  "rotates": false
         },
         {
           "id": "bolt_steel",
@@ -1011,7 +1017,7 @@
           "rotates": false
         },
         {
-          "id": "it_battery_mount",
+          "id": ["it_battery_mount", "vp_storage_battery_mount"],
           "fg": 139
         },
         {
@@ -1578,7 +1584,7 @@
           "rotates": false
         },
         {
-          "id": "shot_beanbag",
+          "id": ["shot_beanbag", "reloaded_shot_beanbag"],
           "fg": 224,
           "bg": 957,
           "rotates": false
@@ -1782,8 +1788,12 @@
           "id": "armguard_chitin",
           "fg": 255
         },
+		{
+          "id": "armguard_acidchitin",
+          "fg": 5171
+        },
         {
-          "id": "armguard_metal",
+          "id": ["armguard_metal", "armguard_lightplate"],
           "fg": 256,
           "bg": 957,
           "rotates": false
@@ -1806,6 +1816,11 @@
         {
           "id": "armor_chitin",
           "fg": 260,
+          "rotates": false
+        },
+		{
+          "id": "armor_acidchitin",
+          "fg": 5169,
           "rotates": false
         },
         {
@@ -1834,7 +1849,7 @@
           "rotates": false
         },
         {
-          "id": "armor_lorica",
+          "id": ["armor_lorica", "cuirass_lightplate"],
           "fg": 265,
           "bg": 957
         },
@@ -2085,6 +2100,10 @@
         {
           "id": "boots_chitin",
           "fg": 297
+        },
+		{
+          "id": "boots_acidchitin",
+          "fg": 5153
         },
         {
           "id": "boots_winter",
@@ -2412,7 +2431,7 @@
           "bg": 957
         },
         {
-          "id": "ammo_satchel",
+          "id": ["ammo_satchel", "flintlock_pouch", "magbandolier"],
           "fg": 348
         },
         {
@@ -2569,7 +2588,7 @@
           "fg": 360
         },
         {
-          "id": "flotation_vest",
+          "id": ["flotation_vest", "flotation_vest_ms"],
           "fg": 361,
           "bg": 957,
           "rotates": false
@@ -2641,6 +2660,12 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "gauntlets_acidchitin",
+          "fg": 5155,
+          "bg": 957,
+          "rotates": false
+        },
         {
           "id": "gauntlets_larmor",
           "fg": 372
@@ -2671,7 +2696,7 @@
           "fg": 375
         },
         {
-          "id": "glasses_safety",
+          "id": ["glasses_safety", "eclipse_glasses"],
           "fg": 376,
           "bg": 957,
           "rotates": false
@@ -2741,7 +2766,7 @@
           "fg": 383
         },
         {
-          "id": "overlay_worn_armguard_metal",
+          "id": ["overlay_worn_armguard_metal", "overlay_worn_armguard_lightplate"],
           "fg": 383,
           "rotates": false
         },
@@ -3009,6 +3034,11 @@
         {
           "id": "helmet_chitin",
           "fg": 422,
+          "rotates": false
+        },
+		{
+          "id": "helmet_acidchitin",
+          "fg": 5136,
           "rotates": false
         },
         {
@@ -3347,7 +3377,7 @@
           "rotates": false
         },
         {
-          "id": "legguard_metal",
+          "id": ["legguard_metal", "legguard_lightplate"],
           "fg": 467,
           "bg": 957,
           "rotates": false
@@ -3799,6 +3829,11 @@
           "fg": 518,
           "rotates": false
         },
+		{
+          "id": "overlay_worn_armguard_acidchitin",
+          "fg": 5170,
+          "rotates": false
+        },
         {
           "id": "overlay_worn_armguard_larmor",
           "fg": 518,
@@ -3836,6 +3871,11 @@
         {
           "id": "overlay_worn_armor_chitin",
           "fg": 522,
+          "rotates": false
+        },
+		{
+          "id": "overlay_worn_armor_acidchitin",
+          "fg": 5168,
           "rotates": false
         },
         {
@@ -4064,6 +4104,11 @@
           "fg": 550,
           "rotates": false
         },
+		{
+          "id": "overlay_worn_boots_acidchitin",
+          "fg": 5154,
+          "rotates": false
+        },
         {
           "id": "overlay_worn_boots_combat",
           "fg": 551,
@@ -4279,7 +4324,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_armor_lorica",
+          "id": ["overlay_worn_armor_lorica", "overlay_worn_cuirass_lightplate"],
           "fg": 575,
           "rotates": false
         },
@@ -4562,7 +4607,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_glasses_safety",
+          "id": ["overlay_worn_glasses_safety", "overlay_worn_eclipse_glasses"],
           "fg": 608,
           "rotates": false
         },
@@ -4634,6 +4679,11 @@
         {
           "id": "overlay_worn_gauntlets_chitin",
           "fg": 612,
+          "rotates": false
+        },
+		{
+          "id": "overlay_worn_gauntlets_acidchitin",
+          "fg": 5156,
           "rotates": false
         },
         {
@@ -4920,6 +4970,11 @@
           "fg": 639,
           "rotates": false
         },
+		{
+          "id": "overlay_worn_helmet_acidchitin",
+          "fg": 5137,
+          "rotates": false
+        },
         {
           "id": "overlay_worn_helmet_football",
           "fg": 640,
@@ -5014,7 +5069,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_ammo_satchel",
+          "id": ["overlay_worn_ammo_satchel", "overlay_worn_flintlock_pouch"],
           "fg": 654,
           "rotates": false
         },
@@ -5157,7 +5212,7 @@
           "fg": 670
         },
         {
-          "id": "overlay_worn_flotation_vest",
+          "id": ["overlay_worn_flotation_vest", "overlay_worn_flotation_vest_ms"],
           "fg": 670,
           "rotates": false
         },
@@ -5324,7 +5379,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_legguard_metal",
+          "id": ["overlay_worn_legguard_metal", "overlay_worn_legguard_lightplate"],
           "fg": 689,
           "rotates": false
         },
@@ -5426,6 +5481,11 @@
         {
           "id": "overlay_worn_maid_hat",
           "fg": 699,
+          "rotates": false
+        },
+		{
+          "id": "maid_hat",
+          "fg": 5140,
           "rotates": false
         },
         {
@@ -5680,6 +5740,11 @@
         },
         {
           "id": "overlay_worn_pants_leather",
+          "fg": 733,
+          "rotates": false
+        },
+		{
+          "id": "overlay_worn_breeches",
           "fg": 733,
           "rotates": false
         },
@@ -6129,7 +6194,12 @@
         },
         {
           "id": "overlay_worn_straw_fedora",
-          "fg": 786,
+          "fg": 5130,
+          "rotates": false
+        },
+		{
+          "id": "straw_fedora",
+          "fg": 5129,
           "rotates": false
         },
         {
@@ -6642,6 +6712,11 @@
         },
         {
           "id": "pants_leather",
+          "fg": 842,
+          "rotates": false
+        },
+		{
+          "id": "breeches",
           "fg": 842,
           "rotates": false
         },
@@ -7516,7 +7591,7 @@
           "rotates": false
         },
         {
-          "id": "wristwatch",
+          "id": ["wristwatch", "vp_vehicle_clock"],
           "fg": 955,
           "rotates": false
         },
@@ -7625,6 +7700,12 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "seed_chili_pepper",
+          "fg": 1329,
+          "bg": 957,
+          "rotates": false
+        },
         {
           "id": "seed_sunflower",
           "fg": 1329,
@@ -7686,7 +7767,7 @@
           "rotates": false
         },
         {
-          "id": "1st_aid",
+          "id": ["1st_aid", "1st_aid_survivor"],
           "fg": 1067,
           "bg": 957,
           "rotates": false
@@ -7720,11 +7801,23 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "vp_alternator_car",
+          "fg": 1626,
+          "bg": 957,
+          "rotates": true
+        },
         {
           "id": "alternator_motorbike",
           "fg": 1627,
           "bg": 957,
           "rotates": false
+        },
+		{
+          "id": "vp_alternator_motorbike",
+          "fg": 1627,
+          "bg": 957,
+          "rotates": true
         },
         {
           "id": "alternator_truck",
@@ -7732,8 +7825,14 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "vp_alternator_truck",
+          "fg": 1628,
+          "bg": 957,
+          "rotates": true
+        },
         {
-          "id": "generator_7500w",
+          "id": ["generator_7500w", "vp_generator_7500w"],
           "fg": 1628,
           "bg": 957,
           "rotates": false
@@ -7853,7 +7952,7 @@
           "rotates": false
         },
         {
-          "id": "bayonet",
+          "id": ["bayonet", "inter_bayonet"],
           "fg": 3776,
           "bg": 957,
           "rotates": false
@@ -8023,7 +8122,7 @@
           "rotates": false
         },
         {
-          "id": "can_beans",
+          "id": ["can_beans", "pork_beans"],
           "fg": 1115,
           "bg": 957,
           "rotates": false
@@ -8137,7 +8236,7 @@
           "rotates": false
         },
         {
-          "id": "chain",
+          "id": ["chain", "chain_link"],
           "fg": 1705,
           "bg": 957,
           "rotates": false
@@ -8178,6 +8277,12 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "acidchitin_piece",
+          "fg": 5152,
+          "bg": 957,
+          "rotates": false
+        },
         {
           "id": "choco_coffee_beans",
           "fg": 1142,
@@ -8191,7 +8296,7 @@
           "rotates": false
         },
         {
-          "id": "circsaw_blade",
+          "id": ["circsaw_blade", "ripdisk"],
           "fg": 1711,
           "bg": 957,
           "rotates": false
@@ -8423,6 +8528,12 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "vp_foot_pedals",
+          "fg": 1742,
+          "bg": 957,
+          "rotates": true
+        },
         {
           "id": "forge",
           "fg": 3534,
@@ -8597,7 +8708,7 @@
           "rotates": false
         },
         {
-          "id": "holo_sight",
+          "id": ["holo_sight", "tele_sight", "tele_sight_pistol"],
           "fg": 2242,
           "bg": 957,
           "rotates": false
@@ -8649,6 +8760,12 @@
           "fg": 1437,
           "bg": 957,
           "rotates": false
+        },
+		{
+          "id": "vp_engine_inline4",
+          "fg": 1437,
+          "bg": 957,
+          "rotates": true
         },
         {
           "id": "i_staff",
@@ -8827,6 +8944,12 @@
         {
           "id": "lens",
           "fg": 1789,
+          "bg": 957,
+          "rotates": false
+        },
+		{
+          "id": "glass_tinted",
+          "fg": 5151,
           "bg": 957,
           "rotates": false
         },
@@ -9016,7 +9139,7 @@
           "rotates": false
         },
         {
-          "id": "metal_tank",
+          "id": ["metal_tank", "vp_harpoonrack", "vp_sballistarack", "vp_stonerack", "vp_tank", "vp_wballistarack"],
           "fg": 1420,
           "bg": 957,
           "rotates": false
@@ -9070,7 +9193,7 @@
           "rotates": false
         },
         {
-          "id": "minireactor",
+          "id": ["minireactor", "vp_minireactor"],
           "fg": 3623,
           "bg": 957,
           "rotates": false
@@ -9100,19 +9223,19 @@
           "rotates": false
         },
         {
-          "id": "motor",
+          "id": ["motor", "vp_engine_electric"],
           "fg": 1812,
           "bg": 957,
           "rotates": false
         },
         {
-          "id": "motor_large",
+          "id": ["motor_large", "vp_engine_electric_large"],
           "fg": 1812,
           "bg": 957,
           "rotates": false
         },
         {
-          "id": "muffler",
+          "id": ["muffler", "vp_muffler"],
           "fg": 1819,
           "bg": 957,
           "rotates": false
@@ -9243,7 +9366,7 @@
           "rotates": false
         },
         {
-          "id": "pills_sleep",
+          "id": ["pills_sleep", "testcomest"],
           "fg": 1294,
           "bg": 957,
           "rotates": false
@@ -9279,8 +9402,8 @@
           "rotates": false
         },
         {
-          "id": "pistol_bayonet",
-          "fg": 1790,
+          "id": ["pistol_bayonet", "makeshift_pistol_bayonet"],
+          "fg": 3776,
           "bg": 957,
           "rotates": false
         },
@@ -9387,7 +9510,7 @@
           "rotates": false
         },
         {
-          "id": "processor",
+          "id": ["processor", "vp_vehicle_alarm"],
           "fg": 1894,
           "bg": 957,
           "rotates": false
@@ -9417,7 +9540,7 @@
           "rotates": false
         },
         {
-          "id": "pur_tablets",
+          "id": ["pur_tablets", "prussian_blue"],
           "fg": 1309,
           "bg": 957,
           "rotates": false
@@ -9447,7 +9570,7 @@
           "rotates": false
         },
         {
-          "id": "rag",
+          "id": ["rag", "chloroform_rag", "disinrag"],
           "fg": 3725,
           "bg": 957,
           "rotates": false
@@ -9589,7 +9712,7 @@
           "rotates": false
         },
         {
-          "id": "rifle_scope",
+          "id": ["rifle_scope", "acog_scope", "riv_scope"],
           "fg": 2256,
           "bg": 957,
           "rotates": false
@@ -9661,13 +9784,13 @@
           "rotates": false
         },
         {
-          "id": "rope_30",
+          "id": ["rope_30", "rope_makeshift_30"],
           "fg": 1909,
           "bg": 957,
           "rotates": false
         },
         {
-          "id": "rope_6",
+          "id": ["rope_6", "rope_makeshift_6"],
           "fg": 3568,
           "bg": 957,
           "rotates": false
@@ -9851,7 +9974,7 @@
           "rotates": false
         },
         {
-          "id": "small_storage_battery",
+          "id": ["small_storage_battery", "vp_small_storage_battery"],
           "fg": 2276,
           "bg": 957,
           "rotates": false
@@ -9881,7 +10004,7 @@
           "rotates": false
         },
         {
-          "id": "solar_panel",
+          "id": ["solar_panel", "solar_array"],
           "fg": 1924,
           "bg": 957,
           "rotates": false
@@ -9910,19 +10033,13 @@
           "rotates": false
         },
         {
-          "id": "spear_pipe",
-          "fg": 1930,
-          "bg": 957,
-          "rotates": false
-        },
-        {
-          "id": "spear_steel",
+          "id": ["spear_steel", "spear_pipe"],
           "fg": 1931,
           "bg": 957,
           "rotates": false
         },
         {
-          "id": "spear_wood",
+          "id": ["spear_wood", "harpoon"],
           "fg": 1933,
           "bg": 957,
           "rotates": false
@@ -9958,7 +10075,7 @@
           "rotates": false
         },
         {
-          "id": "storage_battery",
+          "id": ["storage_battery", "vp_storage_battery", "vp_storage_battery_removable"],
           "fg": 2276,
           "bg": 957,
           "rotates": false
@@ -9970,7 +10087,7 @@
           "rotates": false
         },
         {
-          "id": "suppressor",
+          "id": ["suppressor", "riv_suppressor"],
           "fg": 2257,
           "bg": 957,
           "rotates": false
@@ -10024,7 +10141,7 @@
           "rotates": false
         },
         {
-          "id": "sword_bayonet",
+          "id": ["sword_bayonet", "makeshift_sword_bayonet"],
           "fg": 3776,
           "bg": 957,
           "rotates": false
@@ -10202,7 +10319,7 @@
           "rotates": false
         },
         {
-          "id": "usb_drive",
+          "id": ["usb_drive", "software_blood_data", "software_hacking", "software_math", "software_medical", "software_useless"],
           "fg": 1965,
           "bg": 957,
           "rotates": false
@@ -10231,6 +10348,12 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "vp_engine_vtwin",
+          "fg": 1438,
+          "bg": 957,
+          "rotates": true
+        },
         {
           "id": "v6_combustion",
           "fg": 1439,
@@ -10256,7 +10379,7 @@
           "rotates": false
         },
         {
-          "id": "vehicle_controls",
+          "id": ["vehicle_controls", "vp_controls", "vp_drive_by_wire_controls"],
           "fg": 1966,
           "bg": 957,
           "rotates": false
@@ -10447,7 +10570,7 @@
           "rotates": false
         },
         {
-          "id": "stereo",
+          "id": ["stereo", "vp_stereo"],
           "fg": 1942,
           "bg": 957,
           "rotates": false
@@ -10868,11 +10991,23 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "vp_engine_1cyl",
+          "fg": 1435,
+          "bg": 957,
+          "rotates": true
+        },
         {
           "id": "1cyl_combustion_small",
           "fg": 1436,
           "bg": 957,
           "rotates": false
+        },
+		{
+          "id": "vp_engine_1cyl_small",
+          "fg": 1436,
+          "bg": 957,
+          "rotates": true
         },
         {
           "id": "f_blade_upright",
@@ -11024,11 +11159,23 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "vp_battery_car",
+          "fg": 2276,
+          "bg": 957,
+          "rotates": true
+        },
         {
           "id": "battery_motorbike",
           "fg": 2276,
           "bg": 957,
           "rotates": false
+        },
+		{
+          "id": "vp_battery_motorbike",
+          "fg": 2276,
+          "bg": 957,
+          "rotates": true
         },
         {
           "id": "battery_truck",
@@ -11216,7 +11363,7 @@
           "bg": 957
         },
         {
-          "id": "motor_small",
+          "id": ["motor_small", "vp_door_motor", "vp_engine_electric_small"],
           "fg": 1813,
           "bg": 957
         },
@@ -11233,7 +11380,7 @@
           "rotates": false
         },
         {
-          "id": "omnicamera",
+          "id": ["omnicamera", "vp_omnomnicam"],
           "fg": 1824,
           "bg": 957,
           "rotates": false
@@ -11299,7 +11446,7 @@
           "rotates": false
         },
         {
-          "id": "solar_panel_v2",
+          "id": ["solar_panel_v2", "solar_array2"],
           "fg": 1925,
           "bg": 957,
           "rotates": false
@@ -11329,7 +11476,7 @@
           "rotates": false
         },
         {
-          "id": "straw_pile",
+          "id": ["straw_pile", "cattlefodder"],
           "fg": 1945,
           "bg": 957,
           "rotates": false
@@ -11365,7 +11512,7 @@
           "rotates": false
         },
         {
-          "id": "water_faucet",
+          "id": ["water_faucet", "vp_water_faucet"],
           "fg": 1972,
           "bg": 957,
           "rotates": false
@@ -11401,7 +11548,7 @@
           "rotates": false
         },
         {
-          "id": "scimitar",
+          "id": ["scimitar", "cavalry_sabre", "cavalry_sabre_fake"],
           "fg": 1911,
           "bg": 957,
           "rotates": false
@@ -11702,6 +11849,12 @@
           "bg": 957,
           "rotates": false
         },
+		{
+          "id": "vp_atomic_lamp",
+          "fg": 1634,
+          "bg": 957,
+          "rotates": true
+        },
         {
           "id": "atomic_light_off",
           "fg": 1637,
@@ -11713,6 +11866,12 @@
           "fg": 1636,
           "bg": 957,
           "rotates": false
+        },
+		{
+          "id": "vp_atomic_light",
+          "fg": 1636,
+          "bg": 957,
+          "rotates": true
         },
         {
           "id": "tanning_hide",
@@ -11765,6 +11924,12 @@
         {
           "id": "violin",
           "fg": 3806,
+          "bg": 957,
+          "rotates": false
+        },
+		{
+          "id": "case_violin",
+          "fg": 5166,
           "bg": 957,
           "rotates": false
         },
@@ -12055,7 +12220,7 @@
           "rotates": false
         },
         {
-          "id": "metal_tank_little",
+          "id": ["metal_tank_little", "vp_tank_little"],
           "fg": 1421,
           "bg": 957
         },
@@ -12084,7 +12249,7 @@
           "rotates": false
         },
         {
-          "id": "wooden_barrel",
+          "id": ["wooden_barrel", "vp_tank_barrel"],
           "fg": 1433,
           "bg": 957,
           "rotates": false
@@ -12393,7 +12558,7 @@
           "rotates": false
         },
         {
-          "id": "jumper_cable",
+          "id": ["jumper_cable", "vp_jumper_cable", "vp_jumper_cable_debug", "vp_jumper_cable_heavy"],
           "fg": 3582,
           "bg": 957,
           "rotates": false
@@ -12445,7 +12610,7 @@
           "rotates": false
         },
         {
-          "id": "hotdogs_cooked",
+          "id": ["hotdogs_cooked", "chilidogs", "chilidogs_human"],
           "fg": 1217,
           "bg": 957,
           "rotates": false
@@ -12565,7 +12730,7 @@
           "rotates": false
         },
         {
-          "id": "jar_sauerkraut_pickled",
+          "id": ["jar_sauerkraut_pickled", "jar_pickles_pickled", "pickles_ferment"],
           "fg": 1771,
           "bg": 957,
           "rotates": false
@@ -12742,7 +12907,7 @@
           "rotates": false
         },
         {
-          "id": "oxygen_tank",
+          "id": ["oxygen_tank", "oxygen"],
           "fg": 3697,
           "bg": 957,
           "rotates": false
@@ -12813,7 +12978,7 @@
           "rotates": false
         },
         {
-          "id": "vortex_stone",
+          "id": ["vortex_stone", "vpower"],
           "fg": 1936,
           "bg": 957,
           "rotates": false
@@ -12869,6 +13034,18 @@
         {
           "id": "milk_curdling",
           "fg": 1431,
+          "bg": 957,
+          "rotates": false
+        },
+		{
+          "id": "milk_curdling2",
+          "fg": 1419,
+          "bg": 957,
+          "rotates": false
+        },
+		{
+          "id": "milk_curdling3",
+          "fg": 1432,
           "bg": 957,
           "rotates": false
         },
@@ -13029,6 +13206,12 @@
         {
           "id": "glassblowing_book",
           "fg": 1034,
+          "bg": 959,
+          "rotates": false
+        },
+		{
+          "id": "jewelry_book",
+          "fg": 1054,
           "bg": 959,
           "rotates": false
         },
@@ -13402,13 +13585,13 @@
           "rotates": false
         },
         {
-          "id": [ "novel_coa", "novel_coa2" ],
+          "id": ["novel_coa", "novel_coa2"],
           "fg": 1033,
           "bg": 961,
           "rotates": false
         },
         {
-          "id": [ "novel_crime", "novel_crime2" ],
+          "id": ["novel_crime", "novel_crime2"],
           "fg": 1051,
           "bg": 961,
           "rotates": false
@@ -13516,7 +13699,7 @@
           "rotates": false
         },
         {
-          "id": [ "novel_war", "novel_war2" ],
+          "id": ["novel_war", "novel_war2"],
           "fg": 1052,
           "bg": 961,
           "rotates": false
@@ -13961,6 +14144,12 @@
         {
           "id": "visions_solitude",
           "fg": 1054,
+          "bg": 962,
+          "rotates": false
+        },
+		{
+          "id": "holybook_havamal",
+          "fg": 1033,
           "bg": 962,
           "rotates": false
         },
@@ -14410,7 +14599,7 @@
           "bg": 965
         },
         {
-          "id": "gray_tank",
+          "id": ["gray_tank", "vp_gray_tank", "vp_oozle_tank", "vp_gloople_tank"],
           "fg": 1412,
           "bg": 965
         },
@@ -14496,6 +14685,36 @@
           "bg": 967,
           "rotates": false
         },
+		{
+          "id": ["mon_null", "fd_null", "tr_null", "null", "vp_null", "tr_temple_toggle", "tr_glow", "tr_hum", "tr_shadow", "tr_snake", "TANK", "acid_spit", "apparatus", "clairvoyance_plus_rod", "fire", "generic_folded_vehicle", "gloople_act", "gray_act", "money", "muscle", "oozle_act", "oxyacetylene", "pseuso_bio_picklock", "software", "toolset", "upstest", "vp_plating_acidchitin", "vp_plating_bone", "vp_plating_chitin", "vp_plating_diamond", "vp_plating_hard", "vp_plating_military", "vp_plating_spiked", "vp_plating_steel", "vp_plating_superalloy", "vp_plating_wood", "vp_gloople_plate", "vp_gray_plate", "vp_oozle_plate"],
+          "fg": 972,
+          "rotates": false
+        },
+		{
+          "id": "mon_w11b10",
+          "fg": 5175,
+          "rotates": false
+        },
+		{
+          "id": "mon_w11b20b4",
+          "fg": 5176,
+          "rotates": false
+        },
+		{
+          "id": "mon_w12b10",
+          "fg": 5177,
+          "rotates": false
+        },
+		{
+          "id": "mon_w11h10",
+          "fg": 5178,
+          "rotates": false
+        },
+		{
+          "id": "mon_w12n10",
+          "fg": 5179,
+          "rotates": false
+        },
         {
           "id": "mon_amigara_horror",
           "fg": 2286,
@@ -14506,6 +14725,34 @@
           "id": "mon_ant",
           "fg": 2310,
           "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "mon_ant_acid",
+          "fg": 5197,
+          "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "mon_ant_acid_larva",
+          "fg": 5183,
+          "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "mon_ant_acid_queen",
+          "fg": 5198,
+          "bg": 967,
+          "rotates": false
+        },
+		{
+          "id": "mon_ant_acid_soldier",
+          "fg": 5182,
+          "rotates": false
+        },
+		{
+          "id": "mon_nakedmolerat_giant",
+          "fg": 5181,
           "rotates": false
         },
         {
@@ -15330,6 +15577,12 @@
           "bg": 967,
           "rotates": false
         },
+		{
+          "id": "mon_zombie_child_fungus",
+          "fg": 5180,
+          "bg": 967,
+          "rotates": false
+        },
         {
           "id": "mon_zombie_cop",
           "fg": 2692,
@@ -16013,7 +16266,7 @@
           "bg": 969
         },
         {
-          "id": "alloy_sheet",
+          "id": ["alloy_sheet", "vp_sheet_superalloy"],
           "fg": 969,
           "rotates": false
         },
@@ -16372,7 +16625,7 @@
           "rotates": false
         },
         {
-          "id": "t_null",
+          "id": ["t_null", "t_sliding_wall_o"],
           "fg": 972,
           "rotates": false
         },
@@ -16794,7 +17047,7 @@
           ]
         },
         {
-          "id": "fd_fire_vent",
+          "id": ["fd_fire_vent", "testflames"],
           "bg": 973,
           "rotates": false
         },
@@ -16871,6 +17124,11 @@
           "bg": 980,
           "rotates": false
         },
+		{
+          "id": "fd_bees",
+          "fg": 5199,
+          "rotates": false
+        },
         {
           "id": "weather_acid_drop",
           "bg": 982,
@@ -16887,7 +17145,7 @@
           "rotates": false
         },
         {
-          "id": "motor_enhanced",
+          "id": ["motor_enhanced", "vp_engine_electric_enhanced"],
           "fg": 1812,
           "bg": 984
         },
@@ -16897,7 +17155,7 @@
           "bg": 1916
         },
         {
-          "id": "t_backboard",
+          "id": ["t_backboard","t_backboard_in"],
           "fg": 2969,
           "bg": 985,
           "rotates": false
@@ -16935,6 +17193,16 @@
         {
           "id": "t_pavement",
           "bg": 985,
+          "rotates": false
+        },
+        {
+          "id": "t_clay",
+          "bg": 2996,
+          "rotates": false
+        },
+        {
+          "id": "t_clay_season_winter",
+          "bg": 2997,
           "rotates": false
         },
         {
@@ -17260,10 +17528,10 @@
           ]
         },
         {
-          "id": "t_chainfence_h",
+          "id": [ "t_chainfence", "t_chainfence_h" ],
           "fg": 2987,
           "bg": 985,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -17302,7 +17570,7 @@
           "id": "t_chainfence_v",
           "fg": 2987,
           "bg": 985,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -17356,7 +17624,7 @@
           "rotates": false
         },
         {
-          "id": "t_brick_wall",
+          "id": ["t_brick_wall", "t_secretdoor_brick_wall_c", "t_sliding_brick_wall_c"],
           "fg": 2972,
           "bg": 986,
           "multitile": true,
@@ -17436,7 +17704,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_o",
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 3037,
           "bg": 987,
           "rotates": false
@@ -17448,7 +17716,7 @@
           "rotates": false
         },
         {
-          "id": "t_floor",
+          "id": ["t_floor", "t_secretdoor_brick_wall_o", "t_secretdoor_wall_o", "t_secretdoor_concrete_wall_o", "t_secretdoor_bookcase_o"],
           "bg": 987,
           "rotates": false
         },
@@ -17907,7 +18175,7 @@
           ]
         },
         {
-          "id": "t_dirtmound_season_winter",
+          "id": ["t_dirtmound_season_winter", "t_dirtmoundfloor_season_winter"],
           "fg": 3021,
           "bg": 992
         },
@@ -17990,17 +18258,17 @@
         },
         {
           "id": "t_palisade_gate_o_season_winter",
-          "fg": 3139,
+          "fg": 3138,
           "bg": 992
         },
         {
           "id": "t_palisade_gate_season_winter",
-          "fg": 3140,
+          "fg": 3137,
           "bg": 992
         },
         {
           "id": "t_palisade_season_winter",
-          "fg": 3141,
+          "fg": 3138,
           "bg": 992
         },
         {
@@ -18017,27 +18285,33 @@
           "additional_tiles": [
             {
               "id": "center",
-              "fg": 3080
+              "fg": 3080,
+              "bg": 992
             },
             {
               "id": "corner",
-              "fg": 3081
+              "fg": 3081,
+              "bg": 992
             },
             {
               "id": "edge",
-              "fg": 3082
+              "fg": 3082,
+              "bg": 992
             },
             {
               "id": "end_piece",
-              "fg": 3083
+              "fg": 3083,
+              "bg": 992
             },
             {
               "id": "t_connection",
-              "fg": 3084
+              "fg": 3084,
+              "bg": 992
             },
             {
               "id": "unconnected",
-              "fg": 3085
+              "fg": 3085,
+              "bg": 992
             }
           ]
         },
@@ -18072,7 +18346,7 @@
           "bg": 992
         },
         {
-          "id": "t_fence_h_season_winter",
+          "id": [ "t_fence_season_winter", "t_fence_h_season_winter" ],
           "fg": 3052,
           "bg": 992
         },
@@ -18151,6 +18425,12 @@
         {
           "id": "t_underbrush_harvested_winter",
           "fg": 3320,
+          "bg": 1012,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_winter_season_winter",
+          "fg": 3320,
           "bg": 992,
           "rotates": false
         },
@@ -18211,6 +18491,10 @@
           "fg": 2967,
           "bg": 992
         },
+		{
+          "id": "bfeedfuel",
+          "fg": 2918
+        },
         {
           "id": "t_bars",
           "fg": 2971,
@@ -18247,7 +18531,7 @@
           "rotates": false
         },
         {
-          "id": "t_concrete_wall",
+          "id": ["t_concrete_wall", "t_secretdoor_concrete_wall_c", "t_sliding_concrete_wall_c"],
           "fg": 2999,
           "bg": 993,
           "rotates": false,
@@ -18316,7 +18600,7 @@
           "rotates": false
         },
         {
-          "id": "t_gates_mech_control",
+          "id": ["t_gates_mech_control", "t_outs_bridge_control", "t_ins_bridge_control"],
           "fg": 3071,
           "bg": 993,
           "rotates": false
@@ -18335,10 +18619,10 @@
           ]
         },
         {
-          "id": "t_railing_h",
+          "id": [ "t_railing", "t_railing_h" ],
           "fg": 3168,
           "bg": 993,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -18377,7 +18661,7 @@
           "id": "t_railing_v",
           "fg": 3168,
           "bg": 993,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -18673,39 +18957,39 @@
         {
           "id": "t_wall_metal",
           "fg": 3221,
-          "bg": 993,
+          "bg": 985,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
               "id": "corner",
               "fg": 3222,
-              "bg": 993
+              "bg": 985
             },
             {
               "id": "center",
               "fg": 3221,
-              "bg": 993
+              "bg": 985
             },
             {
               "id": "end_piece",
               "fg": 3224,
-              "bg": 993
+              "bg": 985
             },
             {
               "id": "unconnected",
               "fg": 3226,
-              "bg": 993
+              "bg": 985
             },
             {
               "id": "t_connection",
               "fg": 3225,
-              "bg": 993
+              "bg": 985
             },
             {
               "id": "edge",
               "fg": 3223,
-              "bg": 993
+              "bg": 985
             }
           ]
         },
@@ -18811,6 +19095,12 @@
           "bg": 993
         },
         {
+          "id": "t_thconc_floor_olight",
+          "fg": 134,
+          "bg": 993,
+          "rotates": false
+        },
+        {
           "id": "t_thconc_floor",
           "fg": 993,
           "rotates": false
@@ -18832,6 +19122,12 @@
         },
         {
           "id": "t_machinery_light",
+          "fg": 3114,
+          "bg": 993,
+          "rotates": false
+        },
+		{
+          "id": "t_milking_machine",
           "fg": 3114,
           "bg": 993,
           "rotates": false
@@ -19246,7 +19542,7 @@
         },
         {
           "id": "lighting_hidden",
-          "fg": 1005,
+          "fg": 3139,
           "rotates": false
         },
         {
@@ -19264,7 +19560,7 @@
           ]
         },
         {
-          "id": "vp_floodlight",
+          "id": ["vp_floodlight", "vp_xfloodlight"],
           "fg": 4021,
           "bg": 1005,
           "rotates": true,
@@ -19456,8 +19752,14 @@
           "bg": 1007,
           "rotates": true
         },
+		{
+          "id": "ripper",
+          "fg": 3963,
+          "bg": 1007,
+          "rotates": false
+        },
         {
-          "id": "vp_watercannon",
+          "id": ["vp_watercannon", "vp_awatercannon"],
           "fg": 1007,
           "rotates": true,
           "multitile": true,
@@ -19483,6 +19785,11 @@
           "id": "vp_cangun",
           "fg": 1007,
           "rotates": true
+        },
+		{
+          "id": "cangun",
+          "fg": 1007,
+          "rotates": false
         },
         {
           "id": "vp_acangunnc",
@@ -19685,7 +19992,7 @@
           "rotates": false
         },
         {
-          "id": "t_dirtmound",
+          "id": ["t_dirtmound", "t_dirtmoundfloor"],
           "fg": 3020,
           "bg": 1012,
           "rotates": false
@@ -19714,10 +20021,10 @@
           "rotates": false
         },
         {
-          "id": "t_fence_h",
+          "id": [ "t_fence", "t_fence_h" ],
           "fg": 3052,
           "bg": 1012,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "t_fence_wire",
@@ -19767,6 +20074,72 @@
             {
               "id": "unconnected",
               "fg": 3087
+            }
+          ]
+        },
+        {
+          "id": "t_grass_season_autumn",
+          "fg": 4224,
+          "bg": 1012,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 4224
+            },
+            {
+              "id": "corner",
+              "fg": 4225
+            },
+            {
+              "id": "edge",
+              "fg": 4226
+            },
+            {
+              "id": "end_piece",
+              "fg": 4227
+            },
+            {
+              "id": "t_connection",
+              "fg": 4228
+            },
+            {
+              "id": "unconnected",
+              "fg": 4229
+            }
+          ]
+        },
+        {
+          "id": "t_grass_season_summer",
+          "fg": 4230,
+          "bg": 1012,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 4230
+            },
+            {
+              "id": "corner",
+              "fg": 4231
+            },
+            {
+              "id": "edge",
+              "fg": 4232
+            },
+            {
+              "id": "end_piece",
+              "fg": 4233
+            },
+            {
+              "id": "t_connection",
+              "fg": 4234
+            },
+            {
+              "id": "unconnected",
+              "fg": 4235
             }
           ]
         },
@@ -19924,7 +20297,7 @@
           "rotates": false
         },
         {
-          "id": "t_wall",
+          "id": ["t_wall", "t_secretdoor_onetime", "t_secretdoor_wall_c", "t_sliding_wall_c"],
           "fg": 3324,
           "bg": 1012,
           "rotates": false,
@@ -20291,6 +20664,24 @@
           "rotates": false
         },
         {
+          "id": "t_underbrush_harvested_spring_season_winter",
+          "fg": 3319,
+          "bg": 992,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_summer_season_winter",
+          "fg": 3319,
+          "bg": 992,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_autumn_season_winter",
+          "fg": 3319,
+          "bg": 992,
+          "rotates": false
+        },
+        {
           "id": "t_wall_wattle_half",
           "fg": 3388,
           "bg": 1012,
@@ -20377,12 +20768,12 @@
           "bg": 1012
         },
         {
-          "id": "t_tree_apricot_season_autumn",
+          "id": "t_tree_apricot_season_summer",
           "fg": 3286,
           "bg": 1012
         },
         {
-          "id": "t_tree_plum_season_autumn",
+          "id": "t_tree_plum_season_summer",
           "fg": 3308,
           "bg": 1012
         },
@@ -20826,7 +21217,7 @@
           "rotates": false
         },
         {
-          "id": "bio_razors",
+          "id": ["bio_razors", "fake_razor"],
           "fg": 1016,
           "rotates": false
         },
@@ -20881,7 +21272,7 @@
           "rotates": false
         },
         {
-          "id": "bio_sunglasses",
+          "id": ["bio_sunglasses", "fake_goggles"],
           "fg": 1016,
           "rotates": false
         },
@@ -21297,8 +21688,12 @@
           "fg": 1094
         },
         {
-          "id": "chem_acetic_acid",
+          "id": ["chem_acetic_acid", "chem_carbide", "chem_nitric_acid"],
           "fg": 1094
+        },
+		{
+          "id": "chem_chromium_oxide",
+          "fg": 1079
         },
         {
           "id": "chem_hydrogen_peroxide",
@@ -21630,6 +22025,11 @@
           "fg": 1139,
           "rotates": false
         },
+		{
+          "id": "chili_pepper",
+          "fg": 5163,
+          "rotates": false
+        },
         {
           "id": "drink_kalimotxo",
           "fg": 1139
@@ -21640,8 +22040,8 @@
           "rotates": false
         },
         {
-          "id": "chocpretzels",
-          "fg": 1142
+          "id": ["chocpretzels", "pretzels"],
+          "fg": 5138
         },
         {
           "id": "coffee_bean",
@@ -22009,8 +22409,8 @@
           "fg": 1192
         },
         {
-          "id": "tortilla_corn",
-          "fg": 1192
+          "id": ["tortilla_corn", "quesadilla_cheese"],
+          "fg": 5124
         },
         {
           "id": "dry_rice",
@@ -22036,7 +22436,7 @@
           "rotates": false
         },
         {
-          "id": "protein_shake",
+          "id": ["protein_shake", "protein_shake_fortified"],
           "fg": 1195,
           "rotates": false
         },
@@ -22272,7 +22672,7 @@
           "rotates": false
         },
         {
-          "id": "lasagne",
+          "id": ["lasagne", "ravioli"],
           "fg": 1246
         },
         {
@@ -22293,7 +22693,7 @@
           "rotates": false
         },
         {
-          "id": "jar_fish_pickled",
+          "id": ["jar_fish_pickled", "offal_pickled"],
           "fg": 1251,
           "rotates": false
         },
@@ -22318,7 +22718,7 @@
           "fg": 1254
         },
         {
-          "id": "cotton_ball",
+          "id": ["cotton_ball", "disincotton_ball"],
           "fg": 1255
         },
         {
@@ -22403,7 +22803,7 @@
           "fg": 1268
         },
         {
-          "id": "mushroom",
+          "id": ["mushroom", "mushroom_cooked"],
           "fg": 1269,
           "rotates": false
         },
@@ -22412,7 +22812,7 @@
           "fg": 1269
         },
         {
-          "id": "mushroom_morel",
+          "id": ["mushroom_morel", "morel_cooked", "morel_fried"],
           "fg": 1269
         },
         {
@@ -22435,7 +22835,7 @@
           "rotates": false
         },
         {
-          "id": "mutagen",
+          "id": ["mutagen", "iv_mutagen", "iv_mutagen_alpha"],
           "fg": 1273,
           "rotates": false
         },
@@ -22445,98 +22845,98 @@
           "rotates": false
         },
         {
-          "id": "mutagen_beast",
+          "id": ["mutagen_beast", "iv_mutagen_beast"],
+          "fg": 1282,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_bird", "iv_mutagen_bird"],
+          "fg": 1350,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_cattle", "iv_mutagen_cattle"],
+          "fg": 1322,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_cephalopod", "iv_mutagen_cephalopod"],
           "fg": 1273,
           "rotates": false
         },
         {
-          "id": "mutagen_bird",
+          "id": ["mutagen_chimera", "iv_mutagen_chimera"],
+          "fg": 1282,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_elfa", "iv_mutagen_elfa"],
+          "fg": 1371,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_feline", "iv_mutagen_feline"],
+          "fg": 1282,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_fish", "iv_mutagen_fish"],
+          "fg": 1321,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_insect", "iv_mutagen_insect"],
           "fg": 1273,
           "rotates": false
         },
         {
-          "id": "mutagen_cattle",
+          "id": ["mutagen_lizard", "iv_mutagen_lizard"],
           "fg": 1273,
           "rotates": false
         },
         {
-          "id": "mutagen_cephalopod",
+          "id": ["mutagen_lupine", "iv_mutagen_lupine"],
+          "fg": 1282,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_medical", "iv_mutagen_medical"],
           "fg": 1273,
           "rotates": false
         },
         {
-          "id": "mutagen_chimera",
+          "id": ["mutagen_plant", "iv_mutagen_plant"],
+          "fg": 1290,
+          "rotates": false
+        },
+        {
+          "id": ["mutagen_raptor", "iv_mutagen_raptor"],
           "fg": 1273,
           "rotates": false
         },
         {
-          "id": "mutagen_elfa",
-          "fg": 1273,
+          "id": ["mutagen_rat", "iv_mutagen_rat"],
+          "fg": 1143,
           "rotates": false
         },
         {
-          "id": "mutagen_feline",
-          "fg": 1273,
+          "id": ["mutagen_slime", "iv_mutagen_slime"],
+          "fg": 1281,
           "rotates": false
         },
         {
-          "id": "mutagen_fish",
-          "fg": 1273,
+          "id": ["mutagen_spider", "iv_mutagen_spider"],
+          "fg": 1094,
           "rotates": false
         },
         {
-          "id": "mutagen_insect",
-          "fg": 1273,
+          "id": ["mutagen_troglobite", "iv_mutagen_troglobite"],
+          "fg": 1094,
           "rotates": false
         },
         {
-          "id": "mutagen_lizard",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_lupine",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_medical",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_plant",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_raptor",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_rat",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_slime",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_spider",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_troglobite",
-          "fg": 1273,
-          "rotates": false
-        },
-        {
-          "id": "mutagen_ursine",
-          "fg": 1273,
+          "id": ["mutagen_ursine", "iv_mutagen_ursine"],
+          "fg": 1282,
           "rotates": false
         },
         {
@@ -22691,7 +23091,7 @@
           "fg": 1307
         },
         {
-          "id": "purifier",
+          "id": ["purifier", "iv_purifier"],
           "fg": 1308,
           "rotates": false
         },
@@ -22901,6 +23301,11 @@
         {
           "id": "soup_chicken",
           "fg": 1340,
+          "rotates": false
+        },
+		{
+          "id": "soup_cullenskink",
+          "fg": 1195,
           "rotates": false
         },
         {
@@ -23324,7 +23729,7 @@
           "fg": 1401
         },
         {
-          "id": "can_food",
+          "id": ["can_food", "canbomb", "canbomb2", "canbombfire", "canbombfire2", "canbombfrag", "offal_canned"],
           "fg": 1402,
           "rotates": false
         },
@@ -23400,12 +23805,12 @@
           "fg": 1414
         },
         {
-          "id": "jerrycan",
+          "id": ["jerrycan", "vp_tank_small"],
           "fg": 1415,
           "rotates": false
         },
         {
-          "id": "jerrycan_big",
+          "id": ["jerrycan_big", "vp_tank_medium"],
           "fg": 1416,
           "rotates": false
         },
@@ -23415,7 +23820,7 @@
           "rotates": false
         },
         {
-          "id": "keg",
+          "id": ["keg", "keg_steel"],
           "fg": 1418,
           "rotates": false
         },
@@ -23462,7 +23867,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_keg",
+          "id": ["overlay_wielded_keg", "overlay_wielded_keg_steel"],
           "fg": 1425,
           "rotates": false
         },
@@ -23589,7 +23994,7 @@
           "fg": 1440
         },
         {
-          "id": "v12_combustion",
+          "id": ["v12_combustion", "v12_diesel"],
           "fg": 1440
         },
         {
@@ -23603,7 +24008,7 @@
           "rotates": false
         },
         {
-          "id": "f_ash",
+          "id": ["f_ash", "ash"],
           "fg": 1444,
           "rotates": false
         },
@@ -23702,7 +24107,7 @@
           "rotates": false
         },
         {
-          "id": "f_bookcase",
+          "id": ["f_bookcase", "t_secretdoor_bookcase_c", "t_sliding_bookcase_c", "t_decoy_bookcase", "t_sliding_bookcase_control", "t_sliding_wall_control"],
           "fg": 1464,
           "rotates": false
         },
@@ -23949,6 +24354,11 @@
         },
         {
           "id": "f_groundsheet",
+          "fg": 1510,
+          "rotates": false
+        },
+		{
+          "id": "vp_roof_cloth",
           "fg": 1510,
           "rotates": false
         },
@@ -24245,13 +24655,13 @@
         },
         {
           "id": "f_sandbag_half",
-          "fg": 1561,
+          "fg": 4191,
           "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
               "id": "unconnected",
-              "fg": 1561
+              "fg": 4191
             },
             {
               "id": "center",
@@ -24365,7 +24775,7 @@
           "rotates": false
         },
         {
-          "id": "f_statue",
+          "id": ["f_statue", "t_sliding_brick_wall_control"],
           "fg": 1583,
           "rotates": false
         },
@@ -24527,6 +24937,16 @@
           "fg": 1607,
           "rotates": false
         },
+		{
+          "id": ["3006_clip", "762R_clip", "762x39_clip"],
+          "fg": 5174,
+          "rotates": false
+        },
+		{
+          "id": "38_speedloader",
+          "fg": 5173,
+          "rotates": false
+        },
         {
           "id": "300_casing",
           "fg": 1608,
@@ -24582,7 +25002,7 @@
           "fg": 1616
         },
         {
-          "id": "45_casing",
+          "id": ["45_casing", "357sig_casing"],
           "fg": 1617,
           "rotates": false
         },
@@ -24645,6 +25065,11 @@
           "fg": 1708,
           "bg": 1625
         },
+		{
+          "id": "acidchitin_plate",
+          "fg": 5152,
+          "bg": 1804
+        },
         {
           "id": "pump_complex",
           "fg": 1627
@@ -24686,6 +25111,11 @@
         },
         {
           "id": "bot_turret",
+          "fg": 1631,
+          "bg": 2644
+        },
+		{
+          "id": "bot_antimateriel",
           "fg": 1631,
           "bg": 2644
         },
@@ -25113,7 +25543,7 @@
           "rotates": false
         },
         {
-          "id": "car_headlight",
+          "id": ["car_headlight", "vp_headlight", "vp_headlight_reinforced"],
           "fg": 1739
         },
         {
@@ -25180,7 +25610,7 @@
           "rotates": false
         },
         {
-          "id": "hand_rims",
+          "id": ["hand_rims", "vp_hand_rims"],
           "fg": 1760
         },
         {
@@ -25357,7 +25787,7 @@
           "rotates": false
         },
         {
-          "id": "mirror",
+          "id": ["mirror", "vp_inboard_mirror"],
           "fg": 1806,
           "rotates": false
         },
@@ -25615,21 +26045,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_fishspear",
-          "fg": 1841,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_m_fishspear",
-          "fg": 1841,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_c_fishspear",
-          "fg": 1841,
-          "rotates": false
-        },
-        {
           "id": "overlay_wielded_cu_pipe",
           "fg": 1842,
           "rotates": false
@@ -25751,11 +26166,6 @@
         },
         {
           "id": "overlay_wielded_spear_wood",
-          "fg": 1851,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_spear_pipe",
           "fg": 1851,
           "rotates": false
         },
@@ -25925,12 +26335,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_spear_steel",
-          "fg": 1866,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_spear_stone",
+          "id": ["overlay_wielded_spear_steel", "overlay_wielded_spear_pipe"],
           "fg": 1866,
           "rotates": false
         },
@@ -26122,7 +26527,7 @@
           "fg": 1904
         },
         {
-          "id": "reinforced_solar_panel_v2",
+          "id": ["reinforced_solar_panel_v2", "solar_array2r"],
           "fg": 1905
         },
         {
@@ -26241,6 +26646,11 @@
         {
           "id": "beeper",
           "fg": 1965
+        },
+		{
+          "id": "vp_beeper",
+          "fg": 1965,
+          "rotates": true
         },
         {
           "id": "v_scoop_item",
@@ -26426,7 +26836,7 @@
           "rotates": false
         },
         {
-          "id": "crossbow",
+          "id": ["crossbow", "crossbow_makeshift"],
           "fg": 2001,
           "rotates": false
         },
@@ -26478,6 +26888,20 @@
         {
           "id": "garand",
           "fg": 2020,
+          "rotates": false
+        },
+		{
+          "id": "p226_357sig",
+          "fg": 2021,
+          "rotates": false
+        },
+		{
+          "id": "p226mag_15rd_357sig",
+          "fg": 2268
+        },
+		{
+          "id": "glock_17",
+          "fg": 2021,
           "rotates": false
         },
         {
@@ -27138,6 +27562,11 @@
           "fg": 2093,
           "rotates": false
         },
+		{
+          "id": "overlay_wielded_glock_17",
+          "fg": 2093,
+          "rotates": false
+        },
         {
           "id": "overlay_wielded_glock_19",
           "fg": 2093,
@@ -27264,7 +27693,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_crossbow",
+          "id": ["overlay_wielded_crossbow", "overlay_wielded_crossbow_makeshift"],
           "fg": 2096,
           "rotates": false
         },
@@ -28258,7 +28687,7 @@
           "fg": 2204
         },
         {
-          "id": "glowie",
+          "id": ["glowie", "vp_gel_lamp", "vp_gel_lamp_d"],
           "fg": 2204
         },
         {
@@ -28408,11 +28837,11 @@
           "fg": 2242
         },
         {
-          "id": "red_dot_sight",
+          "id": ["red_dot_sight", "offset_sights"],
           "fg": 2243
         },
         {
-          "id": "rail_laser_sight",
+          "id": ["rail_laser_sight", "beam_scatterer", "electrolaser_conversion", "high_density_capacitor"],
           "fg": 2244
         },
         {
@@ -28622,6 +29051,16 @@
           "fg": 2268,
           "rotates": false
         },
+		{
+          "id": "glock17_17",
+          "fg": 2268,
+          "rotates": false
+        },
+		{
+          "id": "glock17_22",
+          "fg": 2268,
+          "rotates": false
+        },
         {
           "id": "usp45mag",
           "fg": 2268,
@@ -28756,7 +29195,7 @@
         },
         {
           "id": "scarhbigmag",
-          "fg": 2270
+          "fg": 2261
         },
         {
           "id": "saiga10mag",
@@ -28858,7 +29297,7 @@
           "rotates": true
         },
         {
-          "id": "medium_storage_battery",
+          "id": ["medium_storage_battery", "vp_medium_storage_battery"],
           "fg": 2276
         },
         {
@@ -28889,8 +29328,13 @@
           "fg": 2277
         },
         {
-          "id": "thompson_drum",
+          "id": ["thompson_drum", "glock_drum_50rd"],
           "fg": 2278,
+          "rotates": false
+        },
+        {
+          "id": "glock_drum_100rd",
+          "fg": 2261,
           "rotates": false
         },
         {
@@ -28931,12 +29375,12 @@
           "fg": 2278
         },
         {
-          "id": "tinyweldtank",
+          "id": ["tinyweldtank", "aux_pressurized_tank"],
           "fg": 2279,
           "rotates": false
         },
         {
-          "id": "weldtank",
+          "id": ["weldtank", "pressurized_tank", "rm4502", "rm4504"],
           "fg": 2280,
           "rotates": false
         },
@@ -30678,21 +31122,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_mutation_BEAUTIFUL",
-          "fg": 2804,
-          "rotates": false
-        },
-        {
-          "id": "overlay_mutation_BEAUTIFUL2",
-          "fg": 2804,
-          "rotates": false
-        },
-        {
-          "id": "overlay_mutation_BEAUTIFUL3",
-          "fg": 2804,
-          "rotates": false
-        },
-        {
           "id": "overlay_mutation_ALCMET",
           "fg": 2805,
           "rotates": false
@@ -31180,6 +31609,30 @@
           "fg": 2963,
           "rotates": false
         },
+		{
+          "id": "night_filter",
+          "fg": 4194
+        },
+		{
+          "id": "day_filter",
+          "fg": 4192
+        },
+		{
+          "id": "dusk_filter",
+          "fg": 4193
+        },
+		{
+          "id": "nv_over_filter",
+          "fg": 4197
+        },
+		{
+          "id": "nv_filter",
+          "fg": 4196
+        },
+		{
+          "id": "shadow_filter",
+          "fg": 4195
+        },		
         {
           "id": "blob_pit",
           "fg": 2967,
@@ -31217,39 +31670,39 @@
         },
         {
           "id": "t_fungus_wall_transformed",
-          "fg": 2987,
-          "bg": 3060,
+          "fg": 3124,
+          "bg": 3061,
           "multitile": true,
           "additional_tiles": [
             {
               "id": "corner",
-              "fg": 2987,
-              "bg": 3062
+              "fg": 3143,
+              "bg": 3061
             },
             {
               "id": "edge",
-              "fg": 2987,
-              "bg": 3063
+              "fg": 3144,
+              "bg": 3061
             },
             {
               "id": "t_connection",
-              "fg": 2987,
-              "bg": 3065
+              "fg": 3146,
+              "bg": 3061
             },
             {
               "id": "center",
-              "fg": 2987,
+              "fg": 3142,
               "bg": 3061
             },
             {
               "id": "end_piece",
-              "fg": 2987,
-              "bg": 3064
+              "fg": 3145,
+              "bg": 3061
             },
             {
               "id": "unconnected",
-              "fg": 2987,
-              "bg": 3060
+              "fg": 3124,
+              "bg": 3061
             }
           ]
         },
@@ -31271,6 +31724,11 @@
           "fg": 3005,
           "rotates": false
         },
+		{
+          "id": "vp_cam_control",
+          "fg": 3005,
+          "rotates": true
+        },
         {
           "id": "t_elevator_control",
           "fg": 3005,
@@ -31281,7 +31739,7 @@
           "fg": 3005
         },
         {
-          "id": "t_console_broken",
+          "id": ["t_console_broken", "t_sliding_concrete_wall_control"],
           "fg": 3006,
           "rotates": false
         },
@@ -31367,7 +31825,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_c",
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "fg": 3036,
           "rotates": false
         },
@@ -31429,8 +31887,17 @@
           "fg": 3058,
           "rotates": false
         },
+		{
+          "id": "t_floor_waxed_y",
+          "fg": 5196,
+          "rotates": false
+        },
         {
           "id": "f_standing_tank",
+          "fg": 3068
+        },
+		{
+          "id": "t_bulk_tank",
           "fg": 3068
         },
         {
@@ -31439,7 +31906,7 @@
           "rotates": false
         },
         {
-          "id": "t_gates_control_concrete",
+          "id": ["t_gates_control_concrete", "t_reinforced_glass_control", "t_containment_control"],
           "fg": 3070,
           "rotates": false
         },
@@ -31531,7 +31998,7 @@
         },
         {
           "id": "t_grass_white_season_winter",
-          "fg": 3080
+          "fg": 992
         },
         {
           "id": "t_monkey_bars_season_winter",
@@ -31728,7 +32195,7 @@
           "rotates": false
         },
         {
-          "id": "t_rock",
+          "id": ["t_rock", "t_border_rock"],
           "fg": 3192,
           "rotates": false,
           "multitile": true,
@@ -31766,7 +32233,7 @@
           "rotates": false
         },
         {
-          "id": "t_switch_even",
+          "id": ["t_switch_even", "t_jaildoor_control"],
           "fg": 3277,
           "bg": 3192,
           "rotates": false
@@ -32666,6 +33133,11 @@
           "fg": 3471,
           "rotates": false
         },
+		{
+          "id": "cell_phone_flashlight",
+          "fg": 5164,
+          "rotates": false
+        },
         {
           "id": "char_smoker",
           "fg": 3475,
@@ -32686,7 +33158,7 @@
           "rotates": false
         },
         {
-          "id": "veh_tracker",
+          "id": ["veh_tracker", "vp_tracker"],
           "fg": 3483,
           "rotates": false
         },
@@ -32904,7 +33376,7 @@
           "fg": 3569
         },
         {
-          "id": "horn_bicycle",
+          "id": ["horn_bicycle", "vp_horn_bicycle", "vp_horn_big", "vp_horn_car"],
           "fg": 3571,
           "rotates": false
         },
@@ -33404,7 +33876,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_scimitar",
+          "id": ["overlay_wielded_scimitar", "overlay_wielded_cavalry_sabre", "overlay_wielded_cavalry_sabre_fake"],
           "fg": 3658,
           "rotates": false
         },
@@ -33771,6 +34243,11 @@
         {
           "id": "overlay_wielded_violin",
           "fg": 3693,
+          "rotates": false
+        },
+		{
+          "id": "overlay_worn_case_violin",
+          "fg": 5165,
           "rotates": false
         },
         {
@@ -34302,7 +34779,7 @@
         },
         {
           "id": "overlay_female_worn_towel_soiled",
-          "fg": 3849,
+          "fg": 5134,
           "rotates": false
         },
         {
@@ -34345,7 +34822,7 @@
         },
         {
           "id": "overlay_male_worn_towel_soiled",
-          "fg": 3852,
+          "fg": 5135,
           "rotates": false
         },
         {
@@ -34503,13 +34980,18 @@
           "fg": 3872,
           "rotates": false
         },
+		{
+          "id": ["mask_h20survivor", "mask_h20survivor_on", "mask_h20survivorxl", "mask_h20survivorxl_on"],
+          "fg": 3872,
+          "rotates": false
+        },
         {
-          "id": "overlay_worn_mask_ski",
+          "id": ["overlay_worn_mask_ski", "mask_ski"],
           "fg": 3873,
           "rotates": false
         },
         {
-          "id": "overlay_worn_mask_ski_loose",
+          "id": ["overlay_worn_mask_ski_loose", "mask_ski_loose"],
           "fg": 3874,
           "rotates": false
         },
@@ -34531,6 +35013,11 @@
         {
           "id": "overlay_worn_miner_hat_on",
           "fg": 3878,
+          "rotates": false
+        },
+		{
+          "id": ["rebreather", "rebreather_on", "rebreather_xl", "rebreather_xl_on"],
+          "fg": 3879,
           "rotates": false
         },
         {
@@ -34610,6 +35097,11 @@
         {
           "id": "overlay_worn_scarf_loose",
           "fg": 3888,
+          "rotates": false
+        },
+		{
+          "id": ["patchwork_scarf", "patchwork_scarf_loose"],
+          "fg": 3886,
           "rotates": false
         },
         {
@@ -34721,6 +35213,11 @@
           "fg": 3910,
           "rotates": false
         },
+		{
+          "id": "towel_soiled",
+          "fg": 5133,
+          "rotates": false
+        },
         {
           "id": "tr_blade",
           "fg": 3918,
@@ -34729,7 +35226,7 @@
           "additional_tiles": [
             {
               "id": "edge",
-              "fg": 3919
+              "fg": 3918
             }
           ]
         },
@@ -34775,10 +35272,6 @@
         {
           "id": "leather_funnel",
           "fg": 3928
-        },
-        {
-          "id": "tr_ledge",
-          "fg": 3929
         },
         {
           "id": "tr_rollmat",
@@ -34850,10 +35343,25 @@
           "id": "powder_candy",
           "fg": 3959
         },
+		{
+          "id": "cutter",
+          "fg": 3960,
+          "rotates": false
+        },
+		{
+          "id": ["vp_cutter", "vp_cutternc", "vp_mcutter"],
+          "fg": 3960,
+          "rotates": true
+        },
         {
           "id": "vp_abolter",
           "fg": 3960,
           "rotates": true
+        },
+		{
+          "id": "bolter",
+          "fg": 3960,
+          "rotates": false
         },
         {
           "id": "vp_abolternc",
@@ -34875,10 +35383,20 @@
           "fg": 3960,
           "rotates": true
         },
+		{
+          "id": "vortexcannon",
+          "fg": 3960,
+          "rotates": false
+        },
         {
           "id": "vp_vortexbolter",
           "fg": 3960,
           "rotates": true
+        },
+		{
+          "id": "vortexbolter",
+          "fg": 3960,
+          "rotates": false
         },
         {
           "id": "vp_aisle_horizontal",
@@ -34925,6 +35443,11 @@
           "fg": 3963,
           "rotates": true
         },
+		{
+          "id": "tearer",
+          "fg": 3963,
+          "rotates": false
+        },
         {
           "id": "vp_ablundergun",
           "fg": 3964
@@ -34943,6 +35466,11 @@
           "id": "vp_tiharturret",
           "fg": 3964,
           "rotates": true
+        },
+		{
+          "id": "tiharturret",
+          "fg": 3964,
+          "rotates": false
         },
         {
           "id": "vp_atiharturretnc",
@@ -34984,10 +35512,20 @@
           "fg": 3965,
           "rotates": true
         },
+		{
+          "id": "vortexrifle",
+          "fg": 3965,
+          "rotates": false
+        },
         {
           "id": "vp_vortexaccelerator",
           "fg": 3965,
           "rotates": true
+        },
+		{
+          "id": "vortexaccelerator",
+          "fg": 3965,
+          "rotates": false
         },
         {
           "id": "vp_basketsm",
@@ -36574,7 +37112,7 @@
           ]
         },
         {
-          "id": "vp_mounted_abzats",
+          "id": ["vp_mounted_abzats", "vp_auto_abzats"],
           "fg": 4106,
           "rotates": true,
           "multitile": true,
@@ -36652,7 +37190,7 @@
           ]
         },
         {
-          "id": "vp_mounted_mk19",
+          "id": ["vp_mounted_mk19", "vp_auto_mk19"],
           "fg": 4110,
           "rotates": true,
           "multitile": true,
@@ -36665,7 +37203,7 @@
           ]
         },
         {
-          "id": "vp_mounted_rm298",
+          "id": ["vp_mounted_rm298", "vp_auto_rm298"],
           "fg": 4107,
           "rotates": true,
           "multitile": true,
@@ -36678,7 +37216,7 @@
           ]
         },
         {
-          "id": "vp_mounted_rm614",
+          "id": ["vp_mounted_rm614", "vp_auto_rm614"],
           "fg": 4104,
           "rotates": true,
           "multitile": true,
@@ -36739,6 +37277,136 @@
               "id": "broken",
               "fg": 3987,
               "bg": 4147
+            }
+          ]
+        },
+        {
+          "id": "vp_stowboard_ne",
+          "fg": 4244,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4244
+            }
+          ]
+        },
+        {
+          "id": "vp_stowboard_nw",
+          "fg": 4245,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4245
+            }
+          ]
+        },
+        {
+          "id": "vp_stowboard_se",
+          "fg": 4246,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4246
+            }
+          ]
+        },
+        {
+          "id": "vp_stowboard_sw",
+          "fg": 4247,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4247
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_horizontal",
+          "fg": 4248,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4248
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_vertical",
+          "fg": 4249,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4249
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_ne",
+          "fg": 4250,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4250
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_nw",
+          "fg": 4251,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4251
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_se",
+          "fg": 4252,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4252
+            }
+          ]
+        },
+        {
+          "id": "vp_hdstowboard_sw",
+          "fg": 4253,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4253
             }
           ]
         },
@@ -37020,6 +37688,10 @@
         },
         {
           "id": "cantilever_small",
+          "fg": 3991
+        },
+		{
+          "id": ["pallet_lifter", "vp_crane_tiny"],
           "fg": 3991
         },
         {
@@ -38023,6 +38695,16 @@
           "fg": 4095,
           "rotates": true
         },
+		{
+          "id": ["vp_gloople_roof", "vp_gray_roof", "vp_oozle_roof"],
+          "fg": 5117,
+          "rotates": true
+        },
+		{
+          "id": ["vp_seatbelt", "vp_seatbelt_heavyduty", "vp_gloople_belt", "vp_gray_belt", "vp_oozle_belt"],
+          "fg": 5118,
+          "rotates": true
+        },
         {
           "id": "vp_roof",
           "fg": 4095,
@@ -38075,7 +38757,7 @@
         },
         {
           "id": "vp_alasgunp",
-          "fg": 4099,
+          "fg": 4115,
           "rotates": true
         },
         {
@@ -38087,6 +38769,11 @@
           "id": "vp_lasgun",
           "fg": 4099,
           "rotates": true
+        },
+		{
+          "id": "lasgun",
+          "fg": 4099,
+          "rotates": false
         },
         {
           "id": "vp_light_blue",
@@ -38132,6 +38819,11 @@
           "fg": 4104,
           "rotates": true
         },
+		{
+          "id": "scorpion",
+          "fg": 4104,
+          "rotates": false
+        },
         {
           "id": "vp_am249",
           "fg": 4104,
@@ -38153,7 +38845,7 @@
           "rotates": true
         },
         {
-          "id": "vp_m60",
+          "id": ["vp_m60", "vp_m60nc"],
           "fg": 4105,
           "rotates": true
         },
@@ -38167,12 +38859,12 @@
           "rotates": true
         },
         {
-          "id": "vp_l_lmg_223",
+          "id": ["vp_l_lmg_223", "vp_l_lmg_223nc"],
           "fg": 4106,
           "rotates": true
         },
         {
-          "id": "vp_m107a1",
+          "id": ["vp_m107a1", "vp_m107a1nc"],
           "fg": 4106,
           "rotates": true
         },
@@ -38196,6 +38888,11 @@
           "fg": 4106,
           "rotates": true
         },
+		{
+          "id": "shardgun",
+          "fg": 4106,
+          "rotates": false
+        },
         {
           "id": "vp_shottyman",
           "fg": 4106,
@@ -38217,7 +38914,7 @@
           "rotates": true
         },
         {
-          "id": "vp_m2browning_sawn",
+          "id": ["vp_m2browning_sawn", "vp_m2browning_sawnnc"],
           "fg": 4107,
           "rotates": true
         },
@@ -38232,9 +38929,14 @@
           "rotates": true
         },
         {
-          "id": "vp_rslauncher",
+          "id": ["vp_rslauncher", "vp_rslaunchernc"],
           "fg": 4108,
           "rotates": true
+        },
+		{
+          "id": "rslauncher",
+          "fg": 4108,
+          "rotates": false
         },
         {
           "id": "vp_agattler1nc",
@@ -38242,7 +38944,7 @@
           "rotates": true
         },
         {
-          "id": "vp_aneedler",
+          "id": ["vp_aneedler", "vp_aneedlernc"],
           "fg": 4109,
           "rotates": true
         },
@@ -38256,15 +38958,25 @@
           "fg": 4109,
           "rotates": true
         },
+		{
+          "id": ["nailer", "needler"],
+          "fg": 4109,
+          "rotates": false
+        },
         {
           "id": "vp_needler",
           "fg": 4109,
           "rotates": true
         },
         {
-          "id": "vp_slauncher",
+          "id": ["vp_slauncher", "vp_slaunchernc"],
           "fg": 4109,
           "rotates": true
+        },
+		{
+          "id": "slauncher",
+          "fg": 4109,
+          "rotates": false
         },
         {
           "id": "vp_anailernc",
@@ -38276,13 +38988,18 @@
           "fg": 4109,
           "rotates": true
         },
+		{
+          "id": ["diamondlance", "diamondnova"],
+          "fg": 4109,
+          "rotates": false
+        },
         {
           "id": "vp_diamondnova",
           "fg": 4109,
           "rotates": true
         },
         {
-          "id": "vp_mounted_30mm_autocannon",
+          "id": ["vp_mounted_30mm_autocannon", "30mm_autocannon"],
           "fg": 4110,
           "rotates": true
         },
@@ -38336,10 +39053,20 @@
           "fg": 4111,
           "rotates": true
         },
+		{
+          "id": ["tank_gun_auto", "tank_gun_manual", "tank_gun_rws"],
+          "fg": 4111,
+          "rotates": false
+        },
         {
           "id": "vp_mounted_howitzer",
           "fg": 4111,
           "rotates": true
+        },
+		{
+          "id": "howitzer_gun",
+          "fg": 4111,
+          "rotates": false
         },
         {
           "id": "vp_mounted_tank_105",
@@ -38361,6 +39088,11 @@
           "fg": 4111,
           "rotates": true
         },
+		{
+          "id": "atgm_turret",
+          "fg": 4111,
+          "rotates": false
+        },
         {
           "id": "vp_arailturret",
           "fg": 4111,
@@ -38370,6 +39102,11 @@
           "id": "vp_railturret",
           "fg": 4111,
           "rotates": true
+        },
+		{
+          "id": "railturret",
+          "fg": 4111,
+          "rotates": false
         },
         {
           "id": "vp_oozle_vertical_2",
@@ -38406,6 +39143,11 @@
           "fg": 4115,
           "rotates": true
         },
+		{
+          "id": ["lasgunp", "lasgunx"],
+          "fg": 4115,
+          "rotates": false
+        },
         {
           "id": "vp_lasgunx",
           "fg": 4115,
@@ -38415,6 +39157,11 @@
           "id": "vp_teslagun",
           "fg": 4115,
           "rotates": true
+        },
+		{
+          "id": "teslagun",
+          "fg": 4115,
+          "rotates": false
         },
         {
           "id": "vp_aplasma_gun",
@@ -38492,7 +39239,7 @@
           "rotates": false
         },
         {
-          "id": "vp_reinforced_solar_panel",
+          "id": ["vp_reinforced_solar_panel", "vp_xreinforced_solar_panel"],
           "fg": 4125,
           "rotates": true,
           "multitile": true,
@@ -38504,7 +39251,7 @@
           ]
         },
         {
-          "id": "vp_reinforced_solar_panel_v2",
+          "id": ["vp_reinforced_solar_panel_v2", "vp_xreinforced_solar_panel_v2"],
           "fg": 4127,
           "rotates": true,
           "multitile": true,
@@ -38512,6 +39259,19 @@
             {
               "id": "broken",
               "fg": 4128
+            }
+          ]
+        },
+        {
+          "id": "vp_solar_array2r",
+          "fg": 4238,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4238
             }
           ]
         },
@@ -38567,7 +39327,7 @@
           "rotates": true
         },
         {
-          "id": "vp_solar_panel",
+          "id": ["vp_solar_panel", "vp_xsolar_panel"],
           "fg": 4137,
           "rotates": true,
           "multitile": true,
@@ -38579,7 +39339,20 @@
           ]
         },
         {
-          "id": "vp_solar_panel_v2",
+          "id": "vp_solar_array",
+          "fg": 4237,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4237
+            }
+          ]
+        },
+        {
+          "id": ["vp_solar_panel_v2", "vp_xsolar_panel_v2"],
           "fg": 4139,
           "rotates": true,
           "multitile": true,
@@ -38591,7 +39364,20 @@
           ]
         },
         {
-          "id": "vp_solar_panel_v3",
+          "id": "vp_solar_array2",
+          "fg": 4238,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4238
+            }
+          ]
+        },
+        {
+          "id": ["vp_solar_panel_v3", "vp_xsolar_panel_v3"],
           "fg": 4141,
           "rotates": true,
           "multitile": true,
@@ -38605,7 +39391,7 @@
         {
           "id": "vp_space_anomaly",
           "fg": 4143,
-          "rotates": true
+          "rotates": false
         },
         {
           "id": "space_anomaly",
@@ -38671,6 +39457,53 @@
         {
           "id": "vp_turretframe",
           "fg": 4151,
+          "rotates": true
+        },
+		{
+          "id": "turretframe",
+          "fg": 4151,
+          "rotates": false
+        },
+		{
+          "id": "vp_turret_mount",
+          "fg": 4151,
+          "rotates": true
+        },
+		{
+          "id": "vp_spring_plate",
+          "fg": 5128,
+          "rotates": true
+        },
+		{
+          "id": "spring_plate",
+          "fg": 5128,
+          "rotates": false
+        },
+		{
+          "id": "turret_mount",
+          "fg": 4151,
+          "rotates": false
+        },
+		{
+          "id": "vp_rebar_plate",
+          "fg": 5125,
+          "rotates": true
+        },
+		{
+          "id": "rebar_plate",
+          "fg": 5125,
+          "rotates": false
+        },
+		{
+          "id": "gelrazor",
+          "fg": 2352,
+		  "bg": 4151,
+          "rotates": false
+        },
+		{
+          "id": "vp_gelrazor",
+          "fg": 2352,
+		  "bg": 4151,
           "rotates": true
         },
         {
@@ -38914,6 +39747,544 @@
           "id": "vp_wheel_small_steerable",
           "fg": 4188,
           "rotates": true
+        },
+		{
+          "id": "day_filter1",
+          "fg": 4208
+        },
+		{
+          "id": "day_filter2",
+          "fg": 4209
+        },
+		{
+          "id": "day_filter3",
+          "fg": 4210
+        },
+		{
+          "id": "day_filter4",
+          "fg": 4211
+        },
+		{
+          "id": "dusk_filter1",
+          "fg": 4212
+        },
+		{
+          "id": "dusk_filter2",
+          "fg": 4213
+        },
+		{
+          "id": "dusk_filter3",
+          "fg": 4214
+        },
+		{
+          "id": "dusk_filter4",
+          "fg": 4215
+        },
+		{
+          "id": "night_filter1",
+          "fg": 4216
+        },
+		{
+          "id": "night_filter2",
+          "fg": 4217
+        },
+		{
+          "id": "night_filter3",
+          "fg": 4218
+        },
+		{
+          "id": "night_filter4",
+          "fg": 4219
+        },		
+		{
+          "id": "blood_filter",
+          "fg": 4220
+        },
+        {
+          "id": "overlay_worn_magbandolier",
+          "fg": 3919,
+          "rotates": false
+        },
+		{
+          "id": "anvil_bronze",
+          "fg": 4240,
+          "rotates": false
+        },
+		{
+          "id": "mon_hologram",
+          "fg": 4241,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_holo_cloak",
+          "fg": 4242,
+          "rotates": false
+        },
+		{
+          "id": "holo_cloak",
+          "fg": 4243,
+          "rotates": false
+        },
+		{
+          "id": "detergent",
+          "fg": 5184,
+          "rotates": false
+        },
+		{
+          "id": "food_processor",
+          "fg": 5185,
+          "rotates": false
+        },
+		{
+          "id": ["vp_aisle_curtain", "vp_v_curtain"],
+          "fg": 3012,
+          "rotates": true
+        },
+		{
+          "id": ["vp_Waisle_horizontal", "vp_Waisle_vertical"],
+          "fg": 3983,
+          "rotates": true,
+		  "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 3983
+            }
+          ]
+        },
+		{
+          "id": ["vp_diesel_engine_i6", "vp_diesel_engine_v6", "vp_engine_v6"],
+          "fg": 1439,
+          "rotates": true
+        },
+		{
+          "id": ["vp_diesel_engine_v12", "vp_engine_v12", "vp_engine_v8"],
+          "fg": 1440,
+          "rotates": true
+        },
+		{
+          "id": "vp_diesel_engine_v8",
+          "fg": 1440,
+          "rotates": true
+        },
+		{
+          "id": ["vp_repeatingcrossbow", "vp_repeatingcrossbownc"],
+          "fg": 3960,
+          "rotates": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 3960
+            }
+          ]
+        },
+		{
+          "id": ["vp_calico", "vp_TDI", "vp_TDInc", "vp_acr", "vp_acrnc", "vp_ak47", "vp_ak74", "vp_american_180", "vp_american_180nc", "vp_an94", "vp_ar15", "vp_ar15nc", "vp_auto_m1918", "vp_bigun", "vp_bigunnc", "vp_browning_blr", "vp_caliconc", "vp_carbine_flintlock", "vp_carbine_flintlocknc", "vp_coilgun", "vp_coilgunnc", "vp_cx4", "vp_cx4nc", "vp_fn_fal", "vp_fn_falnc", "vp_fn_p90", "vp_h&k416a5", "vp_h&k416a5nc", "vp_heavy_rail_rifle", "vp_hk_g3", "vp_hk_g36", "vp_hk_g36nc", "vp_hk_g3nc", "vp_hk_g80", "vp_hk_mp5", "vp_hk_mp5nc", "vp_hk_mp7", "vp_hk_ump45", "vp_hk_ump45nc", "vp_ksg", "vp_ksgnc", "vp_l_base_223", "vp_l_base_223nc", "vp_l_car_223", "vp_l_car_223nc", "vp_l_def_12", "vp_l_def_12nc", "vp_l_dsr_223", "vp_l_dsr_223nc", "vp_l_long_45", "vp_l_long_45nc", "vp_l_mbr_223", "vp_l_mbr_223nc", "vp_m1014", "vp_m1014nc", "vp_m14ebr", "vp_m14ebrnc", "vp_m1a", "vp_m1anc", "vp_m2010", "vp_m27iar", "vp_m27iarnc", "vp_m4a1", "vp_m4a1nc", "vp_mac_10", "vp_mac_10nc", "vp_marlin_9a", "vp_marlin_9anc", "vp_mossberg_500", "vp_mossberg_500nc", "vp_nailrifle", "vp_nailriflenc", "vp_needlegun", "vp_pipe_double_shotgun", "vp_pipe_double_shotgunnc", "vp_pipe_shotgun", "vp_pipe_shotgunnc", "vp_rebar_rifle", "vp_remington_700", "vp_remington_870", "vp_remington_870nc", "vp_revolver_shotgun", "vp_revolver_shotgunnc", "vp_rifle_22", "vp_rifle_22nc", "vp_rifle_308", "vp_rifle_308nc", "vp_rifle_9mm", "vp_rifle_9mmnc", "vp_rifle_flintlock", "vp_rifle_flintlocknc", "vp_rm11b_sniper_rifle", "vp_rm2000_smg", "vp_rm360_carbine", "vp_rm360_carbinenc", "vp_rm51_assault_rifle", "vp_rm614_lmg", "vp_rm88_battle_rifle", "vp_ruger_1022", "vp_ruger_1022nc", "vp_ruger_mini", "vp_ruger_mininc", "vp_saiga_12", "vp_saiga_12nc", "vp_savage_111f", "vp_savage_111fnc", "vp_scar_h", "vp_scar_hnc", "vp_scar_l", "vp_scar_lnc", "vp_shotgun_d", "vp_shotgun_dnc", "vp_shotgun_s", "vp_shotgun_snc", "vp_sks", "vp_steyr_aug", "vp_steyr_augnc", "vp_surv_carbine_223", "vp_surv_carbine_223nc", "vp_survivor_special_700", "vp_tec9", "vp_tec9nc", "vp_uzi", "vp_uzinc", "vp_v29", "vp_v29_cheap"],
+          "fg": 4109,
+          "rotates": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4109
+            }
+          ]
+        },
+		{
+          "id": "vp_auto_m134",
+          "fg": 4108,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3987,
+              "bg": 4108
+            }
+          ]
+        },
+		{
+          "id": ["vp_223rack", "vp_22rack", "vp_308rack", "vp_45rack", "vp_50bmgrack", "vp_556rack", "vp_9mmrack", "vp_boltrack", "vp_diskrack", "vp_flintrack", "vp_nailrack", "vp_pebblerack", "vp_sboltrack", "vp_shardrack"],
+          "fg": 1421,
+		  "rotates": true
+        },
+		{
+          "id": ["vp_vgen", "vp_vgen2"],
+          "fg": 3162,
+          "rotates": true
+        },
+        {
+          "id": ["vgen", "vgen2"],
+          "fg": 3162,
+          "rotates": false
+        },
+		{
+          "id": "vehicle_dashboard",
+          "fg": 5116,
+          "rotates": false
+        },
+		{
+          "id": ["vp_dashboard", "vp_controls_electronic"],
+          "fg": 5116,
+          "rotates": true
+        },
+		{
+          "id": "sugar_fried",
+          "fg": 1090
+        },
+		{
+          "id": "sweetbread",
+          "fg": 5131
+        },
+		{
+          "id": ["taco", "tiotaco"],
+          "fg": 5132
+        },
+		{
+          "id": ["spaghetti_bolognese", "spaghetti_cooked", "spaghetti_human", "spaghetti_pesto"],
+          "fg": 5127
+        },
+		{
+          "id": "sandwich_cheese",
+          "fg": 5113
+        },
+		{
+          "id": "sandwich_cheese_grilled",
+          "fg": 5111
+        },
+		{
+          "id": "sandwich_cucumber",
+          "fg": 5112
+        },
+		{
+          "id": ["sandwich_honey", "sandwich_pbh"],
+          "fg": 5108
+        },
+		{
+          "id": ["sandwich_human", "sandwich_t"],
+          "fg": 5105
+        },
+		{
+          "id": "sandwich_jam",
+          "fg": 5114
+        },
+		{
+          "id": "sandwich_pb",
+          "fg": 5106
+        },
+		{
+          "id": "sandwich_pbj",
+          "fg": 5107
+        },
+		{
+          "id": "sandwich_pbm",
+          "fg": 5109
+        },
+		{
+          "id": "sandwich_sauce",
+          "fg": 5115
+        },
+		{
+          "id": "sandwich_veggy",
+          "fg": 5104
+        },
+		{
+          "id": "sloppyjoe",
+          "fg": 5110
+        },
+		{
+          "id": "sausage_wasteland",
+          "fg": 5126
+        },
+		{
+          "id": "sarcophagus_access_code",
+          "fg": 1054
+        },
+		{
+          "id": ["sandwich_deluxe", "sandwich_dudeluxe"],
+          "fg": 1096
+        },
+		{
+          "id": "rebreather_filter",
+          "fg": 2278,
+          "rotates": false
+        },
+		{
+          "id": "reloaded_357sig_fmj",
+          "fg": 18,
+          "bg": 957,
+          "rotates": false
+        },
+		{
+          "id": "reloaded_357sig_jhp",
+          "fg": 21,
+          "bg": 957,
+          "rotates": false
+        },
+		{
+          "id": ["powered_earmuffs", "powered_earmuffs_on"],
+          "fg": 5122
+        },
+		{
+          "id": ["overlay_worn_powered_earmuffs", "overlay_worn_powered_earmuffs_on"],
+          "fg": 5123
+        },
+		{
+          "id": "onion_rings",
+          "fg": 5139,
+          "rotates": false
+        },
+		{
+          "id": ["pie", "pie_veggy", "pie_maple"],
+          "fg": 5120,
+          "rotates": false
+        },
+		{
+          "id": ["pie_human", "pie_meat"],
+          "fg": 5121,
+          "rotates": false
+        },
+		{
+          "id": "link_sheet",
+          "fg": 5141,
+          "rotates": false
+        },
+		{
+          "id": "lye",
+          "fg": 1120,
+          "rotates": false
+        },
+		{
+          "id": "lead_ball",
+          "fg": 5142,
+          "rotates": false
+        },
+		{
+          "id": ["vp_washing_machine", "washing_machine"],
+          "fg": 1600,
+          "bg": 1005,
+          "rotates": false
+        },
+		{
+          "id": ["hot_chocolate", "mex_chocolate"],
+          "fg": 1143,
+          "rotates": false
+        },
+		{
+          "id": "f_piano",
+          "fg": 5186,
+          "rotates": false
+        },
+		{
+          "id": "f_tank_trap",
+          "fg": 5187,
+          "rotates": false
+        },
+		{
+          "id": "f_wardrobe",
+          "fg": 5188,
+          "rotates": false
+        },
+		{
+          "id": "bone_flute",
+          "fg": 5172,
+          "rotates": false
+        },
+		{
+          "id": "diamond_dental_grill",
+          "fg": 5160,
+          "rotates": false
+        },
+		{
+          "id": "overlay_worn_diamond_dental_grill",
+          "fg": 5159,
+          "rotates": false
+        },
+		{
+          "id": "gold_dental_grill",
+          "fg": 5148,
+          "rotates": false
+        },
+		{
+          "id": "overlay_worn_gold_dental_grill",
+          "fg": 5149,
+          "rotates": false
+        },
+		{
+          "id": "gattler",
+          "fg": 5158,
+          "rotates": false
+        },
+		{
+          "id": "overlay_wielded_gattler",
+          "fg": 5157,
+          "rotates": false
+        },
+		{
+          "id": ["hbolt_boom", "hbolt_boom2", "hbolt_fire", "hbolt_fire2", "hbolt_frag"],
+          "fg": 5146,
+          "rotates": false
+        },
+		{
+          "id": "hbolt_nuke",
+          "fg": 5145,
+          "rotates": false
+        },
+		{
+          "id": "hbolt_metal",
+          "fg": 5144,
+          "rotates": false
+        },
+		{
+          "id": "hbolt_wood",
+          "fg": 5143,
+          "rotates": false
+        },
+		{
+          "id": "overlay_wielded_gloople_act",
+          "fg": 5150,
+          "rotates": false
+        },
+		{
+          "id": ["overlay_wielded_gray_act", "overlay_wielded_oozle_act"],
+          "fg": 5147,
+          "rotates": false
+        },
+		{
+          "id": ["vp_gloopletread", "vp_graytread", "vp_oozletread"],
+          "fg": 4149,
+          "rotates": true
+        },
+		{
+          "id": ["gloopletread", "graytread", "oozletread"],
+          "fg": 4149
+        },
+		{
+          "id": ["crown_golden", "crown_golden_survivor"],
+          "fg": 5161,
+          "rotates": false
+        },
+		{
+          "id": ["overlay_worn_crown_golden", "overlay_worn_crown_golden_survivor"],
+          "fg": 5162,
+          "rotates": false
+        },
+		{
+          "id": ["cargo_lock", "vp_cargo_lock"],
+          "fg": 5167,
+          "rotates": false
+        },
+		{
+          "id": "t_railroad_rubble",
+          "bg": 5189,
+          "rotates": true
+        },
+		{
+          "id": "t_railroad_track",
+          "fg": [5193, 5191, 5193, 5191],
+          "bg": 5189,
+          "rotates": true
+        },
+		{
+          "id": "t_railroad_track_on_tie",
+          "fg": [5192, 5195, 5192, 5195],
+          "bg": 5189,
+          "rotates": false
+        },
+		{
+          "id": "t_railroad_tie",
+          "fg": [5190, 5194, 5190, 5194],
+          "bg": 5189,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "end_piece",
+              "fg": [5190, 5194, 5190, 5194]
+            }
+          ]
+        },
+		{
+          "id": ["chess", "checkers"],
+          "fg": 5119,
+          "rotates": false
+        },
+		{
+          "id": "cards",
+          "fg": 5103,
+          "rotates": false
+        },
+		{
+          "id": "cards_magic",
+          "fg": 5102,
+          "rotates": false
+        },
+		{
+          "id": ["pictionary", "monopoly", "dnd", "g_warhammer", "g_warhammer40k", "catan", "battleship", "clue"],
+          "fg": 5119,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_looter",
+          "fg": 5088,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_m1911",
+          "fg": 5089,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_glock",
+          "fg": 5090,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_melee",
+          "fg": 5091,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_raider",
+          "fg": 5092,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_rifle",
+          "fg": 5093,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_scrapper",
+          "fg": 5094,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_shotgun",
+          "fg": 5095,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_smg",
+          "fg": 5096,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_alpha",
+          "fg": 5097,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_super_psycho",
+          "fg": 5098,
+          "rotates": false
+        },
+		{
+          "id": "mon_bandit_super_snipe",
+          "fg": 5099,
+          "rotates": false
         }
       ]
     },
@@ -39137,12 +40508,12 @@
         },
         {
           "id": "t_pit_corpsed",
-          "fg": 3147,
+          "fg": 3151,
           "bg": 5225,
           "multitile": true,
           "additional_tiles": [
             {
-              "fg": [ 3147, 3147],
+              "fg": [ 3151, 3151],
 	          "bg": 5225,
               "id": "edge"
             },
@@ -39157,7 +40528,7 @@
               "id": "corner"
             },
             {
-              "fg": [ 3147, 3147, 3147, 3147],
+              "fg": [ 3151, 3151, 3151, 3151],
 			  "bg": 5225,
               "id": "end_piece"
             },
@@ -39167,7 +40538,7 @@
               "id": "t_connection"
             },
             {
-              "fg": 3147,
+              "fg": 3151,
 			  "bg": 5225,
               "id": "unconnected"
             }
@@ -39176,12 +40547,12 @@
         },
         {
           "id": "t_pit_corpsed_season_winter",
-          "fg": 3148,
+          "fg": 3152,
           "bg": 5226,
           "multitile": true,
           "additional_tiles": [
             {
-              "fg": [ 3148, 3148],
+              "fg": [ 3152, 3152],
 	          "bg": 5226,		  
               "id": "edge"
             },
@@ -39196,7 +40567,7 @@
               "id": "corner"
             },
             {
-              "fg": [ 3148, 3148, 3148, 3148],
+              "fg": [ 3152, 3152, 3152, 3152],
 			  "bg": 5226,
               "id": "end_piece"
             },
@@ -39206,7 +40577,7 @@
               "id": "t_connection"
             },
             {
-              "fg": 3148,
+              "fg": 3152,
 			  "bg": 5226,
               "id": "unconnected"
             }
@@ -39214,104 +40585,557 @@
 		  "rotates": false
         },
         {
-          "id": "overlay_female_worn_wig_black",
+          "id": "t_dirt_season_winter",
+          "fg": [
+            { "weight":40, "sprite":5226},
+            { "weight":1, "sprite":5241},
+            { "weight":1, "sprite":5242},
+            { "weight":1, "sprite":5243}
+            ]
+        },
+        {
+          "id": "t_grass_season_winter",
+          "fg": [
+            { "weight":30, "sprite":5235},
+            { "weight":2, "sprite":5244},
+            { "weight":1, "sprite":5245},
+            { "weight":1, "sprite":5246},
+            { "weight":4, "sprite":5247}
+            ],
+          "bg": 5226,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 5236,
+              "bg": 5226
+            },
+            {
+              "id": "edge",
+              "fg": 5237,
+              "bg": 5226
+            },
+            {
+              "id": "end_piece",
+              "fg": 5238,
+              "bg": 5226
+            },
+            {
+              "id": "t_connection",
+              "fg": 5239,
+              "bg": 5226
+            },
+            {
+              "id": "unconnected",
+              "fg": 5240,
+              "bg": 5226
+            }
+          ]
+        },
+		{
+          "id": "overlay_male_mutation_skin1",
           "fg": 5248,
           "rotates": false
         },
-        {
-          "id": "overlay_female_worn_wig_brown",
+		{
+          "id": "overlay_male_mutation_skin2",
           "fg": 5249,
           "rotates": false
         },
-        {
-          "id": "overlay_female_worn_wig_ginger",
+		{
+          "id": "overlay_male_mutation_skin3",
           "fg": 5250,
           "rotates": false
         },
-        {
-          "id": "overlay_female_worn_wig_gray",
+		{
+          "id": "overlay_male_mutation_skin4",
           "fg": 5251,
           "rotates": false
         },
-        {
-          "id": "overlay_female_worn_wig_white",
+		{
+          "id": "overlay_male_mutation_forehair1black",
           "fg": 5252,
           "rotates": false
         },
-        {
-          "id": "overlay_male_worn_wig_black",
+		{
+          "id": "overlay_male_mutation_forehair1brown",
           "fg": 5253,
           "rotates": false
         },
-        {
-          "id": "overlay_male_worn_wig_brown",
+		{
+          "id": "overlay_male_mutation_forehair1blond",
           "fg": 5254,
           "rotates": false
         },
-        {
-          "id": "overlay_male_worn_wig_ginger",
+		{
+          "id": "overlay_male_mutation_forehair1gray",
           "fg": 5255,
           "rotates": false
         },
-        {
-          "id": "overlay_male_worn_wig_gray",
+		{
+          "id": "overlay_male_mutation_forehair1white",
           "fg": 5256,
           "rotates": false
         },
-        {
-          "id": "overlay_male_worn_wig_white",
+		{
+          "id": "overlay_male_mutation_forehair2black",
           "fg": 5257,
           "rotates": false
         },
-        {
-          "id": "overlay_female_worn_wig2_black",
+		{
+          "id": "overlay_male_mutation_forehair2brown",
           "fg": 5258,
           "rotates": false
         },
-        {
-          "id": "overlay_female_worn_wig2_blonde",
+		{
+          "id": "overlay_male_mutation_forehair2blond",
           "fg": 5259,
           "rotates": false
         },
-        {
-          "id": "overlay_female_worn_wig2_brown",
+		{
+          "id": "overlay_male_mutation_forehair2gray",
           "fg": 5260,
           "rotates": false
         },
-        {
-          "id": "overlay_female_worn_wig2_red",
+		{
+          "id": "overlay_male_mutation_forehair2white",
           "fg": 5261,
           "rotates": false
         },
         {
-          "id": "overlay_female_worn_wig2_gray",
+          "id": "npc_female",
           "fg": 5262,
-          "rotates": false
+          "bg": 967
         },
         {
-          "id": "overlay_male_worn_wig2_black",
+          "id": "npc_male",
           "fg": 5263,
-          "rotates": false
+          "bg": 967
         },
         {
-          "id": "overlay_male_worn_wig2_blonde",
-          "fg": 5265,
-          "rotates": false
+          "id": "player_female",
+          "fg": 5262,
+          "bg": 967
         },
         {
-          "id": "overlay_male_worn_wig2_brown",
+          "id": "player_male",
+          "fg": 5263,
+          "bg": 967
+        },
+		{
+          "id": "overlay_male_mutation_hair1black",
           "fg": 5264,
           "rotates": false
         },
-        {
-          "id": "overlay_male_worn_wig2_red",
+		{
+          "id": "overlay_male_mutation_hair1brown",
+          "fg": 5265,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair1blond",
           "fg": 5266,
           "rotates": false
         },
-        {
-          "id": "overlay_male_worn_wig2_gray",
+		{
+          "id": "overlay_male_mutation_hair1gray",
           "fg": 5267,
           "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair1white",
+          "fg": 5268,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair2black",
+          "fg": 5269,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair2brown",
+          "fg": 5270,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair2blond",
+          "fg": 5271,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair2gray",
+          "fg": 5272,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair2white",
+          "fg": 5273,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair3black",
+          "fg": 5274,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair3brown",
+          "fg": 5275,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair3blond",
+          "fg": 5276,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair3gray",
+          "fg": 5277,
+          "rotates": false
+        },
+		{
+          "id": "overlay_male_mutation_hair3white",
+          "fg": 5278,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_mutation_skin1",
+          "fg": 5280,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_mutation_skin2",
+          "fg": 5281,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_mutation_skin3",
+          "fg": 5282,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_mutation_skin4",
+          "fg": 5283,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair1black",
+          "fg": 5284,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair1brown",
+          "fg": 5285,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair1blond",
+          "fg": 5286,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair1gray",
+          "fg": 5287,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair1white",
+          "fg": 5288,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair2black",
+          "fg": 5289,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair2brown",
+          "fg": 5290,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair2blond",
+          "fg": 5291,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair2gray",
+          "fg": 5292,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_forehair2white",
+          "fg": 5293,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair1black",
+          "fg": 5296,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair1brown",
+          "fg": 5297,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair1blond",
+          "fg": 5298,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair1gray",
+          "fg": 5299,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair1white",
+          "fg": 5300,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair2black",
+          "fg": 5301,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair2brown",
+          "fg": 5302,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair2blond",
+          "fg": 5303,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair2gray",
+          "fg": 5304,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair2white",
+          "fg": 5305,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair3black",
+          "fg": 5306,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair3brown",
+          "fg": 5307,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair3blond",
+          "fg": 5308,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair3gray",
+          "fg": 5309,
+          "rotates": false
+        },
+		{
+          "id": "overlay_female_mutation_hair3white",
+          "fg": 5310,
+          "rotates": false
+        },
+		{
+          "id": "mon_little_maid",
+          "fg": 5312,
+          "rotates": false
+        },
+		{
+          "id": "mon_shoggoth_maid",
+          "fg": 5313,
+          "rotates": false
+        },
+		{
+          "id": "mon_alchemic_golem",
+          "fg": 5314,
+          "rotates": false
+        },
+		{
+          "id": "maid_master",
+          "fg": 5315,
+          "rotates": false
+        },
+        {
+          "id": "mon_broken_cyborg",
+          "fg": [
+            { "weight":1, "sprite":2362},
+            { "weight":1, "sprite":5316}
+            ],
+          "bg": 967,
+          "rotates": false
+        }
+    ]
+    },
+    {
+    "file": "expan2.png",
+    "sprite_offset_y":-16,
+    "tiles":
+    [
+        {
+          "id": ["overlay_worn_bowhat", "overlay_worn_porkpie", "overlay_worn_tophat"],
+          "fg": 5350,
+          "rotates": false
+        },
+        {
+          "id": ["overlay_worn_firehelmet", "overlay_worn_hat_hard_hooded"],
+          "fg": 5351,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_hat_hard",
+          "fg": 5352,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_miner_hat",
+          "fg": 5353,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_miner_hat_on",
+          "fg": 5354,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_hat_sombrero",
+          "fg": 5355,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_pickelhaube",
+          "fg": 5356,
+          "rotates": false
+        },
+        {
+          "id": ["overlay_worn_straw_hat", "overlay_worn_10gal_hat"],
+          "fg": 5357,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_straw_fedora",
+          "fg": 5358,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_fedora",
+          "fg": 5359,
+          "rotates": false
+        },
+        {
+          "id": ["overlay_effect_evil", "overlay_effect_attention", "overlay_effect_teleglow"],
+          "fg": 5360
+        },
+        {
+          "id": "overlay_effect_cold",
+          "fg": 5361
+        },
+        {
+          "id": "overlay_effect_hot",
+          "fg": 5362
+        },
+        {
+          "id": "overlay_effect_downed",
+          "fg": 5363
+        },
+        {
+          "id": "overlay_effect_grabbed",
+          "fg": 5364
+        },
+        {
+          "id": ["overlay_effect_winded", "overlay_effect_asthma"],
+          "fg": 5365
+        },
+        {
+          "id": "overlay_effect_stunned",
+          "fg": 5366
+        },
+        {
+          "id": ["overlay_effect_foodpoison", "overlay_effect_nausea"],
+          "fg": 5367
+        },
+        {
+          "id": "overlay_effect_frostbite",
+          "fg": 5368
+        },
+        {
+          "id": "overlay_effect_blisters",
+          "fg": 5369
+        },
+        {
+          "id": "overlay_effect_poison",
+          "fg": 5370
+        },
+        {
+          "id": "overlay_effect_badpoison",
+          "fg": 5371
+        },
+        {
+          "id": "overlay_effect_paralyzepoison",
+          "fg": 5372
+        },
+        {
+          "id": "overlay_effect_common_cold",
+          "fg": 5373
+        },
+        {
+          "id": ["overlay_effect_flu", "overlay_effect_Influenza"],
+          "fg": 5374
+        },
+        {
+          "id": "overlay_effect_spores",
+          "fg": 5375
+        },
+        {
+          "id": "overlay_effect_fungus",
+          "fg": 5376
+        },
+        {
+          "id": "overlay_effect_visuals",
+          "fg": 5377
+        },
+        {
+          "id": ["overlay_effect_deaf", "overlay_effect_earphones"],
+          "fg": 5378
+        },
+        {
+          "id": "overlay_effect_onfire",
+          "fg": 5379
+        },
+        {
+          "id": "overlay_effect_sleep",
+          "fg": 5380
+        },
+        {
+          "id": "overlay_effect_docile",
+          "fg": 5381
+        },
+        {
+          "id": "overlay_effect_pet",
+          "fg": 5382
+        },
+        {
+          "id": "overlay_effect_pacified",
+          "fg": 5383
+        },
+        {
+          "id": "overlay_effect_shrieking",
+          "fg": 5384
+        },
+        {
+          "id": "overlay_effect_milked",
+          "fg": 5385
+        },
+        {
+          "id": "overlay_effect_haslight",
+          "fg": 5386
         }
     ]
     },
@@ -39324,14 +41148,31 @@
     "tiles":
     [
         {
+          "id": "overlay_wielded_pike",
+          "fg": 5398,
+          "rotates": false
+        },
+        {
           "id": "t_tree",
           "fg": 5400,
           "bg": 5402,
           "rotates": false
         },
         {
+          "id": "t_tree_season_spring",
+          "fg": [
+            { "weight":1, "sprite":5400},
+            { "weight":1, "sprite":5438}
+            ],
+          "bg": 5402,
+          "rotates": false
+        },
+        {
           "id": "t_tree_season_autumn",
-          "fg": 5436,
+          "fg": [
+            { "weight":1, "sprite":5436},
+            { "weight":1, "sprite":5438}
+            ],
           "bg": 5402,
           "rotates": false
         },
@@ -39360,8 +41201,14 @@
           "rotates": false
         },
         {
+          "id": "t_tree_young_season_autumn",
+          "fg": 5437,
+          "bg": 5402,
+          "rotates": false
+        },
+        {
           "id": "t_tree_young_season_winter",
-          "fg": 5404,
+          "fg": 5437,
           "bg": 5403,
           "rotates": false
         },
@@ -39391,12 +41238,12 @@
           "bg": 5402
         },
         {
-          "id": "t_tree_apricot_season_autumn",
+          "id": "t_tree_apricot_season_summer",
           "fg": 5412,
           "bg": 5402
         },
         {
-          "id": "t_tree_plum_season_autumn",
+          "id": "t_tree_plum_season_summer",
           "fg": 5413,
           "bg": 5402
         },
@@ -39476,7 +41323,7 @@
           "rotates": false
         },
         {
-          "id": ["t_tree_birch_harvested", "t_tree_birch_harvested_season_winter"],
+          "id": "t_tree_birch_harvested",
           "fg": 5426,
           "bg": 5402,
           "rotates": false
@@ -39484,6 +41331,12 @@
         {
           "id": "t_tree_birch_season_winter",
           "fg": 5427,
+          "bg": 5403,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch_harvested_season_winter",
+          "fg": 5426,
           "bg": 5403,
           "rotates": false
         },
@@ -39527,9 +41380,15 @@
           "rotates": false
         },
         {
-          "id": ["t_tree_willow_harvested", "t_tree_willow_harvested_season_winter"],
+          "id": "t_tree_willow_harvested",
           "fg": 5433,
           "bg": 5402,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_harvested_season_winter",
+          "fg": 5433,
+          "bg": 5403,
           "rotates": false
         },
         {
@@ -39549,6 +41408,47 @@
           "fg": 5435,
           "bg": 5403,
           "rotates": false
+        },
+        {
+          "id": "f_boulder_large",
+          "fg": 5439,
+          "rotates": false
+        },
+        {
+          "id": "vp_solar_array",
+          "fg": 5440,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 5441
+            }
+          ]
+        },
+        {
+          "id": "vp_solar_array2",
+          "fg": 5442,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 5443
+            }
+          ]
+        },
+        {
+          "id": "vp_solar_array2r",
+          "fg": 5442,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 5443
+            }
+          ]
         },
         {
           "id": "hulk_weapon",
@@ -39599,25 +41499,75 @@
           "id": "mon_blob_brain",
           "fg": 5457,
           "rotates": false
-        },        {
+        },
+        {
           "id": "mon_fungaloid_seeder",
           "fg": 5458,
           "rotates": false
-        },        {
+        },
+        {
           "id": "mon_fungaloid_tower",
           "fg": 5459,
           "rotates": false
-        },        {
+        },
+        {
           "id": "mon_fungaloid_queen",
           "fg": 5460,
           "rotates": false
-        },        {
+        },
+        {
           "id": "mon_triffid_heart",
           "fg": 5461,
           "rotates": false
-        },        {
+        },
+        {
           "id": "mon_yugg",
           "fg": 5462,
+          "rotates": false
+        },
+		{
+          "id": "mon_nakedmolerat_giant",
+          "fg": 5463,
+          "rotates": false
+        },
+        {
+          "id": "mon_spinosaurus",
+          "fg": 5464,
+          "rotates": false
+        },
+        {
+          "id": "mon_tyrannosaurus",
+          "fg": 5465,
+          "rotates": false
+        },
+        {
+          "id": "mon_triceratops",
+          "fg": 5466,
+          "rotates": false
+        },
+        {
+          "id": "mon_stegosaurus",
+          "fg": 5467,
+          "rotates": false
+        },
+        {
+          "id": "mon_ankylosaurus",
+          "fg": 5468,
+          "rotates": false
+        },
+        {
+          "id": "mon_allosaurus",
+          "fg": 5469,
+          "rotates": false
+        },
+        {
+          "id": "mon_parasaurolophus",
+          "fg": 5470,
+          "rotates": false
+        },
+        {
+          "id": "mon_utahraptor",
+          "fg": 5471,
           "rotates": false
         }
     ]

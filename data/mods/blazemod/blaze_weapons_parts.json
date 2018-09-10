@@ -7,6 +7,7 @@
     "durability": 400,
     "damage_modifier": 80,
     "location": "on_roof",
+    "description": "This heavy weapon is mounted on a turret, and can be fired from your vehicle controls.",
     "flags": [ "FOLDABLE", "TURRET", "MANUAL", "TOOL_NONE" ]
   },
   {
@@ -97,6 +98,7 @@
     "range": 12,
     "folded_volume": 8,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "MANUAL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
@@ -165,6 +167,7 @@
     "range": 15,
     "folded_volume": 15,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "MANUAL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {

@@ -11,7 +11,7 @@
       { "item": "wild_herbs", "prob": 10 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "garlic", "prob": 1 },
-      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
+      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 2 },
       { "item": "seed_canola", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
@@ -28,7 +28,6 @@
       { "item": "egg_bird", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "wild_herbs", "prob": 20 },
-      { "item": "blackberries", "prob": 20, "count-min": 2, "count-max": 5 },
       { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "garlic", "prob": 1 },
@@ -69,9 +68,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
-      { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
-      { "item": "mushroom_morel", "prob": 2, "count-min": 1, "count-max": 4 },
-      { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
+      { "item": "mushroom_morel", "prob": 2, "count-min": 1, "count-max": 4 }
     ]
   }
 ]

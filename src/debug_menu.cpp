@@ -5,6 +5,7 @@
 #include "game.h"
 #include "messages.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "player.h"
 #include "ui.h"
 #include "npc.h"
@@ -14,6 +15,7 @@
 #include "vitamin.h"
 #include "mission.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "morale_types.h"
 
 #include <algorithm>
@@ -48,7 +50,7 @@ void teleport_short()
 
 void teleport_long()
 {
-    const tripoint where( overmap::draw_overmap() );
+    const tripoint where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
@@ -134,10 +136,11 @@ void character_edit_menu()
         nmenu.text = _( "Player" );
     }
 
-    enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+    enum { D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
            D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
            D_TELE, D_MUTATE, D_CLASS
          };
+    nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
@@ -280,6 +283,16 @@ void character_edit_menu()
             }
         }
         break;
+        case D_NAME: {
+            std::string filterstring;
+            string_input_popup()
+            .title( _( "Rename:" ) )
+            .width( 85 )
+            .description( string_format( _( "NPC: \n%s\n" ), p.name ) )
+            .edit( filterstring );
+            p.name = filterstring;
+        }
+        break;
         case D_PAIN: {
             int value;
             if( query_int( value, _( "Cause how much pain? pain: %d" ), p.get_pain() ) ) {
@@ -291,8 +304,9 @@ void character_edit_menu()
             uimenu smenu;
             smenu.return_invalid = true;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-            smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-            smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
+            smenu.addentry( 1, true, 's', "%s: %d", _( "Starvation" ), p.get_starvation() );
+            smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
+            smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -302,9 +316,8 @@ void character_edit_menu()
             smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
-
+            int value;
             switch( smenu.ret ) {
-                    int value;
                 case 0:
                     if( query_int( value, _( "Set hunger to? Currently: %d" ), p.get_hunger() ) ) {
                         p.set_hunger( value );
@@ -312,20 +325,26 @@ void character_edit_menu()
                     break;
 
                 case 1:
+                    if( query_int( value, _( "Set starvation to? Currently: %d" ), p.get_starvation() ) ) {
+                        p.set_starvation( value );
+                    }
+                    break;
+
+                case 2:
                     if( query_int( value, _( "Set thirst to? Currently: %d" ), p.get_thirst() ) ) {
                         p.set_thirst( value );
                     }
                     break;
 
-                case 2:
+                case 3:
                     if( query_int( value, _( "Set fatigue to? Currently: %d" ), p.get_fatigue() ) ) {
                         p.set_fatigue( value );
                     }
                     break;
 
                 default:
-                    if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 3 );
+                    if( smenu.ret > 3 && smenu.ret < static_cast<int>( vits.size() + 4 ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - 4 );
                         if( query_int( value, _( "Set %s to? Currently: %d" ),
                                        iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
@@ -347,8 +366,8 @@ void character_edit_menu()
             smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
+            int value;
             switch( smenu.ret ) {
-                    int value;
                 case 0:
                     if( query_int( value, _( "Set the value to? Currently: %d" ), p.get_healthy() ) ) {
                         p.set_healthy( value );

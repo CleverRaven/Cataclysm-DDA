@@ -31,6 +31,9 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
 #endif
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
 
 // Display data
 int TERMX;
@@ -555,6 +558,13 @@ bool query_yn( const std::string &text )
     bool result = true;
     bool gotkey = false;
 
+#ifdef __ANDROID__
+    // Ensure proper android input context for touch
+    input_context ctxt( "YESNO" );
+    ctxt.register_manual_key( ucselectors[0] );
+    ctxt.register_manual_key( ucselectors[1] );
+#endif
+
     while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE ) {
 
         // Upper case always works, lower case only if !force_uc.
@@ -721,6 +731,9 @@ long popup( const std::string &text, PopupFlags flags )
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
+#ifdef __ANDROID__
+        input_context ctxt( "POPUP_WAIT" );
+#endif
         wrefresh( w );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
@@ -751,10 +764,11 @@ void popup_status( const char *const title, const std::string &fmt )
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
 input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
-                            const std::string sItemName, const std::string sTypeName,
+                            const std::string &sItemName, const std::string &sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding )
 {
     catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
                              iLeft + VIEW_OFFSET_X );
@@ -766,7 +780,8 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wrefresh( win );
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
+                                        selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win,
+                                        padding );
     return result;
 }
 
@@ -929,11 +944,12 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer.str();
 }
 
-input_event draw_item_info( const catacurses::window &win, const std::string sItemName,
-                            const std::string sTypeName,
+input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
+                            const std::string &sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
+                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
+                            const unsigned int padding )
 {
     std::ostringstream buffer;
     int line_num = use_full_win || without_border ? 0 : 1;
@@ -943,7 +959,9 @@ input_event draw_item_info( const catacurses::window &win, const std::string sIt
     if( sItemName != sTypeName && !sTypeName.empty() ) {
         buffer << sTypeName << "\n";
     }
-    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+    for( unsigned int i = 0; i < padding; i++ ) {
+        buffer << " \n";    //This space is required, otherwise it won't make an empty line.
+    }
 
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
@@ -1121,6 +1139,7 @@ std::string word_rewrap( const std::string &in, int width )
     int lastout = 0;
     const char *instr = in.c_str();
     bool skipping_tag = false;
+    bool just_wrapped = false;
 
     for( int j = 0, x = 0; j < ( int )in.size(); ) {
         const char *ins = instr + j;
@@ -1146,6 +1165,11 @@ std::string word_rewrap( const std::string &in, int width )
             continue;
         }
 
+        if( just_wrapped && uc == ' ' ) { // ignore spaces after wrapping
+            lastwb = lastout = j;
+            continue;
+        }
+
         x += mk_wcwidth( uc );
 
         if( x > width ) {
@@ -1158,6 +1182,9 @@ std::string word_rewrap( const std::string &in, int width )
             o << '\n';
             x = 0;
             lastout = j = lastwb;
+            just_wrapped = true;
+        } else {
+            just_wrapped = false;
         }
 
         if( uc == ' ' || uc >= 0x2E80 ) {
@@ -1378,7 +1405,6 @@ std::string rewrite_vsnprintf( const char *msg )
             rewritten_msg_optimised << msg;
             break;
         }
-
 
         // Write portion of the string that was before %
         rewritten_msg << std::string( msg, ptr );
@@ -1671,6 +1697,10 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int col_width = width / columns;
     int offset = 0;
 
+#ifdef __ANDROID__
+    // no bindings, but give it its own input context so stale buttons don't hang around.
+    input_context ctxt( "DISPLAY_TABLE" );
+#endif
     for( ;; ) {
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_white );
@@ -1697,9 +1727,9 @@ void display_table( const catacurses::window &w, const std::string &title, int c
 }
 
 scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const direction p_oDir,
-                                 const std::string p_sText, const game_message_type p_gmt,
-                                 const std::string p_sText2, const game_message_type p_gmt2,
-                                 const std::string p_sType )
+                                 const std::string &p_sText, const game_message_type p_gmt,
+                                 const std::string &p_sText2, const game_message_type p_gmt2,
+                                 const std::string &p_sType )
 {
     iPosX = p_iPosX;
     iPosY = p_iPosY;
@@ -1743,9 +1773,9 @@ scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const dir
 }
 
 void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p_oDir,
-                               const std::string p_sText, const game_message_type p_gmt,
-                               const std::string p_sText2, const game_message_type p_gmt2,
-                               const std::string p_sType )
+                               const std::string &p_sText, const game_message_type p_gmt,
+                               const std::string &p_sText2, const game_message_type p_gmt2,
+                               const std::string &p_sType )
 {
     if( get_option<bool>( "ANIMATION_SCT" ) ) {
 
@@ -1929,9 +1959,7 @@ void scrollingcombattext::removeCreatureHP()
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
 {
     static std::map<game_message_type, std::pair<nc_color, nc_color>> const colors {
-        {
-            m_good,     {c_light_green, c_green}
-        },
+        {m_good,     {c_light_green, c_green}},
         {m_bad,      {c_light_red,   c_red}},
         {m_mixed,    {c_pink,    c_magenta}},
         {m_warning,  {c_yellow,  c_brown}},

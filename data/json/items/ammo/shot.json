@@ -50,7 +50,7 @@
     "stack_size": 20,
     "ammo_type": "shot",
     "casing": "shot_hull",
-    "range": 6,
+    "range": 12,
     "damage": 50,
     "recoil": 2500,
     "loudness": 160,
@@ -118,7 +118,7 @@
     "description": "A heavy metal slug used with shotguns to give them the range capabilities of a rifle.  Extremely damaging but rather inaccurate.",
     "price": 4500,
     "dispersion": 100,
-    "relative": { "range": 6, "pierce": 6 },
+    "relative": { "range": 12, "pierce": 6 },
     "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }

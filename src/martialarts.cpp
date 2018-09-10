@@ -65,19 +65,13 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
 
 void ma_technique::load( JsonObject &jo, const std::string &src )
 {
-    optional( jo, was_loaded, "name", name, translated_string_reader );
-    optional( jo, was_loaded, "description", description, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "description", description, "" );
 
     if( jo.has_member( "messages" ) ) {
         JsonArray jsarr = jo.get_array( "messages" );
         player_message = jsarr.get_string( 0 );
-        if( !player_message.empty() ) {
-            player_message = _( player_message.c_str() );
-        }
         npc_message = jsarr.get_string( 1 );
-        if( !npc_message.empty() ) {
-            npc_message = _( npc_message.c_str() );
-        }
     }
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
@@ -122,8 +116,8 @@ bool string_id<ma_technique>::is_valid() const
 
 void ma_buff::load( JsonObject &jo, const std::string &src )
 {
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
-    mandatory( jo, was_loaded, "description", description, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "buff_duration", buff_duration, 2_turns );
     optional( jo, was_loaded, "max_stacks", max_stacks, 1 );
@@ -177,8 +171,8 @@ void martialart::load( JsonObject &jo, const std::string & )
 {
     JsonArray jsarr;
 
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
-    mandatory( jo, was_loaded, "description", description, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -384,7 +378,6 @@ bool ma_technique::is_valid_player( const player &u ) const
     return reqs.is_valid_player( u );
 }
 
-
 ma_buff::ma_buff()
     : buff_duration( 2_turns )
 {
@@ -526,7 +519,6 @@ void martialart::apply_ongethit_buffs( player &u ) const
 {
     simultaneous_add( u, ongethit_buffs );
 }
-
 
 bool martialart::has_technique( const player &u, const matec_id &tec_id ) const
 {

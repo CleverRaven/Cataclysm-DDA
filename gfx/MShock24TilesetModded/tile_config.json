@@ -12341,10 +12341,10 @@
           "rotates": false
         },
         {
-          "id": "t_fence_h",
+          "id": [ "t_fence", "t_fence_h" ] ,
           "fg": 2129,
           "bg": 629,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "t_fence_wire",
@@ -14552,10 +14552,10 @@
           "rotates": false
         },
         {
-          "id": "t_railing_h",
+          "id": [ "t_railing", "t_railing_h" ],
           "fg": 2219,
           "bg": 650,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -14594,7 +14594,7 @@
           "id": "t_railing_v",
           "fg": 2219,
           "bg": 650,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -15107,7 +15107,7 @@
           "rotates": false
         },
         {
-          "id": "t_thconc_floor",
+          "id": [ "t_thconc_floor", "t_thconc_floor_olight" ],
           "fg": 650,
           "rotates": false
         },
@@ -15213,10 +15213,10 @@
           "rotates": false
         },
         {
-          "id": "t_chainfence_h",
+          "id": [ "t_chainfence", "t_chainfence_h" ],
           "fg": 2066,
           "bg": 650,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -15255,7 +15255,7 @@
           "id": "t_chainfence_v",
           "fg": 2066,
           "bg": 650,
-          "rotates": false,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -15320,7 +15320,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_o",
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 2115,
           "bg": 652,
           "rotates": false
@@ -15943,7 +15943,7 @@
           "bg": 657
         },
         {
-          "id": "t_fence_h_season_winter",
+          "id": [ "t_fence_season_winter", "t_fence_h_season_winter" ],
           "fg": 2129,
           "bg": 657
         },
@@ -20968,7 +20968,8 @@
           "rotates": false
         },
         {
-          "id": "t_chainfence_h_season_winter",
+          "id": [ "t_chainfence_season_winter", "t_chainfence_h_season_winter" ],
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -21167,7 +21168,7 @@
           "fg": 2112
         },
         {
-          "id": "t_door_glass_c",
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "fg": 2114,
           "rotates": false
         },

@@ -65,6 +65,7 @@ struct WORLD {
         std::vector<mod_id> active_mod_order;
 
         WORLD();
+        void COPY_WORLD( const WORLD *world_to_copy );
 
         bool save_exists( const save_t &name ) const;
         void add_save( const save_t &name );
@@ -86,11 +87,11 @@ class worldfactory
         ~worldfactory();
 
         // Generate a world
-        WORLDPTR make_new_world( bool show_prompt = true );
+        WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
         WORLDPTR make_new_world( special_game_id special_type );
         // Used for unit tests - does NOT verify if the mods can be loaded
         WORLDPTR make_new_world( const std::vector<mod_id> &mods );
-        WORLDPTR convert_to_world( std::string origin_path );
+        WORLDPTR convert_to_world( const std::string &origin_path );
         /// Returns the *existing* world of given name.
         WORLDPTR get_world( const std::string &name );
         bool has_world( const std::string &name ) const;
@@ -108,8 +109,8 @@ class worldfactory
 
         mod_manager &get_mod_manager();
 
-        void remove_world( std::string worldname );
-        bool valid_worldname( std::string name, bool automated = false );
+        void remove_world( const std::string &worldname );
+        bool valid_worldname( const std::string &name, bool automated = false );
 
         /**
          * World need CDDA build with Lua support

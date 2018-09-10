@@ -2,17 +2,17 @@
 
 ## How to create new issues properly
 
-GitHub issues are used for everything from bug reporting to long-term ideas. As such you can make everything much smoother by following some simple rules.
+GitHub issues are used for everything from bug reporting to suggesting long-term ideas. You can make everything run much smoother by following some simple rules.
 
 ### Rule zero
 
-Always try to give your issue a meaningful title as this is the first thing anyone will see.
+Always give your issue a meaningful title as this is the first thing anyone will see.
 
 Note: `[CR]` and `[WIP]` "tags" are meaningful only for PRs. All open issues by definition are request for comments and work in progress.
 
 ### Bug reports
 
-Before you submit a bug always search the issues to see if it hasn't been reported already.
+Before you submit a bug always search the current list of issues to see if it has been reported already.
 
 Your bug report has to include:
 
@@ -20,7 +20,7 @@ Your bug report has to include:
 - What version were you playing:
  - Tiles or Curses (text-based)
  - Version string (preferably full version e.g. "0.C-4547-g3f1c109", or Jenkins build number e.g. 3245)
-- Description of the problem you've found written in a way that enables anyone to try recreate it
+- Description of the problem written in a way that enables anyone to try and recreate it
 
 Your bug report may include:
 
@@ -36,15 +36,15 @@ The OS and CDDA version are very important - with the pace of changes here it is
 
 ### Enhancements and addition ideas
 
-We have hundreds of issues open - most of them are ideas and suggestions. If you have a general idea or anything that can't be easily described in terms of *current* code changes you'd be better off suggesting it in appropriate section of the forum. You'll also get much broader exposure for your idea there. And getting a polished idea from the forum to GitHub issue should be a smooth move.
+We have hundreds of issues open - most of them are ideas and suggestions. If you have a general idea or anything that can't be easily described in terms of *current* code changes you'd be better off suggesting it in the appropriate section of [the forum](https://discourse.cataclysmdda.org/). You'll also get much broader exposure for your idea there. After developing a polished idea on the forum, it should be easy to make a GitHub issue for it.
 
-Otherwise please search first if maybe something like what you have on mind has been already proposed. If so feel free to join the discussion! If you think your idea is related but sufficiently different - open a new issue and perhaps refer to the older discussion (use GitHub's `#issue_number` reference system).
+Please first search if something like what you have on mind has been already proposed. If so, feel free to join the discussion! If your idea is related but sufficiently different, open a new issue and refer to the older discussion (use GitHub's `#issue_number` reference system).
 
 Remember to take part in the discussion of your suggestions.
 
 ### Questions
 
-You should direct your question to the forum or ask on IRC. You should also checkout the included documentation and additional text files, e.g. `COMPILING.md` if you have problems building.
+You should direct your questions to the forum or ask on IRC. You should also read the included documentation and additional text files, e.g. `COMPILING.md` if you have problems building.
 
 ## Bounties
 

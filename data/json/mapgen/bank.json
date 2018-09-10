@@ -11,8 +11,8 @@
         " #A..........CTC.CTC.p# ",
         " #A...................w ",
         " #....................# ",
-        " #+### c-c-c-c-c####..# ",
-        " #..............#s.+..w ",
+        " #+###-c-c-c-c-c####..# ",
+        " #.....l.l.l.l.l#s.+..w ",
         " #..............#..#..# ",
         " #..ccccccccp...#t.#..# ",
         " ##############+####%%# ",
@@ -24,7 +24,7 @@
         " #RRRRR#....#..CTC.#cc# ",
         " #R$$$R#....########### ",
         " #R...R#....+........p# ",
-        " #R...R#....#..C.C.C .# ",
+        " #R...R#....#..C.C.C..# ",
         " #Rc..MM....#..TTTTTC.# ",
         " #Rc..MM....#..C.C.C..w ",
         " #RRRRR#6...#p.......p# ",
@@ -49,6 +49,7 @@
         "S": "t_sidewalk",
         "T": "t_floor",
         "c": "t_floor",
+        "l": "t_floor",
         "g": "t_wall_glass_alarm",
         "p": "t_floor",
         "s": "t_floor",
@@ -60,13 +61,12 @@
         "C": "f_chair",
         "T": "f_table",
         "c": "f_counter",
+        "l": "f_stool",
         "p": [ "f_indoor_plant", "f_null" ],
         "s": "f_sink",
         "t": "f_toilet"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {} },
       "place_items": [
         { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
         { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },

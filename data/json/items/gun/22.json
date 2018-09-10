@@ -2,6 +2,7 @@
   {
     "id": "american_180",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "American-180",
     "name_plural": "American-180",
     "description": "The American-180 is a submachine gun developed in the 1960's that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
@@ -29,6 +30,7 @@
   {
     "id": "marlin_9a",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Marlin 39A",
     "name_plural": "Marlin 39A",
     "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
@@ -74,6 +76,7 @@
   {
     "id": "rifle_22",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "pipe rifle: .22",
     "name_plural": "pipe rifles: .22",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
@@ -100,6 +103,7 @@
   {
     "id": "rm360_carbine",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "RM360 rotary carbine",
     "description": "This unusual Rivtech carbine features five rotating barrels and a large capacity helical magazine.  Durable and easy to handle, it was designed to overcome the deficiencies of its low power .22LR cartridge by rapidly delivering a large number of projectiles.",
     "weight": 1620,
@@ -124,6 +128,7 @@
   {
     "id": "ruger_1022",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Ruger 10/22",
     "name_plural": "Ruger 10/22",
     "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
@@ -161,6 +166,7 @@
   {
     "id": "sig_mosquito",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "SIG Mosquito",
     "name_plural": "SIG Mosquito",
     "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the latter 20th-early 21st centuries; it has an underbarrel rail.",

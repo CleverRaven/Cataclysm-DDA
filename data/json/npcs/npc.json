@@ -39,7 +39,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_NEC_CPT",
     "faction" : "old_guard",
-    "mission_offered" : "MISSION_OLD_GUARD_NEC_COMMO_1"
+    "mission_offered" : "MISSION_OLD_GUARD_NEC_1"
   },{
       "type" : "npc",
     "id" : "old_guard_necropolis_commo",
@@ -351,5 +351,15 @@
     "mission" : 7,
     "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
+  },{
+    "type": "npc",
+    "id": "derelict_dweller",
+    "//": "Crazy Person.",
+    "name_suffix": "Psycho",
+    "class": "NC_THUG",
+    "attitude": 8,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "wasteland_scavengers"
   }
 ]

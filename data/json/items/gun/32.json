@@ -2,6 +2,7 @@
   {
     "id": "sig_p230",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "SIG Sauer P230",
     "name_plural": "SIG Sauer P230",
     "description": "The SIG Sauer P230 is a small, semi-automatic handgun chambered in .32 ACP.  Due to its small dimensions, it was often carried as a backup weapon.",
@@ -35,6 +36,7 @@
   {
     "id": "skorpion_61",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Skorpion Vz. 61",
     "//": "Total unloaded weight of gun 1301.81 grams, rounded to 1302.  Current weight of folding stock 200 grams.",
     "description": "The Skorpion Vz. 61 is a Czechoslovak submachine gun from the 1950s, chambered in .32 ACP.",
@@ -69,6 +71,7 @@
   {
     "id": "walther_ppk",
     "type": "GUN",
+    "reload_noise_volume": 10,
     "name": "Walther PPK",
     "name_plural": "Walther PPK",
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",

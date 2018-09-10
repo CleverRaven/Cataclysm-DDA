@@ -9,6 +9,7 @@
     "durability": 400,
     "damage_modifier": 80,
     "location": "on_roof",
+    "description": "This heavy weapon is mounted on an automated turret.  If you set it to fire automatically from your vehicle controls, it will fire at any hostile creature that gets too close to your vehicle.  It has a safety system and won't fire if you're in or near the line of fire, but you may get caught in any explosions.",
     "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
@@ -321,6 +322,7 @@
     "range": 15,
     "folded_volume": 15,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
@@ -338,6 +340,7 @@
     "range": 15,
     "folded_volume": 15,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
@@ -522,6 +525,7 @@
     "range": 8,
     "folded_volume": 5,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
@@ -529,7 +533,6 @@
     "type": "vehicle_part",
     "name": "automated flintlock carbine",
     "item": "carbine_flintlock",
-    "location": "on_battery_mount",
     "symbol": "+",
     "broken_symbol": "x",
     "color": "dark_gray",
@@ -539,6 +542,7 @@
     "range": 8,
     "folded_volume": 5,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
@@ -578,6 +582,7 @@
     "range": 12,
     "folded_volume": 8,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
@@ -595,6 +600,7 @@
     "range": 12,
     "folded_volume": 8,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
@@ -1557,6 +1563,7 @@
     "range": 8,
     "folded_volume": 7,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {
@@ -1564,7 +1571,6 @@
     "type": "vehicle_part",
     "name": "automated flintlock rifle",
     "item": "rifle_flintlock",
-    "location": "on_battery_mount",
     "symbol": "+",
     "broken_symbol": "x",
     "color": "dark_gray",
@@ -1574,6 +1580,7 @@
     "range": 8,
     "folded_volume": 7,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
+    "location": "on_roof",
     "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
   },
   {

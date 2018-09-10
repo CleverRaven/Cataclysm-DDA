@@ -7,7 +7,6 @@
 #include <string>
 #include <bitset>
 
-
 class nc_color;
 
 namespace catacurses
@@ -94,7 +93,8 @@ extern void handle_additional_window_clear( WINDOW *win );
 //@todo: move into cata_cursesport
 //used only in SDL mode for clearing windows using rendering
 void clear_window_area( const catacurses::window &win );
-int projected_window_width( int column_count );
-int projected_window_height( int row_count );
+int projected_window_width();
+int projected_window_height();
+bool handle_resize( int w, int h );
 
 #endif

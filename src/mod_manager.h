@@ -141,12 +141,12 @@ class mod_manager
          * @param path The root folder from which the modinfo
          * files are searched.
          */
-        void load_mods_from( std::string path );
+        void load_mods_from( const std::string &path );
         /**
          * Load all mod information from a json file.
          * (@see load_modfile)
          */
-        void load_mod_info( std::string info_file_path );
+        void load_mod_info( const std::string &info_file_path );
         /**
          * Load mod info from a json object. Put the loaded modinfo
          * directly into @ref mod_map.
@@ -158,7 +158,7 @@ class mod_manager
         bool set_default_mods( const mod_id &ident );
         void remove_mod( const mod_id &ident );
         void remove_invalid_mods( std::vector<mod_id> &mods ) const;
-        void load_replacement_mods( const std::string path );
+        void load_replacement_mods( const std::string &path );
 
         pimpl<dependency_tree> tree;
 
@@ -189,8 +189,8 @@ class mod_ui
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool can_shift_up( long selection, std::vector<mod_id> active_list );
-        bool can_shift_down( long selection, std::vector<mod_id> active_list );
+        bool can_shift_up( long selection, const std::vector<mod_id> &active_list );
+        bool can_shift_down( long selection, const std::vector<mod_id> &active_list );
 };
 
 #endif

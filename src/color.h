@@ -220,6 +220,7 @@ enum color_id {
 
     def_c_unset,
 
+    def_c_black_red,
     def_c_white_red,
     def_c_light_gray_red,
     def_c_dark_gray_red,

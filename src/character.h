@@ -109,6 +109,24 @@ struct aim_type {
     int threshold;
 };
 
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+};
+inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
+{
+    lhs += rhs;
+    return lhs;
+}
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -180,6 +198,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Getter for need values exclusive to characters */
         virtual int get_hunger() const;
+        virtual int get_starvation() const;
         virtual int get_thirst() const;
         virtual int get_fatigue() const;
         virtual int get_stomach_food() const;
@@ -187,6 +206,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_hunger( int nhunger );
+        virtual void mod_starvation( int nstarvation );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_stomach_food( int n_stomach_food );
@@ -194,6 +214,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Setters for need values exclusive to characters */
         virtual void set_hunger( int nhunger );
+        virtual void set_starvation( int nstarvation );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_stomach_food( int n_stomach_food );
@@ -264,7 +285,7 @@ class Character : public Creature, public visitable<Character>
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
-                         int intensity = 0, bool force = false ) override;
+                         int intensity = 0, bool force = false, bool deferred = false ) override;
         /**
          * Handles end-of-turn processing.
          */
@@ -326,7 +347,7 @@ class Character : public Creature, public visitable<Character>
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             bool bleed, bool bite, bool infect ) const;
+                             bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
@@ -510,7 +531,7 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried() const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
-        units::volume volume_capacity_reduced_by( units::volume mod ) const;
+        units::volume volume_capacity_reduced_by( const units::volume &mod ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
@@ -611,12 +632,21 @@ class Character : public Creature, public visitable<Character>
          * Average hit points healed per turn.
          */
         float healing_rate( float at_rest_quality ) const;
+        /**
+         * Average hit points healed per turn from healing effects.
+         */
+        float healing_rate_medicine( float at_rest_quality, const body_part bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name
          * @return min( 0, lowest ) + max( 0, highest )
          */
         float mutation_value( const std::string &val ) const;
+
+        /**
+         * Goes over all mutations, returning the sum of the social modifiers
+         */
+        const social_modifiers get_mutation_social_mods() const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
@@ -644,7 +674,7 @@ class Character : public Creature, public visitable<Character>
         bool male;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> hp_cur, hp_max;
+        std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
         bool nv_cached;
 
         inventory inv;
@@ -732,8 +762,9 @@ class Character : public Creature, public visitable<Character>
         mutable pimpl<pathfinding_settings> path_settings;
 
     private:
-        /** Needs (hunger, thirst, fatigue, etc.) */
+        /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int hunger;
+        int starvation;
         int thirst;
         int fatigue;
 

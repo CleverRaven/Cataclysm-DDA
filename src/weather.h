@@ -81,7 +81,10 @@ struct weather_printable {
     std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
     nc_color colGlyph; //!< Color to draw glyph this animation frame.
     char cGlyph; //!< Glyph to draw this animation frame.
-    int startx, starty, endx, endy;
+    int startx;
+    int starty;
+    int endx;
+    int endy;
 };
 
 /**
@@ -162,6 +165,11 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
  * The returned value is in time at standard conditions it is `end - start`.
  */
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
+
+/**
+* Calculates rot per hour at given temperature. Reference in weather_data.cpp
+*/
+int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?

@@ -29,7 +29,6 @@ class JsonArray;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
-
 class migration
 {
     public:
@@ -71,7 +70,6 @@ class Item_factory
          * @param lua_function The LUA id of the LUA function.
          */
         void register_iuse_lua( const std::string &name, int lua_function );
-
 
         /**
          * @name Item groups
@@ -140,7 +138,6 @@ class Item_factory
          */
         bool add_item_to_group( const Group_tag group_id, const Item_tag item_id, int weight );
         /*@}*/
-
 
         /**
          * @name Item type loading
@@ -308,7 +305,7 @@ class Item_factory
         void load( islot_artifact &slot, JsonObject &jo, const std::string &src );
 
         //json data handlers
-        void set_use_methods_from_json( JsonObject &jo, std::string member,
+        void set_use_methods_from_json( JsonObject &jo, const std::string &member,
                                         std::map<std::string, use_function> &use_methods );
 
         use_function usage_from_string( const std::string &type ) const;

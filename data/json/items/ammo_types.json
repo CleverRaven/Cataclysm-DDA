@@ -170,13 +170,13 @@
     {
         "type" : "ammunition_type",
         "id" : "66mm",
-        "name" : "High Explosive Anti Tank warhead",
+        "name" : "high-explosive anti-tank warhead",
         "default" : "66mm_HEAT"
     },
     {
         "type" : "ammunition_type",
         "id" : "120mm",
-        "name" : "High Explosive Anti Tank warhead",
+        "name" : "high-explosive anti-tank warhead",
         "default" : "120mm_HEAT"
     },
     {
@@ -372,6 +372,24 @@
         "default" : "rebreather_filter"
     },
     {
+        "type": "ammunition_type",
+        "id": "gasfilter_s",
+        "name": "filter mask cartridge",
+        "default": "gasfilter_s"
+   },
+   {
+        "type": "ammunition_type",
+        "id": "gasfilter_m",
+        "name": "gas mask cartridge",
+        "default": "gasfilter_m"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "gasfilter_l",
+        "name": "hazmat mask cartridge",
+        "default": "gasfilter_l"
+    },
+    {
         "type" : "ammunition_type",
         "id" : "300",
         "name" : ".300",
@@ -448,5 +466,11 @@
         "id" : "milk",
         "name" : "milk",
         "default" : "milk"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "paintball",
+        "name": "paintball",
+        "default": "paintball"
     }
 ]

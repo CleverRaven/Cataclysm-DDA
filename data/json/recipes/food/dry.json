@@ -106,20 +106,7 @@
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
-    "components": [ [ [ "mushroom", 4 ], [ "mushroom_morel", 4 ] ] ]
-  },
-  {
-    "result": "dry_mushroom_magic",
-    "type": "recipe",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DRY",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "time": 18000,
-    "batch_time_factors": [ 67, 5 ],
-    "autolearn": true,
-    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "mushroom_magic", 4 ] ] ]
+    "components": [ [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ] ] ]
   },
   {
     "type" : "recipe",
@@ -209,7 +196,7 @@
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
-    "components": [ [ [ "egg_bird", 12 ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
   },
   {
     "result": "protein_powder",

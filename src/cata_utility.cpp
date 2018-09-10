@@ -18,9 +18,25 @@
 #include <string>
 #include <locale>
 
+static double pow10( unsigned int n )
+{
+    double ret = 1;
+    double tmp = 10;
+    while( n ) {
+        if( n & 1 ) {
+            ret *= tmp;
+        }
+        tmp *= tmp;
+        n >>= 1;
+    }
+    return ret;
+}
+
 double round_up( double val, unsigned int dp )
 {
-    const double denominator = std::pow( 10.0, double( dp ) );
+    // Some implementations of std::pow does not return the accurate result even
+    // for small powers of 10, so we use a specialized routine to calculate them.
+    const double denominator = pow10( dp );
     return std::ceil( denominator * val ) / denominator;
 }
 
@@ -40,6 +56,40 @@ bool lcmatch( const std::string &str, const std::string &qry )
     std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
 
     return haystack.find( needle ) != std::string::npos;
+}
+
+bool match_include_exclude( const std::string &text, std::string filter )
+{
+    size_t iPos;
+    bool found = false;
+
+    if( filter.empty() ) {
+        return false;
+    }
+
+    do {
+        iPos = filter.find( "," );
+
+        std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
+        const bool exclude = term.substr( 0, 1 ) == "-";
+        if( exclude ) {
+            term = term.substr( 1 );
+        }
+
+        if( ( !found || exclude ) && lcmatch( text, term ) ) {
+            if( exclude ) {
+                return false;
+            }
+
+            found = true;
+        }
+
+        if( iPos != std::string::npos ) {
+            filter = filter.substr( iPos + 1, filter.size() );
+        }
+    } while( iPos != std::string::npos );
+
+    return found;
 }
 
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,

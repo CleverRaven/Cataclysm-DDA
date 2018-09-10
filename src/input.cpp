@@ -22,6 +22,9 @@
 #include <ctype.h>
 #include <algorithm>
 
+using std::min; // from <algorithm>
+using std::max;
+
 extern bool tile_iso;
 
 static const std::string default_context_id( "default" );
@@ -81,6 +84,15 @@ std::string get_input_string_from_file( std::string fname )
         }
     } );
     return ret;
+}
+
+long input_event::get_first_input() const
+{
+    if( sequence.empty() ) {
+        return UNKNOWN_UNICODE;
+    }
+
+    return sequence[0];
 }
 
 input_manager inp_mngr;
@@ -412,15 +424,15 @@ std::string input_manager::get_keyname( long ch, input_event_t inp_type, bool po
 }
 
 const std::vector<input_event> &input_manager::get_input_for_action( const std::string
-        &action_descriptor, const std::string context, bool *overwrites_default )
+        &action_descriptor, const std::string &context, bool *overwrites_default )
 {
     const action_attributes &attributes = get_action_attributes( action_descriptor, context,
                                           overwrites_default );
     return attributes.input_events;
 }
 
-long input_manager::get_first_char_for_action( const std::string action_descriptor,
-        const std::string context )
+long input_manager::get_first_char_for_action( const std::string &action_descriptor,
+        const std::string &context )
 {
     std::vector<input_event> input_events = get_input_for_action( action_descriptor, context );
     return input_events.empty() ? 0 : input_events[0].get_first_input();
@@ -428,7 +440,7 @@ long input_manager::get_first_char_for_action( const std::string action_descript
 
 const action_attributes &input_manager::get_action_attributes(
     const std::string &action_id,
-    const std::string context,
+    const std::string &context,
     bool *overwrites_default )
 {
 
@@ -590,11 +602,36 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
+#ifdef __ANDROID__
+std::list<input_context *> input_context::input_context_stack;
+
+void input_context::register_manual_key( manual_key mk )
+{
+    // Prevent duplicates
+    for( const manual_key &manual_key : registered_manual_keys )
+        if( manual_key.key == mk.key ) {
+            return;
+        }
+
+    registered_manual_keys.push_back( mk );
+}
+
+void input_context::register_manual_key( long key, const std::string text )
+{
+    // Prevent duplicates
+    for( const manual_key &manual_key : registered_manual_keys )
+        if( manual_key.key == key ) {
+            return;
+        }
+
+    registered_manual_keys.push_back( manual_key( key, text ) );
+}
+#endif
+
 void input_context::register_action( const std::string &action_descriptor )
 {
     register_action( action_descriptor, "" );
 }
-
 
 void input_context::register_action( const std::string &action_descriptor, const std::string &name )
 {
@@ -609,7 +646,6 @@ void input_context::register_action( const std::string &action_descriptor, const
         action_name_overrides[action_descriptor] = name;
     }
 }
-
 
 std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor ) const
 {
@@ -714,7 +750,7 @@ const std::string &input_context::handle_input()
 
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {
-            display_help();
+            display_menu();
             return HELP_KEYBINDINGS;
         }
 
@@ -834,13 +870,36 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
 const std::string display_help_hotkeys =
     "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
 
-void input_context::display_help()
+void input_context::display_menu()
 {
     inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
-    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+
+    input_context ctxt( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "UP", _( "Scroll up" ) );
+    ctxt.register_action( "DOWN", _( "Scroll down" ) );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "REMOVE" );
+    ctxt.register_action( "ADD_LOCAL" );
+    ctxt.register_action( "ADD_GLOBAL" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "ANY_INPUT" );
+
+    if( category != "HELP_KEYBINDINGS" ) {
+        // avoiding inception!
+        ctxt.register_action( "HELP_KEYBINDINGS" );
+    }
+
+    std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
+
+    int maxwidth = max( FULL_SCREEN_WIDTH, TERMX );
+    int width = min( 80, maxwidth );
+    int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
+    int height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
+
+    catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2,
+                                maxwidth / 2 - width / 2 );
 
     // has the user changed something?
     bool changed = false;
@@ -863,9 +922,9 @@ void input_context::display_help()
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // height of the area usable for display of keybindings, excludes headers & borders
-    const size_t display_height = FULL_SCREEN_HEIGHT - 11 - 2; // -2 for the border
+    const size_t display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
     // width of the legend
-    const size_t legwidth = FULL_SCREEN_WIDTH - 4 - 2;
+    const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
     std::ostringstream legend;
     legend << "<color_" << string_from_color( unbound_key ) << ">" << _( "Unbound keys" ) <<
@@ -877,23 +936,6 @@ void input_context::display_help()
            "</color>\n";
     legend << _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
 
-    input_context ctxt( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "UP", _( "Scroll up" ) );
-    ctxt.register_action( "DOWN", _( "Scroll down" ) );
-    ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "REMOVE" );
-    ctxt.register_action( "ADD_LOCAL" );
-    ctxt.register_action( "ADD_GLOBAL" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "ANY_INPUT" );
-
-    if( category != "HELP_KEYBINDINGS" ) {
-        // avoiding inception!
-        ctxt.register_action( "HELP_KEYBINDINGS" );
-    }
-
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
     std::string action;
@@ -1106,6 +1148,9 @@ long input_manager::get_previously_pressed_key() const
 
 void input_manager::wait_for_any_key()
 {
+#ifdef __ANDROID__
+    input_context ctxt( "WAIT_FOR_ANY_KEY" );
+#endif
     while( true ) {
         switch( inp_mngr.get_input_event().type ) {
             case CATA_INPUT_KEYBOARD:

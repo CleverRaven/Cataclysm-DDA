@@ -754,12 +754,12 @@
             "rotates":false
         },
         {
-            "id":"t_door_glass_c",
+            "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
             "fg":358,
             "rotates":false
         },
         {
-            "id":"t_door_glass_o",
+            "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
             "fg":359,
             "bg":11,
             "rotates":false
@@ -982,10 +982,10 @@
                     "fg": 389
                 }
             ],
-            "rotates":false
+            "rotates":true
         },
         {
-            "id":"t_fence_h",
+            "id": [ "t_fence", "t_fence_h" ],
             "fg":384,
             "bg":2,
             "multitile":true,
@@ -1016,7 +1016,7 @@
                     "fg": 389
                 }
             ],
-            "rotates":false
+            "rotates":true
         },
         {
             "id":"t_chainfence_v",
@@ -1050,10 +1050,10 @@
                     "fg": 373
                 }
             ],
-            "rotates":false
+            "rotates":true
         },
         {
-            "id":"t_chainfence_h",
+            "id": [ "t_chainfence", "t_chainfence_h" ],
             "fg":368,
             "bg":2,
             "multitile":true,
@@ -1084,7 +1084,7 @@
                     "fg": 373
                 }
             ],
-            "rotates":false
+            "rotates":true
         },
         {
             "id":"t_chainfence_posts",
@@ -1148,10 +1148,10 @@
                     "fg": 421
                 }
             ],
-            "rotates":false
+            "rotates":true
         },
         {
-            "id":"t_railing_h",
+            "id": [ "t_railing", "t_railing_h" ],
             "fg":416,
             "bg":82,
             "multitile":true,
@@ -1182,7 +1182,7 @@
                     "fg": 421
                 }
             ],
-            "rotates":false
+            "rotates":true
         },
         {
             "id":"t_marloss",
@@ -4824,6 +4824,13 @@
          "bg" : 193,
          "rotates" : false,
          "multitile" : false
+      },
+      {
+        "id" : "762_51_casing",
+        "fg" : 588,
+        "bg" : 193,
+        "rotates" : false,
+        "multitile" : false
       },
       {
          "id" : "223_casing",

@@ -293,5 +293,16 @@
             {"item": "marloss_gel"},
             {"item": "fungal_seeds"}
         ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_flamer",
+        "ammo": 50,
+        "magazine": 100,
+        "entries":
+        [
+            { "item": "flamethrower", "charges-min": 100, "charges-max": 1500 }
+        ]
     }
 ]

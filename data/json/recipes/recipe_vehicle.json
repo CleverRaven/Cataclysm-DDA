@@ -1,0 +1,76 @@
+[
+  {
+    "result": "steam_watts_small",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 240000,
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 16 ] ],
+      [ [ "scrap", 90 ], [ "steel_chunk", 30 ], [ "steel_lump", 10 ] ],
+      [ [ "chain", 4 ] ],
+      [ [ "spring", 4 ] ],
+      [ [ "30gal_drum", 3 ] ],
+      [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "steel_plate", 8 ] ],
+      [ [ "water", 150 ] ]
+    ]
+  },
+  {
+    "result": "rebar_plate",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "//": "sawing it down doesn't teach anything useful",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 8000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "rebar", 4 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "spring_plate",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "steel_plate", 1 ] ], [ [ "spring", 3 ] ] ]
+  },
+  {
+    "result": "tearer",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 18 ], [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ],
+      [ [ "hdframe", 1 ] ],
+      [ [ "rebar", 8 ], [ "pipe", 16 ] ],
+      [ [ "chain", 2 ] ],
+      [ [ "blade", 9 ] ]
+    ]
+  }
+]

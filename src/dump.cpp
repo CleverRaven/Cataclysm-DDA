@@ -163,7 +163,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 std::transform( e->gun->valid_mod_locations.begin(),
                                 e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
-                                []( const std::pair<gunmod_location, int>& q ) { return q.first.name(); } );
+                []( const std::pair<gunmod_location, int> &q ) {
+                    return q.first.name();
+                } );
             }
         }
         for( const auto &e : locations ) {
@@ -215,8 +217,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         // optionally filter recipes to include only those using specified skills
         recipe_subset dict;
         for( const auto &r : recipe_dict ) {
-            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string &s ) {
-                if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
+            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string & s ) {
+            if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
                     return true;
                 }
                 auto iter = r.second.required_skills.find( skill_id( s ) );
@@ -228,9 +230,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         // only consider skills that are required by at least one recipe
         std::vector<Skill> sk;
-        std::copy_if( Skill::skills.begin(), Skill::skills.end(), std::back_inserter( sk ), [&dict]( const Skill &s ) {
-            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe *r ) {
-                return r->skill_used == s.ident() || r->required_skills.find( s.ident() ) != r->required_skills.end();
+        std::copy_if( Skill::skills.begin(), Skill::skills.end(),
+        std::back_inserter( sk ), [&dict]( const Skill & s ) {
+            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe * r ) {
+                return r->skill_used == s.ident() ||
+                       r->required_skills.find( s.ident() ) != r->required_skills.end();
             } );
         } );
 
@@ -299,48 +303,18 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             dump( e.second );
         }
 
-    } else if( what == "EXPLOSIVE" ) {
-        header = {
-            // @todo: Should display more useful data: shrapnel damage, safe range
-            "Name", "Power", "Power at 5 tiles", "Power halves at", "Shrapnel count", "Shrapnel mass"
-        };
-
-        auto dump = [&rows]( const std::string & name, const explosion_data & ex ) {
-            std::vector<std::string> r;
-            r.push_back( name );
-            r.push_back( to_string( ex.power ) );
-            r.push_back( string_format( "%.1f", ex.power_at_range( 5.0f ) ) );
-            r.push_back( string_format( "%.1f", ex.expected_range( 0.5f ) ) );
-            r.push_back( to_string( ex.shrapnel.count ) );
-            r.push_back( to_string( ex.shrapnel.mass ) );
-            rows.push_back( r );
-        };
-        for( const itype *e : item_controller->all() ) {
-            const auto use = e->get_use( "explosion" );
-            if( use != nullptr && use->get_actor_ptr() != nullptr ) {
-                const auto actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
-                if( actor != nullptr ) {
-                    dump( e->nname( 1 ), actor->explosion );
-                }
-            }
-
-            auto c_ex = dynamic_cast<const explosion_iuse *>( e->countdown_action.get_actor_ptr() );
-            if( c_ex != nullptr ) {
-                dump( e->nname( 1 ), c_ex->explosion );
-            }
-        }
-
     } else {
         std::cerr << "unknown argument: " << what << std::endl;
         return false;
     }
 
-    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
+    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string> &e ) {
         return e.empty();
     } ), rows.end() );
 
     if( scol >= 0 ) {
-        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
+        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string> &lhs,
+        const std::vector<std::string> &rhs ) {
             return lhs[ scol ] < rhs[ scol ];
         } );
     }
