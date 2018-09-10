@@ -699,6 +699,11 @@ class vehicle
         bool remove_part( int p );
         void part_removal_cleanup();
 
+        // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
+        // the same global position
+        // optionally specify the new vehicle position and the mount points on the new vehicle
+        bool split_vehicles( std::vector<std::vector <int>> new_vehs, std::vector<vehicle *> new_vehicles,
+                             std::vector<std::vector <point>> new_mounts );
         /** Get handle for base item of part */
         item_location part_base( int p );
 

@@ -1555,6 +1555,107 @@ void vehicle::part_removal_cleanup()
     refresh(); // Rebuild cached indices
 }
 
+// Split a vehicle into an old vehicle and one or more new vehicles by moving vehicle_parts
+// from one the old vehicle to the new vehicles.
+// some of the logic borrowed from remove_part
+// skipped the grab, curtain, player activity, and engine checks because they deal
+// with pos, not a vehicle pointer
+// @param new_vehs vector of vectors of part indexes to move to new vehicles
+// @param new_vehicles vector of vehicle pointers containing the new vehicles; if empty, new
+// vehicles will be created
+// @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
+// in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
+// at those mount points
+bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
+                              std::vector<vehicle *> new_vehicles,
+                              std::vector<std::vector <point>> new_mounts )
+{
+    bool did_split = false;
+    size_t i = 0;
+    for( i = 0; i < new_vehs.size(); i ++ ) {
+        std::vector<int> split_parts = new_vehs[ i ];
+        if( split_parts.empty() ) {
+            continue;
+        }
+        std::vector<point> split_mounts = new_mounts[ i ];
+        did_split = true;
+
+        vehicle *new_vehicle = nullptr;
+        if( i < new_vehicles.size() ) {
+            new_vehicle = new_vehicles[ i ];
+        }
+        int split_part0 = split_parts.front();
+        if( new_vehicle == nullptr ) {
+            tripoint new_pos = global_part_pos3( parts[ split_part0 ] );
+            new_vehicle = g->m.add_vehicle( vproto_id( "none" ), new_pos, face.dir() );
+            new_vehicle->name = string_format( "Part #%u of %s", i++, name.c_str() );
+            new_vehicle->move = move;
+        }
+
+        point mnt_offset = parts[ split_part0 ].mount;
+
+        for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
+            int mov_part = split_parts[ new_part ];
+            player *passenger = nullptr;
+            // Unboard any entities standing on any transferred part
+            if( part_flag( mov_part, "BOARDABLE" ) ) {
+                std::vector<int> bp = boarded_parts();
+                for( auto elem : bp ) {
+                    if( elem == mov_part ) {
+                        passenger = get_passenger( mov_part );
+                        g->m.unboard_vehicle( passenger->pos() );
+                    }
+                }
+            }
+
+#if 0
+            // remove labels associated with the mov_part
+            std::string label_str;
+            const auto iter = labels.find( label( parts[ mov_part ].mount.x, parts[ mov_part ].mount.y ) );
+            const bool mv_label = iter != labels.end();
+            // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
+            if( mv_label ) {
+                if( parts_at_relative( parts[ mov_part ].mount.x, parts[ mov_part ].mount.y, false ).empty() ) {
+                    if( mv_label ) {
+                        label_str = iter.begin().text;
+                        labels.erase( iter );
+                    }
+                }
+            }
+#endif
+
+            // transfer the vehicle_part to the new vehicle
+            new_vehicle->parts.emplace_back( parts[ mov_part ] );
+            if( split_mounts.empty() ) {
+                // calculate effective mount point
+                point new_mnt = parts[ mov_part ].mount - mnt_offset;
+                new_vehicle->parts.back().mount = rotate_mount( face.dir(), new_vehicle->face.dir(),
+                                                  point( 0, 0 ), new_mnt );
+            } else {
+                new_vehicle->parts.back().mount = split_mounts[ new_part ];
+            }
+            // put the passenger on the new vehicle
+            if( passenger ) {
+                g->m.board_vehicle( passenger->pos(), passenger );
+            }
+#if 0
+            // add the label to the new vehicle
+            if( !label_str.empty() ) {
+                // vpart_position comes from where? WTF.
+            }
+#endif
+            // indicate the part needs to be removed from the old vehicle
+            parts[ mov_part].removed = true;
+            removed_part_count++;
+        }
+        g->m.dirty_vehicle_list.insert( new_vehicle );
+        g->m.set_transparency_cache_dirty( smz );
+        new_vehicle->refresh();
+        new_vehicle->shift_if_needed();
+    }
+    return did_split;
+}
+
 item_location vehicle::part_base( int p )
 {
     return item_location( vehicle_cursor( *this, p ), &parts[ p ].base );
