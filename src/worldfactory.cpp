@@ -69,6 +69,13 @@ WORLD::WORLD()
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
 }
 
+void WORLD::COPY_WORLD( const WORLD *world_to_copy )
+{
+    world_name = world_to_copy->world_name + "_copy";
+    WORLD_OPTIONS = world_to_copy->WORLD_OPTIONS;
+    active_mod_order = world_to_copy->active_mod_order;
+}
+
 std::string WORLD::folder_path() const
 {
     return FILENAMES["savedir"] + utf8_to_native( world_name );
@@ -129,10 +136,15 @@ WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
     return add_world( retworld );
 }
 
-WORLDPTR worldfactory::make_new_world( bool show_prompt )
+WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
 {
     // World to return after generating
     WORLDPTR retworld = new WORLD();
+
+    if( !world_to_copy.empty() ) {
+        retworld->COPY_WORLD( world_generator->get_world( world_to_copy ) );
+    }
+
     if( show_prompt ) {
         // Window variables
         const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
