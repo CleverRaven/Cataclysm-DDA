@@ -852,7 +852,7 @@
         "volume": 6,
         "to_hit": -3,
         "ammo": "nitrox",
-		"magazines": [ [ "nitrox", [ "nitrox_tank_carbon", "nitrox_tank_metal" ] ] ],
+        "magazines": [ [ "nitrox", [ "nitrox_tank_carbon", "nitrox_tank_metal" ] ] ],
         "use_action": {
 			"type": "transform",
 			"msg": "The air pressure LED on the PBA mask lights up.",
@@ -885,7 +885,7 @@
         "to_hit": -3,
         "turns_per_charge": 3,
         "ammo": "nitrox",
-		"magazines": [ [ "nitrox", [ "nitrox_tank_carbon", "nitrox_tank_metal" ] ] ],
+        "magazines": [ [ "nitrox", [ "nitrox_tank_carbon", "nitrox_tank_metal" ] ] ],
         "revert_to": "mask_bunker",
         "use_action": {
             "menu_text": "Turn off",
