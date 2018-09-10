@@ -826,8 +826,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 // Popup must be created anew because the description is only
                 // printed when the window is created. This only happens once
                 // every keystroke, however.
-                string_input_popup input_popup = string_input_popup();
-                input_popup.callbacks[KEY_ENTER] = [&]() {
+                string_input_popup input_popup;
+                input_popup.callbacks['\n'] = [&]() {
                     done = true;
                     return true;
                 };
