@@ -201,7 +201,7 @@
         "ccc.ccc",
         ".h...h.",
         "...c...",
-        "..hc...",
+        "..hx...",
         "...c...",
         ".h...h.",
         "ccc.ccc"
@@ -501,7 +501,7 @@
         "c.c...c.c",
         "c.c...c.c",
         ".........",
-        ".ccc.ccc.",
+        ".cccxccc.",
         ".........",
         "c.c...c.c",
         "c.c...c.c",
@@ -525,7 +525,7 @@
         "..t....",
         "..tttt.",
         "..hhhh.",
-        "......."
+        "x......"
       ],
       "palettes": [ "lab_palette" ],
       "mapping": {
@@ -568,7 +568,7 @@
       "mapgensize": [ 9, 9 ],
       "rotation": [0, 3],
       "rows": [
-        ".........",
+        "........x",
         "...hhh...",
         "..ttttt..",
         ".ht...th.",
@@ -599,7 +599,7 @@
         "..ch...",
         "..ccdd.",
         ".......",
-        "......."
+        ".x....."
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "mapping": { "c": { "items": [ {"item": "museum_security", "chance": 66} ] } }
@@ -799,7 +799,7 @@
         ".......",
         "=^=....",
         ",,=..hl",
-        ",,=.ccc"
+        ",,=.ccx"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "terrain": {
@@ -875,8 +875,8 @@
         ".........",
         "......|--",
         "......|.T",
-        "......W..",
-        "......|.S"
+        ".h....W..",
+        ".x....|.S"
       ],
       "palettes": [ "lab_palette" ],
       "terrain": { "E": "t_elevator", "e": "t_elevator_control_off" }

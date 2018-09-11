@@ -466,6 +466,7 @@ class overmap
                                      const overmap_connection &connection );
         // Polishing
         bool check_ot_type( const std::string &otype, int x, int y, int z ) const;
+        bool check_ot_subtype( const std::string &otype, int x, int y, int z ) const;
         void chip_rock( int x, int y, int z );
 
         void polish_river();
