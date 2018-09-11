@@ -9426,6 +9426,7 @@ void player::do_read( item &book )
                     lua_callback_args_info.emplace_back( skill.str() );
                     lua_callback_args_info.emplace_back( originalSkillLevel + 1 );
                     lua_callback( "on_player_skill_increased", lua_callback_args_info );
+                    lua_callback( "on_skill_increased" ); // Legacy callback
                 } else {
                     add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name().c_str(), skill_name );
                 }
@@ -10592,6 +10593,7 @@ void player::practice( const skill_id &id, int amount, int cap )
             lua_callback_args_info.emplace_back( id.str() );
             lua_callback_args_info.emplace_back( newLevel );
             lua_callback( "on_player_skill_increased", lua_callback_args_info );
+            lua_callback( "on_skill_increased" ); //Legacy callback
         }
         if(is_player() && newLevel > cap) {
             //inform player immediately that the current recipe can't be used to train further
