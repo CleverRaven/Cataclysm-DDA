@@ -27,7 +27,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "TINY",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -40,7 +51,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "TINY",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -53,7 +75,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -66,7 +99,18 @@
     "move_cost_mod": 8,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -1968,7 +2012,7 @@
     "type": "furniture",
     "id": "f_target",
     "name": "target",
-    "description": "A shooting target in a rough shape of a human.",
+    "description": "A metal shooting target in the rough shape of a human.",
     "symbol": "@",
     "color": "black",
     "move_cost_mod": 2,

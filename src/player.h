@@ -253,6 +253,8 @@ class player : public Character
         bool has_lower_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which is an upgrade of the entered trait */
         bool has_higher_trait( const trait_id &flag ) const;
+        /** Returns true if the player has a trait that shares a type with the entered trait */
+        bool has_same_type_trait( const trait_id &flag ) const;
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
