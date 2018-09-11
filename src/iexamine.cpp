@@ -3730,7 +3730,7 @@ void smoker_activate(player &p, const tripoint &examp)
         return;
     }
 
-    long char_charges = 100 * to_liter( food_volume ) < 100 ? 100 : 100 * to_liter( food_volume );
+    long char_charges = 100 * to_liter( food_volume ) < 100 ? 100 : 25 * to_liter( food_volume );
 
     if( count_charges_in_list( charcoal->type, g->m.i_at( examp ) ) < char_charges ) {
         add_msg( _( "There is not enough charcoal in the rack to smoke this much food." ) );
