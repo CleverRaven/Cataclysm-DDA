@@ -923,7 +923,7 @@
         "o": { "item": "oven", "chance": 30, "repeat": 2 },
         "e": { "item": "pantry", "chance": 35, "repeat": 2 },
         "Y": { "item": "coat_rack", "chance": 30, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
         "W": { "item": "laundry", "chance": 25, "repeat": 4 },
         "f": { "item": "laundry", "chance": 25, "repeat": 4 }
       },
@@ -1046,7 +1046,7 @@
         "o": { "item": "oven", "chance": 30, "repeat": 2 },
         "c": { "item": "pantry", "chance": 35, "repeat": 2 },
         "Y": { "item": "coat_rack", "chance": 30, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
         "W": { "item": "laundry", "chance": 25, "repeat": 4 },
         "h": { "item": "laundry", "chance": 25, "repeat": 4 }
       },
@@ -1211,7 +1211,7 @@
       "toilets": { "t": {  } },
       "items": {
         "B": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
       },
