@@ -642,10 +642,6 @@ void player::serialize( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-<<<<<<< HEAD
-=======
-    json.member( "stamina", stamina );
->>>>>>> master
     json.member( "move_mode", move_mode );
 
     // crafting etc
@@ -747,10 +743,6 @@ void player::deserialize( JsonIn &jsin )
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
 
-<<<<<<< HEAD
-=======
-    data.read( "stamina", stamina );
->>>>>>> master
     data.read( "move_mode", move_mode );
 
     set_highest_cat_level();
