@@ -1029,7 +1029,12 @@ bool veh_interact::do_refill( std::string &msg )
                     return pt.can_reload( obj.contents.front().typeId() );
                 }
             } else if( pt.is_fuel_store() ) {
-                return pt.can_reload( obj.typeId() );
+                bool can_reload = pt.can_reload( obj.typeId() );
+                if( obj.typeId() == fuel_type_battery && can_reload ) {
+                    msg = _( "You cannot recharge a vehicle battery with handheld batteries" );
+                    return false;
+                }
+                return can_reload;
             }
             return false;
         };
