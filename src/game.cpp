@@ -994,7 +994,9 @@ bool game::start_game()
     u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
                         pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
                         u.name.c_str() );
-    lua_callback( "on_new_player_created" );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( u.getID() );
+    lua_callback( "on_new_player_created", lua_callback_args_info );
 
     return true;
 }

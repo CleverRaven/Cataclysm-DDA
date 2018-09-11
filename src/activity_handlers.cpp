@@ -1985,6 +1985,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         }
         const std::string skill_increase_source = "training";
         CallbackArgumentContainer lua_callback_args_info;
+        lua_callback_args_info.emplace_back( p->getID() );
         lua_callback_args_info.emplace_back( skill_increase_source );
         lua_callback_args_info.emplace_back( sk.str() );
         lua_callback_args_info.emplace_back( new_skill_level );
