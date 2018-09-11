@@ -284,7 +284,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( do_animation && !do_draw_line ) {
             // TODO: Make this draw thrown item/launched grenade/arrow
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
-                g->draw_bullet( tp, ( int )i, trajectory, bullet );
+                g->draw_bullet( tp, static_cast<int>( i ), trajectory, bullet );
                 projectile_skip_current_frame = 0;
                 // If we missed recalculate the skip factor so they spread out.
                 projectile_skip_calculation = std::max( ( size_t )range, i ) * projectile_skip_multiplier;

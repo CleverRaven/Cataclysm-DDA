@@ -247,6 +247,7 @@ void main_menu::init_strings()
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -982,6 +983,9 @@ void main_menu::world_tab()
                             query_yes = true;
                             do_delete = false;
                         }
+                    } else if( sel3 == 3 ) { // Copy World settings
+                        layer = 2;
+                        world_generator->make_new_world( true, all_worldnames[sel2 - 1] );
                     }
 
                     if( query_yes ) {

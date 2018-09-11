@@ -189,7 +189,7 @@ void vehicle::thrust( int thd )
         consume_fuel( load );
 
         //break the engines a bit, if going too fast.
-        int strn = ( int )( strain() * strain() * 100 );
+        int strn = static_cast<int>( ( strain() * strain() * 100 ) );
         for( size_t e = 0; e < engines.size(); e++ ) {
             do_engine_damage( e, strn );
         }

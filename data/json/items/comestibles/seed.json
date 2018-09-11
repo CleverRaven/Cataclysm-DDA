@@ -35,6 +35,19 @@
     "color": "green"
   },
   {
+    "id": "seed_hops",
+    "copy-from": "seed",
+    "type": "COMESTIBLE",
+    "name": "hop rhizomes",
+    "name_plural": "hop rhizomes",
+    "description": "Roots of a hop plant, for growing your own.",
+    "weight": 152,
+    "price": 160,
+    "charges": 2,
+    "stack_size": 8,
+    "seed_data": { "plant_name": "hops", "fruit": "hops", "byproducts": [ "straw_pile" ], "grow": 120 }
+  },
+  {
     "id": "seed_blackberries",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
@@ -62,17 +75,31 @@
     "seed_data": { "plant_name": "cranberry", "fruit": "cranberries", "byproducts": [ "withered" ], "grow": 91 }
   },
   {
-    "id": "seed_hops",
-    "copy-from": "seed",
+    "id": "seed_huckleberries",
+    "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
-    "name": "hop rhizomes",
-    "name_plural": "hop rhizomes",
-    "description": "Roots of a hop plant, for growing your own.",
-    "weight": 152,
-    "price": 160,
-    "charges": 2,
-    "stack_size": 8,
-    "seed_data": { "plant_name": "hops", "fruit": "hops", "byproducts": [ "straw_pile" ], "grow": 120 }
+    "name": "huckleberry seeds",
+    "name_plural": "huckleberry seeds",
+    "description": "Some huckleberry seeds.",
+    "seed_data": { "plant_name": "huckleberry", "fruit": "huckleberries", "byproducts": [ "withered" ], "grow": 91 }
+  },
+  {
+    "id": "seed_mulberries",
+    "copy-from": "seed_fruit",
+    "type": "COMESTIBLE",
+    "name": "mulberry seeds",
+    "name_plural": "mulberry seeds",
+    "description": "Some mulberry seeds.",
+    "seed_data": { "plant_name": "mulberry", "fruit": "mulberries", "byproducts": [ "withered" ], "grow": 91 }
+  },
+  {
+    "id": "seed_elderberries",
+    "copy-from": "seed_fruit",
+    "type": "COMESTIBLE",
+    "name": "elderberry seeds",
+    "name_plural": "elderberry seeds",
+    "description": "Some elderberry seeds.",
+    "seed_data": { "plant_name": "elderberry", "fruit": "elderberries", "byproducts": [ "withered" ], "grow": 91 }
   },
   {
     "id": "seed_raspberries",
@@ -91,6 +118,24 @@
     "name_plural": "strawberry seeds",
     "description": "Some strawberry seeds.",
     "seed_data": { "plant_name": "strawberry", "fruit": "strawberries", "byproducts": [ "withered" ], "grow": 91 }
+  },
+  {
+    "id": "seed_grapes",
+    "copy-from": "seed_fruit",
+    "type": "COMESTIBLE",
+    "name": "grape seeds",
+    "name_plural": "grape seeds",
+    "description": "Some grape seeds.",
+    "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "withered" ], "grow": 91 }
+  },
+  {
+    "id": "seed_rose",
+    "copy-from": "seed_fruit",
+    "type": "COMESTIBLE",
+    "name": "rose seeds",
+    "name_plural": "rose seeds",
+    "description": "Some rose seeds.",
+    "seed_data": { "plant_name": "rose", "fruit": "rose_hips", "byproducts": [ "withered" ], "grow": 91 }
   },
   {
     "type": "COMESTIBLE",

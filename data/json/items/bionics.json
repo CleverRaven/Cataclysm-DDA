@@ -822,5 +822,14 @@
     "description": "Nanotubes embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "price": 550000,
     "difficulty": 5
+  },
+  {
+    "id": "bio_shock_absorber",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Kinetic Shock Absorbers CBM",
+    "description": "A set of hydraulic springs and foldable padding that replaces most of the flesh in your limbs and upper torso.  While active, these absorbers will negate damage from severe impacts such as falling, at the cost of reducing your ability to move effectively.",
+    "price": 10000,
+    "difficulty": 4
   }
 ]

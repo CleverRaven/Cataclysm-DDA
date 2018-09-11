@@ -255,7 +255,8 @@ void sounds::process_sound_markers( player *p )
         // Deaf players hear no sound, but still are at risk of additional hearing loss.
         if( is_deaf ) {
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
-                p->add_effect( effect_deaf, std::min( 4_minutes, time_duration::from_turns( felt_volume - 130 ) / 8 ) );
+                p->add_effect( effect_deaf, std::min( 4_minutes,
+                                                      time_duration::from_turns( felt_volume - 130 ) / 8 ) );
                 if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
@@ -295,9 +296,9 @@ void sounds::process_sound_markers( player *p )
         // See if we need to wake someone up
         if( p->has_effect( effect_sleep ) ) {
             if( ( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
-                     p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
-                ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
-                ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
+                       p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
+                  ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
+                  ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
                 !p->has_effect( effect_narcosis ) ) {
                 //Not kidding about sleep-through-firefight
                 p->wake_up();
@@ -309,17 +310,12 @@ void sounds::process_sound_markers( player *p )
 
         const std::string &description = sound.description;
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
-            if( !p->activity.ignore_trivial ) {
+            if( !p->activity.is_distraction_ignored( distraction_type::noise ) ) {
                 const std::string query = description.empty()
                                           ? _( "Heard a noise!" )
                                           : string_format( _( "Heard %s!" ), description.c_str() );
 
-                if( g->cancel_activity_or_ignore_query( query ) ) {
-                    p->activity.ignore_trivial = true;
-                    for( auto activity : p->backlog ) {
-                        activity.ignore_trivial = true;
-                    }
-                }
+                g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }
         }
 
@@ -336,7 +332,7 @@ void sounds::process_sound_markers( player *p )
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
             !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
-            if( p->get_effect( effect_alarm_clock ).get_duration() < 2_turns ) {
+            if( p->get_effect( effect_alarm_clock ).get_duration() == 1_turns ) {
                 if( slept_through ) {
                     p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
                 } else {
@@ -619,9 +615,9 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
 
         const auto mods = firing.gunmods();
         if( std::any_of( mods.begin(), mods.end(),
-                         []( const item * e ) {
-                             return e->type->gunmod->loudness < 0;
-                         } ) ) {
+        []( const item * e ) {
+        return e->type->gunmod->loudness < 0;
+    } ) ) {
             weapon_id = "weapon_fire_suppressed";
         }
 
@@ -662,7 +658,8 @@ struct sound_thread {
 };
 } // namespace sfx
 
-void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, bool hit, bool targ_mon,
+void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
+                                bool targ_mon,
                                 const std::string &material )
 {
     // If creating a new thread for each invocation is to much, we have to consider a thread
@@ -1017,7 +1014,8 @@ void sfx::play_variant_sound( const std::string &, const std::string &, int, int
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
 void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int ) { }
 void sfx::generate_gun_sound( const player &, const item & ) { }
-void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool, const std::string & ) { }
+void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool,
+                                const std::string & ) { }
 void sfx::do_hearing_loss( int ) { }
 void sfx::remove_hearing_loss() { }
 void sfx::do_projectile_hit( const Creature & ) { }

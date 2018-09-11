@@ -2312,7 +2312,6 @@ void iexamine::keg(player &p, const tripoint &examp)
         return;
     } else {
         auto drink = g->m.i_at(examp).begin();
-        std::vector<std::string> menu_items;
         enum options {
             FILL_CONTAINER,
             HAVE_A_DRINK,
@@ -3864,6 +3863,7 @@ void smoker_load_food( player &p, const tripoint &examp )
     // count and ask for item to be placed ...
     int count = 0;
     std::list<std::string> names;
+    std::vector<const item *> entries;
     for( const item *smokable_item : filtered ) {
 
         if( smokable_item->count_by_charges() ) {
@@ -3875,6 +3875,7 @@ void smoker_load_food( player &p, const tripoint &examp )
             auto on_list = std::find( names.begin(), names.end(), item::nname( smokable_item->typeId(), 1 ) );
             if( on_list == names.end() ) {
                 smenu.addentry( item::nname( smokable_item->typeId(), 1 ) );
+                entries.push_back( smokable_item );
             }
             names.push_back( item::nname( smokable_item->typeId(), 1 ) );
             comps.push_back( item_comp( smokable_item->typeId(), count ) );
@@ -3890,12 +3891,12 @@ void smoker_load_food( player &p, const tripoint &examp )
     smenu.addentry( -1, true, 'q', _( "Cancel" ) );
     smenu.query();
 
-    if( static_cast<size_t>( smenu.ret ) >= filtered.size() || smenu.ret == -1 ) {
+    if( static_cast<size_t>( smenu.ret ) >= entries.size() || smenu.ret == -1 ) {
         add_msg(m_info, _( "Never mind." ) );
         return;
     }
     count = 0;
-    auto what = filtered[smenu.ret];
+    auto what = entries[smenu.ret];
     for( auto c : comps ) {
         if( c.type == what->typeId() ) {
             count = c.count;

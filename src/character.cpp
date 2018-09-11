@@ -93,6 +93,8 @@ static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
@@ -1043,6 +1045,15 @@ units::mass Character::weight_capacity() const
     if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
         ret = ret * .60;
     }
+    if( has_trait( trait_id( "SMALL" ) ) ) {
+        ret = ret * .80;
+    }
+    if( has_trait( trait_id( "SMALL2" ) ) ) {
+        ret = ret * .50;
+    }
+    if( has_trait( trait_id( "SMALL_OK" ) ) ) {
+        ret = ret * .70;
+    }
     if (has_artifact_with(AEP_CARRY_MORE)) {
         ret += 22500_gram;
     }
@@ -1379,6 +1390,12 @@ void Character::reset_stats()
     if (has_trait( trait_TAIL_FLUFFY )) {
         mod_dodge_bonus(4);
     }
+    if( has_trait( trait_SMALL2 ) ) {
+        mod_dodge_bonus(2);
+    }
+    if( has_trait( trait_SMALL_OK ) ) {
+        mod_dodge_bonus(2);
+    }
     if (has_trait( trait_WINGS_BAT )) {
         mod_dodge_bonus(-3);
     }
@@ -1626,6 +1643,12 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     }
     if( has_bionic( bionic_id( "bio_pokedeye" ) ) ) {
         vals[bp_eyes].encumbrance += 10;
+    }
+    if( has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        for( auto &val : vals ) {
+            val.encumbrance += 3; // Slight encumbrance to all parts except eyes
+        }
+        vals[bp_eyes].encumbrance -= 3;
     }
 
     // Lower penalty for bps covered only by XL armor
@@ -2097,6 +2120,12 @@ hp_part Character::body_window( const std::string &menu_header,
         }
     }
     mvwprintz( hp_window, parts.size() + y_off, 1, c_light_gray, _("%d: Exit"), parts.size() + 1 );
+
+#ifdef __ANDROID__
+    input_context ctxt("CHARACTER_BODY_WINDOW");
+    for( size_t i = 0; i < parts.size() + 1; i++ )
+        ctxt.register_manual_key('1' + i);
+#endif
 
     wrefresh(hp_window);
     char ch;

@@ -35,7 +35,7 @@ nanosleep( const struct timespec *requested_delay,
             /* Number of milliseconds to pass to the Sleep function.
                Since Sleep can take up to 8 ms less or 8 ms more than requested
                (or maybe more if the system is loaded), we subtract 10 ms.  */
-            int sleep_millis = ( int ) requested_delay->tv_nsec / 1000000 - 10;
+            int sleep_millis = static_cast<int>( requested_delay->tv_nsec ) / 1000000 - 10;
             /* Determine how many ticks to delay.  */
             LONGLONG wait_ticks = requested_delay->tv_nsec * ticks_per_nanosecond;
             /* Start.  */

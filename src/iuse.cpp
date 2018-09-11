@@ -814,30 +814,6 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-/**
- * Hallucinogenic with a fun effect. Specifically used to have a comestible
- * give a morale boost without it being noticeable by examining the item (ie,
- * for magic mushrooms).
- */
-int iuse::fun_hallu( player *p, item *it, bool, const tripoint & )
-{
-    if( p->is_npc() ) {
-        // NPCs hallucinating doesn't work yet!
-        return 0;
-    }
-
-    //Fake a normal food morale effect
-    if( p->has_trait( trait_SPIRITUAL ) ) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 12_minutes, 6_minutes, false, it->type );
-    } else {
-        p->add_morale( MORALE_FOOD_GOOD, 18, 36, 6_minutes, 3_minutes, false, it->type );
-    }
-    if( !p->has_effect( effect_hallu ) ) {
-        p->add_effect( effect_hallu, 6_hours );
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::meditate( player *p, item *it, bool t, const tripoint & )
 {
     if( !p || t ) {
@@ -1098,6 +1074,58 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
         p->mod_thirst( 2 * num_cured );
         p->mod_fatigue( 2 * num_cured );
     }
+    return it->type->charges_to_use();
+}
+
+int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
+{
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+                             pgettext( "memorial_male", "Injected smart purifier." ), pgettext( "memorial_female",
+                                     "Injected smart purifier." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
+    }
+
+    std::vector<trait_id> valid; // Which flags the player has
+    std::vector<std::string> valid_names; // Which flags the player has
+    for( auto &traits_iter : mutation_branch::get_all() ) {
+        if( p->has_trait( traits_iter.first ) &&
+            !p->has_base_trait( traits_iter.first ) &&
+            p->purifiable( traits_iter.first ) ) {
+            //Looks for active mutation
+            valid.push_back( traits_iter.first );
+            valid_names.push_back( traits_iter.first->name );
+        }
+    }
+    if( valid.empty() ) {
+        p->add_msg_if_player( _( "You don't have any mutations to purify." ) );
+        return 0;
+    }
+
+    int mutation_index = menu_vec( true, _( "Choose a mutation to purify" ),
+                                   valid_names ) - 1;
+    if( mutation_index < 0 ) {
+        return 0;
+    }
+
+    p->add_msg_if_player(
+        _( "You inject the purifier.  The liquid thrashes inside the tube and goes down reluctantly." ) );
+
+    p->remove_mutation( valid[mutation_index] );
+    valid.erase( valid.begin() + mutation_index );
+
+    // and one or two more untargeted purifications.
+    if( !valid.empty() ) {
+        p->remove_mutation( random_entry_removed( valid ) );
+    }
+    if( !valid.empty() && one_in( 2 ) ) {
+        p->remove_mutation( random_entry_removed( valid ) );
+    }
+
+    p->mod_pain( 3 );
+
+    item syringe( "syringe", it->birthday() );
+    p->i_add( syringe );
     return it->type->charges_to_use();
 }
 
@@ -4824,7 +4852,7 @@ int iuse::spray_can( player *p, item *it, bool, const tripoint & )
     return handle_ground_graffiti( *p, it, ismarker ? _( "Write what?" ) : _( "Spray what?" ) );
 }
 
-int iuse::handle_ground_graffiti( player &p, item *it, const std::string prefix )
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -4878,14 +4906,27 @@ static bool heat_item( player &p )
     p.mod_moves( -300 ); //initial preparations
     if( target.item_tags.count( "FROZEN" ) ) {
         add_msg( _( "You defrost the food." ) );
-        // simulates heat capacity of food, more weight = longer heating time
-        // this is x2 to simulate larger delta temperature of frozen food in relation to
-        // heating non-frozen food (x1); no real life physics here, only aproximations
-        p.mod_moves( -to_gram( target.weight() ) * 2 );
         target.item_tags.erase( "FROZEN" );
-        target.item_tags.insert( "HOT" );
+        if( target.has_flag( "EATEN_COLD" ) ) {
+            // heat just enough to thaw it
+            p.mod_moves( -to_gram( target.weight() ) );
+            target.item_tags.insert( "COLD" );
+            if( g->get_temperature( p.pos() ) <= FRIDGE_TEMPERATURE ) {
+                // environment is cold; heat more to prevent re-freeze
+                target.item_counter = 50;
+            } else {
+                // environment is warm; heat less to keep COLD longer
+                target.item_counter = 550;
+            }
+        } else {
+            // simulates heat capacity of food, more weight = longer heating time
+            // this is x2 to simulate larger delta temperature of frozen food in relation to
+            // heating non-frozen food (x1); no real life physics here, only aproximations
+            p.mod_moves( -to_gram( target.weight() ) * 2 );
+            target.item_tags.insert( "HOT" );
+            target.item_counter = 300; // prevents insta-freeze after defrosting
+        }
         target.active = true;
-        target.item_counter = 300; // prevents insta-freeze after defrosting
         if( target.has_flag( "NO_FREEZE" ) && !target.rotten() ) {
             target.item_tags.insert( "MUSHY" );
         } else if( target.has_flag( "NO_FREEZE" ) && target.has_flag( "MUSHY" ) &&

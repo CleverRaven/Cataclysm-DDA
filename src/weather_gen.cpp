@@ -76,7 +76,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
          base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     // Wind power
-    W = std::max( 0, 1020 - ( int )P );
+    W = std::max( 0, 1020 - static_cast<int>( P ) );
 
     // Acid rains
     const double acid_content = base_acid * A;
