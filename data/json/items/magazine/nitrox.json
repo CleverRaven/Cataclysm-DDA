@@ -1,0 +1,36 @@
+[
+  {
+    "id": "nitrox_tank_metal",
+    "type": "MAGAZINE",
+    "name": "aluminum nitrox cylinder",
+    "description": "A standard 30 minute aluminum 2216 PSI cylinder for use with a breathing apparatus.",
+    "weight": 6000,
+    "volume": 47,
+    "price": 5600,
+    "material": "aluminum",
+    "symbol": "#",
+    "color": "yellow",
+    "ammo_type": "nitrox",
+    "capacity": 100,
+    "count": 100,
+    "reliability": 10,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "nitrox_tank_carbon",
+    "type": "MAGAZINE",
+    "name": "carbon fiber nitrox cylinder",
+    "description": "A standard 45 minute carbon fiber 4500 PSI cylinder for use with a breathing apparatus.",
+    "weight": 1500,
+    "volume": 47,
+    "price": 8400,
+    "material": "kevlar",
+    "symbol": "#",
+    "color": "gray",
+    "ammo_type": "nitrox",
+    "capacity": 150,
+    "count": 150,
+    "reliability": 10,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  }
+]

@@ -389,6 +389,12 @@
         "name": "hazmat mask cartridge",
         "default": "gasfilter_l"
     },
+	{
+        "type": "ammunition_type",
+        "id": "nitrox",
+        "name": "nitrox",
+        "default": "nitrox"
+    },
     {
         "type" : "ammunition_type",
         "id" : "300",
