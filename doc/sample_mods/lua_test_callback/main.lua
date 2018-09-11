@@ -1,15 +1,15 @@
 local MOD = {
   id = "lua_test_callback",
-  version = "2018-09-10"
+  version = "2018-09-11"
 }
 mods[MOD.id] = MOD
 
-MOD.MessageWithLog = function( s )
-    if (log.message) then
-      log.message( s )
+MOD.MessageWithLog = function(s)
+    if log.message then
+      log.message(s)
     end
-    if (game.add_msg) then
-      game.add_msg( s )
+    if game.add_msg then
+      game.add_msg(s)
     end
 end
 
@@ -21,8 +21,8 @@ MOD.on_savegame_loaded = function()
   MOD.DisplayCallbackMessages("on_savegame_loaded")
 end
 
-MOD.on_new_player_created = function()
-  MOD.DisplayCallbackMessages("on_new_player_created")
+MOD.on_new_player_created = function(player_id)
+  MOD.DisplayCallbackMessages("on_new_player_created", player_id)
 end
 
 MOD.on_turn_passed = function()
@@ -49,63 +49,63 @@ MOD.on_year_passed = function()
   MOD.DisplayCallbackMessages("on_year_passed")
 end
 
-MOD.on_player_skill_increased = function(skill_increased_source, skill_increased_id, skill_increased_level)
-  MOD.DisplayCallbackMessages("on_player_skill_increased", skill_increased_source, skill_increased_id, skill_increased_level)
-end
-
-MOD.on_player_dodge = function(source_dodge,difficulty_dodge)
-  MOD.DisplayCallbackMessages("on_player_dodge", source_dodge, difficulty_dodge)
-end
-
-MOD.on_player_hit = function(source_hit, body_part_hit) --[[dealt_projectile_attack]]--
-  MOD.DisplayCallbackMessages("on_player_hit")
-end
-
-MOD.on_player_hurt = function(source_hurt, disturb)
-  MOD.DisplayCallbackMessages("on_player_hurt", source_hurt, disturb)
-end
-
-MOD.on_player_mutation_gain = function(mutation_gained)
-  MOD.DisplayCallbackMessages("on_player_mutation_gain", mutation_gained)
-end
-
-MOD.on_player_mutation_loss = function(mutation_lost)
-  MOD.DisplayCallbackMessages("on_player_mutation_loss", mutation_lost)
-end
-
-MOD.on_player_stat_change = function(stat_changed,stat_value)
-  MOD.DisplayCallbackMessages("on_player_stat_change", stat_changed,stat_value)
-end
-
-MOD.on_player_item_wear = function(item_last_worn)
-  MOD.DisplayCallbackMessages("on_player_item_wear", item_last_worn)
-end
-
-MOD.on_player_item_takeoff = function(item_last_taken_off)
-  MOD.DisplayCallbackMessages("on_player_item_takeoff", item_last_taken_off)
-end
-
-MOD.on_player_effect_int_changes = function(effect_changed, effect_intensity, effect_bodypart)
-  MOD.DisplayCallbackMessages("on_player_effect_int_change", effect_changed, effect_intensity, effect_bodypart)
-end
-
-MOD.on_player_mission_assignment = function(mission_assigned)
-  MOD.DisplayCallbackMessages("on_player_mission_assignment", mission_assigned)
-end
-
-MOD.on_player_mission_finished = function(mission_finished)
-  MOD.DisplayCallbackMessages("on_player_mission_finished", mission_finished)
-end
-
-MOD.on_mapgen_finished = function(mapgen_generator_type, mapgen_terrain_type_id, mapgen_terrain_coordinates) 
-  MOD.DisplayCallbackMessages("on_mapgen_finished", mapgen_generator_type, mapgen_terrain_type_id, mapgen_terrain_coordinates)
-end
-
 MOD.on_weather_changed = function(weather_new, weather_old)
   MOD.DisplayCallbackMessages("on_weather_changed", weather_new, weather_old)
 end
 
-MOD.DisplayCallbackMessages = function( callback_name, ... )
+MOD.on_player_skill_increased = function(player_id, source, skill_id, level)
+  MOD.DisplayCallbackMessages("on_player_skill_increased", player_id, source, skill_id, level)
+end
+
+MOD.on_player_dodge = function(player_id, source, difficulty)
+  MOD.DisplayCallbackMessages("on_player_dodge", player_id, source, difficulty)
+end
+
+MOD.on_player_hit = function(player_id, source, bodypart) --[[dealt_projectile_attack]]--
+  MOD.DisplayCallbackMessages("on_player_hit", player_id, source, bodypart)
+end
+
+MOD.on_player_hurt = function(player_id, source, disturb)
+  MOD.DisplayCallbackMessages("on_player_hurt", player_id, source, disturb)
+end
+
+MOD.on_player_mutation_gain = function(player_id, mutation_id)
+  MOD.DisplayCallbackMessages("on_player_mutation_gain", player_id, mutation_id)
+end
+
+MOD.on_player_mutation_loss = function(player_id, mutation_id)
+  MOD.DisplayCallbackMessages("on_player_mutation_loss", player_id, mutation_id)
+end
+
+MOD.on_player_stat_change = function(player_id, stat_id, stat_value)
+  MOD.DisplayCallbackMessages("on_player_stat_change", player_id, stat_id, stat_value)
+end
+
+MOD.on_player_item_wear = function(player_id, item_id)
+  MOD.DisplayCallbackMessages("on_player_item_wear", player_id, item_id)
+end
+
+MOD.on_player_item_takeoff = function(player_id, item_id)
+  MOD.DisplayCallbackMessages("on_player_item_takeoff", player_id, item_id)
+end
+
+MOD.on_player_effect_int_changes = function(player_id, effect_id, intensity, bodypart)
+  MOD.DisplayCallbackMessages("on_player_effect_int_change", player_id, effect_id, intensity, bodypart)
+end
+
+MOD.on_player_mission_assignment = function(player_id, mission_id)
+  MOD.DisplayCallbackMessages("on_player_mission_assignment", player_id, mission_id)
+end
+
+MOD.on_player_mission_finished = function(player_id, mission_id)
+  MOD.DisplayCallbackMessages("on_player_mission_finished", player_id, mission_id)
+end
+
+MOD.on_mapgen_finished = function(mapgen_type, mapgen_id, mapgen_coord) 
+  MOD.DisplayCallbackMessages("on_mapgen_finished", mapgen_type, mapgen_id, mapgen_coord)
+end
+
+MOD.DisplayCallbackMessages = function(callback_name, ...)
 
   MOD.MessageWithLog ("Callback name is <color_cyan>"..tostring(callback_name).."</color>")
   local callback_args = {...}
