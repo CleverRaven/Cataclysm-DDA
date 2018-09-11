@@ -108,7 +108,7 @@
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
         "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] }
+        "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] },

@@ -151,7 +151,7 @@
         "h": { "item": "bedroom", "chance": 65 },
         "k": { "item": "bedroom", "chance": 65 },
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
+        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
         "l": [ { "item": "tools_earthworking", "chance": 65 }, { "item": "mechanics", "chance": 40 }, { "item": "home_hw", "chance": 50 }, { "item": "tools_common", "chance": 50 } ],
         "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 65 }, { "item": "moonshine_brew", "chance": 65 } ]
       },
@@ -270,7 +270,7 @@
         "e": { "item": "fridge", "chance": 65 },
         "h": { "item": "bedroom", "chance": 65 },
         "k": { "item": "bedroom", "chance": 65 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
+        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
         "l": [ { "item": "tools_earthworking", "chance": 65 }, { "item": "mechanics", "chance": 40 }, { "item": "home_hw", "chance": 50 }, { "item": "tools_common", "chance": 50 } ],
         "m": [ { "item": "livingroom", "chance": 20 }, { "item": "survival_armor", "chance": 20 }, { "item": "camping", "chance": 20 }, { "item": "gear_survival", "chance": 20 }, { "item": "bed", "chance": 40 } ],
         "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 40 }, { "item": "softdrugs", "chance": 40 } ]
