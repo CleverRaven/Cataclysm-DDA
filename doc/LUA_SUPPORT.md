@@ -160,18 +160,20 @@ Following Lua-callbacks exist:
 
 *player-related*:
 
-- `on_player_skill_increased(skill_increased_source, skill_increased_id, skill_increased_level)` runs whenever player skill is increased (previously known as `on_skill_increased`);
-- `on_player_dodge(source_dodge,difficulty_dodge)` runs whenever player have dodged;
-- `on_player_hit(source_hit, body_part_hit)` runs whenever player were hit;
-- `on_player_hurt(source_hurt, disturb)` runs whenever player were hurt;
-- `on_player_mutation_gain(mutation_gained)` runs whenever player gains mutation;
-- `on_player_mutation_loss(mutation_lost)` runs whenever player loses mutation;
-- `on_player_stat_change(stat_changed,stat_value)` runs whenever player stats are changed;
-- `on_player_effect_int_changes(effect_changed, effect_intensity, effect_bodypart)` runs whenever intensity of effect on player has changed;
-- `on_player_item_wear(item_last_worn)` runs whenever player wears some clothes on;
-- `on_player_item_takeoff(item_last_taken_off)` runs whenever player takes some clothes off;
-- `on_mission_assignment(mission_assigned)` runs whenever player is assigned to mission;
-- `on_mission_finished(mission_finished)` runs whenever player finishes the mission.
+- `on_player_skill_increased(player_id, source, skill_id, level)` runs whenever player skill is increased (previously known as `on_skill_increased`);
+- `on_player_dodge(player_id, source, difficulty)` runs whenever player have dodged;
+- `on_player_hit(player_id, source, body_part)` runs whenever player were hit;
+- `on_player_hurt(player_id, source, disturb)` runs whenever player were hurt;
+- `on_player_mutation_gain(player_id, mutation_id)` runs whenever player gains mutation;
+- `on_player_mutation_loss(player_id, mutation_id)` runs whenever player loses mutation;
+- `on_player_stat_change(player_id, stat_id, stat_value)` runs whenever player stats are changed;
+- `on_player_effect_int_changes(player_id, effect_id, intensity, bodypart)` runs whenever intensity of effect on player has changed;
+- `on_player_item_wear(player_id, item_id)` runs whenever player wears some clothes on;
+- `on_player_item_takeoff(player_id, item_id)` runs whenever player takes some clothes off;
+- `on_mission_assignment(player_id, mission_id)` runs whenever player is assigned to mission;
+- `on_mission_finished(player_id, mission_id)` runs whenever player finishes the mission.
+
+__Note for `player_id`:__ Value of -1 (when game is not started) or 1 (when game is started) are used for player character, values bigger than 1 are used for npcs.
 
 *mapgen-related*:
 
