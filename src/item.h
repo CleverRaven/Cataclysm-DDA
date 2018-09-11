@@ -143,8 +143,9 @@ struct iteminfo {
          *  @param LowerIsBetter True if lower values better for red/green coloring
          *  @param DrawName True if item name should be displayed.
          */
-        iteminfo( std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
-                  bool _is_int = true, std::string Plus = "", bool NewLine = true,
+        iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
+                  double Value = -999,
+                  bool _is_int = true, const std::string &Plus = "", bool NewLine = true,
                   bool LowerIsBetter = false, bool DrawName = true );
 };
 

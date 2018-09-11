@@ -48,7 +48,6 @@ char get_free_invlet( player &p )
     for( auto &inv_char : bionic_chars ) {
         if( p.bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
-            break;
         }
     }
     return ' ';

@@ -345,6 +345,7 @@ static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_NO_THIRST( "NO_THIRST" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINREC1( "PAINREC1" );
@@ -1115,7 +1116,7 @@ void player::update_bodytemp()
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
-        
+
         const int h_radiation = get_heat_radiation( pos(), false );
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
@@ -2393,7 +2394,7 @@ void player::disp_morale()
 
 bool player::has_conflicting_trait( const trait_id &flag ) const
 {
-    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) );
+    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) || has_same_type_trait ( flag ) );
 }
 
 bool player::has_opposite_trait( const trait_id &flag ) const
@@ -2420,6 +2421,16 @@ bool player::has_higher_trait( const trait_id &flag ) const
 {
     for( auto &i : flag->replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool player::has_same_type_trait( const trait_id &flag ) const
+{
+    for( auto &i : get_mutations_in_types( flag->types ) ) {
+        if( has_trait( i ) ) {
             return true;
         }
     }
@@ -2916,7 +2927,7 @@ void player::shout( std::string msg )
         base = 15;
         shout_multiplier = 3;
         if ( msg.empty() ) {
-            msg = _("yourself scream loudly!");
+            msg = is_player() ? _("yourself scream loudly!") : _("a loud scream!");
         }
     }
 
@@ -2924,12 +2935,12 @@ void player::shout( std::string msg )
         shout_multiplier = 4;
         base = 20;
         if ( msg.empty() ) {
-            msg = _("yourself let out a piercing howl!");
+            msg = is_player() ? _("yourself let out a piercing howl!") : _("a piercing howl!");
         }
     }
 
     if ( msg.empty() ) {
-        msg = _("yourself shout loudly!");
+        msg = msg = is_player() ? _("yourself shout loudly!") : _("a loud shout!");
     }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
@@ -2965,6 +2976,7 @@ void player::shout( std::string msg )
         // The shout's volume is 1/2 or lower of what it would be without the penalty
         add_msg( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
+
     sounds::sound( pos(), noise, msg );
 }
 
@@ -3163,6 +3175,10 @@ void player::on_dodge( Creature *source, float difficulty )
             melee_attack( *source, false, tec );
         }
     }
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( source );
+    lua_callback_args_info.emplace_back( difficulty );
+    lua_callback( "on_player_dodge", lua_callback_args_info );
 }
 
 void player::on_hit( Creature *source, body_part bp_hit,
@@ -3237,6 +3253,11 @@ void player::on_hit( Creature *source, body_part bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( source );
+    lua_callback_args_info.emplace_back( bp_hit );
+    //lua_callback_args_info.emplace_back( proj );
+    lua_callback( "on_player_hit", lua_callback_args_info );
 }
 
 void player::on_hurt( Creature *source, bool disturb /*= true*/ )
@@ -3252,9 +3273,10 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_query( string_format( _( "You were attacked by %s!" ), source->disp_name().c_str() ) );
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ), 
+                                                    source->disp_name().c_str() ) );
             } else {
-                g->cancel_activity_query( _( "You were hurt!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
             }
         }
     }
@@ -3262,6 +3284,10 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
     if( is_dead_state() ) {
         set_killer( source );
     }
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( source );
+    lua_callback_args_info.emplace_back( disturb );
+    lua_callback( "on_player_hurt", lua_callback_args_info );
 }
 
 bool player::immune_to( body_part bp, damage_unit dam ) const
@@ -3551,7 +3577,7 @@ void player::react_to_felt_pain( int intensity )
         return;
     }
     if( is_player() && intensity >= 2 ) {
-        g->cancel_activity_query( _( "Ouch, something hurts!" ) );
+        g->cancel_activity_or_ignore_query( distraction_type::pain,  _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
     if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
@@ -4217,6 +4243,7 @@ void player::update_needs( int rate_multiplier )
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down );
     const bool hibernating = asleep && is_hibernating();
+    const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     float hunger_rate = metabolic_rate();
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
@@ -4271,6 +4298,9 @@ void player::update_needs( int rate_multiplier )
         } else if( get_thirst() > get_hunger() ) {
             set_hunger( get_thirst() );
         }
+    } else if( mouse ) {
+        // Metabolic Rehydration makes PT mice gain all their hydration from food.
+        set_thirst( get_hunger() );
     }
 
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
@@ -5554,7 +5584,7 @@ void player::suffer()
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
             if ( !is_npc() ) {
-                g->cancel_activity_query( _( "You have an asthma attack!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
             }
         }
     }
@@ -9433,6 +9463,8 @@ void player::do_read( item &book )
 
             skill_level.readBook( min_ex, max_ex, reading->level );
 
+            std::string skill_name = skill.obj().name();
+
             if( skill_level != originalSkillLevel ) {
                 if( learner->is_player() ) {
                     add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name().c_str(),
@@ -9441,12 +9473,16 @@ void player::do_read( item &book )
                         //~ %s is skill name. %d is skill level
                         add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
                                           pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
-                                          skill_level.level(), skill->name() );
+                                          skill_level.level(), skill_name );
                     }
-                    lua_callback( "on_skill_increased" );
+                    const std::string skill_increase_source = "book";
+                    CallbackArgumentContainer lua_callback_args_info;
+                    lua_callback_args_info.emplace_back( skill_increase_source );
+                    lua_callback_args_info.emplace_back( skill.str() );
+                    lua_callback_args_info.emplace_back( originalSkillLevel + 1 );
+                    lua_callback( "on_player_skill_increased", lua_callback_args_info );
                 } else {
-                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name().c_str(),
-                             skill.obj().name().c_str() );
+                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name().c_str(), skill_name );
                 }
             } else {
                 //skill_level == originalSkillLevel
@@ -9454,8 +9490,7 @@ void player::do_read( item &book )
                     continuous = true;
                 }
                 if( learner->is_player() ) {
-                    add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill.obj().name().c_str(),
-                             skill_level.exercise() );
+                    add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill_name, skill_level.exercise() );
                 } else {
                     little_learned.insert( learner->disp_name() );
                 }
@@ -10545,6 +10580,7 @@ void player::practice( const skill_id &id, int amount, int cap )
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
+    std::string skill_name = skill.name();
 
     if( !level.can_train() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
@@ -10595,7 +10631,7 @@ void player::practice( const skill_id &id, int amount, int cap )
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
             int curLevel = get_skill_level( id );
             add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
-                    skill.name().c_str(), curLevel);
+                    skill_name, curLevel);
         }
     }
 
@@ -10604,13 +10640,18 @@ void player::practice( const skill_id &id, int amount, int cap )
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
         if (is_player() && newLevel > oldLevel) {
-            add_msg(m_good, _("Your skill in %s has increased to %d!"), skill.name().c_str(), newLevel);
-            lua_callback("on_skill_increased");
+            add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
+            const std::string skill_increase_source = "training";
+            CallbackArgumentContainer lua_callback_args_info;
+            lua_callback_args_info.emplace_back( skill_increase_source );
+            lua_callback_args_info.emplace_back( id.str() );
+            lua_callback_args_info.emplace_back( newLevel );
+            lua_callback( "on_player_skill_increased", lua_callback_args_info );
         }
         if(is_player() && newLevel > cap) {
             //inform player immediately that the current recipe can't be used to train further
-            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
-                    skill.name().c_str());
+            add_msg( m_info, _( "You feel that %s tasks of this level are becoming trivial." ),
+                     skill_name );
         }
 
         int chance_to_drop = focus_pool;
@@ -10693,7 +10734,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    activity.warned_of_proximity = false;
+    activity.allow_distractions();
 
     if( activity.rooted() ) {
         rooted_message();
@@ -11652,26 +11693,42 @@ bool player::has_item_with_flag( const std::string &flag ) const
 void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( mid.str() );
+    lua_callback( "on_player_mutation_gain", lua_callback_args_info );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( mid.str() );
+    lua_callback( "on_player_mutation_loss", lua_callback_args_info );
 }
 
 void player::on_stat_change( const std::string &stat, int value )
 {
     morale->on_stat_change( stat, value );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( stat );
+    lua_callback_args_info.emplace_back( value );
+    lua_callback( "on_player_stat_change", lua_callback_args_info );
 }
 
 void player::on_item_wear( const item &it )
 {
     morale->on_item_wear( it );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( it );
+    lua_callback( "on_player_item_wear", lua_callback_args_info );
 }
 
 void player::on_item_takeoff( const item &it )
 {
     morale->on_item_takeoff( it );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( it );
+    lua_callback( "on_player_item_takeoff", lua_callback_args_info );
 }
 
 void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
@@ -11684,12 +11741,20 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
     }
 
     morale->on_effect_int_change( eid, intensity, bp );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( eid.str() );
+    lua_callback_args_info.emplace_back( intensity );
+    lua_callback_args_info.emplace_back( bp );
+    lua_callback( "on_player_effect_int_change", lua_callback_args_info );
 }
 
 void player::on_mission_assignment( mission &new_mission )
 {
     active_missions.push_back( &new_mission );
     set_active_mission( new_mission );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( new_mission.get_id() );
+    lua_callback( "on_player_mission_assignment", lua_callback_args_info );
 }
 
 void player::on_mission_finished( mission &cur_mission )
@@ -11714,6 +11779,9 @@ void player::on_mission_finished( mission &cur_mission )
             active_mission = active_missions.front();
         }
     }
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( cur_mission.get_id() );
+    lua_callback( "on_player_mission_finished", lua_callback_args_info );
 }
 
 const targeting_data &player::get_targeting_data() {

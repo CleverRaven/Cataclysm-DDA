@@ -229,6 +229,7 @@
       [ "tractor_plow", 1000 ],
       [ "tractor_seed", 1000 ],
       [ "tractor_reaper", 1000 ],
+      [ "oldtractor", 100 ],
       [ "autotractor", 1000 ],
       [ "excavator", 500 ]
     ]

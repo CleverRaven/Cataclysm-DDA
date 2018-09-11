@@ -113,5 +113,25 @@
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "flags": [ "NAILABLE", "FLUIDTANK" ]
+  },
+  {
+    "id": "fuel_bunker",
+    "type": "vehicle_part",
+    "name": "fuel bunker",
+    "item": "fuel_bunker",
+    "location": "fuel_source",
+    "symbol": "O",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 1,
+    "durability": 150,
+    "description": "A storage space for holding solid fuels.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.",
+    "size": 60000,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ]
   }
 ]

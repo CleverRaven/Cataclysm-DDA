@@ -100,7 +100,7 @@ void plot_options::query_seed()
 
     int seed_index = iexamine::query_seed( seed_entries );
 
-    if( seed_index > 0 && seed_index < ( int )seed_entries.size() ) {
+    if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
         seed = std::get<0>( seed_entry );
 
@@ -452,6 +452,33 @@ zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_
     cache_data();
 
     return zones.back();
+}
+
+void zone_manager::swap( zone_data &a, zone_data &b )
+{
+    std::swap( a, b );
+}
+
+std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
+{
+    auto zones = std::vector<ref_zone_data>();
+
+    for( auto &zone : this->zones ) {
+        zones.emplace_back( zone );
+    }
+
+    return zones;
+}
+
+std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones() const
+{
+    auto zones = std::vector<ref_const_zone_data>();
+
+    for( auto &zone : this->zones ) {
+        zones.emplace_back( zone );
+    }
+
+    return zones;
 }
 
 void zone_manager::serialize( JsonOut &json ) const

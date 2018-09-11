@@ -133,7 +133,7 @@
         }
       },
       "place_monster": [
-        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50 },
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 2 ], "chance": 50 },
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 10, 13 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 13, 22 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 1, 7 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
@@ -305,6 +305,183 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_lupine" } ]
+    }
+  },
+  {
+    "//": "turrets finale",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_finale_1level" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                       |",
+        "                       |",
+        "  7                 7  |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       M",
+        "                       M",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "                       |",
+        "  7                 7  |",
+        "                       |",
+        "                       |",
+        "-----------MM----------|"
+      ],
+      "palettes": [ "lab_palette" ],
+      "monster": {
+        "7": { "monster": "mon_turret"}
+      },
+      "place_monster": [
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 75, "repeat": 2 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_finale_4x4" ], "x": 10, "y": 10 },
+        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_finale_4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "r": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
+      },
+      "computers": {
+        "6": {
+          "name": "PE019 \"Sculptor\" Secure Storage",
+          "security": 2,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_finale_4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "r": { "item": [ { "item": "iv_mutagen_alpha", "chance": 100 } ] }
+      },
+      "computers": {
+        "6": {
+          "name": "PE050 \"Alpha\" Secure Storage",
+          "security": 2,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_finale_4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "r": { "item": [ { "item": "iv_mutagen_chimera", "chance": 100 } ] }
+      },
+      "computers": {
+        "6": {
+          "name": "PE065 \"Chimera\" Secure Storage",
+          "security": 2,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_finale_4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "r": { "item": [ { "item": "iv_mutagen_raptor", "chance": 100 } ] }
+      },
+      "computers": {
+        "6": {
+          "name": "PE070 \"Raptor\" Secure Storage",
+          "security": 2,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_finale_4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "r": { "item": [ { "item": "iv_mutagen_medical", "chance": 100 } ] }
+      },
+      "computers": {
+        "6": {
+          "name": "PE023 \"Medical\" Secure Storage",
+          "security": 2,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
     }
   }
 ]

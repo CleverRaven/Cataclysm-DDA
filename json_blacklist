@@ -4,7 +4,6 @@ data/json/construction.json
 data/json/doll_speech.json
 data/json/dreams.json
 data/json/effects.json
-data/json/furniture.json
 data/json/gates.json
 data/json/health_msgs.json
 data/json/item_actions.json
@@ -35,7 +34,6 @@ data/json/items/armor/holster.json
 data/json/items/chemicals_and_resources.json
 data/json/items/comestibles/brewing.json
 data/json/items/comestibles/carnivore.json
-data/json/items/comestibles.json
 data/json/items/comestibles/med.json
 data/json/items/comestibles/mutagen.json
 data/json/items/comestibles/protein.json

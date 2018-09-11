@@ -591,7 +591,6 @@ void Item_factory::init()
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
-    add_iuse( "FUN_HALLU", &iuse::fun_hallu );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
@@ -644,6 +643,7 @@ void Item_factory::init()
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
     add_iuse( "PURIFY_IV", &iuse::purify_iv );
+    add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
     add_iuse( "RADIOCAR", &iuse::radiocar );
     add_iuse( "RADIOCARON", &iuse::radiocaron );
@@ -2537,7 +2537,7 @@ void item_group::debug_spawn()
     while( true ) {
         menu.query();
         const int index = menu.ret;
-        if( index >= ( int )groups.size() || index < 0 ) {
+        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
         // Spawn items from the group 100 times
