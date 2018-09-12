@@ -112,7 +112,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
