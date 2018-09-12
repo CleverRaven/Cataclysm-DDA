@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".........#ss#...........",
+        "......p..#ss#...........",
         ".........#ss#...........",
         ".........#ss#...........",
         ".........#ss#...........",
@@ -70,6 +70,7 @@
         "l": "t_floor",
         "n": "t_floor",
         "o": "t_floor",
+        "p": "t_grass",
         "s": "t_sidewalk",
         "v": "t_window_domestic",
         "|": "t_wall"
@@ -92,12 +93,14 @@
         "f": "f_fridge",
         "l": "f_stool",
         "n": "f_table",
-        "o": "f_bookcase"
+        "o": "f_bookcase",
+        "p": "f_mailbox"
       },
       "toilets": { "t": {  } },
       "items": {
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
-        "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
+        "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
+        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
       },
       "place_loot": [
         { "group": "livingroom", "x": [ 10, 17 ], "y": [ 15, 19 ], "chance": 90, "repeat": [ 1, 6 ] },

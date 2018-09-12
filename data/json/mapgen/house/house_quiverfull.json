@@ -19,7 +19,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "....................DDD.",
+        "........P...........DDD.",
         ".|---;;----vv----------.",
         ".|nK    ?|S   | hnnh C|.",
         ".|K     ?|t  B| hnnh C|.",
@@ -56,6 +56,7 @@
         "D": "t_dirt",
         "K": "t_floor",
         "O": "t_floor",
+        "P": "t_grass",
         "S": "t_floor",
         "U": "t_floor",
         "c": "t_floor",
@@ -76,6 +77,7 @@
         "D": "f_trashcan",
         "K": "f_armchair",
         "O": "f_oven",
+        "P": "f_mailbox",
         "S": "f_sink",
         "U": "f_trashcan",
         "c": "f_counter",
@@ -87,6 +89,7 @@
         "o": "f_bookcase"
       },
       "toilets": { "t": {  } },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_loot": [
         { "group": "livingroom", "x": [ 3, 8 ], "y": [ 2, 10 ], "chance": 90, "repeat": [ 1, 5 ] },
         { "group": "kitchen", "x": [ 15, 20 ], "y": [ 2, 11 ], "chance": 75, "repeat": [ 1, 3 ] },

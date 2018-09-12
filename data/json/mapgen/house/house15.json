@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "......###ssssss###......",
+        "......##pssssss###......",
         ".....#''''''''''''#.....",
         "....#''''''''''''''#....",
         "...#''''''''''''''''#...",
@@ -79,6 +79,7 @@
         "k": "t_floor",
         "n": "t_floor",
         "o": "t_floor",
+        "p": "t_grass",
         "s": "t_sidewalk",
         "v": "t_window_domestic",
         "x": "t_shrub_strawberry",
@@ -105,9 +106,11 @@
         "j": "f_treadmill",
         "k": "f_desk",
         "n": "f_table",
-        "o": "f_bookcase"
+        "o": "f_bookcase",
+        "p": "f_mailbox"
       },
       "toilets": { "t": {  } },
+      "items": { "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_loot": [
         { "group": "dresser", "x": [ 2, 2 ], "y": [ 17, 17 ], "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "cleaning", "x": [ 18, 19 ], "y": [ 16, 16 ], "chance": 90, "repeat": [ 1, 2 ] },

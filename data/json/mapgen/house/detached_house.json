@@ -16,6 +16,7 @@
         ".": "f_null",
         "4": "f_null",
         "6": "f_null",
+        "A": "f_mailbox",
         "B": "f_bed",
         "C": "f_null",
         "D": "f_dryer",
@@ -57,6 +58,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
+      "items": { "A": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 50, "item": "pantry", "x": 12, "y": 10 },
         { "chance": 25, "item": "tools_mechanic", "x": 20, "y": 18 },
@@ -74,7 +76,7 @@
       ],
       "place_monsters": [ { "chance": 5, "density": 1, "monster": "GROUP_ZOMBIE", "x": 7, "y": 10 } ],
       "rows": [
-        "..ffSffS.ssfSfs..ppppp..",
+        "..ffSffSAssfSfs..ppppp..",
         ".||w|||||d|W||s..pppppC.",
         ".|ccccc|___TH|s..pppppC.",
         ".|ecccB|_____ws..pppppC.",
@@ -107,6 +109,7 @@
         ".": "t_grass",
         "4": "t_tree_pine",
         "6": "t_gates_mech_control",
+        "A": "t_grass",
         "B": "t_carpet_purple",
         "C": "t_chainfence_v",
         "D": "t_floor",
@@ -176,6 +179,7 @@
         "C": "f_cupboard",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_table",
         "_": "f_null",
@@ -200,6 +204,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 45, "item": "tools_home", "x": 5, "y": 17 },
         { "chance": 45, "item": "camping", "x": 13, "y": 21 },
@@ -219,7 +224,7 @@
       ],
       "rows": [
         ".ppppsssssss............",
-        ".pppp..f#B#s..##Bf##B...",
+        ".pppp.Pf#B#s..##Bf##B...",
         ".pppp.|ww||+|||w|||w||..",
         ".pppp.|H_Tr_|TT_|_|{b|..",
         ".ppppd|H__r_|g__+_|_b|#.",
@@ -255,6 +260,7 @@
         "C": "t_floor",
         "F": "t_floor",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_shrub",
         "T": "t_floor",
         "_": "t_floor",
@@ -305,6 +311,7 @@
         "D": "f_dresser",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_trashcan",
         "W": "f_null",
@@ -326,6 +333,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 20, "item": "tools_earthworking", "x": 18, "y": 9 },
         { "chance": 20, "item": "tools_earthworking", "x": 21, "y": 8 },
@@ -348,7 +356,7 @@
       ],
       "place_toilets": [ { "x": 14, "y": 2 } ],
       "rows": [
-        "...dS...sss..SS....s....",
+        "...dS...sss..SS.P..s....",
         ".||||||w|+|w||||||.s....",
         ".|ClT|{_____a|flB|.s....",
         ".wCll|{_____t|lll|.s..d.",
@@ -386,6 +394,7 @@
         "D": "t_floor",
         "F": "t_linoleum_white",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_shrub",
         "T": "t_linoleum_white",
         "W": "t_wall_glass",
@@ -429,6 +438,7 @@
         "D": "f_null",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_toilet",
         "W": "f_null",
@@ -453,6 +463,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 85, "item": "novels", "x": 12, "y": 11 },
         { "chance": 75, "item": "fridge", "x": 15, "y": 3 },
@@ -476,7 +487,7 @@
       "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_DOGS", "x": 11, "y": 8 } ],
       "place_toilets": [ { "x": 19, "y": 3 } ],
       "rows": [
-        "d......deee...d.........",
+        "d......deee.P.d.........",
         "...dddds|+|..s.s.s.s.s..",
         "..dd||a||_|a||||a||||||.",
         "..dd|t_H|__t|CCF&o|Tlg|.",
@@ -514,6 +525,7 @@
         "D": "t_door_glass_c",
         "F": "t_linoleum_white",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_sandbox",
         "T": "t_linoleum_white",
         "W": "t_water_sh",
@@ -560,6 +572,7 @@
         "D": "f_dresser",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_toilet",
         "W": "f_null",
@@ -585,6 +598,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 85, "item": "novels", "x": 12, "y": 11 },
         { "chance": 75, "item": "fridge", "x": 15, "y": 3 },
@@ -608,7 +622,7 @@
       ],
       "place_toilets": [ { "x": 19, "y": 3 } ],
       "rows": [
-        "d......deee...d.........",
+        "d......deee.P.d.........",
         "...dddds|h|..s.s.s.s.s..",
         "..dd||a||_|a||||a||||||.",
         "..dd|t_H|__t|ggF&o|TlB|.",
@@ -646,6 +660,7 @@
         "D": "t_floor",
         "F": "t_linoleum_white",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_sandbox",
         "T": "t_linoleum_white",
         "W": "t_water_sh",
@@ -694,6 +709,7 @@
         "D": "f_dresser",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_table",
         "W": "f_null",
@@ -720,6 +736,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 25, "item": "cubical_office", "x": 8, "y": 2 },
         { "chance": 20, "item": "clutter_bedroom", "x": 3, "y": 8 },
@@ -751,7 +768,7 @@
       ],
       "place_toilets": [ { "x": 18, "y": 9 } ],
       "rows": [
-        "..s.s.s.s.s.SSSSS.s.s...",
+        "..s.s.s.s.s.SSSSSPs.s...",
         ".||w|w||||||SSSSS||w|||.",
         ".|gg&eF|_hj|w|+|w|D__B|.",
         "d|e____|___|____T|___B|.",
@@ -790,6 +807,7 @@
         "D": "t_floor",
         "F": "t_floor",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_sidewalk",
         "T": "t_floor",
         "W": "t_wall_glass",
@@ -842,6 +860,7 @@
         "D": "f_null",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_table",
         "W": "f_null",
@@ -869,6 +888,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 75, "item": "misc_smoking", "x": 4, "y": 13 },
         { "chance": 75, "item": "misc_smoking", "x": 2, "y": 10 },
@@ -893,7 +913,7 @@
       ],
       "place_toilets": [ { "x": 11, "y": 8 } ],
       "rows": [
-        "....s.s.s....SSS...s.s..",
+        "....s.s.s....SSSP..s.s..",
         ".||W|||||||W||g|||W||||.",
         ".|_____7|&Fo|^_^|{__bb|.",
         ".|H_t___|a_a|___|{__bb|.",
@@ -931,6 +951,7 @@
         "D": "t_dirt",
         "F": "t_floor",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_sidewalk",
         "T": "t_dirtfloor",
         "W": "t_window_alarm",
@@ -986,6 +1007,7 @@
         "D": "f_dresser",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_toilet",
         "W": "f_null",
@@ -1015,6 +1037,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 75, "item": "trash", "x": 10, "y": 4 },
         { "chance": 75, "item": "fridge", "x": 5, "y": 5 },
@@ -1037,7 +1060,7 @@
         { "chance": 75, "item": "bed", "x": [ 19, 20 ], "y": 4 }
       ],
       "rows": [
-        "......d......f...d......",
+        "......d.....Pf...d......",
         "d............f..........",
         ".......dsssd|+a|dsssd..d",
         "..d.|||a|||||__|||||||..",
@@ -1075,6 +1098,7 @@
         "D": "t_floor",
         "F": "t_floor",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_sandbox",
         "T": "t_linoleum_white",
         "W": "t_wall_metal",
@@ -1133,6 +1157,7 @@
         "D": "f_null",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_toilet",
         "^": "f_indoor_plant",
@@ -1152,6 +1177,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 15, "item": "bags", "x": 15, "y": 9 },
         { "chance": 40, "item": "alcohol", "x": 15, "y": 7 },
@@ -1171,7 +1197,7 @@
       "place_toilets": [ { "x": 15, "y": 12 } ],
       "rows": [
         "...........S.._.........",
-        "...........S.........._.",
+        "...........SP........._.",
         "_...#.4..__SS...4#......",
         "......s.__|+w|..#.....#.",
         "......___.|ft|......_...",
@@ -1208,6 +1234,7 @@
         "D": "t_door_locked",
         "F": "t_floor",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_sidewalk",
         "T": "t_floor",
         "^": "t_floor",
@@ -1256,6 +1283,7 @@
         "D": "f_null",
         "F": "f_fridge",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_trashcan",
         "W": "f_null",
@@ -1283,6 +1311,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 35, "item": "knifeblock", "x": 4, "y": 11 },
         { "chance": 25, "item": "fridge", "x": 4, "y": 8 },
@@ -1308,7 +1337,7 @@
       "place_toilets": [ { "x": 15, "y": 12 } ],
       "place_traps": [ { "trap": "tr_nailboard", "x": 9, "y": 4 } ],
       "rows": [
-        ".....d...s...........d..",
+        ".....d...s.P.........d..",
         ".........s..d...d.......",
         "...d....sss...d..dd.d...",
         ".......|gDW|....dddd....",
@@ -1347,6 +1376,7 @@
         "D": "t_door_locked",
         "F": "t_floor",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_shrub",
         "T": "t_floor",
         "W": "t_window_boarded_noglass",
@@ -1402,6 +1432,7 @@
         "C": "f_cupboard",
         "D": "f_null",
         "H": "f_sofa",
+        "P": "f_mailbox",
         "S": "f_null",
         "T": "f_table",
         "^": "f_indoor_plant_y",
@@ -1421,6 +1452,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
+      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
       "place_items": [
         { "chance": 25, "item": "harddrugs", "x": 12, "y": 15 },
         { "chance": 25, "item": "harddrugs", "x": 10, "y": 14 },
@@ -1446,7 +1478,7 @@
       "place_monsters": [ { "chance": 6, "density": 0.05, "monster": "GROUP_ZOMBIE", "x": 13, "y": 4 } ],
       "place_toilets": [ { "x": 5, "y": 17 } ],
       "rows": [
-        ".....d...ss....d........",
+        ".....d...ss..P.d........",
         "........#ss.............",
         "........#ss...#...4.....",
         ".4.d.#...ss#...7...S.4..",
@@ -1483,6 +1515,7 @@
         "C": "t_floor",
         "D": "t_door_c",
         "H": "t_floor",
+        "P": "t_grass",
         "S": "t_shrub",
         "T": "t_floor",
         "^": "t_floor",
