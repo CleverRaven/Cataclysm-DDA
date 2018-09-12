@@ -2093,16 +2093,17 @@ for class_name, value in pairs(classes) do
     local new_functions = { }
     for _, func in ipairs(value.functions) do
         if func.optional_args then
-            local i = 1
+            local i = 0
             while i <= #func.optional_args do
                 local t = {
                     name = func.name,
                     rval = func.rval,
                     args = { table.unpack(func.args) } -- copy args
                 }
-                local j
-                for j = 1, i do
+                local j = 1
+                while j <= i do
                     table.insert(t.args, func.optional_args[j])
+                    j = j + 1
                 end
                 table.insert(new_functions, t)
                 i = i + 1
