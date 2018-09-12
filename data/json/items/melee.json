@@ -2042,7 +2042,7 @@
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
-    {
+  {
     "id": "pike_fake",
     "type": "GENERIC",
     "category": "weapons",
