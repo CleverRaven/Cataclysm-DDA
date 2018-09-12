@@ -4,7 +4,6 @@ data/json/construction.json
 data/json/doll_speech.json
 data/json/dreams.json
 data/json/effects.json
-data/json/furniture.json
 data/json/gates.json
 data/json/health_msgs.json
 data/json/item_actions.json
@@ -20,7 +19,6 @@ data/json/itemgroups/locations.json
 data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
 data/json/itemgroups/map_extras.json
-data/json/itemgroups/mansion.json
 data/json/itemgroups/misc.json
 data/json/itemgroups/monster_drops.json
 data/json/itemgroups/supplies.json
@@ -35,7 +33,6 @@ data/json/items/armor/holster.json
 data/json/items/chemicals_and_resources.json
 data/json/items/comestibles/brewing.json
 data/json/items/comestibles/carnivore.json
-data/json/items/comestibles.json
 data/json/items/comestibles/med.json
 data/json/items/comestibles/mutagen.json
 data/json/items/comestibles/protein.json
@@ -95,7 +92,6 @@ data/json/mapgen/field_football.json
 data/json/mapgen/fire_station.json
 data/json/mapgen/garage_gas.json
 data/json/mapgen/garage.json
-data/json/mapgen/gardening_store.json
 data/json/mapgen/homeimprovement_superstore.json
 data/json/mapgen/hotel_tower.json
 data/json/mapgen/house/house_2story.json
@@ -216,7 +212,6 @@ data/json/overmap/specials.json
 data/json/overmap_connections.json
 data/json/overmap_locations.json
 data/json/overmap_terrain.json
-data/json/professions.json
 data/json/recipes/ammo/pistol.json
 data/json/recipes/ammo/rifle.json
 data/json/recipes/armor/arms.json
@@ -236,12 +231,10 @@ data/json/recipes/food/distill.json
 data/json/recipes/food/dry.json
 data/json/recipes/food/pasta.json
 data/json/recipes/other/containers.json
-data/json/recipes/other/medical.json
 data/json/recipes/other/tool.json
 data/json/recipes/other/vehicle.json
 data/json/recipes/recipe_ammo.json
 data/json/recipes/recipe_electronics.json
-data/json/recipes/recipe_food.json
 data/json/recipes/recipe_medsandchemicals.json
 data/json/recipes/recipes.json
 data/json/recipes/recipe_weapon.json
@@ -255,13 +248,10 @@ data/json/recipes/weapon/ranged.json
 data/json/regional_map_settings.json
 data/json/requirements/ammo.json
 data/json/road_vehicles.json
-data/json/scenarios/scenarios.json
 data/json/snippets.json
 data/json/species.json
 data/json/speech.json
-data/json/start_locations.json
 data/json/techniques.json
-data/json/terrain.json
 data/json/test_regions.json
 data/json/traps.json
 data/json/tutorial.json

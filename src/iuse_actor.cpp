@@ -42,6 +42,7 @@
 #include "options.h"
 #include "skill.h"
 #include "effect.h"
+#include "map_selector.h"
 
 #include <sstream>
 #include <algorithm>
@@ -385,8 +386,6 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), "", sd.fragment_mass );
     }
 }
-
-
 
 iuse_actor *unfold_vehicle_iuse::clone() const
 {
@@ -798,8 +797,6 @@ long ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & )
     return 0;
 }
 
-
-
 iuse_actor *pick_lock_actor::clone() const
 {
     return new pick_lock_actor( *this );
@@ -869,7 +866,7 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
-                      p.dex_cur ) - it.damage() / 2 ) * pick_quality;
+                      p.dex_cur ) - it.damage_level( 4 ) / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
         p.practice( skill_mechanics, 1 );
@@ -1294,7 +1291,7 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
     if( count > 0 && cut.damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.damage() ), 1.0 );
+        float component_success_chance = std::min( std::pow( 0.8, cut.damage_level( 4 ) ), 1.0 );
         for( int i = count; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
                 count--;
@@ -1441,7 +1438,6 @@ bool inscribe_actor::item_inscription( item &cut ) const
 
     return true;
 }
-
 
 long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
@@ -1699,7 +1695,7 @@ long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     // Speed range is 20 - 120 (for humanoids, dogs get way faster)
     // This gives us a difficulty ranging roughly from 10 - 40, with up to +25 for corpse damage.
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
-    int difficulty = ( body->damage() * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
+    int difficulty = ( body->damage_level( 4 ) * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
     // 0 - 30
     /** @EFFECT_DEX increases chance of success for enzlavement */
 
@@ -1772,7 +1768,7 @@ long fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) 
     }
 
     p.moves -= moves;
-    if( rng( 0, 10 ) - it.damage() > success_chance && !p.is_underwater() ) {
+    if( rng( 0, 10 ) - it.damage_level( 4 ) > success_chance && !p.is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, _( success_message.c_str() ) );
         } else {
@@ -2094,7 +2090,6 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
                          obj.tname().c_str(), holster.tname().c_str() );
 
@@ -2102,7 +2097,6 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     p.store( holster, obj, draw_cost, false );
     return true;
 }
-
 
 long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
@@ -2276,7 +2270,6 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     return true;
 }
 
-
 long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( &p.weapon == &it ) {
@@ -2401,7 +2394,16 @@ bool could_repair( const player &p, const item &it, bool print_msg )
     return true;
 }
 
-long repair_item_actor::use( player &p, item &it, bool, const tripoint & ) const
+static item_location get_item_location( player &p, item &it, const tripoint &pos )
+{
+    if( p.has_item( it ) ) {
+        return item_location( p, &it );
+    }
+
+    return item_location( pos, &it );
+}
+
+long repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const
 {
     if( !could_repair( p, it, true ) ) {
         return 0;
@@ -2419,6 +2421,8 @@ long repair_item_actor::use( player &p, item &it, bool, const tripoint & ) const
     p.assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p.get_item_position( &it ), pos );
     // We also need to store the repair actor subtype in the activity
     p.activity.str_values.push_back( type );
+    // storing of item_location to support repairs by tools on the ground
+    p.activity.targets.emplace_back( get_item_location( p, it, position ) );
     // All repairs are done in the activity, including charge cost
     return 0;
 }
@@ -2506,7 +2510,6 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     return true;
 }
 
-
 // Returns the level of the lowest level recipe that results in item of `fix`'s type
 // If the recipe is not known by the player, +1 to difficulty
 // If player doesn't meet the requirements of the recipe, +1 to difficulty
@@ -2587,7 +2590,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return true;
     }
 
-    if( fix.precise_damage() <= fix.min_damage() ) {
+    if( fix.damage() <= fix.min_damage() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "Your %s is already enhanced to its maximum potential." ),
                                   fix.tname().c_str() );
@@ -2616,15 +2619,15 @@ std::pair<float, float> repair_item_actor::repair_chance(
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_REPAIR:
-            action_difficulty = fix.damage();
+            action_difficulty = fix.damage_level( 4 );
             break;
         case RT_REFIT:
             // Let's make refitting as hard as recovering an almost-wrecked item
-            action_difficulty = fix.max_damage();
+            action_difficulty = fix.max_damage() / itype::damage_scale;
             break;
         case RT_REINFORCE:
             // Reinforcing is at least as hard as refitting
-            action_difficulty = std::max( fix.max_damage(), recipe_difficulty );
+            action_difficulty = std::max( fix.max_damage() / itype::damage_scale, recipe_difficulty );
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
@@ -2650,22 +2653,25 @@ std::pair<float, float> repair_item_actor::repair_chance(
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
     success_chance = std::max( 0.0f, std::min( 1.0f - damage_chance, success_chance ) );
 
-
     return std::make_pair( success_chance, damage_chance );
 }
 
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
+    const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
+                      g->u.has_trait( trait_id( "SMALL_OK" ) );
     if( fix.damage() > 0 ) {
         return RT_REPAIR;
     }
 
-    if( fix.has_flag( "VARSIZE" ) && !fix.has_flag( "FIT" ) ) {
+    if( ( fix.has_flag( "VARSIZE" ) && !fix.has_flag( "FIT" ) ) ||
+        ( smol && !fix.has_flag( "UNDERSIZE" ) )  ||
+        ( !smol && fix.has_flag( "UNDERSIZE" ) ) ) {
         return RT_REFIT;
     }
 
-    if( fix.precise_damage() > fix.min_damage() ) {
+    if( fix.damage() > fix.min_damage() ) {
         return RT_REINFORCE;
     }
 
@@ -2741,13 +2747,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
-            if( fix.precise_damage() > 1 ) {
+            if( fix.damage() > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
             } else {
                 pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
             }
             handle_components( pl, fix, false, false );
-            fix.set_damage( std::max( fix.precise_damage() - 1, 0. ) );
+            fix.set_damage( std::max( fix.damage() - itype::damage_scale, 0 ) );
             return AS_SUCCESS;
         }
 
@@ -2756,9 +2762,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REFIT ) {
         if( roll == SUCCESS ) {
+            const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
+                              g->u.has_trait( trait_id( "SMALL_OK" ) );
             pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                   fix.tname().c_str() );
             fix.item_tags.insert( "FIT" );
+            if( smol && !fix.has_flag( "UNDERSIZE" ) ) {
+                pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
+                                      fix.tname().c_str() );
+                fix.item_tags.insert( "UNDERSIZE" );
+            } else if( !smol && fix.has_flag( "UNDERSIZE" ) ) {
+                pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
+                                      fix.tname().c_str() );
+                fix.item_tags.erase( "UNDERSIZE" );
+            }
             handle_components( pl, fix, false, false );
             return AS_SUCCESS;
         }
@@ -2775,7 +2792,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix.tname().c_str() );
-            fix.mod_damage( -1 );
+            fix.mod_damage( -itype::damage_scale );
             handle_components( pl, fix, false, false );
             return AS_SUCCESS;
         }

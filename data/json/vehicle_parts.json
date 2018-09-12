@@ -797,7 +797,7 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 50,
-    "size": 200,
+    "size": 300,
     "item": "frame_wood_light",
     "difficulty": 0,
     "location": "center",

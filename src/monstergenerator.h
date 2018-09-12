@@ -66,11 +66,17 @@ class MonsterGenerator
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
 
-
         void check_monster_definitions() const;
 
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
+        /**
+         * Registers a LUA based monster attack function.
+         * @param name The name that is used in the json data to refer to the LUA function.
+         * It is stored in @ref attack_map
+         * @param lua_function The LUA id of the LUA function.
+         */
+        void register_monattack_lua( const std::string &name, int lua_function );
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;

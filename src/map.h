@@ -250,7 +250,6 @@ class map
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
 
-
         /**
          * Callback invoked when a vehicle has moved.
          */
@@ -408,7 +407,6 @@ class map
          * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
          */
         double ranged_target_size( const tripoint &p ) const;
-
 
         // 3D Sees:
         /**
@@ -747,7 +745,6 @@ class map
 
         void add_corpse( const tripoint &p );
 
-
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
         // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
@@ -907,7 +904,7 @@ class map
          * @param it Item processed.
          * @param temperature Temperature affecting item.
          */
-        void apply_in_fridge( item &it, int temperature );
+        void apply_in_fridge( item &it, int temperature, bool vehicle = false );
 
         /**
          * @name Consume items on the map
@@ -1577,6 +1574,12 @@ class map
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
 };
+
+/**
+ * Gives ratio for temperature differential of two temperatures
+ * Used in determining speed of temperature change of items
+ */
+unsigned int temp_difference_ratio( int temp_one, int temp_two );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "mutation_type",
+    "id": "HEALING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "RUNNING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "METABOLISM"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SLEEP"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SCENT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HANDS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "CLAWS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SKIN"
+  }
+]

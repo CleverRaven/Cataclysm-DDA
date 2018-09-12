@@ -41,9 +41,16 @@ class main_menu
         /** Another helper function for @ref init_strings */
         std::vector<std::string> get_hotkeys( const std::string &s );
 
-
         // Play a sound whenever the user moves left or right in the main menu or its tabs
         void on_move() const;
+
+        // Flag to be set when first entering an error condition, cleared when leaving it
+        // Used to prevent error sound from playing repeatedly at input polling rate
+        bool errflag = false;
+        // Play a sound *once* when an error occurs in the main menu or its tabs; sets errflag
+        void on_error();
+        // Clears errflag
+        void clear_error();
 
         // Tab functions. They return whether a game was started or not. The ones that can never
         // start a game have a void return type.

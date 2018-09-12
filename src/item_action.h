@@ -56,6 +56,4 @@ class item_action_generator
         void check_consistency() const;
 };
 
-
-
 #endif

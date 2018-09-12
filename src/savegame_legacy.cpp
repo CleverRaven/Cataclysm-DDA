@@ -1,6 +1,7 @@
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
+#include "itype.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -14,157 +15,159 @@
 #include <sstream>
 #include <vector>
 
-namespace std {
-    template <>
-    struct hash<talk_topic_enum> {
-        // Operator overload required by std API.
-        std::size_t operator()(const talk_topic_enum& k) const {
-            return k; // the most trivial hash of them all
-        }
-    };
+namespace std
+{
+template <>
+struct hash<talk_topic_enum> {
+    // Operator overload required by std API.
+    std::size_t operator()( const talk_topic_enum &k ) const {
+        return k; // the most trivial hash of them all
+    }
+};
 }
 
 std::string convert_talk_topic( talk_topic_enum const old_value )
 {
     static const std::unordered_map<talk_topic_enum, std::string> talk_topic_enum_mapping = { {
-// This macro creates the appropriate new names (as string) for each enum value, so one does not
-// have to repeat so much (e.g. 'WRAP(TALK_ARSONIST)' instead of '{ TALK_ARSONIST, "TALK_ARSONIST" }')
-// It also ensures that each name is exactly as the name of the enum value.
+            // This macro creates the appropriate new names (as string) for each enum value, so one does not
+            // have to repeat so much (e.g. 'WRAP(TALK_ARSONIST)' instead of '{ TALK_ARSONIST, "TALK_ARSONIST" }')
+            // It also ensures that each name is exactly as the name of the enum value.
 #define WRAP(value) { value, #value }
- WRAP(TALK_NONE),
- WRAP(TALK_DONE),
- WRAP(TALK_GUARD),
- WRAP(TALK_MISSION_LIST),
- WRAP(TALK_MISSION_LIST_ASSIGNED),
- WRAP(TALK_MISSION_DESCRIBE),
- WRAP(TALK_MISSION_OFFER),
- WRAP(TALK_MISSION_ACCEPTED),
- WRAP(TALK_MISSION_REJECTED),
- WRAP(TALK_MISSION_ADVICE),
- WRAP(TALK_MISSION_INQUIRE),
- WRAP(TALK_MISSION_SUCCESS),
- WRAP(TALK_MISSION_SUCCESS_LIE),
- WRAP(TALK_MISSION_FAILURE),
- WRAP(TALK_MISSION_REWARD),
- WRAP(TALK_EVAC_MERCHANT),
- WRAP(TALK_EVAC_MERCHANT_NEW),
- WRAP(TALK_EVAC_MERCHANT_PLANS),
- WRAP(TALK_EVAC_MERCHANT_PLANS2),
- WRAP(TALK_EVAC_MERCHANT_PLANS3),
- WRAP(TALK_EVAC_MERCHANT_WORLD),
- WRAP(TALK_EVAC_MERCHANT_HORDES),
- WRAP(TALK_EVAC_MERCHANT_PRIME_LOOT),
- WRAP(TALK_EVAC_MERCHANT_ASK_JOIN),
- WRAP(TALK_EVAC_MERCHANT_NO),
- WRAP(TALK_EVAC_MERCHANT_HELL_NO),
- WRAP(TALK_FREE_MERCHANT_STOCKS),
- WRAP(TALK_FREE_MERCHANT_STOCKS_NEW),
- WRAP(TALK_FREE_MERCHANT_STOCKS_WHY),
- WRAP(TALK_FREE_MERCHANT_STOCKS_ALL),
- WRAP(TALK_FREE_MERCHANT_STOCKS_JERKY),
- WRAP(TALK_FREE_MERCHANT_STOCKS_CORNMEAL),
- WRAP(TALK_FREE_MERCHANT_STOCKS_FLOUR),
- WRAP(TALK_FREE_MERCHANT_STOCKS_SUGAR),
- WRAP(TALK_FREE_MERCHANT_STOCKS_WINE),
- WRAP(TALK_FREE_MERCHANT_STOCKS_BEER),
- WRAP(TALK_FREE_MERCHANT_STOCKS_SMMEAT),
- WRAP(TALK_FREE_MERCHANT_STOCKS_SMFISH),
- WRAP(TALK_FREE_MERCHANT_STOCKS_OIL),
- WRAP(TALK_FREE_MERCHANT_STOCKS_DELIVERED),
- WRAP(TALK_EVAC_GUARD1),
- WRAP(TALK_EVAC_GUARD1_PLACE),
- WRAP(TALK_EVAC_GUARD1_GOVERNMENT),
- WRAP(TALK_EVAC_GUARD1_TRADE),
- WRAP(TALK_EVAC_GUARD1_JOIN),
- WRAP(TALK_EVAC_GUARD1_JOIN2),
- WRAP(TALK_EVAC_GUARD1_JOIN3),
- WRAP(TALK_EVAC_GUARD1_ATTITUDE),
- WRAP(TALK_EVAC_GUARD1_JOB),
- WRAP(TALK_EVAC_GUARD1_OLDGUARD),
- WRAP(TALK_EVAC_GUARD1_BYE),
- WRAP(TALK_EVAC_GUARD2),
- WRAP(TALK_EVAC_GUARD2_NEW),
- WRAP(TALK_EVAC_GUARD2_RULES),
- WRAP(TALK_EVAC_GUARD2_RULES_BASEMENT),
- WRAP(TALK_EVAC_GUARD2_WHO),
- WRAP(TALK_EVAC_GUARD2_TRADE),
- WRAP(TALK_EVAC_GUARD3),
- WRAP(TALK_EVAC_GUARD3_NEW),
- WRAP(TALK_EVAC_GUARD3_RULES),
- WRAP(TALK_EVAC_GUARD3_HIDE1),
- WRAP(TALK_EVAC_GUARD3_HIDE2),
- WRAP(TALK_EVAC_GUARD3_WASTE),
- WRAP(TALK_EVAC_GUARD3_DEAD),
- WRAP(TALK_EVAC_GUARD3_HOSTILE),
- WRAP(TALK_EVAC_GUARD3_INSULT),
- WRAP(TALK_EVAC_HUNTER),
- WRAP(TALK_EVAC_HUNTER_SMELL),
- WRAP(TALK_EVAC_HUNTER_DO),
- WRAP(TALK_EVAC_HUNTER_LIFE),
- WRAP(TALK_EVAC_HUNTER_HUNT),
- WRAP(TALK_EVAC_HUNTER_SALE),
- WRAP(TALK_EVAC_HUNTER_ADVICE),
- WRAP(TALK_EVAC_HUNTER_BYE),
- WRAP(TALK_OLD_GUARD_REP),
- WRAP(TALK_OLD_GUARD_REP_NEW),
- WRAP(TALK_OLD_GUARD_REP_NEW_DOING),
- WRAP(TALK_OLD_GUARD_REP_NEW_DOWNSIDE),
- WRAP(TALK_OLD_GUARD_REP_WORLD),
- WRAP(TALK_OLD_GUARD_REP_WORLD_2NDFLEET),
- WRAP(TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS),
- WRAP(TALK_OLD_GUARD_REP_ASK_JOIN),
- WRAP(TALK_ARSONIST),
- WRAP(TALK_ARSONIST_NEW),
- WRAP(TALK_ARSONIST_DOING),
- WRAP(TALK_ARSONIST_DOING_REBAR),
- WRAP(TALK_ARSONIST_WORLD),
- WRAP(TALK_ARSONIST_WORLD_OPTIMISTIC),
- WRAP(TALK_ARSONIST_JOIN),
- WRAP(TALK_ARSONIST_MUTATION),
- WRAP(TALK_ARSONIST_MUTATION_INSULT),
- WRAP(TALK_SCAVENGER_MERC),
- WRAP(TALK_SCAVENGER_MERC_NEW),
- WRAP(TALK_SCAVENGER_MERC_TIPS),
- WRAP(TALK_SCAVENGER_MERC_HIRE),
- WRAP(TALK_SCAVENGER_MERC_HIRE_SUCCESS),
- WRAP(TALK_SHELTER),
- WRAP(TALK_SHELTER_PLANS),
- WRAP(TALK_SHARE_EQUIPMENT),
- WRAP(TALK_GIVE_EQUIPMENT),
- WRAP(TALK_DENY_EQUIPMENT),
- WRAP(TALK_TRAIN),
- WRAP(TALK_TRAIN_START),
- WRAP(TALK_TRAIN_FORCE),
- WRAP(TALK_SUGGEST_FOLLOW),
- WRAP(TALK_AGREE_FOLLOW),
- WRAP(TALK_DENY_FOLLOW),
- WRAP(TALK_SHOPKEEP),
- WRAP(TALK_LEADER),
- WRAP(TALK_LEAVE),
- WRAP(TALK_PLAYER_LEADS),
- WRAP(TALK_LEADER_STAYS),
- WRAP(TALK_HOW_MUCH_FURTHER),
- WRAP(TALK_FRIEND),
- WRAP(TALK_FRIEND_GUARD),
- WRAP(TALK_DENY_GUARD),
- WRAP(TALK_DENY_TRAIN),
- WRAP(TALK_DENY_PERSONAL),
- WRAP(TALK_FRIEND_UNCOMFORTABLE),
- WRAP(TALK_COMBAT_COMMANDS),
- WRAP(TALK_COMBAT_ENGAGEMENT),
- WRAP(TALK_STRANGER_NEUTRAL),
- WRAP(TALK_STRANGER_WARY),
- WRAP(TALK_STRANGER_SCARED),
- WRAP(TALK_STRANGER_FRIENDLY),
- WRAP(TALK_STRANGER_AGGRESSIVE),
- WRAP(TALK_MUG),
- WRAP(TALK_DESCRIBE_MISSION),
- WRAP(TALK_WEAPON_DROPPED),
- WRAP(TALK_DEMAND_LEAVE),
- WRAP(TALK_SIZE_UP),
- WRAP(TALK_LOOK_AT),
- WRAP(TALK_OPINION)
-} };
+            WRAP( TALK_NONE ),
+            WRAP( TALK_DONE ),
+            WRAP( TALK_GUARD ),
+            WRAP( TALK_MISSION_LIST ),
+            WRAP( TALK_MISSION_LIST_ASSIGNED ),
+            WRAP( TALK_MISSION_DESCRIBE ),
+            WRAP( TALK_MISSION_OFFER ),
+            WRAP( TALK_MISSION_ACCEPTED ),
+            WRAP( TALK_MISSION_REJECTED ),
+            WRAP( TALK_MISSION_ADVICE ),
+            WRAP( TALK_MISSION_INQUIRE ),
+            WRAP( TALK_MISSION_SUCCESS ),
+            WRAP( TALK_MISSION_SUCCESS_LIE ),
+            WRAP( TALK_MISSION_FAILURE ),
+            WRAP( TALK_MISSION_REWARD ),
+            WRAP( TALK_EVAC_MERCHANT ),
+            WRAP( TALK_EVAC_MERCHANT_NEW ),
+            WRAP( TALK_EVAC_MERCHANT_PLANS ),
+            WRAP( TALK_EVAC_MERCHANT_PLANS2 ),
+            WRAP( TALK_EVAC_MERCHANT_PLANS3 ),
+            WRAP( TALK_EVAC_MERCHANT_WORLD ),
+            WRAP( TALK_EVAC_MERCHANT_HORDES ),
+            WRAP( TALK_EVAC_MERCHANT_PRIME_LOOT ),
+            WRAP( TALK_EVAC_MERCHANT_ASK_JOIN ),
+            WRAP( TALK_EVAC_MERCHANT_NO ),
+            WRAP( TALK_EVAC_MERCHANT_HELL_NO ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_NEW ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_WHY ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_ALL ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_JERKY ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_CORNMEAL ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_FLOUR ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_SUGAR ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_WINE ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_BEER ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_SMMEAT ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_SMFISH ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_OIL ),
+            WRAP( TALK_FREE_MERCHANT_STOCKS_DELIVERED ),
+            WRAP( TALK_EVAC_GUARD1 ),
+            WRAP( TALK_EVAC_GUARD1_PLACE ),
+            WRAP( TALK_EVAC_GUARD1_GOVERNMENT ),
+            WRAP( TALK_EVAC_GUARD1_TRADE ),
+            WRAP( TALK_EVAC_GUARD1_JOIN ),
+            WRAP( TALK_EVAC_GUARD1_JOIN2 ),
+            WRAP( TALK_EVAC_GUARD1_JOIN3 ),
+            WRAP( TALK_EVAC_GUARD1_ATTITUDE ),
+            WRAP( TALK_EVAC_GUARD1_JOB ),
+            WRAP( TALK_EVAC_GUARD1_OLDGUARD ),
+            WRAP( TALK_EVAC_GUARD1_BYE ),
+            WRAP( TALK_EVAC_GUARD2 ),
+            WRAP( TALK_EVAC_GUARD2_NEW ),
+            WRAP( TALK_EVAC_GUARD2_RULES ),
+            WRAP( TALK_EVAC_GUARD2_RULES_BASEMENT ),
+            WRAP( TALK_EVAC_GUARD2_WHO ),
+            WRAP( TALK_EVAC_GUARD2_TRADE ),
+            WRAP( TALK_EVAC_GUARD3 ),
+            WRAP( TALK_EVAC_GUARD3_NEW ),
+            WRAP( TALK_EVAC_GUARD3_RULES ),
+            WRAP( TALK_EVAC_GUARD3_HIDE1 ),
+            WRAP( TALK_EVAC_GUARD3_HIDE2 ),
+            WRAP( TALK_EVAC_GUARD3_WASTE ),
+            WRAP( TALK_EVAC_GUARD3_DEAD ),
+            WRAP( TALK_EVAC_GUARD3_HOSTILE ),
+            WRAP( TALK_EVAC_GUARD3_INSULT ),
+            WRAP( TALK_EVAC_HUNTER ),
+            WRAP( TALK_EVAC_HUNTER_SMELL ),
+            WRAP( TALK_EVAC_HUNTER_DO ),
+            WRAP( TALK_EVAC_HUNTER_LIFE ),
+            WRAP( TALK_EVAC_HUNTER_HUNT ),
+            WRAP( TALK_EVAC_HUNTER_SALE ),
+            WRAP( TALK_EVAC_HUNTER_ADVICE ),
+            WRAP( TALK_EVAC_HUNTER_BYE ),
+            WRAP( TALK_OLD_GUARD_REP ),
+            WRAP( TALK_OLD_GUARD_REP_NEW ),
+            WRAP( TALK_OLD_GUARD_REP_NEW_DOING ),
+            WRAP( TALK_OLD_GUARD_REP_NEW_DOWNSIDE ),
+            WRAP( TALK_OLD_GUARD_REP_WORLD ),
+            WRAP( TALK_OLD_GUARD_REP_WORLD_2NDFLEET ),
+            WRAP( TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS ),
+            WRAP( TALK_OLD_GUARD_REP_ASK_JOIN ),
+            WRAP( TALK_ARSONIST ),
+            WRAP( TALK_ARSONIST_NEW ),
+            WRAP( TALK_ARSONIST_DOING ),
+            WRAP( TALK_ARSONIST_DOING_REBAR ),
+            WRAP( TALK_ARSONIST_WORLD ),
+            WRAP( TALK_ARSONIST_WORLD_OPTIMISTIC ),
+            WRAP( TALK_ARSONIST_JOIN ),
+            WRAP( TALK_ARSONIST_MUTATION ),
+            WRAP( TALK_ARSONIST_MUTATION_INSULT ),
+            WRAP( TALK_SCAVENGER_MERC ),
+            WRAP( TALK_SCAVENGER_MERC_NEW ),
+            WRAP( TALK_SCAVENGER_MERC_TIPS ),
+            WRAP( TALK_SCAVENGER_MERC_HIRE ),
+            WRAP( TALK_SCAVENGER_MERC_HIRE_SUCCESS ),
+            WRAP( TALK_SHELTER ),
+            WRAP( TALK_SHELTER_PLANS ),
+            WRAP( TALK_SHARE_EQUIPMENT ),
+            WRAP( TALK_GIVE_EQUIPMENT ),
+            WRAP( TALK_DENY_EQUIPMENT ),
+            WRAP( TALK_TRAIN ),
+            WRAP( TALK_TRAIN_START ),
+            WRAP( TALK_TRAIN_FORCE ),
+            WRAP( TALK_SUGGEST_FOLLOW ),
+            WRAP( TALK_AGREE_FOLLOW ),
+            WRAP( TALK_DENY_FOLLOW ),
+            WRAP( TALK_SHOPKEEP ),
+            WRAP( TALK_LEADER ),
+            WRAP( TALK_LEAVE ),
+            WRAP( TALK_PLAYER_LEADS ),
+            WRAP( TALK_LEADER_STAYS ),
+            WRAP( TALK_HOW_MUCH_FURTHER ),
+            WRAP( TALK_FRIEND ),
+            WRAP( TALK_FRIEND_GUARD ),
+            WRAP( TALK_DENY_GUARD ),
+            WRAP( TALK_DENY_TRAIN ),
+            WRAP( TALK_DENY_PERSONAL ),
+            WRAP( TALK_FRIEND_UNCOMFORTABLE ),
+            WRAP( TALK_COMBAT_COMMANDS ),
+            WRAP( TALK_COMBAT_ENGAGEMENT ),
+            WRAP( TALK_STRANGER_NEUTRAL ),
+            WRAP( TALK_STRANGER_WARY ),
+            WRAP( TALK_STRANGER_SCARED ),
+            WRAP( TALK_STRANGER_FRIENDLY ),
+            WRAP( TALK_STRANGER_AGGRESSIVE ),
+            WRAP( TALK_MUG ),
+            WRAP( TALK_DESCRIBE_MISSION ),
+            WRAP( TALK_WEAPON_DROPPED ),
+            WRAP( TALK_DEMAND_LEAVE ),
+            WRAP( TALK_SIZE_UP ),
+            WRAP( TALK_LOOK_AT ),
+            WRAP( TALK_OPINION )
+        }
+    };
 #undef WRAP
     auto const iter = talk_topic_enum_mapping.find( old_value );
     if( iter == talk_topic_enum_mapping.end() ) {
@@ -179,18 +182,18 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 
 void item::load_info( const std::string &data )
 {
-    std::istringstream dump(data);
-    char check=dump.peek();
-    if ( check == ' ' ) {
+    std::istringstream dump( data );
+    char check = dump.peek();
+    if( check == ' ' ) {
         // sigh..
-        check=data[1];
+        check = data[1];
     }
-    if ( check == '{' ) {
-        JsonIn jsin(dump);
+    if( check == '{' ) {
+        JsonIn jsin( dump );
         try {
-            deserialize(jsin);
+            deserialize( jsin );
         } catch( const JsonError &jsonerr ) {
-            debugmsg("Bad item json\n%s", jsonerr.c_str() );
+            debugmsg( "Bad item json\n%s", jsonerr.c_str() );
         }
         return;
     }
@@ -209,8 +212,7 @@ void item::load_info( const std::string &data )
     int bday_ = 0;
     int owned; // Ignoring an obsolete member.
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
-    for( int i = 0; i < tag_count; ++i )
-    {
+    for( int i = 0; i < tag_count; ++i ) {
         dump >> item_tag;
         if( !itag2ivar( item_tag, item_vars ) ) {
             item_tags.insert( item_tag );
@@ -221,12 +223,12 @@ void item::load_info( const std::string &data )
          mode >> acttmp >> corp >> mission_id >> player_id;
     bday = time_point::from_turn( bday_ );
     corpse = NULL;
-    getline(dump, corpse_name);
+    getline( dump, corpse_name );
     if( corpse_name == " ''" ) {
         corpse_name.clear();
     } else {
         size_t pos = corpse_name.find_first_of( "@@" );
-        while (pos != std::string::npos)  {
+        while( pos != std::string::npos )  {
             corpse_name.replace( pos, 2, "\n" );
             pos = corpse_name.find_first_of( "@@" );
         }
@@ -241,17 +243,18 @@ void item::load_info( const std::string &data )
     }
     convert( idtmp );
 
-    invlet = char(lettmp);
-    set_damage( damtmp );
+    invlet = char( lettmp );
+    set_damage( damtmp * itype::damage_scale );
     active = false;
-    if (acttmp == 1) {
+    if( acttmp == 1 ) {
         active = true;
     }
 }
 
 ///// overmap legacy deserialization, replaced with json serialization June 2015
 // throws std::exception (most likely as JsonError)
-void overmap::unserialize_legacy(std::istream & fin) {
+void overmap::unserialize_legacy( std::istream &fin )
+{
     // DEBUG VARS
     int nummg = 0;
     char datatype;
@@ -270,28 +273,28 @@ void overmap::unserialize_legacy(std::istream & fin) {
     city tmp;
     std::list<item> npc_inventory;
 
-    if ( fin.peek() == '#' ) {
+    if( fin.peek() == '#' ) {
         std::string vline;
-        getline(fin, vline);
+        getline( fin, vline );
     }
 
     int z = 0; // assumption
-    while (fin >> datatype) {
-        if (datatype == 'L') { // Load layer data, and switch to layer
+    while( fin >> datatype ) {
+        if( datatype == 'L' ) { // Load layer data, and switch to layer
             fin >> z;
 
             std::string tmp_ter;
-            oter_id tmp_otid(0);
-            if (z >= 0 && z < OVERMAP_LAYERS) {
+            oter_id tmp_otid( 0 );
+            if( z >= 0 && z < OVERMAP_LAYERS ) {
                 int count = 0;
                 std::unordered_map<tripoint, std::string> needs_conversion;
-                for (int j = 0; j < OMAPY; j++) {
-                    for (int i = 0; i < OMAPX; i++) {
-                        if (count == 0) {
+                for( int j = 0; j < OMAPY; j++ ) {
+                    for( int i = 0; i < OMAPX; i++ ) {
+                        if( count == 0 ) {
                             fin >> tmp_ter >> count;
                             if( obsolete_terrain( tmp_ter ) ) {
-                                for( int p = i; p < i+count; p++ ) {
-                                    needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
+                                for( int p = i; p < i + count; p++ ) {
+                                    needs_conversion.emplace( tripoint( p, j, z - OVERMAP_DEPTH ),
                                                               tmp_ter );
                                 }
                                 tmp_otid = oter_id( 0 );
@@ -304,7 +307,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                        oter_str_id( tmp_ter + "_north" ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter + "_north" );
                             } else {
-                                debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
+                                debugmsg( "Loaded bad ter! ter %s", tmp_ter.c_str() );
                                 tmp_otid = oter_id( 0 );
                             }
                         }
@@ -315,19 +318,19 @@ void overmap::unserialize_legacy(std::istream & fin) {
                 }
                 convert_terrain( needs_conversion );
             } else {
-                debugmsg("Loaded z level out of range (z: %d)", z);
+                debugmsg( "Loaded z level out of range (z: %d)", z );
             }
-        } else if (datatype == 'Z') { // Monster group
+        } else if( datatype == 'Z' ) { // Monster group
             // save compatibility hack: read the line, initialize new members to 0,
             // "parse" line,
             std::string tmp;
-            getline(fin, tmp);
-            std::istringstream buffer(tmp);
+            getline( fin, tmp );
+            std::istringstream buffer( tmp );
             horde = 0;
             tx = 0;
             ty = 0;
             intr = 0;
-            buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
+            buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >> intr;
             mongroup mg( mongroup_id( cstr ), cx, cy, cz, cs, cp );
             // Bugfix for old saves: population of 2147483647 is far too much and will
             // crash the game. This specific number was caused by a bug in
@@ -349,92 +352,108 @@ void overmap::unserialize_legacy(std::istream & fin) {
             std::string data;
             getline( fin, data );
             deserialize( new_monster, data );
-            monster_map.insert( std::make_pair( std::move(mon_loc),
-                                                std::move(new_monster) ) );
-        } else if (datatype == 't') { // City
+            monster_map.insert( std::make_pair( std::move( mon_loc ),
+                                                std::move( new_monster ) ) );
+        } else if( datatype == 't' ) { // City
             fin >> cx >> cy >> cs;
-            tmp.x = cx; tmp.y = cy; tmp.s = cs;
-            cities.push_back(tmp);
-        } else if (datatype == 'R') { // Road leading out
+            tmp.x = cx;
+            tmp.y = cy;
+            tmp.s = cs;
+            cities.push_back( tmp );
+        } else if( datatype == 'R' ) { // Road leading out
             fin >> cx >> cy;
-            tmp.x = cx; tmp.y = cy; tmp.s = -1;
-            roads_out.push_back(tmp);
-        } else if (datatype == 'T') { // Radio tower
+            tmp.x = cx;
+            tmp.y = cy;
+            tmp.s = -1;
+            roads_out.push_back( tmp );
+        } else if( datatype == 'T' ) { // Radio tower
             radio_tower tmp;
             int tmp_type;
             fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
-            tmp.type = (radio_type)tmp_type;
-            getline(fin, tmp.message); // Chomp endl
-            getline(fin, tmp.message);
-            radios.push_back(tmp);
-        } else if ( datatype == 'v' ) {
+            tmp.type = ( radio_type )tmp_type;
+            getline( fin, tmp.message ); // Chomp endl
+            getline( fin, tmp.message );
+            radios.push_back( tmp );
+        } else if( datatype == 'v' ) {
             om_vehicle v;
             int id;
             fin >> id >> v.name >> v.x >> v.y;
-            vehicles[id]=v;
-        } else if (datatype == 'n') { // NPC
-// When we start loading a new NPC, check to see if we've accumulated items for
-//   assignment to an NPC.
+            vehicles[id] = v;
+        } else if( datatype == 'n' ) { // NPC
+            // When we start loading a new NPC, check to see if we've accumulated items for
+            //   assignment to an NPC.
 
-            if (!npc_inventory.empty() && !npcs.empty()) {
-                npcs.back()->inv.push_back(npc_inventory);
+            if( !npc_inventory.empty() && !npcs.empty() ) {
+                npcs.back()->inv.push_back( npc_inventory );
                 npc_inventory.clear();
             }
             std::string npcdata;
-            getline(fin, npcdata);
+            getline( fin, npcdata );
             std::shared_ptr<npc> tmp = std::make_shared<npc>();
-            tmp->load_info(npcdata);
-            npcs.push_back(tmp);
-        } else if (datatype == 'P') {
+            tmp->load_info( npcdata );
+            npcs.push_back( tmp );
+        } else if( datatype == 'P' ) {
             // Chomp the invlet_cache, since the npc doesn't use it.
             std::string itemdata;
-            getline(fin, itemdata);
-        } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
-                   datatype == 'w' || datatype == 'c') {
+            getline( fin, itemdata );
+        } else if( datatype == 'I' || datatype == 'C' || datatype == 'W' ||
+                   datatype == 'w' || datatype == 'c' ) {
             std::string itemdata;
-            getline(fin, itemdata);
-            if (npcs.empty()) {
-                debugmsg("Overmap %d:%d tried to load object data, without an NPC!\n%s",
-                         loc.x, loc.y, itemdata.c_str());
+            getline( fin, itemdata );
+            if( npcs.empty() ) {
+                debugmsg( "Overmap %d:%d tried to load object data, without an NPC!\n%s",
+                          loc.x, loc.y, itemdata.c_str() );
             } else {
                 item tmp;
-                tmp.load_info(itemdata);
-                npc* last = npcs.back().get();
-                switch (datatype) {
-                case 'I': npc_inventory.push_back(tmp);                 break;
-                case 'C': npc_inventory.back().contents.push_back(tmp); break;
-                case 'W': last->worn.push_back(tmp);                    break;
-                case 'w': last->weapon = tmp;                           break;
-                case 'c': last->weapon.contents.push_back(tmp);         break;
+                tmp.load_info( itemdata );
+                npc *last = npcs.back().get();
+                switch( datatype ) {
+                    case 'I':
+                        npc_inventory.push_back( tmp );
+                        break;
+                    case 'C':
+                        npc_inventory.back().contents.push_back( tmp );
+                        break;
+                    case 'W':
+                        last->worn.push_back( tmp );
+                        break;
+                    case 'w':
+                        last->weapon = tmp;
+                        break;
+                    case 'c':
+                        last->weapon.contents.push_back( tmp );
+                        break;
                 }
             }
-        } else if ( datatype == '!' ) { // temporary holder for future sanity
+        } else if( datatype == '!' ) {  // temporary holder for future sanity
             std::string tmpstr;
-            getline(fin, tmpstr);
-            if ( tmpstr.size() > 1 && ( tmpstr[0] == '{' || tmpstr[1] == '{' ) ) {
+            getline( fin, tmpstr );
+            if( tmpstr.size() > 1 && ( tmpstr[0] == '{' || tmpstr[1] == '{' ) ) {
                 std::stringstream derp;
                 derp << tmpstr;
-                JsonIn jsin(derp);
+                JsonIn jsin( derp );
                 try {
                     JsonObject data = jsin.get_object();
 
-                    if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
-                        if ( settings.id != tmpstr ) {
+                    if( data.read( "region_id",
+                                   tmpstr ) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
+                        if( settings.id != tmpstr ) {
                             t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
-                            if ( rit != region_settings_map.end() ) {
+                            if( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // @todo: optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
                                 std::string tmpopt = get_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );
-                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crash time anyway.
-                                    debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
+                                if( rit ==
+                                    region_settings_map.end() ) {  // ...oy. Hopefully 'default' exists. If not, it's crash time anyway.
+                                    debugmsg( "               WARNING: overmap uses missing region settings '%s'                 \n\
                 ERROR, 'default_region' option uses missing region settings '%s'. Falling back to 'default'               \n\
                 ....... good luck.                 \n",
                                               tmpstr.c_str(), tmpopt.c_str() );
                                     // fallback means we already loaded default and got a warning earlier.
                                 } else {
-                                    debugmsg("               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
+                                    debugmsg( "               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
                                               tmpstr.c_str(), tmpopt.c_str() );
                                     // fallback means we already loaded the default region
                                 }
@@ -442,16 +461,16 @@ void overmap::unserialize_legacy(std::istream & fin) {
                         }
                     }
                 } catch( const JsonError &jsonerr ) {
-                    debugmsg("load overmap: json error\n%s", jsonerr.c_str() );
+                    debugmsg( "load overmap: json error\n%s", jsonerr.c_str() );
                     // just continue with default region
                 }
             }
         }
     }
 
-// If we accrued an npc_inventory, assign it now
-    if (!npc_inventory.empty() && !npcs.empty()) {
-        npcs.back()->inv.push_back(npc_inventory);
+    // If we accrued an npc_inventory, assign it now
+    if( !npc_inventory.empty() && !npcs.empty() ) {
+        npcs.back()->inv.push_back( npc_inventory );
     }
 }
 
@@ -460,52 +479,52 @@ void overmap::unserialize_view_legacy( std::istream &fin )
     // Private/per-character data
     int z = 0; // assumption
     char datatype;
-    while (fin >> datatype) {
-        if (datatype == 'L') {  // Load layer data, and switch to layer
+    while( fin >> datatype ) {
+        if( datatype == 'L' ) { // Load layer data, and switch to layer
             fin >> z;
 
             std::string dataline;
-            getline(fin, dataline); // Chomp endl
+            getline( fin, dataline ); // Chomp endl
 
             int count = 0;
             int vis = 0;
-            if (z >= 0 && z < OVERMAP_LAYERS) {
-                for (int j = 0; j < OMAPY; j++) {
-                    for (int i = 0; i < OMAPX; i++) {
-                        if (count == 0) {
+            if( z >= 0 && z < OVERMAP_LAYERS ) {
+                for( int j = 0; j < OMAPY; j++ ) {
+                    for( int i = 0; i < OMAPX; i++ ) {
+                        if( count == 0 ) {
                             fin >> vis >> count;
                         }
                         count--;
-                        layer[z].visible[i][j] = (vis == 1);
+                        layer[z].visible[i][j] = ( vis == 1 );
                     }
                 }
             }
-        } else if (datatype == 'E') { //Load explored areas
+        } else if( datatype == 'E' ) { //Load explored areas
             fin >> z;
 
             std::string dataline;
-            getline(fin, dataline); // Chomp endl
+            getline( fin, dataline ); // Chomp endl
 
             int count = 0;
             int explored = 0;
-            if (z >= 0 && z < OVERMAP_LAYERS) {
-                for (int j = 0; j < OMAPY; j++) {
-                    for (int i = 0; i < OMAPX; i++) {
-                        if (count == 0) {
+            if( z >= 0 && z < OVERMAP_LAYERS ) {
+                for( int j = 0; j < OMAPY; j++ ) {
+                    for( int i = 0; i < OMAPX; i++ ) {
+                        if( count == 0 ) {
                             fin >> explored >> count;
                         }
                         count--;
-                        layer[z].explored[i][j] = (explored == 1);
+                        layer[z].explored[i][j] = ( explored == 1 );
                     }
                 }
             }
-        } else if (datatype == 'N') { // Load notes
+        } else if( datatype == 'N' ) { // Load notes
             om_note tmp;
             fin >> tmp.x >> tmp.y;
-            getline(fin, tmp.text); // Chomp endl
-            getline(fin, tmp.text);
-            if (z >= 0 && z < OVERMAP_LAYERS) {
-                layer[z].notes.push_back(tmp);
+            getline( fin, tmp.text ); // Chomp endl
+            getline( fin, tmp.text );
+            if( z >= 0 && z < OVERMAP_LAYERS ) {
+                layer[z].notes.push_back( tmp );
             }
         }
     }
@@ -563,7 +582,8 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
     };
 
     if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
-        debugmsg( "Bad legacy activity data. Got %d, expected something from 0 to %d", legacy_type, legacy_map.size() );
+        debugmsg( "Bad legacy activity data. Got %d, expected something from 0 to %d", legacy_type,
+                  legacy_map.size() );
         dest = activity_id::NULL_ID();
         return;
     }

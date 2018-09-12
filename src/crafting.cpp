@@ -42,6 +42,7 @@ void drop_or_handle( const item &newit, player &p );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PAWS( "PAWS" );
+static const trait_id trait_BURROW( "BURROW" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
@@ -346,6 +347,10 @@ const inventory &player::crafting_inventory()
                                                calendar::turn, power_level );
         }
     }
+    if( has_trait( trait_BURROW ) ) {
+        cached_crafting_inventory += item( "pickaxe", calendar::turn );
+        cached_crafting_inventory += item( "shovel", calendar::turn );
+    }
 
     cached_moves = moves;
     cached_time = calendar::turn;
@@ -430,7 +435,6 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     }
     return used;
 }
-
 
 void player::complete_craft()
 {
@@ -607,6 +611,13 @@ void player::complete_craft()
                 if( elem.goes_bad() ) {
                     used_age_tally += elem.get_relative_rot();
                     ++used_age_count;
+                }
+                if( elem.has_flag( "HIDDEN_HALLU" ) ) {
+                    newit.item_tags.insert( "HIDDEN_HALLU" );
+                }
+                if( elem.has_flag( "HIDDEN_POISON" ) ) {
+                    newit.item_tags.insert( "HIDDEN_POISON" );
+                    newit.poison = elem.poison;
                 }
             }
         }
@@ -1280,7 +1291,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     // has been removed.
     item dis_item = org_item;
 
-    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage() ), 1.0 );
+    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first

@@ -14,6 +14,13 @@
     "flags": [ "CBM" ]
   },
   {
+    "abstract": "bionic_general_npc_usable",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "abstract bionic module (npc usable)",
+    "extend": { "flags": [ "BIONIC_NPC_USABLE" ] }
+  },
+  {
     "id": "bio_adrenaline",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -51,7 +58,7 @@
   },
   {
     "id": "bio_armor_arms",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Arms Alloy Plating CBM",
     "description": "The flesh on your arms has been replaced by a strong armor, protecting you greatly.",
@@ -60,7 +67,7 @@
   },
   {
     "id": "bio_armor_eyes",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Protective Lenses CBM",
     "description": "Your eye sockets have been sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
@@ -69,7 +76,7 @@
   },
   {
     "id": "bio_armor_head",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Head Alloy Plating CBM",
     "description": "The flesh on your head has been replaced by a strong armor, protecting both your head and jaw regions.",
@@ -78,7 +85,7 @@
   },
   {
     "id": "bio_armor_legs",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Legs Alloy Plating CBM",
     "description": "The flesh on your legs has been replaced by a strong armor, protecting you greatly.",
@@ -87,7 +94,7 @@
   },
   {
     "id": "bio_armor_torso",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Torso Alloy Plating CBM",
     "description": "The flesh on your torso has been replaced by a strong armor, protecting you greatly.",
@@ -150,7 +157,7 @@
   },
   {
     "id": "bio_carbon",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Subdermal Carbon Filament CBM",
     "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This reduces bashing damage by 2 and cutting damage by 4.",
@@ -204,7 +211,7 @@
   },
   {
     "id": "bio_dex_enhancer",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Wired Reflexes CBM",
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
@@ -213,7 +220,7 @@
   },
   {
     "id": "bio_digestion",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Expanded Digestive System CBM",
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
@@ -240,7 +247,7 @@
   },
   {
     "id": "bio_ethanol",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Ethanol Burner CBM",
     "description": "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance.",
@@ -258,7 +265,7 @@
   },
   {
     "id": "bio_eye_enhancer",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Diamond Cornea CBM",
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception.",
@@ -393,7 +400,7 @@
   },
   {
     "id": "bio_int_enhancer",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Cerebral Booster CBM",
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
@@ -447,7 +454,7 @@
   },
   {
     "id": "bio_membrane",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Nictating Membrane CBM",
     "description": "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties.",
@@ -555,7 +562,7 @@
   },
   {
     "id": "bio_power_storage",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Power Storage CBM",
     "description": "Compact Bionics Module that upgrades your power capacity by 100 units.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in another CBM.",
@@ -564,7 +571,7 @@
   },
   {
     "id": "bio_power_storage_mkII",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Power Storage CBM Mk. II",
     "name_plural": "Power Storage CBMs Mk. II",
@@ -583,7 +590,7 @@
   },
   {
     "id": "bio_purifier",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Air Filtration System CBM",
     "description": "Implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.  Reducing the toxic effects.",
@@ -610,7 +617,7 @@
   },
   {
     "id": "bio_razors",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Fingertip Razors CBM",
     "description": "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
@@ -638,7 +645,7 @@
   },
   {
     "id": "bio_recycler",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Recycler Unit CBM",
     "description": "Your digestive system has been outfitted with a series of filters and processors, allowing you to reclaim waste liquid and, to a lesser degree, nutrients.  The net effect is a greatly reduced need to eat and drink.",
@@ -701,7 +708,7 @@
   },
   {
     "id": "bio_speed",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Synaptic Accelerator CBM",
     "description": "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed.",
@@ -710,7 +717,7 @@
   },
   {
     "id": "bio_storage",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Internal Storage CBM",
     "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
@@ -719,7 +726,7 @@
   },
   {
     "id": "bio_str_enhancer",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Muscle Augmentation CBM",
     "description": "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength.",
@@ -737,7 +744,7 @@
   },
   {
     "id": "bio_targeting",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Targeting System CBM",
     "description": "Your eyes are equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range.",
@@ -773,7 +780,7 @@
   },
   {
     "id": "bio_torsionratchet",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Joint Torsion Ratchet CBM",
     "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move.",
@@ -833,5 +840,14 @@
     "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing you to carry more weight.",
     "price": 50000,
     "difficulty": 3
+  },
+  {
+    "id": "bio_shock_absorber",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Kinetic Shock Absorbers CBM",
+    "description": "A set of hydraulic springs and foldable padding that replaces most of the flesh in your limbs and upper torso.  While active, these absorbers will negate damage from severe impacts such as falling, at the cost of reducing your ability to move effectively.",
+    "price": 10000,
+    "difficulty": 4
   }
 ]

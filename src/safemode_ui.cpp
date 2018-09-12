@@ -570,7 +570,7 @@ void safemode::add_rules( std::vector<rules_class> &rules_in )
     }
 }
 
-void safemode::set_rule( const rules_class rule_in, const std::string name_in, rule_state rs_in )
+void safemode::set_rule( const rules_class rule_in, const std::string &name_in, rule_state rs_in )
 {
     static std::vector<Creature::Attitude> attitude_any = {{Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY}};
 

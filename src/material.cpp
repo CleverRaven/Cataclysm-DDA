@@ -88,7 +88,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
             _burn_data[ intensity ] = load_mat_burn_data( brn );
         } else {
             // If not specified, supply default
-            bool flammable = _fire_resist <= ( int )intensity;
+            bool flammable = _fire_resist <= static_cast<int>( intensity );
             mat_burn_data mbd;
             if( flammable ) {
                 mbd.burn = 1;
@@ -101,6 +101,15 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     while( bp_array.has_more( ) ) {
         auto pair = bp_array.next_array();
         _burn_products.emplace_back( pair.get_string( 0 ), pair.get_float( 1 ) );
+    }
+
+    auto compactor_in_array = jsobj.get_array( "compact_accepts" );
+    while( compactor_in_array.has_more( ) ) {
+        _compact_accepts.emplace_back( compactor_in_array.next_string() );
+    }
+    auto compactor_out_array = jsobj.get_array( "compacts_into" );
+    while( compactor_out_array.has_more( ) ) {
+        _compacts_into.emplace_back( compactor_out_array.next_string() );
     }
 }
 
@@ -117,6 +126,16 @@ void material_type::check() const
     }
     if( !item::type_is_defined( _repaired_with ) ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
+    }
+    for( auto &ca : _compact_accepts ) {
+        if( !ca.is_valid() ) {
+            debugmsg( "invalid \"compact_accepts\" %s for %s.", ca.c_str(), id.c_str() );
+        }
+    }
+    for( auto &ci : _compacts_into ) {
+        if( !item::type_is_defined( ci ) || !item( ci, 0 ).only_made_of( std::set<material_id> { id } ) ) {
+            debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
+        }
     }
 }
 
@@ -240,6 +259,16 @@ const mat_burn_products &material_type::burn_products() const
     return _burn_products;
 }
 
+const material_id_list &material_type::compact_accepts() const
+{
+    return _compact_accepts;
+}
+
+const mat_compacts_into &material_type::compacts_into() const
+{
+    return _compacts_into;
+}
+
 void materials::load( JsonObject &jo, const std::string &src )
 {
     material_data.load( jo, src );
@@ -254,3 +283,19 @@ void materials::reset()
 {
     material_data.reset();
 }
+
+material_list materials::get_all()
+{
+    return material_data.get_all();
+}
+
+material_list materials::get_compactable()
+{
+    material_list all = get_all();
+    material_list compactable;
+    std::copy_if( all.begin(), all.end(), std::back_inserter( compactable ), []( material_type mt ) {
+        return !mt.compacts_into().empty();
+    } );
+    return compactable;
+}
+

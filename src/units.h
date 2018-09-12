@@ -231,8 +231,6 @@ operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 }
 /**@}*/
 
-
-
 class volume_in_milliliter_tag
 {
 };

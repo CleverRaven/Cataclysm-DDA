@@ -1757,7 +1757,14 @@
     "see_cost": 5,
     "extras": "subway",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_train_depot",
+    "name": "central train depot",
+    "copy-from": "lab_train_depot",
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
   },
   {
     "type": "overmap_terrain",
@@ -7346,7 +7353,7 @@
   {
     "type": "overmap_terrain",
     "id": "garage_gas_1",
-    "name": "gas station",
+    "name": "garage - gas station",
     "copy-from": "generic_necropolis_surface_building",
     "color": "light_blue"
   },
@@ -8802,7 +8809,7 @@
     "type": "overmap_terrain",
     "id": "dirtroad",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Dirt Road",
+    "name": "dirt road",
     "sym": 35,
     "color": "brown"
   },
@@ -8810,7 +8817,7 @@
     "type": "overmap_terrain",
     "id": "rural_house",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Rural House",
+    "name": "rural house",
     "sym": 35,
     "color": "blue"
   },
@@ -8818,7 +8825,7 @@
     "type": "overmap_terrain",
     "id": "moonshine_still",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Moonshine Still",
+    "name": "moonshine still",
     "sym": 83,
     "color": "i_brown"
   },
@@ -9380,7 +9387,7 @@
     "type": "overmap_terrain",
     "id": "stadium_0_1",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9396,7 +9403,7 @@
     "type": "overmap_terrain",
     "id": "stadium_2_1",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9404,7 +9411,7 @@
     "type": "overmap_terrain",
     "id": "stadium_3_1",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9412,7 +9419,7 @@
     "type": "overmap_terrain",
     "id": "stadium_0_2",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9436,7 +9443,7 @@
     "type": "overmap_terrain",
     "id": "stadium_3_2",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9444,7 +9451,7 @@
     "type": "overmap_terrain",
     "id": "stadium_0_3",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9468,7 +9475,7 @@
     "type": "overmap_terrain",
     "id": "stadium_3_3",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9484,7 +9491,7 @@
     "type": "overmap_terrain",
     "id": "stadium_1_4",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9492,7 +9499,7 @@
     "type": "overmap_terrain",
     "id": "stadium_2_4",
     "copy-from": "generic_city_building",
-    "name": "stadium concessions",
+    "name": "stadium",
     "sym": 48,
     "color": "white"
   },
@@ -9671,5 +9678,12 @@
     "name": "trailer park",
     "sym": 35,
     "color": "white"
+  },
+  {
+  "type": "overmap_terrain",
+  "id": "mass_grave",
+  "name": "mass grave",
+  "sym": 88,
+  "color": "yellow"
   }
 ]

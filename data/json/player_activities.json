@@ -207,6 +207,22 @@
     "no_resume": true
   },
   {
+    "id": "ACT_TILL_PLOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop tilling the farm plot?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_PLANT_PLOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop planting seeds?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_ADV_INVENTORY",
     "type": "activity_type",
     "stop_phrase": "Stop interacting with inventory?",

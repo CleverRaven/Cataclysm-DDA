@@ -40,7 +40,6 @@
 #include <cstdlib>
 #include <cstring>
 
-
 enum aim_exit {
     exit_none = 0,
     exit_okay,
@@ -179,7 +178,7 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
     return "!BUG!";
 }
 
-bool advanced_inventory::get_square( const std::string action, aim_location &ret )
+bool advanced_inventory::get_square( const std::string &action, aim_location &ret )
 {
     if( action == "ITEMS_INVENTORY" ) {
         ret = AIM_INVENTORY;
@@ -214,7 +213,6 @@ bool advanced_inventory::get_square( const std::string action, aim_location &ret
     }
     return true;
 }
-
 
 void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
 {
@@ -1167,7 +1165,6 @@ bool advanced_inventory::move_all_items(bool nested_call)
         auto &sarea = squares[spane.get_area()];
         auto &darea = squares[dpane.get_area()];
 
-
         // Check first if the destination area still have enough room for moving all.
         if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
             !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
@@ -1533,7 +1530,7 @@ void advanced_inventory::display()
                         auto map_stack = g->m.i_at( sq.pos );
                         auto veh_stack = sq.veh->get_items( sq.vstor );
                         // auto switch to vehicle storage if vehicle items are there, or neither are there
-                        if( !veh_stack.empty() || ( map_stack.empty() && veh_stack.empty() ) ) {
+                        if( !veh_stack.empty() || map_stack.empty() ) {
                             in_vehicle_cargo = true;
                         }
                     }
@@ -2442,7 +2439,6 @@ void advanced_inv_area::set_container_position()
         vstor = -1;
     }
 }
-
 
 void advanced_inv()
 {
