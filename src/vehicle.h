@@ -1410,6 +1410,8 @@ class vehicle
         bool insides_dirty              = true;
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
         bool falling                    = false;
+        // last time point the fluid was inside tanks was checked for processing
+        time_point last_fluid_check = calendar::time_of_cataclysm;
 
     private:
         // refresh pivot_cache, clear pivot_dirty

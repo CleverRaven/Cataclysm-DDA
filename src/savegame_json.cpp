@@ -1606,9 +1606,9 @@ void item::io( Archive &archive )
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
-    archive.io( "fridge", fridge, calendar::before_time_starts );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
+    archive.io( "last_temp_check", last_temp_check, calendar::time_of_cataclysm );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );

@@ -890,12 +890,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               to_turns<int>( food->rot ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
                                               to_turns<int>( food->type->comestible->spoils ), true, "", true, true ) );
-                    info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
-                                              to_turn<int>( food->fridge ), true, "", true, true ) );
-                    info.push_back( iteminfo( "BASE", space + _( "freezer: " ), "",
-                                              to_turn<int>( food->freezer ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
                                               to_turn<int>( food->last_rot_check ), true, "", true, true ) );
+                    info.push_back( iteminfo( "BASE", _( "last temp: " ), "",
+                                              to_turn<int>( food->last_temp_check ), true, "", true, true ) );
                 }
                 if( food->item_tags.count( "HOT" ) ) {
                     info.push_back( iteminfo( "BASE", _( "HOT: " ), "",
@@ -1019,7 +1017,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                                          "It's on a brink of becoming inedible." ) );
                 }
             }
-            if( food_item->has_flag( "NO_FREEZE" ) && !food_item->rotten() &&
+            if( food_item->has_flag( "FREEZERBURN" ) && !food_item->rotten() &&
                 !food_item->has_flag( "MUSHY" ) ) {
                 info.emplace_back( "DESCRIPTION",
                                    _( "* Quality of this food suffers when it's frozen, and it <neutral>will become mushy after thawing out.</neutral>." ) );
@@ -3265,8 +3263,6 @@ void item::set_relative_rot( double val )
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
-        fridge = calendar::before_time_starts;
-        freezer = calendar::before_time_starts;
         active = true;
     }
 }
@@ -3303,11 +3299,24 @@ int item::spoilage_sort_order()
 
 void item::calc_rot( const tripoint &location )
 {
+    // Avoid needlessly calculating already rotten things.  Corpses should
+    // always rot away and food rots away at twice the shelf life.  If the food
+    // is in a sealed container they won't rot away, this avoids needlessly
+    // calculating their rot in that case.
+    if( !is_corpse() && get_relative_rot() > 2.0 ) {
+        return;
+    }
+
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
         const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
-        time_point until = fridge != calendar::before_time_starts ? fridge : now;
-        until = freezer != calendar::before_time_starts ? freezer : now;
+
+        last_rot_check = now;
+
+        // Frozen food do not rot, so no change to rot variable
+        if( item_tags.count( "FROZEN" ) ) {
+            return;
+        }
 
         // rot modifier
         float factor = 1.0;
@@ -3324,21 +3333,13 @@ void item::calc_rot( const tripoint &location )
             rot += factor * rng( -spoil_variation, spoil_variation );
         }
 
-        if( since < until ) {
-            // rot (outside of fridge/freezer) from bday/last_rot_check until fridge/freezer/now
-            rot += factor * get_rot_since( since, until, location );
+        if( item_tags.count( "COLD" ) ) {
+            rot += factor * ( ( now - since ) / 1_hours *
+                              get_hourly_rotpoints_at_temp( temperatures::fridge ) * 1_turns ) ;
+        } else {
+            rot += factor * get_rot_since( since, now, location );
         }
-        last_rot_check = now;
 
-        if( freezer != calendar::before_time_starts ) {
-            // Frozen food do not rot, so no change to rot variable
-            freezer = calendar::before_time_starts;
-        }
-        if( fridge != calendar::before_time_starts ) {
-            rot += factor * ( now - fridge ) / 1_hours * get_hourly_rotpoints_at_temp(
-                       FRIDGE_TEMPERATURE ) * 1_turns;
-            fridge = calendar::before_time_starts;
-        }
     }
 }
 
@@ -5923,59 +5924,175 @@ bool item::needs_processing() const
 
 int item::processing_speed() const
 {
-    if( is_food() && !( item_tags.count( "HOT" ) || item_tags.count( "COLD" ) ||
-                        item_tags.count( "FROZEN" ) ) ) {
-        // Hot and cold food need turn-by-turn updates.
-        // If they ever become a performance problem, update process_food to handle them occasionally.
-        return 600;
-    } else if( is_food() ) {
-        return 100;
-    }
-    if( is_corpse() ) {
+    if( is_corpse() || is_food() || is_food_container() ) {
         return 100;
     }
     // Unless otherwise indicated, update every turn.
     return 1;
 }
 
-bool item::process_food( player * /*carrier*/, const tripoint &pos )
+void item::apply_freezerburn()
 {
-    calc_rot( g->m.getabs( pos ) );
-    if( item_tags.count( "HOT" ) && item_counter == 0 ) {
-        item_tags.erase( "HOT" );
+    if( !item_tags.count( "FROZEN" ) ) {
+        return;
     }
-    if( item_tags.count( "COLD" ) && item_counter == 0 ) {
-        item_tags.erase( "COLD" );
+    item_tags.erase( "FROZEN" );
+
+    if( !has_flag( "FREEZERBURN" ) ) {
+        return;
     }
-    if( item_tags.count( "FROZEN" ) && item_counter == 0 ) {
-        item_tags.erase( "FROZEN" );
-        if( has_flag( "NO_FREEZE" ) && !rotten() ) {
-            item_tags.insert( "MUSHY" );
-        } else if( has_flag( "NO_FREEZE" ) && has_flag( "MUSHY" ) &&
-                   rot < type->comestible->spoils ) {
-            rot = type->comestible->spoils;
+    if( !item_tags.count( "MUSHY" ) ) {
+        item_tags.insert( "MUSHY" );
+    } else {
+        set_relative_rot( 1.01 );
+    }
+}
+
+static int temp_difference_ratio( const int temp_one, const int temp_two )
+{
+    return std::max( abs( temp_one - temp_two ) / 5, ( 1 ) );
+}
+
+void item::update_temp( const int temp, const float insulation )
+{
+    const time_point now = calendar::turn;
+    const time_duration dur = now - last_temp_check;
+    if( dur > 10_turns ) {
+        calc_temp( temp, insulation, dur );
+        last_temp_check = now;
+    }
+}
+
+void item::calc_temp( const int temp, const float insulation, const time_duration &time )
+{
+    const int freeze_point = type->comestible->freeze_point;
+    bool is_hot = item_tags.count( "HOT" );
+    bool is_cold = item_tags.count( "COLD" );
+    bool is_frozen = item_tags.count( "FROZEN" );
+    int loop_diff = 0;
+    int diff = temp <= freeze_point || is_frozen ?
+               temp_difference_ratio( temp, freeze_point ) :
+               temp_difference_ratio( temp, temperatures::cold );
+    diff *= to_turns<int>( time );
+    diff /= std::max( insulation, static_cast<float>( 0.1 ) );
+    // no matter how much insulation temperature will shift at least a 1 degree
+    // every ten turns if less than cold
+    diff = std::max( diff, 1 );
+
+    do {
+        // process diff in chunks of 600 because that's the barrier at which a
+        // something can become frozen or cold
+        loop_diff = std::min( 600, diff );
+        if( diff >= 600 ) {
+            diff -= 600;
+        } else  {
+            diff = 0;
         }
-        item_tags.insert( "COLD" );
-        item_counter = 600;
-    }
-    // deep freezing kills parasites but not instantly
-    if( item_tags.count( "FROZEN" ) > 0 && item_counter > 500 && type->comestible->parasites > 0 ) {
-        item_tags.insert( "NO_PARASITES" );
+
+        if( is_hot ) {
+            // for now a hot item can only ever cool off
+            item_counter -= loop_diff;
+            if( item_counter <= 0 ) {
+                item_tags.erase( "HOT" );
+                // if current temp is less than cold, start ticking
+                // item_counter for cold, otherwise we're done because item
+                // cannot cool further
+                if( temp < temperatures::cold ) {
+                    item_counter = -item_counter;
+                } else {
+                    item_counter = 0;
+                    return;
+                }
+                is_hot = false;
+            }
+        } else if( is_cold ) {
+            if( temp <= temperatures::cold ) {
+                item_counter += loop_diff;
+                if( item_counter > 600 ) {
+                    if( temp <= freeze_point ) {
+                        // if temp is colder than freeze point start ticking frozen
+                        item_tags.erase( "COLD" );
+                        item_tags.insert( "FROZEN" );
+                        item_counter -= 600;
+                        is_cold = false;
+                        is_frozen = true;
+                    } else {
+                        // if temp is warmer than freezing, cold counter cannot
+                        // exceed 600 and we're done here because item cannot cool
+                        // off any further
+                        item_counter = 600;
+                        return;
+                    }
+                }
+            } else {
+                item_counter -= loop_diff;
+                // if item is cold and counter is decreasing, we can only be in a
+                // warmer temp, so we're done if it's less than zero, if it's
+                // greater than 600 that means we're still cooling off and need to
+                // transition to frozen.
+                if( item_counter <= 0 ) {
+                    item_tags.erase( "COLD" );
+                    item_counter = 0;
+                    return;
+                }
+            }
+        } else if( is_frozen ) {
+            if( temp <= freeze_point ) {
+                item_counter += loop_diff;
+                if( item_counter > 500 && type->comestible->parasites > 0 ) {
+                    item_tags.insert( "NO_PARASITES" );
+                }
+
+                // counter cannot exceed 600 as frozen, if it does we know
+                // we're done because item is cooling down and cannot cool any
+                // further
+                if( item_counter > 600 ) {
+                    item_counter = 600;
+                    return;
+                }
+            } else {
+                item_counter -= loop_diff;
+                // item is defrosting
+                if( item_counter <= 0 ) {
+                    apply_freezerburn(); // removes frozen tag and applies mushy/rot if needed
+                    item_tags.insert( "COLD" );
+                    item_counter += 600;
+                    is_frozen = false;
+                    is_cold = true;
+                }
+            }
+        } else if( temp <= temperatures::cold ) {
+            // see if we need to add a cold tag
+            item_counter += loop_diff;
+            if( item_counter > 600 ) {
+                item_tags.insert( "COLD" );
+                item_counter -= 600;
+                is_cold = true;
+            }
+        } else {
+            // no tags yet and temp is warming
+            item_counter -= loop_diff;
+            // negative item_counter without a tag doesn't compute yet
+            // we're done in this case
+            // TODO make it warm/hot?
+            if( item_counter < 0 ) {
+                item_counter = 0;
+                return;
+            }
+        }
+    } while( loop_diff > 0 || item_counter < 0 || item_counter > 600 );
+}
+
+bool item::process_food( const player *carrier, const tripoint &p, int temp, float insulation )
+{
+    if( carrier != nullptr && carrier->has_item( *this ) ) {
+        temp += 5; // body heat increases inventory temperature
+        insulation *= 1.5; // clothing provides inventory some level of insulation
     }
 
-    // minimum is 0 - takes into account that process() takes --1 counter per turn regardless
-    const auto temp = g->get_temperature( pos );
-    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) - 1; //effective 1-4
-    unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) - 1;
-
-    // environment temperature applies COLD/FROZEN
-    if( temp <= FRIDGE_TEMPERATURE ) {
-        g->m.apply_in_fridge( *this, temp );
-    } else if( item_tags.count( "FROZEN" ) > 0 && item_counter > diff_freeze ) {
-        item_counter -= diff_freeze; // thaw
-    } else if( item_tags.count( "COLD" ) > 0 && item_counter > diff_cold ) {
-        item_counter -= diff_cold; // get warm
-    }
+    // temperature can affect rot, so do it first
+    update_temp( temp, insulation );
+    calc_rot( p );
     return false;
 }
 
@@ -6237,6 +6354,16 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
+    if( is_food() || is_food_container() ) {
+        return process( carrier, pos, activate, g->get_temperature( g->m.getabs( pos ) ), 1 );
+    } else {
+        return process( carrier, pos, activate, 0, 1 );
+    }
+}
+
+bool item::process( player *carrier, const tripoint &pos, bool activate, int temp,
+                    float insulation )
+{
     const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( preserves ) {
@@ -6244,7 +6371,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process( carrier, pos, activate ) ) {
+        if( it->process( carrier, pos, activate, temp, type->insulation_factor * insulation ) ) {
             it = contents.erase( it );
         } else {
             ++it;
@@ -6266,7 +6393,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         return false;
     }
 
-    if( item_counter > 0 ) {
+    if( !is_food() && item_counter > 0 ) {
         item_counter--;
     }
 
@@ -6284,7 +6411,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }
-    if( is_food() &&  process_food( carrier, pos ) ) {
+    if( is_food() &&  process_food( carrier, pos, temp, insulation ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {
