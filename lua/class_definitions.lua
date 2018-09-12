@@ -1379,11 +1379,7 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool", "int" } },
-            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool", "int", "bool" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration" }, optional_args = { "body_part", "bool", "int", "bool" } },
             { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "time_duration" } },
             { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "time_duration", "body_part" } },
             { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "time_duration", "body_part", "bool" } },
@@ -2255,6 +2251,41 @@ for class_name, value in pairs(classes) do
         else
             i = i + 1
         end
+    end
+end
+
+-- This extracts optional arguments.
+-- Example:
+--     { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration" }, optional_args = { "body_part", "bool", "int", "bool" } },
+-- As a result of previous definition is extracted, forrowing definitions is gained.
+--     { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part" } },
+--     { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool" } },
+--     { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool", "int" } },
+--     { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration", "body_part", "bool", "int", "bool" } },
+for class_name, value in pairs(classes) do
+    -- Collect all defined functions of the *parent* classes in this table
+    local new_functions = { }
+    for _, func in ipairs(value.functions) do
+        print(func.name)
+        if func.optional_args then
+            local i = 1
+            while i <= #func.optional_args do
+                local t = {
+                    name = func.name,
+                    rval = func.rval,
+                    args = { table.unpack(func.args) } -- copy args
+                }
+                local j
+                for j = 1, i do
+                    table.insert(t.args, func.optional_args[j])
+                end
+                table.insert(new_functions, t)
+                i = i + 1
+            end
+        end
+    end
+    for _, new_func in ipairs(new_functions) do
+        table.insert(value.functions, new_func)
     end
 end
 
