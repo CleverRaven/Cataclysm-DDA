@@ -439,6 +439,7 @@ class cata_tiles
                                const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );

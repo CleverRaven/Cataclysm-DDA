@@ -11206,6 +11206,87 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
+memorized_tile player::get_memorized_terrain( const tripoint &pos ) const
+{
+    const tripoint p = g->m.getabs( pos );
+    if( memorized_terrain.find( p ) != memorized_terrain.end() ) {
+        return memorized_terrain.at( p );
+    }
+    return { "", 0, 0 };
+}
+
+void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile, const int rotation )
+{
+    memorized_terrain_tmp[pos] = { ter, subtile, rotation };
+}
+
+void player::finalize_tile_memory()
+{
+    memorize_tiles( memorized_terrain_tmp );
+    memorized_terrain_tmp.clear();
+}
+
+void player::memorize_tiles( const std::map<tripoint, memorized_tile> &tiles )
+{
+    std::set<tripoint> submaps;
+    for( auto i : tiles ) {
+        const tripoint p = g->m.getabs( i.first );
+        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
+        memorized_terrain[p] = i.second;
+    }
+
+    update_submap_memory( submaps );
+}
+
+void player::update_submap_memory( const std::set<tripoint> &submaps )
+{
+    std::set<tripoint> erase;
+    for( auto i : submaps ) {
+        std::vector<tripoint>::iterator position = std::find( memorized_submaps.begin(),
+                memorized_submaps.end(), i );
+        if( position != memorized_submaps.end() ) {
+            memorized_submaps.erase( position );
+        }
+        memorized_submaps.push_back( i );
+    }
+
+    while( memorized_submaps.size() > max_memorized_submaps() ) {
+        erase.insert( memorized_submaps.front() );
+        memorized_submaps.erase( memorized_submaps.begin() );
+    }
+
+    clear_submap_memory( erase );
+}
+
+void player::clear_submap_memory( const std::set<tripoint> &erase )
+{
+    for( auto it = memorized_terrain.cbegin(); it != memorized_terrain.cend(); ) {
+        bool delete_this = false;
+        for( auto i : erase ) {
+            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
+                delete_this = true;
+                break;
+            }
+        }
+        if( delete_this ) {
+            memorized_terrain.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+}
+
+int player::max_memorized_submaps() const
+{
+    if( has_trait( trait_FORGETFUL ) ) {
+        return 200; // 50 overmap tiles
+    } else if( has_trait( trait_GOODMEMORY ) ) {
+        return 800; // 200 overmap tiles
+    }
+    return 400; // 100 overmap tiles
+
+}
+
 bool player::sees( const tripoint &t, bool ) const
 {
     static const bionic_id str_bio_night("bio_night");

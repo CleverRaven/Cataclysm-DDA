@@ -1086,6 +1086,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+                int height_3d = 0;
+                draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d );
                 const auto critter = g->critter_at( tripoint( x, y, center.z ), true );
                 if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
                     //TODO defer drawing this until later when we know how tall
@@ -1120,6 +1122,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
         }
     }
+
+    g->u.finalize_tile_memory();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -2181,7 +2185,20 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
 
     const std::string &tname = t.obj().id.str();
 
+    g->u.memorize_tile( p, tname, subtile, rotation );
+
     return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
+                                nv_goggles_activated, height_3d );
+}
+
+bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
+{
+    const memorized_tile t = g->u.get_memorized_terrain( p );
+    if( t.tile == "" ) {
+        return false;
+    }
+
+    return draw_from_id_string( t.tile, C_TERRAIN, empty_string, p, t.subtile, t.rotation, LL_LOW,
                                 nv_goggles_activated, height_3d );
 }
 

@@ -11,6 +11,7 @@
 #include "ret_val.h"
 #include "damage.h"
 #include "calendar.h"
+#include "mapdata.h"
 
 #include <unordered_set>
 #include <memory>
@@ -129,6 +130,12 @@ struct stat_mod {
     int perception = 0;
 
     int speed = 0;
+};
+
+struct memorized_tile {
+    std::string tile;
+    int subtile;
+    int rotation;
 };
 
 class player : public Character
@@ -361,6 +368,27 @@ class player : public Character
         bool has_alarm_clock() const;
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
+
+        /** Returns last stored map tile in given location */
+        memorized_tile get_memorized_terrain( const tripoint &p ) const;
+
+        /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
+        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation );
+        /** Memorizes several tiles at once */
+        void memorize_tiles( const std::map<tripoint, memorized_tile> &tiles );
+        /** Adds new submaps to the memorized submap list, and pushes out the oldest ones */
+        void update_submap_memory( const std::set<tripoint> &submaps );
+        /** Erases specific submaps from memory */
+        void clear_submap_memory( const std::set<tripoint> &erase );
+        /** Called after several calls of memorize_tile, processes several tiles at once */
+        void finalize_tile_memory();
+        /** Returns the amount of submaps survivor can remember. Each submap is 12x12 and there are 4 of them in an overmap tile */
+        int max_memorized_submaps() const;
+
+        std::map<tripoint, memorized_tile> memorized_terrain_tmp;
+        std::map<tripoint, memorized_tile> memorized_terrain;
+        std::vector<tripoint> memorized_submaps;
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
