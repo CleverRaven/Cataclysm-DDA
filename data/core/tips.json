@@ -67,7 +67,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Don't fight against the odds.  Running is no shame in survival." ]
+    "text": [ "Don't fight against the odds. There's no shame in running to survive." ]
   },
   {
     "type": "snippet",
@@ -142,12 +142,12 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Don't get grabbed by the zombie.  They can bite you and infect the wound." ]
+    "text": [ "Don't get grabbed by zombies. Their bites can be infectious." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Feeling odd after waking up?  Your health might not be well." ]
+    "text": [ "Feeling odd after waking up? Try eating healthier and your health may improve." ]
   },
   {
     "type": "snippet",
@@ -163,10 +163,11 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Raw food and water from unsafe sources can't be healthy?  Right?" ]
-  },  {
+  },
+  {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Why walk all day to nearest town when you can adopt a vehicle?" ]
+    "text": [ "Why walk all day to nearest town when you can adapt a vehicle?" ]
   },
   {
     "type": "snippet",
