@@ -733,7 +733,8 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
-    "fun": 15
+    "fun": 15,
+    "freezing_point": 17
   },
   {
     "type": "COMESTIBLE",
@@ -759,7 +760,8 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
-    "fun": 15
+    "fun": 15,
+    "freezing_point": 17
   },
   {
     "type": "COMESTIBLE",
@@ -783,7 +785,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
-    "fun": 15
+    "fun": 15,
+    "freezing_point": 17
   },
   {
     "type": "COMESTIBLE",
@@ -808,7 +811,8 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
-    "fun": 16
+    "fun": 16,
+    "freezing_point": 15
   },
   {
     "type": "COMESTIBLE",
@@ -997,7 +1001,8 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "fun": 10
+    "fun": 10,
+    "freezing_point": 22
   },
   {
     "type": "COMESTIBLE",
@@ -1023,7 +1028,7 @@
     "phase": "liquid",
     "stack_size": 7,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": -49,
+    "freezing_point": -22,
     "fun": 5
   },
   {
@@ -1076,7 +1081,8 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "fun": 2
+    "fun": 2,
+    "freezing_point": 20
   },
   {
     "type": "COMESTIBLE",
@@ -1308,7 +1314,8 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "fun": 16
+    "fun": 16,
+    "freezing_point": 25
   },
   {
     "type": "COMESTIBLE",
@@ -4375,7 +4382,8 @@
     "phase": "liquid",
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "fun": 5,
+    "freezing_point": -80
   },
   {
     "type": "COMESTIBLE",
@@ -6664,8 +6672,8 @@
     "nutrition": 1,
     "fun": 1,
     "flags": [ "EATEN_COLD" ],
-    "freezing_point": 23,
-    "phase": "liquid"
+    "phase": "liquid",
+    "freezing_point": 30
   },
   {
     "type": "COMESTIBLE",
@@ -6685,7 +6693,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
-    "fun": 5
+    "fun": 5,
+    "freezing_point": -70
   },
   {
     "type": "COMESTIBLE",
@@ -7453,7 +7462,8 @@
     "charges": 5,
     "fun": -1,
     "flags": [ "FREEZERBURN" ],
-    "phase": "liquid"
+    "phase": "liquid",
+    "freezing_point": 25
   },
   {
     "id": "ketchup",
@@ -7692,7 +7702,8 @@
     "phase": "liquid",
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
-    "fun": 8
+    "fun": 8,
+    "freezing_point": -22
   },
   {
     "type": "COMESTIBLE",
@@ -7718,7 +7729,8 @@
     "phase": "liquid",
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
-    "fun": -12
+    "fun": -12,
+    "freezing_point": -22
   },
   {
     "type": "COMESTIBLE",
@@ -8048,7 +8060,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
-    "fun": -4
+    "fun": -4,
+    "freezing_point": 28
   },
   {
     "type": "COMESTIBLE",
@@ -8068,7 +8081,8 @@
     "volume": 1,
     "charges": 2,
     "phase": "liquid",
-    "fun": -4
+    "fun": -4,
+    "freezing_point": 14
   },
   {
     "type": "COMESTIBLE",
@@ -8742,7 +8756,8 @@
     "phase": "liquid",
     "charges": 4,
     "fun": 2,
-    "flags": [ "USE_EAT_VERB" ]
+    "flags": [ "USE_EAT_VERB" ],
+    "freezing_point": -20
   },
   {
     "type": "COMESTIBLE",
@@ -9633,7 +9648,8 @@
     "price": 95,
     "volume": 1,
     "phase": "liquid",
-    "fun": 2
+    "fun": 2,
+    "freezing_point": 22
   },
   {
     "type": "COMESTIBLE",
@@ -10431,7 +10447,8 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "FREEZERBURN" ],
-    "fun": 20
+    "fun": 20,
+    "freezing_point": 12
   },
   {
     "id": "hot_chocolate",
