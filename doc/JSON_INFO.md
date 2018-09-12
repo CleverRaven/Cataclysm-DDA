@@ -749,6 +749,7 @@ See also VEHICLE_JSON.md
 "volume" : 1,                     // Volume, measured in 1/4 liters
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
+"insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price" : 100,                    // Used when bartering with NPCs
 "material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
@@ -907,6 +908,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
+"freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 ```
 
 ### Containers

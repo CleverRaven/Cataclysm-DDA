@@ -489,6 +489,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DOME_LIGHT```
 - ```DOOR_MOTOR```
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
+- ```E_HEATER``` Is an engine and has a heater to warm internal vehicle items when on.
 - ```E_ALTERNATOR``` Is an engine that can power an alternator.
 - ```E_COLD_START``` Is an engine that starts much slower in cold weather.
 - ```E_COMBUSTION``` Is an engine that burns its fuel and can backfire or explode when damaged.
@@ -815,7 +816,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
-- ```NO_FREEZE``` It spoils instantly when frozen.
+- ```FREEZERBURN``` First thaw is MUSHY, second is rotten
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
@@ -929,7 +930,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - ```COLD``` Item is cold (see EATEN_COLD).
 - ```FROZEN``` Item is frozen solid (used by freezer).
-- ```MUSHY``` NO_FREEZE item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
