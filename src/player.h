@@ -384,7 +384,7 @@ class player : public Character
         /** Called after several calls of memorize_tile, processes several tiles at once */
         void finalize_tile_memory();
         /** Returns the amount of submaps survivor can remember. Each submap is 12x12 and there are 4 of them in an overmap tile */
-        int max_memorized_submaps() const;
+        size_t max_memorized_submaps() const;
 
         std::map<tripoint, memorized_tile> memorized_terrain_tmp;
         std::map<tripoint, memorized_tile> memorized_terrain;

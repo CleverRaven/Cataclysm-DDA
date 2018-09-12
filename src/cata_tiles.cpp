@@ -374,6 +374,16 @@ static void color_pixel_overexposed( pixel &pix )
     pix.b = result / 7;
 }
 
+static void color_pixel_memorized( pixel &pix )
+{
+    if( pix.isBlack() ) {
+        return;
+    }
+    pix.r = clamp(pix.r / 3, 1, 255);
+    pix.g = clamp(pix.g / 3, 1, 255);
+    pix.b = clamp(pix.b / 3, 1, 255);
+}
+
 static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
         void ( &pixel_converter )( pixel & ) )
 {
@@ -438,6 +448,8 @@ void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
                              ts.night_tile_values );
     copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_overexposed ), offset,
                              ts.overexposed_tile_values );
+    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_memorized ), offset,
+                             ts.memory_tile_values );
 }
 
 template<typename T>
@@ -516,6 +528,7 @@ void tileset_loader::load_tileset( std::string img_path )
     extend_vector_by( ts.shadow_tile_values, expected_tilecount );
     extend_vector_by( ts.night_tile_values, expected_tilecount );
     extend_vector_by( ts.overexposed_tile_values, expected_tilecount );
+    extend_vector_by( ts.memory_tile_values, expected_tilecount );
 
     for( const SDL_Rect sub_rect : output_range ) {
         assert( sub_rect.x % sprite_width == 0 );
@@ -1991,7 +2004,11 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
 
     //use night vision colors when in use
     //then use low light tile if available
-    if( apply_night_vision_goggles ) {
+    if( ll == LL_MEMORIZED ) {
+        if( const auto ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
+            sprite_tex = ptr;
+        }
+    } else if( apply_night_vision_goggles ) {
         if( ll != LL_LOW ) {
             if( const auto ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
                 sprite_tex = ptr;
@@ -2198,7 +2215,7 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
         return false;
     }
 
-    return draw_from_id_string( t.tile, C_TERRAIN, empty_string, p, t.subtile, t.rotation, LL_LOW,
+    return draw_from_id_string( t.tile, C_TERRAIN, empty_string, p, t.subtile, t.rotation, LL_MEMORIZED,
                                 nv_goggles_activated, height_3d );
 }
 

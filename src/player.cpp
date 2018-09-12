@@ -11276,7 +11276,7 @@ void player::clear_submap_memory( const std::set<tripoint> &erase )
     }
 }
 
-int player::max_memorized_submaps() const
+size_t player::max_memorized_submaps() const
 {
     if( has_trait( trait_FORGETFUL ) ) {
         return 200; // 50 overmap tiles
