@@ -85,4 +85,21 @@ TEST_CASE( "fold-string" )
         };
         check_equal( folded.begin(), folded.end(), expected.begin(), expected.end() );
     }
+
+    SECTION( "Case 5 - test long word" ) {
+        const auto folded = foldstring(
+                                "You gain a mutation called Hippopotomonstrosesquippedaliophobia!",
+                                20
+                            );
+        const auto expected = {
+            /*
+             0123456789abcdefghij
+            */
+            "You gain a mutation ",
+            "called ",
+            "Hippopotomonstrosesq",
+            "uippedaliophobia!"
+        };
+        check_equal( folded.begin(), folded.end(), expected.begin(), expected.end() );
+    }
 }
