@@ -614,13 +614,14 @@ void uimenu::show()
                 trim_and_print( window, estart + si, pad_left + 4,
                                 w_width - 5 - pad_left - pad_right, co, "%s", entry.c_str() );
             }
-            if ( !entries[ei].extratxt.txt.empty() ) {
-                mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
-                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.txt );
+            mvwzstr menu_entry_extra_text = entries[ei].extratxt;
+            if ( !menu_entry_extra_text.txt.empty() ) {
+                mvwprintz( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                           menu_entry_extra_text.color, menu_entry_extra_text.txt );
             }
-            if ( entries[ei].extratxt.sym != 0 ) {
-                mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
-                           entries[ ei ].extratxt.color, entries[ ei ].extratxt.sym );
+            if ( menu_entry_extra_text.sym != 0 ) {
+                mvwputch ( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
             if ( callback != NULL && ei == selected ) {
                 callback->select(ei, this);
@@ -809,6 +810,14 @@ void uimenu::query(bool loop)
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();
+
+#ifdef __ANDROID__
+    for (const auto& entry : entries) {
+        if (entry.hotkey > 0 && entry.enabled)
+            ctxt.register_manual_key(entry.hotkey, entry.txt);
+    }
+#endif
+
     do {
         bool skipkey = false;
         const auto action = ctxt.handle_input();

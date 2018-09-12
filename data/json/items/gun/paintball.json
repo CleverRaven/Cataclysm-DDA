@@ -1,0 +1,26 @@
+[
+  {
+    "id": "paintballgun",
+    "type": "GUN",
+    "reload_noise_volume": 6,
+    "symbol": "(",
+    "color": "light_gray",
+    "name": "Paintball gun",
+    "description": "A fairly harmless gun that shoots small paintballs.",
+    "price": 8000,
+    "material": [ "aluminum", "plastic" ],
+    "flags": "NEVER_JAMS",
+    "skill": "smg",
+    "ammo": "paintball",
+    "weight": 1600,
+    "volume": 5,
+    "bashing": 5,
+    "to_hit": -1,
+    "range": 8,
+    "ranged_damage": 1,
+    "dispersion": 150,
+    "durability": 7,
+    "clip_size": 50,
+    "reload": 50
+  }
+]

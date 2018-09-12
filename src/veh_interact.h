@@ -58,6 +58,10 @@ class veh_interact
         /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
         int start_limit = 0;
+        /* starting offset for the overview and the max offset for scrolling */
+        int overview_offset = 0;
+        int overview_limit = 0;
+
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
@@ -126,6 +130,7 @@ class veh_interact
         bool do_remove( std::string &msg );
         bool do_rename( std::string &msg );
         bool do_siphon( std::string &msg );
+        bool do_unload( std::string &msg );
         bool do_tirechange( std::string &msg );
         bool do_assign_crew( std::string &msg );
         bool do_relabel( std::string &msg );
@@ -151,6 +156,7 @@ class veh_interact
          */
         bool overview( std::function<bool( const vehicle_part &pt )> enable = {},
                        std::function<bool( vehicle_part &pt )> action = {} );
+        void move_overview_line( int );
 
         void countDurability();
 
@@ -205,6 +211,11 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
+
+        void cache_tool_availability_update_lifting( tripoint world_cursor_pos );
+
+        /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
+        bool can_self_jack();
 };
 
 #endif

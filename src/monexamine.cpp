@@ -24,7 +24,7 @@ void monexamine::milk_source( monster &source_mon )
 
     if( remaining_milk > 0 ) {
         item milk( milked_item.begin()->first, calendar::turn, remaining_milk );
-        if( g->handle_liquid( milk, nullptr, 1, nullptr, nullptr, &source_mon ) ) {
+        if( g->handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
             add_msg( _( "You milk the %s." ), source_mon.get_name().c_str() );
             long transferred_milk = remaining_milk - milk.charges;
             source_mon.add_effect( effect_milked, milking_freq * transferred_milk );

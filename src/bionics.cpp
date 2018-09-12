@@ -43,6 +43,7 @@ const skill_id skilll_computer( "computer" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
@@ -490,11 +491,13 @@ bool player::activate_bionic( int b, bool eff_only )
             vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
+        /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
+        const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
                            cur_om_ter, g->is_sheltered( g->u.pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
-                           print_temperature( g->get_temperature( g->u.pos() ) ).c_str() );
+                           print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, g->weather,
@@ -507,7 +510,7 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + g->get_temperature( g->u.pos() ) ).c_str() );
+                                       windpower ) + player_local_temp ).c_str() );
     } else if( bio.id == "bio_remote" ) {
         int choice = menu( true, _( "Perform which function:" ), _( "Nothing" ),
                            _( "Control vehicle" ), _( "RC radio" ), NULL );
@@ -770,6 +773,11 @@ void player::process_bionic( int b )
             wants_power_amt > 0 &&
             x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
             charge_power( 1 );
+        }
+    } else if( bio.id == "bio_gills" ) {
+        if( has_effect( effect_asthma ) ) {
+            add_msg( m_good, _( "You feel your throat open up and air filling your lungs!" ) );
+            remove_effect( effect_asthma );
         }
     }
 }
@@ -1103,7 +1111,6 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             break;
     }
 
-
     if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
         add_msg( m_neutral, _( "%s training helps %s minimize the complications." ),
@@ -1129,19 +1136,9 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
             break;
 
         case 2:
+        case 3:
             add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
             hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
-            break;
-
-        case 3:
-            if( num_bionics() <= failure_level && max_power_level == 0 ) {
-                add_msg( m_bad, _( "All of %s existing bionics are lost!" ), disp_name( true ) );
-            } else {
-                add_msg( m_bad, _( "Some of %s existing bionics are lost!" ), disp_name( true ) );
-            }
-            for( int i = 0; i < failure_level && remove_random_bionic(); i++ ) {
-                ;
-            }
             break;
 
         case 4:

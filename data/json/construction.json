@@ -889,6 +889,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 180,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -905,6 +906,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 180,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -937,6 +939,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -953,6 +956,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -1008,6 +1012,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 120,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -1041,6 +1046,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -1056,6 +1062,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -2364,5 +2371,23 @@
         "time" : 0,
         "pre_special" : "check_no_trap",
         "post_special" : "done_mark_firewood"
+    },{
+        "type" : "construction",
+        "description" : "Build Butchering Rack",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 1 ], [ "survival", 3 ] ],
+        "time" : 45,
+        "qualities": [
+            [ { "id": "CUT", "level": 1 } ],
+            [ { "id": "SAW_W", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "stick_long", 6 ], [ "2x4", 6 ] ],
+            [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
+            [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
+        ],
+        "pre_note" : "Can be deconstructed without tools.",
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_butcher_rack"
     }
 ]

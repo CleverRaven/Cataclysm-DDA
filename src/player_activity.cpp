@@ -15,20 +15,21 @@
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
-                                  std::string name_in ) :
+                                  const std::string &name_in ) :
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
-    position( pos ), name( name_in ), ignore_trivial( false ), values(), str_values(),
-    placement( tripoint_min ), warned_of_proximity( false ), auto_resume( false )
+    position( pos ), name( name_in ),
+    placement( tripoint_min ), auto_resume( false )
 {
 }
 
 player_activity::player_activity( const player_activity &rhs )
-    : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
+    : type( rhs.type ), ignored_distractions( rhs.ignored_distractions ),
+      moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
       index( rhs.index ), position( rhs.position ), name( rhs.name ),
-      ignore_trivial( rhs.ignore_trivial ), values( rhs.values ), str_values( rhs.str_values ),
+      values( rhs.values ), str_values( rhs.str_values ),
       coords( rhs.coords ), placement( rhs.placement ),
-      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
+      auto_resume( rhs.auto_resume )
 {
     targets.clear();
     targets.reserve( rhs.targets.size() );
@@ -46,12 +47,11 @@ player_activity &player_activity::operator=( const player_activity &rhs )
     index = rhs.index;
     position = rhs.position;
     name = rhs.name;
-    ignore_trivial = rhs.ignore_trivial;
+    ignored_distractions = rhs.ignored_distractions;
     values = rhs.values;
     str_values = rhs.str_values;
     coords = rhs.coords;
     placement = rhs.placement;
-    warned_of_proximity = rhs.warned_of_proximity;
     auto_resume = rhs.auto_resume;
 
     targets.clear();
@@ -136,6 +136,10 @@ void player_activity::do_turn( player &p )
             p.activity = p.backlog.front();
             p.backlog.pop_front();
         }
+
+        // If whatever activity we were doing forced us to pick something up to
+        // handle it, drop any overflow that may have caused
+        p.drop_inventory_overflow();
     }
 }
 
@@ -188,4 +192,19 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     return !auto_resume && id() == other.id() && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
+}
+
+bool player_activity::is_distraction_ignored( distraction_type type ) const
+{
+    return ignored_distractions.find( type ) != ignored_distractions.end();
+}
+
+void player_activity::ignore_distraction( distraction_type type )
+{
+    ignored_distractions.emplace( type );
+}
+
+void player_activity::allow_distractions()
+{
+    ignored_distractions.clear();
 }

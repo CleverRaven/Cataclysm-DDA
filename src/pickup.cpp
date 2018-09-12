@@ -80,8 +80,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_weldrig = ( veh->part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
     const bool has_chemlab = ( veh->part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
     const bool has_purify = ( veh->part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
-    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
-                                ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
+    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) );
+    const bool has_electronics = ( ( veh->part_with_feature( veh_root_part,
+                                     "CTRL_ELECTRONIC" ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
@@ -106,6 +107,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+    }
+
+    if( has_electronics ) {
         selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
                              _( "Control multiple electronics" ) );
     }
@@ -322,9 +326,10 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
     for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
         for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
-            if( here[i].begin()->_item.volume() / units::legacy_volume_factor == ( int )iVol ) {
+            std::list<item_idx>::iterator begin_iterator = here[i].begin();
+            if( begin_iterator->_item.volume() / units::legacy_volume_factor == ( int )iVol ) {
                 iNumChecked++;
-                const std::string sItemName = here[i].begin()->_item.tname( 1, false );
+                const std::string sItemName = begin_iterator->_item.tname( 1, false );
 
                 //Check the Pickup Rules
                 if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
@@ -345,8 +350,8 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
                     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
                     if( weight_limit && volume_limit ) {
-                        if( here[i].begin()->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            here[i].begin()->_item.weight() <= weight_limit * 50_gram &&
+                        if( begin_iterator->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
+                            begin_iterator->_item.weight() <= weight_limit * 50_gram &&
                             get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                             bPickup = true;
                         }
@@ -782,6 +787,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
         ctxt.register_action( "ANY_INPUT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
+#ifdef __ANDROID__
+        ctxt.allow_text_entry = true; // allow user to specify pickup amount
+#endif
 
         int start = 0;
         int cur_it = 0;
@@ -1203,6 +1211,35 @@ void show_pickup_message( const PickupMap &mapPickup )
                      entry.second.first.display_name( entry.second.second ).c_str() );
         }
     }
+}
+
+bool Pickup::handle_spillable_contents( player &p, item &it, map &m )
+{
+    if( it.is_bucket_nonempty() ) {
+        const item &it_cont = it.contents.front();
+        int num_charges = it_cont.charges;
+        while( !it.spill_contents( p ) ) {
+            if( num_charges > it_cont.charges ) {
+                num_charges = it_cont.charges;
+            } else {
+                break;
+            }
+        }
+
+        // If bucket is still not empty then player opted not to handle the
+        // rest of the contents
+        if( it.is_bucket_nonempty() ) {
+            p.add_msg_player_or_npc(
+                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+                it.display_name().c_str(), m.name( p.pos() ).c_str()
+            );
+            m.add_item_or_charges( p.pos(), it );
+            return true;
+        }
+    }
+
+    return false;
 }
 
 int Pickup::cost_to_move_item( const Character &who, const item &it )

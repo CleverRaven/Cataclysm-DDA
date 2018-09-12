@@ -1327,7 +1327,7 @@
         "{": "f_rubble"
       },
       "toilets": { "t": {} },
-      "add": [
+      "place_item": [
         { "item": "55gal_drum", "x": 11, "y": 2, "chance": 90 },
         { "item": "55gal_drum", "x": 10, "y": 2, "chance": 75 },
         { "item": "55gal_drum", "x": 11, "y": 3, "chance": 75 },

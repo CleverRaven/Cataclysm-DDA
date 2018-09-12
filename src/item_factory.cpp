@@ -495,7 +495,6 @@ class iuse_function_wrapper : public iuse_actor
 use_function::use_function( const std::string &type, const use_function_pointer f )
     : use_function( new iuse_function_wrapper( type, f ) ) {}
 
-
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
     iuse_function_list[ type ] = use_function( type, f );
@@ -592,7 +591,6 @@ void Item_factory::init()
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
-    add_iuse( "FUN_HALLU", &iuse::fun_hallu );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
@@ -645,6 +643,7 @@ void Item_factory::init()
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
     add_iuse( "PURIFY_IV", &iuse::purify_iv );
+    add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
     add_iuse( "RADIOCAR", &iuse::radiocar );
     add_iuse( "RADIOCARON", &iuse::radiocaron );
@@ -1185,7 +1184,9 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     auto abstract = m_abstracts.find( jo.get_string( "copy-from" ) );
     if( abstract != m_abstracts.end() ) {
         def = abstract->second;
-        def.looks_like = jo.get_string( "copy-from" );
+        if( def.looks_like.empty() ) {
+            def.looks_like = jo.get_string( "copy-from" );
+        }
         return true;
     }
 
@@ -1280,6 +1281,18 @@ void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &sr
     bool strict = src == "dda";
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
+    if( jo.has_member( "pump_terrain" ) ) {
+        slot.pump_terrain = jo.get_string( "pump_terrain" );
+    }
+    if( jo.has_member( "explosion_data" ) ) {
+        slot.has_explode_data = true;
+        JsonObject jo_ed = jo.get_object( "explosion_data" );
+        slot.explosion_data.explosion_chance_hot = jo_ed.get_int( "chance_hot" );
+        slot.explosion_data.explosion_chance_cold = jo_ed.get_int( "chance_cold" );
+        slot.explosion_data.explosion_factor = jo_ed.get_float( "factor" );
+        slot.explosion_data.fiery_explosion = jo_ed.get_bool( "fiery" );
+        slot.explosion_data.fuel_size_factor = jo_ed.get_float( "size_factor" );
+    }
 }
 
 void Item_factory::load_fuel( JsonObject &jo, const std::string &src )
@@ -1820,8 +1833,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
-        def.damage_min = arr.get_int( 0 );
-        def.damage_max = arr.get_int( 1 );
+        def.damage_min = arr.get_int( 0 ) * itype::damage_scale;
+        def.damage_max = arr.get_int( 1 ) * itype::damage_scale;
     }
 
     def.name = jo.get_string( "name" );
@@ -2251,6 +2264,8 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     Item_modifier modifier;
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
+    modifier.damage.first *= itype::damage_scale;
+    modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
@@ -2521,7 +2536,7 @@ void item_group::debug_spawn()
     while( true ) {
         menu.query();
         const int index = menu.ret;
-        if( index >= ( int )groups.size() || index < 0 ) {
+        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
         // Spawn items from the group 100 times

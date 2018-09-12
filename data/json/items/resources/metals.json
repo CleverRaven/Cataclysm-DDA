@@ -142,7 +142,7 @@
     "name": "lump of steel",
     "description": "A heavy formed piece of steel.  Useful for some crafting recipes.",
     "weight": 1000,
-    "volume": 2,
+    "volume": 1,
     "price": 2000,
     "bashing": 12,
     "to_hit": -4,

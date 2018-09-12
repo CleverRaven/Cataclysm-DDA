@@ -98,7 +98,6 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-
 int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
                  int batch )
 {
@@ -315,7 +314,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( current.empty() ) {
                 line = 0;
             } else {
-                line = std::min( line, ( int )current.size() - 1 );
+                line = std::min( line, static_cast<int>( current.size() ) - 1 );
             }
         }
 
@@ -415,9 +414,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             for( size_t i = 0; i < current.size() && i < ( size_t )dataHeight + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), ( int )i + 1, tmp_name.c_str() );
+                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name.c_str() );
                 }
-                if( ( int )i == line ) {
+                if( static_cast<int>( i ) == line ) {
                     mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dark_gray ),
                                utf8_truncate( tmp_name, 28 ).c_str() );
                 } else {
@@ -661,7 +660,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
         if( line < 0 ) {
             line = current.size() - 1;
-        } else if( line >= ( int )current.size() ) {
+        } else if( line >= static_cast<int>( current.size() ) ) {
             line = 0;
         }
     } while( !done );

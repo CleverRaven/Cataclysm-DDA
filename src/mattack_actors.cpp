@@ -77,7 +77,7 @@ bool leap_actor::call( monster &z ) const
 
     // We wanted the float for range check
     // int here will make the jumps more random
-    int best = ( int )best_float;
+    int best = static_cast<int>( best_float );
     if( !allow_no_target && z.attack_target() == nullptr ) {
         return false;
     }

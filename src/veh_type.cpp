@@ -67,6 +67,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
+    { "FREEZER", VPFLAG_FREEZER },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
@@ -77,6 +78,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
+    { "FLUIDTANK", VPFLAG_FLUIDTANK },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -144,6 +146,32 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 };
 
 /**
+ * Reads engine info from a JsonObject.
+ */
+void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo )
+{
+    vpslot_engine e_info;
+    if( eptr ) {
+        e_info = *eptr;
+    }
+    assign( jo, "backfire_threshold", e_info.backfire_threshold );
+    assign( jo, "backfire_freq", e_info.backfire_freq );
+    assign( jo, "noise_factor", e_info.noise_factor );
+    assign( jo, "damaged_power_factor", e_info.damaged_power_factor );
+    assign( jo, "m2c", e_info.m2c );
+    assign( jo, "muscle_power_factor", e_info.muscle_power_factor );
+    auto excludes = jo.get_array( "exclusions" );
+    if( !excludes.empty() ) {
+        e_info.exclusions.clear();
+        while( excludes.has_more() ) {
+            e_info.exclusions.push_back( excludes.next_string() );
+        }
+    }
+    eptr = e_info;
+    assert( eptr );
+}
+
+/**
  * Reads in a vehicle part from a JsonObject.
  */
 void vpart_info::load( JsonObject &jo, const std::string &src )
@@ -158,7 +186,9 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
             def.looks_like = base->second.id.str();
         } else if( ab != abstract_parts.end() ) {
             def = ab->second;
-            def.looks_like = ab->second.id.str();
+            if( def.looks_like.empty() ) {
+                def.looks_like = ab->second.id.str();
+            }
         } else {
             deferred.emplace_back( jo.str(), src );
             return;
@@ -236,6 +266,10 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
         def.damage_reduction = load_damage_array( dred );
     } else {
         def.damage_reduction.fill( 0.0f );
+    }
+
+    if( def.has_flag( "ENGINE" ) ) {
+        load_engine( def.engine_info, jo );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -576,7 +610,7 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
                 qual.second, qual.first.obj().name.c_str() );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg << string_format( _( " and is rated at %1$d %2$s" ),
-                                  ( int )convert_weight( qual.second * TOOL_LIFT_FACTOR ),
+                                  static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
         msg << ".</color>\n";
@@ -608,7 +642,6 @@ requirement_data vpart_info::repair_requirements() const
         return lhs + ( *rhs.first * rhs.second );
     } );
 }
-
 
 bool vpart_info::is_repairable() const
 {
@@ -643,6 +676,45 @@ int vpart_info::removal_time( const Character &ch ) const
 int vpart_info::repair_time( const Character &ch ) const
 {
     return scale_time( repair_skills, repair_moves, ch );
+}
+
+/**
+ * @name Engine specific functions
+ *
+ */
+float vpart_info::engine_backfire_threshold() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_threshold : false;
+}
+
+int vpart_info::engine_backfire_freq() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_freq : false;
+}
+
+int vpart_info::engine_muscle_power_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->muscle_power_factor : false;
+}
+
+float vpart_info::engine_damaged_power_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->damaged_power_factor : false;
+}
+
+int vpart_info::engine_noise_factor() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->noise_factor : false;
+}
+
+int vpart_info::engine_m2c() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
+}
+
+std::vector<std::string> vpart_info::engine_excludes() const
+{
+    return has_flag( VPFLAG_ENGINE ) ? engine_info->exclusions : std::vector<std::string>();
 }
 
 /** @relates string_id */
@@ -690,12 +762,9 @@ void vehicle_prototype::load( JsonObject &jo )
 
     vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
 
-    JsonArray parts = jo.get_array( "parts" );
-    while( parts.has_more() ) {
-        JsonObject part = parts.next_object();
-
+    const auto add_part_obj = [&]( JsonObject part, point pos ) {
         part_def pt;
-        pt.pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+        pt.pos = pos;
         pt.part = vpart_id( part.get_string( "part" ) );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
@@ -704,6 +773,34 @@ void vehicle_prototype::load( JsonObject &jo )
         assign( part, "fuel", pt.fuel, true );
 
         vproto.parts.push_back( pt );
+    };
+
+    const auto add_part_string = [&]( std::string part, point pos ) {
+        part_def pt;
+        pt.pos = pos;
+        pt.part = vpart_id( part );
+        vproto.parts.push_back( pt );
+    };
+
+    JsonArray parts = jo.get_array( "parts" );
+    while( parts.has_more() ) {
+        JsonObject part = parts.next_object();
+        point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+
+        if( part.has_string( "part" ) ) {
+            add_part_obj( part, pos );
+        } else if( part.has_array( "parts" ) ) {
+            JsonArray subparts = part.get_array( "parts" );
+            while( subparts.has_more() ) {
+                if( subparts.test_string() ) {
+                    std::string part_name = subparts.next_string();
+                    add_part_string( part_name, pos );
+                } else {
+                    JsonObject subpart = subparts.next_object();
+                    add_part_obj( subpart, pos );
+                }
+            }
+        }
     }
 
     JsonArray items = jo.get_array( "items" );
@@ -809,13 +906,13 @@ void vehicle_prototype::finalize()
                 }
             }
 
-            if( base->container ) {
+            if( base->container || base->magazine ) {
                 if( !item::type_is_defined( pt.fuel ) ) {
                     debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             } else {
                 if( pt.fuel != "null" ) {
-                    debugmsg( "init_vehicles: non-tank %s with fuel in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             }
 

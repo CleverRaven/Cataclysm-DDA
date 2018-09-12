@@ -36,7 +36,7 @@
     "stackable": true,
     "price": 0,
     "volume": 0,
-    "flags": [ "PSEUDO" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
   {
@@ -368,7 +368,7 @@
     "weight": 50,
     "volume": 1,
     "price": 2000,
-    "material": "stone",
+    "material": "plastic",
     "symbol": "*",
     "color": "white",
     "bashing": 5,
@@ -384,7 +384,7 @@
     "category": "other",
     "price": 3000,
     "price_postapoc": 0,
-    "material": "stone",
+    "material": "plastic",
     "weight": 170,
     "volume": 1,
     "bashing": 8,
@@ -525,7 +525,7 @@
     "container": "bag_canvas",
     "price": 10000,
     "price_postapoc": 100,
-    "material": "stone",
+    "material": "powder",
     "weight": 2340,
     "volume": 4,
     "bashing": 4
@@ -544,7 +544,8 @@
     "weight": 9071,
     "volume": 40,
     "bashing": 10,
-    "to_hit": -10
+    "to_hit": -10,
+    "flags": [ "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -560,7 +561,7 @@
     "bashing": 4,
     "to_hit": 1,
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -1120,7 +1121,8 @@
     "weight": 340,
     "volume": 0,
     "to_hit": -3,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true }
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -1165,6 +1167,19 @@
     "weight": 68,
     "volume": 1,
     "to_hit": 2
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_micro",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "micro motor",
+    "category": "spare_parts",
+    "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 70,
+    "volume": 1
   },
   {
     "type": "GENERIC",
@@ -1701,7 +1716,7 @@
     "weight": 220,
     "volume": 2,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -1722,7 +1737,7 @@
     "description": "A poppy stalk with some petals.",
     "weight": 40,
     "to_hit": -3,
-    "color": "red",
+    "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": 1,
@@ -1735,7 +1750,7 @@
     "description": "A poppy bud.  Contains some substances commonly produced by a mutated poppy flower.",
     "weight": 30,
     "to_hit": -3,
-    "color": "red",
+    "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": 1,
@@ -1795,6 +1810,110 @@
   },
   {
     "type": "GENERIC",
+    "id": "rose_flower",
+    "name": "rose",
+    "description": "A rose stalk with some petals.",
+    "weight": 40,
+    "to_hit": -3,
+    "color": "red",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "rose_bud",
+    "name": "rose bud",
+    "description": "A rose bud.  Contains some substances commonly produced by a rose flower.",
+    "weight": 30,
+    "to_hit": -3,
+    "color": "red",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "hydrangea_flower",
+    "name": "hydrangea",
+    "description": "A hydrangea stalk with some petals.",
+    "weight": 40,
+    "to_hit": -3,
+    "color": "light_blue",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "hydrangea_bud",
+    "name": "hydrangea bud",
+    "description": "A hydrangea bud.  Contains some substances commonly produced by a hydrangea flower.",
+    "weight": 30,
+    "to_hit": -3,
+    "color": "light_blue",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "tulip_flower",
+    "name": "tulip",
+    "description": "A tulip stalk with some petals.",
+    "weight": 40,
+    "to_hit": -3,
+    "color": "light_magenta",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "tulip_bud",
+    "name": "tulip bud",
+    "description": "A tulip bud.  Contains some substances commonly produced by a tulip flower.",
+    "weight": 30,
+    "to_hit": -3,
+    "color": "light_magenta",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 200
+  },
+  {
+    "type": "GENERIC",
+    "id": "spurge_flower",
+    "name": "spurge",
+    "description": "A spurge stalk with some petals.",
+    "weight": 40,
+    "to_hit": -3,
+    "color": "light_green",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "spurge_bud",
+    "name": "spurge bud",
+    "description": "A spurge bud.  Contains some substances commonly produced by a spurge flower.",
+    "weight": 30,
+    "to_hit": -3,
+    "color": "light_green",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 200
+  },
+  {
+    "type": "GENERIC",
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
@@ -1834,7 +1953,7 @@
     "category": "spare_parts",
     "container": "bag_canvas",
     "price": 5000,
-    "material": "stone",
+    "material": "powder",
     "weight": 2340,
     "volume": 4,
     "bashing": 4
@@ -2166,6 +2285,7 @@
     "material": [ "cotton" ],
     "weight": 514,
     "volume": 4,
+    "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
   {
@@ -2179,6 +2299,7 @@
     "material": [ "cotton" ],
     "weight": 514,
     "volume": 4,
+    "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
   {
@@ -2191,7 +2312,8 @@
     "price": 200,
     "material": [ "cotton" ],
     "weight": 514,
-    "volume": 3
+    "volume": 3,
+    "flags": [ "SLEEP_AID" ]
   },
   {
     "type": "GENERIC",
@@ -2281,6 +2403,20 @@
     "material": "veggy",
     "weight": 420,
     "volume": 4
+  },
+  {
+    "type": "GENERIC",
+    "id": "tobacco_raw",
+    "symbol": "%",
+    "color": "light_green",
+    "name": "raw tobacco",
+    "name_plural": "handfuls of raw tobacco",
+    "description": "Various parts of tobacco plant, full of nicotine.  They need to be dried to become smokable.",
+    "looks_like": "wild_herbs",
+    "price": 300,
+    "material": "veggy",
+    "weight": 100,
+    "volume": 1
   },
   {
     "id": "cash_card",
@@ -2464,5 +2600,33 @@
     "symbol": ".",
     "color": "white",
     "ammo_type": "components"
+  },
+  {
+    "id": "clay_pot_flower",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "clay flower pot",
+    "description": "A nice looking clay pot used for planting.",
+    "weight": 480,
+    "volume": 10,
+    "price": 600,
+    "bashing": 1,
+    "material": "clay",
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "plastic_pot_flower",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "plastic flower pot",
+    "description": "A cheap plastic pot used for planting.",
+    "weight": 190,
+    "volume": 10,
+    "price": 300,
+    "bashing": 1,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "green"
   }
 ]

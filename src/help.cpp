@@ -171,7 +171,7 @@ available cargo space, various fuel level indicators, and so on." ) ) );
 
     text.push_back( string_format( _( "Becoming a skilled mechanic, you may want \
 to tune your car up.  The coefficients of aerodynamics, friction and mass efficiency \
-play significant roles it this process.  Named coefficients are measured in the range \
+play significant roles in this process.  Named coefficients are measured in the range \
 from 0%% (which means terrible inefficiency) to 100%% (ideal conditions)." ) ) );
 
     int fig_last_line = pos_y + 8;
@@ -1052,6 +1052,17 @@ void display_help()
             catacurses::refresh();
             needs_refresh = false;
         };
+
+#ifdef __ANDROID__
+        input_context ctxt( "DISPLAY_HELP" );
+        for( long key = 'a'; key <= 'p'; ++key ) {
+            ctxt.register_manual_key( key );
+        }
+        for( long key = '1'; key <= '4'; ++key ) {
+            ctxt.register_manual_key( key );
+        }
+#endif
+
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
         switch( ch ) {

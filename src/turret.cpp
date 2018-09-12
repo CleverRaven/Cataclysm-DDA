@@ -114,7 +114,6 @@ const itype *turret_data::ammo_data() const
     return part->base.ammo_data();
 }
 
-
 itype_id turret_data::ammo_current() const
 {
     auto opts = ammo_options();

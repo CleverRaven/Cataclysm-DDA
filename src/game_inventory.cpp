@@ -33,6 +33,16 @@ std::string good_bad_none( int value )
     return std::string();
 }
 
+std::string highlight_good_bad_none( int value )
+{
+    if( value > 0 ) {
+        return string_format( "<color_yellow_green>+%d</color>", value );
+    } else if( value < 0 ) {
+        return string_format( "<color_yellow_red>%d</color>", value );
+    }
+    return string_format( "<color_yellow>%d</color>", value );
+}
+
 }
 
 inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
@@ -359,7 +369,12 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [ p, this ]( const item_location & loc ) {
-                return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                const item &it = get_comestible_item( loc );
+                if( it.has_flag( "MUSHY" ) ) {
+                    return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                } else {
+                    return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                }
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -400,9 +415,6 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            if( loc->typeId() == "1st_aid" ) {
-                return false; // temporary fix for #12991
-            }
             return p.can_consume( *loc );
         }
 
@@ -424,11 +436,11 @@ class comestible_inventory_preset : public inventory_selector_preset
             return inventory_selector_preset::get_denial( loc );
         }
 
-        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            const auto &a = get_comestible_item( lhs );
-            const auto &b = get_comestible_item( rhs );
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const auto &a = get_comestible_item( lhs.location );
+            const auto &b = get_comestible_item( rhs.location );
 
-            const int freshness = rate_freshness( a, *lhs ) - rate_freshness( b, *rhs );
+            const int freshness = rate_freshness( a, *lhs.location ) - rate_freshness( b, *rhs.location );
             if( freshness != 0 ) {
                 return freshness > 0;
             }
@@ -512,7 +524,12 @@ class activatable_inventory_preset : public pickup_inventory_preset
                            loc->ammo_required() );
             }
 
-            return pickup_inventory_preset::get_denial( loc );
+            const item &it = *loc;
+            if( !it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
+                return pickup_inventory_preset::get_denial( loc );
+            }
+
+            return std::string();
         }
 
     protected:
@@ -581,9 +598,9 @@ class gunmod_inventory_preset : public inventory_selector_preset
             return std::string();
         }
 
-        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            const auto a = get_odds( lhs );
-            const auto b = get_odds( rhs );
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const auto a = get_odds( lhs.location );
+            const auto b = get_odds( rhs.location );
 
             if( a.first > b.first || ( a.first == b.first && a.second < b.second ) ) {
                 return true;
@@ -641,7 +658,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
 
-            append_cell( [ p, this ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
@@ -681,6 +698,28 @@ class read_inventory_preset: public pickup_inventory_preset
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
+        }
+
+        std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
+        override {
+            auto base_filter = pickup_inventory_preset::get_filter( filter );
+
+            return [this, base_filter, filter]( const inventory_entry & e ) {
+                if( base_filter( e ) ) {
+                    return true;
+                }
+
+                if( !is_known( e.location ) ) {
+                    return false;
+                }
+
+                const auto &book = get_book( e.location );
+                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
+                    return lcmatch( book.skill->name(), filter );
+                }
+
+                return false;
+            };
         }
 
     private:

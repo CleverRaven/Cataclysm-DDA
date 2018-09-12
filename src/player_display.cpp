@@ -116,7 +116,6 @@ void player::print_encumbrance( const catacurses::window &win, int line,
 
 }
 
-
 std::string swim_cost_text( int moves )
 {
     return string_format( ngettext( "Swimming costs %+d movement point. ",
@@ -153,7 +152,6 @@ std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
 }
-
 
 int get_encumbrance( const player &p, body_part bp, bool combine )
 {
@@ -272,7 +270,6 @@ void player::disp_info()
             starvation_text <<
                             _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
         }
-
 
         if( starvation_base_penalty > 500 ) {
             starvation_text << _( "Strength" ) << " -" << int( starvation_base_penalty / 500 ) << "   ";
@@ -647,7 +644,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             mvwprintz( w_skills, line, 1, text_color, "%s:", ( elem )->name().c_str() );
 
             if( ( elem )->ident() == skill_id( "dodge" ) ) {
-                mvwprintz( w_skills, line, 15, text_color, "%-.1f/%-2d(%2d%%)",
+                mvwprintz( w_skills, line, 14, text_color, "%4.1f/%-2d(%2d%%)",
                            get_dodge(), level_num, exercise < 0 ? 0 : exercise );
             } else {
                 mvwprintz( w_skills, line, 19, text_color, "%-2d(%2d%%)", level_num,
@@ -697,21 +694,23 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( has_trait( trait_id( "COLDBLOOD4" ) ) && g->get_temperature( g->u.pos() ) > 65 ) {
-        pen = ( g->get_temperature( g->u.pos() ) - 65 ) / 2;
+    /* Cache result of calculation, possibly used multiple times later. */
+    const auto player_local_temp = g->get_temperature( pos() );
+    if( has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
+        pen = ( player_local_temp - 65 ) / 2;
         mvwprintz( w_speed, line, 1, c_green, _( "Cold-Blooded        +%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
     if( ( has_trait( trait_id( "COLDBLOOD" ) ) || has_trait( trait_id( "COLDBLOOD2" ) ) ||
           has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) &&
-        g->get_temperature( g->u.pos() ) < 65 ) {
+        player_local_temp < 65 ) {
         if( has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) {
-            pen = ( 65 - g->get_temperature( g->u.pos() ) ) / 2;
+            pen = ( 65 - player_local_temp ) / 2;
         } else if( has_trait( trait_id( "COLDBLOOD2" ) ) ) {
-            pen = ( 65 - g->get_temperature( g->u.pos() ) ) / 3;
+            pen = ( 65 - player_local_temp ) / 3;
         } else {
-            pen = ( 65 - g->get_temperature( g->u.pos() ) ) / 5;
+            pen = ( 65 - player_local_temp ) / 5;
         }
         mvwprintz( w_speed, line, 1, c_red, _( "Cold-Blooded        -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
@@ -1153,7 +1152,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_skills, int( 1 + i - min ), 1, cstatus, "%s:", aSkill->name().c_str() );
 
                     if( aSkill->ident() == skill_id( "dodge" ) ) {
-                        mvwprintz( w_skills, int( 1 + i - min ), 15, cstatus, "%-.1f/%-2d(%2d%%)",
+                        mvwprintz( w_skills, int( 1 + i - min ), 14, cstatus, "%4.1f/%-2d(%2d%%)",
                                    get_dodge(), level.level(), exercise < 0 ? 0 : exercise );
                     } else {
                         mvwprintz( w_skills, int( 1 + i - min ), 19, cstatus, "%-2d(%2d%%)", level.level(),
@@ -1203,7 +1202,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         mvwprintz( w_skills, i + 1,  1, cstatus, "%s:", thisSkill->name().c_str() );
 
                         if( thisSkill->ident() == skill_id( "dodge" ) ) {
-                            mvwprintz( w_skills, i + 1, 15, cstatus, "%-.1f/%-2d(%2d%%)",
+                            mvwprintz( w_skills, i + 1, 14, cstatus, "%4.1f/%-2d(%2d%%)",
                                        get_dodge(), level.level(), level.exercise() < 0 ? 0 : level.exercise() );
                         } else {
                             mvwprintz( w_skills, i + 1, 19, cstatus, "%-2d(%2d%%)", level.level(),

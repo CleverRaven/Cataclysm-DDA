@@ -186,7 +186,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
 
-
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
         pimpl<player> u_ptr;
@@ -485,7 +484,7 @@ class game
         bool cancel_activity_query( const std::string &message );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query( const std::string &reason );
+        bool cancel_activity_or_ignore_query( const distraction_type type, const std::string &reason );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -553,6 +552,9 @@ class game
         tripoint look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
+        /** Checks whether or not there is a zone of particular type nearby */
+        bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
+        bool is_zone_manager_open();
         void zones_manager();
         void zones_manager_shortcuts( const catacurses::window &w_info );
         void zones_manager_draw_borders( const catacurses::window &w_border,
@@ -602,6 +604,7 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
@@ -763,7 +766,7 @@ class game
          */
         bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
                             const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr,
+                            const vehicle *source_veh = nullptr, const int part_num = -1,
                             const monster *source_mon = nullptr );
         /**
              * These are helper functions for transfer liquid, for times when you just want to
@@ -775,7 +778,8 @@ class game
                                 const tripoint *source_pos, const vehicle *const source_veh,
                                 const monster *const source_mon, liquid_dest_opt &target );
         bool perform_liquid_transfer( item &liquid,
-                                      const tripoint *source_pos, const vehicle *const source_veh,
+                                      const tripoint *source_pos,
+                                      const vehicle *const source_veh, const int part_num,
                                       const monster *const source_mon, liquid_dest_opt &target );
         /**@}*/
 
@@ -847,7 +851,6 @@ class game
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
-
         //pixel minimap management
         int pixel_minimap_option;
 
@@ -859,6 +862,9 @@ class game
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
         void load_weather( std::istream &fin );
+#ifdef __ANDROID__
+        void load_shortcuts( std::istream &fin );
+#endif
         bool start_game(); // Starts a new game in the active world
         void start_special_game( special_game_id gametype ); // See gamemode.cpp
 
@@ -871,6 +877,9 @@ class game
         // returns false if saving failed for whatever reason
         bool save_maps();
         void save_weather( std::ostream &fout );
+#ifdef __ANDROID__
+        void save_shortcuts( std::ostream &fout );
+#endif
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
         void init_lua();          // Initializes lua interpreter.
@@ -918,6 +927,7 @@ class game
         void open(); // Open a door  'o'
         void close();
         void smash(); // Smash terrain
+        void loot(); // Sort out loot or perform other zone activity
 
         void handbrake();
         void control_vehicle(); // Use vehicle controls  '^'
@@ -1026,7 +1036,6 @@ class game
 
         void item_action_menu(); // Displays item action menu
 
-
         void rcdrive( int dx, int dy ); //driving radio car
         /**
          * If there is a robot (that can be disabled), query the player
@@ -1048,7 +1057,13 @@ class game
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
+#ifdef __ANDROID__
+    public:
+#endif
         void quicksave();        // Saves the game without quitting
+#ifdef __ANDROID__
+    private:
+#endif
         void quickload();        // Loads the previously saved game if it exists
 
         // Input related
@@ -1094,6 +1109,8 @@ class game
         bool critter_died;
         /** Was the player sleeping during this turn. */
         bool player_was_sleeping;
+        /** Is Zone manager open or not - changes graphics of some zone tiles */
+        bool zone_manager_open = false;
 
         std::unique_ptr<special_game> gamemode;
 
@@ -1115,5 +1132,13 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
 };
+
+// Returns temperature modifier from direct heat radiation of nearby sources
+// @param location Location affected by heat sources
+// @param direct forces return of heat intensity (and not temperature modifier) of
+// adjacent hottest heat source
+int get_heat_radiation( const tripoint &location, bool direct );
+// Returns temperature modifier from hot air fields of given location
+int get_convection_temperature( const tripoint &location );
 
 #endif

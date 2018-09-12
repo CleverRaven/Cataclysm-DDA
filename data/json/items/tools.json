@@ -21,7 +21,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "EMPbomb_act",
@@ -237,7 +237,7 @@
     "symbol": ",",
     "color": "light_green",
     "use_action": { "target": "atomic_lamp_off", "msg": "You close the lamp's cover.", "menu_text": "Close cover", "type": "transform" },
-    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_lamp_off",
@@ -255,7 +255,7 @@
     "symbol": ",",
     "color": "light_green",
     "use_action": { "target": "atomic_lamp", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light",
@@ -277,7 +277,7 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light_off",
@@ -295,7 +295,7 @@
     "symbol": ",",
     "color": "light_green",
     "use_action": { "target": "atomic_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "ax",
@@ -974,7 +974,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "charcoal",
-    "max_charges": 1000
+    "max_charges": 1000,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "kiln",
@@ -990,7 +991,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "max_charges": 1000
+    "max_charges": 1000,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "broadfire_off",
@@ -1464,7 +1466,8 @@
     "color": "dark_gray",
     "ammo": "charcoal",
     "sub": "forge",
-    "max_charges": 500
+    "max_charges": 500,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "char_kiln",
@@ -1497,7 +1500,8 @@
     "initial_charges": 150,
     "max_charges": 150,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER"
+    "use_action": "WATER_PURIFIER",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "char_smoker",
@@ -1513,7 +1517,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "charcoal",
-    "max_charges": 200
+    "max_charges": 200,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "charcoal_cooker",
@@ -1691,7 +1696,8 @@
     "color": "brown",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "clay_quern",
@@ -2028,7 +2034,8 @@
     "ammo": "battery",
     "max_charges": 100,
     "charges_per_use": 5,
-    "use_action": { "type": "firestarter" }
+    "use_action": { "type": "firestarter" },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "crude_picklock",
@@ -2137,7 +2144,8 @@
     "color": "blue",
     "ammo": "battery",
     "initial_charges": 100,
-    "max_charges": 200
+    "max_charges": 200,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "digging_stick",
@@ -2496,7 +2504,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
     "id": "electrohack",
@@ -2633,7 +2641,8 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 }
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "fire_drill_large",
@@ -2646,7 +2655,8 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
-    "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 }
+    "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "firecracker",
@@ -2963,7 +2973,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "flashbang_act",
@@ -3081,7 +3091,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 500
+    "max_charges": 500,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "funnel",
@@ -3242,7 +3253,8 @@
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "gasoline_lantern_on",
@@ -3264,7 +3276,7 @@
     "turns_per_charge": 20,
     "revert_to": "gasoline_lantern",
     "use_action": { "target": "gasoline_lantern", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_15", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "geiger_off",
@@ -3413,7 +3425,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "grenade_act",
@@ -3463,7 +3475,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ]
   },
   {
     "id": "grenade_inc_act",
@@ -3763,7 +3775,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
     "id": "jar_pickles_pickled",
@@ -3901,7 +3913,8 @@
       "need_fire_msg": "You need something to light it with!",
       "menu_text": "Light wood",
       "type": "transform"
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "kiln_lit",
@@ -3924,7 +3937,7 @@
       "transform_age": 3600,
       "not_ready_msg": "The kiln is still burning."
     },
-    "flags": [ "LIGHT_8", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "knife_butcher",
@@ -4294,7 +4307,8 @@
     "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 50 }
+    "use_action": { "type": "firestarter", "moves": 50 },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "lightstrip",
@@ -4401,7 +4415,8 @@
     "material": [ "glass", "plastic" ],
     "symbol": "o",
     "color": "green",
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "makeshift_crowbar",
@@ -4527,7 +4542,8 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "max_charges": 200
+    "max_charges": 200,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "matchbomb",
@@ -4598,7 +4614,8 @@
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 }
+    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "mess_kit",
@@ -5123,7 +5140,8 @@
       "need_charges": 1,
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "oil_lamp_on",
@@ -5145,7 +5163,7 @@
     "turns_per_charge": 20,
     "revert_to": "oil_lamp",
     "use_action": { "target": "oil_lamp", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "oxygen_tank",
@@ -5196,7 +5214,8 @@
     "color": "dark_gray",
     "container_data": { "contains": 4, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pastaextruder",
@@ -5508,6 +5527,7 @@
     "id": "pocketwatch",
     "type": "TOOL",
     "name": "pocket watch",
+    "name_plural": "pocket watches",
     "description": "An old fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
     "weight": 65,
     "volume": 0,
@@ -5624,7 +5644,8 @@
     "color": "light_gray",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pot_copper",
@@ -5642,7 +5663,8 @@
     "color": "light_red",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "press",
@@ -5827,7 +5849,8 @@
         "type": "transform"
       },
       { "type": "firestarter", "moves": 50 }
-    ]
+    ],
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "ref_lighter_on",
@@ -5915,7 +5938,8 @@
     "color": "dark_gray",
     "container_data": { "contains": 6, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "rock_quern",
@@ -6095,7 +6119,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "scrambler_act",
@@ -6749,7 +6773,7 @@
     "symbol": "o",
     "color": "green",
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "ZOOM" ]
+    "flags": [ "FIRESTARTER", "ZOOM" ]
   },
   {
     "id": "survivor_shavingkit",
@@ -7148,7 +7172,7 @@
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": "HEAT_FOOD",
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_anfo_charge",
@@ -7448,7 +7472,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "rocket candy",
-    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen – if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
+    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen - if you lit the narrow end, you should be able to throw it before the flame reaches the broad end.",
     "weight": 250,
     "volume": 1,
     "price": 100,
@@ -7492,7 +7516,7 @@
       "fields_max_density": 3,
       "sound_volume": 5,
       "sound_msg": "Hsssss.",
-      "no_deactivate_msg": "You've already lit the fuse – get rid of it immediately!",
+      "no_deactivate_msg": "You've already lit the fuse - get rid of it immediately!",
       "explosion": { "power": 1 }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -7753,7 +7777,8 @@
     "color": "white",
     "ammo": "battery",
     "initial_charges": 100,
-    "max_charges": 200
+    "max_charges": 200,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "vacutainer",
@@ -7937,7 +7962,8 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER"
+    "use_action": "WATER_PURIFIER",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "weather_reader",
@@ -7987,7 +8013,8 @@
         "move_cost": 500
       },
       { "flame": false, "type": "cauterize" }
-    ]
+    ],
+    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "welder_crude",
@@ -8017,7 +8044,8 @@
         "move_cost": 1000
       },
       { "flame": false, "type": "cauterize" }
-    ]
+    ],
+    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "wood_smoother",
@@ -8199,7 +8227,8 @@
     "color": "white",
     "ammo": "battery",
     "initial_charges": 100,
-    "max_charges": 100
+    "max_charges": 100,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "cattlefodder",

@@ -44,6 +44,9 @@
 #define OMAPX 180
 #define OMAPY 180
 
+// Size of a square unit of terrain saved to a directory.
+#define SEG_SIZE 32
+
 // Items on the map with at most this distance to the player are considered available for crafting,
 // see inventory::form_from_map
 #define PICKUP_RANGE 6
@@ -66,6 +69,15 @@
 
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
+
+/** Temperature inside an active fridge in Fahrenheit  */
+#define FRIDGE_TEMPERATURE 37 // ~ 2.7 Celsius
+
+/** Temperature inside an active freezer in Fahrenheit  */
+#define FREEZER_TEMPERATURE 23 // -5 Celsius
+
+/** Temperature in which water freezes in Fahrenheit  */
+#define FREEZING_TEMPERATURE 32 // 0 Celsius
 
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
