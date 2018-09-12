@@ -29,6 +29,7 @@ class main_menu
         std::vector<std::string> vSettingsSubItems;
         std::vector< std::vector<std::string> > vSettingsHotkeys;
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
+        std::string vdaytip; //tip of the day
 
         /**
          * Does what it sounds like, but this function also exists in order to gracefully handle

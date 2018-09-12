@@ -55,6 +55,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | techniques.json             | generic for items and martial arts
 | terrain.json                | terrain types and definitions
 | test_regions.json           | test regions
+| tips.json                   | tips of the day
 | tool_qualities.json         | standard tool qualities and their actions
 | traps.json                  | standard traps
 | tutorial.json               | messages for the tutorial (that is out of date)
