@@ -5669,6 +5669,8 @@
       ["bio_power_armor_interface_mkII", 5],
       ["bio_remote", 10],
       ["bio_cable", 10],
+      ["bio_syringe", 10],
+      ["bio_weight", 10],
       ["bio_shock_absorber", 10]
     ]
   },{
@@ -5759,7 +5761,8 @@
       ["bio_watch", 20],
       ["bio_leukocyte", 20],
       ["bio_speed", 5],
-      ["bio_faraday", 15]
+      ["bio_faraday", 15],
+      ["bio_syringe", 8]
     ]
   },{
     "type" : "item_group",
@@ -6072,7 +6075,8 @@
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5],
       ["bio_meteorologist", 10],
-      ["bio_cable", 10]
+      ["bio_cable", 10],
+      ["bio_weight", 10]
     ]
   },{
       "type" : "item_group",
@@ -6377,6 +6381,7 @@
       ["bio_magnet", 10],
       ["bio_resonator", 10],
       ["bio_hydraulics", 10],
+      ["bio_weight", 12],
       ["bio_shock_absorber", 10],
       ["jerrycan", 10],
       ["jerrycan_big", 10],
@@ -7354,6 +7359,7 @@
       ["bio_leukocyte", 10],
       ["bio_faraday", 10],
       ["bio_remote", 10],
+      ["bio_syringe", 8],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],
@@ -8691,6 +8697,7 @@
       ["bio_heatsink", 20],
       ["bio_watch", 20],
       ["bio_faraday", 20],
+      ["bio_weight", 20],
       ["bio_shock_absorber", 20]
     ]
   },{
@@ -8712,7 +8719,8 @@
       ["bio_emp", 20],
       ["bio_chain_lightning", 15],
       ["bio_adrenaline", 20],
-      ["bio_ods", 10]
+      ["bio_ods", 10],
+      ["bio_weight", 15]
     ]
   },{
     "type" : "item_group",
