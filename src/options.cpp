@@ -1141,12 +1141,12 @@ void options_manager::init()
     "12h" );
 
     mOptionsSort["interface"]++;
-    
-    add("SHOW_TIPS", "interface", _("Show Tip Of The Day?"),
-        _("Determines if 'tip of the day' is shown in main menu. Set to false to hide, and true to show."),
-        true
-        );
-    
+
+    add( "SHOW_TIPS", "interface", _( "Show Tip Of The Day?" ),
+         _( "Determines if 'tip of the day' is shown in main menu. Set to false to hide, and true to show." ),
+         true
+       );
+
     mOptionsSort["interface"]++;
 
     add( "FORCE_CAPITAL_YN", "interface", translate_marker( "Force Y/N in prompts" ),

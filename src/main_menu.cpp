@@ -87,7 +87,8 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
                   _( "Bugs? Suggestions? Use links in MOTD to report them." ) );
 
     if( get_option<bool>( "SHOW_TIPS" ) ) {
-        center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ), vdaytip ) );
+        center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
+                      vdaytip ) );
     }
 
     int iLine = 0;
