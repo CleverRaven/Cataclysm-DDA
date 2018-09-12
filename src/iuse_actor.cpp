@@ -2043,6 +2043,9 @@ bool holster_actor::can_holster( const item &obj ) const
     if( max_weight > 0 && obj.weight() > max_weight ) {
         return false;
     }
+    if( obj.active ) {
+        return false;
+    }
     return std::any_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
         return obj.has_flag( f );
     } ) ||
@@ -2071,6 +2074,12 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
 
     if( max_weight > 0 && obj.weight() > max_weight ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too heavy to fit in your %2$s" ),
+                             obj.tname().c_str(), holster.tname().c_str() );
+        return false;
+    }
+
+    if( obj.active ) {
+        p.add_msg_if_player( m_info, _( "You don't think putting your %1$s in your %2$s is a good idea" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
     }
