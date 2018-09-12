@@ -392,7 +392,7 @@ void Messages::display_messages()
             }
         } else {
             if( filter_str.empty() ) {
-                mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, _( "< press %s to filter >" ),
+                mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, _( "< Press %s to filter >" ),
                            ctxt.get_desc( "FILTER" ) );
             } else {
                 mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, "< %s >", filter_str );
