@@ -11,6 +11,7 @@
 #include "item.h"
 #include "itype.h"
 #include "item_category.h"
+#include "iexamine.h"
 
 #include <iostream>
 
@@ -64,7 +65,101 @@ std::string zone_type::name() const
     return _( name_.c_str() );
 }
 
-std::string zone_manager::query_name( std::string default_name )
+std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
+{
+    if( type == zone_type_id( "FARM_PLOT" ) ) {
+        return std::make_shared<plot_options>();
+    }
+
+    return std::make_shared<zone_options>();
+};
+
+bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
+{
+    if( type == zone_type_id( "FARM_PLOT" ) ) {
+        return dynamic_cast<const plot_options *>( &options ) != nullptr ;
+    }
+
+    // ensure options is not derived class for the rest of zone types
+    return !options.has_options();
+}
+
+void plot_options::query_seed()
+{
+    player &p = g->u;
+
+    seed = "";
+    mark = "";
+
+    std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
+        return itm.is_seed();
+    } );
+
+    auto seed_entries = iexamine::get_seed_entries( seed_inv );
+    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), "No seed", 0 ) );
+
+    int seed_index = iexamine::query_seed( seed_entries );
+
+    if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
+        const auto &seed_entry = seed_entries[seed_index];
+        seed = std::get<0>( seed_entry );
+
+        item it = item( itype_id( seed ) );
+        if( it.is_seed() ) {
+            mark = it.type->seed->fruit_id;
+        } else {
+            mark = seed;
+        }
+    }
+}
+
+void plot_options::query_at_creation()
+{
+    query_seed();
+};
+
+void plot_options::query()
+{
+    query_seed();
+};
+
+std::string plot_options::get_zone_name_suggestion() const
+{
+    if( seed != "" ) {
+        auto type = itype_id( seed );
+        item it = item( type );
+        if( it.is_seed() ) {
+            return it.type->seed->plant_name;
+        } else {
+            return item::nname( type );
+        }
+    }
+
+    return _( "No seed" );
+};
+
+std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
+{
+    auto options = std::vector<std::pair<std::string, std::string>>();
+    options.emplace_back( std::make_pair( _( "Plant seed: " ),
+                                          seed != "" ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
+
+    return options;
+}
+
+void plot_options::serialize( JsonOut &json ) const
+{
+    json.member( "mark", mark );
+    json.member( "seed", seed );
+};
+
+void plot_options::deserialize( JsonObject &jo_zone )
+{
+    mark = jo_zone.get_string( "mark", "" );
+    seed = jo_zone.get_string( "seed", "" );
+};
+
+std::string zone_manager::query_name( std::string default_name ) const
 {
     return string_input_popup()
            .title( _( "Zone name:" ) )
@@ -74,7 +169,7 @@ std::string zone_manager::query_name( std::string default_name )
            .query_string();
 }
 
-zone_type_id zone_manager::query_type()
+zone_type_id zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
     uimenu as_m;
@@ -309,12 +404,81 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     return zone_type_id();
 }
 
-void zone_manager::add( const std::string &name, const zone_type_id &type,
-                        const bool invert, const bool enabled,
-                        const tripoint &start, const tripoint &end )
+std::vector<zone_manager::zone_data> zone_manager::get_zones( const zone_type_id &type,
+        const tripoint &where ) const
 {
-    zones.push_back( zone_data( name, type, invert, enabled, start, end ) );
+    auto zones = std::vector<zone_manager::zone_data>();
+
+    for( const auto &zone : this->zones ) {
+        if( zone.get_type() == type ) {
+            if( zone.has_inside( where ) ) {
+                zones.emplace_back( zone );
+            }
+        }
+    }
+
+    return zones;
+}
+
+const zone_manager::zone_data *zone_manager::get_top_zone( const tripoint &where ) const
+{
+    for( const auto &zone : zones ) {
+        if( zone.has_inside( where ) ) {
+            return &zone;
+        }
+    }
+
+    return nullptr;
+}
+
+const zone_manager::zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
+{
+    for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
+        const auto &zone = *it;
+
+        if( zone.has_inside( where ) ) {
+            return &zone;
+        }
+    }
+
+    return nullptr;
+}
+
+zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_type_id &type,
+        const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
+        std::shared_ptr<zone_options> options )
+{
+    zones.push_back( zone_data( name, type, invert, enabled, start, end, options ) );
     cache_data();
+
+    return zones.back();
+}
+
+void zone_manager::swap( zone_data &a, zone_data &b )
+{
+    std::swap( a, b );
+}
+
+std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
+{
+    auto zones = std::vector<ref_zone_data>();
+
+    for( auto &zone : this->zones ) {
+        zones.emplace_back( zone );
+    }
+
+    return zones;
+}
+
+std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones() const
+{
+    auto zones = std::vector<ref_const_zone_data>();
+
+    for( auto &zone : this->zones ) {
+        zones.emplace_back( zone );
+    }
+
+    return zones;
 }
 
 void zone_manager::serialize( JsonOut &json ) const
@@ -325,6 +489,7 @@ void zone_manager::serialize( JsonOut &json ) const
 
         json.member( "name", elem.get_name() );
         json.member( "type", elem.get_type() );
+
         json.member( "invert", elem.get_invert() );
         json.member( "enabled", elem.get_enabled() );
 
@@ -337,6 +502,8 @@ void zone_manager::serialize( JsonOut &json ) const
         json.member( "end_x", end.x );
         json.member( "end_y", end.y );
         json.member( "end_z", end.z );
+
+        elem.get_options().serialize( json );
 
         json.end_object();
     }
@@ -367,15 +534,15 @@ void zone_manager::deserialize( JsonIn &jsin )
         const int end_z = jo_zone.get_int( "end_z", 0 );
 
         if( has_type( type ) ) {
-            add( name, type, invert, enabled,
-                 tripoint( start_x, start_y, start_z ),
-                 tripoint( end_x, end_y, end_z ) );
+            auto &zone = add( name, type, invert, enabled,
+                              tripoint( start_x, start_y, start_z ),
+                              tripoint( end_x, end_y, end_z ) );
+            zone.get_options().deserialize( jo_zone );
         } else {
             debugmsg( "Invalid zone type: %s", type.c_str() );
         }
     }
 }
-
 
 bool zone_manager::save_zones()
 {

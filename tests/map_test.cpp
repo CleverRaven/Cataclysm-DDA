@@ -14,12 +14,11 @@ TEST_CASE( "destroy_grabbed_furniture" )
         g->u.setpos( test_origin );
         tripoint grab_point = test_origin + tripoint( 1, 0, 0 );
         g->m.furn_set( grab_point, furn_id( "f_chair" ) );
-        g->u.grab_type = OBJECT_FURNITURE;
-        g->u.grab_point = grab_point;
+        g->u.grab( OBJECT_FURNITURE, grab_point );
         WHEN( "The furniture grabbed by the player is destroyed" ) {
             g->m.destroy( grab_point );
             THEN( "The player's grab is released" ) {
-                CHECK( g->u.grab_type == OBJECT_NONE );
+                CHECK( g->u.get_grab_type() == OBJECT_NONE );
                 CHECK( g->u.grab_point == tripoint_zero );
             }
         }

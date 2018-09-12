@@ -21,7 +21,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "EMPbomb_act",
@@ -1696,7 +1696,8 @@
     "color": "brown",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "clay_quern",
@@ -2033,7 +2034,8 @@
     "ammo": "battery",
     "max_charges": 100,
     "charges_per_use": 5,
-    "use_action": { "type": "firestarter" }
+    "use_action": { "type": "firestarter" },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "crude_picklock",
@@ -2639,7 +2641,8 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 }
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "fire_drill_large",
@@ -2652,7 +2655,8 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
-    "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 }
+    "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "firecracker",
@@ -2969,7 +2973,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "flashbang_act",
@@ -3421,7 +3425,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "grenade_act",
@@ -3471,7 +3475,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ]
   },
   {
     "id": "grenade_inc_act",
@@ -4303,7 +4307,8 @@
     "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 50 }
+    "use_action": { "type": "firestarter", "moves": 50 },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "lightstrip",
@@ -4410,7 +4415,8 @@
     "material": [ "glass", "plastic" ],
     "symbol": "o",
     "color": "green",
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "makeshift_crowbar",
@@ -4608,7 +4614,8 @@
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 }
+    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "mess_kit",
@@ -5207,7 +5214,8 @@
     "color": "dark_gray",
     "container_data": { "contains": 4, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pastaextruder",
@@ -5519,6 +5527,7 @@
     "id": "pocketwatch",
     "type": "TOOL",
     "name": "pocket watch",
+    "name_plural": "pocket watches",
     "description": "An old fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
     "weight": 65,
     "volume": 0,
@@ -5635,7 +5644,8 @@
     "color": "light_gray",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pot_copper",
@@ -5653,7 +5663,8 @@
     "color": "light_red",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "press",
@@ -5838,7 +5849,8 @@
         "type": "transform"
       },
       { "type": "firestarter", "moves": 50 }
-    ]
+    ],
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "ref_lighter_on",
@@ -5926,7 +5938,8 @@
     "color": "dark_gray",
     "container_data": { "contains": 6, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "rock_quern",
@@ -6106,7 +6119,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "scrambler_act",
@@ -6760,7 +6773,7 @@
     "symbol": "o",
     "color": "green",
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "ZOOM" ]
+    "flags": [ "FIRESTARTER", "ZOOM" ]
   },
   {
     "id": "survivor_shavingkit",
@@ -7159,7 +7172,7 @@
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": "HEAT_FOOD",
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_anfo_charge",
@@ -8001,7 +8014,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "welder_crude",
@@ -8032,7 +8045,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "wood_smoother",

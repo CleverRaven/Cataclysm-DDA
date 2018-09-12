@@ -244,5 +244,4 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
 
 };
 
-
 #endif

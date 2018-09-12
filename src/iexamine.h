@@ -13,6 +13,7 @@
 #include <list>
 
 #include "string_id.h"
+#include "itype.h"
 
 class game;
 class item;
@@ -23,6 +24,7 @@ struct tripoint;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+using seed_tuple = std::tuple<itype_id, std::string, int>;
 
 enum hack_result {
     HACK_UNABLE,
@@ -70,6 +72,8 @@ void pedestal_wyrm( player &p, const tripoint &examp );
 void pedestal_temple( player &p, const tripoint &examp );
 void door_peephole( player &p, const tripoint &examp );
 void fswitch( player &p, const tripoint &examp );
+void flower_tulip( player &p, const tripoint &examp );
+void flower_spurge( player &p, const tripoint &examp );
 void flower_poppy( player &p, const tripoint &examp );
 void flower_bluebell( player &p, const tripoint &examp );
 void flower_dahlia( player &p, const tripoint &examp );
@@ -79,13 +83,14 @@ void egg_sackcs( player &p, const tripoint &examp );
 void egg_sackws( player &p, const tripoint &examp );
 void fungus( player &p, const tripoint &examp );
 void dirtmound( player &p, const tripoint &examp );
+void aggie_plant( player &p, const tripoint &examp );
 void tree_hickory( player &p, const tripoint &examp );
 void tree_maple( player &p, const tripoint &examp );
 void tree_maple_tapped( player &p, const tripoint &examp );
 void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );
 void shrub_wildveggies( player &p, const tripoint &examp );
-void recycler( player &p, const tripoint &examp );
+void recycle_compactor( player &p, const tripoint &examp );
 void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
@@ -107,20 +112,13 @@ bool pour_into_keg( const tripoint &pos, item &liquid );
 
 bool has_keg( const tripoint &pos );
 
+std::list<item> get_harvest_items( const itype &type, int plant_count,
+                                   int seed_count, bool byproducts );
 
-// Main function to interact with plants
-void aggie_plant( player &p, const tripoint &examp );
-// Generate list of items for the harvest from the seed
-std::list<item> get_harvest_items( item &seed );
-// Remove common plants and restart growing of perennial plant
-void proceed_plant_after_harvest( const int x, const int y, const int z );
-void proceed_plant_after_harvest( const tripoint &examp );
-
-// Plant care functions
-// Before using them it is required to check if the item at this location is proper seed
-void plant_watering( player &, const tripoint & );
-void plant_fertilizing( player &, const tripoint & );
-void plant_weed_removing( player &, const tripoint & );
+// Planting functions
+std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
+int query_seed( const std::vector<seed_tuple> &seed_entries );
+void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
 
 } //namespace iexamine
 

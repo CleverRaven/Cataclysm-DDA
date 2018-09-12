@@ -3647,6 +3647,19 @@
   },
   {
     "type": "recipe",
+    "result": "clay_pot_flower",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_GENERIC",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 35000,
+    "autolearn": true,
+    "tools": [ [ [ "brick_kiln", 75 ], [ "kiln", 75 ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "clay_quern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4049,11 +4062,10 @@
     ],
     "components": [
       [ [ "scrap", 6 ] ],
-      [ [ "pipe", 6 ] ],
-      [ [ "cu_pipe", 6 ] ],
+      [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
       [ [ "nail", 12 ] ],
-      [ [ "wire", 6 ] ],
-      [ [ "chain", 1 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ],
       [ [ "spike", 2 ] ]
     ]
   },

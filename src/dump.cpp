@@ -163,7 +163,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 std::transform( e->gun->valid_mod_locations.begin(),
                                 e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
-                                []( const std::pair<gunmod_location, int>& q ) { return q.first.name(); } );
+                []( const std::pair<gunmod_location, int> &q ) {
+                    return q.first.name();
+                } );
             }
         }
         for( const auto &e : locations ) {
@@ -215,8 +217,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         // optionally filter recipes to include only those using specified skills
         recipe_subset dict;
         for( const auto &r : recipe_dict ) {
-            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string &s ) {
-                if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
+            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string & s ) {
+            if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
                     return true;
                 }
                 auto iter = r.second.required_skills.find( skill_id( s ) );
@@ -228,9 +230,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         // only consider skills that are required by at least one recipe
         std::vector<Skill> sk;
-        std::copy_if( Skill::skills.begin(), Skill::skills.end(), std::back_inserter( sk ), [&dict]( const Skill &s ) {
-            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe *r ) {
-                return r->skill_used == s.ident() || r->required_skills.find( s.ident() ) != r->required_skills.end();
+        std::copy_if( Skill::skills.begin(), Skill::skills.end(),
+        std::back_inserter( sk ), [&dict]( const Skill & s ) {
+            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe * r ) {
+                return r->skill_used == s.ident() ||
+                       r->required_skills.find( s.ident() ) != r->required_skills.end();
             } );
         } );
 
@@ -304,12 +308,13 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         return false;
     }
 
-    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
+    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string> &e ) {
         return e.empty();
     } ), rows.end() );
 
     if( scol >= 0 ) {
-        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
+        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string> &lhs,
+        const std::vector<std::string> &rhs ) {
             return lhs[ scol ] < rhs[ scol ];
         } );
     }

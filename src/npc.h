@@ -8,6 +8,7 @@
 #include "calendar.h"
 
 #include <vector>
+#include <set>
 #include <string>
 #include <map>
 #include <memory>
@@ -187,7 +188,6 @@ enum aim_rule {
     // If you can't aim, don't shoot
     AIM_STRICTLY_PRECISE
 };
-
 
 struct npc_follower_rules {
     combat_engagement engagement;
@@ -546,7 +546,6 @@ class npc : public player
         // What happens when the player makes a request
         int  follow_distance() const; // How closely do we follow the player?
 
-
         // Dialogue and bartering--see npctalk.cpp
         void talk_to_u();
         // Re-roll the inventory of a shopkeeper
@@ -595,13 +594,20 @@ class npc : public player
         void die( Creature *killer ) override;
         bool is_dead() const;
         int smash_ability() const; // How well we smash terrain (not corpses!)
+
+        // complain about a specific issue if enough time has passed
+        // @param issue string identifier of the issue
+        // @param dur time duration between complaints
+        // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
+        // @param speech words of this complaint
+        bool complain_about( const std::string &issue, const time_duration &dur, const std::string &speech,
+                             const bool force = false );
         bool complain(); // Finds something to complain about and complains. Returns if complained.
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
          */
         void shift( int sx, int sy );
-
 
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action
@@ -664,11 +670,14 @@ class npc : public player
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
-        void move_to( const tripoint &p, bool no_bashing = false );
+        // nomove is used to resolve recursive invocation
+        void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
         void move_to_next(); // Next in <path>
         void avoid_friendly_fire(); // Maneuver so we won't shoot u
         void escape_explosion();
-        void move_away_from( const tripoint &p, bool no_bashing = false );
+        // nomove is used to resolve recursive invocation
+        void move_away_from( const tripoint &p, bool no_bashing = false,
+                             std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         void move_pause(); // Same as if the player pressed '.'
 
@@ -852,7 +861,6 @@ class npc : public player
          * Retroactively update npc.
          */
         void on_load();
-
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &id );

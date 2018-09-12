@@ -774,7 +774,6 @@ bool mattack::boomer_glow( monster *z )
     return true;
 }
 
-
 bool mattack::resurrect( monster *z )
 {
     // Chance to recover some of our missing speed (yes this will regain
@@ -1374,7 +1373,6 @@ bool mattack::vine( monster *z )
             return true;
         }
 
-
         if( g->is_empty( dest ) ) {
             grow.push_back( dest );
         } else if( monster *const z = g->critter_at<monster>( dest ) ) {
@@ -1444,7 +1442,7 @@ bool mattack::triffid_heartbeat( monster *z )
         return true;
     }
 
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false );
+    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false );
     if( rl_dist( z->pos(), g->u.pos() ) > 5 &&
         !g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
@@ -2126,7 +2124,7 @@ static bool blobify( monster &blob, monster &target )
             break;
         default:
             debugmsg( "Tried to blobify %s with invalid size: %d",
-                      target.disp_name().c_str(), ( int )target.get_size() );
+                      target.disp_name().c_str(), static_cast<int>( target.get_size() ) );
             return false;
     }
 
@@ -2294,10 +2292,8 @@ bool mattack::jackson( monster *z )
         }
     }
     // This is telepathy, doesn't take any moves.
-
     return true;
 }
-
 
 bool mattack::dance( monster *z )
 {
@@ -2393,7 +2389,6 @@ bool mattack::tentacle( monster *z )
 
     return true;
 }
-
 
 bool mattack::ranged_pull( monster *z )
 {
@@ -2661,12 +2656,13 @@ bool mattack::fear_paralyze( monster *z )
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if ( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in(4))) {
-            add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
-        ///\EFFECT_INT decreases chance of being paralyzed by fear attack
-        } else if ( rng(0, 20) > g->u.get_int() ) {
-            add_msg( m_bad, _("The terrifying visage of the %s paralyzes you."), z->name().c_str() );
+    if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
+        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+                one_in( 4 ) ) ) {
+            add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name().c_str() );
+            ///\EFFECT_INT decreases chance of being paralyzed by fear attack
+        } else if( rng( 0, 20 ) > g->u.get_int() ) {
+            add_msg( m_bad, _( "The terrifying visage of the %s paralyzes you." ), z->name().c_str() );
             g->u.add_effect( effect_fearparalyze, 5_turns );
             g->u.moves -= 400;
         } else {
@@ -3082,7 +3078,6 @@ bool mattack::searchlight( monster *z )
                 }
             }
         }
-
 
         int x = zposx + settings.get_var( "SL_SPOT_X", 0 );
         int y = zposy + settings.get_var( "SL_SPOT_Y", 0 );
@@ -3929,7 +3924,6 @@ bool mattack::longswipe( monster *z )
 
     return true;
 }
-
 
 bool mattack::parrot( monster *z )
 {

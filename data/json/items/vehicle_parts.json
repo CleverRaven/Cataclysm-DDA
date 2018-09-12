@@ -1152,5 +1152,23 @@
         "weight": 10000,
         "volume": 10,
         "price": 5500
-    }
+  },
+  {
+    "id": "fuel_bunker",
+    "type": "MAGAZINE",
+    "name": "fuel bunker",
+    "description": "A bin for holding solid fuel.",
+    "symbol": "]",
+    "color": "white",
+    "looks_like": "cargo_rack",
+    "material": "steel",
+    "category": "veh_parts",
+    "weight": 80000,
+    "volume": 220,
+    "capacity": 2000,
+    "reliability": 10,
+    "//": "mods will need to expand",
+    "ammo_type": "charcoal",
+    "price": 3000
+  }
 ]

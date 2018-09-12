@@ -557,7 +557,8 @@ void player::hardcoded_effects( effect &it )
                                                        mongroup_id( "GROUP_NETHER" ) );
                 g->summon_mon( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
-                    g->cancel_activity_query( _( "A monster appears nearby!" ) );
+                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                        _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                 }
                 it.mult_duration( .25 );
@@ -643,7 +644,8 @@ void player::hardcoded_effects( effect &it )
                                                            mongroup_id( "GROUP_NETHER" ) );
                     g->summon_mon( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
-                        g->cancel_activity_query( _( "A monster appears nearby!" ) );
+                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                                                            _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
                     if( one_in( 2 ) ) {
@@ -1250,13 +1252,13 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             } else {
-                if( dur <= 1_turns ) {
+                if( dur == 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
                         add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 10_minutes );
-                } else if( dur <= 2_turns ) {
+                } else if( dur == 2_turns ) {
                     sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
                     // let the sound code handle the wake-up part
                 }

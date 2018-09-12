@@ -6,6 +6,8 @@
 #include "npc.h"
 #include "player.h"
 
+std::string get_mutations_as_string( const player &p );
+
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
 void give_all_mutations( player &p, const mutation_category_trait &category,
@@ -21,8 +23,14 @@ void give_all_mutations( player &p, const mutation_category_trait &category,
     for( auto &m : category_mutations ) {
         const auto &mdata = m.obj();
         if( include_postthresh || ( !mdata.threshold && mdata.threshreq.empty() ) ) {
-            while( p.mutation_ok( m, false, false ) ) {
-                p.mutate_towards( m );
+            int mutation_attempts = 10;
+            while( mutation_attempts > 0 && p.mutation_ok( m, false, false ) ) {
+                INFO( "Current mutations: " << get_mutations_as_string( p ) );
+                INFO( "Mutating towards " << m.c_str() );
+                if( !p.mutate_towards( m ) ) {
+                    --mutation_attempts;
+                }
+                CHECK( mutation_attempts > 0 );
             }
         }
     }

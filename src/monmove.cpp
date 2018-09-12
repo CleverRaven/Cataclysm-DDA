@@ -1039,7 +1039,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                            ( float )( climbs ? calc_climb_cost( pos(), p ) :
                                       calc_movecost( pos(), p ) );
         if( cost > 0.0f ) {
-            moves -= ( int )ceil( cost );
+            moves -= static_cast<int>( ceil( cost ) );
         } else {
             return false;
         }
@@ -1410,7 +1410,6 @@ void monster::knock_back_from( const tripoint &p )
     }
     check_dead_state();
 }
-
 
 /* will_reach() is used for determining whether we'll get to stairs (and
  * potentially other locations of interest).  It is generally permissive.

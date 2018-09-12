@@ -169,7 +169,6 @@ int dealt_damage_instance::total_damage() const
     return std::accumulate( dealt_dams.begin(), dealt_dams.end(), 0 );
 }
 
-
 resistances::resistances()
 {
     resist_vals.fill( 0 );
