@@ -236,6 +236,37 @@ bool Messages::has_undisplayed_messages()
     return player_messages.has_undisplayed_messages();
 }
 
+static const std::vector<std::pair<game_message_type, std::string>> &msg_type_and_names()
+{
+    static const std::vector<std::pair<game_message_type, std::string>> type_n_names = {
+        { m_good, pgettext( "message type", "good" ) },
+        { m_bad, pgettext( "message type", "bad" ) },
+        { m_mixed, pgettext( "message type", "mixed" ) },
+        { m_warning, pgettext( "message type", "warning" ) },
+        { m_info, pgettext( "message type", "info" ) },
+        { m_neutral, pgettext( "message type", "neutral" ) },
+        { m_debug, pgettext( "message type", "debug" ) },
+        { m_headshot, pgettext( "message type", "headshot" ) },
+        //~ As in critical hit
+        { m_critical, pgettext( "message type", "critical" ) },
+        //~ As in grazing hit
+        { m_grazing, pgettext( "message type", "grazing" ) },
+    };
+    return type_n_names;
+}
+
+// Get message type from translated name, returns true if name is a valid translated name
+static bool msg_type_from_name( game_message_type &type, const std::string &name )
+{
+    for( const auto &p : msg_type_and_names() ) {
+        if( name == p.second ) {
+            type = p.first;
+            return true;
+        }
+    }
+    return false;
+}
+
 void Messages::display_messages()
 {
     const int w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
@@ -401,11 +432,27 @@ void Messages::display_messages()
             const std::string &new_filter_str = filter.text();
             if( new_filter_str != filter_str ) {
                 filter_str = new_filter_str;
+
+                // Split the search string into type and text
+                bool has_type_filter = false;
+                game_message_type filter_type = m_neutral;
+                std::string filter_text;
+                const auto colon = filter_str.find( ':' );
+                if( colon != std::string::npos ) {
+                    has_type_filter = msg_type_from_name( filter_type, filter_str.substr( 0, colon ) );
+                    filter_text = filter_str.substr( colon + 1 );
+                } else {
+                    filter_text = filter_str;
+                }
+
                 folded_filtered.clear();
                 for( size_t folded_ind = 0; folded_ind < folded_all.size(); ) {
                     const size_t msg_ind = folded_all[folded_ind].first;
                     const game_message &msg = player_messages.history( msg_ind );
-                    bool match = ci_find_substr( msg.get_with_count(), filter_str ) >= 0;
+                    const bool match = ( !has_type_filter || filter_type == msg.type ) &&
+                                       ci_find_substr( remove_color_tags( msg.get_with_count() ), filter_text ) >= 0;
+
+                    // Always advance the index, but only add to filtered list if the original message matches
                     for( ; folded_ind < folded_all.size() && folded_all[folded_ind].first == msg_ind; ++folded_ind ) {
                         if( match ) {
                             folded_filtered.emplace_back( folded_ind );
