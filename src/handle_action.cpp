@@ -760,14 +760,14 @@ static void sleep()
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
     as_m.entries.emplace_back( uimenu_entry( 0, true,
-                ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y' ),
-                _( "Yes." ) ) );
+                               ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y' ),
+                               _( "Yes." ) ) );
     as_m.entries.emplace_back( uimenu_entry( 1, ( g->get_moves_since_last_save() ),
-                ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's' ),
-                _( "Yes, and save game before sleeping." ) ) );
+                               ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's' ),
+                               _( "Yes, and save game before sleeping." ) ) );
     as_m.entries.emplace_back( uimenu_entry( 2, true,
-                ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
-                _( "No." ) ) );
+                               ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
+                               _( "No." ) ) );
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
@@ -825,17 +825,17 @@ static void sleep()
 
     as_m.reset();
     as_m.text = can_hibernate ?
-        _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
-        _( "You have an alarm clock. Set an alarm?" );
+                _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
+                _( "You have an alarm clock. Set an alarm?" );
 
     if( u.has_alarm_clock() ) {
         as_m.entries.emplace_back( uimenu_entry( 0, true,
-                    ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
-                    _( "No, don't set an alarm." ) ) );
+                                   ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
+                                   _( "No, don't set an alarm." ) ) );
 
         for( int i = 3; i <= 9; ++i ) {
             as_m.entries.emplace_back( uimenu_entry( i, true, '0' + i,
-                        string_format( _( "Set alarm to wake up in %i hours." ), i ) ) );
+                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) ) );
         }
     }
 
