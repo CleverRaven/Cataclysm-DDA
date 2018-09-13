@@ -21,7 +21,6 @@
 #include "safemode_ui.h"
 #include "text_snippets.h"
 #include "loading_ui.h"
-#include "options.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -86,10 +85,9 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     center_print( w_open, window_height - 2, c_red,
                   _( "Bugs? Suggestions? Use links in MOTD to report them." ) );
 
-    if( get_option<bool>( "SHOW_TIPS" ) ) {
-        center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
-                      vdaytip ) );
-    }
+    center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
+                  vdaytip ) );
+
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
