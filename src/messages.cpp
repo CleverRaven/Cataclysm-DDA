@@ -317,6 +317,35 @@ void Messages::display_messages()
     const size_t max_lines = static_cast<size_t>( w_height - border_width * 2 );
     const size_t msg_count = size();
 
+    // Initialize filter help text and window
+    const int w_fh_width = w_width;
+    const int w_fh_x = w_x;
+
+    const auto &help_fmt = _(
+                               "Format is [[TYPE]:]TEXT. The values for TYPE are: %s\n"
+                               "Examples:\n"
+                               "  good:mutation\n"
+                               "  :you pick up: 1\n"
+                               "  crash!\n"
+                           );
+    std::stringstream type_text;
+    const auto &type_list = msg_type_and_names();
+    for( auto it = type_list.begin(); it != type_list.end(); ++it ) {
+        if( std::next( it ) != type_list.end() ) {
+            //~ %s is a type name, this is used to format a list of type names
+            type_text << string_format( pgettext( "message log", "%s, " ), it->second );
+        } else {
+            //~ %s is a type name, this is used to format the last type name in a list of type names
+            type_text << string_format( pgettext( "message log", "%s." ), it->second );
+        }
+    }
+    const auto &help_text = foldstring( string_format( help_fmt, type_text.str() ),
+                                        w_fh_width - border_width * 2 );
+
+    const int w_fh_height = help_text.size() + border_width * 2;
+    const int w_fh_y = w_y + w_height - w_fh_height;
+    auto w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, w_fh_y, w_fh_x );
+
     // message indices and folded strings
     std::vector<std::pair<size_t, std::string>> folded_all;
     // indices of filtered messages
@@ -338,7 +367,7 @@ void Messages::display_messages()
         offset = folded_filtered.size() - max_lines;
     }
     string_input_popup filter;
-    filter.window( w, border_width + 2, w_height - 1, w_width - border_width - 2 );
+    filter.window( w_filter_help, border_width + 2, w_fh_height - 1, w_fh_width - border_width - 2 );
     bool filtering = false;
     std::string filter_str;
 
@@ -423,8 +452,19 @@ void Messages::display_messages()
         }
 
         if( filtering ) {
-            mvwprintz( w, w_height - 1, border_width, border_color, "< " );
-            mvwprintz( w, w_height - 1, w_width - border_width - 2, border_color, " >" );
+            wrefresh( w );
+            // Print the help text
+            werase( w_filter_help );
+            draw_border( w_filter_help, border_color );
+            for( size_t line = 0; line < help_text.size(); ++line ) {
+                nc_color col = c_cyan;
+                print_colored_text( w_filter_help, border_width + line, border_width, col, col,
+                                    help_text[line] );
+            }
+            mvwprintz( w_filter_help, w_fh_height - 1, border_width, border_color, "< " );
+            mvwprintz( w_filter_help, w_fh_height - 1, w_fh_width - border_width - 2, border_color, " >" );
+            wrefresh( w_filter_help );
+
             filter.query( false );
             if( filter.confirmed() || filter.canceled() ) {
                 filtering = false;
