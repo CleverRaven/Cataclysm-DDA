@@ -499,10 +499,10 @@ void Messages::display_messages()
                         }
                     }
                 }
-                // @todo fix position
-                if( max_lines > folded_filtered.size() ) {
+
+                if( log_from_top || max_lines > folded_filtered.size() ) {
                     offset = 0;
-                } else if( offset + max_lines > folded_filtered.size() ) {
+                } else {
                     offset = folded_filtered.size() - max_lines;
                 }
             }
