@@ -429,6 +429,7 @@ static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
+static const itype_id PBA_MASK_ITEM_ID( "bunker_mask" );
 
 stat_mod player::get_pain_penalty() const
 {
@@ -6639,6 +6640,33 @@ void player::process_active_items()
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
     }
+
+    long ch_Nitrox = charges_of( "nitrox" );
+    item *PBA = nullptr;
+    for (auto &w : worn) {
+        if (!w.active) {
+            continue;
+        }
+        if (w.typeId() == PBA_MASK_ITEM_ID) {
+            PBA = &w;
+        }
+    }
+    if (PBA != nullptr) {
+        if (ch_Nitrox >= 1) {
+            use_charges( "nitrox", 1 );
+            if (ch_Nitrox < 10 && one_in(3)) {
+                add_msg_if_player(m_warning, _("It's getting hard to breath in that mask."));
+            }
+        }
+        else if (ch_Nitrox > 0) {
+            use_charges( "nitrox", ch_Nitrox);
+        }
+        else {
+            add_msg_if_player(m_warning, _("Your air supply has run out."));
+            // Bypass the "you deactivate the ..." message
+            PBA->active = false;
+        }
+    }
 }
 
 item player::reduce_charges( int position, long quantity )
@@ -6830,25 +6858,34 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
         use_fire( qty );
         return res;
 
-    } else if( what == "UPS" ) {
-        if( power_level > 0 && has_active_bionic( bio_ups ) ) {
-            auto bio = std::min( long( power_level ), qty );
-            charge_power( -bio );
-            qty -= std::min( qty, bio );
+    }
+    else if (what == "UPS") {
+        if (power_level > 0 && has_active_bionic(bio_ups)) {
+            auto bio = std::min(long(power_level), qty);
+            charge_power(-bio);
+            qty -= std::min(qty, bio);
         }
 
-        auto adv = charges_of( "adv_UPS_off", ( long )ceil( qty * 0.6 ) );
-        if( adv > 0 ) {
-            auto found = use_charges( "adv_UPS_off", adv );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, long( adv / 0.6 ) );
+        auto adv = charges_of("adv_UPS_off", (long)ceil(qty * 0.6));
+        if (adv > 0) {
+            auto found = use_charges("adv_UPS_off", adv);
+            res.splice(res.end(), found);
+            qty -= std::min(qty, long(adv / 0.6));
         }
 
-        auto ups = charges_of( "UPS_off", qty );
-        if( ups > 0 ) {
-            auto found = use_charges( "UPS_off", ups );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, ups );
+        auto ups = charges_of("UPS_off", qty);
+        if (ups > 0) {
+            auto found = use_charges("UPS_off", ups);
+            res.splice(res.end(), found);
+            qty -= std::min(qty, ups);
+        }
+    }
+    else if (what == "breath") {
+        auto air = charges_of("bunker_harness", qty);
+        if (air > 0) {
+            auto found = use_charges("bunker_harness", air);
+            res.splice(res.end(), found);
+            qty -= std::min(qty, air);
         }
     }
 

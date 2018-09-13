@@ -3363,6 +3363,11 @@ int item::get_env_resist() const
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( resist_base, resist_filter );
 
+    // modify if item is a breathing apparatus and is supplied with nitrox
+    int resist_base = static_cast<int>(static_cast<unsigned int>(t->env_resist));
+    int resist_tank = get_var("overwrite_env_resist", 0);
+    int resist = std::max(resist_base, resist_filter);
+
     return lround( resist * get_relative_health() );
 }
 
@@ -3376,10 +3381,29 @@ int item::get_env_resist_w_filter() const
     return static_cast<int>( static_cast<unsigned int>( t->env_resist_w_filter ) );
 }
 
+int item::get_env_resist_w_tank() const
+{
+    const auto t = find_armor_data();
+    if (t == nullptr) {
+        return 0;
+    }
+    // it_armor::env_resist is unsigned char
+    return static_cast<int>(static_cast<unsigned int>(t->env_resist_w_tank));
+}
+
 bool item::is_power_armor() const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
+        return false;
+    }
+    return t->power_armor;
+}
+
+bool item::is_air_gear() const
+{
+    const auto t = find_armor_data();
+    if (t == nullptr) {
         return false;
     }
     return t->power_armor;

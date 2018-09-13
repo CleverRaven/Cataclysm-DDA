@@ -1,0 +1,18 @@
+[
+  {
+    "id": "nitrox",
+    "type": "AMMO",
+    "name": "nitrox",
+    "description": "A mixture of oxygen and nitrogen used by divers.",
+    "weight": 20,
+    "volume": 1,
+    "price": 2400,
+    "material": [ "hydrocarbons" ],
+    "symbol": "=",
+    "color": "white",
+    "count": 100,
+    "stack_size": 100,
+    "ammo_type": "nitrox",
+    "flags": [ "NO_DROP", "IRREMOVABLE" ]
+  }
+]
