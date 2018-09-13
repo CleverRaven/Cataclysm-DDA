@@ -2655,6 +2655,9 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
     "flags": [ "FIRESTARTER" ]
   },
