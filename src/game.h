@@ -921,7 +921,6 @@ class game
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
         void on_move_effects();
-        void wait(); // Long wait (player action)  '^'
         void loot(); // Sort out loot or perform other zone activity
 
         void control_vehicle(); // Use vehicle controls  '^'

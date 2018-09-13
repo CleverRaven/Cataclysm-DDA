@@ -687,6 +687,69 @@ static void smash()
     }
 }
 
+static void wait()
+{
+    std::map<int, int> durations;
+    uimenu as_m;
+
+    const bool has_watch = g->u.has_watch();
+    const auto add_menu_item = [ &as_m, &durations, has_watch ]
+                               ( int retval, int hotkey, const std::string &caption = "",
+    int duration = calendar::INDEFINITELY_LONG ) {
+
+        std::string text( caption );
+
+        if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
+            const std::string dur_str( to_string( time_duration::from_turns( duration ) ) );
+            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
+        }
+        as_m.addentry( retval, true, hotkey, text );
+        durations[retval] = duration;
+    };
+
+    add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
+    add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
+
+    if( has_watch ) {
+        add_menu_item( 3, '3', "", HOURS( 1 ) );
+        add_menu_item( 4, '4', "", HOURS( 2 ) );
+        add_menu_item( 5, '5', "", HOURS( 3 ) );
+        add_menu_item( 6, '6', "", HOURS( 6 ) );
+    }
+
+    if( g->get_levz() >= 0 || has_watch ) {
+        const auto diurnal_time_before = []( const int turn ) {
+            const int remainder = turn % DAYS( 1 ) - calendar::turn % DAYS( 1 );
+            return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
+        };
+
+        add_menu_item( 7,  'd', _( "Wait till dawn" ),
+                       diurnal_time_before( calendar::turn.sunrise() ) );
+        add_menu_item( 8,  'n', _( "Wait till noon" ),     diurnal_time_before( HOURS( 12 ) ) );
+        add_menu_item( 9,  'k', _( "Wait till dusk" ),     diurnal_time_before( calendar::turn.sunset() ) );
+        add_menu_item( 10, 'm', _( "Wait till midnight" ), diurnal_time_before( HOURS( 0 ) ) );
+        add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+    }
+
+    add_menu_item( 12, 'q', _( "Exit" ) );
+
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
+                to_string_time_of_day( calendar::turn ) ) : "";
+    as_m.text += _( "Wait for how long?" );
+    as_m.return_invalid = true;
+    as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
+
+    if( as_m.ret == 12 || durations.count( as_m.ret ) == 0 ) {
+        return;
+    }
+
+    activity_id actType = activity_id( as_m.ret == 11 ? "ACT_WAIT_WEATHER" : "ACT_WAIT" );
+
+    player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
+
+    g->u.assign_activity( new_act, false );
+}
+
 bool game::handle_action()
 {
     std::string action;
