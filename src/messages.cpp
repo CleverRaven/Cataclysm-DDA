@@ -331,12 +331,15 @@ void Messages::display_messages()
     std::stringstream type_text;
     const auto &type_list = msg_type_and_names();
     for( auto it = type_list.begin(); it != type_list.end(); ++it ) {
+        const auto &col_name = get_all_colors().get_name( msgtype_to_color( it->first ) );
         if( std::next( it ) != type_list.end() ) {
-            //~ %s is a type name, this is used to format a list of type names
-            type_text << string_format( pgettext( "message log", "%s, " ), it->second );
+            //~ the 2nd %s is a type name, this is used to format a list of type names
+            type_text << string_format( pgettext( "message log", "<color_%s>%s</color>, " ),
+                                        col_name, it->second );
         } else {
-            //~ %s is a type name, this is used to format the last type name in a list of type names
-            type_text << string_format( pgettext( "message log", "%s." ), it->second );
+            //~ the 2nd %s is a type name, this is used to format the last type name in a list of type names
+            type_text << string_format( pgettext( "message log", "<color_%s>%s</color>." ),
+                                        col_name, it->second );
         }
     }
     const auto &help_text = foldstring( string_format( help_fmt, type_text.str() ),
