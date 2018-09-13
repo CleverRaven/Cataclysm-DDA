@@ -942,6 +942,18 @@ static void loot()
     }
 }
 
+static void wear()
+{
+    player &u = g->u;
+    item_location loc = game_menus::inv::wear( u );
+
+    if( loc ) {
+        u.wear( u.i_at( loc.obtain( u ) ) );
+    } else {
+        add_msg( _( "Never mind." ) );
+    }
+}
+
 bool game::handle_action()
 {
     std::string action;

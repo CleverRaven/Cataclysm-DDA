@@ -2146,7 +2146,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     eat( pos );
                     break;
                 case 'W':
-                    wear( pos );
+                    u.wear( u.i_at( pos ) );
                     break;
                 case 'w':
                     wield( pos );
@@ -9484,28 +9484,6 @@ void game::eat( int pos )
             item_loc.remove_item();
         }
     }
-}
-
-void game::wear()
-{
-    item_location loc = game_menus::inv::wear( u );
-
-    if( loc ) {
-        wear( loc );
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
-}
-
-void game::wear( int pos )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    wear( loc );
-}
-
-void game::wear( item_location &loc )
-{
-    u.wear( u.i_at( loc.obtain( u ) ) );
 }
 
 void game::takeoff()
