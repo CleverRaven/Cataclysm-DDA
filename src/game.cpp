@@ -5780,31 +5780,6 @@ void game::use_wielded_item()
     u.use_wielded();
 }
 
-void game::handbrake()
-{
-    const optional_vpart_position vp = m.veh_at( u.pos() );
-    if( !vp ) {
-        return;
-    }
-    vehicle *const veh = &vp->vehicle();
-    add_msg( _( "You pull a handbrake." ) );
-    veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < abs( veh->velocity ) ) {
-        veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name.c_str() );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
-    } else {
-        int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
-        if( abs( veh->velocity ) < braking_power ) {
-            veh->stop();
-        } else {
-            int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( abs( veh->velocity ) - braking_power );
-        }
-    }
-    u.moves = 0;
-}
-
 void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
     auto act = veh_interact::run( veh, cx, cy );

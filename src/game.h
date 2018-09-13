@@ -926,7 +926,6 @@ class game
         void smash(); // Smash terrain
         void loot(); // Sort out loot or perform other zone activity
 
-        void handbrake();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
