@@ -192,8 +192,6 @@ void uimenu::init()
     scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
     scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
-    last_fsize = -1;
-    last_vshift = -1;
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UIMENU";
     additional_actions.clear();
@@ -498,58 +496,32 @@ void uimenu::setup()
     started = true;
 }
 
-// @todo: replace content of this function by draw_scrollbar() from output.(h|cpp)
 void uimenu::apply_scrollbar()
 {
-    if ( ! scrollbar_auto ) {
+    if ( !scrollbar_auto ) {
         return;
     }
-    if ( last_vshift != vshift || last_fsize != (int)fentries.size() ) {
-        last_vshift = vshift;
-        last_fsize = fentries.size();
 
-        int sbside = ( scrollbar_side == 0 ? 0 : w_width );
-        int estart = textformatted.size() + 2;
-
-        if ( !fentries.empty() && vmax < (int)fentries.size() ) {
-            wattron(window, border_color);
-            mvwaddch(window, estart, sbside, '^');
-            wattroff(window, border_color);
-
-            wattron(window, scrollbar_nopage_color);
-            for( int i = estart + 1; i < estart + vmax - 1; i++ ) {
-                mvwaddch(window, i, sbside, LINE_XOXO);
-            }
-            wattroff(window, scrollbar_nopage_color);
-
-            wattron(window, border_color);
-            mvwaddch(window, estart + vmax - 1, sbside, 'v');
-            wattroff(window, border_color);
-
-            int svmax = vmax - 2;
-            int fentriessz = fentries.size() - vmax;
-            int sbsize = (vmax * svmax) / fentries.size();
-            if ( sbsize < 2 ) {
-                sbsize = 2;
-            }
-            int svmaxsz = svmax - sbsize;
-            int sbstart = ( vshift * svmaxsz ) / fentriessz;
-            int sbend = sbstart + sbsize;
-
-            wattron(window, scrollbar_page_color);
-            for ( int i = sbstart; i < sbend; i++ ) {
-                mvwaddch(window, i + estart + 1, sbside, LINE_XOXO);
-            }
-            wattroff(window, scrollbar_page_color);
-
-        } else {
-            wattron(window, border_color);
-            for( int i = estart; i < estart + vmax; i++ ) {
-                mvwaddch(window, i, sbside, LINE_XOXO);
-            }
-            wattroff(window, border_color);
-        }
+    int sbside = ( scrollbar_side == 0 ? 0 : w_width - 1 );
+    int estart = textformatted.size();
+    if( estart > 0 ) {
+        estart += 2;
+    } else {
+        estart = 1;
     }
+
+    scrollbar()
+    .offset_x( sbside )
+    .offset_y( estart )
+    .content_size( fentries.size() )
+    .viewport_pos( vshift )
+    .viewport_size( vmax )
+    .border_color( border_color )
+    .arrow_color( border_color )
+    .slot_color( scrollbar_nopage_color )
+    .bar_color( scrollbar_page_color )
+    .scroll_to_last( false )
+    .apply( window );
 }
 
 /**
