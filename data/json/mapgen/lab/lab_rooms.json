@@ -333,6 +333,44 @@
     }
   },
   {
+    "//": "7x7 bulk chemical storage",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_rare",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_furniture": [ { "furn": "f_standing_tank", "x": 3, "y": 3 } ],
+      "place_nested": [ { "chunks": [ "lab_filltank_chem" ], "x": 3, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_chem",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_liquids" : [ { "amount": [200, 800], "x": 0, "y": 0, "liquid": "ammonia" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_chem",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_liquids" : [ { "amount": [200, 800], "x": 0, "y": 0, "liquid": "bleach" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_chem",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_liquids" : [ { "amount": [100, 400], "x": 0, "y": 0, "liquid": "salt_water" } ]
+    }
+  },
+  {
     "//": "7x7 glass monster cage",
     "type": "mapgen",
     "method": "json",
