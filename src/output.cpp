@@ -70,12 +70,49 @@ std::vector<std::string> foldstring( std::string str, int width )
     }
     std::stringstream sstr( str );
     std::string strline;
+    std::vector<std::string> tags;
     while( std::getline( sstr, strline, '\n' ) ) {
         std::string wrapped = word_rewrap( strline, width );
         std::stringstream swrapped( wrapped );
         std::string wline;
         while( std::getline( swrapped, wline, '\n' ) ) {
-            lines.push_back( wline );
+            // Ensure that each line is independently color-tagged
+            // Re-add tags closed in the previous line
+            const std::string rawwline = wline;
+            if( !tags.empty() ) {
+                std::stringstream swline;
+                for( const std::string &tag : tags ) {
+                    swline << tag;
+                }
+                swline << wline;
+                wline = swline.str();
+            }
+            // Process the additional tags in the current line
+            const std::vector<size_t> tags_pos = get_tag_positions( rawwline );
+            for( const size_t tag_pos : tags_pos ) {
+                if( tag_pos + 1 < rawwline.size() && rawwline[tag_pos + 1] == '/' ) {
+                    if( !tags.empty() ) {
+                        tags.pop_back();
+                    }
+                } else {
+                    auto tag_end = rawwline.find( '>', tag_pos );
+                    if( tag_end != std::string::npos ) {
+                        tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
+                    }
+                }
+            }
+            // Close any unclosed tags
+            if( !tags.empty() ) {
+                std::stringstream swline;
+                swline << wline;
+                for( auto it = tags.rbegin(); it != tags.rend(); ++it ) {
+                    // currently the only closing tag is </color>
+                    swline << "</color>";
+                }
+                wline = swline.str();
+            }
+            // The resulting line can be printed independently and have the correct color
+            lines.emplace_back( wline );
         }
     }
     return lines;
@@ -1156,6 +1193,7 @@ std::string word_rewrap( const std::string &in, int width )
             }
         }
 
+        const int old_j = j;
         j += ANY_LENGTH - len;
 
         if( skipping_tag ) {
@@ -1172,7 +1210,19 @@ std::string word_rewrap( const std::string &in, int width )
 
         x += mk_wcwidth( uc );
 
+        if( uc == ' ' || uc >= 0x2E80 ) { // space or CJK characters
+            if( x <= width ) {
+                lastwb = j; // break after character
+            } else {
+                lastwb = old_j; // break before character
+            }
+        }
+
         if( x > width ) {
+            if( lastwb == lastout ) {
+                lastwb = old_j;
+            }
+            // old_j may equal to lastout, this checks it and ensures there's at least one character in the line.
             if( lastwb == lastout ) {
                 lastwb = j;
             }
@@ -1185,10 +1235,6 @@ std::string word_rewrap( const std::string &in, int width )
             just_wrapped = true;
         } else {
             just_wrapped = false;
-        }
-
-        if( uc == ' ' || uc >= 0x2E80 ) {
-            lastwb = j;
         }
     }
     for( int k = lastout; k < ( int )in.size(); k++ ) {

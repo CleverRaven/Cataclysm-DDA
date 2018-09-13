@@ -153,7 +153,8 @@ std::string remove_color_tags( const std::string &text );
 /**
  * Split the input text into separate lines and wrap long lines. Each resulting line is at most
  * `width` console cells long.
- * The functions handles @ref color_tags.
+ * The functions handles @ref color_tags. Color tags are added to the resulting lines so each
+ * line can be independently printed.
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
