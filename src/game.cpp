@@ -9883,18 +9883,6 @@ void game::wield()
     }
 }
 
-void game::read()
-{
-    // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
-
-    if( loc ) {
-        u.read( loc.obtain( u ) );
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
-}
-
 void game::chat()
 {
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {

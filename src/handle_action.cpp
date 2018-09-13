@@ -966,6 +966,19 @@ static void takeoff()
     }
 }
 
+static void read()
+{
+    player &u = g->u;
+    // Can read items from inventory or within one tile (including in vehicles)
+    auto loc = game_menus::inv::read( u );
+
+    if( loc ) {
+        u.read( loc.obtain( u ) );
+    } else {
+        add_msg( _( "Never mind." ) );
+    }
+}
+
 bool game::handle_action()
 {
     std::string action;

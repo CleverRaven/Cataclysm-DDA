@@ -958,7 +958,6 @@ class game
         void wield( int pos ); // Wield a weapon  'w'
         void wield( item_location &loc );
 
-        void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
         void plthrow( int pos = INT_MIN ); // Throw an item  't'
 
