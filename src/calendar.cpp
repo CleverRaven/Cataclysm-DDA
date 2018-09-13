@@ -332,7 +332,9 @@ std::string to_string_clipped( const time_duration &d )
 {
     const auto &num_n_unit = to_num_and_unit( d );
     if( num_n_unit.first.has_value() ) {
-        return string_format( "%d %s", num_n_unit.first.value(), num_n_unit.second );
+        //~ %d is time number, %s is time unit
+        return string_format( pgettext( "time duration", "%d %s" ),
+                              num_n_unit.first.value(), num_n_unit.second );
     } else {
         return num_n_unit.second;
     }
@@ -341,7 +343,7 @@ std::string to_string_clipped( const time_duration &d )
 std::string to_string( const time_duration &d )
 {
     if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
-        return _( "for ever" );
+        return _( "forever" );
     }
 
     if( d <= 1_minutes ) {

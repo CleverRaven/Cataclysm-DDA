@@ -263,16 +263,79 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
     return false;
 }
 
-void Messages::display_messages()
+namespace Messages
 {
-    const int w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
-    const int w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
-    const int w_x = ( TERMX - w_width ) / 2;
-    const int w_y = ( TERMY - w_height ) / 2;
+class dialog
+{
+    public:
+        dialog();
+        void run();
+    private:
+        void init();
+        void show();
+        void run_once();
+        void do_filter( const std::string &filter_str );
+        static std::vector<std::string> filter_help_text( int width );
 
-    auto w = catacurses::newwin( w_height, w_width, w_y, w_x );
+        nc_color border_color;
+        nc_color filter_color;
 
-    input_context ctxt( "MESSAGE_LOG" );
+        const char *time_fmt;
+
+        // border_width                       border_width
+        //      v                                  v
+        //
+        //      | 12 seconds  Never mind. x 2      |
+        //
+        //       '-----v-----''---------v---------'
+        //        time_width        msg_width
+        static constexpr int border_width = 1;
+        int unit_width, time_width, msg_width;
+
+        size_t max_lines;
+
+        int w_x, w_y, w_width, w_height; // Main window position
+        catacurses::window w; // Main window
+
+        int w_fh_x, w_fh_y, w_fh_width, w_fh_height; // Filter help window position
+        catacurses::window w_filter_help; // Filter help window
+
+        std::vector<std::string> help_text;
+
+        string_input_popup filter;
+        bool filtering;
+        std::string filter_str;
+
+        input_context ctxt;
+
+        // Message indices and folded strings
+        std::vector<std::pair<size_t, std::string>> folded_all;
+        // Indices of filtered messages
+        std::vector<size_t> folded_filtered;
+
+        size_t offset;
+
+        bool canceled;
+        bool errored;
+};
+}
+
+Messages::dialog::dialog()
+    : border_color( BORDER_COLOR ), filter_color( c_white )
+{
+    init();
+}
+
+void Messages::dialog::init()
+{
+    w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
+    w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    w_x = ( TERMX - w_width ) / 2;
+    w_y = ( TERMY - w_height ) / 2;
+
+    w = catacurses::newwin( w_height, w_width, w_y, w_x );
+
+    ctxt = input_context( "MESSAGE_LOG" );
     ctxt.register_action( "UP", _( "Scroll up" ) );
     ctxt.register_action( "DOWN", _( "Scroll down" ) );
     ctxt.register_action( "PAGE_UP" );
@@ -281,42 +344,259 @@ void Messages::display_messages()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    const nc_color border_color = BORDER_COLOR;
-    const nc_color filter_color = c_white;
-
-    // border_width                       border_width
-    //      v                                  v
-    //
-    //      | 12 seconds  Never mind. x 2      |
-    //
-    //       '-----v-----''---------v---------'
-    //        time_width        msg_width
-    constexpr int border_width = 1;
-
     // string_format does not handle padding of utf8 strings correctly, so we have to hack it here
     //~ Change '7' in %7s to the maximum display width of all time units in the target language.
     const auto &unit_fmt = pgettext( "message log", "%7s" );
     //~ Time format in the message log window, %3d is the time number, %s is the (already aligned) time unit.
-    const auto &time_fmt = pgettext( "message log", "%3d %s " );
+    time_fmt = pgettext( "message log", "%3d %s " );
 
     // Use unit_fmt and time_fmt to determine time string width
-    const int unit_width = utf8_width( string_format( unit_fmt, "" ) );
-    const int time_width = utf8_width( string_format( time_fmt, 0, string_format( unit_fmt, "" ) ) );
+    unit_width = utf8_width( string_format( unit_fmt, "" ) );
+    time_width = utf8_width( string_format( time_fmt, 0, string_format( unit_fmt, "" ) ) );
 
     if( border_width * 2 + time_width >= w_width ||
         border_width * 2 >= w_height ) {
 
         debugmsg( "No enough space for the message window" );
+        errored = true;
         return;
     }
-    const int msg_width = w_width - border_width * 2 - time_width;
-    const size_t max_lines = static_cast<size_t>( w_height - border_width * 2 );
-    const size_t msg_count = size();
+    msg_width = w_width - border_width * 2 - time_width;
+    max_lines = static_cast<size_t>( w_height - border_width * 2 );
 
     // Initialize filter help text and window
-    const int w_fh_width = w_width;
-    const int w_fh_x = w_x;
+    w_fh_width = w_width;
+    w_fh_x = w_x;
+    help_text = filter_help_text( w_fh_width - border_width * 2 );
+    w_fh_height = help_text.size() + border_width * 2;
+    w_fh_y = w_y + w_height - w_fh_height;
+    w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, w_fh_y, w_fh_x );
 
+    // Initialize filter input
+    filter.window( w_filter_help, border_width + 2, w_fh_height - 1, w_fh_width - border_width - 2 );
+    filtering = false;
+
+    // Initialize folded messages
+    folded_all.clear();
+    folded_filtered.clear();
+    const size_t msg_count = size();
+    for( size_t ind = 0; ind < msg_count; ++ind ) {
+        const size_t msg_ind = log_from_top ? ind : msg_count - 1 - ind;
+        const game_message &msg = player_messages.history( msg_ind );
+        const auto &folded = foldstring( msg.get_with_count(), msg_width );
+        for( auto it = folded.begin(); it != folded.end(); ++it ) {
+            folded_filtered.emplace_back( folded_all.size() );
+            folded_all.emplace_back( msg_ind, *it );
+        }
+    }
+
+    // Initialize scrolling offset
+    if( log_from_top || max_lines > folded_filtered.size() ) {
+        offset = 0;
+    } else {
+        offset = folded_filtered.size() - max_lines;
+    }
+
+    canceled = false;
+    errored = false;
+}
+
+void Messages::dialog::show()
+{
+    size_t line_from = 0, line_to;
+    if( offset < folded_filtered.size() ) {
+        line_to = std::min( max_lines, folded_filtered.size() - offset );
+    } else {
+        line_to = 0;
+    }
+
+    werase( w );
+    draw_border( w, border_color );
+    draw_scrollbar( w, offset, max_lines, folded_filtered.size(), border_width, 0, c_white, true );
+
+    if( !log_from_top ) {
+        // Always print from new to old
+        std::swap( line_from, line_to );
+    }
+    std::string prev_time_str;
+    bool printing_range = false;
+    for( size_t line = line_from; line != line_to; ) {
+        // Decrement here if printing from bottom to get the correct line number
+        if( !log_from_top ) {
+            --line;
+        }
+
+        const size_t folded_ind = offset + line;
+        const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
+        const game_message &msg = player_messages.history( msg_ind );
+
+        nc_color col = msgtype_to_color( msg.type, false );
+
+        print_colored_text( w, border_width + line, border_width + time_width, col, col,
+                            folded_all[folded_filtered[folded_ind]].second );
+
+        const time_point msg_time = msg.timestamp_in_turns;
+        const auto &num_n_unit = to_num_and_unit( calendar::turn - msg_time );
+        const auto u8w = utf8_width( num_n_unit.second );
+        std::string time_str;
+
+        if( num_n_unit.first.has_value() ) {
+            if( u8w < unit_width ) {
+                // string_format does not handle utf8 string width correctly, we have to insert our own padding
+                time_str = string_format( time_fmt, num_n_unit.first.value(),
+                                          std::string( unit_width - u8w, ' ' ) + num_n_unit.second );
+            } else {
+                time_str = string_format( time_fmt, num_n_unit.first.value(), num_n_unit.second );
+            }
+        } else {
+            // not likely, but just in case
+            if( u8w < time_width ) {
+                time_str = std::string( time_width - u8w, ' ' ) + num_n_unit.second;
+            } else {
+                time_str = num_n_unit.second;
+            }
+        }
+        if( time_str != prev_time_str ) {
+            prev_time_str = time_str;
+            right_print( w, border_width + line, border_width + msg_width, c_light_blue, time_str );
+            printing_range = false;
+        } else {
+            // Print line brackets to mark ranges of time
+            if( printing_range ) {
+                const size_t last_line = log_from_top ? line - 1 : line + 1;
+                wattron( w, c_dark_gray );
+                mvwaddch( w, border_width + last_line, border_width + time_width - 2, LINE_XOXO );
+                wattroff( w, c_dark_gray );
+            }
+            wattron( w, c_dark_gray );
+            mvwaddch( w, border_width + line, border_width + time_width - 2,
+                      log_from_top ? LINE_XXOO : LINE_OXXO );
+            wattroff( w, c_dark_gray );
+            printing_range = true;
+        }
+
+        // Decrement for !log_from_top is done at the beginning
+        if( log_from_top ) {
+            ++line;
+        }
+    }
+
+    if( filtering ) {
+        wrefresh( w );
+        // Print the help text
+        werase( w_filter_help );
+        draw_border( w_filter_help, border_color );
+        for( size_t line = 0; line < help_text.size(); ++line ) {
+            nc_color col = c_cyan;
+            print_colored_text( w_filter_help, border_width + line, border_width, col, col,
+                                help_text[line] );
+        }
+        mvwprintz( w_filter_help, w_fh_height - 1, border_width, border_color, "< " );
+        mvwprintz( w_filter_help, w_fh_height - 1, w_fh_width - border_width - 2, border_color, " >" );
+        wrefresh( w_filter_help );
+
+        filter.query( false, true ); // Draw only
+    } else {
+        if( filter_str.empty() ) {
+            mvwprintz( w, w_height - 1, border_width, border_color, _( "< Press %s to filter >" ),
+                       ctxt.get_desc( "FILTER" ) );
+        } else {
+            mvwprintz( w, w_height - 1, border_width, border_color, "< %s >", filter_str );
+            mvwprintz( w, w_height - 1, border_width + 2, filter_color, "%s", filter_str );
+        }
+        wrefresh( w );
+    }
+}
+
+void Messages::dialog::do_filter( const std::string &filter_str )
+{
+    // Split the search string into type and text
+    bool has_type_filter = false;
+    game_message_type filter_type = m_neutral;
+    std::string filter_text;
+    const auto colon = filter_str.find( ':' );
+    if( colon != std::string::npos ) {
+        has_type_filter = msg_type_from_name( filter_type, filter_str.substr( 0, colon ) );
+        filter_text = filter_str.substr( colon + 1 );
+    } else {
+        filter_text = filter_str;
+    }
+
+    folded_filtered.clear();
+    for( size_t folded_ind = 0; folded_ind < folded_all.size(); ) {
+        const size_t msg_ind = folded_all[folded_ind].first;
+        const game_message &msg = player_messages.history( msg_ind );
+        const bool match = ( !has_type_filter || filter_type == msg.type ) &&
+                           ci_find_substr( remove_color_tags( msg.get_with_count() ), filter_text ) >= 0;
+
+        // Always advance the index, but only add to filtered list if the original message matches
+        for( ; folded_ind < folded_all.size() && folded_all[folded_ind].first == msg_ind; ++folded_ind ) {
+            if( match ) {
+                folded_filtered.emplace_back( folded_ind );
+            }
+        }
+    }
+
+    if( log_from_top || max_lines > folded_filtered.size() ) {
+        offset = 0;
+    } else {
+        offset = folded_filtered.size() - max_lines;
+    }
+}
+
+void Messages::dialog::run_once()
+{
+    show();
+
+    canceled = false;
+    if( filtering ) {
+        filter.query( false );
+        if( filter.confirmed() || filter.canceled() ) {
+            filtering = false;
+        }
+        const std::string &new_filter_str = filter.text();
+        if( new_filter_str != filter_str ) {
+            filter_str = new_filter_str;
+
+            do_filter( filter_str );
+        }
+    } else {
+        const std::string &action = ctxt.handle_input();
+        if( action == "DOWN" && offset + max_lines < folded_filtered.size() ) {
+            ++offset;
+        } else if( action == "UP" && offset > 0 ) {
+            --offset;
+        } else if( action == "PAGE_DOWN" ) {
+            if( offset + max_lines * 2 <= folded_filtered.size() ) {
+                offset += max_lines;
+            } else if( max_lines <= folded_filtered.size() ) {
+                offset = folded_filtered.size() - max_lines;
+            } else {
+                offset = 0;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( offset >= max_lines ) {
+                offset -= max_lines;
+            } else {
+                offset = 0;
+            }
+        } else if( action == "FILTER" ) {
+            filtering = true;
+        } else if( action == "QUIT" ) {
+            canceled = true;
+        }
+    }
+}
+
+void Messages::dialog::run()
+{
+    while( !errored && !canceled ) {
+        run_once();
+    }
+}
+
+std::vector<std::string> Messages::dialog::filter_help_text( int width )
+{
     const auto &help_fmt = _(
                                "Format is [[TYPE]:]TEXT. The values for TYPE are: %s\n"
                                "Examples:\n"
@@ -346,209 +626,13 @@ void Messages::display_messages()
             }
         }
     }
-    const auto &help_text = foldstring( string_format( help_fmt, type_text.str() ),
-                                        w_fh_width - border_width * 2 );
+    return foldstring( string_format( help_fmt, type_text.str() ), width );
+}
 
-    const int w_fh_height = help_text.size() + border_width * 2;
-    const int w_fh_y = w_y + w_height - w_fh_height;
-    auto w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, w_fh_y, w_fh_x );
-
-    // message indices and folded strings
-    std::vector<std::pair<size_t, std::string>> folded_all;
-    // indices of filtered messages
-    std::vector<size_t> folded_filtered;
-    for( size_t ind = 0; ind < msg_count; ++ind ) {
-        size_t msg_ind = log_from_top ? ind : msg_count - 1 - ind;
-        const game_message &msg = player_messages.history( msg_ind );
-        const auto &folded = foldstring( msg.get_with_count(), msg_width );
-        for( auto it = folded.begin(); it != folded.end(); ++it ) {
-            folded_filtered.emplace_back( folded_all.size() );
-            folded_all.emplace_back( msg_ind, *it );
-        }
-    }
-
-    size_t offset;
-    if( log_from_top || max_lines > folded_filtered.size() ) {
-        offset = 0;
-    } else {
-        offset = folded_filtered.size() - max_lines;
-    }
-    string_input_popup filter;
-    filter.window( w_filter_help, border_width + 2, w_fh_height - 1, w_fh_width - border_width - 2 );
-    bool filtering = false;
-    std::string filter_str;
-
-    // main UI loop
-    while( true ) {
-        size_t line_from = 0, line_to;
-        if( offset < folded_filtered.size() ) {
-            line_to = std::min( max_lines, folded_filtered.size() - offset );
-        } else {
-            line_to = 0;
-        }
-
-        werase( w );
-        draw_border( w, border_color );
-        draw_scrollbar( w, offset, max_lines, folded_filtered.size(), border_width, 0, c_white, true );
-
-        if( !log_from_top ) {
-            // Always print from new to old
-            std::swap( line_from, line_to );
-        }
-        std::string prev_time_str;
-        bool printing_range = false;
-        for( size_t line = line_from; line != line_to; ) {
-            // Decrement here if printing from bottom to get the correct line number
-            if( !log_from_top ) {
-                --line;
-            }
-
-            const size_t folded_ind = offset + line;
-            const size_t msg_ind = folded_all[folded_filtered[folded_ind]].first;
-            const game_message &msg = player_messages.history( msg_ind );
-
-            const nc_color col = msgtype_to_color( msg.type, false );
-            nc_color col_out = col;
-
-            print_colored_text( w, border_width + line, border_width + time_width, col_out, col,
-                                folded_all[folded_filtered[folded_ind]].second );
-
-            const time_point msg_time = msg.timestamp_in_turns;
-            const auto &num_n_unit = to_num_and_unit( calendar::turn - msg_time );
-            const auto u8w = utf8_width( num_n_unit.second );
-            std::string time_str;
-
-            if( num_n_unit.first.has_value() ) {
-                if( u8w < unit_width ) {
-                    // string_format does not handle utf8 string width correctly, we have to insert our own padding
-                    time_str = string_format( time_fmt, num_n_unit.first.value(),
-                                              std::string( unit_width - u8w, ' ' ) + num_n_unit.second );
-                } else {
-                    time_str = string_format( time_fmt, num_n_unit.first.value(), num_n_unit.second );
-                }
-            } else {
-                // not likely, but just in case
-                if( u8w < time_width ) {
-                    time_str = std::string( time_width - u8w, ' ' ) + num_n_unit.second;
-                } else {
-                    time_str = num_n_unit.second;
-                }
-            }
-            if( time_str != prev_time_str ) {
-                prev_time_str = time_str;
-                right_print( w, border_width + line, border_width + msg_width, c_light_blue, time_str );
-                printing_range = false;
-            } else {
-                if( printing_range ) {
-                    const size_t last_line = log_from_top ? line - 1 : line + 1;
-                    wattron( w, c_dark_gray );
-                    mvwaddch( w, border_width + last_line, border_width + time_width - 2, LINE_XOXO );
-                    wattroff( w, c_dark_gray );
-                }
-                wattron( w, c_dark_gray );
-                mvwaddch( w, border_width + line, border_width + time_width - 2,
-                          log_from_top ? LINE_XXOO : LINE_OXXO );
-                wattroff( w, c_dark_gray );
-                printing_range = true;
-            }
-
-            // Decrement for !log_from_top is done at the beginning
-            if( log_from_top ) {
-                ++line;
-            }
-        }
-
-        if( filtering ) {
-            wrefresh( w );
-            // Print the help text
-            werase( w_filter_help );
-            draw_border( w_filter_help, border_color );
-            for( size_t line = 0; line < help_text.size(); ++line ) {
-                nc_color col = c_cyan;
-                print_colored_text( w_filter_help, border_width + line, border_width, col, col,
-                                    help_text[line] );
-            }
-            mvwprintz( w_filter_help, w_fh_height - 1, border_width, border_color, "< " );
-            mvwprintz( w_filter_help, w_fh_height - 1, w_fh_width - border_width - 2, border_color, " >" );
-            wrefresh( w_filter_help );
-
-            filter.query( false );
-            if( filter.confirmed() || filter.canceled() ) {
-                filtering = false;
-            }
-            const std::string &new_filter_str = filter.text();
-            if( new_filter_str != filter_str ) {
-                filter_str = new_filter_str;
-
-                // Split the search string into type and text
-                bool has_type_filter = false;
-                game_message_type filter_type = m_neutral;
-                std::string filter_text;
-                const auto colon = filter_str.find( ':' );
-                if( colon != std::string::npos ) {
-                    has_type_filter = msg_type_from_name( filter_type, filter_str.substr( 0, colon ) );
-                    filter_text = filter_str.substr( colon + 1 );
-                } else {
-                    filter_text = filter_str;
-                }
-
-                folded_filtered.clear();
-                for( size_t folded_ind = 0; folded_ind < folded_all.size(); ) {
-                    const size_t msg_ind = folded_all[folded_ind].first;
-                    const game_message &msg = player_messages.history( msg_ind );
-                    const bool match = ( !has_type_filter || filter_type == msg.type ) &&
-                                       ci_find_substr( remove_color_tags( msg.get_with_count() ), filter_text ) >= 0;
-
-                    // Always advance the index, but only add to filtered list if the original message matches
-                    for( ; folded_ind < folded_all.size() && folded_all[folded_ind].first == msg_ind; ++folded_ind ) {
-                        if( match ) {
-                            folded_filtered.emplace_back( folded_ind );
-                        }
-                    }
-                }
-
-                if( log_from_top || max_lines > folded_filtered.size() ) {
-                    offset = 0;
-                } else {
-                    offset = folded_filtered.size() - max_lines;
-                }
-            }
-        } else {
-            if( filter_str.empty() ) {
-                mvwprintz( w, w_height - 1, border_width, border_color, _( "< Press %s to filter >" ),
-                           ctxt.get_desc( "FILTER" ) );
-            } else {
-                mvwprintz( w, w_height - 1, border_width, border_color, "< %s >", filter_str );
-                mvwprintz( w, w_height - 1, border_width + 2, filter_color, "%s", filter_str );
-            }
-            wrefresh( w );
-            const std::string &action = ctxt.handle_input();
-            if( action == "DOWN" && offset + max_lines < folded_filtered.size() ) {
-                ++offset;
-            } else if( action == "UP" && offset > 0 ) {
-                --offset;
-            } else if( action == "PAGE_DOWN" ) {
-                if( offset + max_lines * 2 <= folded_filtered.size() ) {
-                    offset += max_lines;
-                } else if( max_lines <= folded_filtered.size() ) {
-                    offset = folded_filtered.size() - max_lines;
-                } else {
-                    offset = 0;
-                }
-            } else if( action == "PAGE_UP" ) {
-                if( offset >= max_lines ) {
-                    offset -= max_lines;
-                } else {
-                    offset = 0;
-                }
-            } else if( action == "FILTER" ) {
-                filtering = true;
-            } else if( action == "QUIT" ) {
-                break;
-            }
-        }
-    }
-
+void Messages::display_messages()
+{
+    dialog dlg;
+    dlg.run();
     player_messages.curmes = calendar::turn;
 }
 
