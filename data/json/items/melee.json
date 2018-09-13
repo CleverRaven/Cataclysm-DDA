@@ -2118,9 +2118,8 @@
     "techniques": [ "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ],
     "volume": 5,
-    "bashing": 10,
+    "bashing": 2,
     "price": 10000,
-    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2153,11 +2152,10 @@
     "material": [ "aluminum", "wood" ],
     "techniques": [ "SWEEP" ],
     "volume": 6,
-    "bashing": 11,
+    "bashing": 2,
     "cutting": 1,
     "flags": [ "SPEAR", "NONCONDUCTIVE" ],
     "price": 12000,
-    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
