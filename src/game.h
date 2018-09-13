@@ -930,7 +930,6 @@ class game
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
 
-        void grab(); // Establish a grab on something.
         void drop( int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
