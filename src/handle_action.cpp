@@ -30,6 +30,8 @@
 #include "calendar.h"
 #include "weather.h"
 #include "sounds.h"
+#include "veh_type.h"
+#include "mapdata.h"
 
 #include <chrono>
 
@@ -450,6 +452,78 @@ static void pldrive( int x, int y )
             veh->skidding = false;
             veh->move.init( veh->turn_dir );
         }
+    }
+}
+
+static void open()
+{
+    player &u = g->u;
+    map &m = g->m;
+
+    tripoint openp;
+    if( !choose_adjacent_highlight( _( "Open where?" ), openp, ACTION_OPEN ) ) {
+        return;
+    }
+
+    u.moves -= 100;
+
+    if( const optional_vpart_position vp = m.veh_at( openp ) ) {
+        vehicle *const veh = &vp->vehicle();
+        int openable = veh->next_part_to_open( vp->part_index() );
+        if( openable >= 0 ) {
+            const vehicle *player_veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
+            bool outside = !player_veh || player_veh != veh;
+            if( !outside ) {
+                veh->open( openable );
+            } else {
+                // Outside means we check if there's anything in that tile outside-openable.
+                // If there is, we open everything on tile. This means opening a closed,
+                // curtained door from outside is possible, but it will magically open the
+                // curtains as well.
+                int outside_openable = veh->next_part_to_open( vp->part_index(), true );
+                if( outside_openable == -1 ) {
+                    const std::string name = veh->part_info( openable ).name();
+                    add_msg( m_info, _( "That %s can only opened from the inside." ), name.c_str() );
+                    u.moves += 100;
+                } else {
+                    veh->open_all_at( openable );
+                }
+            }
+        } else {
+            // If there are any OPENABLE parts here, they must be already open
+            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE" ) ) {
+                const std::string name = veh->part_info( already_open->part_index() ).name();
+                add_msg( m_info, _( "That %s is already open." ), name.c_str() );
+            }
+            u.moves += 100;
+        }
+        return;
+    }
+
+    bool didit = m.open_door( openp, !m.is_outside( u.pos() ) );
+
+    if( !didit ) {
+        const ter_str_id tid = m.ter( openp ).id();
+
+        if( m.has_flag( "LOCKED", openp ) ) {
+            add_msg( m_info, _( "The door is locked!" ) );
+            return;
+        } else if( tid.obj().close ) {
+            // if the following message appears unexpectedly, the prior check was for t_door_o
+            add_msg( m_info, _( "That door is already open." ) );
+            u.moves += 100;
+            return;
+        }
+        add_msg( m_info, _( "No door there." ) );
+        u.moves += 100;
+    }
+}
+
+static void close()
+{
+    tripoint closep;
+    if( choose_adjacent_highlight( _( "Close where?" ), closep, ACTION_CLOSE ) ) {
+        doors::close_door( g->m, g->u, closep );
     }
 }
 

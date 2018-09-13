@@ -923,8 +923,6 @@ class game
         bool walk_move( const tripoint &dest );
         void on_move_effects();
         void wait(); // Long wait (player action)  '^'
-        void open(); // Open a door  'o'
-        void close();
         void smash(); // Smash terrain
         void loot(); // Sort out loot or perform other zone activity
 
