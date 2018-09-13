@@ -554,9 +554,8 @@ class game
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
+        bool is_zones_manager_open() const;
         void zones_manager();
-        /** Is Zone manager open or not - changes graphics of some zone tiles */
-        bool zones_manager_open = false;
 
         // Look at nearby terrain ';', or select zone points
         tripoint look_around();
@@ -1095,6 +1094,8 @@ class game
         bool critter_died;
         /** Was the player sleeping during this turn. */
         bool player_was_sleeping;
+        /** Is Zone manager open or not - changes graphics of some zone tiles */
+        bool zones_manager_open = false;
 
         std::unique_ptr<special_game> gamemode;
 

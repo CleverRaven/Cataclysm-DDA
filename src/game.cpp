@@ -6753,6 +6753,11 @@ bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) co
     return zone_manager::get_manager().has_near( type, m.getabs( where ) );
 }
 
+bool game::is_zones_manager_open() const
+{
+    return zones_manager_open;
+}
+
 static void zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase( w_info );
