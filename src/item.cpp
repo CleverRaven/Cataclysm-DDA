@@ -5957,6 +5957,16 @@ void item::update_temp( const int temp, const float insulation )
 {
     const time_point now = calendar::turn;
     const time_duration dur = now - last_temp_check;
+
+    // if player debug menu'd the time backward it breaks stuff, just reset the
+    // last_temp_check in this case
+    if( dur < 0_turns ) {
+        last_temp_check = now;
+        return;
+    }
+
+    // only process temperature at most every 10_turns, note we're also gated
+    // by item::processing_speed
     if( dur > 10_turns ) {
         calc_temp( temp, insulation, dur );
         last_temp_check = now;
