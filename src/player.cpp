@@ -411,7 +411,6 @@ static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 static const trait_id trait_UGLY( "UGLY" );
 static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
-static const trait_id trait_UNOBSERVANT2( "UNOBSERVANT2" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EARS( "URSINE_EARS" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -2735,10 +2734,8 @@ int player::overmap_sight_range( int light_level ) const
         sight += 10;
     }
 
-    if( has_trait( trait_UNOBSERVANT ) ) {
-        sight -= 4;
-    } else if( has_trait( trait_UNOBSERVANT2 ) ) {
-        sight -= 7;
+    if( has_trait( trait_UNOBSERVANT ) && sight > 3 ) {
+        sight = 3; //surprise! you can't see!
     }
 
     return sight;
