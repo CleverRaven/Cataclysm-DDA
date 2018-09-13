@@ -933,10 +933,6 @@ class game
         void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
 
-        void takeoff(); // Remove armor  'T'
-        void takeoff( int pos );
-        void takeoff( item_location &loc );
-
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );

@@ -2158,7 +2158,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     change_side( pos );
                     break;
                 case 'T':
-                    takeoff( pos );
+                    u.takeoff( u.i_at( pos ) );
                     break;
                 case 'd':
                     drop( pos );
@@ -9484,28 +9484,6 @@ void game::eat( int pos )
             item_loc.remove_item();
         }
     }
-}
-
-void game::takeoff()
-{
-    item_location loc = game_menus::inv::take_off( u );
-
-    if( loc ) {
-        takeoff( loc );
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
-}
-
-void game::takeoff( int pos )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    takeoff( loc );
-}
-
-void game::takeoff( item_location &loc )
-{
-    u.takeoff( u.i_at( loc.obtain( u ) ) );
 }
 
 void game::change_side( int pos )

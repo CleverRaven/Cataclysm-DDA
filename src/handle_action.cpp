@@ -954,6 +954,18 @@ static void wear()
     }
 }
 
+static void takeoff()
+{
+    player &u = g->u;
+    item_location loc = game_menus::inv::take_off( u );
+
+    if( loc ) {
+        u.takeoff( u.i_at( loc.obtain( u ) ) );
+    } else {
+        add_msg( _( "Never mind." ) );
+    }
+}
+
 bool game::handle_action()
 {
     std::string action;
