@@ -238,10 +238,12 @@ bool Messages::has_undisplayed_messages()
 
 void Messages::display_messages()
 {
-    catacurses::window w = catacurses::newwin(
-                               FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                               ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    const int w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
+    const int w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    const int w_x = ( TERMX - w_width ) / 2;
+    const int w_y = ( TERMY - w_height ) / 2;
+
+    auto w = catacurses::newwin( w_height, w_width, w_y, w_x );
 
     input_context ctxt( "MESSAGE_LOG" );
     ctxt.register_action( "UP", _( "Scroll up" ) );
@@ -274,14 +276,14 @@ void Messages::display_messages()
     const int unit_width = utf8_width( string_format( unit_fmt, "" ) );
     const int time_width = utf8_width( string_format( time_fmt, 0, string_format( unit_fmt, "" ) ) );
 
-    if( border_width * 2 + time_width >= FULL_SCREEN_WIDTH ||
-        border_width * 2 >= FULL_SCREEN_HEIGHT ) {
+    if( border_width * 2 + time_width >= w_width ||
+        border_width * 2 >= w_height ) {
 
         debugmsg( "No enough space for the message window" );
         return;
     }
-    const int msg_width = FULL_SCREEN_WIDTH - border_width * 2 - time_width;
-    const size_t max_lines = static_cast<size_t>( FULL_SCREEN_HEIGHT - border_width * 2 );
+    const int msg_width = w_width - border_width * 2 - time_width;
+    const size_t max_lines = static_cast<size_t>( w_height - border_width * 2 );
     const size_t msg_count = size();
 
     // message indices and folded strings
@@ -305,7 +307,7 @@ void Messages::display_messages()
         offset = folded_filtered.size() - max_lines;
     }
     string_input_popup filter;
-    filter.window( w, border_width + 2, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - border_width - 2 );
+    filter.window( w, border_width + 2, w_height - 1, w_width - border_width - 2 );
     bool filtering = false;
     std::string filter_str;
 
@@ -390,8 +392,8 @@ void Messages::display_messages()
         }
 
         if( filtering ) {
-            mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, "< " );
-            mvwprintz( w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - border_width - 2, border_color, " >" );
+            mvwprintz( w, w_height - 1, border_width, border_color, "< " );
+            mvwprintz( w, w_height - 1, w_width - border_width - 2, border_color, " >" );
             filter.query( false );
             if( filter.confirmed() || filter.canceled() ) {
                 filtering = false;
@@ -419,11 +421,11 @@ void Messages::display_messages()
             }
         } else {
             if( filter_str.empty() ) {
-                mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, _( "< Press %s to filter >" ),
+                mvwprintz( w, w_height - 1, border_width, border_color, _( "< Press %s to filter >" ),
                            ctxt.get_desc( "FILTER" ) );
             } else {
-                mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width, border_color, "< %s >", filter_str );
-                mvwprintz( w, FULL_SCREEN_HEIGHT - 1, border_width + 2, filter_color, "%s", filter_str );
+                mvwprintz( w, w_height - 1, border_width, border_color, "< %s >", filter_str );
+                mvwprintz( w, w_height - 1, border_width + 2, filter_color, "%s", filter_str );
             }
             wrefresh( w );
             const std::string &action = ctxt.handle_input();
