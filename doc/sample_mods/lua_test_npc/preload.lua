@@ -56,14 +56,14 @@ function iuse_test_npc(item, active)
     local target = npcs[um.selected + 1]
     if feature == 0 then
         local opinion = target.op_of_u
-        Message("Trust: %d", opinion.trust)
-        Message("Fear: %d", opinion.fear)
-        Message("Value: %d", opinion.value)
-        Message("Anger: %d", opinion.anger)
-        Message("Owed: %d", opinion.owed)
+        message("Trust: %d", opinion.trust)
+        message("Fear: %d", opinion.fear)
+        message("Value: %d", opinion.value)
+        message("Anger: %d", opinion.anger)
+        message("Owed: %d", opinion.owed)
     elseif feature == 1 then
         target:make_angry()
-        Message("%s gets angry!", target:disp_name())
+        message("%s gets angry!", target:disp_name())
     end
 
     return 0
