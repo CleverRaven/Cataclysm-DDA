@@ -236,21 +236,17 @@ bool Messages::has_undisplayed_messages()
     return player_messages.has_undisplayed_messages();
 }
 
-static const std::vector<std::pair<game_message_type, std::string>> &msg_type_and_names()
+// Returns pairs of message log type id and untranslated name
+static const std::vector<std::pair<game_message_type, const char *>> &msg_type_and_names()
 {
-    static const std::vector<std::pair<game_message_type, std::string>> type_n_names = {
-        { m_good, pgettext( "message type", "good" ) },
-        { m_bad, pgettext( "message type", "bad" ) },
-        { m_mixed, pgettext( "message type", "mixed" ) },
-        { m_warning, pgettext( "message type", "warning" ) },
-        { m_info, pgettext( "message type", "info" ) },
-        { m_neutral, pgettext( "message type", "neutral" ) },
-        { m_debug, pgettext( "message type", "debug" ) },
-        { m_headshot, pgettext( "message type", "headshot" ) },
-        //~ As in critical hit
-        { m_critical, pgettext( "message type", "critical" ) },
-        //~ As in grazing hit
-        { m_grazing, pgettext( "message type", "grazing" ) },
+    static const std::vector<std::pair<game_message_type, const char *>> type_n_names = {
+        { m_good, translate_marker_context( "message type", "good" ) },
+        { m_bad, translate_marker_context( "message type", "bad" ) },
+        { m_mixed, translate_marker_context( "message type", "mixed" ) },
+        { m_warning, translate_marker_context( "message type", "warning" ) },
+        { m_info, translate_marker_context( "message type", "info" ) },
+        { m_neutral, translate_marker_context( "message type", "neutral" ) },
+        { m_debug, translate_marker_context( "message type", "debug" ) },
     };
     return type_n_names;
 }
@@ -259,7 +255,7 @@ static const std::vector<std::pair<game_message_type, std::string>> &msg_type_an
 static bool msg_type_from_name( game_message_type &type, const std::string &name )
 {
     for( const auto &p : msg_type_and_names() ) {
-        if( name == p.second ) {
+        if( name == pgettext( "message type", p.second ) ) {
             type = p.first;
             return true;
         }
@@ -332,14 +328,15 @@ void Messages::display_messages()
     const auto &type_list = msg_type_and_names();
     for( auto it = type_list.begin(); it != type_list.end(); ++it ) {
         const auto &col_name = get_all_colors().get_name( msgtype_to_color( it->first ) );
+        // @todo only show "debug" type in debug mode
         if( std::next( it ) != type_list.end() ) {
             //~ the 2nd %s is a type name, this is used to format a list of type names
             type_text << string_format( pgettext( "message log", "<color_%s>%s</color>, " ),
-                                        col_name, it->second );
+                                        col_name, pgettext( "message type", it->second ) );
         } else {
             //~ the 2nd %s is a type name, this is used to format the last type name in a list of type names
             type_text << string_format( pgettext( "message log", "<color_%s>%s</color>." ),
-                                        col_name, it->second );
+                                        col_name, pgettext( "message type", it->second ) );
         }
     }
     const auto &help_text = foldstring( string_format( help_fmt, type_text.str() ),
