@@ -1614,7 +1614,7 @@
         "name" : "science lab",
         "sym" : 108,
         "color" : "i_pink",
-        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 5], "chance": 20 },
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ]
     },{
@@ -1624,7 +1624,7 @@
         "sym" : 76,
         "color" : "i_pink",
         "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 5], "chance": 20 },
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
         "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
@@ -1632,7 +1632,7 @@
         "name" : "science lab",
         "sym" : 108,
         "color" : "i_pink",
-        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 8], "chance": 30 },
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 8], "chance": 30 },
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ]
     },{
@@ -1641,7 +1641,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "i_pink",
-        "spawns" : { "group": "GROUP_ICE_LAB", "population": [4, 12], "chance": 90 },
+        "spawns" : { "group": "GROUP_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5,
         "flags" : [ "NO_ROTATE" ]
     },{
