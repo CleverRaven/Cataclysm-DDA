@@ -263,7 +263,16 @@ void Messages::display_messages()
     //       '-----v-----''---------v---------'
     //        time_width        msg_width
     constexpr int border_width = 1;
-    constexpr int time_width = 13;
+
+    // string_format does not handle padding of utf8 strings correctly, so we have to hack it here
+    //~ Change '7' in %7s to the maximum display width of all time units in the target language.
+    const auto &unit_fmt = pgettext( "message log", "%7s" );
+    //~ Time format in the message log window, %3d is the time number, %s is the (already aligned) time unit.
+    const auto &time_fmt = pgettext( "message log", "%3d %s " );
+
+    // Use unit_fmt and time_fmt to determine time string width
+    const int unit_width = utf8_width( string_format( unit_fmt, "" ) );
+    const int time_width = utf8_width( string_format( time_fmt, 0, string_format( unit_fmt, "" ) ) );
 
     if( border_width * 2 + time_width >= FULL_SCREEN_WIDTH ||
         border_width * 2 >= FULL_SCREEN_HEIGHT ) {
@@ -336,8 +345,26 @@ void Messages::display_messages()
                                 folded_all[folded_filtered[folded_ind]].second );
 
             const time_point msg_time = msg.timestamp_in_turns;
-            //~ Time marker in the message dialog. %3d is the time number, %8s is the time unit
-            const std::string time_str = to_string_clipped( _( "%3d %8s " ), calendar::turn - msg_time );
+            const auto &num_n_unit = to_num_and_unit( calendar::turn - msg_time );
+            const auto u8w = utf8_width( num_n_unit.second );
+            std::string time_str;
+
+            if( num_n_unit.first.has_value() ) {
+                if( u8w < unit_width ) {
+                    // string_format does not handle utf8 string width correctly, we have to insert our own padding
+                    time_str = string_format( time_fmt, num_n_unit.first.value(),
+                                              std::string( unit_width - u8w, ' ' ) + num_n_unit.second );
+                } else {
+                    time_str = string_format( time_fmt, num_n_unit.first.value(), num_n_unit.second );
+                }
+            } else {
+                // not likely, but just in case
+                if( u8w < time_width ) {
+                    time_str = std::string( time_width - u8w, ' ' ) + num_n_unit.second;
+                } else {
+                    time_str = num_n_unit.second;
+                }
+            }
             if( time_str != prev_time_str ) {
                 prev_time_str = time_str;
                 right_print( w, border_width + line, border_width + msg_width, c_light_blue, time_str );

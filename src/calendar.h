@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "optional.h"
+
 class time_duration;
 class time_point;
 class JsonOut;
@@ -472,18 +474,18 @@ constexpr time_duration operator"" _days( const unsigned long long int v )
  */
 std::string to_string( const time_duration &d );
 /**
+ * Returns a number and a unit as in the string returned by @ref to_string_clipped.
+ * If the duration is "forever", the optional int has no value.
+ */
+std::pair<cata::optional<int>, std::string> to_num_and_unit( const time_duration &d );
+/**
  * Returns a string showing a duration as whole number of appropriate units, e.g.
  * "10 days" or "1 minute".
- * The chosen unit will be the largest unit, that is as least as much as the
+ * The chosen unit will be the smallest unit, that is at least as much as the
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
  */
 std::string to_string_clipped( const time_duration &d );
-/**
- * Returns the same string as to_string_clipped( const time_duration &d ), except
- * formatted with the provided formatting string
- */
-std::string to_string_clipped( const char *fmt, const time_duration &d );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
