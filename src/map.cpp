@@ -1250,9 +1250,9 @@ ter_id map::ter( const int x, const int y ) const
     return current_submap->get_ter( lx, ly );
 }
 
-void map::ter_set( const int x, const int y, const ter_id new_terrain )
+bool map::ter_set( const int x, const int y, const ter_id new_terrain )
 {
-    ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
+    return ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
 }
 
 std::string map::tername( const int x, const int y ) const
@@ -1357,10 +1357,10 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-void map::ter_set( const tripoint &p, const ter_id new_terrain )
+bool map::ter_set( const tripoint &p, const ter_id new_terrain )
 {
     if( !inbounds( p ) ) {
-        return;
+        return false;
     }
 
     int lx = 0;
@@ -1369,7 +1369,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     const ter_id old_id = current_submap->get_ter( lx, ly );
     if( old_id == new_terrain ) {
         // Nothing changed
-        return;
+        return false;
     }
 
     current_submap->set_ter( lx, ly, new_terrain );
@@ -1410,6 +1410,8 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
+
+    return true;
 }
 
 std::string map::tername( const tripoint &p ) const
