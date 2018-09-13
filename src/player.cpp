@@ -424,6 +424,7 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_WINGS_FLIGHT( "WINGS_FLIGHT" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
@@ -1795,6 +1796,10 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_WINGS_BUTTERFLY ) ) {
         movecost -= 10; // You can't fly, but you can make life easier on your legs
     }
+    if( has_active_mutation( trait_WINGS_FLIGHT ) ) {// You, however, CAN fly. Ain't life grand?
+        if( g->m.tr_at( pos() ).loadid == tr_ledge )
+            movecost = 50; // Any place with a trap is open air, and open air has a movespeed of 2; but we're flying, not falling
+    }
     if( has_trait( trait_LEG_TENTACLES ) ) {
         movecost += 20;
     }
@@ -2976,7 +2981,9 @@ void player::shout( std::string msg )
 void player::toggle_move_mode()
 {
     if( move_mode == "walk" ) {
-        if( stamina > 0 && !has_effect( effect_winded ) ) {
+        if( g->m.tr_at( pos() ).loadid == tr_ledge ) {
+            add_msg(m_bad, _("You're in the air."));
+        } else if( stamina > 0 && !has_effect( effect_winded ) ) {
             move_mode = "run";
             add_msg(_("You start running."));
         } else {
@@ -3871,8 +3878,8 @@ int player::impact( const int force, const tripoint &p )
         return 0;
     }
 
-    // Shock absorbers kick in only when they need to, so if our other protections fail, fall back on them
-    if( shock_absorbers ) {
+    // Shock absorbers kick in only when they need to; low-gravity softens it greatly
+    if( shock_absorbers || has_artifact_with( AEP_LOW_GRAV ) ) {
         effective_force -= 15; // Provide a flat reduction to force
         if( mod > 0.25f ) {
             mod = 0.25f; // And provide a 75% reduction against that force if we don't have it already
@@ -3900,9 +3907,10 @@ int player::impact( const int force, const tripoint &p )
         add_msg( m_bad, _( "You are slammed against %s for %d damage." ),
                  target_name.c_str(), total_dealt );
     } else if( is_player() && shock_absorbers ) {
-        add_msg( m_bad, _( "You are slammed against %s!" ),
-                 target_name.c_str(), total_dealt );
+        add_msg( m_bad, _( "You are slammed against %s!" ), target_name.c_str() );
         add_msg( m_good, _( "...but your shock absorbers negate the damage!" ) );
+    } else if( is_player() && has_artifact_with( AEP_LOW_GRAV ) ) {
+        add_msg( m_info, _( "You glide gently to a stop." ) );
     } else if( slam ) {
         // Only print this line if it is a slam and not a landing
         // Non-players should only get this one: player doesn't know how much damage was dealt
@@ -11902,6 +11910,97 @@ bool player::is_rad_immune() const
 {
     bool has_helmet = false;
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
+}
+
+bool player::can_fly() const
+{
+    return has_active_trait_flag( "FLIGHT" );
+}
+
+int player::flight_strength() const
+{
+    int majestic_eagle = 0;
+    //majestic_eagle += (int)mutation_value( "flightpower" );
+    for( const auto &mutpair : Character::my_mutations ) {
+        majestic_eagle += mutpair.first->flightpower;
+    }
+    if( has_artifact_with( AEP_LOW_GRAV ) )  {
+        majestic_eagle += 2;
+    }
+    if( majestic_eagle < 0)  {
+        majestic_eagle = 0;
+    } else if( majestic_eagle > 6 ) {
+        majestic_eagle = 6;
+    }
+    return majestic_eagle;
+}
+
+void player::handle_flight()
+{
+    if( has_active_trait_flag( "PARTIAL_FLIGHT" ) ) {
+        sounds::sound( pos(), 10, _( "FLAPFLAPFLAP." ) );
+        mod_hunger( 4 );
+        mod_thirst( 4 );
+        mod_fatigue( 4 );
+        mod_stat( "stamina", ( -100 + ( get_str() + flight_strength() ) ) ); //strength and flight power modestly reduce stamina cost, but not by much
+        if( stamina <= 25 && g->m.impassable( pos() ) && g->m.has_floor_or_support( pos() ) ) { //only land if the area is actually landable
+            add_msg( m_bad, "Your body can't take any more!" );
+        }
+    } else if( has_active_trait_flag( "TRUE_FLIGHT" ) ) {
+        if( calendar::once_every( 4_turns ) )
+        {
+            int flightpower = flight_strength();
+            add_msg( m_debug, "Processed flight with power = %d", flightpower );
+            switch( flightpower )
+            {
+                case 0: //very labored, huge draw on body's resources
+                    sounds::sound( pos(), 8, _( "fwOOSH." ) );
+                    mod_hunger( 4 );
+                    mod_thirst( 4 );
+                    mod_fatigue( 2 );
+                    mod_stat( "stamina", -25 );
+                    break;
+                case 1: //difficult but much better than having no aid
+                    sounds::sound( pos(), 5, _( "Fwoosh." ) );
+                    mod_hunger( 2 );
+                    mod_thirst( 2 );
+                    mod_fatigue( 1 );
+                    mod_stat( "stamina", -20 );
+                    break;
+                case 2: //quite manageable
+                    sounds::sound( pos(), 5, _( "Fwoosh." ) );
+                    mod_hunger( 1 );
+                    mod_thirst( 1 );
+                    mod_fatigue( 1 );
+                    mod_stat( "stamina", -15 );
+                    break;
+                case 3: //decently light and aerodynamic
+                    sounds::sound( pos(), 4, _( "fwoosh." ) );
+                    mod_hunger( 1 );
+                    mod_thirst( 1 );
+                    mod_fatigue( 1 );
+                    mod_stat( "stamina", -10 );
+                    break;
+                case 4: //best you can do with your puny human body
+                    sounds::sound( pos(), 3, _( "fwoosh-fwoosh." ) );
+                    mod_fatigue( 1 );
+                    mod_stat( "stamina", -5 );
+                    break;
+                case 5: //most you can do + low-grav artifact
+                    sounds::sound( pos(), 2, _( "fwoom." ) );
+                    mod_fatigue( 1 );
+                    mod_stat( "stamina", -5 );
+                    break;
+                case 6: //mods only - full flight with no drawbacks
+                    sounds::sound( pos(), 2, _( "fwoom-fwoom." ) );
+                    break;
+            }
+        }
+    }
+    if( g->u.move_mode == "run" ) {
+        add_msg( _( "You slow to normal speed, as you can't run while flying." ) );
+        g->u.toggle_move_mode();
+    }
 }
 
 void player::do_skill_rust()

@@ -755,6 +755,9 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     } else if( p.has_trait( trait_PARKOUR ) ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         p.moves -= 100;
+    } else if( p.has_artifact_with( AEP_LOW_GRAV ) ) {
+        add_msg( _( "You use your low gravity to leap over the obstacle." ) );
+        p.moves -= 75;
     } else {
         p.moves -= 400;
         ///\EFFECT_DEX decreases chances of slipping while climbing
@@ -4007,7 +4010,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     int minutes_left = 0;
     units::volume f_volume = 0;
     bool f_check = false;
-    
+
     for( size_t i = 0; i < items_here.size(); i++ ) {
         auto &it = items_here[i];
         if( it.is_food() ) {
@@ -4094,7 +4097,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
-            }          
+            }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
             if( items_here.empty() ) {
                 pop << "... that it is empty.";
@@ -4109,7 +4112,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     pop << " (" << std::to_string( it.charges ) << ") \n ";
                 }
             }
-            popup( pop.str(), PF_NONE ); 
+            popup( pop.str(), PF_NONE );
             break;
         }
         case 1: //activate

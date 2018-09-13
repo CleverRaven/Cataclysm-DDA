@@ -259,6 +259,8 @@ void mutation_branch::load( JsonObject &jsobj )
 
     new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
 
+    new_mut.flightpower = jsobj.get_int( "flightpower", 0 );
+
     if( jsobj.has_object( "social_modifiers" ) ) {
         JsonObject jo = jsobj.get_object( "social_modifiers" );
         new_mut.social_mods = load_mutation_social_mods( jo );

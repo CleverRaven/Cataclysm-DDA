@@ -121,6 +121,7 @@ enum art_effect_passive : int {
     AEP_CARRY_MORE, // Increases carrying capacity by 200
     AEP_SAP_LIFE, // Killing non-zombie monsters may heal you
     AEP_FUN, // Slight passive morale
+    AEP_LOW_GRAV, // Easier to fly, and allows for special interactions
     // Splits good from bad
     AEP_SPLIT,
     // Bad

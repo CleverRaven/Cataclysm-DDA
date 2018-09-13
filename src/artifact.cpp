@@ -49,6 +49,7 @@ static const std::array<int, NUM_AEPS> passive_effect_cost = { {
         3, // AEP_CARRY_MORE
         5, // AEP_SAP_LIFE
         1, // AEP_FUN
+        4, // AEP_LOW_GRAV
 
         0, // AEP_SPLIT
 
@@ -299,7 +300,7 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
         },
         {
             translate_marker( "moving" ), translate_marker( "shifts from side to side slowly" ),
-            {{AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_NULL}},
+            {{AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_LOW_GRAV}},
             {{AEP_HUNGER, AEP_PER_DOWN, AEP_FORCE_TELEPORT, AEP_NULL}},
             {{AEA_TELEPORT, AEA_TELEPORT, AEA_MAP, AEA_NULL}},
             {{AEA_PARALYZE, AEA_VOMIT, AEA_VOMIT, AEA_NULL}}
@@ -1419,6 +1420,7 @@ static const std::unordered_map<std::string, art_effect_passive> art_effect_pass
         PAIR( AEP_CARRY_MORE ),
         PAIR( AEP_SAP_LIFE ),
         PAIR( AEP_FUN ),
+        PAIR( AEP_LOW_GRAV ),
         //PAIR( AEP_SPLIT, // not really used
         PAIR( AEP_HUNGER ),
         PAIR( AEP_THIRST ),

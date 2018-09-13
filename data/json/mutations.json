@@ -1572,7 +1572,8 @@
         "types" : ["SKIN"],
         "prereqs" : ["FEATHERS"],
         "threshreq": ["THRESH_BIRD"],
-        "category" : ["BIRD"]
+        "category" : ["BIRD"],
+        "flightpower" : 1
     },{
         "type" : "mutation",
         "id" : "LIGHTFUR",
@@ -3035,9 +3036,31 @@
         "visibility" : 4,
         "ugliness" : 2,
         "description" : "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+        "types" : ["WINGS"],
         "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY"],
+        "changes_to" : ["WINGS_FLIGHT"],
         "category" : ["BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "WINGS_FLIGHT",
+        "name" : "Grand Wings",
+        "points" : 7,
+        "visibility" : 8,
+        "ugliness" : 2,
+        "description" : "Your wings have finally matured; fully extended, they have a gorgeous 20-foot span that strikes awe into the hearts of the poor, grounded humans.  Unfortunately, even now, extended flight is impossible; only short bursts.  In addition, the strain on your body is extreme, and you will both need to mutate furhter to accommodate flight as well as extremely limit your weight and encumbrance to take wing.",
+        "types" : ["WINGS"],
+        "prereqs" : ["WINGS_BIRD"],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["BIRD"],
+        "active" : true,
+        "starts_active" : true,
+        "purifiable" : false,
+        "social_modifiers" : {
+            "lie" : 15,
+            "persuade" : 20,
+            "intimidate" : 10
+        },
+        "flags" : ["ZLEVELS_ONLY", "PARTIAL_FLIGHT"]
     },{
         "type" : "mutation",
         "id" : "WINGS_INSECT",
@@ -3046,8 +3069,8 @@
         "visibility" : 4,
         "ugliness" : 4,
         "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
+        "types" : ["WINGS"],
         "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
         "category" : ["INSECT"],
         "active"     :    true,
         "cost"       :    20,
@@ -3669,12 +3692,13 @@
         "points" : -4,
         "visibility" : 8,
         "mixed_effect" : true,
-        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you unless you refit them (since you're half their size), and your hit points are heavily reduced.  However, your movement is silent, and your dodge skill is a little higher.",
+        "description" : "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you unless you refit them (since you're half their size), and your hit points are heavily reduced.  However, your movement is silent, your dodge skill is a little higher, and your body is light enough to support flight, if you're capable of it.",
         "prereqs" : ["SMALL"],
         "cancels" : ["LARGE", "LARGE_OK", "HUGE", "HUGE_OK"],
         "changes_to": ["SMALL_OK"],
         "category" : ["MOUSE"],
-        "hp_modifier" : -0.3
+        "hp_modifier" : -0.3,
+        "flightpower" : 2
     },{
         "type" : "mutation",
         "id" : "SMALL_OK",
@@ -3688,7 +3712,9 @@
         "purifiable" : false,
         "threshreq" : ["THRESH_MOUSE"],
         "category" : ["MOUSE"],
-        "hp_modifier" : -0.25
+        "hp_modifier" : -0.25,
+        "flightpower" : 2,
+        "//" : "by default, mice cannot fly, but include this for mods"
     },{
         "type" : "mutation",
         "id" : "CRAFTY",
@@ -3774,8 +3800,8 @@
         "visibility" : 9,
         "ugliness" : 4,
         "description" : "You have a pair of large, leathery wings.  You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
-        "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BUTTERFLY"]
+        "types" : ["WINGS"],
+        "prereqs" : ["WINGS_STUB"]
     },{
         "type" : "mutation",
         "id" : "WINGS_BUTTERFLY",
@@ -3784,12 +3810,12 @@
         "visibility" : 10,
         "ugliness" : -2,
         "description" : "You have a very large and very beautiful pair of brightly-colored wings.  They can't lift you, and they make balancing tricky, but they certainly catch air and attention!",
+        "types" : ["WINGS"],
         "valid" : false,
         "purifiable" : false,
         "encumbrance_always" : [[ "TORSO", 10 ]],
         "prereqs" : ["WINGS_STUB"],
         "threshreq" : ["THRESH_INSECT"],
-        "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BAT"],
         "category" : ["INSECT"],
         "restricts_gear" : [ "TORSO" ],
         "social_modifiers" : {
@@ -4025,9 +4051,10 @@
         "name" : "Hollow Bones",
         "points" : 1,
         "mixed_effect" : true,
-        "description" : "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
+        "description" : "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.  This will also contribute to ability to fly, should you acquire it.",
         "prereqs" : ["LIGHT_BONES"],
-        "category" : ["BIRD", "SLIME", "ELFA"]
+        "category" : ["BIRD", "SLIME", "ELFA"],
+        "flightpower" : 1
     },{
         "type" : "mutation",
         "id" : "NAUSEA",
@@ -5092,7 +5119,7 @@
         "id" : "THRESH_BIRD",
         "name" : "Bird",
         "points" : 1,
-        "description" : "You're sure you'll fly someday.  In the meantime, there's still nests to build.",
+        "description" : "You can't believe you ever spent so much on plane tickets when it was this easy all along.  In the meantime, though, there's still nests to build.",
         "valid": false,
         "purifiable": false,
         "threshold": true
@@ -5586,6 +5613,18 @@
         "description" : "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
         "threshold" : true,
         "active" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_FLIGHT",
+        "name" : "Debug Flight",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Like Insect Wings, but they actually work.  Only mutatable if experimental z-levels are enabled.  Can be toggled on and off.",
+        "threshold" : true,
+        "active" : true,
+        "starts_active" : true,
+        "flags" : ["ZLEVELS_ONLY", "TRUE_FLIGHT"],
+        "flightpower" : 999
     },{
         "type" : "mutation",
         "id" : "SQUEAMISH",

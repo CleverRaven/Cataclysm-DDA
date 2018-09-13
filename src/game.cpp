@@ -10112,7 +10112,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         // Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
-            if( !boardable && !m.has_floor_or_support( dest_loc ) ) {
+            if( !boardable && !m.has_floor_or_support( dest_loc ) &&
+                !u.has_active_trait_flag( "PARTIAL_FLIGHT" ) && !u.has_active_trait_flag( "TRUE_FLIGHT" ) ) {
                 harmful_stuff.emplace_back( tr.name().c_str() );
             }
         } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
@@ -11485,49 +11486,102 @@ void game::vertical_move( int movez, bool force )
 
     // Force means we're going down, even if there's no staircase, etc.
     bool climbing = false;
+    bool flying = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
-        // Climbing
-        if( m.has_floor_or_support( stairs ) ) {
-            add_msg( m_info, _( "You can't climb here - there's a ceiling above your head" ) );
-            return;
-        }
-
-        const int cost = u.climbing_cost( u.pos(), stairs );
-        if( cost == 0 ) {
-            add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against" ) );
-            return;
-        }
-
-        std::vector<tripoint> pts;
-        for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
-            if( m.passable( pt ) &&
-                m.has_floor_or_support( pt ) ) {
-                pts.push_back( pt );
-            }
-        }
-
-        if( cost <= 0 || pts.empty() ) {
-            add_msg( m_info,
-                     _( "You can't climb here - there is no terrain above you that would support your weight" ) );
-            return;
-        } else {
-            // TODO: Make it an extended action
-            climbing = true;
-            move_cost = cost;
-
-            stairs = point_selection_menu( pts );
-            if( stairs == tripoint_min ) {
+        if( u.has_active_trait_flag( "PARTIAL_FLIGHT" ) || u.has_active_trait_flag( "TRUE_FLIGHT" ) ) {
+            // Flying
+            if( !u.has_active_trait_flag( "TRUE_FLIGHT" ) && u.flight_strength() < 3 ) {
+                add_msg( m_info,
+                         string_format( "Your body is too heavy and not aerodynamic enough to fly without further mutation." ) );
                 return;
+            } else if( m.has_floor_or_support( stairs ) ) {
+                add_msg( m_info, _( "The ceiling is blocking your ascent." ) );
+                return;
+            } else {
+                for( const body_part bp : all_body_parts ) { //encumbrance above flight strength = flight delayed
+                    if( bp == bp_eyes || bp == bp_mouth ) { //eyes and mouth don't affect encumbrance requirements
+                        continue;
+                    }
+                    const int encumb = u.encumb( bp );
+                    if( encumb >= u.flight_strength() ) {
+                        add_msg( m_info, string_format( "Your %s is too encumbered to fly.",
+                                                        body_part_name_accusative( bp ).c_str() ) );
+                        return;
+                    }
+                }
+                if( u.weight_carried() > ( u.weight_capacity() / ( 10 +
+                                           u.flight_strength() ) ) ) { //above weight threshold = no-fly zone (10% + 1% per flight power point)
+                    add_msg( m_info, _( "Your wings aren't strong enough to support the weight you're carrying." ) );
+                    return;
+                }
+                if( u.stamina <= 25 ) {
+                    add_msg( m_info, _( "You're too worn-out to fly." ) );
+                    return;
+                }
+                if( u.has_active_trait_flag( "TRUE_FLIGHT" ) ) {
+                    add_msg( m_good, _( "You fly skywards!" ) );
+                } else {
+                    add_msg( m_mixed, _( "You heave yourself skywards!" ) );
+                }
+                flying = true; //take wing!
+            }
+        } else {
+            // Climbing
+            if( m.has_floor_or_support( stairs ) ) {
+                add_msg( m_info, _( "You can't climb here - there's a ceiling above your head" ) );
+                return;
+            }
+
+            const int cost = u.climbing_cost( u.pos(), stairs );
+            if( cost == 0 ) {
+                add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against" ) );
+                return;
+            }
+
+            std::vector<tripoint> pts;
+            for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
+                if( m.passable( pt ) &&
+                    m.has_floor_or_support( pt ) ) {
+                    pts.push_back( pt );
+                }
+            }
+
+            if( cost <= 0 || pts.empty() ) {
+                add_msg( m_info,
+                         _( "You can't climb here - there is no terrain above you that would support your weight" ) );
+                return;
+            } else {
+                // TODO: Make it an extended action
+                climbing = true;
+                move_cost = cost;
+
+                stairs = point_selection_menu( pts );
+                if( stairs == tripoint_min ) {
+                    return;
+                }
             }
         }
     }
 
     if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) {
-        add_msg( m_info, _( "You can't go down here!" ) );
-        return;
-    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
+        if( u.has_active_trait_flag( "PARTIAL_FLIGHT" ) || u.has_active_trait_flag( "TRUE_FLIGHT" ) ) {
+            tripoint clear_for_landing = u.pos();
+            clear_for_landing.z -= 1;
+            //const trap &tr = m.tr_at( u.pos() );
+            if( m.impassable( clear_for_landing ) || m.has_floor_or_support( u.pos() ) ) {
+                add_msg( m_info, _( "You can't land here!" ) );
+                return;
+            } else {
+                add_msg( m_good, _( "You swoop downwards!" ) );
+                flying = true;
+            }
+        } else {
+            add_msg( m_info, _( "You can't go down here!" ) );
+            return;
+        }
+    } else if( !climbing && !flying && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -11536,7 +11590,12 @@ void game::vertical_move( int movez, bool force )
         // Let go of a grabbed cart.
         u.grab( OBJECT_NONE );
     } else if( u.grab_point != tripoint_zero ) {
-        add_msg( m_info, _( "You can't drag things up and down stairs." ) );
+        if( !flying ) {
+            add_msg( m_info, _( "You can't drag things up and down stairs." ) );
+        } else {
+            add_msg( m_info,
+                     _( "Carrying something other than yourself and your stuff on your flight would be extremely tricky." ) );
+        }
         return;
     }
 
@@ -11568,7 +11627,7 @@ void game::vertical_move( int movez, bool force )
     bool rope_ladder = false;
     bool actually_moved = true;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
-    if( !force && !climbing ) {
+    if( !force && !climbing && !flying ) {
         stairs = find_or_make_stairs( maybetmp, z_after, rope_ladder );
         actually_moved = stairs != tripoint_min;
     }
@@ -12890,6 +12949,10 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
 
             case AEP_FUN:
                 add_msg( m_good, _( "You feel a pleasant tingle." ) );
+                break;
+
+            case AEP_LOW_GRAV:
+                add_msg( m_good, _( "You feel very light." ) );
                 break;
 
             case AEP_HUNGER:
