@@ -4639,7 +4639,7 @@
     "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "metal_funnel",
@@ -4696,7 +4696,7 @@
     "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "militarymap",
@@ -6760,7 +6760,7 @@
     "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "survivor_scope",
