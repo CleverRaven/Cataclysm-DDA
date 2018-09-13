@@ -1,4 +1,4 @@
-function Message(...)
+function message(...)
     local s = string.format(...)
     game.add_msg(s)
 end
@@ -6,7 +6,7 @@ end
 function iuse_test_bionics_list()
     local num = player:num_bionics()
     if num == 0 then
-        Message("You installed no bionics.")
+        message("You installed no bionics.")
     else
         local i = 0
         while i < num do
@@ -18,7 +18,7 @@ function iuse_test_bionics_list()
             if bio_data.activated then
                 color = "green"
             end
-            Message("bionics[%d]: <color_%s>%s</color>", i, color, bio_data.name)
+            message("bionics[%d]: <color_%s>%s</color>", i, color, bio_data.name)
             i = i + 1
         end
     end
