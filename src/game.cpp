@@ -6835,12 +6835,7 @@ bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) co
     return zone_manager::get_manager().has_near( type, m.getabs( where ) );
 }
 
-bool game::is_zone_manager_open()
-{
-    return zone_manager_open;
-};
-
-void game::zones_manager_shortcuts( const catacurses::window &w_info )
+static void zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase( w_info );
 
@@ -6862,9 +6857,9 @@ void game::zones_manager_shortcuts( const catacurses::window &w_info )
     wrefresh( w_info );
 }
 
-void game::zones_manager_draw_borders( const catacurses::window &w_border,
-                                       const catacurses::window &w_info_border,
-                                       const int iInfoHeight, const int width )
+static void zones_manager_draw_borders( const catacurses::window &w_border,
+                                        const catacurses::window &w_info_border,
+                                        const int iInfoHeight, const int width )
 {
     for( int i = 1; i < TERMX; ++i ) {
         if( i < width ) {
@@ -7045,7 +7040,7 @@ void game::zones_manager()
         return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
     };
 
-    zone_manager_open = true;
+    zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
             zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
@@ -7322,7 +7317,7 @@ void game::zones_manager()
         //Wait for input
         action = ctxt.handle_input();
     } while( action != "QUIT" );
-    zone_manager_open = false;
+    zones_manager_open = false;
     inp_mngr.reset_timeout();
 
     if( stuff_changed ) {
