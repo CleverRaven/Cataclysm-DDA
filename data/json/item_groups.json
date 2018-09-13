@@ -7873,6 +7873,8 @@
       ["battery", 10],
       ["tool_belt", 5],
       ["oxygen_tank", 15],
+	  ["nitrox_tank_carbon", 10],
+      ["nitrox_tank_metal", 15],
       ["fireman_belt", 15],
       ["jack", 5],
       ["throw_extinguisher", 10],
