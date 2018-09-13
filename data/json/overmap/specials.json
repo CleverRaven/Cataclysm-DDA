@@ -1397,8 +1397,8 @@
             { "point" : [2,5,0] }
         ],
         "locations" : [ "wilderness" ],
-        "city_distance" : [3, 5],
-        "city_sizes" : [1, 12],
+        "city_distance" : [3, -1],
+        "city_sizes" : [1, 16],
         "occurrences" : [75, 100],
         "flags" : [ "UNIQUE" ]
     },{

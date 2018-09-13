@@ -722,6 +722,122 @@ const std::vector<oter_t> &overmap_terrains::get_all()
     return terrains.get_all();
 }
 
+template<typename T>
+void read_and_set_or_throw( JsonObject &jo, const std::string &member, T &target, bool required )
+{
+    T tmp;
+    if( !jo.read( member, tmp ) ) {
+        if( required ) {
+            jo.throw_error( string_format( "%s required", member ) );
+        }
+    } else {
+        target = tmp;
+    }
+}
+
+void load_forest_biome_component( JsonObject &jo, forest_biome_component &forest_biome_component,
+                                  const bool overlay )
+{
+    read_and_set_or_throw<int>( jo, "chance", forest_biome_component.chance, !overlay );
+    read_and_set_or_throw<int>( jo, "sequence", forest_biome_component.sequence, !overlay );
+    read_and_set_or_throw<bool>( jo, "clear_types", forest_biome_component.clear_types, !overlay );
+
+    if( forest_biome_component.clear_types ) {
+        forest_biome_component.unfinalized_types.clear();
+    }
+
+    if( !jo.has_object( "types" ) ) {
+        if( !overlay ) {
+            jo.throw_error( "types required" );
+        }
+    } else {
+        JsonObject feature_types_jo = jo.get_object( "types" );
+        std::set<std::string> keys = feature_types_jo.get_member_names();
+        for( const auto &key : keys ) {
+            int weight = 0;
+            if( key != "//" ) {
+                if( feature_types_jo.read( key, weight ) ) {
+                    forest_biome_component.unfinalized_types[key] = weight;
+                }
+            }
+        }
+    }
+}
+
+void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool overlay )
+{
+    read_and_set_or_throw<int>( jo, "sparseness_adjacency_factor",
+                                forest_biome.sparseness_adjacency_factor, !overlay );
+    read_and_set_or_throw<std::string>( jo, "item_group", forest_biome.item_group, !overlay );
+    read_and_set_or_throw<int>( jo, "item_group_chance", forest_biome.item_group_chance, !overlay );
+    read_and_set_or_throw<int>( jo, "item_spawn_iterations", forest_biome.item_spawn_iterations,
+                                !overlay );
+    read_and_set_or_throw<bool>( jo, "clear_components", forest_biome.clear_components, !overlay );
+    read_and_set_or_throw<bool>( jo, "clear_groundcover", forest_biome.clear_groundcover, !overlay );
+
+    if( forest_biome.clear_components ) {
+        forest_biome.unfinalized_biome_components.clear();
+    }
+
+    if( !jo.has_object( "components" ) ) {
+        if( !overlay ) {
+            jo.throw_error( "components required" );
+        }
+    } else {
+        JsonObject components_jo = jo.get_object( "components" );
+        std::set<std::string> component_names = components_jo.get_member_names();
+        for( const auto &name : component_names ) {
+            if( name != "//" ) {
+                JsonObject component_jo = components_jo.get_object( name );
+                load_forest_biome_component( component_jo, forest_biome.unfinalized_biome_components[name],
+                                             overlay );
+            }
+        }
+    }
+
+    if( forest_biome.clear_groundcover ) {
+        forest_biome.unfinalized_groundcover.clear();
+    }
+
+    if( !jo.has_object( "groundcover" ) ) {
+        if( !overlay ) {
+            jo.throw_error( "groundcover required" );
+        }
+    } else {
+        JsonObject groundcover_jo = jo.get_object( "groundcover" );
+        std::set<std::string> keys = groundcover_jo.get_member_names();
+        for( const auto &key : keys ) {
+            int weight = 0;
+            if( key != "//" ) {
+                if( groundcover_jo.read( key, weight ) ) {
+                    forest_biome.unfinalized_groundcover[key] = weight;
+                }
+            }
+        }
+    }
+}
+
+void load_forest_mapgen_settings( JsonObject &jo, forest_mapgen_settings &forest_mapgen_settings,
+                                  const bool strict,
+                                  const bool overlay )
+{
+    if( !jo.has_object( "forest_mapgen_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"forest_mapgen_settings\": { ... } required for default" );
+        }
+    } else {
+        JsonObject forest_biomes_list_jo = jo.get_object( "forest_mapgen_settings" );
+        std::set<std::string> forest_biome_names = forest_biomes_list_jo.get_member_names();
+        for( const auto &forest_biome_name : forest_biome_names ) {
+            if( forest_biome_name != "//" ) {
+                JsonObject forest_biome_jo = forest_biomes_list_jo.get_object( forest_biome_name );
+                load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[forest_biome_name],
+                                   overlay );
+            }
+        }
+    }
+}
+
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -817,6 +933,8 @@ void load_region_settings( JsonObject &jo )
             }
         }
     }
+
+    load_forest_mapgen_settings( jo, new_region.forest_composition, strict, false );
 
     if( ! jo.has_object( "map_extras" ) ) {
         if( strict ) {
@@ -1021,6 +1139,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
         region.field_coverage.boosted_percent_str.empty() ) {
         fieldjo.throw_error( "boost_chance > 0 requires boosted_other { ... }" );
     }
+
+    load_forest_mapgen_settings( jo, region.forest_composition, false, true );
 
     JsonObject mapextrajo = jo.get_object( "map_extras" );
     std::set<std::string> extrazones = mapextrajo.get_member_names();
@@ -3830,6 +3950,76 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
     return weightlist.lower_bound( rng( 0, 1000000 ) )->second;
 }
 
+void forest_biome_component::finalize()
+{
+    for( const std::pair<std::string, int> &pr : unfinalized_types ) {
+        ter_furn_id tf_id;
+        tf_id.ter = t_null;
+        tf_id.furn = f_null;
+        const ter_str_id tid( pr.first );
+        const furn_str_id fid( pr.first );
+        if( tid.is_valid() ) {
+            tf_id.ter = tid.id();
+        } else if( fid.is_valid() ) {
+            tf_id.furn = fid.id();
+        } else {
+            continue;
+        }
+        types.add( tf_id, pr.second );
+    }
+}
+
+ter_furn_id forest_biome::pick() const
+{
+    // Iterate through the biome components (which have already been put into sequence), roll for the
+    // one_in chance that component contributes a feature, and if so pick that feature and return it.
+    // If a given component does not roll as success, proceed to the next feature in sequence until
+    // a feature is picked or none are picked, in which case an empty feature is returned.
+    const ter_furn_id *result = nullptr;
+    for( auto &pr : biome_components ) {
+        if( one_in( pr.chance ) ) {
+            result = pr.types.pick();
+            break;
+        }
+    }
+
+    if( result == nullptr ) {
+        return ter_furn_id();
+    }
+
+    return *result;
+}
+
+void forest_biome::finalize()
+{
+    for( auto &pr : unfinalized_biome_components ) {
+        pr.second.finalize();
+        biome_components.push_back( pr.second );
+    }
+
+    std::sort( biome_components.begin(), biome_components.end(), []( const forest_biome_component & a,
+    const forest_biome_component & b ) {
+        return a.sequence < b.sequence;
+    } );
+
+    for( const std::pair<std::string, int> &pr : unfinalized_groundcover ) {
+        const ter_str_id tid( pr.first );
+        if( !tid.is_valid() ) {
+            continue;
+        }
+        groundcover.add( tid.id(), pr.second );
+    }
+}
+
+void forest_mapgen_settings::finalize()
+{
+    for( auto &pr : unfinalized_biomes ) {
+        pr.second.finalize();
+        const oter_id ot( pr.first );
+        biomes[ot] = pr.second;
+    }
+}
+
 void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
@@ -3840,6 +4030,7 @@ void regional_settings::finalize()
         field_coverage.finalize();
         default_groundcover_str.reset();
         city_spec.finalize();
+        forest_composition.finalize();
         get_options().add_value( "DEFAULT_REGION", id );
     }
 }

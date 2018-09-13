@@ -4096,10 +4096,13 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 for( size_t i = 0; i < items_here.size(); i++ ) {
                     auto &it = items_here[i];
                     if( ( rem_f_opt && it.is_food() ) || ( !rem_f_opt && ( it.typeId() == "charcoal" ) ) ) {
+                        // get handling cost before the item reference is invalidated
+                        const int handling_cost = -p.item_handling_cost( it );
+
                         add_msg( _("You remove %s from the rack."), it.tname().c_str() );
                         g->m.add_item_or_charges( p.pos(), it );
                         g->m.i_rem( examp, i );
-                        p.mod_moves( -p.item_handling_cost( it ) );
+                        p.mod_moves( handling_cost );
                         i--;
                     }
                 }
