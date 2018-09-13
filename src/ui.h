@@ -246,8 +246,6 @@ class uimenu: public ui_container
 
     private:
         bool started;
-        int last_fsize;
-        int last_vshift;
 
     protected:
         std::string hotkeys;

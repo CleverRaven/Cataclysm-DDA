@@ -1973,19 +1973,24 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
+        std::string skill_name = skill.name();
         int new_skill_level = p->get_skill_level( sk ) + 1;
         p->set_skill_level( sk, new_skill_level );
-        add_msg( m_good, _( "You finish training %s to level %d." ),
-                 skill.name().c_str(),
-                 new_skill_level );
+        add_msg( m_good, _( "You finish training %s to level %d." ), skill_name, new_skill_level );
         if( new_skill_level % 4 == 0 ) {
             //~ %d is skill level %s is skill name
             p->add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
                                  pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
-                                 new_skill_level, skill.name().c_str() );
+                                 new_skill_level, skill_name );
         }
-
-        lua_callback( "on_skill_increased" );
+        const std::string skill_increase_source = "training";
+        CallbackArgumentContainer lua_callback_args_info;
+        lua_callback_args_info.emplace_back( p->getID() );
+        lua_callback_args_info.emplace_back( skill_increase_source );
+        lua_callback_args_info.emplace_back( sk.str() );
+        lua_callback_args_info.emplace_back( new_skill_level );
+        lua_callback( "on_player_skill_increased", lua_callback_args_info );
+        lua_callback( "on_skill_increased" ); // Legacy callback
         act->set_to_null();
         return;
     }
@@ -2906,7 +2911,7 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-static std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
         const std::unordered_set<tripoint> &tiles )
 {
     auto cmp = [abspos]( tripoint a, tripoint b ) {
@@ -2916,10 +2921,10 @@ static std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos
         return da < db;
     };
 
-    std::set<tripoint, decltype( cmp )> sorted( tiles.begin(), tiles.end(), cmp );
-    std::vector<tripoint> vector( sorted.begin(), sorted.end() );
+    std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
+    std::sort( sorted.begin(), sorted.end(), cmp );
 
-    return vector;
+    return sorted;
 }
 
 template<typename fn>

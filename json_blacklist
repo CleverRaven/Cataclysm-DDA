@@ -19,7 +19,6 @@ data/json/itemgroups/locations.json
 data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
 data/json/itemgroups/map_extras.json
-data/json/itemgroups/mansion.json
 data/json/itemgroups/misc.json
 data/json/itemgroups/monster_drops.json
 data/json/itemgroups/supplies.json
@@ -34,7 +33,6 @@ data/json/items/armor/holster.json
 data/json/items/chemicals_and_resources.json
 data/json/items/comestibles/brewing.json
 data/json/items/comestibles/carnivore.json
-data/json/items/comestibles.json
 data/json/items/comestibles/med.json
 data/json/items/comestibles/mutagen.json
 data/json/items/comestibles/protein.json
@@ -94,7 +92,6 @@ data/json/mapgen/field_football.json
 data/json/mapgen/fire_station.json
 data/json/mapgen/garage_gas.json
 data/json/mapgen/garage.json
-data/json/mapgen/gardening_store.json
 data/json/mapgen/homeimprovement_superstore.json
 data/json/mapgen/hotel_tower.json
 data/json/mapgen/house/house_2story.json

@@ -896,7 +896,7 @@ void input_context::display_menu()
     int maxwidth = max( FULL_SCREEN_WIDTH, TERMX );
     int width = min( 80, maxwidth );
     int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
-    int height = min( maxheight, ( int ) hotkeys.size() + LEGEND_HEIGHT + BORDER_SPACE );
+    int height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
     catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2,
                                 maxwidth / 2 - width / 2 );

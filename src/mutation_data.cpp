@@ -294,6 +294,7 @@ void mutation_branch::load( JsonObject &jsobj )
         new_mut.additions.emplace_back( t );
     }
     new_mut.flags = jsobj.get_tags( "flags" );
+    new_mut.types = jsobj.get_tags( "types" );
     jsarr = jsobj.get_array( "category" );
     while( jsarr.has_more() ) {
         std::string s = jsarr.next_string();
@@ -383,6 +384,11 @@ void mutation_branch::check_consistency()
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
+            }
+        }
+        for( const std::string type : mdata.types ) {
+            if( !mutation_type_exists( type ) ) {
+                debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }
         }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
