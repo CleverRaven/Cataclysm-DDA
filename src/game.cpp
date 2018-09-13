@@ -5775,11 +5775,6 @@ void game::use_item( int pos )
     u.invalidate_crafting_inventory();
 }
 
-void game::use_wielded_item()
-{
-    u.use_wielded();
-}
-
 void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
     auto act = veh_interact::run( veh, cx, cy );

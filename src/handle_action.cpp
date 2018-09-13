@@ -976,7 +976,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                use_wielded_item();
+                u.use_wielded();
                 break;
 
             case ACTION_WEAR:

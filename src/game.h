@@ -938,7 +938,6 @@ class game
         void butcher(); // Butcher a corpse  'B'
         void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
-        void use_wielded_item();
         void wear(); // Wear armor  'W' (or 'a')
         void wear( int pos );
         void wear( item_location &loc );
