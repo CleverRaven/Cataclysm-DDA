@@ -367,6 +367,15 @@
     "nested_mapgen_id": "lab_filltank_chem",
     "object": {
       "mapgensize": [ 1, 1 ],
+      "place_liquids" : [ { "amount": [100, 400], "x": 0, "y": 0, "liquid": "water_clean" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_chem",
+    "object": {
+      "mapgensize": [ 1, 1 ],
       "place_liquids" : [ { "amount": [100, 400], "x": 0, "y": 0, "liquid": "salt_water" } ]
     }
   },
