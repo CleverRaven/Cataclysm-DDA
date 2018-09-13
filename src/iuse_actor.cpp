@@ -806,10 +806,10 @@ void air_gear_actor::load(JsonObject &obj)
 {
     obj.read("activate_msg", activate_msg);
     obj.read("deactive_msg", deactive_msg);
-    obj.read("out_of_power_msg", out_of_power_msg);
+    obj.read("out_of_nitrox_msg", out_of_nitrox_msg);
 }
 
-bool has_powersource(const item &i, const player &p)
+bool has_nitroxsource(const item &i, const player &p)
 {
     return p.has_charges( "nitrox", 1 );
 }
@@ -837,8 +837,9 @@ long air_gear_actor::use(player &p, item &it, bool t, const tripoint &) const
         }
         else {
             p.add_msg_if_player(m_info, _(activate_msg.c_str()), it.tname().c_str());
+            it.set_var("overwrite_env_resist", it.get_env_resist_w_tank());
         }
-        it->set_var("overwrite_env_resist", it->get_env_resist_w_tank());
+        
     }
     else {
         if (deactive_msg.empty()) {
@@ -846,8 +847,8 @@ long air_gear_actor::use(player &p, item &it, bool t, const tripoint &) const
         }
         else {
             p.add_msg_if_player(m_info, _(deactive_msg.c_str()), it.tname().c_str());
+            it.set_var("overwrite_env_resist", 0);
         }
-        it->set_var("overwrite_env_resist", 0);
     }
     return 0;
 }
