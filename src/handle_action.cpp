@@ -32,6 +32,8 @@
 #include "sounds.h"
 #include "veh_type.h"
 #include "mapdata.h"
+#include "mtype.h"
+#include "field.h"
 
 #include <chrono>
 
@@ -48,6 +50,7 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
 const skill_id skill_driving( "driving" );
+const skill_id skill_melee( "melee" );
 
 class user_turn
 {
@@ -596,6 +599,91 @@ static void grab()
         }
     } else {
         add_msg( _( "Never mind." ) );
+    }
+}
+
+static void smash()
+{
+    player &u = g->u;
+    map &m = g->m;
+
+    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
+    bool didit = false;
+    ///\EFFECT_STR increases smashing capability
+    int smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
+    tripoint smashp;
+
+    const bool allow_floor_bash = debug_mode; // Should later become "true"
+    if( !choose_adjacent( _( "Smash where?" ), smashp, allow_floor_bash ) ) {
+        return;
+    }
+
+    bool smash_floor = false;
+    if( smashp.z != u.posz() ) {
+        if( smashp.z > u.posz() ) {
+            // TODO: Knock on the ceiling
+            return;
+        }
+
+        smashp.z = u.posz();
+        smash_floor = true;
+    }
+
+    if( m.get_field( smashp, fd_web ) != nullptr ) {
+        m.remove_field( smashp, fd_web );
+        sounds::sound( smashp, 2, "" );
+        add_msg( m_info, _( "You brush aside some webs." ) );
+        u.moves -= 100;
+        return;
+    }
+
+    for( const auto &maybe_corpse : m.i_at( smashp ) ) {
+        if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
+            maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
+            // do activity forever. ACT_PULP stops itself
+            u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
+            u.activity.placement = smashp;
+            return; // don't smash terrain if we've smashed a corpse
+        }
+    }
+
+    didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
+    if( didit ) {
+        u.handle_melee_wear( u.weapon );
+        u.moves -= move_cost;
+        const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
+        u.mod_stat( "stamina", mod_sta );
+
+        if( u.get_skill_level( skill_melee ) == 0 ) {
+            u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
+        }
+        const int vol = u.weapon.volume() / units::legacy_volume_factor;
+        if( u.weapon.made_of( material_id( "glass" ) ) &&
+            rng( 0, vol + 3 ) < vol ) {
+            add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname().c_str() );
+            for( auto &elem : u.weapon.contents ) {
+                m.add_item_or_charges( u.pos(), elem );
+            }
+            sounds::sound( u.pos(), 24, "" );
+            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
+            if( vol > 20 ) {
+                // Hurt left arm too, if it was big
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
+            }
+            u.remove_weapon();
+            u.check_dead_state();
+        }
+        if( smashskill < m.bash_resistance( smashp ) && one_in( 10 ) ) {
+            if( m.has_furn( smashp ) && m.furn( smashp ).obj().bash.str_min != -1 ) {
+                // %s is the smashed furniture
+                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.furnname( smashp ).c_str() );
+            } else {
+                // %s is the smashed terrain
+                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.tername( smashp ).c_str() );
+            }
+        }
+    } else {
+        add_msg( _( "There's nothing there to smash!" ) );
     }
 }
 
