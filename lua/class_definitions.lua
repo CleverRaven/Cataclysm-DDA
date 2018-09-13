@@ -374,8 +374,24 @@ classes = {
             { name = "use_computer", rval = nil, args = { "tripoint" } },
         }
     },
+    -- TODO: activity_id is to be moved into activity_type.string_id.
+    -- Now: Visual Studio removes is_valid() function in optimisation, so compile will be filed.
+    activity_id = {
+        by_value = true,
+        has_equal = true,
+        new = {
+            { "activity_id" },
+            { },
+            { "string" }
+        },
+        attributes = {
+        },
+        functions = {
+            { name = "str", rval = "string", args = { } },
+            { name = "obj", rval = "activity_type&", args = { } },
+        }
+    },
     activity_type = {
-        string_id = "activity_id",
         attributes = {
         },
         functions = {
