@@ -374,6 +374,63 @@ classes = {
             { name = "use_computer", rval = nil, args = { "tripoint" } },
         }
     },
+    activity_type = {
+        string_id = "activity_id",
+        attributes = {
+        },
+        functions = {
+            { name = "id", rval = "activity_id&", args = { } },
+            { name = "no_resume", rval = "bool", args = { } },
+            { name = "rooted", rval = "bool", args = { } },
+            { name = "suspendable", rval = "bool", args = { } },
+            { name = "stop_phrase", rval = "string", args = { } },
+        }
+    },
+    bionic = {
+        attributes = {
+            charge = { type = "int", writable = true },
+            id = { type = "bionic_id", writable = true },
+            invlet = { type = "int", writable = true },
+            powered = { type = "bool", writable = true },
+        },
+        functions = {
+            { name = "get_quality", rval = "int", args = { "quality_id" } },
+        }
+    },
+    bionic_data = {
+        string_id = "bionic_id",
+        attributes = {
+            activated = { type = "bool", writable = true },
+            armor_interface = { type = "bool", writable = true },
+            capacity = { type = "int", writable = true },
+            charge_time = { type = "int", writable = true },
+            description = { type = "string", writable = true },
+            fake_item = { type = "string", writable = true },
+            faulty = { type = "bool", writable = true },
+            gun_bionic = { type = "bool", writable = true },
+            name = { type = "string", writable = true },
+            power_activate = { type = "int", writable = true },
+            power_deactivate = { type = "int", writable = true },
+            power_over_time = { type = "int", writable = true },
+            power_source = { type = "bool", writable = true },
+            toggled = { type = "bool", writable = true },
+            upgraded_bionic = { type = "bionic_id", writable = true },
+            weapon_bionic = { type = "bool", writable = true },
+        },
+        functions = {
+            { name = "is_included", rval = "bool", args = { "bionic_id" } },
+        }
+    },
+    morale_type_data = {
+        string_id = "morale_type",
+        attributes = {
+            id = { type = "morale_type", writable = true },
+        },
+        functions = {
+            { name = "describe", rval = "string", args = { }, optional_args = { "itype" } },
+            { name = "is_permanent", rval = "bool", args = { } },
+        }
+    },
     encumbrance_data = {
         by_value = true,
         new = {
@@ -437,21 +494,27 @@ classes = {
             { name = "activate_bionic", rval = "bool", args = { "int" }, optional_args = { "bool" } },
             { name = "active_light", rval = "float", args = { } },
             { name = "add_addiction", rval = nil, args = { "add_type", "int" } },
+            { name = "add_bionic", rval = nil, args = { "bionic_id" } },
             { name = "add_known_trap", rval = nil, args = { "tripoint", "trap" } },
             { name = "add_martialart", rval = nil, args = { "matype_id" } },
+            { name = "add_morale", rval = nil, args = { "morale_type", "int" }, optional_args = { "int", "time_duration", "time_duration", "bool", "itype" } },
             { name = "add_pain_msg", rval = nil, args = { "int", "body_part" } },
             { name = "addiction_level", rval = "int", args = { "add_type" } },
             { name = "adjacent_tile", rval = "tripoint", args = { } },
             { name = "adjust_for_focus", rval = "int", args = { "int" } },
+            { name = "allergy_type", rval = "morale_type", args = { "item" } },
             { name = "amount_of", rval = "int", args = { "string" } },
             { name = "amount_worn", rval = "int", args = { "string" } },
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "apply_persistent_morale", rval = nil, args = { } },
+            { name = "assign_activity", rval = nil, args = { "activity_id" }, optional_args = { "int", "int", "int", "string" } },
             { name = "attack_speed", rval = "int", args = { "item" } },
             { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "best_shield", rval = "item&", args = { } },
             { name = "bonus_damage", rval = "float", args = { "bool" } },
             { name = "basic_symbol_color", rval = "nc_color", args = { } },
+            { name = "bionic_at_index", rval = "bionic&", args = { "int" } },
+            { name = "bionic_by_invlet", rval = "bionic&", args = { "int" } },
             { name = "blossoms", rval = nil, args = { } },
             { name = "bodytemp_color", rval = "nc_color", args = { "int" } },
             { name = "bonus_item_warmth", rval = "int", args = { "body_part" } },
@@ -542,6 +605,7 @@ classes = {
             { name = "gunmod_remove", rval = "bool", args = { "item", "item" } },
             { name = "handle_melee_wear", rval = "bool", args = { "item" }, optional_args = { "float" } },
             { name = "has_active_optcloak", rval = "bool", args = { } },
+            { name = "has_activity", rval = "bool", args = { "activity_id" } },
             { name = "has_addiction", rval = "bool", args = { "add_type" } },
             { name = "has_alarm_clock", rval = "bool", args = { } },
             { name = "has_amount", rval = "bool", args = { "string", "int" } },
@@ -560,6 +624,7 @@ classes = {
             { name = "has_martialart", rval = "bool", args = { "matype_id" } },
             { name = "has_miss_recovery_tec", rval = "bool", args = { "item" } },
             { name = "has_mission_item", rval = "bool", args = { "int" } },
+            { name = "has_morale", rval = "int", args = { "morale_type" } },
             { name = "has_morale_to_craft", rval = "bool", args = { } },
             { name = "has_morale_to_read", rval = "bool", args = { } },
             { name = "has_opposite_trait", rval = "bool", args = { "trait_id" } },
@@ -684,6 +749,8 @@ classes = {
             { name = "reduce_charges", rval = "item", args = { "item", "int" } },
             { name = "regen", rval = nil, args = { "int" } },
             { name = "rem_addiction", rval = nil, args = { "add_type" } },
+            { name = "rem_morale", rval = nil, args = { "morale_type" }, optional_args = { "itype" } },
+            { name = "remove_bionic", rval = nil, args = { "bionic_id" } },
             { name = "remove_child_flag", rval = nil, args = { "trait_id" } },
             { name = "remove_mutation", rval = nil, args = { "trait_id" } },
             { name = "remove_random_bionic", rval = "bool", args = { } },
@@ -757,6 +824,79 @@ classes = {
             { name = "wearing_something_on", rval = "bool", args = { "body_part" } },
             { name = "wield", rval = "bool", args = { "item" } },
             { name = "wield_contents", rval = "bool", args = { "item" }, optional_args = { "int", "int", "bool" } },
+        }
+    },
+    npc_companion_mission = {
+        by_value = true,
+        attributes = {
+            mission_id = { type = "string", writable = true },
+            position = { type = "tripoint", writable = true },
+            role_id = { type = "string", writable = true },
+        },
+        functions = {
+        }
+    },
+    npc_personality = {
+        by_value = true,
+        attributes = {
+            aggression = { type = "int", writable = true },
+            altruism = { type = "int", writable = true },
+            bravery = { type = "int", writable = true },
+            collector = { type = "int", writable = true },
+        },
+        functions = {
+        }
+    },
+    npc_opinion = {
+        by_value = true,
+        attributes = {
+            anger = { type = "int", writable = true },
+            fear = { type = "int", writable = true },
+            trust = { type = "int", writable = true },
+            owed = { type = "int", writable = true },
+            value = { type = "int", writable = true },
+        },
+        functions = {
+        }
+    },
+    npc = {
+        parent = "player",
+        attributes = {
+            companion_mission_time = { type = "time_point", writable = true },
+            guard_pos = { type = "tripoint", writable = true },
+            op_of_u = { type = "npc_opinion", writable = true },
+            personality = { type = "npc_personality", writable = true },
+            patience = { type = "int", writable = true },
+            restock = { type = "time_point", writable = true },
+            wander_pos = { type = "tripoint", writable = true },
+            wanted_item_pos = { type = "tripoint", writable = true },
+        },
+        functions = {
+            { name = "assigned_missions_value", rval = "int", args = { } },
+            { name = "can_move_to", rval = "bool", args = { "tripoint", "bool" } },
+            { name = "current_target", rval = "Creature&", args = { } },
+            { name = "get_attitude", rval = nil, args = { } },
+            { name = "get_companion_mission", rval = "npc_companion_mission", args = { } },
+            { name = "get_healing_item", rval = "item&", args = { "bool", "bool", "bool", "bool" } },
+            { name = "get_monster_faction", rval = nil, args = { } },
+            { name = "guaranteed_hostile", rval = "bool", args = { } },
+            { name = "has_companion_mission", rval = "bool", args = { } },
+            { name = "hostile_anger_level", rval = "int", args = { } },
+            { name = "is_active", rval = "bool", args = { } },
+            { name = "is_dead", rval = "bool", args = { } },
+            { name = "is_enemy", rval = "bool", args = { } },
+            { name = "is_following", rval = "bool", args = { } },
+            { name = "is_friend", rval = "bool", args = { } },
+            { name = "is_guarding", rval = "bool", args = { } },
+            { name = "is_leader", rval = "bool", args = { } },
+            { name = "is_minion", rval = "bool", args = { } },
+            { name = "make_angry", rval = nil, args = { } },
+            { name = "reset_companion_mission", rval = nil, args = { } },
+            { name = "say", rval = nil, args = { "string" } },
+            { name = "set_companion_mission", rval = nil, args = { "npc", "string" } },
+            { name = "shop_restock", rval = nil, args = { } },
+            { name = "spawn_at_precise", rval = nil, args = { "point", "tripoint" } },
+            { name = "talk_to_u", rval = nil, args = { } },
         }
     },
     item = {
@@ -2046,6 +2186,12 @@ global_functions = {
         args = { "tripoint" },
         rval = "Creature&",
         desc = "Returns a reference to creature at given tripoint, *or* nil if there is no creature."
+    },
+    get_npc_at = {
+        cpp_name = "g->critter_at<npc>",
+        args = { "tripoint" },
+        rval = "npc&",
+        desc = "Returns a reference to npc at given tripoint, *or* nil if there is no npc."
     },
     create_monster = {
         cpp_name = "create_monster",
