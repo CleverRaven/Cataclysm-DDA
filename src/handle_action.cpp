@@ -36,6 +36,7 @@
 #include "field.h"
 #include "clzones.h"
 #include "cursesdef.h"
+#include "overmap_ui.h"
 
 #include <chrono>
 
@@ -1763,7 +1764,7 @@ bool game::handle_action()
 
             case ACTION_MAP:
                 werase( w_terrain );
-                draw_overmap();
+                ui::omap::display();
                 break;
 
             case ACTION_MISSIONS:
