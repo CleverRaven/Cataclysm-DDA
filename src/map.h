@@ -1490,7 +1490,7 @@ class map
          * solution in this instance.
          */
         typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
-                                            std::string, int, float );
+                                            const std::string &, int, float );
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.

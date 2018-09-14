@@ -4306,7 +4306,7 @@ static bool process_item( item_stack &items, std::list<item>::iterator &n, const
 }
 
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
-                               const tripoint &location, std::string, const int temp,
+                               const tripoint &location, const std::string &, const int temp,
                                const float insulation )
 {
     return process_item( items, n, location, false, temp, insulation );
@@ -4912,7 +4912,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
 }
 
 static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
-                                const tripoint &pos, std::string signal,
+                                const tripoint &pos, const std::string &signal,
                                 const int, const float )
 {
     bool trigger_item = false;

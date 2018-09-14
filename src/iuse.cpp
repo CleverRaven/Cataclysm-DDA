@@ -4913,7 +4913,7 @@ static bool heat_item( player &p )
         target.apply_freezerburn();
 
         if( target.has_flag( "EATEN_COLD" ) &&
-            !query_yn( _( "%s is best served cold. Heat beyond defrosting?" ), target.tname() ) ) {
+            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ), target.tname() ) ) {
 
             target.item_tags.insert( "COLD" );
             if( g->get_temperature( p.pos() ) <= temperatures::cold ) {
