@@ -2805,8 +2805,8 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         }
     }
 
-    // 3-story labs are candidates for lab escape spots.
-    if( prefix.empty() && z == -3 && numstairs == 0 ) {
+    // 4+ story labs without train connections are candidates for lab escape spots.
+    if( prefix.empty() && z == -4 && train_odds == 0 ) {
         int cellx = 0;
         int celly = 0;
         int tries = 0;
