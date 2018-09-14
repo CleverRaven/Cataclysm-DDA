@@ -413,7 +413,14 @@ void Messages::dialog::show()
 
     werase( w );
     draw_border( w, border_color );
-    draw_scrollbar( w, offset, max_lines, folded_filtered.size(), border_width, 0, c_white, true );
+
+    scrollbar()
+    .offset_x( 0 )
+    .offset_y( border_width )
+    .content_size( folded_filtered.size() )
+    .viewport_pos( offset )
+    .viewport_size( max_lines )
+    .apply( w );
 
     if( !log_from_top ) {
         // Always print from new to old
