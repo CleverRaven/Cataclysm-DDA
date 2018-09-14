@@ -2122,7 +2122,6 @@
   {
     "type": "furniture",
     "id": "f_flower_tulip",
-    "looks_like": "f_mutpoppy",
     "name": "tulip",
     "symbol": "f",
     "looks_like": "f_mutpoppy",
