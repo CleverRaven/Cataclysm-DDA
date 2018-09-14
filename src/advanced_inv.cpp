@@ -607,7 +607,7 @@ void advanced_inv_area::init()
             canputitemsloc = true;
             break;
         case AIM_DRAGGED:
-            if( g->u.grab_type != OBJECT_VEHICLE ) {
+            if( g->u.get_grab_type() != OBJECT_VEHICLE ) {
                 canputitemsloc = false;
                 desc[0] = _( "Not dragging any vehicle!" );
                 break;

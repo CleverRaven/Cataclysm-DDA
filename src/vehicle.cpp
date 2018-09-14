@@ -1364,7 +1364,7 @@ bool vehicle::remove_part( int p )
 
     const auto iter = labels.find( label( parts[p].mount.x, parts[p].mount.y ) );
     const bool no_label = iter != labels.end();
-    const bool grab_found = g->u.grab_type == OBJECT_VEHICLE && g->u.grab_point == part_loc;
+    const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
     // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
     if( no_label || grab_found ) {
         if( parts_at_relative( parts[p].mount.x, parts[p].mount.y, false ).empty() ) {
@@ -1373,8 +1373,7 @@ bool vehicle::remove_part( int p )
             }
             if( grab_found ) {
                 add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
-                g->u.grab_type = OBJECT_NONE;
-                g->u.grab_point = tripoint_zero;
+                g->u.grab( OBJECT_NONE );
             }
         }
     }
@@ -2635,13 +2634,10 @@ void vehicle::consume_fuel( double load = 1.0 )
         amnt_precise -= remainder;
 
         if( amnt_precise > 0.0f ) {
-            fuel_remainder[ ft ] = amnt_precise - drain_energy( ft, amnt_precise );
+            fuel_remainder[ ft ] = drain_energy( ft, amnt_precise ) - amnt_precise;
         } else {
             fuel_remainder[ ft ] = -amnt_precise;
         }
-
-        add_msg( m_debug, "%s consumes %s: amount %.2f, remainder %.2f",
-                 name.c_str(), ft.c_str(), amnt_precise, fuel_remainder[ ft ] );
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!

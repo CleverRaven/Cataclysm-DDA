@@ -27,6 +27,20 @@ void main_menu::on_move() const
     sfx::play_variant_sound( "menu_move", "default", 100 );
 }
 
+void main_menu::on_error()
+{
+    if( errflag ) {
+        return;
+    }
+    sfx::play_variant_sound( "menu_error", "default", 100 );
+    errflag = true;
+}
+
+void main_menu::clear_error()
+{
+    errflag = false;
+}
+
 void main_menu::print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems,
                                   size_t iSel, int iOffsetY, int iOffsetX, int spacing )
 {
@@ -685,7 +699,7 @@ bool main_menu::new_character_tab()
             if( templates.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                            c_red, "%s", _( "No templates found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
                            c_white, "%s", _( "Press 'd' to delete a preset." ) );
@@ -698,23 +712,24 @@ bool main_menu::new_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( action == "DOWN" ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
+                sel1 = 1;
+                layer = 2;
+                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
+            } else if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     sel3--;
                 } else {
                     sel3 = templates.size() - 1;
                 }
-            } else if( templates.empty() && ( action == "UP" || action == "CONFIRM" ) ) {
-                sel1 = 1;
-                layer = 2;
-                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
             } else if( action == "UP" ) {
                 if( sel3 < ( int )templates.size() - 1 ) {
                     sel3++;
                 } else {
                     sel3 = 0;
                 }
-            } else if( action == "LEFT"  || action == "QUIT" || templates.empty() ) {
+            } else if( action == "LEFT"  || action == "QUIT" ) {
                 sel1 = 1;
                 layer = 2;
                 print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
@@ -774,7 +789,7 @@ bool main_menu::load_character_tab()
             if( all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "No Worlds found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 for( int i = 0; i < ( int )all_worldnames.size(); ++i ) {
                     int line = iMenuOffsetY - 2 - i;
@@ -801,7 +816,8 @@ bool main_menu::load_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
                 layer = 1;
             } else if( action == "DOWN" ) {
                 if( sel2 > 0 ) {
@@ -842,11 +858,11 @@ bool main_menu::load_character_tab()
                 savegames.clear();
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "This world requires the game to be compiled with Lua." ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "No save games found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 int line = iMenuOffsetY - 2;
 
@@ -860,7 +876,8 @@ bool main_menu::load_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
                 layer = 2;
             } else if( action == "DOWN" ) {
                 if( sel3 > 0 ) {

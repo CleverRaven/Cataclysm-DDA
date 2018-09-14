@@ -92,12 +92,6 @@ bool match_include_exclude( const std::string &text, std::string filter )
     return found;
 }
 
-bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
-                                   const std::pair<int, tripoint> &b ) const
-{
-    return a.first > b.first;
-}
-
 // --- Library functions ---
 // This stuff could be moved elsewhere, but there
 // doesn't seem to be a good place to put it right now.

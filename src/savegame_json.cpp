@@ -726,8 +726,9 @@ void player::deserialize( JsonIn &jsin )
         data.read( "grab_type", grab_typestr );
     }
     const auto iter = std::find( obj_type_name.begin(), obj_type_name.end(), grab_typestr );
-    grab_type = iter == obj_type_name.end() ? OBJECT_NONE : static_cast<object_type>( std::distance(
-                    obj_type_name.begin(), iter ) );
+    grab( iter == obj_type_name.end() ?
+          OBJECT_NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
+          grab_point );
 
     data.read( "focus_pool", focus_pool );
     data.read( "style_selected", style_selected );
@@ -1605,9 +1606,9 @@ void item::io( Archive &archive )
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
-    archive.io( "fridge", fridge, calendar::before_time_starts );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
+    archive.io( "last_temp_check", last_temp_check, calendar::time_of_cataclysm );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );

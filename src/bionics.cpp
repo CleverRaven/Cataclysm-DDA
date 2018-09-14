@@ -43,6 +43,7 @@ const skill_id skilll_computer( "computer" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
@@ -772,6 +773,11 @@ void player::process_bionic( int b )
             wants_power_amt > 0 &&
             x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
             charge_power( 1 );
+        }
+    } else if( bio.id == "bio_gills" ) {
+        if( has_effect( effect_asthma ) ) {
+            add_msg( m_good, _( "You feel your throat open up and air filling your lungs!" ) );
+            remove_effect( effect_asthma );
         }
     }
 }

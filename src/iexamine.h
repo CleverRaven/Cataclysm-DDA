@@ -72,6 +72,8 @@ void pedestal_wyrm( player &p, const tripoint &examp );
 void pedestal_temple( player &p, const tripoint &examp );
 void door_peephole( player &p, const tripoint &examp );
 void fswitch( player &p, const tripoint &examp );
+void flower_tulip( player &p, const tripoint &examp );
+void flower_spurge( player &p, const tripoint &examp );
 void flower_poppy( player &p, const tripoint &examp );
 void flower_bluebell( player &p, const tripoint &examp );
 void flower_dahlia( player &p, const tripoint &examp );

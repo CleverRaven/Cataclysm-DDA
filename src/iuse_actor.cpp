@@ -86,6 +86,8 @@ static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
+static const bionic_id bio_syringe( "bio_syringe" );
+
 iuse_actor *iuse_transform::clone() const
 {
     return new iuse_transform( *this );
@@ -529,14 +531,18 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( tools_needed.count( "syringe" ) ) {
-        dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug" ) );
+        dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug." ) );
     }
 }
 
 long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
+    auto need_these = tools_needed;
+    if( need_these.count( "syringe" ) && p.has_bionic( bio_syringe ) ) {
+        need_these.erase( "syringe" ); // no need for a syringe with bionics like these!
+    }
     // Check prerequisites first.
-    for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
+    for( auto tool = need_these.cbegin(); tool != need_these.cend(); ++tool ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool->first, 1 ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
@@ -2043,6 +2049,9 @@ bool holster_actor::can_holster( const item &obj ) const
     if( max_weight > 0 && obj.weight() > max_weight ) {
         return false;
     }
+    if( obj.active ) {
+        return false;
+    }
     return std::any_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
         return obj.has_flag( f );
     } ) ||
@@ -2071,6 +2080,12 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
 
     if( max_weight > 0 && obj.weight() > max_weight ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too heavy to fit in your %2$s" ),
+                             obj.tname().c_str(), holster.tname().c_str() );
+        return false;
+    }
+
+    if( obj.active ) {
+        p.add_msg_if_player( m_info, _( "You don't think putting your %1$s in your %2$s is a good idea" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
     }
