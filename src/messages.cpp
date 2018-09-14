@@ -277,8 +277,11 @@ class dialog
         void do_filter( const std::string &filter_str );
         static std::vector<std::string> filter_help_text( int width );
 
-        nc_color border_color;
-        nc_color filter_color;
+        const nc_color border_color;
+        const nc_color filter_color;
+        const nc_color time_color;
+        const nc_color bracket_color;
+        const nc_color filter_help_color;
 
         const char *time_fmt;
 
@@ -321,7 +324,9 @@ class dialog
 }
 
 Messages::dialog::dialog()
-    : border_color( BORDER_COLOR ), filter_color( c_white )
+    : border_color( BORDER_COLOR ), filter_color( c_white ),
+      time_color( c_light_blue ), bracket_color( c_dark_gray ),
+      filter_help_color( c_cyan )
 {
     init();
 }
@@ -466,20 +471,20 @@ void Messages::dialog::show()
         }
         if( time_str != prev_time_str ) {
             prev_time_str = time_str;
-            right_print( w, border_width + line, border_width + msg_width, c_light_blue, time_str );
+            right_print( w, border_width + line, border_width + msg_width, time_color, time_str );
             printing_range = false;
         } else {
             // Print line brackets to mark ranges of time
             if( printing_range ) {
                 const size_t last_line = log_from_top ? line - 1 : line + 1;
-                wattron( w, c_dark_gray );
+                wattron( w, bracket_color );
                 mvwaddch( w, border_width + last_line, border_width + time_width - 2, LINE_XOXO );
-                wattroff( w, c_dark_gray );
+                wattroff( w, bracket_color );
             }
-            wattron( w, c_dark_gray );
+            wattron( w, bracket_color );
             mvwaddch( w, border_width + line, border_width + time_width - 2,
                       log_from_top ? LINE_XXOO : LINE_OXXO );
-            wattroff( w, c_dark_gray );
+            wattroff( w, bracket_color );
             printing_range = true;
         }
 
@@ -495,7 +500,7 @@ void Messages::dialog::show()
         werase( w_filter_help );
         draw_border( w_filter_help, border_color );
         for( size_t line = 0; line < help_text.size(); ++line ) {
-            nc_color col = c_cyan;
+            nc_color col = filter_help_color;
             print_colored_text( w_filter_help, border_width + line, border_width, col, col,
                                 help_text[line] );
         }
