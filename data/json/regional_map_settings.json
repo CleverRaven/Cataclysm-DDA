@@ -294,10 +294,9 @@
                       "chance": 75,
                       "clear_types": false,
                       "types": {
-                          "t_trunk": 32,
-                          "f_boulder_small": 32,
-                          "f_boulder_medium": 16,
-                          "f_boulder_large": 4
+                          "t_trunk": 2,
+                          "f_boulder_small": 2,
+                          "f_boulder_medium": 1
                       }
                   },
                   "water": {
