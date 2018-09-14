@@ -1036,7 +1036,6 @@ class game
 
         void item_action_menu(); // Displays item action menu
 
-        void rcdrive( int dx, int dy ); //driving radio car
         /**
          * If there is a robot (that can be disabled), query the player
          * and try to disable it.

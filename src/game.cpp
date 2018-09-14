@@ -2379,55 +2379,6 @@ input_context get_default_mode_input_context()
     return ctxt;
 }
 
-void game::rcdrive( int dx, int dy )
-{
-    std::stringstream car_location_string( u.get_value( "remote_controlling" ) );
-    if( car_location_string.str().empty() ) {
-        //no turned radio car found
-        u.add_msg_if_player( m_warning, _( "No radio car connected." ) );
-        return;
-    }
-    int cx = 0;
-    int cy = 0;
-    int cz = 0;
-    car_location_string >> cx >> cy >> cz;
-
-    auto rc_pairs = m.get_rc_items( cx, cy, cz );
-    auto rc_pair = rc_pairs.begin();
-    for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {
-            break;
-        }
-    }
-    if( rc_pair == rc_pairs.end() ) {
-        u.add_msg_if_player( m_warning, _( "No radio car connected." ) );
-        u.remove_value( "remote_controlling" );
-        return;
-    }
-    item *rc_car = rc_pair->second;
-
-    if( tile_iso && use_tiles ) {
-        rotate_direction_cw( dx, dy );
-    }
-
-    tripoint src( cx, cy, cz );
-    tripoint dest( cx + dx, cy + dy, cz );
-    if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
-        m.has_furn( dest ) ) {
-        sounds::sound( dest, 7, _( "sound of a collision with an obstacle." ) );
-        return;
-    } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
-        //~ Sound of moving a remote controlled car
-        sounds::sound( src, 6, _( "zzz..." ) );
-        u.moves -= 50;
-        m.i_rem( src, rc_car );
-        car_location_string.clear();
-        car_location_string << dest.x << ' ' << dest.y << ' ' << dest.z;
-        u.set_value( "remote_controlling", car_location_string.str() );
-        return;
-    }
-}
-
 vehicle *game::remoteveh()
 {
     if( calendar::turn == remoteveh_cache_time ) {
