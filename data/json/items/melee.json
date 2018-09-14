@@ -2119,7 +2119,7 @@
     "flags": [ "NONCONDUCTIVE" ],
     "volume": 5,
     "bashing": 2,
-    "price": 10000,
+    "price": 10000
   },
   {
     "type": "GENERIC",
@@ -2155,7 +2155,7 @@
     "bashing": 2,
     "cutting": 1,
     "flags": [ "SPEAR", "NONCONDUCTIVE" ],
-    "price": 12000,
+    "price": 12000
   },
   {
     "type": "GENERIC",
