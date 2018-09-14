@@ -2122,8 +2122,10 @@
   {
     "type": "furniture",
     "id": "f_flower_tulip",
+    "looks_like": "f_mutpoppy",
     "name": "tulip",
     "symbol": "f",
+    "looks_like": "f_mutpoppy",
     "color": "light_magenta",
     "move_cost_mod": 0,
     "required_str": -1,
@@ -2136,6 +2138,7 @@
     "id": "f_flower_spurge",
     "name": "spurge flower",
     "symbol": "f",
+    "looks_like": "f_dandelion",
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
