@@ -16,7 +16,7 @@ function iuse_test_npc(item, active)
     -- Wait for player selection
     um:query(true)
 
-    if um.selected == npc_num then
+    if um.selected == 2 then
         -- Canceled
         return 0
     end

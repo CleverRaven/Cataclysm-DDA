@@ -402,6 +402,30 @@ classes = {
             { name = "stop_phrase", rval = "string", args = { } },
         }
     },
+    player_activity = {
+        by_value_and_reference = true,
+        attributes = {
+            auto_resume = { type = "bool", writable = true },
+            index = { type = "int", writable = true },
+            moves_left = { type = "int", writable = true },
+            moves_total = { type = "int", writable = true },
+            name = { type = "string", writable = true },
+            placement = { type = "tripoint", writable = true },
+            position = { type = "int", writable = true },
+        },
+        new = {
+            { },
+            { "activity_id", "int", "int", "int", "string" },
+            { "player_activity" },
+        },
+        functions = {
+            { name = "is_null", rval = "bool", args = { } },
+            { name = "set_to_null", rval = nil, args = { } },
+            { name = "id", rval = "activity_id&", args = { } },
+            { name = "rooted", rval = "bool", args = { } },
+            { name = "is_suspendable", rval = "bool", args = { } },
+        }
+    },
     bionic = {
         attributes = {
             charge = { type = "int", writable = true },
@@ -473,6 +497,7 @@ classes = {
     player = {
         parent = "Character",
         attributes = {
+            activity = { type = "player_activity", writable = true },
             blocks_left = { type = "int", writable = true },
             cash = { type = "int", writable = true },
             controlling_vehicle = { type = "bool", writable = true },
@@ -524,6 +549,7 @@ classes = {
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "apply_persistent_morale", rval = nil, args = { } },
             { name = "assign_activity", rval = nil, args = { "activity_id" }, optional_args = { "int", "int", "int", "string" } },
+            { name = "assign_activity", rval = nil, args = { "player_activity" }, optional_args = { "bool" } },
             { name = "attack_speed", rval = "int", args = { "item" } },
             { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "best_shield", rval = "item&", args = { } },
@@ -891,10 +917,9 @@ classes = {
             { name = "assigned_missions_value", rval = "int", args = { } },
             { name = "can_move_to", rval = "bool", args = { "tripoint", "bool" } },
             { name = "current_target", rval = "Creature&", args = { } },
-            { name = "get_attitude", rval = nil, args = { } },
+            { name = "get_attitude", rval = "npc_attitude", args = { } },
             { name = "get_companion_mission", rval = "npc_companion_mission", args = { } },
             { name = "get_healing_item", rval = "item&", args = { "bool", "bool", "bool", "bool" } },
-            { name = "get_monster_faction", rval = nil, args = { } },
             { name = "guaranteed_hostile", rval = "bool", args = { } },
             { name = "has_companion_mission", rval = "bool", args = { } },
             { name = "hostile_anger_level", rval = "int", args = { } },
@@ -909,6 +934,7 @@ classes = {
             { name = "make_angry", rval = nil, args = { } },
             { name = "reset_companion_mission", rval = nil, args = { } },
             { name = "say", rval = nil, args = { "string" } },
+            { name = "set_attitude", rval = nil, args = { "npc_attitude" } },
             { name = "set_companion_mission", rval = nil, args = { "npc", "string" } },
             { name = "shop_restock", rval = nil, args = { } },
             { name = "spawn_at_precise", rval = nil, args = { "point", "tripoint" } },
@@ -2046,6 +2072,24 @@ enums = {
         "MS_MEDIUM",
         "MS_LARGE",
         "MS_HUGE",
+    },
+    npc_attitude = {
+        "NPCATT_NULL",
+        "NPCATT_TALK",
+        "NPCATT_LEGACY_1",
+        "NPCATT_FOLLOW",
+        "NPCATT_LEGACY_2",
+        "NPCATT_LEAD",
+        "NPCATT_WAIT",
+        "NPCATT_LEGACY_6",
+        "NPCATT_MUG",
+        "NPCATT_WAIT_FOR_LEAVE",
+        "NPCATT_KILL",
+        "NPCATT_FLEE",
+        "NPCATT_LEGACY_3",
+        "NPCATT_HEAL",
+        "NPCATT_LEGACY_4",
+        "NPCATT_LEGACY_5",
     },
     game_message_type = {
         "m_good",
