@@ -91,7 +91,7 @@
         "r": "f_rack"
       },
       "toilets": { "t": {  } },
-      "items":{
+      "items": {
         "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
         "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
       },
