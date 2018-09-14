@@ -554,11 +554,10 @@ class game
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
-        bool is_zone_manager_open();
         void zones_manager();
-        void zones_manager_shortcuts( const catacurses::window &w_info );
-        void zones_manager_draw_borders( const catacurses::window &w_border,
-                                         const catacurses::window &w_info_border, const int iInfoHeight, const int width );
+        /** Is Zone manager open or not - changes graphics of some zone tiles */
+        bool zones_manager_open = false;
+
         // Look at nearby terrain ';', or select zone points
         tripoint look_around();
         tripoint look_around( catacurses::window w_info, const tripoint &start_point, bool has_first_point,
@@ -926,12 +925,10 @@ class game
         void smash(); // Smash terrain
         void loot(); // Sort out loot or perform other zone activity
 
-        void handbrake();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
 
-        void grab(); // Establish a grab on something.
         void drop( int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
@@ -939,7 +936,6 @@ class game
         void butcher(); // Butcher a corpse  'B'
         void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
-        void use_wielded_item();
         void wear(); // Wear armor  'W' (or 'a')
         void wear( int pos );
         void wear( item_location &loc );
@@ -1105,8 +1101,6 @@ class game
         bool critter_died;
         /** Was the player sleeping during this turn. */
         bool player_was_sleeping;
-        /** Is Zone manager open or not - changes graphics of some zone tiles */
-        bool zone_manager_open = false;
 
         std::unique_ptr<special_game> gamemode;
 

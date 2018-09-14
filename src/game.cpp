@@ -5775,36 +5775,6 @@ void game::use_item( int pos )
     u.invalidate_crafting_inventory();
 }
 
-void game::use_wielded_item()
-{
-    u.use_wielded();
-}
-
-void game::handbrake()
-{
-    const optional_vpart_position vp = m.veh_at( u.pos() );
-    if( !vp ) {
-        return;
-    }
-    vehicle *const veh = &vp->vehicle();
-    add_msg( _( "You pull a handbrake." ) );
-    veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < abs( veh->velocity ) ) {
-        veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name.c_str() );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
-    } else {
-        int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
-        if( abs( veh->velocity ) < braking_power ) {
-            veh->stop();
-        } else {
-            int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( abs( veh->velocity ) - braking_power );
-        }
-    }
-    u.moves = 0;
-}
-
 void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
     auto act = veh_interact::run( veh, cx, cy );
@@ -6865,12 +6835,7 @@ bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) co
     return zone_manager::get_manager().has_near( type, m.getabs( where ) );
 }
 
-bool game::is_zone_manager_open()
-{
-    return zone_manager_open;
-};
-
-void game::zones_manager_shortcuts( const catacurses::window &w_info )
+static void zones_manager_shortcuts( const catacurses::window &w_info )
 {
     werase( w_info );
 
@@ -6892,9 +6857,9 @@ void game::zones_manager_shortcuts( const catacurses::window &w_info )
     wrefresh( w_info );
 }
 
-void game::zones_manager_draw_borders( const catacurses::window &w_border,
-                                       const catacurses::window &w_info_border,
-                                       const int iInfoHeight, const int width )
+static void zones_manager_draw_borders( const catacurses::window &w_border,
+                                        const catacurses::window &w_info_border,
+                                        const int iInfoHeight, const int width )
 {
     for( int i = 1; i < TERMX; ++i ) {
         if( i < width ) {
@@ -7075,7 +7040,7 @@ void game::zones_manager()
         return std::pair<tripoint, tripoint>( tripoint_min, tripoint_min );
     };
 
-    zone_manager_open = true;
+    zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
             zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
@@ -7352,7 +7317,7 @@ void game::zones_manager()
         //Wait for input
         action = ctxt.handle_input();
     } while( action != "QUIT" );
-    zone_manager_open = false;
+    zones_manager_open = false;
     inp_mngr.reset_timeout();
 
     if( stuff_changed ) {
@@ -8600,50 +8565,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     u.view_offset = stored_view_offset;
 
     return game::vmenu_ret::QUIT;
-}
-
-// Establish or release a grab on a vehicle
-void game::grab()
-{
-    tripoint grabp( 0, 0, 0 );
-    if( u.get_grab_type() != OBJECT_NONE ) {
-        if( const optional_vpart_position vp = m.veh_at( u.pos() + u.grab_point ) ) {
-            add_msg( _( "You release the %s." ), vp->vehicle().name );
-        } else if( m.has_furn( u.pos() + u.grab_point ) ) {
-            add_msg( _( "You release the %s." ), m.furnname( u.pos() + u.grab_point ).c_str() );
-        }
-
-        u.grab( OBJECT_NONE );
-        return;
-    }
-
-    if( choose_adjacent( _( "Grab where?" ), grabp ) ) {
-        if( grabp == u.pos() ) {
-            add_msg( _( "You get a hold of yourself." ) );
-            u.grab( OBJECT_NONE );
-            return;
-        }
-
-        if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
-            u.grab( OBJECT_VEHICLE, grabp - u.pos() );
-            add_msg( _( "You grab the %s." ), vp->vehicle().name );
-        } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-            if( m.furn( grabp ).obj().move_str_req < 0 ) {
-                add_msg( _( "You can not grab the %s" ), m.furnname( grabp ).c_str() );
-                return;
-            }
-            u.grab( OBJECT_FURNITURE, grabp - u.pos() );
-            if( !m.can_move_furniture( grabp, &u ) ) {
-                add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ).c_str() );
-            } else {
-                add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
-            }
-        } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
-            add_msg( m_info, _( "There's nothing to grab there!" ) );
-        }
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
 }
 
 std::vector<vehicle *> nearby_vehicles_for( const itype_id &ft )

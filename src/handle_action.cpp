@@ -527,6 +527,78 @@ static void close()
     }
 }
 
+static void handbrake()
+{
+    const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
+    if( !vp ) {
+        return;
+    }
+    vehicle *const veh = &vp->vehicle();
+    add_msg( _( "You pull a handbrake." ) );
+    veh->cruise_velocity = 0;
+    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < abs( veh->velocity ) ) {
+        veh->skidding = true;
+        add_msg( m_warning, _( "You lose control of %s." ), veh->name.c_str() );
+        veh->turn( veh->last_turn > 0 ? 60 : -60 );
+    } else {
+        int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
+        if( abs( veh->velocity ) < braking_power ) {
+            veh->stop();
+        } else {
+            int sgn = veh->velocity > 0 ? 1 : -1;
+            veh->velocity = sgn * ( abs( veh->velocity ) - braking_power );
+        }
+    }
+    g->u.moves = 0;
+}
+
+// Establish or release a grab on a vehicle
+static void grab()
+{
+    player &u = g->u;
+    map &m = g->m;
+
+    tripoint grabp( 0, 0, 0 );
+    if( u.get_grab_type() != OBJECT_NONE ) {
+        if( const optional_vpart_position vp = m.veh_at( u.pos() + u.grab_point ) ) {
+            add_msg( _( "You release the %s." ), vp->vehicle().name );
+        } else if( m.has_furn( u.pos() + u.grab_point ) ) {
+            add_msg( _( "You release the %s." ), m.furnname( u.pos() + u.grab_point ).c_str() );
+        }
+
+        u.grab( OBJECT_NONE );
+        return;
+    }
+
+    if( choose_adjacent( _( "Grab where?" ), grabp ) ) {
+        if( grabp == u.pos() ) {
+            add_msg( _( "You get a hold of yourself." ) );
+            u.grab( OBJECT_NONE );
+            return;
+        }
+
+        if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
+            u.grab( OBJECT_VEHICLE, grabp - u.pos() );
+            add_msg( _( "You grab the %s." ), vp->vehicle().name );
+        } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
+            if( m.furn( grabp ).obj().move_str_req < 0 ) {
+                add_msg( _( "You can not grab the %s" ), m.furnname( grabp ).c_str() );
+                return;
+            }
+            u.grab( OBJECT_FURNITURE, grabp - u.pos() );
+            if( !m.can_move_furniture( grabp, &u ) ) {
+                add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ).c_str() );
+            } else {
+                add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
+            }
+        } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+            add_msg( m_info, _( "There's nothing to grab there!" ) );
+        }
+    } else {
+        add_msg( _( "Never mind." ) );
+    }
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -951,7 +1023,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                use_wielded_item();
+                u.use_wielded();
                 break;
 
             case ACTION_WEAR:

@@ -2390,7 +2390,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d )
 {
-    if( !g->is_zone_manager_open() ) {
+    if( !g->zones_manager_open ) {
         return false;
     }
 
