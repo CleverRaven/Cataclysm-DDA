@@ -847,12 +847,12 @@ action_id handle_main_menu()
     width += 2 + 3 + 3;
     int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
     int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
-    int selection = ( int ) uimenu( true, std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                    std::max( iy, 0 ), _( "MAIN MENU" ), entries );
+    int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
+                            std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
     g->draw();
 
-    if( selection < 0 || selection > NUM_ACTIONS ) {
+    if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
     } else {
         return ( action_id ) selection;
