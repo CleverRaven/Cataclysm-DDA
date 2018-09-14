@@ -12,6 +12,7 @@
 #include "string_id.h"
 #include "ui.h"
 #include "units.h"
+#include "pathfinding.h"
 
 #include <vector>
 #include <array>
@@ -1315,6 +1316,10 @@ class vehicle
         active_item_cache active_items;
 
         bounding_box get_bounding_box();
+
+        bool is_part_reachable( const tripoint &from, const int &part_index ) const;
+        bool is_part_reachable( const tripoint &from, const vehicle_part &part ) const;
+        bool is_any_part_reachable( const tripoint &from, std::vector<vehicle_part *> parts ) const;
 
         /**
          * Submap coordinates of the currently loaded submap (see game::m)

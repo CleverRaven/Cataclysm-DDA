@@ -62,7 +62,19 @@ static bool crafting_allowed( const player &p, const recipe &rec )
                 light_check = veh->turn_on_internal_lights( true );  // Turn on the dome lights
                 dome_light = light_check;
             } else {
-                light_check = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
+                auto &&A = veh->get_parts( "CONTROLS" );
+                auto &&B = veh->get_parts( "CTRL_ELECTRONIC" );
+                std::vector<vehicle_part *> switches;
+                switches.reserve( A.size() + B.size() );
+                switches.insert( switches.end(), A.begin(), A.end() );
+                switches.insert( switches.end(), B.begin(), B.end() );
+
+                bool can_reach = veh->is_any_part_reachable( p.pos(), switches );
+                if( can_reach ) {
+                    light_check = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
+                } else {
+                    add_msg(m_info, _("You can't reach any controls for the lights."));
+                }
             }
         }
         if( light_check == false ) {

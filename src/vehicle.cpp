@@ -4188,3 +4188,38 @@ bounding_box vehicle::get_bounding_box()
     b.p2 = point( max_x, max_y );
     return b;
 }
+
+bool vehicle::is_part_reachable( const tripoint &from, const int &part_index ) const
+{
+    pathfinding_settings settings;
+    settings.allow_open_doors = true;
+    settings.max_dist = 10;
+    settings.max_length = 20;
+    std::set<tripoint> preclosed;
+    tripoint to = global_part_pos3( part_index );
+    if( from == to ) {
+        return true;
+    }
+
+    auto &&route = g->m.route( from, to, settings, preclosed );
+    if( route.size() > 0 ) {
+        return true;
+    }
+    return false;
+}
+
+bool vehicle::is_part_reachable( const tripoint &from, const vehicle_part &part ) const
+{
+    return is_part_reachable( from, index_of_part( &part ) );
+}
+
+bool vehicle::is_any_part_reachable( const tripoint &from, std::vector<vehicle_part *> parts ) const
+{
+    for( auto && part : parts ) {
+        bool reach = is_part_reachable( from, *part );
+        if( reach == true ) {
+            return reach;
+        }
+    }
+    return false;
+}

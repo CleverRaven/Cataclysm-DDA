@@ -2553,7 +2553,18 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             veh->has_part( p->pos(), "CTRL_ELECTRONIC", false ) ) {
             changed_light = veh->turn_on_internal_lights( true );  // Turn on the dome lights
         } else {
-            changed_light = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
+            auto &&A = veh->get_parts( "CONTROLS" );
+            auto &&B = veh->get_parts( "CTRL_ELECTRONIC" );
+            std::vector<vehicle_part *> switches;
+            switches.reserve( A.size() + B.size() );
+            switches.insert( switches.end(), A.begin(), A.end() );
+            switches.insert( switches.end(), B.begin(), B.end() );
+
+            bool can_reach = veh->is_any_part_reachable(p->pos(), switches);
+
+            if( can_reach ) {
+                changed_light = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
+            }
         }
         if( !changed_light ) {
             p->add_msg_if_player( m_bad, _( "No light was turned on." ) );
