@@ -2556,6 +2556,8 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         if( !changed_light ) {
             p->add_msg_if_player( m_bad, _( "No light was turned on." ) );
             p->cancel_activity();
+        } else {
+            add_msg( m_info, _( "You turn on a light." ) );
         }
         p->mod_moves( -300 );
     } else {
