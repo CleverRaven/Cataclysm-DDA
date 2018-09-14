@@ -295,7 +295,11 @@
     "id": "soa_weapons_decor",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "soa_fake_weapon_decor", "prob": 3 }, { "group": "soa_poor_weapon_decor", "prob": 3 }, { "group": "soa_real_weapon_decor", "prob": 3 } ]
+    "items": [
+      { "group": "soa_fake_weapon_decor", "prob": 3 },
+      { "group": "soa_poor_weapon_decor", "prob": 3 },
+      { "group": "soa_real_weapon_decor", "prob": 3 }
+    ]
   },
   {
     "id": "soa_plate",
@@ -307,7 +311,11 @@
     "id": "soa_weapons_plate",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "soa_fake_weapon_plate", "prob": 3 }, { "group": "soa_poor_weapon_plate", "prob": 3 }, { "group": "soa_real_weapon_plate", "prob": 3 } ]
+    "items": [
+      { "group": "soa_fake_weapon_plate", "prob": 3 },
+      { "group": "soa_poor_weapon_plate", "prob": 3 },
+      { "group": "soa_real_weapon_plate", "prob": 3 }
+    ]
   },
   {
     "id": "soa_mail",
@@ -319,7 +327,11 @@
     "id": "soa_weapons_mail",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "soa_fake_weapon_mail", "prob": 3 }, { "group": "soa_poor_weapon_mail", "prob": 3 }, { "group": "soa_real_weapon_mail", "prob": 3 } ]
+    "items": [
+      { "group": "soa_fake_weapon_mail", "prob": 3 },
+      { "group": "soa_poor_weapon_mail", "prob": 3 },
+      { "group": "soa_real_weapon_mail", "prob": 3 }
+    ]
   },
   {
     "id": "soa_samurai",
@@ -331,7 +343,11 @@
     "id": "soa_weapons_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "soa_fake_weapon_samurai", "prob": 3 }, { "group": "soa_poor_weapon_samurai", "prob": 3 }, { "group": "soa_real_weapon_samurai", "prob": 3 } ]
+    "items": [
+      { "group": "soa_fake_weapon_samurai", "prob": 3 },
+      { "group": "soa_poor_weapon_samurai", "prob": 3 },
+      { "group": "soa_real_weapon_samurai", "prob": 3 }
+    ]
   },
   {
     "id": "broadsword+scabbard",
@@ -373,13 +389,23 @@
     "id": "soa_fake_weapon_decor",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike_fake", 50 ], { "group": "broadsword_fake+scabbard", "prob": 17 }, [ "mace_fake", 6 ], [ "morningstar_fake", 5 ] ]
+    "items": [
+      [ "pike_fake", 50 ],
+      { "group": "broadsword_fake+scabbard", "prob": 17 },
+      [ "mace_fake", 6 ],
+      [ "morningstar_fake", 5 ]
+    ]
   },
   {
     "id": "soa_poor_weapon_decor",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike_inferior", 50 ], { "group": "broadsword_inferior+scabbard", "prob": 17 }, [ "mace_inferior", 6 ], [ "morningstar_inferior", 5 ] ]
+    "items": [
+      [ "pike_inferior", 50 ],
+      { "group": "broadsword_inferior+scabbard", "prob": 17 },
+      [ "mace_inferior", 6 ],
+      [ "morningstar_inferior", 5 ]
+    ]
   },
   {
     "id": "soa_real_weapon_decor",
@@ -391,13 +417,23 @@
     "id": "soa_fake_weapon_plate",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike_fake", 17 ], { "group": "broadsword_fake+scabbard", "prob": 5 }, [ "mace_fake", 50 ], [ "morningstar_fake", 6 ] ]
+    "items": [
+      [ "pike_fake", 17 ],
+      { "group": "broadsword_fake+scabbard", "prob": 5 },
+      [ "mace_fake", 50 ],
+      [ "morningstar_fake", 6 ]
+    ]
   },
   {
     "id": "soa_poor_weapon_plate",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike_inferior", 17 ], { "group": "broadsword_inferior+scabbard", "prob": 5 }, [ "mace_inferior", 50 ], [ "morningstar_inferior", 6 ] ]
+    "items": [
+      [ "pike_inferior", 17 ],
+      { "group": "broadsword_inferior+scabbard", "prob": 5 },
+      [ "mace_inferior", 50 ],
+      [ "morningstar_inferior", 6 ]
+    ]
   },
   {
     "id": "soa_real_weapon_plate",
@@ -409,13 +445,23 @@
     "id": "soa_fake_weapon_mail",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike_fake", 17 ], { "group": "broadsword_fake+scabbard", "prob": 5 }, [ "mace_fake", 50 ], [ "battleaxe_fake", 6 ] ]
+    "items": [
+      [ "pike_fake", 17 ],
+      { "group": "broadsword_fake+scabbard", "prob": 5 },
+      [ "mace_fake", 50 ],
+      [ "battleaxe_fake", 6 ]
+    ]
   },
   {
     "id": "soa_poor_weapon_mail",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike_inferior", 50 ], { "group": "broadsword_inferior+scabbard", "prob": 5 }, [ "mace_inferior", 50 ], [ "battleaxe_inferior", 6 ] ]
+    "items": [
+      [ "pike_inferior", 50 ],
+      { "group": "broadsword_inferior+scabbard", "prob": 5 },
+      [ "mace_inferior", 50 ],
+      [ "battleaxe_inferior", 6 ]
+    ]
   },
   {
     "id": "soa_real_weapon_mail",
