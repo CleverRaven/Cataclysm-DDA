@@ -295,7 +295,7 @@ class dialog
         static constexpr int border_width = 1;
         int unit_width, time_width, msg_width;
 
-        size_t max_lines;
+        size_t max_lines; // Max number of lines the window can show at once
 
         int w_x, w_y, w_width, w_height; // Main window position
         catacurses::window w; // Main window
@@ -303,7 +303,7 @@ class dialog
         int w_fh_x, w_fh_y, w_fh_width, w_fh_height; // Filter help window position
         catacurses::window w_filter_help; // Filter help window
 
-        std::vector<std::string> help_text;
+        std::vector<std::string> help_text; // Folded filter help text
 
         string_input_popup filter;
         bool filtering;
@@ -316,7 +316,7 @@ class dialog
         // Indices of filtered messages
         std::vector<size_t> folded_filtered;
 
-        size_t offset;
+        size_t offset; // Index of the first printed message
 
         bool canceled;
         bool errored;
@@ -350,7 +350,7 @@ void Messages::dialog::init()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    // string_format does not handle padding of utf8 strings correctly, so we have to hack it here
+    // string_format does not handle alignment of utf8 strings correctly, so we have to hack it here
     //~ Change '7' in %7s to the maximum display width of all time units in the target language.
     const auto &unit_fmt = pgettext( "message log", "%7s" );
     //~ Time format in the message log window, %3d is the time number, %s is the (already aligned) time unit.
@@ -409,13 +409,6 @@ void Messages::dialog::init()
 
 void Messages::dialog::show()
 {
-    size_t line_from = 0, line_to;
-    if( offset < folded_filtered.size() ) {
-        line_to = std::min( max_lines, folded_filtered.size() - offset );
-    } else {
-        line_to = 0;
-    }
-
     werase( w );
     draw_border( w, border_color );
 
@@ -426,6 +419,14 @@ void Messages::dialog::show()
     .viewport_pos( offset )
     .viewport_size( max_lines )
     .apply( w );
+
+    // Range of window lines to print
+    size_t line_from = 0, line_to;
+    if( offset < folded_filtered.size() ) {
+        line_to = std::min( max_lines, folded_filtered.size() - offset );
+    } else {
+        line_to = 0;
+    }
 
     if( !log_from_top ) {
         // Always print from new to old
@@ -445,9 +446,11 @@ void Messages::dialog::show()
 
         nc_color col = msgtype_to_color( msg.type, false );
 
+        // Print current line
         print_colored_text( w, border_width + line, border_width + time_width, col, col,
                             folded_all[folded_filtered[folded_ind]].second );
 
+        // Generate aligned time string
         const time_point msg_time = msg.timestamp_in_turns;
         const auto &num_n_unit = to_num_and_unit( calendar::turn - msg_time );
         const auto u8w = utf8_width( num_n_unit.second );
@@ -470,6 +473,7 @@ void Messages::dialog::show()
             }
         }
         if( time_str != prev_time_str ) {
+            // Time changed, print time string
             prev_time_str = time_str;
             right_print( w, border_width + line, border_width + msg_width, time_color, time_str );
             printing_range = false;
@@ -536,6 +540,7 @@ void Messages::dialog::do_filter( const std::string &filter_str )
         filter_text = filter_str;
     }
 
+    // Start filtering the log
     folded_filtered.clear();
     for( size_t folded_ind = 0; folded_ind < folded_all.size(); ) {
         const size_t msg_ind = folded_all[folded_ind].first;
@@ -551,6 +556,7 @@ void Messages::dialog::do_filter( const std::string &filter_str )
         }
     }
 
+    // Reset view
     if( log_from_top || max_lines > folded_filtered.size() ) {
         offset = 0;
     } else {
