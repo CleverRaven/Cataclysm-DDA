@@ -903,7 +903,8 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
-"nutrition" : 0,            // Hunger satisfied
+"calories" : 0,             // Hunger satisfied (in kcal)
+"nutrition" : 0,            // Hunger satisfied (OBSOLETE)
 "tool" : "apparatus",       // Tool required to be eaten/drank
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'

@@ -4952,6 +4952,11 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
 {
     if( g->m.has_nearby_fire( p->pos() ) ) {
         heat_item( *p );
+    } else if( p->has_active_bionic( bionic_id( "bio_tools" ) ) && p->power_level > 10 &&
+               query_yn( _( "There is no fire around, use your integrated toolset instead?" ) ) ) {
+        if( heat_item( *p ) ) {
+            p->charge_power( -10 );
+        }
     } else {
         p->add_msg_if_player( m_info, _( "You need to be next to fire to heat something up with the %s." ),
                               it->tname().c_str() );

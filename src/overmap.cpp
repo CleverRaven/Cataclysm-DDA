@@ -2805,6 +2805,34 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         }
     }
 
+    // 4+ story labs without train connections are candidates for lab escape spots.
+    if( prefix.empty() && z == -4 && train_odds == 0 ) {
+        int cellx = 0;
+        int celly = 0;
+        int tries = 0;
+        int adjacent_labs = 0;
+
+        // Find a space bordering just one lab to the south.
+        do {
+            cellx = rng( x - s * 1.5 - 1, x + s * 1.5 + 1 );
+            celly = rng( y - s * 1.5 - 1, y + s * 1.5 + 1 );
+            tries++;
+
+            adjacent_labs = ( is_ot_subtype( "lab", ter( cellx, celly - 1, z ) ) ? 1 : 0 ) +
+                            ( is_ot_subtype( "lab", ter( cellx - 1, celly, z ) ) ? 1 : 0 ) +
+                            ( is_ot_subtype( "lab", ter( cellx, celly + 1, z ) ) ? 1 : 0 ) +
+                            ( is_ot_subtype( "lab", ter( cellx + 1, celly, z ) ) ? 1 : 0 );
+        } while( tries < 50 && (
+                     ter( cellx, celly, z ) == labt_stairs ||
+                     ter( cellx, celly, z ) == labt_finale ||
+                     ter( cellx, celly + 1, z ) != labt ||
+                     adjacent_labs != 1 ) );
+        if( tries < 50 ) {
+            ter( cellx, celly, z ) = oter_id( "lab_escape_cells" );
+            ter( cellx, celly + 1, z ) = oter_id( "lab_escape_entrance" );
+        }
+    }
+
     return numstairs > 0;
 }
 

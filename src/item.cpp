@@ -922,8 +922,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( food_item != nullptr ) {
         if( g->u.nutrition_for( *food_item ) != 0 || food_item->type->comestible->quench != 0 ) {
             if( parts->test( iteminfo_parts::FOOD_NUTRITION ) )
-                info.push_back( iteminfo( "FOOD", _( "<bold>Nutrition</bold>: " ), "",
-                                          g->u.nutrition_for( *food_item ),
+                info.push_back( iteminfo( "FOOD", _( "<bold>Calories (kcal)</bold>: " ), "",
+                                          g->u.nutrition_for( *food_item ) * islot_comestible::kcal_per_nutr,
                                           true, "", false, true ) );
             if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
                 info.push_back( iteminfo( "FOOD", space + _( "Quench: " ), "",

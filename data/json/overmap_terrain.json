@@ -1650,6 +1650,25 @@
     "flags": [ "NO_ROTATE" ]
   },
   {
+    "type": "overmap_terrain",
+    "id": "lab_escape_cells",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_escape_entrance",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
     "type" : "overmap_terrain",
     "id" : "ants_lab",
     "name" : "science lab",
@@ -1685,7 +1704,7 @@
     "name": "science lab",
     "sym": 76,
     "color": "light_blue",
-    "spawns": { "group": "GROUP_ICE_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -1696,7 +1715,7 @@
     "sym": 76,
     "color": "blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_ICE_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
@@ -1705,7 +1724,7 @@
     "name": "science lab",
     "sym": 76,
     "color": "light_blue",
-    "spawns": { "group": "GROUP_ICE_LAB", "population": [ 0, 8 ], "chance": 30 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -1715,7 +1734,7 @@
     "name": "science lab",
     "sym": 76,
     "color": "cyan",
-    "spawns": { "group": "GROUP_ICE_LAB", "population": [ 4, 12 ], "chance": 90 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -1726,7 +1745,7 @@
     "sym": 76,
     "color": "light_blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_TOWER_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -1736,7 +1755,7 @@
     "sym": 76,
     "color": "blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_TOWER_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "NO_ROTATE" ]
   },
   {

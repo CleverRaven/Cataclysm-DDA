@@ -1057,6 +1057,13 @@ class vehicle
         // Process the trap beneath
         void handle_trap( const tripoint &p, int part );
 
+        /**
+         * Player is driving the vehicle
+         * @param x direction player is steering
+         * @param y direction player is steering
+         */
+        void pldrive( int x, int y );
+
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;

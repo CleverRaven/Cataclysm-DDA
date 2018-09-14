@@ -477,7 +477,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     int pieces = corpse->get_meat_chunks_count();
     int skins = 0;
     int bones = 0;
-    int fats = 0;
+    int fats = pieces / 5;
     int sinews = 0;
     int feathers = 0;
     int wool = 0;
@@ -490,41 +490,37 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             bones = 1;
             fats = 1;
             sinews = 1;
-            feathers = 2;
+            feathers = 4;
             wool = 1;
             break;
         case MS_SMALL:
             skins = 2;
-            bones = 4;
-            fats = 2;
+            bones = 8;
             sinews = 4;
-            feathers = 6;
-            wool = 2;
-            break;
-        case MS_MEDIUM:
-            skins = 4;
-            bones = 9;
-            fats = 4;
-            sinews = 9;
-            feathers = 11;
+            feathers = 12;
             wool = 4;
             break;
-        case MS_LARGE:
-            skins = 8;
-            bones = 14;
-            fats = 8;
-            sinews = 14;
-            feathers = 17;
+        case MS_MEDIUM:
+            skins = 5;
+            bones = 18;
+            sinews = 9;
+            feathers = 22;
             wool = 8;
+            break;
+        case MS_LARGE:
+            skins = 10;
+            bones = 28;
+            sinews = 14;
+            feathers = 36;
+            wool = 16;
             max_practice = 5;
             break;
         case MS_HUGE:
-            skins = 16;
-            bones = 21;
-            fats = 16;
+            skins = 20;
+            bones = 42;
             sinews = 21;
-            feathers = 24;
-            wool = 16;
+            feathers = 48;
+            wool = 32;
             max_practice = 6;
             break;
     }
