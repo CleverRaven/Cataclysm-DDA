@@ -2560,7 +2560,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             switches.insert( switches.end(), A.begin(), A.end() );
             switches.insert( switches.end(), B.begin(), B.end() );
 
-            bool can_reach = veh->is_any_part_reachable(p->pos(), switches);
+            bool can_reach = veh->is_any_part_reachable( p->pos(), switches );
 
             if( can_reach ) {
                 changed_light = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
@@ -2573,16 +2573,14 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             add_msg( m_info, _( "You turn on a light." ) );
         }
         p->mod_moves( -300 );
-    } else {
-        if( crafting_speed <= 0.0f ) {
-            if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-                p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
-            } else {
-                p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
-            }
-            p->cancel_activity();
-            return;
+    } else if( crafting_speed <= 0.0f ) {
+        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        } else {
+            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
         }
+        p->cancel_activity();
+        return;
     }
 
     act->moves_left -= crafting_speed * p->get_moves();

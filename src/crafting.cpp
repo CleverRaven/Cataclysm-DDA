@@ -77,9 +77,9 @@ static bool crafting_allowed( const player &p, const recipe &rec )
                 }
             }
         }
-        if( light_check == false ) {
+        if( !light_check ) {
             add_msg( m_info, _( "You can't see to craft!" ) );
-        } else if( light_check ) {
+        } else {
             if( dome_light ) {
                 add_msg( m_info, _( "You turn on the dome light." ) );
             } else {
