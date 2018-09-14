@@ -304,6 +304,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
 #endif
             _text.clear();
+            _position = -1;
             _canceled = true;
             return _text;
         } else if( ch == '\n' ) {
@@ -428,4 +429,14 @@ void string_input_popup::edit( int &value )
     if( !canceled() ) {
         value = std::atoi( text().c_str() );
     }
+}
+
+string_input_popup &string_input_popup::text( std::string value )
+{
+    _text = value;
+    auto u8size = utf8_wrapper( _text ).size();
+    if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
+        _position = u8size;
+    }
+    return *this;
 }
