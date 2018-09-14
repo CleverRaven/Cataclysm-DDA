@@ -1047,7 +1047,6 @@ class game
         bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
-        void draw_overmap();        // Draws the overmap, allows note-taking etc.
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings

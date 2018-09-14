@@ -3333,11 +3333,6 @@ void game::debug()
     refresh_all();
 }
 
-void game::draw_overmap()
-{
-    ui::omap::display();
-}
-
 void game::disp_kills()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
