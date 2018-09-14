@@ -80,7 +80,13 @@
       [ "rootbeer", 50 ],
       [ "spezi", 10 ],
       [ "crispycran", 35 ],
-      [ "purple_drink", 50 ]
+      [ "purple_drink", 50 ],
+      { "item": "cola", "prob": 20, "container-item": "bottle_twoliter" },
+      { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" }
     ]
   },
   {
