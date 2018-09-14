@@ -1138,8 +1138,10 @@ bool vehicle::turn_on_internal_lights( bool dome_only )
         bool switched = false;
         auto light_parts = get_parts( light_type );
         for( vehicle_part *e  : light_parts ) {
-            e->enabled = true;
-            switched = true;
+            if( can_enable( *e, true ) ) {
+                e->enabled = true;
+                switched = true;
+            }
         }
         return switched;
     };

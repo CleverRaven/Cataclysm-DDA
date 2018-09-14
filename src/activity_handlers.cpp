@@ -2541,21 +2541,23 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     float crafting_speed = p->crafting_speed_multiplier( rec, true );
     bool changed_light = false;
 
-    if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-        auto &&v = g->m.veh_at( p->pos() );
-        if( v.has_value() &&
-            ( act->moves_total == act->moves_left ||
-              query_yn( "It's getting too dark to craft.  Would turning on lights on help?" ) ) ) {
-            /* If the player is on a tile with a dome light, we only need to turn on the dome lights. */
-            vehicle *veh = &( v->vehicle() );
-            if( veh->get_parts( p->pos(), "CONTROLS", false, false ).size() > 0 ||
-                veh->get_parts( p->pos(), "CTRL_ELECTRONIC", false, false ).size() > 0 ) {
-                changed_light = veh->turn_on_internal_lights( true );  // Turn on the dome lights
-            } else {
-                changed_light = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
-            }
-            p->mod_moves( -300 );
+    if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f &&
+        g->m.veh_at( p->pos() ).has_value() &&
+        ( act->moves_total == act->moves_left ||
+          query_yn( "It's getting too dark to craft.  Would turning on lights on help?" ) ) ) {
+        vehicle *veh = &( g->m.veh_at( p->pos() )->vehicle() ); // We already checked that this has a value
+        /* If the player is on a tile with a dome light, we only need to turn on the dome lights. */
+        if( veh->has_part( p->pos(), "CONTROLS", false ) ||
+            veh->has_part( p->pos(), "CTRL_ELECTRONIC", false ) ) {
+            changed_light = veh->turn_on_internal_lights( true );  // Turn on the dome lights
+        } else {
+            changed_light = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
         }
+        if( !changed_light ) {
+            p->add_msg_if_player( m_bad, _( "No light was turned on." ) );
+            p->cancel_activity();
+        }
+        p->mod_moves( -300 );
     } else {
         if( crafting_speed <= 0.0f ) {
             if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {

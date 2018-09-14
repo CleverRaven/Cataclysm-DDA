@@ -52,19 +52,30 @@ static bool crafting_allowed( const player &p, const recipe &rec )
     }
 
     if( p.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+        bool light_check = false;
+        bool dome_light = false;
         if( g->m.veh_at( p.pos() ).has_value() &&
             query_yn( "It's too dark to craft.  Would turning on a vehicle light on help?" ) ) {
             vehicle *veh = &( g->m.veh_at( p.pos() )->vehicle() );
-            if( veh->get_parts( p.pos(), "CONTROLS", false, false ).size() > 0 ||
-                veh->get_parts( p.pos(), "CTRL_ELECTRONIC", false, false ).size() > 0 ) {
-                return veh->turn_on_internal_lights( true );  // Turn on the dome lights
+            if( veh->has_part( p.pos(), "CONTROLS", false ) ||
+                veh->has_part( p.pos(), "CTRL_ELECTRONIC", false ) ) {
+                light_check = veh->turn_on_internal_lights( true );  // Turn on the dome lights
+                dome_light = light_check;
             } else {
-                return veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
+                light_check = veh->turn_on_internal_lights(); // Turn on all other internal lights (not dome)
+            }
+        }
+        if( light_check == false ) {
+            add_msg( m_info, _( "You can't see to craft!" ) );
+        } else if( light_check ) {
+            if( dome_light ) {
+                add_msg( m_info, _( "You turn on the dome light." ) );
+            } else {
+                add_msg( m_info, _( "You turn on the aisle lights." ) );
             }
         }
 
-        add_msg( m_info, _( "You can't see to craft!" ) );
-        return false;
+        return light_check;
     }
 
     if( rec.category == "CC_BUILDING" ) {
