@@ -2009,7 +2009,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -10,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "NO_FREEZE", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
   },
