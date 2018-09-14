@@ -187,6 +187,23 @@
     "watertight": true
   },
   {
+    "id": "bottle_twoliter",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "large plastic bottle",
+    "description": "It's a two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
+    "weight": 13,
+    "volume": 8,
+    "price": 25,
+    "price_postapoc": 500,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "cyan",
+    "contains": 8,
+    "seals": true,
+    "watertight": true
+  },
+  {
     "id": "bowl_clay",
     "type": "CONTAINER",
     "category": "other",
@@ -975,23 +992,6 @@
     "symbol": ")",
     "color": "white",
     "contains": 17,
-    "seals": true,
-    "watertight": true
-  },
-  {
-    "id": "bottle_twoliter",
-    "type": "CONTAINER",
-    "category": "other",
-    "name": "2L plastic bottle",
-    "description": "It's a large plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
-    "weight": 13,
-    "volume": 8,
-    "price": 25,
-    "price_postapoc": 500,
-    "material": "plastic",
-    "symbol": ")",
-    "color": "light_cyan",
-    "contains": 8,
     "seals": true,
     "watertight": true
   }
