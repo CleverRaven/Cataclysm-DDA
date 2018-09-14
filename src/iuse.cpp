@@ -4891,10 +4891,8 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
 static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
-        return ( ( itm.is_food() && ( itm.has_flag( "EATEN_HOT" ) || itm.item_tags.count( "FROZEN" ) ) ) ||
-                 ( itm.is_food_container() &&
-                   ( itm.contents.front().has_flag( "EATEN_HOT" ) ||
-                     itm.contents.front().item_tags.count( "FROZEN" ) ) ) );
+        return( ( itm.is_food() && !itm.item_tags.count( "HOT" ) ) ||
+                ( itm.is_food_container() && !itm.contents.front().item_tags.count( "HOT" ) ) );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -4904,47 +4902,41 @@ static bool heat_item( player &p )
     }
     item &target = heat->is_food_container() ? heat->contents.front() : *heat;
     p.mod_moves( -300 ); //initial preparations
+    // simulates heat capacity of food, more weight = longer heating time
+    // this is x2 to simulate larger delta temperature of frozen food in relation to
+    // heating non-frozen food (x1); no real life physics here, only aproximations
+    int move_mod = ( to_gram( target.weight() ) );
+    // links time of food's HOT-ness with weight, as smaller items lose temperature faster
+    // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
+    int counter_mod = clamp( to_gram( target.weight() ), 100, 600 );
     if( target.item_tags.count( "FROZEN" ) ) {
-        add_msg( _( "You defrost the food." ) );
-        target.item_tags.erase( "FROZEN" );
-        if( target.has_flag( "EATEN_COLD" ) ) {
-            // heat just enough to thaw it
-            p.mod_moves( -to_gram( target.weight() ) );
+        target.apply_freezerburn();
+
+        if( target.has_flag( "EATEN_COLD" ) &&
+            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ), target.tname() ) ) {
+
             target.item_tags.insert( "COLD" );
-            if( g->get_temperature( p.pos() ) <= FRIDGE_TEMPERATURE ) {
+            if( g->get_temperature( p.pos() ) <= temperatures::cold ) {
                 // environment is cold; heat more to prevent re-freeze
-                target.item_counter = 50;
+                counter_mod = 50;
             } else {
                 // environment is warm; heat less to keep COLD longer
-                target.item_counter = 550;
+                counter_mod = 550;
             }
+            add_msg( _( "You defrost the food." ) );
         } else {
-            // simulates heat capacity of food, more weight = longer heating time
-            // this is x2 to simulate larger delta temperature of frozen food in relation to
-            // heating non-frozen food (x1); no real life physics here, only aproximations
-            p.mod_moves( -to_gram( target.weight() ) * 2 );
+            add_msg( _( "You defrost and heat up the food." ) );
             target.item_tags.insert( "HOT" );
-            target.item_counter = 300; // prevents insta-freeze after defrosting
-        }
-        target.active = true;
-        if( target.has_flag( "NO_FREEZE" ) && !target.rotten() ) {
-            target.item_tags.insert( "MUSHY" );
-        } else if( target.has_flag( "NO_FREEZE" ) && target.has_flag( "MUSHY" ) &&
-                   target.get_rot() < target.type->comestible->spoils ) {
-            target.set_relative_rot( 1.0 );
+            // bitshift multiply move_mod because we have to defrost and heat
+            move_mod <<= 1;
         }
     } else {
         add_msg( _( "You heat up the food." ) );
         target.item_tags.erase( "COLD" );
-        target.item_tags.erase( "FROZEN" );
         target.item_tags.insert( "HOT" );
-        p.mod_moves( -to_gram( target.weight() ) ); // simulates heat capacity of food
-        target.active = true;
-        // links time of food's HOT-ness with weight, as smaller items lose temperature faster
-        // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
-        const int hcapacity = to_gram( target.weight() ) < 100 ? 100 : to_gram( target.weight() );
-        target.item_counter = hcapacity > 600 ? 600 : hcapacity;
     }
+    target.item_counter = counter_mod;
+    p.mod_moves( -move_mod ); // time needed to actually heat up
     return true;
 }
 

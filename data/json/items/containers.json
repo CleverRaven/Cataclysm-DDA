@@ -395,6 +395,24 @@
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
+    "id": "thermos",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "thermos",
+    "name_plural": "thermoses",
+    "description": "A Thermos brand vacuum flask.  Built for temperature retention, helps keep things hot or cold.  Contains 1L of liquid.",
+    "weight": 530,
+    "price": 1595,
+    "volume": 5,
+    "contains": 4,
+    "material": "steel",
+    "symbol": "I",
+    "color": "green",
+    "seals": true,
+    "watertight": true,
+    "insulation": 10
+  },
+  {
     "id": "ceramic_bowl",
     "type": "CONTAINER",
     "name": "ceramic bowl",
