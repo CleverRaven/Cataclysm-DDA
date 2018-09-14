@@ -273,7 +273,7 @@ class dialog
     private:
         void init();
         void show();
-        void run_once();
+        void input();
         void do_filter( const std::string &filter_str );
         static std::vector<std::string> filter_help_text( int width );
 
@@ -558,10 +558,8 @@ void Messages::dialog::do_filter( const std::string &filter_str )
     }
 }
 
-void Messages::dialog::run_once()
+void Messages::dialog::input()
 {
-    show();
-
     canceled = false;
     if( filtering ) {
         filter.query( false );
@@ -613,7 +611,8 @@ void Messages::dialog::run_once()
 void Messages::dialog::run()
 {
     while( !errored && !canceled ) {
-        run_once();
+        show();
+        input();
     }
 }
 
