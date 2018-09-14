@@ -341,6 +341,7 @@ void Messages::dialog::init()
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -498,8 +499,8 @@ void Messages::dialog::show()
         filter.query( false, true ); // Draw only
     } else {
         if( filter_str.empty() ) {
-            mvwprintz( w, w_height - 1, border_width, border_color, _( "< Press %s to filter >" ),
-                       ctxt.get_desc( "FILTER" ) );
+            mvwprintz( w, w_height - 1, border_width, border_color, _( "< Press %s to filter, %s to reset >" ),
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "RESET_FILTER" ) );
         } else {
             mvwprintz( w, w_height - 1, border_width, border_color, "< %s >", filter_str );
             mvwprintz( w, w_height - 1, border_width + 2, filter_color, "%s", filter_str );
@@ -586,6 +587,10 @@ void Messages::dialog::run_once()
             }
         } else if( action == "FILTER" ) {
             filtering = true;
+        } else if( action == "RESET_FILTER" ) {
+            filter_str.clear();
+            filter.text( filter_str );
+            do_filter( filter_str );
         } else if( action == "QUIT" ) {
             canceled = true;
         }
