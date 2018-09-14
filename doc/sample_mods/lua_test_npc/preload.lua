@@ -12,11 +12,12 @@ function iuse_test_npc(item, active)
     um.title = "What do you do?"
     um:addentry("Check NPC's opinion")
     um:addentry("Make NPC angry")
+    um:addentry("Make NPC your follower")
     um:addentry("Cancel")
     -- Wait for player selection
     um:query(true)
 
-    if um.selected == 2 then
+    if um.selected == 3 then
         -- Canceled
         return 0
     end
@@ -64,6 +65,9 @@ function iuse_test_npc(item, active)
     elseif feature == 1 then
         target:make_angry()
         message("%s gets angry!", target:disp_name())
+    elseif feature == 2 then
+        target:set_attitude("NPCATT_FOLLOW")
+        message("%s is your follower now.", target:disp_name())
     end
 
     return 0
