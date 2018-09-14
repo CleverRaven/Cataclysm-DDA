@@ -908,7 +908,6 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
         /** Returns true if the menu handled stuff and player shouldn't do anything else */
         bool npc_menu( npc &who );
-        void pldrive( int x, int y ); // drive vehicle
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
