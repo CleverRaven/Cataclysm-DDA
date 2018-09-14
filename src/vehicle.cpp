@@ -2634,13 +2634,10 @@ void vehicle::consume_fuel( double load = 1.0 )
         amnt_precise -= remainder;
 
         if( amnt_precise > 0.0f ) {
-            fuel_remainder[ ft ] = amnt_precise - drain_energy( ft, amnt_precise );
+            fuel_remainder[ ft ] = drain_energy( ft, amnt_precise ) - amnt_precise;
         } else {
             fuel_remainder[ ft ] = -amnt_precise;
         }
-
-        add_msg( m_debug, "%s consumes %s: amount %.2f, remainder %.2f",
-                 name.c_str(), ft.c_str(), amnt_precise, fuel_remainder[ ft ] );
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!
