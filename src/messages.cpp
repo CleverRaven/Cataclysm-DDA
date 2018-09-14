@@ -554,11 +554,15 @@ void Messages::dialog::run_once()
         if( filter.confirmed() || filter.canceled() ) {
             filtering = false;
         }
-        const std::string &new_filter_str = filter.text();
-        if( new_filter_str != filter_str ) {
-            filter_str = new_filter_str;
+        if( !filter.canceled() ) {
+            const std::string &new_filter_str = filter.text();
+            if( new_filter_str != filter_str ) {
+                filter_str = new_filter_str;
 
-            do_filter( filter_str );
+                do_filter( filter_str );
+            }
+        } else {
+            filter.text( filter_str );
         }
     } else {
         const std::string &action = ctxt.handle_input();
