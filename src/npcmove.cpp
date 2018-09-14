@@ -611,7 +611,8 @@ void npc::execute_action( npc_action action )
 
         case npc_follow_player:
             update_path( g->u.pos() );
-            if( ( int )path.size() <= follow_distance() && g->u.posz() == posz() ) { // We're close enough to u.
+            if( static_cast<int>( path.size() ) <= follow_distance() &&
+                g->u.posz() == posz() ) { // We're close enough to u.
                 move_pause();
             } else if( !path.empty() ) {
                 move_to_next();
@@ -1353,8 +1354,8 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
                                average_dispersion;
     double confident_range = even_chance_range * confidence_mult();
-    add_msg( m_debug, "confident_throw_range == %d", ( int )confident_range );
-    return ( int )confident_range;
+    add_msg( m_debug, "confident_throw_range == %d", static_cast<int>( confident_range ) );
+    return static_cast<int>( confident_range );
 }
 
 // Index defaults to -1, i.e., wielded weapon

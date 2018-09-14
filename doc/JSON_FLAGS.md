@@ -1153,3 +1153,9 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
 - ```mx_science``` ... Corpses and some scientist items.
 - ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
+- ```mx_spider``` ... A big spider web, complete with spiders and eggs.
+- ```mx_jabberwock``` ... A *chance* of a jabberwock.
+- ```mx_grove``` ... All trees and shrubs become a single species of tree.
+- ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
+- ```mx_clearcut``` ... All trees become stumps.

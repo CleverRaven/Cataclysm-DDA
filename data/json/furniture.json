@@ -27,7 +27,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "TINY",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -40,7 +51,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "TINY", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "TINY",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -53,7 +75,18 @@
     "move_cost_mod": 6,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -66,7 +99,18 @@
     "move_cost_mod": 8,
     "max_volume": 3000,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT", "RUBBLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
     "examine_action": "rubble"
   },
   {
@@ -213,7 +257,17 @@
     "description": "A variety of plant, used for decoration.",
     "required_str": 5,
     "max_volume": 2000,
-    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "withered" },
+        { "item": "wrapper", "prob": 5 },
+        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "bag_plastic", "prob": 5 },
+        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "group": "flower_pots" }
+      ]
+    },
     "bash": {
       "str_min": 2,
       "str_max": 18,
@@ -221,11 +275,11 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "withered", "prob": 50 },
-        { "item": "wrapper", "prob": 50 },
-        { "item": "can_drink_unsealed", "prob": 50 },
-        { "item": "bag_plastic", "prob": 50 },
-        { "item": "ceramic_shard", "count": [ 1, 3 ] },
-        { "item": "cig_butt", "prob": 50 }
+        { "item": "wrapper", "prob": 5 },
+        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "bag_plastic", "prob": 5 },
+        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "group": "flower_pots_broken" }
       ]
     }
   },
@@ -239,7 +293,17 @@
     "move_cost_mod": 2,
     "required_str": 5,
     "max_volume": 2000,
-    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "withered" },
+        { "item": "wrapper", "prob": 5 },
+        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "bag_plastic", "prob": 5 },
+        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "group": "flower_pots" }
+      ]
+    },
     "bash": {
       "str_min": 2,
       "str_max": 18,
@@ -247,11 +311,11 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "withered", "prob": 50 },
-        { "item": "wrapper", "prob": 50 },
-        { "item": "can_drink_unsealed", "prob": 50 },
-        { "item": "bag_plastic", "prob": 50 },
-        { "item": "ceramic_shard", "count": [ 1, 3 ] },
-        { "item": "cig_butt", "prob": 50 }
+        { "item": "wrapper", "prob": 5 },
+        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "bag_plastic", "prob": 5 },
+        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "group": "flower_pots_broken" }
       ]
     }
   },
@@ -1625,7 +1689,7 @@
     "id": "f_mutpoppy",
     "name": "mutated poppy flower",
     "symbol": "f",
-    "color": "red",
+    "color": "light_red",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
@@ -1968,7 +2032,7 @@
     "type": "furniture",
     "id": "f_target",
     "name": "target",
-    "description": "A shooting target in a rough shape of a human.",
+    "description": "A metal shooting target in the rough shape of a human.",
     "symbol": "@",
     "color": "black",
     "move_cost_mod": 2,
@@ -2053,6 +2117,30 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_tulip",
+    "name": "tulip",
+    "symbol": "f",
+    "color": "light_magenta",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "flower_tulip",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_spurge",
+    "name": "spurge flower",
+    "symbol": "f",
+    "color": "light_green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "flower_spurge",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {

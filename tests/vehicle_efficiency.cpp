@@ -11,6 +11,8 @@
 #include "options.h"
 #include "test_statistics.h"
 
+typedef statistics<long> efficiency_stat;
+
 const efftype_id effect_blind( "blind" );
 
 void clear_game( const ter_id &terrain )
@@ -239,21 +241,21 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     return adjusted_tiles_travelled;
 }
 
-statistics find_inner( std::string type, std::string terrain, int delay, bool smooth )
+efficiency_stat find_inner( std::string type, std::string terrain, int delay, bool smooth )
 {
-    statistics efficiency;
+    efficiency_stat efficiency;
     for( int i = 0; i < 10; i++ ) {
         efficiency.add( test_efficiency( vproto_id( type ), ter_id( terrain ), delay, -1, smooth ) );
     }
     return efficiency;
 }
 
-void print_stats( const statistics &st )
+void print_stats( const efficiency_stat &st )
 {
     if( st.min() == st.max() ) {
-        printf( "All results %d.\n", st.min() );
+        printf( "All results %ld.\n", st.min() );
     } else {
-        printf( "Min %d, Max %d, Midpoint %f.\n", st.min(), st.max(), ( st.min() + st.max() ) / 2.0 );
+        printf( "Min %ld, Max %ld, Midpoint %f.\n", st.min(), st.max(), ( st.min() + st.max() ) / 2.0 );
     }
 }
 
@@ -274,7 +276,7 @@ void find_efficiency( std::string type )
     }
 }
 
-int average_from_stat( const statistics &st )
+int average_from_stat( const efficiency_stat &st )
 {
     int ugly_integer = ( st.min() + st.max() ) / 2.0;
     // Round to 4 most significant places
@@ -377,10 +379,10 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "car_sports", 243800, 163000, 15780, 9458 );
     test_vehicle( "electric_car", 62820, 45220, 3590, 2520 );
     test_vehicle( "suv", 304300, 208600, 28500, 14250 );
-    test_vehicle( "motorcycle", 15180, 13280, 2304, 1302 );
+    test_vehicle( "motorcycle", 15180, 13190, 2304, 1302 );
     test_vehicle( "quad_bike", 11720, 10570, 1963, 1302 );
-    test_vehicle( "scooter", 9650, 9650, 1723, 1723 );
-    test_vehicle( "superbike", 31970, 8073, 3152, 1224 );
+    test_vehicle( "scooter", 9650, 9484, 1723, 1723 );
+    test_vehicle( "superbike", 31970, 8104, 3152, 1224 );
     test_vehicle( "ambulance", 252300, 229800, 22480, 18740 );
     test_vehicle( "fire_engine", 294100, 281800, 24740, 22840 );
     test_vehicle( "fire_truck", 217100, 65930, 18740, 4813 );

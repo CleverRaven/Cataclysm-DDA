@@ -21,7 +21,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "EMPbomb_act",
@@ -1696,7 +1696,8 @@
     "color": "brown",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "clay_quern",
@@ -2654,6 +2655,9 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
+    "initial_charges": 500,
+    "max_charges": 500,
+    "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
     "flags": [ "FIRESTARTER" ]
   },
@@ -2972,7 +2976,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "flashbang_act",
@@ -3424,7 +3428,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "grenade_act",
@@ -3474,7 +3478,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ]
   },
   {
     "id": "grenade_inc_act",
@@ -4635,7 +4639,7 @@
     "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "metal_funnel",
@@ -4692,7 +4696,7 @@
     "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "militarymap",
@@ -5213,7 +5217,8 @@
     "color": "dark_gray",
     "container_data": { "contains": 4, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pastaextruder",
@@ -5642,7 +5647,8 @@
     "color": "light_gray",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pot_copper",
@@ -5660,7 +5666,8 @@
     "color": "light_red",
     "container_data": { "contains": 8, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "press",
@@ -5934,7 +5941,8 @@
     "color": "dark_gray",
     "container_data": { "contains": 6, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "rock_quern",
@@ -6114,7 +6122,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "scrambler_act",
@@ -6752,7 +6760,7 @@
     "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "survivor_scope",
@@ -7167,7 +7175,7 @@
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": "HEAT_FOOD",
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_anfo_charge",

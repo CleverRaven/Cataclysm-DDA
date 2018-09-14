@@ -395,7 +395,8 @@ void player_morale::display( double focus_gain )
             const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
             color = ( value > 0.0 ) ? c_green : c_red;
             mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
-        } else {
+        } else
+        {
             color = c_dark_gray;
             mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
         }
