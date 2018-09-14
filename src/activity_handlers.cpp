@@ -2543,9 +2543,11 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f &&
         g->m.veh_at( p->pos() ).has_value() &&
+        act->tried_turning_on_lights == false &&
         ( act->moves_total == act->moves_left ||
           query_yn( "It's getting too dark to craft.  Would turning on lights on help?" ) ) ) {
         vehicle *veh = &( g->m.veh_at( p->pos() )->vehicle() ); // We already checked that this has a value
+        act->tried_turning_on_lights = true;
         /* If the player is on a tile with a dome light, we only need to turn on the dome lights. */
         if( veh->has_part( p->pos(), "CONTROLS", false ) ||
             veh->has_part( p->pos(), "CTRL_ELECTRONIC", false ) ) {

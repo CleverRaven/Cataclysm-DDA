@@ -19,7 +19,8 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ), ignore_trivial( false ), values(), str_values(),
-    placement( tripoint_min ), warned_of_proximity( false ), auto_resume( false )
+    placement( tripoint_min ), warned_of_proximity( false ), auto_resume( false ),
+    tried_turning_on_lights( false )
 {
 }
 
@@ -28,7 +29,8 @@ player_activity::player_activity( const player_activity &rhs )
       index( rhs.index ), position( rhs.position ), name( rhs.name ),
       ignore_trivial( rhs.ignore_trivial ), values( rhs.values ), str_values( rhs.str_values ),
       coords( rhs.coords ), placement( rhs.placement ),
-      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
+      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume ),
+      tried_turning_on_lights( rhs.tried_turning_on_lights )
 {
     targets.clear();
     targets.reserve( rhs.targets.size() );
@@ -53,6 +55,7 @@ player_activity &player_activity::operator=( const player_activity &rhs )
     placement = rhs.placement;
     warned_of_proximity = rhs.warned_of_proximity;
     auto_resume = rhs.auto_resume;
+    tried_turning_on_lights = rhs.tried_turning_on_lights;
 
     targets.clear();
     targets.reserve( rhs.targets.size() );

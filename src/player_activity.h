@@ -44,9 +44,13 @@ class player_activity
          */
         bool warned_of_proximity;
         /** If true, the activity will be auto-resumed next time the player attempts
-         *  an identical activity. This value is set dynamically.
-         */
+        *  an identical activity. This value is set dynamically.
+        */
         bool auto_resume;
+        /** If true, the player has tried to turn on the lights to continue or begin
+        *  work on this activity.
+        */
+        bool tried_turning_on_lights;
 
         player_activity();
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
