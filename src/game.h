@@ -920,7 +920,6 @@ class game
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
         void on_move_effects();
-        void loot(); // Sort out loot or perform other zone activity
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p );// Examine nearby terrain  'e'
@@ -933,13 +932,6 @@ class game
         void butcher(); // Butcher a corpse  'B'
         void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
-        void wear(); // Wear armor  'W' (or 'a')
-        void wear( int pos );
-        void wear( item_location &loc );
-
-        void takeoff(); // Remove armor  'T'
-        void takeoff( int pos );
-        void takeoff( item_location &loc );
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
@@ -966,7 +958,6 @@ class game
         void wield( int pos ); // Wield a weapon  'w'
         void wield( item_location &loc );
 
-        void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
         void plthrow( int pos = INT_MIN ); // Throw an item  't'
 

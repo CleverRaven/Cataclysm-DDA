@@ -2146,7 +2146,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     eat( pos );
                     break;
                 case 'W':
-                    wear( pos );
+                    u.wear( u.i_at( pos ) );
                     break;
                 case 'w':
                     wield( pos );
@@ -2158,7 +2158,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     change_side( pos );
                     break;
                 case 'T':
-                    takeoff( pos );
+                    u.takeoff( u.i_at( pos ) );
                     break;
                 case 'd':
                     drop( pos );
@@ -5535,98 +5535,6 @@ bool game::revive_corpse( const tripoint &p, item &it )
         debugmsg( "Revived monster is not where it's supposed to be. Prepare for crash." );
     }
     return ret;
-}
-
-void game::loot()
-{
-    enum ZoneFlags {
-        None = 1,
-        SortLoot = 2,
-        TillPlots = 4,
-        PlantPlots = 8
-    };
-
-    auto just_one = []( int flags ) {
-        return flags && !( flags & ( flags - 1 ) );
-    };
-
-    int flags = 0;
-    const auto &mgr = zone_manager::get_manager();
-    const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
-    const bool has_seeds = u.has_item_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
-
-    flags |= check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
-    if( check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
-        flags |= TillPlots;
-        flags |= PlantPlots;
-    }
-
-    if( flags == 0 ) {
-        add_msg( m_info, _( "There is no compatible zone nearby." ) );
-        add_msg( m_info, _( "Compatible zones are %s and %s" ),
-                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
-                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
-        return;
-    }
-
-    if( !just_one( flags ) ) {
-        uimenu menu;
-        menu.text = _( "Pick action:" );
-        menu.desc_enabled = true;
-
-        if( flags & SortLoot ) {
-            menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
-        }
-
-        if( flags & TillPlots ) {
-            menu.addentry_desc( TillPlots, has_hoe, 't',
-                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
-                                _( "Tills nearby Farm: Plot zones." ) );
-        }
-
-        if( flags & PlantPlots ) {
-            menu.addentry_desc( PlantPlots, warm_enough_to_plant() && has_seeds, 'p',
-                                !warm_enough_to_plant() ? _( "Plant seeds... it is too cold for planting" ) :
-                                !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
-                                _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
-        }
-
-        menu.addentry( None, true, 'q',  _( "Cancel" ) );
-
-        menu.query();
-        flags = ( menu.ret >= 0 ) ? menu.ret : None;
-    }
-
-    switch( flags ) {
-        case None:
-            add_msg( _( "Never mind." ) );
-            break;
-        case SortLoot:
-            u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
-            break;
-        case TillPlots:
-            if( has_hoe ) {
-                u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
-            } else {
-                add_msg( _( "You need a tool to dig with." ) );
-            }
-            break;
-        case PlantPlots:
-            if( !warm_enough_to_plant() ) {
-                add_msg( m_info, _( "It is too cold to plant anything now." ) );
-            } else if( !has_seeds ) {
-                add_msg( m_info, _( "You don't have any seeds." ) );
-            } else {
-                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
-            }
-            break;
-        default:
-            debugmsg( "Unsupported flag" );
-            break;
-    }
 }
 
 static void make_active( item_location loc )
@@ -9578,50 +9486,6 @@ void game::eat( int pos )
     }
 }
 
-void game::wear()
-{
-    item_location loc = game_menus::inv::wear( u );
-
-    if( loc ) {
-        wear( loc );
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
-}
-
-void game::wear( int pos )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    wear( loc );
-}
-
-void game::wear( item_location &loc )
-{
-    u.wear( u.i_at( loc.obtain( u ) ) );
-}
-
-void game::takeoff()
-{
-    item_location loc = game_menus::inv::take_off( u );
-
-    if( loc ) {
-        takeoff( loc );
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
-}
-
-void game::takeoff( int pos )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    takeoff( loc );
-}
-
-void game::takeoff( item_location &loc )
-{
-    u.takeoff( u.i_at( loc.obtain( u ) ) );
-}
-
 void game::change_side( int pos )
 {
     if( pos == INT_MIN ) {
@@ -10014,18 +9878,6 @@ void game::wield()
 
     if( loc ) {
         wield( loc );
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
-}
-
-void game::read()
-{
-    // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
-
-    if( loc ) {
-        u.read( loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
