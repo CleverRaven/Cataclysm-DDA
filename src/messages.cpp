@@ -496,6 +496,7 @@ void Messages::dialog::show()
         mvwprintz( w_filter_help, w_fh_height - 1, w_fh_width - border_width - 2, border_color, " >" );
         wrefresh( w_filter_help );
 
+        // This line is preventing this method from being const
         filter.query( false, true ); // Draw only
     } else {
         if( filter_str.empty() ) {
