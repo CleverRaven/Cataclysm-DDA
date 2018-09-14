@@ -5537,88 +5537,6 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return ret;
 }
 
-void game::smash()
-{
-    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
-    bool didit = false;
-    ///\EFFECT_STR increases smashing capability
-    int smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
-    tripoint smashp;
-
-    const bool allow_floor_bash = debug_mode; // Should later become "true"
-    if( !choose_adjacent( _( "Smash where?" ), smashp, allow_floor_bash ) ) {
-        return;
-    }
-
-    bool smash_floor = false;
-    if( smashp.z != u.posz() ) {
-        if( smashp.z > u.posz() ) {
-            // TODO: Knock on the ceiling
-            return;
-        }
-
-        smashp.z = u.posz();
-        smash_floor = true;
-    }
-
-    if( m.get_field( smashp, fd_web ) != nullptr ) {
-        m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, "" );
-        add_msg( m_info, _( "You brush aside some webs." ) );
-        u.moves -= 100;
-        return;
-    }
-
-    for( const auto &maybe_corpse : m.i_at( smashp ) ) {
-        if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-            maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
-            // do activity forever. ACT_PULP stops itself
-            u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-            u.activity.placement = smashp;
-            return; // don't smash terrain if we've smashed a corpse
-        }
-    }
-
-    didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
-    if( didit ) {
-        u.handle_melee_wear( u.weapon );
-        u.moves -= move_cost;
-        const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
-        u.mod_stat( "stamina", mod_sta );
-
-        if( u.get_skill_level( skill_melee ) == 0 ) {
-            u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
-        }
-        const int vol = u.weapon.volume() / units::legacy_volume_factor;
-        if( u.weapon.made_of( material_id( "glass" ) ) &&
-            rng( 0, vol + 3 ) < vol ) {
-            add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname().c_str() );
-            for( auto &elem : u.weapon.contents ) {
-                m.add_item_or_charges( u.pos(), elem );
-            }
-            sounds::sound( u.pos(), 24, "" );
-            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
-            if( vol > 20 ) {
-                // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
-            }
-            u.remove_weapon();
-            u.check_dead_state();
-        }
-        if( smashskill < m.bash_resistance( smashp ) && one_in( 10 ) ) {
-            if( m.has_furn( smashp ) && m.furn( smashp ).obj().bash.str_min != -1 ) {
-                // %s is the smashed furniture
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.furnname( smashp ).c_str() );
-            } else {
-                // %s is the smashed terrain
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.tername( smashp ).c_str() );
-            }
-        }
-    } else {
-        add_msg( _( "There's nothing there to smash!" ) );
-    }
-}
-
 void game::loot()
 {
     enum ZoneFlags {
@@ -6833,6 +6751,11 @@ bool game::check_zone( const zone_type_id &type, const tripoint &where ) const
 bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) const
 {
     return zone_manager::get_manager().has_near( type, m.getabs( where ) );
+}
+
+bool game::is_zones_manager_open() const
+{
+    return zones_manager_open;
 }
 
 static void zones_manager_shortcuts( const catacurses::window &w_info )
@@ -12490,69 +12413,6 @@ void game::perhaps_add_random_npc()
                           tmp->getID() ) );
     // This will make the new NPC active
     load_npcs();
-}
-
-void game::wait()
-{
-    std::map<int, int> durations;
-    uimenu as_m;
-
-    const bool has_watch = u.has_watch();
-    const auto add_menu_item = [ &as_m, &durations, has_watch ]
-                               ( int retval, int hotkey, const std::string &caption = "",
-    int duration = calendar::INDEFINITELY_LONG ) {
-
-        std::string text( caption );
-
-        if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
-            const std::string dur_str( to_string( time_duration::from_turns( duration ) ) );
-            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
-        }
-        as_m.addentry( retval, true, hotkey, text );
-        durations[retval] = duration;
-    };
-
-    add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
-    add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
-
-    if( has_watch ) {
-        add_menu_item( 3, '3', "", HOURS( 1 ) );
-        add_menu_item( 4, '4', "", HOURS( 2 ) );
-        add_menu_item( 5, '5', "", HOURS( 3 ) );
-        add_menu_item( 6, '6', "", HOURS( 6 ) );
-    }
-
-    if( get_levz() >= 0 || has_watch ) {
-        const auto diurnal_time_before = []( const int turn ) {
-            const int remainder = turn % DAYS( 1 ) - calendar::turn % DAYS( 1 );
-            return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
-        };
-
-        add_menu_item( 7,  'd', _( "Wait till dawn" ),
-                       diurnal_time_before( calendar::turn.sunrise() ) );
-        add_menu_item( 8,  'n', _( "Wait till noon" ),     diurnal_time_before( HOURS( 12 ) ) );
-        add_menu_item( 9,  'k', _( "Wait till dusk" ),     diurnal_time_before( calendar::turn.sunset() ) );
-        add_menu_item( 10, 'm', _( "Wait till midnight" ), diurnal_time_before( HOURS( 0 ) ) );
-        add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
-    }
-
-    add_menu_item( 12, 'q', _( "Exit" ) );
-
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
-                to_string_time_of_day( calendar::turn ) ) : "";
-    as_m.text += _( "Wait for how long?" );
-    as_m.return_invalid = true;
-    as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
-
-    if( as_m.ret == 12 || durations.count( as_m.ret ) == 0 ) {
-        return;
-    }
-
-    activity_id actType = activity_id( as_m.ret == 11 ? "ACT_WAIT_WEATHER" : "ACT_WAIT" );
-
-    player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
-
-    u.assign_activity( new_act, false );
 }
 
 void game::teleport( player *p, bool add_teleglow )

@@ -554,9 +554,8 @@ class game
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
+        bool is_zones_manager_open() const;
         void zones_manager();
-        /** Is Zone manager open or not - changes graphics of some zone tiles */
-        bool zones_manager_open = false;
 
         // Look at nearby terrain ';', or select zone points
         tripoint look_around();
@@ -921,8 +920,6 @@ class game
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
         void on_move_effects();
-        void wait(); // Long wait (player action)  '^'
-        void smash(); // Smash terrain
         void loot(); // Sort out loot or perform other zone activity
 
         void control_vehicle(); // Use vehicle controls  '^'
@@ -1049,13 +1046,9 @@ class game
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
-#ifdef __ANDROID__
     public:
-#endif
         void quicksave();        // Saves the game without quitting
-#ifdef __ANDROID__
     private:
-#endif
         void quickload();        // Loads the previously saved game if it exists
 
         // Input related
@@ -1101,6 +1094,8 @@ class game
         bool critter_died;
         /** Was the player sleeping during this turn. */
         bool player_was_sleeping;
+        /** Is Zone manager open or not - changes graphics of some zone tiles */
+        bool zones_manager_open = false;
 
         std::unique_ptr<special_game> gamemode;
 
