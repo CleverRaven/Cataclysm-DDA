@@ -523,7 +523,7 @@
     "type": "terrain",
     "id": "t_grass_long",
     "name": "long grass",
-    "description": "Long shaggy grass about shin tall.",
+    "description": "Long shaggy grass about shin high.",
     "looks_like": "t_grass",
     "symbol": ",",
     "color": "green",
