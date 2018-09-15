@@ -293,6 +293,22 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
+    // kill npcs before removing vehicles so they are correctly unboarded
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            const tripoint p = g->u.pos() + point( x, y );
+            Creature *cre = g->critter_at( p );
+            if( cre != nullptr && cre != &g->u ) {
+                npc *guy = dynamic_cast<npc *>( cre );
+                cre->die( nullptr );
+                if( guy ) {
+                    overmap_buffer.remove_npc( guy->getID() );
+                }
+            }
+        }
+    }
+    g->unload_npcs();
+    // remove existing vehicles
     VehicleList vehs = g->m.get_vehicles( g->u.pos(), g->u.pos() + point( width - 1, height - 1 ) );
     for( auto &veh : vehs ) {
         g->m.detach_vehicle( veh.v );
@@ -333,10 +349,6 @@ TEST_CASE( "npc-movement" )
                 g->m.add_vehicle_to_cache( veh );
             }
             // spawn npcs
-            Creature *cre = g->critter_at( p );
-            if( cre != nullptr && cre != &g->u ) {
-                cre->die( nullptr );
-            }
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 

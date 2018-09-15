@@ -640,6 +640,16 @@ class item : public visitable<item>
          */
         void calc_rot( const tripoint &p );
 
+        /**
+         * Update temperature item_counters for things like food
+         * @param temp Temperature at which item is current exposed
+         * @param insulation Amount of insulation item has from surroundings
+         */
+        void update_temp( const int temp, const float insulation );
+
+        /** reset the last_temp_check used when crafting new items and the like */
+        void reset_temp_check();
+
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
 
@@ -680,6 +690,9 @@ class item : public visitable<item>
             return get_relative_rot() > 2.0;
         }
 
+        /** remove frozen tag and if it takes freezerburn, applies mushy/rotten */
+        void apply_freezerburn();
+
     private:
         /**
          * Accumulated rot, expressed as time the item has been in standard temperature.
@@ -690,16 +703,20 @@ class item : public visitable<item>
         /** Time when the rot calculation was last performed. */
         time_point last_rot_check = calendar::time_of_cataclysm;
 
+        /**
+         * Calculate temperature differential and handle FROZEN/COLD/HOT states
+         * @param temp Temperature of surroundings
+         * @param insulation Amount of insulation item has
+         * @param time Duration of time at which to process at temperature
+         */
+        void calc_temp( const int temp, const float insulation, const time_duration &time );
+
+        /** the last time the temperature was updated for this item */
+        time_point last_temp_check = calendar::time_of_cataclysm;
     public:
         time_duration get_rot() const {
             return rot;
         }
-
-        /** Turn item was put into a fridge or calendar::before_time_starts if not in any fridge. */
-        time_point fridge = calendar::before_time_starts;
-
-        /** Turn item was put into a freezer or calendar::before_time_starts if not in any freezer. */
-        time_point freezer = calendar::before_time_starts;
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
@@ -907,11 +924,12 @@ class item : public visitable<item>
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate );
+        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation );
     protected:
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_food( player *carrier, const tripoint &pos );
+        bool process_food( const player *carrier, const tripoint &p, int temp, float insulation );
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );
@@ -920,7 +938,6 @@ class item : public visitable<item>
         bool process_cable( player *carrier, const tripoint &pos );
         bool process_tool( player *carrier, const tripoint &pos );
     public:
-
         /**
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns tripoint_min if not connected to anything.
@@ -1743,7 +1760,7 @@ class item : public visitable<item>
         std::set<fault_id> faults;
 
         std::set<std::string> item_tags; // generic item specific flags
-        unsigned item_counter = 0; // generic counter to be used with item flags
+        int item_counter = 0; // generic counter to be used with item flags
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!
         typedef std::vector<item> t_item_vector;

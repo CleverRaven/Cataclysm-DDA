@@ -2162,7 +2162,7 @@
     "id": "f_flower_tulip",
     "name": "tulip",
     "symbol": "f",
-    "color": "light_magenta",
+    "color": "magenta",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],

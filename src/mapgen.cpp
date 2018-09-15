@@ -1321,12 +1321,16 @@ class jmapgen_nested : public jmapgen_piece
                 // To speed up the most common case: no checks
                 bool has_any = false;
                 std::array<std::set<oter_str_id>, om_direction::size> neighbors;
+                std::set<oter_str_id> above;
             public:
                 neighborhood_check( JsonObject jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
                         neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
                         has_any |= !neighbors[index].empty();
+
+                        above = jsi.get_tags<oter_str_id>( "above" );
+                        has_any |= !above.empty();
                     }
                 }
 
@@ -1350,6 +1354,15 @@ class jmapgen_nested : public jmapgen_piece
                         }
                         all_directions_match &= this_direction_matches;
                     }
+
+                    if( !above.empty() ) {
+                        bool above_matches = false;
+                        for( oter_str_id allowed_neighbor : above ) {
+                            above_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.above().id() );
+                        }
+                        all_directions_match &= above_matches;
+                    }
+
                     return all_directions_match;
                 }
         };

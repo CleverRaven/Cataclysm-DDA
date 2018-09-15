@@ -1956,11 +1956,14 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    dead = true;
-    Character::die( nkiller );
+    // Need to unboard from vehicle before dying, otherwise
+    // the vehicle code cannot find us
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos() );
     }
+
+    dead = true;
+    Character::die( nkiller );
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%s dies!" ), name.c_str() );
