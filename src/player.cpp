@@ -4204,7 +4204,7 @@ void player::check_needs_extremes()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( ( get_fatigue() >= EXHAUSTED + 25 ) && !in_sleep_state() ) {
+    if( get_fatigue() >= EXHAUSTED + 25 && !in_sleep_state() ) {
         if( get_fatigue() >= MASSIVE_FATIGUE ) {
             add_msg_if_player(m_bad, _("Survivor sleep now."));
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
@@ -4220,9 +4220,9 @@ void player::check_needs_extremes()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if( (get_fatigue() >= DEAD_TIRED ) && !in_sleep_state() ) {
+    if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
         if( get_fatigue() >= 700 ) {
-            if( get_fatigue() >= 700 && calendar::once_every( 30_minutes ) ) {
+            if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _("You're too physically tired to stop yawning.") );
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
@@ -4240,7 +4240,7 @@ void player::check_needs_extremes()
             if (one_in(100 + int_cur)) {
                 fall_asleep( 5_turns );
             }
-        } else if( ( get_fatigue() >= DEAD_TIRED ) && calendar::once_every( 30_minutes ) ) {
+        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _("*yawn* You should really get some sleep.") );
             add_effect( effect_lack_sleep, 30_minutes + 1_turns );
         }
