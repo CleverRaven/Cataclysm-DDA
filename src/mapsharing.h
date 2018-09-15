@@ -26,7 +26,7 @@ extern bool competitive;
 extern bool worldmenu;
 
 void setSharing( bool mode );
-void setUsername( std::string name );
+void setUsername( const std::string &name );
 bool isSharing();
 std::string getUsername();
 
@@ -39,14 +39,14 @@ bool isWorldmenu();
 extern std::set<std::string> admins;
 bool isAdmin();
 
-void setAdmins( std::set<std::string> names );
-void addAdmin( std::string name );
+void setAdmins( const std::set<std::string> &names );
+void addAdmin( const std::string &name );
 
 extern std::set<std::string> debuggers;
 bool isDebugger();
 
-void setDebuggers( std::set<std::string> names );
-void addDebugger( std::string name );
+void setDebuggers( const std::set<std::string> &names );
+void addDebugger( const std::string &name );
 
 void setDefaults();
 }

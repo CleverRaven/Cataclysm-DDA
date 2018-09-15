@@ -31,7 +31,278 @@
           },
           "boosted_other_percent": 50.0,    "//": "...accounts for this % of total coverage"
       },
+      "forest_mapgen_settings": {                         "//": "each section beneath this corresponds to an overmap terrain type",
+          "forest": {                                     "//": "'forest' overmap terrain is generally at the edge of forests",
+              "sparseness_adjacency_factor": 3,           "//": "the difference between this for the terrain being generated compared to its adjacent terrains controls how sparse the terrain will be",
+              "item_group": "forest",                     "//": "name of the item group used to place items randomly within the overmap terrain",
+              "item_group_chance": 60,                    "//": "% chance, between 1 and 100, that an item will be placed",
+              "item_spawn_iterations": 1,                 "//": "number of times that the item spawning will be called",
+              "clear_groundcover": false,                 "//": "if set to true, clear all previously defined 'groundcover' for this terrain. only relevant for 'region_overlay' that override these settings",
+              "groundcover": {                            "//": "weighted list of terrain types placed as groundcover before anything else. higher values are more frequent",
+                  "t_grass": 3,
+                  "t_dirt": 1
+              },
+              "clear_components": false,                  "//": "if set to true, clear all previously defined 'components' for this terrain. only relevant for 'region_overlay' that override these settings",
+              "components": {                             "//": "members are named components that make up the mapgen. the names are not special, and are the handles for 'region_overlay' to override",
+                  "trees": {                              "//": "'trees' component",
+                      "sequence": 0,                      "//": "sequence in which the components are processed. a region_overlay can reorder the components.",
+                      "chance": 12,                       "//": "one_in(x) chance that something from this component will be placed",
+                      "clear_types": false,               "//": "if set to true, clear all previously defined types for this component. only relevant for 'region_overlay' that override these settings",
+                      "types": {                          "//": "weighted list of terrain and furniture types that make up this component. higher values are more frequent, but are all just relative to others for this component.",
+                          "t_tree_young": 128,
+                          "t_tree": 32,
+                          "t_tree_birch": 32,
+                          "t_tree_pine": 32,
+                          "t_tree_maple": 32,
+                          "t_tree_willow": 32,
+                          "t_tree_hickory": 32,
+                          "t_tree_blackjack": 8,
+                          "t_tree_coffee": 8,
+                          "t_tree_apple": 2,
+                          "t_tree_apricot": 2,
+                          "t_tree_cherry": 2,
+                          "t_tree_peach": 2,
+                          "t_tree_pear": 2,
+                          "t_tree_plum": 2,
+                          "t_tree_deadpine": 1,
+                          "t_tree_hickory_dead": 1,
+                          "t_tree_dead": 1
+                      }
+                  },
+                  "shrubs_and_flowers": {
+                      "sequence": 1,
+                      "chance": 10,
+                      "clear_types": false,
+                      "types": {
+                          "t_underbrush": 8,
+                          "t_shrub_blueberry": 1,
+                          "t_shrub_strawberry": 1,
+                          "t_shrub": 1,
+                          "f_chamomile": 1,
+                          "f_dandelion": 1,
+                          "f_datura": 1,
+                          "f_dahlia": 1,
+                          "f_bluebell": 1,
+                          "f_mutpoppy": 1
+                      }
+                  },
+                  "clutter": {
+                      "sequence": 2,
+                      "chance": 80,
+                      "clear_types": false,
+                      "types": {
+                          "t_trunk": 128,
+                          "t_dirtmound": 128,
+                          "f_boulder_small": 128,
+                          "f_rubble_rock": 32,
+                          "f_boulder_medium": 8,
+                          "f_boulder_large": 1,
+                          "t_pit": 1,
+                          "t_pit_shallow": 1
+                      }
+                  },
+                  "water": {
+                      "sequence": 3,
+                      "chance": 512,
+                      "clear_types": false,
+                      "types": {
+                          "t_water_sh": 1
+                      }
+                  }
+              }
+          },
+          "forest_thick": {
+              "sparseness_adjacency_factor": 4,
+              "item_group": "forest",
+              "item_group_chance": 60,
+              "item_spawn_iterations": 1,
+              "clear_groundcover": false,
+              "groundcover": {
+                  "t_grass": 2,
+                  "t_dirt": 1
+              },
+              "clear_components": false,
+              "components": {
+                  "trees": {
+                      "sequence": 0,
+                      "chance": 5,
+                      "clear_types": false,
+                      "types": {
+                          "t_tree": 128,
+                          "t_tree_young": 128,
+                          "t_tree_birch": 32,
+                          "t_tree_pine": 32,
+                          "t_tree_maple": 32,
+                          "t_tree_willow": 32,
+                          "t_tree_hickory": 32,
+                          "t_tree_blackjack": 4,
+                          "t_tree_coffee": 4,
+                          "t_tree_apple": 1,
+                          "t_tree_apricot": 1,
+                          "t_tree_cherry": 1,
+                          "t_tree_peach": 1,
+                          "t_tree_pear": 1,
+                          "t_tree_plum": 1,
+                          "t_tree_deadpine": 8,
+                          "t_tree_hickory_dead": 8,
+                          "t_tree_dead": 8
+                      }
+                  },
+                  "shrubs_and_flowers": {
+                      "sequence": 1,
+                      "chance": 5,
+                      "clear_types": false,
+                      "types": {
+                          "t_underbrush": 16,
+                          "t_shrub_blueberry": 2,
+                          "t_shrub_strawberry": 2,
+                          "t_shrub": 1,
+                          "f_chamomile": 1,
+                          "f_dandelion": 1,
+                          "f_datura": 1,
+                          "f_dahlia": 1,
+                          "f_bluebell": 1,
+                          "f_mutpoppy": 1
+                      }
+                  },
+                  "clutter": {
+                      "sequence": 2,
+                      "chance": 64,
+                      "clear_types": false,
+                      "types": {
+                          "t_trunk": 64,
+                          "t_dirtmound": 64,
+                          "f_boulder_small": 32,
+                          "f_rubble_rock": 32,
+                          "f_boulder_medium": 16,
+                          "f_boulder_large": 4,
+                          "t_pit": 1,
+                          "t_pit_shallow": 1
+                      }
+                  },
+                  "water": {
+                      "sequence": 3,
+                      "chance": 512,
+                      "clear_types": false,
+                      "types": {
+                          "t_water_sh": 1
+                      }
+                  }
+              }
+          },
+          "forest_water": {
+              "sparseness_adjacency_factor": 2,
+              "item_group": "forest",
+              "item_group_chance": 60,
+              "item_spawn_iterations": 1,
+              "clear_groundcover": false,
+              "groundcover": {
+                  "t_grass": 2,
+                  "t_grass_long": 2,
+                  "t_dirt": 1
+              },
+              "clear_components": false,
+              "components": {
+                  "trees": {
+                      "sequence": 0,
+                      "chance": 40,
+                      "clear_types": false,
+                      "types": {
+                          "t_tree": 1,
+                          "t_tree_birch": 1,
+                          "t_tree_maple": 4,
+                          "t_tree_willow": 2,
+                          "t_tree_hickory": 1,
+                          "t_tree_deadpine": 1,
+                          "t_tree_hickory_dead": 1,
+                          "t_tree_dead": 1
+                      }
+                  },
+                  "shrubs_and_flowers": {
+                      "sequence": 1,
+                      "chance": 10,
+                      "clear_types": false,
+                      "types": {
+                          "t_underbrush": 1,
+                          "t_shrub": 1
+                      }
+                  },
+                  "water": {
+                      "sequence": 2,
+                      "chance": 2,
+                      "clear_types": false,
+                      "types": {
+                          "t_swater_sh": 16,
+                          "t_swater_dp": 1,
+                          "t_water_sh": 8
+                      }
+                  }
+              }
+          }
+      },
       "map_extras": {                       "//": "mapping for weighted lists of extras",
+          "forest": {
+              "chance": 20,                 "//": "one in # chance of spawning an extra",
+              "extras": {                   "//": "weighted list",
+                  "mx_helicopter": 5,
+                  "mx_military": 8,
+                  "mx_science": 20,
+                  "mx_collegekids": 15,
+                  "mx_drugdeal": 30,
+                  "mx_supplydrop": 2,
+                  "mx_portal": 3,
+                  "mx_crater": 10,
+                  "mx_fumarole": 8,
+                  "mx_portal_in": 1,
+                  "mx_anomaly": 3,
+                  "mx_spider": 200,
+                  "mx_grove": 500,
+                  "mx_shrubbery": 500,
+                  "mx_clearcut": 125
+              }
+          },
+          "forest_thick": {
+              "chance": 20,                 "//": "one in # chance of spawning an extra",
+              "extras": {                   "//": "weighted list",
+                  "mx_helicopter": 5,
+                  "mx_military": 8,
+                  "mx_science": 20,
+                  "mx_collegekids": 15,
+                  "mx_drugdeal": 30,
+                  "mx_supplydrop": 2,
+                  "mx_portal": 3,
+                  "mx_crater": 10,
+                  "mx_fumarole": 8,
+                  "mx_portal_in": 1,
+                  "mx_anomaly": 3,
+                  "mx_shia": 1,
+                  "mx_spider": 200,
+                  "mx_jabberwock": 1,
+                  "mx_grove": 500,
+                  "mx_shrubbery": 500,
+                  "mx_clearcut": 125
+              }
+          },
+          "forest_water": {
+              "chance": 20,                 "//": "one in # chance of spawning an extra",
+              "extras": {                   "//": "weighted list",
+                  "mx_helicopter": 5,
+                  "mx_military": 8,
+                  "mx_science": 20,
+                  "mx_collegekids": 15,
+                  "mx_drugdeal": 30,
+                  "mx_supplydrop": 2,
+                  "mx_portal": 3,
+                  "mx_crater": 10,
+                  "mx_fumarole": 8,
+                  "mx_portal_in": 1,
+                  "mx_anomaly": 3,
+                  "mx_spider": 200,
+                  "mx_grove": 500,
+                  "mx_shrubbery": 500,
+                  "mx_clearcut": 125
+              }
+          },
           "field": {
               "chance": 90,                 "//": "one in # chance of spawning an extra",
               "extras": {                   "//": "weighted list",

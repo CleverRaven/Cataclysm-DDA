@@ -60,14 +60,14 @@ struct pathfinding_settings {
 
     bool allow_open_doors = false;
     bool avoid_traps = false;
-
     bool allow_climb_stairs = true;
+    bool avoid_rough_terrain = false;
 
     pathfinding_settings() = default;
     pathfinding_settings( const pathfinding_settings & ) = default;
-    pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool at, bool acs )
+    pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool at, bool acs, bool art )
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
-          allow_open_doors( aod ), avoid_traps( at ), allow_climb_stairs( acs ) {}
+          allow_open_doors( aod ), avoid_traps( at ), allow_climb_stairs( acs ), avoid_rough_terrain( art ) {}
 };
 
 #endif

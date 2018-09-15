@@ -612,6 +612,13 @@ void player::complete_craft()
                     used_age_tally += elem.get_relative_rot();
                     ++used_age_count;
                 }
+                if( elem.has_flag( "HIDDEN_HALLU" ) ) {
+                    newit.item_tags.insert( "HIDDEN_HALLU" );
+                }
+                if( elem.has_flag( "HIDDEN_POISON" ) ) {
+                    newit.item_tags.insert( "HIDDEN_POISON" );
+                    newit.poison = elem.poison;
+                }
             }
         }
 
@@ -654,6 +661,7 @@ void set_item_food( item &newit )
         newit.item_tags.erase( "FROZEN" );
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
+        newit.reset_temp_check();
         newit.active = true;
     }
 }

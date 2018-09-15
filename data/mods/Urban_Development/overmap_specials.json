@@ -16,7 +16,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
   },{
@@ -37,7 +37,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -58,7 +58,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -82,7 +82,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -103,7 +103,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -124,7 +124,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -145,7 +145,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -165,7 +165,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -186,7 +186,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -207,7 +207,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -228,7 +228,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -249,7 +249,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -277,7 +277,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -306,7 +306,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -327,7 +327,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -346,7 +346,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -365,7 +365,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -390,7 +390,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -418,7 +418,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -442,7 +442,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -461,7 +461,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -480,7 +480,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
     "city_sizes" : [4, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -506,7 +506,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -534,7 +534,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -560,7 +560,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -587,7 +587,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -615,7 +615,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -641,7 +641,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -666,7 +666,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
 },{
@@ -694,7 +694,7 @@
     "locations" : [ "land" ], 
     "city_distance" : [0, 1],
     "city_sizes" : [6, 12],
-    "occurrences" : [1, 1],
+    "occurrences" : [0, 4],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
   },

@@ -749,6 +749,7 @@ See also VEHICLE_JSON.md
 "volume" : 1,                     // Volume, measured in 1/4 liters
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
+"insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price" : 100,                    // Used when bartering with NPCs
 "material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
@@ -902,11 +903,13 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
-"nutrition" : 0,            // Hunger satisfied
+"calories" : 0,             // Hunger satisfied (in kcal)
+"nutrition" : 0,            // Hunger satisfied (OBSOLETE)
 "tool" : "apparatus",       // Tool required to be eaten/drank
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
+"freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 ```
 
 ### Containers
@@ -1211,7 +1214,11 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 ```JSON
 "fuel" : {
-   "energy": 34.2,               // battery charges per unit of fuel. batteries have energy 1.
+    energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
+                                 // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
+                                 // assumes stacksize 250 per volume 1 (250mL). Multiply
+                                 // by 250 / stacksize * volume for other stack sizes and
+                                 // volumes
    "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
    "explosion_data": {           // optional for fuels that can cause explosions
         "chance_hot": 2,         // 1 in chance_hot of explosion when attacked by HEAT weapons

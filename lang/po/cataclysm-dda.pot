@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-31 15:14+0800\n"
+"POT-Creation-Date: 2018-09-15 00:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,7 @@ msgstr ""
 msgid "World Defaults"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Android"
 msgstr ""
 
@@ -561,10 +561,12 @@ msgstr ""
 
 #. ~ sidebar position
 #: lang/extra/android/options.cpp src/options.cpp
+#: src/options.cpp
 msgid "Left"
 msgstr ""
 
 #: lang/extra/android/options.cpp src/options.cpp
+#: src/options.cpp
 msgid "Right"
 msgstr ""
 
@@ -1210,7 +1212,7 @@ msgstr ""
 msgid "Season length"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Season length, in days."
 msgstr ""
 
@@ -1363,42 +1365,42 @@ msgstr ""
 msgid "If true, skips the Android welcome screen on app load."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Quicksave on app lose focus"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, quicksave whenever the app loses focus (screen locked, app moved "
 "into background etc.) WARNING: Experimental. This may result in corrupt save "
 "games."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto-manage virtual keyboard"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, automatically show/hide the virtual keyboard when necessary based "
 "on context. If false, virtual keyboard must be toggled manually."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual keyboard screen scale"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "When the virtual keyboard is visible, scale the screen to prevent "
 "overlapping. Useful for text entry so you can see what you're typing."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Vibration duration"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If non-zero, vibrate the device for this long on input, in millisconds. "
 "Ignored if hardware keyboard connected."
@@ -1430,358 +1432,358 @@ msgid ""
 "specific orientation."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Show virtual joystick"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, show the virtual joystick when touching and holding the screen. "
 "Gives a visual indicator of deadzone and stick deflection."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual joystick opacity"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The opacity of the on-screen virtual joystick, as a percentage."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual joystick deadzone size"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "While using the virtual joystick, deflecting the stick beyond this distance "
 "will trigger directional input. Specified as a percentage of longest screen "
 "edge."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual joystick size"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "While using the virtual joystick, deflecting the stick by this much will "
 "repeat input at the deflected rate (see below). Specified as a percentage of "
 "longest screen edge."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual joystick follows finger"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, the virtual joystick will follow when sliding beyond its range."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual joystick repeat rate (centered)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "When the virtual joystick is centered, how fast should input events repeat, "
 "in milliseconds."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual joystick repeat rate (deflected)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "When the virtual joystick is fully deflected, how fast should input events "
 "repeat, in milliseconds."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual joystick repeat rate sensitivity"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "As the virtual joystick moves from centered to fully deflected, this value "
 "is an exponent that controls the blend between the two repeat rates defined "
 "above. 1.0 = linear."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Input repeat delay"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "While touching the screen, wait this long before showing the virtual "
 "joystick and repeating input, in milliseconds. Also used to determine tap/"
 "double-tap detection, flick detection and toggling quick shortcuts."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Virtual joystick hides shortcuts"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, hides on-screen keyboard shortcuts while using the virtual "
 "joystick. Helps keep the view uncluttered while travelling long distances "
 "and navigating menus."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Default gameplay shortcuts"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "The default set of gameplay shortcuts to show. Used on starting a new game "
 "and whenever all gameplay shortcuts are removed."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Add shortcuts for action menu selections"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, automatically add a shortcut for actions selected via the in-game "
 "action menu."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Add shortcuts for inventory selections"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, automatically add a shortcut for items selected via the inventory."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Tap key (in-game)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The key to press when tapping during gameplay."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Two-finger tap key (in-game)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The key to press when tapping with two fingers during gameplay."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Two-finger swipe up key (in-game)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The key to press when swiping up with two fingers during gameplay."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Two-finger swipe down key (in-game)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The key to press when swiping down with two fingers during gameplay."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Two-finger swipe left key (in-game)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The key to press when swiping left with two fingers during gameplay."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Two-finger swipe right key (in-game)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The key to press when swiping right with two fingers during gameplay."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Pinch in key (in-game)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The key to press when pinching in during gameplay."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Pinch out key (in-game)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The key to press when pinching out during gameplay."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto-manage contextual gameplay shortcuts"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, contextual in-game shortcuts are added and removed automatically as "
 "needed: examine, close, butcher, move up/down, control vehicle, pickup, "
 "toggle enemy + safe mode, sleep."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Move contextual gameplay shortcuts to front"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If the above option is enabled, specifies whether contextual in-game "
 "shortcuts will be added to the front or back of the shortcuts list. True "
 "makes them easier to reach, False reduces shuffling of shortcut positions."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Move used shortcuts to front"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, using an existing shortcut will always move it to the front of the "
 "shortcuts list. If false, only shortcuts typed via keyboard will move to the "
 "front."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Separate shortcuts for No Auto Pickup zones"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, separate gameplay shortcuts will be used within No Auto Pickup "
 "zones. Useful for keeping home base actions separate from exploring actions."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Turns to remove unused gameplay shortcuts"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If non-zero, unused gameplay shortcuts will be removed after this many turns "
 "(as in discrete player actions, not world calendar turns)."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcuts persistence"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, shortcuts are saved/restored with each save game. If false, "
 "shortcuts reset between sessions."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcuts position"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Switch between shortcuts on the left or on the right side of the screen."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcuts screen percentage"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "How much of the screen can shortcuts occupy, as a percentage of total screen "
 "width."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcuts overlap screen"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, shortcuts will be drawn transparently overlapping the game screen. "
 "If false, the game screen size will be reduced to fit the shortcuts below."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcut opacity (background)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "The background opacity of on-screen keyboard shortcuts, as a percentage."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcut opacity (shadow)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The shadow opacity of on-screen keyboard shortcuts, as a percentage."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcut opacity (text)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "The foreground opacity of on-screen keyboard shortcuts, as a percentage."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcut color"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The color of on-screen keyboard shortcuts."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcut border"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The border of each on-screen keyboard shortcut in pixels. ."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcut width (min)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "The minimum width of each on-screen keyboard shortcut in pixels. Only "
 "relevant when lots of shortcuts are visible at once."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcut width (max)"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The maximum width of each on-screen keyboard shortcut in pixels."
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "Shortcut height"
 msgstr ""
 
-#: lang/extra/android/options.cpp
+#: lang/extra/android/options.cpp src/options.cpp
 msgid "The height of each on-screen keyboard shortcut in pixels."
 msgstr ""
 
@@ -5988,6 +5990,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
+msgid "rock"
+msgid_plural "rocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "pool ball"
 msgid_plural "pool balls"
 msgstr[0] ""
@@ -6014,9 +6022,7 @@ msgstr[1] ""
 
 #. ~ Description for vortex core
 #: lang/json/AMMO_from_json.py
-msgid ""
-"An unknown, but powerful force contained within spiral and vortex stones. "
-"Can be harnessed by those with the knowledge to do so."
+msgid "Seeing this is a bug."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
@@ -12576,6 +12582,7 @@ msgstr[1] ""
 #. ~ Use action holster_msg for MBR vest (Kevlar plates).
 #. ~ Use action holster_msg for MBR vest (steel plating).
 #. ~ Use action holster_msg for MBR vest (superalloy).
+#. ~ Use action holster_msg for large grenade pouch.
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You stash your %s."
@@ -12856,6 +12863,22 @@ msgstr[1] ""
 msgid ""
 "A small pouch for storing cartridge grenades with straps for attaching it to "
 "your belt or other webbing."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "large grenade pouch"
+msgid_plural "large grenade pouches"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action holster_prompt for large grenade pouch.
+#: lang/json/ARMOR_from_json.py
+msgid "Stash grenades"
+msgstr ""
+
+#. ~ Description for large grenade pouch
+#: lang/json/ARMOR_from_json.py
+msgid "A pouch for holding up to four full-sized grenades of various types."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -14395,8 +14418,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for Oxygenator CBM
-#. ~ Description for Oxygenator
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "A complex oxygen delivery system.  Improves the ability to extract oxygen "
 "from air and allows extracting it from water.  Will automatically turn on "
@@ -15145,6 +15167,50 @@ msgid ""
 "Nanotubes embedded in the palm of your hand will pump any available fluid "
 "out of a dead body, cleanse it of impurities and convert it into drinkable "
 "water.  You must, however, have a container to store the water in."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Intravenous Needletip CBM"
+msgid_plural "Intravenous Needletip CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Intravenous Needletip CBM
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid ""
+"A small tube with a retractable needle, that terminates in a net of tiny "
+"hoses instead of a plunger.  Installed, it allows you to draw substances "
+"directly into your bloodstream through the needle without needing to carry a "
+"syringe."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Titanium Skeletal Bracing CBM"
+msgid_plural "Titanium Skeletal Bracing CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Titanium Skeletal Bracing CBM
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid ""
+"A set of hinges, springs, and other synthetic augments for the skeletal "
+"structure.  These artificial enhancers strengthen the knees and elbows, "
+"allowing you to carry more weight."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Kinetic Shock Absorbers CBM"
+msgid_plural "Kinetic Shock Absorbers CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Kinetic Shock Absorbers CBM
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid ""
+"A set of hydraulic springs and foldable padding that replaces most of the "
+"flesh in your limbs and upper torso.  While active, these absorbers will "
+"negate damage from severe impacts such as falling, at the cost of reducing "
+"your ability to move effectively."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -17545,9 +17611,9 @@ msgstr[1] ""
 #. ~ Description for Dungeon Master's Guide: 6th Edition
 #: lang/json/BOOK_from_json.py
 msgid ""
-"A thick, hardcover volume with everything needed to weave legendary stories. "
-"It's full of information, but finding the things you're looking for can be a "
-"chore."
+"A thick, hardcover volume with everything needed to weave legendary "
+"stories.  It's full of information, but finding the things you're looking "
+"for can be a chore."
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
@@ -20372,6 +20438,152 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "cranberry"
+msgid_plural "cranberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cranberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Sour red berries.  Good for your health."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "irradiated cranberry"
+msgid_plural "irradiated cranberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for irradiated cranberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An irradiated cranberry will remain edible nearly forever.  Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "raspberry"
+msgid_plural "raspberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for raspberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A sweet red berry."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "irradiated raspberry"
+msgid_plural "irradiated raspberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for irradiated raspberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An irradiated raspberry will remain edible nearly forever.  Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "huckleberry"
+msgid_plural "huckleberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for huckleberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Huckleberries, often times confused for blueberries."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "irradiated huckleberry"
+msgid_plural "irradiated huckleberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for irradiated huckleberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An irradiated huckleberry will remain edible nearly forever.  Sterilized "
+"using radiation, so it's safe to eat."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mulberry"
+msgid_plural "mulberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mulberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Mulberries, this red variety is unique to east North America and is "
+"described to have the strongest flavor of any variety in the world."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "irradiated mulberry"
+msgid_plural "irradiated mulberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for irradiated mulberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An irradiated mulberry will remain edible nearly forever.  Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "elderberry"
+msgid_plural "elderberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for elderberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Elderberries, toxic when eaten raw but great when cooked."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "irradiated elderberry"
+msgid_plural "irradiated elderberries"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for irradiated elderberry
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An irradiated elderberry will remain edible nearly forever.  Sterilized "
+"using radiation, so it's safe to eat."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "rose hip"
+msgid_plural "rose hips"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rose hip
+#: lang/json/COMESTIBLE_from_json.py
+msgid "The fruit of a pollinated rose flower."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "irradiated rose hips"
+msgid_plural "irradiated rose hips"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for irradiated rose hips
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An irradiated rose hips will remain edible nearly forever.  Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "juice pulp"
 msgstr ""
 
@@ -22714,7 +22926,7 @@ msgstr[1] ""
 
 #. ~ Description for grape
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A cluster of seedless grapes."
+msgid "A cluster of juicy grapes."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -22791,30 +23003,6 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "An irradiated peach will remain edible nearly forever.  Sterilized using "
-"radiation, so it's safe to eat."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "cranberry"
-msgid_plural "cranberries"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for cranberry
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Sour red berries.  Good for your health."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "irradiated cranberry"
-msgid_plural "irradiated cranberries"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for irradiated cranberry
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"An irradiated cranberry will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
 
@@ -22911,30 +23099,6 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "An irradiated melon will remain edible nearly forever.  Sterilized using "
-"radiation, so it's safe to eat."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "raspberry"
-msgid_plural "raspberries"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for raspberry
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A sweet red berry."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "irradiated raspberry"
-msgid_plural "irradiated raspberries"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for irradiated raspberry
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"An irradiated raspberry will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
 
@@ -24525,6 +24689,145 @@ msgid "Common roe from an unknown fish."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "milkshake"
+msgid_plural "milkshakes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for milkshake
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An all-natural cold beverage made with milk and sweeteners.  Tastes great "
+"when frozen."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "fast food milkshake"
+msgid_plural "fast food milkshakes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for fast food milkshake
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A milkshake made by freezing a premade mix.  Tastes better due to how much "
+"sugar is in it, but is bad for your health."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "deluxe milkshake"
+msgid_plural "deluxe milkshakes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for deluxe milkshake
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This milkshake has been enhanced with added sweeteners, and even has a "
+"cherry on top.  Tastes great, but is fairly awful for your health."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "ice cream"
+msgid_plural "ice cream scoops"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for ice cream
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A sweet, frozen food made of milk with liberal amounts of sugar."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "dairy dessert"
+msgid_plural "dairy dessert scoops"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for dairy dessert
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Government regulations dictate that since this isn't *technically* ice "
+"cream, it be called a dairy dessert instead.  It still tastes good, but your "
+"body won't like you."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "candy ice cream"
+msgid_plural "candy ice cream scoops"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for candy ice cream
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Ice cream with bits of chocolate, caramel, or other flavoring mixed in."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "fruity ice cream"
+msgid_plural "fruity ice cream scoops"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for fruity ice cream
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Small bits of sweet fruit have been tossed into this ice cream, making it "
+"slightly less terrible for you."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "frozen custard"
+msgid_plural "frozen custard scoops"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for frozen custard
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Similar to ice cream, this treat made famous in Coney Island is made like "
+"ice cream, but with egg yolk added in.  Its storing temperature is warmer, "
+"and it lasts a little longer than regular ice cream."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "frozen yogurt"
+msgid_plural "frozen yogurt"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for frozen yogurt
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Tarter than ice cream, this is made with yogurt and other dairy products, "
+"and is generally low-fat compared to ice cream itself."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sorbet"
+msgid_plural "sorbet scoops"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for sorbet
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A simple frozen dessert food made from water and fruit juice."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "gelato"
+msgid_plural "gelato scoops"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for gelato
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Italian-style ice cream.  Less airy, and more dense, giving it a richer "
+"flavor and texture."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "Adderall"
 msgid_plural "Adderall"
 msgstr[0] ""
@@ -25572,6 +25875,17 @@ msgid "ursine serum"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "mouse serum"
+msgstr ""
+
+#. ~ Description for mouse serum
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A super-concentrated mutagen strongly resembling liquefied metal.  You need "
+"a syringe to inject it...  if you really want to?"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "mutagen"
 msgstr ""
 
@@ -25675,6 +25989,10 @@ msgid "ursine mutagen"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "mouse mutagen"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "purifier"
 msgstr ""
 
@@ -25693,6 +26011,17 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated stem cell treatment.  You need a syringe to inject it."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "purifier smart shot"
+msgstr ""
+
+#. ~ Description for purifier smart shot
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"An experimental stem cell treatment, offering limited control over which "
+"mutations are purified.  The liquid sloshes strangely inside of this syringe."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -25811,6 +26140,21 @@ msgid "Some mushroom spores.  You could probably plant these."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "hop rhizomes"
+msgid_plural "hop rhizomes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hop rhizomes
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Roots of a hop plant, for growing your own."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "hops"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "blackberry seeds"
 msgid_plural "blackberry seeds"
 msgstr[0] ""
@@ -25844,18 +26188,36 @@ msgid "Some cranberry seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "hop rhizomes"
-msgid_plural "hop rhizomes"
+msgid "huckleberry seeds"
+msgid_plural "huckleberry seeds"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for hop rhizomes
+#. ~ Description for huckleberry seeds
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Roots of a hop plant, for growing your own."
+msgid "Some huckleberry seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "hops"
+msgid "mulberry seeds"
+msgid_plural "mulberry seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mulberry seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some mulberry seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "elderberry seeds"
+msgid_plural "elderberry seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for elderberry seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some elderberry seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -25879,6 +26241,34 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some strawberry seeds."
 msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "grape seeds"
+msgid_plural "grape seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for grape seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some grape seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "rose seeds"
+msgid_plural "rose seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rose seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some rose seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/GENERIC_from_json.py
+msgid "rose"
+msgid_plural "roses"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tobacco seeds"
@@ -27693,6 +28083,28 @@ msgid "Just a piece of butcher's paper.  Good for starting fires."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
+msgid "styrofoam cup"
+msgid_plural "styrofoam cups"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for styrofoam cup
+#: lang/json/CONTAINER_from_json.py
+msgid "A cheap disposable cup with a plastic lid and straw."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "plastic tub"
+msgid_plural "plastic tubs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for plastic tub
+#: lang/json/CONTAINER_from_json.py
+msgid "A big, square plastic bucket usually used for carrying ice cream."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "blood draw kit"
 msgid_plural "blood draw kits"
 msgstr[0] ""
@@ -27801,44 +28213,6 @@ msgid_plural "oozing tanks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lang/json/CONTAINER_from_json.py
-#: lang/json/vehicle_part_from_json.py
-msgid "vortex engine"
-msgid_plural "vortex engines"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vortex engine
-#: lang/json/CONTAINER_from_json.py
-msgid ""
-"A tornado in a box, so to speak. Inside this innocuous tank contains either "
-"the culmination of human innovation in clean energy, or a weapon of mass "
-"destruction capable of wiping civilization - or what's left of it - off the "
-"map. An external mechanism allows it to be attached to a vehicle to render "
-"it mobile. To activate, install it on a vehicle, insert the vortex core, and "
-"activate. The core must be removed from the machinery before installation, "
-"due to its sensitivity."
-msgstr ""
-
-#: lang/json/CONTAINER_from_json.py
-#: lang/json/vehicle_part_from_json.py
-msgid "vortex generator"
-msgid_plural "vortex generators"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for vortex generator
-#: lang/json/CONTAINER_from_json.py
-msgid ""
-"A tornado in a box, so to speak. Inside this innocuous tank contains either "
-"the culmination of human innovation in clean energy, or a weapon of mass "
-"destruction capable of wiping civilization - or what's left of it - off the "
-"map. An external mechanism allow it to be hooked up to a battery to store "
-"the power generated. To activate, install it on a vehicle, insert the vortex "
-"core, and activate. The core must be removed from the machinery before "
-"installation, due to its sensitivity."
-msgstr ""
-
 #: lang/json/ENGINE_from_json.py
 msgid "internal combustion engine"
 msgstr ""
@@ -27849,6 +28223,10 @@ msgstr ""
 
 #: lang/json/ENGINE_from_json.py
 msgid "base gasoline engine"
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "base steam engine"
 msgstr ""
 
 #: lang/json/ENGINE_from_json.py
@@ -27951,6 +28329,114 @@ msgstr ""
 #: lang/json/ENGINE_from_json.py
 msgid ""
 "A massive and extremely powerful V12 engine, usually built into heavy trucks."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "makeshift steam engine"
+msgstr ""
+
+#. ~ Description for makeshift steam engine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A small, primitive, steam engine.  An integrated boiler burns coal to heat "
+"water into steam, driving a reciprocating shaft.  A condenser recaptures the "
+"water, making this a closed cycle system."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "small steam engine"
+msgstr ""
+
+#. ~ Description for small steam engine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A small steam engine.  An integrated boiler burns coal to heat water into "
+"steam, driving a reciprocating shaft.  A condenser recaptures the water, "
+"making this a closed cycle system."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "medium steam engine"
+msgstr ""
+
+#. ~ Description for medium steam engine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A medium sized steam engine.  An integrated boiler burns coal to heat water "
+"into steam, driving a reciprocating shaft.  A condenser recaptures the "
+"water, making this a closed cycle system."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "large steam engine"
+msgstr ""
+
+#. ~ Description for large steam engine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A large steam engine.  An integrated boiler burns coal to heat water into "
+"steam, driving a reciprocating shaft.  A condensor recaptures the water, "
+"making this a closed cycle system."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "huge steam engine"
+msgstr ""
+
+#. ~ Description for huge steam engine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A huge steam engine.  An integrated boiler burns coal to heat water into "
+"steam, driving a reciprocating shaft.  A condensor recaptures the water, "
+"making this a closed cycle system."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "small steam turbine"
+msgstr ""
+
+#. ~ Description for small steam turbine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A small steam turbine.  An integrated boiler burns coal to heat water into "
+"steam, driving a spinning turbine.  A condensor recaptures the water, making "
+"this a closed cycle system."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "medium steam turbine"
+msgstr ""
+
+#. ~ Description for medium steam turbine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A medium sized steam turbine.  An integrated boiler burns coal to heat water "
+"into steam, driving a spinning turbine.  A condensor recaptures the water, "
+"making this a closed cycle system."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "large steam turbine"
+msgstr ""
+
+#. ~ Description for large steam turbine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A large steam turbine.  An integrated boiler burns coal to heat water into "
+"steam, driving a spinning turbine.  A condensor recaptures the water, making "
+"this a closed cycle system."
+msgstr ""
+
+#: lang/json/ENGINE_from_json.py
+msgid "huge steam turbine"
+msgstr ""
+
+#. ~ Description for huge steam turbine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A huge steam turbine.  An integrated boiler burns coal to heat water into "
+"steam, driving a spinning turbine.  A condensor recaptures the water, making "
+"this a closed cycle system."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -29067,6 +29553,19 @@ msgid "A simple thin aluminum shaft.  Useful in lots of electronics recipes."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "micro motor"
+msgid_plural "micro motors"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for micro motor
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A very small electric motor like those used in RC cars.  Useful in lots of "
+"electronics recipes."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "circuit board"
 msgid_plural "circuit boards"
 msgstr[0] ""
@@ -29599,6 +30098,93 @@ msgstr[1] ""
 msgid "A dahlia bud.  Contains some substances commonly produced by a dahlia."
 msgstr ""
 
+#. ~ Description for rose
+#: lang/json/GENERIC_from_json.py
+msgid "A rose stalk with some petals."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "rose bud"
+msgid_plural "rose buds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rose bud
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A rose bud.  Contains some substances commonly produced by a rose flower."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "hydrangea"
+msgid_plural "hydrangeas"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hydrangea
+#: lang/json/GENERIC_from_json.py
+msgid "A hydrangea stalk with some petals."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "hydrangea bud"
+msgid_plural "hydrangea buds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hydrangea bud
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A hydrangea bud.  Contains some substances commonly produced by a hydrangea "
+"flower."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/furniture_from_json.py
+msgid "tulip"
+msgid_plural "tulips"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for tulip
+#: lang/json/GENERIC_from_json.py
+msgid "A tulip stalk with some petals."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "tulip bud"
+msgid_plural "tulip buds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for tulip bud
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A tulip bud.  Contains some substances commonly produced by a tulip flower."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "spurge"
+msgid_plural "spurges"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for spurge
+#: lang/json/GENERIC_from_json.py
+msgid "A spurge stalk with some petals."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "spurge bud"
+msgid_plural "spurge buds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for spurge bud
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A spurge bud.  Contains some substances commonly produced by a spurge flower."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "lump of clay"
 msgid_plural "lumps of clay"
@@ -29965,6 +30551,28 @@ msgid "A rather outdated light bulb used in all sorts of light equipment."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "clay flower pot"
+msgid_plural "clay flower pots"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for clay flower pot
+#: lang/json/GENERIC_from_json.py
+msgid "A nice looking clay pot used for planting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "plastic flower pot"
+msgid_plural "plastic flower pots"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for plastic flower pot
+#: lang/json/GENERIC_from_json.py
+msgid "A cheap plastic pot used for planting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "canister grenade"
 msgid_plural "canister grenades"
 msgstr[0] ""
@@ -30178,12 +30786,6 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid "A dull knife, absolutely worthless in combat."
 msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "rock"
-msgid_plural "rocks"
-msgstr[0] ""
-msgstr[1] ""
 
 #. ~ Description for rock
 #: lang/json/GENERIC_from_json.py
@@ -31520,6 +32122,28 @@ msgstr[1] ""
 #. ~ Description for infection data
 #: lang/json/GENERIC_from_json.py
 msgid "Medical data on zombie blood."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "lab data"
+msgid_plural "lab data"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for lab data
+#: lang/json/GENERIC_from_json.py
+msgid "Research archives from a government laboratory."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "train data"
+msgid_plural "train data"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for train data
+#: lang/json/GENERIC_from_json.py
+msgid "Logistical data on subterranean train routes and schedules."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -34243,6 +34867,33 @@ msgstr[1] ""
 msgid "A large and heavy jagged metal disc to dig trenches."
 msgstr ""
 
+#: lang/json/GENERIC_from_json.py
+msgid "airjack"
+msgid_plural "airjacks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for airjack
+#. ~ Description for air jack system
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid ""
+"An extendable metal pylon used to replace a portable jack.  If mounted to a "
+"vehicle, it could be used to lift it up."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "motorcycle kickstand"
+msgid_plural "motorcycle kickstands"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for motorcycle kickstand
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid ""
+"A kickstand to keep the bike from falling over.  You could use this to lean "
+"it forward or backward to change a tire."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "shredder"
 msgid_plural "shredders"
@@ -35427,7 +36078,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "diamond frame"
 msgid_plural "diamond frames"
 msgstr[0] ""
@@ -35601,6 +36251,15 @@ msgstr ""
 #: lang/json/ITEM_CATEGORY_from_json.py
 #: lang/json/recipe_category_from_json.py
 msgid "ARMOR"
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
+msgid "fuel bunker"
+msgstr ""
+
+#. ~ Description for fuel bunker
+#: lang/json/MAGAZINE_from_json.py
+msgid "A bin for holding solid fuel."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -38598,16 +39257,15 @@ msgid "A mass of spores the size of a balled fist, wafting around in the air."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "tank drone"
+msgid "Beagle Mini-Tank UGV"
 msgstr ""
 
-#. ~ Description for tank drone
+#. ~ Description for Beagle Mini-Tank UGV
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"The Northrup Emancipator is the first and only automated tank ever produced, "
-"made shortly after the split-up of Northrup Grumman.  Clad in depleted "
-"uranium plating, and armed with advanced munitions and a 120-mm gun, it is "
-"capable of delivering extraordinary firepower."
+"The Northrup Beagle is a refrigerator-sized urban warfare UGV.  Sporting an "
+"anti-tank missile launcher, 40mm grenade launcher, and numerous anti-"
+"infantry weapons, it's designed for high-risk urban fighting."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -40149,7 +40807,7 @@ msgstr ""
 #. ~ Description for locust nymph
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A locust the size of a rabbit.  You’d hate to think what a swarm of these "
+"A locust the size of a rabbit.  You'd hate to think what a swarm of these "
 "could do."
 msgstr ""
 
@@ -41062,8 +41720,8 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A mutated timber rattlesnake, about three times as large as the norm.  While "
-"it isn't big enough to regard humans as potential prey, it is more aggresive "
-"and dangerous compared to a normal rattler."
+"it isn't big enough to regard humans as potential prey, it is more "
+"aggressive and dangerous compared to a normal rattler."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -47356,7 +48014,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "pocket watch"
-msgid_plural "pocket watchs"
+msgid_plural "pocket watches"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -50127,6 +50785,38 @@ msgid ""
 "glittering crystal form on the edges as you hold it."
 msgstr ""
 
+#: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "vortex engine"
+msgid_plural "vortex engines"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vortex engine
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A tornado in a box, so to speak. Inside this innocuous tank contains either "
+"the culmination of human innovation in clean energy, or a weapon of mass "
+"destruction capable of wiping civilization - or what's left of it - off the "
+"map. An external mechanism allows it to be attached to a vehicle to render "
+"it mobile."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "vortex generator"
+msgid_plural "vortex generators"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vortex generator
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A tornado in a box, so to speak. Inside this innocuous tank contains either "
+"the culmination of human innovation in clean energy, or a weapon of mass "
+"destruction capable of wiping civilization - or what's left of it - off the "
+"map. An external mechanism allow it to be hooked up to a battery to store "
+"the power generated."
+msgstr ""
+
 #: lang/json/TOOL_from_json.py
 msgid "control chip"
 msgid_plural "control chips"
@@ -50598,6 +51288,10 @@ msgstr ""
 
 #: lang/json/activity_type_from_json.py
 msgid "Stop tilling the farm plot?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
+msgid "Stop planting seeds?"
 msgstr ""
 
 #: lang/json/activity_type_from_json.py
@@ -51351,6 +52045,15 @@ msgstr ""
 msgid "Oxygenator"
 msgstr ""
 
+#. ~ Description for Oxygenator
+#: lang/json/bionic_from_json.py
+msgid ""
+"A complex oxygen delivery system.  Improves the ability to extract oxygen "
+"from air and allows extracting it from water.  Will automatically turn on "
+"when drowning.  Turn on to recharge stamina faster, at moderate power cost.  "
+"Asthmatics may also use it to stop asthma attacks."
+msgstr ""
+
 #: lang/json/bionic_from_json.py
 msgid "Terranian Sonar"
 msgstr ""
@@ -51842,6 +52545,45 @@ msgid ""
 "available fluid out of a dead body, cleanse it of impurities and convert it "
 "into drinkable water.  You must, however, have a container to store the "
 "water in."
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Intravenous Needletip"
+msgstr ""
+
+#. ~ Description for Intravenous Needletip
+#: lang/json/bionic_from_json.py
+msgid ""
+"The flesh of the inside of your middle finger has been replaced with a tube "
+"leading into your arteries, with a retractable needle extending out of the "
+"tip of the finger when clenched.  This lets you pump intravenous drugs like "
+"morphine directly into your bloodstream without needing to carry a syringe."
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Titanium Skeletal Bracing"
+msgstr ""
+
+#. ~ Description for Titanium Skeletal Bracing
+#: lang/json/bionic_from_json.py
+msgid ""
+"Titanium bracing has been installed onto your elbows, knees, and spine, "
+"making them far better at handling strain.  Your carrying capacity is "
+"increased by 20 kilograms, or about 44 pounds."
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Kinetic Shock Absorbers"
+msgstr ""
+
+#. ~ Description for Kinetic Shock Absorbers
+#: lang/json/bionic_from_json.py
+msgid ""
+"Most of the flesh in your arms, legs, and upper torso has been replaced with "
+"industrial-strength springs and protective padding.  Clenching your fist "
+"allows you to fold and unfold this padding; while active, the hydraulic "
+"absorbers will prevent damage to your body from severe impacts, at the cost "
+"of impaired movement."
 msgstr ""
 
 #: lang/json/bionic_from_json.py lang/json/gun_from_json.py
@@ -53903,7 +54645,7 @@ msgid "A laser sight is targeting you!"
 msgstr ""
 
 #: lang/json/effects_from_json.py lang/json/item_action_from_json.py
-#: lang/json/item_action_from_json.py src/faction.cpp
+#: lang/json/item_action_from_json.py
 msgid "Smoke"
 msgstr ""
 
@@ -56761,7 +57503,7 @@ msgstr ""
 
 #. ~ Description for target
 #: lang/json/furniture_from_json.py
-msgid "A shooting target in a rough shape of a human."
+msgid "A metal shooting target in the rough shape of a human."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -56770,6 +57512,10 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "chamomile"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "spurge flower"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -57114,7 +57860,7 @@ msgstr ""
 #: lang/json/furniture_from_json.py
 msgid ""
 "A large mat woven from fibrous material that can be used instead of a picnic "
-"blanket, but it's more valuable as a butchery appliance. Too thin to be a "
+"blanket, but it's more valuable as a butchery appliance.  Too thin to be a "
 "comfortable sleeping place."
 msgstr ""
 
@@ -57425,7 +58171,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "A bow made from multiple materials for increased energy efficiency.  "
-"Complicated to make, but stronger than an all-wood shortbow."
+"Complicated to make, but stronger than an all-wood short bow."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -63459,7 +64205,7 @@ msgid "Cut bolts or wires"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
-msgid "Heat up food"
+msgid "Heat up food (with it)"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -63595,8 +64341,7 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: lang/json/item_action_from_json.py
-#: lang/json/keybinding_from_json.py
+#: lang/json/item_action_from_json.py lang/json/keybinding_from_json.py
 msgid "Eat"
 msgstr ""
 
@@ -63644,6 +64389,10 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Trim the hair"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Heat up food (in it)"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -63711,7 +64460,7 @@ msgstr ""
 #: lang/json/item_action_from_json.py
 #: lang/json/item_action_from_json.py lang/json/talk_topic_from_json.py
 #: lang/json/talk_topic_from_json.py
-#: src/game_inventory.cpp src/npctalk.cpp
+#: lang/json/talk_topic_from_json.py src/game_inventory.cpp
 #: src/npctalk.cpp
 msgid "..."
 msgstr ""
@@ -63911,7 +64660,7 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
-"While wielded, this item allows you to mine thorough rocks and other hard "
+"While wielded, this item allows you to mine through rocks and other hard "
 "obstacles by moving into tiles with them.  Note that automatic mining option "
 "should be set to true for this to work."
 msgstr ""
@@ -63954,6 +64703,16 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid "This piece of clothing is <info>fancy</info>."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This item counts as <color_red>fire</color> for crafting purposes."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This item can start <color_red>fire</color>."
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -64044,6 +64803,13 @@ msgstr ""
 msgid "Prevents repairing of this item even if otherwise suitable tools exist."
 msgstr ""
 
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This food <neutral>melts when not in a very cold climate</neutral>, and "
+"tastes much <good>better</good> when <color_light_cyan>frozen</color>."
+msgstr ""
+
 #: lang/json/json_flag_from_json.py
 msgid "Outer garment layer."
 msgstr ""
@@ -64062,7 +64828,14 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
-"This clothing is large enough to accommodate <info>mutated anatomy</info>."
+"This clothing is large enough to accommodate <info>abnormally large mutated "
+"anatomy</info>."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid ""
+"Can be worn comfortably by mutants with Tiny or Unassuming.  Too small for "
+"anyone else."
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -64462,8 +65235,8 @@ msgstr ""
 #: lang/json/json_flag_from_json.py
 msgid ""
 "This part will help prevent you from being thrown from the vehicle in a "
-"collision.  You will automaticlly enable this part when you move into a tile "
-"with it."
+"collision.  You will automatically enable this part when you move into a "
+"tile with it."
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -64945,6 +65718,10 @@ msgid "Refill tank/battery"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Unload fuel bunker"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Remove part"
 msgstr ""
 
@@ -65417,7 +66194,7 @@ msgstr ""
 msgid "Keybindings"
 msgstr ""
 
-#: lang/json/keybinding_from_json.py
+#: lang/json/keybinding_from_json.py src/game.cpp
 msgid "Options"
 msgstr ""
 
@@ -65524,6 +66301,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Disable zone"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Show all zones / hide distant zones"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -66363,7 +67144,7 @@ msgid "Women"
 msgstr ""
 
 #. ~ Sign
-#: lang/json/mapgen_from_json.py src/faction.cpp
+#: lang/json/mapgen_from_json.py
 msgid "Men"
 msgstr ""
 
@@ -66658,6 +67439,31 @@ msgstr ""
 
 #. ~ Computer name
 #: lang/json/mapgen_from_json.py
+msgid "PE019 \"Sculptor\" Secure Storage"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "PE050 \"Alpha\" Secure Storage"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "PE065 \"Chimera\" Secure Storage"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "PE070 \"Raptor\" Secure Storage"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
+msgid "PE023 \"Medical\" Secure Storage"
+msgstr ""
+
+#. ~ Computer name
+#: lang/json/mapgen_from_json.py
 msgid "Laboratory Train Controls"
 msgstr ""
 
@@ -66668,7 +67474,7 @@ msgstr ""
 
 #. ~ Computer option
 #: lang/json/mapgen_from_json.py
-msgid "Download Subway Routes"
+msgid "View Subway Routes"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -67703,7 +68509,7 @@ msgstr ""
 msgid "Steel"
 msgstr ""
 
-#: lang/json/material_from_json.py src/faction.cpp
+#: lang/json/material_from_json.py
 msgid "Stone"
 msgstr ""
 
@@ -68585,10 +69391,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-msgid "Tracker"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
 msgid "Well damn, you must be the guys here to pick me up..."
 msgstr ""
 
@@ -69300,7 +70102,7 @@ msgid ""
 "supplies if we hope to warrant sending one of the few people with medical "
 "experience from the refugee center to our outpost.  I know first aid kits "
 "are rare but they have all the basic supplies that I'm uncertain of.  If you "
-"could bring in 3 full kits I'm sure we could supplement them to make them "
+"could bring in 6 full kits I'm sure we could supplement them to make them "
 "last a bit longer."
 msgstr ""
 
@@ -70252,6 +71054,144 @@ msgstr ""
 msgid "Reach Refugee Center"
 msgstr ""
 
+#: lang/json/mission_def_from_json.py
+msgid ""
+"We don't have the equipment for real analysis here so it'll need to be done "
+"in the field.  I need you to get a fresh sample of zombie blood, take it to "
+"a hospital, and perform a centrifuge analysis of it."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Excellent.  Take this blood draw kit; once you've found a zombie corpse, use "
+"it to extract blood from the body, then take it to a hospital for analysis."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Download Workstation Data"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"The medical software didn't just analyze the blood, it triggered a "
+"government alert.  Medical staff was under orders to immediately drive any "
+"matching samples to the nearest laboratory.  That must mean the government "
+"knew!  We have the destination address.  Go there, get in, and bring back "
+"any records you can download off a computer."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Great!  I've mapped out a route to the address."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Can't blame you, but come back if you change your mind."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"If the laboratory is locked, maybe you can find an id card from employees "
+"who died in the evacuation.  Also brush up on your computer skills, any "
+"computers will have some security on them.  Bring back anything you find on "
+"a USB drive."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Thanks!  This data looks damaged, but maybe I can make something out of it."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Download Encryption Codes"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Unfortunately the data you got was incomplete and mostly encrypted.  There "
+"may be a way to get encryption codes, though.  I found a complaint by the "
+"infosec team that they were unable to deliver critical security updates to "
+"one research site.  It was some kind of more restricted secondary site "
+"hidden beneath a town, they weren't allowed in.  That means it should have "
+"unsecured computers we can get the codes from."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Great!  I've mapped out a route, it should look like a normal house.  Bring "
+"back anything you find on a USB drive."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Expect the lab to be locked as usual."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Wonderful!  Now I just need to get an undamaged, complete archive, and we "
+"can really figure out what happened."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Download Research Archives"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"So there looks to be months, maybe years of experiments, and that data set "
+"must be huge.  Database servers massive enough to house it would overheat "
+"running on emergency power.  But I did found communications from a lab that "
+"had some kind of freezing portal open during the cataclysm, sending "
+"everything to subzero temperatures.  I bet the archives inside that lab are "
+"still working."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you "
+"go and it looks like the archives were on the fourth basement level."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"That lab is going to start freezing and just get colder the deeper you go.  "
+"You'll really need special equipment to survive that far down.  Bring back "
+"anything you find on a USB drive."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thanks!  This is a lot of data to go through."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Find Lab Tunnels"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"In the data we found a major contract for tunneling and train equipment, "
+"ordered eight months ago.  It's the best lead we have.  Here's the address "
+"of the government lab where the equipment was delivered.  I want you to go "
+"there, find the tunnels that they dug, and download everything you can about "
+"the train network."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "So glad for your help."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"The equipment was rated for 50 feet underground, so that tunnel entrance is "
+"going to be deeper inside a lab than a normal subway.  Fifty feet would mean "
+"maybe four stories down.  Bring back anything you find on a USB drive."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Fantastic!  I should be able to reconstruct what cargo moved between which "
+"labs.  I wonder what was really going on down there."
+msgstr ""
+
 #: lang/json/monster_attack_from_json.py src/monattack.cpp
 #, c-format, no-python-format
 msgid "The %1$s impales your torso!"
@@ -70406,6 +71346,10 @@ msgstr ""
 
 #: lang/json/morale_type_from_json.py
 msgid "Wheat Allergy"
+msgstr ""
+
+#: lang/json/morale_type_from_json.py
+msgid "Enjoyed sugary food"
 msgstr ""
 
 #: lang/json/morale_type_from_json.py
@@ -71143,6 +72087,33 @@ msgctxt "memorial_female"
 msgid "Hatched."
 msgstr ""
 
+#. ~ Mutation class name
+#: lang/json/mutation_category_from_json.py
+msgid "Mouse"
+msgstr ""
+
+#. ~ Mutation class: Mouse mutagen_message
+#: lang/json/mutation_category_from_json.py
+msgid "You feel a desire to curl up in a nice, warm pile of... shredded paper."
+msgstr ""
+
+#. ~ Mutation class: Mouse iv_message
+#: lang/json/mutation_category_from_json.py
+msgid "You feel... small.  But comfortable."
+msgstr ""
+
+#. ~ Mutation class: Mouse Male memorial messsage
+#: lang/json/mutation_category_from_json.py
+msgctxt "memorial_male"
+msgid "Found the cheese."
+msgstr ""
+
+#. ~ Mutation class: Mouse Female memorial messsage
+#: lang/json/mutation_category_from_json.py
+msgctxt "memorial_female"
+msgid "Found the cheese."
+msgstr ""
+
 #: lang/json/mutation_from_json.py
 msgid "Fleet-Footed"
 msgstr ""
@@ -71202,6 +72173,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Hyperactive"
+msgstr ""
+
+#. ~ Description for Hyperactive
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid ""
+"Your body's efficiency is like that of a tiny furnace, increasing your "
+"maximum stamina by 40%."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Quick"
 msgstr ""
 
@@ -71248,6 +72231,17 @@ msgstr ""
 msgid ""
 "You have always been able to fall asleep easily, even when sleeping in less "
 "than ideal circumstances."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Practiced Sleeper"
+msgstr ""
+
+#. ~ Description for Practiced Sleeper
+#: lang/json/mutation_from_json.py
+msgid ""
+"Your body's demanding energy needs mean you can fall asleep just about "
+"anywhere."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -71989,6 +72983,28 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Sweet Tooth"
+msgstr ""
+
+#. ~ Description for Sweet Tooth
+#: lang/json/mutation_from_json.py
+msgid ""
+"You have a soft spot for processed foods, and gain a morale bonus from "
+"eating them."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Sugar-Loving"
+msgstr ""
+
+#. ~ Description for Sugar-Loving
+#: lang/json/mutation_from_json.py
+msgid ""
+"You *adore* the taste of junk food, and find it preferable to everything "
+"else!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Glass Jaw"
 msgstr ""
 
@@ -72075,6 +73091,17 @@ msgstr ""
 msgid ""
 "Most animals don't like you, and aggressive animals are more likely to "
 "attack you.  This only applies to natural animals such as woodland creatures."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Prey Animal"
+msgstr ""
+
+#. ~ Description for Prey Animal
+#: lang/json/mutation_from_json.py
+msgid ""
+"Natural animals like dogs and wolves see you as prey, and are liable to "
+"attack you on sight."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -73622,10 +74649,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Rat Tail"
+msgid "Rodent Tail"
 msgstr ""
 
-#. ~ Description for Rat Tail
+#. ~ Description for Rodent Tail
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a long but hairless tail.  It's a pretty effective balancing aid, "
@@ -74057,6 +75084,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Rodent Ears"
+msgstr ""
+
+#. ~ Description for Rodent Ears
+#: lang/json/mutation_from_json.py
+msgid ""
+"Your ears are huge, round, and gray!  They're rather fascinating, and help "
+"you hear from a much greater distance."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Web Walker"
 msgstr ""
 
@@ -74409,6 +75447,54 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Little"
+msgstr ""
+
+#. ~ Description for Little
+#: lang/json/mutation_from_json.py
+msgid ""
+"You've noticeably shrunk in size.  You're able to move with increased "
+"litheness, but your smaller stature prevents you from carrying as much."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Tiny"
+msgstr ""
+
+#. ~ Description for Tiny
+#: lang/json/mutation_from_json.py
+msgid ""
+"You're only half as tall as you used to be!  The weight of things you once "
+"found easy to carry is now unbearable, clothes are now twice as encumbering "
+"for you unless you refit them (since you're half their size), and your hit "
+"points are heavily reduced.  However, your movement is silent, and your "
+"dodge skill is a little higher."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Unassuming"
+msgstr ""
+
+#. ~ Description for Unassuming
+#: lang/json/mutation_from_json.py
+msgid ""
+"You've mastered your tiny form!  Item encumbrance and carry weight penalties "
+"are reduced, and you've learned to use your increased nimbleness to offset "
+"your reduced capacity to absorb damage."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Crafty"
+msgstr ""
+
+#. ~ Description for Crafty
+#: lang/json/mutation_from_json.py
+msgid ""
+"By making the most of your small stature, you can avoid the notice of all "
+"but the most perceptive creatures, and your speed is greatly increased."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Metallassomaiphile"
 msgstr ""
 
@@ -74667,10 +75753,10 @@ msgid "%1$s bites %2$s"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Ratlike Muzzle"
+msgid "Rodent Muzzle"
 msgstr ""
 
-#. ~ Description for Ratlike Muzzle
+#. ~ Description for Rodent Muzzle
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your face and jaw have extended, giving you an alert and attentive "
@@ -74816,6 +75902,18 @@ msgstr ""
 msgid ""
 "You dry out seriously quickly, requiring three times as much liquid to stay "
 "hydrated."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Metabolic Rehydration"
+msgstr ""
+
+#. ~ Description for Metabolic Rehydration
+#: lang/json/mutation_from_json.py
+msgid ""
+"Your body gets everything it needs from the food that you eat!  You no "
+"longer gain hydration from fluids - instead, your thirst will be equal to, "
+"and change with, your hunger."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -75703,6 +76801,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Diminutive"
+msgstr ""
+
+#. ~ Description for Diminutive
+#: lang/json/mutation_from_json.py
+msgid ""
+"So much food, everywhere!  And nobody's even guarding it anymore!  These are "
+"good times."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Marloss Gateway"
 msgstr ""
 
@@ -75901,7 +77010,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Weeks spent picking through manuals and researching topics you aren't versed "
-"in has taught you to find what you need to know more quickly. You read "
+"in has taught you to find what you need to know more quickly.  You read "
 "slightly faster, and suffer no reading time penalty for books too complex "
 "for you to easily understand."
 msgstr ""
@@ -76076,7 +77185,7 @@ msgstr ""
 #. ~ Description for Debug Bionic Power
 #: lang/json/mutation_from_json.py
 msgid ""
-"For fueling your inner cybug. Activate to increase power capacity by 100 "
+"For fueling your inner cybug.  Activate to increase power capacity by 100 "
 "(can be repeated.)"
 msgstr ""
 
@@ -76164,6 +77273,7 @@ msgid "I'm looking for some choice systems to hack."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
+#: lang/json/npc_from_json.py
 msgid "Doctor"
 msgstr ""
 
@@ -76179,7 +77289,7 @@ msgstr ""
 msgid "I'm collecting gear and selling it."
 msgstr ""
 
-#: lang/json/npc_class_from_json.py src/faction.cpp
+#: lang/json/npc_class_from_json.py
 msgid "Ninja"
 msgstr ""
 
@@ -76442,6 +77552,16 @@ msgstr ""
 #: lang/json/npc_class_from_json.py
 msgid ""
 "I'm looking for rat mutagen... this world is no place for humans anymore, "
+"and I don't plan to keep being one."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Mouse Mutant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid ""
+"I'm looking for mouse mutagen... this world is no place for humans anymore, "
 "and I don't plan to keep being one."
 msgstr ""
 
@@ -76918,6 +78038,10 @@ msgid "science train depot"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "central train depot"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "access shaft"
 msgstr ""
 
@@ -77309,6 +78433,10 @@ msgid "roadside foodcart"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "garage - gas station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "religious cemetery"
 msgstr ""
 
@@ -77522,15 +78650,15 @@ msgid "tree farm"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "Dirt Road"
+msgid "dirt road"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "Rural House"
+msgid "rural house"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "Moonshine Still"
+msgid "moonshine still"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -77635,7 +78763,7 @@ msgid "stadium parking"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "stadium concessions"
+msgid "stadium"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -77700,6 +78828,10 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "trailer park"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mass grave"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -77779,11 +78911,11 @@ msgid "Bankrupt Pizzeria"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "Boat Rental"
+msgid "boat rental"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "Riverside Dwelling"
+msgid "riverside dwelling"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -77985,6 +79117,26 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "electric substation"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "animal clinic"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "war memorial"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ruined cabin - barn"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ruined cabin - car corner"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ruined cabin - dirt plaza"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -81501,9 +82653,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Trying to herd cats into getting into one place every week has taught you "
-"something: it's usually better to cut your losses and trust your gut. For "
+"something: it's usually better to cut your losses and trust your gut.  For "
 "that reason, when you had two no-shows and the other two tried to eat you, "
-"you ditched. Maybe you can find some new players in the ruins of the world."
+"you ditched.  Maybe you can find some new players in the ruins of the world."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -81516,9 +82668,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Trying to herd cats into getting into one place every week has taught you "
-"something: it's usually better to cut your losses and trust your gut. For "
+"something: it's usually better to cut your losses and trust your gut.  For "
 "that reason, when you had two no-shows and the other two tried to eat you, "
-"you ditched. Maybe you can find some new players in the ruins of the world."
+"you ditched.  Maybe you can find some new players in the ruins of the world."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -81531,9 +82683,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You came into a large fortune, through luck or will, and hosted games for "
-"people that most of the world knew on a first-name basis. You could afford "
-"to spoil your players, and so you did. You invested in bionics to make you "
-"smarter, and memorized the entire handbook. Let's hope that knowledge helps "
+"people that most of the world knew on a first-name basis.  You could afford "
+"to spoil your players, and so you did.  You invested in bionics to make you "
+"smarter, and memorized the entire handbook.  Let's hope that knowledge helps "
 "you now."
 msgstr ""
 
@@ -81547,9 +82699,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You came into a large fortune, through luck or will, and hosted games for "
-"people that most of the world knew on a first-name basis. You could afford "
-"to spoil your players, and so you did. You invested in bionics to make you "
-"smarter, and memorized the entire handbook. Let's hope that knowledge helps "
+"people that most of the world knew on a first-name basis.  You could afford "
+"to spoil your players, and so you did.  You invested in bionics to make you "
+"smarter, and memorized the entire handbook.  Let's hope that knowledge helps "
 "you now."
 msgstr ""
 
@@ -84853,6 +86005,21 @@ msgid ""
 "Both PE012 and PE018 show great stability.  A subject was exposed to both "
 "substances, alternating between the mutagen and the purifier.  Ultimately, "
 "the subject returned to baseline state with no apparent side effects."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Dr. Hofstadter has manufactured an improved version of PE018 by combining "
+"with PE012 outside the subject, then administering the mixture through a "
+"topical injection to a specific area of mutation.  This has been denoted "
+"PE019.  Other labs have so far been unable to reproduce the process."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Rumors of Dr. Hofstadter and her laboratory staff whispering to PE019 "
+"samples should be suppressed as malicious gossip.  The jealousy of rival "
+"teams cannot be allowed to degrade morale."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -89042,6 +90209,30 @@ msgid "I'll just go to sleep, <okay>?"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "I'm going to sleep now."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'm off to bed.  Wake me if you need me."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'm going to sleep over there."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Time for bed!  See you in the morning."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "There's a bed calling my name, and I'm going to it."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "Good night!  Wake me if you need me."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "extremely"
 msgstr ""
 
@@ -92368,7 +93559,7 @@ msgstr ""
 msgid "cabin in the woods"
 msgstr ""
 
-#: lang/json/start_location_from_json.py src/faction.cpp
+#: lang/json/start_location_from_json.py
 msgid "Church"
 msgstr ""
 
@@ -92932,6 +94123,43 @@ msgid ""
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
+msgid ""
+"Feed a man a fish, he's full for a day. Feed a man a bullet, he's full for "
+"the rest of his life."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Spot your prey before something nastier spots you."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "I've heard that cougars sometimes leap. Maybe it's just a myth."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"The Jabberwock is real, don't listen to what anybody else says.  If you see "
+"it, RUN."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Zombie animal meat isn't good for eating, but sometimes you, might find "
+"usable fur on 'em."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"A steady diet of cooked meat and clean water will keep you alive forever, "
+"but your taste buds and your colon may start to get angry at you. Eat a "
+"piece of fruit every once in a while."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Smoke crack to get more shit done."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
 msgid "Watch your back out there."
 msgstr ""
 
@@ -93096,6 +94324,52 @@ msgid "Was hoping for something more..."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
+msgid "Hope you're here to trade."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I oversee the food stocks for the center.  There was significant looting "
+"during the panic when we first arrived so most of our food was carried "
+"away.  I manage what we have left and do everything I can to increase our "
+"supplies.  Rot and mold are more significant in the damp basement so I "
+"prioritize non-perishable food, such as cornmeal, jerky, and fruit wine."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Why cornmeal, jerky, and fruit wine?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"All three are easy to locally produce in significant quantities and are non-"
+"perishable.  We have a local farmer or two and a few hunter types that have "
+"been making attempts to provide us with the nutritious supplies.  We do "
+"always need more suppliers though.  Because this stuff is rather cheap in "
+"bulk I can pay a premium for any you have on you.  Canned food and other "
+"edibles are handled by the merchant in the front."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Are you looking to buy anything else?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py src/npctalk.cpp
+msgid "Very well..."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I'm actually accepting a number of different foodstuffs: beer, sugar, flour, "
+"smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, "
+"cornmeal, and fruit wine."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Interesting..."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
 msgid "Marshal..."
 msgstr ""
 
@@ -93104,7 +94378,7 @@ msgid "Citizen..."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
-#: src/npctalk.cpp
+#: lang/json/talk_topic_from_json.py src/npctalk.cpp
 msgid "Who are you?"
 msgstr ""
 
@@ -93251,6 +94525,61 @@ msgstr ""
 
 #: lang/json/talk_topic_from_json.py
 msgid "Glad to have you aboard."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Can I trade for supplies?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py src/npctalk.cpp
+#: src/npctalk.cpp
+msgid "Can I do anything for you?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"I'm a doctor, one of the several at the outpost.  We were the lucky ones.  "
+"Came here right went things started to go wrong, never left."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "So what are you doing right now?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"The Old Guard--that's what's left of the feds--set me up here to screen any "
+"new arrivals for infection risks.  Can't be too paranoid these days.  Sad to "
+"have to turn people away, but I like the assignment for the chance to get "
+"news about the outside world."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "What kind of news?"
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"Sightings of unusual living dead or new mutations.  The more we know about "
+"what's happening, the closer we can get to a treatment or maybe even a "
+"cure.  It's a long shot, but you have hope to survive."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid "Good luck with that..."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"This is no classic zombie outbreak.  The dead seem to be getting stronger as "
+"the days go on.  Some survivors too, come in here with... adaptations.  "
+"Maybe they're related."
+msgstr ""
+
+#: lang/json/talk_topic_from_json.py
+msgid ""
+"We can't.  There's nothing we can spare to sell and I've got no budget to "
+"buy from you.  I don't suppose you want to donate?"
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -96732,6 +98061,46 @@ msgid ""
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "mulberry tree"
+msgstr ""
+
+#. ~ Description for mulberry tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This tree is a member of the 'Morus' genus, producing fruit commonly known "
+"as mulberries.  In the summer many berries can be picked.  You could also "
+"cut it down with the right tools."
+msgstr ""
+
+#. ~ Description for mulberry tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This tree is a member of the 'Morus' genus, producing fruit commonly known "
+"as mulberries.  There doesn't appear to be any ripe mulberries now.  You "
+"could also cut it down with the right tools."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "elderberry tree"
+msgstr ""
+
+#. ~ Description for elderberry tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This tree is a member of the 'Sambucus' genus, producing fruit commonly "
+"known as elderberries.  In the summer many berries can be picked.  You could "
+"also cut it down with the right tools."
+msgstr ""
+
+#. ~ Description for elderberry tree
+#: lang/json/terrain_from_json.py
+msgid ""
+"This tree is a member of the 'Sambucus' genus, producing fruit commonly "
+"known as elderberries.  There doesn't appear to be any ripe elderberries "
+"now.  You could also cut it down with the right tools."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "pine tree"
 msgstr ""
 
@@ -96821,8 +98190,116 @@ msgstr ""
 msgid "blueberry bush"
 msgstr ""
 
+#. ~ Description for blueberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small bush of sweet blueberries."
+msgstr ""
+
+#. ~ Description for blueberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small blueberry bush that's fruitless."
+msgstr ""
+
 #: lang/json/terrain_from_json.py
 msgid "strawberry bush"
+msgstr ""
+
+#. ~ Description for strawberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small bush of juicy strawberries."
+msgstr ""
+
+#. ~ Description for strawberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small strawberry bush that's fruitless."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "blackberry bush"
+msgstr ""
+
+#. ~ Description for blackberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small bush of delicious blackberries.  Watch out for its thorns!"
+msgstr ""
+
+#. ~ Description for blackberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small blackberry bush that's fruitless.  Watch out for its thorns!"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "huckleberry bush"
+msgstr ""
+
+#. ~ Description for huckleberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small bush of huckleberries, often mistaken as blueberries."
+msgstr ""
+
+#. ~ Description for huckleberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small huckleberry bush that's fruitless."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "raspberry bush"
+msgstr ""
+
+#. ~ Description for raspberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small bush of delicious raspberries.  Watch out for its thorns!"
+msgstr ""
+
+#. ~ Description for raspberry bush
+#: lang/json/terrain_from_json.py
+msgid "A small raspberry bush that's fruitless.  Watch out for its thorns!"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "grape bush"
+msgstr ""
+
+#. ~ Description for grape bush
+#: lang/json/terrain_from_json.py
+msgid "A bush of a different species invaded by vines of grapes."
+msgstr ""
+
+#. ~ Description for grape bush
+#: lang/json/terrain_from_json.py
+msgid ""
+"A bush of a different species invaded by grape vines but they're fruitless."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "rose bush"
+msgstr ""
+
+#. ~ Description for rose bush
+#: lang/json/terrain_from_json.py
+msgid ""
+"A fat bush of beautiful red roses, if only you could get a date!  Watch out "
+"for its thorns!"
+msgstr ""
+
+#. ~ Description for rose bush
+#: lang/json/terrain_from_json.py
+msgid ""
+"A fat rose bush that currently has no blooms.  Watch out for its thorns!"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "hydrangea bush"
+msgstr ""
+
+#. ~ Description for hydrangea bush
+#: lang/json/terrain_from_json.py
+msgid "A fat, bush of fragrant blue hydrangeas."
+msgstr ""
+
+#. ~ Description for hydrangea bush
+#: lang/json/terrain_from_json.py
+msgid "A fat hydrangea bush that currently has no blooms."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -97754,6 +99231,10 @@ msgid "jacking"
 msgstr ""
 
 #: lang/json/tool_quality_from_json.py
+msgid "self jacking"
+msgstr ""
+
+#: lang/json/tool_quality_from_json.py
 msgid "chiseling"
 msgstr ""
 
@@ -98342,6 +99823,10 @@ msgstr ""
 
 #: lang/json/vehicle_from_json.py
 msgid "SWAT Truck"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Primitive Tractor"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
@@ -99574,15 +101059,21 @@ msgid "external cargo rack"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid ""
-"A combustion engine.  Burns fuel from a tank in the vehicle to move the "
-"vehicle if the vehicle has sufficient wheels."
+msgid "A combustion engine.  Burns fuel from a tank in the vehicle."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "A combustion engine.  Burns diesel fuel from a tank in the vehicle."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid ""
-"A combustion engine.  Burns gasoline fuel from a tank in the vehicle to move "
-"the vehicle if the vehicle has sufficient wheels."
+"A closed cycle, external combustion steam engine.  Burns coal from a bunker "
+"in the vehicle to produce steam."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -99590,12 +101081,19 @@ msgid "boom crane"
 msgstr ""
 
 #. ~ Description for boom crane
+#. ~ Description for internal boom crane
 #: lang/json/vehicle_part_from_json.py
 msgid ""
 "A rigid steel boom crane.  If it is in your line of sight and within two "
 "tiles of another vehicle, you will automatically use it when you want jack "
-"up the other vehicle to change the its wheels, or lift a heavy component "
-"like an engine that you are installing in or removing from the other vehicle."
+"up the other vehicle to change the its wheels.  To use it to lift a heavy "
+"component like an engine that you are installing or removing, the crane must "
+"have an unblocked direct path to where it is going and it must be within "
+"four tiles of it."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "internal boom crane"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -99607,9 +101105,10 @@ msgstr ""
 msgid ""
 "An extendable cantilever crane.  If it is in your line of sight and within "
 "two tiles of another vehicle, you will automatically use it when you want "
-"jack up the other vehicle to change the its wheels, or lift a heavy "
-"component like an engine that you are installing in or removing from the "
-"other vehicle."
+"jack up the other vehicle to change the its wheels.  To use it to lift a "
+"heavy component like an engine that you are installing or removing, the "
+"crane must have an unblocked direct path to where it is going and it must be "
+"within four tiles of it."
 msgstr ""
 
 #. ~ Description for pallet lifter
@@ -99617,8 +101116,10 @@ msgstr ""
 msgid ""
 "A small pallet lifter.  If it is in your line of sight and within two tiles "
 "of another vehicle, you will automatically use it when you want jack up the "
-"other vehicle to change the its wheels, or lift a heavy component like an "
-"engine that you are installing in or removing from the other vehicle."
+"other vehicle to change the its wheels.  To use it to lift a heavy component "
+"like an engine that you are installing or removing, the crane must have an "
+"unblocked direct path to where it is going and it must be within four tiles "
+"of it."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -99630,8 +101131,10 @@ msgstr ""
 msgid ""
 "A pair of forklift arms.  If it is in your line of sight and within two "
 "tiles of another vehicle, you will automatically use it when you want jack "
-"up the other vehicle to change the its wheels, or lift a heavy component "
-"like an engine that you are installing in or removing from the other vehicle."
+"up the other vehicle to change the its wheels.  To use it to lift a heavy "
+"component like an engine that you are installing or removing, the crane must "
+"have an unblocked direct path to where it is going and it must be within "
+"four tiles of it."
 msgstr ""
 
 #. ~ Description for rockwheel
@@ -99641,6 +101144,10 @@ msgid ""
 "controls to turn it on or off.  When turned on, it will stop the vehicle "
 "unless it has a strong engine.  When turned on, it will dig a shallow pit in "
 "dirt.  Mount it on the edge of your vehicle."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "air jack system"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -99889,6 +101396,14 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "barrel (100L)"
+msgstr ""
+
+#. ~ Description for fuel bunker
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A storage space for holding solid fuels.  If filled with the appropriate "
+"fuel for the vehicle's engine, the engine will automatically draw fuel from "
+"the tank when the engine is on."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -100921,21 +102436,6 @@ msgid "A living blob, reformed as a belt and attached to a seat."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "gel framework"
-msgstr ""
-
-#. ~ Description for gel framework
-#. ~ Description for gray frame
-#. ~ Description for ooze chassis
-#: lang/json/vehicle_part_from_json.py
-msgid ""
-"A living blob, shaped to provide attachment points for other blobs.  Other "
-"vehicle components and blobs can be mounted on it.  If all the frames and "
-"components of a vehicle are foldable or made from blobs, the vehicle can be "
-"folding into a small package and picked up as a normal item."
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
 msgid "capsule (10L)"
 msgstr ""
 
@@ -100949,6 +102449,21 @@ msgid ""
 "automatically draw fuel from the tank when the engine is on.  If filled with "
 "water, you can access the water from a water faucet, if one is installed in "
 "the vehicle.  You can also use a rubber hose to siphon liquids out of a tank."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gel framework"
+msgstr ""
+
+#. ~ Description for gel framework
+#. ~ Description for gray frame
+#. ~ Description for ooze chassis
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A living blob, shaped to provide attachment points for other blobs.  Other "
+"vehicle components and blobs can be mounted on it.  If all the frames and "
+"components of a vehicle are foldable or made from blobs, the vehicle can be "
+"folding into a small package and picked up as a normal item."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -101085,11 +102600,11 @@ msgid "gray harness"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "gray frame"
+msgid "cocoon (25L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "cocoon (25L)"
+msgid "gray frame"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -101166,11 +102681,11 @@ msgid "ooze harness"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "ooze chassis"
+msgid "pod (20L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "pod (20L)"
+msgid "ooze chassis"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -101227,6 +102742,12 @@ msgstr ""
 #. ~ Description for spark blight
 #: lang/json/vehicle_part_from_json.py
 msgid "A living blob turned into a heavy vehicle weapon."
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A closed cycle, external combustion steam turbine.  Burns coal from a bunker "
+"in the vehicle to produce steam."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -101374,6 +102895,26 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "diamond barrier"
+msgstr ""
+
+#. ~ Description for diamond barrier
+#: lang/json/vehicle_part_from_json.py
+msgid "A transparent, solid sheet of self-sustaining crystals."
+msgstr ""
+
+#. ~ Description for diamond frame
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"A framework of super-strong crystal.  Other vehicle components can be "
+"mounted on it, and it can be attached to other frames to increase the "
+"vehicle's size."
+msgstr ""
+
+#. ~ Description for diamond plating
+#: lang/json/vehicle_part_from_json.py
+msgid ""
+"Transparent crystal armor plate.  Will partially protect other components on "
+"the same frame from damage."
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -102292,6 +103833,10 @@ msgstr ""
 msgid "You tilled every tile you could."
 msgstr ""
 
+#: src/activity_handlers.cpp
+msgid "You planted all seeds you could."
+msgstr ""
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "You put your %1$s in the %2$s's %3$s."
@@ -102395,6 +103940,10 @@ msgstr ""
 
 #: src/activity_item_handling.cpp
 msgid "The pet has moved somewhere else."
+msgstr ""
+
+#: src/activity_item_handling.cpp
+msgid "You can't reach the source tile. Try to sort out loot without a cart."
 msgstr ""
 
 #: src/activity_item_handling.cpp
@@ -104293,6 +105842,10 @@ msgid "Your %s has lost connection and is turning off."
 msgstr ""
 
 #: src/bionics.cpp
+msgid "You feel your throat open up and air filling your lungs!"
+msgstr ""
+
+#: src/bionics.cpp
 msgid "You flub the removal."
 msgstr ""
 
@@ -105055,6 +106608,21 @@ msgstr ""
 
 #: src/character.cpp
 #, c-format
+msgid "(bandaged [%s] & disinfected [%s])"
+msgstr ""
+
+#: src/character.cpp
+#, c-format
+msgid "(bandaged [%s])"
+msgstr ""
+
+#: src/character.cpp
+#, c-format
+msgid "(disinfected [%s])"
+msgstr ""
+
+#: src/character.cpp
+#, c-format
 msgid "%d: Exit"
 msgstr ""
 
@@ -105226,6 +106794,14 @@ msgstr ""
 #: src/clzones.cpp
 msgctxt "plot of land"
 msgid "Farm: Plot"
+msgstr ""
+
+#: src/clzones.cpp
+msgid "No seed"
+msgstr ""
+
+#: src/clzones.cpp
+msgid "Plant seed: "
 msgstr ""
 
 #: src/clzones.cpp
@@ -106529,6 +108105,18 @@ msgid "Yuck! How can anybody eat this stuff?"
 msgstr ""
 
 #: src/consumption.cpp
+msgid "Mmm, junk food."
+msgstr ""
+
+#: src/consumption.cpp
+msgid "When life's got you down, there's always sugar."
+msgstr ""
+
+#: src/consumption.cpp
+msgid "They may do what they must... you've already won."
+msgstr ""
+
+#: src/consumption.cpp
 msgid "Your stomach begins gurgling and you feel bloated and ill."
 msgstr ""
 
@@ -107128,6 +108716,42 @@ msgid "%1$s shoots %2$s."
 msgstr ""
 
 #: src/creature.cpp
+msgid "Severe pain"
+msgstr ""
+
+#: src/creature.cpp
+msgid "Intense pain"
+msgstr ""
+
+#: src/creature.cpp
+msgid "Unmanageable pain"
+msgstr ""
+
+#: src/creature.cpp
+msgid "Distressing pain"
+msgstr ""
+
+#: src/creature.cpp
+msgid "Distracting pain"
+msgstr ""
+
+#: src/creature.cpp
+msgid "Moderate pain"
+msgstr ""
+
+#: src/creature.cpp
+msgid "Mild pain"
+msgstr ""
+
+#: src/creature.cpp
+msgid "Minimal pain"
+msgstr ""
+
+#: src/creature.cpp
+msgid "No pain"
+msgstr ""
+
+#: src/creature.cpp
 msgid "Hostile"
 msgstr ""
 
@@ -107492,7 +109116,7 @@ msgstr ""
 msgid "Bugged"
 msgstr ""
 
-#: src/debug_menu.cpp
+#: src/debug_menu.cpp src/wish.cpp
 msgid "Type:"
 msgstr ""
 
@@ -108595,11 +110219,11 @@ msgid "stamina recovery"
 msgstr ""
 
 #: src/effect.cpp
-msgid "quench"
+msgid "thirst"
 msgstr ""
 
 #: src/effect.cpp
-msgid "thirst"
+msgid "quench"
 msgstr ""
 
 #: src/effect.cpp
@@ -108611,11 +110235,11 @@ msgid "sate"
 msgstr ""
 
 #: src/effect.cpp
-msgid "rest"
+msgid "sleepiness"
 msgstr ""
 
 #: src/effect.cpp
-msgid "sleepiness"
+msgid "rest"
 msgstr ""
 
 #: src/effect.cpp
@@ -108828,606 +110452,782 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Devoted"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Golden"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Holy"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Righteous"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Sacred"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Shining"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Divine"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Noble"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Radiant"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Splendid"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Venerable"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Virtuous"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Bright"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Heroic"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Immaculate"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Crystal"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Metal"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Mighty"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Original"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Powerful"
 msgstr ""
 
-#: src/faction.cpp src/options.cpp
+#: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Solid"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Colossal"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Famous"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Firey"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Invincible"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
+msgid "Stone"
+msgstr ""
+
+#: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Supreme"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Electric"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Great"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Unlimited"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Deadly"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Foul"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Nefarious"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Poisonous"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Vile"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Wicked"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Baleful"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Devastating"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Horror"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Ruinous"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Sinister"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Vicious"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Dread"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Pernicious"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Pestilent"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Dervishes"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Destroyers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Fists"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Furies"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Slayers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Tigers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Army"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Berserkers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Killers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Paladins"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Samurai"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Valkyries"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Huntsmen"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Knights"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Warriors"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Agents"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Assassins"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
+msgid "Ninja"
+msgstr ""
+
+#: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Rats"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Shadows"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Snakes"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Arachnids"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Creepers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Eliminators"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Guerillas"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
+msgid "Smoke"
+msgstr ""
+
+#: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Snipers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Eels"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Shade"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Stalkers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Bandits"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Family"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Gang"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Mafia"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Mob"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Punks"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Vandals"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Cutthroats"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Faction"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Guild"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Muggers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Sharks"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Thugs"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Crooks"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Racket"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Brotherhood"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
+msgid "Church"
+msgstr ""
+
+#: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Creed"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Crucible"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Ones"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Sect"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Clerics"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Doctrine"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Monks"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Pastors"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Priests"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Tenet"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Elders"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Gnostics"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Inquisitors"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Clan"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
+msgid "Men"
+msgstr ""
+
+#: src/faction.cpp
+msgctxt "faction_adj"
 msgid "People"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Settlers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Society"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Tribe"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Colony"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Folk"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Kingdom"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Nation"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Party"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Republic"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "State"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_adj"
 msgid "Company"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "basic survival"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "financial wealth"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "dominance of the region"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "the extermination of monsters"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "contact with unseen powers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "bringing the apocalypse"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "general chaos and anarchy"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "the cultivation of knowledge"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "harmony with nature"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "rebuilding civilization"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_goal"
 msgid "spreading the fungus"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "protection rackets"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "the sale of information"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "their bustling trade centers"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "trade caravans"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "scavenging supplies"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "mercenary work"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "assassinations"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "raiding settlements"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "the theft of property"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "gambling parlors"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "medical aid"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "farming & selling food"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "drug dealing"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_job"
 msgid "selling manufactured goods"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "their charitable nature"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "their isolationism"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "exploring extensively"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "collecting rare artifacts"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "their knowledge of bionics"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "their libraries"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "their elite training"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "their robotics factories"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "treachery"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "the avoidance of drugs"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "their adherence to the law"
 msgstr ""
 
 #: src/faction.cpp
+msgctxt "faction_value"
 msgid "their cruelty"
 msgstr ""
 
@@ -109985,6 +111785,14 @@ msgid "Unchallenged"
 msgstr ""
 
 #: src/faction.cpp
+msgid "Mighty"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Famous"
+msgstr ""
+
+#: src/faction.cpp
 msgid "Well-Known"
 msgstr ""
 
@@ -110514,11 +112322,11 @@ msgid "smoke vent"
 msgstr ""
 
 #: src/field.cpp
-msgid "Man, that smells like some good shit!"
+msgid "Whew... smells like skunk!"
 msgstr ""
 
 #: src/field.cpp
-msgid "Whew... smells like skunk!"
+msgid "Man, that smells like some good shit!"
 msgstr ""
 
 #: src/field.cpp
@@ -110573,11 +112381,11 @@ msgid "You're standing in a pool of acid"
 msgstr ""
 
 #: src/field.cpp
-msgid "The sap sticks to <npcname>!"
+msgid "The sap sticks to you!"
 msgstr ""
 
 #: src/field.cpp
-msgid "The sap sticks to you!"
+msgid "The sap sticks to <npcname>!"
 msgstr ""
 
 #: src/field.cpp
@@ -110642,11 +112450,11 @@ msgid "This radioactive gas burns!"
 msgstr ""
 
 #: src/field.cpp
-msgid "<npcname> is torched by flames!"
+msgid "You're torched by flames!"
 msgstr ""
 
 #: src/field.cpp
-msgid "You're torched by flames!"
+msgid "<npcname> is torched by flames!"
 msgstr ""
 
 #: src/field.cpp
@@ -110694,19 +112502,19 @@ msgid "The bees sting you all over your body!"
 msgstr ""
 
 #: src/field.cpp
-msgid "The incendiary burns <npcname>!"
-msgstr ""
-
-#: src/field.cpp
 msgid "The incendiary burns you!"
 msgstr ""
 
 #: src/field.cpp
-msgid "The incendiary melts into <npcname>s skin!"
+msgid "The incendiary burns <npcname>!"
 msgstr ""
 
 #: src/field.cpp
 msgid "The incendiary melts into your skin!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The incendiary melts into <npcname>s skin!"
 msgstr ""
 
 #: src/field.cpp
@@ -110840,12 +112648,12 @@ msgid "Wait till you wake up..."
 msgstr ""
 
 #: src/game.cpp
-msgid "(Y)es, (N)o, (I)gnore further distractions and finish."
+#, c-format
+msgid "%s. Auto-move canceled"
 msgstr ""
 
 #: src/game.cpp
-#, c-format
-msgid "%s. Auto-move canceled"
+msgid "(Y)es, (N)o, (I)gnore further similar distractions and finish."
 msgstr ""
 
 #: src/game.cpp
@@ -111119,41 +112927,26 @@ msgid "No."
 msgstr ""
 
 #: src/game.cpp
-msgid ""
-"You're engorged to hibernate. The alarm would only attract attention. Enter "
-"hibernation?"
-msgstr ""
-
-#: src/game.cpp
 msgid "You may want to deactivate these before you sleep."
 msgstr ""
 
 #: src/game.cpp
-msgid "Set alarm to wake up in 3 hours."
+msgid ""
+"You're engorged to hibernate. The alarm would only attract attention. Set an "
+"alarm anyway?"
 msgstr ""
 
 #: src/game.cpp
-msgid "Set alarm to wake up in 4 hours."
+msgid "You have an alarm clock. Set an alarm?"
 msgstr ""
 
 #: src/game.cpp
-msgid "Set alarm to wake up in 5 hours."
+msgid "No, don't set an alarm."
 msgstr ""
 
 #: src/game.cpp
-msgid "Set alarm to wake up in 6 hours."
-msgstr ""
-
-#: src/game.cpp
-msgid "Set alarm to wake up in 7 hours."
-msgstr ""
-
-#: src/game.cpp
-msgid "Set alarm to wake up in 8 hours."
-msgstr ""
-
-#: src/game.cpp
-msgid "Set alarm to wake up in 9 hours."
+#, c-format
+msgid "Set alarm to wake up in %i hours."
 msgstr ""
 
 #: src/game.cpp
@@ -111259,6 +113052,10 @@ msgstr ""
 
 #: src/game.cpp
 msgid "player memorial"
+msgstr ""
+
+#: src/game.cpp
+msgid "quick shortcuts"
 msgstr ""
 
 #: src/game.cpp
@@ -112013,15 +113810,42 @@ msgid "Till farm plots"
 msgstr ""
 
 #: src/game.cpp
-msgid "Till farm plots... you need a tool to dig with."
+msgid "Till farm plots... you need a tool to dig with"
 msgstr ""
 
 #: src/game.cpp
-msgid "Tills nearby Farm: Plot zones"
+msgid "Tills nearby Farm: Plot zones."
+msgstr ""
+
+#: src/game.cpp
+msgid "Plant seeds... it is too cold for planting"
+msgstr ""
+
+#: src/game.cpp
+msgid "Plant seeds"
+msgstr ""
+
+#: src/game.cpp
+msgid "Plant seeds... you don't have any"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to "
+"specific plant seed and you must have seeds in your inventory."
 msgstr ""
 
 #: src/game.cpp
 msgid "You need a tool to dig with."
+msgstr ""
+
+#: src/game.cpp src/iexamine.cpp src/mission_companion.cpp
+#: src/vehicle_part.cpp
+msgid "It is too cold to plant anything now."
+msgstr ""
+
+#: src/game.cpp
+msgid "You don't have any seeds."
 msgstr ""
 
 #: src/game.cpp
@@ -112251,6 +114075,44 @@ msgid "Examine where?"
 msgstr ""
 
 #: src/game.cpp
+msgid "There is a fire here."
+msgstr ""
+
+#: src/game.cpp
+msgid "It's too big and unpredictable to evaluate how long it will last."
+msgstr ""
+
+#: src/game.cpp
+msgid "It's going to go out soon without extra fuel."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid ""
+"Without extra fuel it might burn yet for %s, but might also go out sooner."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"It's quite decent and looks like it'll burn for a bit without extra fuel."
+msgstr ""
+
+#: src/game.cpp
+msgid "It's looks solid, and will burn for a few hours without extra fuel."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"It's very well supplied and even without extra fuel might burn for at least "
+"s part of a day."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Without extra fuel it will burn for %s."
+msgstr ""
+
+#: src/game.cpp
 msgid "You can't do that while driving."
 msgstr ""
 
@@ -112367,7 +114229,11 @@ msgid "%s [%d]"
 msgstr ""
 
 #: src/game.cpp
-msgid "Show on <M>ap"
+msgid "<S>how all / hide distant"
+msgstr ""
+
+#: src/game.cpp
+msgid "<M>ap"
 msgstr ""
 
 #: src/game.cpp
@@ -112392,6 +114258,10 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Edit type"
+msgstr ""
+
+#: src/game.cpp
+msgid "Edit options"
 msgstr ""
 
 #: src/game.cpp
@@ -112800,6 +114670,10 @@ msgid ""
 msgstr ""
 
 #: src/game.cpp
+msgid "Quarter corpse"
+msgstr ""
+
+#: src/game.cpp
 msgid ""
 "By quartering a previously field dressed corpse you will aquire four parts "
 "with reduced weight and volume.  It may help in transporting large game.  "
@@ -112808,7 +114682,7 @@ msgid ""
 msgstr ""
 
 #: src/game.cpp
-msgid "Quarter corpse"
+msgid "Dissect corpse"
 msgstr ""
 
 #: src/game.cpp
@@ -112817,10 +114691,6 @@ msgid ""
 "implants, and harvest them if possible.  Requires scalpel-grade cutting "
 "tools, ruins corpse, and consumes lot of time.  Your medical knowledge is "
 "most useful here."
-msgstr ""
-
-#: src/game.cpp
-msgid "Dissect corpse"
 msgstr ""
 
 #: src/game.cpp
@@ -113948,7 +115818,7 @@ msgid "You don't have any items you could disassemble."
 msgstr ""
 
 #: src/game_inventory.cpp
-msgid "NUTRITION"
+msgid "CALORIES"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -115981,9 +117851,13 @@ msgstr ""
 msgid "The %s crumbles into spores!"
 msgstr ""
 
-#: src/iexamine.cpp src/mission_companion.cpp
-#: src/vehicle_part.cpp
-msgid "It is too cold to plant anything now."
+#: src/iexamine.cpp
+msgid "Use which seed?"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Planted %s."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -115994,23 +117868,8 @@ msgstr ""
 msgid "Something's lying there..."
 msgstr ""
 
-#: src/iexamine.cpp
-msgid "Use which seed?"
-msgstr ""
-
-#. ~ magazine with ammo count
-#: src/iexamine.cpp src/player.cpp
-#, c-format
-msgid "%s (%d)"
-msgstr ""
-
 #: src/iexamine.cpp src/mission_companion.cpp
 msgid "You saved your seeds for later."
-msgstr ""
-
-#: src/iexamine.cpp
-#, c-format
-msgid "Planted %s"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -117386,7 +119245,7 @@ msgid "burn: "
 msgstr ""
 
 #: src/item.cpp
-msgid "<bold>Nutrition</bold>: "
+msgid "<bold>Calories (kcal)</bold>: "
 msgstr ""
 
 #: src/item.cpp
@@ -118046,6 +119905,22 @@ msgid "* This piece of clothing <info>can be refitted</info>."
 msgstr ""
 
 #: src/item.cpp
+msgid ""
+"* These clothes are <bad>too large</bad> but <info>can be undersized</info>."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* These clothes are <good>undersized</good> enough to accommodate "
+"<info>abnormally small mutated anatomy</info>."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* These clothes are <bad>undersized</bad> but <info>can be refitted</info>."
+msgstr ""
+
+#: src/item.cpp
 msgid "* This item can be worn on <info>either side</info> of the body."
 msgstr ""
 
@@ -118304,7 +120179,19 @@ msgid "%s, full"
 msgstr ""
 
 #: src/item.cpp
+msgid " (poisonous)"
+msgstr ""
+
+#: src/item.cpp
+msgid " (hallucinogenic)"
+msgstr ""
+
+#: src/item.cpp
 msgid " (rotten)"
+msgstr ""
+
+#: src/item.cpp
+msgid " (mushy)"
 msgstr ""
 
 #: src/item.cpp
@@ -118325,6 +120212,18 @@ msgstr ""
 
 #: src/item.cpp
 msgid " (frozen)"
+msgstr ""
+
+#: src/item.cpp
+msgid " (melted)"
+msgstr ""
+
+#: src/item.cpp
+msgid " (oversize)"
+msgstr ""
+
+#: src/item.cpp
+msgid " (undersize)"
 msgstr ""
 
 #: src/item.cpp
@@ -119030,6 +120929,30 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Feels like you're on fire, but you're OK."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Injected smart purifier."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Injected smart purifier."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You don't have any mutations to purify."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Choose a mutation to purify"
+msgstr ""
+
+#: src/iuse.cpp
+msgid ""
+"You inject the purifier.  The liquid thrashes inside the tube and goes down "
+"reluctantly."
 msgstr ""
 
 #: src/iuse.cpp
@@ -120726,6 +122649,10 @@ msgid "You heat up the food."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "There is no fire around, use your integrated toolset instead?"
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "You need to be next to fire to heat something up with the %s."
 msgstr ""
@@ -121864,7 +123791,7 @@ msgid "You need %s to do it!"
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "You need a <info>syringe</info> to inject this drug"
+msgid "You need a <info>syringe</info> to inject this drug."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -122274,6 +124201,11 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 #, c-format
+msgid "You don't think putting your %1$s in your %2$s is a good idea"
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
 msgid "You can't put your %1$s in your %2$s"
 msgstr ""
 
@@ -122408,6 +124340,16 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "You take your %s in, improving the fit."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You resize the %s to accommodate your tiny build."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You adjust the %s back to its normal size."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -123983,6 +125925,11 @@ msgstr ""
 #: src/main_menu.cpp
 msgctxt "Main Menu|World"
 msgid "<S|s>how World Mods"
+msgstr ""
+
+#: src/main_menu.cpp
+msgctxt "Main Menu|World"
+msgid "<C|c>opy World Settings"
 msgstr ""
 
 #: src/main_menu.cpp
@@ -127235,6 +129182,10 @@ msgid ""
 "You mark the refugee center, but you have no idea how to get there by road..."
 msgstr ""
 
+#: src/mission_start.cpp
+msgid "Download Routing Software"
+msgstr ""
+
 #: src/mission_ui.cpp
 msgid "ACTIVE MISSIONS"
 msgstr ""
@@ -128818,7 +130769,6 @@ msgstr ""
 msgid "Rats suddenly swarm into view."
 msgstr ""
 
-#. ~ %s is the possessive form of the monster's name
 #: src/mondeath.cpp
 #, c-format
 msgid ""
@@ -130716,6 +132666,10 @@ msgid "<npcname> is no longer afraid."
 msgstr ""
 
 #: src/npcmove.cpp
+msgid "<warn_sleep>"
+msgstr ""
+
+#: src/npcmove.cpp
 #, c-format
 msgid "%s lies down to sleep."
 msgstr ""
@@ -130923,6 +132877,10 @@ msgid "The bite wound on my %s looks bad."
 msgstr ""
 
 #: src/npcmove.cpp
+msgid "<yawn>"
+msgstr ""
+
+#: src/npcmove.cpp
 msgid "I'm suffering from radiation sickness..."
 msgstr ""
 
@@ -131076,43 +133034,6 @@ msgid "Sure, here you go!"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid ""
-"Feed a man a fish, he's full for a day. Feed a man a bullet, he's full for "
-"the rest of his life."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Spot your prey before something nastier spots you."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "I've heard that cougars sometimes leap. Maybe it's just a myth."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid ""
-"The Jabberwock is real, don't listen to what anybody else says. If you see "
-"it, RUN."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid ""
-"Zombie animal meat isn't good for eating, but sometimes you might find "
-"usable fur on 'em."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid ""
-"A steady diet of cooked meat and clean water will keep you alive forever, "
-"but your taste buds and your colon may start to get angry at you. Eat a "
-"piece of fruit every once in a while."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Smoke crack to get more shit done."
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "Hello, marshal."
 msgstr ""
 
@@ -131218,36 +133139,6 @@ msgid ""
 "overrun, standard procedure was to destroy encryption hardware to protect "
 "federal secrets and maintain the integrity of the comms network.  We are "
 "hoping a few plain text messages can get picked up though."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Hope you're here to trade."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid ""
-"I oversee the food stocks for the center.  There was significant looting "
-"during the panic when we first arrived so most of our food was carried "
-"away.  I manage what we have left and do everything I can to increase our "
-"supplies.  Rot and mold are more significant in the damp basement so I "
-"prioritize non-perishable food, such as cornmeal, jerky, and fruit wine."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid ""
-"All three are easy to locally produce in significant quantities and are non-"
-"perishable.  We have a local farmer or two and a few hunter types that have "
-"been making attempts to provide us with the nutritious supplies.  We do "
-"always need more suppliers though.  Because this stuff is rather cheap in "
-"bulk I can pay a premium for any you have on you.  Canned food and other "
-"edibles are handled by the merchant in the front."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid ""
-"I'm actually accepting a number of different foodstuffs: beer, sugar, flour, "
-"smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, "
-"cornmeal, and fruit wine."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -132173,22 +134064,6 @@ msgid "You might be seeing more of me..."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Why cornmeal, jerky, and fruit wine?"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Are you looking to buy anything else?"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Very well..."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Interesting..."
-msgstr ""
-
-#: src/npctalk.cpp
 msgid ""
 "[MISSION] The merchant at the Refugee Center sent me to get a prospectus "
 "from you."
@@ -132373,10 +134248,6 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Any tips?"
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "Can I do anything for you?"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -133442,6 +135313,10 @@ msgid "Specified the mode in which the minimap drawn."
 msgstr ""
 
 #: src/options.cpp
+msgid "Solid"
+msgstr ""
+
+#: src/options.cpp
 msgid "Squares"
 msgstr ""
 
@@ -133530,6 +135405,13 @@ msgstr ""
 
 #: src/options.cpp
 msgid "( WIP feature ) Determines terrain, shops, plants, and more."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"Season length, in days.  Warning: Very little other than the duration of "
+"seasons scales with this value, so adjusting it may cause nonsensical "
+"results."
 msgstr ""
 
 #: src/options.cpp
@@ -133766,7 +135648,19 @@ msgid "Color codes: "
 msgstr ""
 
 #: src/overmap_ui.cpp
-msgid "Note (X:TEXT for custom symbol, G; for color):"
+msgid "Type GLYPH:TEXT to set a custom glyph."
+msgstr ""
+
+#: src/overmap_ui.cpp
+msgid "Type COLOR;TEXT to set a custom color."
+msgstr ""
+
+#: src/overmap_ui.cpp
+msgid "Examples: B:Base | g;Loot | !:R;Minefield"
+msgstr ""
+
+#: src/overmap_ui.cpp
+msgid "Note:"
 msgstr ""
 
 #: src/overmap_ui.cpp
@@ -134474,11 +136368,23 @@ msgid "<npcname> attempts to put out the fire on them!"
 msgstr ""
 
 #: src/player.cpp
+msgid "a loud scream!"
+msgstr ""
+
+#: src/player.cpp
 msgid "yourself scream loudly!"
 msgstr ""
 
 #: src/player.cpp
+msgid "a piercing howl!"
+msgstr ""
+
+#: src/player.cpp
 msgid "yourself let out a piercing howl!"
+msgstr ""
+
+#: src/player.cpp
+msgid "a loud shout!"
 msgstr ""
 
 #: src/player.cpp
@@ -134658,6 +136564,15 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "You are slammed against %s for %d damage."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You are slammed against %s!"
+msgstr ""
+
+#: src/player.cpp
+msgid "...but your shock absorbers negate the damage!"
 msgstr ""
 
 #: src/player.cpp
@@ -135132,7 +137047,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Did you see that %1$s!"
+msgid "Did you see that %1$s!?"
 msgstr ""
 
 #: src/player.cpp
@@ -135340,7 +137255,7 @@ msgid "\"They made me do it!\""
 msgstr ""
 
 #: src/player.cpp
-msgid "\"What are you!\""
+msgid "\"What are you!?\""
 msgstr ""
 
 #: src/player.cpp
@@ -135353,6 +137268,10 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You have an asthma attack!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You use your Oxygenator to clear it up, then go back to sleep."
 msgstr ""
 
 #: src/player.cpp
@@ -135585,6 +137504,12 @@ msgstr ""
 msgid "Refill %s"
 msgstr ""
 
+#. ~ magazine with ammo count
+#: src/player.cpp
+#, c-format
+msgid "%s (%d)"
+msgstr ""
+
 #. ~ magazine with ammo (count)
 #: src/player.cpp
 #, c-format
@@ -135700,7 +137625,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Mutation %s prevents from wearing %s."
+msgid "Your %s mutation prevents you from wearing your %s."
 msgstr ""
 
 #: src/player.cpp
@@ -135881,6 +137806,16 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You're deafened!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "This %s is too big to wear comfortably! Maybe it could be refitted..."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "This %s is too small to wear comfortably! Maybe it could be refitted..."
 msgstr ""
 
 #: src/player.cpp
@@ -138346,6 +140281,12 @@ msgid "You flap your wings and flutter down gracefully."
 msgstr ""
 
 #: src/trapfunc.cpp
+msgid ""
+"You hit the ground hard, but your shock absorbers handle the impact "
+"admirably!"
+msgstr ""
+
+#: src/trapfunc.cpp
 msgid "You hurt yourself!"
 msgstr ""
 
@@ -138846,6 +140787,10 @@ msgid "Select part to refill:"
 msgstr ""
 
 #: src/veh_interact.cpp
+msgid "You cannot recharge a vehicle battery with handheld batteries"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Engines"
 msgstr ""
 
@@ -138933,6 +140878,18 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "You can't siphon from a moving vehicle."
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Select part to siphon: "
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "The vehicle has no solid fuel left to remove."
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "You can't unload from a moving vehicle."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -139118,6 +141075,10 @@ msgid "<s>iphon"
 msgstr ""
 
 #: src/veh_interact.cpp
+msgid "unloa<d>"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "<c>hange tire"
 msgstr ""
 
@@ -139264,7 +141225,11 @@ msgid "Use which gizmo?"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Siphon what?"
+msgid "Select tank to siphon:"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Remove what?"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -140531,7 +142496,9 @@ msgstr ""
 
 #: src/worldfactory.cpp
 #, c-format
-msgid "Press %s to save the list of active mods as default. Press %s for help."
+msgid ""
+"%s = Save Load Order as default.  %s = Controls %s/%s = Prev/Next Option. %s/"
+"%s = Prev/Next Tab."
 msgstr ""
 
 #: src/worldfactory.cpp

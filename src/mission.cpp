@@ -556,7 +556,7 @@ mission::mission()
     player_id = -1;
 }
 
-mission_type::mission_type( mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF,
+mission_type::mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF,
                             int VAL,
                             bool URGENT,
                             std::function<bool( const tripoint & )> PLACE,

@@ -222,6 +222,11 @@ struct vehicle_part {
         /** Is this any type of vehicle light? */
         bool is_light() const;
 
+        /** Can this part store fuel of any type
+         * @skip_broke exclude broken parts
+         */
+        bool is_fuel_store( const bool skip_broke = true ) const;
+
         /** Can this part contain liquid fuels? */
         bool is_tank() const;
 
@@ -1052,6 +1057,13 @@ class vehicle
         // Process the trap beneath
         void handle_trap( const tripoint &p, int part );
 
+        /**
+         * Player is driving the vehicle
+         * @param x direction player is steering
+         * @param y direction player is steering
+         */
+        void pldrive( int x, int y );
+
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
@@ -1405,6 +1417,8 @@ class vehicle
         bool insides_dirty              = true;
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
         bool falling                    = false;
+        // last time point the fluid was inside tanks was checked for processing
+        time_point last_fluid_check = calendar::time_of_cataclysm;
 
     private:
         // refresh pivot_cache, clear pivot_dirty

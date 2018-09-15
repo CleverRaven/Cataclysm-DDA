@@ -991,6 +991,13 @@
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
+     "type" : "keybinding",
+     "id": "UNLOAD",
+     "category": "VEH_INTERACT",
+     "name": "Unload fuel bunker",
+     "bindings":[ { "input_method":"keyboard", "key":"d" } ]
+  },
+  {
     "type": "keybinding",
     "id": "REMOVE",
     "category": "VEH_INTERACT",
@@ -2067,6 +2074,13 @@
     "category": "ZONES_MANAGER",
     "name": "Disable zone",
     "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SHOW_ALL_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Show all zones / hide distant zones",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
   },
   {
     "type": "keybinding",

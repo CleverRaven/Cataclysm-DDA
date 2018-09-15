@@ -209,10 +209,18 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     }
 }
 
-void mapgen_function_builtin::generate( map *m, const oter_id &o, const mapgendata &mgd,
-                                        const time_point &i, float d )
+void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, const mapgendata &mgd,
+                                        const time_point &t, float d )
 {
-    ( *fptr )( m, o, mgd, i, d );
+    ( *fptr )( m, terrain_type, mgd, t, d );
+
+    const std::string mapgen_generator_type = "builtin";
+    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( mapgen_generator_type );
+    lua_callback_args_info.emplace_back( terrain_type.id().str() );
+    lua_callback_args_info.emplace_back( terrain_tripoint );
+    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -1313,12 +1321,16 @@ class jmapgen_nested : public jmapgen_piece
                 // To speed up the most common case: no checks
                 bool has_any = false;
                 std::array<std::set<oter_str_id>, om_direction::size> neighbors;
+                std::set<oter_str_id> above;
             public:
                 neighborhood_check( JsonObject jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
                         neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
                         has_any |= !neighbors[index].empty();
+
+                        above = jsi.get_tags<oter_str_id>( "above" );
+                        has_any |= !above.empty();
                     }
                 }
 
@@ -1342,6 +1354,15 @@ class jmapgen_nested : public jmapgen_piece
                         }
                         all_directions_match &= this_direction_matches;
                     }
+
+                    if( !above.empty() ) {
+                        bool above_matches = false;
+                        for( oter_str_id allowed_neighbor : above ) {
+                            above_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.above().id() );
+                        }
+                        all_directions_match &= above_matches;
+                    }
+
                     return all_directions_match;
                 }
         };
@@ -2080,6 +2101,14 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     if( terrain_type->is_rotatable() ) {
         mapgen_rotate( m, terrain_type, false );
     }
+
+    const std::string mapgen_generator_type = "json";
+    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( mapgen_generator_type );
+    lua_callback_args_info.emplace_back( terrain_type.id().str() );
+    lua_callback_args_info.emplace_back( terrain_tripoint );
+    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y,
@@ -2139,10 +2168,10 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
 // wip: need more bindings. Basic stuff works
 
 #ifndef LUA
-int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, const time_point &t, float d,
-                const std::string & )
+int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &mgd, const time_point &t,
+                float d, const std::string & )
 {
-    mapgen_crater( m, id, md, to_turn<int>( t ), d );
+    mapgen_crater( m, terrain_type, mgd, to_turn<int>( t ), d );
     mapf::formatted_set_simple( m, 0, 6,
                                 "\
     *   *  ***\n\
@@ -2161,10 +2190,18 @@ int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, const time_poin
 }
 #endif
 
-void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &dat,
+void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &mgd,
                                     const time_point &t, float d )
 {
-    lua_mapgen( m, terrain_type, dat, t, d, scr );
+    lua_mapgen( m, terrain_type, mgd, t, d, scr );
+
+    const std::string mapgen_generator_type = "lua";
+    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( mapgen_generator_type );
+    lua_callback_args_info.emplace_back( terrain_type.id().str() );
+    lua_callback_args_info.emplace_back( terrain_tripoint );
+    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////

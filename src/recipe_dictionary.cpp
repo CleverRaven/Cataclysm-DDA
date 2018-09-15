@@ -126,8 +126,8 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        // TODO: check r->byproducts too
-        return item == r->result();
+        return item == r->result() ||
+               r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end();
     } );
 
     return res;

@@ -42,6 +42,11 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
                                  const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
+std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
+int related_menu_fill( uilist &rmenu,
+                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                       const recipe_subset &available );
+
 std::string get_cat_name( const std::string &prefixed_name )
 {
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
@@ -316,7 +321,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( current.empty() ) {
                 line = 0;
             } else {
-                line = std::min( line, ( int )current.size() - 1 );
+                line = std::min( line, static_cast<int>( current.size() ) - 1 );
             }
         }
 
@@ -416,9 +421,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             for( size_t i = 0; i < current.size() && i < ( size_t )dataHeight + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), ( int )i + 1, tmp_name.c_str() );
+                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name.c_str() );
                 }
-                if( ( int )i == line ) {
+                if( static_cast<int>( i ) == line ) {
                     mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dark_gray ),
                                utf8_truncate( tmp_name, 28 ).c_str() );
                 } else {
@@ -665,54 +670,99 @@ const recipe *select_crafting_recipe( int &batch_size )
                 redraw = true;
                 continue;
             }
-            std::vector<std::pair<itype_id, std::string>> related_results;
-            const requirement_data &req = current[ line ]->requirements();
-            for( const std::vector<item_comp> &comp_list : req.get_components() ) {
-                for( const item_comp &a : comp_list ) {
-                    related_results.push_back( { a.type, item::nname( a.type, 1 ) } );
-                }
-            }
-            tmp = current[ line ]->create_result();
-            itype_id tid;
-            if( tmp.contents.empty() ) { // use this item
-                tid = tmp.typeId();
-            } else { // use the contained item
-                tid = tmp.contents.front().typeId();
-            }
-            const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
-            for( const auto &b : known_recipes ) {
-                if( available_recipes.contains( b ) ) {
-                    related_results.push_back( { b->result(), b->result_name() } );
-                }
-            }
-
-            uimenu rmenu;
-            rmenu.reset();
-            int np = 0;
-            for( const std::pair<std::string, std::string> &p : related_results ) {
-                std::vector<const recipe *> current_part;
-                current_part = available_recipes.search_result( p.first );
-                if( !current_part.empty() ) {
-                    rmenu.addentry( np, true, -1, p.second );
-                }
-                np++;
-            }
-            rmenu.addentry( np, true, 'q', _( "Quit" ) );
-            rmenu.settext( _( "Related recipes:" ) );
-            rmenu.query();
-            if( rmenu.ret < np ) {
-                filterstring = related_results[rmenu.ret].second;
+            std::string recipe_name = peek_related_recipe( current[ line ], available_recipes );
+            if( !recipe_name.empty() ) {
+                filterstring = recipe_name;
             }
             redraw = true;
         }
         if( line < 0 ) {
             line = current.size() - 1;
-        } else if( line >= ( int )current.size() ) {
+        } else if( line >= static_cast<int>( current.size() ) ) {
             line = 0;
         }
     } while( !done );
 
     return chosen;
+}
+
+std::string peek_related_recipe( const recipe *current, const recipe_subset &available )
+{
+    // current recipe components
+    std::vector<std::pair<itype_id, std::string>> related_components;
+    const requirement_data &req = current->requirements();
+    for( const std::vector<item_comp> &comp_list : req.get_components() ) {
+        for( const item_comp &a : comp_list ) {
+            related_components.push_back( { a.type, item::nname( a.type, 1 ) } );
+        }
+    }
+    // current recipe result
+    std::vector<std::pair<itype_id, std::string>> related_results;
+    item tmp = current->create_result();
+    itype_id tid;
+    if( tmp.contents.empty() ) { // use this item
+        tid = tmp.typeId();
+    } else { // use the contained item
+        tid = tmp.contents.front().typeId();
+    }
+    const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
+    for( const auto &b : known_recipes ) {
+        if( available.contains( b ) ) {
+            related_results.push_back( { b->result(), b->result_name() } );
+        }
+    }
+
+    uilist rel_menu;
+    // rmenu.reset();
+    int np = 0;
+    if( !related_components.empty() ) {
+        rel_menu.addentry( ++np, false, -1, _( "COMPONENTS" ) );
+    }
+    np = related_menu_fill( rel_menu, related_components, available );
+    if( !related_results.empty() ) {
+        rel_menu.addentry( ++np, false, -1, _( "RESULTS" ) );
+    }
+    np = related_menu_fill( rel_menu, related_results, available );
+
+    rel_menu.settext( _( "Related recipes:" ) );
+    rel_menu.query();
+    if( rel_menu.ret != UIMENU_CANCEL ) {
+        return rel_menu.entries[ rel_menu.ret - 1 ].txt.substr( 1 );
+    }
+
+    return "";
+}
+
+int related_menu_fill( uilist &rmenu,
+                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                       const recipe_subset &available )
+{
+    int np_last = 1;
+
+    if( !related_recipes.empty() ) {
+        if( !rmenu.entries.empty() ) {
+            np_last = rmenu.entries.back().retval;
+        }
+
+        // TODO: unique
+        for( const std::pair<itype_id, std::string> &p : related_recipes ) {
+            std::vector<const recipe *> current_part = available.search_result( p.first );
+            if( !current_part.empty() ) {
+                if( current_part.size() == 1 && current_part[ 0 ]->result() == p.first ) {
+                    rmenu.addentry( ++np_last, true, -1, "-" + p.second );
+                } else {
+                    rmenu.addentry( ++np_last, false, -1, p.second );
+                    for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+                        const recipe *r = current_part[ recipe_n ];
+                        std::string sym = recipe_n == current_part.size() - 1 ? "L" : "+";
+                        rmenu.addentry( ++np_last, true, -1, sym + r->result_name() );
+                    }
+                }
+            }
+        }
+    }
+
+    return np_last;
 }
 
 // Anchors top-right
