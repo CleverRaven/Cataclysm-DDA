@@ -6514,9 +6514,6 @@ void game::emp_blast( const tripoint &p )
         } else if( sight ) {
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name().c_str() );
         }
-        if( !critter.has_effect( effect_emp ) ) {
-            critter.add_effect( effect_emp, 3_minutes );
-        }
     }
     if( u.posx() == x && u.posy() == y ) {
         if( u.power_level > 0 ) {
