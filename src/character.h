@@ -63,7 +63,7 @@ enum fatigue_levels {
 
 
 // Sleep deprivation naturally uses the same scale as fatigue
-// Currently: 383, 1000, 1500, 2000, 2500
+// Currently: 383, 1000, 1500, 2000, 3000
 enum sleep_deprivation_levels {
     SLEEP_DEPRIVED_HARMLESS = DEAD_TIRED,
     SLEEP_DEPRIVED_STAGE_1 = MASSIVE_FATIGUE,
