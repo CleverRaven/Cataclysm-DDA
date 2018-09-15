@@ -8447,24 +8447,34 @@ void game::zones_manager()
         if( action == "ADD_ZONE" ) {
             zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
 
-            const auto maybe_id = mgr.query_type();
-            if( maybe_id.has_value() ) {
+            do { // not a loop, just for quick bailing out if canceled
+                const auto maybe_id = mgr.query_type();
+                if( !maybe_id.has_value() ) {
+                    break;
+                }
+
                 const auto id = maybe_id.value();
                 auto options = zone_options::create( id );
-                options->query_at_creation();
+
+                if( !options->query_at_creation() ) {
+                    break;
+                }
+
                 const auto name = mgr.query_name( options->get_zone_name_suggestion() == "" ?
                                                   mgr.get_name_from_type( id ) : options->get_zone_name_suggestion() );
+
                 const auto position = query_position();
-
-                if( position.first != tripoint_min ) {
-                    mgr.add( name, id, false, true, position.first, position.second, options );
-
-                    zones = get_zones();
-                    active_index = zone_cnt - 1;
-
-                    stuff_changed = true;
+                if( position.first == tripoint_min ) {
+                    break;
                 }
-            }
+
+                mgr.add( name, id, false, true, position.first, position.second, options );
+
+                zones = get_zones();
+                active_index = zone_cnt - 1;
+
+                stuff_changed = true;
+            } while( false );
 
             draw_ter();
             blink = false;

@@ -84,7 +84,7 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
     return !options.has_options();
 }
 
-void plot_options::query_seed()
+bool plot_options::query_seed()
 {
     player &p = g->u;
 
@@ -110,12 +110,17 @@ void plot_options::query_seed()
         } else {
             mark = seed;
         }
+        return true;
+    } else if( seed_index == 0 ) { // No seeds
+        return true;
+    } else { // Canceled
+        return false;
     }
 }
 
-void plot_options::query_at_creation()
+bool plot_options::query_at_creation()
 {
-    query_seed();
+    return query_seed();
 };
 
 void plot_options::query()

@@ -43,8 +43,11 @@ class zone_options
             return false;
         };
 
-        /* query only necessary options at zone creation, one by one */
-        virtual void query_at_creation() {};
+        /* query only necessary options at zone creation, one by one
+         * returns true if successful, returns false if fails or canceled */
+        virtual bool query_at_creation() {
+            return true;
+        };
 
         /* query options, first uimenu should allow to pick an option to edit (if more than one) */
         virtual void query() {};
@@ -78,7 +81,7 @@ class plot_options : public zone_options, public mark_option
         std::string mark;
         std::string seed;
 
-        void query_seed();
+        bool query_seed();
 
     public:
         std::string get_mark() const override {
@@ -92,7 +95,7 @@ class plot_options : public zone_options, public mark_option
             return true;
         };
 
-        void query_at_creation() override;
+        bool query_at_creation() override;
         void query() override;
 
         std::string get_zone_name_suggestion() const override;
