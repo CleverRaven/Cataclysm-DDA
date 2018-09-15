@@ -647,6 +647,9 @@ class item : public visitable<item>
          */
         void update_temp( const int temp, const float insulation );
 
+        /** Apply heat to this item, amount of heat will be based on item weight  */
+        void heat_up();
+
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
 

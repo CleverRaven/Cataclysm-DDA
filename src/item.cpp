@@ -6093,6 +6093,16 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     } while( loop_diff > 0 || item_counter < 0 || item_counter > 600 );
 }
 
+void item::heat_up()
+{
+    item_tags.erase( "COLD" );
+    item_tags.erase( "FROZEN" );
+    item_tags.insert( "HOT" );
+    // links the amount of heat an item can retain to its mass
+    item_counter = clamp( to_gram( weight() ), 100, 600 );;
+    reset_temp_check();
+}
+
 void item::reset_temp_check()
 {
     last_temp_check = calendar::turn;

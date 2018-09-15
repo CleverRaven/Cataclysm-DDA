@@ -4906,15 +4906,13 @@ static bool heat_item( player &p )
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only aproximations
     int move_mod = ( to_gram( target.weight() ) );
-    // links time of food's HOT-ness with weight, as smaller items lose temperature faster
-    // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
-    int counter_mod = clamp( to_gram( target.weight() ), 100, 600 );
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
 
         if( target.has_flag( "EATEN_COLD" ) &&
             !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ), target.tname() ) ) {
 
+            int counter_mod;
             target.item_tags.insert( "COLD" );
             if( g->get_temperature( p.pos() ) <= temperatures::cold ) {
                 // environment is cold; heat more to prevent re-freeze
@@ -4923,19 +4921,18 @@ static bool heat_item( player &p )
                 // environment is warm; heat less to keep COLD longer
                 counter_mod = 550;
             }
+            target.item_counter = counter_mod;
             add_msg( _( "You defrost the food." ) );
         } else {
             add_msg( _( "You defrost and heat up the food." ) );
-            target.item_tags.insert( "HOT" );
+            target.heat_up();
             // bitshift multiply move_mod because we have to defrost and heat
             move_mod <<= 1;
         }
     } else {
         add_msg( _( "You heat up the food." ) );
-        target.item_tags.erase( "COLD" );
-        target.item_tags.insert( "HOT" );
+        target.heat_up();
     }
-    target.item_counter = counter_mod;
     p.mod_moves( -move_mod ); // time needed to actually heat up
     return true;
 }
@@ -6980,11 +6977,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         if( cooktime <= 0 ) {
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
             if( meal.has_flag( "EATEN_HOT" ) ) {
-                meal.active = true;
-                meal.item_tags.erase( "COLD" );
-                meal.item_tags.erase( "FROZEN" );
-                meal.item_tags.insert( "HOT" );
-                meal.item_counter = 600;
+                meal.heat_up();
+            } else {
                 meal.reset_temp_check();
             }
 
