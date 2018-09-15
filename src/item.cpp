@@ -6093,6 +6093,11 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     } while( loop_diff > 0 || item_counter < 0 || item_counter > 600 );
 }
 
+void item::reset_temp_check()
+{
+    last_temp_check = calendar::turn;
+}
+
 bool item::process_food( const player *carrier, const tripoint &p, int temp, float insulation )
 {
     if( carrier != nullptr && carrier->has_item( *this ) ) {

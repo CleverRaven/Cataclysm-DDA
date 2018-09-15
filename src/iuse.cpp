@@ -6985,6 +6985,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 meal.item_tags.erase( "FROZEN" );
                 meal.item_tags.insert( "HOT" );
                 meal.item_counter = 600;
+                meal.reset_temp_check();
             }
 
             it->active = false;
