@@ -551,7 +551,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     switch( mode ) {
         case TARGET_MODE_FIRE:
         case TARGET_MODE_TURRET_MANUAL:
-            title = string_format( _( "Firing %s %s" ), name.c_str(), print_recoil( p ).c_str() );
+            title = string_format( _( "Firing %s" ), name.c_str() );
             break;
 
         case TARGET_MODE_THROW:
