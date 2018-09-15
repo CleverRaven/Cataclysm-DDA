@@ -2224,9 +2224,8 @@ enum repeat_type : int {
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
-    uimenu rmenu;
+    uilist rmenu;
     rmenu.text = title;
-    rmenu.return_invalid = true;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
