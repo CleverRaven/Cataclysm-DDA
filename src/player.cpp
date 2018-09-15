@@ -6843,7 +6843,7 @@ void player::use_fire(const int quantity)
     }
 }
 
-std::list<item> player::use_charges( const itype_id& what, long qty )
+std::list<item> player::use_charges( const itype_id &what, long qty )
 {
     std::list<item> res;
 
@@ -6857,11 +6857,8 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     } else if( what == "fire" ) {
         use_fire( qty );
         return res;
-
-    }
-
-    else if( what == "UPS" )
-    {
+        
+    } else if( what == "UPS" ) {
         if( power_level > 0 && has_active_bionic( bio_ups ) ) {
             auto bio = std::min( long( power_level ), qty );
             charge_power( -bio );
@@ -6881,8 +6878,8 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
         }
-    } else if( what == "breath" )
-    {
+
+    } else if( what == "breath" ) {
         auto air = charges_of( "bunker_harness", qty );
         if( air > 0 ) {
             auto found = use_charges( "bunker_harness", air );
