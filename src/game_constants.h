@@ -124,4 +124,7 @@ constexpr double accuracy_grazing  = 1.0;
 /** New England base spring temperature = 65F/18C rounded to int */
 #define SPRING_TEMPERATURE 65
 
+/** Character's base weight in gram */
+constexpr int CHARACTER_WEIGHT = 81500;
+
 #endif

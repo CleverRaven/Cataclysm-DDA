@@ -110,6 +110,7 @@ void MonsterGenerator::finalize_mtypes()
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
+        mon.size = mon.volume_to_size( mon.volume );
 
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
@@ -545,8 +546,10 @@ void mtype::load( JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "color", color );
-    const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
-    optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
+    //const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
+    //optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
+    assign( jo, "volume", volume, strict, 0 );
+    assign( jo, "weight", weight, strict, 0 );
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
     optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 

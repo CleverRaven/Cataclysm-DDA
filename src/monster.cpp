@@ -2222,6 +2222,16 @@ m_size monster::get_size() const
     return type->size;
 }
 
+units::mass monster::get_weight() const
+{
+    return type->weight;
+}
+
+units::volume monster::get_volume() const
+{
+    return type->volume;
+}
+
 void monster::add_msg_if_npc( const std::string &msg ) const
 {
     if( g->u.sees( *this ) ) {

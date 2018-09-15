@@ -55,6 +55,8 @@ template<typename V, typename U>
 class quantity;
 class mass_in_gram_tag;
 using mass = quantity<int, mass_in_gram_tag>;
+class volume_in_milliliter_tag;
+using volume = quantity<int, volume_in_milliliter_tag>;
 }
 
 enum m_size : int {
@@ -459,7 +461,6 @@ class Creature
         virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
-        virtual units::mass get_weight() const;
 
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;

@@ -1383,24 +1383,6 @@ units::mass Creature::weight_capacity() const
     return base_carry;
 }
 
-units::mass Creature::get_weight() const
-{
-    switch( get_size() ) {
-        case MS_TINY:
-            return 1000_gram;
-        case MS_SMALL:
-            return 40750_gram;
-        case MS_MEDIUM:
-            return 81500_gram;
-        case MS_LARGE:
-            return 120_kilogram;
-        case MS_HUGE:
-            return 200_kilogram;
-    }
-
-    return 0;
-}
-
 /*
  * Drawing-related functions
  */
