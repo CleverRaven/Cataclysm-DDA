@@ -810,7 +810,7 @@ void air_gear_actor::load( JsonObject &obj )
     obj.read( "out_of_nitrox_msg", out_of_nitrox_msg );
 }
 
-bool has_airsource( const item &i, const player &p )
+bool has_airsource( const player &p )
 {
     return p.has_charges( "breath", 1 );
 }
