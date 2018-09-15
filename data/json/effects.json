@@ -1525,7 +1525,7 @@
         "id": "lack_sleep",
         "name": ["Lacking Sleep"],
         "desc": ["You haven't slept in a while, and it shows."],
-        "apply_message": "You are too tired to function well.",
+        "apply_message": "You are too physically tired to function well.",
         "rating": "bad",
         "miss_messages": [["You don't have energy to fight.", 1]],
         "base_mods": {
@@ -1535,6 +1535,20 @@
             "int_mod": [-2],
             "per_mod": [-2]
         }
+    },
+    {
+        "type": "effect_type",
+        "id": "sleep_deprived",
+        "name": ["Sleep Deprived"],
+        "desc": ["You haven't been able to get enough sleep lately.\nYou will suffer increasingly severe penalties until you get enough rest.\nCan be fatal if neglected for too long."],
+        "rating": "bad",
+        "max_intensity": 100,
+        "int_dur_factor": 1,
+        "base_mods": {
+            "speed_mod": [-5]
+        },
+        "apply_message": "You are too mentally tired to function well.",
+        "remove_message": "You have finally catched up with your lost sleep, and you feel refreshingly awake for a change."
     },
     {
         "type": "effect_type",

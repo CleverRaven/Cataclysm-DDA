@@ -1021,7 +1021,12 @@ void player::hardcoded_effects( effect &it )
 
         if( get_fatigue() <= 0 && get_fatigue() > -20 && !has_effect( effect_narcosis ) ) {
             mod_fatigue( -25 );
-            add_msg_if_player( m_good, _( "You feel well rested." ) );
+            if( get_sleep_deprivation() < SLEEP_DEPRIVED_HARMLESS ) {
+                add_msg_if_player( m_good, _( "You feel well rested." ) );
+            }
+            else {
+                add_msg_if_player( m_warning, _( "You feel physically rested, but you haven't been able to catch up on your missed sleep yet." ) );
+            }
             it.set_duration( 1_turns * dice( 3, 100 ) );
         }
 

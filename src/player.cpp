@@ -144,6 +144,7 @@ const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_lack_sleep( "lack_sleep" );
+const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
@@ -686,6 +687,26 @@ void player::reset_stats()
         mod_int_bonus( -get_thirst() / 200 );
         mod_per_bonus( -get_thirst() / 200 );
     }
+    if( get_sleep_deprivation() >= SLEEP_DEPRIVED_HARMLESS ) {
+        // Make the effect intensity range from 0 to 100 visually, to make it easier for the player
+        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() / 30 );
+    }
+    else if( has_effect( effect_sleep_deprived ) ) {
+        remove_effect( effect_sleep_deprived );
+    }
+
+    // Sleep deprivation, starts affecting stats at 1500
+    // Worst case is -4 dex, -2 str, -2 int, -4 per
+    if( get_sleep_deprivation() >= SLEEP_DEPRIVED_STAGE_2 ) {
+        // We die at 3000, but it's hard to reach that number without passing out
+        const int dex_mod = -get_sleep_deprivation() / 750;
+        add_miss_reason( _( "Your mind is hazy from lack of sleep." ), unsigned( -dex_mod ) );
+        mod_str_bonus( -get_sleep_deprivation() / 1500 );
+        mod_dex_bonus( dex_mod );
+        mod_int_bonus( -get_sleep_deprivation() / 1500 );
+        mod_per_bonus( -get_sleep_deprivation() / 750 );
+    }
+
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
@@ -4183,7 +4204,7 @@ void player::check_needs_extremes()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( get_fatigue() >= EXHAUSTED + 25 && !in_sleep_state() ) {
+    if( ( get_fatigue() >= EXHAUSTED + 25 ) && !in_sleep_state() ) {
         if( get_fatigue() >= MASSIVE_FATIGUE ) {
             add_msg_if_player(m_bad, _("Survivor sleep now."));
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
@@ -4199,10 +4220,10 @@ void player::check_needs_extremes()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
+    if( (get_fatigue() >= DEAD_TIRED ) && !in_sleep_state() ) {
         if( get_fatigue() >= 700 ) {
-            if( calendar::once_every( 30_minutes ) ) {
-                add_msg_if_player( m_warning, _("You're too tired to stop yawning.") );
+            if( get_fatigue() >= 700 && calendar::once_every( 30_minutes ) ) {
+                add_msg_if_player( m_warning, _("You're too physically tired to stop yawning.") );
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
@@ -4219,11 +4240,75 @@ void player::check_needs_extremes()
             if (one_in(100 + int_cur)) {
                 fall_asleep( 5_turns );
             }
-        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
+        } else if( ( get_fatigue() >= DEAD_TIRED ) && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _("*yawn* You should really get some sleep.") );
             add_effect( effect_lack_sleep, 30_minutes + 1_turns );
         }
     }
+
+    // Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for long periods of time
+    if( get_sleep_deprivation() >= SLEEP_DEPRIVED_HARMLESS && !in_sleep_state() ) {
+        if( calendar::once_every( 30_minutes ) ) {
+            if( get_sleep_deprivation() < SLEEP_DEPRIVED_STAGE_1 ) {
+                add_msg( m_warning, _( "Your mind feels tired. It's been a while since you've slept well." ) );
+                mod_fatigue( 5 );
+            }
+            else if( get_sleep_deprivation() < SLEEP_DEPRIVED_STAGE_2 ) {
+                add_msg( m_bad, _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
+                mod_fatigue( 10 );
+
+                if( one_in( 10 ) ) {
+                    mod_healthy_mod( -1, 0 );
+                }
+            }
+            else if( get_sleep_deprivation() < SLEEP_DEPRIVED_STAGE_3 ) {
+                add_msg( m_bad, _( "Your mind feels weary, and you dread every wakeful minute that passes. You crave sleep, and feel like you're about to collapse." ) );
+                mod_fatigue( 40 );
+
+                if( one_in( 5 ) ) {
+                    mod_healthy_mod( -2, 0 );
+                }
+            }
+            else if( get_sleep_deprivation() < SLEEP_DEPRIVED_LETHAL ) {
+                add_msg( m_bad, _( "You haven't slept decently for so long that your whole body is screaming for mercy. If you don't get rid of the excessive sleep deprivation, you will die." ) );
+                mod_fatigue( 80 );
+
+                mod_healthy_mod( -10, 0 );
+            }
+            else {
+                add_msg_if_player( m_bad, _( "You have a sudden heart attack!" ) );
+                add_memorial_log( pgettext( "memorial_male", "Died of extreme sleep deprivation." ),
+                                  pgettext( "memorial_female", "Died of extreme sleep deprivation." ) );
+                hp_cur[hp_torso] = 0;
+            }
+            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in 75 + int_cur at lethal sleep deprivation)
+            // Note: these can coexist with fatigue-related microsleeps
+            /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
+            if( one_in( get_sleep_deprivation() / 40 + int_cur ) ) {
+                fall_asleep( 5_turns );
+            }
+
+            // 1 / 8  base chance of passing out at stage 4
+            // 1 / 25 base chance of passing out at stage 3
+            // 1 / 37 base chance of passing out at stage 2
+            // 1 / 75 base chance of passing out at stage 1
+            // Chances are rolled every 10 minutes.
+            /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
+            if( get_sleep_deprivation() >= 1000 && one_in( ( 4000 - get_sleep_deprivation() ) / ( ( get_sleep_deprivation() / 1000 ) * 40 ) + per_cur / 2 ) && calendar::once_every( 10_minutes ) ) {
+                add_msg( m_bad, _( "Your body collapses to sleep deprivation, and you pass out on the spot." ) );
+
+                // Sleep for 20 hours at stage 4 (~= 4+/-1 DAYS OF NOT SLEEPING!)
+                // Sleep for 13 hours at stage 3 
+                // Sleep for 10 hours at stage 2 
+                // Sleep for 6  hours at stage 1
+                if( get_fatigue() < EXHAUSTED ) {
+                    set_fatigue( EXHAUSTED );
+                }
+                fall_asleep( get_sleep_deprivation() / 150 * 60_minutes );
+            }
+        }
+    }
+
 }
 
 void player::update_needs( int rate_multiplier )
@@ -4306,9 +4391,22 @@ void player::update_needs( int rate_multiplier )
         fatigue_rate *= 1.0f + mutation_value( "fatigue_modifier" );
 
         if( fatigue_rate > 0.0f ) {
-            mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
+            int fatigue_roll = divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
+            mod_fatigue( fatigue_roll );
+
+            // Sleep deprivation gain is slow until you reach SLEEP_DEPRIVED_HARMLESS,
+            // then it gets dramatically higher but slows down over time to ensure recovery
+            int sleep_dep_roll = fatigue_roll;
+            if( get_sleep_deprivation() >= SLEEP_DEPRIVED_HARMLESS ) {
+                // Min: 1x at 3000 SD, Max: 3.6x at 383 SD
+                sleep_dep_roll = static_cast< int >( sleep_dep_roll * ( ( 3000.0f - get_sleep_deprivation() ) / 1000.0f + 1 ) );
+            }
+
+            mod_sleep_deprivation( sleep_dep_roll );
+
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
+                set_sleep_deprivation( 0 );
             }
         }
     } else if( asleep ) {
@@ -4323,16 +4421,19 @@ void player::update_needs( int rate_multiplier )
         }
 
         // Untreated pain causes a flat penalty to fatigue reduction
-        recovery_rate -= float(get_perceived_pain()) / 60;
+        recovery_rate -= float( get_perceived_pain() ) / 60;
 
         if( recovery_rate > 0.0f ) {
             int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
             if( get_fatigue() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
-                mod_fatigue(-25);
+                mod_fatigue( -25 );
+                mod_sleep_deprivation( -25 );
             } else {
-                mod_fatigue(-recovered);
+                mod_fatigue( -recovered );
+                // To ensure that players may actually cure themselves of sleep deprivation in a couple of relaxing days
+                mod_sleep_deprivation( -recovered * 2 );
             }
         }
     }
@@ -6043,6 +6144,77 @@ void player::suffer()
             mod_fatigue( rng( 1, 2 ) );
         }
     }
+
+    // Sleep deprivation increases at the same rate as fatigue, but it is unaffected by
+    // stimulants and other tasks that would usually drain fatigue. Instead, it builds up
+    // naturally as you stay awake. As long as its counter stays below DEAD_TIRED, you can
+    // sleep it off (depending on your fatigue_modifier this threshold may vary). But when
+    // it increases past that value, various negative effects will start taking place.
+    // These range from decreased health and increased fatigue to spasms and hallucinations, 
+    // similarly to stim abuse. The effects become highly debilitant after a while, and can
+    // end up in killing your character.
+    // TL;DR: Don't abuse coffee like Fry did in that Futurama episode.
+
+    int sleep_deprivation = !in_sleep_state() ? get_sleep_deprivation() : 0;
+    if( sleep_deprivation >= SLEEP_DEPRIVED_STAGE_1 ) {
+        if( one_in( to_turns< int >( 60_minutes ) ) ) {
+            add_msg( m_warning, _( "You feel lightheaded for a moment." ) );
+            moves -= 10;
+        }
+    }
+    if( sleep_deprivation >= SLEEP_DEPRIVED_STAGE_2 ) {
+        if( one_in( to_turns< int >( 120_minutes ) ) ) {
+            add_msg( m_bad, _( "Your muscles spasm uncomfortably." ) );
+            mod_pain( 2 );
+        }
+        if( !has_effect( effect_nausea ) && one_in( to_turns< int >( 240_minutes ) ) ) {
+            add_msg( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
+            mod_pain( 5 );
+            add_effect( effect_nausea, rng( 5_minutes, 30_minutes ) );
+        }
+        if( one_in( to_turns< int >( 360_minutes ) ) ) {
+            add_msg( m_bad, _( "You have a distractingly painful headache." ) );
+            mod_pain( rng( 10, 25 ) );
+        }
+        if( !has_effect( effect_visuals ) && one_in( to_turns< int >( 120_minutes ) ) ) {
+            add_msg( m_bad, _( "Your vision blurs, and you tiredly rub your eyes to no avail." ) );
+            add_effect( effect_visuals, rng( 5_minutes, 30_minutes ) );
+        }
+    }
+    // This is very bad, and roughly the same as going more than 4-5 days without sleep IRL.
+    // At this stage, there's a very high chance of passing out already, so these effects
+    // should, hopefully, happen way less often than the others still.
+    if( sleep_deprivation >= SLEEP_DEPRIVED_STAGE_3 ) {
+        if( one_in( to_turns< int >( 45_minutes ) ) ) {
+            add_msg( m_bad, _( "Your mind lapses into unawareness briefly." ) );
+            moves -= rng( 20, 80 );
+        }
+        if( one_in( to_turns< int >( 360_minutes ) ) ) {
+            add_msg( m_bad, _( "Your mind is so tired that you start seeing... things..." ) );
+            add_effect( effect_hallu, rng( 30_minutes, 60_minutes ) );
+        }
+        if( one_in( to_turns< int >( 240_minutes ) ) ) {
+            add_msg( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
+            mod_pain( rng(2, 20) );
+        }
+        if( !has_effect( effect_shakes ) && one_in( to_turns< int >( 360_minutes ) ) ) {
+            add_msg( m_bad, _( "Your muscles spasm uncontrollably, and you have trouble keeping your balance." ) );
+            add_effect( effect_shakes, 15_minutes );
+        }
+        else if( has_effect( effect_shakes ) && one_in( to_turns< int >( 1_minutes ) ) ) {
+            moves -= 10;
+            add_msg( m_warning, _( "Your shaking legs make you stumble." ) );
+            if( !has_effect( effect_downed ) && one_in( 10 ) ) {
+                add_msg( m_bad, _( "You fall over!" ) );
+                add_effect( effect_downed, rng( 3_turns, 10_turns ) );
+            }
+        }
+    }
+    /*
+    if( sleep_deprivation >= SLEEP_DEPRIVED_LETHAL ) {
+        // Handled by check_needs_extreme(), and kills the player.
+    }
+    */
 }
 
 // At minimum level, return at_min, at maximum at_max
