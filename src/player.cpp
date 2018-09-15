@@ -6646,7 +6646,7 @@ void player::process_active_items()
         if (!w.active) {
             continue;
         }
-        if (air_gear == nullptr && w.is_air_gear()) {
+        if (w.has_flag( "USE_AIR" ) ) {
             air_gear = &w;
         }
     }

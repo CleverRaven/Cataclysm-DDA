@@ -1375,10 +1375,6 @@ class item : public visitable<item>
          */
         bool is_power_armor() const;
         /**
-         * Whether this is an air supply item.
-         */
-        bool is_air_gear() const;
-        /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.
          */

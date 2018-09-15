@@ -812,9 +812,6 @@ void air_gear_actor::load(JsonObject &obj)
 
 bool has_airsource(const item &i, const player &p)
 {
-    if ( i.is_air_gear() ) {
-        return true;
-    }
     return p.has_charges("breath", 1);
 }
 
@@ -837,7 +834,7 @@ long air_gear_actor::use(player &p, item &it, bool t, const tripoint &) const
     it.active = !it.active;
     if (it.active) {
         if (activate_msg.empty()) {
-            p.add_msg_if_player(m_info, _("You activate your %s."), it.tname().c_str());
+            p.add_msg_if_player(m_info, _("You turn the valve, switching to your air supply."), it.tname().c_str());
         }
         else {
             p.add_msg_if_player(m_info, _(activate_msg.c_str()), it.tname().c_str());
@@ -847,7 +844,7 @@ long air_gear_actor::use(player &p, item &it, bool t, const tripoint &) const
     }
     else {
         if (deactive_msg.empty()) {
-            p.add_msg_if_player(m_info, _("You deactivate your %s."), it.tname().c_str());
+            p.add_msg_if_player(m_info, _("You turn the valve, switching off your air supply."), it.tname().c_str());
         }
         else {
             p.add_msg_if_player(m_info, _(deactive_msg.c_str()), it.tname().c_str());

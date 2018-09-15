@@ -256,10 +256,6 @@ struct islot_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
-    /**
-     * Whether this is a breathing apparatus.
-     */
-    bool air_gear = false;
 };
 
 struct islot_book {
