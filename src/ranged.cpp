@@ -529,7 +529,7 @@ static std::string print_recoil( const player &p)
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( const catacurses::window &w_target, const std::string &name,
-                                  player &p, target_mode mode, input_context &ctxt,
+                                  target_mode mode, input_context &ctxt,
                                   const std::vector<aim_type> &aim_types, bool switch_mode,
                                   bool switch_ammo, bool tiny )
 {
@@ -988,7 +988,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(),
-                                                       pc, mode, ctxt, aim_types,
+                                                       mode, ctxt, aim_types,
                                                        bool( on_mode_change ),
                                                        bool( on_ammo_change ), tiny );
 
