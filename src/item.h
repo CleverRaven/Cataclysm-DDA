@@ -1364,7 +1364,7 @@ class item : public visitable<item>
         int get_env_resist_w_filter() const;
         /**
         * Returns the resistance to environmental effects if an item (for example a PBA mask)
-        * requires an air tank harness to operate and it has air. Used in iuse_actor::gasmask to  
+        * requires an air tank harness to operate and it has air. Used in iuse_actor::air_gear to
         * change protection of a breathing apparatus if there is (or there is no) nitrox. For other
         * applications use get_env_resist() or get_evn_resist_w_filter() above.
         */

@@ -829,10 +829,11 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
         }
     }
 
-    if (what == "breath") {
+    if( what == "breath" )
+    {
         long qty = 0;
-        qty = sum_no_wrap(qty, charges_of("bunker_harness"));
-        return std::min(qty, limit);
+        qty = sum_no_wrap( qty, charges_of( "bunker_harness" ) );
+        return std::min( qty, limit );
     }
 
     if( what == "UPS" ) {

@@ -6642,32 +6642,32 @@ void player::process_active_items()
 
     long ch_breath = charges_of( "breath" );
     item *air_gear = nullptr;
-    for (auto &w : worn) {
-        if (!w.active) {
+    for( auto &w : worn )
+    {
+        if( !w.active ) {
             continue;
         }
-        if (w.has_flag( "USE_AIR" ) ) {
+        if( w.has_flag( "USE_AIR" ) ) {
             air_gear = &w;
         }
     }
-    if (air_gear != nullptr) {
-        if (ch_breath >= 1) {
+    if( air_gear != nullptr )
+    {
+        if( ch_breath >= 1 ) {
             use_charges( "breath", 1 );
-            if (ch_breath < 10 && one_in(3)) {
-                add_msg_if_player(m_warning, _("It's getting hard to breathe in that mask."));
+            if( ch_breath < 10 && one_in( 3 ) ) {
+                add_msg_if_player( m_warning, _( "It's getting hard to breathe in that mask." ) );
             }
-        }
-        else if (ch_breath > 0) {
-            use_charges( "breath", ch_breath);
-        }
-        else {
-            add_msg_if_player(m_warning, _("Your air supply has run out."));
+        } else if( ch_breath > 0 ) {
+            use_charges( "breath", ch_breath );
+        } else {
+            add_msg_if_player( m_warning, _( "Your air supply has run out." ) );
             // Bypass the "you deactivate the ..." message
-            air_gear->set_var("overwrite_env_resist", 0);
+            air_gear->set_var( "overwrite_env_resist", 0 );
             air_gear->active = false;
         }
     }
-}
+    }
 
 item player::reduce_charges( int position, long quantity )
 {
@@ -6860,33 +6860,34 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
 
     }
 
-    else if (what == "UPS") {
-        if (power_level > 0 && has_active_bionic(bio_ups)) {
-            auto bio = std::min(long(power_level), qty);
-            charge_power(-bio);
-            qty -= std::min(qty, bio);
+    else if( what == "UPS" )
+    {
+        if( power_level > 0 && has_active_bionic( bio_ups ) ) {
+            auto bio = std::min( long( power_level ), qty );
+            charge_power( -bio );
+            qty -= std::min( qty, bio );
         }
 
-        auto adv = charges_of("adv_UPS_off", (long)ceil(qty * 0.6));
-        if (adv > 0) {
-            auto found = use_charges("adv_UPS_off", adv);
-            res.splice(res.end(), found);
-            qty -= std::min(qty, long(adv / 0.6));
+        auto adv = charges_of( "adv_UPS_off", ( long )ceil( qty * 0.6 ) );
+        if( adv > 0 ) {
+            auto found = use_charges( "adv_UPS_off", adv );
+            res.splice( res.end(), found );
+            qty -= std::min( qty, long( adv / 0.6 ) );
         }
 
-        auto ups = charges_of("UPS_off", qty);
-        if (ups > 0) {
-            auto found = use_charges("UPS_off", ups);
-            res.splice(res.end(), found);
-            qty -= std::min(qty, ups);
+        auto ups = charges_of( "UPS_off", qty );
+        if( ups > 0 ) {
+            auto found = use_charges( "UPS_off", ups );
+            res.splice( res.end(), found );
+            qty -= std::min( qty, ups );
         }
-    }
-    else if (what == "breath") {
-        auto air = charges_of("bunker_harness", qty);
-        if (air > 0) {
-            auto found = use_charges("bunker_harness", air);
-            res.splice(res.end(), found);
-            qty -= std::min(qty, air);
+    } else if( what == "breath" )
+    {
+        auto air = charges_of( "bunker_harness", qty );
+        if( air > 0 ) {
+            auto found = use_charges( "bunker_harness", air );
+            res.splice( res.end(), found );
+            qty -= std::min( qty, air );
         }
     }
 

@@ -344,8 +344,8 @@ class air_gear_actor : public iuse_actor
         air_gear_actor( const std::string &type = "air_gear" ) : iuse_actor( type ) {}
 
         ~air_gear_actor() override = default;
-        void load(JsonObject &jo) override;
-        long use(player &, item &, bool, const tripoint &) const override;
+        void load( JsonObject &jo ) override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
