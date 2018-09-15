@@ -57,7 +57,7 @@
     "name": "liquified blob feed",
     "name_plural": "bfeedfuel",
     "description": "Liquified blob feed, useful for fueling certain blob based vehicle parts",
-    "weight": 50,
+    "weight": 3,
     "volume": 1,
     "price": 40,
     "price_postapoc": 800,
