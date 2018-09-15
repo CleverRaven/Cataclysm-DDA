@@ -21,6 +21,7 @@
 #include <string>
 #include <unordered_map>
 
+class cata_tiles;
 class Creature;
 class player;
 class JsonObject;
@@ -300,6 +301,7 @@ class tileset_loader
         int sprite_height;
 
         int offset = 0;
+        int sprite_id_offset = 0;
         int size = 0;
 
         struct {
@@ -351,6 +353,12 @@ class tileset_loader
          * @throw std::exception On any error.
          */
         void load_tilejson_from_file( JsonObject &config );
+        /**
+         * Helper functions called by load.
+         * @throw std::exception On any error.
+         */
+        void load_internal( JsonObject &config, const std::string &tileset_root,
+                            const std::string &img_path );
     public:
         tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
         }
