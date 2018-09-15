@@ -6507,9 +6507,18 @@ void game::emp_blast( const tripoint &p )
                     critter.make_friendly();
                 }
             }
-        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) && !critter.has_effect( effect_emp ) ) {
-            if( sight ) {
+        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) ) {
+            if( sight && !critter.has_effect( effect_emp ) ) {
                 add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name().c_str() );
+                critter.add_effect( effect_emp, 3_minutes );
+            } else if( sight && critter.has_effect( effect_emp ) ) {
+                int dam = dice( 3, 5 );
+                add_msg( m_good, _( "The %s's disabled electrical field reverses polarity!" ),
+                         critter.name().c_str() );
+                add_msg( m_good, _( "It takes %d damage." ), dam );
+                critter.add_effect( effect_emp, 1_minutes );
+                critter.apply_damage( nullptr, bp_torso, dam );
+                critter.check_dead_state();
             }
         } else if( sight ) {
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name().c_str() );
