@@ -4380,10 +4380,9 @@ void map::process_items( bool const active, map::map_process_func processor,
         for( gx = 0; gx < my_MAPSIZE; ++gx ) {
             for( gy = 0; gy < my_MAPSIZE; ++gy ) {
                 submap *const current_submap = get_submap_at_grid( gp );
-                const int temp = g->get_temperature( gp );
                 // Vehicles first in case they get blown up and drop active items on the map.
                 if( !current_submap->vehicles.empty() ) {
-                    process_items_in_vehicles( *current_submap, processor, signal, temp, 1 );
+                    process_items_in_vehicles( *current_submap, processor, signal, g->get_temperature( gp ), 1 );
                 }
             }
         }
@@ -4392,9 +4391,8 @@ void map::process_items( bool const active, map::map_process_func processor,
         for( gx = 0; gx < my_MAPSIZE; ++gx ) {
             for( gy = 0; gy < my_MAPSIZE; ++gy ) {
                 submap *const current_submap = get_submap_at_grid( gp );
-                const int temp = g->get_temperature( gp );
                 if( !active || !current_submap->active_items.empty() ) {
-                    process_items_in_submap( *current_submap, gp, processor, signal, temp );
+                    process_items_in_submap( *current_submap, gp, processor, signal, g->get_temperature( gp ) );
                 }
             }
         }
