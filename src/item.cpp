@@ -3406,7 +3406,7 @@ bool item::is_air_gear() const
     if (t == nullptr) {
         return false;
     }
-    return t->power_armor;
+    return t->air_gear;
 }
 
 int item::get_encumber() const

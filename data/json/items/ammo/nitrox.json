@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "nitrox",
     "description": "A mixture of oxygen and nitrogen used by divers.",
-    "weight": 20,
+    "weight": 6,
     "volume": 1,
     "price": 2400,
     "material": [ "hydrocarbons" ],

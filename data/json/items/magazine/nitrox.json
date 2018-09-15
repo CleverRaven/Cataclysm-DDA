@@ -11,8 +11,8 @@
     "symbol": "#",
     "color": "yellow",
     "ammo_type": "nitrox",
-    "capacity": 100,
-    "count": 100,
+    "capacity": 300,
+    "count": 300,
     "reliability": 10,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
@@ -28,8 +28,8 @@
     "symbol": "#",
     "color": "gray",
     "ammo_type": "nitrox",
-    "capacity": 150,
-    "count": 150,
+    "capacity": 450,
+    "count": 450,
     "reliability": 10,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }

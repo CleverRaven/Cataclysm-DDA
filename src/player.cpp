@@ -429,7 +429,6 @@ static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
-static const itype_id PBA_MASK_ITEM_ID( "bunker_mask" );
 
 stat_mod player::get_pain_penalty() const
 {
@@ -6641,30 +6640,30 @@ void player::process_active_items()
         use_charges( "UPS", ch_UPS_used );
     }
 
-    long ch_Nitrox = charges_of( "nitrox" );
-    item *PBA = nullptr;
+    long ch_breath = charges_of( "breath" );
+    item *air_gear = nullptr;
     for (auto &w : worn) {
         if (!w.active) {
             continue;
         }
-        if (w.typeId() == PBA_MASK_ITEM_ID) {
-            PBA = &w;
+        if (air_gear == nullptr && w.is_air_gear()) {
+            air_gear = &w;
         }
     }
-    if (PBA != nullptr) {
-        if (ch_Nitrox >= 1) {
-            use_charges( "nitrox", 1 );
-            if (ch_Nitrox < 10 && one_in(3)) {
-                add_msg_if_player(m_warning, _("It's getting hard to breath in that mask."));
+    if (air_gear != nullptr) {
+        if (ch_breath >= 1) {
+            use_charges( "breath", 1 );
+            if (ch_breath < 10 && one_in(3)) {
+                add_msg_if_player(m_warning, _("It's getting hard to breathe in that mask."));
             }
         }
-        else if (ch_Nitrox > 0) {
-            use_charges( "nitrox", ch_Nitrox);
+        else if (ch_breath > 0) {
+            use_charges( "breath", ch_breath);
         }
         else {
             add_msg_if_player(m_warning, _("Your air supply has run out."));
             // Bypass the "you deactivate the ..." message
-            PBA->active = false;
+            air_gear->active = false;
         }
     }
 }
@@ -6859,6 +6858,7 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
         return res;
 
     }
+
     else if (what == "UPS") {
         if (power_level > 0 && has_active_bionic(bio_ups)) {
             auto bio = std::min(long(power_level), qty);

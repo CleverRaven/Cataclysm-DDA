@@ -718,6 +718,7 @@ void Item_factory::init()
     add_actor( new salvage_actor() );
     add_actor( new unfold_vehicle_iuse() );
     add_actor( new ups_based_armor_actor() );
+    add_actor( new air_gear_actor() );
     add_actor( new place_trap_actor() );
     add_actor( new emit_actor() );
     add_actor( new saw_barrel_actor() );

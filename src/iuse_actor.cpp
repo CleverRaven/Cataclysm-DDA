@@ -802,6 +802,7 @@ iuse_actor *air_gear_actor::clone() const
     return new air_gear_actor(*this);
 }
 
+
 void air_gear_actor::load(JsonObject &obj)
 {
     obj.read("activate_msg", activate_msg);
@@ -809,9 +810,12 @@ void air_gear_actor::load(JsonObject &obj)
     obj.read("out_of_nitrox_msg", out_of_nitrox_msg);
 }
 
-bool has_nitroxsource(const item &i, const player &p)
+bool has_airsource(const item &i, const player &p)
 {
-    return p.has_charges( "nitrox", 1 );
+    if ( i.is_air_gear() ) {
+        return true;
+    }
+    return p.has_charges("breath", 1);
 }
 
 long air_gear_actor::use(player &p, item &it, bool t, const tripoint &) const
@@ -825,7 +829,7 @@ long air_gear_actor::use(player &p, item &it, bool t, const tripoint &) const
             it.tname().c_str());
         return 0;
     }
-    if (!it.active && !has_nitroxsource(it, p)) {
+    if (!it.active && !has_airsource(it, p)) {
         p.add_msg_if_player(m_info,
             _("You need some source of nitrox for your %s."), it.tname().c_str());
         return 0;
