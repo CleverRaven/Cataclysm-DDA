@@ -384,8 +384,7 @@
         "types" : ["SLEEP"],
         "starting_trait" : true,
         "category" : ["ALPHA", "ELFA"],
-        "fatigue_modifier": -0.15,
-        "sleep_deprivation_modifier": -0.15
+        "fatigue_modifier": -0.15
     },{
         "type" : "mutation",
         "id" : "SELFAWARE",
@@ -629,8 +628,7 @@
         "types" : ["SLEEP"],
         "category" : ["BEAST", "CHIMERA", "MOUSE"],
         "fatigue_modifier": 0.333,
-        "fatigue_regen_modifier": 0.333,
-        "sleep_deprivation_modifier": 0.333
+        "fatigue_regen_modifier": 0.333
     },{
         "type" : "mutation",
         "id" : "ASTHMA",
@@ -1261,8 +1259,7 @@
         "changes_to" : ["WAKEFUL3"],
         "threshreq" : ["THRESH_ALPHA", "THRESH_ELFA"],
         "category" : ["ALPHA", "ELFA"],
-        "fatigue_modifier": -0.25,
-        "sleep_deprivation_modifier": -0.25
+        "fatigue_modifier": -0.25
     },{
         "type" : "mutation",
         "id" : "WAKEFUL3",
@@ -1276,8 +1273,7 @@
         "threshreq" : ["THRESH_ELFA"],
         "category" : ["ELFA"],
         "fatigue_modifier": -0.5,
-        "fatigue_regen_modifier": 0.5,
-        "sleep_deprivation_modifier": -0.5
+        "fatigue_regen_modifier": 0.5
     },{
         "type" : "mutation",
         "id" : "FANGS",
