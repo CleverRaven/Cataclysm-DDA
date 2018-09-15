@@ -55,6 +55,13 @@ static const trait_id trait_SHELL2( "SHELL2" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
 
+#ifdef __ANDROID__
+extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
+extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
+        const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( long key, const std::string &category, bool back );
+#endif
+
 class user_turn
 {
 
