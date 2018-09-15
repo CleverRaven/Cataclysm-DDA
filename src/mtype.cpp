@@ -222,7 +222,7 @@ itype_id mtype::get_meat_itype() const
 
 int mtype::get_meat_chunks_count() const
 {
-    float ch = units::to_milliliter( volume ) * ( 0.40f - 2 * log( units::to_milliliter( volume ) ) );
+    float ch = units::to_gram( weight ) * ( 0.40f - 2 * log( units::to_gram( weight ) ) );
     const itype *chunk = item::find_type( get_meat_itype() );
     return (int)std::ceil( ch / units::to_gram( chunk->weight ) );
 }
