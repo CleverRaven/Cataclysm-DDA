@@ -647,6 +647,9 @@ class item : public visitable<item>
          */
         void update_temp( const int temp, const float insulation );
 
+        /** reset the last_temp_check used when crafting new items and the like */
+        void reset_temp_check();
+
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
 
