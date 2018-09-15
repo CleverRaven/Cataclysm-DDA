@@ -5,6 +5,7 @@
 #include "enums.h"
 #include "string_id.h"
 #include "item.h"
+#include "optional.h"
 
 #include <vector>
 #include <string>
@@ -163,7 +164,7 @@ class zone_manager
         const zone_data *get_top_zone( const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where ) const;
         std::string query_name( std::string default_name = "" ) const;
-        zone_type_id query_type() const;
+        cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
 
         // 'direct' access to zone_manager::zones, giving direct access was nono

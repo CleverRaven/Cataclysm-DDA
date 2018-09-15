@@ -169,10 +169,10 @@ std::string zone_manager::query_name( std::string default_name ) const
            .query_string();
 }
 
-zone_type_id zone_manager::query_type() const
+cata::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
-    uimenu as_m;
+    uilist as_m;
     as_m.text = _( "Select zone type:" );
 
     size_t i = 0;
@@ -181,6 +181,9 @@ zone_type_id zone_manager::query_type() const
     }
 
     as_m.query();
+    if( as_m.ret < 0 ) {
+        return {};
+    }
     size_t index = as_m.ret;
 
     auto iter = types.begin();
@@ -198,9 +201,11 @@ void zone_manager::zone_data::set_name()
 
 void zone_manager::zone_data::set_type()
 {
-    type = get_manager().query_type();
-
-    get_manager().cache_data();
+    const auto maybe_type = get_manager().query_type();
+    if( maybe_type.has_value() ) {
+        type = maybe_type.value();
+        get_manager().cache_data();
+    }
 }
 
 void zone_manager::zone_data::set_position( const std::pair<tripoint, tripoint> position )

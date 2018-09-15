@@ -8447,20 +8447,23 @@ void game::zones_manager()
         if( action == "ADD_ZONE" ) {
             zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
 
-            const auto id = mgr.query_type();
-            auto options = zone_options::create( id );
-            options->query_at_creation();
-            const auto name = mgr.query_name( options->get_zone_name_suggestion() == "" ?
-                                              mgr.get_name_from_type( id ) : options->get_zone_name_suggestion() );
-            const auto position = query_position();
+            const auto maybe_id = mgr.query_type();
+            if( maybe_id.has_value() ) {
+                const auto id = maybe_id.value();
+                auto options = zone_options::create( id );
+                options->query_at_creation();
+                const auto name = mgr.query_name( options->get_zone_name_suggestion() == "" ?
+                                                  mgr.get_name_from_type( id ) : options->get_zone_name_suggestion() );
+                const auto position = query_position();
 
-            if( position.first != tripoint_min ) {
-                mgr.add( name, id, false, true, position.first, position.second, options );
+                if( position.first != tripoint_min ) {
+                    mgr.add( name, id, false, true, position.first, position.second, options );
 
-                zones = get_zones();
-                active_index = zone_cnt - 1;
+                    zones = get_zones();
+                    active_index = zone_cnt - 1;
 
-                stuff_changed = true;
+                    stuff_changed = true;
+                }
             }
 
             draw_ter();
@@ -8706,13 +8709,12 @@ void game::zones_manager()
 #endif
             }
 
-            wrefresh( w_terrain );
-
             inp_mngr.set_timeout( BLINK_SPEED );
         } else {
             inp_mngr.reset_timeout();
         }
 
+        wrefresh( w_terrain );
         wrefresh( w_zones );
         wrefresh( w_zones_border );
 
