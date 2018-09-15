@@ -6663,6 +6663,7 @@ void player::process_active_items()
         else {
             add_msg_if_player(m_warning, _("Your air supply has run out."));
             // Bypass the "you deactivate the ..." message
+            air_gear->set_var("overwrite_env_resist", 0);
             air_gear->active = false;
         }
     }

@@ -3400,15 +3400,6 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-bool item::is_air_gear() const
-{
-    const auto t = find_armor_data();
-    if (t == nullptr) {
-        return false;
-    }
-    return t->air_gear;
-}
-
 int item::get_encumber() const
 {
     const auto t = find_armor_data();

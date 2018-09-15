@@ -835,6 +835,7 @@ long air_gear_actor::use(player &p, item &it, bool t, const tripoint &) const
     if (it.active) {
         if (activate_msg.empty()) {
             p.add_msg_if_player(m_info, _("You turn the valve, switching to your air supply."), it.tname().c_str());
+            it.set_var("overwrite_env_resist", it.get_env_resist_w_tank());
         }
         else {
             p.add_msg_if_player(m_info, _(activate_msg.c_str()), it.tname().c_str());
@@ -845,6 +846,7 @@ long air_gear_actor::use(player &p, item &it, bool t, const tripoint &) const
     else {
         if (deactive_msg.empty()) {
             p.add_msg_if_player(m_info, _("You turn the valve, switching off your air supply."), it.tname().c_str());
+            it.set_var("overwrite_env_resist", 0);
         }
         else {
             p.add_msg_if_player(m_info, _(deactive_msg.c_str()), it.tname().c_str());

@@ -852,7 +852,7 @@
         "volume": 6,
         "to_hit": -3,
 		"use_action": {
-			"type": "air_gear",
+			"type": "air_gear"
 			},
         "covers": [ "MOUTH", "EYES" ],
         "warmth": 30,
