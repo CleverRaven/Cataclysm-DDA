@@ -133,7 +133,7 @@ struct mutation_branch {
         float thirst_modifier = 0.0f;
         // As above but for fatigue.
         float fatigue_modifier = 0.0f;
-        // Modifier for the rate at which fatigue drops when resting.
+        // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
         float fatigue_regen_modifier = 0.0f;
         // Modifier for the rate at which stamina regenerates.
         float stamina_regen_modifier = 0.0f;

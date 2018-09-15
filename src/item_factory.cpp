@@ -693,6 +693,7 @@ void Item_factory::init()
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
+    add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
     add_actor( new ammobelt_actor() );
     add_actor( new bandolier_actor() );

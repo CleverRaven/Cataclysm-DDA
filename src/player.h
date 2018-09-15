@@ -100,6 +100,14 @@ enum class rechargeable_cbm {
     furnace
 };
 
+enum class comfort_level {
+    uncomfortable = -999,
+    neutral = 0,
+    slightly_comfortable = 3,
+    comfortable = 5,
+    very_comfortable = 10
+};
+
 struct special_attack {
     std::string text;
     damage_instance damage;
@@ -1120,7 +1128,9 @@ class player : public Character
         bool has_identified( const std::string &item_id ) const;
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
-        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        comfort_level base_comfort_value( const tripoint &p ) const;
+        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();

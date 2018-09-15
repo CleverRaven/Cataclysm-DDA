@@ -140,6 +140,7 @@ Character::Character() : Creature(), visitable<Character>(), hp_cur( {
     starvation = 0;
     thirst = 0;
     fatigue = 0;
+    sleep_deprivation = 0;
     stomach_food = 0;
     stomach_water = 0;
 
@@ -1952,6 +1953,11 @@ void Character::mod_fatigue( int nfatigue )
     set_fatigue( fatigue + nfatigue );
 }
 
+void Character::mod_sleep_deprivation( int nsleep_deprivation )
+{
+    set_sleep_deprivation( sleep_deprivation + nsleep_deprivation );
+}
+
 void Character::set_fatigue( int nfatigue )
 {
     nfatigue = std::max( nfatigue, -1000 );
@@ -1961,9 +1967,23 @@ void Character::set_fatigue( int nfatigue )
     }
 }
 
+void Character::set_sleep_deprivation( int nsleep_deprivation )
+{
+    sleep_deprivation = std::min(static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max(0, nsleep_deprivation));
+}
+
 int Character::get_fatigue() const
 {
     return fatigue;
+}
+
+int Character::get_sleep_deprivation() const
+{
+    if( !get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
+        return 0;
+    }
+
+    return sleep_deprivation;
 }
 
 void Character::reset_bonuses()

@@ -300,6 +300,7 @@ void character_edit_menu()
             smenu.addentry( 1, true, 's', "%s: %d", _( "Starvation" ), p.get_starvation() );
             smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
+            smenu.addentry( 4, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -330,6 +331,13 @@ void character_edit_menu()
                 case 3:
                     if( query_int( value, _( "Set fatigue to? Currently: %d" ), p.get_fatigue() ) ) {
                         p.set_fatigue( value );
+                    }
+                    break;
+
+                case 4:
+                    if( query_int( value, _( "Set sleep deprivation to? Currently: %d" ),
+                                   p.get_sleep_deprivation() ) ) {
+                        p.set_sleep_deprivation( value );
                     }
                     break;
 
