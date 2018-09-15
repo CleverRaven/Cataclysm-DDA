@@ -164,14 +164,20 @@ void plot_options::deserialize( JsonObject &jo_zone )
     seed = jo_zone.get_string( "seed", "" );
 };
 
-std::string zone_manager::query_name( std::string default_name ) const
+cata::optional<std::string> zone_manager::query_name( std::string default_name ) const
 {
-    return string_input_popup()
-           .title( _( "Zone name:" ) )
-           .width( 55 )
-           .text( default_name )
-           .max_length( 15 )
-           .query_string();
+    string_input_popup popup;
+    popup
+    .title( _( "Zone name:" ) )
+    .width( 55 )
+    .text( default_name )
+    .max_length( 15 )
+    .query();
+    if( popup.canceled() ) {
+        return {};
+    } else {
+        return popup.text();
+    }
 }
 
 cata::optional<zone_type_id> zone_manager::query_type() const
@@ -199,9 +205,11 @@ cata::optional<zone_type_id> zone_manager::query_type() const
 
 void zone_manager::zone_data::set_name()
 {
-    const std::string new_name = get_manager().query_name( name );
-
-    name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
+    const auto maybe_name = get_manager().query_name( name );
+    if( maybe_name.has_value() ) {
+        const auto new_name = maybe_name.value();
+        name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
+    }
 }
 
 void zone_manager::zone_data::set_type()

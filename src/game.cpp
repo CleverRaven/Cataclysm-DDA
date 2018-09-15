@@ -8460,8 +8460,15 @@ void game::zones_manager()
                     break;
                 }
 
-                const auto name = mgr.query_name( options->get_zone_name_suggestion() == "" ?
-                                                  mgr.get_name_from_type( id ) : options->get_zone_name_suggestion() );
+                auto default_name = options->get_zone_name_suggestion();
+                if( default_name.empty() ) {
+                    default_name = mgr.get_name_from_type( id );
+                }
+                const auto maybe_name = mgr.query_name( default_name );
+                if( !maybe_name.has_value() ) {
+                    break;
+                }
+                const auto name = maybe_name.value();
 
                 const auto position = query_position();
                 if( position.first == tripoint_min ) {

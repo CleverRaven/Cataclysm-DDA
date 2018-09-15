@@ -166,7 +166,7 @@ class zone_manager
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
         const zone_data *get_top_zone( const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where ) const;
-        std::string query_name( std::string default_name = "" ) const;
+        cata::optional<std::string> query_name( std::string default_name = "" ) const;
         cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
 
