@@ -3363,13 +3363,13 @@ int item::get_env_resist() const
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( resist_base, resist_filter );
 
-    return lround( resist *get_relative_health() );
+    return lround( resist * get_relative_health() );
 }
 
 int item::get_env_resist_w_filter() const
 {
     const auto t = find_armor_data();
-    if( t == nullptr ) {
+    if ( t == nullptr ) {
         return 0;
     }
     // it_armor::env_resist is unsigned char
