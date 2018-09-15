@@ -511,15 +511,17 @@ static std::string print_recoil( const player &p)
         const int val = p.recoil_total();
         const int min_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
         const int recoil_range = MAX_RECOIL - min_recoil;
-        const char *color_name = "c_light_gray";
+        std::string level;
         if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
-            color_name = "c_red";
+            level = "High";
         } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
-            color_name = "c_light_red";
+            level = "Medium";
         } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
-            color_name = "c_yellow";
+            level = "Low";
+        } else {
+            level = "None";
         }
-        return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
+        return string_format( _( "Recoil: %s" ), level );
     }
     return std::string();
 }
