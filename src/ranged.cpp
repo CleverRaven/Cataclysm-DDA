@@ -1103,6 +1103,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 nc_color col = c_light_gray;
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
+
+            mvwprintw( w_target, line_number++, 1, _( "%s" ), print_recoil( g->u ).c_str() );
+
             // Skip blank lines if we're short on space.
             if( !compact ) {
                 line_number++;
