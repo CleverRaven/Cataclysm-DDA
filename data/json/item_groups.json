@@ -7765,7 +7765,7 @@
     "items":[
       ["bunker_coat", 80],
       ["vest", 30],
-	  ["bunker_harness", 10]
+      ["bunker_harness", 10]
     ]
   },{
     "type" : "item_group",
@@ -7874,7 +7874,7 @@
       ["battery", 10],
       ["tool_belt", 5],
       ["oxygen_tank", 15],
-	  ["nitrox_tank_carbon", 10],
+      ["nitrox_tank_carbon", 10],
       ["nitrox_tank_aluminum", 15],
       ["fireman_belt", 15],
       ["jack", 5],

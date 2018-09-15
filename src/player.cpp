@@ -6857,7 +6857,7 @@ std::list<item> player::use_charges( const itype_id &what, long qty )
     } else if( what == "fire" ) {
         use_fire( qty );
         return res;
-        
+
     } else if( what == "UPS" ) {
         if( power_level > 0 && has_active_bionic( bio_ups ) ) {
             auto bio = std::min( long( power_level ), qty );

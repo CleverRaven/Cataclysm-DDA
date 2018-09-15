@@ -3363,11 +3363,7 @@ int item::get_env_resist() const
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( resist_base, resist_filter );
 
-    // modify if item is a breathing apparatus and is supplied with nitrox
-    int resist_tanked = get_var( "overwrite_env_resist", 0 );
-    int resist_tank = std::max( resist_base, resist_tanked );
-
-    return lround( resist * get_relative_health() );
+    return lround( resist *get_relative_health() );
 }
 
 int item::get_env_resist_w_filter() const
