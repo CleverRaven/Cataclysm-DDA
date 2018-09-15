@@ -826,7 +826,7 @@ long air_gear_actor::use( player &p, item &it, bool t, const tripoint & ) const
                              it.tname().c_str() );
         return 0;
     }
-    if( !it.active && !has_airsource( it, p ) ) {
+    if( !it.active && !has_airsource( p ) ) {
         p.add_msg_if_player( m_info,
                              _( "You need some source of nitrox for your %s." ), it.tname().c_str() );
         return 0;
