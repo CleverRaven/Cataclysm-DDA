@@ -554,11 +554,9 @@ class game
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
-        bool is_zone_manager_open();
+        bool is_zones_manager_open() const;
         void zones_manager();
-        void zones_manager_shortcuts( const catacurses::window &w_info );
-        void zones_manager_draw_borders( const catacurses::window &w_border,
-                                         const catacurses::window &w_info_border, const int iInfoHeight, const int width );
+
         // Look at nearby terrain ';', or select zone points
         tripoint look_around();
         tripoint look_around( catacurses::window w_info, const tripoint &start_point, bool has_first_point,
@@ -604,6 +602,7 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
         signed char temperature;              // The air temperature
@@ -861,6 +860,9 @@ class game
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
         void load_weather( std::istream &fin );
+#ifdef __ANDROID__
+        void load_shortcuts( std::istream &fin );
+#endif
         bool start_game(); // Starts a new game in the active world
         void start_special_game( special_game_id gametype ); // See gamemode.cpp
 
@@ -873,6 +875,9 @@ class game
         // returns false if saving failed for whatever reason
         bool save_maps();
         void save_weather( std::ostream &fout );
+#ifdef __ANDROID__
+        void save_shortcuts( std::ostream &fout );
+#endif
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
         void init_lua();          // Initializes lua interpreter.
@@ -901,7 +906,6 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
         /** Returns true if the menu handled stuff and player shouldn't do anything else */
         bool npc_menu( npc &who );
-        void pldrive( int x, int y ); // drive vehicle
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
@@ -916,18 +920,11 @@ class game
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
         void on_move_effects();
-        void wait(); // Long wait (player action)  '^'
-        void open(); // Open a door  'o'
-        void close();
-        void smash(); // Smash terrain
-        void loot(); // Sort out loot or perform other zone activity
 
-        void handbrake();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p );// Examine nearby terrain  'e'
         void examine();
 
-        void grab(); // Establish a grab on something.
         void drop( int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
@@ -935,14 +932,6 @@ class game
         void butcher(); // Butcher a corpse  'B'
         void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
-        void use_wielded_item();
-        void wear(); // Wear armor  'W' (or 'a')
-        void wear( int pos );
-        void wear( item_location &loc );
-
-        void takeoff(); // Remove armor  'T'
-        void takeoff( int pos );
-        void takeoff( item_location &loc );
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
@@ -969,7 +958,6 @@ class game
         void wield( int pos ); // Wield a weapon  'w'
         void wield( item_location &loc );
 
-        void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
         void plthrow( int pos = INT_MIN ); // Throw an item  't'
 
@@ -1029,7 +1017,6 @@ class game
 
         void item_action_menu(); // Displays item action menu
 
-        void rcdrive( int dx, int dy ); //driving radio car
         /**
          * If there is a robot (that can be disabled), query the player
          * and try to disable it.
@@ -1050,7 +1037,9 @@ class game
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
+    public:
         void quicksave();        // Saves the game without quitting
+    private:
         void quickload();        // Loads the previously saved game if it exists
 
         // Input related
@@ -1058,7 +1047,6 @@ class game
         bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
-        void draw_overmap();        // Draws the overmap, allows note-taking etc.
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
@@ -1097,7 +1085,7 @@ class game
         /** Was the player sleeping during this turn. */
         bool player_was_sleeping;
         /** Is Zone manager open or not - changes graphics of some zone tiles */
-        bool zone_manager_open = false;
+        bool zones_manager_open = false;
 
         std::unique_ptr<special_game> gamemode;
 

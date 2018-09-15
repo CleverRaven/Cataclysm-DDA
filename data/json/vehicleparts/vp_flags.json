@@ -123,7 +123,7 @@
     "id": "SEATBELT",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "This part will help prevent you from being thrown from the vehicle in a collision.  You will automaticlly enable this part when you move into a tile with it."
+    "info": "This part will help prevent you from being thrown from the vehicle in a collision.  You will automatically enable this part when you move into a tile with it."
   },
   {
     "id": "STABLE",

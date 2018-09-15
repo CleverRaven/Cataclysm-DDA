@@ -661,6 +661,7 @@ void set_item_food( item &newit )
         newit.item_tags.erase( "FROZEN" );
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
+        newit.reset_temp_check();
         newit.active = true;
     }
 }
