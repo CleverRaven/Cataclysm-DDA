@@ -3379,7 +3379,7 @@ int item::get_env_resist_w_filter() const
 int item::get_env_resist_w_tank() const
 {
     const auto t = find_armor_data();
-    if ( t == nullptr ) {
+    if( t == nullptr ) {
         return 0;
     }
     // it_armor::env_resist is unsigned char
