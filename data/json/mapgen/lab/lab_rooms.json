@@ -1010,6 +1010,72 @@
     }
   },
   {
+    "//": "incinerated room - using crossdoors to ensure no extra space in the room not covered in ash",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa"
+      ],
+      "terrain": { "a": "t_thconc_floor" },
+      "item": {
+        "a": { "item": "ash", "chance": 90 }
+      },
+      "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [0,6], "y": [0,6], "repeat": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "//": "incinerated room - using crossdoors to ensure no extra space in the room not covered in ash",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_crossdoors",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa"
+      ],
+      "terrain": { "a": "t_thconc_floor" },
+      "item": {
+        "a": { "item": "ash", "chance": 90 }
+      },
+      "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [0,8], "y": [0,8], "repeat": [4, 6 ] } ]
+    }
+  },
+  {
+    "//": "big ash pile (shovel-needed) with a chance of science gear",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sub_f_ash",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "a" ],
+      "terrain": { "a": "t_thconc_floor" },
+      "furniture": { "a": "f_ash" },
+      "item": {
+        "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ]
+      },
+      "items": {
+        "a": { "item": "science", "chance": 10}
+      }
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_maybe_effects_7x7",
