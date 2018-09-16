@@ -6380,7 +6380,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     if( is_food() || is_food_container() ) {
-        return process( carrier, pos, activate, g->get_temperature( g->m.getabs( pos ) ), 1 );
+        return process( carrier, pos, activate, g->get_temperature( pos ), 1 );
     } else {
         return process( carrier, pos, activate, 0, 1 );
     }
