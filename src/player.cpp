@@ -9844,10 +9844,24 @@ bool player::can_sleep()
         // Sleep ain't happening until that meth wears off completely.
         return false;
     }
-    int sleepy = sleep_spot( pos() );
-    sleepy += rng( -8, 8 );
-    if( sleepy > 0 ) {
-        return true;
+
+    // Since there's a bit of randomness to falling asleep, we want to
+    // prevent exploiting this if can_sleep() gets called over and over.
+    // Only actually check if we can fall asleep no more frequently than
+    // every 30 minutes.  We're assuming that if we return true, we'll
+    // immediately be falling asleep after that.
+    //
+    // Also if player debug menu'd time backwards this breaks, just do the
+    // check anyway, this will reset the timer if 'dur' is negative.
+    const time_point now = calendar::turn;
+    const time_duration dur = now - last_sleep_check;
+    if( dur >= 30_minutes || dur < 0_turns ) {
+        last_sleep_check = now;
+        int sleepy = sleep_spot( pos() );
+        sleepy += rng( -8, 8 );
+        if( sleepy > 0 ) {
+            return true;
+        }
     }
     return false;
 }
