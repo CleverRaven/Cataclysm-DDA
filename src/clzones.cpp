@@ -234,12 +234,15 @@ bool zone_manager::zone_data::set_type()
 {
     const auto maybe_type = get_manager().query_type();
     if( maybe_type.has_value() && maybe_type.value() != type ) {
-        type = maybe_type.value();
-        get_manager().cache_data();
-        return true;
-    } else {
-        return false;
+        auto new_options = zone_options::create( maybe_type.value() );
+        if( new_options->query_at_creation() ) {
+            type = maybe_type.value();
+            options = new_options;
+            get_manager().cache_data();
+            return true;
+        }
     }
+    return false;
 }
 
 void zone_manager::zone_data::set_position( const std::pair<tripoint, tripoint> position )
