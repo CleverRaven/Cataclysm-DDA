@@ -1508,6 +1508,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "stim", slot.stim, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
+    assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
 
     if( jo.has_string( "addiction_type" ) ) {
@@ -1821,6 +1822,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "emits", def.emits );
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
+    assign( jo, "insulation", def.insulation_factor );
 
     if( jo.has_member( "thrown_damage" ) ) {
         JsonArray jarr = jo.get_array( "thrown_damage" );
@@ -2536,7 +2538,7 @@ void item_group::debug_spawn()
     while( true ) {
         menu.query();
         const int index = menu.ret;
-        if( index >= ( int )groups.size() || index < 0 ) {
+        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
         // Spawn items from the group 100 times

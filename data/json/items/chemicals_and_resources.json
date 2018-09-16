@@ -167,7 +167,8 @@
     "phase" : "liquid",
     "charges" : 2,
     "category" : "chems",
-    "fun" : -30
+    "fun" : -30,
+    "freezing_point": 17
    },
    {
     "type" : "COMESTIBLE",
@@ -188,7 +189,8 @@
     "phase" : "liquid",
     "charges" : 2,
     "category" : "chems",
-    "fun" : -30
+    "fun" : -30,
+    "freezing_point": -108
    },
    {
     "type" : "COMESTIBLE",
@@ -204,7 +206,7 @@
     "symbol" : "~",
     "quench" : -10,
     "healthy" : -2,
-    "nutrition" : 30,
+    "calories" : 260,
     "description" : "A nutrient rich elixir for plants.",
     "price" : 1000,
     "volume" : 1,
@@ -227,7 +229,7 @@
     "symbol" : "~",
     "quench" : -10,
     "healthy" : -2,
-    "nutrition" : 5,
+    "calories" : 43,
     "description" : "Nutrient rich granules for plants.",
     "price" : 1000, "//" : "This comes out as one charge in the bag, and the price is accurate-KA101",
     "material" : "powder",
@@ -276,6 +278,7 @@
     "volume" : 1,
     "phase" : "liquid",
     "category" : "chems",
+    "freezing_point": 28,
     "fun" : -1
    },
    {

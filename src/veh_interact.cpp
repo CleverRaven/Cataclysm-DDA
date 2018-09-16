@@ -43,7 +43,7 @@ static inline const char *status_color( bool status )
 }
 
 // cap JACK requirements to support arbitrarily large vehicles
-static double jack_qality( const vehicle &veh )
+static double jack_quality( const vehicle &veh )
 {
     const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(),
             JACK_LIMIT );
@@ -61,6 +61,7 @@ namespace
 const std::string repair_hotkeys( "r1234567890" );
 const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
+const quality_id SELF_JACK( "SELF_JACK" );
 const skill_id skill_mechanics( "mechanics" );
 static const itype_id fuel_type_battery( "battery" );
 } // namespace
@@ -379,19 +380,25 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 );
 
-    max_lift = std::max( { g->u.max_quality( LIFT ),
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                           vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( LIFT ) } );
+    cache_tool_availability_update_lifting(g->u.pos());
 
     max_jack = std::max( { g->u.max_quality( JACK ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    const double qual = jack_qality( *veh );
+    const double qual = jack_quality( *veh );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
                vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual );
+}
+
+void veh_interact::cache_tool_availability_update_lifting(tripoint world_cursor_pos)
+{
+    max_lift = std::max( { g->u.max_quality( LIFT ),
+                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                           vehicle_selector( world_cursor_pos, 4, true ).max_quality( LIFT )
+                         } );
 }
 
 /**
@@ -527,6 +534,19 @@ bool veh_interact::is_drive_conflict()
     return has_conflict;
 }
 
+bool veh_interact::can_self_jack()
+{
+    int lvl = jack_quality( *veh );
+
+    std::vector<vehicle_part *> self_jacking_parts = veh->get_parts( "SELF_JACK", false );
+    for( auto jack : self_jacking_parts ) {
+        if( jack->base.has_quality( SELF_JACK, lvl ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool veh_interact::can_install_part() {
     if( sel_vpart_info == NULL ) {
         werase (w_msg);
@@ -626,9 +646,9 @@ bool veh_interact::can_install_part() {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = jack_qality( *veh );
+        lvl = jack_quality( *veh );
         str = veh->lift_strength();
-        use_aid = max_jack >= lvl;
+        use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
@@ -1029,7 +1049,12 @@ bool veh_interact::do_refill( std::string &msg )
                     return pt.can_reload( obj.contents.front().typeId() );
                 }
             } else if( pt.is_fuel_store() ) {
-                return pt.can_reload( obj.typeId() );
+                bool can_reload = pt.can_reload( obj.typeId() );
+                if( obj.typeId() == fuel_type_battery && can_reload ) {
+                    msg = _( "You cannot recharge a vehicle battery with handheld batteries" );
+                    return false;
+                }
+                return can_reload;
             }
             return false;
         };
@@ -1378,9 +1403,9 @@ bool veh_interact::can_remove_part( int idx ) {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = jack_qality( *veh );
+        lvl = jack_quality( *veh );
         str = veh->lift_strength();
-        use_aid = max_jack >= lvl;
+        use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
@@ -1762,6 +1787,9 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
             }
         }
     }
+
+    /* Update the lifting quality to be the that is available for this newly selected tile */
+    cache_tool_availability_update_lifting(vehp);
 }
 
 void veh_interact::display_grid()

@@ -253,6 +253,8 @@ class player : public Character
         bool has_lower_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which is an upgrade of the entered trait */
         bool has_higher_trait( const trait_id &flag ) const;
+        /** Returns true if the player has a trait that shares a type with the entered trait */
+        bool has_same_type_trait( const trait_id &flag ) const;
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
@@ -1321,9 +1323,17 @@ class player : public Character
                               const player_activity &destination_activity = player_activity() );
         void clear_destination();
         bool has_destination() const;
+        // true if player has destination activity AND is standing on destination tile
+        bool has_destination_activity() const;
+        // starts destination activity and cleans up to ensure it is called only once
+        void start_destination_activity();
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         void shift_destination( int shiftx, int shifty );
+
+        // Grab furniture / vehicle
+        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
+        object_type get_grab_type() const;
 
         /**
          * Global position, expressed in map square coordinate system
@@ -1366,7 +1376,6 @@ class player : public Character
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        object_type grab_type;
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
@@ -1686,6 +1695,7 @@ class player : public Character
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
+        tripoint destination_point = tripoint_min;
         // Used to make sure auto move is canceled if we stumble off course
         tripoint next_expected_position;
 
@@ -1693,6 +1703,8 @@ class player : public Character
         int cached_moves;
         time_point cached_time;
         tripoint cached_position;
+
+        object_type grab_type;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 

@@ -158,6 +158,10 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "reveal_doctors_office", mission_start::reveal_doctors_office },
         { "reveal_cathedral", mission_start::reveal_cathedral },
         { "reveal_refugee_center", mission_start::reveal_refugee_center },
+        { "create_lab_console", mission_start::create_lab_console },
+        { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
+        { "create_ice_lab_console", mission_start::create_ice_lab_console },
+        { "reveal_lab_train_depot", mission_start::reveal_lab_train_depot },
         // Endings
         { "leave", mission_end::leave },
         { "thankful", mission_end::thankful },

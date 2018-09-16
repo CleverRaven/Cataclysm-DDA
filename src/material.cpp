@@ -88,7 +88,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
             _burn_data[ intensity ] = load_mat_burn_data( brn );
         } else {
             // If not specified, supply default
-            bool flammable = _fire_resist <= ( int )intensity;
+            bool flammable = _fire_resist <= static_cast<int>( intensity );
             mat_burn_data mbd;
             if( flammable ) {
                 mbd.burn = 1;
@@ -100,7 +100,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     auto bp_array = jsobj.get_array( "burn_products" );
     while( bp_array.has_more( ) ) {
         auto pair = bp_array.next_array();
-        _burn_products.emplace_back( pair.get_string( 0 ), pair.get_float( 1 ) );
+        _burn_products.emplace_back( pair.get_string( 0 ), static_cast< float >( pair.get_float( 1 ) ) );
     }
 
     auto compactor_in_array = jsobj.get_array( "compact_accepts" );
