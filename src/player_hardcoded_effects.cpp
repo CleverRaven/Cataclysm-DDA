@@ -990,33 +990,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
         if( can_sleep() ) {
-            add_msg_if_player( _( "You fall asleep." ) );
-            // Communicate to the player that he is using items on the floor
-            std::string item_name = is_snuggling();
-            if( item_name == "many" ) {
-                if( one_in( 15 ) ) {
-                    add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
-                } else {
-                    add_msg_if_player( _( "You use your pile of clothes for warmth." ) );
-                }
-            } else if( item_name != "nothing" ) {
-                if( one_in( 15 ) ) {
-                    add_msg_if_player( _( "You snuggle your %s to keep warm." ), item_name.c_str() );
-                } else {
-                    add_msg_if_player( _( "You use your %s to keep warm." ), item_name.c_str() );
-                }
-            }
-            if( has_active_mutation( trait_id( "HIBERNATE" ) ) && get_hunger() < -60 ) {
-                add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
-                                  pgettext( "memorial_female", "Entered hibernation." ) );
-                // some days worth of round-the-clock Snooze.  Cata seasons default to 14 days.
-                fall_asleep( 10_days );
-                // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
-                // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
-                // will last about 8 days.
-            }
-
-            fall_asleep( 10_hours ); // default max sleep time.
+            fall_asleep();
             // Set ourselves up for removal
             it.set_duration( 0 );
         }
