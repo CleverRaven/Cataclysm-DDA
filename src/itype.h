@@ -245,6 +245,10 @@ struct islot_armor {
      */
     int env_resist_w_filter = 0;
     /**
+    * Environmental protection of a breathing apparatus supplied with nitrox.
+    */
+    int env_resist_w_tank = 0;
+    /**
      * How much warmth this item provides.
      */
     int warmth = 0;

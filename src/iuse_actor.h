@@ -327,6 +327,29 @@ class ups_based_armor_actor : public iuse_actor
 };
 
 /**
+* Items that can be worn and can be activated to consume nitrox from air tank harness.
+* Note that the nitrox consumption is done in @ref player::process_active_items, it is
+* *not* done by this class!
+*/
+class air_gear_actor : public iuse_actor
+{
+    public:
+        /** Shown when activated. */
+        std::string activate_msg;
+        /** Shown when deactivated. */
+        std::string deactive_msg;
+        /** Shown when it runs out of nitrox. */
+        std::string out_of_nitrox_msg;
+
+        air_gear_actor( const std::string &type = "air_gear" ) : iuse_actor( type ) {}
+
+        ~air_gear_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+};
+
+/**
  * This implements lock picking.
  */
 class pick_lock_actor : public iuse_actor

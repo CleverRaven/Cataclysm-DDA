@@ -3377,6 +3377,16 @@ int item::get_env_resist_w_filter() const
     return static_cast<int>( static_cast<unsigned int>( t->env_resist_w_filter ) );
 }
 
+int item::get_env_resist_w_tank() const
+{
+    const auto t = find_armor_data();
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::env_resist is unsigned char
+    return static_cast<int>( static_cast<unsigned int>( t->env_resist_w_tank ) );
+}
+
 bool item::is_power_armor() const
 {
     const auto t = find_armor_data();

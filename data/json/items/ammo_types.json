@@ -282,6 +282,12 @@
         "default" : "oxyacetylene"
     },
     {
+       "type" : "ammunition_type",
+        "id" : "nitrox",
+        "name" : "nitrox",
+        "default" : "nitrox"
+    },
+    {
         "type" : "ammunition_type",
         "id" : "conc_alcohol",
         "name" : "concentrated alcohol",

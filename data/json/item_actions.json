@@ -764,6 +764,11 @@
         "id" : "ups_based_armor",
         "name" : "Activate/deactivate"
     },
+	{
+        "type" : "item_action",
+        "id" : "air_gear",
+        "name" : "Switch the air supply"
+    },
     {
         "type" : "item_action",
         "id" : "CATTLEFODDER",

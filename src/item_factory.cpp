@@ -718,6 +718,7 @@ void Item_factory::init()
     add_actor( new salvage_actor() );
     add_actor( new unfold_vehicle_iuse() );
     add_actor( new ups_based_armor_actor() );
+    add_actor( new air_gear_actor() );
     add_actor( new place_trap_actor() );
     add_actor( new emit_actor() );
     add_actor( new saw_barrel_actor() );
@@ -1378,6 +1379,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
+    assign( jo, "environmental_protection_with_tank", slot.env_resist_w_tank, strict, 0 );
     assign( jo, "warmth", slot.warmth, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0 );
     assign( jo, "power_armor", slot.power_armor, strict );

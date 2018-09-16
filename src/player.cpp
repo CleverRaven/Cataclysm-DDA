@@ -6640,7 +6640,35 @@ void player::process_active_items()
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
     }
-}
+
+    long ch_breath = charges_of( "breath" );
+    item *air_gear = nullptr;
+    for( auto &w : worn )
+    {
+        if( !w.active ) {
+            continue;
+        }
+        if( w.has_flag( "USE_AIR" ) ) {
+            air_gear = &w;
+        }
+    }
+    if( air_gear != nullptr )
+    {
+        if( ch_breath >= 1 ) {
+            use_charges( "breath", 1 );
+            if( ch_breath < 10 && one_in( 3 ) ) {
+                add_msg_if_player( m_warning, _( "It's getting hard to breathe in that mask." ) );
+            }
+        } else if( ch_breath > 0 ) {
+            use_charges( "breath", ch_breath );
+        } else {
+            add_msg_if_player( m_warning, _( "Your air supply has run out." ) );
+            // Bypass the "you deactivate the ..." message
+            air_gear->set_var( "overwrite_env_resist", 0 );
+            air_gear->active = false;
+        }
+    }
+    }
 
 item player::reduce_charges( int position, long quantity )
 {
@@ -6816,7 +6844,7 @@ void player::use_fire(const int quantity)
     }
 }
 
-std::list<item> player::use_charges( const itype_id& what, long qty )
+std::list<item> player::use_charges( const itype_id &what, long qty )
 {
     std::list<item> res;
 
@@ -6850,6 +6878,14 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
             auto found = use_charges( "UPS_off", ups );
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
+        }
+
+    } else if( what == "breath" ) {
+        auto air = charges_of( "bunker_harness", qty );
+        if( air > 0 ) {
+            auto found = use_charges( "bunker_harness", air );
+            res.splice( res.end(), found );
+            qty -= std::min( qty, air );
         }
     }
 
