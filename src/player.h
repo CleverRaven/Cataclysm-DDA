@@ -1058,8 +1058,9 @@ class player : public Character
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const std::string &item_id ) const;
-        /** Handles sleep attempts by the player, adds "lying_down" */
+        /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep();
+        void try_to_sleep( const int movs );
         /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */

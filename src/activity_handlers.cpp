@@ -88,7 +88,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
-    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn }
+    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -125,6 +126,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
@@ -2618,6 +2620,26 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
+void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
+{
+    if( p->can_sleep() ) {
+        act->set_to_null();
+        p->fall_asleep();
+    } else if( one_in( 1000 ) ) {
+        p->add_msg_if_player( _( "You toss and turn..." ) );
+    }
+}
+
+void activity_handlers::try_sleep_finish( player_activity *act, player *p )
+{
+    if( p->can_sleep() ) {
+        p->fall_asleep();
+    } else {
+        p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+    }
     act->set_to_null();
 }
 

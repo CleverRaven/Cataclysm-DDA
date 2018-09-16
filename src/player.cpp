@@ -9612,6 +9612,11 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
 
 void player::try_to_sleep()
 {
+    try_to_sleep( to_moves<int>( 30_minutes ) );
+}
+
+void player::try_to_sleep( const int movs )
+{
     const optional_vpart_position vp = g->m.veh_at( pos() );
     const trap &trap_at_pos = g->m.tr_at(pos());
     const ter_id ter_at_pos = g->m.ter(pos());
@@ -9690,7 +9695,8 @@ void player::try_to_sleep()
                  _("It's hard to get to sleep on this %s."),
                  ter_at_pos.obj().name().c_str() );
     }
-    add_effect( effect_lying_down, 30_minutes );
+
+    assign_activity( activity_id( "ACT_TRY_SLEEP" ), movs );
 }
 
 int player::sleep_spot( const tripoint &p ) const
