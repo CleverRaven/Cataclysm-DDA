@@ -2650,15 +2650,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( has_flag( "WET" ) ) {
         ret << _( " (wet)" );
     }
-    if( has_flag( "LITCIG" ) ) {
-        ret << _( " (lit)" );
-    }
     if( already_used_by_player( g->u ) ) {
         ret << _( " (used)" );
     }
-
-    if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
-            typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
+    if( active && ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "LITCIG" ) ) ) {
+        ret << _( " (lit)" );
+    } else if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
+        typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         ret << _( " (active)" );
@@ -6192,6 +6190,11 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 
 bool item::process_litcig( player *carrier, const tripoint &pos )
 {
+    process_extinguish( carrier, pos );
+    // process_extinguish might have extinguished the item already
+    if( !active ) {
+        return false;
+    }
     field_id smoke_type;
     if( has_flag( "TOBACCO" ) ) {
         smoke_type = fd_cigsmoke;
@@ -6264,6 +6267,75 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
         active = false;
     }
+    // Item remains
+    return false;
+}
+
+bool item::process_extinguish( player *carrier, const tripoint &pos )
+{
+    // checks for water
+    bool extinguish = false;
+    bool in_inv = carrier != nullptr && carrier->has_item( *this );
+    bool submerged = false;
+    bool precipitation = false;
+    switch( g->weather ) {
+        case WEATHER_DRIZZLE:
+        case WEATHER_FLURRIES:
+            precipitation = one_in( 50 );
+            break;
+        case WEATHER_RAINY:
+        case WEATHER_SNOW:
+            precipitation = one_in( 25 );
+            break;
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+        case WEATHER_SNOWSTORM:
+            precipitation = one_in( 10 );
+            break;
+        default:
+            break;
+    }
+    if( in_inv && g->m.has_flag( "DEEP_WATER", pos ) ) {
+        extinguish = true;
+        submerged = true;
+    }
+    if( ( !in_inv && g->m.has_flag( "LIQUID", pos ) ) ||
+        ( precipitation && !g->is_sheltered( pos ) ) ) {
+        extinguish = true;
+    } 
+    //if( precipitation && !g->is_sheltered( pos ) ) {
+    //    extinguish = true;
+    //}
+    if( !extinguish )
+    {
+        return false; //nothing happens
+    }
+    if( carrier != nullptr ) {
+        if( submerged ) {
+            carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by water." ), tname().c_str() );
+        } else if( precipitation ) {
+            carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by precipitation." ), tname().c_str() );
+        }
+    }
+
+    // cig dies out
+    if( has_flag( "LITCIG" ) ) {
+        if( typeId() == "cig_lit" ) {
+            convert( "cig_butt" );
+        } else if( typeId() == "cigar_lit" ) {
+            convert( "cigar_butt" );
+        } else { // joint
+            convert( "joint_roach" );
+        }
+    } else { // transform (lit) items
+        if( type->tool->revert_to != "null" ){
+            convert( type->tool->revert_to );
+        } else {
+            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos, "transform" );   
+        }
+
+    }
+    active = false;
     // Item remains
     return false;
 }
@@ -6448,6 +6520,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
+    }
+    if( has_flag( "WATER_EXTINGUISH" ) && process_extinguish( carrier, pos ) ) {
+        return false;
     }
     if( has_flag( "CABLE_SPOOL" ) ) {
         // DO NOT process this as a tool! It really isn't!
