@@ -2656,7 +2656,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( active && ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "LITCIG" ) ) ) {
         ret << _( " (lit)" );
     } else if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
-        typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
+               typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         ret << _( " (active)" );
@@ -6302,19 +6302,19 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     if( ( !in_inv && g->m.has_flag( "LIQUID", pos ) ) ||
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
-    } 
+    }
     //if( precipitation && !g->is_sheltered( pos ) ) {
     //    extinguish = true;
     //}
-    if( !extinguish )
-    {
+    if( !extinguish ) {
         return false; //nothing happens
     }
     if( carrier != nullptr ) {
         if( submerged ) {
             carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by water." ), tname().c_str() );
         } else if( precipitation ) {
-            carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by precipitation." ), tname().c_str() );
+            carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by precipitation." ),
+                                        tname().c_str() );
         }
     }
 
@@ -6328,10 +6328,10 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             convert( "joint_roach" );
         }
     } else { // transform (lit) items
-        if( type->tool->revert_to != "null" ){
+        if( type->tool->revert_to != "null" ) {
             convert( type->tool->revert_to );
         } else {
-            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos, "transform" );   
+            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos, "transform" );
         }
 
     }
