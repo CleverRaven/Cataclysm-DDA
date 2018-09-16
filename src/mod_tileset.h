@@ -22,14 +22,13 @@ class mod_tileset
     public:
         mod_tileset() { }
 
-        mod_tileset( const std::string &new_base_path, const std::string &new_full_path ) :
+        mod_tileset( const std::string &new_base_path, const std::string &new_full_path,
+                     int new_num_in_file ) :
             base_path_( new_base_path ),
-            full_path_( new_full_path ) { }
+            full_path_( new_full_path ),
+            num_in_file_( new_num_in_file ) { }
 
-        mod_tileset( const mod_tileset &obj ) {
-            base_path_ = obj.base_path_;
-            full_path_ = obj.full_path_;
-        }
+        mod_tileset( const mod_tileset &obj );
         ~mod_tileset() {
             compatibility.clear();
         }
@@ -42,12 +41,17 @@ class mod_tileset
             return full_path_;
         }
 
+        int num_in_file() const {
+            return num_in_file_;
+        }
+
         bool is_compatible( std::string tileset_id ) const;
         void add_compatible_tileset( std::string tileset_id );
 
     private:
         std::string base_path_;
         std::string full_path_;
+        int num_in_file_;
         std::vector<std::string> compatibility;
 };
 

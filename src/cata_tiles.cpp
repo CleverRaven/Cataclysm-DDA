@@ -631,14 +631,17 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
         JsonIn mod_config_json( mod_config_file );
 
+        int num_in_file = 1;
         if( mod_config_json.test_array() ) {
             JsonArray mod_config_array = mod_config_json.get_array();
             while( mod_config_array.has_more() ) {
                 JsonObject mod_config = mod_config_array.next_object();
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
-                    load_internal( mod_config, tileset_root, img_path );
-                    // Limit one tileset per one json file.
-                    break;
+                    if( num_in_file == mts->num_in_file() ) {
+                        load_internal( mod_config, tileset_root, img_path );
+                        break;
+                    }
+                    num_in_file++;
                 }
             }
         } else {
