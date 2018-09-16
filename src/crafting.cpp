@@ -577,6 +577,34 @@ void player::complete_craft()
 
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making->create_results( batch_size );
+
+    // Check if the recipe tools make this food item hot upon making it.
+    // We don't actually know which specific tool the player used here, but
+    // we're checking for a class of tools; because of the way requirements
+    // processing works, the "surface_heat" id gets nuked into an actual
+    // list of tools, see data/json/recipes/cooking_tools.json.
+    //
+    // Currently it's only checking for a hotplate because that's a
+    // suitable item in both the "surface_heat" and "water_boiling_heat"
+    // tools, and it's usually the first item in a list of tools so if this
+    // does get heated we'll find it right away.
+    bool should_heat = false;
+    if( newits.size() && newits.front().is_food() ) {
+        const requirement_data::alter_tool_comp_vector &tool_lists = making->requirements().get_tools();
+        for( const std::vector<tool_comp> &tools : tool_lists ) {
+            for( const tool_comp &t : tools ) {
+                if( t.type == "hotplate" ) {
+                    should_heat = true;
+                    break;
+                }
+            }
+            // if we've already decided to heat it up then we're done
+            if( should_heat ) {
+                break;
+            }
+        }
+    }
+
     bool first = true;
     float used_age_tally = 0;
     int used_age_count = 0;
@@ -631,6 +659,11 @@ void player::complete_craft()
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         }
+
+        if( should_heat ) {
+            newit.heat_up();
+        }
+
         finalize_crafted_item( newit, used_age_tally, used_age_count );
         set_item_inventory( newit );
     }
@@ -656,13 +689,6 @@ void set_item_food( item &newit )
     //@todo: encapsulate this into some function
     int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
-    if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
-        newit.item_tags.erase( "COLD" );
-        newit.item_tags.erase( "FROZEN" );
-        newit.item_tags.insert( "HOT" );
-        newit.item_counter = 600;
-        newit.active = true;
-    }
 }
 
 void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count )

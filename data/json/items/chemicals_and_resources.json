@@ -167,7 +167,8 @@
     "phase" : "liquid",
     "charges" : 2,
     "category" : "chems",
-    "fun" : -30
+    "fun" : -30,
+    "freezing_point": 17
    },
    {
     "type" : "COMESTIBLE",
@@ -188,7 +189,8 @@
     "phase" : "liquid",
     "charges" : 2,
     "category" : "chems",
-    "fun" : -30
+    "fun" : -30,
+    "freezing_point": -108
    },
    {
     "type" : "COMESTIBLE",
@@ -276,6 +278,7 @@
     "volume" : 1,
     "phase" : "liquid",
     "category" : "chems",
+    "freezing_point": 28,
     "fun" : -1
    },
    {

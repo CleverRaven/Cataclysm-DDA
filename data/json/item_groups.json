@@ -557,7 +557,8 @@
       ["cookbook_sushi", 5],
       ["scots_cookbook", 6],
       ["food_processor", 30 ],
-      ["eclipse_glasses", 1]
+      ["eclipse_glasses", 1],
+      ["thermos", 15]
     ]
   },{
     "type" : "item_group",
@@ -1140,7 +1141,8 @@
       ["eboshi", 1],
       ["kariginu", 1],
       ["kimono", 5],
-      ["eclipse_glasses", 1]
+      ["eclipse_glasses", 1],
+      ["thermos", 20]
     ]
   },{
     "type" : "item_group",
@@ -1535,7 +1537,8 @@
       ["weeks_old_newspaper", 5],
       ["newest_newspaper", 10],
       ["survnote", 2],
-      ["eclipse_glasses", 1]
+      ["eclipse_glasses", 1],
+      ["thermos", 10]
     ]
   },
   {
@@ -2620,7 +2623,8 @@
       ["striped_pants", 1],
       ["razor_blade", 10],
       ["survnote", 5],
-      ["eclipse_glasses", 1]
+      ["eclipse_glasses", 1],
+      ["thermos", 30]
     ]
   },{
     "type" : "item_group",
@@ -3503,7 +3507,8 @@
       ["pie_human", 5],
       ["bobburger", 5],
       ["cheeseburgerhuman", 5],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["thermos", 25]
     ]
   },{
     "type" : "item_group",
@@ -3768,7 +3773,8 @@
       ["holybook_scientology", 1],
       ["recipe_medicalmut", 1],
       ["survnote", 1],
-      ["tourist_table", 1]
+      ["tourist_table", 1],
+      ["thermos", 10]
     ]
   },{
     "type" : "item_group",
@@ -4748,7 +4754,8 @@
       ["kimono", 3],
       ["l-stick", 1],
       ["solarpack", 5],
-      ["tourist_table", 10]
+      ["tourist_table", 10],
+      ["thermos", 25]
     ]
   },{
     "type" : "item_group",
@@ -7677,7 +7684,8 @@
       ["knife_swissarmy", 5],
       ["roadmap", 1],
       ["touristmap", 1],
-      ["eclipse_glasses", 1]
+      ["eclipse_glasses", 1],
+      ["thermos", 5]
       ]
   },{
     "type" : "item_group",
@@ -8263,7 +8271,8 @@
       ["bone", 2],
       ["syringe", 1],
       ["spike", 1],
-      ["tanbark", 2]
+      ["tanbark", 2],
+      ["thermos", 1]
     ]
   },{
 "type" : "item_group",
@@ -8798,7 +8807,8 @@
       ["heavy_flashlight", 10],
       ["mag_fieldrepair", 20],
       ["mag_comic", 20],
-      ["mag_guns", 20]
+      ["mag_guns", 20],
+      ["thermos", 15]
     ]
   },{
     "type" : "item_group",

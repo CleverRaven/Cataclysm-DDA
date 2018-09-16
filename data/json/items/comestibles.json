@@ -733,7 +733,8 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
-    "fun": 15
+    "fun": 15,
+    "freezing_point": 17
   },
   {
     "type": "COMESTIBLE",
@@ -759,7 +760,8 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
-    "fun": 15
+    "fun": 15,
+    "freezing_point": 17
   },
   {
     "type": "COMESTIBLE",
@@ -783,7 +785,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
-    "fun": 15
+    "fun": 15,
+    "freezing_point": 17
   },
   {
     "type": "COMESTIBLE",
@@ -808,7 +811,8 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "EATEN_COLD" ],
-    "fun": 16
+    "fun": 16,
+    "freezing_point": 15
   },
   {
     "type": "COMESTIBLE",
@@ -832,7 +836,8 @@
     "//": "Given the comment, presuming we're taking bourbon here.",
     "material": "alcohol",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "phase": "liquid",
     "charges": 7,
     "fun": 15
@@ -860,7 +865,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": 15
   },
   {
@@ -886,7 +892,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": 15
   },
   {
@@ -913,7 +920,8 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 15,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ]
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22
   },
   {
     "type": "COMESTIBLE",
@@ -939,7 +947,8 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 18,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ]
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22
   },
   {
     "type": "COMESTIBLE",
@@ -963,6 +972,7 @@
     "material": "alcohol",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
+    "freezing_point": 0,
     "phase": "liquid",
     "charges": 7,
     "fun": 10
@@ -991,7 +1001,8 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "fun": 10
+    "fun": 10,
+    "freezing_point": 22
   },
   {
     "type": "COMESTIBLE",
@@ -1016,7 +1027,8 @@
     "volume": 1,
     "phase": "liquid",
     "stack_size": 7,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": 5
   },
   {
@@ -1042,6 +1054,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": 4
   },
   {
@@ -1068,7 +1081,8 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "fun": 2
+    "fun": 2,
+    "freezing_point": 20
   },
   {
     "type": "COMESTIBLE",
@@ -1091,7 +1105,8 @@
     "price": 1300,
     "material": "alcohol",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "phase": "liquid",
     "charges": 7,
     "fun": 12
@@ -1169,6 +1184,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -29,
     "fun": 20
   },
   {
@@ -1194,6 +1210,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -29,
     "fun": 20
   },
   {
@@ -1219,6 +1236,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": 20
   },
   {
@@ -1243,6 +1261,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
     "fun": 10
   },
   {
@@ -1267,7 +1286,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
     "fun": 14
   },
   {
@@ -1294,7 +1314,8 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
-    "fun": 16
+    "fun": 16,
+    "freezing_point": 25
   },
   {
     "type": "COMESTIBLE",
@@ -1320,6 +1341,7 @@
     "phase": "liquid",
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
     "fun": 12
   },
   {
@@ -1344,6 +1366,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
     "fun": 8
   },
   {
@@ -1369,7 +1392,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -49,
     "fun": 12
   },
   {
@@ -1395,6 +1419,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
     "fun": 10
   },
   {
@@ -1420,6 +1445,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
     "fun": 14
   },
   {
@@ -1445,6 +1471,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
     "fun": 14
   },
   {
@@ -1469,6 +1496,7 @@
     "material": [ "alcohol", "water" ],
     "volume": 1,
     "phase": "liquid",
+    "freezing_point": 23,
     "fun": 14,
     "flags": [ "EATEN_COLD" ]
   },
@@ -1495,6 +1523,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23,
     "fun": 14
   },
   {
@@ -1520,7 +1549,8 @@
     "volume": 1,
     "phase": "liquid",
     "fun": 18,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": 23
   },
   {
     "type": "COMESTIBLE",
@@ -2009,7 +2039,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -10,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
   },
@@ -2111,7 +2141,7 @@
     "stack_size": 4,
     "charges": 2,
     "fun": -12,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 2
   },
@@ -2132,7 +2162,7 @@
     "material": "veggy",
     "volume": 1,
     "stack_size": 2,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 5
@@ -2155,7 +2185,7 @@
     "volume": 1,
     "charges": 4,
     "stack_size": 2,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
     "rot_spawn": "GROUP_ROTTING_PLANT",
     "rot_spawn_chance": 7
@@ -2684,7 +2714,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -2722,7 +2752,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 3,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -2741,7 +2771,7 @@
     "price": 120,
     "material": "fruit",
     "volume": 1,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "fun": -4
   },
   {
@@ -2839,7 +2869,8 @@
     "price": 80,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
+    "flags": [ "SMOKABLE" ],
+    "freezing_point": -490,
     "charges": 4,
     "fun": 3
   },
@@ -3196,7 +3227,7 @@
     "material": "veggy",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4
   },
   {
@@ -3218,7 +3249,7 @@
     "material": "junk",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 8
   },
   {
@@ -3240,7 +3271,7 @@
     "material": "junk",
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 10
   },
   {
@@ -3359,7 +3390,7 @@
     "material": "flesh",
     "volume": 1,
     "charges": 2,
-    "flags": [ "EATEN_COLD", "NO_FREEZE" ]
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -3376,7 +3407,7 @@
     "material": "veggy",
     "volume": 2,
     "charges": 2,
-    "flags": [ "EATEN_COLD", "NO_FREEZE" ]
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -3780,7 +3811,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": -3,
-    "flags": [ "NO_FREEZE", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3800,7 +3831,7 @@
     "price": 140,
     "material": "mushroom",
     "volume": 1,
-    "flags": [ "HIDDEN_POISON", "TRADER_AVOID", "NO_FREEZE" ],
+    "flags": [ "HIDDEN_POISON", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": -3
   },
   {
@@ -3819,7 +3850,7 @@
     "price": 140,
     "material": "mushroom",
     "volume": 1,
-    "flags": [ "HIDDEN_HALLU", "NO_FREEZE", "SMOKABLE" ],
+    "flags": [ "HIDDEN_HALLU", "FREEZERBURN", "SMOKABLE" ],
     "fun": -3
   },
   {
@@ -3838,7 +3869,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": 1,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3858,7 +3889,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": 1,
-    "flags": [ "NO_FREEZE", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3876,7 +3907,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": 4,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -3895,7 +3926,7 @@
     "volume": 1,
     "charges": 2,
     "fun": 12,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4351,7 +4382,8 @@
     "phase": "liquid",
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "fun": 5,
+    "freezing_point": -80
   },
   {
     "type": "COMESTIBLE",
@@ -4428,7 +4460,7 @@
     "material": "veggy",
     "volume": 3,
     "charges": 4,
-    "flags": [ "NO_FREEZE", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -4565,7 +4597,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -1,
-    "flags": [ "NO_FREEZE", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "fun_comment": "Raw onions probably aren't all that tasty to most people.",
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -4644,7 +4676,7 @@
     "price": 50,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "fun": -2
   },
   {
@@ -4707,7 +4739,8 @@
     "description": "An irradiated onion will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2 },
     "spoils_in": 0,
-    "container": "bag_plastic"
+    "container": "bag_plastic",
+    "flags": [ "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -4926,7 +4959,7 @@
     "material": [ "wheat", "milk" ],
     "volume": 4,
     "charges": 2,
-    "flags": [ "EATEN_HOT", "TRADER_AVOID", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -4948,7 +4981,7 @@
     "material": [ "wheat", "flesh", "milk" ],
     "volume": 4,
     "charges": 4,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -4994,7 +5027,7 @@
     "material": "milk",
     "volume": 1,
     "phase": "liquid",
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "fun": 15,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5015,7 +5048,7 @@
     "volume": 1,
     "phase": "liquid",
     "fun": 20,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_CARRION"
   },
   {
@@ -5752,7 +5785,7 @@
     "price": 100,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 2,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -5773,7 +5806,7 @@
     "volume": 1,
     "charges": 4,
     "//": "One rice + one protein/veg = 2 servings",
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5794,7 +5827,7 @@
     "material": "veggy",
     "volume": 1,
     "charges": 4,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -5815,7 +5848,7 @@
     "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 4,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 2,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5836,7 +5869,7 @@
     "material": [ "veggy", "bean", "flesh" ],
     "volume": 1,
     "charges": 6,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -5857,7 +5890,7 @@
     "material": [ "veggy", "bean" ],
     "volume": 1,
     "charges": 6,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -6127,7 +6160,7 @@
     "material": "egg",
     "volume": 1,
     "charges": 2,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 3,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -6148,7 +6181,7 @@
     "material": [ "egg", "flesh" ],
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -6170,7 +6203,7 @@
     "material": "egg",
     "volume": 1,
     "fun": 2,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_CARRION"
   },
   {
@@ -6212,7 +6245,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -3,
-    "flags": [ "NO_FREEZE", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -6639,7 +6672,8 @@
     "calories": 9,
     "fun": 1,
     "flags": [ "EATEN_COLD" ],
-    "phase": "liquid"
+    "phase": "liquid",
+    "freezing_point": 30
   },
   {
     "type": "COMESTIBLE",
@@ -6659,7 +6693,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
-    "fun": 5
+    "fun": 5,
+    "freezing_point": -70
   },
   {
     "type": "COMESTIBLE",
@@ -7345,7 +7380,7 @@
     "material": [ "wheat", "flesh" ],
     "volume": 7,
     "charges": 8,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -7375,7 +7410,7 @@
     "material": [ "wheat", "veggy", "nut" ],
     "volume": 7,
     "charges": 2,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -7396,7 +7431,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": 12,
     "charges": 8,
-    "flags": [ "EATEN_HOT", "NO_FREEZE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -7426,8 +7461,9 @@
     "spoils_in": 160,
     "charges": 5,
     "fun": -1,
-    "flags": [ "NO_FREEZE" ],
-    "phase": "liquid"
+    "flags": [ "FREEZERBURN" ],
+    "phase": "liquid",
+    "freezing_point": 25
   },
   {
     "id": "ketchup",
@@ -7619,7 +7655,7 @@
     "price": 0,
     "material": "paper",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "freezing_point": -490,
     "charges": 50,
     "fun": -20
   },
@@ -7666,7 +7702,8 @@
     "phase": "liquid",
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
-    "fun": 8
+    "fun": 8,
+    "freezing_point": -22
   },
   {
     "type": "COMESTIBLE",
@@ -7692,7 +7729,8 @@
     "phase": "liquid",
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
-    "fun": -12
+    "fun": -12,
+    "freezing_point": -22
   },
   {
     "type": "COMESTIBLE",
@@ -7716,6 +7754,7 @@
     "phase": "liquid",
     "charges": 4,
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -49,
     "fun": 30
   },
   {
@@ -7741,6 +7780,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EDIBLE_FROZEN" ],
+    "freezing_point": -22,
     "fun": -40
   },
   {
@@ -8020,7 +8060,8 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
-    "fun": -4
+    "fun": -4,
+    "freezing_point": 28
   },
   {
     "type": "COMESTIBLE",
@@ -8040,7 +8081,8 @@
     "volume": 1,
     "charges": 2,
     "phase": "liquid",
-    "fun": -4
+    "fun": -4,
+    "freezing_point": 14
   },
   {
     "type": "COMESTIBLE",
@@ -8111,7 +8153,8 @@
     "volume": 0,
     "charges": 5,
     "stack_size": 30,
-    "fun": 2
+    "fun": 2,
+    "flags": [ "EDIBLE_FROZEN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -8129,7 +8172,8 @@
     "description": "So-called ramen noodles.  Can be eaten raw.",
     "price": 200,
     "material": "wheat",
-    "volume": 1
+    "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -8148,7 +8192,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 4,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -8167,7 +8211,7 @@
     "price": 180,
     "material": "fruit",
     "volume": 1,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "fun": 2
   },
   {
@@ -8178,6 +8222,7 @@
     "description": "An irradiated grapefruit will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2 },
     "spoils_in": 0,
+    "flags": [ "FREEZERBURN" ],
     "container": "bag_plastic"
   },
   {
@@ -8188,6 +8233,7 @@
     "description": "An irradiated pear will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2 },
     "spoils_in": 0,
+    "flags": [ "FREEZERBURN" ],
     "container": "bag_plastic"
   },
   {
@@ -8309,7 +8355,7 @@
     "volume": 1,
     "charges": 2,
     "fun": 4,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -8507,7 +8553,7 @@
     "material": [ "veggy", "junk" ],
     "volume": 1,
     "charges": 3,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
     "fun": 6,
     "rot_spawn": "GROUP_CARRION"
   },
@@ -8549,7 +8595,7 @@
     "volume": 12,
     "charges": 8,
     "bashing": 2,
-    "flags": [ "EATEN_COLD", "NO_FREEZE" ],
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
     "fun": 4,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -8571,7 +8617,7 @@
     "volume": 4,
     "charges": 8,
     "bashing": 1,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
     "fun": 4,
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
@@ -8583,6 +8629,7 @@
     "description": "An irradiated watermelon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2 },
     "spoils_in": 0,
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
     "container": "bag_plastic"
   },
   {
@@ -8593,6 +8640,7 @@
     "description": "An irradiated melon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2 },
     "spoils_in": 0,
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
     "container": "bag_plastic"
   },
   {
@@ -8708,7 +8756,8 @@
     "phase": "liquid",
     "charges": 4,
     "fun": 2,
-    "flags": [ "USE_EAT_VERB" ]
+    "flags": [ "USE_EAT_VERB" ],
+    "freezing_point": -20
   },
   {
     "type": "COMESTIBLE",
@@ -9204,7 +9253,8 @@
     "price_note": "Priced by the 100 liter barrel, this is multiplied by 400 to achieve the final cost.",
     "material": "alcohol",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "phase": "liquid",
     "charges": 7,
     "fun": 17
@@ -9270,6 +9320,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": 1,
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9325,7 +9376,7 @@
     "price": 300,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "NO_FREEZE" ],
+    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9343,6 +9394,7 @@
     "description": "An irradiated cucumber will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "price": 320,
     "material": "veggy",
+    "flags": [ "FREEZERBURN" ],
     "volume": 1
   },
   {
@@ -9360,7 +9412,7 @@
     "price": 200,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "NO_FREEZE", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
@@ -9431,6 +9483,7 @@
     "charges": 10,
     "healthy": -1,
     "fun": -15,
+    "freezing_point": -22,
     "phase": "liquid"
   },
   {
@@ -9595,7 +9648,8 @@
     "price": 95,
     "volume": 1,
     "phase": "liquid",
-    "fun": 2
+    "fun": 2,
+    "freezing_point": 22
   },
   {
     "type": "COMESTIBLE",
@@ -9801,6 +9855,7 @@
     "charges": 2,
     "use_action": { "type": "mutagen", "is_weak": true },
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": -15
   },
   {
@@ -9824,7 +9879,8 @@
     "material": [ "alcohol", "junk" ],
     "volume": 2,
     "phase": "liquid",
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_COLD" ],
+    "freezing_point": -27,
     "fun": 20
   },
   {
@@ -9850,6 +9906,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": 20
   },
   {
@@ -9873,6 +9930,7 @@
     "volume": 2,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": 20
   },
   {
@@ -9898,6 +9956,7 @@
     "volume": 2,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
+    "freezing_point": -22,
     "fun": 20
   },
   {
@@ -10361,7 +10420,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
     "fun": 15
   },
   {
@@ -10387,8 +10446,9 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD" ],
-    "fun": 20
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
+    "fun": 20,
+    "freezing_point": 12
   },
   {
     "id": "hot_chocolate",

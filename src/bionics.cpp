@@ -357,6 +357,7 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_evap" ) {
         item water = item( "water_clean", 0 );
+        water.reset_temp_check();
         int humidity = weatherPoint.humidity;
         int water_charges = ( humidity * 3.0 ) / 100.0 + 0.5;
         // At 50% relative humidity or more, the player will draw 2 units of water

@@ -2423,7 +2423,7 @@ bool player::has_higher_trait( const trait_id &flag ) const
 bool player::has_same_type_trait( const trait_id &flag ) const
 {
     for( auto &i : get_mutations_in_types( flag->types ) ) {
-        if( has_trait( i ) ) {
+        if( has_trait( i ) && flag != i ) {
             return true;
         }
     }
