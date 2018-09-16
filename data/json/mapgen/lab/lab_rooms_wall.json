@@ -80,7 +80,7 @@
     }
   },
   {
-    "//": "7x7 fenced room",
+    "//": "7x7 fenced room. TODO: restrict to only rooms that look good with fences?",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_room_7x7_wall_nw",
@@ -96,7 +96,7 @@
     }
   },
   {
-    "//": "7x7 fenced room",
+    "//": "7x7 fenced room. TODO: restrict to only rooms that look good with fences?",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_room_7x7_wall_sw",
@@ -226,7 +226,7 @@
     }
   },
   {
-    "//": "9x9 fenced room",
+    "//": "9x9 fenced room. TODO: restrict to only rooms that look good with fences?",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9_wall_nw",
@@ -242,7 +242,7 @@
     }
   },
   {
-    "//": "9x9 fenced room",
+    "//": "9x9 fenced room. TODO: restrict to only rooms that look good with fences?",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9_wall_sw",
