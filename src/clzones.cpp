@@ -84,12 +84,9 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
     return !options.has_options();
 }
 
-bool plot_options::query_seed()
+plot_options::query_seed_result plot_options::query_seed()
 {
     player &p = g->u;
-
-    seed = "";
-    mark = "";
 
     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
         return itm.is_seed();
@@ -102,30 +99,44 @@ bool plot_options::query_seed()
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
-        seed = std::get<0>( seed_entry );
+        const auto new_seed = std::get<0>( seed_entry );
+        std::string new_mark;
 
-        item it = item( itype_id( seed ) );
+        item it = item( itype_id( new_seed ) );
         if( it.is_seed() ) {
-            mark = it.type->seed->fruit_id;
+            new_mark = it.type->seed->fruit_id;
         } else {
-            mark = seed;
+            new_mark = seed;
         }
-        return true;
+
+        if( new_seed != seed || new_mark != mark ) {
+            seed = new_seed;
+            mark = new_mark;
+            return changed;
+        } else {
+            return successful;
+        }
     } else if( seed_index == 0 ) { // No seeds
-        return true;
-    } else { // Canceled
-        return false;
+        if( seed != "" || mark != "" ) {
+            seed = "";
+            mark = "";
+            return changed;
+        } else {
+            return successful;
+        }
+    } else {
+        return canceled;
     }
 }
 
 bool plot_options::query_at_creation()
 {
-    return query_seed();
+    return query_seed() != canceled;
 };
 
-void plot_options::query()
+bool plot_options::query()
 {
-    query_seed();
+    return query_seed() == changed;
 };
 
 std::string plot_options::get_zone_name_suggestion() const
@@ -203,21 +214,31 @@ cata::optional<zone_type_id> zone_manager::query_type() const
     return iter->first;
 }
 
-void zone_manager::zone_data::set_name()
+bool zone_manager::zone_data::set_name()
 {
     const auto maybe_name = get_manager().query_name( name );
     if( maybe_name.has_value() ) {
-        const auto new_name = maybe_name.value();
-        name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
+        auto new_name = maybe_name.value();
+        if( new_name.empty() ) {
+            new_name = _( "<no name>" );
+        }
+        if( name != new_name ) {
+            name = new_name;
+            return true;
+        }
     }
+    return false;
 }
 
-void zone_manager::zone_data::set_type()
+bool zone_manager::zone_data::set_type()
 {
     const auto maybe_type = get_manager().query_type();
-    if( maybe_type.has_value() ) {
+    if( maybe_type.has_value() && maybe_type.value() != type ) {
         type = maybe_type.value();
         get_manager().cache_data();
+        return true;
+    } else {
+        return false;
     }
 }
 

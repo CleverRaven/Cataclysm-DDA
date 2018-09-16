@@ -49,8 +49,11 @@ class zone_options
             return true;
         };
 
-        /* query options, first uimenu should allow to pick an option to edit (if more than one) */
-        virtual void query() {};
+        /* query options, first uimenu should allow to pick an option to edit (if more than one)
+         * returns true if something is changed, otherwise returns false */
+        virtual bool query() {
+            return false;
+        };
 
         /* suggest a name for the zone, depending on options */
         virtual std::string get_zone_name_suggestion() const {
@@ -81,7 +84,13 @@ class plot_options : public zone_options, public mark_option
         std::string mark;
         std::string seed;
 
-        bool query_seed();
+        enum query_seed_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_seed_result query_seed();
 
     public:
         std::string get_mark() const override {
@@ -96,7 +105,7 @@ class plot_options : public zone_options, public mark_option
         };
 
         bool query_at_creation() override;
-        void query() override;
+        bool query() override;
 
         std::string get_zone_name_suggestion() const override;
 
@@ -211,8 +220,8 @@ class zone_manager::zone_data
             }
         }
 
-        void set_name();
-        void set_type();
+        bool set_name(); // returns true if name is changed
+        bool set_type(); // returns true if type is changed
         void set_position( const std::pair<tripoint, tripoint> position );
         void set_enabled( const bool enabled );
 

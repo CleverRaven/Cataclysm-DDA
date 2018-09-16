@@ -8547,21 +8547,30 @@ void game::zones_manager()
 
                 switch( as_m.ret ) {
                     case 1:
-                        zone.set_name();
-                        stuff_changed = true;
+                        if( zone.set_name() ) {
+                            stuff_changed = true;
+                        }
                         break;
                     case 2:
-                        zone.set_type();
-                        stuff_changed = true;
+                        if( zone.set_type() ) {
+                            stuff_changed = true;
+                        }
                         break;
                     case 3:
-                        zone.get_options().query();
-                        stuff_changed = true;
+                        if( zone.get_options().query() ) {
+                            stuff_changed = true;
+                        }
                         break;
-                    case 4:
-                        zone.set_position( query_position() );
-                        stuff_changed = true;
-                        break;
+                    case 4: {
+                        const auto pos = query_position();
+                        if( pos.first != tripoint_min &&
+                            ( pos.first != zone.get_start_point() || pos.second != zone.get_end_point() ) ) {
+
+                            zone.set_position( pos );
+                            stuff_changed = true;
+                        }
+                    }
+                    break;
                     default:
                         break;
                 }
