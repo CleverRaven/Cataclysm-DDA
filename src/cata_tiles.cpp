@@ -1675,6 +1675,45 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
     return nullptr;
 }
 
+bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &overlay,
+        std::string &draw_id )
+{
+    bool exists = false;
+
+    std::string looks_like;
+    std::string over_type;
+    if( overlay.substr( 0, 5 ) == "worn_" ) {
+        looks_like = overlay.substr( 5 );
+        over_type = "worn_";
+    } else if( overlay.substr( 0, 8 ) == "wielded_" ) {
+        looks_like = overlay.substr( 8 );
+        over_type = "wielded_";
+    } else {
+        looks_like = overlay;
+    }
+
+    int cnt = 0;
+    while( !looks_like.empty() && cnt < 10 ) {
+        draw_id = ( male ? "overlay_male_" : "overlay_female" ) + over_type + looks_like;
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            exists = true;
+            break;
+        }
+        draw_id = "overlay_" + over_type + looks_like;
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            exists = true;
+            break;
+        }
+        if( !item::type_is_defined( looks_like ) ) {
+            break;
+        }
+        const itype *new_it = item::find_type( looks_like );
+        looks_like = new_it->looks_like;
+        cnt += 1;
+    }
+    return exists;
+}
+
 bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                                       const std::string &subcategory, tripoint pos,
                                       int subtile, int rota, lit_level ll,
@@ -2458,17 +2497,8 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     // next up, draw all the overlays
     std::vector<std::string> overlays = pl.get_overlay_ids();
     for( const std::string &overlay : overlays ) {
-        bool exists = true;
-        std::string draw_id = pl.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
-        if( !tileset_ptr->find_tile_type( draw_id ) ) {
-            draw_id = "overlay_" + overlay;
-            if( !tileset_ptr->find_tile_type( draw_id ) ) {
-                exists = false;
-            }
-        }
-
-        // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
-        if( exists ) {
+        std::string draw_id = overlay;
+        if( find_overlay_looks_like( pl.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
             draw_from_id_string( draw_id, C_NONE, "", p, corner, 0, ll, false, overlay_height_3d );
             // the tallest height-having overlay is the one that counts
