@@ -1755,7 +1755,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "irradiated_tomato", 2 ], [ "can_tomato", 2 ], [ "tomato", 2 ] ],
@@ -1887,7 +1887,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "broth", 2 ] ],
@@ -3977,7 +3977,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
@@ -4035,7 +4035,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
@@ -4079,7 +4079,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "broth", 2 ] ],
@@ -4147,7 +4147,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
@@ -4229,7 +4229,7 @@
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "broth", 2 ], [ "broth_human", 2 ], [ "broth_bone", 1 ] ],
@@ -4272,7 +4272,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
@@ -4325,7 +4325,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "jar_glass", 1 ] ], [ [ "bone", 20 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
@@ -4343,7 +4343,7 @@
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "jar_glass", 1 ] ], [ [ "bone_human", 20 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
@@ -4450,7 +4450,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ], [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "jar_3l_glass", 1 ] ],
       [ [ "sweet_fruit_like", 4, "LIST" ] ],
