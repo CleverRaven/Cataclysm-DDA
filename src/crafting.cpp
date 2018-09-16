@@ -671,6 +671,9 @@ void player::complete_craft()
     if( making->has_byproducts() ) {
         std::vector<item> bps = making->create_byproducts( batch_size );
         for( auto &bp : bps ) {
+            if( should_heat ) {
+                bp.heat_up();
+            }
             finalize_crafted_item( bp, used_age_tally, used_age_count );
             set_item_inventory( bp );
         }
