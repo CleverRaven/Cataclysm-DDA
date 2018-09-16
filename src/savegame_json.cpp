@@ -474,10 +474,12 @@ void player::load( JsonObject &data )
     data.read( "stamina", stamina );
     data.read( "stamina_max_penalty", stamina_max_penalty );
 
-    if( stamina < 0 )
+    if( stamina < 0 ) {
         stamina = 0;
-    if( stamina_max_penalty < 0 )
+    }
+    if( stamina_max_penalty < 0 ) {
         stamina_max_penalty = 0;
+    }
 
     data.read( "ma_styles", ma_styles );
     // Fix up old ma_styles that doesn't include fake styles
