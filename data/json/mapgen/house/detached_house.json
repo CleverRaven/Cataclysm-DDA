@@ -58,7 +58,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
-      "items": { "A": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "A": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 50, "item": "pantry", "x": 12, "y": 10 },
         { "chance": 25, "item": "tools_mechanic", "x": 20, "y": 18 },
@@ -204,7 +204,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 45, "item": "tools_home", "x": 5, "y": 17 },
         { "chance": 45, "item": "camping", "x": 13, "y": 21 },
@@ -333,7 +333,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 20, "item": "tools_earthworking", "x": 18, "y": 9 },
         { "chance": 20, "item": "tools_earthworking", "x": 21, "y": 8 },
@@ -463,7 +463,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 85, "item": "novels", "x": 12, "y": 11 },
         { "chance": 75, "item": "fridge", "x": 15, "y": 3 },
@@ -598,7 +598,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 85, "item": "novels", "x": 12, "y": 11 },
         { "chance": 75, "item": "fridge", "x": 15, "y": 3 },
@@ -736,7 +736,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 25, "item": "cubical_office", "x": 8, "y": 2 },
         { "chance": 20, "item": "clutter_bedroom", "x": 3, "y": 8 },
@@ -888,7 +888,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 75, "item": "misc_smoking", "x": 4, "y": 13 },
         { "chance": 75, "item": "misc_smoking", "x": 2, "y": 10 },
@@ -1037,7 +1037,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 75, "item": "trash", "x": 10, "y": 4 },
         { "chance": 75, "item": "fridge", "x": 5, "y": 5 },
@@ -1177,7 +1177,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 15, "item": "bags", "x": 15, "y": 9 },
         { "chance": 40, "item": "alcohol", "x": 15, "y": 7 },
@@ -1311,7 +1311,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 35, "item": "knifeblock", "x": 4, "y": 11 },
         { "chance": 25, "item": "fridge", "x": 4, "y": 8 },
@@ -1452,7 +1452,7 @@
         "{": "f_dresser",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 25, "item": "harddrugs", "x": 12, "y": 15 },
         { "chance": 25, "item": "harddrugs", "x": 10, "y": 14 },

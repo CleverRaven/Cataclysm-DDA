@@ -53,7 +53,7 @@
       "items": {
         "b": { "item": "bed", "chance": 15, "repeat": 2 },
         "D": { "item": "dining", "chance": 20 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_toilets": [ { "x": 3, "y": 5 }, { "x": 20, "y": 5 } ],
       "rows": [
@@ -152,7 +152,7 @@
         "#": { "item": "bed", "chance": 15, "repeat": 2 },
         "t": { "item": "dining", "chance": 20 },
         "{": { "item": "dresser", "chance": 30, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_toilets": [ { "x": 19, "y": 4 }, { "x": 13, "y": 12 } ],
       "rows": [
@@ -251,7 +251,7 @@
         "F": { "item": "fridge", "chance": 35, "repeat": 2 },
         "o": { "item": "oven", "chance": 30, "repeat": 2 },
         "a": { "item": "pantry", "chance": 35, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_toilets": [ { "x": 10, "y": 10 }, { "x": 13, "y": 10 } ],
       "rows": [
@@ -354,7 +354,7 @@
         "C": { "item": "pantry", "chance": 35, "repeat": 2 },
         "B": { "item": "homebooks", "chance": 35, "repeat": 3 },
         "h": { "item": "coat_rack", "chance": 35, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_toilets": [ { "x": 9, "y": 20 }, { "x": 14, "y": 20 } ],
       "rows": [
@@ -464,7 +464,7 @@
         "a": { "item": "pantry", "chance": 35, "repeat": 2 },
         "B": { "item": "homebooks", "chance": 35, "repeat": 3 },
         "h": { "item": "coat_rack", "chance": 35, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_toilets": [ { "x": 3, "y": 17 }, { "x": 20, "y": 17 } ],
       "rows": [
@@ -580,7 +580,7 @@
         "j": { "item": "homebooks", "chance": 35, "repeat": 3 },
         "h": { "item": "coat_rack", "chance": 35, "repeat": 2 },
         "p": { "item": "pool_table", "chance": 10, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_item": [
         { "item": "pillow", "chance": 30, "repeat": 3, "x": 2, "y": [ 11, 13 ] },
@@ -695,7 +695,7 @@
         "B": { "item": "homebooks", "chance": 35, "repeat": 3 },
         "h": { "item": "coat_rack", "chance": 35, "repeat": 2 },
         "p": { "item": "pool_table", "chance": 10, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_toilets": [ { "x": 10, "y": 20 }, { "x": 13, "y": 20 } ],
       "rows": [
@@ -799,7 +799,7 @@
         "a": { "item": "pantry", "chance": 35, "repeat": 2 },
         "B": { "item": "homebooks", "chance": 35, "repeat": 3 },
         "Y": { "item": "coat_rack", "chance": 30, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_toilets": [ { "x": 12, "y": 5 }, { "x": 11, "y": 19 } ],
       "rows": [
@@ -923,7 +923,7 @@
         "o": { "item": "oven", "chance": 30, "repeat": 2 },
         "e": { "item": "pantry", "chance": 35, "repeat": 2 },
         "Y": { "item": "coat_rack", "chance": 30, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 25, "repeat": 4 },
         "f": { "item": "laundry", "chance": 25, "repeat": 4 }
       },
@@ -1046,7 +1046,7 @@
         "o": { "item": "oven", "chance": 30, "repeat": 2 },
         "c": { "item": "pantry", "chance": 35, "repeat": 2 },
         "Y": { "item": "coat_rack", "chance": 30, "repeat": 2 },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 25, "repeat": 4 },
         "h": { "item": "laundry", "chance": 25, "repeat": 4 }
       },
@@ -1211,7 +1211,7 @@
       "toilets": { "t": {  } },
       "items": {
         "B": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
       },

@@ -90,7 +90,7 @@
       "toilets": { "t": {  } },
       "items": {
         "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_loot": [
         { "group": "homebooks", "x": [ 3, 3 ], "y": [ 16, 16 ], "chance": 70, "repeat": [ 1, 2 ] },

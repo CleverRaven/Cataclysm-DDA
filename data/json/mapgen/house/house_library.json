@@ -87,7 +87,7 @@
       "toilets": { "t": {  } },
       "items": {
         "Y": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
-        "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_loot": [
         { "group": "bed", "x": [ 10, 11 ], "y": [ 20, 21 ], "chance": 90, "repeat": [ 1, 3 ] },

@@ -79,7 +79,7 @@
         ".": { "item": "clutter_mansion" },
         ":": { "item": "clutter_yard" },
         "K": { "item": "crate_cleaning", "chance": 100 },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "m": { "item": "cleaning", "chance": 45 },
         "t": { "item": "table_foyer", "chance": 40 },
         "z": { "item": "jackets", "chance": 40 }
@@ -215,7 +215,7 @@
         ".": { "item": "clutter_mansion" },
         ":": { "item": "clutter_yard" },
         "t": { "item": "table_foyer", "chance": 40 },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] },
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
       "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]

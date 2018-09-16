@@ -26,7 +26,7 @@
         "{": "f_fridge",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 75, "item": "fridge", "x": 5, "y": 14 },
         { "chance": 55, "item": "trash", "x": 19, "y": 7 },
@@ -122,7 +122,7 @@
         "{": "f_bookcase",
         "|": "f_null"
       },
-      "items": { "P": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_items": [
         { "chance": 55, "item": "homebooks", "x": 3, "y": 14 },
         { "chance": 65, "item": "cannedfood", "x": 5, "y": 17 },

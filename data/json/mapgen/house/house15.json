@@ -110,7 +110,7 @@
         "p": "f_mailbox"
       },
       "toilets": { "t": {  } },
-      "items": { "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] } },
+      "items": { "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_loot": [
         { "group": "dresser", "x": [ 2, 2 ], "y": [ 17, 17 ], "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "cleaning", "x": [ 18, 19 ], "y": [ 16, 16 ], "chance": 90, "repeat": [ 1, 2 ] },

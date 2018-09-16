@@ -100,7 +100,7 @@
       "toilets": { "t": {  } },
       "items": {
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "p": { "item": "mail", "chance": 20, "repeat": [ 0, 5 ] }
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },
       "place_loot": [
         { "group": "magazines", "x": [ 11, 11 ], "y": [ 6, 8 ], "chance": 50, "repeat": [ 1, 4 ] },
