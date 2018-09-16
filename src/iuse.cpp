@@ -6670,7 +6670,6 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    int choice = -1;
     const char *car_action = NULL;
 
     if( !it->active ) {
@@ -6679,12 +6678,14 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         car_action = _( "Stop controlling RC car" );
     }
 
-    choice = menu( true, _( "What to do with radio control?" ), _( "Nothing" ), car_action,
-                   _( "Press red button" ), _( "Press blue button" ), _( "Press green button" ), NULL );
+    int choice = uilist( _( "What to do with radio control?" ), {
+        car_action,
+        _( "Press red button" ), _( "Press blue button" ), _( "Press green button" )
+    } );
 
-    if( choice == 1 ) {
+    if( choice < 0 ) {
         return 0;
-    } else if( choice == 2 ) {
+    } else if( choice == 0 ) {
         if( it->active ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
@@ -6712,10 +6713,10 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
                 it->active = true;
             }
         }
-    } else if( choice > 2 ) {
+    } else if( choice > 0 ) {
         std::string signal = "RADIOSIGNAL_";
         std::stringstream choice_str;
-        choice_str << ( choice - 2 );
+        choice_str << choice;
         signal += choice_str.str();
 
         auto item_list = p->get_radio_items();
