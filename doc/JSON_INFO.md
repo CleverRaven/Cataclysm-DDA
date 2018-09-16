@@ -2051,3 +2051,43 @@ The internal ID of the mutation. Can be provided as a single string, or an array
 (integer)
 
 The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn layer. Mutations that are not in any list will default to 9999.
+
+# MOD tileset
+
+MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`. 
+
+Example:
+```JSON
+[
+    {
+    "type": "mod_tileset",
+    "compatibility": [ "MshockXottoplus" ],
+    "tiles-new": [
+        {
+        "file": "test_tile.png",
+        "tiles": [
+            {
+            "id": "player_female",
+            "fg": 1,
+            "bg": 0
+            },
+            {
+            "id": "player_male",
+            "fg": 2,
+            "bg": 0
+            }
+        ]
+        }
+    ]
+    }
+]
+```
+
+## `compatibility`
+(string)
+
+The internal ID of the compatible tilesets. MOD tileset is only applied when base tileset's ID exists in this field.
+
+## `tiles-new`
+
+Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. 
