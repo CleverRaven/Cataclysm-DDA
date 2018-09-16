@@ -575,8 +575,8 @@ void player::store( JsonOut &json ) const
     json.member( "power_level", power_level );
     json.member( "max_power_level", max_power_level );
 
-    json.member( "stamina", stamina);
-    json.member( "stamina_max_penalty", stamina_max_penalty);
+    json.member( "stamina", stamina );
+    json.member( "stamina_max_penalty", stamina_max_penalty );
 
     // martial arts
     /*for (int i = 0; i < ma_styles.size(); i++) {
