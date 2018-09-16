@@ -210,6 +210,13 @@ static const trait_id trait_BURROW( "BURROW" );
 void advanced_inv(); // player_activity.cpp
 void intro();
 
+#ifdef __ANDROID__
+extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
+extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
+        const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( long key, const std::string &category, bool back );
+#endif
+
 //The one and only game instance
 game *g;
 #ifdef TILES
