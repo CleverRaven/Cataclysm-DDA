@@ -1625,8 +1625,7 @@ const tile_type *cata_tiles::find_tile_with_season( std::string &id )
 const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGORY category )
 {
     std::string looks_like = id;
-    int cnt = 0;
-    while( !looks_like.empty() && cnt < 10 ) {
+    for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
         const tile_type *lltt = find_tile_with_season( looks_like );
         if( lltt ) {
             id = looks_like;
@@ -1670,7 +1669,6 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
         } else {
             return nullptr;
         }
-        cnt += 1;
     }
     return nullptr;
 }
@@ -1692,8 +1690,7 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
         looks_like = overlay;
     }
 
-    int cnt = 0;
-    while( !looks_like.empty() && cnt < 10 ) {
+    for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
         draw_id = ( male ? "overlay_male_" : "overlay_female" ) + over_type + looks_like;
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             exists = true;
@@ -1709,7 +1706,6 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
         }
         const itype *new_it = item::find_type( looks_like );
         looks_like = new_it->looks_like;
-        cnt += 1;
     }
     return exists;
 }
