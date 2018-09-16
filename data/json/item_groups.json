@@ -5233,6 +5233,30 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mut_iv",
+    "items":[
+      ["iv_mutagen", 10],
+      ["iv_mutagen_plant", 2],
+      ["iv_mutagen_insect", 2],
+      ["iv_mutagen_spider", 2],
+      ["iv_mutagen_fish", 2],
+      ["iv_mutagen_slime", 2],
+      ["iv_mutagen_rat", 2],
+      ["iv_mutagen_beast", 2],
+      ["iv_mutagen_cattle", 2],
+      ["iv_mutagen_cephalopod", 2],
+      ["iv_mutagen_bird", 2],
+      ["iv_mutagen_lizard", 2],
+      ["iv_mutagen_troglobite", 2],
+      ["iv_mutagen_ursine", 2],
+      ["iv_mutagen_feline", 2],
+      ["iv_mutagen_lupine", 2],
+      ["iv_mutagen_mouse", 2],
+      ["iv_purifier", 20],
+      ["syringe", 10]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "teleport",
     "items":[
       ["screwdriver", 40],
