@@ -74,26 +74,25 @@ Labs have unusual borders: 1-width walls between lab areas, laid out on the sout
 
 If a north or west neighbor isn't a lab, the entire side gets needs to be overwritten with a wall, replacing whatever was normally there.  If the east or south neighbor isn't a lab, that door needs to be overwritten with a wall.
 
-Some JSON maps can start from the above layout, disable rotation, and call place_nested with the 
-lab_border_walls' chunk in JSON.  In this case, borders will be perfect and no additional code will fire.
+Some JSON maps can start from the above layout, disable rotation, and call place_nested with the 'lab_border_walls' chunk in JSON.  In this case, borders will be perfect and no additional code will fire.
 
 But if borders have not been managed (determined by checking for the presence of an east-facing door/wall), then the code will create the lab border walls and doors on all four directions.
 
-'lab_border_walls' does not work on rotated maps, so rotated maps need to rely on hardcoded border wall generation.  This is preferable because it creates more variety.  So if a map layout is amenable to a not knowing if the final 1x1 border around it will be placed or not, it is preferable to allow rotation and not place 'lab_border_walls'.
+'lab_border_walls' does not work on rotated maps, so rotated maps need to rely on hardcoded border wall generation.  This is preferable because it creates more variety.  So if a map layout is amenable to not knowing if the final 1x1 border around it will be placed or not, it is preferable to allow rotation and not place 'lab_border_walls'.
 
 One middle-ground: If just part of the map needs to cares about where the border wall is to look correct, put a wall on the east-side of the map and only allow rotation of [0,1].  That will ensure the wall gets placed on the east or south side of the map in the final rotation.  See the "electricity room" floorplan for an example of this.
 
 
 ## Other hardcoded map generation
 
-Labs will have a small chance of randomly getting lights, the central & tower labs will always get them.  Stairs will be placed on any empty thconc_floor space if overmap specified them.  There's also a 10% chance of special effects like flooding, portals, radiation accidents, etc.  Ant-infested labs will get bashed in.
+Labs will have a small chance of randomly getting lights, the central & tower labs will always get them.  Stairs will be placed on any empty thconc_floor space if the overmap indicated stairs.  There's also a 10% chance of special effects like flooding, portals, radiation accidents, etc.  Ant-infested labs will get bashed in.
 
-None of these require json changes to enact, but JSON-ideas for lab special effects in rooms can be added to the spawn tables in lab_maybe_effects_7x7 and lab_maybe_effects_9x9.
+None of these require json changes to enact, but JSON-ideas for lab special effects in rooms can be added to the spawn tables in lab_maybe_effects_7x7 and lab_maybe_effects_9x9.  Currently this just adds spider-infestations.
 
 
 ## Room generation
 
-The most common source of randomness *within* a map is to create a 7x7 or 9x9 room and give it random contents by using place_nested.  Don't place rooms directly, instead we use an intermediate map chunk caleld a 'spawn' which encodes more information and randomizes between all the kinds of rooms that would satisify those requirements.
+The most common source of randomness *within* a map is to create a 7x7 or 9x9 room and give it random contents by using place_nested.  Don't place rooms directly, instead we use an intermediate map chunk called a 'spawn' which encodes more information and randomizes between all the kinds of rooms that would satisify those requirements.
 
 * lab_spawn_7x7 - a 7x7 room with no guarantees on where the doors are.
 * lab_spawn_7x7_crossdoors - a 7x7 room with doors only in the middle of each border wall.
@@ -102,17 +101,19 @@ The most common source of randomness *within* a map is to create a 7x7 or 9x9 ro
 
 Selecting a spawn will randomize between: lab_room_[size] plus the _rare variants, and the _crossdoors variants if applicable.
 
-If your room is also amenable to having two of its walls redefined, you can also use these spawns to add in more randomized rooms that might modify the walls by adding windows, replacing walls with chainlink, or creating multiple doors and interior walls.  These templates assume that there are no doors on the two walls which are not part of this submap.  Note these submaps are 8x8 and 10x10 because they include the walls to be modified.
+If your room is also amenable to having two of its walls redefined, you can also use these spawns to add in more randomized rooms that might modify the walls by adding windows, replacing walls with chainlink, or creating multiple doors and interior walls.  These templates assume that there are no doors on the two walls which are not part of this submap.  Note these submaps are sized 8x8 and 10x10 because they include the walls to be modified.
 
 * lab_spawn_7x7_wall_nw
 * lab_spawn_7x7_wall_sw
 * lab_spawn_9x9_wall_nw
 * lab_spawn_9x9_wall_sw
 
+Use the most specific spawn possible.
+
 
 ## Directory
 
-* lab_central.json - Top of central lab.
+* lab_central.json - hardcoded maps for the top of central lab.
 * lab_common.json - terrain palette, loot palettes, common json objects.
 * lab_escape.json - maps specifically for lab challenge escape, these are special placed on lvl 4 of a lab.
 * lab_floorplan_cross.json - cross floorplans are unusual for having rock infill when bordering the edge of the lab, with rare vaults.
