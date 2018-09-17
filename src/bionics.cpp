@@ -32,6 +32,7 @@
 #include "mutation.h"
 #include "requirements.h"
 #include "vpart_position.h"
+#include "ui.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -513,11 +514,12 @@ bool player::activate_bionic( int b, bool eff_only )
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower ) + player_local_temp ).c_str() );
     } else if( bio.id == "bio_remote" ) {
-        int choice = menu( true, _( "Perform which function:" ), _( "Nothing" ),
-                           _( "Control vehicle" ), _( "RC radio" ), NULL );
-        if( choice >= 2 && choice <= 3 ) {
+        int choice = uilist( _( "Perform which function:" ), {
+            _( "Control vehicle" ), _( "RC radio" )
+        } );
+        if( choice >= 0 && choice <= 1 ) {
             item ctr;
-            if( choice == 2 ) {
+            if( choice == 0 ) {
                 ctr = item( "remotevehcontrol", 0 );
             } else {
                 ctr = item( "radiocontrol", 0 );

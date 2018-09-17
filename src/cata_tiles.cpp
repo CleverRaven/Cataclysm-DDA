@@ -36,6 +36,7 @@
 #include "cursesport.h"
 #include "rect_range.h"
 #include "clzones.h"
+#include "mod_tileset.h"
 
 #include <cassert>
 #include <algorithm>
@@ -608,6 +609,72 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
     // Load tile information if available.
     offset = 0;
+    load_internal( config, tileset_root, img_path );
+
+    // Load mod tilesets if available
+    for( auto mts : all_mod_tilesets ) {
+        // Set sprite_id offset to separate from other tilesets.
+        sprite_id_offset = offset;
+        tileset_root = mts->get_base_path();
+        json_path = mts->get_full_path();
+
+        if( !mts->is_compatible( tileset_id ) ) {
+            dbg( D_ERROR ) << "Mod tileset in \"" << json_path << "\" is not compatible.";
+            return;
+        }
+        dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
+        std::ifstream mod_config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
+
+        if( !mod_config_file.good() ) {
+            throw std::runtime_error( std::string( "Failed to open tile info json: " ) + json_path );
+        }
+
+        JsonIn mod_config_json( mod_config_file );
+
+        int num_in_file = 1;
+        if( mod_config_json.test_array() ) {
+            JsonArray mod_config_array = mod_config_json.get_array();
+            while( mod_config_array.has_more() ) {
+                JsonObject mod_config = mod_config_array.next_object();
+                if( mod_config.get_string( "type" ) == "mod_tileset" ) {
+                    if( num_in_file == mts->num_in_file() ) {
+                        load_internal( mod_config, tileset_root, img_path );
+                        break;
+                    }
+                    num_in_file++;
+                }
+            }
+        } else {
+            JsonObject mod_config = mod_config_json.get_object();
+            load_internal( mod_config, tileset_root, img_path );
+        }
+    }
+
+    // loop through all tile ids and eliminate empty/invalid things
+    for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
+        auto &td = it->second;        // second is the tile_type describing that id
+        process_variations_after_loading( td.fg );
+        process_variations_after_loading( td.bg );
+        // All tiles need at least foreground or background data, otherwise they are useless.
+        if( td.bg.empty() && td.fg.empty() ) {
+            dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
+            ts.tile_ids.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+
+    if( !ts.find_tile_type( "unknown" ) ) {
+        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
+    }
+    ensure_default_item_highlight();
+
+    ts.tileset_id = tileset_id;
+}
+
+void tileset_loader::load_internal( JsonObject &config, const std::string &tileset_root,
+                                    const std::string &img_path )
+{
     if( config.has_array( "tiles-new" ) ) {
         // new system, several entries
         // When loading multiple tileset images this defines where
@@ -664,27 +731,6 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
-
-    // loop through all tile ids and eliminate empty/invalid things
-    for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
-        auto &td = it->second;        // second is the tile_type describing that id
-        process_variations_after_loading( td.fg );
-        process_variations_after_loading( td.bg );
-        // All tiles need at least foreground or background data, otherwise they are useless.
-        if( td.bg.empty() && td.fg.empty() ) {
-            dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
-            ts.tile_ids.erase( it++ );
-        } else {
-            ++it;
-        }
-    }
-
-    if( !ts.find_tile_type( "unknown" ) ) {
-        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
-    }
-    ensure_default_item_highlight();
-
-    ts.tileset_id = tileset_id;
 }
 
 void tileset_loader::process_variations_after_loading( weighted_int_list<std::vector<int>> &vs )
@@ -923,7 +969,7 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
         if( g_array.test_int() ) {
             std::vector<int> v;
             while( g_array.has_more() ) {
-                const int sprite_id = g_array.next_int();
+                const int sprite_id = g_array.next_int() + sprite_id_offset;
                 if( sprite_id >= 0 ) {
                     v.push_back( sprite_id );
                 }
@@ -943,7 +989,7 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
                 }
                 // int sprite means one sprite
                 if( vo.has_int( "sprite" ) ) {
-                    const int sprite_id = vo.get_int( "sprite" );
+                    const int sprite_id = vo.get_int( "sprite" ) + sprite_id_offset;
                     if( sprite_id >= 0 ) {
                         v.push_back( sprite_id );
                     }
@@ -952,7 +998,7 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
                 else if( vo.has_array( "sprite" ) ) {
                     JsonArray sprites = vo.get_array( "sprite" );
                     while( sprites.has_more() ) {
-                        const int sprite_id = sprites.next_int();
+                        const int sprite_id = sprites.next_int() + sprite_id_offset;
                         if( sprite_id >= 0 && sprite_id < size ) {
                             v.push_back( sprite_id );
                         } else {
@@ -972,7 +1018,7 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
     }
     // json int indicates a single sprite id
     else if( entry.has_int( objname ) && entry.get_int( objname ) >= 0 ) {
-        vs.add( std::vector<int>( {entry.get_int( objname )} ), 1 );
+        vs.add( std::vector<int>( {entry.get_int( objname ) + sprite_id_offset} ), 1 );
     }
 }
 
@@ -1625,8 +1671,7 @@ const tile_type *cata_tiles::find_tile_with_season( std::string &id )
 const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGORY category )
 {
     std::string looks_like = id;
-    int cnt = 0;
-    while( !looks_like.empty() && cnt < 10 ) {
+    for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
         const tile_type *lltt = find_tile_with_season( looks_like );
         if( lltt ) {
             id = looks_like;
@@ -1670,9 +1715,45 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
         } else {
             return nullptr;
         }
-        cnt += 1;
     }
     return nullptr;
+}
+
+bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &overlay,
+        std::string &draw_id )
+{
+    bool exists = false;
+
+    std::string looks_like;
+    std::string over_type;
+    if( overlay.substr( 0, 5 ) == "worn_" ) {
+        looks_like = overlay.substr( 5 );
+        over_type = "worn_";
+    } else if( overlay.substr( 0, 8 ) == "wielded_" ) {
+        looks_like = overlay.substr( 8 );
+        over_type = "wielded_";
+    } else {
+        looks_like = overlay;
+    }
+
+    for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
+        draw_id = ( male ? "overlay_male_" : "overlay_female" ) + over_type + looks_like;
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            exists = true;
+            break;
+        }
+        draw_id = "overlay_" + over_type + looks_like;
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            exists = true;
+            break;
+        }
+        if( !item::type_is_defined( looks_like ) ) {
+            break;
+        }
+        const itype *new_it = item::find_type( looks_like );
+        looks_like = new_it->looks_like;
+    }
+    return exists;
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
@@ -2458,17 +2539,8 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     // next up, draw all the overlays
     std::vector<std::string> overlays = pl.get_overlay_ids();
     for( const std::string &overlay : overlays ) {
-        bool exists = true;
-        std::string draw_id = pl.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
-        if( !tileset_ptr->find_tile_type( draw_id ) ) {
-            draw_id = "overlay_" + overlay;
-            if( !tileset_ptr->find_tile_type( draw_id ) ) {
-                exists = false;
-            }
-        }
-
-        // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
-        if( exists ) {
+        std::string draw_id = overlay;
+        if( find_overlay_looks_like( pl.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
             draw_from_id_string( draw_id, C_NONE, "", p, corner, 0, ll, false, overlay_height_3d );
             // the tallest height-having overlay is the one that counts
@@ -3093,5 +3165,4 @@ void cata_tiles::tile_loading_report( arraytype const &array, int array_length,
         return v->id;
     }, label, prefix );
 }
-
 #endif // SDL_TILES

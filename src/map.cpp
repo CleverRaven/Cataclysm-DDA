@@ -1250,9 +1250,9 @@ ter_id map::ter( const int x, const int y ) const
     return current_submap->get_ter( lx, ly );
 }
 
-void map::ter_set( const int x, const int y, const ter_id new_terrain )
+bool map::ter_set( const int x, const int y, const ter_id new_terrain )
 {
-    ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
+    return ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
 }
 
 std::string map::tername( const int x, const int y ) const
@@ -1357,10 +1357,10 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-void map::ter_set( const tripoint &p, const ter_id new_terrain )
+bool map::ter_set( const tripoint &p, const ter_id new_terrain )
 {
     if( !inbounds( p ) ) {
-        return;
+        return false;
     }
 
     int lx = 0;
@@ -1369,7 +1369,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     const ter_id old_id = current_submap->get_ter( lx, ly );
     if( old_id == new_terrain ) {
         // Nothing changed
-        return;
+        return false;
     }
 
     current_submap->set_ter( lx, ly, new_terrain );
@@ -1410,6 +1410,8 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
+
+    return true;
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -4382,7 +4384,7 @@ void map::process_items( bool const active, map::map_process_func processor,
                 submap *const current_submap = get_submap_at_grid( gp );
                 // Vehicles first in case they get blown up and drop active items on the map.
                 if( !current_submap->vehicles.empty() ) {
-                    process_items_in_vehicles( *current_submap, processor, signal, g->get_temperature( gp ), 1 );
+                    process_items_in_vehicles( *current_submap, gz, processor, signal );
                 }
             }
         }
@@ -4392,7 +4394,7 @@ void map::process_items( bool const active, map::map_process_func processor,
             for( gy = 0; gy < my_MAPSIZE; ++gy ) {
                 submap *const current_submap = get_submap_at_grid( gp );
                 if( !active || !current_submap->active_items.empty() ) {
-                    process_items_in_submap( *current_submap, gp, processor, signal, g->get_temperature( gp ) );
+                    process_items_in_submap( *current_submap, gp, processor, signal );
                 }
             }
         }
@@ -4400,8 +4402,7 @@ void map::process_items( bool const active, map::map_process_func processor,
 }
 
 void map::process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                   map::map_process_func processor, std::string const &signal,
-                                   const int temp )
+                                   map::map_process_func processor, std::string const &signal )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
@@ -4414,13 +4415,14 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
 
         const tripoint map_location = tripoint( grid_offset + active_item.location, gridp.z );
+        const int loc_temp = g->get_temperature( map_location );
         auto items = i_at( map_location );
-        processor( items, active_item.item_iterator, map_location, signal, temp, 1 );
+        processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1 );
     }
 }
 
-void map::process_items_in_vehicles( submap &current_submap, map::map_process_func processor,
-                                     std::string const &signal, const int temp, const float insulation )
+void map::process_items_in_vehicles( submap &current_submap, const int gridz,
+                                     map::map_process_func processor, std::string const &signal )
 {
     std::vector<vehicle *> const &veh_in_nonant = current_submap.vehicles;
     // a copy, important if the vehicle list changes because a
@@ -4435,13 +4437,12 @@ void map::process_items_in_vehicles( submap &current_submap, map::map_process_fu
             continue;
         }
 
-        process_items_in_vehicle( *cur_veh, current_submap, processor, signal, temp, insulation );
+        process_items_in_vehicle( *cur_veh, current_submap, gridz, processor, signal );
     }
 }
 
-void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
-                                    map::map_process_func processor, std::string const &signal,
-                                    const int temp, const float insulation )
+void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
+                                    map::map_process_func processor, std::string const &signal )
 {
     static time_point last_fluid_check = calendar::time_of_cataclysm;
     const time_point now = calendar::turn;
@@ -4481,11 +4482,10 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
         const size_t part_index = static_cast<size_t>( *it );
         const vehicle_part &pt = cur_veh.parts[part_index];
         const point partloc = veh_pos + pt.precalc[0];
-        // TODO: Make this 3D when vehicles know their Z-coordinate
-        const tripoint item_loc = tripoint( partloc, abs_sub.z );
+        const tripoint item_loc = tripoint( partloc, gridz );
         auto items = cur_veh.get_items( static_cast<int>( part_index ) );
-        int it_temp = temp;
-        float it_insulation = insulation;
+        int it_temp = g->get_temperature( item_loc );
+        float it_insulation = 1.0;
         if( item_iter->is_food() || item_iter->is_food_container() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {

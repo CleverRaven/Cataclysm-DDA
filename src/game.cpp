@@ -6877,21 +6877,41 @@ void game::zones_manager()
         if( action == "ADD_ZONE" ) {
             zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
 
-            const auto id = mgr.query_type();
-            auto options = zone_options::create( id );
-            options->query_at_creation();
-            const auto name = mgr.query_name( options->get_zone_name_suggestion() == "" ?
-                                              mgr.get_name_from_type( id ) : options->get_zone_name_suggestion() );
-            const auto position = query_position();
+            do { // not a loop, just for quick bailing out if canceled
+                const auto maybe_id = mgr.query_type();
+                if( !maybe_id.has_value() ) {
+                    break;
+                }
 
-            if( position.first != tripoint_min ) {
+                const auto id = maybe_id.value();
+                auto options = zone_options::create( id );
+
+                if( !options->query_at_creation() ) {
+                    break;
+                }
+
+                auto default_name = options->get_zone_name_suggestion();
+                if( default_name.empty() ) {
+                    default_name = mgr.get_name_from_type( id );
+                }
+                const auto maybe_name = mgr.query_name( default_name );
+                if( !maybe_name.has_value() ) {
+                    break;
+                }
+                const auto name = maybe_name.value();
+
+                const auto position = query_position();
+                if( position.first == tripoint_min ) {
+                    break;
+                }
+
                 mgr.add( name, id, false, true, position.first, position.second, options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
 
                 stuff_changed = true;
-            }
+            } while( false );
 
             draw_ter();
             blink = false;
@@ -6928,7 +6948,7 @@ void game::zones_manager()
 
             } else if( action == "REMOVE_ZONE" ) {
                 if( active_index < zone_cnt ) {
-                    mgr.remove( active_index );
+                    mgr.remove( zones[active_index] );
                     zones = get_zones();
                     active_index--;
 
@@ -6946,38 +6966,44 @@ void game::zones_manager()
             } else if( action == "CONFIRM" ) {
                 auto &zone = zones[active_index].get();
 
-                uimenu as_m;
+                uilist as_m;
                 as_m.text = _( "What do you want to change:" );
                 as_m.entries.emplace_back( uimenu_entry( 1, true, '1', _( "Edit name" ) ) );
                 as_m.entries.emplace_back( uimenu_entry( 2, true, '2', _( "Edit type" ) ) );
                 as_m.entries.emplace_back( uimenu_entry( 3, zone.get_options().has_options(), '3',
                                            _( "Edit options" ) ) );
                 as_m.entries.emplace_back( uimenu_entry( 4, true, '4', _( "Edit position" ) ) );
-                as_m.entries.emplace_back( uimenu_entry( 5, true, 'q', _( "Cancel" ) ) );
                 as_m.query();
 
                 switch( as_m.ret ) {
                     case 1:
-                        zone.set_name();
-                        stuff_changed = true;
+                        if( zone.set_name() ) {
+                            stuff_changed = true;
+                        }
                         break;
                     case 2:
-                        zone.set_type();
-                        stuff_changed = true;
+                        if( zone.set_type() ) {
+                            stuff_changed = true;
+                        }
                         break;
                     case 3:
-                        zone.get_options().query();
-                        stuff_changed = true;
+                        if( zone.get_options().query() ) {
+                            stuff_changed = true;
+                        }
                         break;
-                    case 4:
-                        zone.set_position( query_position() );
-                        stuff_changed = true;
-                        break;
+                    case 4: {
+                        const auto pos = query_position();
+                        if( pos.first != tripoint_min &&
+                            ( pos.first != zone.get_start_point() || pos.second != zone.get_end_point() ) ) {
+
+                            zone.set_position( pos );
+                            stuff_changed = true;
+                        }
+                    }
+                    break;
                     default:
                         break;
                 }
-
-                as_m.reset();
 
                 draw_ter();
 
@@ -7136,13 +7162,12 @@ void game::zones_manager()
 #endif
             }
 
-            wrefresh( w_terrain );
-
             inp_mngr.set_timeout( BLINK_SPEED );
         } else {
             inp_mngr.reset_timeout();
         }
 
+        wrefresh( w_terrain );
         wrefresh( w_zones );
         wrefresh( w_zones_border );
 
@@ -8796,14 +8821,7 @@ void game::plthrow( int pos )
 
     // you must wield the item to throw it
     if( pos != -1 ) {
-        // Throw a single charge of a stacking object.
-        if( thrown.count_by_charges() && thrown.charges > 1 ) {
-            u.i_at( pos ).charges--;
-            thrown.charges = 1;
-        } else {
-            u.i_rem( pos );
-        }
-
+        u.i_rem( pos );
         if( !u.wield( thrown ) ) {
             // We have to remove the item before checking for wield because it
             // can invalidate our pos index.  Which means we have to add it
@@ -8824,7 +8842,12 @@ void game::plthrow( int pos )
         return;
     }
 
-    u.i_rem( -1 );
+    if( thrown.count_by_charges() && thrown.charges > 1 )  {
+        u.i_at( -1 ).charges--;
+        thrown.charges = 1;
+    } else {
+        u.i_rem( -1 );
+    }
     u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
 }

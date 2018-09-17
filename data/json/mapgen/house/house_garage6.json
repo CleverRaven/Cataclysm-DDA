@@ -109,7 +109,7 @@
       },
       "toilets": { "t": {} },
       "items": { 
-        "w": { "item": "mail", "chance": 20, "repeat": [ 1, 5 ] },
+        "w": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
 	  },

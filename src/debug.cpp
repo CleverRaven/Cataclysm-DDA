@@ -115,6 +115,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 
 #ifdef __ANDROID__
     input_context ctxt( "DEBUG_MSG" );
+    ctxt.register_manual_key( 'C' );
     ctxt.register_manual_key( 'I' );
     ctxt.register_manual_key( ' ' );
 #endif
