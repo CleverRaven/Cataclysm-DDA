@@ -36,7 +36,8 @@ class vehicle_selector : public visitable<vehicle_selector>
          *  @param accessible whether found items must be accessible from pos to be considered
          *  @param check accessibility based on line of sight, not walkability
          */
-        vehicle_selector( const tripoint &pos, int radius = 0, bool accessible = true, bool for_crane_lift = false);
+        vehicle_selector( const tripoint &pos, int radius = 0, bool accessible = true,
+                          bool visibility_only = false );
 
         /**
          *  Constructs vehicle_selector used for querying items located on vehicle tiles
