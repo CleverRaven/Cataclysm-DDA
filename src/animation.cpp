@@ -591,13 +591,15 @@ void game::draw_line( const tripoint &p, std::vector<tripoint> const &vPoint )
 #if defined(TILES)
 void game::draw_cursor( const tripoint &p )
 {
+    tripoint const rp = relative_view_pos( u, p );
+    mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
     tilecontext->init_draw_cursor( p );
 }
 #else
 void game::draw_cursor( const tripoint &p )
 {
-    tripoint const rp = relative_view_pos( g.u, p );
-    mvwputch_inv( g.w_terrain, rp.y, rp.x, c_light_green, 'X' );
+    tripoint const rp = relative_view_pos( u, p );
+    mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
 }
 #endif
 
