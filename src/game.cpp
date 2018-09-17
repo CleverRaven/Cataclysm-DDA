@@ -7257,9 +7257,8 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     ctxt.register_action( "LEVEL_DOWN" );
     ctxt.register_action( "TOGGLE_FAST_SCROLL" );
     ctxt.register_action( "EXTENDED_DESCRIPTION" );
-    if( select_zone ) {
-        ctxt.register_action( "SELECT" );
-    } else {
+    ctxt.register_action( "SELECT" );
+    if( !select_zone ) {
         ctxt.register_action( "TRAVEL_TO" );
         ctxt.register_action( "LIST_ITEMS" );
     }
@@ -7275,12 +7274,13 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
+    bool redraw = true;
     do {
-        if( bNewWindow ) {
-            werase( w_info );
-            draw_border( w_info );
+        if( redraw ) {
+            if( bNewWindow ) {
+                werase( w_info );
+                draw_border( w_info );
 
-            if( !select_zone ) {
                 nc_color clr = c_white;
                 std::string colored_key = string_format( "<color_light_green>%s</color>",
                                           ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
@@ -7292,12 +7292,20 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr,
                                     string_format( _( "Press %s to list items and monsters" ),
                                                    colored_key.c_str() ) );
-            }
-        }
 
-        if( select_zone ) {
-            //Select Zone
-            if( has_first_point ) {
+                int first_line = 1;
+                const int last_line = getmaxy( w_messages ) - 2;
+                print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
+
+                if( fast_scroll ) {
+                    //~ "Fast Scroll" mark below the top right corner of the info window
+                    right_print( w_info, 1, 0, c_light_green, _( "F" ) );
+                }
+
+                wrefresh( w_info );
+            }
+
+            if( select_zone && has_first_point ) {
                 blink = !blink;
 
                 const int dx = start_point.x - offset_x + u.posx() - lx;
@@ -7350,27 +7358,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             //Draw select cursor
             g->draw_cursor( lp );
 
-        } else {
-            //Look around
-            int first_line = 1;
-            const int last_line = getmaxy( w_messages ) - 2;
-            print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
-
-            if( fast_scroll ) {
-                //~ "Fast Scroll" mark below the top right corner of the info window
-                right_print( w_info, 1, 0, c_light_green, _( "F" ) );
-            }
-
-            wrefresh( w_info );
-
-            g->draw_cursor( lp );
-        }
-
-        if( !is_draw_tiles_mode() && action != "MOUSE_MOVE" ) {
-            // When tiles are disabled, this refresh is required to update the
-            // selected terrain square with highlighted ASCII coloring. When
-            // tiles are enabled, the selected square isn't highlighted using
-            // this function.
+            draw_ter( center, true );
             wrefresh( w_terrain );
         }
 
@@ -7379,13 +7367,11 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         }
 
         int dx, dy;
+        redraw = true;
         //Wait for input
         action = ctxt.handle_input();
         if( action == "LIST_ITEMS" ) {
             list_items_monsters();
-            draw_ter( center, true );
-            wrefresh( w_terrain );
-
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
@@ -7399,7 +7385,6 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
 
             add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
-            draw_ter( center, true );
             refresh_all();
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
@@ -7415,7 +7400,6 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 add_msg( m_info, _( "You can't travel there." ) );
                 continue;
             }
-            return { INT_MIN, INT_MIN, INT_MIN };
         } else if( action == "debug_scent" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_scent();
@@ -7423,13 +7407,13 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
             draw_sidebar();
-            draw_ter( center, true );
-            wrefresh( w_terrain );
         } else if( action == "MOUSE_MOVE" ) {
+            const tripoint old_lp = lp;
             ctxt.get_coordinates( w_terrain, lx, ly );
             blink = false;
-            draw_ter( center, true ); // @todo does graphics lag behind cursor position?
-            wrefresh( w_terrain );
+            if( lp == old_lp ) {
+                redraw = false;
+            }
         } else if( ctxt.get_direction( dx, dy, action ) ) {
             if( fast_scroll ) {
                 dx *= soffset;
@@ -7440,14 +7424,8 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             ly = clamp( 0, ly + dy, MAPSIZE * SEEY );
             center.x = clamp( 0, center.x + dx, MAPSIZE * SEEX );
             center.y = clamp( 0, center.y + dy, MAPSIZE * SEEY );
-
-            draw_ter( center, true );
-            wrefresh( w_terrain );
-        } else if( action == "TIMEOUT" ) {
-            draw_ter( center, true );
-            wrefresh( w_terrain );
         }
-    } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" );
+    } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" );
 
     if( m.has_zlevels() && center.z != old_levz ) {
         m.build_map_cache( old_levz );
