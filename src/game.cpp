@@ -6948,7 +6948,7 @@ void game::zones_manager()
 
             } else if( action == "REMOVE_ZONE" ) {
                 if( active_index < zone_cnt ) {
-                    mgr.remove( active_index );
+                    mgr.remove( zones[active_index] );
                     zones = get_zones();
                     active_index--;
 

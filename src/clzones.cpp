@@ -496,6 +496,28 @@ zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_
     return zones.back();
 }
 
+bool zone_manager::remove( const size_t index )
+{
+    if( index < zones.size() ) {
+        zones.erase( zones.begin() + index );
+        return true;
+    }
+
+    return false;
+}
+
+bool zone_manager::remove( zone_data &zone )
+{
+    for( auto it = zones.begin(); it != zones.end(); ++it ) {
+        if( &zone == &*it ) {
+            zones.erase( it );
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void zone_manager::swap( zone_data &a, zone_data &b )
 {
     std::swap( a, b );
