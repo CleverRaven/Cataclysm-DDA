@@ -567,7 +567,7 @@ class map
         // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         ter_id ter( const int x, const int y ) const;
 
-        void ter_set( const int x, const int y, const ter_id new_terrain );
+        bool ter_set( const int x, const int y, const ter_id new_terrain );
 
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
@@ -582,7 +582,7 @@ class map
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
-        void ter_set( const tripoint &p, const ter_id new_terrain );
+        bool ter_set( const tripoint &p, const ter_id new_terrain );
 
         std::string tername( const tripoint &p ) const;
 
