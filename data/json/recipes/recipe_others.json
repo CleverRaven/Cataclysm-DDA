@@ -4092,5 +4092,18 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ], [ [ "plant_fibre", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pot_canning",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 125000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ], [ "steel_standard", 6 ], [ "forging_standard", 10 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ]
   }
 ]
