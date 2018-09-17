@@ -404,6 +404,7 @@ class cata_tiles
 
         const tile_type *find_tile_with_season( std::string &id );
         const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
+        bool find_overlay_looks_like( const bool male, const std::string &overlay, std::string &draw_id );
 
         bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
