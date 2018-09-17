@@ -64,40 +64,16 @@
         "D": "t_ind_mixer",
         "E": "t_ind_furnace"
       },
-      "furniture": {
-        "t": "f_locker",
-        "u": "f_sink",
-        "w": "f_table",
-        "x": "f_chair",
-        "y": "f_locker"
-      },
-	  "toilets": { "v": {  } },
+      "furniture": { "t": "f_locker", "u": "f_sink", "w": "f_table", "x": "f_chair", "y": "f_locker" },
+      "toilets": { "v": {  } },
       "place_loot": [
         { "group": "hand_tools", "chance": 75, "repeat": [ 4 ], "x": [ 0, 0 ], "y": [ 4, 6 ] },
         { "group": "power_tools", "chance": 75, "repeat": [ 4 ], "x": [ 3, 5 ], "y": [ 4, 4 ] },
         { "group": "tools_mechanic", "chance": 75, "repeat": [ 4 ], "x": [ 8, 8 ], "y": [ 4, 6 ] },
-        {
-          "group": "elecsto_diy",
-          "chance": 60,
-          "repeat": [ 4 ],
-          "x": [ 10, 15 ],
-          "y": [ 14, 12 ]
-        },
+        { "group": "elecsto_diy", "chance": 60, "repeat": [ 4 ], "x": [ 10, 15 ], "y": [ 14, 12 ] },
         { "group": "elecsto_diy", "chance": 60, "repeat": [ 4 ], "x": [ 10, 13 ], "y": [ 4, 5 ] },
-        {
-          "group": "vehicle_scrapped",
-          "chance": 60,
-          "repeat": [ 4 ],
-          "x": [ 10, 18 ],
-          "y": [ 11, 7 ]
-        },
-        {
-          "group": "vehicle_scrapped",
-          "chance": 60,
-          "repeat": [ 4 ],
-          "x": [ 8, 0 ],
-          "y": [ 8, 13 ]
-        },
+        { "group": "vehicle_scrapped", "chance": 60, "repeat": [ 4 ], "x": [ 10, 18 ], "y": [ 11, 7 ] },
+        { "group": "vehicle_scrapped", "chance": 60, "repeat": [ 4 ], "x": [ 8, 0 ], "y": [ 8, 13 ] },
         { "group": "office_mess", "chance": 60, "repeat": [ 6 ], "x": [ 20, 22 ], "y": [ 5, 11 ] }
       ]
     }

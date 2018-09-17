@@ -42,9 +42,7 @@
         "h": "t_metal_floor"
       },
       "furniture": { "e": "f_table" },
-      "place_loot": [
-        { "group": "office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] }
-      ]
+      "place_loot": [ { "group": "office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] } ]
     }
   }
 ]

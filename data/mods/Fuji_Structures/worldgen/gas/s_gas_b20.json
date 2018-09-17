@@ -87,89 +87,23 @@
       "place_loot": [
         { "group": "bar_table", "chance": 50, "repeat": [ 2 ], "x": [ 12, 12 ], "y": [ 1, 2 ] },
         { "group": "bar_table", "chance": 50, "repeat": [ 2 ], "x": [ 16, 16 ], "y": [ 1, 2 ] },
-        {
-          "group": "mil_food_nodrugs",
-          "chance": 80,
-          "repeat": [ 10 ],
-          "x": [ 19, 22 ],
-          "y": [ 2, 2 ]
-        },
-        {
-          "group": "vehicle_scrapped",
-          "chance": 50,
-          "repeat": [ 5 ],
-          "x": [ 16, 22 ],
-          "y": [ 6, 10 ]
-        },
-        {
-          "group": "office_mess",
-          "chance": 80,
-          "repeat": [ 10 ],
-          "x": [ 18, 21 ],
-          "y": [ 13, 15 ]
-        },
-        {
-          "group": "vehicle_scrapped",
-          "chance": 50,
-          "repeat": [ 5 ],
-          "x": [ 17, 22 ],
-          "y": [ 17, 22 ]
-        },
-        {
-          "group": "hazmat_full",
-          "chance": 50,
-          "repeat": [ 2 ],
-          "x": [ 13, 14 ],
-          "y": [ 20, 20 ]
-        },
-        {
-          "group": "cleaning_bulk",
-          "chance": 50,
-          "repeat": [ 4 ],
-          "x": [ 12, 12 ],
-          "y": [ 4, 5 ]
-        },
+        { "group": "mil_food_nodrugs", "chance": 80, "repeat": [ 10 ], "x": [ 19, 22 ], "y": [ 2, 2 ] },
+        { "group": "vehicle_scrapped", "chance": 50, "repeat": [ 5 ], "x": [ 16, 22 ], "y": [ 6, 10 ] },
+        { "group": "office_mess", "chance": 80, "repeat": [ 10 ], "x": [ 18, 21 ], "y": [ 13, 15 ] },
+        { "group": "vehicle_scrapped", "chance": 50, "repeat": [ 5 ], "x": [ 17, 22 ], "y": [ 17, 22 ] },
+        { "group": "hazmat_full", "chance": 50, "repeat": [ 2 ], "x": [ 13, 14 ], "y": [ 20, 20 ] },
+        { "group": "cleaning_bulk", "chance": 50, "repeat": [ 4 ], "x": [ 12, 12 ], "y": [ 4, 5 ] },
         { "group": "chem_lab", "chance": 50, "repeat": [ 2 ], "x": [ 14, 14 ], "y": [ 4, 5 ] },
         { "group": "office", "chance": 50, "repeat": [ 2 ], "x": [ 3, 3 ], "y": [ 12, 13 ] },
         { "group": "office", "chance": 50, "repeat": [ 2 ], "x": [ 1, 1 ], "y": [ 12, 12 ] },
-        {
-          "group": "hospital_medical_items",
-          "chance": 50,
-          "repeat": [ 8 ],
-          "x": [ 5, 5 ],
-          "y": [ 17, 18 ]
-        },
+        { "group": "hospital_medical_items", "chance": 50, "repeat": [ 8 ], "x": [ 5, 5 ], "y": [ 17, 18 ] },
         { "group": "hospital_bed", "chance": 50, "repeat": [ 2 ], "x": [ 1, 2 ], "y": [ 19, 19 ] },
         { "group": "hospital_bed", "chance": 50, "repeat": [ 2 ], "x": [ 1, 2 ], "y": [ 16, 16 ] },
         { "group": "hospital_bed", "chance": 50, "repeat": [ 2 ], "x": [ 4, 4 ], "y": [ 21, 22 ] },
-        {
-          "group": "guns_rifle_milspec",
-          "chance": 80,
-          "repeat": [ 4 ],
-          "x": [ 5, 5 ],
-          "y": [ 6, 8 ]
-        },
-        {
-          "group": "guns_smg_milspec",
-          "chance": 80,
-          "repeat": [ 4 ],
-          "x": [ 1, 1 ],
-          "y": [ 6, 8 ]
-        },
-        {
-          "group": "ammo_rifle_milspec",
-          "chance": 80,
-          "repeat": [ 4 ],
-          "x": [ 5, 5 ],
-          "y": [ 9, 10 ]
-        },
-        {
-          "group": "ammo_smg_milspec",
-          "chance": 80,
-          "repeat": [ 4 ],
-          "x": [ 1, 1 ],
-          "y": [ 9, 10 ]
-        },
+        { "group": "guns_rifle_milspec", "chance": 80, "repeat": [ 4 ], "x": [ 5, 5 ], "y": [ 6, 8 ] },
+        { "group": "guns_smg_milspec", "chance": 80, "repeat": [ 4 ], "x": [ 1, 1 ], "y": [ 6, 8 ] },
+        { "group": "ammo_rifle_milspec", "chance": 80, "repeat": [ 4 ], "x": [ 5, 5 ], "y": [ 9, 10 ] },
+        { "group": "ammo_smg_milspec", "chance": 80, "repeat": [ 4 ], "x": [ 1, 1 ], "y": [ 9, 10 ] },
         { "group": "textbooks", "chance": 80, "repeat": [ 4 ], "x": [ 4, 5 ], "y": [ 12, 12 ] },
         { "group": "textbooks", "chance": 80, "repeat": [ 4 ], "x": [ 11, 12 ], "y": [ 7, 7 ] },
         { "group": "office", "chance": 50, "repeat": [ 2 ], "x": [ 5, 5 ], "y": [ 2, 3 ] },
@@ -187,10 +121,7 @@
         { "monster": "GROUP_BUNKER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.8 },
         { "monster": "GROUP_SCI", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.5 }
       ],
-      "fields": {
-        "l": { "field": "fd_nuke_gas", "density": 1, "age": 0 },
-        "L": { "field": "fd_nuke_gas", "density": 1, "age": 0 }
-      },
+      "fields": { "l": { "field": "fd_nuke_gas", "density": 1, "age": 0 }, "L": { "field": "fd_nuke_gas", "density": 1, "age": 0 } },
       "computers": {
         "p": {
           "name": "Mr. Stem Cell",

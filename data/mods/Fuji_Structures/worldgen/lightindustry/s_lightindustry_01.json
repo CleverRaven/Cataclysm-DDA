@@ -74,15 +74,9 @@
         "D": "f_locker",
         "E": "f_bookcase"
       },
-	  "toilets": { "n": {  } },
+      "toilets": { "n": {  } },
       "place_loot": [
-        {
-          "group": "vehicle_scrapped",
-          "chance": 60,
-          "repeat": [ 10 ],
-          "x": [ 5, 12 ],
-          "y": [ 11, 21 ]
-        },
+        { "group": "vehicle_scrapped", "chance": 60, "repeat": [ 10 ], "x": [ 5, 12 ], "y": [ 11, 21 ] },
         { "group": "office", "chance": 60, "repeat": [ 2 ], "x": [ 21, 21 ], "y": [ 7, 8 ] },
         { "group": "office", "chance": 60, "repeat": [ 2 ], "x": [ 15, 17 ], "y": [ 7, 7 ] },
         { "group": "office", "chance": 60, "repeat": [ 2 ], "x": [ 21, 22 ], "y": [ 12, 12 ] },
@@ -90,74 +84,20 @@
         { "group": "office", "chance": 60, "repeat": [ 2 ], "x": [ 22, 22 ], "y": [ 18, 20 ] },
         { "group": "textbooks", "chance": 60, "repeat": [ 2 ], "x": [ 22, 22 ], "y": [ 16, 16 ] },
         { "group": "textbooks", "chance": 60, "repeat": [ 2 ], "x": [ 22, 22 ], "y": [ 10, 10 ] },
-        {
-          "group": "cleaning_bulk",
-          "chance": 60,
-          "repeat": [ 2 ],
-          "x": [ 17, 17 ],
-          "y": [ 17, 17 ]
-        },
+        { "group": "cleaning_bulk", "chance": 60, "repeat": [ 2 ], "x": [ 17, 17 ], "y": [ 17, 17 ] },
         { "group": "office_mess", "chance": 60, "repeat": [ 5 ], "x": [ 15, 20 ], "y": [ 16, 9 ] },
-        {
-          "group": "office_mess",
-          "chance": 60,
-          "repeat": [ 2 ],
-          "x": [ 20, 21 ],
-          "y": [ 18, 20 ]
-        },
-        {
-          "group": "tools_blacksmith",
-          "chance": 60,
-          "repeat": [ 4 ],
-          "x": [ 2, 2 ],
-          "y": [ 22, 20 ]
-        },
-        {
-          "group": "tools_mechanic",
-          "chance": 60,
-          "repeat": [ 2 ],
-          "x": [ 2, 2 ],
-          "y": [ 18, 19 ]
-        },
+        { "group": "office_mess", "chance": 60, "repeat": [ 2 ], "x": [ 20, 21 ], "y": [ 18, 20 ] },
+        { "group": "tools_blacksmith", "chance": 60, "repeat": [ 4 ], "x": [ 2, 2 ], "y": [ 22, 20 ] },
+        { "group": "tools_mechanic", "chance": 60, "repeat": [ 2 ], "x": [ 2, 2 ], "y": [ 18, 19 ] },
         { "group": "tools_home", "chance": 60, "repeat": [ 4 ], "x": [ 0, 0 ], "y": [ 18, 20 ] },
         { "group": "power_tools", "chance": 60, "repeat": [ 3 ], "x": [ 0, 0 ], "y": [ 21, 22 ] },
-        {
-          "group": "vehicle_scrapped",
-          "chance": 60,
-          "repeat": [ 3 ],
-          "x": [ 0, 0 ],
-          "y": [ 12, 12 ]
-        },
-        {
-          "group": "vehicle_scrapped",
-          "chance": 60,
-          "repeat": [ 3 ],
-          "x": [ 1, 1 ],
-          "y": [ 12, 12 ]
-        },
-        {
-          "group": "vehicle_scrapped",
-          "chance": 60,
-          "repeat": [ 3 ],
-          "x": [ 2, 2 ],
-          "y": [ 12, 12 ]
-        },
-        {
-          "group": "tools_construction",
-          "chance": 60,
-          "repeat": [ 3 ],
-          "x": [ 0, 0 ],
-          "y": [ 13, 13 ]
-        },
-        {
-          "group": "tools_construction",
-          "chance": 60,
-          "repeat": [ 3 ],
-          "x": [ 1, 1 ],
-          "y": [ 13, 13 ]
-        }
+        { "group": "vehicle_scrapped", "chance": 60, "repeat": [ 3 ], "x": [ 0, 0 ], "y": [ 12, 12 ] },
+        { "group": "vehicle_scrapped", "chance": 60, "repeat": [ 3 ], "x": [ 1, 1 ], "y": [ 12, 12 ] },
+        { "group": "vehicle_scrapped", "chance": 60, "repeat": [ 3 ], "x": [ 2, 2 ], "y": [ 12, 12 ] },
+        { "group": "tools_construction", "chance": 60, "repeat": [ 3 ], "x": [ 0, 0 ], "y": [ 13, 13 ] },
+        { "group": "tools_construction", "chance": 60, "repeat": [ 3 ], "x": [ 1, 1 ], "y": [ 13, 13 ] }
       ],
-	  "place_vehicles": [{ "vehicle": "cube_van", "x": [ 7, 7 ], "y": [ 2, 2 ], "chance": 80, "rotation": 270 }]
+      "place_vehicles": [ { "vehicle": "cube_van", "x": [ 7, 7 ], "y": [ 2, 2 ], "chance": 80, "rotation": 270 } ]
     }
   }
 ]

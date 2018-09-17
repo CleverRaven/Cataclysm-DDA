@@ -32,7 +32,7 @@
         "zzeaaaaaezzzzzzzzzzzzzzz"
       ],
       "terrain": {
-	    "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "a": "t_pavement",
         "b": "t_wall",
         "c": "t_door_c",
@@ -52,7 +52,7 @@
         "q": "t_pavement"
       },
       "furniture": { "h": "f_table", "q": "f_dumpster" },
-	  "gaspumps": { "l": {  } },
+      "gaspumps": { "l": {  } },
       "place_loot": [
         { "group": "office_mess", "chance": 80, "repeat": [ 3 ], "x": [ 10, 13 ], "y": [ 2, 5 ] },
         { "group": "office_mess", "chance": 80, "repeat": [ 1 ], "x": [ 11, 13 ], "y": [ 7, 7 ] },

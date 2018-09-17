@@ -82,17 +82,9 @@
         { "group": "bar_trash", "chance": 50, "repeat": [ 5 ], "x": [ 15, 15 ], "y": [ 11, 11 ] },
         { "group": "office", "chance": 50, "repeat": [ 5 ], "x": [ 9, 9 ], "y": [ 10, 14 ] },
         { "group": "vending_food", "chance": 80, "repeat": [ 1 ], "x": [ 16, 16 ], "y": [ 5, 5 ] },
-        {
-          "group": "vending_drink",
-          "chance": 80,
-          "repeat": [ 1 ],
-          "x": [ 16, 16 ],
-          "y": [ 6, 6 ]
-        }
+        { "group": "vending_drink", "chance": 80, "repeat": [ 1 ], "x": [ 16, 16 ], "y": [ 6, 6 ] }
       ],
-	  "place_vehicles": [
-		{ "vehicle": "dealership", "x": [ 14, 14 ], "y": [ 19, 19 ], "chance": 50, "rotation": 0 }
-      ]
+      "place_vehicles": [ { "vehicle": "dealership", "x": [ 14, 14 ], "y": [ 19, 19 ], "chance": 50, "rotation": 0 } ]
     }
   }
 ]

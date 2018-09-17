@@ -72,7 +72,7 @@
         "w": "f_vending_c",
         "x": "f_trashcan"
       },
-	  "toilets": { "r": {  } },
+      "toilets": { "r": {  } },
       "place_loot": [
         { "group": "office", "chance": 80, "repeat": [ 2 ], "x": [ 14, 14 ], "y": [ 8, 9 ] },
         { "group": "office", "chance": 80, "repeat": [ 2 ], "x": [ 10, 10 ], "y": [ 7, 8 ] },
@@ -98,54 +98,18 @@
         { "group": "textbooks", "chance": 60, "repeat": [ 2 ], "x": [ 9, 9 ], "y": [ 12, 12 ] },
         { "group": "textbooks", "chance": 60, "repeat": [ 2 ], "x": [ 11, 11 ], "y": [ 12, 12 ] },
         { "group": "textbooks", "chance": 80, "repeat": [ 10 ], "x": [ 14, 14 ], "y": [ 10, 10 ] },
-        {
-          "group": "office_mess",
-          "chance": 80,
-          "repeat": [ 10 ],
-          "x": [ 22, 22 ],
-          "y": [ 13, 13 ]
-        },
+        { "group": "office_mess", "chance": 80, "repeat": [ 10 ], "x": [ 22, 22 ], "y": [ 13, 13 ] },
         { "group": "office_mess", "chance": 60, "repeat": [ 10 ], "x": [ 1, 4 ], "y": [ 12, 14 ] },
         { "group": "office_mess", "chance": 60, "repeat": [ 10 ], "x": [ 9, 6 ], "y": [ 14, 12 ] },
-        {
-          "group": "office_mess",
-          "chance": 60,
-          "repeat": [ 10 ],
-          "x": [ 14, 11 ],
-          "y": [ 12, 14 ]
-        },
-        {
-          "group": "office_mess",
-          "chance": 60,
-          "repeat": [ 10 ],
-          "x": [ 22, 19 ],
-          "y": [ 12, 14 ]
-        },
+        { "group": "office_mess", "chance": 60, "repeat": [ 10 ], "x": [ 14, 11 ], "y": [ 12, 14 ] },
+        { "group": "office_mess", "chance": 60, "repeat": [ 10 ], "x": [ 22, 19 ], "y": [ 12, 14 ] },
         { "group": "vending_food", "chance": 80, "repeat": [ 1 ], "x": [ 20, 20 ], "y": [ 8, 8 ] },
-        {
-          "group": "vending_drink",
-          "chance": 80,
-          "repeat": [ 1 ],
-          "x": [ 21, 21 ],
-          "y": [ 8, 8 ]
-        },
+        { "group": "vending_drink", "chance": 80, "repeat": [ 1 ], "x": [ 21, 21 ], "y": [ 8, 8 ] },
         { "group": "magazines", "chance": 80, "repeat": [ 2 ], "x": [ 19, 16 ], "y": [ 4, 6 ] },
-        {
-          "group": "cleaning_bulk",
-          "chance": 80,
-          "repeat": [ 2 ],
-          "x": [ 21, 21 ],
-          "y": [ 6, 6 ]
-        },
+        { "group": "cleaning_bulk", "chance": 80, "repeat": [ 2 ], "x": [ 21, 21 ], "y": [ 6, 6 ] },
         { "group": "vault", "chance": 60, "repeat": [ 2 ], "x": [ 4, 4 ], "y": [ 4, 4 ] },
         { "group": "office_mess", "chance": 60, "repeat": [ 4 ], "x": [ 1, 4 ], "y": [ 4, 8 ] },
-        {
-          "group": "floor_trash",
-          "chance": 60,
-          "repeat": [ 5 ],
-          "x": [ 18, 18 ],
-          "y": [ 10, 10 ]
-        },
+        { "group": "floor_trash", "chance": 60, "repeat": [ 5 ], "x": [ 18, 18 ], "y": [ 10, 10 ] },
         { "group": "floor_trash", "chance": 60, "repeat": [ 5 ], "x": [ 6, 6 ], "y": [ 9, 9 ] },
         { "group": "office_mess", "chance": 60, "repeat": [ 10 ], "x": [ 6, 14 ], "y": [ 10, 4 ] }
       ]

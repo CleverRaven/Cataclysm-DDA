@@ -31,12 +31,8 @@
         "zzaaaaaaaaaaaaaaaaaaaazz",
         "zzabaaaaaaaaaaaaaaaabazz"
       ],
-      "terrain": { 
-	    "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-		"a": "t_pavement", 
-		"b": "t_pavement_y", 
-		"c": "t_chainfence_v" },
-      "furniture": {}
+      "terrain": { "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ], "a": "t_pavement", "b": "t_pavement_y", "c": "t_chainfence_v" },
+      "furniture": {  }
     }
   }
 ]
