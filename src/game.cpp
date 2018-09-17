@@ -7380,8 +7380,8 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             }
 
             const int dz = ( action == "LEVEL_UP" ? 1 : -1 );
-            lz = clamp( -OVERMAP_DEPTH, lz + dz, OVERMAP_HEIGHT );
-            center.z = clamp( -OVERMAP_DEPTH, center.z + dz, OVERMAP_HEIGHT );
+            lz = clamp( lz + dz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+            center.z = clamp( center.z + dz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
 
             add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
@@ -7410,6 +7410,8 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
             ctxt.get_coordinates( w_terrain, lx, ly );
+            lx = clamp( lx, 0, MAPSIZE * SEEX );
+            ly = clamp( ly, 0, MAPSIZE * SEEY );
             blink = false;
             if( lp == old_lp ) {
                 redraw = false;
@@ -7420,10 +7422,10 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 dy *= soffset;
             }
 
-            lx = clamp( 0, lx + dx, MAPSIZE * SEEX );
-            ly = clamp( 0, ly + dy, MAPSIZE * SEEY );
-            center.x = clamp( 0, center.x + dx, MAPSIZE * SEEX );
-            center.y = clamp( 0, center.y + dy, MAPSIZE * SEEY );
+            lx = clamp( lx + dx, 0, MAPSIZE * SEEX );
+            ly = clamp( ly + dy, 0, MAPSIZE * SEEY );
+            center.x = clamp( center.x + dx, 0, MAPSIZE * SEEX );
+            center.y = clamp( center.y + dy, 0, MAPSIZE * SEEY );
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" );
 
