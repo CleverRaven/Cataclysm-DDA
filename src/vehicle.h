@@ -1344,8 +1344,6 @@ class vehicle
 
         float alternator_load;
 
-        // Points occupied by the vehicle
-        std::set<tripoint> occupied_points;
         /// Time occupied points were calculated.
         time_point occupied_cache_time = calendar::before_time_starts;
 
@@ -1428,6 +1426,9 @@ class vehicle
         mutable bool pivot_dirty;
         // cached pivot point
         mutable point pivot_cache;
+
+        // Cached points occupied by the vehicle
+        std::set<tripoint> occupied_points;
 
         void refresh_mass() const;
         void calc_mass_center( bool precalc ) const;
