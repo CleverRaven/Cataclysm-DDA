@@ -150,14 +150,8 @@ class zone_manager
                         const tripoint &start, const tripoint &end,
                         std::shared_ptr<zone_options> options = nullptr );
 
-        bool remove( const size_t index ) {
-            if( index < zones.size() ) {
-                zones.erase( zones.begin() + index );
-                return true;
-            }
-
-            return false;
-        }
+        bool remove( const size_t index );
+        bool remove( zone_data &zone );
 
         unsigned int size() const {
             return zones.size();
