@@ -7382,6 +7382,10 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
             refresh_all();
+            if( select_zone && has_first_point ) { // is blinking
+                // becomes blink = true in the next redraw, so blink symbols are always drawn when moving cursor
+                blink = false;
+            }
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
                 add_msg( _( "You can't see that destination." ) );
@@ -7408,9 +7412,15 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             ctxt.get_coordinates( w_terrain, lx, ly );
             lx = clamp( lx, 0, MAPSIZE * SEEX );
             ly = clamp( ly, 0, MAPSIZE * SEEY );
-            blink = false;
-            if( lp == old_lp ) {
-                redraw = false;
+            if( select_zone && has_first_point ) { // is blinking
+                if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
+                    redraw = false; // no need to redraw, so don't redraw to save CPU
+                } else {
+                    // becomes blink = true in the next redraw, so blink symbols are always drawn when moving cursor
+                    blink = false;
+                }
+            } else if( lp == old_lp ) { // not blinking and cursor not changed
+                redraw = false; // no need to redraw, so don't redraw to save CPU
             }
         } else if( ctxt.get_direction( dx, dy, action ) ) {
             if( fast_scroll ) {
@@ -7422,6 +7432,10 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             ly = clamp( ly + dy, 0, MAPSIZE * SEEY );
             center.x = clamp( center.x + dx, 0, MAPSIZE * SEEX );
             center.y = clamp( center.y + dy, 0, MAPSIZE * SEEY );
+            if( select_zone && has_first_point ) { // is blinking
+                // becomes blink = true in the next redraw, so blink symbols are always drawn when moving cursor
+                blink = false;
+            }
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" );
 
