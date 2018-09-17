@@ -36,6 +36,7 @@
 #include "cursesport.h"
 #include "rect_range.h"
 #include "clzones.h"
+#include "mod_tileset.h"
 
 #include <cassert>
 #include <algorithm>
@@ -608,6 +609,72 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
     // Load tile information if available.
     offset = 0;
+    load_internal( config, tileset_root, img_path );
+
+    // Load mod tilesets if available
+    for( auto mts : all_mod_tilesets ) {
+        // Set sprite_id offset to separate from other tilesets.
+        sprite_id_offset = offset;
+        tileset_root = mts->get_base_path();
+        json_path = mts->get_full_path();
+
+        if( !mts->is_compatible( tileset_id ) ) {
+            dbg( D_ERROR ) << "Mod tileset in \"" << json_path << "\" is not compatible.";
+            return;
+        }
+        dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
+        std::ifstream mod_config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
+
+        if( !mod_config_file.good() ) {
+            throw std::runtime_error( std::string( "Failed to open tile info json: " ) + json_path );
+        }
+
+        JsonIn mod_config_json( mod_config_file );
+
+        int num_in_file = 1;
+        if( mod_config_json.test_array() ) {
+            JsonArray mod_config_array = mod_config_json.get_array();
+            while( mod_config_array.has_more() ) {
+                JsonObject mod_config = mod_config_array.next_object();
+                if( mod_config.get_string( "type" ) == "mod_tileset" ) {
+                    if( num_in_file == mts->num_in_file() ) {
+                        load_internal( mod_config, tileset_root, img_path );
+                        break;
+                    }
+                    num_in_file++;
+                }
+            }
+        } else {
+            JsonObject mod_config = mod_config_json.get_object();
+            load_internal( mod_config, tileset_root, img_path );
+        }
+    }
+
+    // loop through all tile ids and eliminate empty/invalid things
+    for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
+        auto &td = it->second;        // second is the tile_type describing that id
+        process_variations_after_loading( td.fg );
+        process_variations_after_loading( td.bg );
+        // All tiles need at least foreground or background data, otherwise they are useless.
+        if( td.bg.empty() && td.fg.empty() ) {
+            dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
+            ts.tile_ids.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+
+    if( !ts.find_tile_type( "unknown" ) ) {
+        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
+    }
+    ensure_default_item_highlight();
+
+    ts.tileset_id = tileset_id;
+}
+
+void tileset_loader::load_internal( JsonObject &config, const std::string &tileset_root,
+                                    const std::string &img_path )
+{
     if( config.has_array( "tiles-new" ) ) {
         // new system, several entries
         // When loading multiple tileset images this defines where
@@ -664,27 +731,6 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
-
-    // loop through all tile ids and eliminate empty/invalid things
-    for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
-        auto &td = it->second;        // second is the tile_type describing that id
-        process_variations_after_loading( td.fg );
-        process_variations_after_loading( td.bg );
-        // All tiles need at least foreground or background data, otherwise they are useless.
-        if( td.bg.empty() && td.fg.empty() ) {
-            dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
-            ts.tile_ids.erase( it++ );
-        } else {
-            ++it;
-        }
-    }
-
-    if( !ts.find_tile_type( "unknown" ) ) {
-        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
-    }
-    ensure_default_item_highlight();
-
-    ts.tileset_id = tileset_id;
 }
 
 void tileset_loader::process_variations_after_loading( weighted_int_list<std::vector<int>> &vs )
@@ -923,7 +969,7 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
         if( g_array.test_int() ) {
             std::vector<int> v;
             while( g_array.has_more() ) {
-                const int sprite_id = g_array.next_int();
+                const int sprite_id = g_array.next_int() + sprite_id_offset;
                 if( sprite_id >= 0 ) {
                     v.push_back( sprite_id );
                 }
@@ -943,7 +989,7 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
                 }
                 // int sprite means one sprite
                 if( vo.has_int( "sprite" ) ) {
-                    const int sprite_id = vo.get_int( "sprite" );
+                    const int sprite_id = vo.get_int( "sprite" ) + sprite_id_offset;
                     if( sprite_id >= 0 ) {
                         v.push_back( sprite_id );
                     }
@@ -952,7 +998,7 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
                 else if( vo.has_array( "sprite" ) ) {
                     JsonArray sprites = vo.get_array( "sprite" );
                     while( sprites.has_more() ) {
-                        const int sprite_id = sprites.next_int();
+                        const int sprite_id = sprites.next_int() + sprite_id_offset;
                         if( sprite_id >= 0 && sprite_id < size ) {
                             v.push_back( sprite_id );
                         } else {
@@ -972,7 +1018,7 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
     }
     // json int indicates a single sprite id
     else if( entry.has_int( objname ) && entry.get_int( objname ) >= 0 ) {
-        vs.add( std::vector<int>( {entry.get_int( objname )} ), 1 );
+        vs.add( std::vector<int>( {entry.get_int( objname ) + sprite_id_offset} ), 1 );
     }
 }
 
@@ -3119,5 +3165,4 @@ void cata_tiles::tile_loading_report( arraytype const &array, int array_length,
         return v->id;
     }, label, prefix );
 }
-
 #endif // SDL_TILES
