@@ -662,6 +662,17 @@ void player::complete_craft()
 
         if( should_heat ) {
             newit.heat_up();
+        } else {
+            // Really what we should be doing is averaging the temperatures
+            // between the recipe components if we don't have a heat tool, but
+            // that's kind of hard.  For now just reset the temperature, don't
+            // forget byproducts below either when you fix this.
+            //
+            // Also, this is going to reset the temperature on non-food items
+            // as well.  This isn't a big deal because they don't care about
+            // temperature (yet?) and it's actually more costly to check for
+            // is_food() than just reset the timer.
+            newit.reset_temp_check();
         }
 
         finalize_crafted_item( newit, used_age_tally, used_age_count );
@@ -673,6 +684,8 @@ void player::complete_craft()
         for( auto &bp : bps ) {
             if( should_heat ) {
                 bp.heat_up();
+            } else {
+                bp.reset_temp_check();
             }
             finalize_crafted_item( bp, used_age_tally, used_age_count );
             set_item_inventory( bp );
