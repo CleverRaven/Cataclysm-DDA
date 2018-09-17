@@ -7225,11 +7225,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     draw_ter( center );
     wrefresh( w_terrain );
 
-    //change player location to peek location temporarily for minimap update
-    tripoint current_pos = u.pos();
-    u.setpos( center ); // bug if view_offset is none-zero??
     draw_pixel_minimap();
-    u.setpos( current_pos );
 
     int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
     bool fast_scroll = false;
