@@ -2090,4 +2090,4 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 
 ## `tiles-new`
 
-Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. 
+Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.

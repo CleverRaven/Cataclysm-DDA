@@ -354,7 +354,7 @@ class tileset_loader
          */
         void load_tilejson_from_file( JsonObject &config );
         /**
-         * Helper functions called by load.
+         * Helper function called by load.
          * @throw std::exception On any error.
          */
         void load_internal( JsonObject &config, const std::string &tileset_root,
