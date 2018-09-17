@@ -32,7 +32,7 @@
         "                        "
       ],
       "terrain": { "a": "t_wall", "b": "t_floor", "c": "t_stairs_down", "d": "t_stairs_up" },
-      "furniture": {}
+      "furniture": {  }
     }
   }
 ]

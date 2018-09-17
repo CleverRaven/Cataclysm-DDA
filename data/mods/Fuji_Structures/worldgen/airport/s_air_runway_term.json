@@ -31,16 +31,15 @@
         "zadaaaaaaaaaaaaaaaaaaaaz",
         "zadaaaaaaaaaaaaaaaaaaaaz"
       ],
-      "terrain": { 
-	    "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-		"a": "t_pavement", 
-		"b": "t_pavement_y", 
-		"c": "t_chainfence_v", 
-		"d": "t_conveyor" },
-      "furniture": {},
-	  "place_vehicles": [
-		{ "vehicle": "golf_cart", "x": [ 4, 21 ], "y": [ 19, 23 ], "chance": 100, "rotation": 270 }
-      ]
+      "terrain": {
+        "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "a": "t_pavement",
+        "b": "t_pavement_y",
+        "c": "t_chainfence_v",
+        "d": "t_conveyor"
+      },
+      "furniture": {  },
+      "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 4, 21 ], "y": [ 19, 23 ], "chance": 100, "rotation": 270 } ]
     }
   }
 ]

@@ -64,7 +64,7 @@
         "p": "f_bed",
         "q": "f_dresser"
       },
-	  "toilets": { "n": {  } },
+      "toilets": { "n": {  } },
       "place_loot": [
         { "group": "bed", "chance": 50, "repeat": [ 2 ], "x": [ 2, 2 ], "y": [ 9, 10 ] },
         { "group": "bed", "chance": 50, "repeat": [ 2 ], "x": [ 2, 2 ], "y": [ 1, 2 ] },
@@ -102,13 +102,7 @@
         { "group": "allclothes", "chance": 50, "repeat": [ 5 ], "x": [ 21, 21 ], "y": [ 15, 15 ] },
         { "group": "allclothes", "chance": 50, "repeat": [ 5 ], "x": [ 21, 21 ], "y": [ 17, 17 ] },
         { "group": "allclothes", "chance": 50, "repeat": [ 5 ], "x": [ 4, 4 ], "y": [ 8, 8 ] },
-        {
-          "group": "clothing_female",
-          "chance": 50,
-          "repeat": [ 5 ],
-          "x": [ 1, 1 ],
-          "y": [ 1, 1 ]
-        },
+        { "group": "clothing_female", "chance": 50, "repeat": [ 5 ], "x": [ 1, 1 ], "y": [ 1, 1 ] },
         { "group": "clothing_male", "chance": 50, "repeat": [ 5 ], "x": [ 4, 4 ], "y": [ 1, 1 ] },
         { "group": "homebooks", "chance": 50, "repeat": [ 2 ], "x": [ 7, 7 ], "y": [ 6, 6 ] },
         { "group": "homebooks", "chance": 50, "repeat": [ 2 ], "x": [ 7, 7 ], "y": [ 13, 13 ] },

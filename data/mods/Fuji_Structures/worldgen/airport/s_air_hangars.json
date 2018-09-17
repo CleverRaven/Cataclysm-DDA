@@ -46,27 +46,9 @@
       "place_loot": [
         { "group": "road", "chance": 50, "repeat": [ 10 ], "x": [ 3, 8 ], "y": [ 7, 20 ] },
         { "group": "road", "chance": 50, "repeat": [ 10 ], "x": [ 15, 20 ], "y": [ 20, 7 ] },
-        {
-          "group": "clothing_work_mask",
-          "chance": 50,
-          "repeat": [ 2 ],
-          "x": [ 9, 9 ],
-          "y": [ 7, 7 ]
-        },
-        {
-          "group": "clothing_work_mask",
-          "chance": 50,
-          "repeat": [ 2 ],
-          "x": [ 15, 15 ],
-          "y": [ 21, 21 ]
-        },
-        {
-          "group": "tools_mechanic",
-          "chance": 50,
-          "repeat": [ 4 ],
-          "x": [ 16, 16 ],
-          "y": [ 21, 21 ]
-        },
+        { "group": "clothing_work_mask", "chance": 50, "repeat": [ 2 ], "x": [ 9, 9 ], "y": [ 7, 7 ] },
+        { "group": "clothing_work_mask", "chance": 50, "repeat": [ 2 ], "x": [ 15, 15 ], "y": [ 21, 21 ] },
+        { "group": "tools_mechanic", "chance": 50, "repeat": [ 4 ], "x": [ 16, 16 ], "y": [ 21, 21 ] },
         { "group": "tools_mechanic", "chance": 50, "repeat": [ 4 ], "x": [ 9, 9 ], "y": [ 8, 8 ] }
       ]
     }
