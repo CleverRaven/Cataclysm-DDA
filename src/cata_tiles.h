@@ -489,6 +489,10 @@ class cata_tiles
         void draw_line();
         void void_line();
 
+        void init_draw_cursor( const tripoint &p );
+        void draw_cursor();
+        void void_cursor();
+
         void init_draw_weather( weather_printable weather, std::string name );
         void draw_weather_frame();
         void void_weather();
@@ -573,6 +577,7 @@ class cata_tiles
         bool do_draw_bullet;
         bool do_draw_hit;
         bool do_draw_line;
+        bool do_draw_cursor;
         bool do_draw_weather;
         bool do_draw_sct;
         bool do_draw_zones;
@@ -592,6 +597,8 @@ class cata_tiles
         bool is_target_line;
         std::vector<tripoint> line_trajectory;
         std::string line_endpoint_id;
+
+        std::vector<tripoint> cursors;
 
         weather_printable anim_weather;
         std::string weather_name;

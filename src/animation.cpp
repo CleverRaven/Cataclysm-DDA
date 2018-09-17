@@ -588,6 +588,19 @@ void game::draw_line( const tripoint &p, std::vector<tripoint> const &vPoint )
 }
 #endif
 
+#if defined(TILES)
+void game::draw_cursor( const tripoint &p )
+{
+    tilecontext->init_draw_cursor( p );
+}
+#else
+void game::draw_cursor( const tripoint &p )
+{
+    tripoint const rp = relative_view_pos( g.u, p );
+    mvwputch_inv( g.w_terrain, rp.y, rp.x, c_light_green, 'X' );
+}
+#endif
+
 namespace
 {
 void draw_weather_curses( const catacurses::window &win, weather_printable const &w )

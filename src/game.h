@@ -813,6 +813,7 @@ class game
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
+        void draw_cursor( const tripoint &p );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**

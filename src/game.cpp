@@ -7212,21 +7212,22 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
-    tripoint lp = u.pos() + u.view_offset;
+    tripoint lp = u.pos() + u.view_offset; // cursor
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
+    tripoint center = lp; // center of view
 
     if( select_zone && has_first_point ) {
-        lp = start_point;
+        center = lp = start_point;
     }
 
-    draw_ter( lp );
+    draw_ter( center );
     wrefresh( w_terrain );
 
     //change player location to peek location temporarily for minimap update
     tripoint current_pos = u.pos();
-    u.setpos( lp );
+    u.setpos( center ); // bug if view_offset is none-zero??
     draw_pixel_minimap();
     u.setpos( current_pos );
 
@@ -7261,8 +7262,8 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     } else {
         ctxt.register_action( "TRAVEL_TO" );
         ctxt.register_action( "LIST_ITEMS" );
-        ctxt.register_action( "MOUSE_MOVE" );
     }
+    ctxt.register_action( "MOUSE_MOVE" );
 
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "CONFIRM" );
@@ -7343,11 +7344,11 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 }
 
                 //Draw first point
-                mvwputch_inv( w_terrain, dy, dx, c_light_green, 'X' );
+                g->draw_cursor( start_point );
             }
 
             //Draw select cursor
-            mvwputch_inv( w_terrain, POSY, POSX, c_light_green, 'X' );
+            g->draw_cursor( lp );
 
         } else {
             //Look around
@@ -7361,17 +7362,15 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             }
 
             wrefresh( w_info );
+
+            g->draw_cursor( lp );
         }
 
         if( !is_draw_tiles_mode() && action != "MOUSE_MOVE" ) {
             // When tiles are disabled, this refresh is required to update the
             // selected terrain square with highlighted ASCII coloring. When
             // tiles are enabled, the selected square isn't highlighted using
-            // this function, and it is too CPU-intensive to call repeatedly
-            // in a mouse event loop. If we did want to highlight the tile
-            // selected by the mouse, we could call wrefresh when the mouse
-            // hovered over a new tile (rather than on every mouse move
-            // event).
+            // this function.
             wrefresh( w_terrain );
         }
 
@@ -7379,11 +7378,12 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             inp_mngr.set_timeout( BLINK_SPEED );
         }
 
+        int dx, dy;
         //Wait for input
         action = ctxt.handle_input();
         if( action == "LIST_ITEMS" ) {
             list_items_monsters();
-            draw_ter( lp, true );
+            draw_ter( center, true );
             wrefresh( w_terrain );
 
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
@@ -7393,17 +7393,13 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 continue;
             }
 
-            int new_levz = lp.z + ( action == "LEVEL_UP" ? 1 : -1 );
-            if( new_levz > OVERMAP_HEIGHT ) {
-                new_levz = OVERMAP_HEIGHT;
-            } else if( new_levz < -OVERMAP_DEPTH ) {
-                new_levz = -OVERMAP_DEPTH;
-            }
+            const int dz = ( action == "LEVEL_UP" ? 1 : -1 );
+            lz = clamp( -OVERMAP_DEPTH, lz + dz, OVERMAP_HEIGHT );
+            center.z = clamp( -OVERMAP_DEPTH, center.z + dz, OVERMAP_HEIGHT );
 
-            add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
-            u.view_offset.z = new_levz - u.posz();
-            lp.z = new_levz;
-            draw_ter( lp, true );
+            add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), center.z );
+            u.view_offset.z = center.z - u.posz();
+            draw_ter( center, true );
             refresh_all();
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
@@ -7427,45 +7423,33 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
             draw_sidebar();
-            draw_ter( lp, true );
+            draw_ter( center, true );
             wrefresh( w_terrain );
-        } else if( !ctxt.get_coordinates( w_terrain, lx, ly ) && action != "MOUSE_MOVE" ) {
-            int dx = 0;
-            int dy = 0;
-            ctxt.get_direction( dx, dy, action );
-
-            if( dx == -2 ) {
-                dx = 0;
-                dy = 0;
-            } else {
-                if( fast_scroll ) {
-                    dx *= soffset;
-                    dy *= soffset;
-                }
+        } else if( action == "MOUSE_MOVE" ) {
+            ctxt.get_coordinates( w_terrain, lx, ly );
+            blink = false;
+            draw_ter( center, true ); // @todo does graphics lag behind cursor position?
+            wrefresh( w_terrain );
+        } else if( ctxt.get_direction( dx, dy, action ) ) {
+            if( fast_scroll ) {
+                dx *= soffset;
+                dy *= soffset;
             }
 
-            lx += dx;
-            ly += dy;
+            lx = clamp( 0, lx + dx, MAPSIZE * SEEX );
+            ly = clamp( 0, ly + dy, MAPSIZE * SEEY );
+            center.x = clamp( 0, center.x + dx, MAPSIZE * SEEX );
+            center.y = clamp( 0, center.y + dy, MAPSIZE * SEEY );
 
-            //Keep cursor inside the reality bubble
-            if( lx < 0 ) {
-                lx = 0;
-            } else if( lx > MAPSIZE * SEEX ) {
-                lx = MAPSIZE * SEEX;
-            }
-
-            if( ly < 0 ) {
-                ly = 0;
-            } else if( ly > MAPSIZE * SEEY ) {
-                ly = MAPSIZE * SEEY;
-            }
-
-            draw_ter( lp, true );
+            draw_ter( center, true );
+            wrefresh( w_terrain );
+        } else if( action == "TIMEOUT" ) {
+            draw_ter( center, true );
             wrefresh( w_terrain );
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" );
 
-    if( m.has_zlevels() && lp.z != old_levz ) {
+    if( m.has_zlevels() && center.z != old_levz ) {
         m.build_map_cache( old_levz );
         u.view_offset.z = 0;
     }
