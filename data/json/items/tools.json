@@ -5663,6 +5663,24 @@
     "use_action": "HEAT_FOOD"
   },
   {
+    "id": "pot_canning",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "canning pot",
+    "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  It includes an integrated rack with handles to make it easier to put the jars in and take them out of the boiling water.",
+    "weight": 5625,
+    "volume": 100,
+    "price": 20000,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": "steel",
+    "symbol": ")",
+    "color": "dark_gray",
+    "container_data": { "contains": 100, "watertight": true },
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": "HEAT_FOOD"
+  },
+  {
     "id": "press",
     "type": "TOOL",
     "name": "hand press & die set",
