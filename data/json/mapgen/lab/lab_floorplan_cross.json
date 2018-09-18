@@ -454,7 +454,7 @@
           "name": "Bionic Vault", "security": 3,
           "options": [
             { "name": "MANIFEST", "action": "list_bionics", "security": 0 },
-            { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 7 }
+            { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 }
           ],
           "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
         }
@@ -470,8 +470,7 @@
         "6": {
           "name": "Advanced PE012 Samples", "security": 3,
           "options": [
-            { "name": "MANIFEST", "action": "list_bionics", "security": 0 },
-            { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 }
+            { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 }
           ],
           "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
         }
@@ -509,7 +508,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 11, 12 ], "y": [ 2, 5 ], "chance": 25 } ]
     }
   },
   {
@@ -544,7 +544,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 11, 12 ], "y": [ 2, 5 ], "chance": 10 } ]
     }
   },
   {
@@ -579,7 +580,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 2, 5 ], "y": [ 11, 12 ], "chance": 25 } ]
     }
   },
   {
@@ -614,7 +616,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 2, 5 ], "y": [ 11, 12 ], "chance": 10 } ]
     }
   },
   {
@@ -649,7 +652,8 @@
         "         ------         ",
         "####################### "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 11, 12 ], "y": [ 18, 21 ], "chance": 25 } ]
     }
   },
   {
@@ -684,7 +688,8 @@
         "         ------         ",
         "####################### "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 11, 12 ], "y": [ 18, 21 ], "chance": 10 } ]
     }
   },
   {
@@ -719,7 +724,8 @@
         "                       #",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 18, 21 ], "y": [ 11, 12 ], "chance": 25 } ]
     }
   },
   {
@@ -754,7 +760,8 @@
         "                       #",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 18, 21 ], "y": [ 11, 12 ], "chance": 10 } ]
     }
   }
 ]

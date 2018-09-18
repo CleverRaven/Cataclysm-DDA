@@ -201,7 +201,8 @@
         "|-------"
       ],
       "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "terrain": { "M": "t_wall_metal" }
+      "terrain": { "M": "t_wall_metal" },
+      "place_monster": [ { "monster": "mon_turret", "x": 5, "y": 3, "chance": 25 } ]
     }
   },
   {
@@ -222,7 +223,8 @@
         "|#######"
       ],
       "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "terrain": { "M": "t_wall_metal" }
+      "terrain": { "M": "t_wall_metal" },
+      "place_monster": [ { "monster": "mon_turret", "x": 5, "y": 3, "chance": 10 } ]
     }
   },
   {
