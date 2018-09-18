@@ -358,6 +358,7 @@ void computer::activate_function( computer_action action )
         // OPEN_DISARM falls through to just OPEN
         case COMPACT_OPEN_DISARM:
             remove_submap_turrets();
+        /* fallthrough */
         case COMPACT_OPEN:
             g->m.translate_radius( t_door_metal_locked, t_floor, 25.0, g->u.pos(), true );
             query_any( _( "Doors opened.  Press any key..." ) );
@@ -377,6 +378,7 @@ void computer::activate_function( computer_action action )
         // UNLOCK_DISARM falls through to just UNLOCK
         case COMPACT_UNLOCK_DISARM:
             remove_submap_turrets();
+        /* fallthrough */
         case COMPACT_UNLOCK:
             g->m.translate_radius( t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos(), true );
             query_any( _( "Lock disabled.  Press any key..." ) );
@@ -438,6 +440,7 @@ void computer::activate_function( computer_action action )
         // COMPACT_RELEASE_DISARM falls through to just COMPACT_RELEASE_BIONICS
         case COMPACT_RELEASE_DISARM:
             remove_submap_turrets();
+        /* fallthrough */
         case COMPACT_RELEASE_BIONICS:
             sounds::sound( g->u.pos(), 40, _( "an alarm sound!" ) );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
