@@ -12,7 +12,7 @@
     "noise_factor": 15,
     "damaged_power_factor": 0.25,
     "m2c": 50,
-    "flags": [ "ENGINE", "TOOL_WRENCH", "E_COMBUSTION", "E_ALTERNATOR", "E_HIGHER_SKILL" ],
+    "flags": [ "ENGINE", "TOOL_WRENCH", "E_COMBUSTION", "E_ALTERNATOR", "E_HIGHER_SKILL", "E_HEATER" ],
     "description": "A combustion engine.  Burns fuel from a tank in the vehicle."
   },
   {

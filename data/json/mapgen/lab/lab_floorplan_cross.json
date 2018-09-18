@@ -40,7 +40,7 @@
         { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
         { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": [0,1], "neighbors": { "north": ["lab", "open_air"], "east": ["lab", "open_air"] } },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
+        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
       ]
     }
@@ -86,7 +86,7 @@
         { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
         { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": [0,1], "neighbors": { "north": ["lab", "open_air"], "east": ["lab", "open_air"] } },
         { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
+        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
       ]
     }
@@ -446,17 +446,34 @@
   {
     "type": "palette",
     "id": "lab_loot_bionic_vault",
-    "mapping": { "c": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] }
+    "mapping": { "r": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] }
     },
-    "terrain": { "c": "t_floor_blue" },
+    "terrain": { "r": "t_strconc_floor" },
     "computers": {
         "6": {
-          "name": "Bionic Vault", "security": 6,
+          "name": "Bionic Vault", "security": 3,
           "options": [
             { "name": "MANIFEST", "action": "list_bionics", "security": 0 },
             { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 7 }
           ],
           "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
+        }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "lab_loot_serum_vault",
+    "mapping": { "r": { "items": [ { "item": "mut_iv", "chance": 50 } ] }
+    },
+    "terrain": { "r": "t_strconc_floor" },
+    "computers": {
+        "6": {
+          "name": "Advanced PE012 Samples", "security": 3,
+          "options": [
+            { "name": "MANIFEST", "action": "list_bionics", "security": 0 },
+            { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
         }
     }
   },
@@ -469,10 +486,10 @@
       "rows": [
         "          ####          ",
         "         ------         ",
-        "         |c,,c|         ",
-        "         |c,,c|         ",
-        "         |c,,c|         ",
-        "         |c,,c|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
         "         |-,,-|         ",
         "          |,,|          ",
         "          |,,|          ",
@@ -480,8 +497,78 @@
         "         |...6|         ",
         "                        ",
         "                        ",
-        "          -  -          ",
         "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_n_vault",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "          ####          ",
+        "         ------         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |-,,-|         ",
+        "          |,,|          ",
+        "          |,,|          ",
+        "         --LL--         ",
+        "         |...6|         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_w_vault",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ------  --             ",
+        "#|rrrr|--|6  -          ",
+        "#|,,,,,,,L.             ",
+        "#|,,,,,,,L.             ",
+        "#|rrrr|--|.             ",
+        " ------  --             ",
         "                        ",
         "                        ",
         "                        ",
@@ -512,10 +599,10 @@
         "                        ",
         "                        ",
         " ------  --             ",
-        "#|cccc|--|6  -          ",
+        "#|rrrr|--|6  -          ",
         "#|,,,,,,,L.             ",
         "#|,,,,,,,L.             ",
-        "#|cccc|--|.  -          ",
+        "#|rrrr|--|.             ",
         " ------  --             ",
         "                        ",
         "                        ",
@@ -526,6 +613,41 @@
         "                        ",
         "                        ",
         "                        "
+      ],
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_s_vault",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          -  -          ",
+        "                        ",
+        "                        ",
+        "         |6...|         ",
+        "         --LL--         ",
+        "          |,,|          ",
+        "          |,,|          ",
+        "         |-,,-|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         ------         ",
+        "####################### "
       ],
       "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
@@ -555,12 +677,47 @@
         "          |,,|          ",
         "          |,,|          ",
         "         |-,,-|         ",
-        "         |c,,c|         ",
-        "         |c,,c|         ",
-        "         |c,,c|         ",
-        "         |c,,c|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
+        "         |r,,r|         ",
         "         ------         ",
         "####################### "
+      ],
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_e_vault",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "             --  ------#",
+        "          -  .|--|rrrr|#",
+        "             .L,,,,,,,|#",
+        "             .L,,,,,,,|#",
+        "          -  6|--|rrrr|#",
+        "             --  ------#",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                       #",
+        "                        "
       ],
       "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
@@ -582,10 +739,10 @@
         "                       #",
         "                       #",
         "             --  ------#",
-        "          -  .|--|cccc|#",
+        "          -  .|--|rrrr|#",
         "             .L,,,,,,,|#",
         "             .L,,,,,,,|#",
-        "          -  6|--|cccc|#",
+        "          -  6|--|rrrr|#",
         "             --  ------#",
         "                       #",
         "                       #",
@@ -597,7 +754,7 @@
         "                       #",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
     }
   }
 ]

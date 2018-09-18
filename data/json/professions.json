@@ -2797,7 +2797,7 @@
     "ident": "bionic_installer",
     "name": "Augmentation Associate",
     "description": "When bionics first emerged, you were quick to make them into your career, and spent your days overseeing their installation.  As one of the few non-zombies in the world that can calibrate an Autodoc, your skills might come in handy now that the world is over.",
-    "points": 5,
+    "points": 4,
     "skills": [ { "level": 4, "name": "firstaid" }, { "level": 4, "name": "electronics" } ],
     "traits": [ "PROF_AUTODOC" ],
     "items": {
@@ -2811,7 +2811,6 @@
         "bandages",
         "anesthesia",
         "1st_aid",
-        "recipe_augs",
         "stethoscope"
       ],
       "male": [ "boxer_shorts" ],

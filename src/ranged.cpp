@@ -521,15 +521,17 @@ static std::string print_recoil( const player &p )
         const int val = p.recoil_total();
         const int min_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
         const int recoil_range = MAX_RECOIL - min_recoil;
-        const char *color_name = "c_light_gray";
+        std::string level;
         if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
-            color_name = "c_red";
+            level = "High";
         } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
-            color_name = "c_light_red";
+            level = "Medium";
         } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
-            color_name = "c_yellow";
+            level = "Low";
+        } else {
+            level = "None";
         }
-        return string_format( "<color_%s>%s</color>", color_name, _( "Recoil" ) );
+        return string_format( _( "Recoil: %s" ), level );
     }
     return std::string();
 }
@@ -537,7 +539,7 @@ static std::string print_recoil( const player &p )
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( const catacurses::window &w_target, const std::string &name,
-                                  player &p, target_mode mode, input_context &ctxt,
+                                  target_mode mode, input_context &ctxt,
                                   const std::vector<aim_type> &aim_types, bool switch_mode,
                                   bool switch_ammo, bool tiny )
 {
@@ -549,7 +551,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     switch( mode ) {
         case TARGET_MODE_FIRE:
         case TARGET_MODE_TURRET_MANUAL:
-            title = string_format( _( "Firing %s %s" ), name.c_str(), print_recoil( p ).c_str() );
+            title = string_format( _( "Firing %s" ), name.c_str() );
             break;
 
         case TARGET_MODE_THROW:
@@ -1018,7 +1020,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(),
-                                pc, mode, ctxt, aim_types,
+                                mode, ctxt, aim_types,
                                 bool( on_mode_change ),
                                 bool( on_ammo_change ), tiny );
 
@@ -1135,6 +1137,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 nc_color col = c_light_gray;
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
+
+            mvwprintw( w_target, line_number++, 1, _( "%s" ), print_recoil( g->u ).c_str() );
+
             // Skip blank lines if we're short on space.
             if( !compact ) {
                 line_number++;

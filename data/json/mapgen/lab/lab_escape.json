@@ -88,7 +88,7 @@
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 5, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [ 0, 1 ], "y": 14 },
-        { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 14 },
+        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13 },
         { "chunks": [ "lab_border_walls_sew" ], "x": 0, "y": 0 },
         { "chunks": [ "sub_t_stairs_up" ], "x": [11, 12], "y": [20, 21], "neighbors": { "above": [ "lab_stairs" ] } }
       ]

@@ -15,7 +15,8 @@
         "color" : "light_green",
         "healthy" : -2,
         "addiction_potential" : 2,
-        "addiction_type" : "mutagen"
+        "addiction_type" : "mutagen",
+        "freezing_point": 17
     },
     {
         "abstract" : "iv_mutagen_flavor",
