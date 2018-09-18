@@ -1301,10 +1301,15 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-    add( "DIAG_MOVE_WITH_MODIFIERS", "interface",
-         translate_marker( "Diagonal movement with cursor keys and modifiers" ),
-         translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
-         true, COPT_CURSES_HIDE
+    add( "ARROW_KEYS_VS_MODIFIERS", "interface",
+         translate_marker( "Behavior for Ctrl/Shift modifiers and arrow keys" ),
+         translate_marker( "Numpad emulation: holding Ctrl picks the first arrow key pressed as a modifier for consecutive arrow presses, combining them into the corresponding numpad keys.  Rotation: allows diagonal movement with cursor keys using CTRL and SHIFT modifiers." ),
+    {
+        { "", translate_marker( "None" ) },
+        { "numpad", translate_marker( "Numpad emulation" ) },
+        { "rotation", translate_marker( "Rotation" ) }
+    },
+    "numpad", COPT_CURSES_HIDE
        );
 
     mOptionsSort["interface"]++;
