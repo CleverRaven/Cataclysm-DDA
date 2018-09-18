@@ -15,7 +15,7 @@
         "message": "You pull the pin on the %s."
     },
     "countdown_interval": 5,
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "gasbomb",

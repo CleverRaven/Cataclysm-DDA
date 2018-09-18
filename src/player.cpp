@@ -218,6 +218,7 @@ static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bn_bio_solar( "bn_bio_solar" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
+static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_trip( "bio_trip" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
@@ -2422,7 +2423,7 @@ bool player::has_higher_trait( const trait_id &flag ) const
 bool player::has_same_type_trait( const trait_id &flag ) const
 {
     for( auto &i : get_mutations_in_types( flag->types ) ) {
-        if( has_trait( i ) ) {
+        if( has_trait( i ) && flag != i ) {
             return true;
         }
     }
@@ -3267,7 +3268,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ), 
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ),
                                                     source->disp_name().c_str() ) );
             } else {
                 g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
@@ -5494,6 +5495,7 @@ void player::suffer()
     if( has_trait( trait_ASTHMA ) && one_in( ( 3600 - stim * 50 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
         bool auto_use = has_charges( "inhaler", 1 );
+        bool oxygenator = has_bionic( bio_gills ) && power_level >= 3;
         if ( underwater ) {
             oxygen = oxygen / 2;
             auto_use = false;
@@ -5502,8 +5504,12 @@ void player::suffer()
         if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
             map_inv.form_from_map( g->u.pos(), 2 );
-            // check if character has an inhaler
-            if ( auto_use ) {
+            // check if character has an oxygenator first
+            if( oxygenator ) {
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                charge_power( -3 );
+                add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, then go back to sleep." ) );
+            } else if ( auto_use ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 use_charges( "inhaler", 1 );
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
@@ -6958,8 +6964,12 @@ bool player::consume_med( item &target )
 
     const itype_id tool_type = target.type->comestible->tool;
     const auto req_tool = item::find_type( tool_type );
+    bool tool_override = false;
+    if( tool_type == "syringe" && has_bionic( bio_syringe ) ) {
+        tool_override = true;
+    }
     if( req_tool->tool ) {
-        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
+        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) && !tool_override ) {
             add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ).c_str() );
             return false;
         }
@@ -7873,7 +7883,7 @@ void player::mend_item( item_location&& obj, bool interactive )
         uimenu menu( true, _( "Toggle which fault?" ) );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto& f : obj->faults_potential() ) {
-            opts.emplace_back( f, obj->faults.count( f ) );
+            opts.emplace_back( f, !!obj->faults.count( f ) );
             menu.addentry( -1, true, -1, string_format( "%s %s", opts.back().second ? _( "Mend" ) : _( "Break" ),
                                                         f.obj().name().c_str() ) );
         }
@@ -11013,18 +11023,37 @@ void player::set_destination(const std::vector<tripoint> &route, const player_ac
 {
     auto_move_route = route;
     this->destination_activity = destination_activity;
+    destination_point = g->m.getabs( route.back() );
 }
 
 void player::clear_destination()
 {
     auto_move_route.clear();
     destination_activity = player_activity();
+    destination_point = tripoint_min;
     next_expected_position = tripoint_min;
 }
 
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
+}
+
+bool player::has_destination_activity() const
+{
+    tripoint dest = g->m.getlocal( destination_point );
+    return !destination_activity.is_null() && position == dest;
+}
+
+void player::start_destination_activity()
+{
+    if( !has_destination_activity() ) {
+        debugmsg( "Tried to start invalid destination activity" );
+        return;
+    }
+
+    assign_activity( destination_activity );
+    clear_destination();
 }
 
 std::vector<tripoint> &player::get_auto_move_route()
@@ -11041,19 +11070,12 @@ action_id player::get_next_auto_move_direction()
     if (next_expected_position != tripoint_min ) {
         if( pos() != next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
-            destination_activity = player_activity();
             return ACTION_NULL;
         }
     }
 
     next_expected_position = auto_move_route.front();
     auto_move_route.erase(auto_move_route.begin());
-
-    // if this is the last auto move to destination, set destination activity if there is any
-    if( !has_destination() && !destination_activity.is_null() ) {
-        assign_activity( destination_activity );
-        destination_activity = player_activity();
-    }
 
     tripoint dp = next_expected_position - pos();
 
@@ -11062,7 +11084,6 @@ action_id player::get_next_auto_move_direction()
     if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ||
         ( abs( dp.z ) != 0 && ( abs( dp.x ) != 0 || abs( dp.y ) != 0 ) ) ) {
         // Should never happen, but check just in case
-        destination_activity = player_activity();
         return ACTION_NULL;
     }
 
@@ -11080,6 +11101,19 @@ void player::shift_destination(int shiftx, int shifty)
         elem.x += shiftx;
         elem.y += shifty;
     }
+}
+
+void player::grab( object_type grab_type, const tripoint &grab_point )
+{
+    this->grab_type = grab_type;
+    this->grab_point = grab_point;
+
+    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
+}
+
+object_type player::get_grab_type() const
+{
+    return grab_type;
 }
 
 bool player::has_weapon() const

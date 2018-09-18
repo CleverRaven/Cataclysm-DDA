@@ -1,0 +1,114 @@
+[
+  {
+    "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_escape_cells" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "#---------------------##",
+        "#|ST,|ST,|ST,|ST,|ST,|##",
+        "#|,,,|,,,|,,,|,,,|,,,|##",
+        "#|,,b|,,b|,,b|,,b|,,b|##",
+        "#|,,b|,,b|,,b|,,b|,,b|##",
+        "#|,,,|,,,|,,,|,,,|,,,|##",
+        "#|,,,|,,,|,,,|,,,|,,,|##",
+        "--gGg|gGg|gGg|gGg|gGg--|"
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": {
+        "g": "t_wall_glass_h",
+        "G": "t_door_glass_c"
+      }
+    }
+  },
+  {
+    "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_escape_entrance" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "|......................|",
+        ".......................|",
+        "hh..|---?---|---?---|..|",
+        "tt..|       |       |..|",
+        "hh..|       |       |..|",
+        "....|       |       |..|",
+        "....?       |       +..|",
+        "....|       |       |..|",
+        "hh..|       |       |..|",
+        "tt..|       |       |..|",
+        "hh..|---+---|---?---|..|",
+        ".......................M",
+        ".......................M",
+        "-----?----|..|----+----|",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          +..?         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "-----------MM----------|"
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
+        "g": "t_wall_glass_h"
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 5, "y": 3 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
+        { "chunks": [ "lab_spawn_9x9" ], "x": [ 0, 1 ], "y": 14 },
+        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13 },
+        { "chunks": [ "lab_border_walls_sew" ], "x": 0, "y": 0 },
+        { "chunks": [ "sub_t_stairs_up" ], "x": 12, "y": 20, "neighbors": { "above": [ "lab_stairs" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sub_t_stairs_up",
+    "object": { "rows": [ "<" ], "terrain": { "<": [ "t_stairs_up" ] }, "mapgensize": [ 1, 1 ] }
+  },
+  {
+    "//": "Creates border walls for a lab based on its neighboring tiles, but only south east and west.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_border_walls_sew",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 11, "y": 23, "neighbors": { "south": [ "lab" ] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 12, "y": 23, "neighbors": { "south": [ "lab" ] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 11, "neighbors": { "east": [ "lab" ] } },
+        { "else_chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 12, "neighbors": { "east": [ "lab" ] } },
+        { "else_chunks": [ "lab_west_wall" ], "x": 0, "y": 0, "neighbors": { "west": [ "lab" ] } }
+      ]
+    }
+  }
+]

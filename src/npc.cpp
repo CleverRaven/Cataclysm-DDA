@@ -112,7 +112,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -1956,11 +1956,14 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    dead = true;
-    Character::die( nkiller );
+    // Need to unboard from vehicle before dying, otherwise
+    // the vehicle code cannot find us
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos() );
     }
+
+    dead = true;
+    Character::die( nkiller );
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%s dies!" ), name.c_str() );

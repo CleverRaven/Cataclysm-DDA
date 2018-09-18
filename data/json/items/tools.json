@@ -21,7 +21,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "EMPbomb_act",
@@ -2655,6 +2655,9 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
+    "initial_charges": 500,
+    "max_charges": 500,
+    "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
     "flags": [ "FIRESTARTER" ]
   },
@@ -2973,7 +2976,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "flashbang_act",
@@ -3425,7 +3428,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "grenade_act",
@@ -3475,7 +3478,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ]
   },
   {
     "id": "grenade_inc_act",
@@ -4636,7 +4639,7 @@
     "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "metal_funnel",
@@ -4693,7 +4696,7 @@
     "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "militarymap",
@@ -6119,7 +6122,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "scrambler_act",
@@ -6757,7 +6760,7 @@
     "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "survivor_scope",

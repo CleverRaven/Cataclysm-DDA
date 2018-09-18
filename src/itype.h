@@ -14,6 +14,7 @@
 #include "damage.h"
 #include "translations.h"
 #include "calendar.h"
+#include "game_constants.h"
 
 #include <string>
 #include <vector>
@@ -160,6 +161,9 @@ struct islot_comestible {
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
     int parasites = 0;
+
+    /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
+    int freeze_point = temperatures::freezing;
 
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
@@ -804,6 +808,13 @@ struct itype {
 
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
         units::volume magazine_well = 0;
+
+        /**
+         * How much insulation this item provides, either as a container, or as
+         * a vehicle base part.  Larger means more insulation, less than 1 but
+         * greater than zero, transfers faster, cannot be less than zero.
+         */
+        float insulation_factor = 1;
 
         std::string get_item_type_string() const {
             if( tool ) {
