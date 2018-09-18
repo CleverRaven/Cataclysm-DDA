@@ -76,16 +76,16 @@
     "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]
   },
   {
-  "result": "soap_water",
-  "type" : "recipe",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "firstaid",
-  "time": 5000,
-  "batch_time_factors": [ 75, 2 ],
-  "autolearn": true,
-  "components": [ [ [ "soap", 1 ] ], [ [ "water_clean", 1 ] ] ],
-  "flags": [ "BLIND_EASY" ]
+    "result": "soap_water",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "time": 5000,
+    "batch_time_factors": [ 75, 2 ],
+    "autolearn": true,
+    "components": [ [ [ "soap", 1 ] ], [ [ "water_clean", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "mugwort_oil",
