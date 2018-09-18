@@ -260,7 +260,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
-- ```LOUDMOVES``` Mkes move noises as if two sizes louder, even if flying.
+- ```LOUDMOVES``` Mkes move noises as if ~2 sizes louder, even if flying.
 - ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!

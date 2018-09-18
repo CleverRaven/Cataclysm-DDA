@@ -167,7 +167,7 @@ enum m_flag : int {
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
-    MF_LOUDMOVES,           // This monster makes move noises as if two sizes louder, even if flying.
+    MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
