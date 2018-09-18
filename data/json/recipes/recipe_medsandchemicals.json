@@ -2037,7 +2037,7 @@
      [ "water_clean", 2 ]
     ]
    ]
-},{
+  },{
   "type" : "recipe",
   "result": "poppysyrup",
   "category": "CC_CHEM",
