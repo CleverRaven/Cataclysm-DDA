@@ -83,7 +83,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     }
 
     center_print( w_open, window_height - 2, c_red,
-                  _( "Bugs? Suggestions? Use links in MOTD to report them." ) );
+                  _( "Bugs?  Suggestions?  Use links in MOTD to report them." ) );
 
     center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
                   vdaytip ) );
