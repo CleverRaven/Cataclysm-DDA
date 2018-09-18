@@ -710,7 +710,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "TORSO", "LEG" ],
+    "covers": [ "TORSO", "LEGS" ],
     "coverage": 75,
     "encumbrance": 100,
     "storage": 140,
