@@ -811,21 +811,7 @@ void air_gear_actor::load( JsonObject &obj )
 
 bool has_airsource(const player &p)
 {
-    if( p.has_item_with_flag( "SCUBA" ) ) {
-        for( auto &i : p.all_items_with_flag( "SCUBA" ) ) {
-            if( p.has_charges( i->typeId(), 1 ) ) {
-                return true;
-            }
-        }
-    }
-    if( p.has_item_with_flag( "AIR_SUPPLY" ) ) {
-        for( auto &i : p.all_items_with_flag( "AIR_SUPPLY" ) ) {
-            if( p.has_charges( i->typeId(), 1 ) ) {
-                return true;
-            }
-        }
-    }
-    return false;
+return p.has_charges( "breath", 1 );
 }
 
 long air_gear_actor::use( player &p, item &it, bool t, const tripoint & ) const

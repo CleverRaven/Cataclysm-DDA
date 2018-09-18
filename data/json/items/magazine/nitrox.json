@@ -34,10 +34,10 @@
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "nitrox_tank_carbon_military",
+    "id": "nitrox_tank_military",
     "type": "MAGAZINE",
-    "name": "military carbon fiber nitrox cylinder",
-    "description": "A standard carbon fiber 4500 PSI cylinder for use with a breathing apparatus. It will last for 6 hours, thanks to the canister of potassium peroxide for the oxygen regeneration. Will fit only into a special military rebreather.",
+    "name": "military nitrox cylinder",
+    "description": "A 4500 PSI cylinder for use with a special military rebreather. It will last for 4 hours, thanks to the potassium peroxide canister that regenerates oxygen.",
     "weight": 7500,
     "volume": 44,
     "price": 13400,
@@ -45,8 +45,8 @@
     "symbol": "#",
     "color": "green",
     "ammo_type": "nitrox",
-    "capacity": 3600,
-    "count": 3600,
+    "capacity": 2400,
+    "count": 2400,
     "reliability": 10,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }
