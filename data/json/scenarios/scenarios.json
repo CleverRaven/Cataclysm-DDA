@@ -389,15 +389,15 @@
     "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthesic smuggled out of hospitals, and desperate people with little to lose got you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
     "flags": [ "CITY_START", "LONE_START" ],
     "points": 2,
-    "start_name": "Shady Basement",
-    "allowed_locs": [ "basement_bionic" ],
+    "start_name": "Somewhere Questionable",
+    "allowed_locs": [ "basement_bionic", "mansion_bionic" ],
     "professions": [ "cyberjunkie", "faulty_bionic", "cykotic", "razorgirl", "bionic_installer" ]
   },
   {
     "type": "scenario",
     "ident": "zoostart",
     "name": "At the Zoo",
-    "description": "It was a slow day at the zoo, until you heard people screaming outside the walls.  The animals seem to be getting agitated..",
+    "description": "It was a slow day at the zoo, until you heard people screaming outside the walls.  The animals seem to be getting agitated.",
     "flags": [ "CITY_START", "LONE_START" ],
     "points": 0,
     "start_name": "Zoo Start",

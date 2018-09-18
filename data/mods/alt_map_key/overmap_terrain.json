@@ -7500,7 +7500,13 @@
     "id": "mansion_wild_dn",
     "type": "overmap_terrain",
     "copy-from" : "generic_mansion_no_sidewalk"
- },{
+ },
+  {
+    "id": "mansion_bionic_c_dn",
+    "type": "overmap_terrain",
+    "copy-from": "generic_mansion_no_sidewalk"
+  },
+  {
     "id": "fire_station",
     "type": "overmap_terrain",
     "name": "fire station",
