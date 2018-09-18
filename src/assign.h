@@ -331,4 +331,27 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
     return true;
 }
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+
+template<typename T>
+inline bool assign( JsonObject &jo, const std::string &name, cata::optional<T> &val,
+                    const bool strict )
+{
+    if( !jo.has_member( name ) ) {
+        return false;
+    }
+    if( jo.has_null( name ) ) {
+        val.reset();
+        return true;
+    }
+    if( !val ) {
+        val.emplace();
+    }
+    return assign( jo, name, *val, strict );
+}
+
 #endif
