@@ -145,7 +145,7 @@ Character::Character() : Creature(), visitable<Character>(), hp_cur(
 
     name.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true, false };
 }
 
 Character::~Character() = default;
@@ -1056,6 +1056,9 @@ units::mass Character::weight_capacity() const
     }
     if (has_artifact_with(AEP_CARRY_MORE)) {
         ret += 22500_gram;
+    }
+    if( has_bionic( bionic_id( "bio_weight" ) ) ) {
+        ret += 20_kilogram;
     }
     if (ret < 0) {
         ret = 0;
@@ -2120,6 +2123,12 @@ hp_part Character::body_window( const std::string &menu_header,
         }
     }
     mvwprintz( hp_window, parts.size() + y_off, 1, c_light_gray, _("%d: Exit"), parts.size() + 1 );
+
+#ifdef __ANDROID__
+    input_context ctxt("CHARACTER_BODY_WINDOW");
+    for( size_t i = 0; i < parts.size() + 1; i++ )
+        ctxt.register_manual_key('1' + i);
+#endif
 
     wrefresh(hp_window);
     char ch;

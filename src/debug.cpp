@@ -113,6 +113,12 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #endif // TILES
                   );
 
+#ifdef __ANDROID__
+    input_context ctxt( "DEBUG_MSG" );
+    ctxt.register_manual_key( 'C' );
+    ctxt.register_manual_key( 'I' );
+    ctxt.register_manual_key( ' ' );
+#endif
     for( bool stop = false; !stop; ) {
         switch( inp_mngr.get_input_event().get_first_input() ) {
 #ifdef TILES

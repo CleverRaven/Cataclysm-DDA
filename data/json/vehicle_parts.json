@@ -53,9 +53,9 @@
     "id": "ig_vp_sheet_metal",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_lump", "count": [ 3, 4 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
+      { "item": "scrap", "count": [ 8, 10 ] }
     ]
   },
   {
@@ -693,7 +693,8 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A small fridge.  When turned on, it will cool the food inside, extended the time until the food spoils.",
-    "epower": -249,
+    "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
+    "epower": -30,
     "size": 300,
     "item": "minifridge",
     "difficulty": 3,
@@ -716,7 +717,7 @@
     "broken_color": "blue",
     "damage_modifier": 80,
     "durability": 100,
-    "epower": -375,
+    "epower": -45,
     "size": 300,
     "item": "minifreezer",
     "difficulty": 3,

@@ -32,6 +32,7 @@
 #include "mutation.h"
 #include "requirements.h"
 #include "vpart_position.h"
+#include "ui.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -43,6 +44,7 @@ const skill_id skilll_computer( "computer" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
@@ -356,6 +358,7 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_evap" ) {
         item water = item( "water_clean", 0 );
+        water.reset_temp_check();
         int humidity = weatherPoint.humidity;
         int water_charges = ( humidity * 3.0 ) / 100.0 + 0.5;
         // At 50% relative humidity or more, the player will draw 2 units of water
@@ -511,11 +514,12 @@ bool player::activate_bionic( int b, bool eff_only )
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower ) + player_local_temp ).c_str() );
     } else if( bio.id == "bio_remote" ) {
-        int choice = menu( true, _( "Perform which function:" ), _( "Nothing" ),
-                           _( "Control vehicle" ), _( "RC radio" ), NULL );
-        if( choice >= 2 && choice <= 3 ) {
+        int choice = uilist( _( "Perform which function:" ), {
+            _( "Control vehicle" ), _( "RC radio" )
+        } );
+        if( choice >= 0 && choice <= 1 ) {
             item ctr;
-            if( choice == 2 ) {
+            if( choice == 0 ) {
                 ctr = item( "remotevehcontrol", 0 );
             } else {
                 ctr = item( "radiocontrol", 0 );
@@ -773,6 +777,11 @@ void player::process_bionic( int b )
             x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
             charge_power( 1 );
         }
+    } else if( bio.id == "bio_gills" ) {
+        if( has_effect( effect_asthma ) ) {
+            add_msg( m_good, _( "You feel your throat open up and air filling your lungs!" ) );
+            remove_effect( effect_asthma );
+        }
     }
 }
 
@@ -809,7 +818,7 @@ void player::bionics_uninstall_failure( player &installer )
 float player::bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
                                       const skill_id &least_important_skill,
-                                      bool autodoc, int skill_level )
+                                      int skill_level )
 {
     int pl_skill;
     if( skill_level == -1 ) {
@@ -829,10 +838,10 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
                                _( "<npcname> prepares for surgery." ) );
     }
 
-    // People trained in using the Autodoc gain an additional advantage towards using it
-    if( autodoc && has_trait( trait_PROF_AUTODOC ) ) {
+    // People trained in bionics gain an additional advantage towards using it
+    if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
-        add_msg( m_neutral, _( "A lifetime of Autodoc use has taught %s a thing or two..." ),
+        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two..." ),
                  disp_name() );
     }
 
@@ -912,7 +921,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
     float adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                            skilll_computer,
                            skilll_electronics,
-                           autodoc, skill_level );
+                           skill_level );
     int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficulty + 2 );
 
     if( chance_of_success >= 100 ) {
@@ -982,12 +991,12 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                          skilll_computer,
                          skilll_electronics,
-                         autodoc, skill_level );
+                         skill_level );
     } else {
         adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
                          skilll_firstaid,
                          skilll_mechanics,
-                         autodoc, skill_level );
+                         skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficult );
 

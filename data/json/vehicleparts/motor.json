@@ -12,7 +12,7 @@
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "ENGINE", "TOOL_WRENCH", "E_HIGHER_SKILL" ]
+    "flags": [ "ENGINE", "TOOL_WRENCH", "E_HIGHER_SKILL", "E_HEATER" ]
   },
   {
     "id": "engine_electric_small",

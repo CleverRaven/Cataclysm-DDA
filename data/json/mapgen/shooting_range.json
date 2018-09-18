@@ -1,5 +1,10 @@
 [
   {
+    "type": "item_group",
+    "id": "ear_protection",
+    "items": [ [ "powered_earmuffs", 10 ], [ "ear_plugs", 50 ] ]
+  },
+  {
     "method": "json",
     "object": {
       "furniture": {
@@ -23,7 +28,7 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 5, "item": "ammo_pistol_common", "x": 6, "y": 9 },
+        { "chance": 10, "item": "ammo_pistol_common", "x": 6, "y": 9 },
         { "chance": 5, "item": "ammo_pistol_common", "x": 3, "y": 9 },
         { "chance": 5, "item": "guns_rifle_common", "x": 21, "y": 9 },
         { "chance": 5, "item": "guns_rifle_common", "x": 17, "y": 9 },
@@ -32,19 +37,21 @@
         { "chance": 5, "item": "ammo_rifle_common", "x": 18, "y": 9 },
         { "chance": 5, "item": "guns_shotgun_common", "x": 14, "y": 9 },
         { "chance": 30, "repeat": 2, "item": "trash", "x": 3, "y": 3 },
-        { "chance": 30, "item": "guns_milspec", "x": 5, "y": 4 },
+        { "chance": 75, "item": "guns_milspec", "x": 5, "y": 4 },
         { "chance": 5, "item": "ammo_smg_common", "x": 12, "y": 9 },
         { "chance": 5, "item": "ammo_smg_common", "x": 9, "y": 9 },
         { "chance": 5, "item": "guns_smg_common", "x": 11, "y": 9 },
         { "chance": 5, "item": "guns_smg_common", "x": 8, "y": 9 },
-        { "chance": 5, "item": "guns_pistol_common", "x": 5, "y": 9 },
+        { "chance": 10, "item": "guns_pistol_common", "x": 5, "y": 9 },
         { "chance": 5, "item": "guns_pistol_common", "x": 2, "y": 9 },
         { "chance": 25, "item": "office", "x": [ 3, 4 ], "y": 4 }
       ],
       "items": {
-        "w": { "item": "casings", "chance": 60, "repeat": 5 },
-        "a": { "item": "casings", "chance": 40, "repeat": 3 },
-        "#": { "item": "casings", "chance": 40, "repeat": 3 }
+        "w": { "item": "casings", "chance": 60, "repeat": 7 },
+        "a": { "item": "casings", "chance": 50, "repeat": 5 },
+        "#": { "item": "casings", "chance": 40, "repeat": 3 },
+        "c": { "item": "ear_protection", "chance": 10 },
+        "d": { "item": "ear_protection", "chance": 80 }
       },
       "rows": [
         "zzzzzzzzzzzzzzzzzzzzzzzz",
@@ -54,7 +61,7 @@
         "_z-ddXWzzzszzsz_________",
         "_z--W--zzzzzzzz_________",
         "_aaaaaaaaaaaaaaaaaaaaaa_",
-        "_#ww#ww#ww#ww#ww#ww#ww#_",
+        "_wwwwwwwwwwwwwwwwwwwwww_",
         "_|ww|ww|ww|ww|ww|ww|ww|_",
         "_|cc|cc|cc|cc|cc|cc|cc|_",
         "_######################_",

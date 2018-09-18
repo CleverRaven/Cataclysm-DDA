@@ -397,7 +397,12 @@
         "range" : 12,
         "count" : 25,
         "effects" : ["INCENDIARY"],
-        "flags" : ["UNRECOVERABLE"]
+        "flags" : ["UNRECOVERABLE"],
+        "fuel": {
+            "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
+            "energy": 4000,
+            "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
+        }
     },
     {   "type" : "AMMO",
         "id" : "22_casing_new",
@@ -667,11 +672,16 @@
         "color" : "dark_gray",
         "description" : "A flammable carbon-based material produced by slowly burning wood.  Utilized in recipes requiring a pure, hot flame.  Can also be used in filters to remove contaminants out of air and water.",
         "material" : "wood",
+        "phase": "solid",
         "volume" : 1,
         "weight" : 44,
         "ammo_type" : "charcoal",
         "count" : 50,
-        "stack_size" : 10
+        "stack_size" : 10,
+        "fuel": {
+            "//": "Multiply the usual energy density of 1.6 MJ/L by 25, to account for 10 units/250mL instead of 250 units/250 mL",
+            "energy": 40
+        }
     },
     {
         "type" : "AMMO",
@@ -683,11 +693,16 @@
         "color" : "dark_gray",
         "description" : "Flammable black chunks of carbon-based material commonly used for cooking and heating.",
         "material" : "wood",
+        "phase": "solid",
         "volume" : 1,
         "weight" : 44,
         "ammo_type" : "charcoal",
         "count" : 250,
-        "stack_size" : 10
+        "stack_size" : 10,
+        "fuel": {
+            "//": "Multiply the usual energy density of 30 MJ/L by 25, to account for 10 units/250mL instead of 250 units/250 mL",
+            "energy": 750
+        }
     },
     {   "type" : "AMMO",
         "id" : "mininuke_mod",
@@ -695,10 +710,10 @@
         "name" : "modified mininuke",
         "symbol" : "*",
         "color" : "green",
-        "description" : "A heavily modified handheld nuclear device.  Intended to be fired from a specialized launcher, its case has been cut down and it has been rigged to explode on impact.  While it is somewhat lighter than before, it can no longer be triggered manually.",
+        "description" : "A heavily modified handheld nuclear device on a rocket.  Intended to be fired from a specialized launcher, it has been rigged to explode on impact instead of on a timer.  It can fly further than the explosion will reach, probably.",
         "material" : "plastic",
-        "volume" : 3,
-        "weight" : 3816,
+        "volume" : 388,
+        "weight" : 34500,
         "bashing" : 8,
         "ammo_type" : "mininuke_mod",
         "damage" : 14,

@@ -4,7 +4,6 @@ data/json/construction.json
 data/json/doll_speech.json
 data/json/dreams.json
 data/json/effects.json
-data/json/furniture.json
 data/json/gates.json
 data/json/health_msgs.json
 data/json/item_actions.json
@@ -20,7 +19,6 @@ data/json/itemgroups/locations.json
 data/json/itemgroups/magazines.json
 data/json/itemgroups/main.json
 data/json/itemgroups/map_extras.json
-data/json/itemgroups/mansion.json
 data/json/itemgroups/misc.json
 data/json/itemgroups/monster_drops.json
 data/json/itemgroups/supplies.json
@@ -35,7 +33,6 @@ data/json/items/armor/holster.json
 data/json/items/chemicals_and_resources.json
 data/json/items/comestibles/brewing.json
 data/json/items/comestibles/carnivore.json
-data/json/items/comestibles.json
 data/json/items/comestibles/med.json
 data/json/items/comestibles/mutagen.json
 data/json/items/comestibles/protein.json
@@ -95,7 +92,6 @@ data/json/mapgen/field_football.json
 data/json/mapgen/fire_station.json
 data/json/mapgen/garage_gas.json
 data/json/mapgen/garage.json
-data/json/mapgen/gardening_store.json
 data/json/mapgen/homeimprovement_superstore.json
 data/json/mapgen/hotel_tower.json
 data/json/mapgen/house/house_2story.json
@@ -113,11 +109,14 @@ data/json/mapgen/house/house11.json
 data/json/mapgen/house/house14.json
 data/json/mapgen/lab/lab_central.json
 data/json/mapgen/lab/lab_common.json
+data/json/mapgen/lab/lab_escape.json
 data/json/mapgen/lab/lab_floorplan_cross.json
 data/json/mapgen/lab/lab_floorplans_1side.json
+data/json/mapgen/lab/lab_floorplans_escape.json
 data/json/mapgen/lab/lab_floorplans_finale1level.json
 data/json/mapgen/lab/lab_floorplans.json
 data/json/mapgen/lab/lab_rooms.json
+data/json/mapgen/lab/lab_rooms_wall.json
 data/json/mapgen/lab/lab_trains.json
 data/json/mapgen/laundromat.json
 data/json/mapgen/mall.json

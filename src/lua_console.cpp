@@ -74,7 +74,7 @@ void lua_console::quit()
 
 void lua_console::scroll_down()
 {
-    scroll = std::min( std::max( ( ( int ) text_stack.size() ) - lines, 0 ), scroll + 1 );
+    scroll = std::min( std::max( ( static_cast<int>( text_stack.size() ) ) - lines, 0 ), scroll + 1 );
     draw();
 }
 

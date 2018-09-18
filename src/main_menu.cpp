@@ -19,12 +19,28 @@
 #include "cata_utility.h"
 #include "auto_pickup.h"
 #include "safemode_ui.h"
+#include "text_snippets.h"
+#include "loading_ui.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 void main_menu::on_move() const
 {
     sfx::play_variant_sound( "menu_move", "default", 100 );
+}
+
+void main_menu::on_error()
+{
+    if( errflag ) {
+        return;
+    }
+    sfx::play_variant_sound( "menu_error", "default", 100 );
+    errflag = true;
+}
+
+void main_menu::clear_error()
+{
+    errflag = false;
 }
 
 void main_menu::print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems,
@@ -63,11 +79,15 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
 
     // Draw horizontal line
     for( int i = 1; i < window_width - 1; ++i ) {
-        mvwputch( w_open, window_height - 2, i, c_white, LINE_OXOX );
+        mvwputch( w_open, window_height - 4, i, c_white, LINE_OXOX );
     }
 
-    center_print( w_open, window_height - 1, c_red,
-                  _( "Please report bugs to kevin.granade@gmail.com or post on the forums." ) );
+    center_print( w_open, window_height - 2, c_red,
+                  _( "Bugs?  Suggestions?  Use links in MOTD to report them." ) );
+
+    center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
+                  vdaytip ) );
+
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
@@ -247,6 +267,7 @@ void main_menu::init_strings()
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -264,6 +285,10 @@ void main_menu::init_strings()
     for( auto item : vSettingsSubItems ) {
         vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
+
+    loading_ui ui( false );
+    g->load_core_data( ui );
+    vdaytip = SNIPPET.random_from_category( "tip" );
 }
 
 std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
@@ -684,7 +709,7 @@ bool main_menu::new_character_tab()
             if( templates.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                            c_red, "%s", _( "No templates found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
                            c_white, "%s", _( "Press 'd' to delete a preset." ) );
@@ -697,23 +722,24 @@ bool main_menu::new_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( action == "DOWN" ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
+                sel1 = 1;
+                layer = 2;
+                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
+            } else if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     sel3--;
                 } else {
                     sel3 = templates.size() - 1;
                 }
-            } else if( templates.empty() && ( action == "UP" || action == "CONFIRM" ) ) {
-                sel1 = 1;
-                layer = 2;
-                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
             } else if( action == "UP" ) {
                 if( sel3 < ( int )templates.size() - 1 ) {
                     sel3++;
                 } else {
                     sel3 = 0;
                 }
-            } else if( action == "LEFT"  || action == "QUIT" || templates.empty() ) {
+            } else if( action == "LEFT"  || action == "QUIT" ) {
                 sel1 = 1;
                 layer = 2;
                 print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
@@ -773,7 +799,7 @@ bool main_menu::load_character_tab()
             if( all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "No Worlds found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 for( int i = 0; i < ( int )all_worldnames.size(); ++i ) {
                     int line = iMenuOffsetY - 2 - i;
@@ -800,7 +826,8 @@ bool main_menu::load_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
                 layer = 1;
             } else if( action == "DOWN" ) {
                 if( sel2 > 0 ) {
@@ -841,11 +868,11 @@ bool main_menu::load_character_tab()
                 savegames.clear();
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "This world requires the game to be compiled with Lua." ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "No save games found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 int line = iMenuOffsetY - 2;
 
@@ -859,7 +886,8 @@ bool main_menu::load_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
                 layer = 2;
             } else if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
@@ -982,6 +1010,9 @@ void main_menu::world_tab()
                             query_yes = true;
                             do_delete = false;
                         }
+                    } else if( sel3 == 3 ) { // Copy World settings
+                        layer = 2;
+                        world_generator->make_new_world( true, all_worldnames[sel2 - 1] );
                     }
 
                     if( query_yes ) {

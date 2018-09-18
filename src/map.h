@@ -567,7 +567,7 @@ class map
         // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         ter_id ter( const int x, const int y ) const;
 
-        void ter_set( const int x, const int y, const ter_id new_terrain );
+        bool ter_set( const int x, const int y, const ter_id new_terrain );
 
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
@@ -582,7 +582,7 @@ class map
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
-        void ter_set( const tripoint &p, const ter_id new_terrain );
+        bool ter_set( const tripoint &p, const ter_id new_terrain );
 
         std::string tername( const tripoint &p ) const;
 
@@ -897,14 +897,6 @@ class map
          * Update luminosity before and after item's transformation
          */
         void update_lum( item_location &loc, bool add );
-
-        /**
-         * Governs HOT/COLD/FROZEN status of items in a fridge/freezer or in cold temperature
-         * and sets item's fridge/freezer status variables.
-         * @param it Item processed.
-         * @param temperature Temperature affecting item.
-         */
-        void apply_in_fridge( item &it, int temperature, bool vehicle = false );
 
         /**
          * @name Consume items on the map
@@ -1488,17 +1480,27 @@ class map
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air );
 
+    public:
+        /**
+         * Processor function pointer used in process_items and brethren.
+         *
+         * Note, typedefs should be discouraged because they tend to obfuscate
+         * code, but due to complexity, a template type makes it worse here.
+         * It's a really heinous function pointer so a typedef is the best
+         * solution in this instance.
+         */
+        typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
+                                            const std::string &, int, float );
+    private:
+
         // Iterates over every item on the map, passing each item to the provided function.
-        template<typename T>
-        void process_items( bool active, T processor, std::string const &signal );
-        template<typename T>
+        void process_items( bool active, map_process_func processor, std::string const &signal );
         void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      T processor, std::string const &signal );
-        template<typename T>
-        void process_items_in_vehicles( submap &current_submap, T processor, std::string const &signal );
-        template<typename T>
-        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
-                                       T processor, std::string const &signal );
+                                      map::map_process_func processor, std::string const &signal );
+        void process_items_in_vehicles( submap &current_submap, const int gridz,
+                                        map_process_func processor, std::string const &signal );
+        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
+                                       map::map_process_func processor, std::string const &signal );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {
@@ -1574,12 +1576,6 @@ class map
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
 };
-
-/**
- * Gives ratio for temperature differential of two temperatures
- * Used in determining speed of temperature change of items
- */
-unsigned int temp_difference_ratio( int temp_one, int temp_two );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

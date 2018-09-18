@@ -607,7 +607,7 @@ void advanced_inv_area::init()
             canputitemsloc = true;
             break;
         case AIM_DRAGGED:
-            if( g->u.grab_type != OBJECT_VEHICLE ) {
+            if( g->u.get_grab_type() != OBJECT_VEHICLE ) {
                 canputitemsloc = false;
                 desc[0] = _( "Not dragging any vehicle!" );
                 break;
@@ -1366,8 +1366,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
 
 bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
 {
-    uimenu sm;
-    sm.return_invalid = true;
+    uilist sm;
     sm.text = _( "Sort by... " );
     sm.addentry( SORTBY_NONE,     true, 'u', _( "Unsorted (recently added first)" ) );
     sm.addentry( SORTBY_NAME,     true, 'n', get_sortname( SORTBY_NAME ) );
@@ -1917,7 +1916,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         return false;
     }
 
-    uimenu menu;
+    uilist menu;
     menu.text = _( "Select destination" );
     menu.pad_left = 9; /* free space for advanced_inventory::menu_square */
 
@@ -1945,7 +1944,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     // Selected keyed to uimenu.entries, which starts at 0.
     menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
     menu.show(); // generate and show window.
-    while( menu.ret == UIMENU_INVALID && menu.keypress != 'q' && menu.keypress != KEY_ESCAPE ) {
+    while( menu.ret == UIMENU_WAIT_INPUT ) {
         // Render a fancy ASCII grid at the left of the menu.
         menu_square( menu );
         menu.query( false ); // query, but don't loop
