@@ -2131,6 +2131,7 @@
       ["fishing_rod_professional", 4],
       ["dive_bag", 5],
       ["diving_watch", 10],
+      ["diving_harness", 5],	  
       ["rebreather", 3],
       ["rebreather_filter", 3],
       ["glowstick", 60],
@@ -2262,6 +2263,7 @@
       ["wetsuit_booties", 20],
       ["wetsuit_hood", 10],
       ["dive_bag", 10],
+      ["diving_harness", 5],	  
       ["rebreather", 3],
       ["rebreather_filter", 2],
       ["fishing_rod_professional", 8],
@@ -7764,6 +7766,7 @@
     "id" : "fireman_torso",
     "items":[
       ["bunker_coat", 80],
+      ["bunker_harness", 30],
       ["vest", 30]
     ]
   },{
@@ -7873,6 +7876,8 @@
       ["battery", 10],
       ["tool_belt", 5],
       ["oxygen_tank", 15],
+      ["nitrox_tank_aluminum", 15],
+      ["nitrox_tank_carbon", 10],
       ["fireman_belt", 15],
       ["jack", 5],
       ["throw_extinguisher", 10],
@@ -8198,6 +8203,7 @@
     "items":[
       ["dragonskin", 50],
       ["winter_jacket_army", 10],
+      ["military_diving_harness", 5],
       ["modularvestceramic", 40],
       ["modularvestkevlar", 20]
     ]

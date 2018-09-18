@@ -921,6 +921,9 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```USE_AIR``` Item uses charges of the AIR_SUPPLY and SCUBA items.
+- ```AIR_SUPPLY``` Item provides charges for SCBA masks.
+- ```SCUBA``` Item provides charges for SCBA masks with increased efficiency.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 ### Flags that apply to items, not to item types.

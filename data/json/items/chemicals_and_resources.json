@@ -748,6 +748,20 @@
     "stack_size" : 100
    },
    {
+    "id": "oxygen_regenerator",
+    "type": "GENERIC",
+    "name": "oxygen regeneration unit",
+    "category" : "spare_parts",
+    "description": "A small tightly sealed canister filled with a potassium superoxide for use in the military rebreathers.",
+    "weight": 1500,
+    "volume": 4,
+    "price": 5000,
+    "ammo_type" : "components",
+    "material": "aluminum",
+    "symbol": ")",
+    "color": "cyan"
+   },
+   {
     "type":"GENERIC",
     "id": "hickory_root",
     "symbol": "/",

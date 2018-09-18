@@ -6639,6 +6639,35 @@ void player::process_active_items()
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
     }
+
+    long ch_breath = charges_of( "breath" );
+    item *air_gear = nullptr;
+
+    for( auto &w : worn )
+    {
+        if( !w.active ) {
+            continue;
+        }
+        if( w.has_flag( "USE_AIR" ) ) {
+            air_gear = &w;
+        }
+    }
+    if( air_gear != nullptr )
+    {
+        if( ch_breath >= 1 ) {
+            use_charges( "breath", 2 );
+            if( ch_breath < 20 && one_in( 5 ) ) {
+                add_msg_if_player( m_warning, _( "It's getting hard to breathe in that mask." ) );
+            }
+        } else if( ch_breath > 0 ) {
+            use_charges( "breath", ch_breath );
+        } else {
+            add_msg_if_player( m_warning, _( "Your air supply has run out." ) );
+            // Bypass the "you deactivate the ..." message and change environmental protection.
+            air_gear->set_var( "overwrite_env_resist", 0 );
+            air_gear->active = false;
+        }
+    }
 }
 
 item player::reduce_charges( int position, long quantity )
@@ -6829,6 +6858,27 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     } else if( what == "fire" ) {
         use_fire( qty );
         return res;
+
+    } else if( what == "breath" ) {
+        auto rebreathers = all_items_with_flag( "SCUBA" );
+        for( auto &i : rebreathers ) {
+            auto reb = charges_of( i->typeId(), ( long )ceil( qty * 0.5 ) );
+            if( reb > 0 ) {
+                auto found = use_charges( i->typeId(), reb );
+                res.splice( res.end(), found );
+                qty -= std::min( qty, long( reb / 0.5 ) );
+            }
+        }
+
+        auto airsupply = all_items_with_flag( "AIR_SUPPLY" );
+        for( auto &i : airsupply ) {
+            auto air = charges_of( i->typeId(), ( long )ceil( qty ) );
+            if( air > 0 ) {
+                auto found = use_charges( i->typeId(), air );
+                res.splice( res.end(), found );
+                qty -= std::min( qty, long( air ) );
+            }
+        }
 
     } else if( what == "UPS" ) {
         if( power_level > 0 && has_active_bionic( bio_ups ) ) {

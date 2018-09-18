@@ -829,6 +829,21 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
         }
     }
 
+    if ( what == "breath" ) {
+        long qty = 0;
+        if ( p && p->has_item_with_flag ( "AIR_SUPPLY" ) ) {
+            for (auto &i : p->all_items_with_flag( "AIR_SUPPLY" ) ) {
+                qty = sum_no_wrap( qty, charges_of ( i->typeId () ) );
+            }
+        }
+        if( p && p->has_item_with_flag( "SCUBA" ) ) {
+            for( auto &i : p->all_items_with_flag( "SCUBA" ) ) {
+                qty = sum_no_wrap( qty, long( charges_of( i->typeId () ) / 0.5 ) );
+            }
+        }
+        return std::min( qty, limit );
+    }
+
     if( what == "UPS" ) {
         long qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
