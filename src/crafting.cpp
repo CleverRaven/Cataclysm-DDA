@@ -436,6 +436,15 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     return used;
 }
 
+static void finalize_crafted_item( item &newit )
+{
+    if( newit.is_food() ) {
+        set_item_food( newit );
+    }
+}
+
+int get_hourly_rotpoints_at_temp( const int ); // weather_data.cpp
+
 void player::complete_craft()
 {
     //@todo: change making to be a reference, it can never be null anyway
@@ -575,6 +584,34 @@ void player::complete_craft()
         reset_encumbrance();  // in case we were wearing something just consumed up.
     }
 
+    const time_point now = calendar::turn;
+    time_point start_turn = now;
+    int temp = 0;
+    if( activity.values.size() > 2 ) {
+        start_turn = activity.values.at( 1 );
+        temp = activity.values.at( 2 );
+    } else {
+        // either something went wrong or player had an old binary and saved
+        // the game right in the middle of crafting, and then updated their
+        // binary, so we didn't grab these values before starting the craft
+        debugmsg( "Missing activity start time and temperature, using current val" );
+        temp = g->get_temperature( pos() );
+    }
+    const time_duration rot_points = ( now - start_turn ) / 1_hours *
+                                     get_hourly_rotpoints_at_temp( temp ) * 1_turns;
+    double max_relative_rot = 0;
+    // We need to cycle all the used ingredients and find the most rotten item,
+    // this will then set our relative rot for the crafted items.
+    for( const item &it : used ) {
+        if( !it.goes_bad() ) {
+            continue;
+        }
+        // make a copy of the item so we can play with its rot values
+        item it_copy = it;
+        it_copy.mod_rot( -rot_points );
+        max_relative_rot = std::max( max_relative_rot, it_copy.get_relative_rot() );
+    }
+
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making->create_results( batch_size );
 
@@ -606,8 +643,6 @@ void player::complete_craft()
     }
 
     bool first = true;
-    float used_age_tally = 0;
-    int used_age_count = 0;
     size_t newit_counter = 0;
     for( item &newit : newits ) {
         // messages, learning of recipe, food spoilage calculation only once
@@ -636,10 +671,6 @@ void player::complete_craft()
             }
 
             for( auto &elem : used ) {
-                if( elem.goes_bad() ) {
-                    used_age_tally += elem.get_relative_rot();
-                    ++used_age_count;
-                }
                 if( elem.has_flag( "HIDDEN_HALLU" ) ) {
                     newit.item_tags.insert( "HIDDEN_HALLU" );
                 }
@@ -660,6 +691,9 @@ void player::complete_craft()
             newit_counter++;
         }
 
+        if( newit.goes_bad() ) {
+            newit.set_relative_rot( max_relative_rot );
+        }
         if( should_heat ) {
             newit.heat_up();
         } else {
@@ -675,19 +709,22 @@ void player::complete_craft()
             newit.reset_temp_check();
         }
 
-        finalize_crafted_item( newit, used_age_tally, used_age_count );
+        finalize_crafted_item( newit );
         set_item_inventory( newit );
     }
 
     if( making->has_byproducts() ) {
         std::vector<item> bps = making->create_byproducts( batch_size );
         for( auto &bp : bps ) {
+            if( bp.goes_bad() ) {
+                bp.set_relative_rot( max_relative_rot );
+            }
             if( should_heat ) {
                 bp.heat_up();
             } else {
                 bp.reset_temp_check();
             }
-            finalize_crafted_item( bp, used_age_tally, used_age_count );
+            finalize_crafted_item( bp );
             set_item_inventory( bp );
         }
     }
@@ -695,26 +732,11 @@ void player::complete_craft()
     inv.restack( *this );
 }
 
-void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
-{
-    newit.set_relative_rot( used_age_tally / used_age_count );
-}
-
 void set_item_food( item &newit )
 {
     //@todo: encapsulate this into some function
     int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
-}
-
-void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count )
-{
-    if( newit.is_food() ) {
-        set_item_food( newit );
-    }
-    if( used_age_count > 0 && newit.goes_bad() ) {
-        set_item_spoilage( newit, used_age_tally, used_age_count );
-    }
 }
 
 void set_item_inventory( item &newit )

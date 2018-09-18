@@ -720,6 +720,9 @@ class item : public visitable<item>
         time_duration get_rot() const {
             return rot;
         }
+        void mod_rot( const time_duration &val ) {
+            rot += val;
+        }
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
