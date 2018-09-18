@@ -620,7 +620,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
         if( !mts->is_compatible( tileset_id ) ) {
             dbg( D_ERROR ) << "Mod tileset in \"" << json_path << "\" is not compatible.";
-            return;
+            continue;
         }
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
         std::ifstream mod_config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
