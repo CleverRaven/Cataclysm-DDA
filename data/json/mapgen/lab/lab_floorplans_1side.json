@@ -190,14 +190,23 @@
         "7": {
           "name": "Magazine Entrance",
           "security": 6,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 7 } ],
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
       "place_nested": [
-        { "chunks": [ [ "null", 95 ], [ "lab_hulk_smash", 5 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 45 ], [ "lab_barracks_turret", 50 ], [ "lab_hulk_smash", 5 ] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_1side_border_doors" ], "x": 0, "y": 0 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_barracks_turret",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_monster": [ { "monster": "mon_turret", "x": [ 10, 13 ], "y": [ 15, 22 ] } ]
     }
   },
   {
