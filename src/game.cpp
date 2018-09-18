@@ -7270,6 +7270,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
+    bool action_unprocessed = false;
     bool redraw = true;
     do {
         if( redraw ) {
@@ -7365,7 +7366,12 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
         int dx, dy;
         redraw = true;
         //Wait for input
-        action = ctxt.handle_input();
+        if( action_unprocessed ) {
+            // There was an action unprocessed after the mouse event consumption loop, process it now
+            action_unprocessed = false;
+        } else {
+            action = ctxt.handle_input();
+        }
         if( action == "LIST_ITEMS" ) {
             list_items_monsters();
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
@@ -7409,7 +7415,21 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             draw_sidebar();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
-            ctxt.get_coordinates( w_terrain, lx, ly );
+            // Maximum mouse events before a forced graphics update
+            int max_consume = 10;
+            do {
+                ctxt.get_coordinates( w_terrain, lx, ly );
+                if( --max_consume == 0 ) {
+                    break;
+                }
+                // Consume all consecutive mouse movements. This lowers CPU consumption
+                // by graphics updates when user moves the mouse continuously.
+                action = ctxt.handle_input( 10 );
+            } while( action == "MOUSE_MOVE" );
+            if( action != "MOUSE_MOVE" && action != "TIMEOUT" ) {
+                // The last event is not a mouse event or timeout, it needs to be processed in the next loop.
+                action_unprocessed = true;
+            }
             lx = clamp( lx, 0, MAPSIZE * SEEX );
             ly = clamp( ly, 0, MAPSIZE * SEEY );
             if( select_zone && has_first_point ) { // is blinking
