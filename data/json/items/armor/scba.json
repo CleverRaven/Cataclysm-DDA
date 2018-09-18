@@ -59,6 +59,6 @@
         "encumbrance": 8,
         "material_thickness": 3,
         "ammo": "nitrox",	
-        "magazines": [ [ "nitrox", [ "nitrox_tank_aluminum_military", "nitrox_tank_carbon_military" ] ] ]
+        "magazines": [ [ "nitrox", [ "nitrox_tank_carbon_military" ] ] ]
     }
 ]
