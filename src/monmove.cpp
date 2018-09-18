@@ -700,6 +700,7 @@ void monster::footsteps( const tripoint &p )
     switch( type->size ) {
         case MS_TINY:
             volume = 0; // No sound for the tinies
+            break;
         case MS_SMALL:
             volume /= 3;
             break;
