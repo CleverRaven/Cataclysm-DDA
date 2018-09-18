@@ -436,10 +436,39 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     return used;
 }
 
+static void set_item_food( item &newit )
+{
+    //@todo: encapsulate this into some function
+    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
+    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
+}
+
 static void finalize_crafted_item( item &newit )
 {
     if( newit.is_food() ) {
         set_item_food( newit );
+    }
+}
+
+static void set_item_inventory( item &newit )
+{
+    if( newit.made_of( LIQUID ) ) {
+        g->handle_all_liquid( newit, PICKUP_RANGE );
+    } else {
+        g->u.inv.assign_empty_invlet( newit, g->u );
+        // We might not have space for the item
+        if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
+            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
+                     newit.tname().c_str() );
+            g->m.add_item_or_charges( g->u.pos(), newit );
+        } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
+                     newit.tname().c_str() );
+            g->m.add_item_or_charges( g->u.pos(), newit );
+        } else {
+            newit = g->u.i_add( newit );
+            add_msg( m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str() );
+        }
     }
 }
 
@@ -730,35 +759,6 @@ void player::complete_craft()
     }
 
     inv.restack( *this );
-}
-
-void set_item_food( item &newit )
-{
-    //@todo: encapsulate this into some function
-    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
-    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
-}
-
-void set_item_inventory( item &newit )
-{
-    if( newit.made_of( LIQUID ) ) {
-        g->handle_all_liquid( newit, PICKUP_RANGE );
-    } else {
-        g->u.inv.assign_empty_invlet( newit, g->u );
-        // We might not have space for the item
-        if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
-            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                     newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
-        } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
-                     newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
-        } else {
-            newit = g->u.i_add( newit );
-            add_msg( m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str() );
-        }
-    }
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */

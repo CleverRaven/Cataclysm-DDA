@@ -19,7 +19,4 @@ void remove_ammo( std::list<item> &dis_items, player &p );
 
 const recipe *select_crafting_recipe( int &batch_size );
 
-void set_item_food( item &newit );
-void set_item_inventory( item &newit );
-
 #endif
