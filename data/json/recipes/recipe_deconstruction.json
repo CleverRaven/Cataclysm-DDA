@@ -2136,5 +2136,12 @@
     "time": 100,
     "components": [ [ [ "paper", 10 ] ], [ [ "plastic_chunk", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "scissors",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "spike", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
