@@ -824,6 +824,24 @@
     "difficulty": 5
   },
   {
+    "id": "bio_syringe",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Intravenous Needletip CBM",
+    "description": "A small tube with a retractable needle, that terminates in a net of tiny hoses instead of a plunger.  Installed, it allows you to draw substances directly into your bloodstream through the needle without needing to carry a syringe.",
+    "price": 1000,
+    "difficulty": 1
+  },
+  {
+    "id": "bio_weight",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Titanium Skeletal Bracing CBM",
+    "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing you to carry more weight.",
+    "price": 50000,
+    "difficulty": 3
+  },
+  {
     "id": "bio_shock_absorber",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

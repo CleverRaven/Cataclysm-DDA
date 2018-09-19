@@ -1421,6 +1421,38 @@ void iexamine::flower_bluebell(player &p, const tripoint &examp)
 }
 
 /**
+ * It's a flower, drink nectar if your able to.
+ */
+void iexamine::flower_tulip(player &p, const tripoint &examp)
+{
+    if( dead_plant( true, p, examp ) ) {
+        return;
+    }
+
+    drink_nectar( p );
+
+    // Add flower spawn once flowers are useful.
+    none( p, examp );
+    return;
+}
+
+/**
+ * It's a flower, drink nectar if your able to.
+ */
+void iexamine::flower_spurge(player &p, const tripoint &examp)
+{
+    if( dead_plant( true, p, examp ) ) {
+        return;
+    }
+
+    drink_nectar( p );
+
+    // Add flower spawn once flowers are useful.
+    none( p, examp );
+    return;
+}
+
+/**
  * Dig up its roots or drink its nectar if you can.
  */
 void iexamine::flower_dahlia(player &p, const tripoint &examp)
@@ -4064,10 +4096,13 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 for( size_t i = 0; i < items_here.size(); i++ ) {
                     auto &it = items_here[i];
                     if( ( rem_f_opt && it.is_food() ) || ( !rem_f_opt && ( it.typeId() == "charcoal" ) ) ) {
+                        // get handling cost before the item reference is invalidated
+                        const int handling_cost = -p.item_handling_cost( it );
+
                         add_msg( _("You remove %s from the rack."), it.tname().c_str() );
                         g->m.add_item_or_charges( p.pos(), it );
                         g->m.i_rem( examp, i );
-                        p.mod_moves( -p.item_handling_cost( it ) );
+                        p.mod_moves( handling_cost );
                         i--;
                     }
                 }
@@ -4124,6 +4159,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "fswitch", &iexamine::fswitch },
         { "flower_poppy", &iexamine::flower_poppy },
         { "fungus", &iexamine::fungus },
+        { "flower_spurge", &iexamine::flower_spurge },
+        { "flower_tulip", &iexamine::flower_tulip },
         { "flower_bluebell", &iexamine::flower_bluebell },
         { "flower_dahlia", &iexamine::flower_dahlia },
         { "flower_marloss", &iexamine::flower_marloss },

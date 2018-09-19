@@ -59,7 +59,7 @@ struct pathfinder {
         minx( _minx ), miny( _miny ), maxx( _maxx ), maxy( _maxy ) {
     }
 
-    std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp >
+    std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >
     open;
     std::array< std::unique_ptr< path_data_layer >, OVERMAP_LAYERS > path_data;
 
@@ -219,6 +219,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     int climb_cost = settings.climb_cost;
     bool doors = settings.allow_open_doors;
     bool trapavoid = settings.avoid_traps;
+    bool roughavoid = settings.avoid_rough_terrain;
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
@@ -298,6 +299,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 // Boring flat dirt - the most common case above the ground
                 newg += 2;
             } else {
+                if( roughavoid ) {
+                    layer.state[index] = ASL_CLOSED; // Close all rough terrain tiles
+                    continue;
+                }
+
                 int part = -1;
                 const maptile &tile = maptile_at_internal( p );
                 const auto &terrain = tile.get_ter_t();

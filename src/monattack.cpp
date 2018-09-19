@@ -1442,7 +1442,7 @@ bool mattack::triffid_heartbeat( monster *z )
         return true;
     }
 
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false );
+    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false );
     if( rl_dist( z->pos(), g->u.pos() ) > 5 &&
         !g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
@@ -3405,20 +3405,16 @@ bool mattack::multi_robot( monster *z )
     }
 
     int dist = rl_dist( z->pos(), target->pos() );
-    if( dist == 1 && one_in( 2 ) ) {
+    if( dist <= 15 ) {
         mode = 1;
-    } else if( dist <= 5 ) {
-        mode = 2;
-    } else if( dist <= 20 ) {
-        mode = 3;
     } else if( dist <= 30 ) {
-        mode = 4;
+        mode = 2;
     } else if( ( target == &g->u && g->u.in_vehicle ) ||
                z->friendly != 0 ||
                cap > 4 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if( dist >= 35 && dist < 50 ) {
+        if( dist >= 30 && dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
             cap = 5;
@@ -3434,28 +3430,13 @@ bool mattack::multi_robot( monster *z )
     }
     switch( mode ) {
         case 1:
-            if( dist <= 1 ) {
-                taze( z, target );
-            }
-            break;
-        case 2:
-            if( dist <= 5 ) {
-                flame( z, target );
-            }
-            break;
-        case 3:
-            if( dist <= 20 ) {
+            if( dist <= 15 ) {
                 rifle( z, target );
             }
             break;
-        case 4:
+        case 2:
             if( dist <= 30 ) {
                 frag( z, target );
-            }
-            break;
-        case 5:
-            if( dist <= 50 ) {
-                tankgun( z, target );
             }
             break;
         default:

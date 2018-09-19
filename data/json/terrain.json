@@ -4140,6 +4140,89 @@
   },
   {
     "type": "terrain",
+    "id": "t_shrub_rose",
+    "name": "rose bush",
+    "description": "A fat bush of beautiful red roses, if only you could get a date!  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "light_red_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP" ],
+    "transforms_into": "t_shrub_rose_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_rose_harvested",
+    "name": "rose bush",
+    "description": "A fat rose bush that currently has no blooms.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "red_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
+    "transforms_into": "t_shrub_rose",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_hydrangea",
+    "name": "hydrangea bush",
+    "description": "A fat, bush of fragrant blue hydrangeas.",
+    "symbol": "#",
+    "color": "light_blue_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "transforms_into": "t_shrub_hydrangea_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "//": "Insert hydrangea harvest in autumn once flowers have a use (same for other generic flowers).",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_hydrangea_harvested",
+    "name": "hydrangea bush",
+    "description": "A fat hydrangea bush that currently has no blooms.",
+    "symbol": "#",
+    "color": "blue_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "transforms_into": "t_shrub_hydrangea",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_trunk",
     "name": "tree trunk",
     "symbol": "1",
