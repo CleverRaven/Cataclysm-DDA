@@ -11208,6 +11208,33 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
 
 memorized_tile player::get_memorized_terrain( const tripoint &pos ) const
 {
+    return map_memory.get_memorized_terrain( pos );
+}
+
+void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation )
+{
+    map_memory.memorize_tile( pos, ter, subtile, rotation );
+}
+
+void player::finalize_tile_memory()
+{
+    map_memory.finalize_tile_memory( max_memorized_submaps() );
+}
+
+size_t player::max_memorized_submaps() const
+{
+    if( has_trait( trait_FORGETFUL ) ) {
+        return 200; // 50 overmap tiles
+    } else if( has_trait( trait_GOODMEMORY ) ) {
+        return 800; // 200 overmap tiles
+    }
+    return 400; // 100 overmap tiles
+
+}
+
+memorized_tile map_memory::get_memorized_terrain( const tripoint &pos ) const
+{
     const tripoint p = g->m.getabs( pos );
     if( memorized_terrain.find( p ) != memorized_terrain.end() ) {
         return memorized_terrain.at( p );
@@ -11215,18 +11242,20 @@ memorized_tile player::get_memorized_terrain( const tripoint &pos ) const
     return { "", 0, 0 };
 }
 
-void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile, const int rotation )
+void map_memory::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                                const int rotation )
 {
     memorized_terrain_tmp[pos] = { ter, subtile, rotation };
 }
 
-void player::finalize_tile_memory()
+void map_memory::finalize_tile_memory( size_t max_submaps )
 {
-    memorize_tiles( memorized_terrain_tmp );
+    memorize_tiles( memorized_terrain_tmp, max_submaps );
     memorized_terrain_tmp.clear();
 }
 
-void player::memorize_tiles( const std::map<tripoint, memorized_tile> &tiles )
+void map_memory::memorize_tiles( const std::map<tripoint, memorized_tile> &tiles,
+                                 const size_t max_submaps )
 {
     std::set<tripoint> submaps;
     for( auto i : tiles ) {
@@ -11235,10 +11264,10 @@ void player::memorize_tiles( const std::map<tripoint, memorized_tile> &tiles )
         memorized_terrain[p] = i.second;
     }
 
-    update_submap_memory( submaps );
+    update_submap_memory( submaps, max_submaps );
 }
 
-void player::update_submap_memory( const std::set<tripoint> &submaps )
+void map_memory::update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps )
 {
     std::set<tripoint> erase;
     for( auto i : submaps ) {
@@ -11250,7 +11279,7 @@ void player::update_submap_memory( const std::set<tripoint> &submaps )
         memorized_submaps.push_back( i );
     }
 
-    while( memorized_submaps.size() > max_memorized_submaps() ) {
+    while( memorized_submaps.size() > max_submaps ) {
         erase.insert( memorized_submaps.front() );
         memorized_submaps.erase( memorized_submaps.begin() );
     }
@@ -11258,7 +11287,7 @@ void player::update_submap_memory( const std::set<tripoint> &submaps )
     clear_submap_memory( erase );
 }
 
-void player::clear_submap_memory( const std::set<tripoint> &erase )
+void map_memory::clear_submap_memory( const std::set<tripoint> &erase )
 {
     for( auto it = memorized_terrain.cbegin(); it != memorized_terrain.cend(); ) {
         bool delete_this = false;
@@ -11274,17 +11303,6 @@ void player::clear_submap_memory( const std::set<tripoint> &erase )
             ++it;
         }
     }
-}
-
-size_t player::max_memorized_submaps() const
-{
-    if( has_trait( trait_FORGETFUL ) ) {
-        return 200; // 50 overmap tiles
-    } else if( has_trait( trait_GOODMEMORY ) ) {
-        return 800; // 200 overmap tiles
-    }
-    return 400; // 100 overmap tiles
-
 }
 
 bool player::sees( const tripoint &t, bool ) const

@@ -138,6 +138,29 @@ struct memorized_tile {
     int rotation;
 };
 
+class map_memory
+{
+    public:
+        std::map<tripoint, memorized_tile> memorized_terrain_tmp;
+        std::map<tripoint, memorized_tile> memorized_terrain;
+        std::vector<tripoint> memorized_submaps;
+
+        /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
+        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation );
+        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
+        void finalize_tile_memory( size_t max_submaps );
+        /** Memorizes several tiles at once */
+        void memorize_tiles( const std::map<tripoint, memorized_tile> &tiles, size_t max_submaps );
+        /** Adds new submaps to the memorized submap list, and pushes out the oldest ones */
+        void update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps );
+        /** Erases specific submaps from memory */
+        void clear_submap_memory( const std::set<tripoint> &erase );
+
+        /** Returns last stored map tile in given location */
+        memorized_tile get_memorized_terrain( const tripoint &p ) const;
+};
+
 class player : public Character
 {
     public:
@@ -369,26 +392,17 @@ class player : public Character
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 
-        /** Returns last stored map tile in given location */
-        memorized_tile get_memorized_terrain( const tripoint &p ) const;
-
         /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation );
-        /** Memorizes several tiles at once */
-        void memorize_tiles( const std::map<tripoint, memorized_tile> &tiles );
-        /** Adds new submaps to the memorized submap list, and pushes out the oldest ones */
-        void update_submap_memory( const std::set<tripoint> &submaps );
-        /** Erases specific submaps from memory */
-        void clear_submap_memory( const std::set<tripoint> &erase );
-        /** Called after several calls of memorize_tile, processes several tiles at once */
+        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
         void finalize_tile_memory();
+        /** Returns last stored map tile in given location */
+        memorized_tile get_memorized_terrain( const tripoint &p ) const;
         /** Returns the amount of submaps survivor can remember. Each submap is 12x12 and there are 4 of them in an overmap tile */
         size_t max_memorized_submaps() const;
 
-        std::map<tripoint, memorized_tile> memorized_terrain_tmp;
-        std::map<tripoint, memorized_tile> memorized_terrain;
-        std::vector<tripoint> memorized_submaps;
+        map_memory map_memory;
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
