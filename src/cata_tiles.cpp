@@ -379,9 +379,9 @@ static void color_pixel_memorized( pixel &pix )
     if( pix.isBlack() ) {
         return;
     }
-    pix.r = clamp(pix.r / 3, 1, 255);
-    pix.g = clamp(pix.g / 3, 1, 255);
-    pix.b = clamp(pix.b / 3, 1, 255);
+    pix.r = clamp( pix.r / 3, 1, 255 );
+    pix.g = clamp( pix.g / 3, 1, 255 );
+    pix.b = clamp( pix.b / 3, 1, 255 );
 }
 
 static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,

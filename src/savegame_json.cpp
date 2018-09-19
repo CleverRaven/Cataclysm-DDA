@@ -662,6 +662,8 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "player_stats", lifetime_stats );
 
+    map_memory.store( json );
+
     json.member( "assigned_invlet" );
     json.start_array();
     for( auto iter : inv.assigned_invlet ) {
@@ -836,6 +838,8 @@ void player::deserialize( JsonIn &jsin )
     }
 
     data.read( "player_stats", lifetime_stats );
+
+    map_memory.load( data );
 
     parray = data.get_array( "assigned_invlet" );
     while( parray.has_more() ) {
@@ -2445,6 +2449,35 @@ void player_morale::store( JsonOut &jsout ) const
 void player_morale::load( JsonObject &jsin )
 {
     jsin.read( "morale", points );
+}
+
+void map_memory::store( JsonOut &jsout ) const
+{
+    jsout.member( "map_memory" );
+    jsout.start_array();
+    for( const auto &elem : memorized_terrain ) {
+        jsout.start_object();
+        jsout.member( "x", elem.first.x );
+        jsout.member( "y", elem.first.y );
+        jsout.member( "z", elem.first.z );
+        jsout.member( "tile", elem.second.tile );
+        jsout.member( "subtile", elem.second.subtile );
+        jsout.member( "rotation", elem.second.rotation );
+        jsout.end_object();
+    }
+    jsout.end_array();
+}
+
+void map_memory::load( JsonObject &jsin )
+{
+    JsonArray map_memory = jsin.get_array( "map_memory" );
+    memorized_terrain.clear();
+    while( map_memory.has_more() ) {
+        JsonObject pmap = map_memory.next_object();
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        const memorized_tile m{ pmap.get_string( "tile" ), pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) };
+        memorized_terrain[p] = m;
+    }
 }
 
 void deserialize( point &p, JsonIn &jsin )

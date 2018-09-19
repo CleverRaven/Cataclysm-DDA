@@ -5546,6 +5546,7 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
         case LL_BRIGHT: // bright light
             return VIS_CLEAR;
         case LL_BLANK:
+        case LL_MEMORIZED:
             return VIS_HIDDEN;
     }
     return VIS_HIDDEN;

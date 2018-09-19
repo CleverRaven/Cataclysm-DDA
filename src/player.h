@@ -141,9 +141,8 @@ struct memorized_tile {
 class map_memory
 {
     public:
-        std::map<tripoint, memorized_tile> memorized_terrain_tmp;
-        std::map<tripoint, memorized_tile> memorized_terrain;
-        std::vector<tripoint> memorized_submaps;
+        void store( JsonOut &jsout ) const;
+        void load( JsonObject &jsin );
 
         /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
@@ -159,6 +158,10 @@ class map_memory
 
         /** Returns last stored map tile in given location */
         memorized_tile get_memorized_terrain( const tripoint &p ) const;
+    private:
+        std::map<tripoint, memorized_tile> memorized_terrain_tmp;
+        std::map<tripoint, memorized_tile> memorized_terrain;
+        std::vector<tripoint> memorized_submaps;
 };
 
 class player : public Character
@@ -401,8 +404,6 @@ class player : public Character
         memorized_tile get_memorized_terrain( const tripoint &p ) const;
         /** Returns the amount of submaps survivor can remember. Each submap is 12x12 and there are 4 of them in an overmap tile */
         size_t max_memorized_submaps() const;
-
-        map_memory map_memory;
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
@@ -1784,6 +1785,7 @@ class player : public Character
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
 
+        map_memory map_memory;
 };
 
 #endif
