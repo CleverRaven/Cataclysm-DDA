@@ -7354,7 +7354,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "food_processor", 40 ] ] ],
     "components": [
-      [ [ "pine_nuts", 5 ], [ "pecans", 5 ], [ "cashews", 5 ], [ "pistachios", 5 ], [ "almonds", 5 ], [ "beech_nuts", 5 ], [ "hickory_nut_unshelled", 5 ], [ "chestnut_unshelled", 5 ], [ "hazelnut_unshelled", 5 ], [ "walnut_unshelled", 5 ], [ "acorn_unshelled", 5 ] ],
+      [ [ "pine_nuts", 5 ], [ "pecans", 5 ], [ "cashews", 5 ], [ "pistachios", 5 ], [ "almonds", 5 ], [ "beech_nuts", 5 ], [ "hickory_nut_unshelled", 5 ], [ "chestnut_unshelled", 5 ], [ "hazelnut_unshelled", 5 ], [ "walnut_unshelled", 5 ], [ "acorns", 5 ] ],
       [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ]
     ]
   }
