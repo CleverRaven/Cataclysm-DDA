@@ -5,7 +5,7 @@
     "name": "Sleep Deprivation",
     "authors": [ "Kevin Giovinazzo" ],
     "maintainers": [ "Kevin Giovinazzo" ],
-    "description": "Enables sleep deprivation mechanics independent of a player's fatigue.",
+    "description": "Enables sleep deprivation mechanics independently of a player's fatigue.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   }

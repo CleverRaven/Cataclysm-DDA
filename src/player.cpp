@@ -690,7 +690,6 @@ void player::reset_stats()
         mod_per_bonus( -get_thirst() / 200 );
     }
     if( get_sleep_deprivation() >= SLEEP_DEPRIVATION_HARMLESS ) {
-        // Make the effect intensity range from 0 to 100 visually, to make it easier for the player
         set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
     }
     else if( has_effect( effect_sleep_deprived ) ) {
@@ -4444,18 +4443,12 @@ void player::update_needs( int rate_multiplier )
 
                     if( comfort >= comfort_level::very_comfortable ) {
                         rest_modifier *= 3;
-                        add_msg( m_debug, "This place is very comfortable!" );
                     }
                     else  if( comfort >= comfort_level::comfortable ) {
                         rest_modifier *= 2.5;
-                        add_msg( m_debug, "This place is comfortable!" );
                     }
                     else if( comfort >= comfort_level::slightly_comfortable ) {
                         rest_modifier *= 2;
-                        add_msg( m_debug, "This place is slightly comfortable!" );
-                    }
-                    else {
-                        add_msg( m_debug, "This place is not comfortable!" );
                     }
 
                     // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
