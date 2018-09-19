@@ -11,7 +11,11 @@
       [ "hardtack", 30 ],
       [ "jihelucake", 10 ],
       [ "biscuit", 50 ],
-      [ "crackers", 40 ]
+      [ "crackers", 40 ],
+      [ "almonds", 20 ],
+      [ "cashews", 20 ],
+      [ "pistachios", 20 ],
+      [ "peanuts", 20 ]
     ]
   },
   {
