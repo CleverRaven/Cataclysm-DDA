@@ -777,6 +777,58 @@
     "to_hit": -2
    },
    {
+    "type":"GENERIC",
+    "id": "acorn",
+    "symbol": "%",
+    "color": "brown",
+    "name": "acorns",
+    "name_plural": "acorns",
+    "description": "A handful of hard nuts from an oak tree, still in their shell.",
+    "price": 0,
+    "weight": 180,
+    "volume": 1,
+    "to_hit": -2
+   },
+   {
+    "type":"GENERIC",
+    "id": "hazelnut",
+    "symbol": "%",
+    "color": "brown",
+    "name": "hazelnut",
+    "name_plural": "hazelnuts",
+    "description": "A handful of hard nuts from a hazelnut tree, still in their shell.",
+    "price": 0,
+    "weight": 212,
+    "volume": 1,
+    "to_hit": -2
+   },
+   {
+    "type":"GENERIC",
+    "id": "chestnut",
+    "symbol": "%",
+    "color": "brown",
+    "name": "chestnut",
+    "name_plural": "chestnuts",
+    "description": "A handful of hard nuts from a chestnut tree, still in their shell.",
+    "price": 0,
+    "weight": 240,
+    "volume": 1,
+    "to_hit": -2
+   },
+   {
+    "type":"GENERIC",
+    "id": "walnut",
+    "symbol": "%",
+    "color": "brown",
+    "name": "walnut",
+    "name_plural": "walnuts",
+    "description": "A handful of hard nuts from a walnut tree, still in their shell.",
+    "price": 0,
+    "weight": 240,
+    "volume": 1,
+    "to_hit": -2
+   },
+   {
     "type" : "COMESTIBLE",
     "id" : "water_sewage",
     "name" : "sewage water",
