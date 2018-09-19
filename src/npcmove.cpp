@@ -294,6 +294,7 @@ float npc::character_danger( const Character &uc ) const
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
     }
+    ret += u_weap_val;
 
     ret += hp_percentage() * get_hp_max( hp_torso ) / 100.0 / my_weap_val;
 

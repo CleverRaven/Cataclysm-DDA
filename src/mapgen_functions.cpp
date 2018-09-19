@@ -22,6 +22,10 @@
 #include "field.h"
 #include <algorithm>
 #include <iterator>
+#include <random>
+#include <chrono>
+
+#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 const mtype_id mon_ant_larva( "mon_ant_larva" );
 const mtype_id mon_ant_queen( "mon_ant_queen" );
@@ -94,7 +98,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "crater",           &mapgen_crater },
             { "field",            &mapgen_field },
             { "dirtlot",          &mapgen_dirtlot },
-            { "forest",           &mapgen_forest_general },
+            { "forest",           &mapgen_forest },
             { "hive",             &mapgen_hive },
             { "spider_pit",       &mapgen_spider_pit },
             { "fungal_bloom",     &mapgen_fungal_bloom },
@@ -423,227 +427,6 @@ void mapgen_dirtlot( map *m, oter_id, mapgendata, const time_point &, float )
         if( !m->veh_at( vp ) ) {
             m->add_vehicle( vgroup_id( "dirtlot" ), vp, theta, -1, -1 );
         }
-    }
-}
-// @todo: more region_settings for forest biome
-void mapgen_forest_general( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
-                            float )
-{
-    if( terrain_type == "forest_thick" ) {
-        dat.fill( 8 );
-    } else if( terrain_type == "forest_water" ) {
-        dat.fill( 4 );
-    } else if( terrain_type == "forest" ) {
-        dat.fill( 0 );
-    }
-    for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] == "forest" || dat.t_nesw[i] == "forest_water" ) {
-            dat.dir( i ) += 14;
-        } else if( dat.t_nesw[i] == "forest_thick" ) {
-            dat.dir( i ) += 18;
-        }
-    }
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            int forest_chance = 0;
-            int num = 0;
-            if( j < dat.n_fac ) {
-                forest_chance += dat.n_fac - j;
-                num++;
-            }
-            if( SEEX * 2 - 1 - i < dat.e_fac ) {
-                forest_chance += dat.e_fac - ( SEEX * 2 - 1 - i );
-                num++;
-            }
-            if( SEEY * 2 - 1 - j < dat.s_fac ) {
-                forest_chance += dat.s_fac - ( SEEY * 2 - 1 - j );
-                num++;
-            }
-            if( i < dat.w_fac ) {
-                forest_chance += dat.w_fac - i;
-                num++;
-            }
-            if( num > 0 ) {
-                forest_chance /= num;
-            }
-            int rn = rng( 0, forest_chance );
-            if( ( forest_chance > 0 && rn > 13 ) || one_in( 100 - forest_chance ) ) {
-                std::array<std::pair<int, ter_id>, 16> tree_chances = {{
-                        // @todo: JSONize this array!
-                        // Ensure that these one_in chances
-                        // (besides the last) don't add up to more than 1 in 1
-                        // Reserve the last one (1 in 1) for simple trees that fill up the rest.
-                        { 250, t_tree_apple },
-                        { 300, t_tree_pear },
-                        { 300, t_tree_coffee },
-                        { 300, t_tree_cherry },
-                        { 350, t_tree_apricot },
-                        { 350, t_tree_peach },
-                        { 350, t_tree_plum },
-                        { 256, t_tree_birch },
-                        { 256, t_tree_willow },
-                        { 256, t_tree_maple },
-                        { 128, t_tree_deadpine },
-                        { 128, t_tree_hickory_dead },
-                        { 32, t_tree_hickory },
-                        { 16, t_tree_pine },
-                        { 16, t_tree_blackjack },
-                        { 1, t_tree },
-                    }
-                };
-                double earlier_chances = 0;
-                // Remember the earlier chances to calculate the sliding errors
-                for( size_t c = 0; c < tree_chances.size(); c++ ) {
-                    if( tree_chances[c].first == 1 ) {
-                        // If something has chances of 1, just put it in and go on.
-                        m->ter_set( i, j, tree_chances[c].second );
-                        break;
-                    } else if( earlier_chances != 1 &&
-                               ( one_in_improved( ( 1 / ( 1 - earlier_chances ) )*tree_chances[c].first ) ) ) {
-                        // (1/(1 - earlier_chances)) is the sliding error. fixed here
-                        m->ter_set( i, j, tree_chances[c].second );
-                        break;
-                    } else {
-                        earlier_chances += 1 / double( tree_chances[c].first );
-                    }
-                }
-            } else if( ( forest_chance > 0 && rn > 10 ) || one_in( 100 - forest_chance ) ) {
-                m->ter_set( i, j, t_tree_young );
-            } else if( ( forest_chance > 0 && rn >  9 ) || one_in( 100 - forest_chance ) ) {
-                if( one_in( 250 ) ) {
-                    m->ter_set( i, j, t_shrub_blueberry );
-                } else {
-                    m->ter_set( i, j, t_underbrush );
-                }
-            } else {
-                m->ter_set( i, j, dat.groundcover() );
-            }
-        }
-    }
-    m->place_items( "forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true,
-                    turn ); // @todo: fixme: region settings
-
-    if( terrain_type == "forest_water" ) {
-        // Reset *_fac to handle where to place water
-        for( int i = 0; i < 8; i++ ) {
-            if( dat.t_nesw[i] == "forest_water" ) {
-                dat.set_dir( i, 2 );
-            } else if( is_ot_type( "river", dat.t_nesw[i] ) ) {
-                dat.set_dir( i, 3 );
-            } else if( dat.t_nesw[i] == "forest" || dat.t_nesw[i] == "forest_thick" ) {
-                dat.set_dir( i, 1 );
-            } else {
-                dat.set_dir( i, 0 );
-            }
-        }
-        int x = SEEX / 2 + rng( 0, SEEX ), y = SEEY / 2 + rng( 0, SEEY );
-        for( int i = 0; i < 20; i++ ) {
-            if( x >= 0 && x < SEEX * 2 && y >= 0 && y < SEEY * 2 ) {
-                if( m->ter( x, y ) == t_swater_sh ) {
-                    m->ter_set( x, y, t_swater_dp );
-                } else if( dat.is_groundcover( m->ter( x, y ) ) ||
-                           m->ter( x, y ) == t_underbrush ) {
-                    m->ter_set( x, y, t_swater_sh );
-                }
-                if( m->ter( x, y ) == t_water_sh ) {
-                    m->ter_set( x, y, t_water_dp );
-                } else if( dat.is_groundcover( m->ter( x, y ) ) ||
-                           m->ter( x, y ) == t_underbrush ) {
-                    m->ter_set( x, y, t_water_sh );
-                }
-            } else {
-                i = 20;
-            }
-            x += rng( -2, 2 );
-            y += rng( -2, 2 );
-            if( x < 0 || x >= SEEX * 2 ) {
-                x = SEEX / 2 + rng( 0, SEEX );
-            }
-            if( y < 0 || y >= SEEY * 2 ) {
-                y = SEEY / 2 + rng( 0, SEEY );
-            }
-            int factor = dat.n_fac + ( dat.ne_fac / 2 ) + ( dat.nw_fac / 2 );
-            for( int j = 0; j < factor; j++ ) {
-                int wx = rng( 0, SEEX * 2 - 1 ), wy = rng( 0, SEEY - 1 );
-                if( dat.is_groundcover( m->ter( wx, wy ) ) ||
-                    m->ter( wx, wy ) == t_underbrush ) {
-                    m->ter_set( wx, wy, t_swater_sh );
-                }
-            }
-            factor = dat.e_fac + ( dat.ne_fac / 2 ) + ( dat.se_fac / 2 );
-            for( int j = 0; j < factor; j++ ) {
-                int wx = rng( SEEX, SEEX * 2 - 1 ), wy = rng( 0, SEEY * 2 - 1 );
-                if( dat.is_groundcover( m->ter( wx, wy ) ) ||
-                    m->ter( wx, wy ) == t_underbrush ) {
-                    m->ter_set( wx, wy, t_water_sh );
-                }
-            }
-            factor = dat.s_fac + ( dat.se_fac / 2 ) + ( dat.sw_fac / 2 );
-            for( int j = 0; j < factor; j++ ) {
-                int wx = rng( 0, SEEX * 2 - 1 ), wy = rng( SEEY, SEEY * 2 - 1 );
-                if( dat.is_groundcover( m->ter( wx, wy ) ) ||
-                    m->ter( wx, wy ) == t_underbrush ) {
-                    m->ter_set( wx, wy, t_swater_sh );
-                }
-            }
-            factor = dat.s_fac + ( dat.se_fac / 2 ) + ( dat.ne_fac / 2 );
-            for( int j = 0; j < factor; j++ ) {
-                int wx = rng( 0, SEEX * 2 - 1 ), wy = rng( SEEY, SEEY * 2 - 1 );
-                if( m->ter( wx, wy ) == t_water_sh ) {
-                    m->furn_set( wx, wy, f_cattails );
-                }
-            }
-            factor = dat.s_fac + ( dat.se_fac / 2 ) + ( dat.sw_fac / 2 );
-            for( int j = 0; j < factor; j++ ) {
-                int wx = rng( 0, SEEX * 2 - 1 ), wy = rng( SEEY, SEEY * 2 - 1 );
-                if( m->ter( wx, wy ) == t_water_sh ) {
-                    m->furn_set( wx, wy, f_cattails );
-                }
-            }
-            factor = dat.w_fac + ( dat.nw_fac / 2 ) + ( dat.sw_fac / 2 );
-            for( int j = 0; j < factor; j++ ) {
-                int wx = rng( 0, SEEX - 1 ), wy = rng( 0, SEEY * 2 - 1 );
-                if( dat.is_groundcover( m->ter( wx, wy ) ) ||
-                    m->ter( wx, wy ) == t_underbrush ) {
-                    m->ter_set( wx, wy, t_water_sh );
-                }
-            }
-        }
-        int rn = rng( 0, 2 ) * rng( 0, 1 ) + rng( 0, 1 ); // Good chance of 0
-        for( int i = 0; i < rn; i++ ) {
-            x = rng( 0, SEEX * 2 - 1 );
-            y = rng( 0, SEEY * 2 - 1 );
-            mtrap_set( m, x, y, tr_sinkhole );
-            if( m->ter( x, y ) != t_swater_sh && m->ter( x, y ) != t_water_sh ) {
-                m->ter_set( x, y, dat.groundcover() );
-            }
-        }
-    }
-
-    //1-2 per overmap, very bad day for low level characters
-    if( one_in( 10000 ) ) {
-        m->add_spawn( mon_jabberwock, 1, SEEX, SEEY ); // @todo: fixme add to monster_group?
-    }
-
-    //Very rare easter egg, ~1 per 10 overmaps
-    if( one_in( 1000000 ) ) {
-        m->add_spawn( mon_shia, 1, SEEX, SEEY );
-    }
-
-    // One in 100 forests has a spider living in it :o
-    if( one_in( 100 ) ) {
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEX * 2; j++ ) {
-                if( ( dat.is_groundcover( m->ter( i, j ) ) ||
-                      m->ter( i, j ) == t_underbrush ) && !one_in( 3 ) ) {
-                    madd_field( m, i, j, fd_web, rng( 1, 3 ) );
-                }
-            }
-        }
-        m->ter_set( 12, 12, t_dirt );
-        m->furn_set( 12, 12, f_egg_sackws );
-        m->remove_field( {12, 12, m->get_abs_sub().z}, fd_web );
-        m->add_spawn( mon_spider_web, rng( 1, 2 ), SEEX, SEEY );
     }
 }
 
@@ -2666,7 +2449,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
         }
     }
 
-    place_stairs( m, terrain_type, dat, actual_house_height, lw, rw );
+    place_stairs( m, terrain_type, dat );
 
     if( one_in( 100 ) ) { // @todo: region data // Houses have a 1 in 100 chance of wasps!
         for( int i = 0; i < SEEX * 2; i++ ) {
@@ -3090,7 +2873,7 @@ void mapgen_cave( map *m, oter_id, mapgendata dat, const time_point &turn, float
                     draw_map(oter_id("forest"), dat.north(), dat.east(), dat.south(), dat.west(), dat.neast(), dat.seast(), dat.nwest(), dat.swest(),
                              dat.above(), turn, g, density, dat.zlevel);
         */
-        mapgen_forest_general( m, oter_str_id( "forest" ).id(), dat, turn, density );
+        mapgen_forest( m, oter_str_id( "forest" ).id(), dat, turn, density );
         // Clear the center with some rocks
         square( m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5 );
         int pathx = 0;
@@ -3786,6 +3569,239 @@ void mapgen_tutorial( map *m, oter_id terrain_type, mapgendata dat, const time_p
     }
 }
 
+void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+                    float )
+{
+    // Adjacency factor is basically used to weight the frequency of a feature
+    // being placed by the relative sparseness of the current terrain to its
+    // neighbors. For example, a forest_thick surrounded by forest_thick on
+    // all sides can be much more dense than a forest_water surrounded by
+    // fields on all sides. It's a little magic-number-y but somewhat replicates
+    // the behavior of the previous forest mapgen when fading forest terrains
+    // into each other and non-forest terrains.
+
+    const auto get_sparseness_adjacency_factor = [&dat]( const oter_id ot ) {
+        const auto biome = dat.region.forest_composition.biomes.find( ot );
+        if( biome == dat.region.forest_composition.biomes.end() ) {
+            // If there is no defined biome for this oter, use 0. It's possible
+            // to specify biomes in the forest regional settings that are not
+            // rendered by this forest map gen method, in order to control
+            // how terrains are blended together (e.g. specify roads with an equal
+            // sparsness adjacency factor to forests so that forests don't fade out
+            // as they transition to roads.
+            return 0;
+        }
+        return biome->second.sparseness_adjacency_factor;
+    };
+
+    const auto fill_adjacency_factor = [&dat, &get_sparseness_adjacency_factor]( int self_factor ) {
+        dat.fill( self_factor );
+        for( int i = 0; i < 4; i++ ) {
+            dat.dir( i ) += get_sparseness_adjacency_factor( dat.t_nesw[i] );
+        }
+    };
+
+    const ter_furn_id no_ter_furn = ter_furn_id();
+
+    const auto get_feature_for_neighbor = [&dat,
+                                           &no_ter_furn]( const std::map<oter_id, ter_furn_id> &biome_features,
+    const om_direction::type dir ) {
+        const oter_id dir_ot = dat.neighbor_at( dir );
+        const auto feature = biome_features.find( dir_ot );
+        if( feature == biome_features.end() ) {
+            // If we have no biome for this neighbor, then we just return any empty feature.
+            // As with the sparseness adjacency factor, it's possible to define non-forest
+            // biomes in the regional settings so that they provide neighbor features
+            // here for blending purposes (e.g. define dirt terrain for roads so that the
+            // ground fades from forest ground cover to dirt as blends with roads.
+            return no_ter_furn;
+        }
+        return feature->second;
+    };
+
+    // The max sparseness is calculated across all the possible biomes, not just the adjacent ones.
+    const auto get_max_sparseness_adjacency_factor = [&dat]() {
+        if( dat.region.forest_composition.biomes.size() == 0 ) {
+            return 0;
+        }
+        std::vector<int> factors;
+        for( auto &b : dat.region.forest_composition.biomes ) {
+            factors.push_back( b.second.sparseness_adjacency_factor );
+        }
+        return *max_element( std::begin( factors ), std::end( factors ) );
+    };
+
+    // Get the sparesness factor for this terrain, and fill it.
+    const int factor = get_sparseness_adjacency_factor( terrain_type );
+    fill_adjacency_factor( factor );
+
+    const int max_factor = get_max_sparseness_adjacency_factor();
+
+    // Our margins for blending divide the overmap terrain into nine sections.
+    static constexpr int margin_x = SEEX * 2 / 3;
+    static constexpr int margin_y = SEEY * 2 / 3;
+
+    const auto get_blended_feature = [&no_ter_furn, &max_factor, &factor,
+                  &get_feature_for_neighbor, &terrain_type, &dat]( int x, int y ) {
+        // Pick one random feature from each biome according to the biome defs and save it into a lookup.
+        // We'll blend these features together below based on the current and adjacent terrains.
+        std::map<oter_id, ter_furn_id> biome_features;
+        for( auto &b : dat.region.forest_composition.biomes ) {
+            biome_features[b.first] = b.second.pick();
+        }
+
+        // Get a feature for ourself and each of the adjacent overmap terrains.
+        const ter_furn_id east_feature = get_feature_for_neighbor( biome_features,
+                                         om_direction::type::east );
+        const ter_furn_id west_feature = get_feature_for_neighbor( biome_features,
+                                         om_direction::type::west );
+        const ter_furn_id north_feature = get_feature_for_neighbor( biome_features,
+                                          om_direction::type::north );
+        const ter_furn_id south_feature = get_feature_for_neighbor( biome_features,
+                                          om_direction::type::south );
+        const ter_furn_id self_feature = biome_features[terrain_type];
+
+        // We'll use our margins and the four adjacent overmap terrains to pick a blended
+        // feature based on the features we picked above and a linear weight as we
+        // transition through the margins.
+        //
+        // (0,0)     NORTH
+        //      ---------------
+        //      | NW | W | NE |
+        //      |----|---|----|
+        // WEST | W  |   | E  |  EAST
+        //      |----|---|----|
+        //      | SW | S | SE |
+        //      ---------------
+        //           SOUTH      (SEEX * 2, SEEY * 2)
+
+        const int west_weight = std::max( margin_x - x, 0 );
+        const int east_weight = std::max( x - ( SEEX * 2 - margin_x ) + 1, 0 );
+        const int north_weight = std::max( margin_y - y, 0 );
+        const int south_weight = std::max( y - ( SEEY * 2 - margin_y ) + 1, 0 );
+
+        // We'll build a weighted list of features to pull from at the end.
+        weighted_int_list<const ter_furn_id> feature_pool;
+
+        // W sections
+        if( x < margin_x ) {
+            // NW corner - blend N, W, and self
+            if( y < margin_y ) {
+                feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.w_fac + factor * 2 ) );
+                feature_pool.add( self_feature, 1 );
+                feature_pool.add( west_feature, west_weight );
+                feature_pool.add( north_feature, north_weight );
+            }
+            // SW corner - blend S, W, and self
+            else if( y > SEEY * 2 - margin_y ) {
+                feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.w_fac + factor * 2 ) );
+                feature_pool.add( self_feature, factor );
+                feature_pool.add( west_feature, west_weight );
+                feature_pool.add( south_feature, south_weight );
+            }
+            // W edge - blend W and self
+            else {
+                feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.w_fac + factor * 2 ) );
+                feature_pool.add( self_feature, factor );
+                feature_pool.add( west_feature, west_weight );
+            }
+        }
+        // E sections
+        else if( x > SEEX * 2 - margin_x ) {
+            // NE corner - blend N, E, and self
+            if( y < margin_y ) {
+                feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.e_fac + factor * 2 ) );
+                feature_pool.add( self_feature, factor );
+                feature_pool.add( east_feature, east_weight );
+                feature_pool.add( north_feature, north_weight );
+            }
+            // SE corner - blend S, E, and self
+            else if( y > SEEY * 2 - margin_y ) {
+                feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.e_fac + factor * 2 ) );
+                feature_pool.add( self_feature, factor );
+                feature_pool.add( east_feature, east_weight );
+                feature_pool.add( south_feature, south_weight );
+            }
+            // E edge - blend E and self
+            else {
+                feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.e_fac + factor * 2 ) );
+                feature_pool.add( self_feature, factor );
+                feature_pool.add( east_feature, east_weight );
+            }
+        }
+        // Central sections
+        else {
+            // N edge - blend N and self
+            if( y < margin_y ) {
+                feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.n_fac + factor * 2 ) );
+                feature_pool.add( self_feature, factor );
+                feature_pool.add( north_feature, north_weight );
+            }
+            // S edge - blend S, and self
+            else if( y > SEEY * 2 - margin_y ) {
+                feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.s_fac + factor * 2 ) );
+                feature_pool.add( self_feature, factor );
+                feature_pool.add( south_feature, south_weight );
+            }
+            // center - no blending
+            else {
+                feature_pool.add( no_ter_furn, max_factor - factor * 2 );
+                feature_pool.add( self_feature, factor );
+            }
+        }
+
+        // Pick a single feature from the pool we built above and return it.
+        const ter_furn_id *feature = feature_pool.pick();
+        if( feature == nullptr ) {
+            return no_ter_furn;
+        } else {
+            return *feature;
+        }
+    };
+
+    // Get the current biome def for this terrain.
+    const auto current_biome_def_it = dat.region.forest_composition.biomes.find( terrain_type );
+
+    // If there is no biome def for this terrain, fill in with the region's default ground cover
+    // and bail--nothing more to be done.
+    if( current_biome_def_it == dat.region.forest_composition.biomes.end() ) {
+        dat.fill_groundcover();
+        return;
+    }
+
+    const forest_biome current_biome_def = current_biome_def_it->second;
+
+    // If this biome does not define its own groundcover, then fill with the region's ground
+    // cover. Otherwise, fill with the biome defs groundcover.
+    if( current_biome_def.groundcover.size() == 0 ) {
+        dat.fill_groundcover();
+    } else {
+        m->draw_fill_background( current_biome_def.groundcover );
+    }
+
+    // Loop through each location in this overmap terrain and attempt to place a feature.
+    for( int x = 0; x < SEEX * 2; x++ ) {
+        for( int y = 0; y < SEEY * 2; y++ ) {
+            const ter_furn_id feature = get_blended_feature( x, y );
+            ter_or_furn_set( m, x, y, feature );
+
+            // Special handling from the original map gen: a chance of spawning cattails on fresh water in swamp biomes.
+            // TODO: think of a good way to move this sort of dependent spawning into the biome def
+            if( terrain_type == "forest_water" && feature.ter == t_water_sh ) {
+                if( one_in( 2 ) ) {
+                    m->furn_set( x, y, f_cattails );
+                }
+            }
+        }
+    }
+
+    // Place items on this terrain as defined in the biome.
+    for( int i = 0; i < current_biome_def.item_spawn_iterations; i++ ) {
+        m->place_items( current_biome_def.item_group, current_biome_def.item_group_chance, 0, 0,
+                        SEEX * 2 - 1, SEEY * 2 - 1, true, turn );
+    }
+}
+
 void mremove_trap( map *m, int x, int y )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
@@ -3804,70 +3820,132 @@ void madd_field( map *m, int x, int y, field_id t, int density )
     m->add_field( actual_location, t, density, 0 );
 }
 
-void place_stairs( map *m, oter_id terrain_type, mapgendata dat,
-                   const int actual_house_height, const int lw, const int rw )
+bool is_suitable_for_stairs( const map *const m, const tripoint &p )
+{
+    const ter_t &p_ter = m->ter( p ).obj();
+
+    return
+        p_ter.has_flag( "INDOORS" ) &&
+        p_ter.has_flag( "FLAT" ) &&
+        m->furn( p ) == f_null;
+}
+
+void stairs_debug_log( const map *const m, const std::string &msg, const tripoint &p,
+                       DebugLevel level = D_INFO )
+{
+    const ter_t &p_ter = m->ter( p ).obj();
+
+    dbg( level )
+            << msg
+            << " tripoint: " << p
+            << " terrain: " << p_ter.name()
+            << " movecost: " << p_ter.movecost
+            << " furniture: " << m->furn( p )
+            << " indoors: " << p_ter.has_flag( "INDOORS" )
+            << " flat: " << p_ter.has_flag( "FLAT" )
+            ;
+}
+
+void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 {
     if( !dat.has_basement() ) {
         return;
     }
 
     const bool force = get_option<bool>( "ALIGN_STAIRS" );
-    // Find the basement's stairs first
+
     const tripoint abs_sub_here = m->get_abs_sub();
+
     tinymap basement;
     basement.load( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1, false );
-    std::vector<tripoint> upstairs;
-    const tripoint from( 0, 0, abs_sub_here.z - 1 );
-    const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z - 1 );
-    for( const tripoint &p : m->points_in_rectangle( from, to ) ) {
-        if( basement.has_flag( TFLAG_GOES_UP, p ) ) {
-            upstairs.emplace_back( p );
+
+    const tripoint down( 0, 0, -1 );
+    const tripoint from( 0, 0, abs_sub_here.z );
+    const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z );
+    tripoint_range tr = m->points_in_rectangle( from, to );
+    std::vector<tripoint> stairs;
+    std::vector<tripoint> tripoints;
+
+    // Find the basement's stairs first.
+    for( auto &&p : tr ) {
+        if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
+            const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
+            stairs.emplace_back( rotated );
+            stairs_debug_log( m, "basement stairs:", rotated );
+        }
+
+        if( is_suitable_for_stairs( m, p ) ) {
+            tripoints.emplace_back( p );
         }
     }
 
-    bool placed_any = false;
-    for( const tripoint &p : upstairs ) {
-        static const tripoint up = tripoint( 0, 0, 1 );
-        const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
-        // @todo: Less ugly check
-        // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
-        const ter_t &ter_here = m->ter( here ).obj();
-        if( ( force && ter_here.movecost > 0 ) ||
-            ( ter_here.has_flag( "INDOORS" ) && ter_here.has_flag( "FLAT" ) ) ) {
-            m->ter_set( here, t_stairs_down );
-            placed_any = true;
-        }
-        // Try to push away furniture
-        const furn_id furn_here = m->furn( here );
-        if( furn_here != f_null ) {
-            for( const tripoint &push_point : m->points_in_radius( here, 1 ) ) {
-                if( m->furn( push_point ) == f_null ) {
-                    m->furn_set( push_point, furn_here );
-                    break;
+    if( stairs.empty() ) {
+        dbg( D_INFO ) << "no stairs found downstairs";
+        return;
+    }
+
+    // Shuffle tripoints so that the stairs are not always similarly placed.
+    static auto eng = std::default_random_engine(
+                          std::chrono::system_clock::now().time_since_epoch().count() );
+    std::shuffle( std::begin( tripoints ), std::end( tripoints ), eng );
+
+    bool all_can_be_placed = false;
+    tripoint shift( 0, 0, 0 );
+    int match_count = 0;
+
+    // Find a tripoint where all the underground tripoints for stairs are on
+    // suitable locations aboveground.
+    for( auto &&p : tripoints ) {
+        int count = 1;
+        all_can_be_placed = true;
+        stairs_debug_log( m, "ok first:", p );
+
+        // First element can be ignored as p is already ok.
+        for( auto it = stairs.begin() + 1; it != stairs.end(); ++it ) {
+            // Align tripoint with the first underground tripoint.
+            const tripoint &stair = *it - stairs.front() + p;
+
+            if( !is_suitable_for_stairs( m, stair ) ) {
+                stairs_debug_log( m, "not ok:", stair );
+                all_can_be_placed = false;
+
+                if( match_count < count ) {
+                    match_count = count;
+                    shift = p - stairs.front();
+                    dbg( D_INFO ) << "partial match shift tripoint: " << shift;
                 }
-            }
-            m->furn_set( here, f_null );
-        }
-    }
 
-    // If not forcing alignment and didn't place any stairs, allow legacy stair placement
-    // Note: any, not all - legacy stairs wouldn't deal well with multiple random stairs
-    if( !placed_any && !force ) {
-        // Legacy stair spawning code - allows teleports
-        int attempts = 100;
-        int stairs_height = actual_house_height - 1;
-        do {
-            int rn = rng( lw + 1, rw - 1 );
-            // After 50 failed attempts, relax the placement limitations a bit
-            // Otherwise it will most likely fail the next 50 too
-            if( attempts < 50 ) {
-                stairs_height = rng( 1, SEEY );
-            }
-            attempts--;
-            if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
-                m->ter_set( rn, stairs_height, t_stairs_down );
                 break;
             }
-        } while( attempts > 0 );
+
+            stairs_debug_log( m, "ok:", stair );
+            ++count;
+        }
+
+        if( all_can_be_placed ) {
+            shift = p - stairs.front();
+            dbg( D_INFO ) << "full match shift tripoint: " << shift;
+            break;
+        }
+    }
+
+    if( !( all_can_be_placed || force ) ) {
+        dbg( D_WARNING ) << "no stairs were placed";
+        return;
+    }
+
+    if( !all_can_be_placed ) {
+        dbg( D_WARNING ) << "Some stairs can be placed to suitable locations "
+                         << "and the rest may end up in odd locations.";
+    }
+
+    for( auto &&p : stairs ) {
+        tripoint stair = p + shift;
+
+        if( m->ter_set( stair, t_stairs_down ) ) {
+            stairs_debug_log( m, "stairs placed:", stair );
+        } else {
+            stairs_debug_log( m, "stairs not placed:", stair, D_WARNING );
+        }
     }
 }

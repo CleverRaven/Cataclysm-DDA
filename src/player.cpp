@@ -218,6 +218,7 @@ static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bn_bio_solar( "bn_bio_solar" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
+static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_trip( "bio_trip" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
@@ -2422,7 +2423,7 @@ bool player::has_higher_trait( const trait_id &flag ) const
 bool player::has_same_type_trait( const trait_id &flag ) const
 {
     for( auto &i : get_mutations_in_types( flag->types ) ) {
-        if( has_trait( i ) ) {
+        if( has_trait( i ) && flag != i ) {
             return true;
         }
     }
@@ -3267,7 +3268,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ), 
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ),
                                                     source->disp_name().c_str() ) );
             } else {
                 g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
@@ -6963,8 +6964,12 @@ bool player::consume_med( item &target )
 
     const itype_id tool_type = target.type->comestible->tool;
     const auto req_tool = item::find_type( tool_type );
+    bool tool_override = false;
+    if( tool_type == "syringe" && has_bionic( bio_syringe ) ) {
+        tool_override = true;
+    }
     if( req_tool->tool ) {
-        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
+        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) && !tool_override ) {
             add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ).c_str() );
             return false;
         }

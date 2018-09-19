@@ -4580,7 +4580,7 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
                                       const std::string &dir, bool priority, bool possible )
 {
     mission_entry miss;
-    miss.id = name_display == "" ? id : name_display;
+    miss.id = id;
     miss.name_display = name_display;
     miss.dir = dir;
     miss.priority = priority;

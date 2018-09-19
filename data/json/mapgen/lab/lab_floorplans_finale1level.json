@@ -374,7 +374,7 @@
         "6": {
           "name": "PE019 \"Sculptor\" Secure Storage",
           "security": 2,
-          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         }
       }
@@ -400,7 +400,7 @@
         "6": {
           "name": "PE050 \"Alpha\" Secure Storage",
           "security": 2,
-          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         }
       }
@@ -426,7 +426,7 @@
         "6": {
           "name": "PE065 \"Chimera\" Secure Storage",
           "security": 2,
-          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         }
       }
@@ -452,7 +452,7 @@
         "6": {
           "name": "PE070 \"Raptor\" Secure Storage",
           "security": 2,
-          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         }
       }
@@ -478,7 +478,7 @@
         "6": {
           "name": "PE023 \"Medical\" Secure Storage",
           "security": 2,
-          "options": [ { "name": "UNLOCK STORAGE", "action": "release_bionics", "security": 4 } ],
+          "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         }
       }

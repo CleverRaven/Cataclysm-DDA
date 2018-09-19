@@ -110,8 +110,8 @@ void mapgen_field( map *m, oter_id terrain_type, mapgendata dat, const time_poin
                    float density );
 void mapgen_dirtlot( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                      float density );
-void mapgen_forest_general( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
-                            float density );
+void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
+                    float density );
 void mapgen_hive( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                   float density );
 void mapgen_spider_pit( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
@@ -228,7 +228,6 @@ void mremove_trap( map *m, int x, int y );
 void mtrap_set( map *m, int x, int y, trap_id t );
 void madd_field( map *m, int x, int y, field_id t, int density );
 
-void place_stairs( map *m, oter_id terrain_type, mapgendata dat,
-                   const int actual_house_height = SEEY * 2, const int lw = 0, const int rw = SEEX * 2 - 1 );
+void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 
 #endif

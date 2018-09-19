@@ -1,6 +1,10 @@
 --dofile("./class_definitions.lua")
 
-log = require("./lua/log")
+package.path = package.path .. ";./lua/?.lua" --Windows/Linux
+package.path = package.path .. ";/usr/share/cataclysm-dda/lua/?.lua" --Linux(via make install)
+package.path = package.path .. ";/storage/emulated/0/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android
+
+log = require("log")
 log.init("./config/lua-log.log")
 
 outdated_metatable = {
