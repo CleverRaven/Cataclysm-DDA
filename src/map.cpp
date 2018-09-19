@@ -4496,7 +4496,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_temp = std::min( it_temp, temperatures::freezer );
             } else if( pt.enabled && pti.has_flag( VPFLAG_HEATER ) ) {
-                it_temp = std::min( it_temp, temperatures::heater );
+                it_temp = std::max( it_temp, temperatures::heater );
                 item_iter->heat_up();
             }
             // some vehicle parts provide insulation, default is 1
