@@ -97,6 +97,14 @@ tripoint relative_view_pos( player const &u, tripoint const &p ) noexcept
     return relative_view_pos( u, p.x, p.y, p.z );
 }
 
+// Convert p to screen position relative to the current terrain view
+static tripoint relative_view_pos( game const &g, tripoint const &p ) noexcept
+{
+    return { POSX + p.x - g.ter_view_x,
+             POSY + p.y - g.ter_view_y,
+             p.z - g.ter_view_z };
+}
+
 void draw_explosion_curses( game &g, const tripoint &center, int const r, nc_color const col )
 {
     if( !is_radius_visible( center, r ) ) {
@@ -591,14 +599,14 @@ void game::draw_line( const tripoint &p, std::vector<tripoint> const &vPoint )
 #if defined(TILES)
 void game::draw_cursor( const tripoint &p )
 {
-    tripoint const rp = relative_view_pos( u, p );
+    tripoint const rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
     tilecontext->init_draw_cursor( p );
 }
 #else
 void game::draw_cursor( const tripoint &p )
 {
-    tripoint const rp = relative_view_pos( u, p );
+    tripoint const rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
 }
 #endif

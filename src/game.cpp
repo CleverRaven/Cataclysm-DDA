@@ -7302,11 +7302,13 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 wrefresh( w_info );
             }
 
-            if( select_zone && has_first_point ) {
-                const int dx = start_point.x - offset_x + u.posx() - lx;
-                const int dy = start_point.y - offset_y + u.posy() - ly;
+            draw_ter( center, true );
 
+            if( select_zone && has_first_point ) {
                 if( blink ) {
+                    const int dx = start_point.x - offset_x + u.posx() - lx;
+                    const int dy = start_point.y - offset_y + u.posy() - ly;
+
                     const tripoint start = tripoint( std::min( dx, POSX ), std::min( dy, POSY ), lz );
                     const tripoint end = tripoint( std::max( dx, POSX ), std::max( dy, POSY ), lz );
 
@@ -7316,34 +7318,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                         offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
                     }
 #endif
-
                     draw_zones( start, end, offset );
-
-                } else {
-#ifdef TILES
-                    if( !use_tiles ) {
-#endif
-                        for( int iY = std::min( start_point.y, ly ); iY <= std::max( start_point.y, ly ); ++iY ) {
-                            for( int iX = std::min( start_point.x, lx ); iX <= std::max( start_point.x, lx ); ++iX ) {
-                                if( u.sees( tripoint( iX, iY, u.posz() ) ) ) {
-                                    m.drawsq( w_terrain, u,
-                                              tripoint( iX, iY, lp.z ),
-                                              false,
-                                              false,
-                                              tripoint( lx, ly, u.posz() ) );
-                                } else {
-                                    if( u.has_effect( effect_boomered ) ) {
-                                        mvwputch( w_terrain, iY - offset_y - ly + u.posy(), iX - offset_x - lx + u.posx(), c_magenta, '#' );
-
-                                    } else {
-                                        mvwputch( w_terrain, iY - offset_y - ly + u.posy(), iX - offset_x - lx + u.posx(), c_black, ' ' );
-                                    }
-                                }
-                            }
-                        }
-#ifdef TILES
-                    }
-#endif
                 }
 
                 //Draw first point
@@ -7353,7 +7328,6 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             //Draw select cursor
             g->draw_cursor( lp );
 
-            draw_ter( center, true );
             wrefresh( w_terrain );
         }
 
