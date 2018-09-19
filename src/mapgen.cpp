@@ -3586,36 +3586,41 @@ ___DEEE|.R.|...,,...|sss\n",
 
                 // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
                 // borders and have to be caught in code. We determine if a border isn't handled by checking
-                // the east-facing border space where the door normally is -- it should not be a floor.
-                if( ter( tripoint( 23, 11, abs_sub.z ) ) == t_thconc_floor ) {
+                // the east-facing border space where the door normally is -- it should be a wall or door.
+                tripoint east_border( 23, 11, abs_sub.z );
+                if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                     // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
+                    ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                    ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                    ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
+                    ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
                     for( int i = 0; i <= 23; i++ ) {
-                        ter_set( 23, i, t_concrete_wall );
+                        ter_set( 23, i, rw_type );
                         furn_set( 23, i, f_null );
                         i_clear( tripoint( 23, i, get_abs_sub().z ) );
 
-                        ter_set( i, 23, t_concrete_wall );
+                        ter_set( i, 23, bw_type );
                         furn_set( i, 23, f_null );
                         i_clear( tripoint( i, 23, get_abs_sub().z ) );
 
                         if( lw == 2 ) {
-                            ter_set( 0, i, t_concrete_wall );
+                            ter_set( 0, i, lw_type );
                             furn_set( 0, i, f_null );
                             i_clear( tripoint( 0, i, get_abs_sub().z ) );
                         }
                         if( tw == 2 ) {
-                            ter_set( i, 0, t_concrete_wall );
+                            ter_set( i, 0, tw_type );
                             furn_set( i, 0, f_null );
                             i_clear( tripoint( i, 0, get_abs_sub().z ) );
                         }
-                        if( rw != 2 ) {
-                            ter_set( 23, 11, t_door_metal_c );
-                            ter_set( 23, 12, t_door_metal_c );
-                        }
-                        if( bw != 2 ) {
-                            ter_set( 11, 23, t_door_metal_c );
-                            ter_set( 12, 23, t_door_metal_c );
-                        }
+                    }
+                    if( rw != 2 ) {
+                        ter_set( 23, 11, t_door_metal_c );
+                        ter_set( 23, 12, t_door_metal_c );
+                    }
+                    if( bw != 2 ) {
+                        ter_set( 11, 23, t_door_metal_c );
+                        ter_set( 12, 23, t_door_metal_c );
                     }
                 }
             } else { // then weighted roll was in the hardcoded section
