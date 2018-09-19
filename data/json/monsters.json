@@ -2425,7 +2425,7 @@
     "armor_bash": 90,
     "armor_cut": 90,
     "vision_day": 50,
-    "starting_ammo": { "40mm_frag": 100, "556": 1000 },
+    "starting_ammo": { "40mm_frag": 200, "556": 2000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
