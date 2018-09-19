@@ -2217,7 +2217,7 @@ void map::draw_map( const oter_id terrain_type, const oter_id t_north, const ote
                     const int zlevel, const regional_settings *rsettings )
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-    static const mongroup_id GROUP_TOWER_LAB( "GROUP_TOWER_LAB" );
+    static const mongroup_id GROUP_LAB( "GROUP_LAB" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
@@ -3117,33 +3117,37 @@ ___DEEE|.R.|...,,...|sss\n",
                         tripoint east_border( 23, 11, abs_sub.z );
                         if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                             // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
+                            ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                            ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                            ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
+                            ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
                             for( int i = 0; i <= 23; i++ ) {
-                                ter_set( 23, i, t_concrete_wall );
+                                ter_set( 23, i, rw_type );
                                 furn_set( 23, i, f_null );
                                 i_clear( tripoint( 23, i, get_abs_sub().z ) );
 
-                                ter_set( i, 23, t_concrete_wall );
+                                ter_set( i, 23, bw_type );
                                 furn_set( i, 23, f_null );
                                 i_clear( tripoint( i, 23, get_abs_sub().z ) );
 
                                 if( lw == 2 ) {
-                                    ter_set( 0, i, t_concrete_wall );
+                                    ter_set( 0, i, lw_type );
                                     furn_set( 0, i, f_null );
                                     i_clear( tripoint( 0, i, get_abs_sub().z ) );
                                 }
                                 if( tw == 2 ) {
-                                    ter_set( i, 0, t_concrete_wall );
+                                    ter_set( i, 0, tw_type );
                                     furn_set( i, 0, f_null );
                                     i_clear( tripoint( i, 0, get_abs_sub().z ) );
                                 }
-                                if( rw != 2 ) {
-                                    ter_set( 23, 11, t_door_metal_c );
-                                    ter_set( 23, 12, t_door_metal_c );
-                                }
-                                if( bw != 2 ) {
-                                    ter_set( 11, 23, t_door_metal_c );
-                                    ter_set( 12, 23, t_door_metal_c );
-                                }
+                            }
+                            if( rw != 2 ) {
+                                ter_set( 23, 11, t_door_metal_c );
+                                ter_set( 23, 12, t_door_metal_c );
+                            }
+                            if( bw != 2 ) {
+                                ter_set( 11, 23, t_door_metal_c );
+                                ter_set( 12, 23, t_door_metal_c );
                             }
                         }
 
@@ -3394,8 +3398,8 @@ ___DEEE|.R.|...,,...|sss\n",
         }
 
         int light_odds = 0;
-        // central & tower labs are always fully lit, other labs have half chance of some lights.
-        if( central_lab || tower_lab ) {
+        // central labs are always fully lit, other labs have half chance of some lights.
+        if( central_lab ) {
             light_odds = 1;
         } else if( one_in( 2 ) ) {
             // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
@@ -3414,7 +3418,7 @@ ___DEEE|.R.|...,,...|sss\n",
         }
 
         if( tower_lab ) {
-            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
+            place_spawns( GROUP_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
         }
 
         // Lab special effects.
