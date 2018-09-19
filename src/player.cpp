@@ -8625,11 +8625,10 @@ bool player::invoke_item( item* used, const tripoint &pt )
         return invoke_item( used, use_methods.begin()->first, pt );
     }
 
-    uimenu umenu;
+    uilist umenu;
 
     umenu.text = string_format( _( "What to do with your %s?" ), used->tname().c_str() );
     umenu.hilight_disabled = true;
-    umenu.return_invalid = true;
 
     for( const auto &e : use_methods ) {
         const auto res = e.second.can_call( *this, *used, false, pt );
