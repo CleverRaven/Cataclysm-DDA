@@ -2906,6 +2906,20 @@
   },
   {
     "type": "recipe",
+    "result": "walnut_roasted",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": 24000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "walnut_unshelled", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chestnut_unshelled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2916,6 +2930,20 @@
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "chestnut", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chestnut_roasted",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": 24000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "chestnut_unshelled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2932,16 +2960,31 @@
   },
   {
     "type": "recipe",
-    "result": "acorn_unshelled",
+    "result": "hazelnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 1 ],
     "difficulty": 1,
-    "time": 6000,
+    "time": 24000,
     "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "acorn", 1 ] ] ]
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "hazelnut_unshelled", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "acorn_roasted",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": 24000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "acorns", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5332,7 +5375,7 @@
     "time": 4000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ] ], [ [ "peanutbutter", 1 ] ] ]
+    "components": [ [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ] ], [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5346,7 +5389,7 @@
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ] ],
       [ [ "jam_fruit", 1 ] ],
-      [ [ "peanutbutter", 1 ] ]
+      [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
     ]
   },
   {
@@ -5361,7 +5404,7 @@
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ] ],
       [ [ "honeycomb", 2 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
-      [ [ "peanutbutter", 1 ] ]
+      [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
     ]
   },
   {
@@ -5376,7 +5419,7 @@
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "peanutbutter", 1 ] ]
+      [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
     ]
   },
   {
@@ -7281,6 +7324,38 @@
         [ "irradiated_blackberries", 1 ],
         [ "blackberries", 1 ]
       ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "peanutbutter",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "food_processor", 40 ] ] ],
+    "components": [
+      [ [ "peanuts", 3 ] ],
+      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "peanutbutter_imitation",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "food_processor", 40 ] ] ],
+    "components": [
+      [ [ "pine_nuts", 5 ], [ "pecans", 5 ], [ "cashews", 5 ], [ "pistachios", 5 ], [ "almonds", 5 ], [ "beech_nuts", 5 ], [ "hickory_nut_unshelled", 5 ], [ "chestnut_unshelled", 5 ], [ "hazelnut_unshelled", 5 ], [ "walnut_unshelled", 5 ], [ "acorn_unshelled", 5 ] ],
+      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ]
     ]
   }
 ]
