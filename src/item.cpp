@@ -3885,9 +3885,9 @@ const std::vector<material_id> &item::made_of() const
     return type->materials;
 }
 
-const std::map<quality_id,int> &item::quality_of() const
+const std::map<quality_id, int> &item::quality_of() const
 {
-	return type->qualities;
+    return type->qualities;
 }
 
 std::vector<const material_type *> item::made_of_types() const

@@ -767,7 +767,10 @@ class item : public visitable<item>
          * The returned vector does not contain the null id.
          */
         const std::vector<material_id> &made_of() const;
-        const std::map<quality_id,int> &quality_of() const;
+        /**
+        * The ids of all the qualities this contains.
+        */
+        const std::map<quality_id, int> &quality_of() const;
         /**
          * Same as @ref made_of(), but returns the @ref material_type directly.
          */

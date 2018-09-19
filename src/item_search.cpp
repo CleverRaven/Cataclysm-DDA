@@ -29,13 +29,13 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                     return lcmatch( mat->name(), filter );
                 } );
             };
-		case 'q'://qualities
-			return [filter](const item & i) {
-				return std::any_of(i.quality_of().begin(), i.quality_of().end(),
-					[&filter](const std::pair<quality_id, int> &e) {
-					return lcmatch(e.first->name, filter);
-				});
-			};
+        case 'q'://qualities
+            return [filter]( const item & i ) {
+                return std::any_of( i.quality_of().begin(), i.quality_of().end(),
+                [&filter]( const std::pair<quality_id, int> &e ) {
+                    return lcmatch( e.first->name, filter );
+                } );
+            };
         case 'b'://both
             return [filter]( const item & i ) {
                 auto pair = get_both( filter );
