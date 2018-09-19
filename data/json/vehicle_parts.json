@@ -765,7 +765,7 @@
     "damage_modifier": 60,
     "durability": 200,
     "description": "A set of three large food bins, like those used in restaurants, with overhead heat lamps.  While powered, anything held in them will be kept at a hot temperature.",
-    "epower": -60,
+    "epower": -35,
     "size": 300,
     "item": "heatedbins",
     "difficulty": 4,
