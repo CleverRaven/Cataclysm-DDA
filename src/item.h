@@ -768,6 +768,10 @@ class item : public visitable<item>
          */
         const std::vector<material_id> &made_of() const;
         /**
+        * The ids of all the qualities this contains.
+        */
+        const std::map<quality_id, int> &quality_of() const;
+        /**
          * Same as @ref made_of(), but returns the @ref material_type directly.
          */
         std::vector<const material_type *> made_of_types() const;
