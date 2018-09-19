@@ -3263,7 +3263,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
         if( !is_npc() ) {
@@ -3576,7 +3576,7 @@ void player::react_to_felt_pain( int intensity )
         g->cancel_activity_or_ignore_query( distraction_type::pain,  _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
-    if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         int pain_thresh = rng( 3, 5 );
 
         if( has_trait( trait_HEAVYSLEEPER ) ) {
@@ -4189,7 +4189,7 @@ void player::check_needs_extremes()
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
             mod_fatigue(-10);
-            try_to_sleep();
+            fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
         } else if( calendar::once_every( 30_minutes ) ) {
@@ -5501,7 +5501,7 @@ void player::suffer()
             auto_use = false;
         }
 
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
             map_inv.form_from_map( g->u.pos(), 2 );
             // check if character has an oxygenator first
@@ -5522,7 +5522,11 @@ void player::suffer()
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
             } else {
                 add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-                wake_up();
+                if( has_effect( effect_sleep ) ) {
+                    wake_up();
+                } else {
+                    g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                }
             }
         } else if ( auto_use ) {
             use_charges( "inhaler", 1 );
@@ -5564,7 +5568,7 @@ void player::suffer()
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
             add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
-            if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
                 wake_up();
             }
             if( one_in(10) ) {
@@ -5585,7 +5589,7 @@ void player::suffer()
     if (has_trait( trait_SUNBURN ) && g->is_in_sunlight(pos()) && one_in(10)) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
             add_msg_if_player(m_bad, _("The sunlight burns your skin!"));
-        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
         mod_pain(1);
@@ -9612,10 +9616,10 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
 
 void player::try_to_sleep()
 {
-    try_to_sleep( to_moves<int>( 30_minutes ) );
+    try_to_sleep( 30_minutes );
 }
 
-void player::try_to_sleep( const int movs )
+void player::try_to_sleep( const time_duration &dur )
 {
     const optional_vpart_position vp = g->m.veh_at( pos() );
     const trap &trap_at_pos = g->m.tr_at(pos());
@@ -9695,8 +9699,8 @@ void player::try_to_sleep( const int movs )
                  _("It's hard to get to sleep on this %s."),
                  ter_at_pos.obj().name().c_str() );
     }
-
-    assign_activity( activity_id( "ACT_TRY_SLEEP" ), movs );
+    add_msg_if_player( _( "You start trying to fall asleep." ) );
+    assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
 int player::sleep_spot( const tripoint &p ) const

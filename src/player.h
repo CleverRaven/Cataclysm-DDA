@@ -168,6 +168,10 @@ class player : public Character
         /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
 
+        bool in_sleep_state() const override {
+            return Creature::in_sleep_state() || activity.id() == "ACT_TRY_SLEEP";
+        }
+
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
@@ -1060,7 +1064,7 @@ class player : public Character
         bool has_identified( const std::string &item_id ) const;
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep();
-        void try_to_sleep( const int movs );
+        void try_to_sleep( const time_duration &dur );
         /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */

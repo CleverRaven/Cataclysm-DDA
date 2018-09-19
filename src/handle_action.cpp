@@ -751,6 +751,7 @@ static void sleep()
         return;
     }
 
+    time_duration try_sleep_dur = 24_hours;
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
@@ -773,50 +774,14 @@ static void sleep()
         as_m.query();
         if( as_m.ret >= 3 && as_m.ret <= 9 ) {
             u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
+            try_sleep_dur = 1_hours * as_m.ret;
         } else if( as_m.ret < 0 ) {
             return;
         }
     }
 
-    // Reuse menu again
-    as_m.reset();
-    as_m.return_invalid = true;
-    as_m.text = _( "How long to try to sleep?" );
-
-    if( !u.has_watch() ) {
-        as_m.entries.emplace_back( uimenu_entry( 1, true, '1', _( "Wait 1800 heartbeats" ) ) );
-        as_m.entries.emplace_back( uimenu_entry( 2, true, '2', _( "Wait 3600 heartbeats" ) ) );
-        as_m.entries.emplace_back( uimenu_entry( 4, true, '$', _( "Until you fall asleep" ) ) );
-    } else {
-        as_m.entries.emplace_back( uimenu_entry( 1, true, '1', _( "30 minutes" ) ) );
-        as_m.entries.emplace_back( uimenu_entry( 2, true, '2', _( "1 hour" ) ) );
-        as_m.entries.emplace_back( uimenu_entry( 3, true, '3', _( "2 hours" ) ) );
-        as_m.entries.emplace_back( uimenu_entry( 4, true, '$', _( "Until you fall asleep" ) ) );
-    }
-    as_m.query();
-
-    int dur;
-    switch( as_m.ret ) {
-        case 1:
-            dur = to_moves<int>( 30_minutes );
-            break;
-        case 2:
-            dur = to_moves<int>( 1_hours );
-            break;
-        case 3:
-            dur = to_moves<int>( 2_hours );
-            break;
-        case 4:
-            // So we're not *actually* going to wait to until fall asleep,
-            // we'll wait for some unreasonable amount of time before giving up
-            dur = to_moves<int>( 24_hours );
-            break;
-        default:
-            return;
-    }
-
     u.moves = 0;
-    u.try_to_sleep( dur );
+    u.try_to_sleep( try_sleep_dur );
 }
 
 static void loot()

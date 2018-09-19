@@ -1196,7 +1196,8 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_alarm_clock ) {
-        if( has_effect( effect_sleep ) ) {
+        if( in_sleep_state() ) {
+            const bool asleep = has_effect( effect_sleep );
             if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                 if( dur == 1_turns ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
@@ -1217,24 +1218,26 @@ void player::hardcoded_effects( effect &it )
                         } else {
                             add_msg_if_player( _( "Your internal chronometer wakes you up." ) );
                         }
-                    } else {
+                    } else if( asleep ) {
                         if( !has_effect( effect_slept_through_alarm ) ) {
                             add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                         }
                         // 10 minute cyber-snooze
                         it.mod_duration( 10_minutes );
+                    } else {
+                        add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
                     }
                 }
             } else {
-                if( dur == 1_turns ) {
+                if( asleep && dur == 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
                         add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
-                    sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
                     // let the sound code handle the wake-up part
+                    sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
                 }
             }
         }
