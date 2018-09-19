@@ -172,6 +172,7 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_magnesium_supplements( "magnesium" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -4386,12 +4387,15 @@ void player::update_needs( int rate_multiplier )
             int fatigue_roll = divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
             mod_fatigue( fatigue_roll );
 
-            if( get_option< bool >( "SLEEP_DEPRIVATION" ) && calendar::once_every( 1_minutes ) ) {
+            if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
                 // Synaptic regen bionic stops SD while awake and boosts it while sleeping
                 if( !has_active_bionic( bio_synaptic_regen ) ) {
                     // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
                     // but characters who need less sleep will also get less sleep deprived, and vice-versa.
-                    mod_sleep_deprivation( fatigue_roll );
+
+                    // Note: Since needs are updated in 5-minute increments, we have to multiply the roll again by
+                    // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
+                    mod_sleep_deprivation( fatigue_roll * 5 );
                 }
             }
 
@@ -4431,6 +4435,11 @@ void player::update_needs( int rate_multiplier )
                     // Sleeping on a bed, bionic         = 6x rest_modifier
                     // Sleeping on a comfy bed, bionic   = 9x rest_modifier
                     float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
+                    // Magnesium supplements also add a flat bonus to recovery speed
+                    if( has_effect( effect_magnesium_supplements ) ) {
+                        rest_modifier += 1;
+                    }
+
                     comfort_level comfort = base_comfort_value( pos() );
 
                     if( comfort >= comfort_level::very_comfortable ) {
@@ -6185,10 +6194,10 @@ void player::suffer()
                     add_msg( m_warning, _( "You let out a small yawn." ) );
                     break;
                 case 3:
-                    add_msg( m_warning, _( "You stretch a bit, but it doesn't help." ) );
+                    add_msg( m_warning, _( "You stretch your back." ) );
                     break;
                 case 4:
-                    add_msg( m_warning, _( "You rub your tired eyes." ) );
+                    add_msg( m_warning, _( "You feel mentally tired." ) );
                     break;
             }
         }
@@ -9925,7 +9934,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     int web = g->m.get_field_strength( p, fd_web );
 
     // Some mutants have different comfort needs
-    if( !plantsleep && !webforce && !in_shell ) {
+    if( !plantsleep && !webforce ) {
         if( in_shell ) {
             comfort += 1 + (int)comfort_level::slightly_comfortable;
             // Note: shelled individuals can still use sleeping aids!

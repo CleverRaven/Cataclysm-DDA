@@ -156,6 +156,8 @@ const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_magnesium_supplements( "magnesium" );
+
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -7785,4 +7787,14 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
     }
     p->disassemble( *it, pos, false, false );
     return 0;
+}
+
+int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You pop a %s." ), it->tname().c_str() );
+    if( p->has_effect( effect_magnesium_supplements ) ) {
+        p->add_msg_if_player( m_warning, _( "Simply taking more magnesium won't help. You have to go to sleep for it to work." ) );
+    }
+    p->add_effect( effect_magnesium_supplements, 16_hours );
+    return it->type->charges_to_use();
 }

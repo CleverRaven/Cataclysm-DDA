@@ -65,9 +65,9 @@ enum fatigue_levels {
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.
 enum sleep_deprivation_levels {
-    SLEEP_DEPRIVATION_HARMLESS = 1 * 24 * 60,
-    SLEEP_DEPRIVATION_MINOR = 3 * 24 * 60,
-    SLEEP_DEPRIVATION_SERIOUS = 6 * 24 * 60,
+    SLEEP_DEPRIVATION_HARMLESS = 2 * 24 * 60,
+    SLEEP_DEPRIVATION_MINOR = 4 * 24 * 60,
+    SLEEP_DEPRIVATION_SERIOUS = 7 * 24 * 60,
     SLEEP_DEPRIVATION_MAJOR = 10 * 24 * 60,
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
