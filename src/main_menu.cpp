@@ -326,6 +326,20 @@ void main_menu::display_credits()
     catacurses::refresh();
 }
 
+void main_menu::load_char_templates()
+{
+    templates.clear();
+
+    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
+            true ) ) {
+        path = native_to_utf8( path );
+        path.erase( path.find( ".template" ), std::string::npos );
+        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
+        templates.push_back( path );
+    }
+    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+}
+
 bool main_menu::opening_screen()
 {
     // Play title music, whoo!
@@ -358,14 +372,7 @@ bool main_menu::opening_screen()
         return false;
     }
 
-    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
-            true ) ) {
-        path = native_to_utf8( path );
-        path.erase( path.find( ".template" ), std::string::npos );
-        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
-        templates.push_back( path );
-    }
-    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+    load_char_templates();
 
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
@@ -686,6 +693,7 @@ bool main_menu::new_character_tab()
                     }
                     if( !g->u.create( play_type ) ) {
                         g->u = player();
+                        load_char_templates();
                         werase( w_background );
                         wrefresh( w_background );
                         continue;
@@ -772,6 +780,7 @@ bool main_menu::new_character_tab()
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                     g->u = player();
+                    load_char_templates();
                     werase( w_background );
                     wrefresh( w_background );
                     continue;
