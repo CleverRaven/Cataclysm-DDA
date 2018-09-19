@@ -811,7 +811,7 @@ void air_gear_actor::load( JsonObject &obj )
 
 bool has_airsource(const player &p)
 {
-return p.has_charges( "breath", 1 );
+    return p.has_charges( "breath", 1 );
 }
 
 long air_gear_actor::use( player &p, item &it, bool t, const tripoint & ) const
