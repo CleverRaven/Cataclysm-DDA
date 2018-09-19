@@ -3000,14 +3000,196 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_walnut",
+    "name": "walnut tree",
+    "description": "A massive tree belonging to the 'Juglans' genus.  If you look closely you can see some unharvested walnuts.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_walnut_harvested",
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "walnut", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_walnut_harvested",
+    "name": "walnut tree",
+    "description": "A massive tree belonging to the 'Juglans' genus.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_walnut",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_chestnut",
+    "name": "chestnut tree",
+    "description": "A massive tree belonging to the 'Castanea' genus.  If you look closely you can see some unharvested chestnuts.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_chestnut_harvested",
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "chestnut", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_chestnut_harvested",
+    "name": "chestnut tree",
+    "description": "A massive tree belonging to the 'Castanea' genus.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_chestnut",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_beech",
+    "name": "beech tree",
+    "description": "A massive tree belonging to the 'Fagus' genus.  If you look closely you can see some unharvested beech nuts.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_beech_harvested",
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "beech_nuts", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_beech_harvested",
+    "name": "beech tree",
+    "description": "A massive tree belonging to the 'Fagus' genus.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_beech",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hazelnut",
+    "name": "hazelnut tree",
+    "description": "A stubby tree belonging to the 'Corylus' genus.  If you look closely you can see some unharvested hazelnuts.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_pecan_harvested",
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "hazelnut", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hazelnut_harvested",
+    "name": "hazelnut tree",
+    "description": "A stubby tree belonging to the 'Corylus' genus.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_hazelnut",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree",
     "name": "oak tree",
-    "description": "A massive deciduous tree belonging to the 'Quercus' genus, commonly found throughout New England region.  You could cut it down with the right tools.",
+    "description": "A massive deciduous tree belonging to the 'Quercus' genus, commonly found throughout New England region.  If you look closely you can see some acorns the squirrels haven't gotten yet.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": [ "green", "green", "green", "brown" ],
     "//": "barren in winter",
     "move_cost": 0,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_harvested",
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "acorn", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_harvested",
+    "name": "oak tree",
+    "description": "A massive deciduous tree belonging to the 'Quercus' genus, commonly found throughout New England region.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree",
     "bash": {
       "str_min": 80,
       "str_max": 180,
