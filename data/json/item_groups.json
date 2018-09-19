@@ -5817,6 +5817,8 @@
   },{
     "type" : "item_group",
     "id" : "mil_hw",
+    "ammo": 0,
+    "magazine": 100,
     "items":[
       { "group" : "mags_milspec", "prob" : 40 },
       ["flamethrower", 20],
@@ -6931,6 +6933,8 @@
   },{
     "type" : "item_group",
     "id" : "tripod",
+    "ammo": 0,
+    "magazine": 100,
     "items":[
       ["flamethrower", 1],
       ["kevlar_plate", 10],
@@ -6951,6 +6955,7 @@
   },{
     "type" : "item_group",
     "id" : "tankbot",
+    "magazine": 100,
     "items":[
       ["tazer", 3],
       ["flamethrower", 1],
@@ -7079,6 +7084,7 @@
   },{
     "type" : "item_group",
     "id" : "military",
+    "magazine": 100,
     "items":[
       ["m107a1" , 1],
       ["bipod" , 1],
@@ -7858,6 +7864,7 @@
   },{
     "type" : "item_group",
     "id" : "fireman_gear",
+    "magazine": 100,
     "items":[
       ["extinguisher", 10],
       ["sm_extinguisher", 20],
@@ -8135,6 +8142,7 @@
   },{
     "type" : "item_group",
     "id" : "survivorzed_extra",
+    "magazine": 100,
     "items":[
       ["mask_lsurvivor", 10],
       ["mask_survivor", 8],

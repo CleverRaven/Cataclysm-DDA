@@ -117,6 +117,8 @@
   },{
     "type" : "item_group",
     "id" : "launchers",
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["m79", 10],
       ["m320", 50],
