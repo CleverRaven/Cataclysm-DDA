@@ -263,7 +263,8 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
 
-    if( modfile.dependencies.count( modfile.ident ) ) {
+    if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
+                   modfile.ident ) != modfile.dependencies.end() ) {
         jo.throw_error( "mod specifies self as a dependency", "dependencies" );
     }
 
