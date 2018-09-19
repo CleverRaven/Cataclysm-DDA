@@ -3170,7 +3170,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_harvested",
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "acorn", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "acorns", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
