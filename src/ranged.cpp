@@ -267,7 +267,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
                 gun.ammo_type() == ammotype( "84x246mm" ) || gun.ammo_type() == ammotype( "m235" ) ) {
                 add_msg_if_player( m_good, string_format(
                                        _( "You feel a surge of euphoria as flames roar out of the %s!" ), gun.tname().c_str() ) );
-                add_morale( MORALE_PYROMANIA_STARTFIRE, 25, 25, 24_hours, 4_hours );
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
         }
