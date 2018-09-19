@@ -7229,7 +7229,6 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
 
     int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
     bool fast_scroll = false;
-    bool blink = false;
 
     int lookWidth = 0;
     int lookY = 0;
@@ -7270,6 +7269,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
+    bool blink = true;
     bool action_unprocessed = false;
     bool redraw = true;
     do {
@@ -7303,8 +7303,6 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             }
 
             if( select_zone && has_first_point ) {
-                blink = !blink;
-
                 const int dx = start_point.x - offset_x + u.posx() - lx;
                 const int dy = start_point.y - offset_y + u.posy() - ly;
 
@@ -7389,8 +7387,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             u.view_offset.z = center.z - u.posz();
             refresh_all();
             if( select_zone && has_first_point ) { // is blinking
-                // becomes blink = true in the next redraw, so blink symbols are always drawn when moving cursor
-                blink = false;
+                blink = true; // Always draw blink symbols when moving cursor
             }
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
@@ -7436,8 +7433,7 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
                 if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
                     redraw = false; // no need to redraw, so don't redraw to save CPU
                 } else {
-                    // becomes blink = true in the next redraw, so blink symbols are always drawn when moving cursor
-                    blink = false;
+                    blink = true; // Always draw blink symbols when moving cursor
                 }
             } else if( lp == old_lp ) { // not blinking and cursor not changed
                 redraw = false; // no need to redraw, so don't redraw to save CPU
@@ -7453,9 +7449,10 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
             center.x = clamp( center.x + dx, 0, MAPSIZE * SEEX );
             center.y = clamp( center.y + dy, 0, MAPSIZE * SEEY );
             if( select_zone && has_first_point ) { // is blinking
-                // becomes blink = true in the next redraw, so blink symbols are always drawn when moving cursor
-                blink = false;
+                blink = true; // Always draw blink symbols when moving cursor
             }
+        } else if( action == "TIMEOUT" ) {
+            blink = !blink;
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" );
 
