@@ -13,9 +13,10 @@
       [ "biscuit", 50 ],
       [ "crackers", 40 ],
       [ "almonds", 20 ],
+      [ "pecan_unshelled", 20 ],
       [ "cashews", 20 ],
       [ "pistachios", 20 ],
-      [ "peanuts", 20 ]
+      [ "peanut_unshelled", 20 ]
     ]
   },
   {

@@ -778,6 +778,32 @@
    },
    {
     "type":"GENERIC",
+    "id": "pecan",
+    "symbol": "%",
+    "color": "brown",
+    "name": "pecan",
+    "name_plural": "pecans",
+    "description": "A handful of hard nuts from a pecan tree, still in their shell.",
+    "price": 0,
+    "weight": 212,
+    "volume": 1,
+    "to_hit": -2
+   },
+   {
+    "type":"GENERIC",
+    "id": "peanut",
+    "symbol": "%",
+    "color": "brown",
+    "name": "peanut",
+    "name_plural": "peanuts",
+    "description": "A handful of hard nuts from a peanut bush, still in their shell.",
+    "price": 0,
+    "weight": 200,
+    "volume": 1,
+    "to_hit": -2
+   },
+   {
+    "type":"GENERIC",
     "id": "hazelnut",
     "symbol": "%",
     "color": "brown",

@@ -3870,6 +3870,48 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_pecan",
+    "name": "pecan tree",
+    "//": "Pecan tree is not a local native and this is only used in specific locations like orchards and gardens.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "brown_green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [
+      { "seasons": [ "autumn" ], "entries": [ { "drop": "pecan", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+    ],
+    "transforms_into": "t_tree_pecan_harvested",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_pecan_harvested",
+    "name": "pecan tree",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_pecan",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_hickory_dead",
     "name": "dead hickory tree",
     "symbol": "7",
@@ -4032,6 +4074,48 @@
     "bash": {
       "str_min": 4,
       "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_peanut",
+    "name": "peanut bush",
+    "description": "A small bush of crunchy peanuts.",
+    "//": "Peanut bushes are not a local native so this is for use in specific locations like farms and gardens.",
+    "symbol": "#",
+    "color": "brown_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "transforms_into": "t_shrub_peanut_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "peanut", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_peanut_harvested",
+    "name": "peanut bush",
+    "description": "A small peanut bush that's fruitless.",
+    "symbol": "#",
+    "color": "brown_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "transforms_into": "t_shrub_peanut",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
