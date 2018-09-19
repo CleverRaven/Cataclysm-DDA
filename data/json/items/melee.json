@@ -2118,7 +2118,7 @@
     "techniques": [ "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "volume": 5,
-    "bashing": 2,
+    "bashing": 8,
     "price": 10000
   },
   {
@@ -2152,7 +2152,7 @@
     "material": [ "aluminum", "wood" ],
     "techniques": [ "SWEEP" ],
     "volume": 6,
-    "bashing": 2,
+    "bashing": 8,
     "cutting": 1,
     "flags": [ "SPEAR", "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "price": 12000
