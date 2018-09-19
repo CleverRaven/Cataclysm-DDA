@@ -503,6 +503,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FORGE``` Acts as a forge for crafting.
 - ```FRIDGE``` Can refrigerate items.
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
+- ```HEATER``` Keeps stored food hot (140 degrees Fahrenheit/60 degrees Celsius.)
 - ```FUNNEL```
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.

@@ -112,6 +112,13 @@
     "bindings":[ { "input_method": "keyboard", "key": "r" } ]
   },
   {
+    "id": "TOGGLE_HEATER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle heater",
+    "bindings":[ { "input_method": "keyboard", "key": "R" } ]
+  },
+  {
     "id": "TOGGLE_HEADLIGHT",
     "type": "keybinding",
     "category": "VEHICLE",

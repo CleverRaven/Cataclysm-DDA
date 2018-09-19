@@ -220,6 +220,7 @@ void vehicle::set_electronics_menu_options( std::vector<uimenu_entry> &options,
     add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
     add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
     add_toggle( _( "freezer" ), keybind( "TOGGLE_FEEZER" ), "FREEZER" );
+    add_toggle( _( "heating drawer" ), keybind( "TOGGLE_HEATER" ), "HEATER" );
     add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );

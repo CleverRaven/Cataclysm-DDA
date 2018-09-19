@@ -1421,6 +1421,35 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "fast_food_hot",
+    "items":[
+      ["pizza_veggy", 8],
+      ["pizza_cheese", 8],
+      ["pizza_meat", 8],
+      ["pie", 20],
+      ["pie_meat", 20],
+      ["pie_veggy", 20],
+      ["pie_maple", 10],
+      ["meat_smoked", 4],
+      ["fish_smoked", 4],
+      ["cheeseburger", 35],
+      ["hotdogs_frozen", 12],
+      ["hotdogs_cooked", 35],
+      ["chili", 20],
+      ["chilidogs", 20],
+      ["fries", 80],
+      ["cheese_fries", 70],
+      ["onion_rings", 80],
+      ["hamburger", 30],
+      ["fish_fried", 8],
+      ["fish_sandwich", 8],
+      ["sloppyjoe", 8],
+      ["bobburger", 1],
+      ["bacon", 25],
+      ["cheese", 30]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "coffee_shop",
     "items":[
       ["water_clean", 90],
