@@ -123,7 +123,7 @@ void Single_item_creator::check_consistency() const
     } else if( type == S_NONE ) {
         // this is okay, it will be ignored
     } else {
-        debugmsg( "Unknown type of Single_item_creator: %d", ( int ) type );
+        debugmsg( "Unknown type of Single_item_creator: %d", static_cast<int>( type ) );
     }
     if( modifier ) {
         modifier->check_consistency();

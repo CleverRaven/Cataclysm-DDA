@@ -79,6 +79,7 @@ ignorable = {
     "MONSTER_FACTION",
     "monstergroup",
     "MONSTER_WHITELIST",
+    "mutation_type",
     "overlay_order",
     "overmap_connection",
     "overmap_location",

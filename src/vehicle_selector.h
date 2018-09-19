@@ -12,9 +12,9 @@ struct tripoint;
 class vehicle_cursor : public visitable<vehicle_cursor>
 {
     public:
-        vehicle_cursor( vehicle &veh, int part ) : veh( veh ), part( part ) {};
+        vehicle_cursor( vehicle &veh, std::ptrdiff_t part ) : veh( veh ), part( part ) {};
         vehicle &veh;
-        int part;
+        std::ptrdiff_t part;
 };
 
 class vehicle_selector : public visitable<vehicle_selector>
@@ -34,8 +34,10 @@ class vehicle_selector : public visitable<vehicle_selector>
          *  @param pos map position at which to start each query which may or may not contain vehicle
          *  @param radius number of adjacent tiles to include (searching from pos outwards)
          *  @param accessible whether found items must be accessible from pos to be considered
+         *  @param check accessibility based on line of sight, not walkability
          */
-        vehicle_selector( const tripoint &pos, int radius = 0, bool accessible = true );
+        vehicle_selector( const tripoint &pos, int radius = 0, bool accessible = true,
+                          bool visibility_only = false );
 
         /**
          *  Constructs vehicle_selector used for querying items located on vehicle tiles
