@@ -3261,7 +3261,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( i < lw || i > SEEX * 2 - 1 - rw || i == SEEX - 4 || i == SEEX + 3 ) {
                                         ter_set( i, j, t_concrete_wall );
-                                    } else if( j < lw || j > SEEY * 2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3 ) {
+                                    } else if( j < tw || j > SEEY * 2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3 ) {
                                         ter_set( i, j, t_concrete_wall );
                                     } else {
                                         ter_set( i, j, t_thconc_floor );
