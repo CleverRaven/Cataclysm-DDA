@@ -472,7 +472,8 @@ static void set_item_inventory( item &newit )
     }
 }
 
-int get_hourly_rotpoints_at_temp( const int ); // weather_data.cpp
+time_duration get_rot_since( const time_point &start, const time_point &end,
+                             const tripoint &location ); // weather.cpp
 
 void player::complete_craft()
 {
@@ -615,19 +616,17 @@ void player::complete_craft()
 
     const time_point now = calendar::turn;
     time_point start_turn = now;
-    int temp = 0;
-    if( activity.values.size() > 2 ) {
+    tripoint craft_pos = pos();
+    if( activity.values.size() > 1 && activity.coords.size() > 0 ) {
         start_turn = activity.values.at( 1 );
-        temp = activity.values.at( 2 );
+        craft_pos = activity.coords.at( 0 );
     } else {
         // either something went wrong or player had an old binary and saved
         // the game right in the middle of crafting, and then updated their
         // binary, so we didn't grab these values before starting the craft
         debugmsg( "Missing activity start time and temperature, using current val" );
-        temp = g->get_temperature( pos() );
     }
-    const time_duration rot_points = ( now - start_turn ) / 1_hours *
-                                     get_hourly_rotpoints_at_temp( temp ) * 1_turns;
+    const time_duration rot_points = get_rot_since( start_turn, now, craft_pos );
     double max_relative_rot = 0;
     // We need to cycle all the used ingredients and find the most rotten item,
     // this will then set our relative rot for the crafted items.

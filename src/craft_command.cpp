@@ -11,7 +11,6 @@
 #include "requirements.h"
 #include "translations.h"
 #include "crafting.h"
-#include "game.h"
 
 #include <list>
 #include <sstream>
@@ -84,7 +83,7 @@ void craft_command::execute()
                                      rec->ident().str() );
     activity.values.push_back( batch_size );
     activity.values.push_back( calendar::turn );
-    activity.values.push_back( g->get_temperature( crafter->pos() ) );
+    activity.coords.push_back( crafter->pos() );
 
     crafter->assign_activity( activity );
 
