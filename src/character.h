@@ -62,14 +62,14 @@ enum fatigue_levels {
 };
 
 
-// Sleep deprivation naturally uses the same scale as fatigue
-// Currently: 383, 1000, 1500, 2000, 3000
+// Sleep deprivation is defined in minutes, and although most calculations scale linearly,
+// maluses are bestowed only upon reaching the tiers defined below.
 enum sleep_deprivation_levels {
-    SLEEP_DEPRIVED_HARMLESS = DEAD_TIRED,
-    SLEEP_DEPRIVED_STAGE_1 = MASSIVE_FATIGUE,
-    SLEEP_DEPRIVED_STAGE_2 = ( MASSIVE_FATIGUE * 3 ) / 2,
-    SLEEP_DEPRIVED_STAGE_3 = MASSIVE_FATIGUE * 2,
-    SLEEP_DEPRIVED_LETHAL = MASSIVE_FATIGUE * 3
+    SLEEP_DEPRIVATION_HARMLESS = 1 * 24 * 60,
+    SLEEP_DEPRIVATION_MINOR = 3 * 24 * 60,
+    SLEEP_DEPRIVATION_SERIOUS = 6 * 24 * 60,
+    SLEEP_DEPRIVATION_MAJOR = 10 * 24 * 60,
+    SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
 struct layer_details {

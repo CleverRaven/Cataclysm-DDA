@@ -131,5 +131,12 @@
     "info": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SLEEP_DEPRIVATION",
+    "info": "Enables sleep deprivation mechanics. If true, stimulants will only help you so far, and you might have to enforce proper sleep hygiene for a while.",
+    "stype": "bool",
+    "value": false
   }
 ]

@@ -1538,20 +1538,6 @@
     },
     {
         "type": "effect_type",
-        "id": "sleep_deprived",
-        "name": ["Sleep Deprived"],
-        "desc": ["You haven't been able to get enough sleep lately.\nYou will suffer increasingly severe penalties until you get enough rest.\nCan be fatal if neglected for too long."],
-        "rating": "bad",
-        "max_intensity": 100,
-        "int_dur_factor": 1,
-        "base_mods": {
-            "speed_mod": [-5]
-        },
-        "apply_message": "You are too mentally tired to function well.",
-        "remove_message": "You have finally catched up with your lost sleep, and you feel refreshingly awake for a change."
-    },
-    {
-        "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
         "rating": "neutral",

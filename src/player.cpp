@@ -225,6 +225,7 @@ static const bionic_id bio_trip( "bio_trip" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_watch( "bio_watch" );
+static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -687,26 +688,13 @@ void player::reset_stats()
         mod_int_bonus( -get_thirst() / 200 );
         mod_per_bonus( -get_thirst() / 200 );
     }
-    if( get_sleep_deprivation() >= SLEEP_DEPRIVED_HARMLESS ) {
+    if( get_sleep_deprivation() >= SLEEP_DEPRIVATION_HARMLESS ) {
         // Make the effect intensity range from 0 to 100 visually, to make it easier for the player
-        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() / 30 );
+        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
     }
     else if( has_effect( effect_sleep_deprived ) ) {
         remove_effect( effect_sleep_deprived );
     }
-
-    // Sleep deprivation, starts affecting stats at 1500
-    // Worst case is -4 dex, -2 str, -2 int, -4 per
-    if( get_sleep_deprivation() >= SLEEP_DEPRIVED_STAGE_2 ) {
-        // We die at 3000, but it's hard to reach that number without passing out
-        const int dex_mod = -get_sleep_deprivation() / 750;
-        add_miss_reason( _( "Your mind is hazy from lack of sleep." ), unsigned( -dex_mod ) );
-        mod_str_bonus( -get_sleep_deprivation() / 1500 );
-        mod_dex_bonus( dex_mod );
-        mod_int_bonus( -get_sleep_deprivation() / 1500 );
-        mod_per_bonus( -get_sleep_deprivation() / 750 );
-    }
-
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
@@ -4247,65 +4235,69 @@ void player::check_needs_extremes()
     }
 
     // Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for long periods of time
-    if( get_sleep_deprivation() >= SLEEP_DEPRIVED_HARMLESS && !in_sleep_state() ) {
-        if( calendar::once_every( 30_minutes ) ) {
-            if( get_sleep_deprivation() < SLEEP_DEPRIVED_STAGE_1 ) {
+    int sleep_deprivation = get_sleep_deprivation();
+    float sleep_deprivation_pct = sleep_deprivation / static_cast<float>( SLEEP_DEPRIVATION_MASSIVE );
+
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS && !in_sleep_state() ) {
+        if( calendar::once_every( 60_minutes ) ) {
+            if( sleep_deprivation < SLEEP_DEPRIVATION_MINOR ) {
                 add_msg( m_warning, _( "Your mind feels tired. It's been a while since you've slept well." ) );
-                mod_fatigue( 5 );
+                mod_fatigue( 1 );
             }
-            else if( get_sleep_deprivation() < SLEEP_DEPRIVED_STAGE_2 ) {
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
                 add_msg( m_bad, _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
-                mod_fatigue( 10 );
+                mod_fatigue( 5 );
 
                 if( one_in( 10 ) ) {
                     mod_healthy_mod( -1, 0 );
                 }
             }
-            else if( get_sleep_deprivation() < SLEEP_DEPRIVED_STAGE_3 ) {
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
                 add_msg( m_bad, _( "Your mind feels weary, and you dread every wakeful minute that passes. You crave sleep, and feel like you're about to collapse." ) );
-                mod_fatigue( 40 );
+                mod_fatigue( 10 );
 
                 if( one_in( 5 ) ) {
                     mod_healthy_mod( -2, 0 );
                 }
             }
-            else if( get_sleep_deprivation() < SLEEP_DEPRIVED_LETHAL ) {
-                add_msg( m_bad, _( "You haven't slept decently for so long that your whole body is screaming for mercy. If you don't get rid of the excessive sleep deprivation, you will die." ) );
-                mod_fatigue( 80 );
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
+                add_msg( m_bad, _( "You haven't slept decently for so long that your whole body is screaming for mercy. It's a miracle that you're still awake, but it just feels like a curse now." ) );
+                mod_fatigue( 40 );
 
-                mod_healthy_mod( -10, 0 );
+                mod_healthy_mod( -5, 0 );
             }
-            else {
-                add_msg_if_player( m_bad, _( "You have a sudden heart attack!" ) );
-                add_memorial_log( pgettext( "memorial_male", "Died of extreme sleep deprivation." ),
-                                  pgettext( "memorial_female", "Died of extreme sleep deprivation." ) );
-                hp_cur[hp_torso] = 0;
-            }
-            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in 75 + int_cur at lethal sleep deprivation)
+            // else you pass out for 20 hours, guaranteed 
+
+            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
             // Note: these can coexist with fatigue-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
-            if( one_in( get_sleep_deprivation() / 40 + int_cur ) ) {
+            if( one_in( (int)( sleep_deprivation_pct * 75 ) + int_cur ) ) {
                 fall_asleep( 5_turns );
             }
 
-            // 1 / 8  base chance of passing out at stage 4
-            // 1 / 25 base chance of passing out at stage 3
-            // 1 / 37 base chance of passing out at stage 2
-            // 1 / 75 base chance of passing out at stage 1
-            // Chances are rolled every 10 minutes.
-            /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
-            if( get_sleep_deprivation() >= 1000 && one_in( ( 4000 - get_sleep_deprivation() ) / ( ( get_sleep_deprivation() / 1000 ) * 40 ) + per_cur / 2 ) && calendar::once_every( 10_minutes ) ) {
-                add_msg( m_bad, _( "Your body collapses to sleep deprivation, and you pass out on the spot." ) );
+            // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
+            bool can_pass_out = ( stim < 30 && sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) || sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR;
 
-                // Sleep for 20 hours at stage 4 (~= 4+/-1 DAYS OF NOT SLEEPING!)
-                // Sleep for 13 hours at stage 3 
-                // Sleep for 10 hours at stage 2 
-                // Sleep for 6  hours at stage 1
-                if( get_fatigue() < EXHAUSTED ) {
-                    set_fatigue( EXHAUSTED );
+            if( can_pass_out && calendar::once_every( 10_minutes ) ) {
+                /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
+                if( one_in( (int)( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) || sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
+                    add_msg( m_bad, _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." ) );
+                    if( get_fatigue() < EXHAUSTED ) {
+                        set_fatigue( EXHAUSTED );
+                    }
+
+                    if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
+                        fall_asleep( 20_hours );
+                    } 
+                    else if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
+                        fall_asleep( 16_hours );
+                    }
+                    else {
+                        fall_asleep( 12_hours );
+                    }
                 }
-                fall_asleep( get_sleep_deprivation() / 150 * 60_minutes );
             }
+
         }
     }
 
@@ -4394,15 +4386,14 @@ void player::update_needs( int rate_multiplier )
             int fatigue_roll = divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
             mod_fatigue( fatigue_roll );
 
-            // Sleep deprivation gain is slow until you reach SLEEP_DEPRIVED_HARMLESS,
-            // then it gets dramatically higher but slows down over time to ensure recovery
-            int sleep_dep_roll = fatigue_roll;
-            if( get_sleep_deprivation() >= SLEEP_DEPRIVED_HARMLESS ) {
-                // Min: 1x at 3000 SD, Max: 3.6x at 383 SD
-                sleep_dep_roll = static_cast< int >( sleep_dep_roll * ( ( 3000.0f - get_sleep_deprivation() ) / 1000.0f + 1 ) );
+            if( get_option< bool >( "SLEEP_DEPRIVATION" ) && calendar::once_every( 1_minutes ) ) {
+                // Synaptic regen bionic stops SD while awake and boosts it while sleeping
+                if( !has_active_bionic( bio_synaptic_regen ) ) {
+                    // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
+                    // but characters who need less sleep will also get less sleep deprived, and vice-versa.
+                    mod_sleep_deprivation( fatigue_roll );
+                }
             }
-
-            mod_sleep_deprivation( sleep_dep_roll );
 
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
@@ -4429,11 +4420,38 @@ void player::update_needs( int rate_multiplier )
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
                 mod_fatigue( -25 );
-                mod_sleep_deprivation( -25 );
             } else {
                 mod_fatigue( -recovered );
-                // To ensure that players may actually cure themselves of sleep deprivation in a couple of relaxing days
-                mod_sleep_deprivation( -recovered * 2 );
+                if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
+                    // Sleeping on the ground, no bionic = 1x rest_modifier
+                    // Sleeping on a bed, no bionic      = 2x rest_modifier
+                    // Sleeping on a comfy bed, no bionic= 3x rest_modifier
+
+                    // Sleeping on the ground, bionic    = 3x rest_modifier
+                    // Sleeping on a bed, bionic         = 6x rest_modifier
+                    // Sleeping on a comfy bed, bionic   = 9x rest_modifier
+                    float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
+                    comfort_level comfort = base_comfort_value( pos() );
+
+                    if( comfort >= comfort_level::very_comfortable ) {
+                        rest_modifier *= 3;
+                        add_msg( m_debug, "This place is very comfortable!" );
+                    }
+                    else  if( comfort >= comfort_level::comfortable ) {
+                        rest_modifier *= 2.5;
+                        add_msg( m_debug, "This place is comfortable!" );
+                    }
+                    else if( comfort >= comfort_level::slightly_comfortable ) {
+                        rest_modifier *= 2;
+                        add_msg( m_debug, "This place is slightly comfortable!" );
+                    }
+                    else {
+                        add_msg( m_debug, "This place is not comfortable!" );
+                    }
+
+                    // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
+                    mod_sleep_deprivation( -rest_modifier * ( recovered * 2 ) );
+                }
             }
         }
     }
@@ -6145,63 +6163,82 @@ void player::suffer()
         }
     }
 
-    // Sleep deprivation increases at the same rate as fatigue, but it is unaffected by
-    // stimulants and other tasks that would usually drain fatigue. Instead, it builds up
-    // naturally as you stay awake. As long as its counter stays below DEAD_TIRED, you can
-    // sleep it off (depending on your fatigue_modifier this threshold may vary). But when
-    // it increases past that value, various negative effects will start taking place.
-    // These range from decreased health and increased fatigue to spasms and hallucinations, 
-    // similarly to stim abuse. The effects become highly debilitant after a while, and can
-    // end up in killing your character.
-    // TL;DR: Don't abuse coffee like Fry did in that Futurama episode.
-
     int sleep_deprivation = !in_sleep_state() ? get_sleep_deprivation() : 0;
-    if( sleep_deprivation >= SLEEP_DEPRIVED_STAGE_1 ) {
-        if( one_in( to_turns< int >( 60_minutes ) ) ) {
+    // Stimulants can lessen the PERCEIVED effects of sleep deprivation, but
+    // they do nothing to cure it. As such, abuse is even more dangerous now.
+    if( stim > 0 ) {
+        // 100% of blacking out = 20160sd ; Max. stim modifier = 12500sd @ 250stim
+        // Note: Very high stim already has its own slew of bad effects,
+        // so the "useful" part of this bonus is actually lower.
+        sleep_deprivation -= stim * 50;
+    }
+
+    // Harmless warnings
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS ) {
+        if( one_in( 500 ) ) {
+            switch( dice(1, 4) ) {
+                default:
+                case 1:
+                    add_msg( m_warning, _( "You tiredly rub your eyes." ) );
+                    break;
+                case 2:
+                    add_msg( m_warning, _( "You let out a small yawn." ) );
+                    break;
+                case 3:
+                    add_msg( m_warning, _( "You stretch a bit, but it doesn't help." ) );
+                    break;
+                case 4:
+                    add_msg( m_warning, _( "You rub your tired eyes." ) );
+                    break;
+            }
+        }
+    }
+    // Minor discomfort
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
+        if( one_in( 750 ) ) {
             add_msg( m_warning, _( "You feel lightheaded for a moment." ) );
             moves -= 10;
         }
-    }
-    if( sleep_deprivation >= SLEEP_DEPRIVED_STAGE_2 ) {
-        if( one_in( to_turns< int >( 120_minutes ) ) ) {
-            add_msg( m_bad, _( "Your muscles spasm uncomfortably." ) );
+        if( one_in( 1000 ) ) {
+            add_msg( m_warning, _( "Your muscles spasm uncomfortably." ) );
             mod_pain( 2 );
         }
-        if( !has_effect( effect_nausea ) && one_in( to_turns< int >( 240_minutes ) ) ) {
+        if( !has_effect( effect_visuals ) && one_in( 1500 ) ) {
+            add_msg( m_warning, _( "Your vision blurs a little." ) );
+            add_effect( effect_visuals, rng( 1_minutes, 5_minutes ) );
+        }
+    }
+    // Slight disability
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
+        if( one_in( 750 ) ) {
+            add_msg( m_bad, _( "Your mind lapses into unawareness briefly." ) );
+            moves -= rng( 20, 80 );
+        }
+        if( one_in( 1250 ) ) {
+            add_msg( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
+            mod_pain( rng( 2, 10 ) );
+        }
+        if( one_in( 3000 ) ) {
+            add_msg( m_bad, _( "You have a distractingly painful headache." ) );
+            mod_pain( rng( 10, 25 ) );
+        }
+    }
+    // Major disability, high chance of passing out also relevant
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
+        if( !has_effect( effect_nausea ) && one_in( 5000 ) ) {
             add_msg( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
             mod_pain( 5 );
             add_effect( effect_nausea, rng( 5_minutes, 30_minutes ) );
         }
-        if( one_in( to_turns< int >( 360_minutes ) ) ) {
-            add_msg( m_bad, _( "You have a distractingly painful headache." ) );
-            mod_pain( rng( 10, 25 ) );
+        if( one_in( 3000 ) ) {
+            add_msg( m_bad, _( "Your mind is so tired that you feel you can't trust your eyes anymore." ) );
+            add_effect( effect_hallu, rng( 5_minutes, 60_minutes ) );
         }
-        if( !has_effect( effect_visuals ) && one_in( to_turns< int >( 120_minutes ) ) ) {
-            add_msg( m_bad, _( "Your vision blurs, and you tiredly rub your eyes to no avail." ) );
-            add_effect( effect_visuals, rng( 5_minutes, 30_minutes ) );
-        }
-    }
-    // This is very bad, and roughly the same as going more than 4-5 days without sleep IRL.
-    // At this stage, there's a very high chance of passing out already, so these effects
-    // should, hopefully, happen way less often than the others still.
-    if( sleep_deprivation >= SLEEP_DEPRIVED_STAGE_3 ) {
-        if( one_in( to_turns< int >( 45_minutes ) ) ) {
-            add_msg( m_bad, _( "Your mind lapses into unawareness briefly." ) );
-            moves -= rng( 20, 80 );
-        }
-        if( one_in( to_turns< int >( 360_minutes ) ) ) {
-            add_msg( m_bad, _( "Your mind is so tired that you start seeing... things..." ) );
-            add_effect( effect_hallu, rng( 30_minutes, 60_minutes ) );
-        }
-        if( one_in( to_turns< int >( 240_minutes ) ) ) {
-            add_msg( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
-            mod_pain( rng(2, 20) );
-        }
-        if( !has_effect( effect_shakes ) && one_in( to_turns< int >( 360_minutes ) ) ) {
+        if( !has_effect( effect_shakes ) && one_in( 4250 ) ) {
             add_msg( m_bad, _( "Your muscles spasm uncontrollably, and you have trouble keeping your balance." ) );
             add_effect( effect_shakes, 15_minutes );
         }
-        else if( has_effect( effect_shakes ) && one_in( to_turns< int >( 1_minutes ) ) ) {
+        else if( has_effect( effect_shakes ) && one_in( 75 ) ) {
             moves -= 10;
             add_msg( m_warning, _( "Your shaking legs make you stumble." ) );
             if( !has_effect( effect_downed ) && one_in( 10 ) ) {
@@ -6210,11 +6247,6 @@ void player::suffer()
             }
         }
     }
-    /*
-    if( sleep_deprivation >= SLEEP_DEPRIVED_LETHAL ) {
-        // Handled by check_needs_extreme(), and kills the player.
-    }
-    */
 }
 
 // At minimum level, return at_min, at maximum at_max
@@ -9870,14 +9902,141 @@ void player::try_to_sleep( const time_duration &dur )
     assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
+comfort_level player::base_comfort_value( const tripoint &p ) const
+{
+    // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
+    // As in the latter also checks for fatigue and other variables while this function
+    // only looks at the base comfyness of something. It's still subjective, in a sense,
+    // as arachnids who sleep in webs will find most places comfortable for instance.
+    int comfort = 0;
+
+    bool plantsleep = has_trait( trait_CHLOROMORPH );
+    bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
+    bool websleep = has_trait( trait_WEB_WALKER );
+    bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) || ( has_trait( trait_WEB_WEAVER ) ) );
+    bool in_shell = has_active_mutation( trait_SHELL2 );
+
+    const optional_vpart_position vp = g->m.veh_at( p );
+    const maptile tile = g->m.maptile_at( p );
+    const trap &trap_at_pos = tile.get_trap_t();
+    const ter_id ter_at_pos = tile.get_ter();
+    const furn_id furn_at_pos = tile.get_furn();
+
+    int web = g->m.get_field_strength( p, fd_web );
+
+    // Some mutants have different comfort needs
+    if( !plantsleep && !webforce && !in_shell ) {
+        if( in_shell ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+            // Note: shelled individuals can still use sleeping aids!
+        }
+        else if( vp ) {
+            if( vp.part_with_feature( "BED" ) ) {
+                comfort += 1 + (int)comfort_level::slightly_comfortable;
+            }
+            else if( vp.part_with_feature( "SEAT" ) ) {
+                comfort += 0 + (int)comfort_level::slightly_comfortable;
+            }
+            else {
+                // Sleeping elsewhere is uncomfortable
+                comfort -= g->m.move_cost( p );
+            }
+        }
+        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
+        else if( furn_at_pos == f_bed ) {
+            comfort += 0 + (int)comfort_level::comfortable;
+        }
+        else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
+                 furn_at_pos == f_sofa ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+        }
+        // Web sleepers can use their webs if better furniture isn't available
+        else if( websleep && web >= 3 ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+        }
+        else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
+                 furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter ) {
+            comfort += 0 + (int)comfort_level::slightly_comfortable;
+        }
+        else if( furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami ) {
+            comfort += 2 + (int)comfort_level::neutral;
+        }
+        else if( furn_at_pos == f_chair || furn_at_pos == f_bench ||
+                 ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
+                 ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
+                 ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
+            comfort += 1 + (int)comfort_level::neutral;
+        }
+        else {
+         // Not a comfortable sleeping spot
+            comfort -= g->m.move_cost( p );
+        }
+
+        auto items = g->m.i_at( p );
+        for( auto &items_it : items ) {
+            if( items_it.has_flag( "SLEEP_AID" ) ) {
+                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                comfort += 1 + (int)comfort_level::slightly_comfortable;
+                break; // prevents using more than 1 sleep aid
+            }
+        }
+
+        if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+            comfort += (int)comfort_level::very_comfortable;
+        }
+    }
+    else if( plantsleep ) {
+        if( vp || furn_at_pos != f_null ) {
+            // Sleep ain't happening in a vehicle or on furniture
+            comfort = (int)comfort_level::uncomfortable;
+        }
+        else {
+            // It's very easy for Chloromorphs to get to sleep on soil!
+            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
+                ter_at_pos == t_pit_shallow ) {
+                comfort += (int)comfort_level::very_comfortable;
+            }
+            // Not as much if you have to dig through stuff first
+            else if( ter_at_pos == t_grass ) {
+                comfort += (int)comfort_level::comfortable;
+            }
+            // Sleep ain't happening
+            else {
+                comfort = (int)comfort_level::uncomfortable;
+            }
+        }
+    }
+    // Has webforce
+    else {
+        if( web >= 3 ) {
+            // Thick Web and you're good to go
+            comfort += (int)comfort_level::very_comfortable;
+        }
+        else {
+            comfort = (int)comfort_level::uncomfortable;
+        }
+    }
+
+    if( comfort >= (int)comfort_level::very_comfortable ) {
+        return comfort_level::very_comfortable;
+    }
+    else if( comfort >= (int)comfort_level::comfortable ) {
+        return comfort_level::comfortable;
+    }
+    else if( comfort >= (int)comfort_level::slightly_comfortable ) {
+        return comfort_level::slightly_comfortable;
+    }
+    else if( comfort >= (int)comfort_level::neutral ) {
+        return comfort_level::neutral;
+    }
+    else return comfort_level::uncomfortable;
+}
+
 int player::sleep_spot( const tripoint &p ) const
 {
-    int sleepy = 0;
-    bool plantsleep = false;
-    bool fungaloid_cosplay = false;
-    bool websleep = false;
-    bool webforce = false;
-    bool in_shell = false;
+    comfort_level base_level = base_comfort_value( p );
+    int sleepy = (int)base_level;
+
     if (has_addiction(ADD_SLEEP)) {
         sleepy -= 4;
     }
@@ -9894,105 +10053,7 @@ int player::sleep_spot( const tripoint &p ) const
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
     }
-    if (has_trait( trait_CHLOROMORPH )) {
-        plantsleep = true;
-    }
-    if (has_trait( trait_M_SKIN3 )) {
-        fungaloid_cosplay = true;
-    }
-    if (has_trait( trait_WEB_WALKER )) {
-        websleep = true;
-    }
-    // Not sure how one would get Arachnid w/o web-making, but Just In Case
-    if (has_trait( trait_THRESH_SPIDER ) && (has_trait( trait_WEB_SPINNER ) || (has_trait( trait_WEB_WEAVER ))) ) {
-        webforce = true;
-    }
-    if (has_active_mutation( trait_SHELL2 )) {
-        // Your shell's interior is a comfortable place to sleep.
-        in_shell = true;
-    }
-    const optional_vpart_position vp = g->m.veh_at( p );
-    const maptile tile = g->m.maptile_at( p );
-    const trap &trap_at_pos = tile.get_trap_t();
-    const ter_id ter_at_pos = tile.get_ter();
-    const furn_id furn_at_pos = tile.get_furn();
-    int web = g->m.get_field_strength( p, fd_web );
-    // Plant sleepers use a different method to determine how comfortable something is
-    // Web-spinning Arachnids do too
-    if( !plantsleep && !webforce ) {
-        // Shells are comfortable and get used anywhere
-        if( in_shell ) {
-            sleepy += 4;
-        // Else use the vehicle tile if we are in one
-        } else if( vp ) {
-            if( vp.part_with_feature( "BED" ) ) {
-                sleepy += 4;
-            } else if( vp.part_with_feature( "SEAT" ) ) {
-                sleepy += 3;
-            } else {
-                // Sleeping elsewhere is uncomfortable
-                sleepy -= g->m.move_cost( p );
-            }
-        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
-        } else if( furn_at_pos == f_bed ) {
-            sleepy += 5;
-        } else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
-                   furn_at_pos == f_sofa ) {
-            sleepy += 4;
-        } else if( websleep && web >= 3 ) {
-            sleepy += 4;
-        } else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
-                   furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter ) {
-            sleepy += 3;
-        } else if( furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami ) {
-            sleepy += 2;
-        } else if( furn_at_pos == f_chair || furn_at_pos == f_bench ||
-                   ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
-                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
-                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
-            sleepy += 1;
-        } else {
-            // Not a comfortable sleeping spot
-            sleepy -= g->m.move_cost( p );
-        }
-        auto items = g->m.i_at( p );
-        for( auto &items_it : items ) {
-            if( items_it.has_flag( "SLEEP_AID" ) ) {
-                sleepy += 4;
-                break; // prevents using more then 1 sleep aid
-            }
-        }
-        if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS" , pos() ) ) {
-            sleepy += 30;
-        }
-    // Has plantsleep
-    } else if( plantsleep ) {
-        if( vp || furn_at_pos != f_null ) {
-            // Sleep ain't happening in a vehicle or on furniture
-            sleepy -= 999;
-        } else {
-            // It's very easy for Chloromorphs to get to sleep on soil!
-            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
-                ter_at_pos == t_pit_shallow ) {
-                sleepy += 10;
-            // Not as much if you have to dig through stuff first
-            } else if( ter_at_pos == t_grass ) {
-                sleepy += 5;
-            // Sleep ain't happening
-            } else {
-                sleepy -= 999;
-            }
-        }
-    // Has webforce
-    } else {
-        if( web >= 3 ) {
-            // Thick Web and you're good to go
-            sleepy += 10;
-        }
-        else {
-            sleepy -= 999;
-        }
-    }
+
     if( get_fatigue() < TIRED + 1 ) {
         sleepy -= int( ( TIRED + 1 - get_fatigue() ) / 4 );
     } else {

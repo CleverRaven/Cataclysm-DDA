@@ -1021,7 +1021,7 @@ void player::hardcoded_effects( effect &it )
 
         if( get_fatigue() <= 0 && get_fatigue() > -20 && !has_effect( effect_narcosis ) ) {
             mod_fatigue( -25 );
-            if( get_sleep_deprivation() < SLEEP_DEPRIVED_HARMLESS ) {
+            if( get_sleep_deprivation() < SLEEP_DEPRIVATION_HARMLESS ) {
                 add_msg_if_player( m_good, _( "You feel well rested." ) );
             }
             else {

@@ -1969,8 +1969,7 @@ void Character::set_fatigue( int nfatigue )
 
 void Character::set_sleep_deprivation( int nsleep_deprivation )
 {
-    // Capped betwen 0 and 3000
-    sleep_deprivation = std::min(static_cast< int >( SLEEP_DEPRIVED_LETHAL ), std::max(0, nsleep_deprivation));
+    sleep_deprivation = std::min(static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max(0, nsleep_deprivation));
 }
 
 int Character::get_fatigue() const
@@ -1980,6 +1979,10 @@ int Character::get_fatigue() const
 
 int Character::get_sleep_deprivation() const
 {
+    if( !get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
+        return 0;
+    }
+
     return sleep_deprivation;
 }
 
