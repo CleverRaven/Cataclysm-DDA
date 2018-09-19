@@ -113,7 +113,7 @@ class gunmod_location
 struct islot_tool {
     ammotype ammo_id = ammotype::NULL_ID();
 
-    itype_id revert_to = "null";
+    cata::optional<itype_id> revert_to;
     std::string revert_msg;
 
     std::string subtype;
