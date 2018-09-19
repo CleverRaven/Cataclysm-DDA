@@ -5817,7 +5817,6 @@
   },{
     "type" : "item_group",
     "id" : "mil_hw",
-    "ammo": 0,
     "magazine": 100,
     "items":[
       { "group" : "mags_milspec", "prob" : 40 },
@@ -6933,7 +6932,6 @@
   },{
     "type" : "item_group",
     "id" : "tripod",
-    "ammo": 0,
     "magazine": 100,
     "items":[
       ["flamethrower", 1],
