@@ -190,7 +190,7 @@ class wish_mutate_callback: public uimenu_callback
 
 void debug_menu::wishmutate( player *p )
 {
-    uimenu wmenu;
+    uilist wmenu;
     int c = 0;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
@@ -210,7 +210,6 @@ void debug_menu::wishmutate( player *p )
     wmenu.w_width = TERMX;
     // disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 40 );
-    wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
     cb.p = p;
@@ -248,7 +247,7 @@ void debug_menu::wishmutate( player *p )
                 } while( !p->has_trait( mstr ) && rc < 10 );
             }
             cb.msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
-            uistate.wishmutate_selected = wmenu.ret;
+            uistate.wishmutate_selected = wmenu.selected;
             if( rc != 0 ) {
                 for( size_t i = 0; i < cb.vTraits.size(); i++ ) {
                     wmenu.entries[ i ].extratxt.txt.clear();
