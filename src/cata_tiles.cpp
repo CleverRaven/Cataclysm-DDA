@@ -2210,7 +2210,10 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
 
 bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
 {
-    const memorized_tile t = g->u.get_memorized_terrain( p );
+    if( !g->u.should_show_map_memory() ) {
+        return false;
+    }
+    const memorized_terrain_tile t = g->u.get_memorized_terrain( p );
     if( t.tile == "" ) {
         return false;
     }

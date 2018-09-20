@@ -5552,13 +5552,12 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
     return VIS_HIDDEN;
 }
 
-bool map::apply_vision_effects( const catacurses::window &w, lit_level ll,
-                                const visibility_variables &cache ) const
+bool map::apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const
 {
-    int symbol = ' ';
+    long symbol = ' ';
     nc_color color = c_black;
 
-    switch( get_visibility( ll, cache ) ) {
+    switch( vis ) {
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
@@ -5582,6 +5581,22 @@ bool map::apply_vision_effects( const catacurses::window &w, lit_level ll,
     }
     wputch( w, color, symbol );
     return true;
+}
+
+void map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                    const tripoint &view_center ) const
+{
+    if( !g->u.should_show_map_memory() ) {
+        return;
+    }
+    long sym = g->u.get_memorized_terrain_curses( p );
+    if( sym == 0 ) {
+        return;
+    }
+    const int k = p.x + getmaxx( w ) / 2 - view_center.x;
+    const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+
+    mvwputch( w, j, k, c_brown, sym );
 }
 
 void map::draw( const catacurses::window &w, const tripoint &center )
@@ -5634,7 +5649,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                get_submap_at( p.x, p.y, p.z - 1, lx, ly ) : cur_submap;
             while( lx < SEEX && x < maxx )  {
                 const lit_level lighting = visibility_cache[x][y];
-                if( !apply_vision_effects( w, lighting, cache ) ) {
+                const visibility_type vis = get_visibility( lighting, cache );
+                if( !apply_vision_effects( w, vis ) ) {
                     const maptile curr_maptile = maptile( cur_submap, lx, ly );
                     const bool just_this_zlevel =
                         draw_maptile( w, g->u, p, curr_maptile,
@@ -5647,6 +5663,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                          lighting == LL_LOW, lighting == LL_BRIGHT, false );
                         p.z++;
                     }
+                } else if( vis == VIS_HIDDEN || vis == VIS_DARK ) {
+                    draw_maptile_from_memory( w, p, center );
                 }
 
                 lx++;
@@ -5659,6 +5677,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             x++;
         }
     }
+
+    g->u.finalize_terrain_memory_curses();
 }
 
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
@@ -5690,6 +5710,8 @@ void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, con
                          invert_arg, view_center,
                          low_light, bright_light, false );
     }
+
+    g->u.finalize_terrain_memory_curses();
 }
 
 // a check to see if the lower floor needs to be rendered in tiles
@@ -5713,20 +5735,20 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
-    static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
+
+    long terrain_sym;
+    if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
+        terrain_sym = determine_wall_corner( p );
+    } else {
+        terrain_sym = curr_ter.symbol();
+    }
+    g->u.memorize_terrain_curses( p, terrain_sym );
 
     if( curr_furn.id ) {
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
     } else {
-        if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
-            // If the terrain symbol is later overridden by something, we don't need to calculate
-            // the wall symbol at all. This case will be detected by comparing sym to this
-            // placeholder, if it's still the same, we have to calculate the wall symbol.
-            sym = AUTO_WALL_PLACEHOLDER;
-        } else {
-            sym = curr_ter.symbol();
-        }
+        sym = terrain_sym;
         tercol = curr_ter.color();
     }
     if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) &&
@@ -5840,11 +5862,6 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
     // If there's graffiti here, change background color
     if( curr_maptile.has_graffiti() ) {
         graf = true;
-    }
-
-    //surprise, we're not done, if it's a wall adjacent to an other, put the right glyph
-    if( sym == AUTO_WALL_PLACEHOLDER ) {
-        sym = determine_wall_corner( p );
     }
 
     const auto u_vision = u.get_vision_modes();

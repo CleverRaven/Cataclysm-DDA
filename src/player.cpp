@@ -514,6 +514,7 @@ player::player() : Character()
     lastconsumed = itype_id( "null" );
     next_expected_position = tripoint_min;
     death_drops = true;
+    show_map_memory = true;
 
     empty_traits();
 
@@ -11247,20 +11248,45 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-memorized_tile player::get_memorized_terrain( const tripoint &pos ) const
+void player::toggle_map_memory()
 {
-    return map_memory.get_memorized_terrain( pos );
+    show_map_memory = !show_map_memory;
+}
+
+bool player::should_show_map_memory()
+{
+    return show_map_memory;
+}
+
+memorized_terrain_tile player::get_memorized_terrain( const tripoint &pos ) const
+{
+    return player_map_memory.get_memorized_terrain( pos );
 }
 
 void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation )
 {
-    map_memory.memorize_tile( pos, ter, subtile, rotation );
+    player_map_memory.memorize_tile( pos, ter, subtile, rotation );
 }
 
 void player::finalize_tile_memory()
 {
-    map_memory.finalize_tile_memory( max_memorized_submaps() );
+    player_map_memory.finalize_tile_memory( max_memorized_submaps() );
+}
+
+void player::memorize_terrain_curses( const tripoint &pos, const long symbol )
+{
+    player_map_memory.memorize_terrain_symbol( pos, symbol );
+}
+
+void player::finalize_terrain_memory_curses()
+{
+    player_map_memory.finalize_terrain_memory_curses( max_memorized_submaps() );
+}
+
+long player::get_memorized_terrain_curses( const tripoint &p ) const
+{
+    return player_map_memory.get_memorized_terrain_curses( p );
 }
 
 size_t player::max_memorized_submaps() const
@@ -11274,7 +11300,7 @@ size_t player::max_memorized_submaps() const
 
 }
 
-memorized_tile map_memory::get_memorized_terrain( const tripoint &pos ) const
+memorized_terrain_tile map_memory::get_memorized_terrain( const tripoint &pos ) const
 {
     const tripoint p = g->m.getabs( pos );
     if( memorized_terrain.find( p ) != memorized_terrain.end() ) {
@@ -11295,7 +11321,7 @@ void map_memory::finalize_tile_memory( size_t max_submaps )
     memorized_terrain_tmp.clear();
 }
 
-void map_memory::memorize_tiles( const std::map<tripoint, memorized_tile> &tiles,
+void map_memory::memorize_tiles( const std::map<tripoint, memorized_terrain_tile> &tiles,
                                  const size_t max_submaps )
 {
     std::set<tripoint> submaps;
@@ -11344,6 +11370,53 @@ void map_memory::clear_submap_memory( const std::set<tripoint> &erase )
             ++it;
         }
     }
+    for( auto it = memorized_terrain_curses.cbegin(); it != memorized_terrain_curses.cend(); ) {
+        bool delete_this = false;
+        for( auto i : erase ) {
+            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
+                delete_this = true;
+                break;
+            }
+        }
+        if( delete_this ) {
+            memorized_terrain_curses.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+}
+
+void map_memory::memorize_terrain_symbol( const tripoint &pos, const long symbol )
+{
+    memorized_terrain_curses_tmp[pos] = symbol;
+}
+
+void map_memory::finalize_terrain_memory_curses( const size_t max_submaps )
+{
+    memorize_terrain_symbols( memorized_terrain_curses_tmp, max_submaps );
+    memorized_terrain_curses_tmp.clear();
+}
+
+void map_memory::memorize_terrain_symbols( const std::map<tripoint, long> &tiles,
+        size_t max_submaps )
+{
+    std::set<tripoint> submaps;
+    for( auto i : tiles ) {
+        const tripoint p = g->m.getabs( i.first );
+        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
+        memorized_terrain_curses[p] = i.second;
+    }
+
+    update_submap_memory( submaps, max_submaps );
+}
+
+long map_memory::get_memorized_terrain_curses( const tripoint &pos ) const
+{
+    const tripoint p = g->m.getabs( pos );
+    if( memorized_terrain_curses.find( p ) != memorized_terrain_curses.end() ) {
+        return memorized_terrain_curses.at( p );
+    }
+    return 0;
 }
 
 bool player::sees( const tripoint &t, bool ) const

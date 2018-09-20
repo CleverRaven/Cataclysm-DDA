@@ -2306,6 +2306,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pause" );
     ctxt.register_action( "LEVEL_DOWN", _( "Descend Stairs" ) );
     ctxt.register_action( "LEVEL_UP", _( "Ascend Stairs" ) );
+    ctxt.register_action( "toggle_map_memory" );
     ctxt.register_action( "center" );
     ctxt.register_action( "shift_n" );
     ctxt.register_action( "shift_ne" );
@@ -2493,7 +2494,7 @@ input_context game::get_player_input( std::string &action )
                         const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
                         const lit_level lighting = visibility_cache[location.x][location.y];
                         wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                        if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                        if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
                                       u.pos() + u.view_offset,
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
@@ -2533,7 +2534,7 @@ input_context game::get_player_input( std::string &action )
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                                if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                                if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
                                               u.pos() + u.view_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
@@ -2848,6 +2849,9 @@ bool game::handle_action()
     // These actions are allowed while deathcam is active.
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch( act ) {
+            case ACTION_TOGGLE_MAP_MEMORY:
+                u.toggle_map_memory();
+
             case ACTION_CENTER:
                 u.view_offset.x = driving_view_offset.x;
                 u.view_offset.y = driving_view_offset.y;
@@ -10016,7 +10020,7 @@ void game::grab()
 std::vector<vehicle *> nearby_vehicles_for( const itype_id &ft )
 {
     std::vector<vehicle *> result;
-    for( auto &&p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+    for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         vehicle *const veh = veh_pointer_or_null( g->m.veh_at( p ) );
         // TODO: constify fuel_left and fuel_capacity
         // TODO: add a fuel_capacity_left function

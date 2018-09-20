@@ -1272,6 +1272,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Map Memory",
+    "category": "DEFAULTMODE",
+    "id": "toggle_map_memory",
+    "bindings": [ { "input_method": "keyboard", "key": "{" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Center View",
     "category": "DEFAULTMODE",
     "id": "center",
