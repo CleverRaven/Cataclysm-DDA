@@ -459,7 +459,7 @@ std::string mission_debug::describe( const mission &m )
     return data.str();
 }
 
-void add_header( uimenu &mmenu, const std::string &str )
+void add_header( uilist &mmenu, const std::string &str )
 {
     mmenu.addentry( -1, false, -1, "" );
     uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );
