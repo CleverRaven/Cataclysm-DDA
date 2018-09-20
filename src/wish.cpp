@@ -479,11 +479,10 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
 
     int prev_amount = 1;
     int amount = 1;
-    uimenu wmenu;
+    uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
-    wmenu.return_invalid = true;
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
@@ -534,7 +533,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                                             ctxt.get_desc( "QUIT" ).c_str() );
                 }
             }
-            uistate.wishitem_selected = wmenu.ret;
+            uistate.wishitem_selected = wmenu.selected;
             if( canceled || amount <= 0 ) {
                 amount = prev_amount;
             }
