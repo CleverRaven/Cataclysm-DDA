@@ -98,8 +98,7 @@ void character_edit_menu()
     // The NPC is also required for "Add mission", so has to be in this scope
     npc *np = g->critter_at<npc>( locations[index] );
     player &p = np ? *np : g->u;
-    uimenu nmenu;
-    nmenu.return_invalid = true;
+    uilist nmenu;
 
     if( np != nullptr ) {
         std::stringstream data;
@@ -159,8 +158,6 @@ void character_edit_menu()
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
     }
-    nmenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-    nmenu.selected = 0;
     nmenu.query();
     switch( nmenu.ret ) {
         case D_SKILLS:
