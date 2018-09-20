@@ -217,32 +217,8 @@
     "nested_mapgen_id": "lab_glass_north_wall",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "place_terrain": [
-        { "ter": "t_reinforced_glass", "x": 1, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 2, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 3, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 4, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 5, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 6, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 7, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 8, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 9, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 10, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 11, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 12, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 13, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 14, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 15, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 16, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 17, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 18, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 19, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 20, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 21, "y": 0 },
-        { "ter": "t_reinforced_glass", "x": 22, "y": 0 }
-      ],
-      "place_nested": [
-        { "chunks": [ "lab_glass_north_wall" ], "x":0, "y": 0, "neighbors": { "north": "open_air" } }
+      "set": [
+        { "line": "terrain", "id": "t_reinforced_glass", "x": 1, "x2": 22, "y":01, "y2": 0 }
       ]
     }
   },
@@ -253,29 +229,8 @@
     "nested_mapgen_id": "lab_glass_west_wall",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "place_terrain": [
-        { "ter": "t_reinforced_glass", "x": 0, "y": 1 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 2 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 3 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 4 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 5 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 6 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 7 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 8 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 9 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 10 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 11 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 12 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 13 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 14 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 15 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 16 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 17 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 18 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 19 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 20 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 21 },
-        { "ter": "t_reinforced_glass", "x": 0, "y": 22 }
+      "set": [
+        { "line": "terrain", "id": "t_reinforced_glass", "x": 0, "x2": 0, "y": 1, "y2": 22 }
       ]
     }
   },
