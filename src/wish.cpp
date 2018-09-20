@@ -554,9 +554,9 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
 void debug_menu::wishskill( player *p )
 {
     const int skoffset = 1;
-    uimenu skmenu;
+    uilist skmenu;
     skmenu.text = _( "Select a skill to modify" );
-    skmenu.return_invalid = true;
+    skmenu.allow_anykey = true;
     skmenu.addentry( 0, true, '1', _( "Modify all skills..." ) );
 
     std::vector<int> origskills;
@@ -574,14 +574,14 @@ void debug_menu::wishskill( player *p )
         int skill_id = -1;
         int skset = -1;
         int sksel = skmenu.selected - skoffset;
-        if( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
+        if( skmenu.ret == UIMENU_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
+                                              skmenu.keypress == KEY_RIGHT ) ) {
             if( sksel >= 0 && sksel < static_cast<int>( Skill::skills.size() ) ) {
                 skill_id = sksel;
                 skset = p->get_skill_level( Skill::skills[skill_id].ident() ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
-            skmenu.ret = -2;
-        } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 &&
+        } else if( skmenu.ret >= 0 && sksel >= 0 &&
                    sksel < static_cast<int>( Skill::skills.size() ) ) {
             skill_id = sksel;
             const Skill &skill = Skill::skills[skill_id];
@@ -601,7 +601,7 @@ void debug_menu::wishskill( player *p )
             skset = sksetmenu.ret;
         }
 
-        if( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
+        if( skill_id >= 0 && skset >= 0 ) {
             const Skill &skill = Skill::skills[skill_id];
             p->set_skill_level( skill.ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
@@ -639,5 +639,5 @@ void debug_menu::wishskill( player *p )
                 }
             }
         }
-    } while( skmenu.ret >= 0 );
+    } while( skmenu.ret != UIMENU_CANCEL );
 }
