@@ -3671,7 +3671,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
 namespace sm_rack {
     const int MIN_CHARCOAL = 100;
-    const int CHARCOAL_PER_LITER = 100;
+    const int CHARCOAL_PER_LITER = 25;
     const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
 }
 
