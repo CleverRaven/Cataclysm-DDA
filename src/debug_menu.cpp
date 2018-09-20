@@ -508,8 +508,7 @@ void mission_debug::edit_player()
 {
     std::vector<mission *> all_missions;
 
-    uimenu mmenu;
-    mmenu.return_invalid = true;
+    uilist mmenu;
     mmenu.text = _( "Select mission to edit" );
 
     add_header( mmenu, _( "Active missions:" ) );
