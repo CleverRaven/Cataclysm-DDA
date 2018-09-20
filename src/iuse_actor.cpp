@@ -1302,9 +1302,8 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     // Decided to split components evenly. Since salvage will likely change
     // soon after I write this, I'll go with the one that is cleaner.
     for( auto material : cut_material_components ) {
-        const itype_id id = material->salvaged_into();
-        if( id != "null"  ) {
-            materials_salvaged[id] = std::max( 0, count / static_cast<int>( cut_material_components.size() ) );
+        if( const auto id = material->salvaged_into() ) {
+            materials_salvaged[*id] = std::max( 0, count / static_cast<int>( cut_material_components.size() ) );
         }
     }
 

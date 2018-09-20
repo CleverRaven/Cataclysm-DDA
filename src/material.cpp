@@ -174,9 +174,9 @@ std::string material_type::name() const
     return _( _name.c_str() );
 }
 
-itype_id material_type::salvaged_into() const
+cata::optional<itype_id> material_type::salvaged_into() const
 {
-    return _salvaged_into.value_or( "null" );
+    return _salvaged_into;
 }
 
 itype_id material_type::repaired_with() const
