@@ -275,13 +275,16 @@ void character_edit_menu()
         }
         break;
         case D_NAME: {
-            std::string filterstring;
-            string_input_popup()
+            std::string filterstring = p.name;
+            string_input_popup popup;
+            popup
             .title( _( "Rename:" ) )
             .width( 85 )
             .description( string_format( _( "NPC: \n%s\n" ), p.name ) )
             .edit( filterstring );
-            p.name = filterstring;
+            if( popup.confirmed() ) {
+                p.name = filterstring;
+            }
         }
         break;
         case D_PAIN: {
