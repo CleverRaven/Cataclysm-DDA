@@ -700,6 +700,25 @@
     "flags": [ "BELTED" ]
   },
   {
+    "id": "backpack_giant",
+    "type": "ARMOR",
+    "name": "giant novelty backpack",
+    "description": "A huge fabric backpack made mostly as a joke before the cataclysm.  Now, it's still rather silly, but it can store a lot of stuff.",
+    "weight": 1200,
+    "volume": 35,
+    "price": 4500,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "TORSO", "LEGS" ],
+    "coverage": 75,
+    "encumbrance": 100,
+    "storage": 140,
+    "warmth": 5,
+    "material_thickness": 2,
+    "flags": [ "BELTED" ]
+  },
+  {
     "id": "backpack_leather",
     "type": "ARMOR",
     "name": "leather backpack",

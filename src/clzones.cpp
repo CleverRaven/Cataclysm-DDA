@@ -84,12 +84,9 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
     return !options.has_options();
 }
 
-void plot_options::query_seed()
+plot_options::query_seed_result plot_options::query_seed()
 {
     player &p = g->u;
-
-    seed = "";
-    mark = "";
 
     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
         return itm.is_seed();
@@ -102,25 +99,44 @@ void plot_options::query_seed()
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
-        seed = std::get<0>( seed_entry );
+        const auto new_seed = std::get<0>( seed_entry );
+        std::string new_mark;
 
-        item it = item( itype_id( seed ) );
+        item it = item( itype_id( new_seed ) );
         if( it.is_seed() ) {
-            mark = it.type->seed->fruit_id;
+            new_mark = it.type->seed->fruit_id;
         } else {
-            mark = seed;
+            new_mark = seed;
         }
+
+        if( new_seed != seed || new_mark != mark ) {
+            seed = new_seed;
+            mark = new_mark;
+            return changed;
+        } else {
+            return successful;
+        }
+    } else if( seed_index == 0 ) { // No seeds
+        if( seed != "" || mark != "" ) {
+            seed = "";
+            mark = "";
+            return changed;
+        } else {
+            return successful;
+        }
+    } else {
+        return canceled;
     }
 }
 
-void plot_options::query_at_creation()
+bool plot_options::query_at_creation()
 {
-    query_seed();
+    return query_seed() != canceled;
 };
 
-void plot_options::query()
+bool plot_options::query()
 {
-    query_seed();
+    return query_seed() == changed;
 };
 
 std::string plot_options::get_zone_name_suggestion() const
@@ -159,20 +175,26 @@ void plot_options::deserialize( JsonObject &jo_zone )
     seed = jo_zone.get_string( "seed", "" );
 };
 
-std::string zone_manager::query_name( std::string default_name ) const
+cata::optional<std::string> zone_manager::query_name( std::string default_name ) const
 {
-    return string_input_popup()
-           .title( _( "Zone name:" ) )
-           .width( 55 )
-           .text( default_name )
-           .max_length( 15 )
-           .query_string();
+    string_input_popup popup;
+    popup
+    .title( _( "Zone name:" ) )
+    .width( 55 )
+    .text( default_name )
+    .max_length( 15 )
+    .query();
+    if( popup.canceled() ) {
+        return {};
+    } else {
+        return popup.text();
+    }
 }
 
-zone_type_id zone_manager::query_type() const
+cata::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
-    uimenu as_m;
+    uilist as_m;
     as_m.text = _( "Select zone type:" );
 
     size_t i = 0;
@@ -181,6 +203,9 @@ zone_type_id zone_manager::query_type() const
     }
 
     as_m.query();
+    if( as_m.ret < 0 ) {
+        return {};
+    }
     size_t index = as_m.ret;
 
     auto iter = types.begin();
@@ -189,18 +214,35 @@ zone_type_id zone_manager::query_type() const
     return iter->first;
 }
 
-void zone_manager::zone_data::set_name()
+bool zone_manager::zone_data::set_name()
 {
-    const std::string new_name = get_manager().query_name( name );
-
-    name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
+    const auto maybe_name = get_manager().query_name( name );
+    if( maybe_name.has_value() ) {
+        auto new_name = maybe_name.value();
+        if( new_name.empty() ) {
+            new_name = _( "<no name>" );
+        }
+        if( name != new_name ) {
+            name = new_name;
+            return true;
+        }
+    }
+    return false;
 }
 
-void zone_manager::zone_data::set_type()
+bool zone_manager::zone_data::set_type()
 {
-    type = get_manager().query_type();
-
-    get_manager().cache_data();
+    const auto maybe_type = get_manager().query_type();
+    if( maybe_type.has_value() && maybe_type.value() != type ) {
+        auto new_options = zone_options::create( maybe_type.value() );
+        if( new_options->query_at_creation() ) {
+            type = maybe_type.value();
+            options = new_options;
+            get_manager().cache_data();
+            return true;
+        }
+    }
+    return false;
 }
 
 void zone_manager::zone_data::set_position( const std::pair<tripoint, tripoint> position )
@@ -452,6 +494,28 @@ zone_manager::zone_data &zone_manager::add( const std::string &name, const zone_
     cache_data();
 
     return zones.back();
+}
+
+bool zone_manager::remove( const size_t index )
+{
+    if( index < zones.size() ) {
+        zones.erase( zones.begin() + index );
+        return true;
+    }
+
+    return false;
+}
+
+bool zone_manager::remove( zone_data &zone )
+{
+    for( auto it = zones.begin(); it != zones.end(); ++it ) {
+        if( &zone == &*it ) {
+            zones.erase( it );
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void zone_manager::swap( zone_data &a, zone_data &b )

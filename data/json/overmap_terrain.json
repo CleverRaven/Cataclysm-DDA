@@ -1650,6 +1650,25 @@
     "flags": [ "NO_ROTATE" ]
   },
   {
+    "type": "overmap_terrain",
+    "id": "lab_escape_cells",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_escape_entrance",
+    "name": "science lab",
+    "sym": 76,
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
     "type" : "overmap_terrain",
     "id" : "ants_lab",
     "name" : "science lab",

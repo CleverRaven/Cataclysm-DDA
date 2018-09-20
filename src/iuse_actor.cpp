@@ -1043,7 +1043,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
                                      _( "You light a fire, but it isn't enough. You need to light more." ) );
             } else {
                 p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 24_hours, 8_hours );
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
                 p.rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
         }
@@ -1386,14 +1386,12 @@ bool inscribe_actor::item_inscription( item &cut ) const
     enum inscription_type {
         INSCRIPTION_LABEL,
         INSCRIPTION_NOTE,
-        INSCRIPTION_CANCEL
     };
 
-    uimenu menu;
+    uilist menu;
     menu.text = string_format( _( "%s meaning?" ), _( verb.c_str() ) );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
-    menu.addentry( INSCRIPTION_CANCEL, true, 'q', _( "Cancel" ) );
     menu.query();
 
     std::string carving;
@@ -1407,7 +1405,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
             carving = "item_note";
             carving_type = "item_note_type";
             break;
-        case INSCRIPTION_CANCEL:
+        default:
             return false;
     }
 

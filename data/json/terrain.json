@@ -523,7 +523,7 @@
     "type": "terrain",
     "id": "t_grass_long",
     "name": "long grass",
-    "description": "Long shaggy grass that hasn't been cut recently.",
+    "description": "Long shaggy grass about shin high.",
     "looks_like": "t_grass",
     "symbol": ",",
     "color": "green",
@@ -3377,6 +3377,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_mulberry_harvested",
     "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_tree_apple",
     "harvest_by_season": [
       {
         "seasons": [ "summer" ],
@@ -3407,6 +3408,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_mulberry",
+    "looks_like": "t_tree_apple_harvested",
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -3428,6 +3430,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_elderberry_harvested",
     "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_tree_plum",
     "harvest_by_season": [
       {
         "seasons": [ "summer" ],
@@ -3458,6 +3461,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_elderberry",
+    "looks_like": "t_tree_plum_harvested",
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -3953,6 +3957,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP" ],
     "transforms_into": "t_shrub_blackberry_harvested",
     "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_blueberry",
     "harvest_by_season": [
       {
         "seasons": [ "summer" ],
@@ -3982,6 +3987,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
     "transforms_into": "t_shrub_blackberry",
     "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_blueberry_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -4002,6 +4008,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_huckleberry_harvested",
     "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_blueberry",
     "harvest_by_season": [
       {
         "seasons": [ "summer" ],
@@ -4031,6 +4038,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
     "transforms_into": "t_shrub_huckleberry",
     "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_blueberry_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -4051,6 +4059,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP" ],
     "transforms_into": "t_shrub_raspberry_harvested",
     "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_strawberry",
     "harvest_by_season": [
       {
         "seasons": [ "summer" ],
@@ -4080,6 +4089,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
     "transforms_into": "t_shrub_raspberry",
     "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_strawberry_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -4100,6 +4110,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_grape_harvested",
     "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_blueberry",
     "harvest_by_season": [
       {
         "seasons": [ "summer" ],
@@ -4129,6 +4140,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
     "transforms_into": "t_shrub_grape",
     "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_blueberry_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -4149,6 +4161,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP" ],
     "transforms_into": "t_shrub_rose_harvested",
     "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_strawberry",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
     "bash": {
@@ -4171,6 +4184,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
     "transforms_into": "t_shrub_rose",
     "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_strawberry_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -4191,6 +4205,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_hydrangea_harvested",
     "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_blueberry",
     "//": "Insert hydrangea harvest in autumn once flowers have a use (same for other generic flowers).",
     "bash": {
       "str_min": 4,
@@ -4212,6 +4227,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
     "transforms_into": "t_shrub_hydrangea",
     "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_blueberry_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 60,

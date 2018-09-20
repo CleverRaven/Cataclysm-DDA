@@ -393,11 +393,11 @@ void veh_interact::cache_tool_availability()
                vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual );
 }
 
-void veh_interact::cache_tool_availability_update_lifting(tripoint world_cursor_pos)
+void veh_interact::cache_tool_availability_update_lifting( tripoint world_cursor_pos )
 {
     max_lift = std::max( { g->u.max_quality( LIFT ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                           vehicle_selector( world_cursor_pos, 4, true ).max_quality( LIFT )
+                           vehicle_selector( world_cursor_pos, 4, true, true ).max_quality( LIFT )
                          } );
 }
 

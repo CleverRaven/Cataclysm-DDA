@@ -21,6 +21,7 @@
 #include <string>
 #include <unordered_map>
 
+class cata_tiles;
 class Creature;
 class player;
 class JsonObject;
@@ -304,6 +305,7 @@ class tileset_loader
         int sprite_height;
 
         int offset = 0;
+        int sprite_id_offset = 0;
         int size = 0;
 
         struct {
@@ -355,6 +357,12 @@ class tileset_loader
          * @throw std::exception On any error.
          */
         void load_tilejson_from_file( JsonObject &config );
+        /**
+         * Helper function called by load.
+         * @throw std::exception On any error.
+         */
+        void load_internal( JsonObject &config, const std::string &tileset_root,
+                            const std::string &img_path );
     public:
         tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
         }
@@ -408,6 +416,7 @@ class cata_tiles
 
         const tile_type *find_tile_with_season( std::string &id );
         const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
+        bool find_overlay_looks_like( const bool male, const std::string &overlay, std::string &draw_id );
 
         bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );

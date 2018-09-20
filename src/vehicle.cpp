@@ -1146,7 +1146,9 @@ bool vehicle::is_connected( vehicle_part const &to, vehicle_part const &from,
 
             std::vector<int> parts_there = parts_at_relative( next.x, next.y );
 
-            if( !parts_there.empty() ) {
+            if( !parts_there.empty() && !parts[ parts_there[ 0 ] ].removed &&
+                part_info( parts_there[ 0 ] ).location == "structure" &&
+                !part_info( parts_there[ 0 ] ).has_flag( "PROTRUSION" ) ) {
                 //Only add the part if we haven't been here before
                 bool found = false;
                 for( auto &elem : discovered ) {
@@ -2634,13 +2636,10 @@ void vehicle::consume_fuel( double load = 1.0 )
         amnt_precise -= remainder;
 
         if( amnt_precise > 0.0f ) {
-            fuel_remainder[ ft ] = amnt_precise - drain_energy( ft, amnt_precise );
+            fuel_remainder[ ft ] = drain_energy( ft, amnt_precise ) - amnt_precise;
         } else {
             fuel_remainder[ ft ] = -amnt_precise;
         }
-
-        add_msg( m_debug, "%s consumes %s: amount %.2f, remainder %.2f",
-                 name.c_str(), ft.c_str(), amnt_precise, fuel_remainder[ ft ] );
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!
@@ -3744,7 +3743,6 @@ void vehicle::shift_parts( const point delta )
 
     //Need to also update the map after this
     g->m.reset_vehicle_cache( smz );
-
 }
 
 /**
@@ -3754,7 +3752,8 @@ void vehicle::shift_parts( const point delta )
  */
 bool vehicle::shift_if_needed()
 {
-    if( !parts_at_relative( 0, 0 ).empty() ) {
+    std::vector<int> vehicle_origin = parts_at_relative( 0, 0 );
+    if( !vehicle_origin.empty() && !parts[ vehicle_origin[ 0 ] ].removed ) {
         // Shifting is not needed.
         return false;
     }
@@ -3788,7 +3787,7 @@ int vehicle::break_off( int p, int dmg )
         return dmg;
     }
 
-    const auto pos = global_part_pos3( p );
+    const tripoint pos = global_part_pos3( p );
     if( part_info( p ).location == part_location_structure ) {
         // For structural parts, remove other parts first
         std::vector<int> parts_in_square = parts_at_relative( parts[p].mount.x, parts[p].mount.y );
@@ -3816,17 +3815,32 @@ int vehicle::break_off( int p, int dmg )
             }
             remove_part( parts_in_square[index] );
         }
-        /* After clearing the frame, remove it if normally legal to do
-         * so (it's not holding the vehicle together). At a later date,
-         * some more complicated system (such as actually making two
-         * vehicles from the split parts) would be ideal. */
-        if( can_unmount( p ) ) {
-            if( g->u.sees( pos ) ) {
-                add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ),
-                         name.c_str(), parts[ p ].name().c_str() );
+        // After clearing the frame, remove it.
+        if( g->u.sees( pos ) ) {
+            add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ),
+                     name.c_str(), parts[ p ].name().c_str() );
+        }
+        // Special handling for destroying a frame that will break the vehicle into pieces.
+        // General idea is if parts become isolated from the rest of the vehicle, they "fall off".
+        std::vector<point> offsets = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
+        std::vector<int> isolated_parts;
+        break_part_into_pieces( p, pos.x, pos.y, true );
+        remove_part( p );
+        shift_if_needed();
+        for( point offset : offsets ) {
+            std::vector<int> vehicle_origin = parts_at_relative( 0, 0, false );
+            const point smashed_part_position = parts[ p ].mount;
+            std::vector<int> at_risk_part = parts_at_relative( smashed_part_position.x + offset.x,
+                                            smashed_part_position.y + offset.y,
+                                            false );
+            if( at_risk_part.empty() ) {
+                continue;
             }
-            break_part_into_pieces( p, pos.x, pos.y, true );
-            remove_part( p );
+            if( !is_connected( parts[ vehicle_origin[ 0 ] ], parts[ at_risk_part[ 0 ] ],
+                               parts[ p ] ) ) {
+                // Ludicrous damage level to ensure it happens.
+                break_off( at_risk_part[ 0 ], 1000000 );
+            }
         }
     } else {
         //Just break it off

@@ -1250,9 +1250,9 @@ ter_id map::ter( const int x, const int y ) const
     return current_submap->get_ter( lx, ly );
 }
 
-void map::ter_set( const int x, const int y, const ter_id new_terrain )
+bool map::ter_set( const int x, const int y, const ter_id new_terrain )
 {
-    ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
+    return ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
 }
 
 std::string map::tername( const int x, const int y ) const
@@ -1357,10 +1357,10 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-void map::ter_set( const tripoint &p, const ter_id new_terrain )
+bool map::ter_set( const tripoint &p, const ter_id new_terrain )
 {
     if( !inbounds( p ) ) {
-        return;
+        return false;
     }
 
     int lx = 0;
@@ -1369,7 +1369,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     const ter_id old_id = current_submap->get_ter( lx, ly );
     if( old_id == new_terrain ) {
         // Nothing changed
-        return;
+        return false;
     }
 
     current_submap->set_ter( lx, ly, new_terrain );
@@ -1410,6 +1410,8 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
+
+    return true;
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -4180,9 +4182,6 @@ item &map::add_item_at( const tripoint &p,
 
     current_submap->update_lum_add( new_item, lx, ly );
     const auto new_pos = current_submap->itm[lx][ly].insert( index, new_item );
-    if( g->get_temperature( p ) <= FRIDGE_TEMPERATURE && new_item.is_food() ) {
-        new_item.active = true;
-    }
     if( new_item.needs_processing() ) {
         current_submap->active_items.add( new_pos, point( lx, ly ) );
     }
@@ -4266,77 +4265,6 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-unsigned int temp_difference_ratio( int temp_one, int temp_two )
-{
-    // ratio is between 1-4 and changes every 10F (~5.5C)
-    unsigned int ratio = abs( temp_one - temp_two ) / 10;
-    ratio = clamp( ratio, static_cast<unsigned int>( 1 ), static_cast<unsigned int>( 4 ) );
-    return ratio;
-}
-
-// Check if it's in a fridge/freezer and is food, set the fridge/freezer
-// date to current time, and also check contents.
-void map::apply_in_fridge( item &it, int temp, bool vehicle )
-{
-    unsigned int diff_freeze = temp_difference_ratio( temp, FREEZING_TEMPERATURE ) + 1; //effective 1-4
-    unsigned int diff_cold = temp_difference_ratio( temp, FRIDGE_TEMPERATURE ) + 1;
-
-    // this counters environmental effects trying to heat-up at the same ratio
-    if( vehicle ) {
-        diff_freeze *= 2;
-        diff_cold *= 2;
-    }
-
-    if( it.is_food() ) {
-        if( temp <= FREEZING_TEMPERATURE ) {
-            if( it.freezer == calendar::before_time_starts ) {
-                it.freezer = calendar::turn;
-            }
-        } else if( temp <= FRIDGE_TEMPERATURE ) {
-            if( it.fridge == calendar::before_time_starts ) {
-                it.fridge = calendar::turn;
-            }
-        }
-        // cool down of the HOT flag, is unsigned, don't go below 1
-        if( it.item_tags.count( "HOT" ) && it.item_counter > diff_cold ) {
-            it.item_counter -= diff_cold;
-        } else if( it.item_tags.count( "HOT" ) ) {
-            it.item_tags.erase( "HOT" );
-            it.item_counter = 0;
-        }
-        // This sets the COLD flag, and doesn't go above 600
-        if( !( it.item_tags.count( "COLD" ) || it.item_tags.count( "FROZEN" ) ||
-               it.item_tags.count( "HOT" ) ) ) {
-
-            it.item_tags.insert( "COLD" );
-            it.active = true;
-        }
-        if( it.item_tags.count( "COLD" ) && it.item_counter <= ( 600 - diff_cold ) ) {
-            it.item_counter += diff_cold;
-        }
-        // Freezer converts COLD flag at 600 ticks to FROZEN flag with max 600 ticks
-        if( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "COLD" ) && it.item_counter >= 600 &&
-            !( it.item_tags.count( "FROZEN" ) || it.item_tags.count( "HOT" ) ) ) {
-
-            it.item_tags.erase( "COLD" );
-            it.item_tags.insert( "FROZEN" );
-            it.active = true;
-            it.item_counter = 0;
-
-            // items that don't use COLD flag can go FROZEN bypassing COLD state
-        }
-        if( temp <= FREEZING_TEMPERATURE && it.item_tags.count( "FROZEN" ) && it.item_counter <= 600 ) {
-            it.item_counter += diff_freeze;
-            it.item_counter = it.item_counter > 600 ? 600 : it.item_counter;
-        }
-    }
-    if( it.is_container() ) {
-        for( auto &elem : it.contents ) {
-            apply_in_fridge( elem, temp, vehicle );
-        }
-    }
-}
-
 // This is an ugly and dirty hack to prevent invalidating the item_location
 // references the player is using for an activity.  What needs to happen is
 // activity targets gets refactored in some way that it can reference items
@@ -4352,15 +4280,15 @@ static bool item_is_in_activity( const item *it )
     } ) != targs->end();
 }
 
-template <typename Iterator>
-static bool process_item( item_stack &items, Iterator &n, const tripoint &location, bool activate )
+static bool process_item( item_stack &items, std::list<item>::iterator &n, const tripoint &location,
+                          const bool activate, const int temp, const float insulation )
 {
     if( !item_is_in_activity( &*n ) ) {
         // make a temporary copy, remove the item (in advance)
         // and use that copy to process it
         item temp_item = *n;
         auto insertion_point = items.erase( n );
-        if( !temp_item.process( nullptr, location, activate ) ) {
+        if( !temp_item.process( nullptr, location, activate, temp, insulation ) ) {
             // Not destroyed, must be inserted again.
             // If the item lost its active flag in processing,
             // it won't be re-added to the active list, tidy!
@@ -4372,7 +4300,7 @@ static bool process_item( item_stack &items, Iterator &n, const tripoint &locati
             return false;
         }
         return true;
-    } else if( n->process( nullptr, location, activate ) ) {
+    } else if( n->process( nullptr, location, activate, temp, insulation ) ) {
         items.erase( n );
         return true;
     }
@@ -4380,29 +4308,14 @@ static bool process_item( item_stack &items, Iterator &n, const tripoint &locati
 }
 
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
-                               const tripoint &location, std::string )
+                               const tripoint &location, const std::string &, const int temp,
+                               const float insulation )
 {
-    return process_item( items, n, location, false );
+    return process_item( items, n, location, false, temp, insulation );
 }
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
 {
-    const bool fridge_here = cur_veh.part_flag( part, VPFLAG_FRIDGE ) &&
-                             cur_veh.has_part( "FRIDGE", true );
-    if( fridge_here ) {
-        for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FRIDGE_TEMPERATURE, true );
-        }
-    }
-
-    const bool freezer_here = cur_veh.part_flag( part, VPFLAG_FREEZER ) &&
-                              cur_veh.has_part( "FREEZER", true );
-    if( freezer_here ) {
-        for( auto &n : cur_veh.get_items( part ) ) {
-            g->m.apply_in_fridge( n, FREEZER_TEMPERATURE, true );
-        }
-    }
-
     const bool washmachine_here = cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) &&
                                   cur_veh.is_part_on( part );
     bool washing_machine_finished = false;
@@ -4456,8 +4369,8 @@ void map::process_active_items()
     process_items( true, process_map_items, std::string {} );
 }
 
-template<typename T>
-void map::process_items( bool const active, T processor, std::string const &signal )
+void map::process_items( bool const active, map::map_process_func processor,
+                         std::string const &signal )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
@@ -4471,8 +4384,15 @@ void map::process_items( bool const active, T processor, std::string const &sign
                 submap *const current_submap = get_submap_at_grid( gp );
                 // Vehicles first in case they get blown up and drop active items on the map.
                 if( !current_submap->vehicles.empty() ) {
-                    process_items_in_vehicles( *current_submap, processor, signal );
+                    process_items_in_vehicles( *current_submap, gz, processor, signal );
                 }
+            }
+        }
+    }
+    for( gz = minz; gz <= maxz; ++gz ) {
+        for( gx = 0; gx < my_MAPSIZE; ++gx ) {
+            for( gy = 0; gy < my_MAPSIZE; ++gy ) {
+                submap *const current_submap = get_submap_at_grid( gp );
                 if( !active || !current_submap->active_items.empty() ) {
                     process_items_in_submap( *current_submap, gp, processor, signal );
                 }
@@ -4481,10 +4401,8 @@ void map::process_items( bool const active, T processor, std::string const &sign
     }
 }
 
-template<typename T>
-void map::process_items_in_submap( submap &current_submap,
-                                   const tripoint &gridp,
-                                   T processor, std::string const &signal )
+void map::process_items_in_submap( submap &current_submap, const tripoint &gridp,
+                                   map::map_process_func processor, std::string const &signal )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
@@ -4497,14 +4415,14 @@ void map::process_items_in_submap( submap &current_submap,
         }
 
         const tripoint map_location = tripoint( grid_offset + active_item.location, gridp.z );
+        const int loc_temp = g->get_temperature( map_location );
         auto items = i_at( map_location );
-        processor( items, active_item.item_iterator, map_location, signal );
+        processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1 );
     }
 }
 
-template<typename T>
-void map::process_items_in_vehicles( submap &current_submap, T processor,
-                                     std::string const &signal )
+void map::process_items_in_vehicles( submap &current_submap, const int gridz,
+                                     map::map_process_func processor, std::string const &signal )
 {
     std::vector<vehicle *> const &veh_in_nonant = current_submap.vehicles;
     // a copy, important if the vehicle list changes because a
@@ -4519,33 +4437,39 @@ void map::process_items_in_vehicles( submap &current_submap, T processor,
             continue;
         }
 
-        process_items_in_vehicle( *cur_veh, current_submap, processor, signal );
+        process_items_in_vehicle( *cur_veh, current_submap, gridz, processor, signal );
     }
 }
 
-template<typename T>
-void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
-                                    T processor, std::string const &signal )
+void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
+                                    map::map_process_func processor, std::string const &signal )
 {
+    static time_point last_fluid_check = calendar::time_of_cataclysm;
+    const time_point now = calendar::turn;
+
+    // only check the fluid every 10 turns for freeze/rot
+    if( last_fluid_check - now > 10_turns ) {
+        last_fluid_check = now;
+        std::vector<int> tanks = cur_veh.all_parts_with_feature( VPFLAG_FLUIDTANK, false );
+        for( const int &idx : tanks ) {
+            const point partloc = cur_veh.global_pos() + cur_veh.parts[idx].precalc[0];
+            const tripoint partpos = tripoint( partloc, abs_sub.z );
+            cur_veh.parts[idx].process_contents( partpos );
+        }
+    }
     std::vector<int> cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, true );
     for( int part : cargo_parts ) {
         process_vehicle_items( cur_veh, part );
     }
 
-    std::vector<int> tanks = cur_veh.all_parts_with_feature( VPFLAG_FLUIDTANK, false );
-    for( const int &idx : tanks ) {
-        const point partloc = cur_veh.global_pos() + cur_veh.parts[idx].precalc[0];
-        const tripoint partpos = tripoint( partloc, abs_sub.z );
-        cur_veh.parts[idx].process_contents( partpos );
-    }
-
+    const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
+    const point veh_pos = cur_veh.global_pos();
     for( auto &active_item : cur_veh.active_items.get() ) {
         if( cargo_parts.empty() ) {
             return;
         } else if( !cur_veh.active_items.has( active_item ) ) {
             continue;
         }
-
         auto const it = std::find_if( begin( cargo_parts ), end( cargo_parts ), [&]( int const part ) {
             return active_item.location == cur_veh.parts[static_cast<size_t>( part )].mount;
         } );
@@ -4553,14 +4477,29 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
         if( it == std::end( cargo_parts ) ) {
             continue; // Can't find a cargo part matching the active item.
         }
-
+        auto &item_iter = active_item.item_iterator;
         // Find the cargo part and coordinates corresponding to the current active item.
-        auto const part_index = static_cast<size_t>( *it );
-        const point partloc = cur_veh.global_pos() + cur_veh.parts[part_index].precalc[0];
-        // TODO: Make this 3D when vehicles know their Z-coordinate
-        const tripoint item_location = tripoint( partloc, abs_sub.z );
+        const size_t part_index = static_cast<size_t>( *it );
+        const vehicle_part &pt = cur_veh.parts[part_index];
+        const point partloc = veh_pos + pt.precalc[0];
+        const tripoint item_loc = tripoint( partloc, gridz );
         auto items = cur_veh.get_items( static_cast<int>( part_index ) );
-        if( !processor( items, active_item.item_iterator, item_location, signal ) ) {
+        int it_temp = g->get_temperature( item_loc );
+        float it_insulation = 1.0;
+        if( item_iter->is_food() || item_iter->is_food_container() ) {
+            const vpart_info &pti = pt.info();
+            if( engine_heater_is_on ) {
+                it_temp = std::max( it_temp, temperatures::cold + 1 );
+            }
+            if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
+                it_temp = std::min( it_temp, temperatures::fridge );
+            } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
+                it_temp = std::min( it_temp, temperatures::freezer );
+            }
+            // some vehicle parts provide insulation, default is 1
+            it_insulation *= item::find_type( pti.item )->insulation_factor;
+        }
+        if( !processor( items, item_iter, item_loc, signal, it_temp, it_insulation ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -4971,8 +4910,8 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
 }
 
 static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
-                                const tripoint &pos,
-                                std::string signal )
+                                const tripoint &pos, const std::string &signal,
+                                const int, const float )
 {
     bool trigger_item = false;
     if( n->has_flag( "RADIO_ACTIVATION" ) && n->has_flag( signal ) ) {
@@ -5001,7 +4940,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         trigger_item = true;
     }
     if( trigger_item ) {
-        return process_item( items, n, pos, true );
+        return process_item( items, n, pos, true, 0, 1 );
     }
     return false;
 }

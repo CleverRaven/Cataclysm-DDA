@@ -1002,7 +1002,8 @@
     "time": 280000,
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "charcoal", 100 ] ] ]
+    "using": [ [ "steel_standard", 6 ] ],
+    "components": [ [ [ "charcoal", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -1543,7 +1544,8 @@
     "time": 140000,
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "charcoal", 200 ] ] ]
+    "using": [ [ "steel_standard", 6 ] ],
+    "components": [ [ [ "charcoal", 200 ] ] ]
   },
   {
     "type": "recipe",

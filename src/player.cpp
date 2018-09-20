@@ -2424,7 +2424,7 @@ bool player::has_higher_trait( const trait_id &flag ) const
 bool player::has_same_type_trait( const trait_id &flag ) const
 {
     for( auto &i : get_mutations_in_types( flag->types ) ) {
-        if( has_trait( i ) ) {
+        if( has_trait( i ) && flag != i ) {
             return true;
         }
     }
@@ -3264,7 +3264,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
         if( !is_npc() ) {
@@ -3577,7 +3577,7 @@ void player::react_to_felt_pain( int intensity )
         g->cancel_activity_or_ignore_query( distraction_type::pain,  _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
-    if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         int pain_thresh = rng( 3, 5 );
 
         if( has_trait( trait_HEAVYSLEEPER ) ) {
@@ -4190,7 +4190,7 @@ void player::check_needs_extremes()
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
             mod_fatigue(-10);
-            try_to_sleep();
+            fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
         } else if( calendar::once_every( 30_minutes ) ) {
@@ -5502,7 +5502,7 @@ void player::suffer()
             auto_use = false;
         }
 
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
             map_inv.form_from_map( g->u.pos(), 2 );
             // check if character has an oxygenator first
@@ -5523,7 +5523,11 @@ void player::suffer()
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
             } else {
                 add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-                wake_up();
+                if( has_effect( effect_sleep ) ) {
+                    wake_up();
+                } else {
+                    g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                }
             }
         } else if ( auto_use ) {
             use_charges( "inhaler", 1 );
@@ -5565,7 +5569,7 @@ void player::suffer()
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
             add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
-            if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
                 wake_up();
             }
             if( one_in(10) ) {
@@ -5586,7 +5590,7 @@ void player::suffer()
     if (has_trait( trait_SUNBURN ) && g->is_in_sunlight(pos()) && one_in(10)) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
             add_msg_if_player(m_bad, _("The sunlight burns your skin!"));
-        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
         mod_pain(1);
@@ -8626,11 +8630,10 @@ bool player::invoke_item( item* used, const tripoint &pt )
         return invoke_item( used, use_methods.begin()->first, pt );
     }
 
-    uimenu umenu;
+    uilist umenu;
 
     umenu.text = string_format( _( "What to do with your %s?" ), used->tname().c_str() );
     umenu.hilight_disabled = true;
-    umenu.return_invalid = true;
 
     for( const auto &e : use_methods ) {
         const auto res = e.second.can_call( *this, *used, false, pt );
@@ -9612,7 +9615,7 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
     return res;
 }
 
-void player::try_to_sleep()
+void player::try_to_sleep( const time_duration &dur )
 {
     const optional_vpart_position vp = g->m.veh_at( pos() );
     const trap &trap_at_pos = g->m.tr_at(pos());
@@ -9692,7 +9695,8 @@ void player::try_to_sleep()
                  _("It's hard to get to sleep on this %s."),
                  ter_at_pos.obj().name().c_str() );
     }
-    add_effect( effect_lying_down, 30_minutes );
+    add_msg_if_player( _( "You start trying to fall asleep." ) );
+    assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
 int player::sleep_spot( const tripoint &p ) const
@@ -9840,18 +9844,66 @@ bool player::can_sleep()
         // Sleep ain't happening until that meth wears off completely.
         return false;
     }
-    int sleepy = sleep_spot( pos() );
-    sleepy += rng( -8, 8 );
-    if( sleepy > 0 ) {
-        return true;
+
+    // Since there's a bit of randomness to falling asleep, we want to
+    // prevent exploiting this if can_sleep() gets called over and over.
+    // Only actually check if we can fall asleep no more frequently than
+    // every 30 minutes.  We're assuming that if we return true, we'll
+    // immediately be falling asleep after that.
+    //
+    // Also if player debug menu'd time backwards this breaks, just do the
+    // check anyway, this will reset the timer if 'dur' is negative.
+    const time_point now = calendar::turn;
+    const time_duration dur = now - last_sleep_check;
+    if( dur >= 30_minutes || dur < 0_turns ) {
+        last_sleep_check = now;
+        int sleepy = sleep_spot( pos() );
+        sleepy += rng( -8, 8 );
+        if( sleepy > 0 ) {
+            return true;
+        }
     }
     return false;
+}
+
+void player::fall_asleep()
+{
+    // Communicate to the player that he is using items on the floor
+    std::string item_name = is_snuggling();
+    if( item_name == "many" ) {
+        if( one_in( 15 ) ) {
+            add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
+        } else {
+            add_msg_if_player( _( "You use your pile of clothes for warmth." ) );
+        }
+    } else if( item_name != "nothing" ) {
+        if( one_in( 15 ) ) {
+            add_msg_if_player( _( "You snuggle your %s to keep warm." ), item_name.c_str() );
+        } else {
+            add_msg_if_player( _( "You use your %s to keep warm." ), item_name.c_str() );
+        }
+    }
+    if( has_active_mutation( trait_id( "HIBERNATE" ) ) && get_hunger() < -60 ) {
+        add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
+                          pgettext( "memorial_female", "Entered hibernation." ) );
+        // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
+        fall_asleep( 10_days );
+        // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+        // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+        // will last about 8 days.
+    }
+
+    fall_asleep( 10_hours ); // default max sleep time.
 }
 
 void player::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
-        cancel_activity();
+        if( activity.id() == "ACT_TRY_SLEEP" ) {
+            activity.set_to_null();
+        } else {
+            cancel_activity();
+        }
     }
     add_effect( effect_sleep, duration );
 }
@@ -9874,6 +9926,7 @@ void player::wake_up()
     remove_effect( effect_sleep );
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
+    recalc_sight_limits();
 }
 
 std::string player::is_snuggling() const
