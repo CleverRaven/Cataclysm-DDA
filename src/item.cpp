@@ -4286,6 +4286,10 @@ bool item::is_salvageable() const
     if( is_null() ) {
         return false;
     }
+    const auto mats = made_of();
+    if( std::none_of( mats.begin(), mats.end(), []( const material_id &m ) { return m->salvaged_into() != "null"; } ) ) {
+        return false;
+    }
     return !has_flag( "NO_SALVAGE" );
 }
 
