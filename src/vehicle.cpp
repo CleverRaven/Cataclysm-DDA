@@ -712,6 +712,7 @@ int vehicle::part_power( int const index, bool const at_full_hp ) const
 
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
+// for motor consumption see @ref vpart_info::energy_consumption instead
 int vehicle::part_epower( int const index ) const
 {
     int e = part_info( index ).epower;
@@ -2588,12 +2589,8 @@ std::map<itype_id, int> vehicle::fuel_usage() const
             continue;
         }
 
-        // @todo: Get rid of this special case
-        if( info.fuel_type == fuel_type_battery ) {
-            // Motor epower is in negatives
-            ret[ fuel_type_battery ] -= epower_to_power( part_epower( e ) );
-        } else if( !is_perpetual_type( i ) ) {
-            int usage = part_power( e );
+        if( !is_perpetual_type( i ) ) {
+            int usage = info.energy_consumption;
             if( parts[ e ].faults().count( fault_filter_air ) ) {
                 usage *= 2;
             }
@@ -2630,7 +2627,7 @@ void vehicle::consume_fuel( double load = 1.0 )
         int amnt_fuel_use = fuel_pr.second;
 
         // In kilojoules
-        double amnt_precise = double( amnt_fuel_use );
+        double amnt_precise = double( amnt_fuel_use ) / 1000;
         amnt_precise *= load * ( 1.0 + st * st * 100.0 );
         double remainder = fuel_remainder[ ft ];
         amnt_precise -= remainder;
@@ -2688,11 +2685,11 @@ void vehicle::power_parts()
     }
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
+    // Electric motor consumption not included, see @ref vpart_info::energy_consumption
     int engine_epower = 0;
     if( engine_on ) {
         for( size_t e = 0; e < engines.size(); ++e ) {
-            // Electric engines consume power when actually used, not passively
-            if( is_engine_on( e ) && !is_engine_type( e, fuel_type_battery ) ) {
+            if( is_engine_on( e ) ) {
                 engine_epower += part_epower( engines[e] );
             }
         }
