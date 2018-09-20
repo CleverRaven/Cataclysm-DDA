@@ -1544,7 +1544,7 @@ bool game::do_turn()
         sfx::do_hearing_loss();
     }
 
-    if( !u.in_sleep_state() ) {
+    if( !u.has_effect( efftype_id( "sleep" ) ) ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
@@ -4639,7 +4639,7 @@ void game::monmove()
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             cancel_activity_or_ignore_query( distraction_type::motion_alarm,
                                              _( "Your motion alarm goes off!" ) );
-            if( u.in_sleep_state() ) {
+            if( u.has_effect( efftype_id( "sleep" ) ) ) {
                 u.wake_up();
             }
         }

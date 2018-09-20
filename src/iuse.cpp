@@ -1650,7 +1650,7 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
                ( it->charges >= thread_needed && has_enough[mat_item] );
     };
 
-    uimenu tmenu;
+    uilist tmenu;
     // TODO: Tell how much thread will we use
     if( it->charges >= thread_needed ) {
         tmenu.text = _( "How do you want to modify it?" );
@@ -1690,8 +1690,6 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
                     _( "Destroy Kevlar padding" ),
                     mod.bash_resist(), mod.cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
                     mod.get_encumber(), temp_item.get_encumber() );
-
-    tmenu.addentry( 4, true, 'q', _( "Cancel" ) );
 
     tmenu.query();
     const int choice = tmenu.ret;

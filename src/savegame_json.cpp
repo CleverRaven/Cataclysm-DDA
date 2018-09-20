@@ -454,6 +454,7 @@ void player::load( JsonObject &data )
     data.read( "cash", cash );
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
+    data.read( "last_sleep_check", last_sleep_check );
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
     }
@@ -533,6 +534,7 @@ void player::store( JsonOut &json ) const
 
     // energy
     json.member( "stim", stim );
+    json.member( "last_sleep_check", last_sleep_check );
     // pain
     json.member( "pkill", pkill );
     // misc levels

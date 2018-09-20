@@ -70,7 +70,8 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
     iteminfo_parts::DESCRIPTION_NOTES,
     iteminfo_parts::DESCRIPTION_CONTENTS,
-    iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES
+    iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES,
+    iteminfo_parts::DESCRIPTION_MED_ADDICTING
 } ) );
 
 const iteminfo_query iteminfo_query::anyflags = iteminfo_query(

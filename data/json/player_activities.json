@@ -403,5 +403,13 @@
     "type": "activity_type",
     "stop_phrase": "Stop cutting your hair?",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_TRY_SLEEP",
+    "type": "activity_type",
+    "stop_phrase": "Stop trying to fall asleep?",
+    "rooted": true,
+    "based_on": "speed",
+    "suspendable": false
   }
 ]

@@ -328,6 +328,7 @@ static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurs
 
 void ClearScreen()
 {
+    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear( renderer.get() );
 }
 
@@ -396,6 +397,7 @@ bool SetupRenderTarget()
         dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
         return false;
     }
+    ClearScreen();
 
     return true;
 }
