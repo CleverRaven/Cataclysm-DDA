@@ -871,8 +871,9 @@ void Item_factory::check_definitions() const
             for( const auto &e : type->ammo->type ) {
                 check_ammo_type( msg, e );
             }
-            if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
-                msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
+            if( type->ammo->casing && ( !has_template( *type->ammo->casing ) ||
+                                        *type->ammo->casing == "null" ) ) {
+                msg << string_format( "invalid casing property %s", type->ammo->casing->c_str() ) << "\n";
             }
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";

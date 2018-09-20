@@ -568,9 +568,9 @@ struct islot_ammo : common_ranged_data {
      */
     std::set<ammotype> type;
     /**
-     * Type id of casings, can be "null" for no casings at all.
+     * Type id of casings, if any.
      */
-    std::string casing = "null";
+    cata::optional<itype_id> casing;
     /**
      * Default charges.
      */
