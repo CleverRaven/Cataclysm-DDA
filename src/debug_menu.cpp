@@ -78,8 +78,7 @@ void teleport_overmap()
 void character_edit_menu()
 {
     std::vector< tripoint > locations;
-    uimenu charmenu;
-    charmenu.return_invalid = true;
+    uilist charmenu;
     int charnum = 0;
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( g->u.pos() );
@@ -92,10 +91,10 @@ void character_edit_menu()
     charmenu.callback = &callback;
     charmenu.w_y = 0;
     charmenu.query();
-    const size_t index = charmenu.ret;
-    if( index >= locations.size() ) {
+    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= locations.size() ) {
         return;
     }
+    const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
     npc *np = g->critter_at<npc>( locations[index] );
     player &p = np ? *np : g->u;
