@@ -349,13 +349,10 @@ void character_edit_menu()
             wishmutate( &p );
             break;
         case D_HEALTHY: {
-            uimenu smenu;
-            smenu.return_invalid = true;
+            uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
             smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.radiation );
-            smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-            smenu.selected = 0;
             smenu.query();
             int value;
             switch( smenu.ret ) {
