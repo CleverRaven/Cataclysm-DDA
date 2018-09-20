@@ -295,8 +295,7 @@ void character_edit_menu()
         }
         break;
         case D_NEEDS: {
-            uimenu smenu;
-            smenu.return_invalid = true;
+            uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
             smenu.addentry( 1, true, 's', "%s: %d", _( "Starvation" ), p.get_starvation() );
             smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
@@ -307,8 +306,6 @@ void character_edit_menu()
                 smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
             }
 
-            smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-            smenu.selected = 0;
             smenu.query();
             int value;
             switch( smenu.ret ) {
