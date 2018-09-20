@@ -164,14 +164,11 @@ void character_edit_menu()
             wishskill( &p );
             break;
         case D_STATS: {
-            uimenu smenu;
-            smenu.return_invalid = true;
+            uilist smenu;
             smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), p.str_max );
             smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), p.dex_max );
             smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), p.int_max );
             smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), p.per_max );
-            smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-            smenu.selected = 0;
             smenu.query();
             int *bp_ptr = nullptr;
             switch( smenu.ret ) {
