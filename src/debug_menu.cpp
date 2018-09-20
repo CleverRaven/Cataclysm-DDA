@@ -380,8 +380,7 @@ void character_edit_menu()
             p.disp_info();
             break;
         case D_MISSION_ADD: {
-            uimenu types;
-            types.return_invalid = true;
+            uilist types;
             types.text = _( "Choose mission type" );
             const auto all_missions = mission_type::get_all();
             std::vector<const mission_type *> mts;
@@ -390,7 +389,6 @@ void character_edit_menu()
                 mts.push_back( &all_missions[ i ] );
             }
 
-            types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             types.query();
             if( types.ret >= 0 && types.ret < ( int )mts.size() ) {
                 np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
