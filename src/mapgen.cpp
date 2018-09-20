@@ -2217,7 +2217,7 @@ void map::draw_map( const oter_id terrain_type, const oter_id t_north, const ote
                     const int zlevel, const regional_settings *rsettings )
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-    static const mongroup_id GROUP_TOWER_LAB( "GROUP_TOWER_LAB" );
+    static const mongroup_id GROUP_LAB( "GROUP_LAB" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
@@ -3414,7 +3414,7 @@ ___DEEE|.R.|...,,...|sss\n",
         }
 
         if( tower_lab ) {
-            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
+            place_spawns( GROUP_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
         }
 
         // Lab special effects.
