@@ -338,17 +338,16 @@ void sounds::process_sound_markers( player *p )
             const bool trying_to_sleep = p->in_sleep_state();
             if( p->get_effect( effect_alarm_clock ).get_duration() == 1_turns ) {
                 if( slept_through ) {
-                    p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
+                    p->add_msg_if_player( _( "Your alarm clock finally wakes you up." ) );
                 } else if( !trying_to_sleep ) {
-                    p->add_msg_if_player( _( "Your alarm-clock wakes you up." ) );
+                    p->add_msg_if_player( _( "Your alarm clock wakes you up." ) );
                 } else {
-                    p->add_msg_if_player( _( "Your alarm-clock went off and you haven't slept a wink." ) );
+                    p->add_msg_if_player( _( "Your alarm clock goes off and you haven't slept a wink." ) );
+                    p->activity.set_to_null();
                 }
                 p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
             }
-            if( !trying_to_sleep ) {
-                p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
-            }
+            p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
         }
 
         const std::string &sfx_id = sound.id;

@@ -9614,11 +9614,6 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
     return res;
 }
 
-void player::try_to_sleep()
-{
-    try_to_sleep( 30_minutes );
-}
-
 void player::try_to_sleep( const time_duration &dur )
 {
     const optional_vpart_position vp = g->m.veh_at( pos() );
@@ -9872,7 +9867,6 @@ bool player::can_sleep()
 
 void player::fall_asleep()
 {
-    add_msg_if_player( _( "You fall asleep." ) );
     // Communicate to the player that he is using items on the floor
     std::string item_name = is_snuggling();
     if( item_name == "many" ) {
@@ -9904,7 +9898,11 @@ void player::fall_asleep()
 void player::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
-        cancel_activity();
+        if( activity.id() == "ACT_TRY_SLEEP" ) {
+            activity.set_to_null();
+        } else {
+            cancel_activity();
+        }
     }
     add_effect( effect_sleep, duration );
 }
@@ -9927,6 +9925,7 @@ void player::wake_up()
     remove_effect( effect_sleep );
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
+    recalc_sight_limits();
 }
 
 std::string player::is_snuggling() const

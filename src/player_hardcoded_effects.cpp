@@ -1186,7 +1186,9 @@ void player::hardcoded_effects( effect &it )
             if( calendar::turn - start > 2_hours ) {
                 print_health();
             }
-            if( has_effect( effect_slept_through_alarm ) ) {
+            if( has_effect( effect_alarm_clock ) ) {
+                add_msg_if_player( _( "It looks like you woke up before your alarm." ) );
+            } else if( has_effect( effect_slept_through_alarm ) ) {
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
                 } else {
@@ -1206,10 +1208,14 @@ void player::hardcoded_effects( effect &it )
                     // It's much harder to ignore an alarm inside your own skull,
                     // so this uses an effective volume of 20.
                     const int volume = 20;
-                    if( ( !( has_trait( trait_id( "HEAVYSLEEPER" ) ) || has_trait( trait_id( "HEAVYSLEEPER2" ) ) ) &&
-                          dice( 2, 15 ) < volume ) ||
-                        ( has_trait( trait_id( "HEAVYSLEEPER" ) ) && dice( 3, 15 ) < volume ) ||
-                        ( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && dice( 6, 15 ) < volume ) ) {
+                    if( !asleep ) {
+                        add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
+                        activity.set_to_null();
+                    } else if( ( !( has_trait( trait_id( "HEAVYSLEEPER" ) ) ||
+                                    has_trait( trait_id( "HEAVYSLEEPER2" ) ) ) &&
+                                 dice( 2, 15 ) < volume ) ||
+                               ( has_trait( trait_id( "HEAVYSLEEPER" ) ) && dice( 3, 15 ) < volume ) ||
+                               ( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && dice( 6, 15 ) < volume ) ) {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();
@@ -1218,14 +1224,12 @@ void player::hardcoded_effects( effect &it )
                         } else {
                             add_msg_if_player( _( "Your internal chronometer wakes you up." ) );
                         }
-                    } else if( asleep ) {
+                    } else {
                         if( !has_effect( effect_slept_through_alarm ) ) {
                             add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                         }
                         // 10 minute cyber-snooze
                         it.mod_duration( 10_minutes );
-                    } else {
-                        add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
                     }
                 }
             } else {

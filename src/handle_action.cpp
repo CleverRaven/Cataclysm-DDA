@@ -774,7 +774,7 @@ static void sleep()
         as_m.query();
         if( as_m.ret >= 3 && as_m.ret <= 9 ) {
             u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
-            try_sleep_dur = 1_hours * as_m.ret;
+            try_sleep_dur = 1_hours * as_m.ret + 1_turns;
         } else if( as_m.ret < 0 ) {
             return;
         }

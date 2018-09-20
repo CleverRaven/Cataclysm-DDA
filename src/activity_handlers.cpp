@@ -50,6 +50,7 @@ const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_milked( "milked" );
+const efftype_id effect_sleep( "sleep" );
 
 using namespace activity_handlers;
 
@@ -2625,19 +2626,19 @@ void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
-    if( p->can_sleep() ) {
-        act->set_to_null();
-        p->fall_asleep();
-    } else if( one_in( 1000 ) ) {
-        p->add_msg_if_player( _( "You toss and turn..." ) );
+    if( !p->has_effect( effect_sleep ) ) {
+        if( p->can_sleep() ) {
+            act->set_to_null();
+            p->fall_asleep();
+        } else if( one_in( 1000 ) ) {
+            p->add_msg_if_player( _( "You toss and turn..." ) );
+        }
     }
 }
 
 void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 {
-    if( p->can_sleep() ) {
-        p->fall_asleep();
-    } else {
+    if( !p->has_effect( effect_sleep ) ) {
         p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
     }
     act->set_to_null();
