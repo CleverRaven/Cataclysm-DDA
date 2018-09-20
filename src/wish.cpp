@@ -362,12 +362,11 @@ void debug_menu::wishmonster( const tripoint &p )
 {
     std::vector<const mtype *> mtypes;
 
-    uimenu wmenu;
+    uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     // disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 30 );
-    wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmonster_selected;
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
@@ -406,7 +405,7 @@ void debug_menu::wishmonster( const tripoint &p )
                 input_context ctxt( "UIMENU" );
                 cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
                                         num_spawned, int( spawn_points.size() ), ctxt.get_desc( "QUIT" ).c_str() );
-                uistate.wishmonster_selected = wmenu.ret;
+                uistate.wishmonster_selected = wmenu.selected;
                 wmenu.redraw();
             }
         }
