@@ -409,8 +409,7 @@ void character_edit_menu()
         }
         break;
         case D_CLASS: {
-            uimenu classes;
-            classes.return_invalid = true;
+            uilist classes;
             classes.text = _( "Choose new class" );
             std::vector<npc_class_id> ids;
             size_t i = 0;
@@ -420,7 +419,6 @@ void character_edit_menu()
                 i++;
             }
 
-            classes.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             classes.query();
             if( classes.ret < ( int )ids.size() && classes.ret >= 0 ) {
                 np->randomize( ids[ classes.ret ] );
