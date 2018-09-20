@@ -797,7 +797,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             selected.comp = mixed[0];
         }
     } else { // Let the player pick which component they want to use
-        uimenu cmenu;
+        uilist cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
@@ -837,16 +837,13 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             return selected;
         }
 
-        if( can_cancel ) {
-            cmenu.addentry( -1, true, 'q', _( "Cancel" ) );
-        }
+        cmenu.allow_cancel = can_cancel;
 
         // Get the selection via a menu popup
         cmenu.title = _( "Use which component?" );
         cmenu.query();
 
-        // The choices only go up to index map_has.size()+player_has.size()+mixed.size()-1. Thus the next index is cancel.
-        if( cmenu.ret == static_cast<int>( map_has.size() + player_has.size() + mixed.size() ) ) {
+        if( cmenu.ret < 0 || static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
             selected.use_from = cancel;
             return selected;
         }
