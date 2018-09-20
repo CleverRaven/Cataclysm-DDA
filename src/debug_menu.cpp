@@ -575,8 +575,7 @@ void mission_debug::remove_mission( mission &m )
 
 void mission_debug::edit_mission( mission &m )
 {
-    uimenu mmenu;
-    mmenu.return_invalid = true;
+    uilist mmenu;
     mmenu.text = describe( m );
 
     enum { M_FAIL, M_SUCCEED, M_REMOVE
