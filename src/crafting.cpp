@@ -843,7 +843,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         cmenu.title = _( "Use which component?" );
         cmenu.query();
 
-        if( cmenu.ret < 0 || static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
+        if( cmenu.ret < 0 ||
+            static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
             selected.use_from = cancel;
             return selected;
         }
@@ -986,7 +987,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
-        uimenu tmenu( hotkeys );
+        uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( "%s (%d/%d charges nearby)",
@@ -1016,15 +1017,13 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
             return selected;    // and the fire goes out.
         }
 
-        if( can_cancel ) {
-            tmenu.addentry( -1, true, 'q', _( "Cancel" ) );
-        }
+        tmenu.allow_cancel = can_cancel;
 
         // Get selection via a popup menu
         tmenu.title = _( "Use which tool?" );
         tmenu.query();
 
-        if( tmenu.ret == static_cast<int>( map_has.size() + player_has.size() ) ) {
+        if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size() + player_has.size() ) {
             selected.use_from = cancel;
             return selected;
         }
