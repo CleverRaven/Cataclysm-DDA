@@ -3839,8 +3839,8 @@ ___DEEE|.R.|...,,...|sss\n",
         maybe_insert_stairs( terrain_type, t_stairs_down );
 
         int light_odds = 0;
-        // central & tower labs are always fully lit, other labs have half chance of some lights.
-        if( central_lab || tower_lab ) {
+        // central labs are always fully lit, other labs have half chance of some lights.
+        if( central_lab ) {
             light_odds = 1;
         } else if( one_in( 2 ) ) {
             // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
