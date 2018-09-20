@@ -481,8 +481,7 @@ void mission_debug::edit_npc( npc &who )
     npc_chatbin &bin = who.chatbin;
     std::vector<mission *> all_missions;
 
-    uimenu mmenu;
-    mmenu.return_invalid = true;
+    uilist mmenu;
     mmenu.text = _( "Select mission to edit" );
 
     add_header( mmenu, _( "Currently assigned missions:" ) );
