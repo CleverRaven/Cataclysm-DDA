@@ -504,7 +504,7 @@ bool item::is_worn_only_with( const item &it ) const
 
 item item::in_its_container() const
 {
-    return in_container( type->default_container );
+    return in_container( type->default_container.value_or( "null" ) );
 }
 
 item item::in_container( const itype_id &cont ) const

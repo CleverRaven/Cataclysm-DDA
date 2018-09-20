@@ -224,7 +224,7 @@ void recipe::finalize()
     reqs_internal.clear();
 
     if( contained && container == "null" ) {
-        container = item::find_type( result_ )->default_container;
+        container = item::find_type( result_ )->default_container.value_or( "null" );
     }
 
     if( autolearn && autolearn_requirements.empty() ) {

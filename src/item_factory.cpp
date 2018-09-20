@@ -805,8 +805,9 @@ void Item_factory::check_definitions() const
                 msg << string_format( "item %s has unknown quality %s", type->id.c_str(), q.first.c_str() ) << "\n";
             }
         }
-        if( type->default_container != "null" && !has_template( type->default_container ) ) {
-            msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
+        if( type->default_container && ( !has_template( *type->default_container ) ||
+                                         *type->default_container == "null" ) ) {
+            msg << string_format( "invalid container property %s", type->default_container->c_str() ) << "\n";
         }
 
         for( const auto &e : type->emits ) {
