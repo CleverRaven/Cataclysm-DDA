@@ -1043,7 +1043,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
                                      _( "You light a fire, but it isn't enough. You need to light more." ) );
             } else {
                 p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 24_hours, 8_hours );
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
                 p.rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
         }
