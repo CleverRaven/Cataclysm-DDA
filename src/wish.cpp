@@ -519,8 +519,15 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             }
             if( !canceled ) {
                 if( p != NULL ) {
-                    for( int i = 0; i < amount; i++ ) {
-                        p->i_add( granted );
+                    if( granted.count_by_charges() ) {
+                        if( amount > 0 ) {
+                            granted.charges = amount;
+                            p->i_add( granted );
+                        }
+                    } else {
+                        for( int i = 0; i < amount; i++ ) {
+                            p->i_add( granted );
+                        }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( x >= 0 && y >= 0 ) {
