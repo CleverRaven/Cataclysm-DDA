@@ -99,8 +99,8 @@
   {
     "id": "mega_UPS_off",
     "type": "TOOL_ARMOR",
-    "name": "Engineer's UPS",
-    "name_plural": "Engineers' UPS's",
+    "name": "engineer's UPS",
+    "name_plural": "engineers' UPS's",
     "description": "This is a unified power supply, or UPS. The Engineer's UPS is designed to power the hungriest of UPS devices.",
     "weight": 6800,
     "volume": 50,
