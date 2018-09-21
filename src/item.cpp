@@ -2882,7 +2882,7 @@ units::mass item::weight( bool include_contents ) const
 
     // if this is an ammo belt add the weight of any implicitly contained linkages
     if( is_magazine() && type->magazine->linkage != "NULL" ) {
-        item links( type->magazine->linkage, calendar::turn );
+        item links( type->magazine->linkage );
         links.charges = ammo_remaining();
         ret += links.weight();
     }
