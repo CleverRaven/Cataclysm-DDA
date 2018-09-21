@@ -671,7 +671,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                 continue;
             }
             std::string recipe_name = peek_related_recipe( current[ line ], available_recipes );
-            if( !recipe_name.empty() ) {
+            if( recipe_name.empty() ) {
+                keepline = true;
+            } else {
                 filterstring = recipe_name;
             }
             redraw = true;
@@ -714,20 +716,20 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
 
     uilist rel_menu;
     // rmenu.reset();
-    int np = 0;
+    int np_last = -1;
     if( !related_components.empty() ) {
-        rel_menu.addentry( ++np, false, -1, _( "COMPONENTS" ) );
+        rel_menu.addentry( ++np_last, false, -1, _( "COMPONENTS" ) );
     }
-    np = related_menu_fill( rel_menu, related_components, available );
+    np_last = related_menu_fill( rel_menu, related_components, available );
     if( !related_results.empty() ) {
-        rel_menu.addentry( ++np, false, -1, _( "RESULTS" ) );
+        rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
     }
-    np = related_menu_fill( rel_menu, related_results, available );
+    np_last = related_menu_fill( rel_menu, related_results, available );
 
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
     if( rel_menu.ret != UIMENU_CANCEL ) {
-        return rel_menu.entries[ rel_menu.ret - 1 ].txt.substr( 1 );
+        return rel_menu.entries[ rel_menu.ret ].txt.substr( 2 ); // 2 = prefix length
     }
 
     return "";
@@ -737,26 +739,43 @@ int related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                        const recipe_subset &available )
 {
-    int np_last = 1;
+    const std::vector<uimenu_entry> &entries = rmenu.entries;
+    int np_last = entries.empty() ? -1 : entries.back().retval;
 
-    if( !related_recipes.empty() ) {
-        if( !rmenu.entries.empty() ) {
-            np_last = rmenu.entries.back().retval;
-        }
+    if( related_recipes.empty() ) {
+        return np_last;
+    }
 
-        // TODO: unique
-        for( const std::pair<itype_id, std::string> &p : related_recipes ) {
-            std::vector<const recipe *> current_part = available.search_result( p.first );
-            if( !current_part.empty() ) {
-                if( current_part.size() == 1 && current_part[ 0 ]->result() == p.first ) {
-                    rmenu.addentry( ++np_last, true, -1, "-" + p.second );
-                } else {
+    for( const std::pair<itype_id, std::string> &p : related_recipes ) {
+        std::vector<const recipe *> current_part = available.search_result( p.first );
+        if( !current_part.empty() ) {
+
+            std::string group_name = p.second;
+            bool defferent_recipes = false;
+
+            // 1st pass: check if we need to add group
+            for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+                if( current_part[ recipe_n ]->result_name() != group_name ) {
+                    // add group
                     rmenu.addentry( ++np_last, false, -1, p.second );
-                    for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                        const recipe *r = current_part[ recipe_n ];
-                        std::string sym = recipe_n == current_part.size() - 1 ? "L" : "+";
-                        rmenu.addentry( ++np_last, true, -1, sym + r->result_name() );
+                    defferent_recipes = true;
+                    break;
+                } else if( recipe_n == current_part.size() - 1 ) {
+                    // only one result
+                    rmenu.addentry( ++np_last, true, -1, "- " + group_name );
+                }
+            }
+
+            if( defferent_recipes ) {
+                std::string prev_item_name;
+                // 2nd pass: add defferent recipes
+                for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+                    std::string cur_item_name = current_part[ recipe_n ]->result_name();
+                    if( cur_item_name != prev_item_name ) {
+                        std::string sym = recipe_n == current_part.size() - 1 ? "L " : "+ ";
+                        rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
                     }
+                    prev_item_name = cur_item_name;
                 }
             }
         }
