@@ -6846,13 +6846,14 @@ void game::zones_manager()
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
-        tripoint first = look_around( w_zones_info, u.pos() + u.view_offset, false, true );
+        tripoint center = u.pos() + u.view_offset;
+        tripoint first = look_around( w_zones_info, center, center, false, true );
         tripoint second = tripoint_min;
         if( first != tripoint_min ) {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
-            second = look_around( w_zones_info, first, true, true );
+            second = look_around( w_zones_info, center, first, true, true );
         }
 
         if( second != tripoint_min ) {
@@ -7196,10 +7197,12 @@ void game::zones_manager()
 
 tripoint game::look_around()
 {
-    return look_around( catacurses::window(), u.pos() + u.view_offset, false, false );
+    tripoint center = u.pos() + u.view_offset;
+    return look_around( catacurses::window(), center, center, false, false );
 }
 
-tripoint game::look_around( catacurses::window w_info, const tripoint &start_point,
+tripoint game::look_around( catacurses::window w_info,
+                            tripoint &center, const tripoint start_point,
                             bool has_first_point, bool select_zone )
 {
     bVMonsterLookFire = false;
@@ -7212,15 +7215,10 @@ tripoint game::look_around( catacurses::window w_info, const tripoint &start_poi
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
-    tripoint lp = u.pos() + u.view_offset; // cursor
+    tripoint lp = start_point; // cursor
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
-    tripoint center = lp; // center of view
-
-    if( select_zone && has_first_point ) {
-        center = lp = start_point;
-    }
 
     draw_ter( center );
     wrefresh( w_terrain );
