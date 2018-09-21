@@ -9574,7 +9574,7 @@ void game::reload( item_location &loc, bool prompt )
                 auto linkage = it->type->magazine->linkage;
                 if( linkage != "NULL" && !g->u.has_charges( linkage, 1 ) ) {
                     add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
-                             item::nname( linkage, 1 ).c_str(), it->tname().c_str() );
+                             item::nname( linkage, 1 ), it->tname() );
                     return;
                 }
             }
