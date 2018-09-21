@@ -586,11 +586,10 @@ void debug_menu::wishskill( player *p )
             skill_id = sksel;
             const Skill &skill = Skill::skills[skill_id];
             const int NUM_SKILL_LVL = 21;
-            uimenu sksetmenu;
+            uilist sksetmenu;
             sksetmenu.w_height = NUM_SKILL_LVL + 4;
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
-            sksetmenu.return_invalid = true;
             sksetmenu.settext( string_format( _( "Set '%s' to.." ), skill.name() ) );
             int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
@@ -598,6 +597,8 @@ void debug_menu::wishskill( player *p )
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
             }
             sksetmenu.query();
+            g->draw_ter();
+            wrefresh( g->w_terrain );
             skset = sksetmenu.ret;
         }
 
