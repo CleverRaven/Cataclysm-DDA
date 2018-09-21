@@ -9571,10 +9571,10 @@ void game::reload( item_location &loc, bool prompt )
                 return;
             }
             if( it->is_ammo_belt() ) {
-                auto linkage = it->type->magazine->linkage;
-                if( linkage != "NULL" && !g->u.has_charges( linkage, 1 ) ) {
+                const auto &linkage = it->type->magazine->linkage;
+                if( linkage && !u.has_charges( *linkage, 1 ) ) {
                     add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
-                             item::nname( linkage, 1 ), it->tname() );
+                             item::nname( *linkage, 1 ), it->tname() );
                     return;
                 }
             }
@@ -9807,8 +9807,8 @@ bool game::unload( item &it )
         } ), target->contents.end() );
 
         if( target->is_ammo_belt() ) {
-            if( target->type->magazine->linkage != "NULL" ) {
-                item link( target->type->magazine->linkage, calendar::turn, qty );
+            if( target->type->magazine->linkage ) {
+                item link( *target->type->magazine->linkage, calendar::turn, qty );
                 add_or_drop_with_msg( u, link, true );
             }
             add_msg( _( "You disassemble your %s." ), target->tname().c_str() );

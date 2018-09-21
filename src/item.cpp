@@ -2881,8 +2881,8 @@ units::mass item::weight( bool include_contents ) const
     }
 
     // if this is an ammo belt add the weight of any implicitly contained linkages
-    if( is_magazine() && type->magazine->linkage != "NULL" ) {
-        item links( type->magazine->linkage );
+    if( is_magazine() && type->magazine->linkage ) {
+        item links( *type->magazine->linkage );
         links.charges = ammo_remaining();
         ret += links.weight();
     }
@@ -5179,8 +5179,8 @@ item::reload_option::reload_option( const player *who, const item *target, const
                                     item_location &&ammo ) :
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
-    if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
-        max_qty = this->who->charges_of( this->target->type->magazine->linkage );
+    if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
+        max_qty = this->who->charges_of( * this->target->type->magazine->linkage );
     }
     qty( max_qty );
 }
@@ -5308,8 +5308,8 @@ bool item::reload( player &u, item_location loc, long qty )
     if( is_magazine() ) {
         qty = std::min( qty, ammo->charges );
 
-        if( is_ammo_belt() && type->magazine->linkage != "NULL" ) {
-            if( !u.use_charges_if_avail( type->magazine->linkage, qty ) ) {
+        if( is_ammo_belt() && type->magazine->linkage ) {
+            if( !u.use_charges_if_avail( *type->magazine->linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
