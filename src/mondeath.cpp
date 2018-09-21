@@ -84,7 +84,20 @@ void mdeath::normal( monster &z )
     if( !pulverized ) {
         make_mon_corpse( z, int( std::floor( corpse_damage * itype::damage_scale ) ) );
     }
+    // if mdeath::splatter was set along normal makes sure it is not called twice
+    bool splatt = false;
+    for( auto const &deathfunction : z.type->dies ) {
+        if( deathfunction == mdeath::splatter ) {
+            splatt = true;
+        }
+    }
+    if( !splatt ) {
+        splatter( z );
+    }
+ }
 
+void mdeath::splatter( monster &z )
+{
     // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
     const std::vector<material_id> gib_mats = {{
             material_id( "flesh" ), material_id( "hflesh" ),
@@ -96,6 +109,17 @@ void mdeath::normal( monster &z )
     std::any_of( gib_mats.begin(), gib_mats.end(), [&z]( const material_id & gm ) {
         return z.made_of( gm );
     } );
+
+    const int max_hp = std::max( z.get_hp_max(), 1 );
+    const float overflow_damage = std::max( -z.get_hp(), 0 );
+    const float corpse_damage = 2.5 * overflow_damage / max_hp;
+    bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
+    // make sure that full splatter happens when this is a set death function, not part of normal
+    for( auto const &deathfunction : z.type->dies ) {
+        if( deathfunction == mdeath::splatter ) {
+            pulverized = true;
+        }
+    }
 
     const field_id type_blood = z.bloodType();
     const field_id type_gib = z.gibType();
