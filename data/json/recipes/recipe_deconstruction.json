@@ -852,7 +852,7 @@
     "time": 500,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
-  },  
+  },
   {
     "result": "ceramic_bowl",
     "type": "uncraft",
