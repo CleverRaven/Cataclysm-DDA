@@ -1050,7 +1050,7 @@ int editmap::edit_ter()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
-void editmap::update_fmenu_entry( uimenu &fmenu, field &field, const field_id idx )
+void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_id idx )
 {
     int fdens = 1;
     const field_t &ftype = fieldlist[idx];
@@ -1066,7 +1066,7 @@ void editmap::update_fmenu_entry( uimenu &fmenu, field &field, const field_id id
     fmenu.entries[idx].extratxt.color = ftype.color[fdens - 1];
 }
 
-void editmap::setup_fmenu( uimenu &fmenu )
+void editmap::setup_fmenu( uilist &fmenu )
 {
     std::string fname;
     fmenu.entries.clear();
@@ -1088,12 +1088,12 @@ void editmap::setup_fmenu( uimenu &fmenu )
 int editmap::edit_fld()
 {
     int ret = 0;
-    uimenu fmenu;
+    uilist fmenu;
     fmenu.w_width = width;
     fmenu.w_height = TERMY - infoHeight;
     fmenu.w_y = 0;
     fmenu.w_x = offsetX;
-    fmenu.return_invalid = true;
+    fmenu.allow_anykey = true;
     setup_fmenu( fmenu );
 
     do {
@@ -1104,7 +1104,7 @@ int editmap::edit_fld()
 
         fmenu.query( false );
         if( fmenu.selected > 0 && fmenu.selected < num_fields &&
-            ( fmenu.keypress == '\n' || fmenu.keypress == KEY_LEFT || fmenu.keypress == KEY_RIGHT )
+            ( fmenu.ret > 0 || fmenu.keypress == KEY_LEFT || fmenu.keypress == KEY_RIGHT )
           ) {
             int fdens = 0;
             const field_id idx = static_cast<field_id>( fmenu.selected );
@@ -1113,7 +1113,7 @@ int editmap::edit_fld()
                 fdens = fld->getFieldDensity();
             }
             int fsel_dens = fdens;
-            if( fmenu.keypress == '\n' ) {
+            if( fmenu.ret > 0 ) {
                 uimenu femenu;
                 femenu.w_width = width;
                 femenu.w_height = infoHeight;
@@ -1163,11 +1163,11 @@ int editmap::edit_fld()
                     }
                 }
                 update_fmenu_entry( fmenu, *cur_field, idx );
-                update_view( true );
                 sel_field = fmenu.selected;
                 sel_fdensity = fsel_dens;
             }
-        } else if( fmenu.selected == 0 && fmenu.keypress == '\n' ) {
+            update_view( true );
+        } else if( fmenu.ret == 0 ) {
             for( auto &elem : target_list ) {
                 field &t_field = g->m.get_field( elem );
                 while( t_field.fieldCount() > 0 ) {
@@ -1192,8 +1192,8 @@ int editmap::edit_fld()
             uberdraw = !uberdraw;
             update_view( false );
         }
-    } while( ! menu_escape( fmenu.keypress ) );
-    wrefresh( w_info );
+    } while( fmenu.ret != UIMENU_CANCEL );
+    g->draw_sidebar();
     return ret;
 }
 
