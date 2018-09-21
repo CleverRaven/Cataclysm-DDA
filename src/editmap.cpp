@@ -112,10 +112,10 @@ void edit_json( SAVEOBJ &it )
     std::string save2;
     std::vector<std::string> fs2;
     do {
-        uimenu tm;
+        uilist tm;
 
         for( auto &elem : fs1 ) {
-            tm.addentry( -1, true, -2, elem );
+            tm.addentry( -1, false, -2, elem );
         }
         if( tmret == 0 ) {
             try {
@@ -128,21 +128,24 @@ void edit_json( SAVEOBJ &it )
             save2 = serialize( it );
             fs2 = fld_string( save2, TERMX - 10 );
 
-            tm.addentry( -1, true, -2, "== Reloaded: =====================" );
+            tm.addentry( -1, false, -2, "== Reloaded: =====================" );
             for( size_t s = 0; s < fs2.size(); ++s ) {
-                tm.addentry( -1, true, -2, fs2[s] );
+                tm.addentry( -1, false, -2, fs2[s] );
                 if( s < fs1.size() && fs2[s] != fs1[s] ) {
-                    tm.entries[ tm.entries.size() - 1 ].text_color = c_light_green;
+                    tm.entries.back().force_color = true;
+                    tm.entries.back().text_color = c_light_green;
+                    tm.entries[s].force_color = true;
                     tm.entries[s].text_color = c_light_red;
                 }
             }
             fs2.clear();
         } else if( tmret == 1 ) {
-            std::string ret = string_input_popup()
+            string_input_popup popup;
+            std::string ret = popup
                               .text( save1 )
                               .query_string();
-            if( !ret.empty() ) {
-                fs1 = fld_string( save1, TERMX - 10 );
+            if( popup.confirmed() ) {
+                fs1 = fld_string( ret, TERMX - 10 );
                 save1 = ret;
                 tmret = -2;
             }
@@ -160,10 +163,13 @@ void edit_json( SAVEOBJ &it )
         tm.addentry( 1, true, 'e', pgettext( "item manipulation debug menu entry", "edit" ) );
         tm.addentry( 2, true, 'd', pgettext( "item manipulation debug menu entry",
                                              "dump to save/jtest-*.txt" ) );
-        tm.addentry( 3, true, 'q', pgettext( "item manipulation debug menu entry", "exit" ) );
         if( tmret != -2 ) {
             tm.query();
-            tmret = tm.ret;
+            if( tm.ret < 0 ) {
+                tmret = 3;
+            } else {
+                tmret = tm.ret;
+            }
         } else {
             tmret = 0;
         }
