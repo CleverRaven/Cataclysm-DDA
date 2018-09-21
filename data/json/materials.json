@@ -753,7 +753,7 @@
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 1 ] ],
     "compact_accepts": [ "budget_steel", "hardsteel", "iron" ],
-    "compacts_into": [ "steel_lump", "sheet_metal", "steel_chunk", "scrap" ]
+    "compacts_into": [ "sheet_metal", "steel_lump", "steel_chunk", "scrap" ]
   },
   {
     "type": "material",
