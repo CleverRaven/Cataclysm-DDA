@@ -1377,7 +1377,7 @@
     "description": "This is a cellphone, an older cousin of a smartphone but still popular among certain circles for its reliability and sturdiness and an ability to run on common batteries. Using this cellphone will turn it on and provide light, assuming it is sufficiently charged.  It also has a clock app that includes an alarm.",
     "weight": 226,
     "volume": 1,
-    "price": 10000,
+    "price": 9000,
     "price_postapoc": 2000,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
@@ -1415,24 +1415,29 @@
     "description": "A popular, fancy smartphone.  Using it will turn it on its flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm and an integrated camera. Runs on a small, rechargeable power cell compatible with Unified Power System.",
     "weight": 226,
     "volume": 1,
-    "price": 10000,
-    "price_postapoc": 2000,
+    "price": 20000,
+    "price_postapoc": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 100,
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "smart_phone_flashlight",
-      "msg": "You activate the flashlight app.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The smartphone's charge is too low.",
-      "type": "transform"
-    },
-    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "CAMERA" ]
+    "charges_per_use": 5,
+	"use_action": [{
+			"charges_per_use": 1,
+			"target": "smart_phone_flashlight",
+			"msg": "You activate the flashlight app.",
+			"active": true,
+			"need_charges": 1,
+			"need_charges_msg": "The smartphone's charge is too low.",
+			"type": "transform"
+		}, {
+			"charges_per_use": 5,
+			"revert_to": "smart_phone",
+			"type": "CAMERA"
+		}],
+      "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "smart_phone_flashlight",
@@ -1442,7 +1447,7 @@
     "name_plural": "smartphones - Flashlight",
     "turns_per_charge": 20,
     "revert_to": "smart_phone",
-    "use_action": { "target": "cell_phone", "msg": "You deactivate the flashlight app.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": { "target": "smart_phone", "msg": "You deactivate the flashlight app.", "menu_text": "Turn off flashlight", "type": "transform" },
     "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
