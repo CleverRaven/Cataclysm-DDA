@@ -5667,7 +5667,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "canning pot",
-    "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  It includes an integrated rack with handles to make it easier to put the jars in and take them out of the boiling water.",
+    "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water, but you'll end up with clean water as a byproduct.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
     "weight": 5625,
     "volume": 100,
     "price": 20000,
