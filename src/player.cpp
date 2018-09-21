@@ -6837,20 +6837,26 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
             qty -= std::min( qty, bio );
         }
 
-        auto adv = charges_of( "adv_UPS_off", ( long )ceil( qty * 0.6 ) );
-        if( adv > 0 ) {
-            auto found = use_charges( "adv_UPS_off", adv );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, long( adv / 0.6 ) );
+        auto advanced = all_items_with_flag( "ADV_UPS" );
+        for( auto &i : advanced ) {
+            auto adv = charges_of( i->typeId(), ( long )ceil( qty * 0.6 ) );
+            if( adv > 0 ) {
+                auto found = use_charges( i->typeId(), adv );
+                res.splice( res.end(), found );
+                qty -= std::min( qty, long( adv / 0.6 ) );
+            }
         }
 
-        auto ups = charges_of( "UPS_off", qty );
-        if( ups > 0 ) {
-            auto found = use_charges( "UPS_off", ups );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, ups );
+        auto universal = all_items_with_flag( "UPS" );
+        for( auto &i : universal ) {
+            auto ups = charges_of( i->typeId(), ( long )ceil( qty ) );
+            if( ups > 0 ) {
+                auto found = use_charges( i->typeId(), ups );
+                res.splice( res.end(), found );
+                qty -= std::min( qty, long( ups ) );
+            }
         }
-    }
+}
 
     std::vector<item *> del;
 
