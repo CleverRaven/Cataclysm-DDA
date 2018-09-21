@@ -3058,9 +3058,8 @@ void game::debug()
                 debugmsg( "There's already vehicle here" );
             } else {
                 std::vector<vproto_id> veh_strings;
-                uimenu veh_menu;
+                uilist veh_menu;
                 veh_menu.text = _( "Choose vehicle to spawn" );
-                veh_menu.return_invalid = true;
                 int menu_ind = 0;
                 for( auto &elem : vehicle_prototype::get_all() ) {
                     if( elem != vproto_id( "custom" ) ) {
@@ -3072,10 +3071,9 @@ void game::debug()
                         ++menu_ind;
                     }
                 }
-                veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "Cancel" ) );
                 veh_menu.query();
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
-                    //Didn't pick Cancel
+                    //Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
                     vehicle *veh = m.add_vehicle( selected_opt, dest.x, dest.y, -90, 100, 0 );
