@@ -3135,9 +3135,8 @@ void game::debug()
         break;
 
         case 17: {
-            uimenu weather_menu;
+            uilist weather_menu;
             weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.return_invalid = true;
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
@@ -3145,12 +3144,10 @@ void game::debug()
                                        weather_data( static_cast<weather_type>( weather_id ) ).name );
             }
 
-            weather_menu.addentry( NUM_WEATHER_TYPES, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-
             weather_menu.query();
 
             if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = ( weather_type )weather_menu.selected;
+                weather_type selected_weather = ( weather_type )weather_menu.ret;
                 weather_override = selected_weather;
                 nextweather = calendar::turn;
                 update_weather();
