@@ -2936,59 +2936,57 @@ void game::write_memorial_file( std::string sLastWords )
 
 void game::debug()
 {
-    int action = menu( true, // cancelable
-                       _( "Debug Functions - Using these is CHEATING!" ),
-                       _( "Wish for an item" ),       // 1
-                       _( "Teleport - Short Range" ), // 2
-                       _( "Teleport - Long Range" ),  // 3
-                       _( "Reveal map" ),             // 4
-                       _( "Spawn NPC" ),              // 5
-                       _( "Spawn Monster" ),          // 6
-                       _( "Check game state..." ),    // 7
-                       _( "Kill NPCs" ),              // 8
-                       _( "Mutate" ),                 // 9
-                       _( "Spawn a vehicle" ),        // 10
-                       _( "Change all skills" ),      // 11
-                       _( "Learn all melee styles" ), // 12
-                       _( "Unlock all recipes" ),     // 13
-                       _( "Edit player/NPC" ),        // 14
-                       _( "Spawn Artifact" ),         // 15
-                       _( "Spawn Clairvoyance Artifact" ), //16
-                       _( "Map editor" ),             // 17
-                       _( "Change weather" ),         // 18
-                       _( "Kill all monsters" ),    // 19
-                       _( "Display hordes" ),         // 20
-                       _( "Test Item Group" ),        // 21
-                       _( "Damage Self" ),            // 22
-                       _( "Show Sound Clustering" ),  // 23
-                       _( "Lua Console" ),            // 24
-                       _( "Display weather" ),        // 25
-                       _( "Display overmap scents" ), // 26
-                       _( "Change time" ),            // 27
-                       _( "Set automove route" ),     // 28
-                       _( "Show mutation category levels" ), // 29
-                       _( "Overmap editor" ),         // 30
-                       _( "Draw benchmark (5 seconds)" ),    // 31
-                       _( "Teleport - Adjacent overmap" ),   // 32
-                       _( "Test trait group" ),        // 33
-                       _( "Quit to Main Menu" ),    // 34
-                       _( "Cancel" ),
-                       NULL );
+    int action = uilist( _( "Debug Functions - Using these is CHEATING!" ), {
+        _( "Wish for an item" ),                // 0
+        _( "Teleport - Short Range" ),          // 1
+        _( "Teleport - Long Range" ),           // 2
+        _( "Reveal map" ),                      // 3
+        _( "Spawn NPC" ),                       // 4
+        _( "Spawn Monster" ),                   // 5
+        _( "Check game state..." ),             // 6
+        _( "Kill NPCs" ),                       // 7
+        _( "Mutate" ),                          // 8
+        _( "Spawn a vehicle" ),                 // 9
+        _( "Change all skills" ),               // 10
+        _( "Learn all melee styles" ),          // 11
+        _( "Unlock all recipes" ),              // 12
+        _( "Edit player/NPC" ),                 // 13
+        _( "Spawn Artifact" ),                  // 14
+        _( "Spawn Clairvoyance Artifact" ),     // 15
+        _( "Map editor" ),                      // 16
+        _( "Change weather" ),                  // 17
+        _( "Kill all monsters" ),               // 18
+        _( "Display hordes" ),                  // 19
+        _( "Test Item Group" ),                 // 20
+        _( "Damage Self" ),                     // 21
+        _( "Show Sound Clustering" ),           // 22
+        _( "Lua Console" ),                     // 23
+        _( "Display weather" ),                 // 24
+        _( "Display overmap scents" ),          // 25
+        _( "Change time" ),                     // 26
+        _( "Set automove route" ),              // 27
+        _( "Show mutation category levels" ),   // 28
+        _( "Overmap editor" ),                  // 29
+        _( "Draw benchmark (5 seconds)" ),      // 30
+        _( "Teleport - Adjacent overmap" ),     // 31
+        _( "Test trait group" ),                // 32
+        _( "Quit to Main Menu" ),               // 33
+    } );
     refresh_all();
     switch( action ) {
-        case 1:
+        case 0:
             debug_menu::wishitem( &u );
             break;
 
-        case 2:
+        case 1:
             debug_menu::teleport_short();
             break;
 
-        case 3:
+        case 2:
             debug_menu::teleport_long();
             break;
 
-        case 4: {
+        case 3: {
             auto &cur_om = get_cur_om();
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
@@ -3001,7 +2999,7 @@ void game::debug()
         }
         break;
 
-        case 5: {
+        case 4: {
             std::shared_ptr<npc> temp = std::make_shared<npc>();
             temp->normalize();
             temp->randomize();
@@ -3015,11 +3013,11 @@ void game::debug()
         }
         break;
 
-        case 6:
+        case 5:
             debug_menu::wishmonster();
             break;
 
-        case 7: {
+        case 6: {
             std::string s;
             s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n%s\n" );
@@ -3043,18 +3041,18 @@ void game::debug()
             disp_NPCs();
             break;
         }
-        case 8:
+        case 7:
             for( npc &guy : all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name.c_str() );
                 guy.hp_cur[bp_head] = 0;
             }
             break;
 
-        case 9:
+        case 8:
             debug_menu::wishmutate( &u );
             break;
 
-        case 10:
+        case 9:
             if( m.veh_at( u.pos() ) ) {
                 dbg( D_ERROR ) << "game:load: There's already vehicle here";
                 debugmsg( "There's already vehicle here" );
@@ -3088,12 +3086,12 @@ void game::debug()
             }
             break;
 
-        case 11: {
+        case 10: {
             debug_menu::wishskill( &u );
         }
         break;
 
-        case 12:
+        case 11:
             add_msg( m_info, _( "Martial arts debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
@@ -3104,7 +3102,7 @@ void game::debug()
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
             break;
 
-        case 13: {
+        case 12: {
             add_msg( m_info, _( "Recipe debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( const auto &e : recipe_dict ) {
@@ -3114,11 +3112,11 @@ void game::debug()
         }
         break;
 
-        case 14:
+        case 13:
             debug_menu::character_edit_menu();
             break;
 
-        case 15: {
+        case 14: {
             auto center = look_around();
             if( center != tripoint_min ) {
                 artifact_natural_property prop =
@@ -3129,16 +3127,16 @@ void game::debug()
         }
         break;
 
-        case 16:
+        case 15:
             u.i_add( item( architects_cube(), calendar::turn ) );
             break;
 
-        case 17: {
+        case 16: {
             look_debug();
         }
         break;
 
-        case 18: {
+        case 17: {
             uimenu weather_menu;
             weather_menu.text = _( "Select new weather pattern:" );
             weather_menu.return_invalid = true;
@@ -3162,7 +3160,7 @@ void game::debug()
         }
         break;
 
-        case 19: {
+        case 18: {
             for( monster &critter : all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
@@ -3171,16 +3169,16 @@ void game::debug()
             cleanup_dead();
         }
         break;
-        case 20:
+        case 19:
             ui::omap::display_hordes();
             break;
-        case 21: {
+        case 20: {
             item_group::debug_spawn();
         }
         break;
 
         // Damage Self
-        case 22: {
+        case 21: {
             int dbg_damage;
             if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
                 u.hp_cur[hp_torso] -= dbg_damage;
@@ -3190,7 +3188,7 @@ void game::debug()
         }
         break;
 
-        case 23: {
+        case 22: {
 #ifdef TILES
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
@@ -3212,18 +3210,18 @@ void game::debug()
         }
         break;
 
-        case 24: {
+        case 23: {
             lua_console console;
             console.run();
         }
         break;
-        case 25:
+        case 24:
             ui::omap::display_weather();
             break;
-        case 26:
+        case 25:
             ui::omap::display_scents();
             break;
-        case 27: {
+        case 26: {
             auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                 const auto text = string_input_popup()
                                   .title( msg )
@@ -3283,7 +3281,7 @@ void game::debug()
             } while( smenu.ret != 6 && smenu.ret != UIMENU_INVALID );
         }
         break;
-        case 28: {
+        case 27: {
             tripoint dest = look_around();
             if( dest == tripoint_min || dest == u.pos() ) {
                 break;
@@ -3296,17 +3294,17 @@ void game::debug()
             }
         }
         break;
-        case 29:
+        case 28:
             for( const auto &elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
             break;
 
-        case 30:
+        case 29:
             ui::omap::display_editor();
             break;
 
-        case 31: {
+        case 30: {
             // call the draw procedure as many times as possible in 5 seconds
             auto start_tick = std::chrono::steady_clock::now();
             auto end_tick = std::chrono::steady_clock::now();
@@ -3326,13 +3324,13 @@ void game::debug()
         }
         break;
 
-        case 32:
+        case 31:
             debug_menu::teleport_overmap();
             break;
-        case 33:
+        case 32:
             trait_group::debug_spawn();
             break;
-        case 34:
+        case 33:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
