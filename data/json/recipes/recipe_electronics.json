@@ -1635,7 +1635,7 @@
     {"id":"SAW_M","level":1}
   ],
   "components": [
-    [ [ "camera", 2 ], [ "camera_pro", 2 ], [ "broken_eyebot", 2 ] ],
+    [ [ "camera", 2 ], [ "camera_pro", 2 ], [ "broken_eyebot", 2 ], [ "smart_phone", 2 ],
     [ [ "power_supply", 1 ] ],
     [ [ "cable", 5 ] ]
   ]
