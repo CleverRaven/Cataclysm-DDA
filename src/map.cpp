@@ -377,7 +377,7 @@ bool map::vehproceed()
         return false;
     }
 
-    return vehact( *cur_veh );
+    return cur_veh->act_on_map();
 }
 
 float map::vehicle_buoyancy( const vehicle &veh ) const

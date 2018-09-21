@@ -2198,8 +2198,9 @@ int vehicle::total_power( bool const fueled ) const
     return pwr;
 }
 
-int vehicle::acceleration( bool const fueled ) const
+int vehicle::acceleration( bool const fueled, int at_vel_in_vmi ) const
 {
+#if 0
     if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
         return safe_velocity( fueled ) * k_mass() / ( 1 + strain() ) / 10;
 
@@ -2216,33 +2217,79 @@ int vehicle::acceleration( bool const fueled ) const
     } else {
         return 0;
     }
+#endif
+    int target_vmiph;
+    if( at_vel_in_vmi < 0 ) {
+        target_vmiph = safe_velocity( fueled ) / 2;
+    } else if( at_vel_in_vmi ) {
+        target_vmiph = at_vel_in_vmi;
+    } else {
+        target_vmiph = 500;
+    }
+    double mps = vmiph_to_mps( target_mph );
+    int engine_power_w = power_to_epower( total_power( fueled ) );
+    double accel_at_vel = engine_power_w / mps;
+    return mps_to_vmiph( accel_at_vel );
 }
 
+// simplified cubic equation solution, doesn't handle complex numbers correctly
+// but this is a simplified computer model of an engineering problem, not math class
+// see https://math.vanderbilt.edu/schectex/courses/cubic/ for the gory details
+double simple_cubic_solution( double a, double b, double c, double d )
+{
+    double p = -b / ( 3 * a );
+    double q = std::power( p, 3 ) + ( b * c - 3 * a * d ) / ( 6 * std::power( a, 2 ) );
+    double r = c / ( 3 * a );
+    double tricky_bit = power( q, 2 ) + std::power( r - std::power( p, 2 ), 3 );
+    if( tricky_bit < 0 ) {
+        tricky_bit = 0;
+    } else {
+        tricky_bit = std::sqrt( tricky_bit );
+    }
+    double term1 = std::power( q + tricky_bit, 1.0 / 3.0 );
+    double term2_partial = q - tricky_bit;
+    // workaround for power functions that can't handle negative numbers
+    double term2 = std::power( std::abs( term2_partial, 1.0 / 3.0 );
+    if( term2_partial < 0 ) {
+        term2 *= -1;
+    }
+    return p + term1 + term2;
+}
+
+int vehicle::current_acceleration( bool const fueled ) const
+{
+    return acceleration( fueled, std::abs( velocity ) );
+}
+
+// Ugly physics below:
+// maximum speed occurs when all available thrust is used to overcome air/rolling resistance
+// sigma F = 0 as we were taught in Engineering Mechanics 301
+// engine power is torque * rotation rate (in rads for simplicity)
+// torque / wheel radius = drive force at where the wheel meets the roads
+// velocity is wheel radius * rotation rate (in rads for simplicity)
+// air resistance is -1/2 * air density * drag coeff * cross area * v^2
+// rolling resistance is mass * accel_g * rolling coeff * 0.0002237 * ( 44.7 + v )
+// or by formula:
+// max velocity occurs when F_drag = F_wheel
+// F_wheel = engine_power / rotation_rate / wheel_radius
+// velocity = rotation_rate * wheel_radius
+// F_wheel = engine_power / velocity
+// F_drag = F_air_drag + F_rolling_drag
+// F_air_drag = coeff_air_drag * velocity^2
+// F_rolling_drag = coeff_rolling_drag * ( rolling_static_to_variable ratio + velocity
+// coeff_air_drag * v^3 + coeff_rolling_drag * v^2 + ( coeff_rolling_drag + 44.7 ) * v2 - engine power = 0
+// solve for v with the simplified cubic equation solver
+// got it? quiz on Wednesday.
 int vehicle::max_velocity( bool const fueled ) const
 {
-    return total_power( fueled ) * 80;
+    int total_engine_w = power_to_epower( total_power( fueled ) );
+    double max_in_mps = simple_cubic_solution( coeff_air_drag, coeff_rolling_drag,
+                                               coeff_rolling_drag * rolling_static_to_variable,
+                                               -total_engine_w );
+    return mps_to_vmiph( max_in_mps );
 }
 
-bool vehicle::do_environmental_effects()
-{
-    bool needed = false;
-    // check for smoking parts
-    for( size_t p = 0; p < parts.size(); p++ ) {
-        auto part_pos = global_pos3() + parts[p].precalc[0];
-
-        /* Only lower blood level if:
-         * - The part is outside.
-         * - The weather is any effect that would cause the player to be wet. */
-        if( parts[p].blood > 0 && g->m.is_outside( part_pos ) ) {
-            needed = true;
-            if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
-                parts[p].blood--;
-            }
-        }
-    }
-    return needed;
-}
-
+// the same physics as max_velocity, but with a smaller engine power
 int vehicle::safe_velocity( bool const fueled ) const
 {
     int pwrs = 0;
@@ -2269,7 +2316,31 @@ int vehicle::safe_velocity( bool const fueled ) const
     if( cnt > 0 ) {
         pwrs = pwrs * 4 / ( 4 + cnt - 1 );
     }
-    return ( int )( pwrs * k_dynamics() * k_mass() ) * 80;
+    int effective_engine_w = power_to_epower( pwrs );
+    double safe_in_mps = simple_cubic_solution( coeff_air_drag, coeff_rolling_drag,
+                                                coeff_rolling_drag * rolling_static_to_variable,
+                                                -effective_engine_w );
+    return mps_to_vmiph( safe_in_mps );
+}
+
+bool vehicle::do_environmental_effects()
+{
+    bool needed = false;
+    // check for smoking parts
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        auto part_pos = global_pos3() + parts[p].precalc[0];
+
+        /* Only lower blood level if:
+         * - The part is outside.
+         * - The weather is any effect that would cause the player to be wet. */
+        if( parts[p].blood > 0 && g->m.is_outside( part_pos ) ) {
+            needed = true;
+            if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
+                parts[p].blood--;
+            }
+        }
+    }
+    return needed;
 }
 
 void vehicle::spew_smoke( double joules, int part, int density )
