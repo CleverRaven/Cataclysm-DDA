@@ -93,8 +93,30 @@
     "covers" : [ "TORSO" ],
     "encumbrance" : 9,
     "coverage" : 15,
-    "material_thickness" : 8,
-    "flags": [ "NO_UNLOAD", "RECHARGE", "BELTED" ]
+    "material_thickness" : 4,
+    "flags": [ "NO_UNLOAD", "RECHARGE", "BELTED", "UPS", "OVERSIZE" ]
+  },
+  {
+    "id": "mega_UPS_off",
+    "type": "TOOL_ARMOR",
+    "name": "Engineer's UPS",
+    "name_plural": "Engineers' UPS's",
+    "description": "This is a unified power supply, or UPS. The Engineer's UPS is designed to power the hungriest of UPS devices.",
+    "weight": 6800,
+    "volume": 50,
+    "price": 560000,
+    "to_hit": -2,
+    "bashing": 14,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "max_charges": 10000,
+    "covers" : [ "TORSO" ],
+    "encumbrance" : 27,
+    "coverage" : 40,
+    "material_thickness" : 6,
+    "flags": [ "NO_UNLOAD", "RECHARGE", "BELTED", "UPS", "OVERSIZE" ]
   },
   {
     "id": "acidbomb",
@@ -133,7 +155,7 @@
     "encumbrance" : 14,
     "coverage" : 15,
     "material_thickness" : 8,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "UPS", "OVERSIZE" ]
   },
   {
     "id": "advanced_ecig",
