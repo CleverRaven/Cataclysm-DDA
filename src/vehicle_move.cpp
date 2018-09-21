@@ -57,6 +57,8 @@ const skill_id skill_driving( "driving" );
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
+// tile height in meters
+static const float tile_height = 4;
 int vehicle::slowdown() const
 {
     const double relative_sin = sin( DEGREES( face.dir() - move.dir() ) );
@@ -994,118 +996,111 @@ float get_collision_factor( float const delta_v )
     }
 }
 
-bool map::vehact( vehicle &veh )
+bool vehicle::act_on_map()
 {
-    const tripoint pt = veh.global_pos3();
-    if( !inbounds( pt ) ) {
+    const tripoint pt = global_pos3();
+    if( !g->m.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
-        veh.stop();
-        veh.of_turn = 0;
-        veh.falling = false;
+        stop();
+        of_turn = 0;
+        falling = false;
         return true;
     }
 
     // It needs to fall when it has no support OR was falling before
     //  so that vertical collisions happen.
-    const bool should_fall = veh.falling &&
-                             ( veh.vertical_velocity != 0 || vehicle_falling( veh ) );
-    const bool pl_ctrl = veh.player_in_control( g->u );
+    const bool should_fall = falling || ( vertical_velocity != 0 || g->m.vehicle_falling( *this ) );
+    const bool pl_ctrl = player_in_control( g->u );
 
     // TODO: Saner diagonal movement, so that you can jump off cliffs properly
     // The ratio of vertical to horizontal movement should be vertical_velocity/velocity
     //  for as long as of_turn doesn't run out.
     if( should_fall ) {
-        const float tile_height = 4; // 4 meters
         const float g = 9.8f; // 9.8 m/s^2
         // Convert from 100*mph to m/s
-        const float old_vel = veh.vertical_velocity / 2.23694 / 100;
+        const float old_vel = vertical_velocity / 2.23694 / 100;
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
         // Note: That drops the sign
-        const float new_vel = -sqrt( 2 * tile_height * g +
-                                     old_vel * old_vel );
-        veh.vertical_velocity = new_vel * 2.23694 * 100;
+        const float new_vel = -sqrt( 2 * tile_height * g + old_vel * old_vel );
+        vertical_velocity = new_vel * 2.23694 * 100;
+        falling = true;
     } else {
         // Not actually falling, was just marked for fall test
-        veh.falling = false;
+        falling = false;
     }
 
-    const int slowdown = veh.slowdown();
-    //add_msg( m_debug, "%s vel: %d, slowdown: %d", veh.name.c_str(), veh.velocity, slowdown );
-    if( slowdown > abs( veh.velocity ) ) {
-        veh.stop();
-    } else if( veh.velocity < 0 ) {
-        veh.velocity += slowdown;
+    const int vslowdown = slowdown();
+    if( vslowdown > abs( velocity ) ) {
+        stop();
+    } else if( velocity < 0 ) {
+        velocity += vslowdown;
     } else {
-        veh.velocity -= slowdown;
+        velocity -= vslowdown;
     }
 
     // Low enough for bicycles to go in reverse.
-    if( !should_fall && abs( veh.velocity ) < 20 ) {
-        veh.stop();
-    }
-
-    if( !should_fall && abs( veh.velocity ) < 20 ) {
-        veh.of_turn -= .321f;
+    if( !should_fall && abs( velocity ) < 20 ) {
+        stop();
+        of_turn -= .321f;
         return true;
     }
 
-    const float wheel_traction_area = vehicle_wheel_traction( veh );
-    const float traction = veh.k_traction( wheel_traction_area );
+    const float wheel_traction_area = g->m.vehicle_wheel_traction( *this );
+    const float traction = k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( wheel_traction_area < 0 ) {
-        add_msg( m_bad, _( "Your %s sank." ), veh.name.c_str() );
+        add_msg( m_bad, _( "Your %s sank." ), name );
         if( pl_ctrl ) {
-            veh.unboard_all();
+            unboard_all();
         }
-        if( g->remoteveh() == &veh ) {
+        if( g->remoteveh() == this ) {
             g->setremoteveh( nullptr );
         }
 
-        on_vehicle_moved( veh.smz );
+        g->m.on_vehicle_moved( smz );
         // Destroy vehicle (sank to nowhere)
-        destroy_vehicle( &veh );
+        g->m.destroy_vehicle( this );
         return true;
     } else if( traction < 0.001f ) {
-        veh.of_turn = 0;
+        of_turn = 0;
         if( !should_fall ) {
-            veh.stop();
+            stop();
             // TODO: Remove this hack
             // TODO: Amphibious vehicles
-            if( veh.floating.empty() ) {
-                add_msg( m_info, _( "Your %s can't move on this terrain." ), veh.name.c_str() );
+            if( floating.empty() ) {
+                add_msg( m_info, _( "Your %s can't move on this terrain." ), name );
             } else {
-                add_msg( m_info, _( "Your %s is beached." ), veh.name.c_str() );
+                add_msg( m_info, _( "Your %s is beached." ), name );
             }
         }
     }
-    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( veh.velocity ) );
+    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( velocity ) );
 
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
     bool falling_only = false;
-    if( turn_cost >= veh.of_turn ) {
+    if( turn_cost >= of_turn ) {
         if( !should_fall ) {
-            veh.of_turn_carry = veh.of_turn;
-            veh.of_turn = 0;
+            of_turn_carry = of_turn;
+            of_turn = 0;
             return true;
         }
-
         falling_only = true;
     }
 
     // Decrease of_turn if falling+moving, but not when it's lower than move cost
     if( !falling_only ) {
-        veh.of_turn -= turn_cost;
+        of_turn -= turn_cost;
     }
 
     if( one_in( 10 ) ) {
         bool controlled = false;
         // It can even be a NPC, but must be at the controls
-        for( int boarded : veh.boarded_parts() ) {
-            if( veh.part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
+        for( int boarded : boarded_parts() ) {
+            if( part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
                 controlled = true;
-                player *passenger = veh.get_passenger( boarded );
+                player *passenger = get_passenger( boarded );
                 if( passenger != nullptr ) {
                     passenger->practice( skill_driving, 1 );
                 }
@@ -1115,37 +1110,37 @@ bool map::vehact( vehicle &veh )
         // Eventually send it skidding if no control
         // But not if it's remotely controlled
         if( !controlled && !pl_ctrl ) {
-            veh.skidding = true;
+            skidding = true;
         }
     }
 
-    if( veh.skidding && one_in( 4 ) ) {
+    if( skidding && one_in( 4 ) ) {
         // Might turn uncontrollably while skidding
-        veh.turn( one_in( 2 ) ? -15 : 15 );
+        turn( one_in( 2 ) ? -15 : 15 );
     }
 
     if( should_fall ) {
         // TODO: Insert a (hard) driving test to stop this from happening
-        veh.skidding = true;
+        skidding = true;
     }
 
     // Where do we go
     tileray mdir; // The direction we're moving
-    if( veh.skidding || should_fall ) {
+    if( skidding || should_fall ) {
         // If skidding, it's the move vector
         // Same for falling - no air control
-        mdir = veh.move;
-    } else if( veh.turn_dir != veh.face.dir() ) {
+        mdir = move;
+    } else if( turn_dir != face.dir() ) {
         // Driver turned vehicle, get turn_dir
-        mdir.init( veh.turn_dir );
+        mdir.init( turn_dir );
     } else {
         // Not turning, keep face.dir
-        mdir = veh.face;
+        mdir = face;
     }
 
     tripoint dp;
-    if( abs( veh.velocity ) >= 20 && !falling_only ) {
-        mdir.advance( veh.velocity < 0 ? -1 : 1 );
+    if( abs( velocity ) >= 20 && !falling_only ) {
+        mdir.advance( velocity < 0 ? -1 : 1 );
         dp.x = mdir.dx();
         dp.y = mdir.dy();
     }
@@ -1156,11 +1151,11 @@ bool map::vehact( vehicle &veh )
 
     // Split the movement into horizontal and vertical for easier processing
     if( dp.x != 0 || dp.y != 0 ) {
-        move_vehicle( veh, tripoint( dp.x, dp.y, 0 ), mdir );
+        g->m.move_vehicle( *this, tripoint( dp.x, dp.y, 0 ), mdir );
     }
 
     if( dp.z != 0 ) {
-        move_vehicle( veh, tripoint( 0, 0, dp.z ), mdir );
+        g->m.move_vehicle( *this, tripoint( 0, 0, dp.z ), mdir );
     }
 
     return true;
@@ -1175,6 +1170,11 @@ bool map::vehicle_falling( vehicle &veh )
     // TODO: Make the vehicle "slide" towards its center of weight
     //  when it's not properly supported
     const auto &pts = veh.get_points( true );
+    if( pts.empty() ) {
+        // Dirty vehicle with no parts
+        return false;
+    }
+
     for( const tripoint &p : pts ) {
         if( has_floor( p ) ) {
             return false;
@@ -1184,11 +1184,6 @@ bool map::vehicle_falling( vehicle &veh )
         if( p.z <= -OVERMAP_DEPTH || supports_above( below ) ) {
             return false;
         }
-    }
-
-    if( pts.empty() ) {
-        // Dirty vehicle with no parts
-        return false;
     }
 
     return true;

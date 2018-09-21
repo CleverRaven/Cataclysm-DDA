@@ -1342,7 +1342,10 @@ class vehicle
         rl_vec2d move_vec() const;
         // As above, but calculated for the actually used variable `dir`
         rl_vec2d dir_vec() const;
+        // update vehicle parts as the vehicle moves
         void on_move();
+        // move the vehicle on the map
+        bool act_on_map();
 
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap
