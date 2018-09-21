@@ -615,16 +615,18 @@ void debug_menu::wishskill( player *p )
                 ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
         } else if( skmenu.ret == 0 && sksel == -1 ) {
-            int ret = menu( true, _( "Alter all skill values" ), _( "Add 3" ), _( "Add 1" ),
-                            _( "Subtract 1" ), _( "Subtract 3" ), _( "Set to 0" ),
-                            _( "Set to 5" ), _( "Set to 10" ), _( "(Reset changes)" ), NULL );
-            if( ret > 0 ) {
+            int ret = uilist( _( "Alter all skill values" ), {
+                _( "Add 3" ), _( "Add 1" ),
+                _( "Subtract 1" ), _( "Subtract 3" ), _( "Set to 0" ),
+                _( "Set to 5" ), _( "Set to 10" ), _( "(Reset changes)" )
+            } );
+            if( ret >= 0 ) {
                 int skmod = 0;
                 int skset = -1;
-                if( ret < 5 ) {
-                    skmod = ( ret < 3 ? ( ret == 1 ? 3 : 1 ) : ( ret == 3 ? -1 : -3 ) );
-                } else if( ret < 8 ) {
-                    skset = ( ( ret - 5 ) * 5 );
+                if( ret < 4 ) {
+                    skmod = 3 - ret * 2;
+                } else if( ret < 7 ) {
+                    skset = ( ret - 4 ) * 5;
                 }
                 for( size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
                     const Skill &skill = Skill::skills[skill_id];
