@@ -94,7 +94,7 @@ void mdeath::normal( monster &z )
     if( !splatt ) {
         splatter( z );
     }
- }
+}
 
 void mdeath::splatter( monster &z )
 {
