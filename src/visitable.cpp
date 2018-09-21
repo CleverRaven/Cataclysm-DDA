@@ -791,12 +791,7 @@ long visitable<T>::charges_of( const std::string &what, long limit ) const
 template <>
 long visitable<inventory>::charges_of( const std::string &what, long limit ) const
 {
-    if( what == "UPS" ) {
-        long qty = 0;
-        qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
-        qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
-        return std::min( qty, limit );
-    }
+
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() ) {
@@ -831,8 +826,16 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
 
     if( what == "UPS" ) {
         long qty = 0;
-        qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
-        qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        if( p && p->has_item_with_flag( "UPS" ) ) {
+            for( auto &i : p->all_items_with_flag( "UPS" ) ) {
+                qty = sum_no_wrap( qty, charges_of( i->typeId() ) );
+            }
+        }
+        if( p && p->has_item_with_flag( "ADV_UPS" ) ) {
+            for( auto &i : p->all_items_with_flag( "ADV_UPS" ) ) {
+                qty = sum_no_wrap( qty, long( charges_of( i->typeId() ) / 0.6 ) );
+            }
+        }        
         if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
             qty = sum_no_wrap( qty, long( p->power_level ) );
         }
