@@ -581,9 +581,12 @@
     "id": "bio_memory",
     "type": "bionic",
     "name": "Enhanced Memory Banks",
-    "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power.",
+    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly, and you can't forget skills you've already learned.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": 10,
+    "react_cost": 1,
+    "time": 200
   },
   {
     "id": "bio_metabolics",
