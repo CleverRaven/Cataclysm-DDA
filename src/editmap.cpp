@@ -1114,13 +1114,12 @@ int editmap::edit_fld()
             }
             int fsel_dens = fdens;
             if( fmenu.ret > 0 ) {
-                uimenu femenu;
+                uilist femenu;
                 femenu.w_width = width;
                 femenu.w_height = infoHeight;
                 femenu.w_y = fmenu.w_height;
                 femenu.w_x = offsetX;
 
-                femenu.return_invalid = true;
                 const field_t &ftype = fieldlist[idx];
                 femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
