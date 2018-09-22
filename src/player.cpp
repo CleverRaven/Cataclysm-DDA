@@ -10740,6 +10740,7 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
         add_msg_if_player( _("You resume your task.") );
         activity = backlog.front();
+        activity.initial_rot = act.initial_rot; // everything resumes except initial rot
         backlog.pop_front();
     } else {
         if( activity ) {

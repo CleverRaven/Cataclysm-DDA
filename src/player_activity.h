@@ -29,6 +29,8 @@ class player_activity
         int moves_total;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left;
+        /** The initial rot values for rottable ingredients. */
+        std::vector<int> initial_rot;
         /** An activity specific value. */
         int index;
         /** An activity specific value. */

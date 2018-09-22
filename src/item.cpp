@@ -3280,9 +3280,32 @@ bool item::goes_bad() const
     return is_food() && type->comestible->spoils != 0;
 }
 
+item item::least_rotten_item( const std::list<item> &items )
+{
+    item least_rotten;
+
+    if( items.size() > 0 ) {
+        least_rotten = items.front();
+
+        for( auto &it : items ) {
+            if( it.goes_bad() ) {
+                if( least_rotten.rot > it.rot ) {
+                    least_rotten = it;
+                }
+            }
+        }
+    }
+
+    return least_rotten;
+}
+
 double item::get_relative_rot() const
 {
     return goes_bad() ? rot / type->comestible->spoils : 0;
+}
+double item::get_relative_rot( const time_duration initial_rot ) const
+{
+    return initial_rot / type->comestible->spoils;
 }
 
 void item::set_relative_rot( double val )

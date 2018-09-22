@@ -108,6 +108,9 @@ class visitable
 
         /** Removes and returns the item which must be contained by this instance */
         item remove_item( item &it );
+
+        /** Returns the item pointed to by a component. */
+        std::list<item> item_from_type( const std::string &what ) const;
 };
 
 #endif
