@@ -7779,8 +7779,8 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
     }
 
     if( it.is_ammo_belt() ) {
-        auto linkage = it.type->magazine->linkage;
-        if( linkage != "NULL" && !has_charges( linkage, 1 ) ) {
+        const auto &linkage = it.type->magazine->linkage;
+        if( linkage && !has_charges( *linkage, 1 ) ) {
             return false;
         }
     }

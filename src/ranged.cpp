@@ -1484,8 +1484,8 @@ static void cycle_action( item &weap, const tripoint &pos )
 
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
-    if( mag && mag->type->magazine->linkage != "NULL" ) {
-        item linkage( mag->type->magazine->linkage, calendar::turn, 1 );
+    if( mag && mag->type->magazine->linkage ) {
+        item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( "brass_catcher" ) ) {
             linkage.set_flag( "CASING" );
             weap.contents.push_back( linkage );

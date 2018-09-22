@@ -970,8 +970,9 @@ void Item_factory::check_definitions() const
             if( type->magazine->reload_time < 0 ) {
                 msg << string_format( "invalid reload_time %i", type->magazine->reload_time ) << "\n";
             }
-            if( type->magazine->linkage != "NULL" && !has_template( type->magazine->linkage ) ) {
-                msg << string_format( "invalid linkage property %s", type->magazine->linkage.c_str() ) << "\n";
+            if( type->magazine->linkage && ( !has_template( *type->magazine->linkage ) ||
+                                             *type->magazine->linkage == "null" ) ) {
+                msg << string_format( "invalid linkage property %s", type->magazine->linkage->c_str() ) << "\n";
             }
         }
 
