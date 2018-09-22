@@ -149,7 +149,7 @@ bool assign( JsonObject &jo, const std::string &name, std::pair<T, T> &val,
 
 // Note: is_optional excludes any types based on cata::optional, which is
 // handled below in a separate function.
-template < typename T, typename std::enable_if < std::is_class<T>::value&& !is_optional<T>::value,
+template < typename T, typename std::enable_if < std::is_class<T>::value && !is_optional<T>::value,
            int >::type = 0 >
 bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
