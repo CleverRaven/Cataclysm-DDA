@@ -1312,7 +1312,7 @@ int editmap::edit_itm()
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < ( int )items.size() ) {
             item &it = items[ilmenu.ret];
-            uimenu imenu;
+            uilist imenu;
             imenu.w_x = ilmenu.w_x;
             imenu.w_y = ilmenu.w_height;
             imenu.w_height = TERMX - ilmenu.w_height;
@@ -1327,7 +1327,6 @@ int editmap::edit_itm()
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
                             "savetest" ) );
-            imenu.addentry( imenu_exit, true, -1, pgettext( "item manipulation debug menu entry", "exit" ) );
 
             do {
                 imenu.query();
@@ -1344,33 +1343,36 @@ int editmap::edit_itm()
                             intval = ( int )it.burnt;
                             break;
                     }
-                    int retval = string_input_popup()
+                    string_input_popup popup;
+                    int retval = popup
                                  .title( "set: " )
                                  .width( 20 )
                                  .text( to_string( intval ) )
                                  .query_int();
-                    if( intval != retval ) {
-                        if( imenu.ret == imenu_bday ) {
-                            it.set_birthday( time_point::from_turn( retval ) );
-                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it.birthday() ) );
-                        } else if( imenu.ret == imenu_damage ) {
-                            it.set_damage( retval );
-                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
-                        } else if( imenu.ret == imenu_burnt ) {
-                            it.burnt = retval;
-                            imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it.burnt );
+                    if( popup.confirmed() ) {
+                        switch( imenu.ret ) {
+                            case imenu_bday:
+                                it.set_birthday( time_point::from_turn( retval ) );
+                                imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it.birthday() ) );
+                                break;
+                            case imenu_damage:
+                                it.set_damage( retval );
+                                imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
+                                break;
+                            case imenu_burnt:
+                                it.burnt = retval;
+                                imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it.burnt );
+                                break;
                         }
-                        werase( g->w_terrain );
-                        g->draw_ter( target );
                     }
-                    wrefresh( ilmenu.window );
-                    wrefresh( imenu.window );
-                    wrefresh( g->w_terrain );
                 } else if( imenu.ret == imenu_savetest ) {
                     edit_json( it );
                 }
-            } while( imenu.ret != imenu_exit );
-            wrefresh( w_info );
+                g->draw_ter( target );
+                wrefresh( g->w_terrain );
+            } while( imenu.ret != UIMENU_CANCEL );
+            g->draw_sidebar();
+            update_view( true );
         } else if( ilmenu.ret == static_cast<int>( items.size() ) ) {
             debug_menu::wishitem( nullptr, target.x, target.y, target.z );
             ilmenu.entries.clear();
