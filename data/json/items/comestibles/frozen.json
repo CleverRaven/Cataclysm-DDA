@@ -93,6 +93,7 @@
     "fun": 20,
     "healthy": -3,
     "price": 300,
+    "charges": 1,
     "material": [ "milk", "junk" ]
   },
   {
@@ -106,6 +107,7 @@
     "calories": 156,
     "fun": 17,
     "price": 300,
+    "charges": 1,
     "material": [ "milk", "fruit" ]
   },
   {
