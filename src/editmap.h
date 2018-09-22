@@ -58,7 +58,7 @@ class editmap
         int edit_veh();
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
-        int mapgen_preview( real_coords &tc, uimenu &gmenu );
+        int mapgen_preview( real_coords &tc, uilist &gmenu );
         bool mapgen_set( std::string om_name, tripoint omt_tgt, int r = 0, bool change_sensitive = true );
         vehicle *mapgen_veh_query( tripoint omt_tgt );
         bool mapgen_veh_has( tripoint omt_tgt );
@@ -66,8 +66,8 @@ class editmap
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uimenu &fmenu, field &field, field_id idx );
-        void setup_fmenu( uimenu &fmenu );
+        void update_fmenu_entry( uilist &fmenu, field &field, field_id idx );
+        void setup_fmenu( uilist &fmenu );
         bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
         catacurses::window w_info;
         catacurses::window w_help;

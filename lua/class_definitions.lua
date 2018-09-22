@@ -2288,6 +2288,20 @@ global_functions = {
     }
 }
 
+function table_unpack_wrapper(args)
+    if args then
+        if table.unpack then
+            return table.unpack(args)
+        elseif unpack then
+            return unpack(args)
+        else
+            return nil
+        end
+    else
+        return nil
+    end
+end
+
 -- This extracts optional arguments.
 -- Example:
 --     { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration" }, optional_args = { "body_part", "bool", "int", "bool" } },
@@ -2305,7 +2319,7 @@ for class_name, value in pairs(classes) do
                 local t = {
                     name = func.name,
                     rval = func.rval,
-                    args = { table.unpack(func.args) } -- copy args
+                    args = { table_unpack_wrapper(func.args) } -- copy args
                 }
                 local j = 1
                 while j <= i do

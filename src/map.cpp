@@ -4491,13 +4491,16 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             if( engine_heater_is_on ) {
                 it_temp = std::max( it_temp, temperatures::cold + 1 );
             }
+            // some vehicle parts provide insulation, default is 1
+            it_insulation = item::find_type( pti.item )->insulation_factor;
+
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
                 it_temp = std::min( it_temp, temperatures::fridge );
+                it_insulation = 1; // ignore fridge insulation if on
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_temp = std::min( it_temp, temperatures::freezer );
+                it_insulation = 1; // ignore freezer insulation if on
             }
-            // some vehicle parts provide insulation, default is 1
-            it_insulation *= item::find_type( pti.item )->insulation_factor;
         }
         if( !processor( items, item_iter, item_loc, signal, it_temp, it_insulation ) ) {
             // If the item was NOT destroyed, we can skip the remainder,

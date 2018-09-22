@@ -871,8 +871,9 @@ void Item_factory::check_definitions() const
             for( const auto &e : type->ammo->type ) {
                 check_ammo_type( msg, e );
             }
-            if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
-                msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
+            if( type->ammo->casing && ( !has_template( *type->ammo->casing ) ||
+                                        *type->ammo->casing == "null" ) ) {
+                msg << string_format( "invalid casing property %s", type->ammo->casing->c_str() ) << "\n";
             }
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
@@ -969,8 +970,9 @@ void Item_factory::check_definitions() const
             if( type->magazine->reload_time < 0 ) {
                 msg << string_format( "invalid reload_time %i", type->magazine->reload_time ) << "\n";
             }
-            if( type->magazine->linkage != "NULL" && !has_template( type->magazine->linkage ) ) {
-                msg << string_format( "invalid linkage property %s", type->magazine->linkage.c_str() ) << "\n";
+            if( type->magazine->linkage && ( !has_template( *type->magazine->linkage ) ||
+                                             *type->magazine->linkage == "null" ) ) {
+                msg << string_format( "invalid linkage property %s", type->magazine->linkage->c_str() ) << "\n";
             }
         }
 
@@ -2527,14 +2529,11 @@ bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag i
 void item_group::debug_spawn()
 {
     std::vector<std::string> groups = item_controller->get_all_group_names();
-    uimenu menu;
-    menu.return_invalid = true;
+    uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.push_back( uimenu_entry( i, true, -2, groups[i] ) );
     }
-    //~ Spawn group menu: Menu entry to exit menu
-    menu.entries.push_back( uimenu_entry( menu.entries.size(), true, -2, _( "cancel" ) ) );
     while( true ) {
         menu.query();
         const int index = menu.ret;
@@ -2554,8 +2553,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames ) {
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
-        uimenu menu2;
-        menu2.return_invalid = true;
+        uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;

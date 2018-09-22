@@ -1085,7 +1085,7 @@
     "type": "profession",
     "ident": "mutant_patient",
     "name": "Unwilling Mutant",
-    "description": "During the panic of the Cataclysm, one of the lab technicians (feeling remorse for their part in the experiments forced on you and your genetic makeup) set you free.",
+    "description": "You were a human guinea pig, used by laboratory technicians to understand the immense power of mutation.",
     "points": -1,
     "items": { "both": [ "subsuit_xl" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
     "flags": [ "SCEN_ONLY" ]

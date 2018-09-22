@@ -687,8 +687,7 @@ static void sleep()
     player &u = g->u;
 
     uimenu as_m;
-    // Only accept valid input
-    as_m.return_invalid = false;
+    as_m.return_invalid = true;
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
     as_m.entries.emplace_back( uimenu_entry( 0, true,
@@ -748,19 +747,21 @@ static void sleep()
 
     if( as_m.ret == 1 ) {
         g->quicksave();
-    } else if( as_m.ret == 2 ) {
+    } else if( as_m.ret == 2 || as_m.ret < 0 ) {
         return;
     }
 
-    /* Reuse menu to ask player whether they want to set an alarm. */
-    bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
-
-    as_m.reset();
-    as_m.text = can_hibernate ?
-                _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
-                _( "You have an alarm clock. Set an alarm?" );
-
+    time_duration try_sleep_dur = 24_hours;
     if( u.has_alarm_clock() ) {
+        /* Reuse menu to ask player whether they want to set an alarm. */
+        bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
+
+        as_m.reset();
+        as_m.return_invalid = true;
+        as_m.text = can_hibernate ?
+                    _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
+                    _( "You have an alarm clock. Set an alarm?" );
+
         as_m.entries.emplace_back( uimenu_entry( 0, true,
                                    ( get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n' ),
                                    _( "No, don't set an alarm." ) ) );
@@ -769,15 +770,18 @@ static void sleep()
             as_m.entries.emplace_back( uimenu_entry( i, true, '0' + i,
                                        string_format( _( "Set alarm to wake up in %i hours." ), i ) ) );
         }
-    }
 
-    as_m.query();
-    if( as_m.ret >= 3 && as_m.ret <= 9 ) {
-        u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
+        as_m.query();
+        if( as_m.ret >= 3 && as_m.ret <= 9 ) {
+            u.add_effect( effect_alarm_clock, 1_hours * as_m.ret );
+            try_sleep_dur = 1_hours * as_m.ret + 1_turns;
+        } else if( as_m.ret < 0 ) {
+            return;
+        }
     }
 
     u.moves = 0;
-    u.try_to_sleep();
+    u.try_to_sleep( try_sleep_dur );
 }
 
 static void loot()

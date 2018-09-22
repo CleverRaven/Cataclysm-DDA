@@ -4327,7 +4327,9 @@
       ["katana_inferior", 2],
       ["cestus", 2],
       ["mace", 20],
+      ["mace_inferior", 25],
       ["morningstar", 10],
+      ["morningstar_inferior", 15],
       ["glaive", 10],
       ["rapier", 3],
       ["cavalry_sabre", 3],
@@ -4349,6 +4351,7 @@
       ["warhammer", 10],
       ["halberd", 5],
       ["pike", 5],
+      ["pike_inferior", 10],
       ["spear_steel", 5],
       ["helmet_plate", 1],
       ["armor_plate", 2],
@@ -4357,6 +4360,7 @@
       ["quiver_large", 1],
       ["baldric", 4],
       ["nodachi", 1],
+      ["nodachi_inferior", 2],
       ["gambeson", 3],
       ["tunic", 1],
       ["armor_lightplate", 1],
@@ -4402,6 +4406,8 @@
       ["battleaxe_inferior", 30],
       ["cutlass_inferior", 30],
       ["scimitar_inferior", 30],
+      ["mace_inferior", 30],
+      ["morningstar_inferior", 30],
       ["trex_gun", 1],
       ["combination_gun", 1],
       ["700nx", 1],
@@ -5815,6 +5821,7 @@
   },{
     "type" : "item_group",
     "id" : "mil_hw",
+    "magazine": 100,
     "items":[
       { "group" : "mags_milspec", "prob" : 40 },
       ["flamethrower", 20],
@@ -6929,6 +6936,7 @@
   },{
     "type" : "item_group",
     "id" : "tripod",
+    "magazine": 100,
     "items":[
       ["flamethrower", 1],
       ["kevlar_plate", 10],
@@ -6949,6 +6957,7 @@
   },{
     "type" : "item_group",
     "id" : "tankbot",
+    "magazine": 100,
     "items":[
       ["tazer", 3],
       ["flamethrower", 1],
@@ -7077,6 +7086,7 @@
   },{
     "type" : "item_group",
     "id" : "military",
+    "magazine": 100,
     "items":[
       ["m107a1" , 1],
       ["bipod" , 1],
@@ -7856,6 +7866,7 @@
   },{
     "type" : "item_group",
     "id" : "fireman_gear",
+    "magazine": 100,
     "items":[
       ["extinguisher", 10],
       ["sm_extinguisher", 20],
@@ -8133,6 +8144,7 @@
   },{
     "type" : "item_group",
     "id" : "survivorzed_extra",
+    "magazine": 100,
     "items":[
       ["mask_lsurvivor", 10],
       ["mask_survivor", 8],
@@ -8675,7 +8687,11 @@
       ["battleaxe_fake", 6],
       ["battleaxe_inferior", 10],
       ["mace", 1],
+      ["mace_fake", 2],
+      ["mace_inferior", 3],
       ["morningstar", 2],
+      ["morningstar_fake", 3],
+      ["morningstar_inferior", 4],
       ["warhammer", 2],
       ["scythe_war", 2],
       ["pike", 2],

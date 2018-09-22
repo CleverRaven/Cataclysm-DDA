@@ -556,7 +556,7 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-    itype_id linkage = "NULL";
+    cata::optional<itype_id> linkage;
 
     /** If false, ammo will cook off if this mag is affected by fire */
     bool protects_contents = false;
@@ -568,9 +568,9 @@ struct islot_ammo : common_ranged_data {
      */
     std::set<ammotype> type;
     /**
-     * Type id of casings, can be "null" for no casings at all.
+     * Type id of casings, if any.
      */
-    std::string casing = "null";
+    cata::optional<itype_id> casing;
     /**
      * Default charges.
      */
