@@ -1055,7 +1055,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
             if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "* It was frozen once and after thawing became <bad>mushy and tasteless</bad>." ) );
+                                   _( "* It was frozen once and after thawing became <bad>mushy and tasteless</bad>.  It will rot if thawed again." ) );
             }
             if( food_item->has_flag( "NO_PARASITES" ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
                 info.emplace_back( "DESCRIPTION",
