@@ -71,8 +71,6 @@ const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
-const trait_id trait_LEARN_RESTFUL( "LEARN_RESTFUL" );
-
 const vitamin_id vitamin_iron( "iron" );
 
 static void eff_fun_onfire( player &u, effect &it )
@@ -1025,10 +1023,6 @@ void player::hardcoded_effects( effect &it )
             mod_fatigue( -25 );
             add_msg_if_player( m_good, _( "You feel well rested." ) );
             it.set_duration( 1_turns * dice( 3, 100 ) );
-            if( one_in( 100 ) && !has_trait( trait_id( "LEARN_NIGHT_OWL" ) ) && !has_trait( trait_LEARN_RESTFUL ) ) { //TODO: Make this only apply if sleep dep. isn't high
-                add_msg_if_player( m_info, _( "That felt good!  You think you're starting to understand morning people." ) );
-                set_mutation( trait_LEARN_RESTFUL );
-            }
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
