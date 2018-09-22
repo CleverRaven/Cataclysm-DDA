@@ -564,7 +564,7 @@
     "symbol": ",",
     "color": "green",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "flags": [ "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
