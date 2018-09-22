@@ -713,9 +713,12 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
             related_results.push_back( { b->result(), b->result_name() } );
         }
     }
+    std::stable_sort( related_results.begin(), related_results.end(),
+    []( const std::pair<std::string, std::string> &a, const std::pair<std::string, std::string> &b ) {
+        return a.second < b.second;
+    } );
 
     uilist rel_menu;
-    // rmenu.reset();
     int np_last = -1;
     if( !related_components.empty() ) {
         rel_menu.addentry( ++np_last, false, -1, _( "COMPONENTS" ) );
@@ -746,23 +749,32 @@ int related_menu_fill( uilist &rmenu,
         return np_last;
     }
 
+    std::string recipe_name_prev;
     for( const std::pair<itype_id, std::string> &p : related_recipes ) {
+
+        // we have different recipes with the same names
+        // list only one of them as we show and filter by name only
+        std::string recipe_name = p.second;
+        if( recipe_name == recipe_name_prev ) {
+            continue;
+        }
+        recipe_name_prev = recipe_name;
+
         std::vector<const recipe *> current_part = available.search_result( p.first );
         if( !current_part.empty() ) {
 
-            std::string group_name = p.second;
             bool defferent_recipes = false;
 
             // 1st pass: check if we need to add group
             for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                if( current_part[ recipe_n ]->result_name() != group_name ) {
+                if( current_part[ recipe_n ]->result_name() != recipe_name ) {
                     // add group
-                    rmenu.addentry( ++np_last, false, -1, p.second );
+                    rmenu.addentry( ++np_last, false, -1, recipe_name );
                     defferent_recipes = true;
                     break;
                 } else if( recipe_n == current_part.size() - 1 ) {
                     // only one result
-                    rmenu.addentry( ++np_last, true, -1, "- " + group_name );
+                    rmenu.addentry( ++np_last, true, -1, "- " + recipe_name );
                 }
             }
 
