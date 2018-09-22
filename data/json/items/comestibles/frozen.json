@@ -47,7 +47,6 @@
     "fun": 25,
     "health": -6,
     "price": 400,
-    "charges": 2,
     "material": [ "milk", "junk" ]
   },
   {
@@ -119,7 +118,6 @@
     "spoils_in": 48,
     "calories": 148,
     "price": 300,
-    "charges": 4,
     "material": [ "milk", "egg" ]
   },
   {
@@ -131,7 +129,6 @@
     "description": "Tarter than ice cream, this is made with yogurt and other dairy products, and is generally low-fat compared to ice cream itself.",
     "calories": 122,
     "price": 275,
-    "charges": 4,
     "material": [ "milk" ]
   },
   {
@@ -146,6 +143,7 @@
     "quench": 8,
     "fun": 10,
     "price": 175,
+    "charges": 1,
     "material": [ "water", "fruit" ]
   },
   {
