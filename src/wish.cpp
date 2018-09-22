@@ -632,7 +632,7 @@ void debug_menu::wishskill( player *p )
                     const Skill &skill = Skill::skills[skill_id];
                     int changeto = ( skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
                                      ( skset != -1 ? skset : origskills[skill_id] ) );
-                    p->set_skill_level( skill.ident(), changeto );
+                    p->set_skill_level( skill.ident(), std::max( 0, changeto ) );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                             p->get_skill_level( skill.ident() ),
                             skill.name() );
