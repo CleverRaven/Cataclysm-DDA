@@ -873,7 +873,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
                                       get_var( "contained_name" ).c_str() ) ) );
         }
-        if( count_by_charges() && !is_food() && parts->test( iteminfo_parts::BASE_AMOUNT ) ) {
+        if( count_by_charges() && !is_food() && !is_medication() &&
+            parts->test( iteminfo_parts::BASE_AMOUNT ) ) {
             info.push_back( iteminfo( "BASE", _( "Amount: " ), "<num>", charges * batch, true, "", true, false,
                                       true ) );
         }
@@ -910,6 +911,36 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );
+        }
+    }
+
+    const item *med_item = nullptr;
+    if( is_medication() ) {
+        med_item = this;
+    } else if( is_med_container() ) {
+        med_item = &contents.front();
+    }
+    if( med_item != nullptr ) {
+        const auto &med_com = med_item->type->comestible;
+        if( med_com->quench != 0 && parts->test( iteminfo_parts::MED_QUENCH ) ) {
+            info.push_back( iteminfo( "MED", _( "Quench: " ), "", med_com->quench ) );
+        }
+
+        if( med_com->fun != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
+            info.push_back( iteminfo( "MED", _( "Enjoyability: " ), "", g->u.fun_for( *med_item ).first ) );
+        }
+
+        if( med_com->stim != 0 && parts->test( iteminfo_parts::MED_STIMULATION ) ) {
+            info.push_back( iteminfo( "MED", string_format( "%s <stat>%s</stat>", _( "Stimulation:" ),
+                                      med_com->stim > 0 ? _( "Upper" ) : _( "Downer" ) ) ) );
+        }
+
+        if( parts->test( iteminfo_parts::MED_PORTIONS ) ) {
+            info.push_back( iteminfo( "MED", _( "Portions: " ), "", abs( int( med_item->charges ) * batch ) ) );
+        }
+
+        if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
+            info.emplace_back( "DESCRIPTION", _( "* Consuming this item is <bad>addicting</bad>." ) );
         }
     }
 
@@ -2650,15 +2681,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( has_flag( "WET" ) ) {
         ret << _( " (wet)" );
     }
-    if( has_flag( "LITCIG" ) ) {
-        ret << _( " (lit)" );
-    }
     if( already_used_by_player( g->u ) ) {
         ret << _( " (used)" );
     }
-
-    if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
-            typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
+    if( active && ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "LITCIG" ) ) ) {
+        ret << _( " (lit)" );
+    } else if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
+               typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         ret << _( " (active)" );
@@ -3885,6 +3914,11 @@ const std::vector<material_id> &item::made_of() const
     return type->materials;
 }
 
+const std::map<quality_id, int> &item::quality_of() const
+{
+    return type->qualities;
+}
+
 std::vector<const material_type *> item::made_of_types() const
 {
     std::vector<const material_type *> material_types_composed_of;
@@ -4028,6 +4062,11 @@ bool item::is_brewable() const
 bool item::is_food_container() const
 {
     return !contents.empty() && contents.front().is_food();
+}
+
+bool item::is_med_container() const
+{
+    return !contents.empty() && contents.front().is_medication();
 }
 
 bool item::is_corpse() const
@@ -6192,6 +6231,11 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 
 bool item::process_litcig( player *carrier, const tripoint &pos )
 {
+    process_extinguish( carrier, pos );
+    // process_extinguish might have extinguished the item already
+    if( !active ) {
+        return false;
+    }
     field_id smoke_type;
     if( has_flag( "TOBACCO" ) ) {
         smoke_type = fd_cigsmoke;
@@ -6264,6 +6308,76 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
         active = false;
     }
+    // Item remains
+    return false;
+}
+
+bool item::process_extinguish( player *carrier, const tripoint &pos )
+{
+    // checks for water
+    bool extinguish = false;
+    bool in_inv = carrier != nullptr && carrier->has_item( *this );
+    bool submerged = false;
+    bool precipitation = false;
+    switch( g->weather ) {
+        case WEATHER_DRIZZLE:
+        case WEATHER_FLURRIES:
+            precipitation = one_in( 50 );
+            break;
+        case WEATHER_RAINY:
+        case WEATHER_SNOW:
+            precipitation = one_in( 25 );
+            break;
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+        case WEATHER_SNOWSTORM:
+            precipitation = one_in( 10 );
+            break;
+        default:
+            break;
+    }
+    if( in_inv && g->m.has_flag( "DEEP_WATER", pos ) ) {
+        extinguish = true;
+        submerged = true;
+    }
+    if( ( !in_inv && g->m.has_flag( "LIQUID", pos ) ) ||
+        ( precipitation && !g->is_sheltered( pos ) ) ) {
+        extinguish = true;
+    }
+    //if( precipitation && !g->is_sheltered( pos ) ) {
+    //    extinguish = true;
+    //}
+    if( !extinguish ||
+        ( in_inv && precipitation && carrier->weapon.has_flag( "RAIN_PROTECT" ) ) ) {
+        return false; //nothing happens
+    }
+    if( carrier != nullptr ) {
+        if( submerged ) {
+            carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by water." ), tname().c_str() );
+        } else if( precipitation ) {
+            carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by precipitation." ),
+                                        tname().c_str() );
+        }
+    }
+
+    // cig dies out
+    if( has_flag( "LITCIG" ) ) {
+        if( typeId() == "cig_lit" ) {
+            convert( "cig_butt" );
+        } else if( typeId() == "cigar_lit" ) {
+            convert( "cigar_butt" );
+        } else { // joint
+            convert( "joint_roach" );
+        }
+    } else { // transform (lit) items
+        if( type->tool->revert_to != "null" ) {
+            convert( type->tool->revert_to );
+        } else {
+            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos, "transform" );
+        }
+
+    }
+    active = false;
     // Item remains
     return false;
 }
@@ -6448,6 +6562,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
+    }
+    if( has_flag( "WATER_EXTINGUISH" ) && process_extinguish( carrier, pos ) ) {
+        return false;
     }
     if( has_flag( "CABLE_SPOOL" ) ) {
         // DO NOT process this as a tool! It really isn't!

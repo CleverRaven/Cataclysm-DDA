@@ -27,6 +27,7 @@
 #include "crafting.h"
 #include "string_input_popup.h"
 #include "worldfactory.h"
+#include "json.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>
@@ -72,11 +73,11 @@ void draw_points( const catacurses::window &w, points_left &points, int netPoint
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
 struct points_left {
-    int stat_points = 0;
-    int trait_points = 0;
-    int skill_points = 0;
+    int stat_points;
+    int trait_points;
+    int skill_points;
 
-    enum point_limit {
+    enum point_limit : int {
         FREEFORM = 0,
         ONE_POOL,
         MULTI_POOL
@@ -182,7 +183,7 @@ tab_direction set_description( const catacurses::window &w, player &u, bool allo
                                points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-static void save_template( const player &u, const std::string &name );
+static void save_template( const player &u, const std::string &name, const points_left &points );
 void reset_scenario( player &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -217,21 +218,6 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
             return selected;
         }
     }
-}
-
-bool player::load_template( const std::string &template_name )
-{
-    return read_from_file( FILENAMES["templatedir"] + utf8_to_native( template_name ) +
-    ".template", [&]( std::istream & fin ) {
-        std::string data;
-        getline( fin, data );
-        load_info( data );
-
-        if( MAP_SHARING::isSharing() ) {
-            // just to make sure we have the right name
-            name = MAP_SHARING::getUsername();
-        }
-    } );
 }
 
 void player::randomize( const bool random_scenario, points_left &points, bool play_now )
@@ -457,12 +443,9 @@ bool player::create( character_type type, const std::string &tempname )
             randomize( true, points, true );
             break;
         case PLTYPE_TEMPLATE:
-            if( !load_template( tempname ) ) {
+            if( !load_template( tempname, points ) ) {
                 return false;
             }
-            points.stat_points = 0;
-            points.trait_points = 0;
-            points.skill_points = 0;
             // We want to prevent recipes known by the template from being applied to the
             // new character. The recipe list will be rebuilt when entering the game.
             learned_recipes->clear();
@@ -543,7 +526,7 @@ bool player::create( character_type type, const std::string &tempname )
         return false;
     }
 
-    save_template( *this, _( "Last Character" ) );
+    save_template( *this, _( "Last Character" ), points );
 
     recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -2379,29 +2362,8 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
             // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
             return tab_direction::NONE;
         } else if( action == "SAVE_TEMPLATE" ) {
-            static const auto save_template = [&u]() {
-                if( const auto name = query_for_template_name() ) {
-                    ::save_template( u, *name );
-                }
-            };
-            if( points.has_spare() ) {
-                if( query_yn( _( "You are attempting to save a template with unused points. "
-                                 "Any unspent points will be lost, are you sure you want to proceed?" ) ) ) {
-                    save_template();
-                }
-            } else if( !points.is_valid() ) {
-                if( points.skill_points_left() < 0 ) {
-                    popup( _( "You cannot save a template with this many points allocated, change some features and try again." ) );
-                } else if( points.trait_points_left() < 0 ) {
-                    popup( _( "You cannot save a template with this many trait points allocated, change some traits or lower some stats and try again." ) );
-                } else if( points.stat_points_left() < 0 ) {
-                    popup( _( "You cannot save a template with this many stat points allocated, lower some stats and try again." ) );
-                } else {
-                    popup( _( "You cannot save a template with negative unused points." ) );
-                }
-
-            } else {
-                save_template();
+            if( const auto name = query_for_template_name() ) {
+                ::save_template( u, *name, points );
             }
             redraw = true;
         } else if( action == "PICK_RANDOM_NAME" ) {
@@ -2557,7 +2519,7 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
-void save_template( const player &u, const std::string &name )
+void save_template( const player &u, const std::string &name, const points_left &points )
 {
     std::string native = utf8_to_native( name );
 #if (defined _WIN32 || defined __WIN32__)
@@ -2571,10 +2533,57 @@ void save_template( const player &u, const std::string &name )
         return;
     }
 #endif
-    std::string playerfile = FILENAMES["templatedir"] + native + ".template";
-    write_to_file( playerfile, [&]( std::ostream & fout ) {
-        fout << u.save_info();
+
+    write_to_file( FILENAMES["templatedir"] + native + ".template", [&]( std::ostream & fout ) {
+        JsonOut jsout( fout, true );
+
+        jsout.start_array();
+
+        jsout.start_object();
+        jsout.member( "stat_points", points.stat_points );
+        jsout.member( "trait_points", points.trait_points );
+        jsout.member( "skill_points", points.skill_points );
+        jsout.member( "limit", points.limit );
+        jsout.end_object();
+
+        u.serialize( jsout );
+
+        jsout.end_array();
     }, _( "player template" ) );
+}
+
+bool player::load_template( const std::string &template_name, points_left &points )
+{
+    return read_from_file_json( FILENAMES["templatedir"] + utf8_to_native( template_name ) +
+    ".template", [&]( JsonIn & jsin ) {
+
+        if( jsin.test_array() ) {
+            // not a legacy template
+            jsin.start_array();
+
+            if( jsin.end_array() ) {
+                return;
+            }
+
+            JsonObject jobj = jsin.get_object();
+
+            points.stat_points = jobj.get_int( "stat_points" );
+            points.trait_points = jobj.get_int( "trait_points" );
+            points.skill_points = jobj.get_int( "skill_points" );
+            points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
+
+            if( jsin.end_array() ) {
+                return;
+            }
+        }
+
+        deserialize( jsin );
+
+        if( MAP_SHARING::isSharing() ) {
+            // just to make sure we have the right name
+            name = MAP_SHARING::getUsername();
+        }
+    } );
 }
 
 void reset_scenario( player &u, const scenario *scen )

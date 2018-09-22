@@ -768,6 +768,10 @@ class item : public visitable<item>
          */
         const std::vector<material_id> &made_of() const;
         /**
+        * The ids of all the qualities this contains.
+        */
+        const std::map<quality_id, int> &quality_of() const;
+        /**
          * Same as @ref made_of(), but returns the @ref material_type directly.
          */
         std::vector<const material_type *> made_of_types() const;
@@ -936,6 +940,7 @@ class item : public visitable<item>
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );
+        bool process_extinguish( player *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( player *carrier, const tripoint &pos );
         bool process_cable( player *carrier, const tripoint &pos );
@@ -973,6 +978,7 @@ class item : public visitable<item>
         bool is_comestible() const;
         bool is_food() const;                // Ignoring the ability to eat batteries, etc.
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
+        bool is_med_container() const;
         bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
         bool is_medication() const;            // Is it a medication that only pretends to be food?
         bool is_bionic() const;

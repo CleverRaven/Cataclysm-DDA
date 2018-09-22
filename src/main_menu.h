@@ -59,6 +59,11 @@ class main_menu
         bool load_character_tab();
         void world_tab();
 
+        /*
+         * Load character templates from template folder
+         */
+        void load_char_templates();
+
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
         input_context ctxt;

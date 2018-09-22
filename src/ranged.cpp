@@ -267,7 +267,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
                 gun.ammo_type() == ammotype( "84x246mm" ) || gun.ammo_type() == ammotype( "m235" ) ) {
                 add_msg_if_player( m_good, string_format(
                                        _( "You feel a surge of euphoria as flames roar out of the %s!" ), gun.tname().c_str() ) );
-                add_morale( MORALE_PYROMANIA_STARTFIRE, 25, 25, 24_hours, 4_hours );
+                add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
         }
@@ -1466,14 +1466,15 @@ static void cycle_action( item &weap, const tripoint &pos )
         cargo = vp->vehicle().get_parts( pos, "CARGO" );
     }
 
-    if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
+    if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
+        const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.contents.push_back( item( weap.ammo_data()->ammo->casing ).set_flag( "CASING" ) );
+            weap.contents.push_back( item( casing ).set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
-                g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing ) );
+                g->m.add_item_or_charges( eject, item( casing ) );
             } else {
-                vp->vehicle().add_item( *cargo.front(), item( weap.ammo_data()->ammo->casing ) );
+                vp->vehicle().add_item( *cargo.front(), item( casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
