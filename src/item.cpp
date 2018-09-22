@@ -5995,7 +5995,8 @@ void item::apply_freezerburn()
 
 static int temp_difference_ratio( const int temp_one, const int temp_two )
 {
-    return std::max( abs( temp_one - temp_two ) / 5, ( 1 ) );
+    // increments of 10F (~5.5C), clamped to 1-4F (~0.55-2.22C)
+    return clamp( abs( temp_one - temp_two ) / 10,  1, 4 );
 }
 
 void item::update_temp( const int temp, const float insulation )
@@ -6020,45 +6021,74 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
+    // we simulate the maximum temperature an item can retain by its mass
+    // TODO: Limit max frozen by this as well (don't forget to fix deep freeze
+    // parasites if you do).
+    const int max_heat = clamp( to_gram( weight() ), 100, 600 );
     const int freeze_point = type->comestible->freeze_point;
     bool is_hot = item_tags.count( "HOT" );
+    bool is_warm = item_tags.count( "WARM" );
     bool is_cold = item_tags.count( "COLD" );
     bool is_frozen = item_tags.count( "FROZEN" );
     int loop_diff = 0;
-    int diff = temp <= freeze_point || is_frozen ?
-               temp_difference_ratio( temp, freeze_point ) :
-               temp_difference_ratio( temp, temperatures::cold );
+    int diff = is_frozen ? temp_difference_ratio( temp, freeze_point ) :
+               is_cold ? temp_difference_ratio( temp, temperatures::cold ) :
+               is_hot || is_warm ? temp_difference_ratio( temp, temperatures::hot ) :
+               temp_difference_ratio( temp, temperatures::normal );
     diff *= to_turns<int>( time );
     diff /= std::max( insulation, static_cast<float>( 0.1 ) );
     // no matter how much insulation temperature will shift at least a 1 degree
     // every ten turns if less than cold
     diff = std::max( diff, 1 );
 
-    do {
-        // process diff in chunks of 600 because that's the barrier at which a
-        // something can become frozen or cold
-        loop_diff = std::min( 600, diff );
-        if( diff >= 600 ) {
-            diff -= 600;
-        } else  {
-            diff = 0;
-        }
+    // process diff in chunks of 600 because that's the barrier at which a
+    // something can become frozen or cold, we do this once here and at the end
+    // of the loop to avoid looping twice if possible
+    loop_diff = std::min( 600, diff );
+    if( diff >= 600 ) {
+        diff -= 600;
+    } else  {
+        diff = 0;
+    }
 
+    do {
         if( is_hot ) {
-            // for now a hot item can only ever cool off
-            item_counter -= loop_diff;
+            if( temp >= temperatures::hot ) {
+                item_counter += loop_diff;
+            } else {
+                item_counter -= loop_diff;
+            }
             if( item_counter <= 0 ) {
                 item_tags.erase( "HOT" );
-                // if current temp is less than cold, start ticking
-                // item_counter for cold, otherwise we're done because item
-                // cannot cool further
-                if( temp < temperatures::cold ) {
-                    item_counter = -item_counter;
-                } else {
-                    item_counter = 0;
+                item_tags.insert( "WARM" );
+                item_counter = 1;
+                is_warm = true;
+                is_hot = false;
+            } else if( item_counter > max_heat ) {
+                // item cannot heat any further
+                item_counter = max_heat;
+                return;
+            }
+        } else if( is_warm ) {
+            if( temp >= temperatures::hot ) {
+                item_counter += loop_diff;
+            } else {
+                item_counter -= loop_diff;
+            }
+
+            if( item_counter <= 0 ) {
+                item_tags.erase( "WARM" );
+                item_counter = 0;
+                if( temp > temperatures::cold ) {
+                    // item cannot cool any further, we're done
                     return;
                 }
-                is_hot = false;
+                is_warm = false;
+            } else if( item_counter >= 600 ) {
+                item_tags.erase( "WARM" );
+                item_tags.insert( "HOT" );
+                is_warm = false;
+                is_hot = true;
             }
         } else if( is_cold ) {
             if( temp <= temperatures::cold ) {
@@ -6068,7 +6098,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                         // if temp is colder than freeze point start ticking frozen
                         item_tags.erase( "COLD" );
                         item_tags.insert( "FROZEN" );
-                        item_counter -= 600;
+                        item_counter = 1;
                         is_cold = false;
                         is_frozen = true;
                     } else {
@@ -6108,10 +6138,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             } else {
                 item_counter -= loop_diff;
                 // item is defrosting
-                if( item_counter <= 0 ) {
+                if( item_counter < 0 ) {
                     apply_freezerburn(); // removes frozen tag and applies mushy/rot if needed
                     item_tags.insert( "COLD" );
-                    item_counter += 600;
+                    item_counter = 600;
                     is_frozen = false;
                     is_cold = true;
                 }
@@ -6121,19 +6151,33 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             item_counter += loop_diff;
             if( item_counter > 600 ) {
                 item_tags.insert( "COLD" );
-                item_counter -= 600;
+                item_counter = 1;
                 is_cold = true;
             }
-        } else {
-            // no tags yet and temp is warming
+        } else if( temp >= temperatures::hot ) {
+            // if we have item_counters without a tag we were starting to
+            // increment toward cold, remove counters until we don't have any,
+            // then add warm tag and start to increment with WARM tag
             item_counter -= loop_diff;
-            // negative item_counter without a tag doesn't compute yet
-            // we're done in this case
-            // TODO make it warm/hot?
+            if( item_counter < 0 ) {
+                item_tags.insert( "WARM" );
+                item_counter = std::max( 600, -item_counter );
+                is_warm = true;
+            }
+        } else {
+            // no tags yet and not heating or cooling
+            item_counter -= loop_diff;
             if( item_counter < 0 ) {
                 item_counter = 0;
                 return;
             }
+        }
+
+        loop_diff = std::min( 600, diff );
+        if( diff >= 600 ) {
+            diff -= 600;
+        } else  {
+            diff = 0;
         }
     } while( loop_diff > 0 || item_counter < 0 || item_counter > 600 );
 }
@@ -6142,6 +6186,7 @@ void item::heat_up()
 {
     item_tags.erase( "COLD" );
     item_tags.erase( "FROZEN" );
+    item_tags.erase( "WARM" );
     item_tags.insert( "HOT" );
     // links the amount of heat an item can retain to its mass
     item_counter = clamp( to_gram( weight() ), 100, 600 );;
