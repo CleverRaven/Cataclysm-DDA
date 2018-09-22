@@ -20,6 +20,7 @@
     "price": 250,
     "material": "milk",
     "phase": "liquid",
+    "charges": 2,
     "flags": [ "MELTS" ]
   },
   {
@@ -46,6 +47,7 @@
     "fun": 25,
     "health": -6,
     "price": 400,
+    "charges": 2,
     "material": [ "milk", "junk" ]
   },
   {
@@ -68,6 +70,7 @@
     "material": "milk",
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
+    "charges": 4,
     "flags": [ "MELTS" ]
   },
   {
@@ -116,6 +119,7 @@
     "spoils_in": 48,
     "calories": 148,
     "price": 300,
+    "charges": 4,
     "material": [ "milk", "egg" ]
   },
   {
@@ -127,6 +131,7 @@
     "description": "Tarter than ice cream, this is made with yogurt and other dairy products, and is generally low-fat compared to ice cream itself.",
     "calories": 122,
     "price": 275,
+    "charges": 4,
     "material": [ "milk" ]
   },
   {
@@ -152,6 +157,7 @@
     "description": "Italian-style ice cream.  Less airy, and more dense, giving it a richer flavor and texture.",
     "calories": 174,
     "price": 300,
+    "charges": 2,
     "material": [ "milk" ]
   }
 ]
