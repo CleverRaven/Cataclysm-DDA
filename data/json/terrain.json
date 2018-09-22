@@ -3010,7 +3010,7 @@
     "transforms_into": "t_tree_walnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "walnut", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "walnut", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -3052,7 +3052,7 @@
     "transforms_into": "t_tree_chestnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "chestnut", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "chestnut", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -3094,7 +3094,7 @@
     "transforms_into": "t_tree_beech_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "beech_nuts", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "beech_nuts", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -3136,7 +3136,7 @@
     "transforms_into": "t_tree_hazelnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "hazelnut", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "hazelnut", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -3178,7 +3178,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_harvested",
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "acorns", "base_num": [ 3, 8 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "acorns", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -3836,7 +3836,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "tree_hickory",
     "harvest_by_season": [
-      { "seasons": [ "autumn" ], "entries": [ { "drop": "hickory_nut", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+      { "seasons": [ "autumn" ], "entries": [ { "drop": "hickory_nut", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] }
     ],
     "transforms_into": "t_tree_hickory_harvested",
     "bash": {
@@ -3879,7 +3879,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "harvest_ter",
     "harvest_by_season": [
-      { "seasons": [ "autumn" ], "entries": [ { "drop": "pecan", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+      { "seasons": [ "autumn" ], "entries": [ { "drop": "pecan", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] }
     ],
     "transforms_into": "t_tree_pecan_harvested",
     "bash": {
@@ -4092,7 +4092,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_peanut_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "peanut", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "peanut", "base_num": [ 5, 10 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
