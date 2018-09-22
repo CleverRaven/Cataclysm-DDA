@@ -5435,6 +5435,25 @@
         "cancels": ["ILLITERATE"]
     },{
         "type" : "mutation",
+        "id" : "LEARN_ACQUIESCENCE",
+        "name" : "Acquiescence",
+        "points" : 0,
+        "description" : "You understand now that the world has moved on.  Meat from humans is still meat, no matter how you spin it.  It's not like the zombies feel bad about eating it, and they seem to be doing just fine.",
+        "purifiable" : false,
+        "valid" : false,
+        "learned" : true,
+        "flags" : ["CANNIBAL"]
+    },{
+        "type" : "mutation",
+        "id" : "LEARN_RESOLUTION",
+        "name" : "Resolution",
+        "points" : 0,
+        "description" : "The human race might have fallen, but you will *not* give up on them.  Your conscience is what separates you from the living dead, and you won't forsake that... no matter how hungry you are.",
+        "purifiable" : false,
+        "valid" : false,
+        "learned" : true
+    },{
+        "type" : "mutation",
         "id" : "NPC_BRANDY",
         "name" : "Carries Brandy",
         "points" : 0,

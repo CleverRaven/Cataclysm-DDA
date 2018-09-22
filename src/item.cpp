@@ -991,8 +991,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( food_item->has_flag( "CANNIBALISM" ) && parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-            if( !g->u.has_trait_flag( "CANNIBAL" ) ) {
+            const bool starving = g->u.get_starvation() >= 3000;
+            if( !g->u.has_trait_flag( "CANNIBAL" ) && !starving ) {
                 info.emplace_back( "DESCRIPTION", _( "* This food contains <bad>human flesh</bad>." ) );
+            } else if( starving ) {
+                info.emplace_back( "DESCRIPTION", _( "* This food contains <neutral>human flesh</neutral>, but you're so hungry..." ) );
             } else {
                 info.emplace_back( "DESCRIPTION", _( "* This food contains <good>human flesh</good>." ) );
             }

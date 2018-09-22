@@ -1684,6 +1684,13 @@ void options_manager::init()
     "any"
        );
 
+    mOptionsSort["world_default"]++;
+
+    add( "LEARNED_TRAITS", "world_default", translate_marker( "Learned traits" ),
+         translate_marker( "If true, you may gain permanent, unique traits through certain actions in-game." ),
+         true
+        );
+
 #ifdef __ANDROID__
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
          translate_marker( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),

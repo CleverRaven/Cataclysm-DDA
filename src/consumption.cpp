@@ -422,7 +422,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
     }
 
     const bool carnivore = has_trait( trait_id( "CARNIVORE" ) );
-    if( food.has_flag( "CANNIBALISM" ) && !has_trait_flag( "CANNIBAL" ) ) {
+    if( food.has_flag( "CANNIBALISM" ) && !has_trait_flag( "CANNIBAL" ) && get_starvation() < 3000 ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -646,6 +646,9 @@ bool player::eat( item &food, bool force )
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         const bool cannibal = has_trait( trait_id( "CANNIBAL" ) );
         const bool psycho = has_trait( trait_id( "PSYCHOPATH" ) ) || has_trait( trait_id( "SAPIOVORE" ) );
+        const bool starving = get_starvation() >= 3000;
+        const bool acquiesced = has_trait( trait_id( "LEARN_ACQUIESCENCE " ) );
+        const bool resolution = has_trait( trait_id( "LEARN_RESOLUTION" ) );
         if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
@@ -667,13 +670,32 @@ bool player::eat( item &food, bool force )
             add_morale( MORALE_CANNIBAL, 5, 50 );
         } else if( psycho ) {
             add_msg_if_player( _( "Meh. You've eaten worse." ) );
-        } else if( spiritual ) {
-            add_msg_if_player( m_bad,
-                               _( "This is probably going to count against you if there's still an afterlife." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
-        } else {
-            add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
+        } else if( !has_trait_flag( "CANNIBAL" ) ) {
+            if( starving && !resolution ) {
+                if( one_in( 100 ) && !acquiesced && !resolution && get_option<bool>( "LEARNED_TRAITS" ) ) { //if you're desperate, your shift might change...
+                    if( x_in_y( 3, 4 ) || has_trait( trait_id( "STRONGSTOMACH" ) ) ) { //...come to terms with it
+                        add_msg_if_player( m_info, _( "You know... the world has has moved on.  There's no need to feel so terrible about all this..." ) );
+                        set_mutation( trait_id( "LEARN_ACQUIESCENCE" ) );
+                        rem_morale( MORALE_CANNIBAL );
+                        add_morale( MORALE_CANNIBAL, -25, -25, 30_minutes, 30_minutes );
+                    } else { //...reject it
+                        add_msg_if_player( m_info, _( "This is disgusting.  How many people have you eaten by now?  It stops here.  Now." ) );
+                        set_mutation( trait_id( "LEARN_RESOLUTION" ) );
+                    }
+                } else {
+                    add_msg_if_player( m_bad, _( "You feel awful for eating someone, but you're so weak from hunger..." ) );
+                    add_morale( MORALE_CANNIBAL, -10, -400, 60_minutes, 30_minutes );
+                }
+            } else {
+                if( spiritual ) {
+                    add_msg_if_player( m_bad, _( "This is probably going to count against you if there's still an afterlife." ) );
+                } else if( resolution ) {
+                    add_msg_if_player( m_bad, _( "You feel despicable for eating someone in spite of your vow." ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
+                }
+                add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
+            }
         }
     }
     // Mushy has no extra effects here as they are applied in fun_for() calculation

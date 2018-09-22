@@ -319,6 +319,8 @@ static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LARGE( "LARGE" );
 static const trait_id trait_LARGE_OK( "LARGE_OK" );
+static const trait_id trait_LEARN_NIGHT_OWL( "LEARN_NIGHT_OWL" );
+static const trait_id trait_LEARN_RESTFUL( "LEARN_RESTFUL" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -884,9 +886,17 @@ void player::update_mental_focus()
     focus_pool += ( gain * base_change );
 
     // Fatigue should at least prevent high focus
-    // This caps focus gain at 60(arbitrary value) if you're Dead Tired
-    if( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) {
-        focus_pool = 60;
+    // This caps focus gain at 60(arbitrary value) if you're Dead Tired, or 80 if you have Night Owl
+    if( get_fatigue() >= DEAD_TIRED ) {
+        if( has_trait( trait_LEARN_NIGHT_OWL ) ) {
+            if( focus_pool > 80 ) {
+                focus_pool = 80;
+            }
+        } else {
+            if( focus_pool > 60 ) {
+                focus_pool = 60;
+            }
+        }
     }
 
     // Moved from calc_focus_equilibrium, because it is now const
@@ -4209,6 +4219,10 @@ void player::check_needs_extremes()
             if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep( 5_turns );
+            }
+            if( one_in( 100800 ) && !has_trait( trait_LEARN_NIGHT_OWL ) && !has_trait( trait_LEARN_RESTFUL ) && get_option<bool>( "LEARNED_TRAITS" ) ) {
+                add_msg_if_player( m_info, _( "You've spent so long exhausted, you're starting to get used to it..." ) );
+                set_mutation( trait_LEARN_NIGHT_OWL );
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
