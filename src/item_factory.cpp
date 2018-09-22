@@ -2528,14 +2528,11 @@ bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag i
 void item_group::debug_spawn()
 {
     std::vector<std::string> groups = item_controller->get_all_group_names();
-    uimenu menu;
-    menu.return_invalid = true;
+    uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.push_back( uimenu_entry( i, true, -2, groups[i] ) );
     }
-    //~ Spawn group menu: Menu entry to exit menu
-    menu.entries.push_back( uimenu_entry( menu.entries.size(), true, -2, _( "cancel" ) ) );
     while( true ) {
         menu.query();
         const int index = menu.ret;
@@ -2555,8 +2552,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames ) {
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
-        uimenu menu2;
-        menu2.return_invalid = true;
+        uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;
