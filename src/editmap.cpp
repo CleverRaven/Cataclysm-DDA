@@ -1552,7 +1552,7 @@ int editmap::select_shape( shapetype shape, int mode )
         if( action == "RESIZE" ) {
             if( ! moveall ) {
                 const int offset = g->right_sidebar ? -16 : 16;
-                uimenu smenu;
+                uilist smenu;
                 smenu.text = _( "Selection type" );
                 smenu.w_x = ( offsetX + offset ) / 2;
                 smenu.addentry( editmap_rect, true, 'r', pgettext( "shape", "Rectangle" ) );
@@ -1562,7 +1562,9 @@ int editmap::select_shape( shapetype shape, int mode )
                 smenu.addentry( -2, true, 'p', pgettext( "shape", "Point" ) );
                 smenu.selected = ( int )shape;
                 smenu.query();
-                if( smenu.ret != -2 ) {
+                if( smenu.ret == UIMENU_CANCEL ) {
+                    // canceled
+                } else if( smenu.ret != -2 ) {
                     shape = ( shapetype )smenu.ret;
                     update = true;
                 } else {
