@@ -1295,22 +1295,19 @@ enum editmap_imenu_ent {
 int editmap::edit_itm()
 {
     int ret = 0;
-    uimenu ilmenu;
+    uilist ilmenu;
     ilmenu.w_x = offsetX;
     ilmenu.w_y = 0;
     ilmenu.w_width = width;
     ilmenu.w_height = TERMY - infoHeight - 1;
-    ilmenu.return_invalid = true;
     auto items = g->m.i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
         ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
                          an_item.is_emissive() ? " L" : "" );
     }
-    // @todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
-    ilmenu.addentry( -5, true, 'a', _( "Add item" ) );
+    ilmenu.addentry( items.size(), true, 'a', _( "Add item" ) );
 
-    ilmenu.addentry( -10, true, 'q', _( "Cancel" ) );
     do {
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < ( int )items.size() ) {
@@ -1374,8 +1371,7 @@ int editmap::edit_itm()
                 }
             } while( imenu.ret != imenu_exit );
             wrefresh( w_info );
-        } else if( ilmenu.ret == -5 ) {
-            ilmenu.ret = UIMENU_INVALID;
+        } else if( ilmenu.ret == static_cast<int>( items.size() ) ) {
             debug_menu::wishitem( nullptr, target.x, target.y, target.z );
             ilmenu.entries.clear();
             i = 0;
@@ -1383,15 +1379,15 @@ int editmap::edit_itm()
                 ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
                                  an_item.is_emissive() ? " L" : "" );
             }
-            ilmenu.addentry( -5, true, 'a',
+            ilmenu.addentry( items.size(), true, 'a',
                              pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
-            ilmenu.addentry( -10, true, 'q', pgettext( "item manipulation debug menu entry", "Cancel" ) );
             update_view( true );
             ilmenu.setup();
             ilmenu.filterlist();
             ilmenu.refresh();
         }
-    } while( ilmenu.ret >= 0 || ilmenu.ret == UIMENU_INVALID );
+    } while( ilmenu.ret != UIMENU_CANCEL );
+    g->draw_sidebar();
     return ret;
 }
 
