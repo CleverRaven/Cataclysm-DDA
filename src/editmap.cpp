@@ -290,13 +290,6 @@ tripoint editmap::screen2pos( const tripoint &p )
 }
 
 /*
- * standardized Escape/Back up keys: Esc, q, Space
- */
-bool menu_escape( int ch )
-{
-    return ( ch == KEY_ESCAPE || ch == ' ' || ch == 'q' );
-}
-/*
  * get_direction with extended moving via HJKL keys
  */
 bool editmap::eget_direction( tripoint &p, const std::string &action ) const
@@ -1630,7 +1623,7 @@ int editmap::select_shape( shapetype shape, int mode )
 /*
  * Display mapgen results over selected target position, and optionally regenerate / apply / abort
  */
-int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
+int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
 {
     int ret = 0;
 
@@ -2097,14 +2090,13 @@ class edit_mapgen_callback : public uimenu_callback
 int editmap::edit_mapgen()
 {
     int ret = 0;
-    uimenu gmenu;
+    uilist gmenu;
     gmenu.w_width = width;
     gmenu.w_height = TERMY - infoHeight;
     gmenu.w_y = 0;
     gmenu.w_x = offsetX;
     edit_mapgen_callback cb( this );
     gmenu.callback = &cb;
-    gmenu.return_invalid = true;
 
     for( size_t i = 0; i < overmap_terrains::get_all().size(); i++ ) {
         const oter_id id( i );
@@ -2144,7 +2136,8 @@ int editmap::edit_mapgen()
         if( gmenu.ret > 0 ) {
             mapgen_preview( tc, gmenu );
         }
-    } while( ! menu_escape( gmenu.keypress ) );
+    } while( gmenu.ret != UIMENU_CANCEL );
+    g->draw_sidebar();
     return ret;
 }
 
