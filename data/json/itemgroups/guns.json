@@ -2,7 +2,6 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common",
-    "magazine": 100,
     "//": "Pistols commonly owned by citizens and found in many locations.",
     "items": [
       [ "glock_17", 35 ],
@@ -21,7 +20,6 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare",
-    "magazine": 100,
     "//": "Less common pistols including those only used by police/paramilitary forces.",
     "items": [
       [ "deagle_44", 35 ],
@@ -44,7 +42,6 @@
   {
     "type": "item_group",
     "id": "guns_pistol_milspec",
-    "magazine": 100,
     "//": "Military specification pistols only ever found at military sites.",
     "items": [
       [ "hk_ucp", 100 ],
@@ -58,7 +55,6 @@
   {
     "type": "item_group",
     "id": "guns_pistol_obscure",
-    "magazine": 100,
     "//": "Imported or otherwise very obscure pistols.",
     "items": [
       [ "cop_38", 100 ],
@@ -85,7 +81,6 @@
   {
     "type": "item_group",
     "id": "guns_smg_common",
-    "magazine": 100,
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
       [ "tommygun", 70 ],
@@ -97,7 +92,6 @@
   {
     "type": "item_group",
     "id": "guns_smg_rare",
-    "magazine": 100,
     "//": "Less common SMGs including those only used by police/paramilitary forces.",
     "items": [
       [ "calico", 30 ],
@@ -114,7 +108,6 @@
   {
     "type": "item_group",
     "id": "guns_smg_milspec",
-    "magazine": 100,
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
       [ "hk_mp7", 100 ],
@@ -125,7 +118,6 @@
   {
     "type": "item_group",
     "id": "guns_smg_obscure",
-    "magazine": 100,
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
       [ "ppsh", 150 ],
@@ -143,7 +135,6 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common",
-    "magazine": 100,
     "//": "Rifles commonly owned by citizens and found in many locations.",
     "items": [
       [ "browning_blr", 25 ],
@@ -164,7 +155,6 @@
   {
     "type": "item_group",
     "id": "guns_rifle_rare",
-    "magazine": 100,
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
       [ "acr", 25 ],
@@ -191,7 +181,6 @@
   {
     "type": "item_group",
     "id": "guns_rifle_milspec",
-    "magazine": 100,
     "//": "Military specification rifles only ever found at military sites.",
     "items": [
       [ "h&k416a5", 50 ],
@@ -218,7 +207,6 @@
   {
     "type": "item_group",
     "id": "guns_energy",
-    "magazine": 100,
     "//": "Assorted factory crafted energy weapons.",
     "items":[
       [ "laser_rifle", 30 ],
@@ -230,7 +218,6 @@
   {
     "type": "item_group",
     "id": "guns_rifle_obscure",
-    "magazine": 100,
     "//": "Imported or otherwise very obscure rifles.",
     "items": [
       [ "ak47", 100 ],
@@ -247,7 +234,6 @@
   {
     "type": "item_group",
     "id": "guns_rifle_improvised",
-    "magazine": 100,
     "//": "Makeshift or otherwise poor quality rifles.",
     "items": [
       [ "rifle_22", 60 ],
@@ -270,7 +256,6 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_rare",
-    "magazine": 100,
     "//": "Less common shotguns including those only used by police/paramilitary forces.",
     "items": [
       [ "ksg", 50 ],
@@ -283,7 +268,6 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_milspec",
-    "magazine": 100,
     "//": "Military specification shotguns only ever found at military sites.",
     "items": [
       [ "l_def_12", 100 ],
@@ -300,7 +284,6 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_improvised",
-    "magazine": 100,
     "//": "Makeshift or otherwise poor quality shotguns.",
     "items": [
       [ "blunderbuss", 70 ],
@@ -314,7 +297,6 @@
   {
     "type": "item_group",
     "id": "guns_launcher_flame",
-    "magazine": 100,
     "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
     "items": [
       [ "flamethrower", 50 ],
@@ -324,7 +306,6 @@
   {
     "type": "item_group",
     "id": "guns_launcher_grenade",
-    "magazine": 100,
     "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
     "items": [
       [ "m320", 75 ],
@@ -427,7 +408,6 @@
   {
     "type": "item_group",
     "id": "guns_cop",
-    "magazine": 100,
     "//": "Police issue weapons of all types",
     "items":[
       ["ar15", 15],
@@ -450,7 +430,6 @@
   {
     "type": "item_group",
     "id": "guns_swat",
-    "magazine": 100,
     "//": "Guns issued to paramilitary forces in addition to standard police issue.",
     "items": [
       { "group": "guns_cop", "prob": 100 },
@@ -462,7 +441,6 @@
   {
     "type": "item_group",
     "id": "guns_survival",
-    "magazine": 100,
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [
       { "group": "guns_improvised", "prob": 200 },
