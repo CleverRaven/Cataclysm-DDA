@@ -1356,6 +1356,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Haul items along the ground",
+    "category": "DEFAULTMODE",
+    "id": "haul",
+    "bindings": [ { "input_method": "keyboard", "key": "\\" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Zone activities",
     "category": "DEFAULTMODE",
     "id": "loot",

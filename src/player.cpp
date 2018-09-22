@@ -504,6 +504,7 @@ player::player() : Character()
     controlling_vehicle = false;
     grab_point = {0, 0, 0};
     grab_type = OBJECT_NONE;
+    hauling = false;
     move_mode = "walk";
     style_selected = style_none;
     keep_hands_free = false;
@@ -2978,6 +2979,9 @@ void player::toggle_move_mode()
     if( move_mode == "walk" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
             move_mode = "run";
+            if( is_hauling() ) {
+                stop_hauling();
+            }
             add_msg(_("You start running."));
         } else {
             add_msg(m_bad, _("You're too tired to run."));
@@ -10763,6 +10767,9 @@ bool player::has_activity(const activity_id type) const
 
 void player::cancel_activity()
 {
+    if ( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
+        stop_hauling();
+    }
     // Clear any backlog items that aren't auto-resume.
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
         if( backlog_item->auto_resume ) {
@@ -11167,6 +11174,26 @@ void player::grab( object_type grab_type, const tripoint &grab_point )
 object_type player::get_grab_type() const
 {
     return grab_type;
+}
+
+void player::start_hauling()
+{
+    add_msg( _( "You start hauling items along the ground." ) );
+    this->hauling = true;
+}
+
+void player::stop_hauling()
+{
+    add_msg( _( "You stop hauling items." ) );
+    this->hauling = false;
+    if ( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) ) {
+        cancel_activity();
+    }
+}
+
+bool player::is_hauling() const
+{
+    return hauling;
 }
 
 bool player::has_weapon() const

@@ -534,6 +534,29 @@ static void grab()
     }
 }
 
+static void haul()
+{
+    player &u = g->u;
+    map &m = g->m;
+
+    if( u.is_hauling() ) {
+        u.stop_hauling();
+    } else {
+        if( m.veh_at( u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul inside vehicles." ) );
+        } else if( m.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul while in deep water." ) );
+        } else if( !m.can_put_items( u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul items here." ) );
+        } else if( ! m.has_items( u.pos() ) ) {
+            add_msg( m_info, _( "There are no items to haul here." ) );
+        } else {
+            u.start_hauling();
+        }
+    }
+}
+
+
 static void smash()
 {
     player &u = g->u;
@@ -1402,6 +1425,14 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
                 } else {
                     grab();
+                }
+                break;
+
+            case ACTION_HAUL:
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't haul things while you're in your shell." ) );
+                } else {
+                    haul();
                 }
                 break;
 

@@ -2307,6 +2307,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
     ctxt.register_action( "grab" );
+    ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
     ctxt.register_action( "chat" );
     ctxt.register_action( "look" );
@@ -10604,6 +10605,24 @@ bool game::walk_move( const tripoint &dest_loc )
         }
     }
 
+    if( u.is_hauling() ) {
+        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+        u.activity.values.push_back( false );
+        u.activity.values.push_back( false );
+        u.activity.coords.push_back( tripoint( 0, 0, 0 ) );
+        u.activity.placement = u.pos() - dest_loc;
+        map_stack items = m.i_at( u.pos() );
+        if( items.empty() ) {
+            u.stop_hauling();
+        }
+        int index = 0;
+        for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
+            int amount = it->count_by_charges() ? it->charges : 1;
+            u.activity.values.push_back( index );
+            u.activity.values.push_back( amount );
+        }
+    }
+
     if( dest_loc != u.pos() ) {
         u.lifetime_stats.squares_walked++;
     }
@@ -10696,6 +10715,12 @@ void game::place_player( const tripoint &dest_loc )
     // Start with z-level, to make it less likely that old functions (2D ones) freak out
     if( m.has_zlevels() && dest_loc.z != get_levz() ) {
         vertical_shift( dest_loc.z );
+    }
+
+    if( u.is_hauling() && ( !m.can_put_items( dest_loc ) ||
+                            m.has_flag( TFLAG_DEEP_WATER, dest_loc ) ||
+                            vp1 ) ) {
+        u.stop_hauling();
     }
 
     u.setpos( dest_loc );
@@ -11605,6 +11630,10 @@ void game::vertical_move( int movez, bool force )
                 monsters_following.push_back( &critter );
             }
         }
+    }
+
+    if( u.is_hauling() ) {
+        u.stop_hauling();
     }
 
     u.moves -= move_cost;
