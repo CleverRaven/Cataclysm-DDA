@@ -1661,17 +1661,16 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gmenu.redraw();
     gmenu.show();
 
-    uimenu gpmenu;
+    uilist gpmenu;
     gpmenu.w_width = width;
     gpmenu.w_height = infoHeight - 4;
     gpmenu.w_y = gmenu.w_height;
     gpmenu.w_x = offsetX;
-    gpmenu.return_invalid = true;
+    gpmenu.allow_anykey = true;
     gpmenu.addentry( pgettext( "map generator", "Regenerate" ) );
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
     gpmenu.addentry( pgettext( "map generator", "Apply" ) );
     gpmenu.addentry( pgettext( "map generator", "Change Overmap (Doesn't Apply)" ) );
-    gpmenu.addentry( pgettext( "map generator", "Abort" ) );
 
     gpmenu.show();
     uphelp( _( "[pgup/pgdn]: prev/next oter type" ),
@@ -1706,7 +1705,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         int gpmenupos = gpmenu.selected;
         gpmenu.query( false );
 
-        if( gpmenu.ret != UIMENU_INVALID ) {
+        if( gpmenu.ret != UIMENU_UNBOUND ) {
             inp_mngr.reset_timeout();
             if( gpmenu.ret == 0 ) {
 
@@ -1812,7 +1811,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             gmenu.show();
             gmenu.refresh();
         }
-    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 );
+    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UIMENU_CANCEL );
 
     inp_mngr.reset_timeout();
 
