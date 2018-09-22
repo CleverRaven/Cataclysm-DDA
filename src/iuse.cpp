@@ -6186,6 +6186,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
             monster *const mon = g->critter_at<monster>( i, true );
             npc *const guy = g->critter_at<npc>( i );
+            std::string mtype;
+
             if( mon || guy ) {
                 int dist = rl_dist( p->pos(), i );
 
@@ -6240,47 +6242,14 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         p->add_msg_if_player( m_warning, _( "A %s got in the way of your photo." ), z.name().c_str() );
                         photo_quality = 0;
                     }
-
-                    const std::string mtype = z.type->id.str();
-
-                    auto monster_photos = it->get_var( "CAMERA_MONSTER_PHOTOS" );
-                    if( monster_photos.empty() ) {
-                        monster_photos = "," + mtype + "," + string_format( "%d",
-                                         photo_quality ) + ",";
-                    } else {
-
-                        const size_t strpos = monster_photos.find( "," + mtype + "," );
-
-                        if( strpos == std::string::npos ) {
-                            monster_photos += mtype + "," + string_format( "%d", photo_quality ) + ",";
-                        } else {
-
-                            const size_t strqpos = strpos + mtype.size() + 2;
-                            char *chq = &monster_photos[strqpos];
-                            const int old_quality = atoi( chq );
-
-                            if( !p->is_blind() ) {
-                                if( photo_quality > old_quality ) {
-                                    chq = &string_format( "%d", photo_quality )[0];
-                                    monster_photos[strqpos] = *chq;
-
-                                    p->add_msg_if_player( _( "This photo is better than the previous one." ) );
-
-                                }
-                            }
-                        }
-                    }
-                    it->set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
-
-                    return it->type->charges_to_use();
-
+                    // remember the monster type to identify the photo
+                    mtype = z.type->id.str();
                 } else if( guy ) {
                     if( dist < 4 && one_in( dist + 2 ) ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), guy->name.c_str() );
                         guy->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                     }
 
-                    //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
                     if( sel_npc == guy ) {
                         if( p->is_blind() ) {
                             p->add_msg_if_player( _( "You took a photo of %s." ), guy->name.c_str() );
@@ -6294,8 +6263,40 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         photo_quality = 0;
                     }
 
-                    return it->type->charges_to_use();
+                    // remember the person name to identify the photo
+                    mtype = guy->name.c_str();
                 }
+
+                // Save the photo
+                auto it_var_name = ( mon ? "CAMERA_MONSTER_PHOTOS" : "CAMERA_NPC_PHOTOS" );
+                auto monster_photos = it->get_var( it_var_name );
+                if( monster_photos.empty() ) {
+                    monster_photos = "," + mtype + "," + string_format( "%d",
+                                     photo_quality ) + ",";
+                } else {
+
+                    const size_t strpos = monster_photos.find( "," + mtype + "," );
+
+                    if( strpos == std::string::npos ) {
+                        monster_photos += mtype + "," + string_format( "%d", photo_quality ) + ",";
+                    } else {
+
+                        const size_t strqpos = strpos + mtype.size() + 2;
+                        char *chq = &monster_photos[strqpos];
+                        const int old_quality = atoi( chq );
+
+                        if( !p->is_blind() ) {
+                            if( photo_quality > old_quality ) {
+                                chq = &string_format( "%d", photo_quality )[0];
+                                monster_photos[strqpos] = *chq;
+
+                                p->add_msg_if_player( _( "This photo is better than the previous one." ) );
+
+                            }
+                        }
+                    }
+                }
+                it->set_var( it_var_name, monster_photos );
 
                 return it->type->charges_to_use();
             }
@@ -6320,10 +6321,10 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
         std::vector<mtype_id> monster_photos;
 
-        std::istringstream f( it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
+        std::istringstream f_mon( it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         std::string s;
         int k = 1;
-        while( getline( f, s, ',' ) ) {
+        while( getline( f_mon, s, ',' ) ) {
 
             if( s.empty() ) {
                 continue;
@@ -6336,13 +6337,31 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             const monster dummy( monster_photos.back() );
             menu_str = dummy.name();
 
-            getline( f, s, ',' );
+            getline( f_mon, s, ',' );
             char *chq = &s[0];
             const int quality = atoi( chq );
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
 
             pmenu.addentry( k++, true, -1, menu_str.c_str() );
+        }
+
+        std::istringstream f_npc( it->get_var( "CAMERA_NPC_PHOTOS" ) );
+        while( getline( f_npc, s, ',' ) ) {
+
+            if( s.empty() ) {
+                continue;
+            }
+
+            std::string menu_str = s;
+
+            getline( f_npc, s, ',' );
+            char *chq = &s[0];
+            const int quality = atoi( chq );
+
+            menu_str += " [" + photo_quality_name( quality ) + "]";
+
+            pmenu.addentry( k++, false, -1, menu_str.c_str() );
         }
 
         int choice;
