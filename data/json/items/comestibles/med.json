@@ -190,6 +190,28 @@
         }
     },
     {
+        "id" : "soap_water",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "soapy water",
+        "name_plural" : "soapy water",
+        "description" : "A mixture of water and soap, that can wash away dirt and bacterias.",
+        "weight" : 260,
+        "volume" : 1,
+        "price" : 300,
+        "phase" : "liquid",
+        "material" : "water",
+        "symbol" : "~",
+        "color" : "white",
+        "container" : "bottle_plastic",
+        "use_action" : {
+            "type" : "heal",
+            "disinfectant_power" : 2,
+            "bite" : 0.25,
+            "move_cost" : 500
+        }
+    },
+    {
         "id" : "caff_gum",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
