@@ -206,14 +206,8 @@ bool mattack::eat_crop( monster *z )
         if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
             g->m.ter_set( p, t_dirt );
             g->m.furn_set( p, f_null );
-
-            auto items = g->m.i_at( p );
-            for( auto i = items.begin(); i != items.end(); ++i ) {
-                if( i->is_seed() ) {
-                    g->m.i_rem( p, i );
-                    return true;
-                }
-            }
+            g->m.i_clear( p );
+            return true;
         }
     }
     return true;
