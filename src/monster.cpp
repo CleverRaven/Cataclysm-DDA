@@ -1292,18 +1292,18 @@ void monster::melee_attack( Creature &target, float accuracy )
     const int stab_cut = dealt_dam.type_damage( DT_CUT ) + dealt_dam.type_damage( DT_STAB );
 
     if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
-        target.add_msg_if_player( m_bad, _( "You're poisoned!" ) );
+        target.add_msg_if_player( m_bad, _( "You're envenomed!" ) );
         target.add_effect( effect_poison, 3_minutes );
     }
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player( m_bad,
-                                  _( "You feel poison flood your body, wracking you with pain..." ) );
+                                  _( "You feel venom flood your body, wracking you with pain..." ) );
         target.add_effect( effect_badpoison, 4_minutes );
     }
 
     if( stab_cut > 0 && has_flag( MF_PARALYZE ) ) {
-        target.add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
+        target.add_msg_if_player( m_bad, _( "You feel venom enter your body!" ) );
         target.add_effect( effect_paralyzepoison, 10_minutes );
     }
 
