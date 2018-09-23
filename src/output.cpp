@@ -589,25 +589,10 @@ bool query_yn( const std::string &text )
                // std::lower has undefined behavior outside unsigned char range
                evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
     };
-    const std::string yes_desc = ctxt.get_desc( "YES", 1, allow_key );
-    const std::string no_desc = ctxt.get_desc( "NO", 1, allow_key );
 
-    // yes_query and no_query always have the same display length
-    const std::string yes_query = string_format( "%s (<color_white>%s</color>/%s)%s", text, yes_desc,
-                                  no_desc, ucwarning );
-    const std::string no_query = string_format( "%s (%s/<color_white>%s</color>)%s", text, yes_desc,
-                                 no_desc, ucwarning );
+    std::string yes_query, no_query;
 
-    int win_width = 0;
-    const auto textformatted = foldstring( yes_query, FULL_SCREEN_WIDTH - 4 );
-    for( const auto &s : textformatted ) {
-        win_width = std::max( win_width, utf8_width( s, true ) );
-    }
-    win_width += 2;
-    const int win_height = textformatted.size() + 2;
-    auto w = catacurses::newwin( win_height, win_width,
-                                 std::max( TERMY - win_height, 0 ) / 2,
-                                 std::max( TERMX - win_width, 0 ) / 2 );
+    catacurses::window w;
 
     std::string action;
 
@@ -624,14 +609,22 @@ bool query_yn( const std::string &text )
             }
         } else if( action == "CONFIRM" ) {
             finished = true;
-        } else if( !action.empty() && action != "HELP_KEYBINDINGS" && action != "TIMEOUT" ) {
+        } else if( action.empty() || action == "HELP_KEYBINDINGS" ) {
+            // Generate messages at start or regenerate them after possible keybinding changes
+            const std::string yes_desc = ctxt.get_desc( "YES", _( "Yes" ), allow_key );
+            const std::string no_desc = ctxt.get_desc( "NO", _( "No" ), allow_key );
+            // yes_query and no_query always have the same display length
+            yes_query = string_format( "<color_light_red>%s </color>%s<color_light_red>/%s%s</color>",
+                                       text, yes_desc, no_desc, ucwarning );
+            no_query = string_format( "<color_light_red>%s %s/</color>%s<color_light_red>%s</color>",
+                                      text, yes_desc, no_desc, ucwarning );
+            w = create_popup_window( result ? yes_query : no_query, PF_NONE );
+            wrefresh( w );
+        } else if( action != "TIMEOUT" ) { // Input manager may have timeout set elsewhere
             result = !result;
+            w = create_popup_window( result ? yes_query : no_query, PF_NONE );
+            wrefresh( w );
         }
-
-        werase( w );
-        draw_border( w );
-        fold_and_print( w, 1, 1, win_width - 2, c_light_red, result ? yes_query : no_query );
-        wrefresh( w );
 
         if( !finished ) {
             action = ctxt.handle_input();

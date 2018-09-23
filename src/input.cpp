@@ -736,6 +736,44 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
+const std::string input_context::get_desc( const std::string &action_descriptor,
+        const std::string &text,
+        const std::function<bool( const input_event & )> evt_filter )
+{
+    if( action_descriptor == "ANY_INPUT" ) {
+        //~ keybinding description for anykey
+        return string_format( pgettext( "keybinding", "[any] %s" ) + text );
+    }
+
+    const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
+
+    bool na = true;
+    for( const auto &evt : events ) {
+        if( evt_filter( evt ) &&
+            // Only display gamepad buttons if a gamepad is available.
+            ( gamepad_available() || evt.type != CATA_INPUT_GAMEPAD ) ) {
+
+            na = false;
+            const int ch = evt.get_first_input();
+            const auto pos = ci_find_substr( text, std::string( 1, ch ) );
+            if( evt.type == CATA_INPUT_KEYBOARD && evt.sequence.size() == 1 &&
+                ch >= ' ' && ch <= '~' && pos >= 0 ) {
+
+                return text.substr( 0, pos ) + "(" + std::string( 1, ch ) + ")" + text.substr( pos + 1 );
+            }
+        }
+    }
+
+    if( na ) {
+        //~ keybinding description for unbound or disabled keys
+        return string_format( pgettext( "keybinding", "[n/a] %s" ), text );
+    } else {
+        //~ keybinding description for bound keys
+        return string_format( pgettext( "keybinding", "[%s] %s" ),
+                              get_desc( action_descriptor, 1, evt_filter ), text );
+    }
+}
+
 const std::string &input_context::handle_input( const int timeout )
 {
     inp_mngr.set_timeout( timeout );

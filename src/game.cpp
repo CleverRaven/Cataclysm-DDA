@@ -1760,21 +1760,23 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
     };
 
-    const std::string stop_message = string_format(
-                                         _( "%s %s [%s] Yes, [%s] No, [%s] Ignore further similar distractions and finish" ),
-                                         text, u.activity.get_stop_phrase(),
-                                         ctxt.get_desc( "YES", 1, allow_key ),
-                                         ctxt.get_desc( "NO", 1, allow_key ),
-                                         ctxt.get_desc( "IGNORE", 1, allow_key )
-                                     );
-
-    catacurses::window w = create_popup_window( stop_message, PF_NONE );
-    wrefresh( w );
+    catacurses::window w;
 
     enum {
         wait_input, confirm, cancel, ignore
     } result = wait_input;
     do {
+        if( !w ) {
+            const std::string stop_message = string_format(
+                                                 "<color_light_red>%s %s %s, %s, %s.</color>",
+                                                 text, u.activity.get_stop_phrase(),
+                                                 ctxt.get_desc( "YES", _( "Yes" ), allow_key ),
+                                                 ctxt.get_desc( "NO", _( "No" ), allow_key ),
+                                                 ctxt.get_desc( "IGNORE", _( "Ignore further similar distractions and finish" ), allow_key )
+                                             );
+            w = create_popup_window( stop_message, PF_NONE );
+            wrefresh( w );
+        }
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
         if( action == "YES" && allow_key( evt ) ) {
@@ -1783,6 +1785,10 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
             result = cancel;
         } else if( action == "IGNORE" && allow_key( evt ) ) {
             result = ignore;
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            // keybindings may have changed, invalidate the window to regenerate
+            // the message
+            w = {};
         }
     } while( result == wait_input );
     // Flash black after keypress to give feedback during consecutive popups

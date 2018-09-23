@@ -536,6 +536,27 @@ class input_context
         } ) const;
 
         /**
+         * Get a description based on `text`. If a bound key for `action_descriptor`
+         * satisfying `evt_filter` is contained in `text`, surround the key with
+         * brackets and change the case if necessary (e.g. "(Y)es"). Otherwise
+         * prefix `text` with description of the first bound key satisfying
+         * `evt_filter`, surrounded in square brackets (e.g "[RETURN] Yes").
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param text The base text for action description
+         *
+         * @param evt_filter Only keys satisfying this function will be considered
+         */
+        const std::string get_desc( const std::string &action_descriptor,
+                                    const std::string &text,
+                                    const std::function<bool( const input_event & )> evt_filter =
+        []( const input_event & ) {
+            return true;
+        } );
+
+        /**
          * Handles input and returns the next action in the queue.
          *
          * This internally calls getch() or whatever other input method
