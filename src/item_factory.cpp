@@ -1004,10 +1004,11 @@ void Item_factory::check_definitions() const
 
         if( type->tool ) {
             check_ammo_type( msg, type->tool->ammo_id );
-            if( type->tool->revert_to != "null" && !has_template( type->tool->revert_to ) ) {
-                msg << string_format( "invalid revert_to property %s", type->tool->revert_to.c_str() ) << "\n";
+            if( type->tool->revert_to && ( !has_template( *type->tool->revert_to ) ||
+                                           *type->tool->revert_to == "null" ) ) {
+                msg << string_format( "invalid revert_to property %s", type->tool->revert_to->c_str() ) << "\n";
             }
-            if( !type->tool->revert_msg.empty() && type->tool->revert_to == "null" ) {
+            if( !type->tool->revert_msg.empty() && !type->tool->revert_to ) {
                 msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
             }
             if( !type->tool->subtype.empty() && !has_template( type->tool->subtype ) ) {

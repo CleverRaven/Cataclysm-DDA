@@ -235,11 +235,11 @@ item &item::deactivate( const Character *ch, bool alert )
         return *this; // no-op
     }
 
-    if( is_tool() && type->tool->revert_to != "null" ) {
+    if( is_tool() && type->tool->revert_to ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
             ch->add_msg_if_player( m_info, _( type->tool->revert_msg.c_str() ), tname().c_str() );
         }
-        convert( type->tool->revert_to );
+        convert( *type->tool->revert_to );
         active = false;
 
     }
@@ -4327,8 +4327,8 @@ bool item::is_tool() const
 
 bool item::is_tool_reversible() const
 {
-    if( is_tool() && type->tool->revert_to != "null" ) {
-        item revert( type->tool->revert_to );
+    if( is_tool() && type->tool->revert_to ) {
+        item revert( *type->tool->revert_to );
         npc n;
         revert.type->invoke( n, revert, tripoint( -999, -999, -999 ) );
         return revert.is_tool() && typeId() == revert.typeId();
@@ -6421,8 +6421,8 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             convert( "joint_roach" );
         }
     } else { // transform (lit) items
-        if( type->tool->revert_to != "null" ) {
-            convert( type->tool->revert_to );
+        if( type->tool->revert_to ) {
+            convert( *type->tool->revert_to );
         } else {
             type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos, "transform" );
         }
@@ -6497,8 +6497,8 @@ void item::reset_cable( player *p )
 bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
-        if( is_tool() && type->tool->revert_to != "null" ) {
-            convert( type->tool->revert_to );
+        if( is_tool() && type->tool->revert_to ) {
+            convert( *type->tool->revert_to );
         }
         item_tags.erase( "WET" );
         active = false;
@@ -6527,13 +6527,14 @@ bool item::process_tool( player *carrier, const tripoint &pos )
                 carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname().c_str() );
             }
 
-            auto revert = type->tool->revert_to; // invoking the object can convert the item to another type
+            // invoking the object can convert the item to another type
+            const bool had_revert_to = type->tool->revert_to.has_value();
             type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-            if( revert == "null" ) {
-                return true;
-            } else {
+            if( had_revert_to ) {
                 deactivate( carrier );
                 return false;
+            } else {
+                return true;
             }
         }
     }
