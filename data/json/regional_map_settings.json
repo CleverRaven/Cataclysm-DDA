@@ -56,7 +56,7 @@
               "item_spawn_iterations": 1,                 "//": "number of times that the item spawning will be called",
               "clear_groundcover": false,                 "//": "if set to true, clear all previously defined 'groundcover' for this terrain. only relevant for 'region_overlay' that override these settings",
               "groundcover": {                            "//": "weighted list of terrain types placed as groundcover before anything else. higher values are more frequent",
-                  "t_grass_long": 2,
+                  "t_grass_long": 5,
                   "t_grass_very_long": 1,
                   "t_dirt": 1
               },
@@ -146,7 +146,7 @@
               "item_spawn_iterations": 1,
               "clear_groundcover": false,
               "groundcover": {
-                  "t_grass_long": 2,
+                  "t_grass_long": 5,
                   "t_grass_very_long": 1,
                   "t_dirt": 1
               },
@@ -236,7 +236,7 @@
               "item_spawn_iterations": 1,
               "clear_groundcover": false,
               "groundcover": {
-                  "t_grass_long": 2,
+                  "t_grass_long": 3,
                   "t_moss": 1,
                   "t_dirt": 1
               },
