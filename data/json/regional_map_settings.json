@@ -57,7 +57,7 @@
               "clear_groundcover": false,                 "//": "if set to true, clear all previously defined 'groundcover' for this terrain. only relevant for 'region_overlay' that override these settings",
               "groundcover": {                            "//": "weighted list of terrain types placed as groundcover before anything else. higher values are more frequent",
                   "t_grass_long": 5,
-                  "t_grass_very_long": 1,
+                  "t_grass_tall": 1,
                   "t_dirt": 1
               },
               "clear_components": false,                  "//": "if set to true, clear all previously defined 'components' for this terrain. only relevant for 'region_overlay' that override these settings",
@@ -147,7 +147,7 @@
               "clear_groundcover": false,
               "groundcover": {
                   "t_grass_long": 5,
-                  "t_grass_very_long": 1,
+                  "t_grass_tall": 1,
                   "t_dirt": 1
               },
               "clear_components": false,
@@ -237,8 +237,9 @@
               "clear_groundcover": false,
               "groundcover": {
                   "t_grass_long": 3,
-                  "t_moss": 1,
-                  "t_dirt": 1
+                  "t_grass_tall": 1,
+                  "t_moss": 2,
+                  "t_dirt": 2,                "//": "Replace dirt with mud when Whaley adds mud."
               },
               "clear_components": false,
               "components": {
