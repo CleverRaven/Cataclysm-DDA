@@ -313,7 +313,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_turret_disarmed", 1 ] ], [ [ "ceramic_shard", 3 ] ], [ [ "robopart_9mm", 1 ] ] ]
   },
- {
+  {
     "result": "broken_eyebot_disarmed",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -383,7 +383,7 @@
       [ [ "water", 20 ] ]
     ]
   },
- {
+  {
     "result": "broken_skitterbot_disarmed",
     "type": "uncraft",
     "skill_used": "fabrication",

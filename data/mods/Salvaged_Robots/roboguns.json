@@ -49,8 +49,8 @@
     "range": 30,
     "ranged_damage": 5,
     "loudness": 15,
-    "ammo_effects": [ "NEVER_MISFIRES", "MUZZLESMOKE", "LARGE_BEANBAG"],
+    "ammo_effects": [ "NEVER_MISFIRES", "MUZZLESMOKE", "LARGE_BEANBAG" ],
     "dispersion": 50,
     "modes": [ [ "DEFAULT", "single", 1 ] ]
-  }  
+  }
 ]

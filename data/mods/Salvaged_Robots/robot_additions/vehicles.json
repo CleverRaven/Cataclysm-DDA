@@ -235,17 +235,11 @@
       { "x": 5, "y": 2, "part": "plating_military" }
     ]
   },
-   {
+  {
     "id": "humvee_gl",
     "type": "vehicle",
     "name": "Humvee",
-    "blueprint": [
-      [ "O-++-OH" ],
-      [ "|H##'|H" ],
-      [ "t###'|H" ],
-      [ "|H##'|H" ],
-      [ "O-++-OH" ]
-    ],
+    "blueprint": [ [ "O-++-OH" ], [ "|H##'|H" ], [ "t###'|H" ], [ "|H##'|H" ], [ "O-++-OH" ] ],
     "parts": [
       { "x": 0, "y": 1, "part": "hdframe_vertical_2" },
       { "x": 0, "y": 1, "part": "box" },
@@ -316,7 +310,13 @@
       { "x": -1, "y": 1, "part": "aisle_horizontal" },
       { "x": -1, "y": 1, "part": "roof" },
       { "x": -1, "y": 1, "part": "turret_mount" },
-      { "x": -1, "y": 1, "part": "mounted_mk19", "ammo": 60, "ammo_types": [ "40mm_frag", "40mm_concussive", "40mm_emp" ] },
+      {
+        "x": -1,
+        "y": 1,
+        "part": "mounted_mk19",
+        "ammo": 60,
+        "ammo_types": [ "40mm_frag", "40mm_concussive", "40mm_emp" ]
+      },
       { "x": -1, "y": 2, "part": "hdframe_horizontal_2" },
       { "x": -1, "y": 2, "part": "seat" },
       { "x": -1, "y": 2, "part": "seatbelt" },

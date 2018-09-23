@@ -23,7 +23,7 @@
     "name": "laser turret",
     "copy-from": "mon_advturret_laser"
   },
- {
+  {
     "id": "mon_hazmatbot",
     "type": "MONSTER",
     "name": "utility robot",

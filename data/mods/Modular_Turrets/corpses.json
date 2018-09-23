@@ -470,7 +470,6 @@
     "name": "broken riotcontrol robot",
     "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
   },
-
   {
     "type": "GENERIC",
     "id": "broken_molebot",
