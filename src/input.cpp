@@ -686,7 +686,8 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
 }
 
 const std::string input_context::get_desc( const std::string &action_descriptor,
-        const unsigned int max_limit ) const
+        const unsigned int max_limit,
+        const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -703,14 +704,20 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     for( auto &events_i : events ) {
         const input_event &event = events_i;
 
-        // Only display gamepad buttons if a gamepad is available.
-        if( gamepad_available() || event.type != CATA_INPUT_GAMEPAD ) {
+        if( evt_filter( event ) &&
+            // Only display gamepad buttons if a gamepad is available.
+            ( gamepad_available() || event.type != CATA_INPUT_GAMEPAD ) ) {
+
             inputs_to_show.push_back( event );
         }
 
         if( max_limit > 0 && inputs_to_show.size() == max_limit ) {
             break;
         }
+    }
+
+    if( inputs_to_show.empty() ) {
+        return _( "Not available" );
     }
 
     std::stringstream rval;

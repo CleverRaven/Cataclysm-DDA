@@ -2397,5 +2397,19 @@
     "category": "COLORS",
     "name": "Load color template",
     "bindings": [ { "input_method": "keyboard", "key": "t" }, { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YESNO",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YESNO",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" } ]
   }
 ]

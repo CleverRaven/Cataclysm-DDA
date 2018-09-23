@@ -2,6 +2,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <functional>
 #include <string>
 #include <map>
 #include <vector>
@@ -514,7 +515,8 @@ class input_context
         /**
          * Get a description text for the key/other input method associated
          * with the given action. If there are multiple bound keys, no more
-         * than max_limit will be described in the result.
+         * than max_limit will be described in the result. In addition, only
+         * keys satisfying evt_filter will be described.
          *
          * @param action_descriptor The action descriptor for which to return
          *                          a description of the bound keys.
@@ -522,9 +524,16 @@ class input_context
          * @param max_limit No more than max_limit bound keys will be
          *                  described in the returned description. A value of
          *                  0 indicates no limit.
+         *
+         * @param evt_filter Only keys satisfying this function will be
+         *                   described.
          */
         const std::string get_desc( const std::string &action_descriptor,
-                                    const unsigned int max_limit = 0 ) const;
+                                    const unsigned int max_limit = 0,
+                                    const std::function<bool( const input_event & )> evt_filter =
+        []( const input_event & ) {
+            return true;
+        } ) const;
 
         /**
          * Handles input and returns the next action in the queue.
