@@ -48,6 +48,7 @@
 #include "map_iterator.h"
 #include "string_input_popup.h"
 #include "inventory.h"
+#include "json.h"
 
 #include <vector>
 #include <sstream>
@@ -6129,6 +6130,28 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
+struct npc_photo_def : public JsonDeserializer, public JsonSerializer {
+    int quality;
+    std::string name;
+    std::string description;
+
+    npc_photo_def() = default;
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject obj = jsin.get_object();
+        quality = obj.get_int( "quality" );
+        name = obj.get_string( "name" );
+        description = obj.get_string( "description" );
+    }
+
+    void serialize( JsonOut &jsout ) const override {
+        jsout.start_object();
+        jsout.member( "quality", quality );
+        jsout.member( "name", name );
+        jsout.member( "description", description );
+        jsout.end_object();
+    }
+};
+
 int iuse::camera( player *p, item *it, bool, const tripoint & )
 {
     enum {c_cancel, c_shot, c_photos, c_upload};
@@ -6138,7 +6161,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     amenu.selected = 0;
     amenu.text = _( "What to do with camera?" );
     amenu.addentry( c_shot, true, 'p', _( "Take a photo" ) );
-    if( !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() ) {
+    if( !( it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() && it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ) ) {
         amenu.addentry( c_photos, true, 'l', _( "List photos" ) );
         amenu.addentry( c_upload, true, 'u', _( "Upload photos to memory card" ) );
     } else {
@@ -6186,8 +6209,6 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
             monster *const mon = g->critter_at<monster>( i, true );
             npc *const guy = g->critter_at<npc>( i );
-            std::string mtype;
-
             if( mon || guy ) {
                 int dist = rl_dist( p->pos(), i );
 
@@ -6242,8 +6263,40 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         p->add_msg_if_player( m_warning, _( "A %s got in the way of your photo." ), z.name().c_str() );
                         photo_quality = 0;
                     }
-                    // remember the monster type to identify the photo
-                    mtype = z.type->id.str();
+
+                    const std::string mtype = z.type->id.str();
+
+                    auto monster_photos = it->get_var( "CAMERA_MONSTER_PHOTOS" );
+                    if( monster_photos.empty() ) {
+                        monster_photos = "," + mtype + "," + string_format( "%d",
+                                         photo_quality ) + ",";
+                    } else {
+
+                        const size_t strpos = monster_photos.find( "," + mtype + "," );
+
+                        if( strpos == std::string::npos ) {
+                            monster_photos += mtype + "," + string_format( "%d", photo_quality ) + ",";
+                        } else {
+
+                            const size_t strqpos = strpos + mtype.size() + 2;
+                            char *chq = &monster_photos[strqpos];
+                            const int old_quality = atoi( chq );
+
+                            if( !p->is_blind() ) {
+                                if( photo_quality > old_quality ) {
+                                    chq = &string_format( "%d", photo_quality )[0];
+                                    monster_photos[strqpos] = *chq;
+
+                                    p->add_msg_if_player( _( "This photo is better than the previous one." ) );
+
+                                }
+                            }
+                        }
+                    }
+                    it->set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
+
+                    return it->type->charges_to_use();
+
                 } else if( guy ) {
                     if( dist < 4 && one_in( dist + 2 ) ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), guy->name.c_str() );
@@ -6262,41 +6315,36 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name.c_str() );
                         photo_quality = 0;
                     }
+                    std::vector<npc_photo_def> npc_photos;
 
-                    // remember the person name to identify the photo
-                    mtype = guy->name.c_str();
-                }
-
-                // Save the photo
-                auto it_var_name = ( mon ? "CAMERA_MONSTER_PHOTOS" : "CAMERA_NPC_PHOTOS" );
-                auto monster_photos = it->get_var( it_var_name );
-                if( monster_photos.empty() ) {
-                    monster_photos = "," + mtype + "," + string_format( "%d",
-                                     photo_quality ) + ",";
-                } else {
-
-                    const size_t strpos = monster_photos.find( "," + mtype + "," );
-
-                    if( strpos == std::string::npos ) {
-                        monster_photos += mtype + "," + string_format( "%d", photo_quality ) + ",";
-                    } else {
-
-                        const size_t strqpos = strpos + mtype.size() + 2;
-                        char *chq = &monster_photos[strqpos];
-                        const int old_quality = atoi( chq );
-
-                        if( !p->is_blind() ) {
-                            if( photo_quality > old_quality ) {
-                                chq = &string_format( "%d", photo_quality )[0];
-                                monster_photos[strqpos] = *chq;
-
-                                p->add_msg_if_player( _( "This photo is better than the previous one." ) );
-
-                            }
-                        }
+                    try {
+                        auto npc_photos_data = std::istringstream( it->get_var( "CAMERA_NPC_PHOTOS" ) );
+                        JsonIn json( npc_photos_data );
+                        json.read( npc_photos );
+                    } catch( const JsonError &e ) {
+                        debugmsg( "Error loading NPC photos: %s", e.c_str() );
                     }
+
+                    npc_photo_def npc_photo;
+                    npc_photo.quality = photo_quality;
+                    npc_photo.name = guy->name;
+                    std::string timestamp = to_string( time_point( calendar::turn ) );
+                    //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
+                    npc_photo.description = string_format( _("This is a photo of %1$s. It was taken on %2$s."), npc_photo.name, timestamp );
+                    npc_photo.description += "\n\n" + guy->short_description();
+
+                    npc_photos.push_back( npc_photo );
+                    try {
+                        std::ostringstream npc_photos_data;
+                        JsonOut json( npc_photos_data );
+                        json.write( npc_photos );
+                        it->set_var( "CAMERA_NPC_PHOTOS", npc_photos_data.str() );
+                    } catch( const JsonError &e ) {
+                        debugmsg( "Error storing NPC photos: %s", e.c_str() );
+                    }
+
+                    return it->type->charges_to_use();
                 }
-                it->set_var( it_var_name, monster_photos );
 
                 return it->type->charges_to_use();
             }
@@ -6348,21 +6396,20 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             pmenu.addentry( k++, true, -1, menu_str.c_str() );
         }
 
-        std::istringstream f_npc( it->get_var( "CAMERA_NPC_PHOTOS" ) );
-        while( getline( f_npc, s, ',' ) ) {
+        std::vector<npc_photo_def> npc_photos;
 
-            if( s.empty() ) {
-                continue;
-            }
+        try {
+            auto npc_photos_data = std::istringstream( it->get_var( "CAMERA_NPC_PHOTOS" ) );
+            JsonIn json( npc_photos_data );
+            json.read( npc_photos );
+        } catch( const JsonError &e ) {
+            debugmsg( "Error NPC photos: %s", e.c_str() );
+        }
+        for( auto npc_photo : npc_photos ) {
+            std::string menu_str = npc_photo.name;
+            descriptions.push_back( npc_photo.description );
 
-            std::string menu_str = s;
-            descriptions.push_back( "A photo of " + s );
-
-            getline( f_npc, s, ',' );
-            char *chq = &s[0];
-            const int quality = atoi( chq );
-
-            menu_str += " [" + photo_quality_name( quality ) + "]";
+            menu_str += " [" + photo_quality_name( npc_photo.quality ) + "]";
 
             pmenu.addentry( k++, true, -1, menu_str.c_str() );
         }
