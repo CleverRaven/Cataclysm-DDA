@@ -759,22 +759,61 @@ catacurses::window create_wait_popup_window( const std::string &text, nc_color b
 
 long popup( const std::string &text, PopupFlags flags )
 {
+    input_event evt;
+    popup( evt, text, flags );
+    if( evt.type == CATA_INPUT_KEYBOARD ) {
+        return evt.get_first_input();
+    } else {
+        return UNKNOWN_UNICODE;
+    }
+}
+
+void popup( input_event &evt, const std::string &text, PopupFlags flags )
+{
     if( test_mode ) {
         std::cerr << text << std::endl;
-        return 0;
+        evt = {};
+        return;
     }
 
     catacurses::window w = create_popup_window( text, flags );
-    long ch = 0;
+    evt = {};
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
-#ifdef __ANDROID__
         input_context ctxt( "POPUP_WAIT" );
-#endif
+        ctxt.register_action( "CONFIRM" );
+        ctxt.register_action( "QUIT" );
+        if( flags & PF_GET_KEY ) {
+            ctxt.register_action( "ANY_INPUT" );
+            // Mouse inputs, including mouse buttons and mouse wheel
+            ctxt.register_action( "COORDINATE" );
+        }
+
         wrefresh( w );
-        // TODO: use input context
-        ch = inp_mngr.get_input_event().get_first_input();
-        if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE || ( flags & PF_GET_KEY ) != 0 ) {
+
+        const std::string action = ctxt.handle_input();
+        evt = ctxt.get_raw_input();
+
+        bool quit = false;
+        if( action == "CONFIRM" || action == "QUIT" ) {
+            quit = true;
+        } else if( flags & PF_GET_KEY ) {
+            switch( evt.type ) {
+                default:
+                case CATA_INPUT_ERROR:
+                case CATA_INPUT_TIMEOUT:
+                    quit = false;
+                    break;
+                case CATA_INPUT_KEYBOARD:
+                case CATA_INPUT_GAMEPAD:
+                    quit = true;
+                    break;
+                case CATA_INPUT_MOUSE:
+                    quit = ( evt.get_first_input() != MOUSE_MOVE );
+                    break;
+            }
+        }
+        if( quit ) {
             werase( w );
             break; // return the first key that got pressed.
         }
@@ -782,7 +821,6 @@ long popup( const std::string &text, PopupFlags flags )
     wrefresh( w );
     catacurses::refresh();
     refresh_display();
-    return ch;
 }
 
 void popup_status( const char *const title, const std::string &fmt )

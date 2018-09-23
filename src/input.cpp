@@ -1052,8 +1052,8 @@ void input_context::display_menu()
                 // Disallow adding global actions to an action that already has a local defined.
                 popup( _( "There are already local keybindings defined for this action, please remove them first." ) );
             } else if( status == s_add || status == s_add_global ) {
-                const long newbind = popup_getkey( _( "New key for %s:" ), name.c_str() );
-                const input_event new_event( newbind, CATA_INPUT_KEYBOARD );
+                input_event new_event;
+                popup_getkey( new_event, _( "New key for %s:" ), name );
 
                 if( action_uses_input( action_id, new_event ) ) {
                     popup_getkey( _( "This key is already used for %s." ), name.c_str() );
