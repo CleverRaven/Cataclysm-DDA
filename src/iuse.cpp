@@ -6320,6 +6320,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         pmenu.addentry( 0, true, 'q', _( "Cancel" ) );
 
         std::vector<mtype_id> monster_photos;
+        std::vector<std::string> descriptions;
 
         std::istringstream f_mon( it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         std::string s;
@@ -6336,6 +6337,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
             const monster dummy( monster_photos.back() );
             menu_str = dummy.name();
+            descriptions.push_back( dummy.type->get_description() );
 
             getline( f_mon, s, ',' );
             char *chq = &s[0];
@@ -6354,6 +6356,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             }
 
             std::string menu_str = s;
+            descriptions.push_back( "A photo of " + s );
 
             getline( f_npc, s, ',' );
             char *chq = &s[0];
@@ -6361,7 +6364,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
 
-            pmenu.addentry( k++, false, -1, menu_str.c_str() );
+            pmenu.addentry( k++, true, -1, menu_str.c_str() );
         }
 
         int choice;
@@ -6373,8 +6376,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 break;
             }
 
-            const monster dummy( monster_photos[choice - 1] );
-            popup( dummy.type->get_description().c_str() );
+            popup( descriptions[choice - 1].c_str() );
 
         } while( true );
 
