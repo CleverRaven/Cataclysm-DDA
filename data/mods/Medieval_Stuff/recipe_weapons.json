@@ -12,7 +12,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "scrap_bronze", 4 ] ],
-      [ [ "2x4", 1 ], [ "stick_long", 1 ] ],
+      [ [ "stick_long", 1 ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
@@ -95,7 +95,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "scrap_bronze", 2 ] ],
-      [ [ "2x4", 1 ], [ "stick_long", 1 ] ],
+      [ [ "stick_long", 1 ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },

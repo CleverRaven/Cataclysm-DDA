@@ -825,7 +825,7 @@
     "never_learn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "stick_long", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ] ],
+      [ [ "stick_long", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
