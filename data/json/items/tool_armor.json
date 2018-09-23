@@ -1458,6 +1458,7 @@
         "price": 50,
         "material": ["iron"],
         "weight" : 2,
+        "qualities": [ ["PICK", 3] ],
         "use_action": {
             "type": "picklock",
             "pick_quality": 3
@@ -1474,6 +1475,7 @@
         "price" : 1000,
         "material" : ["plastic"],
         "weight" : 4,
+        "qualities": [ ["PICK", 1] ],
         "use_action": {
             "type": "picklock",
             "pick_quality": 1

@@ -39,6 +39,7 @@
 #include "inventory.h"
 #include "craft_command.h"
 #include "material.h"
+#include "iuse_actor.h"
 
 #include <sstream>
 #include <algorithm>
@@ -1019,22 +1020,13 @@ void iexamine::safe(player &p, const tripoint &examp)
  */
 void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
-    if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) || p.has_amount("fc_hairpin", 1) ||
-           p.has_amount("picklocks", 1) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
-        add_msg(m_info, _("You need a lockpick to open this gun safe."));
+    if( !( p.crafting_inventory().has_quality( quality_id( "PICK" ), 1 ) ) ){
         return;
-    } else if( !query_yn(_("Pick the gun safe?")) ) {
+    } else if( !query_yn( _("Pick the gun safe?") ) ) {
         return;
     }
 
-    int pick_quality = 1;
-    if( p.has_amount("picklocks", 1) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
-        pick_quality = 5;
-    } else if (p.has_amount("fc_hairpin",1)) {
-        pick_quality = 1;
-    } else {
-        pick_quality = 3;
-    }
+    int pick_quality = p.crafting_inventory.max_quality( "PICK" );
 
     p.practice( skill_mechanics, 1);
     ///\EFFECT_DEX speeds up lock picking gun safe
@@ -1100,17 +1092,50 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
         return;
     }
 
+    bool has_lockpicks = p.crafting_inventory().has_quality( quality_id ( "PICK" ), 1 );
+
     bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
-    if ( !has_prying_tool ) {
+    if ( !has_lockpicks && !has_prying_tool ) {
         add_msg(m_info, _("If only you had a crowbar..."));
         return;
     }
 
-    // See crate prying for why a dummy item is used
-    item fakecrow( "crowbar", 0 );
+    uimenu select_menu;
 
-    iuse dummy;
-    dummy.crowbar( &p, &fakecrow, false, examp );
+    select_menu.settext( _( "The %s is locked..." ), g->m.tername(examp).c_str() );
+    if( has_lockpicks ) {
+        select_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Pick the lock." ) );
+    }
+    if( has_prying_tool ) {
+        select_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Pry it open." ) );
+    }
+    select_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Leave it." ) );
+
+    select_menu.query();
+    pick_lock_actor pla;
+
+    switch( select_menu.ret ) {
+        case 0:
+            return;
+        case 1:
+            // There should be a better way of getting the best tool
+            int best_quality = p.crafting_inventory().max_quality( quality_id( "PICK" ) );
+            auto to_use = p.crafting_inventory.items_with( quality_id( "PICK" ), best_quality );
+            
+
+            pla.use( p, to_use[0], false, examp );
+            return;
+
+        case 2:
+            // See crate prying for why a dummy item is used
+            item fakecrow ( "crowbar", 0 );
+
+            iuse dummy;
+            dummy.crowbar ( &p, &fakecrow, false, examp );
+            return;;
+    }
+
+    
 }
 
 void iexamine::bulletin_board(player &, const tripoint &examp)

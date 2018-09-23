@@ -170,5 +170,10 @@
     "type": "tool_quality",
     "id": "ANVIL",
     "name": "anvil"
+  },
+  {
+    "type": "tool_quality",
+    "id": "PICK",
+    "name": "lock picking"
   }
 ]

@@ -2048,6 +2048,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ ["PICK", 3] ],
     "use_action": { "type": "picklock", "pick_quality": 3 }
   },
   {
@@ -5331,6 +5332,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ [ "PICK", 5 ] ],
     "use_action": { "type": "picklock", "pick_quality": 5 }
   },
   {
@@ -5776,6 +5778,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
+    "qualities": [ [ "PICK", 40] ],
     "use_action": { "type": "picklock", "pick_quality": 40 }
   },
   {
