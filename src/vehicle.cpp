@@ -354,6 +354,14 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
     }
 
+    // Reduce fuel in new vehicles over time
+    int fuel_reducing = get_option< int >( "VEHICLE_FUEL_REDUCING" );
+    float fuel_mult_time = 1.0f;
+    if( fuel_reducing > 0 && veh_status != 0 ) {
+        int current_day = to_days< int >( calendar::turn - calendar::time_of_cataclysm );
+        fuel_mult_time = exp( - 0.69f * current_day / fuel_reducing  );
+    }
+
     bool blood_inside_set = false;
     int blood_inside_x = 0;
     int blood_inside_y = 0;
@@ -378,12 +386,12 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         if( pt.is_tank() && type->parts[p].fuel != "null" ) {
-            int qty = pt.ammo_capacity() * veh_fuel_mult / 100;
+            int qty = pt.ammo_capacity() * veh_fuel_mult / 100 * fuel_mult_time;
             qty *= std::max( item::find_type( type->parts[p].fuel )->stack_size, 1 );
             qty /= to_milliliter( units::legacy_volume_factor );
             pt.ammo_set( type->parts[ p ].fuel, qty );
         } else if( pt.is_fuel_store() && type->parts[p].fuel != "null" ) {
-            int qty = pt.ammo_capacity() * veh_fuel_mult / 100;
+            int qty = pt.ammo_capacity() * veh_fuel_mult / 100 * fuel_mult_time;
             pt.ammo_set( type->parts[ p ].fuel, qty );
         }
 

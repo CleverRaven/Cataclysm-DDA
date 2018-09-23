@@ -85,6 +85,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "VEHICLE_FUEL_REDUCING",
+    "info": "Number of days to decrease fuel volume twice in newly generated vehicles.  Default: 30.  Set to 0 to turn it off.",
+    "stype": "int",
+    "value": 30
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "NO_FAULTS",
     "info": "Disables vehicle part faults.  If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement.",
     "stype": "bool",
