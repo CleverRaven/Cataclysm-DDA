@@ -1298,8 +1298,8 @@ bool game::cleanup_at_end()
             bool queryReset = false;
 
             if( get_option<std::string>( "WORLD_END" ) == "query" ) {
-                uimenu smenu;
-                smenu.return_invalid = false;
+                uilist smenu;
+                smenu.allow_cancel = false;
                 smenu.addentry( 0, true, 'k', "%s", _( "Keep world" ) );
                 smenu.addentry( 1, true, 'r', "%s", _( "Reset world" ) );
                 smenu.addentry( 2, true, 'd', "%s", _( "Delete world" ) );
