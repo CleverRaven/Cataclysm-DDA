@@ -27,6 +27,7 @@ class player;
 class npc;
 class vehicle;
 class vpart_info;
+class vehicle_part_range;
 enum vpart_bitflags : int;
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
@@ -722,6 +723,13 @@ class vehicle
         void remove_remote_part( int part_num );
 
         void break_part_into_pieces( int p, int x, int y, bool scatter = false );
+        /**
+         * Yields a range containing all parts (including broken ones) that can be
+         * iterated over.
+         */
+        // @todo maybe not include broken ones? Have a separate function for that?
+        // @todo rename to just `parts()` and rename the data member to `parts_`.
+        vehicle_part_range get_parts() const;
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
         std::vector<int> parts_at_relative( int dx, int dy, bool use_cache = true ) const;

@@ -1141,7 +1141,8 @@ void vehicle::open_or_close( int const part_index, bool const opening )
     /* Find all other closed parts with the same ID in adjacent squares.
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
-    for( size_t next_index = 0; next_index < parts.size(); ++next_index ) {
+    for( const vpart_reference vp : get_parts() ) {
+        const size_t next_index = vp.part_index();
         if( parts[next_index].removed ) {
             continue;
         }

@@ -12,6 +12,8 @@
 #include "submap.h"
 #include "mtype.h"
 #include "weather.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 #include "vpart_position.h"
 #include "shadowcasting.h"
 
@@ -358,7 +360,8 @@ void map::generate_lightmap( const int zlev )
             }
         };
 
-        for( size_t p = 0; p < v->parts.size(); ++p ) {
+        for( const vpart_reference vp : v->get_parts() ) {
+            const size_t p = vp.part_index();
             tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
                           v->parts[p].precalc[0];
             if( !inbounds( pp ) ) {

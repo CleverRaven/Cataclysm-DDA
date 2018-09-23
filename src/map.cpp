@@ -37,6 +37,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "vpart_range.h"
 #include "weather.h"
 #include "item_group.h"
 #include "pathfinding.h"
@@ -7401,7 +7402,8 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     VehicleList vehs = get_vehicles( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
-        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
+        for( const vpart_reference vp : v.v->get_parts() ) {
+            const size_t part = vp.part_index();
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             if( v.z != sz ) {
@@ -7492,7 +7494,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         auto &outside_cache = ch.outside_cache;
         auto &transparency_cache = ch.transparency_cache;
         auto &floor_cache = ch.floor_cache;
-        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
+        for( const vpart_reference vp : v.v->get_parts() ) {
+            const size_t part = vp.part_index();
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             if( !inbounds( px, py ) ) {
