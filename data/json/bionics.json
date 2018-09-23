@@ -1031,7 +1031,7 @@
     "id": "bio_voice",
     "type": "bionic",
     "name": "Voice Remodulator",
-    "description": "You will likely spend the rest of your days serving as a walking testament to why you don't hold loose parts in your mouth while installing a CBM.  Accidentally swallowing that remodulator unit has given you a creepy robot voice.",
+    "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's \'Cyborg Identity Package.\'  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "MOUTH", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
