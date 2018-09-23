@@ -1105,13 +1105,17 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
     select_menu.settext( _( "The %s is locked..." ), g->m.tername(examp).c_str() );
     if( has_lockpicks ) {
         select_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Pick the lock." ) );
+        select_menu.ret = 1;
     }
     if( has_prying_tool ) {
         select_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Pry it open." ) );
+        select_menu.ret = 2;
     }
     select_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Leave it." ) );
-
-    select_menu.query();
+    if( has_lockpicks && has_prying_tool ) {
+        select_menu.query();
+    }
+    
     pick_lock_actor pla;
 
     switch( select_menu.ret ) {
