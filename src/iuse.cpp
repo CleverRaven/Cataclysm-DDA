@@ -6161,7 +6161,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     amenu.selected = 0;
     amenu.text = _( "What to do with camera?" );
     amenu.addentry( c_shot, true, 'p', _( "Take a photo" ) );
-    if( !( it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() && it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ) ) {
+    if( !( it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() &&
+           it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ) ) {
         amenu.addentry( c_photos, true, 'l', _( "List photos" ) );
         amenu.addentry( c_upload, true, 'u', _( "Upload photos to memory card" ) );
     } else {
@@ -6330,7 +6331,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     npc_photo.name = guy->name;
                     std::string timestamp = to_string( time_point( calendar::turn ) );
                     //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
-                    npc_photo.description = string_format( _("This is a photo of %1$s. It was taken on %2$s."), npc_photo.name, timestamp );
+                    npc_photo.description = string_format( _( "This is a photo of %1$s. It was taken on %2$s." ),
+                                                           npc_photo.name, timestamp );
                     npc_photo.description += "\n\n" + guy->short_description();
 
                     npc_photos.push_back( npc_photo );
