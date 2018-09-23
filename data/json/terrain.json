@@ -559,7 +559,7 @@
     "type": "terrain",
     "id": "t_grass_very_long",
     "name": "very long grass",
-    "description": "Very long grass about neck high.",
+    "description": "Very long grass about head high.",
     "looks_like": "t_grass",
     "symbol": ",",
     "color": "green",
