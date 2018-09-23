@@ -359,7 +359,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     float fuel_mult_time = 1.0f;
     if( fuel_reducing > 0 && veh_status != 0 ) {
         int current_day = to_days< int >( calendar::turn - calendar::time_of_cataclysm );
-        fuel_mult_time = exp( - 0.69f * current_day / fuel_reducing  );
+        fuel_mult_time = exp( - 0.69f * current_day / fuel_reducing );
     }
 
     bool blood_inside_set = false;
