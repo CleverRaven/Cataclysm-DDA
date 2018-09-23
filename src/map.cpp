@@ -473,6 +473,9 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
+            if( static_cast<size_t>( coll.part ) > veh.parts.size() ) {
+                continue;
+            }
 
             const point &collision_point = veh.parts[coll.part].mount;
             const int coll_dmg = coll.imp;
