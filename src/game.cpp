@@ -1758,17 +1758,17 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     ctxt.register_manual_key( 'N', "No" );
     ctxt.register_manual_key( 'I', "Ignore further distractions and finish" );
 #endif
+
+    catacurses::window w = create_popup_window( stop_message, PF_NONE );
+    wrefresh( w );
     do {
-#ifdef __ANDROID__
-        // Don't use popup() as this creates its own input context which will override the one above
-        ch = popup( stop_message, PF_NO_WAIT );
         ch = inp_mngr.get_input_event().get_first_input();
-#else
-        ch = popup( stop_message, PF_GET_KEY );
-#endif
     } while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
              ch != 'Y' && ch != 'N' && ch != 'I' &&
              ( force_uc || ( ch != 'y' && ch != 'n' && ch != 'i' ) ) );
+    // Flash black after keypress to give feedback during consecutive popups
+    werase( w );
+    wrefresh( w );
 
     if( ch == 'Y' || ch == 'y' ) {
         u.cancel_activity();

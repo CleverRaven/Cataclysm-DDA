@@ -591,8 +591,9 @@ bool query_yn( const std::string &text )
     std::string color_on = "<color_white>";
     std::string color_off = "</color>";
 
-    int ch = '?';
-    bool result = true;
+    input_event evt;
+    int ch = UNKNOWN_UNICODE;
+    bool result = false;
     bool gotkey = false;
 
 #ifdef __ANDROID__
@@ -611,7 +612,7 @@ bool query_yn( const std::string &text )
         if( gotkey ) {
             result = ( !force_uc && ( ch == selectors[0] ) ) || ( ch == ucselectors[0] );
             break; // could move break past render to flash final choice once.
-        } else {
+        } else if( evt.type != CATA_INPUT_ERROR && evt.type != CATA_INPUT_MOUSE ) {
             // Everything else toggles the selection.
             result = !result;
         }
@@ -648,7 +649,8 @@ bool query_yn( const std::string &text )
         wrefresh( w );
 
         // TODO: use input context
-        ch = inp_mngr.get_input_event().get_first_input();
+        evt = inp_mngr.get_input_event();
+        ch = evt.get_first_input();
     };
 
     catacurses::refresh();
