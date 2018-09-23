@@ -208,7 +208,7 @@ bool mattack::eat_crop( monster *z )
             g->m.furn_set( p, f_null );
 
             auto items = g->m.i_at( p );
-            for( auto i = items.begin(); i != items.end(); ) {
+            for( auto i = items.begin(); i != items.end(); ++i ) {
                 if( i->is_seed() ) {
                     g->m.i_rem( p, i );
                     return true;
