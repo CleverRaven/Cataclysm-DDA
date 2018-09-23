@@ -1102,7 +1102,7 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
 
     uimenu select_menu;
 
-    select_menu.settext( _( "The %s is locked..." ), g->m.tername(examp).c_str() );
+    select_menu.settext( _("The %s is locked..."), g->m.tername(examp).c_str() );
     if( has_lockpicks ) {
         select_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Pick the lock." ) );
         select_menu.ret = 1;
@@ -1116,27 +1116,26 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
         select_menu.query();
     }
     
-    pick_lock_actor pla;
+    
 
-    switch( select_menu.ret ) {
-        case 0:
-            return;
-        case 1:
-            // There should be a better way of getting the best tool
-            int best_quality = p.crafting_inventory().max_quality( quality_id( "PICK" ) );
-            auto to_use = p.crafting_inventory.items_with( quality_id( "PICK" ), best_quality );
-            
+    if( select_menu.ret == 0 ) {
+        return;
+    } else if( select_menu.ret == 1 ) {
 
-            pla.use( p, to_use[0], false, examp );
-            return;
+        // There should be a better way of getting the best tool
+        int best_quality = p.crafting_inventory().max_quality( quality_id( "PICK" ) );
+        auto to_use = p.crafting_inventory.items_with( quality_id( "PICK" ), best_quality );
 
-        case 2:
-            // See crate prying for why a dummy item is used
-            item fakecrow ( "crowbar", 0 );
+        pick_lock_actor pla;
+        pla.use( p, to_use[0], false, examp );
+        return;
+    } else if( select_menu.ret == 2 ) {
+        // See crate prying for why a dummy item is used
+        item fakecrow( "crowbar", 0 );
 
-            iuse dummy;
-            dummy.crowbar ( &p, &fakecrow, false, examp );
-            return;;
+        iuse dummy;
+        dummy.crowbar( &p, &fakecrow, false, examp );
+        return;;
     }
 
     
