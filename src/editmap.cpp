@@ -1037,6 +1037,7 @@ int editmap::edit_ter()
             }
         }
     } while( action != "QUIT" );
+    g->draw_sidebar();
     return ret;
 }
 
