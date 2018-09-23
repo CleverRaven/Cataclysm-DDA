@@ -2131,6 +2131,17 @@
         ]
     },{
         "type" : "construction",
+        "description" : "Cut Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "pre_terrain" : "t_grass_tall",
+        "post_terrain" : "t_grass",
+        "tools": [
+        [ [ "scythe", -1 ], [ "sickle", -1 ] ]
+        ]
+    },{
+        "type" : "construction",
         "description" : "Remove Grass",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
@@ -2146,6 +2157,15 @@
         "time" : 6,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass_long",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_tall",
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
