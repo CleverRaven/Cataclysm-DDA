@@ -1273,6 +1273,7 @@ int editmap::edit_trp()
 
     wrefresh( w_info );
 
+    g->draw_sidebar();
     return ret;
 }
 
