@@ -4505,7 +4505,6 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                 it_insulation = 1; // ignore freezer insulation if on
             } else if( pt.enabled && pti.has_flag( VPFLAG_HEATER ) ) {
                 it_temp = std::max( it_temp, temperatures::heater );
-                item_iter->heat_up();
                 it_insulation = 1; // ignore heater insulation if on
             }
         }

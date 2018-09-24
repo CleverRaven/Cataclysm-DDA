@@ -73,6 +73,9 @@
 /** Temperature constants */
 namespace temperatures
 {
+/** Temperature inside an active warming drawer in Fahrenheit */
+constexpr int heater = 140; // 60 Celsius
+
 /** temperature at which something starts warming and can become HOT */
 constexpr int hot = 100; // ~ 38 Celsius
 
