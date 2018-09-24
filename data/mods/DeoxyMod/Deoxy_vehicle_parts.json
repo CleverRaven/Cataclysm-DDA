@@ -245,6 +245,12 @@
         "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 8
     },{
+        "id": "minireactor",
+        "copy-from": "minireactor",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 6
+    },{
         "id": "tank_small",
         "copy-from": "tank_small",
         "type": "vehicle_part",

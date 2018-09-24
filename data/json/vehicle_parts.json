@@ -677,9 +677,8 @@
     "fuel_type": "plut_cell",
     "item": "minireactor",
     "difficulty": 6,
-    "folded_volume": 6,
     "location": "fuel_source",
-    "flags": [ "REACTOR", "FOLDABLE" ],
+    "flags": [ "REACTOR" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 11 ] },
       { "item": "steel_chunk", "count": [ 6, 11 ] },
