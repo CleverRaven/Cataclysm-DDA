@@ -1417,6 +1417,28 @@
     [ [ "cable", 5 ] ]
   ]
 },{
+  "type": "recipe",
+  "result": "motor_tiny",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+  "using": [ [ "soldering_standard", 5 ] ],
+  "qualities": [
+    { "id": "HAMMER", "level": 1 },
+    { "id": "SCREW_FINE", "level": 1 }
+  ],
+  "components": [ 
+    [ [ "plastic_chunk", 1 ] ],
+    [ [ "scrap", 1 ] ],
+    [ [ "cable", 3 ] ]
+  ]
+  },{
   "type" : "recipe",
   "result": "motor_small",
   "category": "CC_ELECTRONIC",
