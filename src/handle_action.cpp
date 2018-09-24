@@ -153,7 +153,7 @@ input_context game::get_player_input( std::string &action )
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        inp_mngr.set_timeout( 125 );
+        ctxt.set_timeout( 125 );
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview( ctxt, action ) || uquit == QUIT_WATCH ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
@@ -286,15 +286,15 @@ input_context game::get_player_input( std::string &action )
             //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
             draw_pixel_minimap();
         }
-        inp_mngr.reset_timeout();
+        ctxt.reset_timeout();
     } else {
-        inp_mngr.set_timeout( 125 );
+        ctxt.set_timeout( 125 );
         while( handle_mouseview( ctxt, action ) ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
                 break;
             }
         }
-        inp_mngr.reset_timeout();
+        ctxt.reset_timeout();
     }
 
     return ctxt;

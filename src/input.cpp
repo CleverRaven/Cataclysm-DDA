@@ -739,7 +739,7 @@ const std::string &input_context::handle_input( const int timeout )
     if( timeout >= 0 ) {
         inp_mngr.set_timeout( timeout );
     } else {
-        inp_mngr.reset_timeout( timeout );
+        inp_mngr.reset_timeout();
     }
     next_action.type = CATA_INPUT_ERROR;
     while( 1 ) {
@@ -875,7 +875,6 @@ const std::string display_help_hotkeys =
 
 void input_context::display_menu()
 {
-    inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
 
     input_context ctxt( "HELP_KEYBINDINGS" );
@@ -1300,7 +1299,7 @@ void input_context::set_timeout( int val )
     timeout = val;
 }
 
-void input_context::reset_timeout( int val )
+void input_context::reset_timeout()
 {
     timeout = -1;
 }

@@ -1696,12 +1696,10 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
         } else {
             update_view( false ); //wrefresh(g->w_terrain);
         }
-        inp_mngr.set_timeout( BLINK_SPEED * 3 );
         int gpmenupos = gpmenu.selected;
-        gpmenu.query( false );
+        gpmenu.query( false, BLINK_SPEED * 3 );
 
         if( gpmenu.ret != UIMENU_UNBOUND ) {
-            inp_mngr.reset_timeout();
             if( gpmenu.ret == 0 ) {
 
                 cleartmpmap( tmpmap );
@@ -1807,8 +1805,6 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
             gmenu.refresh();
         }
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UIMENU_CANCEL );
-
-    inp_mngr.reset_timeout();
 
     update_view( true );
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
