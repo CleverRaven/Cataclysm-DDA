@@ -72,14 +72,14 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_HEALING_RATE",
-    "info": "Set base player healing rate per turn. Default: 0.01",
+    "info": "Set base player healing rate per turn. Default: 0.007",
     "stype": "float",
     "value": 0.007
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "NPC_HEALING_RATE",
-    "info": "Set base NPC healing rate per turn. Default: 0.01",
+    "info": "Set base NPC healing rate per turn. Default: 0.007",
     "stype": "float",
     "value": 0.007
   },
