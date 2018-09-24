@@ -32,6 +32,8 @@ enum vpart_bitflags : int;
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+template<typename feature_type>
+class vehicle_part_with_feature_range;
 namespace catacurses
 {
 class window;
@@ -819,10 +821,18 @@ class vehicle
          *  @return part index or -1 if no part
          */
         int next_part_to_close( int p, bool outside = false ) const;
-
-        // returns indices of all parts in the vehicle with the given flag
-        std::vector<int> all_parts_with_feature( const std::string &feature, bool unbroken = true ) const;
-        std::vector<int> all_parts_with_feature( vpart_bitflags f, bool unbroken = true ) const;
+        /**
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are (optionally) unbroken.
+         * @param unbroken If `true`, only unbroken parts are considered, otherwise
+         * even broken parts are in the range.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> parts_with_feature( std::string feature,
+                bool unbroken = true ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> parts_with_feature( vpart_bitflags f,
+                bool unbroken = true ) const;
+        /**@}*/
 
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;

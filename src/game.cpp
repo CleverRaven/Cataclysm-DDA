@@ -6,6 +6,7 @@
 #include "input.h"
 #include "output.h"
 #include "skill.h"
+#include "vpart_range.h"
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
@@ -10340,8 +10341,8 @@ bool game::plmove( int dx, int dy, int dz )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( "SWIMMABLE", u.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, u.pos() );
-    bool fromBoat = veh0 != nullptr && !veh0->all_parts_with_feature( VPFLAG_FLOATS ).empty();
-    bool toBoat = veh1 != nullptr && !veh1->all_parts_with_feature( VPFLAG_FLOATS ).empty();
+    bool fromBoat = veh0 != nullptr && !empty( veh0->parts_with_feature( VPFLAG_FLOATS ) );
+    bool toBoat = veh1 != nullptr && !empty( veh1->parts_with_feature( VPFLAG_FLOATS ) );
 
     if( toSwimmable && toDeepWater && !toBoat ) { // Dive into water!
         // Requires confirmation if we were on dry land previously

@@ -9,6 +9,7 @@
 #include "projectile.h"
 #include "line.h"
 #include "debug.h"
+#include "vpart_range.h"
 #include "overmapbuffer.h"
 #include "ranged.h"
 #include "messages.h"
@@ -646,7 +647,8 @@ void npc::execute_action( npc_action action )
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
-            for( const size_t p2 : veh->all_parts_with_feature( VPFLAG_BOARDABLE ) ) {
+            for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_BOARDABLE ) ) {
+                const size_t p2 = vp.part_index();
                 const player *passenger = veh->get_passenger( p2 );
                 if( passenger != this && passenger != nullptr ) {
                     continue;

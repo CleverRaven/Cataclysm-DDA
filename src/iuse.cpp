@@ -14,6 +14,7 @@
 #include "requirements.h"
 #include "rng.h"
 #include "calendar.h"
+#include "vpart_range.h"
 #include "string_formatter.h"
 #include "line.h"
 #include "mutation.h"
@@ -6723,7 +6724,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     if( !veh.is_locked || !veh.has_security_working() ) {
         return true;
     }
-    bool advanced = veh.all_parts_with_feature( "REMOTE_CONTROLS", true ).size() > 0;
+    const bool advanced = !empty( veh.parts_with_feature( "REMOTE_CONTROLS", true ) );
     if( advanced && veh.is_alarm_on ) {
         p.add_msg_if_player( m_bad, _( "This vehicle's security system has locked you out!" ) );
         return false;
@@ -6787,8 +6788,8 @@ vehicle *pickveh( const tripoint &center, bool advanced )
         const auto gp = v->global_pos();
         if( rl_dist( center.x, center.y, gp.x, gp.y ) < 40 &&
             v->fuel_left( "battery", true ) > 0 &&
-            ( v->all_parts_with_feature( advctrl, true ).size() > 0 ||
-              ( !advanced && v->all_parts_with_feature( ctrl, true ).size() > 0 ) ) ) {
+            ( !empty( v->parts_with_feature( advctrl, true ) ) ||
+              ( !advanced && !empty( v->parts_with_feature( ctrl, true ) ) ) ) ) {
             vehs.push_back( v );
         }
     }

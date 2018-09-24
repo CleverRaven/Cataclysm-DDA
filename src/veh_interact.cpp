@@ -19,6 +19,8 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "ui.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 #include "itype.h"
 #include "cata_utility.h"
 #include "vehicle_selector.h"
@@ -1895,8 +1897,8 @@ void veh_interact::display_veh ()
 
 static std::string wheel_state_description( const vehicle &veh )
 {
-    bool is_boat = !veh.all_parts_with_feature(VPFLAG_FLOATS).empty();
-    bool is_land = !veh.all_parts_with_feature(VPFLAG_WHEEL).empty();
+    bool is_boat = !empty( veh.parts_with_feature( VPFLAG_FLOATS ) );
+    bool is_land = !empty( veh.parts_with_feature( VPFLAG_WHEEL ) );
 
     bool suf_land = veh.sufficient_wheel_config( false );
     bool bal_land = veh.balanced_wheel_config( false );
@@ -1952,10 +1954,10 @@ void veh_interact::display_stats()
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
     int x[18], y[18], w[18]; // 3 columns * 6 rows = 18 slots max
 
-    std::vector<int> cargo_parts = veh->all_parts_with_feature("CARGO");
     units::volume total_cargo = 0;
     units::volume free_cargo = 0;
-    for( const auto &p : cargo_parts ) {
+    for( const vpart_reference vp : veh->parts_with_feature( "CARGO" ) ) {
+        const size_t p = vp.part_index();
         total_cargo += veh->max_volume(p);
         free_cargo += veh->free_volume(p);
     }
@@ -2039,7 +2041,7 @@ void veh_interact::display_stats()
         print_part( needsRepair, 7, most_repairable );
     }
 
-    bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool is_boat = !empty( veh->parts_with_feature( VPFLAG_FLOATS ) );
 
     fold_and_print(w_stats, y[8], x[8], w[8], c_light_gray,
                    _("K aerodynamics: <color_light_blue>%3d</color>%%"),

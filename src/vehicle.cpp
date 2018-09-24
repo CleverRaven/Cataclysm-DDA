@@ -151,8 +151,8 @@ bool vehicle::remote_controlled( player const &p ) const
         return false;
     }
 
-    auto remote = all_parts_with_feature( "REMOTE_CONTROLS", true );
-    for( int part : remote ) {
+    for( const vpart_reference vp : parts_with_feature( "REMOTE_CONTROLS" ) ) {
+        const size_t part = vp.part_index();
         if( rl_dist( p.pos(), tripoint( global_pos() + parts[part].precalc[0], p.posz() ) ) <= 40 ) {
             return true;
         }
@@ -316,7 +316,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
-        if( veh_fuel_mult > 0 && all_parts_with_feature( "ENGINE", true ).size() > 0 &&
+        if( veh_fuel_mult > 0 && !empty( parts_with_feature( "ENGINE" ) ) &&
             one_in( 8 ) && !destroyEngine && !has_no_key && has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
         }
@@ -2068,41 +2068,18 @@ int vehicle::next_part_to_open( int p, bool outside ) const
     return -1;
 }
 
-/**
- * Returns all parts in the vehicle with the given flag, optionally checking
- * to only return unbroken parts.
- * If performance becomes an issue, certain lists (such as wheels) could be
- * cached and fast-returned here, but this is currently linear-time with
- * respect to the number of parts in the vehicle.
- * @param feature The flag (such as "WHEEL" or "CONE_LIGHT") to find.
- * @param unbroken true if only unbroken parts should be returned, false to
- *        return all matching parts.
- * @return A list of indices to all the parts with the specified feature.
- */
-std::vector<int> vehicle::all_parts_with_feature( const std::string &feature,
-        bool const unbroken ) const
+vehicle_part_with_feature_range<std::string> vehicle::parts_with_feature( std::string feature,
+        const bool unbroken ) const
 {
-    std::vector<int> parts_found;
-    for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
-        if( part_info( part_index ).has_flag( feature ) &&
-            ( !unbroken || !parts[ part_index ].is_broken() ) ) {
-            parts_found.push_back( part_index );
-        }
-    }
-    return parts_found;
+    return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
+            std::move( feature ), unbroken );
 }
 
-std::vector<int> vehicle::all_parts_with_feature( vpart_bitflags feature,
-        bool const unbroken ) const
+vehicle_part_with_feature_range<vpart_bitflags> vehicle::parts_with_feature(
+    const vpart_bitflags feature, const bool unbroken ) const
 {
-    std::vector<int> parts_found;
-    for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
-        if( part_info( part_index ).has_flag( feature ) &&
-            ( !unbroken || !parts[ part_index ].is_broken() ) ) {
-            parts_found.push_back( part_index );
-        }
-    }
-    return parts_found;
+    return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
+            unbroken );
 }
 
 /**
@@ -2132,9 +2109,9 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
  */
 std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std::string flag )
 {
-    std::vector<int> possible_parts = all_parts_with_feature( flag );
+    const auto possible_parts = parts_with_feature( flag );
     std::vector<std::vector<int>> ret_parts;
-    if( possible_parts.empty() ) {
+    if( empty( possible_parts ) ) {
         return ret_parts;
     }
 
@@ -2143,7 +2120,8 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
     vpart_id part_id = part_info( part ).get_id();
     // create vectors of parts on the same X or Y axis
     point target = parts[ part ].mount;
-    for( auto possible_part : possible_parts ) {
+    for( const vpart_reference vp : possible_parts ) {
+        const size_t possible_part = vp.part_index();
         if( parts[ possible_part ].is_unavailable() ||
             !part_info( possible_part ).has_flag( "MULTISQUARE" ) ||
             parts[ possible_part ].removed || part_info( possible_part ).get_id() != part_id )  {
@@ -2941,18 +2919,18 @@ float vehicle::strain() const
 
 bool vehicle::sufficient_wheel_config( bool boat ) const
 {
-    std::vector<int> floats = all_parts_with_feature( VPFLAG_FLOATS );
+    const auto floats = parts_with_feature( VPFLAG_FLOATS );
     // @todo: Remove the limitations that boats can't move on land
-    if( boat || !floats.empty() ) {
-        return boat && floats.size() > 2;
+    if( boat || !empty( floats ) ) {
+        return boat && size( floats ) > 2;
     }
-    std::vector<int> wheel_indices = all_parts_with_feature( VPFLAG_WHEEL );
-    if( wheel_indices.empty() ) {
+    const auto wheels = parts_with_feature( VPFLAG_WHEEL );
+    if( empty( wheels ) ) {
         // No wheels!
         return false;
-    } else if( wheel_indices.size() == 1 ) {
+    } else if( size( wheels ) == 1 ) {
         //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
-        if( !part_info( wheel_indices[0] ).has_flag( "STABLE" ) ||
+        if( !part_info( ( *wheels.begin() ).part_index() ).has_flag( "STABLE" ) ||
             all_parts_at_location( part_location_structure ).size() > 3 ) {
             return false;
         }
@@ -4704,4 +4682,18 @@ bounding_box vehicle::get_bounding_box()
 vehicle_part_range vehicle::get_parts() const
 {
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
+}
+
+template<>
+bool vehicle_part_with_feature_range<std::string>::contained( const size_t part ) const
+{
+    return this->vehicle().part_info( part ).has_flag( feature_ ) && ( !unbroken_ ||
+            !this->vehicle().parts[part].is_broken() );
+}
+
+template<>
+bool vehicle_part_with_feature_range<vpart_bitflags>::contained( const size_t part ) const
+{
+    return this->vehicle().part_info( part ).has_flag( feature_ ) && ( !unbroken_ ||
+            !this->vehicle().parts[part].is_broken() );
 }

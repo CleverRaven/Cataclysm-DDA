@@ -10,6 +10,7 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
+#include "vpart_range.h"
 #include "ammo.h"
 #include "item_group.h"
 #include "mapgen_functions.h"
@@ -6899,10 +6900,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    bool can_float = false;
-    if( veh->all_parts_with_feature( "FLOATS" ).size() > 2 ) {
-        can_float = true;
-    }
+    const bool can_float = size( veh->parts_with_feature( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
