@@ -21,7 +21,7 @@
   "components" : [
      [ ["plastic_chunk", 6] ],
      [ ["blade", 2] ],
-     [ ["motor_small", 1] ],
+     [ ["motor_tiny", 1] ],
      [ ["power_supply", 1] ],
      [ [ "scrap", 1 ] ],
      [ [ "cable", 5 ] ]
@@ -83,7 +83,7 @@
   "components" : [
     [ ["plastic_chunk", 6] ],
     [ ["chain", 1] ],
-    [ ["motor_small", 1] ],
+    [ ["motor_micro", 1] ],
     [ ["metal_tank_little", 1] ],
     [ [ "scrap", 2 ] ],
     [ [ "cable", 4 ] ],
@@ -1550,7 +1550,7 @@
   ],
   "components": [
     [ [ "vehicle_controls", 1 ] ],
-    [ [ "motor_small", 3 ] ],
+    [ [ "motor_tiny", 3 ] ],
     [ [ "receiver", 3 ] ],
     [ [ "processor", 3 ] ],
     [ [ "RAM", 3 ] ],
@@ -1662,7 +1662,7 @@
       [ "plastic_chunk", 2 ]
     ],
     [
-      [ "motor_small", 1 ]
+      [ "motor_micro", 1 ]
     ],
     [
       [ "superglue", 2 ]
@@ -1720,7 +1720,7 @@
   ],
   "components" : [
     [ [ "razor_blade", 1 ] ],
-    [ [ "motor_small", 1 ] ],
+    [ [ "motor_micro", 1 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "plastic_chunk", 1 ] ]
   ]
