@@ -729,16 +729,18 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
-const std::string &input_context::handle_input( const int timeout )
-{
-    inp_mngr.set_timeout( timeout );
-    const std::string &result = handle_input();
-    inp_mngr.reset_timeout();
-    return result;
-}
-
 const std::string &input_context::handle_input()
 {
+    return handle_input( timeout );
+}
+
+const std::string &input_context::handle_input( const int timeout )
+{
+    if( timeout >= 0 ) {
+        inp_mngr.set_timeout( timeout );
+    } else {
+        inp_mngr.reset_timeout( timeout );
+    }
     next_action.type = CATA_INPUT_ERROR;
     while( 1 ) {
         next_action = inp_mngr.get_input_event();
@@ -779,6 +781,7 @@ const std::string &input_context::handle_input()
         // If it's an invalid key, just keep looping until the user
         // enters something proper.
     }
+    inp_mngr.reset_timeout();
 }
 
 void input_context::register_directions()
@@ -1292,3 +1295,12 @@ std::string input_context::get_edittext()
     return edittext;
 }
 
+void input_context::set_timeout( int val )
+{
+    timeout = val;
+}
+
+void input_context::reset_timeout( int val )
+{
+    timeout = -1;
+}

@@ -615,6 +615,9 @@ class input_context
         std::string get_edittext();
 
         void set_iso( bool mode = true );
+
+        void set_timeout( int timeout );
+        void reset_timeout();
     private:
 
         std::vector<std::string> registered_actions;
@@ -630,6 +633,7 @@ class input_context
         bool handling_coordinate_input;
         input_event next_action;
         bool iso_mode = false; // should this context follow the game's isometric settings?
+        int timeout = -1;
 
         /**
          * When registering for actions within an input_context, callers can
