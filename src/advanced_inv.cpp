@@ -1642,7 +1642,7 @@ void advanced_inventory::display()
                 }
                 // add the item, and note any items that might be leftover
                 int items_left = add_item( destarea, new_item, ( by_charges ) ? 1 : amount_to_move );
-                move_cost = Pickup::cost_to_move_item( g->u, new_item );
+                move_cost = ( by_charges ? 1 : amount_to_move ) * Pickup::cost_to_move_item( g->u, new_item );
                 // only remove item or charges if the add succeeded
                 if( items_left == 0 ) {
                     if( by_charges ) {
