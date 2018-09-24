@@ -11,6 +11,7 @@
 #include "ret_val.h"
 #include "damage.h"
 #include "calendar.h"
+#include "mapdata.h"
 
 #include <unordered_set>
 #include <memory>
@@ -131,6 +132,45 @@ struct stat_mod {
     int speed = 0;
 };
 
+struct memorized_terrain_tile {
+    std::string tile;
+    int subtile;
+    int rotation;
+};
+
+class map_memory
+{
+    public:
+        void store( JsonOut &jsout ) const;
+        void load( JsonObject &jsin );
+
+        /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
+        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation );
+        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
+        void finalize_tile_memory( size_t max_submaps );
+        /** Memorizes several tiles at once */
+        void memorize_tiles( const std::map<tripoint, memorized_terrain_tile> &tiles, size_t max_submaps );
+        /** Adds new submaps to the memorized submap list, and pushes out the oldest ones */
+        void update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps );
+        /** Erases specific submaps from memory */
+        void clear_submap_memory( const std::set<tripoint> &erase );
+
+        /** Returns last stored map tile in given location */
+        memorized_terrain_tile get_memorized_terrain( const tripoint &p ) const;
+
+        void memorize_terrain_symbol( const tripoint &pos, const long symbol );
+        void memorize_terrain_symbols( const std::map<tripoint, long> &tiles, size_t max_submaps );
+        void finalize_terrain_memory_curses( const size_t max_submaps );
+        long get_memorized_terrain_curses( const tripoint &p ) const;
+    private:
+        std::map<tripoint, memorized_terrain_tile> memorized_terrain_tmp;
+        std::map<tripoint, memorized_terrain_tile> memorized_terrain;
+        std::map<tripoint, long> memorized_terrain_curses_tmp;
+        std::map<tripoint, long> memorized_terrain_curses;
+        std::vector<tripoint> memorized_submaps;
+};
+
 class player : public Character
 {
     public:
@@ -144,7 +184,8 @@ class player : public Character
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
-        bool load_template( const std::string &template_name );
+        bool load_template( const std::string &template_name, points_left &points );
+
         /** Calls Character::normalize()
          *  normalizes HP and body temperature
          */
@@ -166,6 +207,10 @@ class player : public Character
         void hardcoded_effects( effect &it );
         /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
+
+        bool in_sleep_state() const override {
+            return Creature::in_sleep_state() || activity.id() == "ACT_TRY_SLEEP";
+        }
 
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
@@ -361,6 +406,24 @@ class player : public Character
         bool has_alarm_clock() const;
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
+
+        void toggle_map_memory();
+        bool should_show_map_memory();
+        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
+        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation );
+        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
+        void finalize_tile_memory();
+        /** Returns last stored map tile in given location in tiles mode */
+        memorized_terrain_tile get_memorized_terrain( const tripoint &p ) const;
+        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
+        void memorize_terrain_curses( const tripoint &pos, const long symbol );
+        /** Returns last stored map tile in given location in curses mode */
+        long get_memorized_terrain_curses( const tripoint &p ) const;
+        /** Called after several calls of memorize_terrain_curses, processes all tiles set to memorize */
+        void finalize_terrain_memory_curses();
+        /** Returns the amount of submaps survivor can remember. Each submap is 12x12 and there are 4 of them in an overmap tile */
+        size_t max_memorized_submaps() const;
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
@@ -1057,18 +1120,25 @@ class player : public Character
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const std::string &item_id ) const;
-        /** Handles sleep attempts by the player, adds "lying_down" */
-        void try_to_sleep();
+        /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
+        void try_to_sleep( const time_duration &dur = 30_minutes );
         /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
         /** Adds "sleep" to the player */
+        void fall_asleep();
         void fall_asleep( const time_duration &duration );
         /** Removes "sleep" and "lying_down" from the player */
         void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
+
+    private:
+        /** last time we checked for sleep */
+        time_point last_sleep_check = calendar::time_of_cataclysm;
+
+    public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
          * above 4.0 means these activities cannot be performed. */
@@ -1742,6 +1812,8 @@ class player : public Character
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
 
+        map_memory player_map_memory;
+        bool show_map_memory;
 };
 
 #endif

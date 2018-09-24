@@ -1078,6 +1078,8 @@ class game
         // remoteveh() cache
         time_point remoteveh_cache_time;
         vehicle *remoteveh_cache;
+        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
+        std::unordered_map< tripoint, int > temperature_cache;
         /** Has a NPC been spawned since last load? */
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */

@@ -924,6 +924,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 ### Flags that apply to items, not to item types.
@@ -936,6 +937,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
+- ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.

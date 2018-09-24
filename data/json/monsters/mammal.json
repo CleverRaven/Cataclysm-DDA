@@ -816,7 +816,7 @@
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": "boxer mastiff",
-    "description": "An ordinary breed full of affection, the Boxer Mastiff doesn't stand out amongst other dogs but has mediocre abilities nonetheless.",
+    "description": "An ordinary breed full of affection, the Boxer Mastiff doesn't otherwise stand out amongst other dogs with its capabilities.",
     "hp": 29,
     "aggression": 3,
     "melee_skill": 4,

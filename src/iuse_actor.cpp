@@ -1043,7 +1043,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
                                      _( "You light a fire, but it isn't enough. You need to light more." ) );
             } else {
                 p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 24_hours, 8_hours );
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
                 p.rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
         }
@@ -1302,9 +1302,9 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     // Decided to split components evenly. Since salvage will likely change
     // soon after I write this, I'll go with the one that is cleaner.
     for( auto material : cut_material_components ) {
-        const material_type &mt = material.obj();
-        materials_salvaged[mt.salvaged_into()] = std::max( 0,
-                count / ( int )cut_material_components.size() );
+        if( const auto id = material->salvaged_into() ) {
+            materials_salvaged[*id] = std::max( 0, count / static_cast<int>( cut_material_components.size() ) );
+        }
     }
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ), cut.tname().c_str() );
@@ -1386,14 +1386,12 @@ bool inscribe_actor::item_inscription( item &cut ) const
     enum inscription_type {
         INSCRIPTION_LABEL,
         INSCRIPTION_NOTE,
-        INSCRIPTION_CANCEL
     };
 
-    uimenu menu;
+    uilist menu;
     menu.text = string_format( _( "%s meaning?" ), _( verb.c_str() ) );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
-    menu.addentry( INSCRIPTION_CANCEL, true, 'q', _( "Cancel" ) );
     menu.query();
 
     std::string carving;
@@ -1407,7 +1405,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
             carving = "item_note";
             carving_type = "item_note_type";
             break;
-        case INSCRIPTION_CANCEL:
+        default:
             return false;
     }
 

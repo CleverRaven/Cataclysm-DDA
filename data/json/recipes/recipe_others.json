@@ -1115,17 +1115,6 @@
   },
   {
     "type": "recipe",
-    "result": "2x4",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": 8000,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "stick_long", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "basket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",

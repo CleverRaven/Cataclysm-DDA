@@ -73,8 +73,11 @@
 /** Temperature constants */
 namespace temperatures
 {
-/** Temperature inside an active heating drawer in Fahrenheit */
-constexpr int heater = 140; // 60 Celsius
+/** temperature at which something starts warming and can become HOT */
+constexpr int hot = 100; // ~ 38 Celsius
+
+/** the "normal" temperature midpoint between cold and hot */
+constexpr int normal = 70; // ~ 21 Celsius
 
 /** Temperature inside an active fridge in Fahrenheit  */
 constexpr int fridge = 37; // ~ 2.7 Celsius

@@ -1,10 +1,10 @@
 [
   {
-    "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
+    "//": "Cells where the player starts during a lab escape.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_escape_cells" ],
-    "weight": 200,
+    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -21,41 +21,44 @@
         "########################",
         "########################",
         "########################",
-        "########################",
-        "########################",
-        "########################",
-        "#---------------------##",
-        "#|ST,|ST,|ST,|ST,|ST,|##",
-        "#|,,,|,,,|,,,|,,,|,,,|##",
-        "#|,,b|,,b|,,b|,,b|,,b|##",
-        "#|,,b|,,b|,,b|,,b|,,b|##",
-        "#|,,,|,,,|,,,|,,,|,,,|##",
-        "#|,,,|,,,|,,,|,,,|,,,|##",
-        "--gGg|gGg|gGg|gGg|gGg--|"
+        "-----------------------|",
+        "|x.....................|",
+        "|......................|",
+        "--Lg--Lg--Lg--Lg--Lg-..|",
+        "|T..|T..|T..|T..|T..|..|",
+        "|S..|S..|S..|S..|S..|..|",
+        "|...|...|...|...|...|..|",
+        "|..b|h.b|..b|..b|..b|..|",
+        "|z.b|z.b|..b|..b|..b|..|",
+        "|h..|h..|h..|h.z|h.z|.x|",
+        "-ggg|ggg|g!g|ggg|ggg-L-|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": {
-        "g": "t_wall_glass_h",
-        "G": "t_door_glass_c"
+      "monster": {
+        "z": { "monster": "mon_zombie" }
+      },
+      "mapping": {
+        "b": { "items": [ { "item": "bed", "chance": 66 } ] },
+        "!": { "item": [ { "item": "glass_shard", "count": [3,6] } ] }
       }
     }
   },
   {
-    "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
+    "//": "South of cells where the player starts during a lab escape. Should include a monster who can break glass",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_escape_entrance" ],
-    "weight": 200,
+    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
         "|......................|",
-        ".......................|",
-        "hh..|---?---|---?---|..|",
-        "tt..|       |       |..|",
-        "hh..|       |       |..|",
+        "x.....................Z|",
+        "----|-------|-------|++|",
         "....|       |       |..|",
-        "....?       |       +..|",
+        "hh..|       |       |..|",
+        "tt..|       |       |..|",
+        "hh..?       |       +..|",
         "....|       |       |..|",
         "hh..|       |       |..|",
         "tt..|       |       |..|",
@@ -74,18 +77,124 @@
         "          |..|         |",
         "-----------MM----------|"
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
-        "g": "t_wall_glass_h"
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
+      },
+      "monster": {
+        "Z": { "monster": "mon_zombie_brute" }
       },
       "place_nested": [
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 5, "y": 3 },
+        { "chunks": [ "lab_spawn_7x7_wall_sw" ], "x": 4, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [ 0, 1 ], "y": 14 },
         { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13 },
         { "chunks": [ "lab_border_walls_sew" ], "x": 0, "y": 0 },
-        { "chunks": [ "sub_t_stairs_up" ], "x": 12, "y": 20, "neighbors": { "above": [ "lab_stairs" ] } }
+        { "chunks": [ "sub_t_stairs_up" ], "x": [11, 12], "y": [20, 21], "neighbors": { "above": [ "lab_stairs" ] } }
+      ]
+    }
+  },
+  {
+    "//": "South of cells where the player starts during a lab escape. Should include a monster who can break glass",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_escape_entrance" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "|......................|",
+        "xZ.....................|",
+        "--+--------------------|",
+        ".......................|",
+        "hh.....................|",
+        "tt..-----------------..|",
+        "hh..|       |       |..|",
+        "....|       |       |..|",
+        "hh..|       |       |..|",
+        "tt..+       |       +..|",
+        "hh..|       |       |..|",
+        "....|       |       |..M",
+        "....|       |       |..M",
+        "--+-------|--|--?----?-|",
+        "          |TS|         |",
+        "          |..|         |",
+        "          |-W|         |",
+        "          |..|         |",
+        "          +..+         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "          |..|         |",
+        "-----------MM----------|"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
+      },
+      "monster": {
+        "Z": { "monster": "mon_zombie_brute" }
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 4, "y": 5 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 6 },
+        { "chunks": [ "lab_spawn_9x9" ], "x": [ 0, 1 ], "y": 14 },
+        { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": 14 },
+        { "chunks": [ "lab_border_walls_sew" ], "x": 0, "y": 0 },
+        { "chunks": [ "sub_t_stairs_up" ], "x": [11, 12], "y": [20, 21], "neighbors": { "above": [ "lab_stairs" ] } }
+      ]
+    }
+  },
+  {
+    "//": "Cross floorplan which fills a quadrant with rocks when a side is empty, and possibly adds vaults.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_escape_entrance" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        ".......................|",
+        ".......................|",
+        ".d......-----..........|",
+        ".dh.....ddxdd......|---|",
+        ".d......d.h.d......|c.c|",
+        "..................l|c.c|",
+        "....Z.............l|c.c|",
+        "---+---|---?---|-----+-|",
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "       ?       +       M",
+        "       |       |       M",
+        "       |       |       |",
+        "       |       |       |",
+        "---+---|---+---|---?---|",
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "       +       +       |",
+        "       |       |       |",
+        "       |       |       |",
+        "       |       |       |",
+        "-----------MM----------|"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
+      },
+      "monster": {
+        "Z": { "monster": "mon_zombie_brute" }
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_7x7" ], "x": 0, "y": 8 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 0, "y": 16 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 8, "y": 8 },
+        { "chunks": [ "lab_spawn_7x7" ], "x": 8, "y": 16 },
+        { "chunks": [ "lab_spawn_7x7" ], "x": 16, "y": 8 },
+        { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15 },
+        { "chunks": [ "lab_border_walls_sew" ], "x": 0, "y": 0 },
+        { "chunks": [ "sub_t_stairs_up" ], "x": 21, "y": 4, "neighbors": { "above": [ "lab_stairs" ] } }
       ]
     }
   },
