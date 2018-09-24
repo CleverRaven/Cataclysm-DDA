@@ -345,7 +345,7 @@
         "id": "motor_tiny",
         "name": "tiny electric motor",
         "description": "A tiny electric motor.  Useful for crafting.",
-        "weight": 6000,
+        "weight": 800,
         "color": "light_cyan",
         "symbol": ",",
         "material": [ "steel", "plastic"],
