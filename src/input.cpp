@@ -717,7 +717,7 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     }
 
     if( inputs_to_show.empty() ) {
-        return _( "Not available" );
+        return pgettext( "keybinding", "Disabled" );
     }
 
     std::stringstream rval;
