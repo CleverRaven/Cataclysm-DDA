@@ -1438,7 +1438,7 @@
     [ [ "scrap", 1 ] ],
     [ [ "cable", 3 ] ]
   ]
-  },{
+},{
   "type" : "recipe",
   "result": "motor_small",
   "category": "CC_ELECTRONIC",
