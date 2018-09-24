@@ -52,6 +52,10 @@ const std::vector<std::string> carnivore_blacklist {{
 const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
+//The maximum amount of mass and volume that a internal furnace can consume
+const units::volume max_volume( 3000, units::volume_in_milliliter_tag{} );
+const units::mass max_mass( 6000, units::mass_in_gram_tag{} );
+
 // @todo: JSONize.
 const std::map<itype_id, int> plut_charges = {
     { "plut_cell",         PLUTONIUM_CHARGES * 10 },
@@ -1056,6 +1060,10 @@ bool player::can_feed_furnace_with( const item &it ) const
     }
 
     if( !has_active_bionic( bio_furnace ) ) {
+        return false;
+    }
+
+    if( ( it.volume() > max_volume ) || ( it.weight() > max_mass ) ) {
         return false;
     }
 
