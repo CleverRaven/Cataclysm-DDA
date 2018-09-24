@@ -636,14 +636,12 @@ bool vehicle::fold_up()
     item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
 
     // Drop stuff in containers on ground
-    for( size_t p = 0; p < parts.size(); p++ ) {
-        if( part_flag( p, "CARGO" ) ) {
-            for( auto &elem : get_items( p ) ) {
-                g->m.add_item_or_charges( g->u.pos(), elem );
-            }
-            while( !get_items( p ).empty() ) {
-                get_items( p ).erase( get_items( p ).begin() );
-            }
+    for( const size_t p : all_parts_with_feature( "CARGO" ) ) {
+        for( auto &elem : get_items( p ) ) {
+            g->m.add_item_or_charges( g->u.pos(), elem );
+        }
+        while( !get_items( p ).empty() ) {
+            get_items( p ).erase( get_items( p ).begin() );
         }
     }
 
@@ -830,10 +828,7 @@ void vehicle::honk_horn()
     const bool no_power = ! fuel_left( fuel_type_battery, true );
     bool honked = false;
 
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if( ! part_flag( p, "HORN" ) ) {
-            continue;
-        }
+    for( const size_t p : all_parts_with_feature( "HORN" ) ) {
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = part_info( p );
         if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
@@ -871,10 +866,7 @@ void vehicle::beeper_sound()
     }
 
     const bool odd_turn = calendar::once_every( 2_turns );
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if( !part_flag( p, "BEEPER" ) ) {
-            continue;
-        }
+    for( const size_t p : all_parts_with_feature( "BEEPER" ) ) {
         if( ( odd_turn && part_flag( p, VPFLAG_EVENTURN ) ) ||
             ( !odd_turn && part_flag( p, VPFLAG_ODDTURN ) ) ) {
             continue;

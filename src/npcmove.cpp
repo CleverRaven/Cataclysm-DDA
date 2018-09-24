@@ -646,11 +646,7 @@ void npc::execute_action( npc_action action )
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
-            for( size_t p2 = 0; p2 < veh->parts.size(); p2++ ) {
-                if( !veh->part_flag( p2, VPFLAG_BOARDABLE ) ) {
-                    continue;
-                }
-
+            for( const size_t p2 : veh->all_parts_with_feature( VPFLAG_BOARDABLE ) ) {
                 const player *passenger = veh->get_passenger( p2 );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
