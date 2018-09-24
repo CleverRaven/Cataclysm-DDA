@@ -436,6 +436,45 @@ std::list<item> player::consume_components_for_craft( const recipe *making, int 
     return used;
 }
 
+static void set_item_food( item &newit )
+{
+    //@todo: encapsulate this into some function
+    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
+    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
+}
+
+static void finalize_crafted_item( item &newit )
+{
+    if( newit.is_food() ) {
+        set_item_food( newit );
+    }
+}
+
+static void set_item_inventory( item &newit )
+{
+    if( newit.made_of( LIQUID ) ) {
+        g->handle_all_liquid( newit, PICKUP_RANGE );
+    } else {
+        g->u.inv.assign_empty_invlet( newit, g->u );
+        // We might not have space for the item
+        if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
+            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
+                     newit.tname().c_str() );
+            g->m.add_item_or_charges( g->u.pos(), newit );
+        } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
+                     newit.tname().c_str() );
+            g->m.add_item_or_charges( g->u.pos(), newit );
+        } else {
+            newit = g->u.i_add( newit );
+            add_msg( m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str() );
+        }
+    }
+}
+
+time_duration get_rot_since( const time_point &start, const time_point &end,
+                             const tripoint &location ); // weather.cpp
+
 void player::complete_craft()
 {
     //@todo: change making to be a reference, it can never be null anyway
@@ -575,11 +614,63 @@ void player::complete_craft()
         reset_encumbrance();  // in case we were wearing something just consumed up.
     }
 
+    const time_point now = calendar::turn;
+    time_point start_turn = now;
+    tripoint craft_pos = pos();
+    if( activity.values.size() > 1 && activity.coords.size() > 0 ) {
+        start_turn = activity.values.at( 1 );
+        craft_pos = activity.coords.at( 0 );
+    } else {
+        // either something went wrong or player had an old binary and saved
+        // the game right in the middle of crafting, and then updated their
+        // binary, so we didn't grab these values before starting the craft
+        debugmsg( "Missing activity start time and temperature, using current val" );
+    }
+    const time_duration rot_points = get_rot_since( start_turn, now, craft_pos );
+    double max_relative_rot = 0;
+    // We need to cycle all the used ingredients and find the most rotten item,
+    // this will then set our relative rot for the crafted items.
+    for( const item &it : used ) {
+        if( !it.goes_bad() ) {
+            continue;
+        }
+        // make a copy of the item so we can play with its rot values
+        item it_copy = it;
+        it_copy.mod_rot( -rot_points );
+        max_relative_rot = std::max( max_relative_rot, it_copy.get_relative_rot() );
+    }
+
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making->create_results( batch_size );
+
+    // Check if the recipe tools make this food item hot upon making it.
+    // We don't actually know which specific tool the player used here, but
+    // we're checking for a class of tools; because of the way requirements
+    // processing works, the "surface_heat" id gets nuked into an actual
+    // list of tools, see data/json/recipes/cooking_tools.json.
+    //
+    // Currently it's only checking for a hotplate because that's a
+    // suitable item in both the "surface_heat" and "water_boiling_heat"
+    // tools, and it's usually the first item in a list of tools so if this
+    // does get heated we'll find it right away.
+    bool should_heat = false;
+    if( newits.size() && newits.front().is_food() ) {
+        const requirement_data::alter_tool_comp_vector &tool_lists = making->requirements().get_tools();
+        for( const std::vector<tool_comp> &tools : tool_lists ) {
+            for( const tool_comp &t : tools ) {
+                if( t.type == "hotplate" ) {
+                    should_heat = true;
+                    break;
+                }
+            }
+            // if we've already decided to heat it up then we're done
+            if( should_heat ) {
+                break;
+            }
+        }
+    }
+
     bool first = true;
-    float used_age_tally = 0;
-    int used_age_count = 0;
     size_t newit_counter = 0;
     for( item &newit : newits ) {
         // messages, learning of recipe, food spoilage calculation only once
@@ -608,10 +699,6 @@ void player::complete_craft()
             }
 
             for( auto &elem : used ) {
-                if( elem.goes_bad() ) {
-                    used_age_tally += elem.get_relative_rot();
-                    ++used_age_count;
-                }
                 if( elem.has_flag( "HIDDEN_HALLU" ) ) {
                     newit.item_tags.insert( "HIDDEN_HALLU" );
                 }
@@ -631,71 +718,46 @@ void player::complete_craft()
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         }
-        finalize_crafted_item( newit, used_age_tally, used_age_count );
+
+        if( newit.goes_bad() ) {
+            newit.set_relative_rot( max_relative_rot );
+        }
+        if( should_heat ) {
+            newit.heat_up();
+        } else {
+            // Really what we should be doing is averaging the temperatures
+            // between the recipe components if we don't have a heat tool, but
+            // that's kind of hard.  For now just reset the temperature, don't
+            // forget byproducts below either when you fix this.
+            //
+            // Also, this is going to reset the temperature on non-food items
+            // as well.  This isn't a big deal because they don't care about
+            // temperature (yet?) and it's actually more costly to check for
+            // is_food() than just reset the timer.
+            newit.reset_temp_check();
+        }
+
+        finalize_crafted_item( newit );
         set_item_inventory( newit );
     }
 
     if( making->has_byproducts() ) {
         std::vector<item> bps = making->create_byproducts( batch_size );
         for( auto &bp : bps ) {
-            finalize_crafted_item( bp, used_age_tally, used_age_count );
+            if( bp.goes_bad() ) {
+                bp.set_relative_rot( max_relative_rot );
+            }
+            if( should_heat ) {
+                bp.heat_up();
+            } else {
+                bp.reset_temp_check();
+            }
+            finalize_crafted_item( bp );
             set_item_inventory( bp );
         }
     }
 
     inv.restack( *this );
-}
-
-void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
-{
-    newit.set_relative_rot( used_age_tally / used_age_count );
-}
-
-void set_item_food( item &newit )
-{
-    //@todo: encapsulate this into some function
-    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
-    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
-    if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
-        newit.item_tags.erase( "COLD" );
-        newit.item_tags.erase( "FROZEN" );
-        newit.item_tags.insert( "HOT" );
-        newit.item_counter = 600;
-        newit.reset_temp_check();
-        newit.active = true;
-    }
-}
-
-void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count )
-{
-    if( newit.is_food() ) {
-        set_item_food( newit );
-    }
-    if( used_age_count > 0 && newit.goes_bad() ) {
-        set_item_spoilage( newit, used_age_tally, used_age_count );
-    }
-}
-
-void set_item_inventory( item &newit )
-{
-    if( newit.made_of( LIQUID ) ) {
-        g->handle_all_liquid( newit, PICKUP_RANGE );
-    } else {
-        g->u.inv.assign_empty_invlet( newit, g->u );
-        // We might not have space for the item
-        if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
-            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                     newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
-        } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
-                     newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
-        } else {
-            newit = g->u.i_add( newit );
-            add_msg( m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str() );
-        }
-    }
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
@@ -756,7 +818,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             selected.comp = mixed[0];
         }
     } else { // Let the player pick which component they want to use
-        uimenu cmenu;
+        uilist cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
             std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
@@ -796,16 +858,14 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             return selected;
         }
 
-        if( can_cancel ) {
-            cmenu.addentry( -1, true, 'q', _( "Cancel" ) );
-        }
+        cmenu.allow_cancel = can_cancel;
 
         // Get the selection via a menu popup
         cmenu.title = _( "Use which component?" );
         cmenu.query();
 
-        // The choices only go up to index map_has.size()+player_has.size()+mixed.size()-1. Thus the next index is cancel.
-        if( cmenu.ret == static_cast<int>( map_has.size() + player_has.size() + mixed.size() ) ) {
+        if( cmenu.ret < 0 ||
+            static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
             selected.use_from = cancel;
             return selected;
         }
@@ -948,7 +1008,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
-        uimenu tmenu( hotkeys );
+        uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( "%s (%d/%d charges nearby)",
@@ -978,15 +1038,13 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
             return selected;    // and the fire goes out.
         }
 
-        if( can_cancel ) {
-            tmenu.addentry( -1, true, 'q', _( "Cancel" ) );
-        }
+        tmenu.allow_cancel = can_cancel;
 
         // Get selection via a popup menu
         tmenu.title = _( "Use which tool?" );
         tmenu.query();
 
-        if( tmenu.ret == static_cast<int>( map_has.size() + player_has.size() ) ) {
+        if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size() + player_has.size() ) {
             selected.use_from = cancel;
             return selected;
         }

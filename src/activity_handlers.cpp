@@ -50,6 +50,7 @@ const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_milked( "milked" );
+const efftype_id effect_sleep( "sleep" );
 
 using namespace activity_handlers;
 
@@ -88,7 +89,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
-    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn }
+    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -125,6 +127,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
@@ -2224,9 +2227,8 @@ enum repeat_type : int {
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
-    uimenu rmenu;
+    uilist rmenu;
     rmenu.text = title;
-    rmenu.return_invalid = true;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
@@ -2619,6 +2621,26 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
+void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
+{
+    if( !p->has_effect( effect_sleep ) ) {
+        if( p->can_sleep() ) {
+            act->set_to_null();
+            p->fall_asleep();
+        } else if( one_in( 1000 ) ) {
+            p->add_msg_if_player( _( "You toss and turn..." ) );
+        }
+    }
+}
+
+void activity_handlers::try_sleep_finish( player_activity *act, player *p )
+{
+    if( !p->has_effect( effect_sleep ) ) {
+        p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+    }
     act->set_to_null();
 }
 

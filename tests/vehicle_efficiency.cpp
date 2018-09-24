@@ -374,20 +374,20 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 287700, 243300, 15990, 13310 );
-    test_vehicle( "car", 281700, 174300, 16070, 9336 );
-    test_vehicle( "car_sports", 324700, 196600, 16690, 10000 );
-    test_vehicle( "electric_car", 69650, 48590, 3620, 2540 );
-    test_vehicle( "suv", 594300, 314200, 33500, 16750 );
+    test_vehicle( "beetle", 287700, 230500, 15990, 13310 );
+    test_vehicle( "car", 281700, 163300, 16070, 9336 );
+    test_vehicle( "car_sports", 323400, 185500, 16690, 9176 );
+    test_vehicle( "electric_car", 69420, 45080, 3620, 2300 );
+    test_vehicle( "suv", 589700, 288700, 31870, 15320 );
     test_vehicle( "motorcycle", 80860, 45920, 3885, 2195 );
     test_vehicle( "quad_bike", 52140, 35180, 3310, 2195 );
     test_vehicle( "scooter", 71290, 71290, 3707, 3707 );
     test_vehicle( "superbike", 94350, 10270, 4005, 1556 );
-    test_vehicle( "ambulance", 379700, 328100, 24810, 20680 );
-    test_vehicle( "fire_engine", 453900, 418800, 27350, 25250 );
-    test_vehicle( "fire_truck", 315400, 72900, 20680, 5312 );
-    test_vehicle( "truck_swat", 340100, 75880, 24760, 5527 );
+    test_vehicle( "ambulance", 378800, 287200, 23740, 18680 );
+    test_vehicle( "fire_engine", 452700, 380000, 27350, 23150 );
+    test_vehicle( "fire_truck", 311100, 68740, 20680, 4312 );
+    test_vehicle( "truck_swat", 340100, 75240, 24760, 5527 );
     test_vehicle( "tractor_plow", 281900, 281900, 16630, 16630 );
-    test_vehicle( "apc", 1081000, 965000, 77710, 71540 );
-    test_vehicle( "humvee", 438400, 210900, 28000, 12950 );
+    test_vehicle( "apc", 1081000, 960200, 77710, 71540 );
+    test_vehicle( "humvee", 438400, 210500, 28000, 12950 );
 }

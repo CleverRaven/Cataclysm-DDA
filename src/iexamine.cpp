@@ -1674,13 +1674,7 @@ std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &s
  */
 int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 {
-    uimenu smenu;
-
-    // if true, it works fine for normal planting, but closes immediately if called
-    // from parent uimenu when adding new planting zone
-    // caused by inp_mngr.set_timeout( BLINK_SPEED );
-    // Unify uimenu behavior #25178 will fix the issue, can be set to true, once PR is merged
-    smenu.return_invalid = false;
+    uilist smenu;
 
     smenu.text = _( "Use which seed?" );
     int count = 0;
@@ -1693,11 +1687,14 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
         smenu.addentry( count++, true, MENU_AUTOASSIGN, format.c_str(),
                         seed_name.c_str(), seed_count );
     }
-    smenu.addentry( count++, true, 'q', ( "%s" ), _( "Cancel" ) );
 
     smenu.query();
 
-    return smenu.ret;
+    if( smenu.ret >= 0 ) {
+        return smenu.ret;
+    } else {
+        return seed_entries.size();
+    }
 }
 
 /**
@@ -3674,7 +3671,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
 namespace sm_rack {
     const int MIN_CHARCOAL = 100;
-    const int CHARCOAL_PER_LITER = 100;
+    const int CHARCOAL_PER_LITER = 25;
     const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
 }
 

@@ -265,8 +265,7 @@ class map
         visibility_type get_visibility( const lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( const catacurses::window &w, lit_level ll,
-                                   const visibility_variables &cache ) const;
+        bool apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const;
 
         /** Draw a visible part of the map into `w`.
          *
@@ -567,7 +566,7 @@ class map
         // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         ter_id ter( const int x, const int y ) const;
 
-        void ter_set( const int x, const int y, const ter_id new_terrain );
+        bool ter_set( const int x, const int y, const ter_id new_terrain );
 
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
@@ -582,7 +581,7 @@ class map
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
-        void ter_set( const tripoint &p, const ter_id new_terrain );
+        bool ter_set( const tripoint &p, const ter_id new_terrain );
 
         std::string tername( const tripoint &p ) const;
 
@@ -1444,6 +1443,8 @@ class map
                            bool invert, bool show_items,
                            const tripoint &view_center,
                            bool low_light, bool bright_light, bool inorder ) const;
+        void draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                       const tripoint &view_center ) const;
         /**
          * Draws the tile as seen from above.
          */
@@ -1496,14 +1497,11 @@ class map
         // Iterates over every item on the map, passing each item to the provided function.
         void process_items( bool active, map_process_func processor, std::string const &signal );
         void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      map::map_process_func processor, std::string const &signal,
-                                      const int temp );
-        void process_items_in_vehicles( submap &current_submap, map_process_func processor,
-                                        std::string const &signal, const int temp,
-                                        const float insulation );
-        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
-                                       map::map_process_func processor, std::string const &signal,
-                                       const int temp, const float insulation );
+                                      map::map_process_func processor, std::string const &signal );
+        void process_items_in_vehicles( submap &current_submap, const int gridz,
+                                        map_process_func processor, std::string const &signal );
+        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
+                                       map::map_process_func processor, std::string const &signal );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {

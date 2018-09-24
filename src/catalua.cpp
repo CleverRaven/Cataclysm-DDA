@@ -38,6 +38,9 @@
 #include "filesystem.h"
 #include "string_input_popup.h"
 #include "mutation.h"
+#include "npc.h"
+#include "bionics.h"
+#include "activity_type.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"

@@ -1485,6 +1485,9 @@ bool game::do_turn()
         calendar::turn.increment();
     }
 
+    // starting a new turn, clear out temperature cache
+    temperature_cache.clear();
+
     if( npcs_dirty ) {
         load_npcs();
     }
@@ -1541,7 +1544,7 @@ bool game::do_turn()
         sfx::do_hearing_loss();
     }
 
-    if( !u.in_sleep_state() ) {
+    if( !u.has_effect( efftype_id( "sleep" ) ) ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
@@ -1931,6 +1934,11 @@ int get_convection_temperature( const tripoint &location )
 
 int game::get_temperature( const tripoint &location )
 {
+    const auto &cached = temperature_cache.find( location );
+    if( cached != temperature_cache.end() ) {
+        return cached->second;
+    }
+
     int temp_mod = 0; // local modifier
 
     if( !new_game ) {
@@ -1938,8 +1946,11 @@ int game::get_temperature( const tripoint &location )
         temp_mod += get_convection_temperature( location );
     }
     //underground temperature = average New England temperature = 43F/6C rounded to int
-    return ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) + ( new_game ? 0 :
-            ( m.temperature( location ) + temp_mod ) );
+    const int temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
+                     ( new_game ? 0 : ( m.temperature( location ) + temp_mod ) );
+
+    temperature_cache.emplace( std::make_pair( location, temp ) );
+    return temp;
 }
 
 int game::assign_mission_id()
@@ -2278,6 +2289,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pause" );
     ctxt.register_action( "LEVEL_DOWN", _( "Descend Stairs" ) );
     ctxt.register_action( "LEVEL_UP", _( "Ascend Stairs" ) );
+    ctxt.register_action( "toggle_map_memory" );
     ctxt.register_action( "center" );
     ctxt.register_action( "shift_n" );
     ctxt.register_action( "shift_ne" );
@@ -2925,59 +2937,57 @@ void game::write_memorial_file( std::string sLastWords )
 
 void game::debug()
 {
-    int action = menu( true, // cancelable
-                       _( "Debug Functions - Using these is CHEATING!" ),
-                       _( "Wish for an item" ),       // 1
-                       _( "Teleport - Short Range" ), // 2
-                       _( "Teleport - Long Range" ),  // 3
-                       _( "Reveal map" ),             // 4
-                       _( "Spawn NPC" ),              // 5
-                       _( "Spawn Monster" ),          // 6
-                       _( "Check game state..." ),    // 7
-                       _( "Kill NPCs" ),              // 8
-                       _( "Mutate" ),                 // 9
-                       _( "Spawn a vehicle" ),        // 10
-                       _( "Change all skills" ),      // 11
-                       _( "Learn all melee styles" ), // 12
-                       _( "Unlock all recipes" ),     // 13
-                       _( "Edit player/NPC" ),        // 14
-                       _( "Spawn Artifact" ),         // 15
-                       _( "Spawn Clairvoyance Artifact" ), //16
-                       _( "Map editor" ),             // 17
-                       _( "Change weather" ),         // 18
-                       _( "Kill all monsters" ),    // 19
-                       _( "Display hordes" ),         // 20
-                       _( "Test Item Group" ),        // 21
-                       _( "Damage Self" ),            // 22
-                       _( "Show Sound Clustering" ),  // 23
-                       _( "Lua Console" ),            // 24
-                       _( "Display weather" ),        // 25
-                       _( "Display overmap scents" ), // 26
-                       _( "Change time" ),            // 27
-                       _( "Set automove route" ),     // 28
-                       _( "Show mutation category levels" ), // 29
-                       _( "Overmap editor" ),         // 30
-                       _( "Draw benchmark (5 seconds)" ),    // 31
-                       _( "Teleport - Adjacent overmap" ),   // 32
-                       _( "Test trait group" ),        // 33
-                       _( "Quit to Main Menu" ),    // 34
-                       _( "Cancel" ),
-                       NULL );
+    int action = uilist( _( "Debug Functions - Using these is CHEATING!" ), {
+        _( "Wish for an item" ),                // 0
+        _( "Teleport - Short Range" ),          // 1
+        _( "Teleport - Long Range" ),           // 2
+        _( "Reveal map" ),                      // 3
+        _( "Spawn NPC" ),                       // 4
+        _( "Spawn Monster" ),                   // 5
+        _( "Check game state..." ),             // 6
+        _( "Kill NPCs" ),                       // 7
+        _( "Mutate" ),                          // 8
+        _( "Spawn a vehicle" ),                 // 9
+        _( "Change all skills" ),               // 10
+        _( "Learn all melee styles" ),          // 11
+        _( "Unlock all recipes" ),              // 12
+        _( "Edit player/NPC" ),                 // 13
+        _( "Spawn Artifact" ),                  // 14
+        _( "Spawn Clairvoyance Artifact" ),     // 15
+        _( "Map editor" ),                      // 16
+        _( "Change weather" ),                  // 17
+        _( "Kill all monsters" ),               // 18
+        _( "Display hordes" ),                  // 19
+        _( "Test Item Group" ),                 // 20
+        _( "Damage Self" ),                     // 21
+        _( "Show Sound Clustering" ),           // 22
+        _( "Lua Console" ),                     // 23
+        _( "Display weather" ),                 // 24
+        _( "Display overmap scents" ),          // 25
+        _( "Change time" ),                     // 26
+        _( "Set automove route" ),              // 27
+        _( "Show mutation category levels" ),   // 28
+        _( "Overmap editor" ),                  // 29
+        _( "Draw benchmark (5 seconds)" ),      // 30
+        _( "Teleport - Adjacent overmap" ),     // 31
+        _( "Test trait group" ),                // 32
+        _( "Quit to Main Menu" ),               // 33
+    } );
     refresh_all();
     switch( action ) {
-        case 1:
+        case 0:
             debug_menu::wishitem( &u );
             break;
 
-        case 2:
+        case 1:
             debug_menu::teleport_short();
             break;
 
-        case 3:
+        case 2:
             debug_menu::teleport_long();
             break;
 
-        case 4: {
+        case 3: {
             auto &cur_om = get_cur_om();
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
@@ -2990,7 +3000,7 @@ void game::debug()
         }
         break;
 
-        case 5: {
+        case 4: {
             std::shared_ptr<npc> temp = std::make_shared<npc>();
             temp->normalize();
             temp->randomize();
@@ -3004,11 +3014,11 @@ void game::debug()
         }
         break;
 
-        case 6:
+        case 5:
             debug_menu::wishmonster();
             break;
 
-        case 7: {
+        case 6: {
             std::string s;
             s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n%s\n" );
@@ -3032,26 +3042,25 @@ void game::debug()
             disp_NPCs();
             break;
         }
-        case 8:
+        case 7:
             for( npc &guy : all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name.c_str() );
                 guy.hp_cur[bp_head] = 0;
             }
             break;
 
-        case 9:
+        case 8:
             debug_menu::wishmutate( &u );
             break;
 
-        case 10:
+        case 9:
             if( m.veh_at( u.pos() ) ) {
                 dbg( D_ERROR ) << "game:load: There's already vehicle here";
                 debugmsg( "There's already vehicle here" );
             } else {
                 std::vector<vproto_id> veh_strings;
-                uimenu veh_menu;
+                uilist veh_menu;
                 veh_menu.text = _( "Choose vehicle to spawn" );
-                veh_menu.return_invalid = true;
                 int menu_ind = 0;
                 for( auto &elem : vehicle_prototype::get_all() ) {
                     if( elem != vproto_id( "custom" ) ) {
@@ -3063,10 +3072,9 @@ void game::debug()
                         ++menu_ind;
                     }
                 }
-                veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "Cancel" ) );
                 veh_menu.query();
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
-                    //Didn't pick Cancel
+                    //Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
                     vehicle *veh = m.add_vehicle( selected_opt, dest.x, dest.y, -90, 100, 0 );
@@ -3077,12 +3085,12 @@ void game::debug()
             }
             break;
 
-        case 11: {
+        case 10: {
             debug_menu::wishskill( &u );
         }
         break;
 
-        case 12:
+        case 11:
             add_msg( m_info, _( "Martial arts debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
@@ -3093,7 +3101,7 @@ void game::debug()
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
             break;
 
-        case 13: {
+        case 12: {
             add_msg( m_info, _( "Recipe debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( const auto &e : recipe_dict ) {
@@ -3103,11 +3111,11 @@ void game::debug()
         }
         break;
 
-        case 14:
+        case 13:
             debug_menu::character_edit_menu();
             break;
 
-        case 15: {
+        case 14: {
             auto center = look_around();
             if( center != tripoint_min ) {
                 artifact_natural_property prop =
@@ -3118,19 +3126,18 @@ void game::debug()
         }
         break;
 
-        case 16:
+        case 15:
             u.i_add( item( architects_cube(), calendar::turn ) );
             break;
 
-        case 17: {
+        case 16: {
             look_debug();
         }
         break;
 
-        case 18: {
-            uimenu weather_menu;
+        case 17: {
+            uilist weather_menu;
             weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.return_invalid = true;
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
@@ -3138,12 +3145,10 @@ void game::debug()
                                        weather_data( static_cast<weather_type>( weather_id ) ).name );
             }
 
-            weather_menu.addentry( NUM_WEATHER_TYPES, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-
             weather_menu.query();
 
             if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = ( weather_type )weather_menu.selected;
+                weather_type selected_weather = ( weather_type )weather_menu.ret;
                 weather_override = selected_weather;
                 nextweather = calendar::turn;
                 update_weather();
@@ -3151,7 +3156,7 @@ void game::debug()
         }
         break;
 
-        case 19: {
+        case 18: {
             for( monster &critter : all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
@@ -3160,16 +3165,16 @@ void game::debug()
             cleanup_dead();
         }
         break;
-        case 20:
+        case 19:
             ui::omap::display_hordes();
             break;
-        case 21: {
+        case 20: {
             item_group::debug_spawn();
         }
         break;
 
         // Damage Self
-        case 22: {
+        case 21: {
             int dbg_damage;
             if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
                 u.hp_cur[hp_torso] -= dbg_damage;
@@ -3179,7 +3184,7 @@ void game::debug()
         }
         break;
 
-        case 23: {
+        case 22: {
 #ifdef TILES
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
@@ -3201,18 +3206,18 @@ void game::debug()
         }
         break;
 
-        case 24: {
+        case 23: {
             lua_console console;
             console.run();
         }
         break;
-        case 25:
+        case 24:
             ui::omap::display_weather();
             break;
-        case 26:
+        case 25:
             ui::omap::display_scents();
             break;
-        case 27: {
+        case 26: {
             auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                 const auto text = string_input_popup()
                                   .title( msg )
@@ -3228,12 +3233,10 @@ void game::debug()
                                             -calendar::turn );
             };
 
-            uimenu smenu;
-            smenu.return_invalid = true;
+            uilist smenu;
             do {
                 const int iSel = smenu.ret;
                 smenu.reset();
-                smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
                 smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
                                 _( "season" ), int( season_of_year( calendar::turn ) ) );
@@ -3241,7 +3244,6 @@ void game::debug()
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
                 smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), static_cast<int>( calendar::turn ) );
-                smenu.addentry( 6, true, 'q', "%s", _( "quit" ) );
                 smenu.selected = iSel;
                 smenu.query();
 
@@ -3269,10 +3271,10 @@ void game::debug()
                     default:
                         break;
                 }
-            } while( smenu.ret != 6 && smenu.ret != UIMENU_INVALID );
+            } while( smenu.ret != UIMENU_CANCEL );
         }
         break;
-        case 28: {
+        case 27: {
             tripoint dest = look_around();
             if( dest == tripoint_min || dest == u.pos() ) {
                 break;
@@ -3285,17 +3287,17 @@ void game::debug()
             }
         }
         break;
-        case 29:
+        case 28:
             for( const auto &elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
             break;
 
-        case 30:
+        case 29:
             ui::omap::display_editor();
             break;
 
-        case 31: {
+        case 30: {
             // call the draw procedure as many times as possible in 5 seconds
             auto start_tick = std::chrono::steady_clock::now();
             auto end_tick = std::chrono::steady_clock::now();
@@ -3315,13 +3317,13 @@ void game::debug()
         }
         break;
 
-        case 32:
+        case 31:
             debug_menu::teleport_overmap();
             break;
-        case 33:
+        case 32:
             trait_group::debug_spawn();
             break;
-        case 34:
+        case 33:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
@@ -4628,7 +4630,7 @@ void game::monmove()
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             cancel_activity_or_ignore_query( distraction_type::motion_alarm,
                                              _( "Your motion alarm goes off!" ) );
-            if( u.in_sleep_state() ) {
+            if( u.has_effect( efftype_id( "sleep" ) ) ) {
                 u.wake_up();
             }
         }
@@ -5204,15 +5206,21 @@ void game::emp_blast( const tripoint &p )
                     critter.make_friendly();
                 }
             }
-        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) && !critter.has_effect( effect_emp ) ) {
-            if( sight ) {
+        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) ) {
+            if( sight && !critter.has_effect( effect_emp ) ) {
                 add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name().c_str() );
+                critter.add_effect( effect_emp, 3_minutes );
+            } else if( sight && critter.has_effect( effect_emp ) ) {
+                int dam = dice( 3, 5 );
+                add_msg( m_good, _( "The %s's disabled electrical field reverses polarity!" ),
+                         critter.name().c_str() );
+                add_msg( m_good, _( "It takes %d damage." ), dam );
+                critter.add_effect( effect_emp, 1_minutes );
+                critter.apply_damage( nullptr, bp_torso, dam );
+                critter.check_dead_state();
             }
         } else if( sight ) {
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name().c_str() );
-        }
-        if( !critter.has_effect( effect_emp ) ) {
-            critter.add_effect( effect_emp, 3_minutes );
         }
     }
     if( u.posx() == x && u.posy() == y ) {
@@ -6871,21 +6879,41 @@ void game::zones_manager()
         if( action == "ADD_ZONE" ) {
             zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
 
-            const auto id = mgr.query_type();
-            auto options = zone_options::create( id );
-            options->query_at_creation();
-            const auto name = mgr.query_name( options->get_zone_name_suggestion() == "" ?
-                                              mgr.get_name_from_type( id ) : options->get_zone_name_suggestion() );
-            const auto position = query_position();
+            do { // not a loop, just for quick bailing out if canceled
+                const auto maybe_id = mgr.query_type();
+                if( !maybe_id.has_value() ) {
+                    break;
+                }
 
-            if( position.first != tripoint_min ) {
+                const auto id = maybe_id.value();
+                auto options = zone_options::create( id );
+
+                if( !options->query_at_creation() ) {
+                    break;
+                }
+
+                auto default_name = options->get_zone_name_suggestion();
+                if( default_name.empty() ) {
+                    default_name = mgr.get_name_from_type( id );
+                }
+                const auto maybe_name = mgr.query_name( default_name );
+                if( !maybe_name.has_value() ) {
+                    break;
+                }
+                const auto name = maybe_name.value();
+
+                const auto position = query_position();
+                if( position.first == tripoint_min ) {
+                    break;
+                }
+
                 mgr.add( name, id, false, true, position.first, position.second, options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
 
                 stuff_changed = true;
-            }
+            } while( false );
 
             draw_ter();
             blink = false;
@@ -6922,7 +6950,7 @@ void game::zones_manager()
 
             } else if( action == "REMOVE_ZONE" ) {
                 if( active_index < zone_cnt ) {
-                    mgr.remove( active_index );
+                    mgr.remove( zones[active_index] );
                     zones = get_zones();
                     active_index--;
 
@@ -6940,38 +6968,44 @@ void game::zones_manager()
             } else if( action == "CONFIRM" ) {
                 auto &zone = zones[active_index].get();
 
-                uimenu as_m;
+                uilist as_m;
                 as_m.text = _( "What do you want to change:" );
                 as_m.entries.emplace_back( uimenu_entry( 1, true, '1', _( "Edit name" ) ) );
                 as_m.entries.emplace_back( uimenu_entry( 2, true, '2', _( "Edit type" ) ) );
                 as_m.entries.emplace_back( uimenu_entry( 3, zone.get_options().has_options(), '3',
                                            _( "Edit options" ) ) );
                 as_m.entries.emplace_back( uimenu_entry( 4, true, '4', _( "Edit position" ) ) );
-                as_m.entries.emplace_back( uimenu_entry( 5, true, 'q', _( "Cancel" ) ) );
                 as_m.query();
 
                 switch( as_m.ret ) {
                     case 1:
-                        zone.set_name();
-                        stuff_changed = true;
+                        if( zone.set_name() ) {
+                            stuff_changed = true;
+                        }
                         break;
                     case 2:
-                        zone.set_type();
-                        stuff_changed = true;
+                        if( zone.set_type() ) {
+                            stuff_changed = true;
+                        }
                         break;
                     case 3:
-                        zone.get_options().query();
-                        stuff_changed = true;
+                        if( zone.get_options().query() ) {
+                            stuff_changed = true;
+                        }
                         break;
-                    case 4:
-                        zone.set_position( query_position() );
-                        stuff_changed = true;
-                        break;
+                    case 4: {
+                        const auto pos = query_position();
+                        if( pos.first != tripoint_min &&
+                            ( pos.first != zone.get_start_point() || pos.second != zone.get_end_point() ) ) {
+
+                            zone.set_position( pos );
+                            stuff_changed = true;
+                        }
+                    }
+                    break;
                     default:
                         break;
                 }
-
-                as_m.reset();
 
                 draw_ter();
 
@@ -7130,13 +7164,12 @@ void game::zones_manager()
 #endif
             }
 
-            wrefresh( w_terrain );
-
             inp_mngr.set_timeout( BLINK_SPEED );
         } else {
             inp_mngr.reset_timeout();
         }
 
+        wrefresh( w_terrain );
         wrefresh( w_zones );
         wrefresh( w_zones_border );
 
@@ -8790,14 +8823,7 @@ void game::plthrow( int pos )
 
     // you must wield the item to throw it
     if( pos != -1 ) {
-        // Throw a single charge of a stacking object.
-        if( thrown.count_by_charges() && thrown.charges > 1 ) {
-            u.i_at( pos ).charges--;
-            thrown.charges = 1;
-        } else {
-            u.i_rem( pos );
-        }
-
+        u.i_rem( pos );
         if( !u.wield( thrown ) ) {
             // We have to remove the item before checking for wield because it
             // can invalidate our pos index.  Which means we have to add it
@@ -8818,7 +8844,12 @@ void game::plthrow( int pos )
         return;
     }
 
-    u.i_rem( -1 );
+    if( thrown.count_by_charges() && thrown.charges > 1 )  {
+        u.i_at( -1 ).charges--;
+        thrown.charges = 1;
+    } else {
+        u.i_rem( -1 );
+    }
     u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
 }
@@ -9531,10 +9562,10 @@ void game::reload( item_location &loc, bool prompt )
                 return;
             }
             if( it->is_ammo_belt() ) {
-                auto linkage = it->type->magazine->linkage;
-                if( linkage != "NULL" && !g->u.has_charges( linkage, 1 ) ) {
+                const auto &linkage = it->type->magazine->linkage;
+                if( linkage && !u.has_charges( *linkage, 1 ) ) {
                     add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
-                             item::nname( linkage, 1 ).c_str(), it->tname().c_str() );
+                             item::nname( *linkage, 1 ), it->tname() );
                     return;
                 }
             }
@@ -9767,8 +9798,8 @@ bool game::unload( item &it )
         } ), target->contents.end() );
 
         if( target->is_ammo_belt() ) {
-            if( target->type->magazine->linkage != "NULL" ) {
-                item link( target->type->magazine->linkage, calendar::turn, qty );
+            if( target->type->magazine->linkage ) {
+                item link( *target->type->magazine->linkage, calendar::turn, qty );
                 add_or_drop_with_msg( u, link, true );
             }
             add_msg( _( "You disassemble your %s." ), target->tname().c_str() );

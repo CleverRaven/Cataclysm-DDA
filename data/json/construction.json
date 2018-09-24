@@ -1723,7 +1723,7 @@
         "components" : [
             [ [ "2x4", 14 ] ],
             [ [ "nail", 12 ] ],
-            [ [ "scrap", 6 ], [ "sheet_metal", 2 ] ],
+            [ [ "sheet_metal_small", 12 ] ],
             [ [ "water_faucet", 1 ] ]
         ],
         "pre_special" : "check_empty",
@@ -1735,17 +1735,14 @@
         "required_skills" : [ [ "fabrication", 2 ], [ "cooking", 2 ] ],
         "time" : 120,
         "qualities": [
-            [
-            { "id": "HAMMER", "level": 2 }
-            ],
-            [
-            { "id": "SAW_W", "level": 1 }
-            ]
+            [ { "id": "HAMMER", "level": 2 } ],
+            [ { "id": "SAW_M", "level": 2 } ],
+            [ { "id": "SAW_W", "level": 1 } ]
             ],
         "components" : [
             [ [ "2x4", 18 ] ],
             [ [ "nail", 14 ] ],
-            [ [ "scrap", 8 ], [ "sheet_metal", 3 ] ],
+            [ [ "sheet_metal", 1 ] ],
             [ [ "water_faucet", 1 ] ]
         ],
         "pre_special" : "check_empty",
@@ -2382,7 +2379,7 @@
             [ { "id": "SAW_W", "level": 1 } ]
         ],
         "components" : [
-            [ [ "stick_long", 6 ], [ "2x4", 6 ] ],
+            [ [ "stick_long", 6 ] ],
             [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
             [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
         ],

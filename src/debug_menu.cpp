@@ -78,8 +78,7 @@ void teleport_overmap()
 void character_edit_menu()
 {
     std::vector< tripoint > locations;
-    uimenu charmenu;
-    charmenu.return_invalid = true;
+    uilist charmenu;
     int charnum = 0;
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( g->u.pos() );
@@ -92,15 +91,14 @@ void character_edit_menu()
     charmenu.callback = &callback;
     charmenu.w_y = 0;
     charmenu.query();
-    const size_t index = charmenu.ret;
-    if( index >= locations.size() ) {
+    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= locations.size() ) {
         return;
     }
+    const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
     npc *np = g->critter_at<npc>( locations[index] );
     player &p = np ? *np : g->u;
-    uimenu nmenu;
-    nmenu.return_invalid = true;
+    uilist nmenu;
 
     if( np != nullptr ) {
         std::stringstream data;
@@ -160,22 +158,17 @@ void character_edit_menu()
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
     }
-    nmenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-    nmenu.selected = 0;
     nmenu.query();
     switch( nmenu.ret ) {
         case D_SKILLS:
             wishskill( &p );
             break;
         case D_STATS: {
-            uimenu smenu;
-            smenu.return_invalid = true;
+            uilist smenu;
             smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), p.str_max );
             smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), p.dex_max );
             smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), p.int_max );
             smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), p.per_max );
-            smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-            smenu.selected = 0;
             smenu.query();
             int *bp_ptr = nullptr;
             switch( smenu.ret ) {
@@ -230,15 +223,13 @@ void character_edit_menu()
         }
         break;
         case D_HP: {
-            uimenu smenu;
-            smenu.return_invalid = true;
+            uilist smenu;
             smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), p.hp_cur[hp_torso] );
             smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), p.hp_cur[hp_head] );
             smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), p.hp_cur[hp_arm_l] );
             smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
             smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
-            smenu.selected = 0;
             smenu.query();
             int *bp_ptr = nullptr;
             switch( smenu.ret ) {
@@ -284,13 +275,16 @@ void character_edit_menu()
         }
         break;
         case D_NAME: {
-            std::string filterstring;
-            string_input_popup()
+            std::string filterstring = p.name;
+            string_input_popup popup;
+            popup
             .title( _( "Rename:" ) )
             .width( 85 )
             .description( string_format( _( "NPC: \n%s\n" ), p.name ) )
             .edit( filterstring );
-            p.name = filterstring;
+            if( popup.confirmed() ) {
+                p.name = filterstring;
+            }
         }
         break;
         case D_PAIN: {
@@ -301,8 +295,7 @@ void character_edit_menu()
         }
         break;
         case D_NEEDS: {
-            uimenu smenu;
-            smenu.return_invalid = true;
+            uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
             smenu.addentry( 1, true, 's', "%s: %d", _( "Starvation" ), p.get_starvation() );
             smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
@@ -313,8 +306,6 @@ void character_edit_menu()
                 smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
             }
 
-            smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-            smenu.selected = 0;
             smenu.query();
             int value;
             switch( smenu.ret ) {
@@ -358,13 +349,10 @@ void character_edit_menu()
             wishmutate( &p );
             break;
         case D_HEALTHY: {
-            uimenu smenu;
-            smenu.return_invalid = true;
+            uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
             smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.radiation );
-            smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-            smenu.selected = 0;
             smenu.query();
             int value;
             switch( smenu.ret ) {
@@ -392,8 +380,7 @@ void character_edit_menu()
             p.disp_info();
             break;
         case D_MISSION_ADD: {
-            uimenu types;
-            types.return_invalid = true;
+            uilist types;
             types.text = _( "Choose mission type" );
             const auto all_missions = mission_type::get_all();
             std::vector<const mission_type *> mts;
@@ -402,7 +389,6 @@ void character_edit_menu()
                 mts.push_back( &all_missions[ i ] );
             }
 
-            types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             types.query();
             if( types.ret >= 0 && types.ret < ( int )mts.size() ) {
                 np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
@@ -423,8 +409,7 @@ void character_edit_menu()
         }
         break;
         case D_CLASS: {
-            uimenu classes;
-            classes.return_invalid = true;
+            uilist classes;
             classes.text = _( "Choose new class" );
             std::vector<npc_class_id> ids;
             size_t i = 0;
@@ -434,7 +419,6 @@ void character_edit_menu()
                 i++;
             }
 
-            classes.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             classes.query();
             if( classes.ret < ( int )ids.size() && classes.ret >= 0 ) {
                 np->randomize( ids[ classes.ret ] );
@@ -475,9 +459,11 @@ std::string mission_debug::describe( const mission &m )
     return data.str();
 }
 
-void add_header( uimenu &mmenu, const std::string &str )
+void add_header( uilist &mmenu, const std::string &str )
 {
-    mmenu.addentry( -1, false, -1, "" );
+    if( mmenu.entries.size() != 0 ) {
+        mmenu.addentry( -1, false, -1, "" );
+    }
     uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );
     header.force_color = true;
     mmenu.entries.push_back( header );
@@ -497,8 +483,7 @@ void mission_debug::edit_npc( npc &who )
     npc_chatbin &bin = who.chatbin;
     std::vector<mission *> all_missions;
 
-    uimenu mmenu;
-    mmenu.return_invalid = true;
+    uilist mmenu;
     mmenu.text = _( "Select mission to edit" );
 
     add_header( mmenu, _( "Currently assigned missions:" ) );
@@ -525,8 +510,7 @@ void mission_debug::edit_player()
 {
     std::vector<mission *> all_missions;
 
-    uimenu mmenu;
-    mmenu.return_invalid = true;
+    uilist mmenu;
     mmenu.text = _( "Select mission to edit" );
 
     add_header( mmenu, _( "Active missions:" ) );
@@ -593,8 +577,7 @@ void mission_debug::remove_mission( mission &m )
 
 void mission_debug::edit_mission( mission &m )
 {
-    uimenu mmenu;
-    mmenu.return_invalid = true;
+    uilist mmenu;
     mmenu.text = describe( m );
 
     enum { M_FAIL, M_SUCCEED, M_REMOVE

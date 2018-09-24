@@ -494,8 +494,6 @@ bool player::eat( item &food, bool force )
     if( !food.is_food() ) {
         return false;
     }
-    // Force re-processing before eating!
-    food.process( this, global_square_location(), false );
 
     const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
     if( !ret.success() ) {

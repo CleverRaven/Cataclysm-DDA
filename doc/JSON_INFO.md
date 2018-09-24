@@ -55,6 +55,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | techniques.json             | generic for items and martial arts
 | terrain.json                | terrain types and definitions
 | test_regions.json           | test regions
+| tips.json                   | tips of the day
 | tool_qualities.json         | standard tool qualities and their actions
 | traps.json                  | standard traps
 | tutorial.json               | messages for the tutorial (that is out of date)
@@ -2053,3 +2054,43 @@ The internal ID of the mutation. Can be provided as a single string, or an array
 (integer)
 
 The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn layer. Mutations that are not in any list will default to 9999.
+
+# MOD tileset
+
+MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`. 
+
+Example:
+```JSON
+[
+    {
+    "type": "mod_tileset",
+    "compatibility": [ "MshockXottoplus" ],
+    "tiles-new": [
+        {
+        "file": "test_tile.png",
+        "tiles": [
+            {
+            "id": "player_female",
+            "fg": 1,
+            "bg": 0
+            },
+            {
+            "id": "player_male",
+            "fg": 2,
+            "bg": 0
+            }
+        ]
+        }
+    ]
+    }
+]
+```
+
+## `compatibility`
+(string)
+
+The internal ID of the compatible tilesets. MOD tileset is only applied when base tileset's ID exists in this field.
+
+## `tiles-new`
+
+Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.

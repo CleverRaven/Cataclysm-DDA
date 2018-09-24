@@ -2805,8 +2805,8 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
         }
     }
 
-    // 4+ story labs without train connections are candidates for lab escape spots.
-    if( prefix.empty() && z == -4 && train_odds == 0 ) {
+    // 4th story of labs is a candidate for lab escape, as long as there's no train or finale.
+    if( prefix.empty() && z == -4 && train_odds == 0 && numstairs > 0 ) {
         int cellx = 0;
         int celly = 0;
         int tries = 0;
@@ -3556,7 +3556,13 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
     if( special.id == "FakeSpecial_house" && one_in( settings.city_spec.house_basement_chance ) ) {
         const overmap_special_id basement_tid = settings.city_spec.pick_basement();
         const tripoint basement_p = tripoint( p.x, p.y, p.z - 1 );
-        place_special( *basement_tid, basement_p, dir, cit );
+
+        // This basement isn't part of the special that we asserted we could place at
+        // the top of this function, so we need to make sure we can place the basement
+        // special before doing so.
+        if( can_place_special( *basement_tid, basement_p, dir ) ) {
+            place_special( *basement_tid, basement_p, dir, cit );
+        }
     }
 }
 

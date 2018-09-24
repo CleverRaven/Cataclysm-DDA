@@ -1650,7 +1650,7 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
                ( it->charges >= thread_needed && has_enough[mat_item] );
     };
 
-    uimenu tmenu;
+    uilist tmenu;
     // TODO: Tell how much thread will we use
     if( it->charges >= thread_needed ) {
         tmenu.text = _( "How do you want to modify it?" );
@@ -1690,8 +1690,6 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
                     _( "Destroy Kevlar padding" ),
                     mod.bash_resist(), mod.cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
                     mod.get_encumber(), temp_item.get_encumber() );
-
-    tmenu.addentry( 4, true, 'q', _( "Cancel" ) );
 
     tmenu.query();
     const int choice = tmenu.ret;
@@ -4906,36 +4904,31 @@ static bool heat_item( player &p )
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only aproximations
     int move_mod = ( to_gram( target.weight() ) );
-    // links time of food's HOT-ness with weight, as smaller items lose temperature faster
-    // locked in brackets between 10 minutes min and 60 minutes max to cut-off extreme values
-    int counter_mod = clamp( to_gram( target.weight() ), 100, 600 );
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
 
         if( target.has_flag( "EATEN_COLD" ) &&
             !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ), target.tname() ) ) {
 
+            // assume environment is warm; heat less to keep COLD longer
+            int counter_mod = 550;
             target.item_tags.insert( "COLD" );
             if( g->get_temperature( p.pos() ) <= temperatures::cold ) {
                 // environment is cold; heat more to prevent re-freeze
                 counter_mod = 50;
-            } else {
-                // environment is warm; heat less to keep COLD longer
-                counter_mod = 550;
             }
+            target.item_counter = counter_mod;
             add_msg( _( "You defrost the food." ) );
         } else {
             add_msg( _( "You defrost and heat up the food." ) );
-            target.item_tags.insert( "HOT" );
+            target.heat_up();
             // bitshift multiply move_mod because we have to defrost and heat
             move_mod <<= 1;
         }
     } else {
         add_msg( _( "You heat up the food." ) );
-        target.item_tags.erase( "COLD" );
-        target.item_tags.insert( "HOT" );
+        target.heat_up();
     }
-    target.item_counter = counter_mod;
     p.mod_moves( -move_mod ); // time needed to actually heat up
     return true;
 }
@@ -6662,7 +6655,6 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    int choice = -1;
     const char *car_action = NULL;
 
     if( !it->active ) {
@@ -6671,12 +6663,14 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         car_action = _( "Stop controlling RC car" );
     }
 
-    choice = menu( true, _( "What to do with radio control?" ), _( "Nothing" ), car_action,
-                   _( "Press red button" ), _( "Press blue button" ), _( "Press green button" ), NULL );
+    int choice = uilist( _( "What to do with radio control?" ), {
+        car_action,
+        _( "Press red button" ), _( "Press blue button" ), _( "Press green button" )
+    } );
 
-    if( choice == 1 ) {
+    if( choice < 0 ) {
         return 0;
-    } else if( choice == 2 ) {
+    } else if( choice == 0 ) {
         if( it->active ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
@@ -6704,10 +6698,10 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
                 it->active = true;
             }
         }
-    } else if( choice > 2 ) {
+    } else if( choice > 0 ) {
         std::string signal = "RADIOSIGNAL_";
         std::stringstream choice_str;
-        choice_str << ( choice - 2 );
+        choice_str << choice;
         signal += choice_str.str();
 
         auto item_list = p->get_radio_items();
@@ -6980,11 +6974,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         if( cooktime <= 0 ) {
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
             if( meal.has_flag( "EATEN_HOT" ) ) {
-                meal.active = true;
-                meal.item_tags.erase( "COLD" );
-                meal.item_tags.erase( "FROZEN" );
-                meal.item_tags.insert( "HOT" );
-                meal.item_counter = 600;
+                meal.heat_up();
+            } else {
                 meal.reset_temp_check();
             }
 

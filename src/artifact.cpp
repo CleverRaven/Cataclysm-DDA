@@ -1153,7 +1153,10 @@ void it_artifact_tool::deserialize( JsonObject &jo )
     tool->charges_per_use = jo.get_int( "charges_per_use" );
     tool->turns_per_charge = jo.get_int( "turns_per_charge" );
     tool->ammo_id = ammotype( jo.get_string( "ammo" ) );
-    tool->revert_to = jo.get_string( "revert_to" );
+    tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
+    if( *tool->revert_to == "null" ) {
+        tool->revert_to.reset();
+    }
 
     artifact->charge_type = ( art_charge )jo.get_int( "charge_type" );
 
@@ -1331,7 +1334,9 @@ void it_artifact_tool::serialize( JsonOut &json ) const
     json.member( "def_charges", tool->def_charges );
     json.member( "charges_per_use", tool->charges_per_use );
     json.member( "turns_per_charge", tool->turns_per_charge );
-    json.member( "revert_to", tool->revert_to );
+    if( tool->revert_to ) {
+        json.member( "revert_to", *tool->revert_to );
+    }
 
     // artifact data
     json.member( "charge_type", artifact->charge_type );
