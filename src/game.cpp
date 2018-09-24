@@ -2062,9 +2062,10 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
-        uimenu action_menu;
+        uilist action_menu;
+        action_menu.allow_anykey = true;
         const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
-            // The char is used as retval from the uimenu *and* as hotkey.
+            // The char is used as retval from the uilist *and* as hotkey.
             action_menu.addentry( key, true, key, text );
             auto &entry = action_menu.entries.back();
             switch( hint ) {
@@ -2122,8 +2123,8 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                 break;
         }
 
-        // TODO: Ideally the setup of uimenu would be split into calculate variables (size, width...),
-        // and actual window creation. This would allow us to let uimenu calculate the width, we can
+        // TODO: Ideally the setup of uilist would be split into calculate variables (size, width...),
+        // and actual window creation. This would allow us to let uilist calculate the width, we can
         // use that to adjust its location afterwards.
         action_menu.w_y = VIEW_OFFSET_Y;
         action_menu.w_x = popup_x + VIEW_OFFSET_X;
@@ -2139,14 +2140,21 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                             iScrollPos, true, false, false );
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
-            if( action_menu.ret != UIMENU_INVALID ) {
+            if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
-            } else if( action_menu.keypress == KEY_RIGHT ) {
+            } else if( action_menu.ret == UIMENU_UNBOUND && action_menu.keypress == KEY_RIGHT ) {
                 // Simulate KEY_RIGHT == '\n' (confirm currently selected entry) for compatibility with old version.
-                // TODO: ideally this should be done in the uimenu, maybe via a callback.
-                cMenu = action_menu.entries[action_menu.selected].retval;
-            } else {
+                // TODO: ideally this should be done in the uilist, maybe via a callback.
+                cMenu = action_menu.ret = action_menu.entries[action_menu.selected].retval;
+            } else if( action_menu.keypress == KEY_PPAGE || action_menu.keypress == KEY_NPAGE ) {
                 cMenu = action_menu.keypress;
+                // Prevent the menu from scrolling with this key. TODO: Ideally the menu
+                // could be instructed to ignore these two keys instead of scrolling.
+                action_menu.selected = prev_selected;
+                action_menu.fselected = prev_selected;
+                action_menu.vshift = 0;
+            } else {
+                cMenu = 0;
             }
 
             switch( cMenu ) {
@@ -2196,18 +2204,9 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     game_menus::inv::reassign_letter( u, u.i_at( pos ) );
                     break;
                 case KEY_PPAGE:
-                    // Prevent the menu from scrolling with this key. TODO: Ideally the menu
-                    // could be instructed to ignore these two keys instead of scrolling.
-                    action_menu.selected = prev_selected;
-                    action_menu.fselected = prev_selected;
-                    action_menu.vshift = 0;
                     iScrollPos--;
                     break;
                 case KEY_NPAGE:
-                    // ditto. See KEY_PPAGE.
-                    action_menu.selected = prev_selected;
-                    action_menu.fselected = prev_selected;
-                    action_menu.vshift = 0;
                     iScrollPos++;
                     break;
                 case '+':
@@ -2227,7 +2226,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                 default:
                     break;
             }
-        } while( cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == KEY_PPAGE || cMenu == KEY_NPAGE );
+        } while( action_menu.ret == UIMENU_WAIT_INPUT || action_menu.ret == UIMENU_UNBOUND );
     }
     return cMenu;
 }
