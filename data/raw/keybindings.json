@@ -478,6 +478,13 @@
   },
   {
     "type": "keybinding",
+    "id": "HIDE_SHOW_RECIPE",
+    "category": "CRAFTING",
+    "name": "Hide/show recipe",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",
@@ -1269,6 +1276,13 @@
     "category": "DEFAULTMODE",
     "id": "pause",
     "bindings": [ { "input_method": "keyboard", "key": "." }, { "input_method": "keyboard", "key": "5" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Map Memory",
+    "category": "DEFAULTMODE",
+    "id": "toggle_map_memory",
+    "bindings": [ { "input_method": "keyboard", "key": "{" } ]
   },
   {
     "type": "keybinding",
