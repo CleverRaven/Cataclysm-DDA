@@ -11361,7 +11361,9 @@ long player::get_memorized_terrain_curses( const tripoint &p ) const
 
 size_t player::max_memorized_submaps() const
 {
-    if( has_trait( trait_FORGETFUL ) ) {
+    if( has_active_bionic( bio_memory ) ) {
+        return 20000; // 5000 overmap tiles
+    } else if( has_trait( trait_FORGETFUL ) ) {
         return 200; // 50 overmap tiles
     } else if( has_trait( trait_GOODMEMORY ) ) {
         return 800; // 200 overmap tiles
