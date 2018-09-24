@@ -54,7 +54,6 @@ const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray
 
 //The maximum amount of mass and volume that a internal furnace can consume
 const units::volume max_volume( 3000, units::volume_in_milliliter_tag{} );
-const units::mass max_mass( 6000, units::mass_in_gram_tag{} );
 
 // @todo: JSONize.
 const std::map<itype_id, int> plut_charges = {
@@ -1063,7 +1062,7 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
-    if( ( it.volume() > max_volume ) || ( it.weight() > max_mass ) ) {
+    if( it.volume() >= max_volume ) {
         return false;
     }
 
