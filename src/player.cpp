@@ -412,6 +412,7 @@ static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 static const trait_id trait_UGLY( "UGLY" );
+static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EARS( "URSINE_EARS" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -514,6 +515,7 @@ player::player() : Character()
     lastconsumed = itype_id( "null" );
     next_expected_position = tripoint_min;
     death_drops = true;
+    show_map_memory = true;
 
     empty_traits();
 
@@ -2734,12 +2736,21 @@ int player::overmap_sight_range( int light_level ) const
         return ( sight / ( SEEX / 2 ) );
     }
     sight = has_trait( trait_BIRD_EYE ) ? 15 : 10;
+
+    /** @EFFECT_PER determines overmap sight range */
+    sight += ( -4 + (int)( get_per() / 2 ) );
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
-    if( has_optic && has_trait( trait_EAGLEEYED ) ) {
+
+    if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
         sight += 15;
-    } else if( has_optic != has_trait( trait_EAGLEEYED ) ) {
+    } else if( has_trait( trait_EAGLEEYED ) != has_optic ) { //optic OR scout = +10
         sight += 10;
     }
+
+    if( has_trait( trait_UNOBSERVANT ) && sight > 3 ) {
+        sight = 3; //surprise! you can't see!
+    }
+
     return sight;
 }
 
@@ -7779,8 +7790,8 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
     }
 
     if( it.is_ammo_belt() ) {
-        auto linkage = it.type->magazine->linkage;
-        if( linkage != "NULL" && !has_charges( linkage, 1 ) ) {
+        const auto &linkage = it.type->magazine->linkage;
+        if( linkage && !has_charges( *linkage, 1 ) ) {
             return false;
         }
     }
@@ -11298,6 +11309,177 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     }
 
     return A_NEUTRAL;
+}
+
+void player::toggle_map_memory()
+{
+    show_map_memory = !show_map_memory;
+}
+
+bool player::should_show_map_memory()
+{
+    return show_map_memory;
+}
+
+memorized_terrain_tile player::get_memorized_terrain( const tripoint &pos ) const
+{
+    return player_map_memory.get_memorized_terrain( pos );
+}
+
+void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation )
+{
+    player_map_memory.memorize_tile( pos, ter, subtile, rotation );
+}
+
+void player::finalize_tile_memory()
+{
+    player_map_memory.finalize_tile_memory( max_memorized_submaps() );
+}
+
+void player::memorize_terrain_curses( const tripoint &pos, const long symbol )
+{
+    player_map_memory.memorize_terrain_symbol( pos, symbol );
+}
+
+void player::finalize_terrain_memory_curses()
+{
+    player_map_memory.finalize_terrain_memory_curses( max_memorized_submaps() );
+}
+
+long player::get_memorized_terrain_curses( const tripoint &p ) const
+{
+    return player_map_memory.get_memorized_terrain_curses( p );
+}
+
+size_t player::max_memorized_submaps() const
+{
+    if( has_trait( trait_FORGETFUL ) ) {
+        return 200; // 50 overmap tiles
+    } else if( has_trait( trait_GOODMEMORY ) ) {
+        return 800; // 200 overmap tiles
+    }
+    return 400; // 100 overmap tiles
+
+}
+
+memorized_terrain_tile map_memory::get_memorized_terrain( const tripoint &pos ) const
+{
+    const tripoint p = g->m.getabs( pos );
+    if( memorized_terrain.find( p ) != memorized_terrain.end() ) {
+        return memorized_terrain.at( p );
+    }
+    return { "", 0, 0 };
+}
+
+void map_memory::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                                const int rotation )
+{
+    memorized_terrain_tmp[pos] = { ter, subtile, rotation };
+}
+
+void map_memory::finalize_tile_memory( size_t max_submaps )
+{
+    memorize_tiles( memorized_terrain_tmp, max_submaps );
+    memorized_terrain_tmp.clear();
+}
+
+void map_memory::memorize_tiles( const std::map<tripoint, memorized_terrain_tile> &tiles,
+                                 const size_t max_submaps )
+{
+    std::set<tripoint> submaps;
+    for( auto i : tiles ) {
+        const tripoint p = g->m.getabs( i.first );
+        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
+        memorized_terrain[p] = i.second;
+    }
+
+    update_submap_memory( submaps, max_submaps );
+}
+
+void map_memory::update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps )
+{
+    std::set<tripoint> erase;
+    for( auto i : submaps ) {
+        std::vector<tripoint>::iterator position = std::find( memorized_submaps.begin(),
+                memorized_submaps.end(), i );
+        if( position != memorized_submaps.end() ) {
+            memorized_submaps.erase( position );
+        }
+        memorized_submaps.push_back( i );
+    }
+
+    while( memorized_submaps.size() > max_submaps ) {
+        erase.insert( memorized_submaps.front() );
+        memorized_submaps.erase( memorized_submaps.begin() );
+    }
+
+    clear_submap_memory( erase );
+}
+
+void map_memory::clear_submap_memory( const std::set<tripoint> &erase )
+{
+    for( auto it = memorized_terrain.cbegin(); it != memorized_terrain.cend(); ) {
+        bool delete_this = false;
+        for( auto i : erase ) {
+            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
+                delete_this = true;
+                break;
+            }
+        }
+        if( delete_this ) {
+            memorized_terrain.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+    for( auto it = memorized_terrain_curses.cbegin(); it != memorized_terrain_curses.cend(); ) {
+        bool delete_this = false;
+        for( auto i : erase ) {
+            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
+                delete_this = true;
+                break;
+            }
+        }
+        if( delete_this ) {
+            memorized_terrain_curses.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+}
+
+void map_memory::memorize_terrain_symbol( const tripoint &pos, const long symbol )
+{
+    memorized_terrain_curses_tmp[pos] = symbol;
+}
+
+void map_memory::finalize_terrain_memory_curses( const size_t max_submaps )
+{
+    memorize_terrain_symbols( memorized_terrain_curses_tmp, max_submaps );
+    memorized_terrain_curses_tmp.clear();
+}
+
+void map_memory::memorize_terrain_symbols( const std::map<tripoint, long> &tiles,
+        size_t max_submaps )
+{
+    std::set<tripoint> submaps;
+    for( auto i : tiles ) {
+        const tripoint p = g->m.getabs( i.first );
+        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
+        memorized_terrain_curses[p] = i.second;
+    }
+
+    update_submap_memory( submaps, max_submaps );
+}
+
+long map_memory::get_memorized_terrain_curses( const tripoint &pos ) const
+{
+    const tripoint p = g->m.getabs( pos );
+    if( memorized_terrain_curses.find( p ) != memorized_terrain_curses.end() ) {
+        return memorized_terrain_curses.at( p );
+    }
+    return 0;
 }
 
 bool player::sees( const tripoint &t, bool ) const

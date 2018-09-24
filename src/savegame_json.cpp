@@ -664,6 +664,9 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "player_stats", lifetime_stats );
 
+    player_map_memory.store( json );
+    json.member( "show_map_memory", show_map_memory );
+
     json.member( "assigned_invlet" );
     json.start_array();
     for( auto iter : inv.assigned_invlet ) {
@@ -838,6 +841,9 @@ void player::deserialize( JsonIn &jsin )
     }
 
     data.read( "player_stats", lifetime_stats );
+
+    player_map_memory.load( data );
+    data.read( "show_map_memory", show_map_memory );
 
     parray = data.get_array( "assigned_invlet" );
     while( parray.has_more() ) {
@@ -2447,6 +2453,55 @@ void player_morale::store( JsonOut &jsout ) const
 void player_morale::load( JsonObject &jsin )
 {
     jsin.read( "morale", points );
+}
+
+void map_memory::store( JsonOut &jsout ) const
+{
+    jsout.member( "map_memory_tiles" );
+    jsout.start_array();
+    for( const auto &elem : memorized_terrain ) {
+        jsout.start_object();
+        jsout.member( "x", elem.first.x );
+        jsout.member( "y", elem.first.y );
+        jsout.member( "z", elem.first.z );
+        jsout.member( "tile", elem.second.tile );
+        jsout.member( "subtile", elem.second.subtile );
+        jsout.member( "rotation", elem.second.rotation );
+        jsout.end_object();
+    }
+    jsout.end_array();
+
+    jsout.member( "map_memory_curses" );
+    jsout.start_array();
+    for( const auto &elem : memorized_terrain_curses ) {
+        jsout.start_object();
+        jsout.member( "x", elem.first.x );
+        jsout.member( "y", elem.first.y );
+        jsout.member( "z", elem.first.z );
+        jsout.member( "symbol", elem.second );
+        jsout.end_object();
+    }
+    jsout.end_array();
+}
+
+void map_memory::load( JsonObject &jsin )
+{
+    JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
+    memorized_terrain.clear();
+    while( map_memory_tiles.has_more() ) {
+        JsonObject pmap = map_memory_tiles.next_object();
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        const memorized_terrain_tile m{ pmap.get_string( "tile" ), pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) };
+        memorized_terrain[p] = m;
+    }
+
+    JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
+    memorized_terrain_curses.clear();
+    while( map_memory_curses.has_more() ) {
+        JsonObject pmap = map_memory_curses.next_object();
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        memorized_terrain_curses[p] = pmap.get_long( "symbol" );
+    }
 }
 
 void deserialize( point &p, JsonIn &jsin )

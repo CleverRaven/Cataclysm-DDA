@@ -176,7 +176,7 @@ input_context game::get_player_input( std::string &action )
                         const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
                         const lit_level lighting = visibility_cache[location.x][location.y];
                         wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                        if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                        if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
                                       u.pos() + u.view_offset,
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
@@ -216,7 +216,7 @@ input_context game::get_player_input( std::string &action )
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                                if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                                if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
                                               u.pos() + u.view_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
@@ -1171,6 +1171,10 @@ bool game::handle_action()
     // These actions are allowed while deathcam is active.
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch( act ) {
+            case ACTION_TOGGLE_MAP_MEMORY:
+                u.toggle_map_memory();
+                break;
+
             case ACTION_CENTER:
                 u.view_offset.x = driving_view_offset.x;
                 u.view_offset.y = driving_view_offset.y;

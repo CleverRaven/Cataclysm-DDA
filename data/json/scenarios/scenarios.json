@@ -11,6 +11,16 @@
   },
   {
     "type": "scenario",
+    "ident": "refugee",
+    "name": "Refugee",
+    "points": 1,
+    "description": "You made it to one of the refugee centers, but they've refused to let you join the others underground. Looks like you're on your own...",
+    "allowed_locs": [ "refugee" ],
+    "start_name": "Refugee Center",
+    "flags": [ "CITY_START" ]
+  },
+  {
+    "type": "scenario",
     "ident": "missed",
     "name": "Missed",
     "points": 0,

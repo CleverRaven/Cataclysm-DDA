@@ -18,10 +18,10 @@
     "blueprint": [ "o#o" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle", "horn_bicycle", "foot_pedals" ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_bicycle_steerable" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_bicycle_steerable", "headlight" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_bicycle", "basketsm" ] },
       { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "alternator_motorbike" ] },
-      { "x": -1, "y": 0, "part": [ "medium_storage_battery", "engine_electric_small" ] }
+      { "x": -1, "y": 0, "parts": [ "small_storage_battery", "engine_electric_small" ] }
     ]
   },
   {
@@ -133,7 +133,7 @@
     "blueprint": [ "o>o" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_handle", "headlight", "saddle", "controls", "controls_electronic", "horn_car", "motorcycle_kickstand" ] },
-      { "x": 0, "y": 0, "parts": [ "engine_electric", "battery_motorbike" ] },
+      { "x": 0, "y": 0, "parts": [ "medium_storage_battery", "engine_electric" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_small_steerable" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_small" ] }
     ]
