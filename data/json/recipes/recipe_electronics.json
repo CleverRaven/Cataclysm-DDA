@@ -767,7 +767,7 @@
   "reversible": true,
   "decomp_learn": 4,
   "autolearn": true,
-  "book_learn": [[ "advanced_electronics", 4] , [ "recipe_lab_elec", 4 ] , [ "textbook_anarch", 4]],
+  "book_learn": [[ "advanced_electronics", 4 ] , [ "recipe_lab_elec", 4 ] , [ "textbook_anarch", 4 ]],
   "using": [ [ "soldering_standard", 24 ] ],
   "qualities" : [ {"id":"SCREW","level":1} ],
   "components": [
@@ -776,6 +776,28 @@
     [ [ "amplifier", 3 ] ],
     [ [ "scrap", 4 ] ],
     [ [ "cable", 10 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "UPS_Engineer_off",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "electronics",
+  "difficulty": 7,
+  "time": 75000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": true,
+  "book_learn": [["textbook_mechanics", 8] , ["textbook_electronics", 7] , ["advanced_electronics", 7] , ["textbook_robots", 6]],
+  "using": [ [ "soldering_standard", 35 ], [ "sewing_standard", 20 ] ],
+  "qualities" : [ {"id":"SCREW","level":1} ],
+  "components": [
+    [ [ "power_supply", 6 ] ],
+    [ [ "medium_storage_battery", 2 ] ],
+    [ [ "amplifier", 5 ] ],
+    [ [ "scrap", 12 ] ],
+    [ [ "rag", 20 ] ],
+    [ [ "cable", 12 ] ]
   ]
 },{
   "type" : "recipe",

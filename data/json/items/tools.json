@@ -97,21 +97,21 @@
     "flags": [ "NO_UNLOAD", "RECHARGE", "BELTED", "UPS", "OVERSIZE" ]
   },
   {
-    "id": "mega_UPS_off",
+    "id": "UPS_Engineer_off",
     "type": "TOOL_ARMOR",
     "name": "engineer's UPS",
     "name_plural": "engineers' UPS's",
     "description": "This is a unified power supply, or UPS. The Engineer's UPS is designed to power the hungriest of UPS devices.",
-    "weight": 6800,
+    "weight": 62000,
     "volume": 50,
     "price": 560000,
     "to_hit": -2,
-    "bashing": 14,
+    "bashing": 18,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 10000,
+    "max_charges": 14000,
     "covers": [ "TORSO" ],
     "encumbrance": 27,
     "coverage": 40,
@@ -155,7 +155,7 @@
     "encumbrance": 14,
     "coverage": 15,
     "material_thickness": 8,
-    "flags": [ "BELTED", "UPS", "OVERSIZE" ]
+    "flags": [ "BELTED", "ADV_UPS", "OVERSIZE" ]
   },
   {
     "id": "advanced_ecig",
