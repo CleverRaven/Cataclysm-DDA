@@ -4380,28 +4380,9 @@ int vehicle::break_off( int p, int dmg )
             add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ),
                      name.c_str(), parts[ p ].name().c_str() );
         }
-        // Special handling for destroying a frame that will break the vehicle into pieces.
-        // General idea is if parts become isolated from the rest of the vehicle, they "fall off".
-        std::vector<point> offsets = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-        std::vector<int> isolated_parts;
         break_part_into_pieces( p, pos.x, pos.y, true );
         remove_part( p );
-        shift_if_needed();
-        for( point offset : offsets ) {
-            std::vector<int> vehicle_origin = parts_at_relative( 0, 0, false );
-            const point smashed_part_position = parts[ p ].mount;
-            std::vector<int> at_risk_part = parts_at_relative( smashed_part_position.x + offset.x,
-                                            smashed_part_position.y + offset.y,
-                                            false );
-            if( at_risk_part.empty() ) {
-                continue;
-            }
-            if( !is_connected( parts[ vehicle_origin[ 0 ] ], parts[ at_risk_part[ 0 ] ],
-                               parts[ p ] ) ) {
-                // Ludicrous damage level to ensure it happens.
-                break_off( at_risk_part[ 0 ], 1000000 );
-            }
-        }
+        find_and_split_vehicles( p );
     } else {
         //Just break it off
         if( g->u.sees( pos ) ) {
