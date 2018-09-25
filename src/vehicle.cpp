@@ -356,7 +356,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
     // Fuel in some vehicles will be syphoned by other survivals.
     int fuel_reducing = get_option< int >( "VEHICLE_FUEL_REDUCING" );
-    bool has_fuel = 1;
+    bool has_fuel = true;
     if( fuel_reducing > 0 && veh_status != 0 ) {
         int current_day = to_days< int >( calendar::turn - calendar::time_of_cataclysm );
         has_fuel = roll_remainder( pow( 2, - 1.0f * current_day / fuel_reducing ) );
