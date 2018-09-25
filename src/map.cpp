@@ -5687,7 +5687,6 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
     } else {
         terrain_sym = curr_ter.symbol();
     }
-    g->u.memorize_terrain_curses( p, terrain_sym );
 
     if( curr_furn.id ) {
         sym = curr_furn.symbol();
@@ -5803,6 +5802,8 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         tercol = veh->part_color( veh_part );
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
     }
+
+    g->u.memorize_terrain_curses( p, sym );
 
     // If there's graffiti here, change background color
     if( curr_maptile.has_graffiti() ) {
