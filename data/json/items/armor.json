@@ -2853,7 +2853,7 @@
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "material": [ "faux_fur" ],
     "color": "pink"
-  },  
+  },
   {
     "id": "fur_cat_tail",
     "type": "ARMOR",
@@ -2876,7 +2876,7 @@
     "description": "A fuzzy garishly colored tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
     "material": [ "faux_fur", "plastic" ],
     "color": "pink"
-  },  
+  },
   {
     "id": "fur_collar",
     "type": "ARMOR",
@@ -2898,7 +2898,7 @@
     "description": "A decorative 'collar' made out of faux fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
     "material": [ "faux_fur" ],
     "color": "pink"
-  },  
+  },
   {
     "id": "gambeson",
     "type": "ARMOR",
