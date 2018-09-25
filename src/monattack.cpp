@@ -652,6 +652,10 @@ bool mattack::pull_metal_weapon( monster *z )
     }
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
+        //If the target's weapon can't be unwielded, it's probably internal, like a bionic device.
+        if ( foe->weapon.has_flag( "NO_UNWIELD" ) ) {
+            return true;
+        }
         if( foe->weapon.made_of( material_id( "iron" ) ) ||
             foe->weapon.made_of( material_id( "steel" ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
