@@ -379,7 +379,7 @@ typedef enum {
 template<typename ...Args>
 inline void popup_getkey( input_event &evt, const char *const mes, Args &&... args )
 {
-    return popup( evt, string_format( mes, std::forward<Args>( args )... ), PF_GET_KEY );
+    popup( evt, string_format( mes, std::forward<Args>( args )... ), PF_GET_KEY );
 }
 template<typename ...Args>
 inline long popup_getkey( const char *const mes, Args &&... args )
