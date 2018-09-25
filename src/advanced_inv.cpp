@@ -1619,6 +1619,7 @@ void advanced_inventory::display()
                     int moved = 0;
                     for( auto &elem : moving_items ) {
                         assert( !elem.is_null() );
+                        move_cost += ( elem.count_by_charges() ? 1 : elem.charges ) * Pickup::cost_to_move_item( g->u, elem );
                         items_left = add_item( destarea, elem );
                         if( items_left > 0 ) {
                             // chargeback the items if adding them failed
