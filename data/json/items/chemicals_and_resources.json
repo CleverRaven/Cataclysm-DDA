@@ -791,6 +791,19 @@
    },
    {
     "type":"GENERIC",
+    "id": "almond",
+    "symbol": "%",
+    "color": "brown",
+    "name": "almond",
+    "name_plural": "almond",
+    "description": "A handful of hard nuts from a almond tree, still in their shell.",
+    "price": 0,
+    "weight": 212,
+    "volume": 1,
+    "to_hit": -2
+   },
+   {
+    "type":"GENERIC",
     "id": "peanut",
     "symbol": "%",
     "color": "brown",
