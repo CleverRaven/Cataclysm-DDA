@@ -471,6 +471,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BED``` A bed where the player can sleep.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
 - ```BELTABLE``` Seatbelt can be attached to this part.
+- ```BIKE_RACK_VEH``` Can be used to merge an adjacent single tile wide vehicle, or split a single tile wide vehicle off into its own vehicle.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA```
 - ```CAMERA_CONTROL```

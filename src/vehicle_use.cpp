@@ -131,6 +131,9 @@ void vehicle::control_doors()
     pmenu.title = _( "Select door to toggle" );
     int doors[2]; // one door to open and one to close
     for( int p : door_motors ) {
+        if( parts[ p ].is_unavailable() ) {
+            continue;
+        }
         doors[0] = next_part_to_open( p );
         doors[1] = next_part_to_close( p );
         for( int door : doors ) {
@@ -333,6 +336,9 @@ int vehicle::select_engine()
     std::string name;
     tmenu.text = _( "Toggle which?" );
     for( size_t e = 0; e < engines.size(); ++e ) {
+        if( parts[ engines[ e] ].is_unavailable() ) {
+            continue;
+        }
         name = parts[ engines[ e ] ].name();
         tmenu.addentry( e, true, -1, "[%s] %s",
                         ( ( parts[engines[e]].enabled ) ? "x" : " " ), name.c_str() );
@@ -1219,4 +1225,62 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
         parts[part].remove_flag( vehicle_part::animal_flag );
     }
     invalidate_mass();
+}
+
+void vehicle::use_bike_rack( int part )
+{
+    if( parts[part].is_unavailable() || parts[part].removed ) {
+        return;
+    }
+    std::vector<std::vector <int>> racks_parts = find_lines_of_parts( part, "BIKE_RACK_VEH" );
+    if( racks_parts.empty() ) {
+        return;
+    }
+
+    // check if we're storing a vehicle on this rack
+    std::vector<int> carried_parts;
+    std::vector<int> carry_rack;
+    bool found_vehicle = false;
+    for( auto rack_parts : racks_parts ) {
+        for( auto rack_part : rack_parts ) {
+            // skip parts that aren't carrying anything
+            if( !parts[ rack_part ].has_flag( vehicle_part::carrying_flag ) ) {
+                continue;
+            }
+            for( int i = 0; i < 4; i++ ) {
+                point near_loc = parts[ rack_part ].mount + vehicles::cardinal_d[ i ];
+                std::vector<int> near_parts = parts_at_relative( near_loc.x, near_loc.y );
+                if( near_parts.empty() ) {
+                    continue;
+                }
+                if( parts[ near_parts[ 0 ] ].has_flag( vehicle_part::carried_flag ) ) {
+                    found_vehicle = true;
+                    // found a carried vehicle part
+                    for( auto carried_part : near_parts ) {
+                        carried_parts.push_back( carried_part );
+                    }
+                    carry_rack.push_back( rack_part );
+                    // we're not adjacent to another carried vehicle on this rack
+                    break;
+                }
+            }
+        }
+        if( found_vehicle ) {
+            break;
+        }
+    }
+    bool success = false;
+    if( found_vehicle ) {
+        success = remove_carried_vehicle( carried_parts );
+        if( success ) {
+            for( auto rack_part : carry_rack ) {
+                parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
+            }
+        }
+    } else {
+        success = find_rackable_vehicle( racks_parts );
+    }
+    if( success ) {
+        g->refresh_all();
+    }
 }
