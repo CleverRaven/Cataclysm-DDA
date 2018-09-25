@@ -962,12 +962,10 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         }
 
         if( psg->pos() != part_pos ) {
-            debugmsg( "Passenger/part position mismatch: passenger %d,%d,%d, part %d %d,%d,%d",
-                      g->u.posx(), g->u.posy(), g->u.posz(),
-                      prt,
-                      part_pos.x, part_pos.y, part_pos.z );
-            veh->parts[prt].remove_flag( vehicle_part::passenger_flag );
-            continue;
+            add_msg( m_debug, "Passenger/part position mismatch: passenger %d,%d,%d, part %d %d,%d,%d",
+                     g->u.posx(), g->u.posy(), g->u.posz(),
+                     prt,
+                     part_pos.x, part_pos.y, part_pos.z );
         }
 
         // Place passenger on the new part location
