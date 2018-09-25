@@ -2493,7 +2493,9 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO" );
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
 
-    g->u.memorize_tile( p, vpid, subtile, veh_dir );
+    if( !veh->forward_velocity() ) {
+        g->u.memorize_tile( p, vpid, subtile, veh_dir );
+    }
 
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
                                     ll, nv_goggles_activated, height_3d );
