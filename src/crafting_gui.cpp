@@ -15,6 +15,7 @@
 #include "output.h"
 #include "json.h"
 #include "string_input_popup.h"
+#include "ui.h"
 #include "uistate.h"
 
 #include "debug.h"
@@ -43,6 +44,11 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
                                  const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
+
+std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
+int related_menu_fill( uilist &rmenu,
+                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                       const recipe_subset &available );
 
 std::string get_cat_name( const std::string &prefixed_name )
 {
@@ -209,6 +215,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
+    ctxt.register_action( "RELATED_RECIPES" );
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
 
     const inventory &crafting_inv = g->u.crafting_inventory();
@@ -355,19 +362,20 @@ const recipe *select_crafting_recipe( int &batch_size )
             wprintz( w_data, c_white, "  " );
             if( !filterstring.empty() ) {
                 wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, %s [?] keybindings" ),
+                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
-                wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, %s [?] keybindings" ),
+                wprintz( w_data, c_white,
+                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
             if( !filterstring.empty() ) {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
             } else {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
             }
             mvwprintz( w_data, dataLines + 2, 5, c_white,
                        _( "Press <ENTER> to attempt to craft object." ) );
@@ -697,6 +705,20 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             redraw = true;
+        } else if( action == "RELATED_RECIPES" ) {
+            if( current.empty() ) {
+                popup( _( "Nothing selected!" ) );
+                redraw = true;
+                continue;
+            }
+            std::string recipe_name = peek_related_recipe( current[ line ], available_recipes );
+            if( recipe_name.empty() ) {
+                keepline = true;
+            } else {
+                filterstring = recipe_name;
+            }
+
+            redraw = true;
         }
         if( line < 0 ) {
             line = current.size() - 1;
@@ -706,6 +728,114 @@ const recipe *select_crafting_recipe( int &batch_size )
     } while( !done );
 
     return chosen;
+}
+
+std::string peek_related_recipe( const recipe *current, const recipe_subset &available )
+{
+    // current recipe components
+    std::vector<std::pair<itype_id, std::string>> related_components;
+    const requirement_data &req = current->requirements();
+    for( const std::vector<item_comp> &comp_list : req.get_components() ) {
+        for( const item_comp &a : comp_list ) {
+            related_components.push_back( { a.type, item::nname( a.type, 1 ) } );
+        }
+    }
+    // current recipe result
+    std::vector<std::pair<itype_id, std::string>> related_results;
+    item tmp = current->create_result();
+    itype_id tid;
+    if( tmp.contents.empty() ) { // use this item
+        tid = tmp.typeId();
+    } else { // use the contained item
+        tid = tmp.contents.front().typeId();
+    }
+    const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
+    for( const auto &b : known_recipes ) {
+        if( available.contains( b ) ) {
+            related_results.push_back( { b->result(), b->result_name() } );
+        }
+    }
+    std::stable_sort( related_results.begin(), related_results.end(),
+    []( const std::pair<std::string, std::string> &a, const std::pair<std::string, std::string> &b ) {
+        return a.second < b.second;
+    } );
+
+    uilist rel_menu;
+    int np_last = -1;
+    if( !related_components.empty() ) {
+        rel_menu.addentry( ++np_last, false, -1, _( "COMPONENTS" ) );
+    }
+    np_last = related_menu_fill( rel_menu, related_components, available );
+    if( !related_results.empty() ) {
+        rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
+    }
+    np_last = related_menu_fill( rel_menu, related_results, available );
+
+    rel_menu.settext( _( "Related recipes:" ) );
+    rel_menu.query();
+    if( rel_menu.ret != UIMENU_CANCEL ) {
+        return rel_menu.entries[ rel_menu.ret ].txt.substr( 2 ); // 2 = prefix length
+    }
+
+    return "";
+}
+
+int related_menu_fill( uilist &rmenu,
+                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                       const recipe_subset &available )
+{
+    const std::vector<uimenu_entry> &entries = rmenu.entries;
+    int np_last = entries.empty() ? -1 : entries.back().retval;
+
+    if( related_recipes.empty() ) {
+        return np_last;
+    }
+
+    std::string recipe_name_prev;
+    for( const std::pair<itype_id, std::string> &p : related_recipes ) {
+
+        // we have different recipes with the same names
+        // list only one of them as we show and filter by name only
+        std::string recipe_name = p.second;
+        if( recipe_name == recipe_name_prev ) {
+            continue;
+        }
+        recipe_name_prev = recipe_name;
+
+        std::vector<const recipe *> current_part = available.search_result( p.first );
+        if( !current_part.empty() ) {
+
+            bool defferent_recipes = false;
+
+            // 1st pass: check if we need to add group
+            for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+                if( current_part[ recipe_n ]->result_name() != recipe_name ) {
+                    // add group
+                    rmenu.addentry( ++np_last, false, -1, recipe_name );
+                    defferent_recipes = true;
+                    break;
+                } else if( recipe_n == current_part.size() - 1 ) {
+                    // only one result
+                    rmenu.addentry( ++np_last, true, -1, "- " + recipe_name );
+                }
+            }
+
+            if( defferent_recipes ) {
+                std::string prev_item_name;
+                // 2nd pass: add defferent recipes
+                for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+                    std::string cur_item_name = current_part[ recipe_n ]->result_name();
+                    if( cur_item_name != prev_item_name ) {
+                        std::string sym = recipe_n == current_part.size() - 1 ? "L " : "+ ";
+                        rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
+                    }
+                    prev_item_name = cur_item_name;
+                }
+            }
+        }
+    }
+
+    return np_last;
 }
 
 static bool query_is_yes( const std::string &query )
