@@ -29,6 +29,7 @@
 #include "inventory.h"
 #include "tutorial.h"
 #include "overmap.h"
+#include "regional_settings.h"
 #include "overmap_connection.h"
 #include "artifact.h"
 #include "overmap_location.h"
