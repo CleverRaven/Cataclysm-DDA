@@ -7467,6 +7467,11 @@ void map::build_floor_caches()
     }
 }
 
+int map::get_my_MAPSIZE() const
+{
+    return my_MAPSIZE;
+}
+
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
