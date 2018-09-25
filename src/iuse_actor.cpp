@@ -83,6 +83,8 @@ static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
@@ -2593,6 +2595,11 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return true;
     }
 
+    const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
+    if( ( small && !fix.has_flag( "UNDERSIZE" ) ) || ( !small && fix.has_flag( "UNDERSIZE" ) ) ) {
+        return true;
+    }
+
     if( fix.damage() > 0 ) {
         return true;
     }
@@ -2771,9 +2778,11 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
                               g->u.has_trait( trait_id( "SMALL_OK" ) );
-            pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
-                                  fix.tname().c_str() );
-            fix.item_tags.insert( "FIT" );
+            if( !fix.has_flag( "FIT" ) ) {
+                pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
+                                      fix.tname().c_str() );
+                fix.item_tags.insert( "FIT" );
+            }
             if( smol && !fix.has_flag( "UNDERSIZE" ) ) {
                 pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                       fix.tname().c_str() );
