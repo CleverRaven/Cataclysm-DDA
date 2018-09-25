@@ -365,7 +365,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                          _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
-                wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
+                wprintz( w_data, c_white,
+                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
