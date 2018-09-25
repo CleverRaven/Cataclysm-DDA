@@ -1666,14 +1666,27 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
             new_vehicle = new_vehicles[ i ];
         }
         int split_part0 = split_parts.front();
+        tripoint new_v_pos3;
+        point mnt_offset;
         if( new_vehicle == nullptr ) {
-            tripoint new_pos = global_part_pos3( parts[ split_part0 ] );
-            new_vehicle = g->m.add_vehicle( vproto_id( "none" ), new_pos, face.dir() );
-            new_vehicle->name = string_format( "Part #%u of %s", i++, name.c_str() );
+            // make sure the split_part0 is a legal 0,0 part
+            if( split_parts.size() > 1 ) {
+                for( size_t sp = 0; sp < split_parts.size(); sp++ ) {
+                    int p = split_parts[ sp ];
+                    if( part_info( p ).location == part_location_structure &&
+                        !part_info( p ).has_flag( "PROTRUSION" ) ) {
+                        split_part0 = sp;
+                        break;
+                    }
+                }
+            }
+            new_v_pos3 = global_part_pos3( parts[ split_part0 ] );
+            mnt_offset = parts[ split_part0 ].mount;
+            new_vehicle = g->m.add_vehicle( vproto_id( "none" ), new_v_pos3, face.dir() );
+            new_vehicle->name = name;
             new_vehicle->move = move;
         }
 
-        point mnt_offset = parts[ split_part0 ].mount;
 
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
             int mov_part = split_parts[ new_part ];
