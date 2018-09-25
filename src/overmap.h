@@ -155,6 +155,14 @@ struct map_extras {
     map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
 };
 
+struct map_extra_trigger
+{
+    tripoint omt_position;
+    int trigger_distance;
+    std::string map_special;
+    bool triggered;
+};
+
 struct sid_or_sid;
 /*
  * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
@@ -413,6 +421,8 @@ class overmap
         std::vector<std::shared_ptr<npc>> get_npcs( const std::function<bool( const npc & )> &predicate )
                                        const;
 
+        std::vector<map_extra_trigger> map_extra_triggers;
+
     private:
         friend class overmapbuffer;
 
@@ -548,6 +558,7 @@ class overmap
 
         void place_mongroups();
         void place_radios();
+        void place_map_extras();
 
         void add_mon_group( const mongroup &group );
 

@@ -1807,6 +1807,8 @@ void overmap::generate( const overmap *north, const overmap *east,
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
+    place_map_extras();
+
     dbg( D_INFO ) << "overmap::generate done";
 }
 
@@ -3857,6 +3859,30 @@ void overmap::place_radios()
   This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
                 radios.push_back( radio_tower( i * 2, j * 2, rng( RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH ),
                                                message ) );
+            }
+        }
+    }
+}
+
+void overmap::place_map_extras()
+{
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            map_extras ex = region_settings_map["default"].region_extras[ter( i, j, 0 )->get_extras()];
+            if( ex.chance > 0 && one_in( ex.chance ) ) {
+                std::string *extra = ex.values.pick();
+                if( extra == NULL ) {
+                    debugmsg( "failed to pick extra for type %s", ter( i, j, 0 )->get_extras().c_str() );
+                } else {
+                    map_extra_trigger trigger;
+                    trigger.map_special = *(ex.values.pick());
+                    trigger.omt_position.x = i;
+                    trigger.omt_position.y = j;
+                    trigger.trigger_distance = 5;
+                    trigger.triggered = false;
+                    map_extra_triggers.push_back(trigger);
+                    overmap_buffer.add_note( global_base_point().x + i, global_base_point().y + j, trigger.omt_position.z, string_format( ">:W;%s", trigger.map_special ) );
+                }
             }
         }
     }

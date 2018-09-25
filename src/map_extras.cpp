@@ -55,7 +55,7 @@ void mx_null( map &, const tripoint & )
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    tinymap tmp_m(4);
+    tinymap tmp_m(2);
     tmp_m.load(abs_sub.x, abs_sub.y, abs_sub.z, false);
 
     int map_size = tmp_m.get_my_MAPSIZE();

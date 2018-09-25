@@ -50,6 +50,8 @@
 #include <cstring>
 #include <algorithm>
 #include <cassert>
+#include "overmap.h"
+#include "map_extras.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -6293,6 +6295,19 @@ void map::shift( const int sx, const int sy )
         }
 
         reset_vehicle_cache( gridz );
+    }
+    
+    const tripoint player_pos = g->u.global_omt_location();
+    for(auto&& trigger : g->get_cur_om().map_extra_triggers)
+    {
+        if(!trigger.triggered && trig_dist(player_pos, trigger.omt_position) < trigger.trigger_distance)
+        {
+            auto func = MapExtras::get_function( trigger.map_special );
+            if( func != NULL ) {
+                func( *this, omt_to_sm_copy(trigger.omt_position) );
+                trigger.triggered = true;
+            }
+        }
     }
 
     g->setremoteveh( remoteveh );
