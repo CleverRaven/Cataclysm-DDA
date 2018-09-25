@@ -23,7 +23,8 @@ class zone_type
         std::string name_;
         std::string desc_;
     public:
-        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ), desc_( desc ) {}
+        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
+            desc_( desc ) {}
         std::string name() const;
         std::string desc() const;
 };
