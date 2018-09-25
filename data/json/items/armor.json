@@ -1839,23 +1839,13 @@
   {
     "id": "coat_faux_fur",
     "type": "ARMOR",
+    "copy-from": "coat_fur",
     "name": "faux fur coat",
     "description": "A garishly colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
-    "weight": 1677,
-    "volume": 23,
-    "price": 45000,
-    "to_hit": -5,
     "material": [ "faux_fur", "cotton" ],
-    "symbol": "[",
     "color": "pink",
     "covers": [ "TORSO", "ARMS" ],
-    "coverage": 95,
-    "encumbrance": 30,
-    "storage": 4,
-    "warmth": 70,
-    "material_thickness": 4,
-    "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "warmth": 70
   },  
   {
     "id": "coat_fur_sf",
@@ -2857,16 +2847,12 @@
   {
     "id": "faux_fur_cat_ears",
     "type": "ARMOR",
+    "copy-from": "fur_cat_ears",
     "name": "pair of faux fur cat ears",
     "name_plural": "pairs of faux fur cat ears",
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
-    "weight": 20,
-    "volume": 1,
-    "price": 1500,
     "material": [ "faux_fur" ],
-    "symbol": "^",
-    "color": "pink",
-    "flags": [ "FANCY" ]
+    "color": "pink"
   },  
   {
     "id": "fur_cat_tail",
@@ -2885,16 +2871,11 @@
   {
     "id": "faux_fur_cat_tail",
     "type": "ARMOR",
+    "copy-from": "fur_cat_tail",
     "name": "faux fur cat tail",
     "description": "A fuzzy garishly colored tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
-    "weight": 80,
-    "volume": 1,
-    "price": 1000,
-    "bashing": 4,
     "material": [ "faux_fur", "plastic" ],
-    "symbol": "s",
-    "color": "pink",
-    "flags": [ "FANCY" ]
+    "color": "pink"
   },  
   {
     "id": "fur_collar",
@@ -2912,15 +2893,11 @@
   {
     "id": "faux_fur_collar",
     "type": "ARMOR",
+    "copy-from": "fur_collar",
     "name": "faux fur kitty collar",
     "description": "A decorative 'collar' made out of faux fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
-    "weight": 10,
-    "volume": 1,
-    "price": 1000,
     "material": [ "faux_fur" ],
-    "symbol": "-",
-    "color": "pink",
-    "flags": [ "FANCY" ]
+    "color": "pink"
   },  
   {
     "id": "gambeson",
