@@ -706,6 +706,8 @@ class vehicle
         void remove_carried_flag();
         // remove a vehicle specified by a list of part indices
         bool remove_carried_vehicle( std::vector<int> carried_vehicle );
+        // relocate passengers to the same part on a new vehicle
+        void relocate_passengers( std::vector<player *> passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle

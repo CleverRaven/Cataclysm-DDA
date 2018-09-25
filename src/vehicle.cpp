@@ -1636,6 +1636,19 @@ bool vehicle::remove_carried_vehicle( std::vector<int> carried_parts )
     return success;
 }
 
+void vehicle::relocate_passengers( std::vector<player *> passengers )
+{
+    const auto boardables = parts_with_feature( "BOARDABLE" );
+    for( player *passenger : passengers ) {
+        for( const vpart_reference vp : boardables ) {
+            const size_t p = vp.part_index();
+            if( parts[ p ].passenger_id == passenger->getID() ) {
+                passenger->setpos( global_part_pos3( p ) );
+            }
+        }
+    }
+}
+
 // Split a vehicle into an old vehicle and one or more new vehicles by moving vehicle_parts
 // from one the old vehicle to the new vehicles.
 // some of the logic borrowed from remove_part
@@ -1698,7 +1711,7 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
         }
         new_vehicle->last_fluid_check = last_fluid_check;
 
-
+        std::vector<player *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
             int mov_part = split_parts[ new_part ];
             point cur_mount = parts[ mov_part ].mount;
@@ -1706,12 +1719,9 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
             player *passenger = nullptr;
             // Unboard any entities standing on any transferred part
             if( part_flag( mov_part, "BOARDABLE" ) ) {
-                std::vector<int> bp = boarded_parts();
-                for( auto elem : bp ) {
-                    if( elem == mov_part ) {
-                        passenger = get_passenger( mov_part );
-                        g->m.unboard_vehicle( passenger->pos() );
-                    }
+                passenger = get_passenger( mov_part );
+                if( passenger ) {
+                    passengers.push_back( passenger );
                 }
             }
 
@@ -1730,9 +1740,10 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
                 labels.erase( iter );
                 new_labels.insert( label( new_mount.x, new_mount.y, label_str ) );
             }
-            // put the passenger on the new vehicle
+            // remove the passenger from the old new vehicle
             if( passenger ) {
-                g->m.board_vehicle( passenger->pos(), passenger );
+                parts[ mov_part ].remove_flag( vehicle_part::passenger_flag );
+                parts[ mov_part ].passenger_id = 0;
             }
             // indicate the part needs to be removed from the old vehicle
             parts[ mov_part].removed = true;
@@ -1755,6 +1766,9 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
         new_vehicle->precalc_mounts( 1,
                                      new_vehicle->skidding ? new_vehicle->turn_dir : new_vehicle->face.dir(),
                                      new_vehicle->pivot_point() );
+        if( !passengers.empty() ) {
+            new_vehicle->relocate_passengers( passengers );
+        }
     }
     return did_split;
 }
