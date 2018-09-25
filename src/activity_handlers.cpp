@@ -539,7 +539,6 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     stomach = roll_butchery() >= 0;
 
     // (QUICK) BUTCHERY
-    // in quick butchery you aim for meat and don't care about the rest
     if( action == BUTCHER && ( !corpse_item->has_flag( "FIELD_DRESS" ) ||
                                !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         pieces /= 4;
@@ -551,6 +550,8 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         sinews /= 4;
         // feathers unchanged
         wool /= 4;
+        stomach = false;
+    } else if( action == BUTCHER ) {
         stomach = roll_butchery() >= 0;
     }
 
@@ -568,7 +569,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
 
     // field dressing removed innards and bones from meatless limbs
     if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-        stomach = 0;
+        stomach = false;
         bones = ( bones / 2 ) + rng( bones / 2, bones );
     }
     // unskillfull field dressing damaged the skin, meat, and other parts
@@ -579,7 +580,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         fats = rng( 0, fats );
         feathers = rng( 0, feathers );
         wool = rng( 0, wool );
-        stomach = 0;
+        stomach = false;
     }
     if( corpse_item->has_flag( "QUARTERED" ) ) {
         pieces /= 4;
