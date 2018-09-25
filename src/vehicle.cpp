@@ -1685,11 +1685,22 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
             new_vehicle = g->m.add_vehicle( vproto_id( "none" ), new_v_pos3, face.dir() );
             new_vehicle->name = name;
             new_vehicle->move = move;
+            new_vehicle->turn_dir = turn_dir;
+            new_vehicle->velocity = velocity;
+            new_vehicle->vertical_velocity = vertical_velocity;
+            new_vehicle->cruise_velocity = cruise_velocity;
+            new_vehicle->cruise_on = cruise_on;
+            new_vehicle->engine_on = engine_on;
+            new_vehicle->tracking_on = tracking_on;
+            new_vehicle->camera_on = camera_on;
         }
+        new_vehicle->last_fluid_check = last_fluid_check;
 
 
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
             int mov_part = split_parts[ new_part ];
+            point cur_mount = parts[ mov_part ].mount;
+            point new_mount = cur_mount;
             player *passenger = nullptr;
             // Unboard any entities standing on any transferred part
             if( part_flag( mov_part, "BOARDABLE" ) ) {
@@ -1720,13 +1731,9 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
 
             // transfer the vehicle_part to the new vehicle
             new_vehicle->parts.emplace_back( parts[ mov_part ] );
-            if( split_mounts.empty() ) {
-                // calculate effective mount point
-                point new_mnt = parts[ mov_part ].mount - mnt_offset;
-                new_vehicle->parts.back().mount = rotate_mount( face.dir(), new_vehicle->face.dir(),
-                                                  point( 0, 0 ), new_mnt );
-            } else {
-                new_vehicle->parts.back().mount = split_mounts[ new_part ];
+            if( !split_mounts.empty() ) {
+                new_mount = split_mounts[ new_part ];
+                new_vehicle->parts.back().mount = new_mount;
             }
             // put the passenger on the new vehicle
             if( passenger ) {
@@ -1744,8 +1751,17 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
         }
         g->m.dirty_vehicle_list.insert( new_vehicle );
         g->m.set_transparency_cache_dirty( smz );
-        new_vehicle->refresh();
-        new_vehicle->shift_if_needed();
+        if( !split_mounts.empty() ) {
+            // include refresh
+            new_vehicle->shift_parts( point( 0, 0 ) - mnt_offset );
+        } else {
+            new_vehicle->refresh();
+        }
+
+        // update the precalc points
+        new_vehicle->precalc_mounts( 1,
+                                     new_vehicle->skidding ? new_vehicle->turn_dir : new_vehicle->face.dir(),
+                                     new_vehicle->pivot_point() );
     }
     return did_split;
 }
