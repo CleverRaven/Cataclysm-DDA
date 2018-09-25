@@ -1325,12 +1325,9 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_
 
     for( auto carry_part : carry_veh_structs ) {
         tripoint carry_pos = carry_veh->global_part_pos3( carry_part );
-        int rack_part;
         bool merged_part = false;
-        size_t i;
-        for( i = 0; i < rack_parts.size(); i++ ) {
-            rack_part = rack_parts[ i ];
-            size_t j;
+        for( int rack_part : rack_parts ) {
+            size_t j = 0;
             // There's no mathematical transform from global pos3 to vehicle mount, so search for the
             // carry part in global pos3 after translating
             point carry_mount;
@@ -1573,8 +1570,7 @@ bool vehicle::remove_carried_vehicle( std::vector<int> carried_parts )
     std::string veh_record;
     tripoint new_pos3;
     bool x_aligned = false;
-    for( size_t i = 0; i < carried_parts.size(); i++ ) {
-        int carried_part = carried_parts[ i ];
+    for( int carried_part : carried_parts ) {
         std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
         if( id_string == "X" || id_string == "Y" ) {
             veh_record = parts[ carried_part ].carry_names.top();
