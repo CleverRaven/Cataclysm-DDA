@@ -11179,6 +11179,9 @@ object_type player::get_grab_type() const
 void player::start_hauling()
 {
     add_msg( _( "You start hauling items along the ground." ) );
+    if ( is_armed() ) {
+        add_msg( m_warning, _( "Your hands are not free, which makes hauling slower." ) );
+    }
     this->hauling = true;
 }
 
