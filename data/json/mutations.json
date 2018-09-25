@@ -3711,17 +3711,6 @@
         "category" : ["MOUSE"]
     },{
         "type" : "mutation",
-        "id" : "HEATTOLERANCE",
-        "name" : "Thermic Tolerance",
-        "points" : 5,
-        "description" : "Your body is tolerant of very high temperatures, and heat will not affect you as strongly.",
-        "bodytemp_modifiers" : [0, -500],
-        "valid" : false,
-        "purifiable" : false,
-        "threshreq" : ["THRESH_MOUSE"],
-        "category" : ["MOUSE"]
-    },{
-        "type" : "mutation",
         "id" : "MUT_JUNKIE",
         "name" : "Metallassomaiphile",
         "//" : "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
