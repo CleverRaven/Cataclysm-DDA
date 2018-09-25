@@ -21,9 +21,11 @@ class zone_type
 {
     private:
         std::string name_;
+        std::string desc_;
     public:
-        explicit zone_type( const std::string &name ) : name_( name ) {}
+        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ), desc_( desc ) {}
         std::string name() const;
+        std::string desc() const;
 };
 using zone_type_id = string_id<zone_type>;
 
