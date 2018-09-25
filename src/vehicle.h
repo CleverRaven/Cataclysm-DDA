@@ -706,6 +706,9 @@ class vehicle
         void remove_carried_flag();
         // remove a vehicle specified by a list of part indices
         bool remove_carried_vehicle( std::vector<int> carried_vehicle );
+        // split the current vehicle into up to four vehicles if they have no connection other
+        // than the structure part at exclude
+        bool find_and_split_vehicles( int exclude );
         // relocate passengers to the same part on a new vehicle
         void relocate_passengers( std::vector<player *> passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
@@ -713,6 +716,7 @@ class vehicle
         // optionally specify the new vehicle position and the mount points on the new vehicle
         bool split_vehicles( std::vector<std::vector <int>> new_vehs, std::vector<vehicle *> new_vehicles,
                              std::vector<std::vector <point>> new_mounts );
+        bool split_vehicles( std::vector<std::vector <int>> new_veh );
 
         /** Get handle for base item of part */
         item_location part_base( int p );
