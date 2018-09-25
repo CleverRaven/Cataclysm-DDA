@@ -86,9 +86,9 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "VEHICLE_FUEL_REDUCING",
-    "info": "Number of days to decrease fuel volume twice in newly generated vehicles.  Default: 30.  Set to 0 to turn it off.",
+    "info": "Number of days when half of new vehilces will be spawn without fuel.  Default: 60.  Set to 0 to turn it off.",
     "stype": "int",
-    "value": 30
+    "value": 60
   },
   {
     "type": "EXTERNAL_OPTION",

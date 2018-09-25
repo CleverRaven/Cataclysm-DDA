@@ -354,12 +354,12 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
     }
 
-    // Fuel in new vehicles will be reduced twice every VEHICLE_FUEL_REDUCING days.
+    // Fuel in some vehicles will be syphoned by other survivals.
     int fuel_reducing = get_option< int >( "VEHICLE_FUEL_REDUCING" );
-    float fuel_mult_time = 1.0f;
+    bool has_fuel = 1;
     if( fuel_reducing > 0 && veh_status != 0 ) {
         int current_day = to_days< int >( calendar::turn - calendar::time_of_cataclysm );
-        fuel_mult_time = pow( 2, - 1.0f * current_day / fuel_reducing );
+        has_fuel = roll_remainder( pow( 2, - 1.0f * current_day / fuel_reducing ) );
     }
 
     bool blood_inside_set = false;
@@ -385,14 +385,16 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             }
         }
 
-        if( pt.is_tank() && type->parts[p].fuel != "null" ) {
-            int qty = pt.ammo_capacity() * veh_fuel_mult / 100 * fuel_mult_time;
-            qty *= std::max( item::find_type( type->parts[p].fuel )->stack_size, 1 );
-            qty /= to_milliliter( units::legacy_volume_factor );
-            pt.ammo_set( type->parts[ p ].fuel, qty );
-        } else if( pt.is_fuel_store() && type->parts[p].fuel != "null" ) {
-            int qty = pt.ammo_capacity() * veh_fuel_mult / 100 * fuel_mult_time;
-            pt.ammo_set( type->parts[ p ].fuel, qty );
+        if( has_fuel ) {
+            if( pt.is_tank() && type->parts[p].fuel != "null" ) {
+                int qty = pt.ammo_capacity() * veh_fuel_mult / 100;
+                qty *= std::max( item::find_type( type->parts[p].fuel )->stack_size, 1 );
+                qty /= to_milliliter( units::legacy_volume_factor );
+                pt.ammo_set( type->parts[ p ].fuel, qty );
+            } else if( pt.is_fuel_store() && type->parts[p].fuel != "null" ) {
+                int qty = pt.ammo_capacity() * veh_fuel_mult / 100;
+                pt.ammo_set( type->parts[ p ].fuel, qty );
+            }
         }
 
         if( part_flag( p, "OPENABLE" ) ) { // doors are closed
