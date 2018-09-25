@@ -372,6 +372,9 @@ static void eff_fun_hot( player &u, effect &it )
     };
     const body_part bp = it.get_bp();
     const int intense = it.get_intensity();
+    if( u.has_trait( trait_id( "HEATTOLERANCE" ) ) && intense >= 1 ) {
+        intense--;
+    }
     const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
     if( iter != effs.end() ) {
         iter->second.apply( u );

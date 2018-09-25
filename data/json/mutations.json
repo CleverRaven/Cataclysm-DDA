@@ -3702,11 +3702,22 @@
         "type" : "mutation",
         "id" : "CRAFTY",
         "name" : "Crafty",
-        "points" : 5,
+        "points" : 4,
         "description" : "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["SMALL_OK"],
+        "threshreq" : ["THRESH_MOUSE"],
+        "category" : ["MOUSE"]
+    },{
+        "type" : "mutation",
+        "id" : "HEATTOLERANCE",
+        "name" : "Thermic Tolerance",
+        "points" : 5,
+        "description" : "Your body is tolerant of very high temperatures, and heat will not affect you as strongly.",
+        "bodytemp_modifiers" : [0, -500],
+        "valid" : false,
+        "purifiable" : false,
         "threshreq" : ["THRESH_MOUSE"],
         "category" : ["MOUSE"]
     },{
