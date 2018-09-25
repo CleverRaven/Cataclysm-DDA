@@ -3094,7 +3094,9 @@
     "transforms_into": "t_tree_beech_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "beech_nuts", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      { "seasons": [ "autumn" ], "entries": [ { "drop": "beech_nuts", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -3878,9 +3880,7 @@
     "move_cost": 0,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [
-      { "seasons": [ "autumn" ], "entries": [ { "drop": "almond", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "almond", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "transforms_into": "t_tree_almond_harvested",
     "bash": {
       "str_min": 80,
@@ -3920,9 +3920,7 @@
     "move_cost": 0,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [
-      { "seasons": [ "autumn" ], "entries": [ { "drop": "pecan", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "pecan", "base_num": [ 5, 12 ], "scaled_num": [ 0, 0.5 ] } ] } ],
     "transforms_into": "t_tree_pecan_harvested",
     "bash": {
       "str_min": 80,
