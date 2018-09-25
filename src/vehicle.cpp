@@ -1325,7 +1325,6 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_
 
     for( auto carry_part : carry_veh_structs ) {
         tripoint carry_pos = carry_veh->global_part_pos3( carry_part );
-        int rack_part;
         bool merged_part = false;
         for( int rack_part : rack_parts ) {
             size_t j = 0;
