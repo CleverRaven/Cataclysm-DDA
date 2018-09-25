@@ -108,17 +108,11 @@
   {
     "type": "GENERIC",
     "id": "faux_fur",
-    "symbol": ",",
+    "copy-from": "fur",
     "color": "pink",
-    "name": "faux fur patch",
-    "name_plural": "faux fur patches",	
+    "name": "faux fur pelt",
     "description": "A small bolt of garishly colored faux fur. Can be made into clothing.",
-    "price": 2000,
     "material": [ "faux_fur" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": 100,
-    "volume": 1,
-    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
