@@ -793,6 +793,20 @@
    },
    {
     "type":"GENERIC",
+    "id": "pistachio",
+    "symbol": "%",
+    "color": "brown",
+    "name": "pistachio",
+    "name_plural": "pistachio",
+    "description": "A handful of hard nuts from a pistachio tree, still in their shell.",
+    "spoils_in": 2160,
+    "price": 0,
+    "weight": 180,
+    "volume": 1,
+    "to_hit": -2
+   },
+   {
+    "type":"GENERIC",
     "id": "almond",
     "symbol": "%",
     "color": "brown",
