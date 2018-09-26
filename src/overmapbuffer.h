@@ -11,6 +11,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include "map_extras.h"
 
 struct mongroup;
 class monster;
@@ -383,6 +384,8 @@ class overmapbuffer
          */
         bool check_ot_type( const std::string &otype, int x, int y, int z );
         bool check_ot_subtype( const std::string &otype, int x, int y, int z );
+        std::vector<map_extra_trigger*> get_map_extra_triggers_near(const tripoint &location, int radius);
+
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds
@@ -397,8 +400,8 @@ class overmapbuffer
          * Retrieve overmaps that overlap the bounding box defined by the location and radius.
          * The location is in absolute submap coordinates, the radius is in the same system.
          */
-        std::vector<overmap *> get_overmaps_near( const point &location, int radius );
-        std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
+        std::vector<overmap *> get_overmaps_near( const point &location, int radius, bool create_if_missing = false );
+        std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius, bool create_if_missing = false );
 };
 
 extern overmapbuffer overmap_buffer;

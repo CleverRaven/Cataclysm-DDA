@@ -634,6 +634,22 @@ bool overmapbuffer::check_ot_subtype( const std::string &type, int x, int y, int
     return om.check_ot_subtype( type, x, y, z );
 }
 
+std::vector<map_extra_trigger *> overmapbuffer::get_map_extra_triggers_near(
+    const tripoint &location,
+    int radius )
+{
+    std::vector<map_extra_trigger *> results;
+    std::vector<overmap *> oms = get_overmaps_near( location, radius, true );
+    for( auto &omap : oms ) {
+        for( auto &trigger : omap->map_extra_triggers ) {
+            if( square_dist( sm_to_omt_copy( location ), trigger.omt_pos_1 ) <= radius ) {
+                results.push_back( &trigger );
+            }
+        }
+    }
+    return results;
+}
+
 tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string &type,
                                       int const radius, bool must_be_seen, bool allow_subtype_matches )
 {
@@ -780,7 +796,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_player( int radiu
 }
 
 std::vector<overmap *> overmapbuffer::get_overmaps_near( tripoint const &location,
-        int const radius )
+        int const radius, bool create_if_missing )
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
@@ -793,7 +809,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( tripoint const &locatio
 
     for( int x = start.x; x <= end.x; ++x ) {
         for( int y = start.y; y <= end.y; ++y ) {
-            if( auto const existing_om = get_existing( x, y ) ) {
+            if( auto const existing_om = create_if_missing ? &(get(x,y)) : get_existing( x, y ) ) {
                 result.emplace_back( existing_om );
             }
         }
@@ -802,9 +818,9 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( tripoint const &locatio
     return result;
 }
 
-std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const int radius )
+std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const int radius, bool create_if_missing )
 {
-    return get_overmaps_near( tripoint( p.x, p.y, 0 ), radius );
+    return get_overmaps_near( tripoint( p.x, p.y, 0 ), radius, create_if_missing );
 }
 
 std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()

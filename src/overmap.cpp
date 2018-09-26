@@ -3887,27 +3887,9 @@ void overmap::place_map_extras()
                     {
                         for(int y = 0; y < trigger.size; y++)
                         {
+                            if (x == 0 && y == 0) { continue; }
                             map_extras other_ex = region_settings_map["default"].region_extras[ter( i + x, j + y, 0 )->get_extras()];
-                            auto ex_it = ex.values.begin();
-                            auto other_ex_it = other_ex.values.begin();
-                            bool no_match = true;
-                            while(ex_it != ex.values.end())
-                            {
-                                while(other_ex_it != other_ex.values.end())
-                                {
-                                    if(ex_it->obj.compare(other_ex_it->obj) == 0)
-                                    {
-                                        no_match = false;
-                                        break;
-                                    }
-                                    ++other_ex_it;
-                                }
-                                ++ex_it;
-                            }
-                            if(no_match)
-                            {
-                                valid = false;
-                            }
+                            std::find_if(other_ex.values.begin(), other_ex.values.end(), [&trigger](weighted_object<int, std::string> s) { return s.obj == trigger.map_special; });
                         }
                     }
                     if(valid)

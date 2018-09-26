@@ -6175,25 +6175,24 @@ void map::save()
 
 void map::initialize_map_extras()
 {
-    tinymap *self = dynamic_cast<tinymap*>(this);
+    tinymap *self = dynamic_cast<tinymap *>( this );
 
-    if(!self)
-    {
+    if( !self ) {
         const tripoint player_pos = g->u.global_omt_location();
-        for(auto&& trigger : g->get_cur_om().map_extra_triggers)
-        {
-            if(!trigger.triggered && trig_dist(player_pos, trigger.omt_pos_1) < trigger.trigger_distance)
-            {
-                auto func = MapExtras::get_function( trigger.map_special );
+        for( auto &&
+             trigger : overmap_buffer.get_map_extra_triggers_near( omt_to_sm_copy( player_pos ), 15 ) ) {
+            if( !trigger->triggered &&
+                square_dist( player_pos, trigger->omt_pos_1 ) < trigger->trigger_distance ) {
+                auto func = MapExtras::get_function( trigger->map_special );
                 if( func != NULL ) {
-                    int map_size = trigger.size * 2;
-                    tinymap tiny(omt_to_sm_copy(trigger.omt_pos_1), map_size);
-                    func( tiny, trigger );
-                    trigger.triggered = true;
+                    int map_size = trigger->size * 2;
+                    tinymap tiny( omt_to_sm_copy( trigger->omt_pos_1 ), map_size );
+                    func( tiny, *trigger );
+                    trigger->triggered = true;
                     tiny.save();
                 }
             }
-        } 
+        }
     }
 }
 
