@@ -816,7 +816,7 @@ int related_menu_fill( uilist &rmenu,
                     break;
                 } else if( recipe_n == current_part.size() - 1 ) {
                     // only one result
-                    rmenu.addentry( ++np_last, true, -1, "- " + recipe_name );
+                    rmenu.addentry( ++np_last, true, -1, "─ " + recipe_name );
                 }
             }
 
@@ -826,7 +826,7 @@ int related_menu_fill( uilist &rmenu,
                 for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
                     std::string cur_item_name = current_part[ recipe_n ]->result_name();
                     if( cur_item_name != prev_item_name ) {
-                        std::string sym = recipe_n == current_part.size() - 1 ? "L " : "+ ";
+                        std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
                         rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
                     }
                     prev_item_name = cur_item_name;
