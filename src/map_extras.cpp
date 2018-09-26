@@ -55,10 +55,10 @@ void mx_null( map &, const tripoint & )
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    tinymap tmp_m(2);
+    tinymap tmp_m(4);
     tmp_m.load(abs_sub.x, abs_sub.y, abs_sub.z, false);
 
-    int map_size = tmp_m.get_my_MAPSIZE();
+    int map_size = tmp_m.getmapsize();
     int map_tiles_width = SEEX * map_size;
     int map_tiles_height = SEEY * map_size;
     int cx = rng( 6, map_tiles_width - 7 );
@@ -825,24 +825,24 @@ typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_helicopter", mx_helicopter },
-    { "mx_military", mx_helicopter },
-    { "mx_science", mx_helicopter },
-    { "mx_collegekids", mx_helicopter },
-    { "mx_roadblock", mx_helicopter },
-    { "mx_drugdeal", mx_helicopter },
-    { "mx_supplydrop", mx_helicopter },
-    { "mx_portal", mx_helicopter },
-    { "mx_minefield", mx_helicopter },
-    { "mx_crater", mx_helicopter },
-    { "mx_fumarole", mx_helicopter },
-    { "mx_portal_in", mx_helicopter },
-    { "mx_anomaly", mx_helicopter },
-    { "mx_shia", mx_helicopter },
-    { "mx_spider", mx_helicopter },
-    { "mx_jabberwock", mx_helicopter },
-    { "mx_grove", mx_helicopter },
-    { "mx_shrubbery", mx_helicopter },
-    { "mx_clearcut", mx_helicopter },
+    { "mx_military", mx_military },
+    { "mx_science", mx_science },
+    { "mx_collegekids", mx_collegekids },
+    { "mx_roadblock", mx_roadblock },
+    { "mx_drugdeal", mx_drugdeal },
+    { "mx_supplydrop", mx_supplydrop },
+    { "mx_portal", mx_portal },
+    { "mx_minefield", mx_minefield },
+    { "mx_crater", mx_crater },
+    { "mx_fumarole", mx_fumarole },
+    { "mx_portal_in", mx_portal_in },
+    { "mx_anomaly", mx_anomaly },
+    { "mx_shia", mx_shia },
+    { "mx_spider", mx_spider },
+    { "mx_jabberwock", mx_jabberwock },
+    { "mx_grove", mx_grove },
+    { "mx_shrubbery", mx_shrubbery },
+    { "mx_clearcut", mx_clearcut },
 };
 
 map_special_pointer get_function( const std::string &name )

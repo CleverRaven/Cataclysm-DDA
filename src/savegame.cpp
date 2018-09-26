@@ -1000,6 +1000,25 @@ void overmap::unserialize( std::istream &fin )
                 }
                 npcs.push_back( new_npc );
             }
+        } else if( name == "map_extra_triggers" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                map_extra_trigger trigger;
+                while( !jsin.end_object() ) {
+                    std::string scent_member_name = jsin.get_member_name();
+                    if( scent_member_name == "omt_position" ) {
+                        jsin.read( trigger.omt_position );
+                    } else if( scent_member_name == "trigger_distance" ) {
+                        jsin.read( trigger.trigger_distance );
+                    } else if( scent_member_name == "map_special" ) {
+                        jsin.read( trigger.map_special );
+                    } else if( scent_member_name == "triggered" ) {
+                        jsin.read( trigger.triggered );
+                    }
+                }
+                map_extra_triggers.push_back( trigger );
+            }
         }
     }
 }
@@ -1336,11 +1355,24 @@ void overmap::serialize( std::ostream &fout ) const
     }
     json.end_array();
     fout << std::endl;
-
+    
     json.member( "npcs" );
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "map_extra_triggers" );
+    json.start_array();
+    for( auto &i : map_extra_triggers ) {
+        json.start_object();
+        json.member("omt_position", i.omt_position);
+        json.member("trigger_distance", i.trigger_distance);
+        json.member("map_special", i.map_special);
+        json.member("triggered", i.triggered);
+        json.end_object();
     }
     json.end_array();
     fout << std::endl;
