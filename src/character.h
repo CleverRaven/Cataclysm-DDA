@@ -323,6 +323,8 @@ class Character : public Creature, public visitable<Character>
         bool has_base_trait( const trait_id &flag ) const;
         /** Returns true if player has a trait with a flag */
         bool has_trait_flag( const std::string &flag ) const;
+        /** Returns true if player has an active trait with a flag */
+        bool has_active_trait_flag( const std::string &flag ) const;
         /** Returns true if player has a bionic with a flag */
         bool has_bionic_flag( const std::string &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */

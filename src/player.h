@@ -1676,6 +1676,23 @@ class player : public Character
         const targeting_data &get_targeting_data();
 
         /**
+         * Apply on-flight effects such as hunger, thirst, etc
+         */
+        void handle_flight();
+
+        /**
+          * Check if the player is capable of flight
+          * @return a true/false if they can fly or not
+          */
+        bool can_fly() const;
+
+        /**
+          * Check the player's "flight strength" for determining cost
+          * @return an int from 0 to 5, with 0 being the worst and 5 being the best
+          */
+        int flight_strength() const;
+
+        /**
          * Mutator method for weapon targeting data.
          * @param td targeting data to be set.
          */

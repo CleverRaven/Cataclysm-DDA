@@ -27,14 +27,19 @@ const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slimed( "slimed" );
+const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_winded( "winded" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+static const trait_id trait_WINGS_FLIGHT( "WINGS_FLIGHT" );
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
@@ -649,8 +654,9 @@ void trapfunc::pit( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_BIRD ) ) || n->has_trait( trait_WINGS_FLIGHT ) ||
+                ( ( one_in( 2 ) ) &&
+                  ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 n->add_msg_if_player( m_info,
@@ -692,8 +698,9 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
         if( n != nullptr ) {
             int dodge = n->get_dodge();
             int damage = pit_effectiveness( p ) * rng( 20, 50 );
-            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_BIRD ) ) || n->has_trait( trait_WINGS_FLIGHT ) ||
+                ( ( one_in( 2 ) ) &&
+                  ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 n->add_msg_if_player( m_info,
@@ -770,8 +777,9 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
         if( n != nullptr ) {
             int dodge = n->get_dodge();
             int damage = pit_effectiveness( p ) * rng( 15, 35 );
-            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_BIRD ) ) || n->has_trait( trait_WINGS_FLIGHT ) ||
+                ( ( one_in( 2 ) ) &&
+                  ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 n->add_msg_if_player( m_info,
@@ -988,7 +996,7 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
             g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                    pgettext( "memorial_female", "Fell down a ledge." ) );
             g->vertical_move( -1, true );
-            if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+            if( g->u.has_trait( trait_WINGS_BIRD ) || g->u.has_trait( trait_WINGS_FLIGHT ) || ( one_in( 2 ) &&
                     g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
             } else if( g->u.has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
@@ -1042,7 +1050,6 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
         }
 
         height++;
-        where.z--;
     } else if( height == 0 ) {
         return;
     }
@@ -1056,14 +1063,21 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     }
 
     if( pl->is_player() ) {
-        add_msg( m_warning, _( "You fall down a level!" ) );
-        g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
-                               pgettext( "memorial_female", "Fell down a ledge." ) );
-        g->vertical_move( -height, true );
+        if( ( pl->has_active_trait_flag( "PARTIAL_FLIGHT" ) ||
+              pl->has_active_trait_flag( "TRUE_FLIGHT" ) ) && !pl->has_effect( effect_lying_down ) &&
+            !pl->has_effect( effect_sleep ) && pl->stamina > 25 ) {
+            pl->handle_flight();
+            return;
+        } else {
+            add_msg( m_warning, _( "You fall down a level!" ) );
+            g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
+                                   pgettext( "memorial_female", "Fell down a ledge." ) );
+            g->vertical_move( -height, true );
+        }
     } else {
         pl->setpos( where );
     }
-    if( pl->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+    if( pl->has_trait( trait_WINGS_BIRD ) || pl->has_trait( trait_WINGS_FLIGHT ) || ( one_in( 2 ) &&
             pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );

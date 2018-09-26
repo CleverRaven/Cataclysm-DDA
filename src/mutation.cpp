@@ -67,6 +67,18 @@ bool Character::has_trait_flag( const std::string &b ) const
     return false;
 }
 
+bool Character::has_active_trait_flag( const std::string &b ) const
+{
+    for( const auto &mut : my_mutations ) {
+        auto &mut_data = mut.first.obj();
+        if( mut_data.flags.count( b ) > 0 && mut.second.powered ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool Character::has_base_trait( const trait_id &b ) const
 {
     // Look only at base traits
@@ -827,6 +839,12 @@ bool player::mutate_towards( const trait_id &mut )
     }
     if( profession ) {
         // Profession picks fail silently
+        return false;
+    }
+    // If a trait requires experimental z's and we don't have them, tough luck
+    if( !g->m.has_zlevels() && mdata.flags.count( "ZLEVELS_ONLY" ) ) {
+        add_msg_if_player(
+            _( "You feel something within you crying out in protest, rebelling against a reality that can't accept it..." ) );
         return false;
     }
 

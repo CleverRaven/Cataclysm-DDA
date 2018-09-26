@@ -131,6 +131,9 @@ struct mutation_branch {
     // Modifier for the rate at which stamina regenerates.
     float stamina_regen_modifier = 0.0f;
 
+    // If flight is enabled, modifies the strength
+    int flightpower = 0.0f;
+
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
     social_modifiers social_mods;
 

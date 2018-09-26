@@ -30,5 +30,9 @@
   {
     "type": "mutation_type",
     "id": "SKIN"
+  },
+  {
+    "type": "mutation_type",
+    "id": "WINGS"
   }
 ]

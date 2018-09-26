@@ -926,13 +926,23 @@ bool mattack::smash( monster *z )
         return true;
     }
 
-    target->add_msg_player_or_npc( _( "A blow from the %1$s sends %2$s flying!" ),
-                                   _( "A blow from the %s sends <npcname> flying!" ),
-                                   z->name().c_str(), target->disp_name().c_str() );
-    // TODO: Make this parabolic
-    g->fling_creature( target, g->m.coord_to_angle( z->posx(), z->posy(), target->posx(),
-                       target->posy() ),
-                       z->type->melee_sides * z->type->melee_dice * 3 );
+    player *p = dynamic_cast<player *>( target );
+    if( p != nullptr && p->has_artifact_with( AEP_LOW_GRAV ) ) {
+        target->add_msg_player_or_npc( _( "A blow from the %1$s sends %2$s catapulting through the air!" ),
+                                       _( "A blow from the %s sends <npcname> catapulting through the air!" ),
+                                       z->name().c_str(), target->disp_name().c_str() );
+        g->fling_creature( target, g->m.coord_to_angle( z->posx(), z->posy(), target->posx(),
+                           target->posy() ),
+                           z->type->melee_sides * z->type->melee_dice * 6 ); //low gravity is no joke!
+    } else {
+        target->add_msg_player_or_npc( _( "A blow from the %1$s sends %2$s flying!" ),
+                                       _( "A blow from the %s sends <npcname> flying!" ),
+                                       z->name().c_str(), target->disp_name().c_str() );
+        // TODO: Make this parabolic
+        g->fling_creature( target, g->m.coord_to_angle( z->posx(), z->posy(), target->posx(),
+                           target->posy() ),
+                           z->type->melee_sides * z->type->melee_dice * 3 );
+    }
 
     return true;
 }
