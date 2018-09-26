@@ -3881,9 +3881,40 @@ void overmap::place_map_extras()
                     trigger.size = MapExtras::generate_special_size( trigger.map_special );
                     trigger.trigger_distance = 7;
                     trigger.triggered = false;
-                    map_extra_triggers.push_back(trigger);
-                    overmap_buffer.add_note( global_base_point().x + i, global_base_point().y + j, trigger.omt_pos_1.z, string_format( ">:W;%s", trigger.map_special ) );
-                    //overmap_buffer.add_note( global_base_point().x + trigger.size.x, global_base_point().y + trigger.size.y, trigger.omt_pos_1.z, string_format( "<:W;%s", trigger.map_special ) );
+                    // Check that all tiles that this extra falls on are valid
+                    bool valid = true;
+                    for(int x = 0; x < trigger.size; x++)
+                    {
+                        for(int y = 0; y < trigger.size; y++)
+                        {
+                            map_extras other_ex = region_settings_map["default"].region_extras[ter( i + x, j + y, 0 )->get_extras()];
+                            auto ex_it = ex.values.begin();
+                            auto other_ex_it = other_ex.values.begin();
+                            bool no_match = true;
+                            while(ex_it != ex.values.end())
+                            {
+                                while(other_ex_it != other_ex.values.end())
+                                {
+                                    if(ex_it->obj.compare(other_ex_it->obj) == 0)
+                                    {
+                                        no_match = false;
+                                        break;
+                                    }
+                                    ++other_ex_it;
+                                }
+                                ++ex_it;
+                            }
+                            if(no_match)
+                            {
+                                valid = false;
+                            }
+                        }
+                    }
+                    if(valid)
+                    {
+                        map_extra_triggers.push_back(trigger);
+                        overmap_buffer.add_note( global_base_point().x + i, global_base_point().y + j, trigger.omt_pos_1.z, string_format( ">:W;%s", trigger.map_special ) );
+                    }
                 }
             }
         }

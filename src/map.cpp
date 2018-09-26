@@ -6186,7 +6186,7 @@ void map::initialize_map_extras()
             {
                 auto func = MapExtras::get_function( trigger.map_special );
                 if( func != NULL ) {
-                    int map_size = 2 + (trigger.size) * 2;
+                    int map_size = trigger.size * 2;
                     tinymap tiny(omt_to_sm_copy(trigger.omt_pos_1), map_size);
                     func( tiny, trigger );
                     trigger.triggered = true;
