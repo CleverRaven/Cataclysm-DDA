@@ -7856,7 +7856,9 @@ void silo_rooms( map *m )
             }
         }
         // We chose the closest room; now draw a corridor there
-        point origin = rooms[0].first, origsize = rooms[0].second, dest = rooms[closest].first;
+        point origin = first_room_position;
+        point origsize = rooms[0].second;
+        point dest = rooms[closest].first;
         int x = origin.x + origsize.x;
         int y = origin.y + origsize.y;
         bool x_first = ( abs( origin.x - dest.x ) > abs( origin.y - dest.y ) );
