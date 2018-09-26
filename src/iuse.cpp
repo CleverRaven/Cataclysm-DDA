@@ -6319,7 +6319,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     std::vector<npc_photo_def> npc_photos;
 
                     try {
-                        auto npc_photos_data = std::istringstream( it->get_var( "CAMERA_NPC_PHOTOS" ) );
+                        std::istringstream npc_photos_data( it->get_var( "CAMERA_NPC_PHOTOS" ) );
                         JsonIn json( npc_photos_data );
                         json.read( npc_photos );
                     } catch( const JsonError &e ) {
@@ -6401,7 +6401,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         std::vector<npc_photo_def> npc_photos;
 
         try {
-            auto npc_photos_data = std::istringstream( it->get_var( "CAMERA_NPC_PHOTOS" ) );
+            std::istringstream npc_photos_data( it->get_var( "CAMERA_NPC_PHOTOS" ) );
             JsonIn json( npc_photos_data );
             json.read( npc_photos );
         } catch( const JsonError &e ) {
