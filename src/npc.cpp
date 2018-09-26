@@ -1190,7 +1190,7 @@ float npc::vehicle_danger( int radius ) const
     int danger = 0;
 
     // TODO: check for most dangerous vehicle?
-    for( unsigned int i = 0; i < vehicles.size(); ++i )
+    for( unsigned int i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->velocity > 0 ) {
             float facing = wrapped_veh.v->face.dir();
@@ -1214,7 +1214,7 @@ float npc::vehicle_danger( int radius ) const
                 danger = i;
             }
         }
-
+    }
     return danger;
 }
 
