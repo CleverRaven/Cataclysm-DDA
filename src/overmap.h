@@ -155,15 +155,6 @@ struct map_extras {
     map_extras( const unsigned int embellished ) : chance( embellished ), values() {}
 };
 
-struct map_extra_trigger
-{
-    tripoint omt_pos_1;
-    tripoint omt_pos_2;
-    int trigger_distance;
-    std::string map_special;
-    bool triggered;
-};
-
 struct sid_or_sid;
 /*
  * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;

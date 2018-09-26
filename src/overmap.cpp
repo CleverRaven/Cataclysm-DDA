@@ -3878,12 +3878,12 @@ void overmap::place_map_extras()
                     trigger.map_special = *(ex.values.pick());
                     trigger.omt_pos_1.x = i;
                     trigger.omt_pos_1.y = j;
-                    trigger.omt_pos_2 = MapExtras::resize_special(trigger.omt_pos_1, trigger.map_special);
+                    trigger.size = MapExtras::generate_special_size( trigger.map_special );
                     trigger.trigger_distance = 7;
                     trigger.triggered = false;
                     map_extra_triggers.push_back(trigger);
                     overmap_buffer.add_note( global_base_point().x + i, global_base_point().y + j, trigger.omt_pos_1.z, string_format( ">:W;%s", trigger.map_special ) );
-                    //overmap_buffer.add_note( global_base_point().x + trigger.omt_pos_2.x, global_base_point().y + trigger.omt_pos_2.y, trigger.omt_pos_1.z, string_format( "<:W;%s", trigger.map_special ) );
+                    //overmap_buffer.add_note( global_base_point().x + trigger.size.x, global_base_point().y + trigger.size.y, trigger.omt_pos_1.z, string_format( "<:W;%s", trigger.map_special ) );
                 }
             }
         }

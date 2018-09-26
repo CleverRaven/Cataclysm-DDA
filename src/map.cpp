@@ -6186,9 +6186,9 @@ void map::initialize_map_extras()
             {
                 auto func = MapExtras::get_function( trigger.map_special );
                 if( func != NULL ) {
-                    int map_size = 2 + (trigger.omt_pos_2.x - trigger.omt_pos_1.x) * 2;
+                    int map_size = 2 + (trigger.size) * 2;
                     tinymap tiny(omt_to_sm_copy(trigger.omt_pos_1), map_size);
-                    func( tiny, omt_to_sm_copy(trigger.omt_pos_1) );
+                    func( tiny, trigger );
                     trigger.triggered = true;
                     tiny.save();
                 }

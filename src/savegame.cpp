@@ -1009,8 +1009,8 @@ void overmap::unserialize( std::istream &fin )
                     std::string member_name = jsin.get_member_name();
                     if( member_name == "omt_pos_1" ) {
                         jsin.read( trigger.omt_pos_1 );
-                    } else if( member_name == "omt_pos_2" ) {
-                        jsin.read( trigger.omt_pos_2 );
+                    } else if( member_name == "size" ) {
+                        jsin.read( trigger.size );
                     } else if( member_name == "trigger_distance" ) {
                         jsin.read( trigger.trigger_distance );
                     } else if( member_name == "map_special" ) {
@@ -1371,7 +1371,7 @@ void overmap::serialize( std::ostream &fout ) const
     for( auto &i : map_extra_triggers ) {
         json.start_object();
         json.member("omt_pos_1", i.omt_pos_1);
-        json.member("omt_pos_2", i.omt_pos_2);
+        json.member("size", i.size);
         json.member("trigger_distance", i.trigger_distance);
         json.member("map_special", i.map_special);
         json.member("triggered", i.triggered);

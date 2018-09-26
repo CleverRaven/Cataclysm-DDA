@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "int_id.h"
+#include "editmap.h"
 
 class time_point;
 struct ter_t;
@@ -408,6 +409,6 @@ void circle( map *m, ter_id type, int x, int y, int rad );
 void circle_furn( map *m, furn_id type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
 
-typedef void ( *map_special_pointer )( map &m, const tripoint &abs_sub );
+typedef void ( *map_special_pointer )( map &m, const map_extra_trigger &trigger );
 
 #endif

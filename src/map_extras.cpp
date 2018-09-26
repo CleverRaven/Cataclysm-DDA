@@ -19,6 +19,7 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "veh_type.h"
+#include "coordinate_conversions.h"
 
 namespace MapExtras
 {
@@ -48,18 +49,19 @@ static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
-void mx_null( map &, const tripoint & )
+void mx_null( map &, const map_extra_trigger & )
 {
     debugmsg( "Tried to generate null map extra." );
 }
 
-void mx_helicopter( map &m, const tripoint &abs_sub )
+void mx_helicopter( map &m, const map_extra_trigger &trigger )
 {
-    int map_size = m.getmapsize();
-    int map_tiles_width = SEEX * map_size;
-    int map_tiles_height = SEEY * map_size;
-    int cx = rng( 12, map_tiles_width - 12 );
-    int cy = rng( 12, map_tiles_height - 12 );
+    const int map_size = m.getmapsize();
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const int map_tiles_width = SEEX * map_size;
+    const int map_tiles_height = SEEY * map_size;
+    const int cx = rng( 12, map_tiles_width - 12 );
+    const int cy = rng( 12, map_tiles_height - 12 );
 
     for( int x = 0; x < map_tiles_width; x++ ) {
         for( int y = 0; y < map_tiles_height; y++ ) {
@@ -221,7 +223,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_military( map &m, const tripoint &abs_sub )
+void mx_military( map &m, const map_extra_trigger &trigger )
 {
     int num_bodies = dice( 2, 6 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -258,7 +260,7 @@ void mx_military( map &m, const tripoint &abs_sub )
     m.save();
 }
 
-void mx_science( map &m, const tripoint & )
+void mx_science( map &m, const map_extra_trigger &trigger )
 {
     int num_bodies = dice( 2, 5 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -285,7 +287,7 @@ void mx_science( map &m, const tripoint & )
     m.place_items( "rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 }
 
-void mx_collegekids( map &m, const tripoint & )
+void mx_collegekids( map &m, const map_extra_trigger &trigger )
 {
     //college kids that got into trouble
     int num_bodies = dice( 2, 6 );
@@ -320,8 +322,9 @@ void mx_collegekids( map &m, const tripoint & )
     }
 }
 
-void mx_roadblock( map &m, const tripoint &abs_sub )
+void mx_roadblock( map &m, const map_extra_trigger &trigger )
 {
+    tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
     // Currently doesn't handle adjacency to turns or intersections well, we may want to abort in future
     bool rotated = false;
     std::string north = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 - 1, abs_sub.z ).id().c_str();
@@ -398,8 +401,9 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_drugdeal( map &m, const tripoint &abs_sub )
+void mx_drugdeal( map &m, const map_extra_trigger &trigger )
 {
+    tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
     // Decide on a drug type
     int num_drugs = 0;
     itype_id drugtype;
@@ -528,7 +532,7 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
+void mx_supplydrop( map &m, const map_extra_trigger &trigger )
 {
     int num_crates = rng( 1, 5 );
     for( int i = 0; i < num_crates; i++ ) {
@@ -570,8 +574,9 @@ void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
     }
 }
 
-void mx_portal( map &m, const tripoint &abs_sub )
+void mx_portal( map &m, const map_extra_trigger &trigger )
 {
+    tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
     static const std::array<mtype_id, 5> monsters = { {
             mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
         }
@@ -592,8 +597,9 @@ void mx_portal( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_minefield( map &m, const tripoint &abs_sub )
+void mx_minefield( map &m, const map_extra_trigger &trigger )
 {
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
     int num_mines = rng( 6, 20 );
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
@@ -624,8 +630,9 @@ void mx_minefield( map &m, const tripoint &abs_sub )
     m.set_signage( tripoint( x2,  y2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
 }
 
-void mx_crater( map &m, const tripoint &abs_sub )
+void mx_crater( map &m, const map_extra_trigger &trigger )
 {
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
     int size = rng( 2, 6 );
     int size_squared = size * size;
     int x = rng( size, SEEX * 2 - 1 - size ), y = rng( size, SEEY * 2 - 1 - size );
@@ -641,7 +648,7 @@ void mx_crater( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_fumarole( map &m, const tripoint & )
+void mx_fumarole( map &m, const map_extra_trigger &trigger )
 {
     int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
         x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
@@ -654,8 +661,9 @@ void mx_fumarole( map &m, const tripoint & )
     }
 }
 
-void mx_portal_in( map &m, const tripoint &abs_sub )
+void mx_portal_in( map &m, const map_extra_trigger &trigger )
 {
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
     static const std::array<mtype_id, 5> monsters = { {
             mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
         }
@@ -675,8 +683,9 @@ void mx_portal_in( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_anomaly( map &m, const tripoint &abs_sub )
+void mx_anomaly( map &m, const map_extra_trigger &trigger )
 {
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
     artifact_natural_property prop =
         artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
@@ -684,7 +693,7 @@ void mx_anomaly( map &m, const tripoint &abs_sub )
     m.spawn_natural_artifact( center, prop );
 }
 
-void mx_shia( map &m, const tripoint & )
+void mx_shia( map &m, const map_extra_trigger &trigger )
 {
     // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra, but it still has a one_in chance of spawning because
@@ -695,11 +704,12 @@ void mx_shia( map &m, const tripoint & )
     }
 }
 
-void mx_spider( map &m, const tripoint &abs_sub )
+void mx_spider( map &m, const map_extra_trigger &trigger )
 {
     // This was extracted from the hardcoded forest mapgen and slightly altered so
     // that it used flags rather than specific terrain types in determining where to
     // place webs.
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEX * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
@@ -720,7 +730,7 @@ void mx_spider( map &m, const tripoint &abs_sub )
     m.add_spawn( mon_spider_web, rng( 1, 2 ), SEEX, SEEY );
 }
 
-void mx_jabberwock( map &m, const tripoint & )
+void mx_jabberwock( map &m, const map_extra_trigger &trigger )
 {
     // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
     // and moved into a map extra. It still has a one_in chance of spawning because otherwise
@@ -732,13 +742,14 @@ void mx_jabberwock( map &m, const tripoint & )
     }
 }
 
-void mx_grove( map &m, const tripoint &abs_sub )
+void mx_grove( map &m, const map_extra_trigger &trigger )
 {
     // From wikipedia - The main meaning of "grove" is a group of trees that grow close together,
     // generally without many bushes or other plants underneath.
 
     // This map extra finds the first tree in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of tree.
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
 
     ter_id tree;
     bool found_tree = false;
@@ -767,10 +778,11 @@ void mx_grove( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_shrubbery( map &m, const tripoint &abs_sub )
+void mx_shrubbery( map &m, const map_extra_trigger &trigger )
 {
     // This map extra finds the first shrub in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of shrub.
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
 
     ter_id shrubbery;
     bool found_shrubbery = false;
@@ -799,12 +811,13 @@ void mx_shrubbery( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_clearcut( map &m, const tripoint &abs_sub )
+void mx_clearcut( map &m, const map_extra_trigger &trigger )
 {
     // From wikipedia - Clearcutting, clearfelling or clearcut logging is a forestry/logging
     // practice in which most or all trees in an area are uniformly cut down.
 
     // This map extra converts all trees and young trees in the area to stumps.
+    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
 
     ter_id stump( "t_stump" );
 
@@ -839,14 +852,14 @@ FunctionMap builtin_functions = {
     { "mx_jabberwock", mx_jabberwock },
     { "mx_grove", mx_grove },
     { "mx_shrubbery", mx_shrubbery },
-    { "mx_clearcut", mx_clearcut },
+    { "mx_clearcut", mx_clearcut }
 };
 
 typedef std::array<int, 2> IntPair;
 typedef std::unordered_map<std::string, IntPair> RangeMap;
 RangeMap extra_size_ranges = {
     { "mx_null", {1, 1} },
-    { "mx_helicopter", {3, 4} },
+    { "mx_helicopter", {2, 3} },
     { "mx_military", {1, 1} },
     { "mx_science", {1, 1} },
     { "mx_collegekids", {1, 1} },
@@ -864,7 +877,7 @@ RangeMap extra_size_ranges = {
     { "mx_jabberwock", {1, 1} },
     { "mx_grove", {1, 1} },
     { "mx_shrubbery", {1, 1} },
-    { "mx_clearcut", {1, 1} },
+    { "mx_clearcut", {1, 1} }
 };
 
 map_special_pointer get_function( const std::string &name )
@@ -875,6 +888,18 @@ map_special_pointer get_function( const std::string &name )
         return NULL;
     }
     return iter->second;
+}
+
+int generate_special_size(const std::string& name)
+{
+    const auto iter = extra_size_ranges.find( name );
+    if( iter == extra_size_ranges.end() ) {
+        debugmsg( "no map special with name %s", name.c_str() );
+        return 1;
+    }
+
+    const int size = rng(iter->second[0], iter->second[1]);
+    return size;
 }
 
 tripoint resize_special(const tripoint& abs_sub, const std::string& name)

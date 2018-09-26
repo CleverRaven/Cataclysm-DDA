@@ -388,11 +388,16 @@ void start_location::add_map_special( const tripoint &omtstart,
                                       const std::string &map_special ) const
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
-    tinymap m(4);
-    m.load( player_location.x, player_location.y, player_location.z, false );
 
     const auto ptr = MapExtras::get_function( map_special );
-    ptr( m, player_location );
+    map_extra_trigger trigger;
+    trigger.triggered = false;
+    trigger.omt_pos_1 = omtstart;
+    trigger.map_special = map_special;
+    trigger.size = MapExtras::generate_special_size(map_special);
+
+    tinymap m(player_location, trigger.size);
+    ptr( m, trigger );
 
     m.save();
 }

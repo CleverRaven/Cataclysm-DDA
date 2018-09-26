@@ -401,4 +401,13 @@ void load( JsonObject &jo, const std::string &src );
 
 }
 
+struct map_extra_trigger
+{
+    tripoint omt_pos_1;
+    int size;
+    int trigger_distance;
+    std::string map_special;
+    bool triggered;
+};
+
 #endif
