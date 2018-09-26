@@ -5647,10 +5647,8 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         int new_photos = mc.get_var( "MC_PHOTOS", 0 );
         mc.erase_var( "MC_PHOTOS" );
 
-        p.add_msg_if_player( m_good, string_format(
-                                 ngettext( "You download %d new photo into internal memory.",
-                                           "You download %d new photos into internal memory.", new_photos ),
-                                 new_photos ).c_str() );
+        p.add_msg_if_player( m_good, ngettext( "You download %d new photo into internal memory.",
+                                               "You download %d new photos into internal memory.", new_photos ), new_photos );
 
         const int old_photos = eink.get_var( "EIPC_PHOTOS", 0 );
         eink.set_var( "EIPC_PHOTOS", old_photos + new_photos );
@@ -5662,10 +5660,8 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         int new_songs = mc.get_var( "MC_MUSIC", 0 );
         mc.erase_var( "MC_MUSIC" );
 
-        p.add_msg_if_player( m_good, string_format(
-                                 ngettext( "You download %d new song into internal memory.",
-                                           "You download %d new songs into internal memory.", new_songs ),
-                                 new_songs ).c_str() );
+        p.add_msg_if_player( m_good, ngettext( "You download %d new song into internal memory.",
+                                               "You download %d new songs into internal memory.", new_songs ), new_songs );
 
         const int old_songs = eink.get_var( "EIPC_MUSIC", 0 );
         eink.set_var( "EIPC_MUSIC", old_songs + new_songs );

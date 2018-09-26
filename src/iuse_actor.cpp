@@ -595,8 +595,7 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // Output message.
-    p.add_msg_if_player( string_format( _( activation_message.c_str() ),
-                                        it.type_name( 1 ).c_str() ).c_str() );
+    p.add_msg_if_player( _( activation_message.c_str() ), it.type_name( 1 ) );
     // Consume charges.
     for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
          ++consumable ) {

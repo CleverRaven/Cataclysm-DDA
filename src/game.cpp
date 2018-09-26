@@ -12973,26 +12973,24 @@ void game::add_artifact_dreams( )
     std::vector<std::vector<std::string>>
                                        valid_dreams; // Tracking separately so we only need to check its req once
     //Pull the list of dreams
-    add_msg( m_debug, string_format( "Checking %s carried artifacts", art_items.size() ) );
+    add_msg( m_debug, "Checking %s carried artifacts", art_items.size() );
     for( auto &it : art_items ) {
         //Pick only the ones with an applicable dream
         auto art = it->type->artifact;
         if( art->charge_req != ACR_NULL && ( it->ammo_remaining() < it->ammo_capacity() ||
                                              it->ammo_capacity() == 0 ) ) { //or max 0 in case of wacky mod shenanigans
-            add_msg( m_debug, string_format( "Checking artifact %s", it->tname().c_str() ) );
+            add_msg( m_debug, "Checking artifact %s", it->tname() );
             if( check_art_charge_req( *it ) ) {
-                add_msg( m_debug, string_format( "   Has freq %s,%s", art->dream_freq_met,
-                                                 art->dream_freq_unmet ) );
+                add_msg( m_debug, "   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet );
                 if( art->dream_freq_met   > 0 && x_in_y( art->dream_freq_met,   100 ) ) {
-                    add_msg( m_debug, string_format( "Adding met dream from %s", it->tname().c_str() ) );
+                    add_msg( m_debug, "Adding met dream from %s", it->tname() );
                     valid_arts.push_back( it );
                     valid_dreams.push_back( art->dream_msg_met );
                 }
             } else {
-                add_msg( m_debug, string_format( "   Has freq %s,%s", art->dream_freq_met,
-                                                 art->dream_freq_unmet ) );
+                add_msg( m_debug, "   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet );
                 if( art->dream_freq_unmet > 0 && x_in_y( art->dream_freq_unmet, 100 ) ) {
-                    add_msg( m_debug, string_format( "Adding unmet dream from %s", it->tname().c_str() ) );
+                    add_msg( m_debug, "Adding unmet dream from %s", it->tname() );
                     valid_arts.push_back( it );
                     valid_dreams.push_back( art->dream_msg_unmet );
                 }
@@ -13000,7 +12998,7 @@ void game::add_artifact_dreams( )
         }
     }
     if( !valid_dreams.empty() ) {
-        add_msg( m_debug, string_format( "Found %s valid artifact dreams", valid_dreams.size() ) );
+        add_msg( m_debug, "Found %s valid artifact dreams", valid_dreams.size() );
         const int selected = rng( 0, valid_arts.size() - 1 );
         auto it = valid_arts[selected];
         auto msg = random_entry( valid_dreams[selected] );
