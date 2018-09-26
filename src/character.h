@@ -61,6 +61,17 @@ enum fatigue_levels {
     MASSIVE_FATIGUE = 1000
 };
 
+
+// Sleep deprivation is defined in minutes, and although most calculations scale linearly,
+// maluses are bestowed only upon reaching the tiers defined below.
+enum sleep_deprivation_levels {
+    SLEEP_DEPRIVATION_HARMLESS = 2 * 24 * 60,
+    SLEEP_DEPRIVATION_MINOR = 4 * 24 * 60,
+    SLEEP_DEPRIVATION_SERIOUS = 7 * 24 * 60,
+    SLEEP_DEPRIVATION_MAJOR = 10 * 24 * 60,
+    SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
+};
+
 struct layer_details {
 
     std::vector<int> pieces;
@@ -201,6 +212,7 @@ class Character : public Creature, public visitable<Character>
         virtual int get_starvation() const;
         virtual int get_thirst() const;
         virtual int get_fatigue() const;
+        virtual int get_sleep_deprivation() const;
         virtual int get_stomach_food() const;
         virtual int get_stomach_water() const;
 
@@ -209,6 +221,7 @@ class Character : public Creature, public visitable<Character>
         virtual void mod_starvation( int nstarvation );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
+        virtual void mod_sleep_deprivation( int nsleep_deprivation );
         virtual void mod_stomach_food( int n_stomach_food );
         virtual void mod_stomach_water( int n_stomach_water );
 
@@ -217,6 +230,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_starvation( int nstarvation );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
+        virtual void set_sleep_deprivation( int nsleep_deprivation );
         virtual void set_stomach_food( int n_stomach_food );
         virtual void set_stomach_water( int n_stomach_water );
 
@@ -766,7 +780,9 @@ class Character : public Creature, public visitable<Character>
         int hunger;
         int starvation;
         int thirst;
+
         int fatigue;
+        int sleep_deprivation;
 
         int stomach_food;
         int stomach_water;
