@@ -37,7 +37,7 @@
   },
   {
     "type": "mutation_type",
-    "id": "MUZZLES"
+    "id": "MUZZLE"
   },
   {
     "type": "mutation_type",
@@ -45,7 +45,7 @@
   },
   {
     "type": "mutation_type",
-    "id": "TAILS"
+    "id": "TAIL"
   },
   {
     "type": "mutation_type",
