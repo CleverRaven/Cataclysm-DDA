@@ -6173,12 +6173,39 @@ void map::save()
     }
 }
 
+void map::initialize_map_extras()
+{
+    tinymap *self = dynamic_cast<tinymap*>(this);
+
+    if(!self)
+    {
+        const tripoint player_pos = g->u.global_omt_location();
+        for(auto&& trigger : g->get_cur_om().map_extra_triggers)
+        {
+            if(!trigger.triggered && trig_dist(player_pos, trigger.omt_pos_1) < trigger.trigger_distance)
+            {
+                auto func = MapExtras::get_function( trigger.map_special );
+                if( func != NULL ) {
+                    int map_size = 2 + (trigger.omt_pos_2.x - trigger.omt_pos_1.x) * 2;
+                    tinymap tiny(omt_to_sm_copy(trigger.omt_pos_1), map_size);
+                    func( tiny, omt_to_sm_copy(trigger.omt_pos_1) );
+                    trigger.triggered = true;
+                    tiny.save();
+                }
+            }
+        } 
+    }
+}
+
 void map::load( const int wx, const int wy, const int wz, const bool update_vehicle )
 {
     for( auto &traps : traplocs ) {
         traps.clear();
     }
     set_abs_sub( wx, wy, wz );
+
+    initialize_map_extras();
+
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( gridx, gridy, update_vehicle );
@@ -6296,19 +6323,8 @@ void map::shift( const int sx, const int sy )
 
         reset_vehicle_cache( gridz );
     }
-    
-    const tripoint player_pos = g->u.global_omt_location();
-    for(auto&& trigger : g->get_cur_om().map_extra_triggers)
-    {
-        if(!trigger.triggered && trig_dist(player_pos, trigger.omt_position) < trigger.trigger_distance)
-        {
-            auto func = MapExtras::get_function( trigger.map_special );
-            if( func != NULL ) {
-                func( *this, omt_to_sm_copy(trigger.omt_position) );
-                trigger.triggered = true;
-            }
-        }
-    }
+
+    initialize_map_extras();
 
     g->setremoteveh( remoteveh );
 
@@ -7731,6 +7747,13 @@ size_t map::get_nonant( const tripoint &gridp ) const
 tinymap::tinymap( int mapsize, bool zlevels )
     : map( mapsize, zlevels )
 {
+}
+
+tinymap::tinymap( const tripoint &abs_sub, int mapsize, bool zlevels )
+    : map( mapsize, zlevels )
+{
+    set_abs_sub(abs_sub.x, abs_sub.y, abs_sub.z);
+    load(abs_sub.x, abs_sub.y, abs_sub.z, false);
 }
 
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )

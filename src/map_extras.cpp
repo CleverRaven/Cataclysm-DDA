@@ -55,54 +55,51 @@ void mx_null( map &, const tripoint & )
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    tinymap tmp_m(4);
-    tmp_m.load(abs_sub.x, abs_sub.y, abs_sub.z, false);
-
-    int map_size = tmp_m.getmapsize();
+    int map_size = m.getmapsize();
     int map_tiles_width = SEEX * map_size;
     int map_tiles_height = SEEY * map_size;
-    int cx = rng( 6, map_tiles_width - 7 );
-    int cy = rng( 6, map_tiles_height - 7 );
+    int cx = rng( 12, map_tiles_width - 12 );
+    int cy = rng( 12, map_tiles_height - 12 );
 
     for( int x = 0; x < map_tiles_width; x++ ) {
         for( int y = 0; y < map_tiles_height; y++ ) {
-            if( tmp_m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
-                tmp_m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
-                tmp_m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+            if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
+                m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
             } else {
                 if( x >= cx - dice( 1, 5 ) && x <= cx + dice( 1, 5 ) && y >= cy - dice( 1, 5 ) &&
                     y <= cy + dice( 1, 5 ) ) {
-                    if( one_in( 7 ) && tmp_m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
-                        tmp_m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                    if( one_in( 7 ) && m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                        m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                     }
                 }
                 if( x >= cx - dice( 1, 6 ) && x <= cx + dice( 1, 6 ) && y >= cy - dice( 1, 6 ) &&
                     y <= cy + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
-                        tmp_m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
-                        if( tmp_m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
-                            tmp_m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
-                    } else if( tmp_m.is_bashable( x, y ) ) {
-                        tmp_m.destroy( tripoint( x,  y, abs_sub.z ), true );
-                        if( tmp_m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
-                            tmp_m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                    } else if( m.is_bashable( x, y ) ) {
+                        m.destroy( tripoint( x,  y, abs_sub.z ), true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
                     }
 
                 } else if( one_in( 4 + ( abs( x - cx ) + ( abs( y -
                                          cy ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
-                    tmp_m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
-                        if( tmp_m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
-                            tmp_m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
                     }
                 }
             }
             if(x == 0 || (x == map_tiles_width - 1) || y == 0 || (y == map_tiles_height - 1))
             {
-                tmp_m.ter_set( tripoint( x, y, abs_sub.z ), t_carpet_yellow );
+                m.ter_set( tripoint( x, y, abs_sub.z ), t_carpet_yellow );
             }
         }
     }
@@ -135,10 +132,10 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
     int y1 = clamp( cy + y_offset, y_min, y_max ); // over the border of the submap.
 
-    vehicle *wreckage = tmp_m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
+    vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
                                        1 );
 
-    if( wreckage != nullptr && true ) {
+    if( wreckage != nullptr ) {
         const int clowncar_factor = dice( 1, 8 );
 
         switch( clowncar_factor ) {
@@ -150,14 +147,14 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0 ||
                         wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
-                        tmp_m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( one_in( 5 ) ) {
-                            tmp_m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
+                            m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
                         } else if( one_in( 5 ) ) {
-                            tmp_m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
+                            m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
                         } else {
-                            tmp_m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
                         }
                     }
 
@@ -178,10 +175,10 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
                     // Spawn pilots in seats with controls.
                     if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
                         wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
-                        tmp_m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
                     } else {
                         if( !one_in( 3 ) ) {
-                            tmp_m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
                         }
                     }
 
@@ -198,7 +195,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             case 6: // Just pilots
                 for( auto p : wreckage->get_parts( VPFLAG_CONTROLS, false, true ) ) {
                     auto pos = wreckage->global_part_pos3( *p );
-                    tmp_m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                    m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
@@ -222,10 +219,9 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
             wreckage->smash( 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
         }
     }
-    tmp_m.save();
 }
 
-void mx_military( map &m, const tripoint & )
+void mx_military( map &m, const tripoint &abs_sub )
 {
     int num_bodies = dice( 2, 6 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -259,6 +255,7 @@ void mx_military( map &m, const tripoint & )
     m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1,
                     0.1f ); //0.1 = 1-5
     m.place_items( "rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
+    m.save();
 }
 
 void mx_science( map &m, const tripoint & )
@@ -845,6 +842,31 @@ FunctionMap builtin_functions = {
     { "mx_clearcut", mx_clearcut },
 };
 
+typedef std::array<int, 2> IntPair;
+typedef std::unordered_map<std::string, IntPair> RangeMap;
+RangeMap extra_size_ranges = {
+    { "mx_null", {1, 1} },
+    { "mx_helicopter", {3, 4} },
+    { "mx_military", {1, 1} },
+    { "mx_science", {1, 1} },
+    { "mx_collegekids", {1, 1} },
+    { "mx_roadblock", {1, 1}},
+    { "mx_drugdeal", {1, 1} },
+    { "mx_supplydrop", {1, 1} },
+    { "mx_portal", {1, 1} },
+    { "mx_minefield", {1, 1} },
+    { "mx_crater", {1, 1} },
+    { "mx_fumarole", {1, 1} },
+    { "mx_portal_in", {1, 1} },
+    { "mx_anomaly", {1, 1} },
+    { "mx_shia", {1, 1} },
+    { "mx_spider", {1, 1} },
+    { "mx_jabberwock", {1, 1} },
+    { "mx_grove", {1, 1} },
+    { "mx_shrubbery", {1, 1} },
+    { "mx_clearcut", {1, 1} },
+};
+
 map_special_pointer get_function( const std::string &name )
 {
     const auto iter = builtin_functions.find( name );
@@ -855,4 +877,19 @@ map_special_pointer get_function( const std::string &name )
     return iter->second;
 }
 
+tripoint resize_special(const tripoint& abs_sub, const std::string& name)
+{
+    const auto iter = extra_size_ranges.find( name );
+    if( iter == extra_size_ranges.end() ) {
+        debugmsg( "no map special with name %s", name.c_str() );
+        return tripoint(abs_sub);
+    }
+
+    tripoint result(abs_sub);
+    const int size = rng(iter->second[0], iter->second[1]);
+    result.x += size;
+    result.y += size;
+
+    return result;
+}
 };

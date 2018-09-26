@@ -7,6 +7,7 @@
 namespace MapExtras
 {
 map_special_pointer get_function( const std::string &name );
+tripoint resize_special(const tripoint& tripoint, const std::string& cs);
 };
 
 #endif

@@ -157,7 +157,8 @@ struct map_extras {
 
 struct map_extra_trigger
 {
-    tripoint omt_position;
+    tripoint omt_pos_1;
+    tripoint omt_pos_2;
     int trigger_distance;
     std::string map_special;
     bool triggered;

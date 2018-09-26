@@ -1006,14 +1006,16 @@ void overmap::unserialize( std::istream &fin )
                 jsin.start_object();
                 map_extra_trigger trigger;
                 while( !jsin.end_object() ) {
-                    std::string scent_member_name = jsin.get_member_name();
-                    if( scent_member_name == "omt_position" ) {
-                        jsin.read( trigger.omt_position );
-                    } else if( scent_member_name == "trigger_distance" ) {
+                    std::string member_name = jsin.get_member_name();
+                    if( member_name == "omt_pos_1" ) {
+                        jsin.read( trigger.omt_pos_1 );
+                    } else if( member_name == "omt_pos_2" ) {
+                        jsin.read( trigger.omt_pos_2 );
+                    } else if( member_name == "trigger_distance" ) {
                         jsin.read( trigger.trigger_distance );
-                    } else if( scent_member_name == "map_special" ) {
+                    } else if( member_name == "map_special" ) {
                         jsin.read( trigger.map_special );
-                    } else if( scent_member_name == "triggered" ) {
+                    } else if( member_name == "triggered" ) {
                         jsin.read( trigger.triggered );
                     }
                 }
@@ -1368,7 +1370,8 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : map_extra_triggers ) {
         json.start_object();
-        json.member("omt_position", i.omt_position);
+        json.member("omt_pos_1", i.omt_pos_1);
+        json.member("omt_pos_2", i.omt_pos_2);
         json.member("trigger_distance", i.trigger_distance);
         json.member("map_special", i.map_special);
         json.member("triggered", i.triggered);

@@ -217,7 +217,7 @@ class map
         // Constructors & Initialization
         map( int mapsize = MAPSIZE, bool zlev = false );
         map( bool zlev ) : map( MAPSIZE, zlev ) { }
-        ~map();
+        virtual ~map();
 
         map &operator=( map && ) = default;
 
@@ -336,6 +336,7 @@ class map
          *  after 3D migration is complete.
          */
         void vertical_shift( const int newz );
+        void initialize_map_extras();
 
         void clear_spawns();
         void clear_traps();
@@ -1588,6 +1589,7 @@ class tinymap : public map
         friend class editmap;
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
+        tinymap( const tripoint &abs_sub, int mapsize = 2, bool zlevels = false );
 };
 
 #endif
