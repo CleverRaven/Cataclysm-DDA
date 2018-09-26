@@ -175,6 +175,8 @@ const efftype_id effect_bleed( "bleed" );
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
 
+const species_id ROBOT( "ROBOT" );
+
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
@@ -231,6 +233,7 @@ static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
+static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
@@ -281,6 +284,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FASTHEALER( "FASTHEALER" );
 static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
@@ -293,6 +297,7 @@ static const trait_id trait_FLEET( "FLEET" );
 static const trait_id trait_FLEET2( "FLEET2" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
+static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -382,7 +387,9 @@ static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -419,6 +426,7 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEBBED( "WEBBED" );
@@ -1879,7 +1887,12 @@ int player::run_cost( int base_cost, bool diag ) const
 
 int player::swim_speed() const
 {
-    int ret = 440 + weight_carried() / 60_gram - 50 * get_skill_level( skill_swimming );
+    int ret;
+    if( !has_trait( trait_AMPHIBIAN ) ) {
+        ret = 440 + weight_carried() / 60_gram - 50 * get_skill_level( skill_swimming );
+    } else {
+        ret = 200 + weight_carried() / 120_gram - 50 * get_skill_level( skill_swimming );
+    }
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
     float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
@@ -1910,11 +1923,17 @@ int player::swim_speed() const
     if( has_trait( trait_SLEEK_SCALES ) ) {
         ret -= 100;
     }
+    if( has_trait( trait_AMPHIBIAN ) ) {
+        ret -= 100;
+    }
     if( has_trait( trait_LEG_TENTACLES ) ) {
         ret -= 60;
     }
     if( has_trait( trait_FAT ) ) {
         ret -= 30;
+    }
+    if( has_trait( trait_AMPHIBIAN ) ) {
+        ret *= 0.5f;
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
@@ -2778,7 +2797,7 @@ bool player::sight_impaired() const
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
              ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
-               !has_trait( trait_CEPH_EYES ) ) ||
+               !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
              ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
                !worn_with_flag( "FIX_NEARSIGHT" ) &&
                !has_effect( effect_contacts ) &&
@@ -5078,6 +5097,14 @@ void player::suffer()
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
+        if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) && get_thirst() > -60 ) {
+            mod_thirst( -1 );
+        }
+    }
+
+    if( has_trait( trait_SHARKTEETH ) && one_in( 14400 ) ) {
+        add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
+        g->m.spawn_item( pos(), "bone", 1 );
     }
 
     if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
@@ -7013,7 +7040,7 @@ bool player::consume_item( item &target )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return false;
     }
-    if( is_underwater() ) {
+    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return false;
     }
@@ -9637,6 +9664,7 @@ void player::try_to_sleep( const time_duration &dur )
     bool webforce = false;
     bool websleeping = false;
     bool in_shell = false;
+    bool watersleep = false;
     if (has_trait( trait_CHLOROMORPH )) {
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
@@ -9691,6 +9719,17 @@ void player::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
+    if( has_trait( trait_WATERSLEEP ) ) {
+        const bool swimmable = g->m.has_flag_ter( "SWIMMABLE", pos() );
+        const bool deep = g->m.has_flag_ter( "DEEP_WATER", pos() );
+        if( swimmable && !deep ) {
+            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse..." ) );
+            watersleep = true;
+        } else if( swimmable ) {
+            add_msg_if_player( m_good, _( "You lay beneath the waves' embrace, gazing up through the water's surface..." ) );
+            watersleep = true;
+        }
+    }
     if(!plantsleep && (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
@@ -9699,7 +9738,7 @@ void player::try_to_sleep( const time_duration &dur )
          vp.part_with_feature( "SEAT" ) ||
          vp.part_with_feature( "BED" ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
-    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay) {
+    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay && !watersleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
@@ -9717,6 +9756,7 @@ int player::sleep_spot( const tripoint &p ) const
     bool websleep = false;
     bool webforce = false;
     bool in_shell = false;
+    bool watersleep = false;
     if (has_addiction(ADD_SLEEP)) {
         sleepy -= 4;
     }
@@ -9749,6 +9789,11 @@ int player::sleep_spot( const tripoint &p ) const
     if (has_active_mutation( trait_SHELL2 )) {
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
+    }
+    if( has_trait( trait_WATERSLEEP ) ) {
+        if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+            watersleep = true;
+        }
     }
     const optional_vpart_position vp = g->m.veh_at( p );
     const maptile tile = g->m.maptile_at( p );
@@ -9822,6 +9867,9 @@ int player::sleep_spot( const tripoint &p ) const
                 sleepy -= 999;
             }
         }
+    // Has watersleep
+    } else if( watersleep ) {
+        sleepy += 10; //comfy water!
     // Has webforce
     } else {
         if( web >= 3 ) {
@@ -10463,6 +10511,10 @@ int player::get_env_resist(body_part bp) const
         if (ret > 5) {
             ret = 5;
         }
+    }
+
+    if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
+        ret += 8;
     }
     return ret;
 }
@@ -11775,6 +11827,12 @@ void player::place_corpse( tripoint om_target )
 
 bool player::sees_with_infrared( const Creature &critter ) const
 {
+    const monster *m = dynamic_cast< const monster * >( &critter );
+    // electroreceptors grants vision of robots and electric monsters through walls
+    if( m != nullptr && has_trait( trait_ELECTRORECEPTORS ) && ( m->type->in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+        return true;
+    }
+
     if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
         return false;
     }

@@ -1031,7 +1031,7 @@ void player::hardcoded_effects( effect &it )
                                         || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
 
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
-                has_trait( trait_id( "M_SKIN3" ) ) ) &&
+                has_trait( trait_id( "M_SKIN3" ) ) || has_trait( trait_id( "WATERSLEEP" ) ) ) &&
             g->m.is_outside( pos() ) ) {
             if( has_trait( trait_id( "CHLOROMORPH" ) ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
@@ -1054,6 +1054,9 @@ void player::hardcoded_effects( effect &it )
                         spores(); // spawn some P O O F Y   B O I S
                     }
                 }
+            }
+            if( has_trait( trait_id( "WATERSLEEP" ) ) ) {
+                mod_fatigue( -3 ); // Fish sleep less in water
             }
         }
 
@@ -1097,30 +1100,41 @@ void player::hardcoded_effects( effect &it )
         bool woke_up = false;
         int tirednessVal = rng( 5, 200 ) + rng( 0, abs( get_fatigue() * 2 * 5 ) );
         if( !is_blind() && !has_effect( effect_narcosis ) ) {
-            if( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && !has_trait( trait_id( "HIBERNATE" ) ) ) {
-                // So you can too sleep through noon
-                if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                        one_in( get_fatigue() / 2 ) ) ) {
+            if( !has_trait(
+                    trait_id( "SEESLEEP" ) ) ) { // People who can see while sleeping are acclimated to the light.
+                if( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && !has_trait( trait_id( "HIBERNATE" ) ) ) {
+                    // So you can too sleep through noon
+                    if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                            one_in( get_fatigue() / 2 ) ) ) {
+                        add_msg_if_player( _( "It's too bright to sleep." ) );
+                        // Set ourselves up for removal
+                        it.set_duration( 0 );
+                        woke_up = true;
+                    }
+                    // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+                } else if( has_trait( trait_id( "HIBERNATE" ) ) ) {
+                    if( ( tirednessVal * 5 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                            one_in( get_fatigue() / 2 ) ) ) {
+                        add_msg_if_player( _( "It's too bright to sleep." ) );
+                        // Set ourselves up for removal
+                        it.set_duration( 0 );
+                        woke_up = true;
+                    }
+                } else if( tirednessVal < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                           one_in( get_fatigue() / 2 ) ) ) {
                     add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0 );
                     woke_up = true;
                 }
-                // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-            } else if( has_trait( trait_id( "HIBERNATE" ) ) ) {
-                if( ( tirednessVal * 5 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                        one_in( get_fatigue() / 2 ) ) ) {
-                    add_msg_if_player( _( "It's too bright to sleep." ) );
-                    // Set ourselves up for removal
+            } else if( has_active_mutation( trait_id( "SEESLEEP" ) ) ) {
+                Creature *hostile_critter = g->is_hostile_very_close();
+                if( hostile_critter != nullptr ) {
+                    add_msg_if_player( string_format( _( "You see %s approaching!" ),
+                                                      hostile_critter->disp_name().c_str() ) );
                     it.set_duration( 0 );
                     woke_up = true;
                 }
-            } else if( tirednessVal < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                       one_in( get_fatigue() / 2 ) ) ) {
-                add_msg_if_player( _( "It's too bright to sleep." ) );
-                // Set ourselves up for removal
-                it.set_duration( 0 );
-                woke_up = true;
             }
         }
 

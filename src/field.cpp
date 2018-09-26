@@ -46,6 +46,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teargas( "teargas" );
 const efftype_id effect_webbed( "webbed" );
 
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 
 #define INBOUNDS(x, y) \
@@ -2021,7 +2022,13 @@ void map::player_in_field( player &u )
                 }
 
                 if( total_damage > 0 ) {
-                    u.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
+                    if( u.has_trait( trait_ELECTRORECEPTORS ) ) {
+                        u.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
+                                                 _( "<npcname> is shocked!" ) );
+                        u.mod_pain( ( int )( total_damage / 2 ) );
+                    } else {
+                        u.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
+                    }
                 } else {
                     u.add_msg_player_or_npc( _( "The electric cloud doesn't affect you." ),
                                              _( "The electric cloud doesn't seem to affect <npcname>." ) );
