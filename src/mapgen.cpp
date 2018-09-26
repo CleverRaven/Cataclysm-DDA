@@ -7839,7 +7839,8 @@ void silo_rooms( map *m )
         }
     } while( okay );
 
-    m->ter_set( rooms[0].first.x, rooms[0].first.y, t_stairs_up );
+    const point &first_room_position = rooms[0].first;
+    m->ter_set( first_room_position.x, first_room_position.y, t_stairs_up );
     const auto &room = random_entry( rooms );
     m->ter_set( room.first.x + room.second.x, room.first.y + room.second.y, t_stairs_down );
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
@@ -7848,7 +7849,7 @@ void silo_rooms( map *m )
         int best_dist = 999;
         int closest = 0;
         for( size_t i = 1; i < rooms.size(); i++ ) {
-            int dist = trig_dist( rooms[0].first.x, rooms[0].first.y, rooms[i].first.x, rooms[i].first.y );
+            int dist = trig_dist( first_room_position.x, first_room_position.y, rooms[i].first.x, rooms[i].first.y );
             if( dist < best_dist ) {
                 best_dist = dist;
                 closest = i;

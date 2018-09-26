@@ -973,8 +973,9 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         }
 
         // Place passenger on the new part location
-        tripoint psgp( part_pos.x + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x,
-                       part_pos.y + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y,
+        const vehicle_part &veh_part = veh->parts[prt];
+        tripoint psgp( part_pos.x + dp.x + veh_part.precalc[1].x - veh_part.precalc[0].x,
+                       part_pos.y + dp.y + veh_part.precalc[1].y - veh_part.precalc[0].y,
                        psg->posz() );
         if( psg == &g->u ) {
             // If passenger is you, we need to update the map

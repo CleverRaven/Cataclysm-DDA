@@ -1497,12 +1497,13 @@ bool vehicle::remove_part( int p )
         }
     }
 
-    const auto iter = labels.find( label( parts[p].mount.x, parts[p].mount.y ) );
+    const point &vp_mount = parts[p].mount;
+    const auto iter = labels.find( label( vp_mount.x, vp_mount.y ) );
     const bool no_label = iter != labels.end();
     const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
     // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
     if( no_label || grab_found ) {
-        if( parts_at_relative( parts[p].mount.x, parts[p].mount.y, false ).empty() ) {
+        if( parts_at_relative( vp_mount.x, vp_mount.y, false ).empty() ) {
             if( no_label ) {
                 labels.erase( iter );
             }
