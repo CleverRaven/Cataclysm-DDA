@@ -2522,7 +2522,7 @@ std::string player::get_category_dream( const std::string &cat,
         return "";
     }
     const dream &selected_dream = random_entry( valid_dreams );
-    return random_entry( selected_dream.messages );
+    return random_entry( selected_dream.messages() );
 }
 
 bool player::in_climate_control()
