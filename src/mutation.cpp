@@ -482,7 +482,7 @@ void player::activate_mutation( const trait_id &mut )
     } else if( !mdata.spawn_item.empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
-        add_msg_if_player( _( mdata.spawn_item_message.c_str() ) );
+        add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
     }

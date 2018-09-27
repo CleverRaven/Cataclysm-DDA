@@ -136,7 +136,10 @@ struct mutation_branch {
 
         /** The item, if any, spawned by the mutation */
         itype_id spawn_item;
-        std::string spawn_item_message;
+    private:
+        std::string raw_spawn_item_message;
+    public:
+        const char *spawn_item_message() const;
 
         /** Attacks granted by this mutation */
         std::vector<mut_attack> attacks_granted;
