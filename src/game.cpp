@@ -9113,7 +9113,7 @@ const std::vector<std::pair<int, int>> generate_butcher_stack_display(
 
 // Corpses are always individual items
 // Just add them individually to the menu
-void add_corpses( uimenu &menu, map_stack &items,
+void add_corpses( uilist &menu, map_stack &items,
                   const std::vector<int> &indices, size_t &menu_index )
 {
     int hotkey = get_initial_hotkey( menu_index );
@@ -9125,7 +9125,7 @@ void add_corpses( uimenu &menu, map_stack &items,
     }
 }
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
-void add_salvagables( uimenu &menu, map_stack &items,
+void add_salvagables( uilist &menu, map_stack &items,
                       const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
     if( stacks.size() > 0 ) {
@@ -9134,16 +9134,17 @@ void add_salvagables( uimenu &menu, map_stack &items,
         for( const auto stack : stacks ) {
             const item &it = items[ stack.first ];
 
-            std::stringstream ss;
-            ss << _( "Cut up" ) << " " << it.tname() << " (" << stack.second << ")";
-            menu.addentry( menu_index++, true, hotkey, ss.str() );
+            //~ Name and number of items listed for cutting up
+            const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
+                                             it.tname(), stack.second );
+            menu.addentry( menu_index++, true, hotkey, msg );
             hotkey = -1;
         }
     }
 }
 
 // Disassemblables stack so we need to pass in a stack vector rather than an item index vector
-void add_disassemblables( uimenu &menu, map_stack &items,
+void add_disassemblables( uilist &menu, map_stack &items,
                           const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
     if( stacks.size() > 0 ) {
@@ -9152,9 +9153,10 @@ void add_disassemblables( uimenu &menu, map_stack &items,
         for( const auto stack : stacks ) {
             const item &it = items[ stack.first ];
 
-            std::stringstream ss;
-            ss << it.tname() << " (" << stack.second << ")";
-            menu.addentry( menu_index++, true, hotkey, ss.str() );
+            //~ Name and number of items listed for disassembling
+            const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
+                                             it.tname(), stack.second );
+            menu.addentry( menu_index++, true, hotkey, msg );
             hotkey = -1;
         }
     }
@@ -9277,7 +9279,7 @@ void game::butcher()
         F_DRESS,            // field dressing a corpse
         QUARTER,            // quarter corpse
         DISSECT,            // dissect corpse for CBMs
-        CANCEL
+        NUM_BUTCHER_ACTIONS
     };
     // What are we butchering (ie. which vector to pick indices from)
     enum {
@@ -9294,10 +9296,9 @@ void game::butcher()
     const auto salvage_stacks = generate_butcher_stack_display( items, salvageables );
     // Always ask before cutting up/disassembly, but not before butchery
     if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
-        uimenu kmenu;
+        uilist kmenu;
         kmenu.text = _( "Choose corpse to butcher / item to disassemble" );
 
-        kmenu.selected = 0;
         size_t i = 0;
         // Add corpses, disassembleables, and salvagables to the UI
         add_corpses( kmenu, items, corpses, i );
@@ -9318,16 +9319,14 @@ void game::butcher()
             kmenu.addentry( MULTISALVAGE, true, 'z', _( "Cut up all you can" ) );
         }
 
-        kmenu.addentry( CANCEL, true, 'q', _( "Cancel" ) );
-        kmenu.return_invalid = true;
         kmenu.query();
 
-        if( kmenu.ret < 0 || kmenu.ret >= CANCEL ) {
+        if( kmenu.ret < 0 || kmenu.ret >= NUM_BUTCHER_ACTIONS ) {
             return;
         }
 
         size_t ret = ( size_t )kmenu.ret;
-        if( ret >= MULTISALVAGE && ret < CANCEL ) {
+        if( ret >= MULTISALVAGE && ret < NUM_BUTCHER_ACTIONS ) {
             butcher_type = BUTCHER_OTHER;
             indexer_index = ret;
         } else if( ret < corpses.size() ) {
@@ -9403,7 +9402,7 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
-            uimenu smenu;
+            uilist smenu;
             smenu.desc_enabled = true;
             smenu.text = _( "Choose type of butchery:" );
             smenu.addentry_desc( BUTCHER, true, 'B', _( "Quick butchery" ),
@@ -9416,8 +9415,6 @@ void game::butcher()
                                  _( "By quartering a previously field dressed corpse you will aquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
             smenu.addentry_desc( DISSECT, true, 'd', _( "Dissect corpse" ),
                                  _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes lot of time.  Your medical knowledge is most useful here." ) );
-            smenu.addentry( CANCEL, true, 'q', _( "Cancel" ) );
-            smenu.return_invalid = true;
             smenu.query();
             switch( smenu.ret ) {
                 case BUTCHER:
@@ -9435,7 +9432,7 @@ void game::butcher()
                 case DISSECT:
                     u.assign_activity( activity_id( "ACT_DISSECT" ), 0, -1 );
                     break;
-                case CANCEL:
+                default:
                     return;
             }
             draw_ter();
