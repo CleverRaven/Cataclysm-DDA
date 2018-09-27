@@ -727,7 +727,7 @@ static void sleep()
     for( auto &mut : u.get_mutations() ) {
         const auto &mdata = mut.obj();
         if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
-            active.push_back( mdata.name );
+            active.push_back( mdata.name() );
         }
     }
     std::stringstream data;

@@ -168,7 +168,7 @@ class wish_mutate_callback: public uimenu_callback
                      );
             line2 += 2;
 
-            std::vector<std::string> desc = foldstring( mdata.description,
+            std::vector<std::string> desc = foldstring( mdata.desc(),
                                             menu->pad_right - 1 );
             for( auto &elem : desc ) {
                 mvwprintz( menu->window, line2, startx, c_light_gray, elem );
@@ -194,7 +194,7 @@ void debug_menu::wishmutate( player *p )
     int c = 0;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        wmenu.addentry( -1, true, -2, traits_iter.second.name );
+        wmenu.addentry( -1, true, -2, traits_iter.second.name() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;

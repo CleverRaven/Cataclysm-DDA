@@ -133,11 +133,9 @@ classes = {
             bodytemp_sleep = { type = "int", writable = true },
             cooldown = { type = "int", writable = true },
             cost = { type = "int", writable = true },
-            description = { type = "string", writable = true },
             fatigue = { type = "bool", writable = true },
             hunger = { type = "bool", writable = true },
             mixed_effect = { type = "bool", writable = true },
-            name = { type = "string", writable = true },
             points = { type = "int", writable = true },
             profession = { type = "bool", writable = true },
             purifiable = { type = "bool", writable = true },
@@ -149,6 +147,8 @@ classes = {
             visibility = { type = "int", writable = true },
         },
         functions = {
+            { name = "name", rval = "string", args = { } },
+            { name = "desc", rval = "string", args = { } },
             { name = "get_display_color", rval = "nc_color", args = { } },
         }
     },

@@ -203,8 +203,8 @@ void mutation_branch::load( JsonObject &jsobj )
     mutation_branch &new_mut = mutation_data[id];
 
     JsonArray jsarr;
-    new_mut.name = _( jsobj.get_string( "name" ).c_str() );
-    new_mut.description = _( jsobj.get_string( "description" ).c_str() );
+    new_mut.raw_name = jsobj.get_string( "name" );
+    new_mut.raw_desc = jsobj.get_string( "description" );
     new_mut.points = jsobj.get_int( "points" );
     new_mut.visibility = jsobj.get_int( "visibility", 0 );
     new_mut.ugliness = jsobj.get_int( "ugliness", 0 );
@@ -366,6 +366,16 @@ void mutation_branch::load( JsonObject &jsobj )
     }
 }
 
+const char *mutation_branch::name() const
+{
+    return _( raw_name.c_str() );
+}
+
+const char *mutation_branch::desc() const
+{
+    return _( raw_desc.c_str() );
+}
+
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
                                const std::string &what )
 {
@@ -415,9 +425,9 @@ nc_color mutation_branch::get_display_color() const
     }
 }
 
-const std::string &mutation_branch::get_name( const trait_id &mutation_id )
+const char *mutation_branch::get_name( const trait_id &mutation_id )
 {
-    return mutation_id->name;
+    return mutation_id->name();
 }
 
 const mutation_branch::MutationMap &mutation_branch::get_all()
@@ -452,7 +462,7 @@ void load_dream( JsonObject &jsobj )
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    return a->name < b->name;
+    return a->name() < b->name();
 }
 
 void mutation_branch::load_trait_blacklist( JsonObject &jsobj )

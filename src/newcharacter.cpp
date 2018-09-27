@@ -1138,12 +1138,12 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                         points *= -1;
                     }
                     mvwprintz( w,  3, 41, col_tr, ngettext( "%s %s %d point", "%s %s %d points", points ),
-                               mdata.name.c_str(),
+                               mdata.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
                     fold_and_print( w_description, 0, 0,
                                     TERMX - 2, col_tr,
-                                    mdata.description );
+                                    mdata.desc() );
                 }
 
                 nc_color cLine = col_off_pas;
@@ -1175,7 +1175,8 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 int cur_line_y = 5 + i - start_y;
                 int cur_line_x = 2 + iCurrentPage * page_width;
                 mvwprintz( w, cur_line_y, cur_line_x, c_light_gray, std::string( page_width, ' ' ).c_str() );
-                mvwprintz( w, cur_line_y, cur_line_x, cLine, utf8_truncate( mdata.name, page_width - 2 ).c_str() );
+                mvwprintz( w, cur_line_y, cur_line_x, cLine,
+                           utf8_truncate( mdata.name(), page_width - 2 ).c_str() );
             }
 
             for( int i = 0; i < used_pages; i++ ) {
@@ -2212,7 +2213,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
             } else {
                 for( auto &current_trait : current_traits ) {
                     wprintz( w_traits, c_light_gray, "\n" );
-                    wprintz( w_traits, current_trait->get_display_color(), current_trait->name.c_str() );
+                    wprintz( w_traits, current_trait->get_display_color(), current_trait->name() );
                 }
             }
             wrefresh( w_traits );
