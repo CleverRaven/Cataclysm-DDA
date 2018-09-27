@@ -42,6 +42,7 @@
 #include <numeric>
 #include <algorithm>
 #include <cassert>
+#include <unordered_map>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -2380,11 +2381,18 @@ void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
         idir = 0;
     }
     tileray tdir( dir );
+    std::unordered_map<point, point> mount_to_precalc;
     for( auto &p : parts ) {
         if( p.removed ) {
             continue;
         }
-        coord_translate( tdir, pivot, p.mount, p.precalc[idir] );
+        auto q = mount_to_precalc.find( p.mount );
+        if( q == mount_to_precalc.end() ) {
+            coord_translate( tdir, pivot, p.mount, p.precalc[idir] );
+            mount_to_precalc.insert( { p.mount, p.precalc[idir] } );
+        } else {
+            p.precalc[idir] = q->second;
+        }
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
