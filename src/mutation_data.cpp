@@ -100,16 +100,16 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.iv_morale_max   = jsobj.get_int( "iv_morale_max", 0 );
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
     new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
-                                        "You inject yoursel-arRGH!" );
+                                        translate_marker( "You inject yoursel-arRGH!" ) );
     new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
     new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
-                                        "You fall asleep." );
+                                        translate_marker( "You fall asleep." ) );
     new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
     new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
-                                        "Crossed a threshold" );
+                                        translate_marker( "Crossed a threshold" ) );
     new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
-                                      "Oh, yeah! That's the stuff!" );
+                                      translate_marker( "Oh, yeah! That's the stuff!" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
