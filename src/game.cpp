@@ -9752,7 +9752,19 @@ bool game::unload( item &it )
         }
     }
 
-    item *target = opts.size() > 1 ? opts[( uimenu( false, _( "Unload what?" ), msgs ) ) - 1 ] : &it;
+    item *target = nullptr;
+    if( opts.size() > 1 ) {
+        const int ret = uilist( _( "Unload what?" ), msgs );
+        if( ret >= 0 ) {
+            target = opts[ret];
+        }
+    } else {
+        target = &it;
+    }
+
+    if( target == nullptr ) {
+        return false;
+    }
 
     // Next check for any reasons why the item cannot be unloaded
     if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
