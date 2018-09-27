@@ -161,7 +161,8 @@ class wish_mutate_callback: public uimenu_callback
             }
             line2 += 2;
 
-            mvwprintz( menu->window, line2, startx, c_light_gray, "pts: %d vis: %d ugly: %d",
+            //~ pts: points, vis: visibility, ugly: ugliness
+            mvwprintz( menu->window, line2, startx, c_light_gray, _( "pts: %d vis: %d ugly: %d" ),
                        mdata.points,
                        mdata.visibility,
                        mdata.ugliness
