@@ -42,13 +42,20 @@ extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
 
 struct dream {
-    std::vector<std::string> messages; // The messages that the dream will give
-    std::string category; // The category that will trigger the dream
-    int strength; // The category strength required for the dream
+    private:
+        std::vector<std::string> raw_messages; // The messages that the dream will give
 
-    dream() {
-        strength = 0;
-    }
+    public:
+        std::vector<char const *> messages() const;
+
+        std::string category; // The category that will trigger the dream
+        int strength; // The category strength required for the dream
+
+        dream() {
+            strength = 0;
+        }
+
+        static void load( JsonObject &jsobj );
 };
 
 struct mut_attack {
@@ -334,7 +341,6 @@ struct mutation_category_trait {
 };
 
 void load_mutation_type( JsonObject &jsobj );
-void load_dream( JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );

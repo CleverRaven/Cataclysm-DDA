@@ -470,7 +470,16 @@ void mutation_branch::reset_all()
                           std::make_shared<Trait_group_collection>( 100 ) );
 }
 
-void load_dream( JsonObject &jsobj )
+std::vector<char const *> dream::messages() const
+{
+    std::vector<char const *> ret;
+    for( const auto &msg : raw_messages ) {
+        ret.push_back( _( msg.c_str() ) );
+    }
+    return ret;
+}
+
+void dream::load( JsonObject &jsobj )
 {
     dream newdream;
 
@@ -479,7 +488,7 @@ void load_dream( JsonObject &jsobj )
 
     JsonArray jsarr = jsobj.get_array( "messages" );
     while( jsarr.has_more() ) {
-        newdream.messages.push_back( _( jsarr.next_string().c_str() ) );
+        newdream.raw_messages.push_back( jsarr.next_string().c_str() );
     }
 
     dreams.push_back( newdream );
