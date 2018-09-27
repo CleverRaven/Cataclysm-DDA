@@ -1094,7 +1094,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
             p->purifiable( traits_iter.first ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.first );
-            valid_names.push_back( traits_iter.first->name );
+            valid_names.push_back( traits_iter.first->name() );
         }
     }
     if( valid.empty() ) {

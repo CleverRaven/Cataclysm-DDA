@@ -5037,21 +5037,21 @@ void player::suffer()
             if (mdata.hunger){
                 mod_hunger(mdata.cost);
                 if (get_hunger() >= 700) { // Well into Famished
-                    add_msg_if_player(m_warning, _("You're too famished to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too famished to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
             if (mdata.thirst){
                 mod_thirst(mdata.cost);
                 if (get_thirst() >= 260) { // Well into Dehydrated
-                    add_msg_if_player(m_warning, _("You're too dehydrated to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too dehydrated to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
             if (mdata.fatigue){
                 mod_fatigue(mdata.cost);
                 if (get_fatigue() >= EXHAUSTED) { // Exhausted
-                    add_msg_if_player(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too exhausted to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
@@ -7522,7 +7522,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
                 return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
-                             branch.name.c_str(), it.type_name().c_str() );
+                             branch.name(), it.type_name().c_str() );
             }
         }
         if( it.covers(bp_head) &&
