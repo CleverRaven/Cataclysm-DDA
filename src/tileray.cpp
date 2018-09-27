@@ -173,8 +173,9 @@ void tileray::advance( int num )
     int ax = abs( deltax );
     int ay = abs( deltay );
     int anum = abs( num );
+    bool mv = mostly_vertical();
     for( int i = 0; i < anum; i++ ) {
-        if( mostly_vertical() ) {
+        if( mv ) {
             // mostly vertical line
             leftover += ax;
             if( leftover >= ay ) {
