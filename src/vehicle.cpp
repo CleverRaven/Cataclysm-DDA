@@ -1371,14 +1371,14 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_
             }
         }
         //~ %1$s is the vehicle being loaded onto the bicycle rack
-        add_msg( string_format( _( "You load the %1$s on the rack" ), carry_veh->name ) );
+        add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
         g->m.destroy_vehicle( carry_veh );
         g->m.dirty_vehicle_list.insert( this );
         g->m.set_transparency_cache_dirty( smz );
         refresh();
     } else {
         //~ %1$s is the vehicle being loaded onto the bicycle rack
-        add_msg( m_bad, string_format( _( "You can't get the %1$s on the rack" ), carry_veh->name ) );
+        add_msg( m_bad, _( "You can't get the %1$s on the rack" ), carry_veh->name );
     }
     return found_all_parts;
 }
