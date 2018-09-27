@@ -488,7 +488,7 @@ void dream::load( JsonObject &jsobj )
 
     JsonArray jsarr = jsobj.get_array( "messages" );
     while( jsarr.has_more() ) {
-        newdream.raw_messages.push_back( jsarr.next_string().c_str() );
+        newdream.raw_messages.push_back( jsarr.next_string() );
     }
 
     dreams.push_back( newdream );
