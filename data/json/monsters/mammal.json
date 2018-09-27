@@ -684,6 +684,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_cut": 2,
+    "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size tiny canines",
     "flags": [
@@ -822,6 +823,7 @@
     "melee_dice_sides": 2,
     "melee_cut": 4,
     "vision_night": 4,
+    "fear_triggers": [ "HURT" ],
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_boxer_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
@@ -886,6 +888,7 @@
     "melee_dice_sides": 2,
     "melee_cut": 2,
     "vision_night": 6,
+    "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 3, "baby_timer": 240 },
     "//": "1-3 puppies & 240 days per-litter for size tiny canines",
     "flags": [
@@ -961,6 +964,7 @@
     "melee_skill": 3,
     "melee_dice_sides": 2,
     "vision_night": 6,
+    "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "flags": [
