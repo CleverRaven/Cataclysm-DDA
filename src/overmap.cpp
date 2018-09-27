@@ -3868,6 +3868,9 @@ void overmap::place_map_extras()
 {
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
+            if( overmap_buffer.seen( global_base_point().x + i, global_base_point().y + j, 0 ) ) {
+                continue;
+            }
             map_extras ex = region_settings_map["default"].region_extras[ter( i, j, 0 )->get_extras()];
             if( ex.chance > 0 && one_in( ex.chance ) ) {
                 std::string *extra = ex.values.pick();
@@ -3875,7 +3878,7 @@ void overmap::place_map_extras()
                     debugmsg( "failed to pick extra for type %s", ter( i, j, 0 )->get_extras().c_str() );
                 } else {
                     map_extra_trigger trigger;
-                    trigger.map_special = *(ex.values.pick());
+                    trigger.map_special = *( ex.values.pick() );
                     trigger.omt_pos_1.x = i;
                     trigger.omt_pos_1.y = j;
                     trigger.size = MapExtras::generate_special_size( trigger.map_special );
@@ -3883,19 +3886,23 @@ void overmap::place_map_extras()
                     trigger.triggered = false;
                     // Check that all tiles that this extra falls on are valid
                     bool valid = true;
-                    for(int x = 0; x < trigger.size; x++)
-                    {
-                        for(int y = 0; y < trigger.size; y++)
-                        {
-                            if (x == 0 && y == 0) { continue; }
-                            map_extras other_ex = region_settings_map["default"].region_extras[ter( i + x, j + y, 0 )->get_extras()];
-                            std::find_if(other_ex.values.begin(), other_ex.values.end(), [&trigger](weighted_object<int, std::string> s) { return s.obj == trigger.map_special; });
+                    for( int x = 0; x < trigger.size; x++ ) {
+                        for( int y = 0; y < trigger.size; y++ ) {
+                            if( x == 0 && y == 0 ) {
+                                continue;
+                            }
+                            map_extras other_ex = region_settings_map["default"].region_extras[ter( i + x, j + y,
+                                                  0 )->get_extras()];
+                            std::find_if( other_ex.values.begin(),
+                            other_ex.values.end(), [&trigger]( weighted_object<int, std::string> s ) {
+                                return s.obj == trigger.map_special;
+                            } );
                         }
                     }
-                    if(valid)
-                    {
-                        map_extra_triggers.push_back(trigger);
-                        overmap_buffer.add_note( global_base_point().x + i, global_base_point().y + j, trigger.omt_pos_1.z, string_format( ">:W;%s", trigger.map_special ) );
+                    if( valid ) {
+                        map_extra_triggers.push_back( trigger );
+                        overmap_buffer.add_note( global_base_point().x + i, global_base_point().y + j, trigger.omt_pos_1.z,
+                                                 string_format( ">:W;%s", trigger.map_special ) );
                     }
                 }
             }

@@ -1023,6 +1023,10 @@ void overmap::unserialize( std::istream &fin )
             }
         }
     }
+    if(map_extra_triggers.size() == 0)
+    {
+        place_map_extras();
+    }
 }
 
 static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
