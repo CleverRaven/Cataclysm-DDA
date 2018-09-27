@@ -2058,6 +2058,11 @@ hp_part Character::body_window( const std::string &menu_header,
         }
     };
 
+    int max_bp_name_len = 0;
+    for( const auto &e : parts ) {
+        max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
+    }
+
     const auto color_name = []( const nc_color col ) {
         return get_all_colors().get_name( col );
     };
@@ -2135,8 +2140,9 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const nc_color old_hp_col = has_any_effect ? all_state_col :
                                     limb_is_broken ? c_dark_gray : c_green;
+        const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         msg << string_format( "<color_%s>%s</color> <color_%s>%s</color>", 
-                              color_name( all_state_col ), e.name,
+                              color_name( all_state_col ), aligned_name,
                               color_name( old_hp_col ), hp_str( current_hp, maximal_hp ) );
         if( current_hp != new_hp || has_curable_effect ) {
             const nc_color new_hp_col = has_any_effect ? new_state_col :
