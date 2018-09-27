@@ -192,7 +192,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
     add( "dream", &load_dream );
-    add( "mutation_category", &load_mutation_category );
+    add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
     add( "mutation", &mutation_branch::load );
     add( "furniture", &load_furniture );

@@ -3662,7 +3662,7 @@ long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_morale( MORALE_MUTAGEN, 5, 50 );
     }
 
-    p.add_msg_if_player( m_category.mutagen_message.c_str() );
+    p.add_msg_if_player( m_category.mutagen_message() );
 
     if( one_in( 6 ) ) {
         p.add_msg_player_or_npc( m_bad,
@@ -3715,9 +3715,9 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
                 mutation_category );
 
     if( p.has_trait( trait_MUT_JUNKIE ) ) {
-        p.add_msg_if_player( m_category.junkie_message.c_str() );
+        p.add_msg_if_player( m_category.junkie_message() );
     } else {
-        p.add_msg_if_player( m_category.iv_message.c_str() );
+        p.add_msg_if_player( m_category.iv_message() );
     }
 
     // try to cross the threshold to be able to get post-threshold mutations this iv.
@@ -3727,7 +3727,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, m_category.iv_sound_message );
+        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, m_category.iv_sound_message() );
     }
 
     int mut_count = m_category.iv_min_mutations;
@@ -3755,7 +3755,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( m_category.iv_sleep && !one_in( 3 ) ) {
-        p.add_msg_if_player( m_bad, m_category.iv_sleep_message.c_str() );
+        p.add_msg_if_player( m_bad, m_category.iv_sleep_message() );
         /** @EFFECT_INT reduces sleep duration when using IV mutagen */
         p.fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p.int_cur * 5 ) );
     }
