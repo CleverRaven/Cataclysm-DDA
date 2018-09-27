@@ -9917,7 +9917,7 @@ void game::chat()
                rl_dist( u.pos(), guy.pos() ) <= 24;
     } );
 
-    uimenu nmenu;
+    uilist nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
 
     int i = 0;
@@ -9925,8 +9925,6 @@ void game::chat()
     for( auto &elem : available ) {
         nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
     }
-
-    nmenu.return_invalid = true;
 
     int yell = 0;
     int yell_sentence = 0;
