@@ -499,9 +499,33 @@
   },
   {
     "type": "terrain",
+    "id": "t_woodchips",
+    "name": "woodchips",
+    "looks_like": "t_dirt",
+    "description": "Small splinters of wood laid out in a layer to prevent unwanted plants from growing.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_moss",
+    "name": "moss",
+    "looks_like": "t_grass",
+    "description": "Moist spongy moss.",
+    "symbol": ".",
+    "color": "light_green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_grass",
     "name": "grass",
-    "description": "A beautiful, if unkempt, section of hardy Kentucky bluegrass.  Cutting the grass short enough would destroy the root system, causing this area to turn into a patch of dirt.",
+    "description": "An area of hardy Kentucky bluegrass about ankle high.  Cutting the grass short enough would destroy the root system, causing this area to turn into a patch of dirt.",
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
@@ -529,6 +553,18 @@
     "color": "green",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grass_tall",
+    "name": "tall grass",
+    "description": "Tall grass about head high.",
+    "looks_like": "t_grass",
+    "symbol": ",",
+    "color": "green",
+    "move_cost": 5,
+    "flags": [ "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {

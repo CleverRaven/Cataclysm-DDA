@@ -3,7 +3,7 @@
       "type": "region_settings",
       "id": "default",                      "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
-      "default_groundcover": [ [ "t_grass", 4 ], [ "t_dirt",  1 ] ],
+      "default_groundcover": [ [ "t_grass", 4 ], [ "t_grass_long",  2 ], [ "t_dirt",  1 ] ],
       "field_coverage": {                   "//": "biome settings for builtin field mapgen. The values below replicate results of hardcoded 'field' mapgen",
           "percent_coverage": 0.9333,       "//": "% of tiles that have a plant: one_in(120)",
           "default_ter": "t_shrub",         "//": "default plant",
@@ -56,8 +56,8 @@
               "item_spawn_iterations": 1,                 "//": "number of times that the item spawning will be called",
               "clear_groundcover": false,                 "//": "if set to true, clear all previously defined 'groundcover' for this terrain. only relevant for 'region_overlay' that override these settings",
               "groundcover": {                            "//": "weighted list of terrain types placed as groundcover before anything else. higher values are more frequent",
-                  "t_grass_long": 2,
-                  "t_grass": 1,
+                  "t_grass_long": 5,
+                  "t_grass_tall": 1,
                   "t_dirt": 1
               },
               "clear_components": false,                  "//": "if set to true, clear all previously defined 'components' for this terrain. only relevant for 'region_overlay' that override these settings",
@@ -146,8 +146,8 @@
               "item_spawn_iterations": 1,
               "clear_groundcover": false,
               "groundcover": {
-                  "t_grass_long": 2,
-                  "t_grass": 1,
+                  "t_grass_long": 5,
+                  "t_grass_tall": 1,
                   "t_dirt": 1
               },
               "clear_components": false,
@@ -236,9 +236,10 @@
               "item_spawn_iterations": 1,
               "clear_groundcover": false,
               "groundcover": {
-                  "t_grass_long": 2,
-                  "t_grass": 1,
-                  "t_dirt": 1
+                  "t_grass_long": 3,
+                  "t_grass_tall": 1,
+                  "t_moss": 2,
+                  "t_dirt": 2,                "//": "Replace dirt with mud when Whaley adds mud."
               },
               "clear_components": false,
               "components": {
