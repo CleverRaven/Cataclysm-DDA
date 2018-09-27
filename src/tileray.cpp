@@ -53,6 +53,14 @@ void tileray::init( int adir )
     infinite = true;
 }
 
+void tileray::clear_advance()
+{
+    leftover = 0;
+    last_dx = 0;
+    last_dy = 0;
+    steps = 0;
+}
+
 int tileray::dx() const
 {
     return last_dx;

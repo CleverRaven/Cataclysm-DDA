@@ -832,6 +832,9 @@ class vehicle
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
         void coord_translate( int dir, const point &pivot, const point &p, point &q ) const;
+        // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
+        // should be faster than previous call for repeated translations
+        void coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const;
 
         // Rotates mount coordinates "p" from old_dir to new_dir along pivot
         point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;

@@ -2346,6 +2346,14 @@ void vehicle::coord_translate( int dir, const point &pivot, const point &p, poin
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
+void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const
+{
+    tdir.clear_advance();
+    tdir.advance( p.x - pivot.x );
+    q.x = tdir.dx() + tdir.ortho_dx( p.y - pivot.y );
+    q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
+}
+
 point vehicle::rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const
 {
     point q;
@@ -2371,11 +2379,12 @@ void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
     if( idir < 0 || idir > 1 ) {
         idir = 0;
     }
+    tileray tdir( dir );
     for( auto &p : parts ) {
         if( p.removed ) {
             continue;
         }
-        coord_translate( dir, pivot, p.mount, p.precalc[idir] );
+        coord_translate( tdir, pivot, p.mount, p.precalc[idir] );
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
