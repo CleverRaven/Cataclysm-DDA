@@ -2678,9 +2678,10 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REPAIR;
     }
 
-    if( ( fix.has_flag( "VARSIZE" ) && !fix.has_flag( "FIT" ) ) ||
-        ( smol && !fix.has_flag( "UNDERSIZE" ) )  ||
-        ( !smol && fix.has_flag( "UNDERSIZE" ) ) ) {
+    if( fix.has_flag( "VARSIZE" ) &&
+        ( ( ( !fix.has_flag( "FIT" ) ) ) ||
+          ( smol && !fix.has_flag( "UNDERSIZE" ) )  ||
+          ( !smol && fix.has_flag( "UNDERSIZE" ) ) ) ) {
         return RT_REFIT;
     }
 
