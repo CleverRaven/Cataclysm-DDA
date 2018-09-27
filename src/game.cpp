@@ -8519,8 +8519,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
         return false;
     }
 
-    uimenu menu;
-    menu.return_invalid = true;
+    uilist menu;
 
     const std::string liquid_name = liquid.display_name( liquid.charges );
     if( source_pos != nullptr ) {
@@ -8634,14 +8633,13 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
 
     menu.query();
     refresh_all();
-    const size_t chosen = static_cast<size_t>( menu.ret );
-    if( chosen >= actions.size() ) {
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= actions.size() ) {
         add_msg( _( "Never mind." ) );
         // Explicitly canceled all options (container, drink, pour).
         return false;
     }
 
-    actions[chosen]();
+    actions[menu.ret]();
     return true;
 }
 
