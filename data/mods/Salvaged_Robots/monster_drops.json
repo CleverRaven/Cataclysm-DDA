@@ -3,16 +3,12 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "milbot_trainer",
-    "entries": [
-      { "item": "paintball", "count": [ 2, 4 ] }
-    ]
+    "entries": [ { "item": "paintball", "count": [ 2, 4 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "beehive",
-    "entries": [
-      { "item": "honey", "count": [ 2, 4 ] }
-    ]
+    "entries": [ { "item": "honey", "count": [ 2, 4 ] } ]
   }
 ]
