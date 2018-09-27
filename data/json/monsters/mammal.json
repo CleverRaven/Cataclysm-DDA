@@ -350,7 +350,7 @@
   {
     "id": "mon_coyote",
     "type": "MONSTER",
-    "name": "eastern coyote",
+    "name": "coyote",
     "description": "The Eastern coyote, also called the tweed wolf, is a territorial canine descended from the offspring of gray wolves and true coyotes.  It is intimidated by humans and other predators, but it will still fight if threatened, and the Cataclysm has made it more fearless than usual.",
     "default_faction": "dog",
     "categories": [ "WILDLIFE" ],
@@ -392,7 +392,7 @@
   {
     "id": "mon_coyote_wolf",
     "type": "MONSTER",
-    "name": "northeastern coyote",
+    "name": "coyote",
     "description": "The Northeastern coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey, but is typically timid around humans.",
     "default_faction": "dog",
     "categories": [ "WILDLIFE" ],
