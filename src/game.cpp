@@ -5823,14 +5823,12 @@ bool pet_menu( monster *z )
         rope
     };
 
-    uimenu amenu;
-    amenu.return_invalid = true;
+    uilist amenu;
     std::string pet_name = z->get_name();
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _( "zombie slave" );
     }
 
-    amenu.selected = 0;
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name.c_str() );
 
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
@@ -6077,10 +6075,8 @@ bool game::npc_menu( npc &who )
 
     const bool obeys = debug_mode || ( who.is_friend() && !who.in_sleep_state() );
 
-    uimenu amenu;
-    amenu.return_invalid = true;
+    uilist amenu;
 
-    amenu.selected = 0;
     amenu.text = string_format( _( "What to do with %s?" ), who.disp_name().c_str() );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys, 's', _( "Swap positions" ) );
