@@ -209,9 +209,9 @@ void recipe::load( JsonObject &jo, const std::string &src )
     }
 
     // inline requirements are always replaced (cannot be inherited)
-    const auto req_id = string_format( "inline_%s_%s", type.c_str(), ident_.c_str() );
+    const requirement_id req_id( string_format( "inline_%s_%s", type.c_str(), ident_.c_str() ) );
     requirement_data::load_requirement( jo, req_id );
-    reqs_internal = { { requirement_id( req_id ), 1 } };
+    reqs_internal = { { req_id, 1 } };
 }
 
 void recipe::finalize()
