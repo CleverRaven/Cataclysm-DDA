@@ -834,9 +834,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           attack_time(), true, "", true, true ) );
         }
 
-        if( is_bionic() && get_option < bool > ( "BIONIC_LICENSES" ) && parts->test(iteminfo_parts::DESCRIPTION_CBM_SLOTS)) {
-            info.push_back(  iteminfo( "BASE", _( "License Cost: " ), "",
-                                          type->bionic->license_cost, true, "", true, true ) );
+        if( is_bionic() && get_option < bool > ( "BIONIC_LICENSES" ) &&
+            parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
+            info.push_back( iteminfo( "BASE", _( "License Cost: " ), "",
+                                      type->bionic->license_cost, true, "", true, true ) );
         }
 
         insert_separation_line();
