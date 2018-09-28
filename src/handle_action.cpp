@@ -821,7 +821,7 @@ static void loot()
     }
 
     if( !just_one( flags ) ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Pick action:" );
         menu.desc_enabled = true;
 
@@ -842,8 +842,6 @@ static void loot()
                                 !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
                                 _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
-
-        menu.addentry( None, true, 'q',  _( "Cancel" ) );
 
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
