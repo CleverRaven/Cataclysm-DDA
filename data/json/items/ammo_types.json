@@ -170,13 +170,13 @@
     {
         "type" : "ammunition_type",
         "id" : "66mm",
-        "name" : "High Explosive Anti Tank warhead",
+        "name" : "high-explosive anti-tank warhead",
         "default" : "66mm_HEAT"
     },
     {
         "type" : "ammunition_type",
         "id" : "120mm",
-        "name" : "High Explosive Anti Tank warhead",
+        "name" : "high-explosive anti-tank warhead",
         "default" : "120mm_HEAT"
     },
     {
@@ -472,5 +472,11 @@
         "id" : "milk",
         "name" : "milk",
         "default" : "milk"
+    },
+    {
+        "type": "ammunition_type",
+        "id": "paintball",
+        "name": "paintball",
+        "default": "paintball"
     }
 ]

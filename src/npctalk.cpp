@@ -58,6 +58,7 @@ const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
@@ -577,7 +578,11 @@ void npc::talk_to_u()
 
     // Needs
     if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ) {
-        d.add_topic( "TALK_WAKE_UP" );
+        if( has_effect( effect_narcosis ) ) {
+            d.add_topic( "TALK_SEDATED" );
+        } else {
+            d.add_topic( "TALK_WAKE_UP" );
+        }
     }
 
     if( d.topic_stack.back().id == "TALK_NONE" ) {
@@ -630,7 +635,7 @@ void npc::talk_to_u()
 
         // Don't query if we're training the player
     } else if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
-        g->cancel_activity_query( string_format( _( "%s talked to you." ), name.c_str() ) );
+        g->cancel_activity_or_ignore_query( distraction_type::talked_to,  string_format( _( "%s talked to you." ), name.c_str() ) );
     }
 }
 
@@ -653,6 +658,10 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return string_format(
                    _( "&You are deaf and can't talk. When you don't respond, %s becomes angry!" ),
                    beta->name.c_str() );
+    }
+    if( topic == "TALK_SEDATED" ) {
+        return string_format( _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off." ),
+                              beta->name.c_str() );
     }
 
     const auto &p = beta; // for compatibility, later replace it in the code below
@@ -746,29 +755,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_MISSION_REWARD" ) {
         return _( "Sure, here you go!" );
 
-    } else if( topic == "TALK_EVAC_HUNTER_ADVICE" ) {
-        switch( rng( 1, 7 ) ) {
-            case 1:
-                return _( "Feed a man a fish, he's full for a day. Feed a man a bullet, "
-                          "he's full for the rest of his life." );
-            case 2:
-                return _( "Spot your prey before something nastier spots you." );
-            case 3:
-                return _( "I've heard that cougars sometimes leap. Maybe it's just a myth." );
-            case 4:
-                return _( "The Jabberwock is real, don't listen to what anybody else says. "
-                          "If you see it, RUN." );
-            case 5:
-                return _( "Zombie animal meat isn't good for eating, but sometimes you "
-                          "might find usable fur on 'em." );
-            case 6:
-                return _( "A steady diet of cooked meat and clean water will keep you "
-                          "alive forever, but your taste buds and your colon may start "
-                          "to get angry at you. Eat a piece of fruit every once in a while." );
-            case 7:
-                return _( "Smoke crack to get more shit done." );
-        }
-
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
         if( g->u.is_wearing( "badge_marshal" ) )
             switch( rng( 1, 4 ) ) {
@@ -846,29 +832,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                   "replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption "
                   "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
                   "text messages can get picked up though." );
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
-        return _( "Hope you're here to trade." );
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_NEW" ) {
-        return _( "I oversee the food stocks for the center.  There was significant looting during "
-                  "the panic when we first arrived so most of our food was carried away.  I manage "
-                  "what we have left and do everything I can to increase our supplies.  Rot and mold "
-                  "are more significant in the damp basement so I prioritize non-perishable food, "
-                  "such as cornmeal, jerky, and fruit wine." );
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_WHY" ) {
-        return _( "All three are easy to locally produce in significant quantities and are "
-                  "non-perishable.  We have a local farmer or two and a few hunter types that have "
-                  "been making attempts to provide us with the nutritious supplies.  We do always "
-                  "need more suppliers though.  Because this stuff is rather cheap in bulk I can "
-                  "pay a premium for any you have on you.  Canned food and other edibles are "
-                  "handled by the merchant in the front." );
-
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_ALL" ) {
-        return _( "I'm actually accepting a number of different foodstuffs: beer, sugar, flour, "
-                  "smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, cornmeal, "
-                  "and fruit wine." );
 
     } else if( topic == "TALK_DELIVER_ASK" ) {
         return bulk_trade_inquire( *p, the_topic.item_type );
@@ -1078,7 +1041,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_RANCH_BARBER_CUT" ) {
         return _( "Stand still while I get my clippers..." );
-
 
     } else if( topic == "TALK_SHELTER" ) {
         switch( rng( 1, 2 ) ) {
@@ -1819,7 +1781,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( msg, "TALK_DELIVER_ASK", id );
             }
         }
-        add_response_done( _( "Well, bye." ) );
 
     } else if( topic == "TALK_DELIVER_ASK" ) {
         if( the_topic.item_type == "null" ) {
@@ -1832,13 +1793,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         bulk_trade_accept( *p, the_topic.item_type );
         add_response_done( _( "You might be seeing more of me..." ) );
 
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_NEW" ) {
-        add_response( _( "Why cornmeal, jerky, and fruit wine?" ), "TALK_FREE_MERCHANT_STOCKS_WHY" );
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_WHY" ) {
-        add_response( _( "Are you looking to buy anything else?" ), "TALK_FREE_MERCHANT_STOCKS_ALL" );
-        add_response( _( "Very well..." ), "TALK_FREE_MERCHANT_STOCKS" );
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS_ALL" ) {
-        add_response( _( "Interesting..." ), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
         for( auto miss_it : g->u.get_active_missions() ) {
             if( miss_it->mission_id() == mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ) &&
@@ -2991,7 +2945,7 @@ void talk_function::become_overseer( npc &p )
         display = true;
         buffer = buffer + _("There are few fields.  Producing enough food to supply your camp may be difficult.\n");
     }
-    if ( display && !query_yn( "%s \nAre you sure you wish to continue? ", buffer )) {
+    if ( display && !query_yn( _("%s \nAre you sure you wish to continue? "), buffer )) {
         return;
     }
 
@@ -3195,7 +3149,6 @@ void talk_function::buy_100_logs( npc &p )
     g->u.cash -= 1200000;
     add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name.c_str() );
 }
-
 
 void talk_function::follow( npc &p )
 {
@@ -3484,6 +3437,15 @@ bool dialogue::print_responses( int const yoffset )
 
 int dialogue::choose_response( int const hilight_lines )
 {
+#ifdef __ANDROID__
+    input_context ctxt("DIALOGUE_CHOOSE_RESPONSE");
+    for( size_t i = 0; i < responses.size(); i++ )
+        ctxt.register_manual_key('a' + i);
+    ctxt.register_manual_key('L', "Look at");
+    ctxt.register_manual_key('S', "Size up stats");
+    ctxt.register_manual_key('Y', "Yell");
+    ctxt.register_manual_key('O', "Check opinion");
+#endif
     int yoffset = 0;
     while( true ) {
         clear_window_texts();
@@ -3527,7 +3489,6 @@ void dialogue::add_topic( const talk_topic &topic )
 {
     topic_stack.push_back( topic );
 }
-
 
 void talk_response::do_formatting( const dialogue &d, char const letter )
 {
@@ -3893,6 +3854,14 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     units::mass weight_left = temp.weight_capacity() - temp.weight_carried();
 
     do {
+#ifdef __ANDROID__
+        input_context ctxt("NPC_TRADE");
+        ctxt.register_manual_key('\t', "Switch lists");
+        ctxt.register_manual_key('<', "Back");
+        ctxt.register_manual_key('>', "More");
+        ctxt.register_manual_key('?', "Examine item");
+#endif
+
         auto &target_list = focus_them ? theirs : yours;
         auto &offset = focus_them ? them_off : you_off;
         if( update ) { // Time to re-draw
@@ -3977,6 +3946,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     }
                     trim_and_print( w_whose, i - offset + 1, 1, win_w, color, "%c %c %s",
                                     ( char )keychar, ip.selected ? '+' : '-', itname.c_str() );
+#ifdef __ANDROID__
+                    ctxt.register_manual_key(keychar, itname.c_str());
+#endif
 
                     std::string price_str = string_format( "%.2f", ip.price / 100.0 );
                     nc_color price_color = ex ? c_dark_gray : ( ip.selected ? c_white : c_light_gray );

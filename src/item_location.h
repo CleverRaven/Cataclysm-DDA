@@ -3,6 +3,7 @@
 #define ITEM_LOCATION_H
 
 #include <memory>
+#include <list>
 
 struct tripoint;
 class item;
@@ -38,11 +39,16 @@ class item_location
         static const item_location nowhere;
 
         item_location( Character &ch, item *which );
+        item_location( Character &ch, std::list<item> *which );
         item_location( const map_cursor &mc, item *which );
+        item_location( const map_cursor &mc, std::list<item> *which );
         item_location( const vehicle_cursor &vc, item *which );
+        item_location( const vehicle_cursor &vc, std::list<item> *which );
 
         void serialize( JsonOut &js ) const;
         void deserialize( JsonIn &js );
+
+        long charges_in_stack( unsigned int countOnly ) const;
 
         bool operator==( const item_location &rhs ) const;
         bool operator!=( const item_location &rhs ) const;

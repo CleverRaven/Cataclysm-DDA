@@ -417,7 +417,8 @@ class firestarter_actor : public iuse_actor
         bool need_sunlight = false;
 
         static bool prep_firestarter_use( const player &p, tripoint &pos );
-        static void resolve_firestarter_use( const player &p, const tripoint &pos );
+        /** Player here isn't const because pyromaniacs gain a mood boost from it */
+        static void resolve_firestarter_use( player &p, const tripoint &pos );
         /** Modifier on speed - higher is better, 0 means it won't work. */
         float light_mod( const tripoint &pos ) const;
         /** Checks quality of fuel on the tile and interpolates move cost based on that. */
@@ -553,7 +554,8 @@ class fireweapon_off_actor : public iuse_actor
         std::string failure_message; // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;
-        int success_chance = INT_MIN; // Lower is better: rng(0, 10) - item.damage > this variable
+        // Lower is better: rng(0, 10) - item.damage_level( 4 ) > this variable
+        int success_chance = INT_MIN;
 
         fireweapon_off_actor() : iuse_actor( "fireweapon_off" ) {}
 

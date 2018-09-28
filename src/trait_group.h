@@ -34,7 +34,6 @@ bool group_contains_trait( const Trait_group_tag &gid, const trait_id &tid );
  */
 void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype );
 
-
 /**
  * Get a trait group ID and optionally load an inlined trait group.
  *

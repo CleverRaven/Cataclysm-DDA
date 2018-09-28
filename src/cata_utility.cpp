@@ -18,9 +18,25 @@
 #include <string>
 #include <locale>
 
+static double pow10( unsigned int n )
+{
+    double ret = 1;
+    double tmp = 10;
+    while( n ) {
+        if( n & 1 ) {
+            ret *= tmp;
+        }
+        tmp *= tmp;
+        n >>= 1;
+    }
+    return ret;
+}
+
 double round_up( double val, unsigned int dp )
 {
-    const double denominator = std::pow( 10.0, double( dp ) );
+    // Some implementations of std::pow does not return the accurate result even
+    // for small powers of 10, so we use a specialized routine to calculate them.
+    const double denominator = pow10( dp );
     return std::ceil( denominator * val ) / denominator;
 }
 
@@ -74,12 +90,6 @@ bool match_include_exclude( const std::string &text, std::string filter )
     } while( iPos != std::string::npos );
 
     return found;
-}
-
-bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
-                                   const std::pair<int, tripoint> &b ) const
-{
-    return a.first > b.first;
 }
 
 // --- Library functions ---

@@ -21,6 +21,9 @@
 #include "morale_types.h"
 #include "overmap.h"
 #include "vehicle.h"
+#include "veh_type.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 #include "mtype.h"
 #include "iuse_actor.h"
 #include "trait_group.h"
@@ -56,6 +59,7 @@ const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
+const efftype_id effect_bouldering( "bouldering" );
 
 static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
 static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
@@ -108,7 +112,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -377,7 +381,6 @@ void npc::randomize( const npc_class_id &type )
     } else if( type == NC_SCAVENGER ) {
         personality.aggression += rng( 1, 3 );
         personality.bravery += rng( 1, 4 );
-
 
     }
     //A universal barter boost to keep NPCs competitive with players
@@ -941,6 +944,7 @@ bool npc::wear_if_wanted( const item &it )
 
     const int it_encumber = it.get_encumber();
     while( !worn.empty() ) {
+        auto size_before = worn.size();
         bool encumb_ok = true;
         const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
@@ -981,9 +985,9 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( !took_off ) {
+        if( !took_off || worn.size() >= size_before ) {
             // Shouldn't happen, but does
-            return wear_item( it, false );
+            return false;
         }
     }
 
@@ -1299,7 +1303,6 @@ bool npc::fac_has_job( faction_job job ) const
     return my_fac->has_job( job );
 }
 
-
 void npc::decide_needs()
 {
     double needrank[num_needs];
@@ -1315,12 +1318,13 @@ void npc::decide_needs()
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for( auto &i : slice ) {
-        if( i->front().is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( i->front() ) / 4;
-            needrank[ need_drink ] += i->front().type->comestible->quench / 4;
-        } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents.front() ) / 4;
-            needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
+        item inventory_item = i->front();
+        if( inventory_item.is_food( ) ) {
+            needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
+            needrank[ need_drink ] += inventory_item.type->comestible->quench / 4;
+        } else if( inventory_item.is_food_container() ) {
+            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
+            needrank[ need_drink ] += inventory_item.contents.front().type->comestible->quench / 4;
         }
     }
     needs.clear();
@@ -1441,7 +1445,6 @@ void npc::shop_restock()
     inv.clear();
     inv.push_back( ret );
 }
-
 
 int npc::minimum_item_value() const
 {
@@ -1792,7 +1795,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         // @todo: Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
-            return mut_branch.name;
+            return mut_branch.name();
         }
 
         return std::string();
@@ -1953,11 +1956,14 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    dead = true;
-    Character::die( nkiller );
+    // Need to unboard from vehicle before dying, otherwise
+    // the vehicle code cannot find us
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos() );
     }
+
+    dead = true;
+    Character::die( nkiller );
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%s dies!" ), name.c_str() );
@@ -2113,6 +2119,16 @@ void npc::on_load()
 
     // Not necessarily true, but it's not a bad idea to set this
     has_new_items = true;
+
+    // for spawned npcs
+    if( g->m.has_flag( "UNSTABLE", pos() ) ) {
+        add_effect( effect_bouldering, 1_turns, num_bp, true );
+    } else if( has_effect( effect_bouldering ) ) {
+        remove_effect( effect_bouldering );
+    }
+    if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE ) && !in_vehicle ) {
+        g->m.board_vehicle( pos(), this );
+    }
 }
 
 void npc_chatbin::add_new_mission( mission *miss )

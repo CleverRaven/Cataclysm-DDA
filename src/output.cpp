@@ -31,6 +31,9 @@
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "cursesport.h"
 #endif
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#endif
 
 // Display data
 int TERMX;
@@ -67,12 +70,49 @@ std::vector<std::string> foldstring( std::string str, int width )
     }
     std::stringstream sstr( str );
     std::string strline;
+    std::vector<std::string> tags;
     while( std::getline( sstr, strline, '\n' ) ) {
         std::string wrapped = word_rewrap( strline, width );
         std::stringstream swrapped( wrapped );
         std::string wline;
         while( std::getline( swrapped, wline, '\n' ) ) {
-            lines.push_back( wline );
+            // Ensure that each line is independently color-tagged
+            // Re-add tags closed in the previous line
+            const std::string rawwline = wline;
+            if( !tags.empty() ) {
+                std::stringstream swline;
+                for( const std::string &tag : tags ) {
+                    swline << tag;
+                }
+                swline << wline;
+                wline = swline.str();
+            }
+            // Process the additional tags in the current line
+            const std::vector<size_t> tags_pos = get_tag_positions( rawwline );
+            for( const size_t tag_pos : tags_pos ) {
+                if( tag_pos + 1 < rawwline.size() && rawwline[tag_pos + 1] == '/' ) {
+                    if( !tags.empty() ) {
+                        tags.pop_back();
+                    }
+                } else {
+                    auto tag_end = rawwline.find( '>', tag_pos );
+                    if( tag_end != std::string::npos ) {
+                        tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
+                    }
+                }
+            }
+            // Close any unclosed tags
+            if( !tags.empty() ) {
+                std::stringstream swline;
+                swline << wline;
+                for( auto it = tags.rbegin(); it != tags.rend(); ++it ) {
+                    // currently the only closing tag is </color>
+                    swline << "</color>";
+                }
+                wline = swline.str();
+            }
+            // The resulting line can be printed independently and have the correct color
+            lines.emplace_back( wline );
         }
     }
     return lines;
@@ -555,6 +595,13 @@ bool query_yn( const std::string &text )
     bool result = true;
     bool gotkey = false;
 
+#ifdef __ANDROID__
+    // Ensure proper android input context for touch
+    input_context ctxt( "YESNO" );
+    ctxt.register_manual_key( ucselectors[0] );
+    ctxt.register_manual_key( ucselectors[1] );
+#endif
+
     while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE ) {
 
         // Upper case always works, lower case only if !force_uc.
@@ -721,6 +768,9 @@ long popup( const std::string &text, PopupFlags flags )
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
+#ifdef __ANDROID__
+        input_context ctxt( "POPUP_WAIT" );
+#endif
         wrefresh( w );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
@@ -751,7 +801,7 @@ void popup_status( const char *const title, const std::string &fmt )
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
 input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
-                            const std::string sItemName, const std::string sTypeName,
+                            const std::string &sItemName, const std::string &sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
@@ -843,9 +893,10 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
         starty += 1 + fold_and_print( win, starty, 1, len, c_white, _( "Example: -pipe,-chunk,-steel" ) );
     }
 
-    starty += fold_and_print( win, starty, 1, len, c_white, _( "Search [c]ategory or [m]aterial:" ) );
+    starty += fold_and_print( win, starty, 1, len, c_white,
+                              _( "Search [c]ategory, [m]aterial, or [q]uality:" ) );
     //~ An example of how to filter items based on category or material.
-    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron" ) );
+    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron,q:hammering" ) );
     wrefresh( win );
 }
 
@@ -931,8 +982,8 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer.str();
 }
 
-input_event draw_item_info( const catacurses::window &win, const std::string sItemName,
-                            const std::string sTypeName,
+input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
+                            const std::string &sTypeName,
                             std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
@@ -1126,6 +1177,7 @@ std::string word_rewrap( const std::string &in, int width )
     int lastout = 0;
     const char *instr = in.c_str();
     bool skipping_tag = false;
+    bool just_wrapped = false;
 
     for( int j = 0, x = 0; j < ( int )in.size(); ) {
         const char *ins = instr + j;
@@ -1142,6 +1194,7 @@ std::string word_rewrap( const std::string &in, int width )
             }
         }
 
+        const int old_j = j;
         j += ANY_LENGTH - len;
 
         if( skipping_tag ) {
@@ -1151,9 +1204,26 @@ std::string word_rewrap( const std::string &in, int width )
             continue;
         }
 
+        if( just_wrapped && uc == ' ' ) { // ignore spaces after wrapping
+            lastwb = lastout = j;
+            continue;
+        }
+
         x += mk_wcwidth( uc );
 
+        if( uc == ' ' || uc >= 0x2E80 ) { // space or CJK characters
+            if( x <= width ) {
+                lastwb = j; // break after character
+            } else {
+                lastwb = old_j; // break before character
+            }
+        }
+
         if( x > width ) {
+            if( lastwb == lastout ) {
+                lastwb = old_j;
+            }
+            // old_j may equal to lastout, this checks it and ensures there's at least one character in the line.
             if( lastwb == lastout ) {
                 lastwb = j;
             }
@@ -1163,10 +1233,9 @@ std::string word_rewrap( const std::string &in, int width )
             o << '\n';
             x = 0;
             lastout = j = lastwb;
-        }
-
-        if( uc == ' ' || uc >= 0x2E80 ) {
-            lastwb = j;
+            just_wrapped = true;
+        } else {
+            just_wrapped = false;
         }
     }
     for( int k = lastout; k < ( int )in.size(); k++ ) {
@@ -1235,7 +1304,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
 }
 
 /**
- * Draw a scrollbar
+ * Draw a scrollbar (Legacy function, use class scrollbar instead!)
  * @param window Pointer of window to draw on
  * @param iCurrentLine The starting line or currently selected line out of the iNumLines lines
  * @param iContentHeight Height of the scrollbar
@@ -1251,38 +1320,116 @@ void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
                      const int iContentHeight, const int iNumLines, const int iOffsetY, const int iOffsetX,
                      nc_color bar_color, const bool bDoNotScrollToEnd )
 {
-    if( iContentHeight >= iNumLines ) {
-        //scrollbar is not required
-        bar_color = BORDER_COLOR;
-    }
+    scrollbar()
+    .offset_x( iOffsetX )
+    .offset_y( iOffsetY )
+    .content_size( iNumLines )
+    .viewport_pos( iCurrentLine )
+    .viewport_size( iContentHeight )
+    .slot_color( bar_color )
+    .scroll_to_last( !bDoNotScrollToEnd )
+    .apply( window );
+}
 
-    //Clear previous scrollbar
-    for( int i = iOffsetY; i < iOffsetY + iContentHeight; i++ ) {
-        mvwputch( window, i, iOffsetX, bar_color, LINE_XOXO );
-    }
+scrollbar::scrollbar()
+    : offset_x_v( 0 ), offset_y_v( 0 ), content_size_v( 0 ),
+      viewport_pos_v( 0 ), viewport_size_v( 0 ),
+      border_color_v( BORDER_COLOR ), arrow_color_v( c_light_green ),
+      slot_color_v( c_white ), bar_color_v( c_cyan_cyan ), scroll_to_last_v( false )
+{
+}
 
-    if( iContentHeight >= iNumLines ) {
-        return;
-    }
+scrollbar &scrollbar::offset_x( int offx )
+{
+    offset_x_v = offx;
+    return *this;
+}
 
-    if( iNumLines > 0 ) {
-        mvwputch( window, iOffsetY, iOffsetX, c_light_green, '^' );
-        mvwputch( window, iOffsetY + iContentHeight - 1, iOffsetX, c_light_green, 'v' );
+scrollbar &scrollbar::offset_y( int offy )
+{
+    offset_y_v = offy;
+    return *this;
+}
 
-        int iSBHeight = std::max( 2, ( ( iContentHeight - 2 ) * iContentHeight ) / iNumLines );
-        int iScrollableLines = bDoNotScrollToEnd ? iNumLines - iContentHeight + 1 : iNumLines;
+scrollbar &scrollbar::content_size( int csize )
+{
+    content_size_v = csize;
+    return *this;
+}
 
-        int iStartY;
-        if( iCurrentLine == 0 ) {
-            iStartY = -1;
-        } else if( iScrollableLines > 2 ) {
-            iStartY = ( ( iContentHeight - 3 - iSBHeight ) * ( iCurrentLine - 1 ) ) / ( iScrollableLines - 2 );
-        } else {
-            iStartY = iContentHeight - 3 - iSBHeight;
+scrollbar &scrollbar::viewport_pos( int vpos )
+{
+    viewport_pos_v = vpos;
+    return *this;
+}
+
+scrollbar &scrollbar::viewport_size( int vsize )
+{
+    viewport_size_v = vsize;
+    return *this;
+}
+
+scrollbar &scrollbar::border_color( nc_color border_c )
+{
+    border_color_v = border_c;
+    return *this;
+}
+
+scrollbar &scrollbar::arrow_color( nc_color arrow_c )
+{
+    arrow_color_v = arrow_c;
+    return *this;
+}
+
+scrollbar &scrollbar::slot_color( nc_color slot_c )
+{
+    slot_color_v = slot_c;
+    return *this;
+}
+
+scrollbar &scrollbar::bar_color( nc_color bar_c )
+{
+    bar_color_v = bar_c;
+    return *this;
+}
+
+scrollbar &scrollbar::scroll_to_last( bool scr2last )
+{
+    scroll_to_last_v = scr2last;
+    return *this;
+}
+
+void scrollbar::apply( const catacurses::window &window )
+{
+    if( viewport_size_v >= content_size_v || content_size_v <= 0 ) {
+        // scrollbar not needed, fill output area with borders
+        for( int i = offset_y_v; i < offset_y_v + viewport_size_v; ++i ) {
+            mvwputch( window, i, offset_x_v, border_color_v, LINE_XOXO );
         }
+    } else {
+        mvwputch( window, offset_y_v, offset_x_v, arrow_color_v, '^' );
+        mvwputch( window, offset_y_v + viewport_size_v - 1, offset_x_v, arrow_color_v, 'v' );
 
-        for( int i = 0; i < iSBHeight; i++ ) {
-            mvwputch( window, i + iOffsetY + 2 + iStartY, iOffsetX, c_cyan_cyan, LINE_XOXO );
+        int slot_size = viewport_size_v - 2;
+        int bar_size = std::max( 2, slot_size * viewport_size_v / content_size_v );
+        int scrollable_size = scroll_to_last_v ? content_size_v : content_size_v - viewport_size_v + 1;
+
+        int bar_start, bar_end;
+        if( viewport_pos_v == 0 ) {
+            bar_start = 0;
+        } else if( scrollable_size > 2 ) {
+            bar_start = ( slot_size - 1 - bar_size ) * ( viewport_pos_v - 1 ) / ( scrollable_size - 2 ) + 1;
+        } else {
+            bar_start = slot_size - bar_size;
+        }
+        bar_end = bar_start + bar_size;
+
+        for( int i = 0; i < slot_size; ++i ) {
+            if( i >= bar_start && i < bar_end ) {
+                mvwputch( window, offset_y_v + 1 + i, offset_x_v, bar_color_v, LINE_XOXO );
+            } else {
+                mvwputch( window, offset_y_v + 1 + i, offset_x_v, slot_color_v, LINE_XOXO );
+            }
         }
     }
 }
@@ -1383,7 +1530,6 @@ std::string rewrite_vsnprintf( const char *msg )
             rewritten_msg_optimised << msg;
             break;
         }
-
 
         // Write portion of the string that was before %
         rewritten_msg << std::string( msg, ptr );
@@ -1676,6 +1822,10 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int col_width = width / columns;
     int offset = 0;
 
+#ifdef __ANDROID__
+    // no bindings, but give it its own input context so stale buttons don't hang around.
+    input_context ctxt( "DISPLAY_TABLE" );
+#endif
     for( ;; ) {
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_white );
@@ -1702,9 +1852,9 @@ void display_table( const catacurses::window &w, const std::string &title, int c
 }
 
 scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const direction p_oDir,
-                                 const std::string p_sText, const game_message_type p_gmt,
-                                 const std::string p_sText2, const game_message_type p_gmt2,
-                                 const std::string p_sType )
+                                 const std::string &p_sText, const game_message_type p_gmt,
+                                 const std::string &p_sText2, const game_message_type p_gmt2,
+                                 const std::string &p_sType )
 {
     iPosX = p_iPosX;
     iPosY = p_iPosY;
@@ -1748,9 +1898,9 @@ scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const dir
 }
 
 void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p_oDir,
-                               const std::string p_sText, const game_message_type p_gmt,
-                               const std::string p_sText2, const game_message_type p_gmt2,
-                               const std::string p_sType )
+                               const std::string &p_sText, const game_message_type p_gmt,
+                               const std::string &p_sText2, const game_message_type p_gmt2,
+                               const std::string &p_sType )
 {
     if( get_option<bool>( "ANIMATION_SCT" ) ) {
 
@@ -1934,9 +2084,7 @@ void scrollingcombattext::removeCreatureHP()
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
 {
     static std::map<game_message_type, std::pair<nc_color, nc_color>> const colors {
-        {
-            m_good,     {c_light_green, c_green}
-        },
+        {m_good,     {c_light_green, c_green}},
         {m_bad,      {c_light_red,   c_red}},
         {m_mixed,    {c_pink,    c_magenta}},
         {m_warning,  {c_yellow,  c_brown}},

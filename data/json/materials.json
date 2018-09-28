@@ -34,7 +34,8 @@
     "repaired_with": "material_aluminium_ingot",
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "compacts_into": [ "material_aluminium_ingot" , "aluminum_foil" ]
   },
   {
     "type": "material",
@@ -96,7 +97,7 @@
   {
     "type": "material",
     "ident": "budget_steel",
-    "name": "budget steel",
+    "name": "Budget Steel",
     "density": 30,
     "bash_resist": 6,
     "cut_resist": 6,
@@ -174,7 +175,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_copper", 1 ] ]
+    "burn_products": [ [ "scrap_copper", 1 ] ],
+    "compacts_into": [ "scrap_copper" , "copper" ]
   },
   {
     "type": "material",
@@ -349,7 +351,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "gold_small", 1 ] ]
+    "burn_products": [ [ "gold_small", 1 ] ],
+    "compacts_into": [ "gold_small" ]
   },
   {
     "type": "material",
@@ -515,7 +518,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "lead", 1 ] ]
+    "burn_products": [ [ "lead", 1 ] ],
+    "compacts_into": [ "lead" ]
   },
   {
     "type": "material",
@@ -729,7 +733,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "silver_small", 1 ] ]
+    "burn_products": [ [ "silver_small", 1 ] ],
+    "compacts_into": [ "silver_small" ]
   },
   {
     "type": "material",
@@ -746,7 +751,9 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap", 1 ] ]
+    "burn_products": [ [ "scrap", 1 ] ],
+    "compact_accepts": [ "budget_steel", "hardsteel", "iron" ],
+    "compacts_into": [ "sheet_metal", "steel_lump", "steel_chunk", "scrap" ]
   },
   {
     "type": "material",
@@ -776,7 +783,8 @@
     "chip_resist": 20,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "compacts_into": [ "alloy_sheet" ]
   },
   {
     "type": "material",

@@ -1,19 +1,20 @@
 # This message may be 21 lines long at maximum, but ideally will be less.
 # Max length of a line is 72 characters; the following line is for reference
 ########################################################################
-Major features in v0.C Cooper:
-* Monster infighting.
-* Aiming system overhaul.
-* Enhanced turret controls.
-* Clothing modifications.
-* Lots of craftable pottery, explosives, metal goods, clothes and food.
-* New action menu for triggering items.
-* Improved layering and encumbrance system.
-* Huge performance improvements when dealing with many nearby items.
-* Backward compatability with 0.A and 0.B saves.
+                Visit us:
 
-For latest discussions and news on Cataclysm DDA, please visit:
-Homepage: https://cataclysmdda.org
-Wiki: http://tools.cataclysmdda.com/wiki
+* Homepage:    https://cataclysmdda.org
+* Wiki:        http://tools.cataclysmdda.com/wiki
 
-Ingame you can access the options via the main menu (Esc).
+* Report bugs, suggestion and follow the development at:
+    https://github.com/CleverRaven/Cataclysm-DDA/issues
+    or e-mail:   kevin.granade@gmail.com
+
+Join the discussion on forums and chats:
+* Discourse:                 https://discourse.cataclysmdda.org/
+* Reddit (unofficial):       https://www.reddit.com/r/cataclysmdda/
+* Discord (unofficial):      https://discord.gg/VDKWmwd
+
+Other useful links are also available at our Homepage.
+
+In game you can access the options via the main menu (Esc).

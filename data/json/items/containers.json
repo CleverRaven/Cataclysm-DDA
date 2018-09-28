@@ -395,6 +395,24 @@
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
+    "id": "thermos",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "thermos",
+    "name_plural": "thermoses",
+    "description": "A Thermos brand vacuum flask.  Built for temperature retention, helps keep things hot or cold.  Contains 1L of liquid.",
+    "weight": 530,
+    "price": 1595,
+    "volume": 5,
+    "contains": 4,
+    "material": "steel",
+    "symbol": "I",
+    "color": "green",
+    "seals": true,
+    "watertight": true,
+    "insulation": 10
+  },
+  {
     "id": "ceramic_bowl",
     "type": "CONTAINER",
     "name": "ceramic bowl",
@@ -944,5 +962,37 @@
     "color": "light_gray",
     "contains": 10,
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "styrofoam_cup",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "styrofoam cup",
+    "description": "A cheap disposable cup with a plastic lid and straw.",
+    "weight": 50,
+    "volume": 2,
+    "price": 0,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "contains": 2,
+    "seals": true,
+    "watertight": true
+  },
+  {
+    "id": "plastic_bucket",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "plastic tub",
+    "description": "A big, square plastic bucket usually used for carrying ice cream.",
+    "weight": 1360,
+    "volume": 16,
+    "price": 0,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "contains": 16,
+    "seals": true,
+    "watertight": true
   }
 ]

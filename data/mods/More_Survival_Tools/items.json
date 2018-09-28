@@ -16,7 +16,7 @@
     "sub": "hotplate",
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "hobo_stove_on",
@@ -71,7 +71,8 @@
       "type": "firestarter",
       "moves": 1000,
       "moves_slow": 5000
-    }
+    },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "tinderbox",
@@ -124,7 +125,8 @@
         "menu_text": "Extinguish",
         "type": "transform"
       }
-    ]
+    ],
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "bottle_metal",
@@ -435,7 +437,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "bottle_folding",
@@ -490,7 +492,8 @@
       "contains": 4,
       "watertight": true
     },
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": "HEAT_FOOD"
   },
   {
     "id": "pot_makeshift_copper",
@@ -510,7 +513,8 @@
       "contains": 4,
       "watertight": true
     },
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": "HEAT_FOOD"
   },
   {
     "id": "canteen_wood",
@@ -597,7 +601,7 @@
         "need_sunlight": true
       }
     ],
-    "flags": [ "THERMOMETER" ]
+    "flags": [ "FIRESTARTER", "THERMOMETER" ]
   },
   {
     "id": "crossbow_makeshift",

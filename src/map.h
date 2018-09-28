@@ -52,6 +52,7 @@ enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
+struct fragment_cloud;
 struct submap;
 class item_location;
 class map_cursor;
@@ -177,6 +178,7 @@ struct level_cache {
     bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     float seen_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    float camera_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
     lit_level visibility_cache[MAPSIZE * SEEX][MAPSIZE * SEEY];
 
     bool veh_in_active_range;
@@ -248,7 +250,6 @@ class map
         void set_pathfinding_cache_dirty( const int zlev );
         /*@}*/
 
-
         /**
          * Callback invoked when a vehicle has moved.
          */
@@ -264,8 +265,7 @@ class map
         visibility_type get_visibility( const lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( const catacurses::window &w, lit_level ll,
-                                   const visibility_variables &cache ) const;
+        bool apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const;
 
         /** Draw a visible part of the map into `w`.
          *
@@ -406,7 +406,6 @@ class map
          * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
          */
         double ranged_target_size( const tripoint &p ) const;
-
 
         // 3D Sees:
         /**
@@ -567,7 +566,7 @@ class map
         // Terrain integer id at coordinates (x, y); {x|y}=(0, SEE{X|Y}*3]
         ter_id ter( const int x, const int y ) const;
 
-        void ter_set( const int x, const int y, const ter_id new_terrain );
+        bool ter_set( const int x, const int y, const ter_id new_terrain );
 
         std::string tername( const int x, const int y ) const; // Name of terrain at (x, y)
         // Terrain: 3D
@@ -582,7 +581,7 @@ class map
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
-        void ter_set( const tripoint &p, const ter_id new_terrain );
+        bool ter_set( const tripoint &p, const ter_id new_terrain );
 
         std::string tername( const tripoint &p ) const;
 
@@ -745,10 +744,11 @@ class map
 
         void add_corpse( const tripoint &p );
 
-
         // Terrain changing functions
         void translate( const ter_id from, const ter_id to ); // Change all instances of $from->$to
-        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p );
+        // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
+        void translate_radius( const ter_id from, const ter_id to, const float radi, const tripoint &p,
+                               const bool same_submap = false );
         bool close_door( const tripoint &p, const bool inside, const bool check_only );
         bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
         // Destruction
@@ -893,6 +893,11 @@ class map
         void make_active( item_location &loc );
 
         /**
+         * Update luminosity before and after item's transformation
+         */
+        void update_lum( item_location &loc, bool add );
+
+        /**
          * @name Consume items on the map
          *
          * The functions here consume accessible items / item charges on the map or in vehicles
@@ -947,7 +952,8 @@ class map
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
-        void create_anomaly( const tripoint &p, artifact_natural_property prop );
+
+        void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
 
         /**
          * Fetch an item from this map location, with sanity checks to ensure it still exists.
@@ -1160,6 +1166,9 @@ class map
 
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
+        // Unlike the other caches, this populates a supplied cache instead of an internal cache.
+        void build_obstacle_cache( const tripoint &start, const tripoint &end,
+                                   fragment_cloud( &obstacle_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                               const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -1434,6 +1443,8 @@ class map
                            bool invert, bool show_items,
                            const tripoint &view_center,
                            bool low_light, bool bright_light, bool inorder ) const;
+        void draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                       const tripoint &view_center ) const;
         /**
          * Draws the tile as seen from above.
          */
@@ -1470,17 +1481,27 @@ class map
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air );
 
+    public:
+        /**
+         * Processor function pointer used in process_items and brethren.
+         *
+         * Note, typedefs should be discouraged because they tend to obfuscate
+         * code, but due to complexity, a template type makes it worse here.
+         * It's a really heinous function pointer so a typedef is the best
+         * solution in this instance.
+         */
+        typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
+                                            const std::string &, int, float );
+    private:
+
         // Iterates over every item on the map, passing each item to the provided function.
-        template<typename T>
-        void process_items( bool active, T processor, std::string const &signal );
-        template<typename T>
+        void process_items( bool active, map_process_func processor, std::string const &signal );
         void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      T processor, std::string const &signal );
-        template<typename T>
-        void process_items_in_vehicles( submap &current_submap, T processor, std::string const &signal );
-        template<typename T>
-        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap,
-                                       T processor, std::string const &signal );
+                                      map::map_process_func processor, std::string const &signal );
+        void process_items_in_vehicles( submap &current_submap, const int gridz,
+                                        map_process_func processor, std::string const &signal );
+        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
+                                       map::map_process_func processor, std::string const &signal );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {

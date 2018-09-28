@@ -184,7 +184,7 @@ void draw_HP( const player &p, const catacurses::window &w_HP )
             wprintz( w_HP, hp.second, hp.first );
 
             //Add the trailing symbols for a not-quite-full health bar
-            print_symbol_num( w_HP, 5 - ( int )hp.first.size(), ".", c_white );
+            print_symbol_num( w_HP, 5 - static_cast<int>( hp.first.size() ), ".", c_white );
         }
     }
 
@@ -300,12 +300,14 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     // Print currently used style or weapon mode.
     std::string style;
     const auto &cur_style = style_selected.obj();
-    if( cur_style.force_unarmed || cur_style.weapon_valid( weapon ) ) {
-        style = _( cur_style.name.c_str() );
-    } else if( is_armed() ) {
-        style = _( "Normal" );
-    } else {
-        style = _( "No Style" );
+    if( !weapon.is_gun() ) {
+        if( cur_style.force_unarmed || cur_style.weapon_valid( weapon ) ) {
+            style = _( cur_style.name.c_str() );
+        } else if( is_armed() ) {
+            style = _( "Normal" );
+        } else {
+            style = _( "No Style" );
+        }
     }
 
     if( !style.empty() ) {
@@ -315,11 +317,11 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     }
 
     wmove( w, sideStyle ? 1 : 2, 0 );
-    if( get_hunger() > 2800 ) {
+    if( get_hunger() >= 300 && get_starvation() > 2500 ) {
         wprintz( w, c_red,    _( "Starving!" ) );
-    } else if( get_hunger() > 1400 ) {
+    } else if( get_hunger() >= 300 && get_starvation() > 1100 ) {
         wprintz( w, c_light_red,  _( "Near starving" ) );
-    } else if( get_hunger() > 300 ) {
+    } else if( get_hunger() > 250 ) {
         wprintz( w, c_light_red,  _( "Famished" ) );
     } else if( get_hunger() > 100 ) {
         wprintz( w, c_yellow, _( "Very hungry" ) );
@@ -440,8 +442,11 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
     } else if( get_perceived_pain() >= 40 ) {
         col_pain = c_light_red;
     }
-    if( get_perceived_pain() > 0 ) {
+
+    if( has_trait( trait_SELFAWARE ) && get_perceived_pain() > 0 ) {
         mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), get_perceived_pain() );
+    } else if( get_perceived_pain() > 0 ) {
+        mvwprintz( w, sideStyle ? 0 : 2, 0, col_pain, get_pain_description() );
     }
 
     const int morale_cur = get_morale_level();
@@ -461,7 +466,7 @@ void player::disp_status( const catacurses::window &w, const catacurses::window 
         fc = face_bird;
     }
 
-    mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale,
+    mvwprintz( w, sideStyle ? 1 : 3, sideStyle ? 14 : 9, col_morale,
                morale_emotion( morale_cur, fc, get_option<std::string>( "MORALE_STYLE" ) == "horizontal" ) );
 
     vehicle *veh = g->remoteveh();

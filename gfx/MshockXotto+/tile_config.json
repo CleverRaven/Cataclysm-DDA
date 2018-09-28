@@ -17704,7 +17704,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_o",
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o" ],
           "fg": 3037,
           "bg": 987,
           "rotates": false
@@ -19093,6 +19093,12 @@
           "id": "t_reb_cage",
           "fg": 3180,
           "bg": 993
+        },
+        {
+          "id": "t_thconc_floor_olight",
+          "fg": 134,
+          "bg": 993,
+          "rotates": false
         },
         {
           "id": "t_thconc_floor",
@@ -31819,7 +31825,7 @@
           "rotates": false
         },
         {
-          "id": "t_door_glass_c",
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c" ],
           "fg": 3036,
           "rotates": false
         },

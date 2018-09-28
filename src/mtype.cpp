@@ -202,15 +202,15 @@ int mtype::get_meat_chunks_count() const
 {
     switch( size ) {
         case MS_TINY:
-            return 1;
-        case MS_SMALL:
             return 2;
+        case MS_SMALL:
+            return 64;
         case MS_MEDIUM:
-            return 4;
+            return 128;
         case MS_LARGE:
-            return 8;
+            return 192;
         case MS_HUGE:
-            return 16;
+            return 320;
     }
     return 0;
 }

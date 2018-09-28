@@ -91,7 +91,7 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
     return mod_list_cat_tab;
 }
 
-void mod_manager::load_replacement_mods( const std::string path )
+void mod_manager::load_replacement_mods( const std::string &path )
 {
     read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
         jsin.start_array();
@@ -263,7 +263,8 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
 
-    if( modfile.dependencies.count( modfile.ident ) ) {
+    if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
+                   modfile.ident ) != modfile.dependencies.end() ) {
         jo.throw_error( "mod specifies self as a dependency", "dependencies" );
     }
 

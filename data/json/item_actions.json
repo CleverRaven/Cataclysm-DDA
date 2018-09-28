@@ -54,7 +54,7 @@
     },{
         "type" : "item_action",
         "id" : "HOTPLATE",
-        "name" : "Heat up food"
+        "name" : "Heat up food (with it)"
     },{
         "type" : "item_action",
         "id" : "MISC_REPAIR",
@@ -381,10 +381,6 @@
         "name" : "Take"
     },{
         "type" : "item_action",
-        "id" : "FUN_HALLU",
-        "name" : "Eat"
-    },{
-        "type" : "item_action",
         "id" : "GRANADE",
         "name" : "Activate"
     },{
@@ -410,7 +406,7 @@
     },{
         "type" : "item_action",
         "id" : "HEAT_FOOD",
-        "name" : "Heat up food"
+        "name" : "Heat up food (in it)"
     },{
         "type" : "item_action",
         "id" : "HONEYCOMB",
@@ -558,6 +554,10 @@
     },{
         "type" : "item_action",
         "id" : "PURIFY_IV",
+        "name" : "Inject"
+    },{
+        "type" : "item_action",
+        "id" : "PURIFY_SMART",
         "name" : "Inject"
     },{
         "type" : "item_action",
@@ -803,5 +803,15 @@
         "type" : "item_action",
         "id" : "DISASSEMBLE",
         "name" : "Get content"
+    },
+    {
+        "type" : "item_action",
+        "id" : "STRONG_ANTIBIOTIC",
+        "name" : "Take"
+    },
+    {
+        "type" : "item_action",
+        "id" : "PANACEA",
+        "name" : "Take"
     }
 ]

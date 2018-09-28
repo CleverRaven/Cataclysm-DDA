@@ -9,6 +9,7 @@
   * [Cross-compiling to linux 32-bit from linux 64-bit](#cross-compiling-to-linux-32-bit-from-linux-64-bit)
   * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
   * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
+  * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
 * [Mac OS X](#mac-os-x)
   * [Simple build using Homebrew](#simple-build-using-homebrew)
   * [Advanced info for Developers](#advanced-info-for-developers)
@@ -282,37 +283,123 @@ To build full curses version with localizations and lua enabled:
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
 
+## Cross-compile to Android from Linux
+
+The Android build uses [Gradle](https://gradle.org/) to compile the java and native C++ code, and is based heavily off SDL's [Android project template](https://hg.libsdl.org/SDL/file/f1084c419f33/android-project). See the official SDL documentation [README-android.md](https://hg.libsdl.org/SDL/file/f1084c419f33/docs/README-android.md) for further information.
+
+The Gradle project lives in the repository under `android/`. You can build it via the command line or open it in [Android Studio](https://developer.android.com/studio/). For simplicity, it only builds the SDL version with all features enabled, including tiles, sound, localization and lua.
+
+### Dependencies
+
+  * Java JDK 8
+  * SDL2 (tested with 2.0.8, though a custom fork is recommended with project-specific bugfixes)
+  * SDL2_ttf (tested with 2.0.14)
+  * SDL2_mixer (tested with 2.0.2)
+  * SDL2_image (tested with 2.0.3)
+  * libintl-lite (tested with a custom fork of libintl-lite 0.5)
+  * lua (tested with lua 5.1.5)
+  
+Some dependencies need their entire source code copied under the Android project folder so they can be built for Android - see below.
+
+### Setup
+
+Install Linux dependencies. For a desktop Ubuntu installation:
+
+    sudo apt-get install lua5.2 openjdk-8-jdk-headless
+
+Install Android SDK and NDK:
+
+    wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+    unzip sdk-tools-linux-4333796.zip -d ~/android-sdk
+    rm sdk-tools-linux-4333796.zip
+    ~/android-sdk/tools/bin/sdkmanager --update
+    ~/android-sdk/tools/bin/sdkmanager "tools" "platform-tools" "ndk-bundle"
+    ~/android-sdk/tools/bin/sdkmanager --licenses
+
+Export Android environment variables (you can add these to the end of `~/.bashrc`):
+
+    export ANDROID_SDK_ROOT=~/android-sdk
+    export ANDROID_HOME=~/android-sdk
+    export ANDROID_NDK_ROOT=~/android-sdk/ndk-bundle
+    export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+    export PATH=$PATH:$ANDROID_SDK_ROOT/tools
+    export PATH=$PATH:$ANDROID_NDK_ROOT
+
+Install custom Android dependencies. Change directory to `Cataclysm-DDA` (the root folder of this repository) and run:
+
+    git clone https://github.com/a1studmuffin/SDL2 ./android/app/jni/SDL2
+    git clone https://github.com/a1studmuffin/lua ./android/app/jni/lua
+    git clone https://github.com/a1studmuffin/libintl-lite ./android/app/jni/libintl-lite
+
+Install other Android dependencies SDL2_ttf, SDL2_mixer and SDL2_image. You may download the release ZIPs from from https://hg.libsdl.org/ and install them manually under `./android/app/jni/SDL2_xxx`, or clone latest dev with hg:
+
+    hg clone http://hg.libsdl.org/SDL_ttf ./android/app/jni/SDL2_ttf
+    hg clone http://hg.libsdl.org/SDL_mixer ./android/app/jni/SDL2_mixer
+    hg clone http://hg.libsdl.org/SDL_image ./android/app/jni/SDL2_image
+
+Manually generate version and lua bindings:
+
+    make version
+    cd src/lua && lua generate_bindings.lua
+
+### Android device setup
+
+Enable [Developer options on your Android device](https://developer.android.com/studio/debug/dev-options). Connect your device to your PC via USB cable and run:
+
+    adb devices
+    adb connect <devicename>
+
+### Building
+
+To build an APK, use the Gradle wrapper command line tool (gradlew). The Android Studio documentation provides a good summary of how to [build your app from the command line](https://developer.android.com/studio/build/building-cmdline).
+
+To build a debug APK, from the `android/` subfolder of the repository run:
+
+    ./gradlew assembleDebug
+
+This creates a debug APK in `./android/app/build/outputs/apk/` ready to be installed on your device.
+
+To build a debug APK and immediately deploy to your connected device over adb run:
+
+    ./gradlew installDebug
+
+To build a signed release APK (ie. one that can be installed on a device), [build an unsigned release APK and sign it manually](https://developer.android.com/studio/publish/app-signing#signing-manually).
+
+### Additional notes
+
+The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
+
 # Mac OS X
 
-To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the Cataclysm forumla on Homebrew Games.
+To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [Cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
 
 ## Simple build using Homebrew
 
+Homebrew installation will come with tiles, sound and lua suooprt enabled by default.
+
 Once you have Homebrew installed, open Terminal and run one of the following commands.
-
-For a curses build:
-
-    brew install cataclysm
 
 For a tiles build:
 
-    brew install cataclysm --with-tiles
-
-For an experimental curses build:
-
-    brew install cataclysm --HEAD
+    brew install cataclysm
 
 For an experimental tiles build:
 
-    brew install cataclysm --with-tiles --HEAD
+    brew install cataclysm --HEAD
 
 Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
 
 To launch Cataclysm, just open Terminal and run `cataclysm`.
 
-To update an experimental build, you must uninstall Cataclysm, then reinstall using one of the above commands. If you want to keep your saved games, be sure to backup the folder `/usr/local/Cellar/cataclysm/HEAD/libexec/save` first, then uninstall Cataclysm using the command:
+To update an experimental build, you must uninstall Cataclysm, then reinstall using one of the above commands. Reinstall Cataclysm using the one of the following commands.
 
-    brew rm cataclysm
+For a tiles build:
+
+    brew reinstall cataclysm
+
+For an experimental tiles build:
+
+    brew reinstall cataclysm --HEAD
 
 ## Advanced info for Developers
 
@@ -375,22 +462,22 @@ For MacPorts:
     hash -r
 
 ### gcc
-    
+
 The version of gcc/g++ installed with the [Command Line Tools for Xcode](https://developer.apple.com/downloads/) is actually just a front end for the same Apple LLVM as clang.  This doesn't necessarily cause issues, but this version of gcc/g++ will have clang error messages and essentially produce the same results as if using clang. To compile with the "real" gcc/g++, install it with homebrew:
 
     brew install gcc
-    
+
 However, homebrew installs gcc as gcc-6 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-6` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
-    
+
     cd /usr/local/bin
     ln -s gcc-6 gcc
     ln -s g++-6 g++
     ln -s c++-6 c++
-    
-Or, to do this for everything in `/usr/local/bin/` ending with `-6`, 
+
+Or, to do this for everything in `/usr/local/bin/` ending with `-6`,
 
     find /usr/local/bin -name "*-6" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
-    
+
 Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else this will not work.
 
 Check that `gcc -v` shows the homebrew version you installed.
@@ -498,7 +585,7 @@ Extract the 'WinDepend' folder and put it in the root folder of Cataclysm projec
 
 ### Lua
 
-The next thing you need to do is to install lua. Download the appropriate x86 or x64 lua from [http://lua-users.org/wiki/LuaBinaries](http://lua-users.org/wiki/LuaBinaries), and extract it to `C:\Windows\System32` or somewhere else on your path.
+The next thing you need to do is to install lua. Download the appropriate x86 or x64 lua from [http://lua-users.org/wiki/LuaBinaries](http://lua-users.org/wiki/LuaBinaries) or [http://dev.narc.ro/cataclysm/WinDepend-lua.zip](http://dev.narc.ro/cataclysm/WinDepend-lua.zip), and extract it to `C:\Windows\System32` or somewhere else on your path.
 
 Once you have it installed, go to the project directory, then go to `src/lua`, and run `lua53 generate_bindings.lua catabindings.cpp`. This will generate the `catabindings.cpp` file which is necessary for compilation.
 
@@ -532,8 +619,8 @@ If we want to compile with localization, we will need gettext and libintl. In "A
 If we want to compile with Tiles (SDL) we have to download a few libraries.
 * `SDL2` http://www.libsdl.org/download-2.0.php chose `SDL2-devel-2.0.X-mingw.tar.gz`.
 * `SDL_ttf` https://www.libsdl.org/projects/SDL_ttf/ chose `SDL2_ttf-devel-2.0.12-mingw.tar.gz`.
-* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz` 
-* `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`  
+* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz`
+* `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`
 
 #### Bundled Libraries
 The following archives were pre-bundled for convienience and reduction of head-aches, simply download and extract directly to the root directory of the CDDA source:
@@ -545,8 +632,8 @@ For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the incl
 For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
 
 #### ISSUE - "winapifamily.h" no such file or directoyr
-There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced. 
-https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h 
+There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced.
+https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h
 Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
 
 ### Makefile changes

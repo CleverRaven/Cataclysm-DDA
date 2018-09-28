@@ -17,6 +17,8 @@
 #include "trap.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "vpart_position.h"
+#include "veh_type.h"
 
 namespace MapExtras
 {
@@ -39,8 +41,12 @@ static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
+static const mtype_id mon_shia( "mon_shia" );
+static const mtype_id mon_spider_web( "mon_spider_web" );
+static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
 void mx_null( map &, const tripoint & )
 {
@@ -49,41 +55,163 @@ void mx_null( map &, const tripoint & )
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    int cx = rng( 4, SEEX * 2 - 5 ), cy = rng( 4, SEEY * 2 - 5 );
+    int cx = rng( 6, SEEX * 2 - 7 );
+    int cy = rng( 6, SEEY * 2 - 7 );
+
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            if( x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4 ) {
-                if( !one_in( 5 ) ) {
-                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
-                } else if( m.is_bashable( x, y ) ) {
-                    m.destroy( tripoint( x,  y, abs_sub.z ), true );
+            if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
+                m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+            } else {
+                if( x >= cx - dice( 1, 5 ) && x <= cx + dice( 1, 5 ) && y >= cy - dice( 1, 5 ) &&
+                    y <= cy + dice( 1, 5 ) ) {
+                    if( one_in( 7 ) && m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                        m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                    }
                 }
-            } else if( one_in( 10 ) ) { // 1 in 10 chance of being wreckage anyway
-                m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                if( x >= cx - dice( 1, 6 ) && x <= cx + dice( 1, 6 ) && y >= cy - dice( 1, 6 ) &&
+                    y <= cy + dice( 1, 6 ) ) {
+                    if( !one_in( 5 ) ) {
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    } else if( m.is_bashable( x, y ) ) {
+                        m.destroy( tripoint( x,  y, abs_sub.z ), true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    }
+
+                } else if( one_in( 4 + ( abs( x - cx ) + ( abs( y -
+                                         cy ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    if( !one_in( 3 ) ) {
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    }
+                }
             }
         }
     }
 
-    m.spawn_item( rng( 5, 18 ), rng( 5, 18 ), "black_box" );
-    m.place_items( "helicopter", 90, cx - 4, cy - 4, cx + 4, cy + 4, true, 0 );
-    m.place_items( "helicopter", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
-    items_location extra_items = "helicopter";
-    switch( rng( 1, 4 ) ) {
-        case 1:
-            extra_items = "military";
-            break;
-        case 2:
-            extra_items = "science";
-            break;
-        case 3:
-            extra_items = "guns_milspec";
-            break;
-        case 4:
-            extra_items = "bionics";
-            break;
+    int dir1 = rng( 0, 359 );
+
+    auto crashed_hull = vgroup_id( "crashed_helicopters" )->pick();
+
+    // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
+    auto veh = std::unique_ptr<vehicle>( new vehicle( crashed_hull, rng( 1, 33 ), 1 ) );
+
+    veh->turn( dir1 );
+
+    bounding_box bbox = veh->get_bounding_box();     // Get the bounding box, centered on mount(0,0)
+    int x_length = std::abs( bbox.p2.x -
+                             bbox.p1.x );  // Move the wreckage forward/backward half it's length so
+    int y_length = std::abs( bbox.p2.y -   // that it spawns more over the center of the debris area
+                             bbox.p1.y );
+
+    int x_offset = veh->dir_vec().x * ( x_length / 2 );   // cont.
+    int y_offset = veh->dir_vec().y * ( y_length / 2 );
+
+    int x_min = abs( bbox.p1.x ) + 0;
+    int y_min = abs( bbox.p1.y ) + 0;
+
+    int x_max = ( SEEX * 2 ) - ( bbox.p2.x + 1 );
+    int y_max = ( SEEX * 2 ) - ( bbox.p2.y + 1 );
+
+    int x1 = clamp( cx + x_offset, x_min,
+                    x_max ); // Clamp x1 & y1 such that no parts of the vehicle extend
+    int y1 = clamp( cy + y_offset, y_min, y_max ); // over the border of the submap.
+
+    vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
+                                       1 );
+
+    if( wreckage != nullptr ) {
+        const int clowncar_factor = dice( 1, 8 );
+
+        switch( clowncar_factor ) {
+            case 1:
+            case 2:
+            case 3: // Full clown car
+                for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
+                    const auto pos = wreckage->global_part_pos3( *p );
+                    // Spawn pilots in seats with controls.CTRL_ELECTRONIC
+                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0 ||
+                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                    } else {
+                        if( one_in( 5 ) ) {
+                            m.add_spawn( mon_zombie_bio_op, 1, pos.x, pos.y );
+                        } else if( one_in( 5 ) ) {
+                            m.add_spawn( mon_zombie_scientist, 1, pos.x, pos.y );
+                        } else {
+                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                        }
+                    }
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 4:
+            case 5: // 2/3rds clown car
+                for( auto p : wreckage->get_parts( VPFLAG_SEATBELT, false, true ) ) {
+                    auto pos = wreckage->global_part_pos3( *p );
+                    // Spawn pilots in seats with controls.
+                    if( wreckage->get_parts( pos, "CONTROLS", false, true ).size() > 0  ||
+                        wreckage->get_parts( pos, "CTRL_ELECTRONIC", false, true ).size() > 0 ) {
+                        m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+                    } else {
+                        if( !one_in( 3 ) ) {
+                            m.add_spawn( mon_zombie_soldier, 1, pos.x, pos.y );
+                        }
+                    }
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 6: // Just pilots
+                for( auto p : wreckage->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                    auto pos = wreckage->global_part_pos3( *p );
+                    m.add_spawn( mon_zombie_military_pilot, 1, pos.x, pos.y );
+
+                    // Delete the items that would have spawned here from a "corpse"
+                    for( auto sp : wreckage->parts_at_relative( p->mount.x, p->mount.y ) ) {
+                        vehicle_stack here = wreckage->get_items( sp );
+
+                        for( auto iter = here.begin(); iter != here.end(); ) {
+                            iter = here.erase( iter );
+                        }
+                    }
+                }
+                break;
+            case 7: // Empty clown car
+            case 8:
+                break;
+            default:
+                break;
+        }
+        if( !one_in( 4 ) ) {
+            wreckage->smash( 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        } else {
+            wreckage->smash( 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+        }
     }
-    m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f ); //0.1 = 1-5
-    m.place_items( extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0, 100, 20 );
 }
 
 void mx_military( map &m, const tripoint & )
@@ -548,6 +676,140 @@ void mx_anomaly( map &m, const tripoint &abs_sub )
     m.spawn_natural_artifact( center, prop );
 }
 
+void mx_shia( map &m, const tripoint & )
+{
+    // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
+    // and moved into a map extra, but it still has a one_in chance of spawning because
+    // otherwise the extreme rarity of this event wildly skewed the values for all of the
+    // other extras.
+    if( one_in( 5000 ) ) {
+        m.add_spawn( mon_shia, 1, SEEX, SEEY );
+    }
+}
+
+void mx_spider( map &m, const tripoint &abs_sub )
+{
+    // This was extracted from the hardcoded forest mapgen and slightly altered so
+    // that it used flags rather than specific terrain types in determining where to
+    // place webs.
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEX * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+
+            bool should_web_flat = m.has_flag_ter( "FLAT", location ) && !one_in( 3 );
+            bool should_web_shrub = m.has_flag_ter( "SHRUB", location ) && !one_in( 4 );
+            bool should_web_tree = m.has_flag_ter( "TREE", location ) && !one_in( 4 );
+
+            if( should_web_flat || should_web_shrub || should_web_tree ) {
+                m.add_field( location, fd_web, rng( 1, 3 ), 0 );
+            }
+        }
+    }
+
+    m.ter_set( 12, 12, t_dirt );
+    m.furn_set( 12, 12, f_egg_sackws );
+    m.remove_field( { 12, 12, m.get_abs_sub().z }, fd_web );
+    m.add_spawn( mon_spider_web, rng( 1, 2 ), SEEX, SEEY );
+}
+
+void mx_jabberwock( map &m, const tripoint & )
+{
+    // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
+    // and moved into a map extra. It still has a one_in chance of spawning because otherwise
+    // the rarity skewed the values for all the other extras too much. I considered moving it
+    // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
+    // not easily replicated there.
+    if( one_in( 50 ) ) {
+        m.add_spawn( mon_jabberwock, 1, SEEX, SEEY );
+    }
+}
+
+void mx_grove( map &m, const tripoint &abs_sub )
+{
+    // From wikipedia - The main meaning of "grove" is a group of trees that grow close together,
+    // generally without many bushes or other plants underneath.
+
+    // This map extra finds the first tree in the area, and then converts all trees, young trees,
+    // and shrubs in the area into that type of tree.
+
+    ter_id tree;
+    bool found_tree = false;
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEX * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "TREE", location ) ) {
+                tree = m.ter( location );
+                found_tree = true;
+            }
+        }
+    }
+
+    if( !found_tree ) {
+        return;
+    }
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEX * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
+                m.has_flag_ter( "YOUNG", location ) ) {
+                m.ter_set( location, tree );
+            }
+        }
+    }
+}
+
+void mx_shrubbery( map &m, const tripoint &abs_sub )
+{
+    // This map extra finds the first shrub in the area, and then converts all trees, young trees,
+    // and shrubs in the area into that type of shrub.
+
+    ter_id shrubbery;
+    bool found_shrubbery = false;
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEX * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "SHRUB", location ) ) {
+                shrubbery = m.ter( location );
+                found_shrubbery = true;
+            }
+        }
+    }
+
+    if( !found_shrubbery ) {
+        return;
+    }
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEX * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "SHRUB", location ) || m.has_flag_ter( "TREE", location ) ||
+                m.has_flag_ter( "YOUNG", location ) ) {
+                m.ter_set( location, shrubbery );
+            }
+        }
+    }
+}
+
+void mx_clearcut( map &m, const tripoint &abs_sub )
+{
+    // From wikipedia - Clearcutting, clearfelling or clearcut logging is a forestry/logging
+    // practice in which most or all trees in an area are uniformly cut down.
+
+    // This map extra converts all trees and young trees in the area to stumps.
+
+    ter_id stump( "t_stump" );
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEX * 2; j++ ) {
+            const tripoint location( i, j, abs_sub.z );
+            if( m.has_flag_ter( "TREE", location ) || m.has_flag_ter( "YOUNG", location ) ) {
+                m.ter_set( location, stump );
+            }
+        }
+    }
+}
+
 typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
@@ -563,7 +825,13 @@ FunctionMap builtin_functions = {
     { "mx_crater", mx_crater },
     { "mx_fumarole", mx_fumarole },
     { "mx_portal_in", mx_portal_in },
-    { "mx_anomaly", mx_anomaly }
+    { "mx_anomaly", mx_anomaly },
+    { "mx_shia", mx_shia },
+    { "mx_spider", mx_spider },
+    { "mx_jabberwock", mx_jabberwock },
+    { "mx_grove", mx_grove },
+    { "mx_shrubbery", mx_shrubbery },
+    { "mx_clearcut", mx_clearcut },
 };
 
 map_special_pointer get_function( const std::string &name )

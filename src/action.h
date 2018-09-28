@@ -54,8 +54,10 @@ enum action_id : int {
     ACTION_TOGGLE_MOVE,
     /**@}*/
 
-    // Viewport movement actions
+    // Viewport movement actions and related
     /**@{*/
+    /** Toggle memorized tiles being shown */
+    ACTION_TOGGLE_MAP_MEMORY,
     /** Center the viewport on character */
     ACTION_CENTER,
     /** Move viewport north */
@@ -102,6 +104,8 @@ enum action_id : int {
     ACTION_LIST_ITEMS,
     /** Open the zone manager */
     ACTION_ZONES,
+    /** Sort out the loot */
+    ACTION_LOOT,
     /**@}*/
 
     // Inventory Interaction (including quasi-inventories like bionics)

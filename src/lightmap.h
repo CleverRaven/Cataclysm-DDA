@@ -23,13 +23,13 @@
 
 #define LIGHT_RANGE(b) static_cast<int>( -log(LIGHT_AMBIENT_LOW / (float)b) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
 
-
 enum lit_level {
     LL_DARK = 0,
     LL_LOW, // Hard to see
     LL_BRIGHT_ONLY, // bright but indistinct
     LL_LIT,
     LL_BRIGHT, // Probably only for light sources
+    LL_MEMORIZED, // Not a light level but behaves similarly
     LL_BLANK // blank space, not an actual light level
 };
 

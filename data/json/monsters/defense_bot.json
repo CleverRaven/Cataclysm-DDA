@@ -37,7 +37,7 @@
       ]
     },
     "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ]
   },
   {
     "id": "mon_turret",
@@ -69,8 +69,7 @@
           [ 0, 6, "AUTO" ],
           [ 7, 12, "DEFAULT" ]
         ]
-      }
-    ],
+      }, [ "PARROT", 40 ] ],
     "death_drops": {
       "groups": [
         [ "robots", 10 ],

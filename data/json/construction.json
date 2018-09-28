@@ -889,6 +889,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 180,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -905,6 +906,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 180,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -937,6 +939,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -953,6 +956,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -1008,6 +1012,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 120,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
         ] ],
@@ -1041,6 +1046,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -1056,6 +1062,7 @@
         "category" : "CONSTRUCT",
         "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
+        "tools": [ [ [ "con_mix", 50 ] ] ],
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
         ] ],
@@ -1137,7 +1144,7 @@
         ],
         "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
-        "post_terrain" : "t_floor"
+        "post_terrain" : "t_floor_primitive"
     },{
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
@@ -1464,6 +1471,16 @@
         "pre_special" : "check_empty",
         "post_terrain" : "f_rack"
     },{
+        "type": "construction",
+        "description": "Build Coat Rack",
+        "category": "FURN",
+        "required_skills": [ [ "fabrication", 2 ] ],
+        "time": 25,
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
+        "pre_special": "check_empty",
+        "post_terrain": "f_rack_coat"
+    },{
         "type" : "construction",
         "description" : "Build Cupboard",
         "category" : "FURN",
@@ -1523,6 +1540,16 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_chair"
+    },{
+        "type": "construction",
+        "description": "Build Stool",
+        "category": "FURN",
+        "required_skills": [ [ "fabrication", 2 ] ],
+        "time": 25,
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+        "pre_special": "check_empty",
+        "post_terrain": "f_stool"
     },{
         "type" : "construction",
         "description" : "Build Bench",
@@ -1696,7 +1723,7 @@
         "components" : [
             [ [ "2x4", 14 ] ],
             [ [ "nail", 12 ] ],
-            [ [ "scrap", 6 ], [ "sheet_metal", 2 ] ],
+            [ [ "sheet_metal_small", 12 ] ],
             [ [ "water_faucet", 1 ] ]
         ],
         "pre_special" : "check_empty",
@@ -1708,17 +1735,14 @@
         "required_skills" : [ [ "fabrication", 2 ], [ "cooking", 2 ] ],
         "time" : 120,
         "qualities": [
-            [
-            { "id": "HAMMER", "level": 2 }
-            ],
-            [
-            { "id": "SAW_W", "level": 1 }
-            ]
+            [ { "id": "HAMMER", "level": 2 } ],
+            [ { "id": "SAW_M", "level": 2 } ],
+            [ { "id": "SAW_W", "level": 1 } ]
             ],
         "components" : [
             [ [ "2x4", 18 ] ],
             [ [ "nail", 14 ] ],
-            [ [ "scrap", 8 ], [ "sheet_metal", 3 ] ],
+            [ [ "sheet_metal", 1 ] ],
             [ [ "water_faucet", 1 ] ]
         ],
         "pre_special" : "check_empty",
@@ -2096,12 +2120,79 @@
         "post_terrain" : "t_dock"
     },{
         "type" : "construction",
-        "description" : "Cut Down Grass",
+        "description" : "Cut Grass",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 6,
-        "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_long",
+        "post_terrain" : "t_grass",
+        "tools": [
+        [ [ "scythe", -1 ], [ "sickle", -1 ] ]
+        ]
+    },{
+        "type" : "construction",
+        "description" : "Cut Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "pre_terrain" : "t_grass_tall",
+        "post_terrain" : "t_grass",
+        "tools": [
+        [ [ "scythe", -1 ], [ "sickle", -1 ] ]
+        ]
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_long",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_tall",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_dead",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_golf",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Remove Grass",
+        "category" : "OTHER",
+        "required_skills" : [ [ "survival", 0 ] ],
+        "time" : 6,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_grass_white",
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
@@ -2297,5 +2388,23 @@
         "time" : 0,
         "pre_special" : "check_no_trap",
         "post_special" : "done_mark_firewood"
+    },{
+        "type" : "construction",
+        "description" : "Build Butchering Rack",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 1 ], [ "survival", 3 ] ],
+        "time" : 45,
+        "qualities": [
+            [ { "id": "CUT", "level": 1 } ],
+            [ { "id": "SAW_W", "level": 1 } ]
+        ],
+        "components" : [
+            [ [ "stick_long", 6 ] ],
+            [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
+            [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
+        ],
+        "pre_note" : "Can be deconstructed without tools.",
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_butcher_rack"
     }
 ]

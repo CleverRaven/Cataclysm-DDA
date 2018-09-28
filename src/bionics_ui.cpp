@@ -49,7 +49,6 @@ char get_free_invlet( player &p )
     for( auto &inv_char : bionic_chars ) {
         if( p.bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
-            break;
         }
     }
     return ' ';
@@ -83,19 +82,17 @@ std::string build_bionic_poweronly_string( bionic const &bio )
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
 
-    if( bio_data.charge_time > 0 ) {
-        if( bio_data.power_over_time > 0 ) {
-            properties.push_back( bio_data.charge_time == 1
-                                  ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
-                                  : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
-                                                   bio_data.charge_time ) );
-        }
-        if( bio_data.power_activate > 0 ) {
-            properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
-        }
-        if( bio_data.power_deactivate > 0 ) {
-            properties.push_back( string_format( _( "%d PU deact" ), bio_data.power_deactivate ) );
-        }
+    if( bio_data.power_activate > 0 ) {
+        properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
+    }
+    if( bio_data.power_deactivate > 0 ) {
+        properties.push_back( string_format( _( "%d PU deact" ), bio_data.power_deactivate ) );
+    }
+    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0 ) {
+        properties.push_back( bio_data.charge_time == 1
+                              ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
+                              : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
+                                               bio_data.charge_time ) );
     }
     if( bio_data.toggled ) {
         properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );

@@ -169,7 +169,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -389,7 +389,7 @@ ifeq ($(NATIVE), win32)
 # Any reason not to use -m32 on MinGW32?
   TARGETSYSTEM=WINDOWS
 else
-  # Win64 (MinGW-w64? 64bit isn't currently working.)
+  # Win64 (MinGW-w64?)
   ifeq ($(NATIVE), win64)
     CXXFLAGS += -m64
     LDFLAGS += -m64
@@ -415,7 +415,6 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
-  BACKTRACE = 0
   CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
@@ -474,7 +473,7 @@ ifeq ($(SOUND), 1)
   endif
 
   ifeq ($(MSYS2),1)
-    LDFLAGS += -lmad -lvorbisfile -lvorbis -logg -lmodplug -lflac -lfluidsynth
+    LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
   endif
 
   CXXFLAGS += -DSDL_SOUND
@@ -528,8 +527,14 @@ ifdef TILES
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
+			ifdef SOUND
+				OSX_INC += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
+			endif
       LDFLAGS += -F$(FRAMEWORKSDIR) \
 		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
+		 ifdef SOUND
+		 	LDFLAGS += -framework SDL2_mixer
+		 endif
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
@@ -538,6 +543,9 @@ ifdef TILES
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
+      ifdef SOUND
+        LDFLAGS += -lSDL2_mixer
+      endif
     endif
   else # not osx
     CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
@@ -568,7 +576,7 @@ ifdef TILES
         LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
       else
         ifeq ($(MSYS2),1)
-          LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+          LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
         else
           LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
         endif
@@ -628,7 +636,6 @@ else
 endif # TILES
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
-  BACKTRACE = 0
   ifeq ($(LOCALIZE),1)
     # Work around Cygwin not including gettext support in glibc
     LDFLAGS += -lintl -liconv
@@ -652,6 +659,9 @@ endif
 # Global settings for Windows targets (at end)
 ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
+    ifeq ($(BACKTRACE),1)
+      LDFLAGS += -ldbghelp
+    endif
 endif
 
 ifeq ($(BACKTRACE),1)
@@ -744,18 +754,20 @@ ifdef LTO
   endif
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
 	@
 
-$(TARGET): $(ODIR) $(OBJS)
+$(TARGET): $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
   ifndef DEBUG_SYMBOLS
+    ifneq ($(BACKTRACE),1)
 	$(STRIP) $(TARGET)
+    endif
   endif
 endif
 
-$(BUILD_PREFIX)$(TARGET_NAME).a: $(ODIR) $(OBJS)
+$(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
@@ -768,8 +780,8 @@ version:
 json-verify:
 	$(LUA_BINARY) lua/json_verifier.lua
 
-$(ODIR):
-	mkdir -p $(ODIR)
+# Unconditionally create the object dir on every invocation.
+$(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
@@ -840,6 +852,7 @@ endif
 ifdef LUA
 	mkdir -p $(DATA_PREFIX)/lua
 	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+	install --mode=644 lua/log.lua $(DATA_PREFIX)/lua
 	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
@@ -876,6 +889,7 @@ endif
 ifdef LUA
 	mkdir -p $(DATA_PREFIX)/lua
 	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+	install --mode=644 lua/log.lua $(DATA_PREFIX)/lua
 	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
@@ -961,6 +975,9 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
+ifdef SOUND
+	cp $(SDLLIBSDIR)/libSDL2_mixer.dylib $(APPRESOURCESDIR)/
+endif  # ifdef SOUND
 endif  # ifdef FRAMEWORK
 
 endif  # ifdef TILES
@@ -1053,7 +1070,10 @@ check: version $(BUILD_PREFIX)cataclysm.a
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests install lint
+validate-pr:
+	@build-scripts/validate_pr_in_jenkins
+
+.PHONY: tests check ctags etags clean-tests install lint validate-pr
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
