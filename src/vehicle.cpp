@@ -555,6 +555,25 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
             }
         }
     }
+    // clear out any duplicated locations
+    for( int p = static_cast<int>( parts.size() ) - 1; p >= 0; p-- ) {
+        vehicle_part &part = parts[ p ];
+        if( part.removed ) {
+            continue;
+        }
+        std::vector<int> parts_here = parts_at_relative( part.mount.x, part.mount.y );
+        for( int other_i = static_cast<int>( parts_here.size() ) - 1; other_i >= 0; other_i -- ) {
+            int other_p = parts_here[ other_i ];
+            if( p == other_p ) {
+                continue;
+            }
+            if( ( part_info( p ).location.empty() &&
+                  part_info( p ).get_id() == part_info( other_p ).get_id() ) ||
+                ( part_info( p ).location == part_info( other_p ).location ) ) {
+                remove_part( other_p );
+            }
+        }
+    }
 }
 
 int vehicle::lift_strength() const
