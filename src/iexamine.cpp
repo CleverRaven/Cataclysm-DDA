@@ -2081,11 +2081,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         // Choose brew from list
         int b_index = 0;
         if (b_types.size() > 1) {
-            b_names.push_back(_("Cancel"));
-            b_index = menu_vec(false, _("Use which brew?"), b_names) - 1;
-            if (b_index == (int)b_names.size() - 1) {
-                b_index = -1;
-            }
+            b_index = uilist( _("Use which brew?"), b_names );
         } else { //Only one brew type was in inventory, so it's automatically used
             if (!query_yn(_("Set %s in the vat?"), b_names[0].c_str())) {
                 b_index = -1;
