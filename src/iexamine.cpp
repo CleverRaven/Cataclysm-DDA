@@ -1222,14 +1222,15 @@ void iexamine::door_peephole(player &p, const tripoint &examp) {
     }
 
     // Peek through the peephole, or open the door.
-    int choice = menu( true, _("Do what with the door?"),
-                       _("Peek through peephole."), _("Open door."),
-                       _("Cancel"), NULL );
-    if( choice == 1 ) {
+    const int choice = uilist( _( "Do what with the door?" ), {
+        _( "Peek through peephole." ),
+        _( "Open door." )
+    } );
+    if( choice == 0 ) {
         // Peek
         g->peek( examp );
         p.add_msg_if_player( _("You peek through the peephole.") );
-    } else if( choice == 2 ) {
+    } else if( choice == 1 ) {
         g->m.open_door( examp, true, false);
         p.add_msg_if_player( _("You open the door.") );
     } else {
