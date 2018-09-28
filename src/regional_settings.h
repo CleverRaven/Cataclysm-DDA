@@ -100,17 +100,31 @@ struct forest_biome_component {
     forest_biome_component() = default;
 };
 
+struct forest_biome_terrain_dependent_furniture {
+    std::map<std::string, int> unfinalized_furniture;
+    weighted_int_list<furn_id> furniture;
+    int chance = 0;
+    bool clear_furniture = false;
+
+    void finalize();
+    forest_biome_terrain_dependent_furniture() = default;
+};
+
 struct forest_biome {
     std::map<std::string, forest_biome_component> unfinalized_biome_components;
     std::vector<forest_biome_component> biome_components;
     std::map<std::string, int> unfinalized_groundcover;
     weighted_int_list<ter_id> groundcover;
+    std::map<std::string, forest_biome_terrain_dependent_furniture>
+    unfinalized_terrain_dependent_furniture;
+    std::map<ter_id, forest_biome_terrain_dependent_furniture> terrain_dependent_furniture;
     int sparseness_adjacency_factor = 0;
     int item_group_chance = 0;
     int item_spawn_iterations = 0;
     std::string item_group;
     bool clear_components = false;
     bool clear_groundcover = false;
+    bool clear_terrain_furniture = false;
 
     ter_furn_id pick() const;
     void finalize();
