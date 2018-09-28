@@ -1746,35 +1746,60 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         return false;
     }
 
-    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
-                               _( "(Y)es, (N)o, (I)gnore further similar distractions and finish." );
-
     bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    int ch = -1;
 
-#ifdef __ANDROID__
     input_context ctxt( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" );
-    ctxt.register_manual_key( 'Y', "Yes" );
-    ctxt.register_manual_key( 'N', "No" );
-    ctxt.register_manual_key( 'I', "Ignore further distractions and finish" );
-#endif
-    do {
-#ifdef __ANDROID__
-        // Don't use popup() as this creates its own input context which will override the one above
-        ch = popup( stop_message, PF_NO_WAIT );
-        ch = inp_mngr.get_input_event().get_first_input();
-#else
-        ch = popup( stop_message, PF_GET_KEY );
-#endif
-    } while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
-             ch != 'Y' && ch != 'N' && ch != 'I' &&
-             ( force_uc || ( ch != 'y' && ch != 'n' && ch != 'i' ) ) );
+    ctxt.register_action( "YES" );
+    ctxt.register_action( "NO" );
+    ctxt.register_action( "IGNORE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    if( ch == 'Y' || ch == 'y' ) {
+    const auto allow_key = [force_uc]( const input_event & evt ) {
+        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
+               // std::lower has undefined behavior outside unsigned char range
+               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+    };
+
+    catacurses::window w;
+
+    enum {
+        wait_input, confirm, cancel, ignore
+    } result = wait_input;
+    do {
+        if( !w ) {
+            const std::string stop_message = string_format(
+                                                 "<color_light_red>%s %s %s, %s, %s.</color>",
+                                                 text, u.activity.get_stop_phrase(),
+                                                 ctxt.get_desc( "YES", _( "Yes" ), allow_key ),
+                                                 ctxt.get_desc( "NO", _( "No" ), allow_key ),
+                                                 ctxt.get_desc( "IGNORE", _( "Ignore further similar distractions and finish" ), allow_key )
+                                             );
+            w = create_popup_window( stop_message, PF_NONE );
+            wrefresh( w );
+        }
+        const std::string action = ctxt.handle_input();
+        const input_event evt = ctxt.get_raw_input();
+        if( action == "YES" && allow_key( evt ) ) {
+            result = confirm;
+        } else if( action == "NO" && allow_key( evt ) ) {
+            result = cancel;
+        } else if( action == "IGNORE" && allow_key( evt ) ) {
+            result = ignore;
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            // keybindings may have changed, invalidate the window to regenerate
+            // the message
+            w = {};
+        }
+    } while( result == wait_input );
+    // Flash black after keypress to give feedback during consecutive popups
+    werase( w );
+    wrefresh( w );
+
+    if( result == confirm ) {
         u.cancel_activity();
         return true;
     }
-    if( ch == 'I' || ch == 'i' ) {
+    if( result == ignore ) {
         u.activity.ignore_distraction( type );
         for( auto activity : u.backlog ) {
             activity.ignore_distraction( type );

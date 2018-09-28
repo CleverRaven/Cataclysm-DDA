@@ -565,94 +565,73 @@ bool query_yn( const std::string &text )
 {
     bool const force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
-    //~ Translation of query answer letters (y mean yes, n - no)
-    //~ Translation MUST contain symbols ONLY from ASCII charset. Undefined behavior otherwise.
-    //~ Translation MUST be in lowercase. Undefined behavior otherwise.
-    //~ Translation MUST contain only 2 letters. Original string will be used otherwise.
-    std::string selectors = _( "yn" );
-    if( selectors.length() != 2 ) {
-        selectors = "yn";
-    }
-    std::string ucselectors = selectors;
-    capitalize_letter( ucselectors, 0 );
-    capitalize_letter( ucselectors, 1 );
-
     std::string ucwarning = "";
-    std::string *dispkeys = &selectors;
     if( force_uc ) {
         ucwarning = _( "Case Sensitive" );
         ucwarning = " (" + ucwarning + ")";
-        dispkeys = &ucselectors;
     }
-    int win_width = 0;
+
+    bool result = false;
+    bool finished = false;
+
+    input_context ctxt( "YESNO" );
+    ctxt.register_action( "YES" );
+    ctxt.register_action( "NO" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_cardinal();
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    const auto allow_key = [force_uc]( const input_event & evt ) {
+        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
+               // std::lower has undefined behavior outside unsigned char range
+               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+    };
+
+    std::string yes_query, no_query;
 
     catacurses::window w;
 
-    std::string color_on = "<color_white>";
-    std::string color_off = "</color>";
+    std::string action;
 
-    int ch = '?';
-    bool result = true;
-    bool gotkey = false;
-
-#ifdef __ANDROID__
-    // Ensure proper android input context for touch
-    input_context ctxt( "YESNO" );
-    ctxt.register_manual_key( ucselectors[0] );
-    ctxt.register_manual_key( ucselectors[1] );
-#endif
-
-    while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE ) {
-
-        // Upper case always works, lower case only if !force_uc.
-        gotkey = ( ch == ucselectors[0] ) || ( ch == ucselectors[1] ) ||
-                 ( !force_uc && ( ( ch == selectors[0] ) || ( ch == selectors[1] ) ) );
-
-        if( gotkey ) {
-            result = ( !force_uc && ( ch == selectors[0] ) ) || ( ch == ucselectors[0] );
-            break; // could move break past render to flash final choice once.
-        } else {
-            // Everything else toggles the selection.
-            result = !result;
-        }
-
-        // Additional query string ("Y/N") and uppercase hint, always has the same width!
-        std::string query;
-        if( result ) {
-            query = " (" + color_on + dispkeys->substr( 0, 1 ) + color_off + "/" + dispkeys->substr( 1,
-                    1 ) + ")";
-        } else {
-            query = " (" + dispkeys->substr( 0, 1 ) + "/" + color_on + dispkeys->substr( 1,
-                    1 ) + color_off + ")";
-        }
-        // Query string without color tags, color tags are *not* ignored by utf8_width,
-        // it gives the wrong width instead.
-        std::string query_nc = " (" + dispkeys->substr( 0, 1 ) + "/" + dispkeys->substr( 1, 1 ) + ")";
-        if( force_uc ) {
-            query += ucwarning;
-            query_nc += ucwarning;
-        }
-
-        if( !w ) {
-            // -2 to keep space for the border, use query without color tags so
-            // utf8_width uses the same text as it will be printed in the window.
-            std::vector<std::string> textformatted = foldstring( text + query_nc, FULL_SCREEN_WIDTH - 4 );
-            for( auto &s : textformatted ) {
-                win_width = std::max( win_width, utf8_width( remove_color_tags( s ) ) );
+    while( !finished ) {
+        if( action == "YES" ) {
+            if( allow_key( ctxt.get_raw_input() ) ) {
+                result = true;
+                finished = true;
             }
-            w = catacurses::newwin( textformatted.size( ) + 2, win_width + 2, ( TERMY - 3 ) / 2,
-                                    std::max( TERMX - win_width - 2, 0 ) / 2 );
-            draw_border( w );
+        } else if( action == "NO" || action == "QUIT" ) {
+            if( action != "NO" || allow_key( ctxt.get_raw_input() ) ) {
+                result = false;
+                finished = true;
+            }
+        } else if( action == "CONFIRM" ) {
+            finished = true;
+        } else if( action.empty() || action == "HELP_KEYBINDINGS" ) {
+            // Generate messages at start or regenerate them after possible keybinding changes
+            const std::string yes_desc = ctxt.get_desc( "YES", _( "Yes" ), allow_key );
+            const std::string no_desc = ctxt.get_desc( "NO", _( "No" ), allow_key );
+            // yes_query and no_query always have the same display length
+            yes_query = string_format( "<color_light_red>%s </color>%s<color_light_red>/%s%s</color>",
+                                       text, yes_desc, no_desc, ucwarning );
+            no_query = string_format( "<color_light_red>%s %s/</color>%s<color_light_red>%s</color>",
+                                      text, yes_desc, no_desc, ucwarning );
+            w = create_popup_window( result ? yes_query : no_query, PF_NONE );
+            wrefresh( w );
+        } else if( action != "TIMEOUT" ) { // Input manager may have timeout set elsewhere
+            result = !result;
+            w = create_popup_window( result ? yes_query : no_query, PF_NONE );
+            wrefresh( w );
         }
-        fold_and_print( w, 1, 1, win_width, c_light_red, text + query );
-        wrefresh( w );
 
-        // TODO: use input context
-        ch = inp_mngr.get_input_event().get_first_input();
+        if( !finished ) {
+            action = ctxt.handle_input();
+        }
     };
 
-    catacurses::refresh();
-    return ( ( ch != KEY_ESCAPE ) && result );
+    return result;
 }
 
 bool query_int( int &result, const std::string &text )
