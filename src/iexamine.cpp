@@ -1885,13 +1885,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             // Choose fertilizer from list
             int f_index = 0;
             if (f_types.size() > 1) {
-                f_names.push_back(_("Cancel"));
-                f_index = menu_vec(false, _("Use which fertilizer?"), f_names) - 1;
-                if (f_index == (int)f_names.size() - 1) {
-                    f_index = -1;
-                }
-            } else {
-                    f_index = 0;
+                f_index = uilist( _( "Use which fertilizer?" ), f_names );
             }
             if (f_index < 0) {
                 return;
