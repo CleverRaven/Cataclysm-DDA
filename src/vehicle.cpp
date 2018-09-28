@@ -357,9 +357,19 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // Fuel in some vehicles will be syphoned by other survivals.
     int fuel_reducing = get_option< int >( "VEHICLE_FUEL_REDUCING" );
     bool has_fuel = true;
+    float npc_rate = 0.0f;
+
+    if( get_option< bool >( "STATIC_NPC" ) ) {
+        npc_rate += 0.5f;
+    }
+    if( get_option< bool >( "RANDOM_NPC" ) ) {
+        float density = get_option< float >( "NPC_DENSITY" );
+        // increase by 0.5 for default NPC density (0.1) and by 1 for NPC density above 0.2
+        npc_rate += std::min( density / 0.2f, 1.0f );
+    }
     if( fuel_reducing > 0 && veh_status != 0 ) {
         int current_day = to_days< int >( calendar::turn - calendar::time_of_cataclysm );
-        has_fuel = roll_remainder( pow( 2, - 1.0f * current_day / fuel_reducing ) );
+        has_fuel = roll_remainder( pow( 2, - npc_rate * current_day / fuel_reducing ) );
     }
 
     bool blood_inside_set = false;
