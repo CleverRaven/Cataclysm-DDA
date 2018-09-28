@@ -623,7 +623,7 @@ static void smash()
 static void wait()
 {
     std::map<int, int> durations;
-    uimenu as_m;
+    uilist as_m;
 
     const bool has_watch = g->u.has_watch();
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
@@ -664,15 +664,12 @@ static void wait()
         add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
     }
 
-    add_menu_item( 12, 'q', _( "Exit" ) );
-
     as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += _( "Wait for how long?" );
-    as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    if( as_m.ret == 12 || durations.count( as_m.ret ) == 0 ) {
+    if( durations.count( as_m.ret ) == 0 ) {
         return;
     }
 
