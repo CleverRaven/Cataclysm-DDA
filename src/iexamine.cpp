@@ -217,8 +217,8 @@ private:
             return static_cast<options>( u.activity.index );
         }
         amenu.query();
-        uistate.iexamine_atm_selected = amenu.ret;
-        return static_cast<options>( amenu.ret );
+        uistate.iexamine_atm_selected = amenu.selected;
+        return amenu.ret < 0 ? cancel : static_cast<options>( amenu.ret );
     }
 
     //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
@@ -231,7 +231,6 @@ private:
         }
 
         amenu.selected = uistate.iexamine_atm_selected;
-        amenu.return_invalid = true;
         amenu.text = string_format(_("Welcome to the C.C.B.o.t.T. ATM. What would you like to do?\n"
                                      "Your current balance is: %s"),
                                      format_money( u.cash ) );
@@ -261,8 +260,6 @@ private:
         if (card_count >= 2 && charge_count) {
             add_choice(transfer_all_money, _("Transfer All Money"));
         }
-
-        amenu.addentry(cancel, true, 'q', _("Cancel"));
     }
 
     //! print a bank statement for @p print = true;
@@ -391,7 +388,7 @@ private:
     }
 
     player &u;
-    uimenu amenu;
+    uilist amenu;
 };
 } //namespace
 
