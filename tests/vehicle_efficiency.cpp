@@ -5,6 +5,7 @@
 #include "map_iterator.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "vpart_range.h"
 #include "vpart_reference.h"
 #include "itype.h"
 #include "player.h"
