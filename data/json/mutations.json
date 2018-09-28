@@ -2681,6 +2681,7 @@
         "description" : "You have a long, graceful tail, like that of a big cat.  It improves your balance, making your ability to dodge higher, but prevents wearing non-fabric pants.",
         "types" : ["TAIL"],
         "prereqs" : ["TAIL_STUB"],
+        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"],
         "category" : ["FELINE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true
