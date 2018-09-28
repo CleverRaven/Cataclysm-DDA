@@ -26,6 +26,7 @@
 #include "line.h"
 #include "name.h"
 #include "cata_utility.h"
+#include "popup.h"
 #include "string_input_popup.h"
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
@@ -565,94 +566,22 @@ bool query_yn( const std::string &text )
 {
     bool const force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
-    //~ Translation of query answer letters (y mean yes, n - no)
-    //~ Translation MUST contain symbols ONLY from ASCII charset. Undefined behavior otherwise.
-    //~ Translation MUST be in lowercase. Undefined behavior otherwise.
-    //~ Translation MUST contain only 2 letters. Original string will be used otherwise.
-    std::string selectors = _( "yn" );
-    if( selectors.length() != 2 ) {
-        selectors = "yn";
-    }
-    std::string ucselectors = selectors;
-    capitalize_letter( ucselectors, 0 );
-    capitalize_letter( ucselectors, 1 );
-
-    std::string ucwarning = "";
-    std::string *dispkeys = &selectors;
-    if( force_uc ) {
-        ucwarning = _( "Case Sensitive" );
-        ucwarning = " (" + ucwarning + ")";
-        dispkeys = &ucselectors;
-    }
-    int win_width = 0;
-
-    catacurses::window w;
-
-    std::string color_on = "<color_white>";
-    std::string color_off = "</color>";
-
-    int ch = '?';
-    bool result = true;
-    bool gotkey = false;
-
-#ifdef __ANDROID__
-    // Ensure proper android input context for touch
-    input_context ctxt( "YESNO" );
-    ctxt.register_manual_key( ucselectors[0] );
-    ctxt.register_manual_key( ucselectors[1] );
-#endif
-
-    while( ch != '\n' && ch != ' ' && ch != KEY_ESCAPE ) {
-
-        // Upper case always works, lower case only if !force_uc.
-        gotkey = ( ch == ucselectors[0] ) || ( ch == ucselectors[1] ) ||
-                 ( !force_uc && ( ( ch == selectors[0] ) || ( ch == selectors[1] ) ) );
-
-        if( gotkey ) {
-            result = ( !force_uc && ( ch == selectors[0] ) ) || ( ch == ucselectors[0] );
-            break; // could move break past render to flash final choice once.
-        } else {
-            // Everything else toggles the selection.
-            result = !result;
-        }
-
-        // Additional query string ("Y/N") and uppercase hint, always has the same width!
-        std::string query;
-        if( result ) {
-            query = " (" + color_on + dispkeys->substr( 0, 1 ) + color_off + "/" + dispkeys->substr( 1,
-                    1 ) + ")";
-        } else {
-            query = " (" + dispkeys->substr( 0, 1 ) + "/" + color_on + dispkeys->substr( 1,
-                    1 ) + color_off + ")";
-        }
-        // Query string without color tags, color tags are *not* ignored by utf8_width,
-        // it gives the wrong width instead.
-        std::string query_nc = " (" + dispkeys->substr( 0, 1 ) + "/" + dispkeys->substr( 1, 1 ) + ")";
-        if( force_uc ) {
-            query += ucwarning;
-            query_nc += ucwarning;
-        }
-
-        if( !w ) {
-            // -2 to keep space for the border, use query without color tags so
-            // utf8_width uses the same text as it will be printed in the window.
-            std::vector<std::string> textformatted = foldstring( text + query_nc, FULL_SCREEN_WIDTH - 4 );
-            for( auto &s : textformatted ) {
-                win_width = std::max( win_width, utf8_width( remove_color_tags( s ) ) );
-            }
-            w = catacurses::newwin( textformatted.size( ) + 2, win_width + 2, ( TERMY - 3 ) / 2,
-                                    std::max( TERMX - win_width - 2, 0 ) / 2 );
-            draw_border( w );
-        }
-        fold_and_print( w, 1, 1, win_width, c_light_red, text + query );
-        wrefresh( w );
-
-        // TODO: use input context
-        ch = inp_mngr.get_input_event().get_first_input();
+    const auto allow_key = [force_uc]( const input_event & evt ) {
+        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
+               // std::lower is undefined outside unsigned char range
+               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
     };
 
-    catacurses::refresh();
-    return ( ( ch != KEY_ESCAPE ) && result );
+    return query_popup()
+           .context( "YESNO" )
+           .message( force_uc ?
+                     pgettext( "query_yn", "<color_light_red>%s (Case Sensitive)</color>" ) :
+                     pgettext( "query_yn", "<color_light_red>%s</color>" ), text )
+           .option( "YES", allow_key )
+           .option( "NO", allow_key )
+           .cursor( 1 )
+           .query()
+           .action == "YES";
 }
 
 bool query_int( int &result, const std::string &text )
@@ -759,30 +688,32 @@ catacurses::window create_wait_popup_window( const std::string &text, nc_color b
 
 long popup( const std::string &text, PopupFlags flags )
 {
-    if( test_mode ) {
-        std::cerr << text << std::endl;
-        return 0;
+    query_popup pop;
+    pop.message( "%s", text );
+    if( flags & PF_GET_KEY ) {
+        pop.allow_anykey( true );
+    } else {
+        pop.allow_cancel( true );
     }
 
-    catacurses::window w = create_popup_window( text, flags );
-    long ch = 0;
-    // Don't wait if not required.
-    while( ( flags & PF_NO_WAIT ) == 0 ) {
-#ifdef __ANDROID__
-        input_context ctxt( "POPUP_WAIT" );
-#endif
-        wrefresh( w );
-        // TODO: use input context
-        ch = inp_mngr.get_input_event().get_first_input();
-        if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE || ( flags & PF_GET_KEY ) != 0 ) {
-            werase( w );
-            break; // return the first key that got pressed.
+    if( flags & PF_FULLSCREEN ) {
+        pop.full_screen( true );
+    } else if( flags & PF_ON_TOP ) {
+        pop.on_top( true );
+    }
+
+    if( flags & PF_NO_WAIT ) {
+        pop.show();
+        return UNKNOWN_UNICODE;
+    } else {
+        pop.context( "POPUP_WAIT" );
+        const auto &res = pop.query();
+        if( res.evt.type == CATA_INPUT_KEYBOARD ) {
+            return res.evt.get_first_input();
+        } else {
+            return UNKNOWN_UNICODE;
         }
     }
-    wrefresh( w );
-    catacurses::refresh();
-    refresh_display();
-    return ch;
 }
 
 void popup_status( const char *const title, const std::string &fmt )
