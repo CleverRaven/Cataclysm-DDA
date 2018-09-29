@@ -2425,11 +2425,6 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
     return global_pos3() + pt.precalc[ 0 ];
 }
 
-tripoint vehicle::real_global_pos3() const
-{
-    return g->m.getabs( global_pos3() );
-}
-
 void vehicle::set_submap_moved( int x, int y )
 {
     const point old_msp = g->m.getabs( global_pos3().x, global_pos3().y );
@@ -4512,7 +4507,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     // Get one weather data set per vehicle, they don't differ much across vehicle area
-    const tripoint veh_loc = real_global_pos3();
+    const tripoint veh_loc = g->m.getabs( global_pos3() );
     auto accum_weather = sum_conditions( update_from, update_to, veh_loc );
 
     for( int idx : funnels ) {
