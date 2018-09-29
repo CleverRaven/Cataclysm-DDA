@@ -156,6 +156,23 @@
     ]
   },
   {
+    "result": "coat_faux_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 1 ],
+    "time": 100000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [
+      [ [ "rag", 11 ] ],
+      [ [ "faux_fur", 12 ] ]
+    ]
+  },
+  {
     "result": "coat_rain",
     "type": "recipe",
     "category": "CC_ARMOR",
