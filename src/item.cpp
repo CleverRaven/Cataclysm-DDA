@@ -4425,8 +4425,13 @@ int item::get_remaining_chapters( const player &u ) const
 
 void item::mark_chapter_as_read( const player &u )
 {
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
     const auto var = string_format( "remaining-chapters-%d", u.getID() );
+    if( type->book && type->book->chapters == 0 ) {
+        // books without chapters will always have remaining chapters == 0, so we don't need to store them
+        erase_var( var );
+        return;
+    }
+    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
     set_var( var, remain );
 }
 
