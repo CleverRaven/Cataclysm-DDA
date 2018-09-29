@@ -26,7 +26,7 @@
         "  W__g__________ g__W   #EE____# -uSeuu...Y....- F  DDDDDDDDDDDDDDDD  F ",
         "  W__g__________ g__W   #E_____# -o............- F                    F ",
         "  #__2__________ 2__#   #_1__1_# -u..........H.- F  DDDDDDDDDDDDDDDD  F ",
-        "  #__2__________ 2__#   #______# -u...----+----- F                    F ",
+        "  #__2__________ 2__#   #______# -u...----+----- F         Q          F ",
         "  #332__________ 233#   #______# --+---kh......- F  DDDDDDDDDDDDDDDD  F ",
         "  #_____________1___#   #_1__1_# -...-.........w F                    F ",
         "  W_________________W   #______# -b..+......BB.- F  DDDDDDDDDDDDDDDD  F ",
@@ -37,7 +37,7 @@
         "F                     FFFFFFFFFFFFFFFFFFFFFFFFFFFF                    F ",
         "F                       ,,,,,,,,,,,,,,,,,,,,,,,                       F ",
         "F                                                                     F ",
-        "F  DDDDDDDDDDDDDDDDD        DDDDDDDDDDDDDDDD        DDDDDDDDDDDDDDDD  F ",
+        "F  DDDDDDDDDDDDDDDDD        DDDDDDDDDDDDDDDDQ       DDDDDDDDDDDDDDDD  F ",
         "F                                                                     F ",
         "F  DDDDDDDDDDDDDDDDDDDD  DDDDDDDDDDDDDDDDDDDDDD  DDDDDDDDDDDDDDDDDDD  F ",
         "F                                                                     F ",
@@ -61,7 +61,7 @@
         "F                                                                     F ",
         "F                                                                     F ",
         "F                                                                     F ",
-        "F  DDDDDDDDDDDDDDDDD        DDDDDDDDDDDDDDDD        DDDDDDDDDDDDDDDD  F ",
+        "F  DDDDDDDDDDDDDDDDDQ       DDDDDDDDDDDDDDDD        DDDDDDDDDDDDDDDD  F ",
         "F                                                                     F ",
         "F  DDDDDDDDDDDDDDDDDDDD  DDDDDDDDDDDDDDDDDDDDDD  DDDDDDDDDDDDDDDDDDD  F ",
         "F                                                                     F ",
@@ -153,7 +153,8 @@
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
         "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "l": [ { "item": "tools_earthworking", "chance": 65 }, { "item": "mechanics", "chance": 40 }, { "item": "home_hw", "chance": 50 }, { "item": "tools_common", "chance": 50 } ],
-        "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 65 }, { "item": "moonshine_brew", "chance": 65 } ]
+        "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 65 }, { "item": "moonshine_brew", "chance": 65 } ],
+        "Q": { "item": "farming_tools", "chance": 35 }
       },
       "place_items": [],
       "place_item": [
