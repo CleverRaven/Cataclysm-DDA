@@ -1694,6 +1694,18 @@ void item::io( Archive &archive )
     if( is_tool() || is_toolmod() ) {
         migrate_toolmod( *this );
     }
+
+    // Books without any chapters don't need to store a remaining-chapters
+    // counter, it will always be 0 and it prevents proper stacking.
+    if( get_chapters() == 0 ) {
+        for( auto it = item_vars.begin(); it != item_vars.end(); ) {
+            if( it->first.compare( 0, 19, "remaining-chapters-" ) == 0 ) {
+                item_vars.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
+    }
 }
 
 static void migrate_toolmod( item &it )
