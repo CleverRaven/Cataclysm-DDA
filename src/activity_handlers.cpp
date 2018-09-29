@@ -2511,6 +2511,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname().c_str(),
                           tool.tname().c_str() );
+    mod.item_tags.insert( "IRREMOVABLE" );
     tool.contents.push_back( mod );
     act->targets[1].remove_item();
 }
