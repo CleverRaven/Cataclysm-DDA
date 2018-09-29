@@ -650,15 +650,22 @@ def main_entry(argv):
         default=None
     )
 
+    parser.add_argument(
+        '-N', '--include-summary-none',
+        action='store_true',
+        help='Indicates if Pull Requests with Summary "None" should be included in the output."',
+        default=None
+    )
+
     arguments = parser.parse_args(argv[1:])
 
     logging.basicConfig(level=logging.DEBUG if arguments.verbose else logging.INFO,
                         format='   LOG | %(threadName)s | %(levelname)s | %(message)s')
     log.debug(f'Commandline Arguments (+defaults): {arguments}')
-    main(arguments.target_date, arguments.token_file, arguments.output_file)
+    main(arguments.target_date, arguments.token_file, arguments.output_file, arguments.include_summary_none)
 
 
-def main(target_dttm, token_file, output_file):
+def main(target_dttm, token_file, output_file, include_summary_none):
     personal_token = read_personal_token(token_file)
 
     if output_file is None:
@@ -680,11 +687,17 @@ def main(target_dttm, token_file, output_file):
         if not pr_repo.get_pr_by_merge_hash(commit.hash):
             commits_with_no_pr[commit.commit_date].append(commit)
 
-    ### group PRs with summary by date
+    ### group PRs by date
     pr_with_summary = collections.defaultdict(list)
+    pr_with_invalid_summary = collections.defaultdict(list)
+    pr_with_summary_none = collections.defaultdict(list)
     for pr in pr_repo.get_all_pr():
-        if pr.has_valid_summary and pr.summ_type != SummaryType.NONE:
+        if pr.has_valid_summary and pr.summ_type == SummaryType.NONE:
+            pr_with_summary_none[pr.merge_date].append(pr)
+        elif pr.has_valid_summary:
             pr_with_summary[pr.merge_date].append(pr)
+        elif not pr.has_valid_summary:
+            pr_with_invalid_summary[pr.merge_date].append(pr)
 
     ### build main changelog output
     for curr_date in (datetime.now().date() - timedelta(days=x) for x in itertools.count()):
@@ -702,26 +715,21 @@ def main(target_dttm, token_file, output_file):
                 print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
             print(file=output_file)
 
+        if curr_date in pr_with_invalid_summary or (include_summary_none and curr_date in pr_with_summary_none):
+            print(f"    MISC. PULL REQUESTS", file=output_file)
+            for pr in pr_with_invalid_summary[curr_date]:
+                print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+            if include_summary_none:
+                for pr in pr_with_summary_none[curr_date]:
+                    print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+            print(file=output_file)
+
         if curr_date in commits_with_no_pr:
-            print(f"    MISC COMMITS", file=output_file)
+            print(f"    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr[curr_date]:
                 print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash})", file=output_file)
+            print(file=output_file)
         print(file=output_file)
-
-    ### output PRs with no Summary
-    sort_by_author = lambda pr: pr.author
-    for pr in sorted(filter(lambda pr: not pr.has_valid_summary, pr_repo.get_all_pr()), key=sort_by_author):
-        print(f"No Summary for PR {pr.id} / DATE {pr.merge_date} / AUTHOR {pr.author} / TITLE {pr.title}",
-              file=output_file)
-
-    ### some empty lines to separate sections
-    print(os.linesep * 2, file=output_file)
-
-    ### probably not that interesting, but output PRs with Summary = 'None'
-    ### which means Dev decided to exclude his PR from Changelog)
-    for pr in sorted(filter(lambda x: x.summ_type == SummaryType.NONE, pr_repo.get_all_pr()), key=sort_by_author):
-        print(f"Summary = 'None' for PR {pr.id} / DATE {pr.merge_date} / AUTHOR {pr.author} / TITLE {pr.title}",
-              file=output_file)
 
 
 if __name__ == '__main__':
