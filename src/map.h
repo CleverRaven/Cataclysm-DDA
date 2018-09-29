@@ -698,8 +698,6 @@ class map
                           ter_id floor_type, bool overwrite = false );
         void make_rubble( const tripoint &p );
         void make_rubble( const tripoint &p, furn_id rubble_type, bool items );
-        void make_rubble( int, int, furn_id rubble_type, bool items,
-                          ter_id floor_type, bool overwrite = false ) = delete;
 
         bool is_divable( const int x, const int y ) const;
         bool is_outside( const int x, const int y ) const;
