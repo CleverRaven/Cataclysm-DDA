@@ -472,10 +472,6 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
                                const time_point &age, const std::function<int()> &roll_butchery, butcher_type action )
 {
     itype_id meat = corpse->get_meat_itype();
-    if( corpse->made_of( material_id( "bone" ) ) ) {
-        //For butchering yield purposes, we treat it as bones, not meat
-        meat = "null";
-    }
 
     int pieces = corpse->get_meat_chunks_count();
     int skins = 0;
@@ -526,6 +522,13 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             wool = 32;
             max_practice = 6;
             break;
+    }
+
+    if( corpse->made_of( material_id( "bone" ) ) ) {
+        //For butchering yield purposes, we treat it as bones, not meat
+        meat = "null";
+        bones += pieces / 4;
+        pieces = 0;
     }
 
     // Lose some meat, skins, etc if the rolls are low
