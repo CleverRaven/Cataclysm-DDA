@@ -152,9 +152,9 @@ bool vehicle::remote_controlled( player const &p ) const
         return false;
     }
 
-    for( const vpart_reference vp : parts_with_feature( "REMOTE_CONTROLS" ) ) {
+    for( const vpart_reference vp : parts_with_feature( "REMOTE_CONTROLS", true ) ) {
         const size_t part = vp.part_index();
-        if( rl_dist( p.pos(), tripoint( global_pos() + parts[part].precalc[0], p.posz() ) ) <= 40 ) {
+        if( rl_dist( p.pos(), global_part_pos3( part ) ) <= 40 ) {
             return true;
         }
     }
@@ -1406,9 +1406,7 @@ bool vehicle::remove_part( int p )
         return false;
     }
 
-    int x = parts[p].precalc[0].x;
-    int y = parts[p].precalc[0].y;
-    const tripoint part_loc = global_pos3();
+    const tripoint part_loc = global_part_pos3( p );
 
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
     // Returns true if removal occurs
@@ -1521,7 +1519,7 @@ bool vehicle::remove_part( int p )
 
     for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
-        tripoint dest( part_loc.x + rng( -3, 3 ), part_loc.y + rng( -3, 3 ), smz );
+        tripoint dest( part_loc.x + rng( -3, 3 ), part_loc.y + rng( -3, 3 ), part_loc.z );
         g->m.add_item_or_charges( dest, i );
     }
     g->m.dirty_vehicle_list.insert( this );
@@ -2665,7 +2663,7 @@ bool vehicle::do_environmental_effects()
     // check for smoking parts
     for( const vpart_reference vp : get_parts() ) {
         const size_t p = vp.part_index();
-        auto part_pos = global_pos3() + parts[p].precalc[0];
+        const tripoint part_pos = global_part_pos3( p );
 
         /* Only lower blood level if:
          * - The part is outside.
@@ -3636,8 +3634,8 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
 
 vehicle_stack vehicle::get_items( int const part )
 {
-    return vehicle_stack( &parts[part].items, global_pos() + parts[part].precalc[0],
-                          this, part );
+    const tripoint pos = global_part_pos3( part );
+    return vehicle_stack( &parts[part].items, point( pos.x, pos.y ), this, part );
 }
 
 vehicle_stack vehicle::get_items( int const part ) const
@@ -3961,8 +3959,7 @@ void vehicle::remove_remote_part( int part_num )
 
     // If the target vehicle is still there, ask it to remove its part
     if( veh != nullptr ) {
-        auto pos = global_pos3() + parts[part_num].precalc[0];
-        tripoint local_abs = g->m.getabs( pos );
+        const tripoint local_abs = g->m.getabs( global_part_pos3( part_num ) );
 
         for( size_t j = 0; j < veh->loose_parts.size(); j++ ) {
             int remote_partnum = veh->loose_parts[j];
@@ -3987,9 +3984,8 @@ void vehicle::shed_loose_parts()
         }
 
         auto part = &parts[elem];
-        auto pos = global_pos3() + part->precalc[0];
         item drop = part->properties_to_item();
-        g->m.add_item_or_charges( pos, drop );
+        g->m.add_item_or_charges( global_part_pos3( *part ), drop );
 
         remove_part( elem );
     }
@@ -4054,7 +4050,7 @@ void vehicle::unboard_all()
 {
     std::vector<int> bp = boarded_parts();
     for( auto &i : bp ) {
-        g->m.unboard_vehicle( global_pos3() + tripoint( parts[i].precalc[0].x, parts[i].precalc[0].y, 0 ) );
+        g->m.unboard_vehicle( global_part_pos3( i ) );
     }
 }
 
@@ -4442,10 +4438,8 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
     if( force_refresh || occupied_cache_time != calendar::turn ) {
         occupied_cache_time = calendar::turn;
         occupied_points.clear();
-        tripoint pos = global_pos3();
         for( const auto &p : parts ) {
-            const auto &pt = p.precalc[0];
-            occupied_points.insert( tripoint( pos.x + pt.x, pos.y + pt.y, pos.z ) );
+            occupied_points.insert( global_part_pos3( p ) );
         }
     }
 
@@ -4507,14 +4501,13 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     // Get one weather data set per vehicle, they don't differ much across vehicle area
-    const tripoint veh_loc = g->m.getabs( global_pos3() );
-    auto accum_weather = sum_conditions( update_from, update_to, veh_loc );
+    auto accum_weather = sum_conditions( update_from, update_to, g->m.getabs( global_pos3() ) );
 
     for( int idx : funnels ) {
         const auto &pt = parts[idx];
 
         // we need an unbroken funnel mounted on the exterior of the vehicle
-        if( pt.is_unavailable() || !is_sm_tile_outside( veh_loc + pt.precalc[0] ) ) {
+        if( pt.is_unavailable() || !is_sm_tile_outside( g->m.getabs( global_part_pos3( pt ) ) ) ) {
             continue;
         }
 
@@ -4553,8 +4546,7 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            const tripoint part_loc = veh_loc + parts[part].precalc[0];
-            if( !is_sm_tile_outside( part_loc ) ) {
+            if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
                 continue;
             }
 

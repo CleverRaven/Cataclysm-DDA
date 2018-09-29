@@ -202,14 +202,13 @@ void map::add_vehicle_to_cache( vehicle *veh )
     ch.veh_in_active_range = true;
     // Get parts
     std::vector<vehicle_part> &parts = veh->parts;
-    const tripoint gpos = veh->global_pos3();
     int partid = 0;
     for( std::vector<vehicle_part>::iterator it = parts.begin(),
          end = parts.end(); it != end; ++it, ++partid ) {
         if( it->removed ) {
             continue;
         }
-        const tripoint p = gpos + it->precalc[0];
+        const tripoint p = veh->global_part_pos3( *it );
         ch.veh_cached_parts.insert( std::make_pair( p,
                                     std::make_pair( veh, partid ) ) );
         if( inbounds( p.x, p.y ) ) {
@@ -383,14 +382,13 @@ bool map::vehproceed()
 
 float map::vehicle_buoyancy( const vehicle &veh ) const
 {
-    const tripoint pt = veh.global_pos3();
     const auto &float_indices = veh.floating;
     const int num = float_indices.size();
     int moored = 0;
     float total_wheel_area = 0.0f;
     for( int w = 0; w < num; w++ ) {
         const int p = float_indices[w];
-        const tripoint pp = pt + veh.parts[p].precalc[0];
+        const tripoint pp = veh.global_part_pos3( p );
         total_wheel_area += veh.parts[ p ].wheel_width() * veh.parts[ p ].wheel_diameter();
 
         if( !has_flag( "SWIMMABLE", pp ) ) {
@@ -427,7 +425,6 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         return;
     }
 
-    tripoint pt = veh.global_pos3();
     veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point() );
 
     // cancel out any movement of the vehicle due only to a change in pivot
@@ -524,7 +521,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     if( !vertical && can_move ) {
         const auto wheel_indices = veh.wheelcache; // Don't use a reference here, it causes a crash.
         for( auto &w : wheel_indices ) {
-            const tripoint wheel_p = pt + veh.parts[w].precalc[0];
+            const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
                 sounds::sound( wheel_p, 4, _( "splash!" ), false, "environment", "splash" );
             }
@@ -567,6 +564,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         }
         veh.on_move();
         // Actually change position
+        tripoint pt = veh.global_pos3(); // displace_vehicle needs a non-const reference
         displace_vehicle( pt, dp1 );
     } else if( !vertical ) {
         veh.stop();
@@ -950,11 +948,10 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     bool need_update = false;
     int z_change = 0;
     // Move passengers
-    const tripoint old_veh_pos = veh->global_pos3();
     for( size_t i = 0; i < psg_parts.size(); i++ ) {
         player *psg = psgs[i];
         const int prt = psg_parts[i];
-        const tripoint part_pos = old_veh_pos + veh->parts[prt].precalc[0];
+        const tripoint part_pos = veh->global_part_pos3( prt );
         if( psg == nullptr ) {
             debugmsg( "Empty passenger part %d pcoord=%d,%d,%d u=%d,%d,%d?",
                       prt,
@@ -4446,7 +4443,7 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
     }
 }
 
-void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int gridz,
+void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
                                     map::map_process_func processor, std::string const &signal )
 {
     static time_point last_fluid_check = calendar::time_of_cataclysm;
@@ -4457,9 +4454,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         last_fluid_check = now;
         for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
             const size_t idx = vp.part_index();
-            const point partloc = cur_veh.global_pos() + cur_veh.parts[idx].precalc[0];
-            const tripoint partpos = tripoint( partloc, abs_sub.z );
-            cur_veh.parts[idx].process_contents( partpos );
+            cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ) );
         }
     }
     auto cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, true );
@@ -4468,7 +4463,6 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
     }
 
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
-    const point veh_pos = cur_veh.global_pos();
     for( auto &active_item : cur_veh.active_items.get() ) {
         if( empty( cargo_parts ) ) {
             return;
@@ -4487,8 +4481,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         // Find the cargo part and coordinates corresponding to the current active item.
         const size_t part_index = ( *it ).part_index();
         const vehicle_part &pt = cur_veh.parts[part_index];
-        const point partloc = veh_pos + pt.precalc[0];
-        const tripoint item_loc = tripoint( partloc, gridz );
+        const tripoint item_loc = cur_veh.global_part_pos3( part_index );
         auto items = cur_veh.get_items( static_cast<int>( part_index ) );
         int it_temp = g->get_temperature( item_loc );
         float it_insulation = 1.0;
@@ -7979,7 +7972,7 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
     // Now vehicles
 
     // Currently the scentmap is limited to an area around the player rather than entire map
-    auto local_bounds = [ = ]( const point & coord ) {
+    auto local_bounds = [ = ]( const tripoint & coord ) {
         return coord.x >= minx && coord.x <= maxx && coord.y >= miny && coord.y <= maxy;
     };
 
@@ -7987,7 +7980,7 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
         for( const vpart_reference vp : veh.parts_with_feature( VPFLAG_OBSTACLE, true ) ) {
-            const point part_pos = veh.global_pos() + veh.parts[vp.part_index()].precalc[0];
+            const tripoint part_pos = veh.global_part_pos3( vp.part_index() );
             if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
@@ -8000,7 +7993,7 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
                 continue;
             }
 
-            const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
+            const tripoint part_pos = veh.global_part_pos3( p );
             if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }

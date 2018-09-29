@@ -141,7 +141,7 @@ void vehicle::control_doors()
 
             int val = doors_with_motors.size();
             doors_with_motors.push_back( door );
-            locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
+            locations.push_back( global_part_pos3( p ) );
             const char *actname = parts[door].open ? _( "Close" ) : _( "Open" );
             pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
         }
@@ -902,7 +902,7 @@ void vehicle::operate_plow()
 {
     for( const vpart_reference vp : parts_with_feature( "PLOW" ) ) {
         const size_t plow_id = vp.part_index();
-        const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
+        const tripoint start_plow = global_part_pos3( plow_id );
         if( g->m.has_flag( "DIGGABLE", start_plow ) ) {
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
@@ -918,7 +918,7 @@ void vehicle::operate_rockwheel()
 {
     for( const vpart_reference vp : parts_with_feature( "ROCKWHEEL" ) ) {
         const size_t rockwheel_id = vp.part_index();
-        const tripoint start_dig = global_pos3() + parts[rockwheel_id].precalc[0];
+        const tripoint start_dig = global_part_pos3( rockwheel_id );
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
             g->m.ter_set( start_dig, t_pit_shallow );
         } else {
@@ -932,10 +932,9 @@ void vehicle::operate_rockwheel()
 
 void vehicle::operate_reaper()
 {
-    const tripoint &veh_start = global_pos3();
     for( const vpart_reference vp : parts_with_feature( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
-        const tripoint reaper_pos = veh_start + parts[ reaper_id ].precalc[ 0 ];
+        const tripoint reaper_pos = global_part_pos3( reaper_id );
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = parts[ reaper_id ].info().size / 20;
@@ -974,7 +973,7 @@ void vehicle::operate_planter()
 {
     for( const vpart_reference vp : parts_with_feature( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
-        const tripoint &loc = global_pos3() + parts[planter_id].precalc[0];
+        const tripoint &loc = global_part_pos3( planter_id );
         vehicle_stack v = get_items( planter_id );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
@@ -1016,11 +1015,10 @@ void vehicle::operate_scoop()
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
-                       random_entry_ref( sound_msgs ) );
+        sounds::sound( global_part_pos3( scoop ), rng( 20, 35 ), random_entry_ref( sound_msgs ) );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-             g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
+             g->m.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {

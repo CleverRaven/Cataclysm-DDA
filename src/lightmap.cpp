@@ -958,7 +958,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     int cam_control = -1;
     for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_EXTENDS_VISION, true ) ) {
         const size_t midx = vp.part_index();
-        const auto mirror_pos = veh->global_pos() + veh->parts[midx].precalc[0];
+        const tripoint mirror_pos = veh->global_part_pos3( midx );
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
         if( !veh->part_info( midx ).has_flag( "CAMERA" ) &&
@@ -967,7 +967,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         } else if( !veh->part_info( midx ).has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( midx );
         } else {
-            if( origin.x == mirror_pos.x && origin.y == mirror_pos.y && veh->camera_on ) {
+            if( origin == mirror_pos && veh->camera_on ) {
                 cam_control = midx;
             }
         }
@@ -980,13 +980,13 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             continue; // Player not at camera control, so cameras don't work
         }
 
-        const auto mirror_pos = veh->global_pos() + veh->parts[mirror].precalc[0];
+        const tripoint mirror_pos = veh->global_part_pos3( mirror );
 
         // Determine how far the light has already traveled so mirrors
         // don't cheat the light distance falloff.
         int offsetDistance;
         if( !is_camera ) {
-            offsetDistance = rl_dist( origin.x, origin.y, mirror_pos.x, mirror_pos.y );
+            offsetDistance = rl_dist( origin, mirror_pos );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->parts[ mirror ].hp() / veh->part_info( mirror ).durability;
