@@ -1925,6 +1925,18 @@
   },
   {
     "type": "recipe",
+    "result": "bottle_twoliter",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chemistry_set_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
