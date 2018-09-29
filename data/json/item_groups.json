@@ -8575,6 +8575,7 @@
       ["carding_paddles", 2],
       ["scythe", 40],
       ["tree_spile", 40],
+      { "item": "chem_saltpetre", "prob": 35, "charges-min": 35, "charges-max": 50 },
       ["material_quicklime", 30],
       ["pitchfork", 40],
       ["steam_triple_small", 1],
