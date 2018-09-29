@@ -1431,12 +1431,13 @@ static void end_arrow_combo()
 long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
     std::string arrow_keys_vs_modifiers = get_option<std::string>( "ARROW_KEYS_VS_MODIFIERS" );
-    if ( arrow_keys_vs_modifiers == "numpad" ) {
-        if( keysym.mod & KMOD_CTRL && sdl_keycode_is_arrow( keysym.sym ) )
+    if( arrow_keys_vs_modifiers == "numpad" ) {
+        if( keysym.mod & KMOD_CTRL && sdl_keycode_is_arrow( keysym.sym ) ) {
             return handle_arrow_combo( keysym.sym );
-        else
+        } else {
             end_arrow_combo();
-    } else if ( arrow_keys_vs_modifiers == "rotation" ) {
+        }
+    } else if( arrow_keys_vs_modifiers == "rotation" ) {
         //Shift + Cursor Arrow (diagonal clockwise)
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
