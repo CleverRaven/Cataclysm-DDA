@@ -3247,7 +3247,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_cottonwood_tree",
+    "id": "t_tree_cottonwood",
     "name": "cottonwood tree",
     "looks_like": "t_tree",
     "description": "A large tree belonging to the 'Populus' genus, commonly found throughout New England region.  You could cut it down with the right tools.",
@@ -3267,7 +3267,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_elm_tree",
     "name": "elm tree",
     "looks_like": "t_tree",
     "description": "A large tree belonging to the 'Ulmus' genus, commonly found throughout New England region.  You could cut it down with the right tools.",
@@ -4681,7 +4680,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
     "transforms_into": "t_shrub_lilac_harvested",
     "examine_action": "harvest_ter_nectar",
-    "looks_like": "t_shrub_lilac",
+    "looks_like": "t_shrub_hydrangea",
     "//": "Insert lilac harvest once flowers have a use (same for other generic flowers).",
     "bash": {
       "str_min": 4,
@@ -4703,7 +4702,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
     "transforms_into": "t_shrub_lilac",
     "examine_action": "harvested_plant",
-    "looks_like": "t_shrub_lilac_harvested",
+    "looks_like": "t_shrub_hydrangea_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 60,
