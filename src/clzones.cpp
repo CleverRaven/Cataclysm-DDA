@@ -19,16 +19,16 @@ zone_manager::zone_manager()
 {
     types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
                    zone_type( translate_marker( "No Auto Pickup" ),
-                              translate_marker( "PC doesn't Auto Pickup items inside the zone" ) ) );
+                              translate_marker( "You won't auto-pickup items inside the zone." ) ) );
     types.emplace( zone_type_id( "NO_NPC_PICKUP" ),
                    zone_type( translate_marker( "No NPC Pickup" ),
-                              translate_marker( "Friendly NPCs don't pickup items inside the zone" ) ) );
+                              translate_marker( "Friendly NPCs don't pickup items inside the zone." ) ) );
     types.emplace( zone_type_id( "LOOT_UNSORTED" ),
                    zone_type( translate_marker( "Loot: Unsorted" ),
-                              translate_marker( "Source of items for Sort out loot Zone action. It can overlap with Loot zones of different types." ) ) );
+                              translate_marker( "Place to drop unsorted loot. You can use \"sort out loot\" zone-action to sort items inside. It can overlap with Loot zones of different types." ) ) );
     types.emplace( zone_type_id( "LOOT_FOOD" ),
                    zone_type( translate_marker( "Loot: Food" ),
-                              translate_marker( "Destination for comestibeles. If more specific food zone is not defined, all food is moved here." ) ) );
+                              translate_marker( "Destination for comestibles. If more specific food zone is not defined, all food is moved here." ) ) );
     types.emplace( zone_type_id( "LOOT_PFOOD" ),
                    zone_type( translate_marker_context( "perishable food", "Loot: P.Food" ),
                               translate_marker( "Destination for perishable comestibles. Does include perishable drinks if such zone is not specified." ) ) );
@@ -40,7 +40,7 @@ zone_manager::zone_manager()
                               translate_marker( "Destination for perishable drinks." ) ) );
     types.emplace( zone_type_id( "LOOT_GUNS" ),
                    zone_type( translate_marker( "Loot: Guns" ),
-                              translate_marker( "Destination for guns." ) ) );
+                              translate_marker( "Destination for guns, bows and similar weapons." ) ) );
     types.emplace( zone_type_id( "LOOT_MAGAZINES" ),
                    zone_type( translate_marker_context( "gun magazines", "Loot: Magazines" ),
                               translate_marker( "Destination for gun magazines." ) ) );
@@ -106,7 +106,7 @@ zone_manager::zone_manager()
                               translate_marker( "Destination for firewood and items that can be used as such." ) ) );
     types.emplace( zone_type_id( "LOOT_IGNORE" ),
                    zone_type( translate_marker( "Loot: Ignore" ),
-                              translate_marker( "Items inside of Ignore zone are ignored by Sort out loot Zone action." ) ) );
+                              translate_marker( "Items inside of this zone are ignored by \"sort out loot\" zone-action." ) ) );
     types.emplace( zone_type_id( "FARM_PLOT" ),
                    zone_type( translate_marker_context( "plot of land", "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
