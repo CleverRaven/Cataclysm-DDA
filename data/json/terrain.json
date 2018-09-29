@@ -3267,6 +3267,7 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_elm",
     "name": "elm tree",
     "looks_like": "t_tree",
     "description": "A large tree belonging to the 'Ulmus' genus, commonly found throughout New England region.  You could cut it down with the right tools.",
