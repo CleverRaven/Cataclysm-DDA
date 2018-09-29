@@ -4633,6 +4633,49 @@
   },
   {
     "type": "terrain",
+    "id": "t_shrub_lilac",
+    "name": "lilac bush",
+    "description": "A wide, bush of bright pinkish purple lilacs.",
+    "symbol": "#",
+    "color": "magenta_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "transforms_into": "t_shrub_lilac_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_lilac",
+    "//": "Insert lilac harvest once flowers have a use (same for other generic flowers).",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_lilac_harvested",
+    "name": "lilac bush",
+    "description": "A wide lilac bush that currently has no blooms.",
+    "symbol": "#",
+    "color": "magenta_green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "transforms_into": "t_shrub_lilac",
+    "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_lilac_harvested",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_trunk",
     "name": "tree trunk",
     "symbol": "1",
