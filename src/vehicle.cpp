@@ -2403,11 +2403,6 @@ player *vehicle::get_passenger( int p ) const
     return 0;
 }
 
-point vehicle::global_pos() const
-{
-    return point( smx * SEEX + posx, smy * SEEY + posy );
-}
-
 tripoint vehicle::global_pos3() const
 {
     return tripoint( smx * SEEX + posx, smy * SEEY + posy, smz );

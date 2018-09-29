@@ -6857,8 +6857,7 @@ vehicle *pickveh( const tripoint &center, bool advanced )
 
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        const auto gp = v->global_pos();
-        if( rl_dist( center.x, center.y, gp.x, gp.y ) < 40 &&
+        if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( "battery", true ) > 0 &&
             ( !empty( v->parts_with_feature( advctrl, true ) ) ||
               ( !advanced && !empty( v->parts_with_feature( ctrl, true ) ) ) ) ) {
