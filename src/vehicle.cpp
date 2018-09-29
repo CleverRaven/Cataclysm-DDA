@@ -43,6 +43,7 @@
 #include <numeric>
 #include <algorithm>
 #include <cassert>
+#include <unordered_map>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -2331,6 +2332,14 @@ void vehicle::coord_translate( int dir, const point &pivot, const point &p, poin
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
+void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const
+{
+    tdir.clear_advance();
+    tdir.advance( p.x - pivot.x );
+    q.x = tdir.dx() + tdir.ortho_dx( p.y - pivot.y );
+    q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
+}
+
 point vehicle::rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const
 {
     point q;
@@ -2356,11 +2365,19 @@ void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
     if( idir < 0 || idir > 1 ) {
         idir = 0;
     }
+    tileray tdir( dir );
+    std::unordered_map<point, point> mount_to_precalc;
     for( auto &p : parts ) {
         if( p.removed ) {
             continue;
         }
-        coord_translate( dir, pivot, p.mount, p.precalc[idir] );
+        auto q = mount_to_precalc.find( p.mount );
+        if( q == mount_to_precalc.end() ) {
+            coord_translate( tdir, pivot, p.mount, p.precalc[idir] );
+            mount_to_precalc.insert( { p.mount, p.precalc[idir] } );
+        } else {
+            p.precalc[idir] = q->second;
+        }
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
