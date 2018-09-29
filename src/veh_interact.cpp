@@ -107,8 +107,8 @@ player_activity veh_interact::serialize_activity()
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
     point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
-    res.values.push_back( veh->global_x() + q.x );    // values[0]
-    res.values.push_back( veh->global_y() + q.y );    // values[1]
+    res.values.push_back( veh->global_pos3().x + q.x );    // values[0]
+    res.values.push_back( veh->global_pos3().y + q.y );    // values[1]
     res.values.push_back( ddx );   // values[2]
     res.values.push_back( ddy );   // values[3]
     res.values.push_back( -ddx );   // values[4]
@@ -2563,8 +2563,8 @@ void veh_interact::complete_vehicle()
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;
-            g->u.view_offset.x = veh->global_x() + q.x - g->u.posx();
-            g->u.view_offset.y = veh->global_y() + q.y - g->u.posy();
+            g->u.view_offset.x = veh->global_pos3().x + q.x - g->u.posx();
+            g->u.view_offset.y = veh->global_pos3().y + q.y - g->u.posy();
             popup(_("Choose a facing direction for the new headlight.  Press space to continue."));
             tripoint headlight_target = g->look_around(); // Note: no way to cancel
             // Restore previous view offsets.
@@ -2575,8 +2575,8 @@ void veh_interact::complete_vehicle()
             if(headlight_target.x == INT_MIN) {
                 dir = 0;
             } else {
-                int delta_x = headlight_target.x - (veh->global_x() + q.x);
-                int delta_y = headlight_target.y - (veh->global_y() + q.y);
+                int delta_x = headlight_target.x - (veh->global_pos3().x + q.x);
+                int delta_y = headlight_target.y - (veh->global_pos3().y + q.y);
 
                 const double PI = 3.14159265358979f;
                 dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
@@ -2592,7 +2592,7 @@ void veh_interact::complete_vehicle()
             veh->parts[partnum].direction = dir;
         }
 
-        const tripoint vehp = { q.x + veh->global_x(), q.y + veh->global_y(), g->u.posz() };
+        const tripoint vehp = veh->global_pos3() + tripoint( q.x, q.y, 0 );
         //@todo: allow boarding for non-players as well.
         player * const pl = g->critter_at<player>( vehp );
         if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {

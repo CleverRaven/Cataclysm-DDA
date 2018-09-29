@@ -363,8 +363,8 @@ bool vehicle::interact_vehicle_locked()
                 g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), hotwire_time, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
-                g->u.activity.values.push_back( global_x() + q.x ); //[0]
-                g->u.activity.values.push_back( global_y() + q.y ); //[1]
+                g->u.activity.values.push_back( global_pos3().x + q.x ); //[0]
+                g->u.activity.values.push_back( global_pos3().y + q.y ); //[1]
                 g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) ); //[2]
             } else {
                 if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name.c_str() ) ) {

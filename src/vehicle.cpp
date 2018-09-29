@@ -1408,7 +1408,7 @@ bool vehicle::remove_part( int p )
 
     int x = parts[p].precalc[0].x;
     int y = parts[p].precalc[0].y;
-    tripoint part_loc( global_x() + x, global_y() + y, smz );
+    const tripoint part_loc = global_pos3();
 
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
     // Returns true if removal occurs
@@ -1918,11 +1918,10 @@ bool vehicle::has_part( const std::string &flag, bool enabled ) const
 
 bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabled ) const
 {
-    auto px = pos.x - global_x();
-    auto py = pos.y - global_y();
+    const tripoint relative_pos = pos - global_pos3();
 
     for( const auto &e : parts ) {
-        if( e.precalc[0].x != px || e.precalc[0].y != py ) {
+        if( e.precalc[0].x != relative_pos.x || e.precalc[0].y != relative_pos.y ) {
             continue;
         }
         if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
@@ -1978,10 +1977,10 @@ std::vector<const vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool 
 std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag,
         bool enabled, bool include_broken_parts )
 {
+    const tripoint relative_pos = pos - global_pos3();
     std::vector<vehicle_part *> res;
     for( auto &e : parts ) {
-        if( e.precalc[ 0 ].x != pos.x - global_x() ||
-            e.precalc[ 0 ].y != pos.y - global_y() ) {
+        if( e.precalc[ 0 ].x != relative_pos.x || e.precalc[ 0 ].y != relative_pos.y ) {
             continue;
         }
         if( !e.removed && ( !enabled || e.enabled ) && ( !e.is_broken() || include_broken_parts ) &&
@@ -1995,10 +1994,10 @@ std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::
 std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag,
         bool enabled, bool include_broken_parts ) const
 {
+    const tripoint relative_pos = pos - global_pos3();
     std::vector<const vehicle_part *> res;
     for( const auto &e : parts ) {
-        if( e.precalc[ 0 ].x != pos.x - global_x() ||
-            e.precalc[ 0 ].y != pos.y - global_y() ) {
+        if( e.precalc[ 0 ].x != relative_pos.x || e.precalc[ 0 ].y != relative_pos.y ) {
             continue;
         }
         if( !e.removed && ( !enabled || e.enabled ) && ( !e.is_broken() || include_broken_parts ) &&
@@ -2227,7 +2226,7 @@ int vehicle::part_at( int const dx, int const dy ) const
 
 int vehicle::global_part_at( int const x, int const y ) const
 {
-    return part_at( x - global_x(), y - global_y() );
+    return part_at( x - global_pos3().x, y - global_pos3().y );
 }
 
 /**
@@ -2406,16 +2405,6 @@ player *vehicle::get_passenger( int p ) const
     return 0;
 }
 
-int vehicle::global_x() const
-{
-    return smx * SEEX + posx;
-}
-
-int vehicle::global_y() const
-{
-    return smy * SEEY + posy;
-}
-
 point vehicle::global_pos() const
 {
     return point( smx * SEEX + posx, smy * SEEY + posy );
@@ -2438,12 +2427,12 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
 
 point vehicle::real_global_pos() const
 {
-    return g->m.getabs( global_x(), global_y() );
+    return g->m.getabs( global_pos3().x, global_pos3().y );
 }
 
 tripoint vehicle::real_global_pos3() const
 {
-    return g->m.getabs( tripoint( global_x(), global_y(), smz ) );
+    return g->m.getabs( global_pos3() );
 }
 
 void vehicle::set_submap_moved( int x, int y )
@@ -2742,7 +2731,7 @@ void vehicle::spew_smoke( double joules, int part, int density )
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate( p );
-    tripoint dest( global_x() + q.x, global_y() + q.y, smz );
+    const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
     g->m.adjust_field_strength( dest, fd_smoke, density );
 }
 
@@ -3498,7 +3487,7 @@ void vehicle::slow_leak()
         if( fuel != fuel_type_battery ) {
             item leak( fuel, calendar::turn, qty );
             point q = coord_translate( p.mount );
-            tripoint dest( global_x() + q.x, global_y() + q.y, smz );
+            const tripoint dest = global_pos3() + tripoint( q.x, q.y, 0 );
             g->m.add_item_or_charges( dest, leak );
         }
 
@@ -4075,9 +4064,7 @@ void vehicle::unboard_all()
 {
     std::vector<int> bp = boarded_parts();
     for( auto &i : bp ) {
-        g->m.unboard_vehicle( tripoint( global_x() + parts[i].precalc[0].x,
-                                        global_y() + parts[i].precalc[0].y,
-                                        smz ) );
+        g->m.unboard_vehicle( global_pos3() + tripoint( parts[i].precalc[0].x, parts[i].precalc[0].y, 0 ) );
     }
 }
 
