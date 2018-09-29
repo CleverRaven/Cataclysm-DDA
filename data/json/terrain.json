@@ -3247,6 +3247,45 @@
   },
   {
     "type": "terrain",
+    "id": "t_cottonwood_tree",
+    "name": "cottonwood tree",
+    "looks_like": "t_tree",
+    "description": "A large tree belonging to the 'Populus' genus, commonly found throughout New England region.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "brown_green", "brown" ],
+    "//": "Do something cool with this and have it spread cotton around the area or something.",
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_elm_tree",
+    "name": "elm tree",
+    "looks_like": "t_tree",
+    "description": "A large tree belonging to the 'Ulmus' genus, commonly found throughout New England region.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "brown_green", "brown" ],
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_dead",
     "name": "dead tree",
     "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldy.  You could cut it down with the right tools.",
