@@ -109,7 +109,7 @@ bool defense_game::init()
     init_to_style( DEFENSE_EASY );
     setup();
     g->u.cash = initial_cash;
-    popup_nowait( _( "Please wait as the map generates [ 0%% ]" ) );
+    popup_nowait( _( "Please wait as the map generates [ 0% ]" ) );
     // TODO: support multiple defense games? clean up old defense game
     init_map();
     caravan();
