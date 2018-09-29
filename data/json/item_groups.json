@@ -8568,6 +8568,7 @@
       ["gloves_rubber", 60],
       ["fertilizer_liquid", 20],
       ["fertilizer_commercial", 30],
+      {"item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50},
       ["sickle", 40],
       ["toolbox", 10],
       ["bullwhip", 30],
