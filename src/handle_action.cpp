@@ -3,6 +3,7 @@
 #include "gates.h"
 #include "action.h"
 #include "input.h"
+#include "vpart_range.h"
 #include "output.h"
 #include "player.h"
 #include "messages.h"
@@ -381,7 +382,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).empty() ) {
+        if( empty( veh->parts_with_feature( "REMOTE_CONTROLS", true ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
             return;
         }

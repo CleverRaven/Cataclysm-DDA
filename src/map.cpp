@@ -37,6 +37,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "vpart_range.h"
 #include "weather.h"
 #include "item_group.h"
 #include "pathfinding.h"
@@ -4453,36 +4454,37 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
     // only check the fluid every 10 turns for freeze/rot
     if( last_fluid_check - now > 10_turns ) {
         last_fluid_check = now;
-        std::vector<int> tanks = cur_veh.all_parts_with_feature( VPFLAG_FLUIDTANK, false );
-        for( const int &idx : tanks ) {
+        for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+            const size_t idx = vp.part_index();
             const point partloc = cur_veh.global_pos() + cur_veh.parts[idx].precalc[0];
             const tripoint partpos = tripoint( partloc, abs_sub.z );
             cur_veh.parts[idx].process_contents( partpos );
         }
     }
-    std::vector<int> cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, true );
-    for( int part : cargo_parts ) {
-        process_vehicle_items( cur_veh, part );
+    auto cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, true );
+    for( const vpart_reference vp : cargo_parts ) {
+        process_vehicle_items( cur_veh, vp.part_index() );
     }
 
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     const point veh_pos = cur_veh.global_pos();
     for( auto &active_item : cur_veh.active_items.get() ) {
-        if( cargo_parts.empty() ) {
+        if( empty( cargo_parts ) ) {
             return;
         } else if( !cur_veh.active_items.has( active_item ) ) {
             continue;
         }
-        auto const it = std::find_if( begin( cargo_parts ), end( cargo_parts ), [&]( int const part ) {
-            return active_item.location == cur_veh.parts[static_cast<size_t>( part )].mount;
+        auto const it = std::find_if( begin( cargo_parts ),
+        end( cargo_parts ), [&]( const vpart_reference & part ) {
+            return active_item.location == cur_veh.parts[part.part_index()].mount;
         } );
 
-        if( it == std::end( cargo_parts ) ) {
+        if( it == end( cargo_parts ) ) {
             continue; // Can't find a cargo part matching the active item.
         }
         auto &item_iter = active_item.item_iterator;
         // Find the cargo part and coordinates corresponding to the current active item.
-        const size_t part_index = static_cast<size_t>( *it );
+        const size_t part_index = ( *it ).part_index();
         const vehicle_part &pt = cur_veh.parts[part_index];
         const point partloc = veh_pos + pt.precalc[0];
         const tripoint item_loc = tripoint( partloc, gridz );
@@ -4525,7 +4527,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         // the list of cargo parts might have changed (imagine a part with
         // a low index has been removed by an explosion, all the other
         // parts would move up to fill the gap).
-        cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, false );
+        cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, false );
     }
 }
 
@@ -7401,7 +7403,8 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     VehicleList vehs = get_vehicles( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
-        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
+        for( const vpart_reference vp : v.v->get_parts() ) {
+            const size_t part = vp.part_index();
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             if( v.z != sz ) {
@@ -7492,7 +7495,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         auto &outside_cache = ch.outside_cache;
         auto &transparency_cache = ch.transparency_cache;
         auto &floor_cache = ch.floor_cache;
-        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
+        for( const vpart_reference vp : v.v->get_parts() ) {
+            const size_t part = vp.part_index();
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             if( !inbounds( px, py ) ) {
@@ -7981,17 +7985,16 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
     auto vehs = get_vehicles();
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
-        auto obstacles = veh.all_parts_with_feature( VPFLAG_OBSTACLE, true );
-        for( const int p : obstacles ) {
-            const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
+        for( const vpart_reference vp : veh.parts_with_feature( VPFLAG_OBSTACLE, true ) ) {
+            const point part_pos = veh.global_pos() + veh.parts[vp.part_index()].precalc[0];
             if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
 
         // Doors, but only the closed ones
-        auto doors = veh.all_parts_with_feature( VPFLAG_OPENABLE, true );
-        for( const int p : doors ) {
+        for( const vpart_reference vp : veh.parts_with_feature( VPFLAG_OPENABLE, true ) ) {
+            const size_t p = vp.part_index();
             if( veh.parts[p].open ) {
                 continue;
             }

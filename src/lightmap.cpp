@@ -12,6 +12,8 @@
 #include "submap.h"
 #include "mtype.h"
 #include "weather.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 #include "vpart_position.h"
 #include "shadowcasting.h"
 
@@ -358,7 +360,8 @@ void map::generate_lightmap( const int zlev )
             }
         };
 
-        for( size_t p = 0; p < v->parts.size(); ++p ) {
+        for( const vpart_reference vp : v->get_parts() ) {
+            const size_t p = vp.part_index();
             tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
                           v->parts[p].precalc[0];
             if( !inbounds( pp ) ) {
@@ -948,25 +951,25 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     vehicle *const veh = &vp->vehicle();
 
     // We're inside a vehicle. Do mirror calculations.
-    std::vector<int> mirrors = veh->all_parts_with_feature( VPFLAG_EXTENDS_VISION, true );
+    std::vector<int> mirrors;
     // Do all the sight checks first to prevent fake multiple reflection
     // from happening due to mirrors becoming visible due to processing order.
     // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
-    for( std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */ ) {
-        const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
+    for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_EXTENDS_VISION, true ) ) {
+        const size_t midx = vp.part_index();
+        const auto mirror_pos = veh->global_pos() + veh->parts[midx].precalc[0];
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
-        if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) &&
+        if( !veh->part_info( midx ).has_flag( "CAMERA" ) &&
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
-            m_it = mirrors.erase( m_it );
-        } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
-            ++m_it;
+            continue;
+        } else if( !veh->part_info( midx ).has_flag( "CAMERA_CONTROL" ) ) {
+            mirrors.emplace_back( midx );
         } else {
             if( origin.x == mirror_pos.x && origin.y == mirror_pos.y && veh->camera_on ) {
-                cam_control = *m_it;
+                cam_control = midx;
             }
-            m_it = mirrors.erase( m_it );
         }
     }
 
