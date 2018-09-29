@@ -914,7 +914,6 @@ class vehicle
          * Really global absolute coordinates in map squares.
          * This includes the overmap, the submap, and the map square.
          */
-        point real_global_pos() const;
         tripoint real_global_pos3() const;
         /**
          * All the fuels that are in all the tanks in the vehicle, nicely summed up.
