@@ -2577,6 +2577,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string maintext;
+    const item &contents_item = contents.front();
     if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
@@ -2595,16 +2596,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << "+";
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
-        if( contents.front().made_of( LIQUID ) ) {
+        if( contents_item.made_of( LIQUID ) ) {
             maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( quantity, with_prefix ).c_str() );
-        } else if( contents.front().is_food() ) {
-            const unsigned contents_count = contents.front().charges > 1 ? contents.front().charges : quantity;
+                                      contents_item.tname( quantity, with_prefix ).c_str() );
+        } else if( contents_item.is_food() ) {
+            const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
             maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( contents_count, with_prefix ).c_str() );
+                                      contents_item.tname( contents_count, with_prefix ).c_str() );
         } else {
             maintext = string_format( pgettext( "item name", "%s with %s" ), label( quantity ).c_str(),
-                                      contents.front().tname( quantity, with_prefix ).c_str() );
+                                      contents_item.tname( quantity, with_prefix ).c_str() );
         }
     } else if( !contents.empty() ) {
         maintext = string_format( pgettext( "item name", "%s, full" ), label( quantity ).c_str() );
