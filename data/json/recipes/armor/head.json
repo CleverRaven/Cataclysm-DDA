@@ -124,6 +124,22 @@
     ]
   },
   {
+    "result": "faux_fur_cat_ears",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 20000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "faux_fur", 2 ] ],
+      [ [ "plastic_chunk", 3 ] ]
+    ]
+  },
+  {
     "result": "glasses_safety",
     "type": "recipe",
     "category": "CC_ARMOR",

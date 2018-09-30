@@ -471,6 +471,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BED``` A bed where the player can sleep.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
 - ```BELTABLE``` Seatbelt can be attached to this part.
+- ```BIKE_RACK_VEH``` Can be used to merge an adjacent single tile wide vehicle, or split a single tile wide vehicle off into its own vehicle.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA```
 - ```CAMERA_CONTROL```
@@ -936,6 +937,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
+- ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.

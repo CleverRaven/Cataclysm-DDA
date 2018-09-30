@@ -247,6 +247,7 @@ class tileset
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
+        std::vector<texture> memory_tile_values;
 
         std::unordered_map<std::string, tile_type> tile_ids;
 
@@ -282,6 +283,9 @@ class tileset
         }
         const texture *get_overexposed_tile( const size_t index ) const {
             return get_if_available( index, overexposed_tile_values );
+        }
+        const texture *get_memory_tile( const size_t index ) const {
+            return get_if_available( index, memory_tile_values );
         }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
@@ -448,6 +452,7 @@ class cata_tiles
                                const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );

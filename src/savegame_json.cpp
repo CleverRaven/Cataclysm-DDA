@@ -22,6 +22,7 @@
 #include "vitamin.h"
 #include "skill.h"
 #include "name.h"
+#include "vpart_reference.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "effect.h"
@@ -33,6 +34,7 @@
 #include "monfaction.h"
 #include "morale.h"
 #include "veh_type.h"
+#include "vpart_range.h"
 #include "vehicle.h"
 #include "mutation.h"
 #include "io.h"
@@ -664,6 +666,9 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "player_stats", lifetime_stats );
 
+    player_map_memory.store( json );
+    json.member( "show_map_memory", show_map_memory );
+
     json.member( "assigned_invlet" );
     json.start_array();
     for( auto iter : inv.assigned_invlet ) {
@@ -838,6 +843,9 @@ void player::deserialize( JsonIn &jsin )
     }
 
     data.read( "player_stats", lifetime_stats );
+
+    player_map_memory.load( data );
+    data.read( "show_map_memory", show_map_memory );
 
     parray = data.get_array( "assigned_invlet" );
     while( parray.has_more() ) {
@@ -1688,6 +1696,18 @@ void item::io( Archive &archive )
     if( is_tool() || is_toolmod() ) {
         migrate_toolmod( *this );
     }
+
+    // Books without any chapters don't need to store a remaining-chapters
+    // counter, it will always be 0 and it prevents proper stacking.
+    if( get_chapters() == 0 ) {
+        for( auto it = item_vars.begin(); it != item_vars.end(); ) {
+            if( it->first.compare( 0, 19, "remaining-chapters-" ) == 0 ) {
+                item_vars.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
+    }
 }
 
 static void migrate_toolmod( item &it )
@@ -1854,6 +1874,11 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "enabled", enabled );
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
+    JsonArray ja = data.get_array( "carry" );
+    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
+    for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
+        carry_names.push( ja.get_string( index ) );
+    }
     data.read( "crew_id", crew_id );
     data.read( "items", items );
     data.read( "target_first_x", target.first.x );
@@ -1910,6 +1935,16 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
+    if( !carry_names.empty() ) {
+        std::stack<std::string> carry_copy = carry_names;
+        json.member( "carry" );
+        json.start_array();
+        while( !carry_copy.empty() ) {
+            json.write( carry_copy.top() );
+            carry_copy.pop();
+        }
+        json.end_array();
+    }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
     json.member( "items", items );
@@ -1996,7 +2031,8 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( auto cargo_index : all_parts_with_feature( VPFLAG_CARGO, true ) ) {
+    for( const vpart_reference vp : parts_with_feature( VPFLAG_CARGO, true ) ) {
+        const size_t cargo_index = vp.part_index();
         auto it = parts[cargo_index].items.begin();
         auto end = parts[cargo_index].items.end();
         for( ; it != end; ++it ) {
@@ -2447,6 +2483,55 @@ void player_morale::store( JsonOut &jsout ) const
 void player_morale::load( JsonObject &jsin )
 {
     jsin.read( "morale", points );
+}
+
+void map_memory::store( JsonOut &jsout ) const
+{
+    jsout.member( "map_memory_tiles" );
+    jsout.start_array();
+    for( const auto &elem : memorized_terrain ) {
+        jsout.start_object();
+        jsout.member( "x", elem.first.x );
+        jsout.member( "y", elem.first.y );
+        jsout.member( "z", elem.first.z );
+        jsout.member( "tile", elem.second.tile );
+        jsout.member( "subtile", elem.second.subtile );
+        jsout.member( "rotation", elem.second.rotation );
+        jsout.end_object();
+    }
+    jsout.end_array();
+
+    jsout.member( "map_memory_curses" );
+    jsout.start_array();
+    for( const auto &elem : memorized_terrain_curses ) {
+        jsout.start_object();
+        jsout.member( "x", elem.first.x );
+        jsout.member( "y", elem.first.y );
+        jsout.member( "z", elem.first.z );
+        jsout.member( "symbol", elem.second );
+        jsout.end_object();
+    }
+    jsout.end_array();
+}
+
+void map_memory::load( JsonObject &jsin )
+{
+    JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
+    memorized_terrain.clear();
+    while( map_memory_tiles.has_more() ) {
+        JsonObject pmap = map_memory_tiles.next_object();
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        const memorized_terrain_tile m{ pmap.get_string( "tile" ), pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) };
+        memorized_terrain[p] = m;
+    }
+
+    JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
+    memorized_terrain_curses.clear();
+    while( map_memory_curses.has_more() ) {
+        JsonObject pmap = map_memory_curses.next_object();
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        memorized_terrain_curses[p] = pmap.get_long( "symbol" );
+    }
 }
 
 void deserialize( point &p, JsonIn &jsin )

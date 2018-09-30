@@ -962,9 +962,14 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "cheese", 2 ],
-      [ "cheese_hard", 2 ],
-      [ "can_cheese", 2 ]
+      [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
+      [ "can_cheese", 1 ],
+      [ "chocolate", 2 ],
+      [ "candy", 3 ],
+      [ "candy2", 3 ],
+      [ "candy3", 3 ],
+      [ "sugar", 10 ]
     ],
     [
       [ "ammonia", 1 ],

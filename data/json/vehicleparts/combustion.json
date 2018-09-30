@@ -91,11 +91,13 @@
     "epower": 0,
     "power": 60,
     "energy_consumption": 60000,
+    "folded_volume": 6,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 5, 10 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] }
-    ]
+    ],
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "engine_1cyl_small",
@@ -108,11 +110,13 @@
     "epower": 0,
     "power": 30,
     "energy_consumption": 30000,
+    "folded_volume": 3,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] }
-    ]
+    ],
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "engine_inline4",
@@ -204,11 +208,13 @@
     "epower": -50,
     "power": 100,
     "energy_consumption": 100000,
+    "folded_volume": 8,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 10, 20 ] },
       { "item": "scrap", "count": [ 10, 20 ] }
-    ]
+    ],
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "abstract": "steam_engine",

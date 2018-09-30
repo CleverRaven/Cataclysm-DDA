@@ -269,7 +269,7 @@
         "id" : "GOODMEMORY",
         "name" : "Good Memory",
         "points" : 3,
-        "description" : "You have a an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
+        "description" : "You have a an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["FORGETFUL"]
@@ -445,7 +445,16 @@
         "valid" : false,
         "starting_trait" : true,
         "category" : ["MOUSE"],
-        "cancels" : ["MYOPIC"]
+        "cancels" : ["MYOPIC", "UNOBSERVANT"]
+    },{
+        "type" : "mutation",
+        "id" : "UNOBSERVANT",
+        "name" : "Topographagnosia",
+        "points" : -5,
+        "description" : "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
+        "valid" : false,
+        "starting_trait" : true,
+        "cancels" : ["EAGLEEYED"]
     },{
         "type" : "mutation",
         "id" : "CANNIBAL",
@@ -808,7 +817,7 @@
         "id" : "FORGETFUL",
         "name" : "Forgetful",
         "points" : -3,
-        "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
+        "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
         "starting_trait" : true,
         "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT"],
         "cancels" : ["GOODMEMORY"]
@@ -3693,7 +3702,7 @@
         "type" : "mutation",
         "id" : "CRAFTY",
         "name" : "Crafty",
-        "points" : 5,
+        "points" : 4,
         "description" : "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
         "valid" : false,
         "purifiable" : false,

@@ -12,8 +12,9 @@
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 2000,
     "damage_modifier": 80,
+    "folded_volume": 8,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "flags": [ "FLUIDTANK" ]
+    "flags": [ "FLUIDTANK", "FOLDABLE" ]
   },
   {
     "id": "tank_small",

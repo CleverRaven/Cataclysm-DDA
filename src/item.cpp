@@ -235,11 +235,11 @@ item &item::deactivate( const Character *ch, bool alert )
         return *this; // no-op
     }
 
-    if( is_tool() && type->tool->revert_to != "null" ) {
+    if( is_tool() && type->tool->revert_to ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
             ch->add_msg_if_player( m_info, _( type->tool->revert_msg.c_str() ), tname().c_str() );
         }
-        convert( type->tool->revert_to );
+        convert( *type->tool->revert_to );
         active = false;
 
     }
@@ -504,7 +504,7 @@ bool item::is_worn_only_with( const item &it ) const
 
 item item::in_its_container() const
 {
-    return in_container( type->default_container );
+    return in_container( type->default_container.value_or( "null" ) );
 }
 
 item item::in_container( const itype_id &cont ) const
@@ -1055,7 +1055,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
             if( food_item->has_flag( "MUSHY" ) && !food_item->rotten() ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "* It was frozen once and after thawing became <bad>mushy and tasteless</bad>." ) );
+                                   _( "* It was frozen once and after thawing became <bad>mushy and tasteless</bad>.  It will rot if thawed again." ) );
             }
             if( food_item->has_flag( "NO_PARASITES" ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
                 info.emplace_back( "DESCRIPTION",
@@ -2881,8 +2881,8 @@ units::mass item::weight( bool include_contents ) const
     }
 
     // if this is an ammo belt add the weight of any implicitly contained linkages
-    if( is_magazine() && type->magazine->linkage != "NULL" ) {
-        item links( type->magazine->linkage, calendar::turn );
+    if( is_magazine() && type->magazine->linkage ) {
+        item links( *type->magazine->linkage );
         links.charges = ammo_remaining();
         ret += links.weight();
     }
@@ -4286,6 +4286,12 @@ bool item::is_salvageable() const
     if( is_null() ) {
         return false;
     }
+    const auto mats = made_of();
+    if( std::none_of( mats.begin(), mats.end(), []( const material_id & m ) {
+    return m->salvaged_into().has_value();
+    } ) ) {
+        return false;
+    }
     return !has_flag( "NO_SALVAGE" );
 }
 
@@ -4321,8 +4327,8 @@ bool item::is_tool() const
 
 bool item::is_tool_reversible() const
 {
-    if( is_tool() && type->tool->revert_to != "null" ) {
-        item revert( type->tool->revert_to );
+    if( is_tool() && type->tool->revert_to ) {
+        item revert( *type->tool->revert_to );
         npc n;
         revert.type->invoke( n, revert, tripoint( -999, -999, -999 ) );
         return revert.is_tool() && typeId() == revert.typeId();
@@ -4419,8 +4425,13 @@ int item::get_remaining_chapters( const player &u ) const
 
 void item::mark_chapter_as_read( const player &u )
 {
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
     const auto var = string_format( "remaining-chapters-%d", u.getID() );
+    if( type->book && type->book->chapters == 0 ) {
+        // books without chapters will always have remaining chapters == 0, so we don't need to store them
+        erase_var( var );
+        return;
+    }
+    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
     set_var( var, remain );
 }
 
@@ -5179,8 +5190,8 @@ item::reload_option::reload_option( const player *who, const item *target, const
                                     item_location &&ammo ) :
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
-    if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
-        max_qty = this->who->charges_of( this->target->type->magazine->linkage );
+    if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
+        max_qty = this->who->charges_of( * this->target->type->magazine->linkage );
     }
     qty( max_qty );
 }
@@ -5308,8 +5319,8 @@ bool item::reload( player &u, item_location loc, long qty )
     if( is_magazine() ) {
         qty = std::min( qty, ammo->charges );
 
-        if( is_ammo_belt() && type->magazine->linkage != "NULL" ) {
-            if( !u.use_charges_if_avail( type->magazine->linkage, qty ) ) {
+        if( is_ammo_belt() && type->magazine->linkage ) {
+            if( !u.use_charges_if_avail( *type->magazine->linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
@@ -5645,6 +5656,10 @@ bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used
 
 bool item::allow_crafting_component() const
 {
+    if( is_toolmod() && is_irremovable() ) {
+        return false;
+    }
+
     // vehicle batteries are implemented as magazines of charge
     if( is_magazine() && ammo_type() == ammotype( "battery" ) ) {
         return true;
@@ -5989,7 +6004,8 @@ void item::apply_freezerburn()
 
 static int temp_difference_ratio( const int temp_one, const int temp_two )
 {
-    return std::max( abs( temp_one - temp_two ) / 5, ( 1 ) );
+    // increments of 10F (~5.5C), clamped to 1-4F (~0.55-2.22C)
+    return clamp( abs( temp_one - temp_two ) / 10,  1, 4 );
 }
 
 void item::update_temp( const int temp, const float insulation )
@@ -6014,45 +6030,74 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
+    // we simulate the maximum temperature an item can retain by its mass
+    // TODO: Limit max frozen by this as well (don't forget to fix deep freeze
+    // parasites if you do).
+    const int max_heat = clamp( to_gram( weight() ), 100, 600 );
     const int freeze_point = type->comestible->freeze_point;
     bool is_hot = item_tags.count( "HOT" );
+    bool is_warm = item_tags.count( "WARM" );
     bool is_cold = item_tags.count( "COLD" );
     bool is_frozen = item_tags.count( "FROZEN" );
     int loop_diff = 0;
-    int diff = temp <= freeze_point || is_frozen ?
-               temp_difference_ratio( temp, freeze_point ) :
-               temp_difference_ratio( temp, temperatures::cold );
+    int diff = is_frozen ? temp_difference_ratio( temp, freeze_point ) :
+               is_cold ? temp_difference_ratio( temp, temperatures::cold ) :
+               is_hot || is_warm ? temp_difference_ratio( temp, temperatures::hot ) :
+               temp_difference_ratio( temp, temperatures::normal );
     diff *= to_turns<int>( time );
     diff /= std::max( insulation, static_cast<float>( 0.1 ) );
     // no matter how much insulation temperature will shift at least a 1 degree
     // every ten turns if less than cold
     diff = std::max( diff, 1 );
 
-    do {
-        // process diff in chunks of 600 because that's the barrier at which a
-        // something can become frozen or cold
-        loop_diff = std::min( 600, diff );
-        if( diff >= 600 ) {
-            diff -= 600;
-        } else  {
-            diff = 0;
-        }
+    // process diff in chunks of 600 because that's the barrier at which a
+    // something can become frozen or cold, we do this once here and at the end
+    // of the loop to avoid looping twice if possible
+    loop_diff = std::min( 600, diff );
+    if( diff >= 600 ) {
+        diff -= 600;
+    } else  {
+        diff = 0;
+    }
 
+    do {
         if( is_hot ) {
-            // for now a hot item can only ever cool off
-            item_counter -= loop_diff;
+            if( temp >= temperatures::hot ) {
+                item_counter += loop_diff;
+            } else {
+                item_counter -= loop_diff;
+            }
             if( item_counter <= 0 ) {
                 item_tags.erase( "HOT" );
-                // if current temp is less than cold, start ticking
-                // item_counter for cold, otherwise we're done because item
-                // cannot cool further
-                if( temp < temperatures::cold ) {
-                    item_counter = -item_counter;
-                } else {
-                    item_counter = 0;
+                item_tags.insert( "WARM" );
+                item_counter = 1;
+                is_warm = true;
+                is_hot = false;
+            } else if( item_counter > max_heat ) {
+                // item cannot heat any further
+                item_counter = max_heat;
+                return;
+            }
+        } else if( is_warm ) {
+            if( temp >= temperatures::hot ) {
+                item_counter += loop_diff;
+            } else {
+                item_counter -= loop_diff;
+            }
+
+            if( item_counter <= 0 ) {
+                item_tags.erase( "WARM" );
+                item_counter = 0;
+                if( temp > temperatures::cold ) {
+                    // item cannot cool any further, we're done
                     return;
                 }
-                is_hot = false;
+                is_warm = false;
+            } else if( item_counter >= 600 ) {
+                item_tags.erase( "WARM" );
+                item_tags.insert( "HOT" );
+                is_warm = false;
+                is_hot = true;
             }
         } else if( is_cold ) {
             if( temp <= temperatures::cold ) {
@@ -6062,7 +6107,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                         // if temp is colder than freeze point start ticking frozen
                         item_tags.erase( "COLD" );
                         item_tags.insert( "FROZEN" );
-                        item_counter -= 600;
+                        item_counter = 1;
                         is_cold = false;
                         is_frozen = true;
                     } else {
@@ -6102,10 +6147,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             } else {
                 item_counter -= loop_diff;
                 // item is defrosting
-                if( item_counter <= 0 ) {
+                if( item_counter < 0 ) {
                     apply_freezerburn(); // removes frozen tag and applies mushy/rot if needed
                     item_tags.insert( "COLD" );
-                    item_counter += 600;
+                    item_counter = 600;
                     is_frozen = false;
                     is_cold = true;
                 }
@@ -6115,19 +6160,33 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             item_counter += loop_diff;
             if( item_counter > 600 ) {
                 item_tags.insert( "COLD" );
-                item_counter -= 600;
+                item_counter = 1;
                 is_cold = true;
             }
-        } else {
-            // no tags yet and temp is warming
+        } else if( temp >= temperatures::hot ) {
+            // if we have item_counters without a tag we were starting to
+            // increment toward cold, remove counters until we don't have any,
+            // then add warm tag and start to increment with WARM tag
             item_counter -= loop_diff;
-            // negative item_counter without a tag doesn't compute yet
-            // we're done in this case
-            // TODO make it warm/hot?
+            if( item_counter < 0 ) {
+                item_tags.insert( "WARM" );
+                item_counter = std::max( 600, -item_counter );
+                is_warm = true;
+            }
+        } else {
+            // no tags yet and not heating or cooling
+            item_counter -= loop_diff;
             if( item_counter < 0 ) {
                 item_counter = 0;
                 return;
             }
+        }
+
+        loop_diff = std::min( 600, diff );
+        if( diff >= 600 ) {
+            diff -= 600;
+        } else  {
+            diff = 0;
         }
     } while( loop_diff > 0 || item_counter < 0 || item_counter > 600 );
 }
@@ -6136,6 +6195,7 @@ void item::heat_up()
 {
     item_tags.erase( "COLD" );
     item_tags.erase( "FROZEN" );
+    item_tags.erase( "WARM" );
     item_tags.insert( "HOT" );
     // links the amount of heat an item can retain to its mass
     item_counter = clamp( to_gram( weight() ), 100, 600 );;
@@ -6370,8 +6430,8 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             convert( "joint_roach" );
         }
     } else { // transform (lit) items
-        if( type->tool->revert_to != "null" ) {
-            convert( type->tool->revert_to );
+        if( type->tool->revert_to ) {
+            convert( *type->tool->revert_to );
         } else {
             type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos, "transform" );
         }
@@ -6446,8 +6506,8 @@ void item::reset_cable( player *p )
 bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
-        if( is_tool() && type->tool->revert_to != "null" ) {
-            convert( type->tool->revert_to );
+        if( is_tool() && type->tool->revert_to ) {
+            convert( *type->tool->revert_to );
         }
         item_tags.erase( "WET" );
         active = false;
@@ -6476,13 +6536,14 @@ bool item::process_tool( player *carrier, const tripoint &pos )
                 carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname().c_str() );
             }
 
-            auto revert = type->tool->revert_to; // invoking the object can convert the item to another type
+            // invoking the object can convert the item to another type
+            const bool had_revert_to = type->tool->revert_to.has_value();
             type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-            if( revert == "null" ) {
-                return true;
-            } else {
+            if( had_revert_to ) {
                 deactivate( carrier );
                 return false;
+            } else {
+                return true;
             }
         }
     }

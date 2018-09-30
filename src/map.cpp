@@ -37,6 +37,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "vpart_range.h"
 #include "weather.h"
 #include "item_group.h"
 #include "pathfinding.h"
@@ -4415,7 +4416,10 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
 
         const tripoint map_location = tripoint( grid_offset + active_item.location, gridp.z );
-        const int loc_temp = g->get_temperature( map_location );
+        // root cellars are special
+        const int loc_temp = g->m.ter( map_location ) == t_rootcellar ?
+                             AVERAGE_ANNUAL_TEMPERATURE :
+                             g->get_temperature( map_location );
         auto items = i_at( map_location );
         processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1 );
     }
@@ -4450,36 +4454,37 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
     // only check the fluid every 10 turns for freeze/rot
     if( last_fluid_check - now > 10_turns ) {
         last_fluid_check = now;
-        std::vector<int> tanks = cur_veh.all_parts_with_feature( VPFLAG_FLUIDTANK, false );
-        for( const int &idx : tanks ) {
+        for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+            const size_t idx = vp.part_index();
             const point partloc = cur_veh.global_pos() + cur_veh.parts[idx].precalc[0];
             const tripoint partpos = tripoint( partloc, abs_sub.z );
             cur_veh.parts[idx].process_contents( partpos );
         }
     }
-    std::vector<int> cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, true );
-    for( int part : cargo_parts ) {
-        process_vehicle_items( cur_veh, part );
+    auto cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, true );
+    for( const vpart_reference vp : cargo_parts ) {
+        process_vehicle_items( cur_veh, vp.part_index() );
     }
 
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     const point veh_pos = cur_veh.global_pos();
     for( auto &active_item : cur_veh.active_items.get() ) {
-        if( cargo_parts.empty() ) {
+        if( empty( cargo_parts ) ) {
             return;
         } else if( !cur_veh.active_items.has( active_item ) ) {
             continue;
         }
-        auto const it = std::find_if( begin( cargo_parts ), end( cargo_parts ), [&]( int const part ) {
-            return active_item.location == cur_veh.parts[static_cast<size_t>( part )].mount;
+        auto const it = std::find_if( begin( cargo_parts ),
+        end( cargo_parts ), [&]( const vpart_reference & part ) {
+            return active_item.location == cur_veh.parts[part.part_index()].mount;
         } );
 
-        if( it == std::end( cargo_parts ) ) {
+        if( it == end( cargo_parts ) ) {
             continue; // Can't find a cargo part matching the active item.
         }
         auto &item_iter = active_item.item_iterator;
         // Find the cargo part and coordinates corresponding to the current active item.
-        const size_t part_index = static_cast<size_t>( *it );
+        const size_t part_index = ( *it ).part_index();
         const vehicle_part &pt = cur_veh.parts[part_index];
         const point partloc = veh_pos + pt.precalc[0];
         const tripoint item_loc = tripoint( partloc, gridz );
@@ -4491,13 +4496,16 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             if( engine_heater_is_on ) {
                 it_temp = std::max( it_temp, temperatures::cold + 1 );
             }
+            // some vehicle parts provide insulation, default is 1
+            it_insulation = item::find_type( pti.item )->insulation_factor;
+
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
                 it_temp = std::min( it_temp, temperatures::fridge );
+                it_insulation = 1; // ignore fridge insulation if on
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_temp = std::min( it_temp, temperatures::freezer );
+                it_insulation = 1; // ignore freezer insulation if on
             }
-            // some vehicle parts provide insulation, default is 1
-            it_insulation *= item::find_type( pti.item )->insulation_factor;
         }
         if( !processor( items, item_iter, item_loc, signal, it_temp, it_insulation ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
@@ -4519,7 +4527,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         // the list of cargo parts might have changed (imagine a part with
         // a low index has been removed by an explosion, all the other
         // parts would move up to fill the gap).
-        cargo_parts = cur_veh.all_parts_with_feature( VPFLAG_CARGO, false );
+        cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, false );
     }
 }
 
@@ -5485,18 +5493,18 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
         case LL_BRIGHT: // bright light
             return VIS_CLEAR;
         case LL_BLANK:
+        case LL_MEMORIZED:
             return VIS_HIDDEN;
     }
     return VIS_HIDDEN;
 }
 
-bool map::apply_vision_effects( const catacurses::window &w, lit_level ll,
-                                const visibility_variables &cache ) const
+bool map::apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const
 {
-    int symbol = ' ';
+    long symbol = ' ';
     nc_color color = c_black;
 
-    switch( get_visibility( ll, cache ) ) {
+    switch( vis ) {
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
@@ -5520,6 +5528,22 @@ bool map::apply_vision_effects( const catacurses::window &w, lit_level ll,
     }
     wputch( w, color, symbol );
     return true;
+}
+
+void map::draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
+                                    const tripoint &view_center ) const
+{
+    if( !g->u.should_show_map_memory() ) {
+        return;
+    }
+    long sym = g->u.get_memorized_terrain_curses( p );
+    if( sym == 0 ) {
+        return;
+    }
+    const int k = p.x + getmaxx( w ) / 2 - view_center.x;
+    const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+
+    mvwputch( w, j, k, c_brown, sym );
 }
 
 void map::draw( const catacurses::window &w, const tripoint &center )
@@ -5572,7 +5596,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                get_submap_at( p.x, p.y, p.z - 1, lx, ly ) : cur_submap;
             while( lx < SEEX && x < maxx )  {
                 const lit_level lighting = visibility_cache[x][y];
-                if( !apply_vision_effects( w, lighting, cache ) ) {
+                const visibility_type vis = get_visibility( lighting, cache );
+                if( !apply_vision_effects( w, vis ) ) {
                     const maptile curr_maptile = maptile( cur_submap, lx, ly );
                     const bool just_this_zlevel =
                         draw_maptile( w, g->u, p, curr_maptile,
@@ -5585,6 +5610,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                          lighting == LL_LOW, lighting == LL_BRIGHT, false );
                         p.z++;
                     }
+                } else if( vis == VIS_HIDDEN || vis == VIS_DARK ) {
+                    draw_maptile_from_memory( w, p, center );
                 }
 
                 lx++;
@@ -5597,6 +5624,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             x++;
         }
     }
+
+    g->u.finalize_terrain_memory_curses();
 }
 
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
@@ -5628,6 +5657,8 @@ void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, con
                          invert_arg, view_center,
                          low_light, bright_light, false );
     }
+
+    g->u.finalize_terrain_memory_curses();
 }
 
 // a check to see if the lower floor needs to be rendered in tiles
@@ -5651,20 +5682,19 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
-    static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
+
+    long terrain_sym;
+    if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
+        terrain_sym = determine_wall_corner( p );
+    } else {
+        terrain_sym = curr_ter.symbol();
+    }
 
     if( curr_furn.id ) {
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
     } else {
-        if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
-            // If the terrain symbol is later overridden by something, we don't need to calculate
-            // the wall symbol at all. This case will be detected by comparing sym to this
-            // placeholder, if it's still the same, we have to calculate the wall symbol.
-            sym = AUTO_WALL_PLACEHOLDER;
-        } else {
-            sym = curr_ter.symbol();
-        }
+        sym = terrain_sym;
         tercol = curr_ter.color();
     }
     if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) &&
@@ -5767,22 +5797,24 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
         }
     }
 
+    long memory_sym = sym;
     int veh_part = 0;
     const vehicle *veh = veh_at_internal( p, veh_part );
     if( veh != nullptr ) {
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
         tercol = veh->part_color( veh_part );
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
+
+        if( !veh->forward_velocity() ) {
+            memory_sym = sym;
+        }
     }
+
+    g->u.memorize_terrain_curses( p, memory_sym );
 
     // If there's graffiti here, change background color
     if( curr_maptile.has_graffiti() ) {
         graf = true;
-    }
-
-    //surprise, we're not done, if it's a wall adjacent to an other, put the right glyph
-    if( sym == AUTO_WALL_PLACEHOLDER ) {
-        sym = determine_wall_corner( p );
     }
 
     const auto u_vision = u.get_vision_modes();
@@ -7371,7 +7403,8 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     VehicleList vehs = get_vehicles( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
-        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
+        for( const vpart_reference vp : v.v->get_parts() ) {
+            const size_t part = vp.part_index();
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             if( v.z != sz ) {
@@ -7462,7 +7495,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         auto &outside_cache = ch.outside_cache;
         auto &transparency_cache = ch.transparency_cache;
         auto &floor_cache = ch.floor_cache;
-        for( size_t part = 0; part < v.v->parts.size(); part++ ) {
+        for( const vpart_reference vp : v.v->get_parts() ) {
+            const size_t part = vp.part_index();
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
             if( !inbounds( px, py ) ) {
@@ -7951,17 +7985,16 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
     auto vehs = get_vehicles();
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
-        auto obstacles = veh.all_parts_with_feature( VPFLAG_OBSTACLE, true );
-        for( const int p : obstacles ) {
-            const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
+        for( const vpart_reference vp : veh.parts_with_feature( VPFLAG_OBSTACLE, true ) ) {
+            const point part_pos = veh.global_pos() + veh.parts[vp.part_index()].precalc[0];
             if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
 
         // Doors, but only the closed ones
-        auto doors = veh.all_parts_with_feature( VPFLAG_OPENABLE, true );
-        for( const int p : doors ) {
+        for( const vpart_reference vp : veh.parts_with_feature( VPFLAG_OPENABLE, true ) ) {
+            const size_t p = vp.part_index();
             if( veh.parts[p].open ) {
                 continue;
             }

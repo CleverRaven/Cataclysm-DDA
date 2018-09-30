@@ -1795,7 +1795,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         // @todo: Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
-            return mut_branch.name;
+            return mut_branch.name();
         }
 
         return std::string();

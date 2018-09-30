@@ -375,6 +375,16 @@ static void color_pixel_overexposed( pixel &pix )
     pix.b = result / 7;
 }
 
+static void color_pixel_memorized( pixel &pix )
+{
+    if( pix.isBlack() ) {
+        return;
+    }
+    pix.r = clamp( pix.r / 3, 1, 255 );
+    pix.g = clamp( pix.g / 3, 1, 255 );
+    pix.b = clamp( pix.b / 3, 1, 255 );
+}
+
 static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
         void ( &pixel_converter )( pixel & ) )
 {
@@ -439,6 +449,8 @@ void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
                              ts.night_tile_values );
     copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_overexposed ), offset,
                              ts.overexposed_tile_values );
+    copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_memorized ), offset,
+                             ts.memory_tile_values );
 }
 
 template<typename T>
@@ -517,6 +529,7 @@ void tileset_loader::load_tileset( std::string img_path )
     extend_vector_by( ts.shadow_tile_values, expected_tilecount );
     extend_vector_by( ts.night_tile_values, expected_tilecount );
     extend_vector_by( ts.overexposed_tile_values, expected_tilecount );
+    extend_vector_by( ts.memory_tile_values, expected_tilecount );
 
     for( const SDL_Rect sub_rect : output_range ) {
         assert( sub_rect.x % sprite_width == 0 );
@@ -1132,6 +1145,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+                int height_3d = 0;
+                draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d );
                 const auto critter = g->critter_at( tripoint( x, y, center.z ), true );
                 if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
                     //TODO defer drawing this until later when we know how tall
@@ -1166,6 +1181,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
         }
     }
+
+    g->u.finalize_tile_memory();
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
@@ -1925,7 +1942,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             // append subtile name to tile and re-find display_tile
             return draw_from_id_string(
                        std::move( id.append( "_", 1 ).append( multitile_keys[subtile] ) ),
-                       pos, -1, rota, ll, apply_night_vision_goggles, height_3d );
+                       category, subcategory, pos, -1, rota, ll, apply_night_vision_goggles, height_3d );
         }
     }
 
@@ -2068,7 +2085,11 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
 
     //use night vision colors when in use
     //then use low light tile if available
-    if( apply_night_vision_goggles ) {
+    if( ll == LL_MEMORIZED ) {
+        if( const auto ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
+            sprite_tex = ptr;
+        }
+    } else if( apply_night_vision_goggles ) {
         if( ll != LL_LOW ) {
             if( const auto ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
                 sprite_tex = ptr;
@@ -2261,8 +2282,23 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
     }
 
     const std::string &tname = t.obj().id.str();
+    g->u.memorize_tile( p, tname, subtile, rotation );
 
     return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
+                                nv_goggles_activated, height_3d );
+}
+
+bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
+{
+    if( !g->u.should_show_map_memory() ) {
+        return false;
+    }
+    const memorized_terrain_tile t = g->u.get_memorized_terrain( p );
+    if( t.tile == "" ) {
+        return false;
+    }
+
+    return draw_from_id_string( t.tile, C_TERRAIN, empty_string, p, t.subtile, t.rotation, LL_MEMORIZED,
                                 nv_goggles_activated, height_3d );
 }
 
@@ -2290,6 +2326,8 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     // get the name of this furniture piece
     const std::string &f_name = f_id.obj().id.str();
+    g->u.memorize_tile( p, f_name, subtile, rotation );
+
     bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
                                     nv_goggles_activated, height_3d );
     if( ret && g->m.sees_some_items( p, g->u ) ) {
@@ -2315,6 +2353,8 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
     int subtile = 0;
     int rotation = 0;
     get_tile_values( tr.loadid, neighborhood, subtile, rotation );
+
+    g->u.memorize_tile( p, tr.id.str(), subtile, rotation );
 
     return draw_from_id_string( tr.id.str(), C_TRAP, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );
@@ -2452,6 +2492,11 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     }
     const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO" );
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
+
+    if( !veh->forward_velocity() ) {
+        g->u.memorize_tile( p, vpid, subtile, veh_dir );
+    }
+
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
                                     ll, nv_goggles_activated, height_3d );
     if( ret && draw_highlight ) {

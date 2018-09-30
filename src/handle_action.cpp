@@ -3,6 +3,7 @@
 #include "gates.h"
 #include "action.h"
 #include "input.h"
+#include "vpart_range.h"
 #include "output.h"
 #include "player.h"
 #include "messages.h"
@@ -176,7 +177,7 @@ input_context game::get_player_input( std::string &action )
                         const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
                         const lit_level lighting = visibility_cache[location.x][location.y];
                         wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                        if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                        if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
                                       u.pos() + u.view_offset,
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
@@ -216,7 +217,7 @@ input_context game::get_player_input( std::string &action )
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                                if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                                if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
                                               u.pos() + u.view_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
@@ -381,7 +382,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).empty() ) {
+        if( empty( veh->parts_with_feature( "REMOTE_CONTROLS", true ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
             return;
         }
@@ -727,7 +728,7 @@ static void sleep()
     for( auto &mut : u.get_mutations() ) {
         const auto &mdata = mut.obj();
         if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
-            active.push_back( mdata.name );
+            active.push_back( mdata.name() );
         }
     }
     std::stringstream data;
@@ -1171,6 +1172,10 @@ bool game::handle_action()
     // These actions are allowed while deathcam is active.
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch( act ) {
+            case ACTION_TOGGLE_MAP_MEMORY:
+                u.toggle_map_memory();
+                break;
+
             case ACTION_CENTER:
                 u.view_offset.x = driving_view_offset.x;
                 u.view_offset.y = driving_view_offset.y;
@@ -1782,9 +1787,9 @@ bool game::handle_action()
                 get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
                 get_options().save();
                 //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
-                add_msg( string_format( _( "Auto %1$s is now %2$s." ),
-                                        get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(),
-                                        get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) ).c_str() );
+                add_msg( _( "Auto %1$s is now %2$s." ),
+                         get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(),
+                         get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) );
                 break;
 
             case ACTION_DISPLAY_SCENT:

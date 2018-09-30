@@ -708,7 +708,6 @@ class npc : public player
         bool alt_attack(); // Returns true if did something
         void heal_player( player &patient );
         void heal_self();
-        void take_painkiller();
         void mug_player( player &mark );
         void look_for_player( player &sought );
         bool saw_player_recently() const;// Do we have an idea of where u are?

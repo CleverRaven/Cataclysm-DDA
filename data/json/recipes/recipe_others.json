@@ -1115,17 +1115,6 @@
   },
   {
     "type": "recipe",
-    "result": "2x4",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": 8000,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "stick_long", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "basket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1933,6 +1922,18 @@
     "autolearn": true,
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bottle_twoliter",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 8 ] ] ]
   },
   {
     "type": "recipe",

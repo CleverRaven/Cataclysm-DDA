@@ -133,11 +133,9 @@ classes = {
             bodytemp_sleep = { type = "int", writable = true },
             cooldown = { type = "int", writable = true },
             cost = { type = "int", writable = true },
-            description = { type = "string", writable = true },
             fatigue = { type = "bool", writable = true },
             hunger = { type = "bool", writable = true },
             mixed_effect = { type = "bool", writable = true },
-            name = { type = "string", writable = true },
             points = { type = "int", writable = true },
             profession = { type = "bool", writable = true },
             purifiable = { type = "bool", writable = true },
@@ -149,6 +147,8 @@ classes = {
             visibility = { type = "int", writable = true },
         },
         functions = {
+            { name = "name", rval = "string", args = { } },
+            { name = "desc", rval = "string", args = { } },
             { name = "get_display_color", rval = "nc_color", args = { } },
         }
     },
@@ -1949,7 +1949,6 @@ classes = {
     itype = {
         attributes = {
             color = { type = "nc_color", writable = true },
-            default_container = { type = "string", writable = true },
             description = { type = "string", writable = true },
             explode_in_fire = { type = "bool", writable = true },
             integral_volume = { type = "volume", writable = true },
@@ -2288,6 +2287,20 @@ global_functions = {
     }
 }
 
+function table_unpack_wrapper(args)
+    if args then
+        if table.unpack then
+            return table.unpack(args)
+        elseif unpack then
+            return unpack(args)
+        else
+            return nil
+        end
+    else
+        return nil
+    end
+end
+
 -- This extracts optional arguments.
 -- Example:
 --     { name = "add_effect", rval = nil, args = { "efftype_id", "time_duration" }, optional_args = { "body_part", "bool", "int", "bool" } },
@@ -2305,7 +2318,7 @@ for class_name, value in pairs(classes) do
                 local t = {
                     name = func.name,
                     rval = func.rval,
-                    args = { table.unpack(func.args) } -- copy args
+                    args = { table_unpack_wrapper(func.args) } -- copy args
                 }
                 local j = 1
                 while j <= i do
