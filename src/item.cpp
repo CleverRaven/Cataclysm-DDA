@@ -1557,6 +1557,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), "",
                                           get_encumber(), true, "", false, true ) );
             }
+            if( !type->rigid ) {
+                const auto encumbrance_when_full = get_encumber_when_containing(get_container_capacity());
+                info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
+                                          encumbrance_when_full, true, "", false, true ) );
+            }
         }
 
         int converted_storage_scale = 0;
@@ -3418,6 +3423,15 @@ bool item::is_power_armor() const
 
 int item::get_encumber() const
 {
+    units::volume contents_volume(0);
+    for( const auto &e : contents ) {
+        contents_volume += e.volume();
+    }
+    return get_encumber_when_containing(contents_volume);
+}
+
+int item::get_encumber_when_containing(units::volume contents_volume) const
+{
     const auto t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (e.g. shoulder strap) as special case
@@ -3428,9 +3442,7 @@ int item::get_encumber() const
 
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
-        for( const auto &e : contents ) {
-            encumber += e.volume() / 250_ml;
-        }
+        encumber += contents_volume / 250_ml;
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.

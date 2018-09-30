@@ -1367,6 +1367,12 @@ class item : public visitable<item>
          */
         int get_coverage() const;
         /**
+         * Returns the encumbrance value that this item has when worn, when
+         * containing a particular volume of contents.
+         * Returns 0 if this is can not be worn at all.
+         */
+        int get_encumber_when_containing(units::volume contents_volume) const;
+        /**
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.
          */
