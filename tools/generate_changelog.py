@@ -679,11 +679,7 @@ def main(target_dttm, token_file, output_file, include_summary_none):
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
 
-    if output_file is None:
-        output_file = sys.stdout
-    else:
-        output_file = open(pathlib.Path(str(output_file)).expanduser(), 'w', encoding='utf8')
-
+    ### get data from GitHub API
     commit_api = CommitApi(CommitFactory(), personal_token)
     commit_repo = CommitRepository()
     commit_repo.add_multiple(commit_api.get_commit_list(target_dttm))
@@ -692,6 +688,15 @@ def main(target_dttm, token_file, output_file, include_summary_none):
     pr_repo = CDDAPullRequestRepository()
     pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, merged_only=True))
 
+    ### build script output
+    if output_file is None:
+        build_output(pr_repo, commit_repo, target_dttm, sys.stdout, include_summary_none)
+    else:
+        with open(output_file, 'w', encoding='utf8') as opened_output_file:
+            build_output(pr_repo, commit_repo, target_dttm, opened_output_file, include_summary_none)
+
+
+def build_output(pr_repo, commit_repo, target_dttm, output_file, include_summary_none):
     ### group commits with no PR by date
     commits_with_no_pr = collections.defaultdict(list)
     for commit in commit_repo.traverse_commits_by_first_parent():
