@@ -4464,6 +4464,15 @@ void player::update_needs( int rate_multiplier )
                         rest_modifier *= 2;
                     }
 
+                    // If we're just tired, we'll get a decent boost to our sleep quality.
+                    // The opposite is true for very tired characters.
+                    if( get_fatigue() < DEAD_TIRED ) {
+                        rest_modifier += 2;
+                    }
+                    else if( get_fatigue() >= EXHAUSTED ) {
+                        rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
+                    }
+
                     // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
                     mod_sleep_deprivation( -rest_modifier * ( recovered * 2 ) );
                 }
