@@ -286,6 +286,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.hp_modifier = jsobj.get_float( "hp_modifier", 0.0f );
     new_mut.hp_modifier_secondary = jsobj.get_float( "hp_modifier_secondary", 0.0f );
     new_mut.hp_adjustment = jsobj.get_float( "hp_adjustment", 0.0f );
+    new_mut.stealth_modifier = jsobj.get_float( "stealth_modifier", 0.0f );
 
     new_mut.metabolism_modifier = jsobj.get_float( "metabolism_modifier", 0.0f );
     new_mut.thirst_modifier = jsobj.get_float( "thirst_modifier", 0.0f );

@@ -126,6 +126,9 @@ struct mutation_branch {
         float hp_modifier_secondary = 0.0f;
         // Flat bonus/penalty to hp.
         float hp_adjustment = 0.0f;
+        
+        // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
+        float stealth_modifier = 0.0f;
 
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
         float metabolism_modifier = 0.0f;
