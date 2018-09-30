@@ -5679,6 +5679,54 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
+int item::get_static_temp_counter() const
+{
+    int counters = item_counter;
+    if( item_tags.count( "FROZEN" ) ) {
+        counters = -1200 - counters;
+    } else if( item_tags.count( "COLD" ) ) {
+        counters = -600 - counters;
+    } else if( item_tags.count( "HOT" ) ) {
+        counters += 600;
+    } else if( !item_tags.count( "WARM" ) ) { // if not warm, then ticking for cold
+        counters = -counters;
+    }
+    return counters;
+}
+
+void item::set_temp_from_static( const int counters )
+{
+    item_tags.erase( "COLD" );
+    item_tags.erase( "HOT" );
+
+    if( counters < -1200 ) {
+        item_tags.insert( "FROZEN" );
+        item_counter = -counters - 1200;
+    } else if( counters < -600 ) {
+        item_tags.insert( "COLD" );
+        item_counter = -counters - 600;
+        apply_freezerburn();
+    } else if( counters < 0 ) {
+        item_counter = -counters;
+        apply_freezerburn();
+    } else if( counters > 600 ) {
+        item_counter = counters - 600;
+        item_tags.insert( "HOT" );
+        // item is limited to how much heat it can retain by its mass
+        const int limit = clamp( to_gram( weight() ), 100, 600 );
+        item_counter = std::min( limit, item_counter );
+        apply_freezerburn();
+        return;
+    } else {
+        item_tags.insert( "WARM" );
+        item_counter = counters;
+        apply_freezerburn();
+    }
+    // it shouldn't be possible to be outside these bounds, but just as a
+    // safety precaution in case the math goes weird
+    item_counter = clamp( item_counter, 0, 600 );
+}
+
 void item::fill_with( item &liquid, long amount )
 {
     amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
@@ -5695,7 +5743,17 @@ void item::fill_with( item &liquid, long amount )
         }
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
     } else if( !is_container_empty() ) {
-        contents.front().mod_charges( amount );
+        // if container already has liquid we need to average temperature
+        item &cts = contents.front();
+        const int lhs_counters = cts.get_static_temp_counter() * cts.charges;
+        const int rhs_counters = liquid.get_static_temp_counter() * amount;
+        const int avg_counters = ( lhs_counters + rhs_counters ) /
+                                 ( cts.charges + amount );
+        cts.set_temp_from_static( avg_counters );
+        // use maximum rot between the two
+        cts.set_relative_rot( std::max( cts.get_relative_rot(),
+                                        liquid.get_relative_rot() ) );
+        cts.mod_charges( amount );
     } else {
         item liquid_copy( liquid );
         liquid_copy.charges = amount;

@@ -714,6 +714,12 @@ class item : public visitable<item>
          */
         void calc_temp( const int temp, const float insulation, const time_duration &time );
 
+        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
+        int get_static_temp_counter() const;
+
+        /** Set temperature tags and counter according to a static counter */
+        void set_temp_from_static( const int counter );
+
         /** the last time the temperature was updated for this item */
         time_point last_temp_check = calendar::time_of_cataclysm;
     public:
