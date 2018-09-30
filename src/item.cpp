@@ -3403,7 +3403,6 @@ int item::get_env_resist_w_filter() const
     if( t == nullptr ) {
         return 0;
     }
-    // it_armor::env_resist is unsigned char
     return t->env_resist_w_filter;
 }
 
@@ -3423,7 +3422,6 @@ int item::get_encumber() const
         // handle wearable guns (e.g. shoulder strap) as special case
         return is_gun() ? volume() / 750_ml : 0;
     }
-    // it_armor::encumber is signed char
     int encumber = t->encumber;
 
     // Non-rigid items add additional encumbrance proportional to their volume
@@ -3485,7 +3483,6 @@ int item::get_coverage() const
     if( t == nullptr ) {
         return 0;
     }
-    // it_armor::coverage is unsigned char
     return t->coverage;
 }
 
@@ -3495,7 +3492,6 @@ int item::get_thickness() const
     if( t == nullptr ) {
         return 0;
     }
-    // it_armor::thickness is unsigned char
     return t->thickness;
 }
 
@@ -3507,7 +3503,6 @@ int item::get_warmth() const
     if( t == nullptr ) {
         return 0;
     }
-    // it_armor::warmth is signed char
     int result = t->warmth;
 
     if( item_tags.count( "furred" ) > 0 ) {
