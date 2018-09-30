@@ -57,7 +57,7 @@ void mx_null( map &, const map_extra_trigger & )
 void mx_helicopter( map &m, const map_extra_trigger &trigger )
 {
     const int map_size = m.getmapsize();
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
     const int map_tiles_width = SEEX * map_size;
     const int map_tiles_height = SEEY * map_size;
     const int cx = rng( 12, map_tiles_width - 12 );
@@ -99,8 +99,7 @@ void mx_helicopter( map &m, const map_extra_trigger &trigger )
                     }
                 }
             }
-            if(x == 0 || (x == map_tiles_width - 1) || y == 0 || (y == map_tiles_height - 1))
-            {
+            if( x == 0 || ( x == map_tiles_width - 1 ) || y == 0 || ( y == map_tiles_height - 1 ) ) {
                 m.ter_set( tripoint( x, y, abs_sub.z ), t_carpet_yellow );
             }
         }
@@ -225,22 +224,33 @@ void mx_helicopter( map &m, const map_extra_trigger &trigger )
 
 void mx_military( map &m, const map_extra_trigger &trigger )
 {
+    const int map_size = m.getmapsize();
+    const int map_tiles_width = SEEX * map_size;
+    const int map_tiles_height = SEEY * map_size;
+    int cx = rng( 4, map_tiles_width - 4 );
+    int cy = rng( 4, map_tiles_height - 4 );
+
     int num_bodies = dice( 2, 6 );
     for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_soldier, 1, p->x, p->y );
+        int offset_x = rng( -3, 3 );
+        int offset_y = rng( -3, 3 );
+        tripoint p( cx + offset_x, cy + offset_y, 0 );
+        if( m.passable( p ) ) {
+            if( one_in( 8 ) ) {
+                m.add_spawn( mon_zombie_soldier, 1, p.x, p.y );
             } else if( one_in( 25 ) ) {
                 if( one_in( 2 ) ) {
-                    m.add_spawn( mon_zombie_bio_op, 1, p->x, p->y );
+                    m.add_spawn( mon_zombie_bio_op, 1, p.x, p.y );
                 } else {
-                    m.add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
+                    m.add_spawn( mon_zombie_grenadier, 1, p.x, p.y );
                 }
             } else {
-                m.place_items( "map_extra_military", 100, *p, *p, true, 0 );
+                m.place_items( "map_extra_military", 100, p, p, true, 0 );
             }
+        }
+        if( rng( 0, 3 ) > 1 ) {
+            cx = rng( 4, map_tiles_width - 4 );
+            cy = rng( 4, map_tiles_height - 4 );
         }
 
     }
@@ -251,27 +261,38 @@ void mx_military( map &m, const map_extra_trigger &trigger )
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
         const mtype_id &type = random_entry( monsters );
-        int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
+        int mx = rng( 1, map_tiles_width - 2 ), my = rng( 1, map_tiles_height - 2 );
         m.add_spawn( type, 1, mx, my );
     }
-    m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1,
+    m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, map_tiles_width - 1, map_tiles_height - 1,
                     0.1f ); //0.1 = 1-5
-    m.place_items( "rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
+    m.place_items( "rare", 25, 0, 0, map_tiles_width - 1, map_tiles_height - 1, true, 0 );
     m.save();
 }
 
 void mx_science( map &m, const map_extra_trigger &trigger )
 {
+    const int map_size = m.getmapsize();
+    const int map_tiles_width = SEEX * map_size;
+    const int map_tiles_height = SEEY * map_size;
+    int cx = rng( 4, map_tiles_width - 4 );
+    int cy = rng( 4, map_tiles_height - 4 );
+
     int num_bodies = dice( 2, 5 );
     for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
+        int offset_x = rng( -3, 3 );
+        int offset_y = rng( -3, 3 );
+        tripoint p( cx + offset_x, cy + offset_y, 0 );
+        if( m.passable( p ) ) {
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_scientist, 1, p->x, p->y );
+                m.add_spawn( mon_zombie_scientist, 1, p.x, p.y );
             } else {
-                m.place_items( "map_extra_science", 100, *p, *p, true, 0 );
+                m.place_items( "map_extra_science", 100, p, p, true, 0 );
             }
+        }
+        if( rng( 0, 5 ) > 3 ) {
+            cx = rng( 4, map_tiles_width - 4 );
+            cy = rng( 4, map_tiles_height - 4 );
         }
     }
     static const std::array<mtype_id, 4> monsters = { {
@@ -281,33 +302,43 @@ void mx_science( map &m, const map_extra_trigger &trigger )
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
         const mtype_id &type = random_entry( monsters );
-        int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
+        int mx = rng( 1, map_tiles_width - 2 ), my = rng( 1, map_tiles_width - 2 );
         m.add_spawn( type, 1, mx, my );
     }
-    m.place_items( "rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
+    m.place_items( "rare", 45, 0, 0, map_tiles_width - 1, map_tiles_width - 1, true, 0 );
 }
 
 void mx_collegekids( map &m, const map_extra_trigger &trigger )
 {
+    const int map_size = m.getmapsize();
+    const int map_tiles_width = SEEX * map_size;
+    const int map_tiles_height = SEEY * map_size;
+    int cx = rng( 4, map_tiles_width - 4 );
+    int cy = rng( 4, map_tiles_height - 4 );
     //college kids that got into trouble
     int num_bodies = dice( 2, 6 );
     int type = dice( 1, 10 );
 
     for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
+        int offset_x = rng( -3, 3 );
+        int offset_y = rng( -3, 3 );
+        tripoint p( cx + offset_x, cy + offset_y, 0 );
+        if( m.passable( p ) ) {
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_tough, 1, p->x, p->y );
+                m.add_spawn( mon_zombie_tough, 1, p.x, p.y );
             } else {
                 if( type < 6 ) { // kids going to a cabin in the woods
-                    m.place_items( "map_extra_college_camping", 100, *p, *p, true, 0 );
+                    m.place_items( "map_extra_college_camping", 100, p, p, true, 0 );
                 } else if( type < 9 ) { // kids going to a sporting event
-                    m.place_items( "map_extra_college_sports", 100, *p, *p, true, 0 );
+                    m.place_items( "map_extra_college_sports", 100, p, p, true, 0 );
                 } else { // kids going to a lake
-                    m.place_items( "map_extra_college_lake", 100, *p, *p, true, 0 );
+                    m.place_items( "map_extra_college_lake", 100, p, p, true, 0 );
                 }
             }
+        }
+        if( rng( 0, 8 ) > 5 ) {
+            cx = rng( 4, map_tiles_width - 4 );
+            cy = rng( 4, map_tiles_height - 4 );
         }
     }
     static const std::array<mtype_id, 4> monsters = { {
@@ -317,14 +348,14 @@ void mx_collegekids( map &m, const map_extra_trigger &trigger )
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
         const mtype_id &type = random_entry( monsters );
-        int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
+        int mx = rng( 1, map_tiles_width - 2 ), my = rng( 1, map_tiles_width - 2 );
         m.add_spawn( type, 1, mx, my );
     }
 }
 
 void mx_roadblock( map &m, const map_extra_trigger &trigger )
 {
-    tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
     // Currently doesn't handle adjacency to turns or intersections well, we may want to abort in future
     bool rotated = false;
     std::string north = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 - 1, abs_sub.z ).id().c_str();
@@ -403,7 +434,7 @@ void mx_roadblock( map &m, const map_extra_trigger &trigger )
 
 void mx_drugdeal( map &m, const map_extra_trigger &trigger )
 {
-    tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
     // Decide on a drug type
     int num_drugs = 0;
     itype_id drugtype;
@@ -534,15 +565,18 @@ void mx_drugdeal( map &m, const map_extra_trigger &trigger )
 
 void mx_supplydrop( map &m, const map_extra_trigger &trigger )
 {
-    int num_crates = rng( 1, 5 );
+    const int map_size = m.getmapsize();
+    const int map_tiles_width = SEEX * map_size;
+    const int map_tiles_height = SEEY * map_size;
+    int num_crates = rng( 1, 8 );
     for( int i = 0; i < num_crates; i++ ) {
-        const auto p = random_point( m, [&m]( const tripoint & n ) {
-            return m.passable( n );
-        } );
-        if( !p ) {
-            break;
+        const int cx = rng( 4, map_tiles_width - 4 );
+        const int cy = rng( 4, map_tiles_height - 4 );
+        const tripoint p( cx, cy, 0 );
+        if( !m.passable( p ) ) {
+            continue;
         }
-        m.furn_set( p->x, p->y, f_crate_c );
+        m.furn_set( p.x, p.y, f_crate_c );
         std::string item_group;
         switch( rng( 1, 10 ) ) {
             case 1:
@@ -566,17 +600,17 @@ void mx_supplydrop( map &m, const map_extra_trigger &trigger )
         }
         int items_created = 0;
         for( int i = 0; i < 10 && items_created < 2; i++ ) {
-            items_created += m.place_items( item_group, 80, *p, *p, true, 0, 100 ).size();
+            items_created += m.place_items( item_group, 80, p, p, true, 0, 100 ).size();
         }
-        if( m.i_at( *p ).empty() ) {
-            m.destroy( *p, true );
+        if( m.i_at( p ).empty() ) {
+            m.destroy( p, true );
         }
     }
 }
 
 void mx_portal( map &m, const map_extra_trigger &trigger )
 {
-    tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
     static const std::array<mtype_id, 5> monsters = { {
             mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
         }
@@ -599,40 +633,105 @@ void mx_portal( map &m, const map_extra_trigger &trigger )
 
 void mx_minefield( map &m, const map_extra_trigger &trigger )
 {
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
-    int num_mines = rng( 6, 20 );
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( one_in( 3 ) ) {
-                m.ter_set( x, y, t_dirt );
+    const int map_size = m.getmapsize();
+    const int map_tiles_width = SEEX * map_size;
+    const int map_tiles_height = SEEY * map_size;
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
+    int dir = rng( 0, 4 ) * 90 + rng( -20, 20 );
+    tileray mine_direction( dir );
+    int x = map_tiles_width / 2;
+    int y = map_tiles_height / 2;
+    int advance_dir = 1;
+    int safety_border = 5;
+    bool flipped = false;
+    for( int i = 0; true; i++ ) {
+        for( int j = 0; j < 4; j++ ) {
+            int x_final = x + rng( -3, 3 );
+            int y_final = y + rng( -3, 3 );
+            if( !m.passable( x_final, y_final ) || m.has_flag( "SUPPORTS_ROOF", x_final, y_final ) ) {
+                continue;
+            }
+            if( !one_in( 3 ) ) {
+                m.ter_set( x_final, y_final, t_dirt );
+            } else {
+                m.ter_set( x_final, y_final, t_dirtmound );
             }
         }
-    }
-    for( int i = 0; i < num_mines; i++ ) {
-        // No mines at the extreme edges: safe to walk on a sign tile
-        int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
-        if( !m.has_flag( "DIGGABLE", x, y ) || one_in( 8 ) ) {
-            m.ter_set( x, y, t_dirtmound );
+
+        if( one_in( 2 ) ) {
+            int x_final = x + rng( -2, 2 );
+            int y_final = y + rng( -2, 2 );
+            if( m.passable( x_final, y_final ) && !m.has_flag( "SUPPORTS_ROOF", x_final, y_final ) )
+                if( m.has_flag( "DIGGABLE", x_final, y_final ) ) {
+                    mtrap_set( &m, x_final, y_final, tr_landmine_buried );
+                    m.ter_set( x_final, y_final, t_dirtmound );
+                }
         }
-        mtrap_set( &m, x, y, tr_landmine_buried );
+
+        if( !one_in( 5 ) ) {
+            int fx_1 = x + mine_direction.ortho_dx( 4 );
+            int fy_1 = y + mine_direction.ortho_dy( 4 );
+            if( m.passable( fx_1, fy_1 ) && !m.has_flag( "SUPPORTS_ROOF", fx_1, fy_1 ) ) {
+                m.ter_set( fx_1, fy_1, t_fence_barbed );
+            }
+        }
+        if( !one_in( 5 ) ) {
+            int fx_2 = x + mine_direction.ortho_dx( -4 );
+            int fy_2 = y + mine_direction.ortho_dy( -4 );
+            if( m.passable( fx_2, fy_2 ) && !m.has_flag( "SUPPORTS_ROOF", fx_2, fy_2 ) ) {
+                m.ter_set( fx_2, fy_2, t_fence_barbed );
+            }
+        }
+
+        if( i % 12 == 0 ) {
+            int fx_1 = x + mine_direction.ortho_dx( 5 );
+            int fy_1 = y + mine_direction.ortho_dy( 5 );
+
+            int fx_2 = x + mine_direction.ortho_dx( -5 );
+            int fy_2 = y + mine_direction.ortho_dy( -5 );
+            if( m.passable( fx_1, fy_1 ) && !m.has_flag( "SUPPORTS_ROOF", fx_2, fy_2 ) ) {
+                m.furn_set( fx_1, fy_1, furn_str_id( "f_sign" ) );
+                m.set_signage( tripoint( fx_1,  fy_1, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
+            }
+            if( m.passable( fx_2, fy_2 ) && !m.has_flag( "SUPPORTS_ROOF", fx_2, fy_2 ) ) {
+                m.furn_set( fx_2, fy_2, furn_str_id( "f_sign" ) );
+                m.set_signage( tripoint( fx_2,  fy_2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
+            }
+        }
+
+        x += mine_direction.dx();
+        y += mine_direction.dy();
+
+        mine_direction.advance( advance_dir );
+        if( x <= safety_border || y <= safety_border || x >= map_tiles_width - safety_border ||
+            y >= map_tiles_height - safety_border ) {
+            if( flipped ) {
+                int fx_1 = x + mine_direction.ortho_dx( 5 );
+                int fy_1 = y + mine_direction.ortho_dy( 5 );
+
+                int fx_2 = x + mine_direction.ortho_dx( -5 );
+                int fy_2 = y + mine_direction.ortho_dy( -5 );
+                if( m.passable( fx_1, fy_1 ) && !m.has_flag( "SUPPORTS_ROOF", fx_2, fy_2 ) ) {
+                    m.furn_set( fx_1, fy_1, furn_str_id( "f_sign" ) );
+                    m.set_signage( tripoint( fx_1,  fy_1, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
+                }
+                if( m.passable( fx_2, fy_2 ) && !m.has_flag( "SUPPORTS_ROOF", fx_2, fy_2 ) ) {
+                    m.furn_set( fx_2, fy_2, furn_str_id( "f_sign" ) );
+                    m.set_signage( tripoint( fx_2,  fy_2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
+                }
+                break;
+            }
+            mine_direction = tileray( dir - 180 );
+            x = map_tiles_width / 2;
+            y = map_tiles_height / 2;
+            flipped = true;
+        }
     }
-    int x1 = 0;
-    int y1 = 0;
-    int x2 = ( SEEX * 2 - 1 );
-    int y2 = ( SEEY * 2 - 1 );
-    m.furn_set( x1, y1, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x1,  y1, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x1, y2, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x1,  y2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x2, y1, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x2,  y1, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x2, y2, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x2,  y2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
 }
 
 void mx_crater( map &m, const map_extra_trigger &trigger )
 {
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
     int size = rng( 2, 6 );
     int size_squared = size * size;
     int x = rng( size, SEEX * 2 - 1 - size ), y = rng( size, SEEY * 2 - 1 - size );
@@ -663,7 +762,7 @@ void mx_fumarole( map &m, const map_extra_trigger &trigger )
 
 void mx_portal_in( map &m, const map_extra_trigger &trigger )
 {
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
     static const std::array<mtype_id, 5> monsters = { {
             mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
         }
@@ -685,7 +784,7 @@ void mx_portal_in( map &m, const map_extra_trigger &trigger )
 
 void mx_anomaly( map &m, const map_extra_trigger &trigger )
 {
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
     artifact_natural_property prop =
         artifact_natural_property( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
@@ -709,7 +808,7 @@ void mx_spider( map &m, const map_extra_trigger &trigger )
     // This was extracted from the hardcoded forest mapgen and slightly altered so
     // that it used flags rather than specific terrain types in determining where to
     // place webs.
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEX * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
@@ -749,7 +848,7 @@ void mx_grove( map &m, const map_extra_trigger &trigger )
 
     // This map extra finds the first tree in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of tree.
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
 
     ter_id tree;
     bool found_tree = false;
@@ -782,7 +881,7 @@ void mx_shrubbery( map &m, const map_extra_trigger &trigger )
 {
     // This map extra finds the first shrub in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of shrub.
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
 
     ter_id shrubbery;
     bool found_shrubbery = false;
@@ -817,7 +916,7 @@ void mx_clearcut( map &m, const map_extra_trigger &trigger )
     // practice in which most or all trees in an area are uniformly cut down.
 
     // This map extra converts all trees and young trees in the area to stumps.
-    const tripoint abs_sub = omt_to_sm_copy(trigger.omt_pos_1);
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
 
     ter_id stump( "t_stump" );
 
@@ -860,14 +959,14 @@ typedef std::unordered_map<std::string, IntPair> RangeMap;
 RangeMap extra_size_ranges = {
     { "mx_null", {1, 1} },
     { "mx_helicopter", {2, 3} },
-    { "mx_military", {1, 1} },
-    { "mx_science", {1, 1} },
-    { "mx_collegekids", {1, 1} },
+    { "mx_military", {2, 3} },
+    { "mx_science", {2, 2} },
+    { "mx_collegekids", {2, 4} },
     { "mx_roadblock", {1, 1}},
     { "mx_drugdeal", {1, 1} },
     { "mx_supplydrop", {1, 1} },
     { "mx_portal", {1, 1} },
-    { "mx_minefield", {1, 1} },
+    { "mx_minefield", {2, 6} },
     { "mx_crater", {1, 1} },
     { "mx_fumarole", {1, 1} },
     { "mx_portal_in", {1, 1} },
@@ -890,7 +989,7 @@ map_special_pointer get_function( const std::string &name )
     return iter->second;
 }
 
-int generate_special_size(const std::string& name)
+int generate_special_size( const std::string &name )
 {
     const auto iter = extra_size_ranges.find( name );
     if( iter == extra_size_ranges.end() ) {
@@ -898,20 +997,20 @@ int generate_special_size(const std::string& name)
         return 1;
     }
 
-    const int size = rng(iter->second[0], iter->second[1]);
+    const int size = rng( iter->second[0], iter->second[1] );
     return size;
 }
 
-tripoint resize_special(const tripoint& abs_sub, const std::string& name)
+tripoint resize_special( const tripoint &abs_sub, const std::string &name )
 {
     const auto iter = extra_size_ranges.find( name );
     if( iter == extra_size_ranges.end() ) {
         debugmsg( "no map special with name %s", name.c_str() );
-        return tripoint(abs_sub);
+        return tripoint( abs_sub );
     }
 
-    tripoint result(abs_sub);
-    const int size = rng(iter->second[0], iter->second[1]);
+    tripoint result( abs_sub );
+    const int size = rng( iter->second[0], iter->second[1] );
     result.x += size;
     result.y += size;
 

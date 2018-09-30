@@ -6175,9 +6175,7 @@ void map::save()
 
 void map::initialize_map_extras()
 {
-    tinymap *self = dynamic_cast<tinymap *>( this );
-
-    if( !self ) {
+    if( !dynamic_cast<tinymap *>( this ) ) {
         const tripoint player_pos = g->u.global_omt_location();
         for( auto &&
              trigger : overmap_buffer.get_map_extra_triggers_near( omt_to_sm_copy( player_pos ), 15 ) ) {

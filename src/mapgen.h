@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "int_id.h"
-#include "editmap.h"
 
 class time_point;
 struct ter_t;
@@ -25,6 +24,7 @@ struct tripoint;
 class map;
 typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
 struct ter_furn_id;
+struct map_extra_trigger;
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides abstract referencing of

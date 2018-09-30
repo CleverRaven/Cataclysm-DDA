@@ -1023,8 +1023,7 @@ void overmap::unserialize( std::istream &fin )
             }
         }
     }
-    if(map_extra_triggers.size() == 0)
-    {
+    if( map_extra_triggers.empty() ) {
         place_map_extras();
     }
 }
