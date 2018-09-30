@@ -3736,7 +3736,7 @@ void smoker_activate(player &p, const tripoint &examp)
     }
     if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
         add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
-        add_msg( string_format( _( "You think that you can load about %s %s in it." ), format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() ) );
+        add_msg( _( "You think that you can load about %s %s in it." ), format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() );
         return;
     }
 
@@ -3970,7 +3970,7 @@ void smoker_load_food( player &p, const tripoint &examp, units::volume remaining
     for( item m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg(m_info, string_format( _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(), amount ) ) );
+        add_msg(m_info, _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(), amount ) );
     }
     p.invalidate_crafting_inventory();
 }

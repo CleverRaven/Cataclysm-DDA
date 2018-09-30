@@ -10,6 +10,7 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
+#include "vpart_range.h"
 #include "ammo.h"
 #include "item_group.h"
 #include "mapgen_functions.h"
@@ -6899,10 +6900,7 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    bool can_float = false;
-    if( veh->all_parts_with_feature( "FLOATS" ).size() > 2 ) {
-        can_float = true;
-    }
+    const bool can_float = size( veh->parts_with_feature( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
@@ -7839,7 +7837,8 @@ void silo_rooms( map *m )
         }
     } while( okay );
 
-    m->ter_set( rooms[0].first.x, rooms[0].first.y, t_stairs_up );
+    const point &first_room_position = rooms[0].first;
+    m->ter_set( first_room_position.x, first_room_position.y, t_stairs_up );
     const auto &room = random_entry( rooms );
     m->ter_set( room.first.x + room.second.x, room.first.y + room.second.y, t_stairs_down );
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
@@ -7848,14 +7847,17 @@ void silo_rooms( map *m )
         int best_dist = 999;
         int closest = 0;
         for( size_t i = 1; i < rooms.size(); i++ ) {
-            int dist = trig_dist( rooms[0].first.x, rooms[0].first.y, rooms[i].first.x, rooms[i].first.y );
+            int dist = trig_dist( first_room_position.x, first_room_position.y, rooms[i].first.x,
+                                  rooms[i].first.y );
             if( dist < best_dist ) {
                 best_dist = dist;
                 closest = i;
             }
         }
         // We chose the closest room; now draw a corridor there
-        point origin = rooms[0].first, origsize = rooms[0].second, dest = rooms[closest].first;
+        point origin = first_room_position;
+        point origsize = rooms[0].second;
+        point dest = rooms[closest].first;
         int x = origin.x + origsize.x;
         int y = origin.y + origsize.y;
         bool x_first = ( abs( origin.x - dest.x ) > abs( origin.y - dest.y ) );

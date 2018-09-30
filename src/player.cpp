@@ -38,6 +38,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "item_action.h"
+#include "vpart_range.h"
 #include "mongroup.h"
 #include "morale.h"
 #include "morale_types.h"
@@ -144,6 +145,7 @@ const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_lack_sleep( "lack_sleep" );
+const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
@@ -171,11 +173,10 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_magnesium_supplements( "magnesium" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
-
-const species_id ROBOT( "ROBOT" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
@@ -226,6 +227,7 @@ static const bionic_id bio_trip( "bio_trip" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_watch( "bio_watch" );
+static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -233,7 +235,6 @@ static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
-static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
@@ -284,7 +285,6 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
-static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FASTHEALER( "FASTHEALER" );
 static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
@@ -297,7 +297,6 @@ static const trait_id trait_FLEET( "FLEET" );
 static const trait_id trait_FLEET2( "FLEET2" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
-static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -387,9 +386,7 @@ static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -426,7 +423,6 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEBBED( "WEBBED" );
@@ -695,6 +691,12 @@ void player::reset_stats()
         mod_dex_bonus( dex_mod );
         mod_int_bonus( -get_thirst() / 200 );
         mod_per_bonus( -get_thirst() / 200 );
+    }
+    if( get_sleep_deprivation() >= SLEEP_DEPRIVATION_HARMLESS ) {
+        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
+    }
+    else if( has_effect( effect_sleep_deprived ) ) {
+        remove_effect( effect_sleep_deprived );
     }
 
     // Dodge-related effects
@@ -1887,12 +1889,7 @@ int player::run_cost( int base_cost, bool diag ) const
 
 int player::swim_speed() const
 {
-    int ret;
-    if( !has_trait( trait_AMPHIBIAN ) ) {
-        ret = 440 + weight_carried() / 60_gram - 50 * get_skill_level( skill_swimming );
-    } else {
-        ret = 200 + weight_carried() / 120_gram - 50 * get_skill_level( skill_swimming );
-    }
+    int ret = 440 + weight_carried() / 60_gram - 50 * get_skill_level( skill_swimming );
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
     float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
@@ -1923,17 +1920,11 @@ int player::swim_speed() const
     if( has_trait( trait_SLEEK_SCALES ) ) {
         ret -= 100;
     }
-    if( has_trait( trait_AMPHIBIAN ) ) {
-        ret -= 100;
-    }
     if( has_trait( trait_LEG_TENTACLES ) ) {
         ret -= 60;
     }
     if( has_trait( trait_FAT ) ) {
         ret -= 30;
-    }
-    if( has_trait( trait_AMPHIBIAN ) ) {
-        ret *= 0.5f;
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
@@ -2541,7 +2532,7 @@ std::string player::get_category_dream( const std::string &cat,
         return "";
     }
     const dream &selected_dream = random_entry( valid_dreams );
-    return random_entry( selected_dream.messages );
+    return random_entry( selected_dream.messages() );
 }
 
 bool player::in_climate_control()
@@ -2797,7 +2788,7 @@ bool player::sight_impaired() const
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
              ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
-               !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
+               !has_trait( trait_CEPH_EYES ) ) ||
              ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
                !worn_with_flag( "FIX_NEARSIGHT" ) &&
                !has_effect( effect_contacts ) &&
@@ -2841,8 +2832,8 @@ bool player::has_alarm_clock() const
 {
     return ( has_item_with_flag( "ALARMCLOCK" ) ||
              (
-                 ( g->m.veh_at( pos() ) ) &&
-                 !g->m.veh_at( pos() )->vehicle().all_parts_with_feature( "ALARMCLOCK", true ).empty()
+                 g->m.veh_at( pos() ) &&
+                 !empty( g->m.veh_at( pos() )->vehicle().parts_with_feature( "ALARMCLOCK", true ) )
              ) ||
              has_bionic( bio_watch )
            );
@@ -2852,8 +2843,8 @@ bool player::has_watch() const
 {
     return ( has_item_with_flag( "WATCH" ) ||
              (
-                 ( g->m.veh_at( pos() ) ) &&
-                 !g->m.veh_at( pos() )->vehicle().all_parts_with_feature( "WATCH", true ).empty()
+                 g->m.veh_at( pos() ) &&
+                 !empty( g->m.veh_at( pos() )->vehicle().parts_with_feature( "WATCH", true ) )
              ) ||
              has_bionic( bio_watch )
            );
@@ -4232,7 +4223,7 @@ void player::check_needs_extremes()
     if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
         if( get_fatigue() >= 700 ) {
             if( calendar::once_every( 30_minutes ) ) {
-                add_msg_if_player( m_warning, _("You're too tired to stop yawning.") );
+                add_msg_if_player( m_warning, _("You're too physically tired to stop yawning.") );
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
@@ -4254,6 +4245,74 @@ void player::check_needs_extremes()
             add_effect( effect_lack_sleep, 30_minutes + 1_turns );
         }
     }
+
+    // Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for long periods of time
+    int sleep_deprivation = get_sleep_deprivation();
+    float sleep_deprivation_pct = sleep_deprivation / static_cast<float>( SLEEP_DEPRIVATION_MASSIVE );
+
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS && !in_sleep_state() ) {
+        if( calendar::once_every( 60_minutes ) ) {
+            if( sleep_deprivation < SLEEP_DEPRIVATION_MINOR ) {
+                add_msg( m_warning, _( "Your mind feels tired. It's been a while since you've slept well." ) );
+                mod_fatigue( 1 );
+            }
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
+                add_msg( m_bad, _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
+                mod_fatigue( 5 );
+
+                if( one_in( 10 ) ) {
+                    mod_healthy_mod( -1, 0 );
+                }
+            }
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
+                add_msg( m_bad, _( "Your mind feels weary, and you dread every wakeful minute that passes. You crave sleep, and feel like you're about to collapse." ) );
+                mod_fatigue( 10 );
+
+                if( one_in( 5 ) ) {
+                    mod_healthy_mod( -2, 0 );
+                }
+            }
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
+                add_msg( m_bad, _( "You haven't slept decently for so long that your whole body is screaming for mercy. It's a miracle that you're still awake, but it just feels like a curse now." ) );
+                mod_fatigue( 40 );
+
+                mod_healthy_mod( -5, 0 );
+            }
+            // else you pass out for 20 hours, guaranteed 
+
+            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
+            // Note: these can coexist with fatigue-related microsleeps
+            /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
+            if( one_in( (int)( sleep_deprivation_pct * 75 ) + int_cur ) ) {
+                fall_asleep( 5_turns );
+            }
+
+            // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
+            bool can_pass_out = ( stim < 30 && sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) || sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR;
+
+            if( can_pass_out && calendar::once_every( 10_minutes ) ) {
+                /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
+                if( one_in( (int)( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) || sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
+                    add_msg( m_bad, _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." ) );
+                    if( get_fatigue() < EXHAUSTED ) {
+                        set_fatigue( EXHAUSTED );
+                    }
+
+                    if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
+                        fall_asleep( 20_hours );
+                    } 
+                    else if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
+                        fall_asleep( 16_hours );
+                    }
+                    else {
+                        fall_asleep( 12_hours );
+                    }
+                }
+            }
+
+        }
+    }
+
 }
 
 void player::update_needs( int rate_multiplier )
@@ -4267,7 +4326,8 @@ void player::update_needs( int rate_multiplier )
     const bool foodless = debug_ls || npc_no_food;
     const bool has_recycler = has_bionic( bio_recycler );
     const bool asleep = !sleep.is_null();
-    const bool lying = asleep || has_effect( effect_lying_down );
+    const bool lying = asleep || has_effect( effect_lying_down ) ||
+                       activity.id() == "ACT_TRY_SLEEP";
     const bool hibernating = asleep && is_hibernating();
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
@@ -4336,9 +4396,24 @@ void player::update_needs( int rate_multiplier )
         fatigue_rate *= 1.0f + mutation_value( "fatigue_modifier" );
 
         if( fatigue_rate > 0.0f ) {
-            mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
+            int fatigue_roll = divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
+            mod_fatigue( fatigue_roll );
+
+            if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
+                // Synaptic regen bionic stops SD while awake and boosts it while sleeping
+                if( !has_active_bionic( bio_synaptic_regen ) ) {
+                    // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
+                    // but characters who need less sleep will also get less sleep deprived, and vice-versa.
+
+                    // Note: Since needs are updated in 5-minute increments, we have to multiply the roll again by
+                    // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
+                    mod_sleep_deprivation( fatigue_roll * 5 );
+                }
+            }
+
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
+                set_sleep_deprivation( 0 );
             }
         }
     } else if( asleep ) {
@@ -4353,16 +4428,45 @@ void player::update_needs( int rate_multiplier )
         }
 
         // Untreated pain causes a flat penalty to fatigue reduction
-        recovery_rate -= float(get_perceived_pain()) / 60;
+        recovery_rate -= float( get_perceived_pain() ) / 60;
 
         if( recovery_rate > 0.0f ) {
             int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
             if( get_fatigue() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
-                mod_fatigue(-25);
+                mod_fatigue( -25 );
             } else {
-                mod_fatigue(-recovered);
+                mod_fatigue( -recovered );
+                if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
+                    // Sleeping on the ground, no bionic = 1x rest_modifier
+                    // Sleeping on a bed, no bionic      = 2x rest_modifier
+                    // Sleeping on a comfy bed, no bionic= 3x rest_modifier
+
+                    // Sleeping on the ground, bionic    = 3x rest_modifier
+                    // Sleeping on a bed, bionic         = 6x rest_modifier
+                    // Sleeping on a comfy bed, bionic   = 9x rest_modifier
+                    float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
+                    // Magnesium supplements also add a flat bonus to recovery speed
+                    if( has_effect( effect_magnesium_supplements ) ) {
+                        rest_modifier += 1;
+                    }
+
+                    comfort_level comfort = base_comfort_value( pos() );
+
+                    if( comfort >= comfort_level::very_comfortable ) {
+                        rest_modifier *= 3;
+                    }
+                    else  if( comfort >= comfort_level::comfortable ) {
+                        rest_modifier *= 2.5;
+                    }
+                    else if( comfort >= comfort_level::slightly_comfortable ) {
+                        rest_modifier *= 2;
+                    }
+
+                    // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
+                    mod_sleep_deprivation( -rest_modifier * ( recovered * 2 ) );
+                }
             }
         }
     }
@@ -5056,21 +5160,21 @@ void player::suffer()
             if (mdata.hunger){
                 mod_hunger(mdata.cost);
                 if (get_hunger() >= 700) { // Well into Famished
-                    add_msg_if_player(m_warning, _("You're too famished to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too famished to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
             if (mdata.thirst){
                 mod_thirst(mdata.cost);
                 if (get_thirst() >= 260) { // Well into Dehydrated
-                    add_msg_if_player(m_warning, _("You're too dehydrated to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too dehydrated to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
             if (mdata.fatigue){
                 mod_fatigue(mdata.cost);
                 if (get_fatigue() >= EXHAUSTED) { // Exhausted
-                    add_msg_if_player(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too exhausted to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
@@ -5097,14 +5201,6 @@ void player::suffer()
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
-        if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) && get_thirst() > -60 ) {
-            mod_thirst( -1 );
-        }
-    }
-
-    if( has_trait( trait_SHARKTEETH ) && one_in( 14400 ) ) {
-        add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        g->m.spawn_item( pos(), "bone", 1 );
     }
 
     if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
@@ -6081,6 +6177,91 @@ void player::suffer()
             mod_fatigue( rng( 1, 2 ) );
         }
     }
+
+    int sleep_deprivation = !in_sleep_state() ? get_sleep_deprivation() : 0;
+    // Stimulants can lessen the PERCEIVED effects of sleep deprivation, but
+    // they do nothing to cure it. As such, abuse is even more dangerous now.
+    if( stim > 0 ) {
+        // 100% of blacking out = 20160sd ; Max. stim modifier = 12500sd @ 250stim
+        // Note: Very high stim already has its own slew of bad effects,
+        // so the "useful" part of this bonus is actually lower.
+        sleep_deprivation -= stim * 50;
+    }
+
+    // Harmless warnings
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS ) {
+        if( one_in( 500 ) ) {
+            switch( dice(1, 4) ) {
+                default:
+                case 1:
+                    add_msg( m_warning, _( "You tiredly rub your eyes." ) );
+                    break;
+                case 2:
+                    add_msg( m_warning, _( "You let out a small yawn." ) );
+                    break;
+                case 3:
+                    add_msg( m_warning, _( "You stretch your back." ) );
+                    break;
+                case 4:
+                    add_msg( m_warning, _( "You feel mentally tired." ) );
+                    break;
+            }
+        }
+    }
+    // Minor discomfort
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
+        if( one_in( 750 ) ) {
+            add_msg( m_warning, _( "You feel lightheaded for a moment." ) );
+            moves -= 10;
+        }
+        if( one_in( 1000 ) ) {
+            add_msg( m_warning, _( "Your muscles spasm uncomfortably." ) );
+            mod_pain( 2 );
+        }
+        if( !has_effect( effect_visuals ) && one_in( 1500 ) ) {
+            add_msg( m_warning, _( "Your vision blurs a little." ) );
+            add_effect( effect_visuals, rng( 1_minutes, 5_minutes ) );
+        }
+    }
+    // Slight disability
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
+        if( one_in( 750 ) ) {
+            add_msg( m_bad, _( "Your mind lapses into unawareness briefly." ) );
+            moves -= rng( 20, 80 );
+        }
+        if( one_in( 1250 ) ) {
+            add_msg( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
+            mod_pain( rng( 2, 10 ) );
+        }
+        if( one_in( 3000 ) ) {
+            add_msg( m_bad, _( "You have a distractingly painful headache." ) );
+            mod_pain( rng( 10, 25 ) );
+        }
+    }
+    // Major disability, high chance of passing out also relevant
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
+        if( !has_effect( effect_nausea ) && one_in( 5000 ) ) {
+            add_msg( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
+            mod_pain( 5 );
+            add_effect( effect_nausea, rng( 5_minutes, 30_minutes ) );
+        }
+        if( one_in( 3000 ) ) {
+            add_msg( m_bad, _( "Your mind is so tired that you feel you can't trust your eyes anymore." ) );
+            add_effect( effect_hallu, rng( 5_minutes, 60_minutes ) );
+        }
+        if( !has_effect( effect_shakes ) && one_in( 4250 ) ) {
+            add_msg( m_bad, _( "Your muscles spasm uncontrollably, and you have trouble keeping your balance." ) );
+            add_effect( effect_shakes, 15_minutes );
+        }
+        else if( has_effect( effect_shakes ) && one_in( 75 ) ) {
+            moves -= 10;
+            add_msg( m_warning, _( "Your shaking legs make you stumble." ) );
+            if( !has_effect( effect_downed ) && one_in( 10 ) ) {
+                add_msg( m_bad, _( "You fall over!" ) );
+                add_effect( effect_downed, rng( 3_turns, 10_turns ) );
+            }
+        }
+    }
 }
 
 // At minimum level, return at_min, at maximum at_max
@@ -7040,7 +7221,7 @@ bool player::consume_item( item &target )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return false;
     }
-    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
+    if( is_underwater() ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return false;
     }
@@ -7549,7 +7730,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
                 return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
-                             branch.name.c_str(), it.type_name().c_str() );
+                             branch.name(), it.type_name().c_str() );
             }
         }
         if( it.covers(bp_head) &&
@@ -9664,7 +9845,6 @@ void player::try_to_sleep( const time_duration &dur )
     bool webforce = false;
     bool websleeping = false;
     bool in_shell = false;
-    bool watersleep = false;
     if (has_trait( trait_CHLOROMORPH )) {
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
@@ -9719,17 +9899,6 @@ void player::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    if( has_trait( trait_WATERSLEEP ) ) {
-        const bool swimmable = g->m.has_flag_ter( "SWIMMABLE", pos() );
-        const bool deep = g->m.has_flag_ter( "DEEP_WATER", pos() );
-        if( swimmable && !deep ) {
-            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse..." ) );
-            watersleep = true;
-        } else if( swimmable ) {
-            add_msg_if_player( m_good, _( "You lay beneath the waves' embrace, gazing up through the water's surface..." ) );
-            watersleep = true;
-        }
-    }
     if(!plantsleep && (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
@@ -9738,7 +9907,7 @@ void player::try_to_sleep( const time_duration &dur )
          vp.part_with_feature( "SEAT" ) ||
          vp.part_with_feature( "BED" ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
-    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay && !watersleep) {
+    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
@@ -9748,15 +9917,141 @@ void player::try_to_sleep( const time_duration &dur )
     assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
+comfort_level player::base_comfort_value( const tripoint &p ) const
+{
+    // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
+    // As in the latter also checks for fatigue and other variables while this function
+    // only looks at the base comfyness of something. It's still subjective, in a sense,
+    // as arachnids who sleep in webs will find most places comfortable for instance.
+    int comfort = 0;
+
+    bool plantsleep = has_trait( trait_CHLOROMORPH );
+    bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
+    bool websleep = has_trait( trait_WEB_WALKER );
+    bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) || ( has_trait( trait_WEB_WEAVER ) ) );
+    bool in_shell = has_active_mutation( trait_SHELL2 );
+
+    const optional_vpart_position vp = g->m.veh_at( p );
+    const maptile tile = g->m.maptile_at( p );
+    const trap &trap_at_pos = tile.get_trap_t();
+    const ter_id ter_at_pos = tile.get_ter();
+    const furn_id furn_at_pos = tile.get_furn();
+
+    int web = g->m.get_field_strength( p, fd_web );
+
+    // Some mutants have different comfort needs
+    if( !plantsleep && !webforce ) {
+        if( in_shell ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+            // Note: shelled individuals can still use sleeping aids!
+        }
+        else if( vp ) {
+            if( vp.part_with_feature( "BED" ) ) {
+                comfort += 1 + (int)comfort_level::slightly_comfortable;
+            }
+            else if( vp.part_with_feature( "SEAT" ) ) {
+                comfort += 0 + (int)comfort_level::slightly_comfortable;
+            }
+            else {
+                // Sleeping elsewhere is uncomfortable
+                comfort -= g->m.move_cost( p );
+            }
+        }
+        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
+        else if( furn_at_pos == f_bed ) {
+            comfort += 0 + (int)comfort_level::comfortable;
+        }
+        else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
+                 furn_at_pos == f_sofa ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+        }
+        // Web sleepers can use their webs if better furniture isn't available
+        else if( websleep && web >= 3 ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+        }
+        else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
+                 furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter ) {
+            comfort += 0 + (int)comfort_level::slightly_comfortable;
+        }
+        else if( furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami ) {
+            comfort += 2 + (int)comfort_level::neutral;
+        }
+        else if( furn_at_pos == f_chair || furn_at_pos == f_bench ||
+                 ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
+                 ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
+                 ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
+            comfort += 1 + (int)comfort_level::neutral;
+        }
+        else {
+         // Not a comfortable sleeping spot
+            comfort -= g->m.move_cost( p );
+        }
+
+        auto items = g->m.i_at( p );
+        for( auto &items_it : items ) {
+            if( items_it.has_flag( "SLEEP_AID" ) ) {
+                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                comfort += 1 + (int)comfort_level::slightly_comfortable;
+                break; // prevents using more than 1 sleep aid
+            }
+        }
+
+        if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+            comfort += (int)comfort_level::very_comfortable;
+        }
+    }
+    else if( plantsleep ) {
+        if( vp || furn_at_pos != f_null ) {
+            // Sleep ain't happening in a vehicle or on furniture
+            comfort = (int)comfort_level::uncomfortable;
+        }
+        else {
+            // It's very easy for Chloromorphs to get to sleep on soil!
+            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
+                ter_at_pos == t_pit_shallow ) {
+                comfort += (int)comfort_level::very_comfortable;
+            }
+            // Not as much if you have to dig through stuff first
+            else if( ter_at_pos == t_grass ) {
+                comfort += (int)comfort_level::comfortable;
+            }
+            // Sleep ain't happening
+            else {
+                comfort = (int)comfort_level::uncomfortable;
+            }
+        }
+    }
+    // Has webforce
+    else {
+        if( web >= 3 ) {
+            // Thick Web and you're good to go
+            comfort += (int)comfort_level::very_comfortable;
+        }
+        else {
+            comfort = (int)comfort_level::uncomfortable;
+        }
+    }
+
+    if( comfort >= (int)comfort_level::very_comfortable ) {
+        return comfort_level::very_comfortable;
+    }
+    else if( comfort >= (int)comfort_level::comfortable ) {
+        return comfort_level::comfortable;
+    }
+    else if( comfort >= (int)comfort_level::slightly_comfortable ) {
+        return comfort_level::slightly_comfortable;
+    }
+    else if( comfort >= (int)comfort_level::neutral ) {
+        return comfort_level::neutral;
+    }
+    else return comfort_level::uncomfortable;
+}
+
 int player::sleep_spot( const tripoint &p ) const
 {
-    int sleepy = 0;
-    bool plantsleep = false;
-    bool fungaloid_cosplay = false;
-    bool websleep = false;
-    bool webforce = false;
-    bool in_shell = false;
-    bool watersleep = false;
+    comfort_level base_level = base_comfort_value( p );
+    int sleepy = (int)base_level;
+
     if (has_addiction(ADD_SLEEP)) {
         sleepy -= 4;
     }
@@ -9773,113 +10068,7 @@ int player::sleep_spot( const tripoint &p ) const
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
     }
-    if (has_trait( trait_CHLOROMORPH )) {
-        plantsleep = true;
-    }
-    if (has_trait( trait_M_SKIN3 )) {
-        fungaloid_cosplay = true;
-    }
-    if (has_trait( trait_WEB_WALKER )) {
-        websleep = true;
-    }
-    // Not sure how one would get Arachnid w/o web-making, but Just In Case
-    if (has_trait( trait_THRESH_SPIDER ) && (has_trait( trait_WEB_SPINNER ) || (has_trait( trait_WEB_WEAVER ))) ) {
-        webforce = true;
-    }
-    if (has_active_mutation( trait_SHELL2 )) {
-        // Your shell's interior is a comfortable place to sleep.
-        in_shell = true;
-    }
-    if( has_trait( trait_WATERSLEEP ) ) {
-        if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
-            watersleep = true;
-        }
-    }
-    const optional_vpart_position vp = g->m.veh_at( p );
-    const maptile tile = g->m.maptile_at( p );
-    const trap &trap_at_pos = tile.get_trap_t();
-    const ter_id ter_at_pos = tile.get_ter();
-    const furn_id furn_at_pos = tile.get_furn();
-    int web = g->m.get_field_strength( p, fd_web );
-    // Plant sleepers use a different method to determine how comfortable something is
-    // Web-spinning Arachnids do too
-    if( !plantsleep && !webforce ) {
-        // Shells are comfortable and get used anywhere
-        if( in_shell ) {
-            sleepy += 4;
-        // Else use the vehicle tile if we are in one
-        } else if( vp ) {
-            if( vp.part_with_feature( "BED" ) ) {
-                sleepy += 4;
-            } else if( vp.part_with_feature( "SEAT" ) ) {
-                sleepy += 3;
-            } else {
-                // Sleeping elsewhere is uncomfortable
-                sleepy -= g->m.move_cost( p );
-            }
-        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
-        } else if( furn_at_pos == f_bed ) {
-            sleepy += 5;
-        } else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
-                   furn_at_pos == f_sofa ) {
-            sleepy += 4;
-        } else if( websleep && web >= 3 ) {
-            sleepy += 4;
-        } else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
-                   furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter ) {
-            sleepy += 3;
-        } else if( furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami ) {
-            sleepy += 2;
-        } else if( furn_at_pos == f_chair || furn_at_pos == f_bench ||
-                   ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
-                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
-                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
-            sleepy += 1;
-        } else {
-            // Not a comfortable sleeping spot
-            sleepy -= g->m.move_cost( p );
-        }
-        auto items = g->m.i_at( p );
-        for( auto &items_it : items ) {
-            if( items_it.has_flag( "SLEEP_AID" ) ) {
-                sleepy += 4;
-                break; // prevents using more then 1 sleep aid
-            }
-        }
-        if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS" , pos() ) ) {
-            sleepy += 30;
-        }
-    // Has plantsleep
-    } else if( plantsleep ) {
-        if( vp || furn_at_pos != f_null ) {
-            // Sleep ain't happening in a vehicle or on furniture
-            sleepy -= 999;
-        } else {
-            // It's very easy for Chloromorphs to get to sleep on soil!
-            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
-                ter_at_pos == t_pit_shallow ) {
-                sleepy += 10;
-            // Not as much if you have to dig through stuff first
-            } else if( ter_at_pos == t_grass ) {
-                sleepy += 5;
-            // Sleep ain't happening
-            } else {
-                sleepy -= 999;
-            }
-        }
-    // Has watersleep
-    } else if( watersleep ) {
-        sleepy += 10; //comfy water!
-    // Has webforce
-    } else {
-        if( web >= 3 ) {
-            // Thick Web and you're good to go
-            sleepy += 10;
-        }
-        else {
-            sleepy -= 999;
-        }
-    }
+
     if( get_fatigue() < TIRED + 1 ) {
         sleepy -= int( ( TIRED + 1 - get_fatigue() ) / 4 );
     } else {
@@ -10511,10 +10700,6 @@ int player::get_env_resist(body_part bp) const
         if (ret > 5) {
             ret = 5;
         }
-    }
-
-    if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
-        ret += 8;
     }
     return ret;
 }
@@ -11827,12 +12012,6 @@ void player::place_corpse( tripoint om_target )
 
 bool player::sees_with_infrared( const Creature &critter ) const
 {
-    const monster *m = dynamic_cast< const monster * >( &critter );
-    // electroreceptors grants vision of robots and electric monsters through walls
-    if( m != nullptr && has_trait( trait_ELECTRORECEPTORS ) && ( m->type->in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
-        return true;
-    }
-
     if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
         return false;
     }

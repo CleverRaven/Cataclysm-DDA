@@ -1942,7 +1942,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             // append subtile name to tile and re-find display_tile
             return draw_from_id_string(
                        std::move( id.append( "_", 1 ).append( multitile_keys[subtile] ) ),
-                       pos, -1, rota, ll, apply_night_vision_goggles, height_3d );
+                       category, subcategory, pos, -1, rota, ll, apply_night_vision_goggles, height_3d );
         }
     }
 

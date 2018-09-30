@@ -22,6 +22,7 @@
 #include "vitamin.h"
 #include "skill.h"
 #include "name.h"
+#include "vpart_reference.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "effect.h"
@@ -33,6 +34,7 @@
 #include "monfaction.h"
 #include "morale.h"
 #include "veh_type.h"
+#include "vpart_range.h"
 #include "vehicle.h"
 #include "mutation.h"
 #include "io.h"
@@ -1694,6 +1696,18 @@ void item::io( Archive &archive )
     if( is_tool() || is_toolmod() ) {
         migrate_toolmod( *this );
     }
+
+    // Books without any chapters don't need to store a remaining-chapters
+    // counter, it will always be 0 and it prevents proper stacking.
+    if( get_chapters() == 0 ) {
+        for( auto it = item_vars.begin(); it != item_vars.end(); ) {
+            if( it->first.compare( 0, 19, "remaining-chapters-" ) == 0 ) {
+                item_vars.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
+    }
 }
 
 static void migrate_toolmod( item &it )
@@ -2017,7 +2031,8 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( auto cargo_index : all_parts_with_feature( VPFLAG_CARGO, true ) ) {
+    for( const vpart_reference vp : parts_with_feature( VPFLAG_CARGO, true ) ) {
+        const size_t cargo_index = vp.part_index();
         auto it = parts[cargo_index].items.begin();
         auto end = parts[cargo_index].items.end();
         for( ; it != end; ++it ) {

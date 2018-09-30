@@ -27,10 +27,13 @@ class player;
 class npc;
 class vehicle;
 class vpart_info;
+class vehicle_part_range;
 enum vpart_bitflags : int;
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+template<typename feature_type>
+class vehicle_part_with_feature_range;
 namespace catacurses
 {
 class window;
@@ -722,6 +725,13 @@ class vehicle
         void remove_remote_part( int part_num );
 
         void break_part_into_pieces( int p, int x, int y, bool scatter = false );
+        /**
+         * Yields a range containing all parts (including broken ones) that can be
+         * iterated over.
+         */
+        // @todo maybe not include broken ones? Have a separate function for that?
+        // @todo rename to just `parts()` and rename the data member to `parts_`.
+        vehicle_part_range get_parts() const;
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
         std::vector<int> parts_at_relative( int dx, int dy, bool use_cache = true ) const;
@@ -811,10 +821,18 @@ class vehicle
          *  @return part index or -1 if no part
          */
         int next_part_to_close( int p, bool outside = false ) const;
-
-        // returns indices of all parts in the vehicle with the given flag
-        std::vector<int> all_parts_with_feature( const std::string &feature, bool unbroken = true ) const;
-        std::vector<int> all_parts_with_feature( vpart_bitflags f, bool unbroken = true ) const;
+        /**
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are (optionally) unbroken.
+         * @param unbroken If `true`, only unbroken parts are considered, otherwise
+         * even broken parts are in the range.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> parts_with_feature( std::string feature,
+                bool unbroken = true ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> parts_with_feature( vpart_bitflags f,
+                bool unbroken = true ) const;
+        /**@}*/
 
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
@@ -832,6 +850,9 @@ class vehicle
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
         void coord_translate( int dir, const point &pivot, const point &p, point &q ) const;
+        // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
+        // should be faster than previous call for repeated translations
+        void coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const;
 
         // Rotates mount coordinates "p" from old_dir to new_dir along pivot
         point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;
@@ -842,7 +863,6 @@ class vehicle
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( int dx, int dy ) const;
         int global_part_at( int x, int y ) const;
-        int global_part_at( const tripoint &p ) const;
         int part_displayed_at( int local_x, int local_y ) const;
         int roof_at_part( int p ) const;
 
@@ -1264,8 +1284,6 @@ class vehicle
          */
         void open_all_at( int p );
 
-        // upgrades/refilling/etc. see veh_interact.cpp
-        void interact();
         // Honk the vehicle's horn, if there are any
         void honk_horn();
         void beeper_sound();
@@ -1314,8 +1332,6 @@ class vehicle
         bool has_engine_conflict( const vpart_info *possible_engine, std::string &conflict_type ) const;
         //returns true if the engine doesn't consume fuel
         bool is_perpetual_type( int e ) const;
-        //prints message relating to vehicle start failure
-        void msg_start_engine_fail();
         //if necessary, damage this engine
         void do_engine_damage( size_t p, int strain );
         //remotely open/close doors

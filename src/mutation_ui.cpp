@@ -167,7 +167,7 @@ void player::power_mutations()
                         break;
                     }
                     type = ( has_base_trait( passive[i] ) ? c_cyan : c_light_cyan );
-                    mvwprintz( wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name.c_str() );
+                    mvwprintz( wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name() );
                 }
             }
 
@@ -189,7 +189,7 @@ void player::power_mutations()
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type, td.key );
                     std::ostringstream mut_desc;
-                    mut_desc << md.name;
+                    mut_desc << md.name();
                     if( md.cost > 0 && md.cooldown > 0 ) {
                         //~ RU means Resource Units
                         mut_desc << string_format( _( " - %d RU / %d turns" ),
@@ -230,7 +230,7 @@ void player::power_mutations()
             }
             redraw = true;
             const long newch = popup_getkey( _( "%s; enter new letter." ),
-                                             mutation_branch::get_name( mut_id ).c_str() );
+                                             mutation_branch::get_name( mut_id ) );
             wrefresh( wBio );
             if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
                 continue;
@@ -276,7 +276,7 @@ void player::power_mutations()
             if( menu_mode == "activating" ) {
                 if( mut_data.activated ) {
                     if( my_mutations[mut_id].powered ) {
-                        add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name.c_str() );
+                        add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
 
                         deactivate_mutation( mut_id );
                         // Action done, leave screen
@@ -286,19 +286,19 @@ void player::power_mutations()
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 
                         g->draw();
-                        add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name.c_str() );
+                        add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
                         activate_mutation( mut_id );
                         // Action done, leave screen
                         break;
                     } else {
-                        popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name.c_str() );
+                        popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name() );
                         redraw = true;
                         continue;
                     }
                 } else {
                     popup( _( "\
 You cannot activate %s!  To read a description of \
-%s, press '!', then '%c'." ), mut_data.name.c_str(), mut_data.name.c_str(),
+%s, press '!', then '%c'." ), mut_data.name(), mut_data.name(),
                            my_mutations[mut_id].key );
                     redraw = true;
                 }
@@ -307,7 +307,7 @@ You cannot activate %s!  To read a description of \
                 draw_exam_window( wBio, DESCRIPTION_LINE_Y );
                 // Clear the lines first
                 werase( w_description );
-                fold_and_print( w_description, 0, 0, WIDTH - 2, c_light_blue, mut_data.description );
+                fold_and_print( w_description, 0, 0, WIDTH - 2, c_light_blue, mut_data.desc() );
                 wrefresh( w_description );
             }
         }

@@ -693,6 +693,7 @@ void Item_factory::init()
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
+    add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
     add_actor( new ammobelt_actor() );
     add_actor( new bandolier_actor() );
@@ -805,8 +806,9 @@ void Item_factory::check_definitions() const
                 msg << string_format( "item %s has unknown quality %s", type->id.c_str(), q.first.c_str() ) << "\n";
             }
         }
-        if( type->default_container != "null" && !has_template( type->default_container ) ) {
-            msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
+        if( type->default_container && ( !has_template( *type->default_container ) ||
+                                         *type->default_container == "null" ) ) {
+            msg << string_format( "invalid container property %s", type->default_container->c_str() ) << "\n";
         }
 
         for( const auto &e : type->emits ) {
