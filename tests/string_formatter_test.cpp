@@ -144,8 +144,13 @@ TEST_CASE( "string_formatter" )
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4 ) );
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4, 5 ) );
 
+    // non-formatting calls
+    test_for_expected( "%", "%" );
+    test_for_expected( "%%", "%%" );
+    test_for_expected( "%k", "%k" );
+    test_for_expected( "%d", "%d" );
     // invalid format specifier
-    CHECK_THROWS( test_for_error( "%k" ) );
+    CHECK_THROWS( test_for_error( "%k", 0 ) );
     // can't print a void pointer
     CHECK_THROWS( test_for_error( "%s", static_cast<void *>( nullptr ) ) );
     CHECK_THROWS( test_for_error( "%d", static_cast<void *>( nullptr ) ) );
