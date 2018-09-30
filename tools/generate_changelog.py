@@ -634,12 +634,14 @@ def main_entry(argv):
     parser.add_argument(
         '-t', '--token-file',
         help='Specify where to read the Personal Token. Default "~/.generate_changelog.token".',
+        type=lambda x: pathlib.Path(x).expanduser().resolve(),
         default='~/.generate_changelog.token'
     )
 
     parser.add_argument(
         '-o', '--output-file',
         help='Specify where to write extracted information. Default to standard output.',
+        type=lambda x: pathlib.Path(x).expanduser().resolve(),
         default=None
     )
 
@@ -661,12 +663,21 @@ def main_entry(argv):
 
     logging.basicConfig(level=logging.DEBUG if arguments.verbose else logging.INFO,
                         format='   LOG | %(threadName)s | %(levelname)s | %(message)s')
+
     log.debug(f'Commandline Arguments (+defaults): {arguments}')
+
+    if (arguments.output_file is not None and
+            (not arguments.output_file.parent.exists()
+             or not arguments.output_file.parent.is_dir())):
+        raise ValueError(f"Specified directory for Output File doesn't exist: {arguments.output_file.parent}")
+
     main(arguments.target_date, arguments.token_file, arguments.output_file, arguments.include_summary_none)
 
 
 def main(target_dttm, token_file, output_file, include_summary_none):
     personal_token = read_personal_token(token_file)
+    if personal_token is None:
+        log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
 
     if output_file is None:
         output_file = sys.stdout
