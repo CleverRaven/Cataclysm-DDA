@@ -3390,7 +3390,7 @@ int item::get_env_resist() const
         return 0;
     }
     // modify if item is a gas mask and has filter
-    int resist_base = static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
+    int resist_base = t->env_resist;
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( resist_base, resist_filter );
 
@@ -3404,7 +3404,7 @@ int item::get_env_resist_w_filter() const
         return 0;
     }
     // it_armor::env_resist is unsigned char
-    return static_cast<int>( static_cast<unsigned int>( t->env_resist_w_filter ) );
+    return t->env_resist_w_filter;
 }
 
 bool item::is_power_armor() const
@@ -3424,7 +3424,7 @@ int item::get_encumber() const
         return is_gun() ? volume() / 750_ml : 0;
     }
     // it_armor::encumber is signed char
-    int encumber = static_cast<int>( t->encumber );
+    int encumber = t->encumber;
 
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
@@ -3486,7 +3486,7 @@ int item::get_coverage() const
         return 0;
     }
     // it_armor::coverage is unsigned char
-    return static_cast<int>( static_cast<unsigned int>( t->coverage ) );
+    return t->coverage;
 }
 
 int item::get_thickness() const
@@ -3496,7 +3496,7 @@ int item::get_thickness() const
         return 0;
     }
     // it_armor::thickness is unsigned char
-    return static_cast<int>( static_cast<unsigned int>( t->thickness ) );
+    return t->thickness;
 }
 
 int item::get_warmth() const
@@ -3508,7 +3508,7 @@ int item::get_warmth() const
         return 0;
     }
     // it_armor::warmth is signed char
-    int result = static_cast<int>( t->warmth );
+    int result = t->warmth;
 
     if( item_tags.count( "furred" ) > 0 ) {
         fur_lined = 35 * get_coverage() / 100;
