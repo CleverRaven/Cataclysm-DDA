@@ -2170,10 +2170,23 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "DESCRIPTION", temp1.str() );
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
-            if( !contents.front().type->mod ) {
+            const auto& contents_item = contents.front();
+            if( !contents_item.type->mod ) {
                 insert_separation_line();
-                info.emplace_back( "DESCPIPTION", _( "<bold>Content of this item</bold>:" ) );
-                info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
+                info.emplace_back( "DESCRIPTION", _( "<bold>Content of this item</bold>:" ) );
+                auto const description = _( contents_item.type->description.c_str() );
+
+                if( contents_item.made_of(LIQUID) ) {
+                    auto contents_volume = contents_item.volume() * batch;
+                    int converted_volume_scale = 0;
+                    const double converted_volume = round_up( convert_volume( contents_volume.value(),
+                                                    &converted_volume_scale ), 2 );
+                    info.emplace_back( "CONTAINER", description + space,
+                                       string_format( "<num> %s", volume_units_abbr() ),
+                                       converted_volume, converted_volume_scale == 0, "", false );
+                } else {
+                  info.emplace_back( "DESCRIPTION", description );
+                }
             }
         }
 
