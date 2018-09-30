@@ -2106,22 +2106,6 @@ void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled
     }
 }
 
-std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled,
-        bool include_broken_parts )
-{
-    std::vector<vehicle_part *> res;
-    get_parts_helper( *this, flag, res, enabled, include_broken_parts );
-    return res;
-}
-
-std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled,
-        bool include_broken_parts ) const
-{
-    std::vector<const vehicle_part *> res;
-    get_parts_helper( *this, flag, res, enabled, bool include_broken_parts );
-    return res;
-}
-
 std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag,
         bool enabled, bool include_broken_parts )
 {
@@ -2242,6 +2226,19 @@ vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_parts_including_bro
 {
     return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
             false, false );
+}
+
+vehicle_part_with_feature_range<std::string> vehicle::get_enabled_parts( std::string feature ) const
+{
+    return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
+            std::move( feature ), false, true );
+}
+
+vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
+    const vpart_bitflags feature ) const
+{
+    return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
+            false, true );
 }
 
 /**
@@ -3270,7 +3267,8 @@ void vehicle::power_parts()
 {
     int epower = 0;
 
-    for( const auto *pt : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER, true, false ) ) {
+    for( const vpart_reference vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
+        const vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
         epower += pt->info().epower;
     }
 
@@ -3381,7 +3379,8 @@ void vehicle::power_parts()
             pt->enabled = false;
         }
 
-        for( auto *pt : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER, true, false ) ) {
+        for( const vpart_reference vp : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
+            vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
             if( pt->info().epower < 0 ) {
                 pt->enabled = false;
             }
@@ -3575,7 +3574,8 @@ void vehicle::idle( bool on_map )
     }
 
     if( !warm_enough_to_plant() ) {
-        for( auto e : get_parts( "PLANTER", true, false ) ) {
+        for( const vpart_reference vp : get_parts( "PLANTER" ) ) {
+            vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             if( g->u.sees( global_pos3() ) ) {
                 add_msg( _( "The %s's planter turns off due to low temperature." ), name.c_str() );
             }

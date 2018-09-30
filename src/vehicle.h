@@ -758,6 +758,13 @@ class vehicle
         vehicle_part_with_feature_range<vpart_bitflags> get_parts_including_broken(
             vpart_bitflags f ) const;
         /**@}*/
+        /**
+         * Like @ref get_parts, but only yield enabled parts. They must still be unbroken.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> get_enabled_parts( std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_enabled_parts( vpart_bitflags f ) const;
+        /**@}*/
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
         std::vector<int> parts_at_relative( int dx, int dy, bool use_cache ) const;
@@ -788,16 +795,6 @@ class vehicle
          *  @param enabled if set part must also be enabled to be considered
          */
         bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
-
-        /**
-         *  Get all unbroken vehicle parts with specified flag
-         *  @param flag Flag to get parts for
-         *  @param enabled if set part must also be enabled to be considered
-         */
-        std::vector<vehicle_part *> get_parts( const std::string &flag, bool enabled,
-                                               bool include_broken_parts );
-        std::vector<const vehicle_part *> get_parts( const std::string &flag, bool enabled,
-                bool include_broken_parts ) const;
 
         /**
          *  Get all unbroken vehicle parts at specified position

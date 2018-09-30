@@ -882,7 +882,8 @@ void vehicle::beeper_sound()
 
 void vehicle::play_music()
 {
-    for( auto e : get_parts( "STEREO", true, false ) ) {
+    for( const vpart_reference vp : get_enabled_parts( "STEREO" ) ) {
+        const vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
         iuse::play_music( g->u, global_part_pos3( *e ), 15, 30 );
     }
 }
@@ -893,7 +894,8 @@ void vehicle::play_chimes()
         return;
     }
 
-    for( auto e : get_parts( "CHIMES", true, false ) ) {
+    for( const vpart_reference vp : get_enabled_parts( "CHIMES" ) ) {
+        const vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
         sounds::sound( global_part_pos3( *e ), 40, _( "a simple melody blaring from the loudspeakers." ) );
     }
 }
