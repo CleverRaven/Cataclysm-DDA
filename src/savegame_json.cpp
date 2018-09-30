@@ -271,6 +271,7 @@ void Character::load( JsonObject &data )
     data.read( "hunger", hunger );
     data.read( "starvation", starvation );
     data.read( "fatigue", fatigue );
+    data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stomach_food", stomach_food );
     data.read( "stomach_water", stomach_water );
 
@@ -372,6 +373,7 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "starvation", starvation );
     on_stat_change( "fatigue", fatigue );
+    on_stat_change( "sleep_deprivation", sleep_deprivation );
 }
 
 void Character::store( JsonOut &json ) const
@@ -402,6 +404,7 @@ void Character::store( JsonOut &json ) const
     json.member( "hunger", hunger );
     json.member( "starvation", starvation );
     json.member( "fatigue", fatigue );
+    json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
