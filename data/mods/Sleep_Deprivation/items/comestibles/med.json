@@ -1,0 +1,18 @@
+[
+  {
+    "id": "magnesium_tablet",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "magnesium tablet",
+    "description": "Over-the-counter magnesium supplements, commonly prescribed to treat sleep deprivation and to mitigate its effects.  One tablet a day combined with a good night's sleep will help you recover faster.",
+    "weight": 1,
+    "volume": 1,
+    "price": 400,
+    "price_postapoc": 4000,
+    "charges": 1,
+    "stack_size": 30,
+    "symbol": "!",
+    "color": "yellow",
+    "use_action": "MAGNESIUM_TABLET"
+  }
+]

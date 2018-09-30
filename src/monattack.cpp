@@ -2815,10 +2815,10 @@ void mattack::rifle( monster *z, Creature *target )
 {
     const std::string ammo_type( "556" );
     // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 2000 ) {
+    if( z->ammo[ammo_type] > 3000 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::rifle", z->ammo[ammo_type],
                   z->name().c_str() );
-        z->ammo[ammo_type] = 2000;
+        z->ammo[ammo_type] = 3000;
     }
 
     npc tmp = make_fake_npc( z, 16, 10, 8, 12 );
@@ -2862,10 +2862,10 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 {
     const std::string ammo_type( "40mm_frag" );
     // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 100 ) {
+    if( z->ammo[ammo_type] > 200 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::frag", z->ammo[ammo_type],
                   z->name().c_str() );
-        z->ammo[ammo_type] = 100;
+        z->ammo[ammo_type] = 200;
     }
 
     if( target == &g->u ) {

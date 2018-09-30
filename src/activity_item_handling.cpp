@@ -814,7 +814,9 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
         auto items = std::vector<item *>();
         for( auto &it : g->m.i_at( src_loc ) ) {
-            items.push_back( &it );
+            if( !it.made_of( LIQUID ) ) { // skip unpickable liquid
+                items.push_back( &it );
+            }
         }
 
         for( auto it : items ) {

@@ -21,7 +21,7 @@
   "components" : [
      [ ["plastic_chunk", 6] ],
      [ ["blade", 2] ],
-     [ ["motor_small", 1] ],
+     [ ["motor_tiny", 1] ],
      [ ["power_supply", 1] ],
      [ [ "scrap", 1 ] ],
      [ [ "cable", 5 ] ]
@@ -83,7 +83,7 @@
   "components" : [
     [ ["plastic_chunk", 6] ],
     [ ["chain", 1] ],
-    [ ["motor_small", 1] ],
+    [ ["motor_micro", 1] ],
     [ ["metal_tank_little", 1] ],
     [ [ "scrap", 2 ] ],
     [ [ "cable", 4 ] ],
@@ -1446,6 +1446,28 @@
     [ [ "cable", 3 ] ]
   ]
 },{
+  "type": "recipe",
+  "result": "motor_tiny",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+  "using": [ [ "soldering_standard", 5 ] ],
+  "qualities": [
+    { "id": "HAMMER", "level": 1 },
+    { "id": "SCREW_FINE", "level": 1 }
+  ],
+  "components": [ 
+    [ [ "plastic_chunk", 1 ] ],
+    [ [ "scrap", 1 ] ],
+    [ [ "cable", 3 ] ]
+  ]
+},{
   "type" : "recipe",
   "result": "motor_small",
   "category": "CC_ELECTRONIC",
@@ -1579,7 +1601,7 @@
   ],
   "components": [
     [ [ "vehicle_controls", 1 ] ],
-    [ [ "motor_small", 3 ] ],
+    [ [ "motor_tiny", 3 ] ],
     [ [ "receiver", 3 ] ],
     [ [ "processor", 3 ] ],
     [ [ "RAM", 3 ] ],
@@ -1691,7 +1713,7 @@
       [ "plastic_chunk", 2 ]
     ],
     [
-      [ "motor_small", 1 ]
+      [ "motor_micro", 1 ]
     ],
     [
       [ "superglue", 2 ]
@@ -1749,7 +1771,7 @@
   ],
   "components" : [
     [ [ "razor_blade", 1 ] ],
-    [ [ "motor_small", 1 ] ],
+    [ [ "motor_micro", 1 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "plastic_chunk", 1 ] ]
   ]

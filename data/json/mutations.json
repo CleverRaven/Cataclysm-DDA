@@ -445,7 +445,16 @@
         "valid" : false,
         "starting_trait" : true,
         "category" : ["MOUSE"],
-        "cancels" : ["MYOPIC"]
+        "cancels" : ["MYOPIC", "UNOBSERVANT"]
+    },{
+        "type" : "mutation",
+        "id" : "UNOBSERVANT",
+        "name" : "Topographagnosia",
+        "points" : -5,
+        "description" : "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
+        "valid" : false,
+        "starting_trait" : true,
+        "cancels" : ["EAGLEEYED"]
     },{
         "type" : "mutation",
         "id" : "CANNIBAL",
@@ -3693,7 +3702,7 @@
         "type" : "mutation",
         "id" : "CRAFTY",
         "name" : "Crafty",
-        "points" : 5,
+        "points" : 4,
         "description" : "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
         "valid" : false,
         "purifiable" : false,

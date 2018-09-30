@@ -14,6 +14,7 @@
 #include "requirements.h"
 #include "rng.h"
 #include "calendar.h"
+#include "vpart_range.h"
 #include "string_formatter.h"
 #include "line.h"
 #include "mutation.h"
@@ -48,6 +49,7 @@
 #include "map_iterator.h"
 #include "string_input_popup.h"
 #include "inventory.h"
+#include "json.h"
 
 #include <vector>
 #include <sstream>
@@ -156,6 +158,8 @@ const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_magnesium_supplements( "magnesium" );
+
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -1094,7 +1098,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
             p->purifiable( traits_iter.first ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.first );
-            valid_names.push_back( traits_iter.first->name );
+            valid_names.push_back( traits_iter.first->name() );
         }
     }
     if( valid.empty() ) {
@@ -5647,10 +5651,8 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         int new_photos = mc.get_var( "MC_PHOTOS", 0 );
         mc.erase_var( "MC_PHOTOS" );
 
-        p.add_msg_if_player( m_good, string_format(
-                                 ngettext( "You download %d new photo into internal memory.",
-                                           "You download %d new photos into internal memory.", new_photos ),
-                                 new_photos ).c_str() );
+        p.add_msg_if_player( m_good, ngettext( "You download %d new photo into internal memory.",
+                                               "You download %d new photos into internal memory.", new_photos ), new_photos );
 
         const int old_photos = eink.get_var( "EIPC_PHOTOS", 0 );
         eink.set_var( "EIPC_PHOTOS", old_photos + new_photos );
@@ -5662,10 +5664,8 @@ bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         int new_songs = mc.get_var( "MC_MUSIC", 0 );
         mc.erase_var( "MC_MUSIC" );
 
-        p.add_msg_if_player( m_good, string_format(
-                                 ngettext( "You download %d new song into internal memory.",
-                                           "You download %d new songs into internal memory.", new_songs ),
-                                 new_songs ).c_str() );
+        p.add_msg_if_player( m_good, ngettext( "You download %d new song into internal memory.",
+                                               "You download %d new songs into internal memory.", new_songs ), new_songs );
 
         const int old_songs = eink.get_var( "EIPC_MUSIC", 0 );
         eink.set_var( "EIPC_MUSIC", old_songs + new_songs );
@@ -6129,6 +6129,28 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
+struct npc_photo_def : public JsonDeserializer, public JsonSerializer {
+    int quality;
+    std::string name;
+    std::string description;
+
+    npc_photo_def() = default;
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject obj = jsin.get_object();
+        quality = obj.get_int( "quality" );
+        name = obj.get_string( "name" );
+        description = obj.get_string( "description" );
+    }
+
+    void serialize( JsonOut &jsout ) const override {
+        jsout.start_object();
+        jsout.member( "quality", quality );
+        jsout.member( "name", name );
+        jsout.member( "description", description );
+        jsout.end_object();
+    }
+};
+
 int iuse::camera( player *p, item *it, bool, const tripoint & )
 {
     enum {c_cancel, c_shot, c_photos, c_upload};
@@ -6138,7 +6160,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     amenu.selected = 0;
     amenu.text = _( "What to do with camera?" );
     amenu.addentry( c_shot, true, 'p', _( "Take a photo" ) );
-    if( !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() ) {
+    if( !( it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() &&
+           it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ) ) {
         amenu.addentry( c_photos, true, 'l', _( "List photos" ) );
         amenu.addentry( c_upload, true, 'u', _( "Upload photos to memory card" ) );
     } else {
@@ -6280,7 +6303,6 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         guy->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                     }
 
-                    //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
                     if( sel_npc == guy ) {
                         if( p->is_blind() ) {
                             p->add_msg_if_player( _( "You took a photo of %s." ), guy->name.c_str() );
@@ -6292,6 +6314,34 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     } else {
                         p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name.c_str() );
                         photo_quality = 0;
+                    }
+                    std::vector<npc_photo_def> npc_photos;
+
+                    try {
+                        std::istringstream npc_photos_data( it->get_var( "CAMERA_NPC_PHOTOS" ) );
+                        JsonIn json( npc_photos_data );
+                        json.read( npc_photos );
+                    } catch( const JsonError &e ) {
+                        debugmsg( "Error loading NPC photos: %s", e.c_str() );
+                    }
+
+                    npc_photo_def npc_photo;
+                    npc_photo.quality = photo_quality;
+                    npc_photo.name = guy->name;
+                    std::string timestamp = to_string( time_point( calendar::turn ) );
+                    //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
+                    npc_photo.description = string_format( _( "This is a photo of %1$s. It was taken on %2$s." ),
+                                                           npc_photo.name, timestamp );
+                    npc_photo.description += "\n\n" + guy->short_description();
+
+                    npc_photos.push_back( npc_photo );
+                    try {
+                        std::ostringstream npc_photos_data;
+                        JsonOut json( npc_photos_data );
+                        json.write( npc_photos );
+                        it->set_var( "CAMERA_NPC_PHOTOS", npc_photos_data.str() );
+                    } catch( const JsonError &e ) {
+                        debugmsg( "Error storing NPC photos: %s", e.c_str() );
                     }
 
                     return it->type->charges_to_use();
@@ -6319,11 +6369,12 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         pmenu.addentry( 0, true, 'q', _( "Cancel" ) );
 
         std::vector<mtype_id> monster_photos;
+        std::vector<std::string> descriptions;
 
-        std::istringstream f( it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
+        std::istringstream f_mon( it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         std::string s;
         int k = 1;
-        while( getline( f, s, ',' ) ) {
+        while( getline( f_mon, s, ',' ) ) {
 
             if( s.empty() ) {
                 continue;
@@ -6335,12 +6386,31 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
             const monster dummy( monster_photos.back() );
             menu_str = dummy.name();
+            descriptions.push_back( dummy.type->get_description() );
 
-            getline( f, s, ',' );
+            getline( f_mon, s, ',' );
             char *chq = &s[0];
             const int quality = atoi( chq );
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
+
+            pmenu.addentry( k++, true, -1, menu_str.c_str() );
+        }
+
+        std::vector<npc_photo_def> npc_photos;
+
+        try {
+            std::istringstream npc_photos_data( it->get_var( "CAMERA_NPC_PHOTOS" ) );
+            JsonIn json( npc_photos_data );
+            json.read( npc_photos );
+        } catch( const JsonError &e ) {
+            debugmsg( "Error NPC photos: %s", e.c_str() );
+        }
+        for( auto npc_photo : npc_photos ) {
+            std::string menu_str = npc_photo.name;
+            descriptions.push_back( npc_photo.description );
+
+            menu_str += " [" + photo_quality_name( npc_photo.quality ) + "]";
 
             pmenu.addentry( k++, true, -1, menu_str.c_str() );
         }
@@ -6354,8 +6424,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 break;
             }
 
-            const monster dummy( monster_photos[choice - 1] );
-            popup( dummy.type->get_description().c_str() );
+            popup( descriptions[choice - 1].c_str() );
 
         } while( true );
 
@@ -6727,7 +6796,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     if( !veh.is_locked || !veh.has_security_working() ) {
         return true;
     }
-    bool advanced = veh.all_parts_with_feature( "REMOTE_CONTROLS", true ).size() > 0;
+    const bool advanced = !empty( veh.parts_with_feature( "REMOTE_CONTROLS", true ) );
     if( advanced && veh.is_alarm_on ) {
         p.add_msg_if_player( m_bad, _( "This vehicle's security system has locked you out!" ) );
         return false;
@@ -6788,11 +6857,10 @@ vehicle *pickveh( const tripoint &center, bool advanced )
 
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        const auto gp = v->global_pos();
-        if( rl_dist( center.x, center.y, gp.x, gp.y ) < 40 &&
+        if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( "battery", true ) > 0 &&
-            ( v->all_parts_with_feature( advctrl, true ).size() > 0 ||
-              ( !advanced && v->all_parts_with_feature( ctrl, true ).size() > 0 ) ) ) {
+            ( !empty( v->parts_with_feature( advctrl, true ) ) ||
+              ( !advanced && !empty( v->parts_with_feature( ctrl, true ) ) ) ) ) {
             vehs.push_back( v );
         }
     }
@@ -7326,13 +7394,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             point vcoords = veh_part_coordinates( *source_veh, source_vp->part_index() );
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
-            source_part.target.second = target_veh->real_global_pos3();
+            source_part.target.second = g->m.getabs( target_veh->global_pos3() );
             source_veh->install_part( vcoords.x, vcoords.y, source_part );
 
             vcoords = veh_part_coordinates( *target_veh, target_vp->part_index() );
             vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
-            target_part.target.second = source_veh->real_global_pos3();
+            target_part.target.second = g->m.getabs( source_veh->global_pos3() );
             target_veh->install_part( vcoords.x, vcoords.y, target_part );
 
             if( p != nullptr && p->has_item( *it ) ) {
@@ -7785,4 +7853,15 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
     }
     p->disassemble( *it, pos, false, false );
     return 0;
+}
+
+int iuse::magnesium_tablet( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You pop a %s." ), it->tname().c_str() );
+    if( p->has_effect( effect_magnesium_supplements ) ) {
+        p->add_msg_if_player( m_warning,
+                              _( "Simply taking more magnesium won't help. You have to go to sleep for it to work." ) );
+    }
+    p->add_effect( effect_magnesium_supplements, 16_hours );
+    return it->type->charges_to_use();
 }
