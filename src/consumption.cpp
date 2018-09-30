@@ -560,7 +560,7 @@ bool player::eat( item &food, bool force )
             mealtime /= 2;
         } else if( has_trait( trait_id( "SHARKTEETH" ) ) ) {
             //SHARKBAIT! HOO HA HA!
-            mealtime = ( int )( mealtime / 3 );
+            mealtime /= 3;
         } else if( has_trait( trait_id( "GOURMAND" ) ) ) {
             // Don't stack those two - that would be 25 moves per item
             mealtime -= 100;

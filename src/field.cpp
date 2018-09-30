@@ -2025,7 +2025,7 @@ void map::player_in_field( player &u )
                     if( u.has_trait( trait_ELECTRORECEPTORS ) ) {
                         u.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
                                                  _( "<npcname> is shocked!" ) );
-                        u.mod_pain( ( int )( total_damage / 2 ) );
+                        u.mod_pain( total_damage / 2 );
                     } else {
                         u.add_msg_player_or_npc( m_bad, _( "You're shocked!" ), _( "<npcname> is shocked!" ) );
                     }

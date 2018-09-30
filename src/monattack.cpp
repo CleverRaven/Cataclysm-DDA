@@ -123,7 +123,6 @@ static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_TOXIC_FLESH( "TOXIC_FLESH" );
 
 // shared utility functions
 int within_visual_range( monster *z, int max_range )
