@@ -1567,10 +1567,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         int converted_storage_scale = 0;
         const double converted_storage = round_up( convert_volume( get_storage().value(),
                                          &converted_storage_scale ), 2 );
-        if( parts->test( iteminfo_parts::ARMOR_STORAGE ) )
+        if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 )
             info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
                                       string_format( "<num> %s", volume_units_abbr() ),
                                       converted_storage, converted_storage_scale == 0 ) );
+
+        // Whatever the last entry was, we want a newline at this point
+        info.back().bNewLine = true;
 
         if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
             info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), true, "",
