@@ -10767,7 +10767,7 @@ bool player::has_activity(const activity_id type) const
 
 void player::cancel_activity()
 {
-    if ( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
+    if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
         stop_hauling();
     }
     // Clear any backlog items that aren't auto-resume.
@@ -11179,17 +11179,17 @@ object_type player::get_grab_type() const
 void player::start_hauling()
 {
     add_msg( _( "You start hauling items along the ground." ) );
-    if ( is_armed() ) {
+    if( is_armed() ) {
         add_msg( m_warning, _( "Your hands are not free, which makes hauling slower." ) );
     }
-    this->hauling = true;
+    hauling = true;
 }
 
 void player::stop_hauling()
 {
     add_msg( _( "You stop hauling items." ) );
-    this->hauling = false;
-    if ( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) ) {
+    hauling = false;
+    if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) ) {
         cancel_activity();
     }
 }
