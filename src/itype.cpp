@@ -14,8 +14,11 @@ std::string gunmod_location::name() const
     return _( _id.c_str() );
 }
 
-std::string itype::nname( unsigned int const quantity ) const
+std::string itype::nname( unsigned int quantity ) const
 {
+    // Always use singular form for liquids.
+    // (Maybe gases too?  There are no gases at the moment)
+    if( phase == LIQUID ) quantity = 1;
     return ngettext( name.c_str(), name_plural.c_str(), quantity );
 }
 
