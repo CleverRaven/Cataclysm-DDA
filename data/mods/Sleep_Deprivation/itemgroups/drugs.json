@@ -3,8 +3,6 @@
     "id": "drugs_rare",
     "type": "item_group",
     "//": "Rare and/or valuable drugs excluding painkillers",
-    "items": [
-      [ "magnesium_tablet", 100 ]
-    ]
+    "items": [ [ "magnesium_tablet", 100 ] ]
   }
 ]
