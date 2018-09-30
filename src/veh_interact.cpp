@@ -2632,10 +2632,9 @@ void veh_interact::complete_vehicle()
         }
 
         auto &src = g->u.activity.targets.front();
-
-        auto &pt = veh->parts[ vehicle_part ];
-        auto &contents = src->contents;
-        if( pt.is_tank() && src->is_watertight_container() && contents.empty() ) {
+        struct vehicle_part &pt = veh->parts[ vehicle_part ];
+        std::list<item> &contents = src->contents;
+        if( pt.is_tank() && src->is_watertight_container() && !contents.empty() ) {
 
             pt.base.fill_with( contents.front() );
 
