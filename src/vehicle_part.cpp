@@ -283,36 +283,37 @@ float vehicle_part::consume_energy( const itype_id &ftype, float energy )
     return 0.0f;
 }
 
-bool vehicle_part::can_reload( const itype_id &obj ) const
+bool vehicle_part::can_reload( const item &obj ) const
 {
     // first check part is not destroyed and can contain ammo
     if( !is_fuel_store() ) {
         return false;
     }
 
+    const itype_id obj_type = obj.typeId();
     if( is_reactor() ) {
-        return base.is_reloadable_with( obj );
+        return base.is_reloadable_with( obj_type );
     }
 
-    if( !obj.empty() ) {
+    if( !obj.is_null() ) {
         // forbid filling tanks with solids or non-material things
-        if( is_tank() && item::find_type( obj )->phase <= SOLID ) {
+        if( is_tank() && ( obj.made_of( SOLID ) || obj.made_of( PNULL ) ) ) {
             return false;
         }
         // forbid putting liquids, gasses, and plasma in things that aren't tanks
-        else if( item::find_type( obj )->phase > SOLID && !is_tank() ) {
+        else if( !obj.made_of( SOLID ) && !is_tank() ) {
             return false;
         }
         // prevent mixing of different ammo
-        if( ammo_current() != "null" && ammo_current() != obj ) {
+        if( ammo_current() != "null" && ammo_current() != obj_type ) {
             return false;
         }
         // For storage with set type, prevent filling with different types
-        if( info().fuel_type != fuel_type_none && info().fuel_type != obj ) {
+        if( info().fuel_type != fuel_type_none && info().fuel_type != obj_type ) {
             return false;
         }
         // don't fill magazines with inappropriate fuel
-        if( !is_tank() && !base.is_reloadable_with( obj ) ) {
+        if( !is_tank() && !base.is_reloadable_with( obj_type ) ) {
             return false;
         }
     }
@@ -331,7 +332,7 @@ void vehicle_part::process_contents( const tripoint &pos )
 
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
-    if( !is_tank() || !can_reload( liquid.typeId() ) ) {
+    if( !is_tank() || !can_reload( liquid ) ) {
         return false;
     }
 

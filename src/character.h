@@ -560,7 +560,7 @@ class Character : public Creature, public visitable<Character>
          */
         bool is_armed() const;
 
-        void drop_inventory_overflow();
+        void drop_invalid_inventory();
 
         bool has_artifact_with( const art_effect_passive effect ) const;
 
