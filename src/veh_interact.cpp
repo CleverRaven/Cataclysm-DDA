@@ -2622,9 +2622,10 @@ void veh_interact::complete_vehicle()
         auto &src = g->u.activity.targets.front();
 
         auto &pt = veh->parts[ vehicle_part ];
-        if( pt.is_tank() && src->is_watertight_container() && !src->contents.empty() ) {
+        auto &contents = src->contents;
+        if( pt.is_tank() && src->is_watertight_container() && contents.empty() ) {
 
-            pt.base.fill_with( src->contents.front() );
+            pt.base.fill_with( contents.front() );
 
             if ( pt.ammo_remaining() != pt.ammo_capacity() ) {
                 //~ 1$s vehicle name, 2$s tank name
@@ -2636,8 +2637,8 @@ void veh_interact::complete_vehicle()
                          veh->name.c_str(), pt.name().c_str() );
             }
 
-            if( src->contents.front().charges == 0 ) {
-                src->contents.erase( src->contents.begin() );
+            if( contents.front().charges == 0 ) {
+                contents.erase( contents.begin() );
             } else {
                 add_msg( m_good, _( "There's some left over!" ) );
             }

@@ -3091,7 +3091,7 @@ std::string talk_function::om_gathering_description( npc &p, const std::string &
 
 std::string talk_function::om_next_upgrade( const std::string &bldg )
 {
-    int phase = bldg.find_last_of( "_" );
+    int phase = bldg.find_last_of( '_' );
     std::string comp = bldg.substr( phase + 1 );
     int value = atoi( comp.c_str() ) + 1;
     comp = bldg.substr( 0, phase + 1 ) + to_string( value );
@@ -3105,7 +3105,7 @@ std::string talk_function::om_next_upgrade( const std::string &bldg )
 std::vector<std::string> talk_function::om_all_upgrade_levels( const std::string &bldg )
 {
     std::vector<std::string> upgrades;
-    int phase = bldg.find_last_of( "_" );
+    int phase = bldg.find_last_of( '_' );
     std::string comp = bldg.substr( phase + 1 );
     int value = 0;
     int current = atoi( comp.c_str() );
@@ -3127,8 +3127,8 @@ bool talk_function::om_min_level( std::string target, const std::string &bldg )
 int talk_function::om_over_level( std::string target, const std::string &bldg )
 {
     int diff = 0;
-    int phase_target = target.find_last_of( "_" );
-    int phase_bldg = bldg.find_last_of( "_" );
+    int phase_target = target.find_last_of( '_' );
+    int phase_bldg = bldg.find_last_of( '_' );
     //comparing two different buildings
     if( target.substr( 0, phase_target + 1 ) != bldg.substr( 0, phase_bldg + 1 ) ) {
         return -1;
@@ -3846,8 +3846,8 @@ std::string talk_function::camp_car_description( vehicle *car )
 
 std::string talk_function::camp_direction( std::string line )
 {
-    return line.substr( line.find_last_of( "[" ),
-                        line.find_last_of( "]" ) - line.find_last_of( "[" ) + 1 );
+    return line.substr( line.find_last_of( '[' ),
+                        line.find_last_of( ']' ) - line.find_last_of( '[' ) + 1 );
 }
 
 int talk_function::camp_food_supply( int change, bool return_days )
