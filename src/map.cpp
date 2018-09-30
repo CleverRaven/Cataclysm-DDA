@@ -4452,17 +4452,11 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
 void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
                                     map::map_process_func processor, std::string const &signal )
 {
-    static time_point last_fluid_check = calendar::time_of_cataclysm;
-    const time_point now = calendar::turn;
-
-    // only check the fluid every 10 turns for freeze/rot
-    if( last_fluid_check - now > 10_turns ) {
-        last_fluid_check = now;
-        for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
-            const size_t idx = vp.part_index();
-            cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ) );
-        }
+    for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+        const size_t idx = vp.part_index();
+        cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ) );
     }
+
     auto cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, true );
     for( const vpart_reference vp : cargo_parts ) {
         process_vehicle_items( cur_veh, vp.part_index() );

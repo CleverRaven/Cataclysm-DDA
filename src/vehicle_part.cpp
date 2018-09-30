@@ -322,7 +322,9 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
 
 void vehicle_part::process_contents( const tripoint &pos )
 {
-    if( !base.contents.empty() ) {
+    // for now we only care about processing food containers since things like
+    // fuel don't care about temperature yet
+    if( base.is_food_container() ) {
         base.process( nullptr, pos, false );
     }
 }
