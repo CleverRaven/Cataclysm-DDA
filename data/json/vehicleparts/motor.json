@@ -23,7 +23,7 @@
     "difficulty": 1,
     "durability": 80,
     "power": 4,
-    "epower": -250,
+    "energy_consumption": 670,
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [
