@@ -511,7 +511,7 @@ void dream::load( JsonObject &jsobj )
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    return std::string( a->name() ) < std::string( b->name() );
+    return a->name() < b->name();
 }
 
 void mutation_branch::load_trait_blacklist( JsonObject &jsobj )
