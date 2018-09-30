@@ -1783,6 +1783,10 @@ bool game::handle_action()
                 toggle_pixel_minimap();
                 break;
 
+            case ACTION_RELOAD_TILESET:
+                reload_tileset();
+                break;
+
             case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
                 get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
                 get_options().save();

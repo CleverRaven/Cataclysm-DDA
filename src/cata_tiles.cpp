@@ -234,9 +234,10 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     return result;
 }
 
-void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck )
+void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck,
+                               const bool force )
 {
-    if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id ) {
+    if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force ) {
         return;
     }
     //@todo: move into clear or somewhere else.

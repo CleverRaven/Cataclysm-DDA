@@ -1764,6 +1764,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Reload Tileset",
+    "category": "DEFAULTMODE",
+    "id": "reload_tileset"
+  },
+  {
+    "type": "keybinding",
     "name": "Toggle Auto pulp or butcher",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_pulp_butcher"
