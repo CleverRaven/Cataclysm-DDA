@@ -514,9 +514,10 @@ class cata_tiles
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
          * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param force If true, forces loading the tileset even if it is already loaded.
          * @throw std::exception On any error.
          */
-        void load_tileset( const std::string &tileset_id, bool precheck = false );
+        void load_tileset( const std::string &tileset_id, bool precheck = false, bool force = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.

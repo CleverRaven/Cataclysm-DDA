@@ -735,6 +735,21 @@ void game::toggle_pixel_minimap()
 #endif // TILES
 }
 
+void game::reload_tileset()
+{
+#ifdef TILES
+    try {
+        tilecontext->reinit();
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ), false, true );
+        tilecontext->do_tile_loading_report();
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the tileset failed: %s" ), err.what() );
+    }
+    g->reset_zoom();
+    g->refresh_all();
+#endif // TILES
+}
+
 // temporarily switch out of fullscreen for functions that rely
 // on displaying some part of the sidebar
 void game::temp_exit_fullscreen()
@@ -2379,6 +2394,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_fullscreen" );
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
+    ctxt.register_action( "reload_tileset" );
     ctxt.register_action( "toggle_auto_pulp_butcher" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );

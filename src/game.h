@@ -597,6 +597,7 @@ class game
         void toggle_sidebar_style();
         void toggle_fullscreen();
         void toggle_pixel_minimap();
+        void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
         void zoom_in();
