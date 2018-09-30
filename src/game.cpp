@@ -947,7 +947,8 @@ bool game::start_game()
             std::string name = v.v->type.str();
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
-                for( auto pv : v.v->get_parts( VPFLAG_CONTROLS, false, true ) ) {
+                for( const vpart_reference vp : v.v->get_parts_including_broken( VPFLAG_CONTROLS ) ) {
+                    const vehicle_part *const pv = &vp.vehicle().parts[vp.part_index()];
                     auto pos = v.v->global_part_pos3( *pv );
                     u.setpos( pos );
 

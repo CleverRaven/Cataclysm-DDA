@@ -800,17 +800,6 @@ class vehicle
                 bool include_broken_parts ) const;
 
         /**
-         *  Get all unbroken vehicle parts with cached with a given bitflag
-         *  @param flag Flag to check for
-         *  @param enabled if set part must also be enabled to be considered
-         *  @param enabled if you want to get broken parts too
-         */
-        std::vector<vehicle_part *> get_parts( vpart_bitflags flag, bool enabled,
-                                               bool include_broken_parts );
-        std::vector<const vehicle_part *> get_parts( vpart_bitflags flag, bool enabled,
-                bool include_broken_parts ) const;
-
-        /**
          *  Get all unbroken vehicle parts at specified position
          *  @param pos position to check
          *  @param flag if set only flags with this part will be considered

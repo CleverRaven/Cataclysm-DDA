@@ -2122,22 +2122,6 @@ std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, b
     return res;
 }
 
-std::vector<vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled,
-        bool include_broken_parts )
-{
-    std::vector<vehicle_part *> res;
-    get_parts_helper( *this, flag, res, enabled, include_broken_parts );
-    return res;
-}
-
-std::vector<const vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled,
-        bool include_broken_parts ) const
-{
-    std::vector<const vehicle_part *> res;
-    get_parts_helper( *this, flag, res, enabled, include_broken_parts );
-    return res;
-}
-
 std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag,
         bool enabled, bool include_broken_parts )
 {
