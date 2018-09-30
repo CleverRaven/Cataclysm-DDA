@@ -582,10 +582,10 @@ void groundcover_extra::finalize()   // @todo: fixme return bool for failure
     }
 
     if( wtotal > 1000000 ) {
-        debugmsg( "plant coverage total exceeds 100%" );
+        debugmsg( "plant coverage total exceeds 100%%" );
     }
     if( btotal > 1000000 ) {
-        debugmsg( "boosted plant coverage total exceeds 100%" );
+        debugmsg( "boosted plant coverage total exceeds 100%%" );
     }
 
     tf_id.furn = f_null;
