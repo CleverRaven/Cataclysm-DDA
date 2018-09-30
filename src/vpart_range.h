@@ -162,11 +162,12 @@ class vehicle_part_with_feature_range : public
     private:
         feature_type feature_;
         bool unbroken_;
+        bool enabled_;
 
     public:
-        vehicle_part_with_feature_range( ::vehicle &v, feature_type f,
-                                         const bool u ) : generic_vehicle_part_range<vehicle_part_with_feature_range<feature_type>>( v ),
-                                                     feature_( std::move( f ) ), unbroken_( u ) { }
+        vehicle_part_with_feature_range( ::vehicle &v, feature_type f, const bool u,
+                                         const bool e ) : generic_vehicle_part_range<vehicle_part_with_feature_range<feature_type>>( v ),
+                                                     feature_( std::move( f ) ), unbroken_( u ), enabled_( e ) { }
 
         bool contained( const size_t part ) const;
 };
