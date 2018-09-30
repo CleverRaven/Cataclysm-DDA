@@ -6129,7 +6129,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             if( item_counter <= 0 ) {
                 item_tags.erase( "HOT" );
                 item_tags.insert( "WARM" );
-                item_counter = 1;
+                item_counter = 600;
                 is_warm = true;
                 is_hot = false;
             } else if( item_counter > max_heat ) {
@@ -6152,7 +6152,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                     return;
                 }
                 is_warm = false;
-            } else if( item_counter >= 600 ) {
+            } else if( item_counter > 600 ) {
                 item_tags.erase( "WARM" );
                 item_tags.insert( "HOT" );
                 is_warm = false;
