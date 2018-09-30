@@ -3868,7 +3868,7 @@ void overmap::place_map_extras()
 {
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            if( overmap_buffer.seen( global_base_point().x + i, global_base_point().y + j, 0 ) ) {
+            if( seen( i, j, 0 ) ) {
                 continue;
             }
             map_extras ex = region_settings_map["default"].region_extras[ter( i, j, 0 )->get_extras()];
@@ -3889,14 +3889,20 @@ void overmap::place_map_extras()
                     for( int x = 0; x < trigger.size; x++ ) {
                         for( int y = 0; y < trigger.size; y++ ) {
                             if( x == 0 && y == 0 ) {
-                                continue;
+                                continue; // We know that 0,0 is valid, we picked from a list provided by that tile
                             }
                             map_extras other_ex = region_settings_map["default"].region_extras[ter( i + x, j + y,
                                                   0 )->get_extras()];
-                            std::find_if( other_ex.values.begin(),
+                            auto res = std::find_if( other_ex.values.begin(),
                             other_ex.values.end(), [&trigger]( weighted_object<int, std::string> s ) {
                                 return s.obj == trigger.map_special;
                             } );
+                            if( res == other_ex.values.end() ) {
+                                valid = false;
+                            }
+                            if( seen( i + x, j + y, 0 ) ) {
+                                valid = false;
+                            }
                         }
                     }
                     if( valid ) {
@@ -3918,6 +3924,9 @@ void overmap::open( overmap_special_batch &enabled_specials )
     using namespace std::placeholders;
     if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
         read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
+        if( map_extra_triggers.empty() ) {
+            place_map_extras();
+        }
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;
         // Fetch south and north
