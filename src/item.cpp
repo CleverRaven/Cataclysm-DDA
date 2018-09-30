@@ -2276,7 +2276,7 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if( has_flag( "LITCIG" ) ) {
         ret = c_red;
-    } else if( is_filthy() ) {
+    } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
@@ -2621,7 +2621,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << _( " (hallucinogenic)" );
         }
 
-        if( rotten() ) {
+        if( item_tags.count( "DIRTY" ) ) {
+            ret << _( " (dirty)" );
+        } else if( rotten() ) {
             ret << _( " (rotten)" );
         } else if( has_flag( "MUSHY" ) ) {
             ret << _( " (mushy)" );
@@ -6956,6 +6958,13 @@ bool item::is_filthy() const
 
 bool item::on_drop( const tripoint &pos )
 {
+    // dropping liquids, even currently frozen ones, on the ground makes them
+    // dirty
+    if( type->phase == LIQUID && !g->m.has_flag_furn( "LIQUIDCONT", pos ) &&
+        !item_tags.count( "DIRTY" ) ) {
+
+        item_tags.insert( "DIRTY" );
+    }
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
 

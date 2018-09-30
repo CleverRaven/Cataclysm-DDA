@@ -3085,6 +3085,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         soundfxvariant = "smash_cloth";
     } else if( smash_furn ) {
         furn_set( p, bash->furn_set );
+        for( item &it : i_at( p ) )  {
+            it.on_drop( p );
+        }
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
