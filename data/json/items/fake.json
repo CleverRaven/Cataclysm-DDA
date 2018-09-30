@@ -33,6 +33,14 @@
         "qualities": [ ["GLARE", 2] ]
     },
     {
+        "id": "bio_scalpel",
+        "copy-from": "fake_item",
+        "type": "TOOL",
+        "name": "autonomous surgical scalpels",
+        "flags": [ "TRADER_AVOID" ],
+        "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
+    },
+    {
         "id": "fake_razor",
         "copy-from": "fake_item",
         "type": "TOOL",

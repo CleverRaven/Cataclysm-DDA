@@ -292,46 +292,58 @@ float calendar::sunlight() const
     }
 }
 
-std::string to_string_clipped( const time_duration &d )
+std::pair<cata::optional<int>, std::string> to_num_and_unit( const time_duration &d )
 {
     //@todo: change INDEFINITELY_LONG to time_duration
     if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
-        return _( "forever" );
+        return { {}, _( "forever" ) };
     }
 
     if( d < 1_minutes ) {
         //@todo: add to_seconds,from_seconds, operator ""_seconds, but currently
         // this could be misleading as we only store turns, which are 6 whole seconds
         const int sec = to_turns<int>( d ) * 6;
-        return string_format( ngettext( "%d second", "%d seconds", sec ), sec );
+        return { sec, npgettext( "time unit", "second", "seconds", sec ) };
     } else if( d < 1_hours ) {
         const int min = to_minutes<int>( d );
-        return string_format( ngettext( "%d minute", "%d minutes", min ), min );
+        return { min, npgettext( "time unit", "minute", "minutes", min ) };
     } else if( d < 1_days ) {
         const int hour = to_hours<int>( d );
-        return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
+        return { hour, npgettext( "time unit", "hour", "hours", hour ) };
     } else if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
         // therefore no way to count them
         const int day = to_days<int>( d );
-        return string_format( ngettext( "%d day", "%d days", day ), day );
+        return { day, npgettext( "time unit", "day", "days", day ) };
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
         //@todo: consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
-        return string_format( ngettext( "%d season", "%d seasons", season ), season );
+        return { season, npgettext( "time units", "season", "seasons", season ) };
     } else {
         //@todo: consider a to_year function, but year length is variable, so
         // this might be misleading
         const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
-        return string_format( ngettext( "%d year", "%d years", year ), year );
+        return { year, npgettext( "time unit", "year", "years", year ) };
+    }
+}
+
+std::string to_string_clipped( const time_duration &d )
+{
+    const auto &num_n_unit = to_num_and_unit( d );
+    if( num_n_unit.first.has_value() ) {
+        //~ %d is time number, %s is time unit
+        return string_format( pgettext( "time duration", "%d %s" ),
+                              num_n_unit.first.value(), num_n_unit.second );
+    } else {
+        return num_n_unit.second;
     }
 }
 
 std::string to_string( const time_duration &d )
 {
     if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
-        return _( "for ever" );
+        return _( "forever" );
     }
 
     if( d <= 1_minutes ) {

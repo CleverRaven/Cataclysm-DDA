@@ -29,6 +29,7 @@ class main_menu
         std::vector<std::string> vSettingsSubItems;
         std::vector< std::vector<std::string> > vSettingsHotkeys;
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
+        std::string vdaytip; //tip of the day
 
         /**
          * Does what it sounds like, but this function also exists in order to gracefully handle
@@ -57,6 +58,11 @@ class main_menu
         bool new_character_tab();
         bool load_character_tab();
         void world_tab();
+
+        /*
+         * Load character templates from template folder
+         */
+        void load_char_templates();
 
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.

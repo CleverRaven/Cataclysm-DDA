@@ -50,6 +50,7 @@ const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_milked( "milked" );
+const efftype_id effect_sleep( "sleep" );
 
 using namespace activity_handlers;
 
@@ -88,7 +89,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
-    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn }
+    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -125,6 +127,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
@@ -469,10 +472,6 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
                                const time_point &age, const std::function<int()> &roll_butchery, butcher_type action )
 {
     itype_id meat = corpse->get_meat_itype();
-    if( corpse->made_of( material_id( "bone" ) ) ) {
-        //For butchering yield purposes, we treat it as bones, not meat
-        meat = "null";
-    }
 
     int pieces = corpse->get_meat_chunks_count();
     int skins = 0;
@@ -525,6 +524,13 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             break;
     }
 
+    if( corpse->made_of( material_id( "bone" ) ) ) {
+        //For butchering yield purposes, we treat it as bones, not meat
+        meat = "null";
+        bones += pieces / 4;
+        pieces = 0;
+    }
+
     // Lose some meat, skins, etc if the rolls are low
     pieces +=   std::min( 0, roll_butchery() );
     skins +=    std::min( 0, roll_butchery() - 4 );
@@ -536,7 +542,6 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     stomach = roll_butchery() >= 0;
 
     // (QUICK) BUTCHERY
-    // in quick butchery you aim for meat and don't care about the rest
     if( action == BUTCHER && ( !corpse_item->has_flag( "FIELD_DRESS" ) ||
                                !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         pieces /= 4;
@@ -548,6 +553,8 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         sinews /= 4;
         // feathers unchanged
         wool /= 4;
+        stomach = false;
+    } else if( action == BUTCHER ) {
         stomach = roll_butchery() >= 0;
     }
 
@@ -565,7 +572,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
 
     // field dressing removed innards and bones from meatless limbs
     if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-        stomach = 0;
+        stomach = false;
         bones = ( bones / 2 ) + rng( bones / 2, bones );
     }
     // unskillfull field dressing damaged the skin, meat, and other parts
@@ -576,7 +583,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         fats = rng( 0, fats );
         feathers = rng( 0, feathers );
         wool = rng( 0, wool );
-        stomach = 0;
+        stomach = false;
     }
     if( corpse_item->has_flag( "QUARTERED" ) ) {
         pieces /= 4;
@@ -2224,9 +2231,8 @@ enum repeat_type : int {
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
-    uimenu rmenu;
+    uilist rmenu;
     rmenu.text = title;
-    rmenu.return_invalid = true;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
@@ -2508,6 +2514,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname().c_str(),
                           tool.tname().c_str() );
+    mod.item_tags.insert( "IRREMOVABLE" );
     tool.contents.push_back( mod );
     act->targets[1].remove_item();
 }
@@ -2619,6 +2626,26 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
+void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
+{
+    if( !p->has_effect( effect_sleep ) ) {
+        if( p->can_sleep() ) {
+            act->set_to_null();
+            p->fall_asleep();
+        } else if( one_in( 1000 ) ) {
+            p->add_msg_if_player( _( "You toss and turn..." ) );
+        }
+    }
+}
+
+void activity_handlers::try_sleep_finish( player_activity *act, player *p )
+{
+    if( !p->has_effect( effect_sleep ) ) {
+        p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+    }
     act->set_to_null();
 }
 

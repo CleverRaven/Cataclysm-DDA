@@ -66,8 +66,7 @@ class string_input_popup
         input_context *ctxt = nullptr;
 
         bool _canceled = false;
-
-        void query_more( bool loop, bool dorefresh );
+        bool _confirmed = false;
 
         void create_window();
         void create_context();
@@ -93,10 +92,7 @@ class string_input_popup
          * It's optional default is an empty string.
          */
         /**@{*/
-        string_input_popup &text( std::string value ) {
-            _text = value;
-            return *this;
-        }
+        string_input_popup &text( std::string value );
         const std::string &text() const {
             return _text;
         }
@@ -218,6 +214,12 @@ class string_input_popup
          */
         bool canceled() const {
             return _canceled;
+        }
+        /**
+         * Returns true if query was finished via the ENTER key.
+         */
+        bool confirmed() const {
+            return _confirmed;
         }
         /**
          * Edit values in place. This combines: calls to @ref text to set the

@@ -132,6 +132,8 @@ std::string action_ident( action_id act )
             return "LEVEL_DOWN";
         case ACTION_MOVE_UP:
             return "LEVEL_UP";
+        case ACTION_TOGGLE_MAP_MEMORY:
+            return "toggle_map_memory";
         case ACTION_CENTER:
             return "center";
         case ACTION_SHIFT_N:
@@ -327,6 +329,7 @@ bool can_action_change_worldstate( const action_id act )
 {
     switch( act ) {
         // Shift view
+        case ACTION_TOGGLE_MAP_MEMORY:
         case ACTION_CENTER:
         case ACTION_SHIFT_N:
         case ACTION_SHIFT_NE:
@@ -765,15 +768,14 @@ action_id handle_action_menu()
 #endif
         }
 
-        std::string title = _( "Back" );
-        title += "...";
-        if( category == "back" ) {
-            title = _( "Cancel" );
+        if( category != "back" ) {
+            std::string msg = _( "Back" );
+            msg += "...";
+            entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
+                                                hotkey_for_action( ACTION_ACTIONMENU ), msg ) );
         }
-        entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
-                                            hotkey_for_action( ACTION_ACTIONMENU ), title ) );
 
-        title = _( "Actions" );
+        std::string title = _( "Actions" );
         if( category != "back" ) {
             catgname = _( category.c_str() );
             capitalize_letter( catgname, 0 );
@@ -790,12 +792,12 @@ action_id handle_action_menu()
         width += 2 + 3 + 3;
         int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
         int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
-        int selection = ( int ) uimenu( true, std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                        std::max( iy, 0 ), title, entries );
+        int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
+                                std::max( iy, 0 ), title, entries );
 
         g->draw();
 
-        if( selection < 0 ) {
+        if( selection < 0 || selection == NUM_ACTIONS ) {
             return ACTION_NULL;
         } else if( selection == 2 * NUM_ACTIONS ) {
             if( category != "back" ) {
@@ -847,12 +849,12 @@ action_id handle_main_menu()
     width += 2 + 3 + 3;
     int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
     int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
-    int selection = ( int ) uimenu( true, std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                    std::max( iy, 0 ), _( "MAIN MENU" ), entries );
+    int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
+                            std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
     g->draw();
 
-    if( selection < 0 || selection > NUM_ACTIONS ) {
+    if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
     } else {
         return ( action_id ) selection;

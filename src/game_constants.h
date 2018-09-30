@@ -70,14 +70,28 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
+/** Temperature constants */
+namespace temperatures
+{
+/** temperature at which something starts warming and can become HOT */
+constexpr int hot = 100; // ~ 38 Celsius
+
+/** the "normal" temperature midpoint between cold and hot */
+constexpr int normal = 70; // ~ 21 Celsius
+
 /** Temperature inside an active fridge in Fahrenheit  */
-#define FRIDGE_TEMPERATURE 37 // ~ 2.7 Celsius
+constexpr int fridge = 37; // ~ 2.7 Celsius
+
+/** Temperature at which things are considered "cold" */
+constexpr int cold = 40;
 
 /** Temperature inside an active freezer in Fahrenheit  */
-#define FREEZER_TEMPERATURE 23 // -5 Celsius
+constexpr int freezer = 23; // -5 Celsius
 
 /** Temperature in which water freezes in Fahrenheit  */
-#define FREEZING_TEMPERATURE 32 // 0 Celsius
+constexpr int freezing = 32; // 0 Celsius
+}
+
 
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
