@@ -901,23 +901,14 @@ class vehicle
          * coordinate system that player::posx uses.
          * Global apparently means relative to the currently loaded map (game::m).
          * This implies:
-         * <code>g->m.veh_at(this->global_x(), this->global_y()) == this;</code>
+         * <code>g->m.veh_at(this->global_pos3()) == this;</code>
          */
-        int global_x() const;
-        int global_y() const;
-        point global_pos() const;
         tripoint global_pos3() const;
         /**
          * Get the coordinates of the studied part of the vehicle
          */
         tripoint global_part_pos3( const int &index ) const;
         tripoint global_part_pos3( const vehicle_part &pt ) const;
-        /**
-         * Really global absolute coordinates in map squares.
-         * This includes the overmap, the submap, and the map square.
-         */
-        point real_global_pos() const;
-        tripoint real_global_pos3() const;
         /**
          * All the fuels that are in all the tanks in the vehicle, nicely summed up.
          * Note that empty tanks don't count at all. The value is the amount as it would be
