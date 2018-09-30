@@ -2577,7 +2577,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string maintext;
-    const item &contents_item = contents.front();
     if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
@@ -2596,6 +2595,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << "+";
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
+        const item &contents_item = contents.front();
         if( contents_item.made_of( LIQUID ) ) {
             maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
                                       contents_item.tname( quantity, with_prefix ).c_str() );
