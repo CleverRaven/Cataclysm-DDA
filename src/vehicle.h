@@ -179,8 +179,9 @@ struct vehicle_part {
          * If this part is capable of wholly containing something, process the
          * items in there.
          * @param pos Position of this part for item::process
+         * @param e_heater Engine has a heater and is on
          */
-        void process_contents( const tripoint &pos );
+        void process_contents( const tripoint &pos, const bool e_heater );
 
         /**
          *  Try adding @param liquid to tank optionally limited by @param qty

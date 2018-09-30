@@ -321,12 +321,16 @@ bool vehicle_part::can_reload( const item &obj ) const
     return ammo_remaining() < ammo_capacity();
 }
 
-void vehicle_part::process_contents( const tripoint &pos )
+void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
     if( base.is_food_container() ) {
-        base.process( nullptr, pos, false );
+        int temp = g->get_temperature( pos );
+        if( e_heater ) {
+            temp = std::max( temp, temperatures::cold + 1 );
+        }
+        base.process( nullptr, pos, false, temp, 1 );
     }
 }
 

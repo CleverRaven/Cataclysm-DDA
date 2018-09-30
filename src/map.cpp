@@ -4455,9 +4455,10 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
 void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
                                     map::map_process_func processor, std::string const &signal )
 {
+    const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
         const size_t idx = vp.part_index();
-        cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ) );
+        cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, true );
@@ -4465,7 +4466,6 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         process_vehicle_items( cur_veh, vp.part_index() );
     }
 
-    const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( auto &active_item : cur_veh.active_items.get() ) {
         if( empty( cargo_parts ) ) {
             return;
