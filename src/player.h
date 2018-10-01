@@ -745,7 +745,8 @@ class player : public Character
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part bp, int amount ) override;
+        void apply_damage( Creature *source, body_part bp, int amount,
+                           const bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */

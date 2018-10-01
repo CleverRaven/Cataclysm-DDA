@@ -3636,7 +3636,7 @@ int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, bod
     Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void player::apply_damage(Creature *source, body_part hurt, int dam)
+void player::apply_damage(Creature *source, body_part hurt, int dam, const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) ) {
         // don't do any more damage if we're already dead
@@ -3671,13 +3671,15 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         on_hurt( source );
     }
 
-    // remove healing effects if damaged
-    int remove_med = roll_remainder( dam / 5.0f );
-    if( remove_med > 0 && has_effect( effect_bandaged, hurt ) ) {
-        remove_med -= reduce_healing_effect( effect_bandaged , remove_med, hurt );
-    }
-    if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
-        remove_med -= reduce_healing_effect( effect_disinfected , remove_med, hurt );
+    if( !bypass_med ) {
+        // remove healing effects if damaged
+        int remove_med = roll_remainder( dam / 5.0f );
+        if( remove_med > 0 && has_effect( effect_bandaged, hurt ) ) {
+            remove_med -= reduce_healing_effect( effect_bandaged , remove_med, hurt );
+        }
+        if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
+            remove_med -= reduce_healing_effect( effect_disinfected , remove_med, hurt );
+        }
     }
 }
 
