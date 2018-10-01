@@ -40,6 +40,9 @@
 #include "string_input_popup.h"
 #include "line.h"
 #include "recipe_groups.h"
+#include "faction_camp.h"
+#include "mission_companion.h"
+#include "npctalk.h"
 
 #include <vector>
 #include <string>
