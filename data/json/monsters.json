@@ -865,7 +865,7 @@
     "armor_acid": 3,
     "vision_night": 3,
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL" ],
+    "death_function": [ "NORMAL", "SPLATTER" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "BONES" ]
   },
   {
@@ -2283,7 +2283,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
-    "death_function": [ "NORMAL" ],
+    "death_function": [ "NORMAL", "SPLATTER" ],
     "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES" ]
   },
   {
@@ -2425,7 +2425,7 @@
     "armor_bash": 90,
     "armor_cut": 90,
     "vision_day": 50,
-    "starting_ammo": { "40mm_frag": 100, "556": 1000 },
+    "starting_ammo": { "40mm_frag": 200, "556": 3000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
@@ -4770,12 +4770,11 @@
     "special_attacks": [ [ "SMASH", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ],
     { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] } ],
     "death_drops": "mon_zombie_hulk_death_drops",
-    "death_function": [ "NORMAL" ],
+    "death_function": [ "NORMAL", "SPLATTER" ],
     "burn_into": "mon_zombie_fiend",
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -4787,7 +4786,7 @@
       "REVIVES",
       "BONES",
       "PUSH_MON",
-      "NOGIB"
+      "HARDTOSHOOT"
     ]
   }
 ]

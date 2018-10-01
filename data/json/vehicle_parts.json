@@ -53,9 +53,9 @@
     "id": "ig_vp_sheet_metal",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_lump", "count": [ 3, 4 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
+      { "item": "scrap", "count": [ 8, 10 ] }
     ]
   },
   {
@@ -449,7 +449,7 @@
     "broken_symbol": "&",
     "broken_color": "cyan",
     "damage_modifier": 80,
-    "durability": 900,
+    "durability": 600,
     "description": "A strong door.  Has a window so you can see out of it, even when closed.",
     "size": 10,
     "item": "hdframe",
@@ -468,7 +468,7 @@
     "broken_symbol": "&",
     "broken_color": "cyan",
     "damage_modifier": 80,
-    "durability": 1000,
+    "durability": 660,
     "description": "A strong door.  Solid construction means you can't see through it when closed.",
     "size": 10,
     "item": "hdframe",
@@ -503,7 +503,7 @@
     "broken_symbol": "&",
     "broken_color": "light_gray",
     "damage_modifier": 80,
-    "durability": 120,
+    "durability": 420,
     "description": "A strong door.  A window lets you see through it when closed.",
     "size": 150,
     "item": "frame",
@@ -521,7 +521,7 @@
     "broken_symbol": "&",
     "broken_color": "light_gray",
     "damage_modifier": 80,
-    "durability": 120,
+    "durability": 450,
     "description": "A strong door.  Solid construction means you can't see through it when closed.",
     "size": 150,
     "item": "frame",
@@ -540,7 +540,7 @@
     "broken_symbol": "&",
     "broken_color": "dark_gray",
     "damage_modifier": 80,
-    "durability": 480,
+    "durability": 900,
     "description": "A very strong door.  A window lets you see through it when closed.",
     "size": 150,
     "item": "hdframe",
@@ -559,7 +559,7 @@
     "broken_symbol": "&",
     "broken_color": "dark_gray",
     "damage_modifier": 80,
-    "durability": 480,
+    "durability": 1000,
     "description": "A very strong door.  Solid construction means you can't see through it when closed.",
     "size": 150,
     "item": "hdframe",
@@ -598,8 +598,9 @@
     "description": "A blade, welded to the vehicle, for cutting up zombies.",
     "item": "blade",
     "difficulty": 2,
+    "folded_volume": 3,
     "location": "structure",
-    "flags": [ "SHARP", "PROTRUSION" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
   },
   {
@@ -615,8 +616,9 @@
     "description": "A blade, welded to the vehicle, for cutting up zombies.",
     "item": "blade",
     "difficulty": 2,
+    "folded_volume": 3,
     "location": "structure",
-    "flags": [ "SHARP", "PROTRUSION" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
   },
   {
@@ -632,8 +634,9 @@
     "description": "A metal spike, welded to the vehicle, to increase injury when crashing into things.",
     "item": "spike",
     "difficulty": 2,
+    "folded_volume": 1,
     "location": "structure",
-    "flags": [ "SHARP", "PROTRUSION" ],
+    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ]
   },
   {
@@ -1102,6 +1105,7 @@
     "description": "A bunch of electronics that make it difficult to start the vehicle without the proper key, and that will sound an alarm if you try.  The alarm can be disabled.",
     "epower": -300,
     "bonus": 120,
+    "folded_volume": 1,
     "item": "processor",
     "difficulty": 6,
     "location": "on_controls",
@@ -1113,7 +1117,7 @@
       },
       "removal": { "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ], "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
     },
-    "flags": [ "ON_CONTROLS", "SECURITY" ],
+    "flags": [ "ON_CONTROLS", "SECURITY", "FOLDABLE" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -1295,13 +1299,14 @@
     "damage_modifier": 10,
     "description": "A water faucet.",
     "durability": 45,
+    "folded_volume": 1,
     "item": "water_faucet",
     "requirements": {
       "install": { "time": 30000, "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
-    "flags": [ "FAUCET" ],
+    "flags": [ "FAUCET", "FOLDABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] } ]
   },
   {
@@ -1657,13 +1662,14 @@
     "durability": 90,
     "description": "An electronic noise maker.  It will automatically make noise when you drive in reverse, alerting things behind you to move out of the way.",
     "bonus": 40,
+    "folded_volume": 1,
     "item": "beeper",
     "requirements": {
       "install": { "time": 15000, "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
-    "flags": [ "BEEPER", "ODDTURN" ],
+    "flags": [ "BEEPER", "ODDTURN", "FOLDABLE" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -1985,8 +1991,9 @@
     "description": "A wooden spike, attached to the vehicle, to increase injury when crashing into things.",
     "item": "pointy_stick",
     "difficulty": 2,
+    "folded_volume": 5,
     "location": "structure",
-    "flags": [ "SHARP", "PROTRUSION", "NAILABLE" ],
+    "flags": [ "SHARP", "PROTRUSION", "NAILABLE", "FOLDABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ]
   },
   {
@@ -2092,7 +2099,7 @@
     "damage_modifier": 10,
     "durability": 50,
     "description": "A small electric motor.  Installed on the same frame as a door or curtain, it will allow you to remotely open the door or curtain from the vehicle controls.",
-    "item": "motor_small",
+    "item": "motor_tiny",
     "difficulty": 2,
     "folded_volume": 1,
     "flags": [ "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "TOOL_SCREWDRIVER" ],
@@ -2112,7 +2119,7 @@
     "item": "drive_by_wire_controls",
     "difficulty": 3,
     "flags": [ "CONTROLS", "REMOTE_CONTROLS" ],
-    "breaks_into": [ { "item": "motor_small" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
+    "breaks_into": [ { "item": "motor_tiny" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2169,7 +2176,7 @@
     "location": "center",
     "flags": [ "REMOTE_CONTROLS", "OBSTACLE", "FOLDABLE" ],
     "breaks_into": [
-      { "item": "motor_small", "count": [ 1, 3 ] },
+      { "item": "motor_tiny", "count": [ 1, 3 ] },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
       { "item": "e_scrap", "count": [ 1, 5 ] }
     ]
@@ -2185,13 +2192,14 @@
     "durability": 20,
     "description": "A clock, so you know what time it is.",
     "epower": 0,
+    "folded_volume": 1,
     "item": "wristwatch",
     "requirements": {
       "install": { "time": 15000, "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
-    "flags": [ "WATCH", "ALARMCLOCK" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "FOLDABLE" ],
     "breaks_into": [ { "item": "scrap", "prob": 50 } ]
   },
   {

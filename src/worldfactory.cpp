@@ -1543,8 +1543,11 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
     for( auto &file : file_paths ) {
         remove_file( file );
     }
-    for( auto &dir : directory_paths ) {
-        remove_directory( worldpath + dir );
+    // Trying to remove a non-empty parent directory before a child
+    // directory will fail.  Removing directories in reverse order
+    // will prevent this situation from arising.
+    for( auto it = directory_paths.rbegin(); it != directory_paths.rend(); ++it ) {
+        remove_directory( worldpath + *it );
     }
     if( delete_folder ) {
         remove_directory( worldpath );

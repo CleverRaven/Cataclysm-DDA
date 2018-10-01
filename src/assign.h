@@ -14,6 +14,27 @@
 #include "units.h"
 #include "color.h"
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+namespace detail
+{
+template<typename ...T>
+class is_optional_helper : public std::false_type
+{
+};
+template<typename T>
+class is_optional_helper<cata::optional<T>> : public std::true_type
+{
+};
+} // namespace detail
+template<typename T>
+class is_optional : public detail::is_optional_helper<typename std::decay<T>::type>
+{
+};
+
 inline void report_strict_violation( JsonObject &jo, const std::string &message,
                                      const std::string &name )
 {
@@ -126,7 +147,10 @@ bool assign( JsonObject &jo, const std::string &name, std::pair<T, T> &val,
     return true;
 }
 
-template <typename T, typename std::enable_if<std::is_class<T>::value, int>::type = 0>
+// Note: is_optional excludes any types based on cata::optional, which is
+// handled below in a separate function.
+template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
+           int >::type = 0 >
 bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
     T out;
@@ -329,6 +353,23 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
     val = out;
 
     return true;
+}
+
+template<typename T>
+inline bool assign( JsonObject &jo, const std::string &name, cata::optional<T> &val,
+                    const bool strict = false )
+{
+    if( !jo.has_member( name ) ) {
+        return false;
+    }
+    if( jo.has_null( name ) ) {
+        val.reset();
+        return true;
+    }
+    if( !val ) {
+        val.emplace();
+    }
+    return assign( jo, name, *val, strict );
 }
 
 #endif

@@ -57,6 +57,9 @@
                     "types": {
                     }
                 }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
             }
         },
         "forest_thick": {
@@ -94,6 +97,9 @@
                     "types": {
                     }
                 }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
             }
         },
         "forest_water": {
@@ -133,6 +139,9 @@
                         "t_water_sh": 1
                     }
                 }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
             }
         }
       },

@@ -166,6 +166,7 @@
     "id": "hdstowboard_horizontal",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
+    "looks_like": "stowboard_horizontal",
     "symbol": "h"
   },
   {
@@ -262,6 +263,7 @@
     "id": "hdstowboard_ne",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
+    "looks_like": "stowboard_ne",
     "symbol": "u"
   },
   {
@@ -328,6 +330,7 @@
     "id": "hdstowboard_nw",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
+    "looks_like": "stowboard_nw",
     "symbol": "y"
   },
   {
@@ -394,6 +397,7 @@
     "id": "hdstowboard_se",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
+    "looks_like": "stowboard_se",
     "symbol": "n"
   },
   {
@@ -460,6 +464,7 @@
     "id": "hdstowboard_sw",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
+    "looks_like": "stowboard_se",
     "symbol": "b"
   },
   {
@@ -526,6 +531,7 @@
     "id": "hdstowboard_vertical",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
+    "looks_like": "stowboard_vertical",
     "symbol": "j"
   },
   {

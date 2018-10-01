@@ -451,8 +451,9 @@
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
@@ -465,10 +466,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 0, 6 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "element", "count": [ 1, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
       ]
@@ -902,7 +904,8 @@
         { "item": "2x4", "count": 1 },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": 2 },
-        { "item": "scrap", "count": [ 1, 3 ] }
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "scrap", "count": [ 4, 10 ] }
       ]
     }
   },
@@ -1049,14 +1052,25 @@
     "move_cost_mod": -1,
     "required_str": 9,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "sheet_metal", "count": [ 1, 2 ] }, { "item": "pipe", "count": [ 4, 8 ] } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "pipe", "count": [ 4, 8 ] }
+      ]
+    },
     "max_volume": 8000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 2, 8 ] }, { "item": "steel_chunk", "count": [ 0, 3 ] }, { "item": "pipe", "count": 1 } ]
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "pipe", "count": 1 }
+      ]
     }
   },
   {
@@ -1069,14 +1083,25 @@
     "move_cost_mod": -1,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "pipe", "count": [ 6, 12 ] }, { "item": "sheet_metal", "count": [ 1, 2 ] } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
+      ]
+    },
     "max_volume": 7000,
     "bash": {
       "str_min": 6,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 2, 8 ] }, { "item": "steel_chunk", "count": [ 0, 3 ] }, { "item": "pipe", "count": 1 } ]
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "pipe", "count": 1 }
+      ]
     }
   },
   {
@@ -1115,6 +1140,7 @@
         { "item": "pipe", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 1, 2 ] },
@@ -1130,7 +1156,8 @@
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
@@ -1153,8 +1180,9 @@
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "element", "count": [ 2, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "element", "count": [ 2, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "motor_small", "charges": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
@@ -1168,8 +1196,9 @@
       "items": [
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "element", "count": [ 1, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
       ]
     }
@@ -1912,7 +1941,8 @@
         { "item": "2x4", "count": 14 },
         { "item": "nail", "charges": [ 6, 12 ] },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal", "count": 2 }
+        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
       ]
     },
     "bash": {
@@ -1924,6 +1954,8 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
       ]
     }
@@ -1944,7 +1976,8 @@
         { "item": "2x4", "count": 14 },
         { "item": "nail", "charges": [ 6, 12 ] },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal", "count": 2 }
+        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
       ]
     },
     "bash": {
@@ -1956,6 +1989,8 @@
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
       ]
     }
@@ -1976,7 +2011,8 @@
         { "item": "2x4", "count": 18 },
         { "item": "nail", "charges": [ 7, 14 ] },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal", "count": 3 }
+        { "item": "sheet_metal_small", "count": [ 12, 20 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
       ]
     },
     "bash": {
@@ -1988,6 +2024,8 @@
         { "item": "2x4", "count": [ 6, 12 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": 1 }
       ]
     }
@@ -2043,7 +2081,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "sheet_metal", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "sheet_metal_small", "count": [ 3, 7 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
     }
   },
   {
@@ -2124,6 +2162,7 @@
     "id": "f_flower_tulip",
     "name": "tulip",
     "symbol": "f",
+    "looks_like": "f_mutpoppy",
     "color": "magenta",
     "move_cost_mod": 0,
     "required_str": -1,
@@ -2136,6 +2175,7 @@
     "id": "f_flower_spurge",
     "name": "spurge flower",
     "symbol": "f",
+    "looks_like": "f_dandelion",
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
@@ -2160,6 +2200,73 @@
         "entries": [ { "drop": "cattail_rhizome" }, { "drop": "cattail_stalk", "base_num": [ 1, 4 ] } ]
       }
     ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_black_eyed_susan",
+    "name": "black eyed susan",
+    "looks_like": "f_dandelion",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lily",
+    "name": "lily",
+    "looks_like": "f_tulip",
+    "symbol": "f",
+    "color": "magenta",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lotus",
+    "name": "lotus",
+    "looks_like": "f_lily",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sunflower",
+    "name": "sunflower",
+    "looks_like": "f_dandelion",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "sunflower" } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lilypad",
+    "name": "lilypad",
+    "symbol": "f",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -2996,9 +3103,9 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 0, 3 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
-        { "item": "sheet_metal", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [ 5, 15 ] },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] }
       ]
     }
   },
@@ -3147,7 +3254,11 @@
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] }
+      ]
     }
   },
   {

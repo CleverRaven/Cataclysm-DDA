@@ -5,6 +5,8 @@
 #include "map_iterator.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 #include "itype.h"
 #include "player.h"
 #include "cata_utility.h"
@@ -53,8 +55,8 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
     // First we need to find the fuels to set
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
         if( pt.is_engine() ) {
             actually_used.insert( pt.info().fuel_type );
             pt.enabled = true;
@@ -80,8 +82,8 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
     // Set fuel to a given percentage
     // Batteries are special cased because they aren't liquid fuel
     std::map<itype_id, long> ret;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
 
         if( pt.is_battery() ) {
             pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult );
@@ -115,8 +117,8 @@ float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_
 {
     std::map<itype_id, long> fuel_amount;
     std::set<itype_id> consumed_fuels;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
             pt.ammo_current() != "null" ) {
@@ -173,9 +175,9 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     vehicle &veh = *veh_ptr;
 
     // Remove all items from cargo to normalize weight.
-    for( size_t p = 0; p < veh.parts.size(); p++ ) {
-        auto &pt = veh.parts[ p ];
-        while( veh.remove_item( p, 0 ) );
+    for( const vpart_reference vp : veh.get_parts() ) {
+        auto &pt = veh.parts[ vp.part_index() ];
+        while( veh.remove_item( vp.part_index(), 0 ) );
     }
     const auto &starting_fuel = set_vehicle_fuel( veh, fuel_level );
     // This is ugly, but improves accuracy: compare the result of fuel approx function
@@ -374,20 +376,20 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 287700, 243300, 15990, 13310 );
-    test_vehicle( "car", 281700, 174300, 16070, 9336 );
-    test_vehicle( "car_sports", 324700, 196600, 16690, 10000 );
-    test_vehicle( "electric_car", 69650, 48590, 3620, 2540 );
-    test_vehicle( "suv", 594300, 314200, 33500, 16750 );
+    test_vehicle( "beetle", 287700, 230500, 15990, 13310 );
+    test_vehicle( "car", 281700, 163300, 16070, 9336 );
+    test_vehicle( "car_sports", 323400, 185500, 16690, 9176 );
+    test_vehicle( "electric_car", 69420, 45080, 3620, 2300 );
+    test_vehicle( "suv", 589700, 288700, 31870, 15320 );
     test_vehicle( "motorcycle", 80860, 45920, 3885, 2195 );
     test_vehicle( "quad_bike", 52140, 35180, 3310, 2195 );
     test_vehicle( "scooter", 71290, 71290, 3707, 3707 );
     test_vehicle( "superbike", 94350, 10270, 4005, 1556 );
-    test_vehicle( "ambulance", 379700, 328100, 24810, 20680 );
-    test_vehicle( "fire_engine", 453900, 418800, 27350, 25250 );
-    test_vehicle( "fire_truck", 315400, 72900, 20680, 5312 );
-    test_vehicle( "truck_swat", 340100, 75880, 24760, 5527 );
+    test_vehicle( "ambulance", 378800, 287200, 23740, 18680 );
+    test_vehicle( "fire_engine", 452700, 380000, 27350, 23150 );
+    test_vehicle( "fire_truck", 311100, 68740, 20680, 4312 );
+    test_vehicle( "truck_swat", 340100, 75240, 24760, 5527 );
     test_vehicle( "tractor_plow", 281900, 281900, 16630, 16630 );
-    test_vehicle( "apc", 1081000, 965000, 77710, 71540 );
-    test_vehicle( "humvee", 438400, 210900, 28000, 12950 );
+    test_vehicle( "apc", 1081000, 960200, 77710, 71540 );
+    test_vehicle( "humvee", 438400, 210500, 28000, 12950 );
 }

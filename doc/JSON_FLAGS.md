@@ -260,6 +260,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
+- ```LOUDMOVES``` Mkes move noises as if ~2 sizes louder, even if flying.
 - ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOHEAD``` Headshots not allowed!
@@ -470,6 +471,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BED``` A bed where the player can sleep.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
 - ```BELTABLE``` Seatbelt can be attached to this part.
+- ```BIKE_RACK_VEH``` Can be used to merge an adjacent single tile wide vehicle, or split a single tile wide vehicle off into its own vehicle.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CAMERA```
 - ```CAMERA_CONTROL```
@@ -922,6 +924,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 ### Flags that apply to items, not to item types.
@@ -934,6 +937,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
+- ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.

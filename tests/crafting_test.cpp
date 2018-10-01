@@ -238,7 +238,7 @@ TEST_CASE( "charge_handling" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_small" );
+        tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
@@ -258,7 +258,7 @@ TEST_CASE( "charge_handling" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_small" );
+        tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
@@ -280,7 +280,7 @@ TEST_CASE( "charge_handling" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_small" );
+        tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
         tools.emplace_back( "UPS_off", -1, 500 );
@@ -304,7 +304,7 @@ TEST_CASE( "charge_handling" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_small" );
+        tools.emplace_back( "motor_tiny" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
         tools.emplace_back( "UPS_off", -1, 10 );

@@ -19,6 +19,8 @@
 #include "cata_utility.h"
 #include "auto_pickup.h"
 #include "safemode_ui.h"
+#include "text_snippets.h"
+#include "loading_ui.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -77,11 +79,15 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
 
     // Draw horizontal line
     for( int i = 1; i < window_width - 1; ++i ) {
-        mvwputch( w_open, window_height - 2, i, c_white, LINE_OXOX );
+        mvwputch( w_open, window_height - 4, i, c_white, LINE_OXOX );
     }
 
-    center_print( w_open, window_height - 1, c_red,
-                  _( "Please report bugs to kevin.granade@gmail.com or post on the forums." ) );
+    center_print( w_open, window_height - 2, c_red,
+                  _( "Bugs?  Suggestions?  Use links in MOTD to report them." ) );
+
+    center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
+                  vdaytip ) );
+
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
@@ -279,6 +285,10 @@ void main_menu::init_strings()
     for( auto item : vSettingsSubItems ) {
         vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
+
+    loading_ui ui( false );
+    g->load_core_data( ui );
+    vdaytip = SNIPPET.random_from_category( "tip" );
 }
 
 std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
@@ -316,6 +326,20 @@ void main_menu::display_credits()
     catacurses::refresh();
 }
 
+void main_menu::load_char_templates()
+{
+    templates.clear();
+
+    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
+            true ) ) {
+        path = native_to_utf8( path );
+        path.erase( path.find( ".template" ), std::string::npos );
+        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
+        templates.push_back( path );
+    }
+    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+}
+
 bool main_menu::opening_screen()
 {
     // Play title music, whoo!
@@ -348,14 +372,7 @@ bool main_menu::opening_screen()
         return false;
     }
 
-    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
-            true ) ) {
-        path = native_to_utf8( path );
-        path.erase( path.find( ".template" ), std::string::npos );
-        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
-        templates.push_back( path );
-    }
-    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+    load_char_templates();
 
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
@@ -676,6 +693,7 @@ bool main_menu::new_character_tab()
                     }
                     if( !g->u.create( play_type ) ) {
                         g->u = player();
+                        load_char_templates();
                         werase( w_background );
                         wrefresh( w_background );
                         continue;
@@ -762,6 +780,7 @@ bool main_menu::new_character_tab()
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                     g->u = player();
+                    load_char_templates();
                     werase( w_background );
                     wrefresh( w_background );
                     continue;
