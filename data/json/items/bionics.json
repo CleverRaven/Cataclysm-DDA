@@ -246,6 +246,15 @@
     "difficulty": 5
   },
   {
+    "id": "bio_emp_armgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "EMP Projector CBM",
+    "description": "A ranged EMP generator system is implanted on the palm of your right hand and arm.  Fires super-concentrated electric pulses for a short distance.  Extremely effective against electronic targets but mostly useless otherwise.",
+    "price": 220000,
+    "difficulty": 5
+  },
+  {
     "id": "bio_ethanol",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
@@ -732,6 +741,15 @@
     "description": "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "price": 800000,
     "difficulty": 11
+  },
+  {
+    "id": "bio_surgical_razor",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Autonomous Surgical Scalpels CBM",
+    "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts. They can also be used as a high-quality butchering tool.",
+    "price": 220000,
+    "difficulty": 4
   },
   {
     "id": "bio_sunglasses",

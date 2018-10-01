@@ -29,6 +29,7 @@ enum lit_level {
     LL_BRIGHT_ONLY, // bright but indistinct
     LL_LIT,
     LL_BRIGHT, // Probably only for light sources
+    LL_MEMORIZED, // Not a light level but behaves similarly
     LL_BLANK // blank space, not an actual light level
 };
 

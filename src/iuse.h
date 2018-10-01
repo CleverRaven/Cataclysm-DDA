@@ -205,6 +205,7 @@ class iuse
         int instant_antibiotic( player *, item *, bool, const tripoint & );
         int panacea( player *, item *, bool, const tripoint & );
         int lockpick( player *, item *, bool, const tripoint & );
+        int magnesium_tablet( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 

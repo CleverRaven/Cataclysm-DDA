@@ -224,7 +224,7 @@
         "type" : "profession",
         "ident": "trans_human",
         "name": "Post-Human Cyborg",
-        "description": "As a wealthy trans-humanist you decided to put yourself on the frontline of augmentative technology to bring forth the future.  You are now a walking example of what humanity could had become.",
+        "description": "As a wealthy trans-humanist you decided to put yourself on the frontline of augmentative technology to bring forth the future.  You are now a walking example of what humanity could have become.",
         "points": 8,
         "CBMs":[
             "bio_str_enhancer",

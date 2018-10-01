@@ -90,7 +90,7 @@
     "color": "brown",
     "see_cost": 2,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -101,7 +101,7 @@
     "color": "green",
     "see_cost": 3,
     "extras": "forest",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -112,7 +112,7 @@
     "color": "green",
     "see_cost": 4,
     "extras": "forest_thick",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 90 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE" ]
   },
@@ -124,7 +124,7 @@
     "color": "cyan",
     "see_cost": 4,
     "extras": "forest_water",
-    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 100 },
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE" ]
   },
@@ -7250,7 +7250,7 @@
     "color": "green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7261,7 +7261,7 @@
     "color": "green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7272,7 +7272,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7283,7 +7283,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -7294,7 +7294,7 @@
     "color": "light_green",
     "see_cost": 5,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ]
   },
   {

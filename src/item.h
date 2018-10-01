@@ -647,6 +647,12 @@ class item : public visitable<item>
          */
         void update_temp( const int temp, const float insulation );
 
+        /** Apply heat to this item, amount of heat will be based on item weight  */
+        void heat_up();
+
+        /** reset the last_temp_check used when crafting new items and the like */
+        void reset_temp_check();
+
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
 
@@ -714,6 +720,9 @@ class item : public visitable<item>
         time_duration get_rot() const {
             return rot;
         }
+        void mod_rot( const time_duration &val ) {
+            rot += val;
+        }
 
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
@@ -761,6 +770,10 @@ class item : public visitable<item>
          * The returned vector does not contain the null id.
          */
         const std::vector<material_id> &made_of() const;
+        /**
+        * The ids of all the qualities this contains.
+        */
+        const std::map<quality_id, int> &quality_of() const;
         /**
          * Same as @ref made_of(), but returns the @ref material_type directly.
          */
@@ -930,6 +943,7 @@ class item : public visitable<item>
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );
+        bool process_extinguish( player *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( player *carrier, const tripoint &pos );
         bool process_cable( player *carrier, const tripoint &pos );
@@ -967,6 +981,7 @@ class item : public visitable<item>
         bool is_comestible() const;
         bool is_food() const;                // Ignoring the ability to eat batteries, etc.
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
+        bool is_med_container() const;
         bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
         bool is_medication() const;            // Is it a medication that only pretends to be food?
         bool is_bionic() const;
@@ -980,7 +995,6 @@ class item : public visitable<item>
 
         bool is_tool() const;
         bool is_tool_reversible() const;
-        bool is_var_veh_part() const;
         bool is_artifact() const;
         bool is_bucket() const;
         bool is_bucket_nonempty() const;

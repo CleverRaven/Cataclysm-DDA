@@ -515,8 +515,8 @@
     "id": "battletorch_lit",
     "type": "TOOL",
     "category": "weapons",
-    "name": "Louisville Slaughterer (lit)",
-    "name_plural": "Louisville Slaughterers (lit)",
+    "name": "Louisville Slaughterer",
+    "name_plural": "Louisville Slaughterers",
     "description": "This is a sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric.  It is burning brightly, and makes it much easier to see the baselines at night games (It also makes the umpire FAR more likely to call a ball instead of a strike).",
     "weight": 1485,
     "volume": 8,
@@ -532,7 +532,7 @@
     "revert_to": "battletorch_done",
     "techniques": [ "WBLOCK_1" ],
     "use_action": "BATTLETORCH_LIT",
-    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "beartrap",
@@ -895,8 +895,8 @@
     "type": "TOOL",
     "name": "inactive mininuke hack",
     "description": "This is an inactive mininuke hack.  Many times as large as a normal manhack, a mininuke hack contains a mininuke and attack by flying at their target and detonating.  Use this item to reprogram and activate the mininuke hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": 53524,
-    "volume": 64,
+    "weight": 25000,
+    "volume": 75,
     "price": 2677500,
     "to_hit": -3,
     "bashing": 6,
@@ -1242,8 +1242,8 @@
   {
     "id": "candle_lit",
     "type": "TOOL",
-    "name": "candle (lit)",
-    "name_plural": "candles (lit)",
+    "name": "candle",
+    "name_plural": "candles",
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "weight": 100,
     "volume": 1,
@@ -1257,7 +1257,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 50,
     "use_action": { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" },
-    "flags": [ "LIGHT_8", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID" ]
   },
   {
     "id": "canister_goo",
@@ -2735,8 +2735,8 @@
     "id": "firekatana_off",
     "type": "TOOL",
     "category": "weapons",
-    "name": "Rising Sun (off)",
-    "name_plural": "Rising Suns (off)",
+    "name": "Rising Sun",
+    "name_plural": "Rising Suns",
     "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
     "weight": 1400,
     "volume": 9,
@@ -2763,8 +2763,8 @@
     "id": "firekatana_on",
     "type": "TOOL",
     "category": "weapons",
-    "name": "Rising Sun (on)",
-    "name_plural": "Rising Suns (on)",
+    "name": "Rising Sun",
+    "name_plural": "Rising Suns",
     "description": "This is a katana that glows with the fury and heat of the SUN!  Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
     "weight": 1400,
     "volume": 9,
@@ -2791,14 +2791,14 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "firemachete_off",
     "type": "TOOL",
     "category": "weapons",
-    "name": "No. 9 (off)",
-    "name_plural": "No. 9's (off)",
+    "name": "No. 9",
+    "name_plural": "No. 9's",
     "description": "This huge steel knife has been modified with a fuel tank, insulated handguard, and ignition system.  When filled with gasoline, a system of torches heats the blade, burning your target.",
     "weight": 1814,
     "volume": 6,
@@ -2828,8 +2828,8 @@
     "id": "firemachete_on",
     "type": "TOOL",
     "category": "weapons",
-    "name": "No. 9 (on)",
-    "name_plural": "No. 9's (on)",
+    "name": "No. 9",
+    "name_plural": "No. 9's",
     "description": "This huge steel knife has been modified with a fuel tank, insulated handguard, and ignition system.  The blade is glowing with heat, making it a great plant scorcher and nightlight.",
     "weight": 1814,
     "volume": 6,
@@ -2860,7 +2860,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "fish_trap",
@@ -3842,7 +3842,7 @@
     "symbol": "%",
     "color": "green",
     "use_action": {
-      "target": "pickle",
+      "target": "pickled_egg",
       "msg": "You open the jar, exposing it to the atmosphere.",
       "container": "jar_glass",
       "target_charges": 6,
@@ -4726,7 +4726,7 @@
     "name": "mininuke",
     "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
     "description": "This is an extremely powerful weapon, a portable nuclear bomb.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
-    "weight": 53524,
+    "weight": 23000,
     "volume": 64,
     "price": 180000,
     "to_hit": -2,
@@ -4745,7 +4745,7 @@
     "name_plural": "mininukes",
     "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
     "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode.  You should probably get far, far away from it.",
-    "weight": 53524,
+    "weight": 23000,
     "volume": 64,
     "price": 0,
     "to_hit": -2,
@@ -4833,8 +4833,8 @@
     "id": "molotov_lit",
     "type": "TOOL",
     "category": "weapons",
-    "name": "Molotov cocktail (lit)",
-    "name_plural": "Molotov cocktails (lit)",
+    "name": "Molotov cocktail",
+    "name_plural": "Molotov cocktails",
     "description": "A bottle of flammable liquid with a flaming rag inserted.  Throwing it will cause the bottle to break, spreading fire.  The flame may go out shortly if you do not throw it.  Dropping it while lit is not safe.",
     "weight": 742,
     "volume": 3,
@@ -4848,7 +4848,7 @@
     "max_charges": 5,
     "turns_per_charge": 1,
     "use_action": "MOLOTOV_LIT",
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR" ]
+    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ]
   },
   {
     "id": "mop",
@@ -5150,8 +5150,8 @@
   {
     "id": "oil_lamp_on",
     "type": "TOOL",
-    "name": "oil lamp (on)",
-    "name_plural": "oil lamps (on)",
+    "name": "oil lamp",
+    "name_plural": "oil lamps",
     "description": "This is an oil fueled lamp.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
     "weight": 1720,
     "volume": 4,
@@ -5167,7 +5167,7 @@
     "turns_per_charge": 20,
     "revert_to": "oil_lamp",
     "use_action": { "target": "oil_lamp", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH" ]
   },
   {
     "id": "oxygen_tank",
@@ -5861,8 +5861,8 @@
   {
     "id": "ref_lighter_on",
     "type": "TOOL",
-    "name": "refillable lighter (lit)",
-    "name_plural": "refillable lighters (lit)",
+    "name": "refillable lighter",
+    "name_plural": "refillable lighters",
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "weight": 20,
     "volume": 0,
@@ -5886,7 +5886,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "restaurantmap",
@@ -7586,8 +7586,8 @@
   {
     "id": "torch_lit",
     "type": "TOOL",
-    "name": "torch (lit)",
-    "name_plural": "torches (lit)",
+    "name": "torch",
+    "name_plural": "torches",
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  It is burning, producing plenty of light.",
     "weight": 831,
     "volume": 3,
@@ -7603,7 +7603,7 @@
     "revert_to": "torch_done",
     "use_action": "TORCH_LIT",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "touristmap",
@@ -8169,8 +8169,8 @@
     "id": "zweifire_on",
     "type": "TOOL",
     "category": "weapons",
-    "name": "flammenschwert (an)",
-    "name_plural": "flammenschwerter (an)",
+    "name": "flammenschwert",
+    "name_plural": "flammenschwerter",
     "//": "All of this is SUPPOSED to be in German.",
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": 3400,
@@ -8197,7 +8197,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "zweihander",

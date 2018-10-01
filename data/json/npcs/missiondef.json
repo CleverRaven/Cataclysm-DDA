@@ -1656,7 +1656,7 @@
     "followup": "MISSION_RANCH_SCAVENGER_3",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five head torches for them?  Keeping both hands free greatly helps during combat.",
+      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five headlamps for them?  Keeping both hands free greatly helps during combat.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "You should be able to make them with the most basic of skills.",

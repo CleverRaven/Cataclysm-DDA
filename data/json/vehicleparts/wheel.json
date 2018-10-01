@@ -104,8 +104,9 @@
     "durability": 70,
     "description": "A small wheel.",
     "damage_modifier": 50,
+    "folded_volume": 9,
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
-    "flags": [ "WHEEL", "STABLE", "TOOL_WRENCH", "STEERABLE" ]
+    "flags": [ "WHEEL", "STABLE", "TOOL_WRENCH", "STEERABLE", "FOLDABLE" ]
   },
   {
     "id": "wheel_bicycle",
@@ -196,8 +197,9 @@
     "durability": 70,
     "description": "A small wheel.",
     "damage_modifier": 50,
+    "folded_volume": 9,
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
-    "flags": [ "WHEEL", "NO_JACK" ]
+    "flags": [ "WHEEL", "NO_JACK", "FOLDABLE" ]
   },
   {
     "id": "wheel_small_steerable",
