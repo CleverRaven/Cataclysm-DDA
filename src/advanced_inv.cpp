@@ -2430,7 +2430,7 @@ void advanced_inv_area::set_container_position()
     if( uistate.adv_inv_container_location == AIM_DRAGGED ) {
         off = g->u.grab_point;
     } else {
-        off = aim_vector( ( aim_location )uistate.adv_inv_container_location );
+        off = aim_vector( static_cast<aim_location>( uistate.adv_inv_container_location ) );
     }
     // update the absolute position
     pos = g->u.pos() + off;
