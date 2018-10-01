@@ -459,7 +459,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "max_volume": 4000,
+    "max_volume": 1000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -485,7 +485,7 @@
     "description": "Wood stove for heating and cooking.  Much more effective than an open flame.",
     "move_cost_mod": 2,
     "required_str": 10,
-    "max_volume": 4000,
+    "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
     "bash": {
       "str_min": 8,
@@ -972,7 +972,7 @@
         { "item": "cu_pipe", "count": [ 2, 5 ] }
       ]
     },
-    "max_volume": 7000,
+    "max_volume": 4000,
     "bash": {
       "str_min": 18,
       "str_max": 50,
@@ -1006,7 +1006,7 @@
         { "item": "cu_pipe", "count": [ 3, 6 ] }
       ]
     },
-    "max_volume": 7000,
+    "max_volume": 5000,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -1133,7 +1133,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": 12,
-    "max_volume": 4000,
+    "max_volume": 1200,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -1174,7 +1174,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": 12,
-    "max_volume": 4000,
+    "max_volume": 1500,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
