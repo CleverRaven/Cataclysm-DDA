@@ -99,7 +99,7 @@ class SummaryType:
 class CDDAPullRequest(PullRequest):
     """A Pull Request with logic specific to CDDA Repository and their "Summary" descriptions"""
 
-    SUMMARY_REGEX = r'SUMMARY:\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?'
+    SUMMARY_REGEX = r'(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?'
 
     VALID_SUMMARY_CATEGORIES = (
         'Content',
