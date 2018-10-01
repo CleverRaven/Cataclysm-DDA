@@ -9635,8 +9635,12 @@ void player::do_read( item &book )
 
             // Calculate experience gained
             /** @EFFECT_INT increases reading comprehension */
+            // Enhanced Memory Banks modestly boosts experience
             int min_ex = std::max( 1, reading->time / 10 + learner->get_int() / 4 );
             int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
+            if( has_active_bionic( bio_memory ) ) {
+                min_ex += 2;
+            }
             if( max_ex < 2 ) {
                 max_ex = 2;
             }
@@ -10840,6 +10844,9 @@ int player::adjust_for_focus(int amount) const
     {
         effective_focus += 15;
     }
+    if( has_active_bionic( bio_memory ) ) {
+        effective_focus += 10;
+    }
     if (has_trait( trait_SLOWLEARNER ))
     {
         effective_focus -= 15;
@@ -11602,7 +11609,9 @@ long player::get_memorized_terrain_curses( const tripoint &p ) const
 
 size_t player::max_memorized_submaps() const
 {
-    if( has_trait( trait_FORGETFUL ) ) {
+    if( has_active_bionic( bio_memory ) ) {
+        return 20000; // 5000 overmap tiles
+    } else if( has_trait( trait_FORGETFUL ) ) {
         return 200; // 50 overmap tiles
     } else if( has_trait( trait_GOODMEMORY ) ) {
         return 800; // 200 overmap tiles
@@ -12372,6 +12381,7 @@ void player::do_skill_rust()
         const bool charged_bio_mem = power_level > 25 && has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( charged_bio_mem ) ) {
+            add_msg_if_player( m_warning, _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             charge_power( -25 );
         }
         const int newSkill = skill_level_obj.level();
