@@ -240,6 +240,8 @@ Will be shown to the user, no further meaning.
 Optional, if not defined, "NONE" is used. Otherwise one of "NONE", "LIE", "PERSUADE" or "INTIMIDATE". If "NONE" is used, the `failure` object is not read, otherwise it's mandatory.
 The `difficulty` is only required if type is not "NONE" and specifies the success chance in percent (it is however modified by various things like mutations).
 
+An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: "ANGER", "FEAR", "TRUST", "VALUE", "AGRESSION", "ALTRUISM", "BRAVERY", "COLLECTOR". The special "POS_FEAR" modifier treats NPC's fear of your character below 0 as though it were 0.
+
 ### success and failure
 Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, see below.
 
@@ -253,6 +255,10 @@ The combination of fear and trust decide together with the personality of the NP
 For the actual usage of that data, search the source code for "op_of_u".
 
 The `failure` object is used if the trial fails, the `success` object is used otherwise.
+
+### Sample trials
+"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
+"trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 
 `topic` can also be a single topic object (the `type` member is not required here):
 ```JSON

@@ -2244,6 +2244,34 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     }
 }
 
+int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
+{
+    // player &u = *d.alpha;
+    npc &p = *d.beta;
+    int modifier = 0;
+    if( attribute == "ANGER" ) {
+        modifier = p.op_of_u.anger;
+    } else if( attribute == "FEAR" ) {
+        modifier = p.op_of_u.fear;
+    } else if( attribute == "TRUST" ) {
+        modifier = p.op_of_u.trust;
+    } else if( attribute == "VALUE" ) {
+        modifier = p.op_of_u.trust;
+    } else if( attribute == "POS_FEAR" ) {
+        modifier = std::max( 0, p.op_of_u.fear );
+    } else if( attribute == "AGGRESSION" ) {
+        modifier = p.personality.aggression;
+    } else if( attribute == "ALTRUISM" ) {
+        modifier = p.personality.altruism;
+    } else if( attribute == "BRAVERY" ) {
+        modifier = p.personality.bravery;
+    } else if( attribute == "COLLECTOR" ) {
+        modifier = p.personality.collector;
+    }
+    modifier *= factor;
+    return modifier;
+}
+
 int talk_trial::calc_chance( const dialogue &d ) const
 {
     player &u = *d.alpha;
@@ -2303,6 +2331,9 @@ int talk_trial::calc_chance( const dialogue &d ) const
                 chance += 20;
             }
             break;
+    }
+    for( auto this_mod: modifiers ) {
+        chance += parse_mod( d, this_mod.first, this_mod.second );
     }
 
     return std::max( 0, std::min( 100, chance ) );
@@ -2754,6 +2785,16 @@ talk_trial::talk_trial( JsonObject jo )
     type = iter->second;
     if( type != TALK_TRIAL_NONE ) {
         difficulty = jo.get_int( "difficulty" );
+    }
+    if( jo.has_array( "mod" ) ) {
+        JsonArray ja = jo.get_array( "mod " );
+        while( ja.has_more() ) {
+            JsonArray jmod = ja.next_array();
+            trial_mod this_modifier;
+            this_modifier.first = jmod.next_string();
+            this_modifier.second = jmod.next_int();
+            modifiers.push_back( this_modifier );
+        }
     }
 }
 
