@@ -667,14 +667,12 @@ bool mattack::pull_metal_weapon( monster *z )
             if ( foe->weapon.has_flag( "NO_UNWIELD" ) ) {
                 target->add_msg_player_or_npc( m_type, _( "You feel a tug at your %s, but can't let go of it!" ),
                     _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name().c_str() );
-            }
-            else {
+            } else {
                 if ( rng( 1, 100 ) <= success ) {
                     target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
                         _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname().c_str() );
                     z->add_item( foe->remove_weapon() );
-                }
-                else {
+                } else {
                     target->add_msg_player_or_npc( m_type,
                         _( "The %s unsuccessfully attempts to pull your weapon away." ),
                         _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name().c_str() );
