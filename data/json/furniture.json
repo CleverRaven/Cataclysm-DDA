@@ -968,8 +968,11 @@
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 2, 5 ] }
       ]
@@ -981,10 +984,13 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "cu_pipe", "count": [ 2, 4 ] },
         { "item": "scrap_copper", "count": [ 1, 2 ] }
       ]
     }
@@ -1002,8 +1008,11 @@
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "sheet_metal", "count": [ 2, 5 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "cu_pipe", "count": [ 3, 6 ] }
@@ -1016,8 +1025,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 9 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
