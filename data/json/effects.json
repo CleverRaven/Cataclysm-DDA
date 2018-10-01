@@ -1922,6 +1922,10 @@
     },
     {
         "type": "effect_type",
+        "id": "has_og_comm_freq"
+    },
+    {
+        "type": "effect_type",
         "id": "has_prospectus"
     }
 ]
