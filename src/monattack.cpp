@@ -652,7 +652,6 @@ bool mattack::pull_metal_weapon( monster *z )
     }
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
-        //If the target's weapon can't be unwielded, it's probably internal, like a bionic device.
         if( foe->weapon.made_of( material_id( "iron" ) ) ||
             foe->weapon.made_of( material_id( "steel" ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
@@ -664,6 +663,7 @@ bool mattack::pull_metal_weapon( monster *z )
                 success = std::max( 100 - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ), 0 );
             }
             auto m_type = foe == &g->u ? m_bad : m_neutral;
+            //If the target's weapon can't be unwielded, it's probably internal, like a bionic device.
             if ( foe->weapon.has_flag( "NO_UNWIELD" ) ) {
                 target->add_msg_player_or_npc( m_type, _( "You feel a tug at your %s, but can't let go of it!" ),
                     _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name().c_str() );
