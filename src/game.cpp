@@ -10611,10 +10611,10 @@ bool game::walk_move( const tripoint &dest_loc )
         u.activity.values.push_back( false );
         // Whether the destination is inside a vehicle (not supported)
         u.activity.values.push_back( false );
-        // Destination relative to the player
-        u.activity.coords.push_back( tripoint( 0, 0, 0 ) );
         // Source relative to the player
         u.activity.placement = u.pos() - dest_loc;
+        // Destination relative to the player
+        u.activity.coords.push_back( tripoint( 0, 0, 0 ) );
         map_stack items = m.i_at( u.pos() );
         if( items.empty() ) {
             u.stop_hauling();
