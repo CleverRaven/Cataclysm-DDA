@@ -663,14 +663,20 @@ bool mattack::pull_metal_weapon( monster *z )
                 success = std::max( 100 - ( 6 * ( foe->str_cur - 6 ) ) - ( 6 * wp_skill ), 0 );
             }
             auto m_type = foe == &g->u ? m_bad : m_neutral;
-            if( rng( 1, 100 ) <= success ) {
-                target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
-                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname().c_str() );
-                z->add_item( foe->remove_weapon() );
+            //If the target's weapon can't be unwielded, it's probably internal, like a bionic device.
+            if ( foe->weapon.has_flag( "NO_UNWIELD" ) ) {
+                target->add_msg_player_or_npc( m_type, _( "You feel a tug at your %s, but can't let go of it!" ),
+                    _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name().c_str() );
             } else {
-                target->add_msg_player_or_npc( m_type,
-                                               _( "The %s unsuccessfully attempts to pull your weapon away." ),
-                                               _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name().c_str() );
+                if ( rng( 1, 100 ) <= success ) {
+                    target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
+                        _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname().c_str() );
+                    z->add_item( foe->remove_weapon() );
+                } else {
+                    target->add_msg_player_or_npc( m_type,
+                        _( "The %s unsuccessfully attempts to pull your weapon away." ),
+                        _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name().c_str() );
+                }
             }
         }
     }
