@@ -369,27 +369,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
 
-    } else if( topic == "TALK_GUARD" ) {
-        switch( rng( 1, 5 ) ) {
-            case 1:
-                return _( "I'm not in charge here, you're looking for someone else..." );
-            case 2:
-                return _( "Keep civil or I'll bring the pain." );
-            case 3:
-                return _( "Just on watch, move along." );
-            case 4:
-                if( g->u.male ) {
-                    return _( "Sir." );
-                } else {
-                    return _( "Ma'am" );
-                }
-            case 5:
-                if( g->u.male ) {
-                    return _( "Rough out there, isn't it?" );
-                } else {
-                    return _( "Ma'am, you really shouldn't be traveling out there." );
-                }
-        }
     } else if( topic == "TALK_DELIVER_ASK" ) {
         return bulk_trade_inquire( *p, the_topic.item_type );
 
@@ -978,71 +957,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         SUCCESS_ACTION( &talk_function::clear_mission );
         SUCCESS_OPINION( mission_value / 4, -1,
                          mission_value / 3, -1, 0 );
-    } else if( topic == "TALK_GUARD" ) {
-        add_response_done( _( "Don't mind me..." ) );
-    } else if( topic == "TALK_EVAC_MERCHANT" ) {
-        if( p->has_trait( trait_id( "NPC_MISSION_LEV_1" ) ) ) {
-            add_response( _( "I figured you might be looking for some help..." ), "TALK_EVAC_MERCHANT" );
-            p->companion_mission_role_id = "REFUGEE MERCHANT";
-            SUCCESS_ACTION( &talk_function::companion_mission );
-        }
-
-    } else if( topic == "TALK_EVAC_MERCHANT_PLANS2" ) {
-        ///\EFFECT_INT >11 adds useful dialog option in TALK_EVAC_MERCHANT
-        if( g->u.int_cur >= 12 ) {
-            add_response(
-                _( "[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?" ),
-                "TALK_EVAC_MERCHANT_PLANS3" );
-        }
-
-    } else if( topic == "TALK_EVAC_MERCHANT_ASK_JOIN" ) {
-        ///\EFFECT_INT >10 adds bad dialog option in TALK_EVAC_MERCHANT (NEGATIVE)
-        if( g->u.int_cur > 10 ) {
-            add_response(
-                _( "[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!" ),
-                "TALK_EVAC_MERCHANT_NO" );
-        }
-        ///\EFFECT_INT <7 allows bad dialog option in TALK_EVAC_MERCHANT
-
-        ///\EFFECT_STR >10 allows bad dialog option in TALK_EVAC_MERCHANT
-        if( g->u.int_cur <= 6 && g->u.str_cur > 10 ) {
-            add_response( _( "[STR 11] I punch things in face real good!" ), "TALK_EVAC_MERCHANT_NO" );
-        }
-
-    } else if( topic == "TALK_EVAC_GUARD3_HIDE2" ) {
-        RESPONSE( _( "Get bent, traitor!" ) );
-        TRIAL( TALK_TRIAL_INTIMIDATE, 20 + p->op_of_u.fear * 3 );
-        SUCCESS( "TALK_EVAC_GUARD3_HOSTILE" );
-        FAILURE( "TALK_EVAC_GUARD3_INSULT" );
-        RESPONSE( _( "Got something to hide?" ) );
-        TRIAL( TALK_TRIAL_PERSUADE, 10 + p->op_of_u.trust * 3 );
-        SUCCESS( "TALK_EVAC_GUARD3_DEAD" );
-        FAILURE( "TALK_EVAC_GUARD3_INSULT" );
-
-    } else if( topic == "TALK_EVAC_GUARD3_HOSTILE" ) {
-        p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
-        p->my_fac->respects_u -= 15;
-        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
-
-    } else if( topic == "TALK_EVAC_GUARD3_INSULT" ) {
-        p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
-        p->my_fac->respects_u -= 5;
-
-    } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
-        p->my_fac = g->faction_manager_ptr->get( faction_id( "hells_raiders" ) );
-
-    } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
-        if( g->u.cash >= 800000 ) {
-            add_response( _( "[$8000] You have a deal." ), "TALK_SCAVENGER_MERC_HIRE_SUCCESS" );
-        }
-
-    } else if( topic == "TALK_SCAVENGER_MERC_HIRE_SUCCESS" ) {
-        if( g->u.cash < 800000 ) {
-            debugmsg( "Money appeared out of thin air! (or someone accidentally linked to this talk_topic)" );
-        } else {
-            g->u.cash -= 800000;
-        }
-
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
         add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW" );
         static const std::vector<itype_id> wanted = {{
