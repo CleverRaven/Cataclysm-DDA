@@ -1074,6 +1074,15 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                           topic.c_str() );
 }
 
+talk_response &dialogue::add_response_first( const std::string &text, const std::string &r )
+{
+    responses.insert( responses.begin(), talk_response() );
+    talk_response &result = responses.front();
+    result.text = text;
+    result.success.next_topic = talk_topic( r );
+    return result;
+}
+
 talk_response &dialogue::add_response( const std::string &text, const std::string &r )
 {
     responses.push_back( talk_response() );
@@ -1094,7 +1103,7 @@ talk_response &dialogue::add_response_none( const std::string &text )
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       dialogue_fun_ptr effect_success )
+                                       talkfunction_ptr effect_success )
 {
     talk_response &result = add_response( text, r );
     result.success.set_effect( effect_success );
@@ -1107,6 +1116,17 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 {
     talk_response &result = add_response( text, r );
     result.success.set_effect_consequence( effect_success, consequence );
+    return result;
+}
+
+talk_response &dialogue::add_response_first( const std::string &text, const std::string &r,
+                                            mission *miss )
+{
+    if( miss == nullptr ) {
+        debugmsg( "tried to select null mission" );
+    }
+    talk_response &result = add_response_first( text, r );
+    result.mission_selected = miss;
     return result;
 }
 

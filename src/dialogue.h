@@ -214,6 +214,10 @@ struct dialogue {
 
     private:
         /**
+         * Add a simple response that switches the topic to the new one, but force it to be the first topic.
+         */
+        talk_response &add_response_first( const std::string &text, const std::string &r );
+        /**
          * Add a simple response that switches the topic to the new one.
          */
         talk_response &add_response( const std::string &text, const std::string &r );
@@ -244,6 +248,7 @@ struct dialogue {
          * talked about mission to the given one. The mission pointer must be valid.
          */
         talk_response &add_response( const std::string &text, const std::string &r, mission *miss );
+        talk_response &add_response_first( const std::string &text, const std::string &r, mission *miss );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about skill to the given one.
