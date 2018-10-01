@@ -1418,6 +1418,35 @@
   ]
 },{
   "type": "recipe",
+  "result": "motor_micro",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "electronics",
+  "skills_required": [
+    "fabrication",
+    1
+  ],
+  "difficulty": 3,
+  "time": 21000,
+  "reversible": true,
+  "decomp_learn": 3,
+  "book_learn": [
+    [ "manual_electronics", 2 ],
+    [ "mag_electronics", 2 ]
+  ],
+  "using": [
+    [ "soldering_standard", 5 ]
+  ],
+  "qualities": [
+    { "id": "SCREW", "level": 1 }
+  ],
+  "components": [
+    [ [ "e_scrap", 1 ] ],
+    [ [ "scrap", 3 ] ],
+    [ [ "cable", 3 ] ]
+  ]
+},{
+  "type": "recipe",
   "result": "motor_tiny",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
