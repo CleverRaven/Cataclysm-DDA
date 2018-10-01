@@ -99,6 +99,8 @@ class iuse
         int elec_chainsaw_on( player *, item *, bool, const tripoint & );
         int cs_lajatang_off( player *, item *, bool, const tripoint & );
         int cs_lajatang_on( player *, item *, bool, const tripoint & );
+        int ecs_lajatang_off( player *, item *, bool, const tripoint & );
+        int ecs_lajatang_on( player *, item *, bool, const tripoint & );
         int carver_off( player *, item *, bool, const tripoint & );
         int carver_on( player *, item *, bool, const tripoint & );
         int trimmer_off( player *, item *, bool, const tripoint & );
