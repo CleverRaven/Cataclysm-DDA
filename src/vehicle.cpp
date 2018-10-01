@@ -1689,22 +1689,6 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
                 }
             }
 
-#if 0
-            // remove labels associated with the mov_part
-            std::string label_str;
-            const auto iter = labels.find( label( parts[ mov_part ].mount.x, parts[ mov_part ].mount.y ) );
-            const bool mv_label = iter != labels.end();
-            // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
-            if( mv_label ) {
-                if( parts_at_relative( parts[ mov_part ].mount.x, parts[ mov_part ].mount.y, false ).empty() ) {
-                    if( mv_label ) {
-                        label_str = iter.begin().text;
-                        labels.erase( iter );
-                    }
-                }
-            }
-#endif
-
             // transfer the vehicle_part to the new vehicle
             new_vehicle->parts.emplace_back( parts[ mov_part ] );
             if( split_mounts.empty() ) {
@@ -1719,12 +1703,6 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
             if( passenger ) {
                 g->m.board_vehicle( passenger->pos(), passenger );
             }
-#if 0
-            // add the label to the new vehicle
-            if( !label_str.empty() ) {
-                // vpart_position comes from where? WTF.
-            }
-#endif
             // indicate the part needs to be removed from the old vehicle
             parts[ mov_part].removed = true;
             removed_part_count++;
