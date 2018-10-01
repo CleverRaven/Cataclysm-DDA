@@ -4100,10 +4100,11 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 125000,
+    "time": 60000,
     "autolearn": true,
-    "using": [ [ "welding_standard", 30 ], [ "steel_standard", 6 ], [ "forging_standard", 10 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ]
+    "using": [ [ "welding_standard", 20 ], [ "forging_standard", 10 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ] ]
   }
 ]
