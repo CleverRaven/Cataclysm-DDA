@@ -893,9 +893,10 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
         starty += 1 + fold_and_print( win, starty, 1, len, c_white, _( "Example: -pipe,-chunk,-steel" ) );
     }
 
-    starty += fold_and_print( win, starty, 1, len, c_white, _( "Search [c]ategory or [m]aterial:" ) );
+    starty += fold_and_print( win, starty, 1, len, c_white,
+                              _( "Search [c]ategory, [m]aterial, or [q]uality:" ) );
     //~ An example of how to filter items based on category or material.
-    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron" ) );
+    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron,q:hammering" ) );
     wrefresh( win );
 }
 

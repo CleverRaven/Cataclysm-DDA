@@ -689,17 +689,18 @@ void monster::footsteps( const tripoint &p )
     if( made_footstep ) {
         return;
     }
-    if( has_flag( MF_FLIES ) ) {
-        return;    // Flying monsters don't have footsteps!
-    }
     made_footstep = true;
     int volume = 6; // same as player's footsteps
+    if( has_flag( MF_FLIES ) ) {
+        volume = 0;    // Flying monsters don't have footsteps!
+    }
     if( digging() ) {
         volume = 10;
     }
     switch( type->size ) {
         case MS_TINY:
-            return; // No sound for the tinies
+            volume = 0; // No sound for the tinies
+            break;
         case MS_SMALL:
             volume /= 3;
             break;
@@ -713,6 +714,12 @@ void monster::footsteps( const tripoint &p )
             break;
         default:
             break;
+    }
+    if( has_flag( MF_LOUDMOVES ) ) {
+        volume += 6;
+    }
+    if( volume == 0 ) {
+        return;
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this );

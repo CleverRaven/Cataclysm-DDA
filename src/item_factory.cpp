@@ -693,6 +693,7 @@ void Item_factory::init()
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
+    add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
     add_actor( new ammobelt_actor() );
     add_actor( new bandolier_actor() );
@@ -805,8 +806,9 @@ void Item_factory::check_definitions() const
                 msg << string_format( "item %s has unknown quality %s", type->id.c_str(), q.first.c_str() ) << "\n";
             }
         }
-        if( type->default_container != "null" && !has_template( type->default_container ) ) {
-            msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
+        if( type->default_container && ( !has_template( *type->default_container ) ||
+                                         *type->default_container == "null" ) ) {
+            msg << string_format( "invalid container property %s", type->default_container->c_str() ) << "\n";
         }
 
         for( const auto &e : type->emits ) {
@@ -871,8 +873,9 @@ void Item_factory::check_definitions() const
             for( const auto &e : type->ammo->type ) {
                 check_ammo_type( msg, e );
             }
-            if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
-                msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
+            if( type->ammo->casing && ( !has_template( *type->ammo->casing ) ||
+                                        *type->ammo->casing == "null" ) ) {
+                msg << string_format( "invalid casing property %s", type->ammo->casing->c_str() ) << "\n";
             }
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
                 msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
@@ -969,8 +972,9 @@ void Item_factory::check_definitions() const
             if( type->magazine->reload_time < 0 ) {
                 msg << string_format( "invalid reload_time %i", type->magazine->reload_time ) << "\n";
             }
-            if( type->magazine->linkage != "NULL" && !has_template( type->magazine->linkage ) ) {
-                msg << string_format( "invalid linkage property %s", type->magazine->linkage.c_str() ) << "\n";
+            if( type->magazine->linkage && ( !has_template( *type->magazine->linkage ) ||
+                                             *type->magazine->linkage == "null" ) ) {
+                msg << string_format( "invalid linkage property %s", type->magazine->linkage->c_str() ) << "\n";
             }
         }
 
@@ -1002,10 +1006,11 @@ void Item_factory::check_definitions() const
 
         if( type->tool ) {
             check_ammo_type( msg, type->tool->ammo_id );
-            if( type->tool->revert_to != "null" && !has_template( type->tool->revert_to ) ) {
-                msg << string_format( "invalid revert_to property %s", type->tool->revert_to.c_str() ) << "\n";
+            if( type->tool->revert_to && ( !has_template( *type->tool->revert_to ) ||
+                                           *type->tool->revert_to == "null" ) ) {
+                msg << string_format( "invalid revert_to property %s", type->tool->revert_to->c_str() ) << "\n";
             }
-            if( !type->tool->revert_msg.empty() && type->tool->revert_to == "null" ) {
+            if( !type->tool->revert_msg.empty() && !type->tool->revert_to ) {
                 msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
             }
             if( !type->tool->subtype.empty() && !has_template( type->tool->subtype ) ) {
@@ -2527,14 +2532,11 @@ bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag i
 void item_group::debug_spawn()
 {
     std::vector<std::string> groups = item_controller->get_all_group_names();
-    uimenu menu;
-    menu.return_invalid = true;
+    uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.push_back( uimenu_entry( i, true, -2, groups[i] ) );
     }
-    //~ Spawn group menu: Menu entry to exit menu
-    menu.entries.push_back( uimenu_entry( menu.entries.size(), true, -2, _( "cancel" ) ) );
     while( true ) {
         menu.query();
         const int index = menu.ret;
@@ -2554,8 +2556,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames ) {
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
-        uimenu menu2;
-        menu2.return_invalid = true;
+        uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;

@@ -10,7 +10,7 @@
     "damage_modifier": 80,
     "location": "on_roof",
     "description": "This heavy weapon is mounted on an automated turret.  If you set it to fire automatically from your vehicle controls, it will fire at any hostile creature that gets too close to your vehicle.  It has a safety system and won't fire if you're in or near the line of fire, but you may get caught in any explosions.",
-    "flags": [ "FOLDABLE", "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {
     "id": "TDI",
@@ -19,8 +19,6 @@
     "name": "TDI Vector turret",
     "item": "TDI",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ]
   },
   {
@@ -30,8 +28,6 @@
     "name": "automated TDI Vector",
     "item": "TDI",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ]
   },
   {
@@ -43,8 +39,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ]
   },
   {
@@ -56,8 +50,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ]
   },
   {
@@ -69,8 +61,6 @@
     "color": "brown",
     "broken_color": "brown",
     "difficulty": 5,
-    "range": 25,
-    "folded_volume": 22,
     "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ]
   },
   {
@@ -82,8 +72,6 @@
     "color": "brown",
     "broken_color": "brown",
     "difficulty": 5,
-    "range": 25,
-    "folded_volume": 22,
     "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ]
   },
   {
@@ -93,8 +81,6 @@
     "name": "Bushmaster ACR turret",
     "item": "acr",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ]
   },
   {
@@ -104,8 +90,6 @@
     "name": "automated Bushmaster ACR",
     "item": "acr",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ]
   },
   {
@@ -115,8 +99,6 @@
     "name": "rotary cannon turret",
     "item": "gattler",
     "difficulty": 5,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ]
   },
   {
@@ -126,8 +108,6 @@
     "name": "automated rotary cannon",
     "item": "gattler",
     "difficulty": 5,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ]
   },
   {
@@ -137,8 +117,6 @@
     "name": "AK47 turret",
     "item": "ak47",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "ak47", "count": [ 0, 1 ] } ]
   },
   {
@@ -148,8 +126,6 @@
     "name": "AK74 turret",
     "item": "ak74",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "ak74", "count": [ 0, 1 ] } ]
   },
   {
@@ -161,8 +137,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 6,
-    "range": 21,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -174,8 +148,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 6,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -187,8 +159,6 @@
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 6,
-    "range": 21,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ]
   },
   {
@@ -198,8 +168,6 @@
     "name": "American-180 turret",
     "item": "american_180",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ]
   },
   {
@@ -209,8 +177,6 @@
     "name": "automated American-180",
     "item": "american_180",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ]
   },
   {
@@ -220,8 +186,6 @@
     "name": "AN94 turret",
     "item": "an94",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "an94", "count": [ 0, 1 ] } ]
   },
   {
@@ -231,8 +195,6 @@
     "name": "perforator turret",
     "item": "nailer",
     "difficulty": 5,
-    "range": 18,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ]
   },
   {
@@ -242,8 +204,6 @@
     "name": "automated perforator",
     "item": "nailer",
     "difficulty": 5,
-    "range": 18,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ]
   },
   {
@@ -255,8 +215,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 5,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ]
   },
   {
@@ -268,8 +226,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 5,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ]
   },
   {
@@ -279,8 +235,6 @@
     "name": "AR-15 turret",
     "item": "ar15",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ]
   },
   {
@@ -290,8 +244,6 @@
     "name": "automated AR-15",
     "item": "ar15",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ]
   },
   {
@@ -303,8 +255,6 @@
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 5,
-    "range": 14,
-    "folded_volume": 16,
     "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ]
   },
   {
@@ -319,11 +269,9 @@
     "difficulty": 5,
     "durability": 400,
     "power": -25,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
   },
   {
     "id": "arippernc",
@@ -337,11 +285,9 @@
     "difficulty": 5,
     "durability": 400,
     "power": -25,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
   },
   {
     "id": "ascorpion",
@@ -352,8 +298,6 @@
     "color": "brown",
     "broken_color": "brown",
     "difficulty": 4,
-    "range": 20,
-    "folded_volume": 20,
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ]
   },
   {
@@ -365,8 +309,6 @@
     "color": "brown",
     "broken_color": "brown",
     "difficulty": 4,
-    "range": 25,
-    "folded_volume": 20,
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ]
   },
   {
@@ -378,8 +320,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 6,
-    "range": 6,
-    "folded_volume": 14,
     "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -391,8 +331,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 6,
-    "range": 6,
-    "folded_volume": 14,
     "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -404,8 +342,6 @@
     "color": "blue",
     "broken_color": "blue",
     "difficulty": 3,
-    "range": 12,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ]
   },
   {
@@ -417,8 +353,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ]
   },
   {
@@ -430,8 +364,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 15,
     "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ]
   },
   {
@@ -441,8 +373,6 @@
     "name": "autoshotgun turret",
     "item": "bigun",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ]
   },
   {
@@ -452,8 +382,6 @@
     "name": "automated autoshotgun",
     "item": "bigun",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ]
   },
   {
@@ -463,8 +391,6 @@
     "name": "blunderbuss turret",
     "item": "blunderbuss",
     "difficulty": 5,
-    "range": 6,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ]
   },
   {
@@ -474,8 +400,6 @@
     "name": "automated blunderbuss",
     "item": "blunderbuss",
     "difficulty": 5,
-    "range": 6,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ]
   },
   {
@@ -485,8 +409,6 @@
     "name": "Browning BLR turret",
     "item": "browning_blr",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "browning_blr", "count": [ 0, 1 ] } ]
   },
   {
@@ -496,8 +418,6 @@
     "name": "Calico M960 turret",
     "item": "calico",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ]
   },
   {
@@ -507,8 +427,6 @@
     "name": "automated Calico M960",
     "item": "calico",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ]
   },
   {
@@ -522,11 +440,9 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 240,
-    "range": 8,
-    "folded_volume": 5,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {
     "id": "carbine_flintlocknc",
@@ -539,11 +455,9 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 240,
-    "range": 8,
-    "folded_volume": 5,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {
     "id": "coilgun",
@@ -552,8 +466,6 @@
     "name": "coilgun turret",
     "item": "coilgun",
     "difficulty": 5,
-    "range": 10,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -563,8 +475,6 @@
     "name": "automated coilgun",
     "item": "coilgun",
     "difficulty": 5,
-    "range": 10,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -579,11 +489,9 @@
     "difficulty": 5,
     "durability": 400,
     "power": -5,
-    "range": 12,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
   },
   {
     "id": "cutternc",
@@ -597,11 +505,9 @@
     "difficulty": 5,
     "durability": 400,
     "power": -5,
-    "range": 12,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG" ]
+    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
   },
   {
     "id": "cx4",
@@ -610,8 +516,6 @@
     "name": "Cx4 Storm turret",
     "item": "cx4",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ]
   },
   {
@@ -621,8 +525,6 @@
     "name": "automated Cx4 Storm",
     "item": "cx4",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ]
   },
   {
@@ -634,8 +536,6 @@
     "color": "red",
     "broken_color": "red",
     "difficulty": 5,
-    "range": 5,
-    "folded_volume": 24,
     "breaks_into": [ { "item": "flamethrower_simple", "count": [ 0, 1 ] } ],
     "extend": { "flags": [ "USE_TANKS" ] }
   },
@@ -648,8 +548,6 @@
     "color": "red",
     "broken_color": "red",
     "difficulty": 4,
-    "range": 8,
-    "folded_volume": 19,
     "breaks_into": [ { "item": "flamethrower", "count": [ 0, 1 ] } ],
     "extend": { "flags": [ "USE_TANKS" ] }
   },
@@ -662,8 +560,6 @@
     "color": "red",
     "broken_color": "red",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 19,
     "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
     "extend": { "flags": [ "USE_TANKS" ] }
   },
@@ -674,8 +570,6 @@
     "name": "FN FAL turret",
     "item": "fn_fal",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ]
   },
   {
@@ -685,8 +579,6 @@
     "name": "automated FN FAL",
     "item": "fn_fal",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ]
   },
   {
@@ -696,8 +588,6 @@
     "name": "FN P90 turret",
     "item": "fn_p90",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "fn_p90", "count": [ 0, 1 ] } ]
   },
   {
@@ -707,8 +597,6 @@
     "name": "H&K 416A5 turret",
     "item": "h&k416a5",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ]
   },
   {
@@ -718,8 +606,6 @@
     "name": "automated H&K 416A5",
     "item": "h&k416a5",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ]
   },
   {
@@ -729,8 +615,6 @@
     "name": "heavy rail rifle turret",
     "item": "heavy_rail_rifle",
     "difficulty": 5,
-    "range": 18,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "heavy_rail_rifle", "count": [ 0, 1 ] } ]
   },
   {
@@ -740,8 +624,6 @@
     "name": "H&K G3 turret",
     "item": "hk_g3",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 3,
     "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ]
   },
   {
@@ -751,8 +633,6 @@
     "name": "H&K G36 turret",
     "item": "hk_g36",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ]
   },
   {
@@ -762,8 +642,6 @@
     "name": "automated H&K G36",
     "item": "hk_g36",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ]
   },
   {
@@ -773,8 +651,6 @@
     "name": "automated H&K G3",
     "item": "hk_g3",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ]
   },
   {
@@ -784,8 +660,6 @@
     "name": "H&K G80 turret",
     "item": "hk_g80",
     "difficulty": 5,
-    "range": 25,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "hk_g80", "count": [ 0, 1 ] } ]
   },
   {
@@ -795,8 +669,6 @@
     "name": "H&K MP5 turret",
     "item": "hk_mp5",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ]
   },
   {
@@ -806,8 +678,6 @@
     "name": "automated H&K MP5",
     "item": "hk_mp5",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ]
   },
   {
@@ -817,8 +687,6 @@
     "name": "H&K MP7 turret",
     "item": "hk_mp7",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "hk_mp7", "count": [ 0, 1 ] } ]
   },
   {
@@ -828,8 +696,6 @@
     "name": "H&K UMP45 turret",
     "item": "hk_ump45",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ]
   },
   {
@@ -839,8 +705,6 @@
     "name": "automated H&K UMP45",
     "item": "hk_ump45",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ]
   },
   {
@@ -850,8 +714,6 @@
     "name": "Kel-Tec KSG turret",
     "item": "ksg",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ]
   },
   {
@@ -861,8 +723,6 @@
     "name": "automated Kel-Tec KSG",
     "item": "ksg",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ]
   },
   {
@@ -872,8 +732,6 @@
     "name": "L523 turret",
     "item": "l_base_223",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -883,8 +741,6 @@
     "name": "automated L523",
     "item": "l_base_223",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -894,8 +750,6 @@
     "name": "L523-CAR turret",
     "item": "l_car_223",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -905,8 +759,6 @@
     "name": "automated L523-CAR",
     "item": "l_car_223",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -916,8 +768,6 @@
     "name": "L12 Defender turret",
     "item": "l_def_12",
     "difficulty": 3,
-    "range": 6,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ]
   },
   {
@@ -927,8 +777,6 @@
     "name": "automated L12 Defender",
     "item": "l_def_12",
     "difficulty": 3,
-    "range": 6,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ]
   },
   {
@@ -938,8 +786,6 @@
     "name": "L523-DSR turret",
     "item": "l_dsr_223",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -949,8 +795,6 @@
     "name": "automated L523-DSR",
     "item": "l_dsr_223",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -960,8 +804,6 @@
     "name": "L523-LMG turret",
     "item": "l_lmg_223",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -971,8 +813,6 @@
     "name": "automated L523-LMG",
     "item": "l_lmg_223",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -982,8 +822,6 @@
     "name": "Long Ranger turret",
     "item": "l_long_45",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 13,
     "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ]
   },
   {
@@ -993,8 +831,6 @@
     "name": "automated Long Ranger",
     "item": "l_long_45",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 13,
     "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ]
   },
   {
@@ -1004,8 +840,6 @@
     "name": "L523-MBR turret",
     "item": "l_mbr_223",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -1015,8 +849,6 @@
     "name": "automated L523-MBR",
     "item": "l_mbr_223",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -1026,8 +858,6 @@
     "name": "40mm launcher turret",
     "item": "launcher_simple",
     "difficulty": 4,
-    "range": 25,
-    "folded_volume": 5,
     "breaks_into": [ { "item": "launcher_simple", "count": [ 0, 1 ] } ]
   },
   {
@@ -1037,8 +867,6 @@
     "name": "M1014 shotgun turret",
     "item": "m1014",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ]
   },
   {
@@ -1048,8 +876,6 @@
     "name": "automated M1014 shotgun",
     "item": "m1014",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ]
   },
   {
@@ -1059,8 +885,6 @@
     "name": "Barrett M107A1 turret",
     "item": "m107a1",
     "difficulty": 3,
-    "range": 25,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ]
   },
   {
@@ -1070,8 +894,6 @@
     "name": "automated Barrett M107A1",
     "item": "m107a1",
     "difficulty": 3,
-    "range": 25,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ]
   },
   {
@@ -1081,8 +903,6 @@
     "name": "M14-EBR turret",
     "item": "m14ebr",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ]
   },
   {
@@ -1092,8 +912,6 @@
     "name": "automated M14-EBR",
     "item": "m14ebr",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ]
   },
   {
@@ -1103,8 +921,6 @@
     "name": "M1A turret",
     "item": "m1a",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ]
   },
   {
@@ -1114,8 +930,6 @@
     "name": "automated M1A",
     "item": "m1a",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ]
   },
   {
@@ -1125,8 +939,6 @@
     "name": "M2010 ESR turret",
     "item": "m2010",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "m2010", "count": [ 0, 1 ] } ]
   },
   {
@@ -1136,8 +948,6 @@
     "name": "M27 IAR turret",
     "item": "m27iar",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ]
   },
   {
@@ -1147,8 +957,6 @@
     "name": "automated M27 IAR",
     "item": "m27iar",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ]
   },
   {
@@ -1158,8 +966,6 @@
     "name": ".50 caliber turret",
     "item": "m2browning_sawn",
     "difficulty": 3,
-    "range": 25,
-    "folded_volume": 14,
     "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ]
   },
   {
@@ -1169,8 +975,6 @@
     "name": "automated .50 caliber rifle",
     "item": "m2browning_sawn",
     "difficulty": 3,
-    "range": 25,
-    "folded_volume": 14,
     "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ]
   },
   {
@@ -1180,8 +984,6 @@
     "name": "M320 turret",
     "item": "m320",
     "difficulty": 4,
-    "range": 25,
-    "folded_volume": 3,
     "breaks_into": [ { "item": "m320", "count": [ 0, 1 ] } ]
   },
   {
@@ -1191,8 +993,6 @@
     "name": "M4A1 turret",
     "item": "m4a1",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ]
   },
   {
@@ -1202,8 +1002,6 @@
     "name": "automated M4A1",
     "item": "m4a1",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ]
   },
   {
@@ -1213,8 +1011,6 @@
     "name": "M60 turret",
     "item": "m60",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 16,
     "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ]
   },
   {
@@ -1224,8 +1020,6 @@
     "name": "automated M60",
     "item": "m60",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 16,
     "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ]
   },
   {
@@ -1235,8 +1029,6 @@
     "name": "M79 turret",
     "item": "m79",
     "difficulty": 3,
-    "range": 25,
-    "folded_volume": 4,
     "breaks_into": [ { "item": "m79", "count": [ 0, 1 ] } ]
   },
   {
@@ -1246,8 +1038,6 @@
     "name": "MAC-10 turret",
     "item": "mac_10",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 4,
     "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ]
   },
   {
@@ -1257,8 +1047,6 @@
     "name": "automated MAC-10",
     "item": "mac_10",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 4,
     "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ]
   },
   {
@@ -1268,8 +1056,6 @@
     "name": "Marlin 39A turret",
     "item": "marlin_9a",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ]
   },
   {
@@ -1279,8 +1065,6 @@
     "name": "automated Marlin 39A",
     "item": "marlin_9a",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ]
   },
   {
@@ -1290,8 +1074,6 @@
     "name": "Milkor MGL turret",
     "item": "mgl",
     "difficulty": 4,
-    "range": 25,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "mgl", "count": [ 0, 1 ] } ]
   },
   {
@@ -1301,8 +1083,6 @@
     "name": "Mossberg 500 turret",
     "item": "mossberg_500",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ]
   },
   {
@@ -1312,8 +1092,6 @@
     "name": "automated Mossberg 500",
     "item": "mossberg_500",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ]
   },
   {
@@ -1323,8 +1101,6 @@
     "name": "nail rifle turret",
     "item": "nailrifle",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ]
   },
   {
@@ -1334,8 +1110,6 @@
     "name": "automated nail rifle",
     "item": "nailrifle",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ]
   },
   {
@@ -1345,8 +1119,6 @@
     "name": "RM216 SPIW turret",
     "item": "needlegun",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "needlegun", "count": [ 0, 1 ] } ]
   },
   {
@@ -1356,8 +1128,6 @@
     "name": "double pipe shotgun turret",
     "item": "pipe_double_shotgun",
     "difficulty": 5,
-    "range": 6,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -1367,8 +1137,6 @@
     "name": "automated double pipe shotgun",
     "item": "pipe_double_shotgun",
     "difficulty": 5,
-    "range": 6,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -1378,8 +1146,6 @@
     "name": "pipe shotgun turret",
     "item": "pipe_shotgun",
     "difficulty": 5,
-    "range": 9,
-    "folded_volume": 3,
     "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -1389,8 +1155,6 @@
     "name": "automated pipe shotgun",
     "item": "pipe_shotgun",
     "difficulty": 5,
-    "range": 6,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -1400,8 +1164,6 @@
     "name": "rail rifle turret",
     "item": "rebar_rifle",
     "difficulty": 5,
-    "range": 18,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "rebar_rifle", "count": [ 0, 1 ] } ]
   },
   {
@@ -1411,8 +1173,6 @@
     "name": "Remington 700 turret",
     "item": "remington_700",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "remington_700", "count": [ 0, 1 ] } ]
   },
   {
@@ -1422,8 +1182,6 @@
     "name": "Remington 870 turret",
     "item": "remington_870",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ]
   },
   {
@@ -1433,8 +1191,6 @@
     "name": "automated Remington 870",
     "item": "remington_870",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ]
   },
   {
@@ -1446,8 +1202,6 @@
     "color": "brown",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 8,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ]
   },
   {
@@ -1459,8 +1213,6 @@
     "color": "brown",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 8,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ]
   },
   {
@@ -1470,8 +1222,6 @@
     "name": "revolver shotgun turret",
     "item": "revolver_shotgun",
     "difficulty": 5,
-    "range": 6,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -1481,8 +1231,6 @@
     "name": "automated revolver shotgun",
     "item": "revolver_shotgun",
     "difficulty": 5,
-    "range": 6,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ]
   },
   {
@@ -1492,8 +1240,6 @@
     "name": ".22 pipe rifle turret",
     "item": "rifle_22",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ]
   },
   {
@@ -1503,8 +1249,6 @@
     "name": "automated .22 pipe rifle",
     "item": "rifle_22",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ]
   },
   {
@@ -1514,8 +1258,6 @@
     "name": ".308 pipe rifle turret",
     "item": "rifle_308",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ]
   },
   {
@@ -1525,8 +1267,6 @@
     "name": "automated .308 pipe rifle",
     "item": "rifle_308",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ]
   },
   {
@@ -1536,8 +1276,6 @@
     "name": "9x19mm pipe rifle turret",
     "item": "rifle_9mm",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ]
   },
   {
@@ -1547,8 +1285,6 @@
     "name": "automated 9x19mm pipe rifle",
     "item": "rifle_9mm",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ]
   },
   {
@@ -1560,11 +1296,9 @@
     "broken_symbol": "x",
     "difficulty": 4,
     "durability": 240,
-    "range": 8,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {
     "id": "rifle_flintlocknc",
@@ -1577,11 +1311,9 @@
     "broken_color": "dark_gray",
     "difficulty": 4,
     "durability": 240,
-    "range": 8,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
     "location": "on_roof",
-    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "TOOL_NONE" ]
   },
   {
     "id": "rm11b_sniper_rifle",
@@ -1590,8 +1322,6 @@
     "name": "RM11B scout rifle turret",
     "item": "rm11b_sniper_rifle",
     "difficulty": 3,
-    "range": 21,
-    "folded_volume": 13,
     "breaks_into": [ { "item": "rm11b_sniper_rifle", "count": [ 0, 1 ] } ]
   },
   {
@@ -1601,8 +1331,6 @@
     "name": "RM2000 SMG turret",
     "item": "rm2000_smg",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "rm2000_smg", "count": [ 0, 1 ] } ]
   },
   {
@@ -1612,8 +1340,6 @@
     "name": "RM360 carbine turret",
     "item": "rm360_carbine",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ]
   },
   {
@@ -1623,8 +1349,6 @@
     "name": "automated RM360 carbine",
     "item": "rm360_carbine",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ]
   },
   {
@@ -1634,8 +1358,6 @@
     "name": "RM51 assault rifle turret",
     "item": "rm51_assault_rifle",
     "difficulty": 3,
-    "range": 18,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "rm51_assault_rifle", "count": [ 0, 1 ] } ]
   },
   {
@@ -1645,8 +1367,6 @@
     "name": "RM614 LMG turret",
     "item": "rm614_lmg",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "rm614_lmg", "count": [ 0, 1 ] } ]
   },
   {
@@ -1656,8 +1376,6 @@
     "name": "RM802 turret",
     "item": "rm802",
     "difficulty": 4,
-    "range": 21,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "rm802", "count": [ 0, 1 ] } ]
   },
   {
@@ -1667,8 +1385,6 @@
     "name": "RM88 battle rifle turret",
     "item": "rm88_battle_rifle",
     "difficulty": 3,
-    "range": 18,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "rm88_battle_rifle", "count": [ 0, 1 ] } ]
   },
   {
@@ -1680,8 +1396,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ]
   },
   {
@@ -1693,8 +1407,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 18,
     "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ]
   },
   {
@@ -1704,8 +1416,6 @@
     "name": "Ruger 10/22 turret",
     "item": "ruger_1022",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ]
   },
   {
@@ -1715,8 +1425,6 @@
     "name": "automated Ruger 10/22",
     "item": "ruger_1022",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ]
   },
   {
@@ -1726,8 +1434,6 @@
     "name": "Ruger mini-14 turret",
     "item": "ruger_mini",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ]
   },
   {
@@ -1737,8 +1443,6 @@
     "name": "automated Ruger mini-14",
     "item": "ruger_mini",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 9,
     "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ]
   },
   {
@@ -1748,8 +1452,6 @@
     "name": "Saiga 12 turret",
     "item": "saiga_12",
     "difficulty": 3,
-    "range": 6,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ]
   },
   {
@@ -1759,8 +1461,6 @@
     "name": "automated Saiga 12",
     "item": "saiga_12",
     "difficulty": 3,
-    "range": 6,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ]
   },
   {
@@ -1770,8 +1470,6 @@
     "name": "Savage 111F turret",
     "item": "savage_111f",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ]
   },
   {
@@ -1781,8 +1479,6 @@
     "name": "automated Savage 111F",
     "item": "savage_111f",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ]
   },
   {
@@ -1792,8 +1488,6 @@
     "name": "FN SCAR-H turret",
     "item": "scar_h",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ]
   },
   {
@@ -1803,8 +1497,6 @@
     "name": "automated FN SCAR-H",
     "item": "scar_h",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 11,
     "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ]
   },
   {
@@ -1814,8 +1506,6 @@
     "name": "FN SCAR-L turret",
     "item": "scar_l",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ]
   },
   {
@@ -1825,8 +1515,6 @@
     "name": "automated FN SCAR-L",
     "item": "scar_l",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ]
   },
   {
@@ -1836,8 +1524,6 @@
     "name": "double shotgun turret",
     "item": "shotgun_d",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ]
   },
   {
@@ -1847,8 +1533,6 @@
     "name": "automated double shotgun",
     "item": "shotgun_d",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ]
   },
   {
@@ -1858,8 +1542,6 @@
     "name": "single shotgun turret",
     "item": "shotgun_s",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ]
   },
   {
@@ -1869,8 +1551,6 @@
     "name": "automated single shotgun",
     "item": "shotgun_s",
     "difficulty": 4,
-    "range": 6,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ]
   },
   {
@@ -1880,8 +1560,6 @@
     "name": "SKS turret",
     "item": "sks",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 10,
     "breaks_into": [ { "item": "sks", "count": [ 0, 1 ] } ]
   },
   {
@@ -1893,8 +1571,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ]
   },
   {
@@ -1906,8 +1582,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 4,
-    "range": 12,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ]
   },
   {
@@ -1917,8 +1591,6 @@
     "name": "Steyr AUG turret",
     "item": "steyr_aug",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ]
   },
   {
@@ -1928,8 +1600,6 @@
     "name": "automated Steyr AUG",
     "item": "steyr_aug",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 7,
     "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ]
   },
   {
@@ -1939,8 +1609,6 @@
     "name": "223 carbine turret",
     "item": "surv_carbine_223",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -1950,8 +1618,6 @@
     "name": "automated 223 carbine",
     "item": "surv_carbine_223",
     "difficulty": 4,
-    "range": 15,
-    "folded_volume": 6,
     "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ]
   },
   {
@@ -1961,8 +1627,6 @@
     "name": "survivor special turret",
     "item": "survivor_special_700",
     "difficulty": 3,
-    "range": 15,
-    "folded_volume": 12,
     "breaks_into": [ { "item": "survivor_special_700", "count": [ 0, 1 ] } ]
   },
   {
@@ -1972,8 +1636,6 @@
     "name": "TEC-9 turret",
     "item": "tec9",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 3,
     "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ]
   },
   {
@@ -1983,8 +1645,6 @@
     "name": "automated TEC-9",
     "item": "tec9",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 3,
     "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ]
   },
   {
@@ -1994,8 +1654,6 @@
     "name": "Uzi turret",
     "item": "uzi",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 5,
     "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ]
   },
   {
@@ -2005,8 +1663,6 @@
     "name": "automated Uzi",
     "item": "uzi",
     "difficulty": 3,
-    "range": 10,
-    "folded_volume": 5,
     "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ]
   },
   {
@@ -2016,8 +1672,6 @@
     "name": "V29 laser turret",
     "item": "v29",
     "difficulty": 6,
-    "range": 15,
-    "folded_volume": 4,
     "breaks_into": [ { "item": "v29", "count": [ 0, 1 ] } ]
   },
   {
@@ -2027,8 +1681,6 @@
     "name": "LACP laser turret",
     "item": "v29_cheap",
     "difficulty": 6,
-    "range": 10,
-    "folded_volume": 8,
     "breaks_into": [ { "item": "v29_cheap", "count": [ 0, 1 ] } ]
   }
 ]

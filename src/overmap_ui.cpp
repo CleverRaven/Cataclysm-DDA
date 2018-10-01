@@ -868,9 +868,11 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
             } while( true );
 
-            if( new_note.empty() && !old_note.empty() ) {
-                // do nothing, the player should be using [D]elete
-            } else if( old_note != new_note ) {
+            if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
+                if( query_yn( _( "Really delete note?" ) ) ) {
+                    overmap_buffer.delete_note( curs );
+                }
+            } else if( !esc_pressed && old_note != new_note ) {
                 overmap_buffer.add_note( curs, new_note );
             }
         } else if( action == "DELETE_NOTE" ) {
