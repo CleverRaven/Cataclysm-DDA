@@ -4301,6 +4301,12 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         function = [npc_male, npc_female]( const dialogue & d ) {
             return ( d.beta->male ? npc_male : npc_female )( d );
         };
+    } else if( jo.has_member( "u_has_weapon" ) && jo.has_member( "u_unarmed" ) ) {
+        const dynamic_line_t u_has_weapon = from_member( jo, "u_has_weapon" );
+        const dynamic_line_t u_unarmed = from_member( jo, "u_unarmed" );
+        function = [u_has_weapon, u_unarmed]( const dialogue & d ) {
+            return ( d.alpha->unarmed_attack() ? u_unarmed : u_has_weapon )( d );
+        };
     } else if( jo.has_member( "u_is_wearing" ) ) {
         const std::string item_id = jo.get_string( "u_is_wearing" );
         const dynamic_line_t yes = from_member( jo, "yes" );
@@ -4308,6 +4314,14 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         function = [item_id, yes, no]( const dialogue & d ) {
             const bool wearing = d.alpha->is_wearing( item_id );
             return ( wearing ? yes : no )( d );
+        };
+    } else if( jo.has_member( "npc_has_effect" ) ) {
+        const std::string effect_id = jo.get_string( "npc_has_effect" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [effect_id, yes, no]( const dialogue & d ) {
+            const bool in_effect = d.beta->has_effect( efftype_id( effect_id ) );
+            return ( in_effect ? yes : no )( d );
         };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
         std::vector<trait_id> traits_to_check;
@@ -4323,6 +4337,34 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
                 }
             }
             return no( d );
+        };
+    } else if( jo.has_member( "npc_has_mission" ) ) {
+        const dynamic_line_t none = from_member( jo, "none" );
+        const dynamic_line_t one = from_member( jo, "one" );
+        const dynamic_line_t many = from_member( jo, "many" );
+        function = [none, one, many]( const dialogue & d ) {
+            if( d.beta->chatbin.missions.empty() ) {
+                return none( d );
+            } else if( d.beta->chatbin.missions.size() == 1 ) {
+                return one( d );
+            }
+            return many( d );
+        };
+    } else if( jo.has_member( "u_has_mission" ) ) {
+        const dynamic_line_t none = from_member( jo, "none" );
+        const dynamic_line_t one = from_member( jo, "one" );
+        const dynamic_line_t many = from_member( jo, "many" );
+        function = [none, one, many]( const dialogue & d ) {
+            if( d.missions_assigned.empty() ) {
+                return none( d );
+            } else if( d.missions_assigned.size() == 1 ) {
+                return one( d );
+            }
+            return many( d );
+        };
+    } else if( jo.has_member( "give_hint" ) ) {
+        function = [&]( const dialogue & ) {
+            return get_hint();
         };
     } else {
         jo.throw_error( "no supported" );
