@@ -1179,7 +1179,7 @@ void load_construction( JsonObject &jo )
     construction con;
     con.id = constructions.size();
 
-    con.description = _( jo.get_string( "description" ).c_str() );
+    con.description = jo.get_string( "description" ).c_str();
     if( jo.has_member( "required_skills" ) ) {
         auto sk = jo.get_array( "required_skills" );
         while( sk.has_more() ) {
