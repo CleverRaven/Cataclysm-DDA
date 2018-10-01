@@ -762,7 +762,7 @@ void player::process_turn()
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
     if ( !activity.targets.size() ) {
-        drop_inventory_overflow();
+        drop_invalid_inventory();
     }
 
     // Didn't just pick something up
@@ -7576,6 +7576,11 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     bool ammo_match_found = false;
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
+            // don't try to unload frozen liquids
+            if( ammo->is_watertight_container() &&
+                ammo->contents.front().made_of( SOLID ) ) {
+                continue;
+            }
             auto id = ( ammo->is_ammo_container() || ammo->is_watertight_container() )
                 ? ammo->contents.front().typeId()
                 : ammo->typeId();
@@ -7759,7 +7764,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
 
 ret_val<bool> player::can_wield( const item &it ) const
 {
-    if( it.made_of( LIQUID ) ) {
+    if( it.made_of( LIQUID, true ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
@@ -8642,7 +8647,8 @@ hint_rating player::rate_action_reload( const item &it ) const
 
 hint_rating player::rate_action_unload( const item &it ) const
 {
-    if( ( it.is_container() || it.is_bandolier() ) && !it.contents.empty() ) {
+    if( ( it.is_container() || it.is_bandolier() ) && !it.contents.empty() &&
+        it.can_unload_liquid() ) {
         return HINT_GOOD;
     }
 
@@ -10689,7 +10695,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         g->m.add_item_or_charges( pos(), remain );
     }
     if( armor_destroyed ) {
-        drop_inventory_overflow();
+        drop_invalid_inventory();
     }
 }
 

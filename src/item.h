@@ -714,8 +714,22 @@ class item : public visitable<item>
          */
         void calc_temp( const int temp, const float insulation, const time_duration &time );
 
+        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
+        int get_static_temp_counter() const;
+
+        /** Set temperature tags and counter according to a static counter */
+        void set_temp_from_static( const int counter );
+
         /** the last time the temperature was updated for this item */
         time_point last_temp_check = calendar::time_of_cataclysm;
+
+        /**
+         * Current phase state, inherits a default at room temperature from
+         * itype and can be changed through item processing.  This is a static
+         * cast to avoid importing the entire enums.h header here, zero is
+         * PNULL.
+         */
+        phase_id current_phase = static_cast<phase_id>( 0 );
     public:
         time_duration get_rot() const {
             return rot;
@@ -797,8 +811,9 @@ class item : public visitable<item>
         bool made_of( const material_id &mat_ident ) const;
         /**
          * Are we solid, liquid, gas, plasma?
+         * @param from_itype If true grab phase from itype instead
          */
-        bool made_of( phase_id phase ) const;
+        bool made_of( phase_id phase, bool from_itype = false ) const;
         /**
          * Whether the items is conductive.
          */
@@ -1043,6 +1058,8 @@ class item : public visitable<item>
         bool can_reload_with( const itype_id &ammo ) const;
         /** Returns true if this item can be reloaded with specified ammo type at this moment. */
         bool is_reloadable_with( const itype_id &ammo ) const;
+        /** Returns true if not empty if it's liquid, it's not currently frozen in resealable container */
+        bool can_unload_liquid() const;
     private:
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;

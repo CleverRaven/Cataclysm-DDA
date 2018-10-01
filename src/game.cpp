@@ -8490,7 +8490,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
                               const monster *const source_mon,
                               liquid_dest_opt &target )
 {
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of( LIQUID, true ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -8541,7 +8541,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
     for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( g->m.veh_at( e ) );
         if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part & pt ) {
-        return pt.can_reload( liquid.typeId() );
+        return pt.can_reload( liquid );
         } ) ) {
             opts.insert( veh );
         }
@@ -8626,7 +8626,7 @@ bool game::perform_liquid_transfer( item &liquid, const tripoint *const source_p
                                     const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of( LIQUID, true ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -8719,10 +8719,14 @@ bool game::handle_liquid( item &liquid, item *const source, const int radius,
                           const vehicle *const source_veh, const int part_num,
                           const monster *const source_mon )
 {
-    if( !liquid.made_of( LIQUID ) ) {
+    if( liquid.made_of( SOLID, true ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
+        return false;
+    }
+    if( !liquid.made_of( LIQUID ) ) {
+        add_msg( _( "The %s froze solid before you could finish." ), liquid.tname().c_str() );
         return false;
     }
     struct liquid_dest_opt liquid_target;
@@ -9695,6 +9699,10 @@ bool game::unload( item &it )
             add_msg( m_info, _( "The %s is already empty!" ), it.tname().c_str() );
             return false;
         }
+        if( !it.can_unload_liquid() ) {
+            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
+            return false;
+        }
 
         bool changed = false;
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
@@ -9820,7 +9828,7 @@ bool game::unload( item &it )
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
 
-        if( ammo.made_of( LIQUID ) ) {
+        if( ammo.made_of( LIQUID, true ) ) {
             if( !add_or_drop_with_msg( u, ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }

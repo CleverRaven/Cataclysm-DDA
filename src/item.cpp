@@ -185,6 +185,10 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
     if( !type->snippet_category.empty() ) {
         note = SNIPPET.assign( type->snippet_category );
     }
+
+    if( current_phase == PNULL ) {
+        current_phase = type->phase;
+    }
 }
 
 item::item( const itype_id &id, time_point turn, long qty )
@@ -2276,7 +2280,7 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if( has_flag( "LITCIG" ) ) {
         ret = c_red;
-    } else if( is_filthy() ) {
+    } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
@@ -2621,7 +2625,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << _( " (hallucinogenic)" );
         }
 
-        if( rotten() ) {
+        if( item_tags.count( "DIRTY" ) ) {
+            ret << _( " (dirty)" );
+        } else if( rotten() ) {
             ret << _( " (rotten)" );
         } else if( has_flag( "MUSHY" ) ) {
             ret << _( " (mushy)" );
@@ -3954,12 +3960,15 @@ bool item::made_of( const material_id &mat_ident ) const
     return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
 }
 
-bool item::made_of( phase_id phase ) const
+bool item::made_of( phase_id phase, bool from_itype ) const
 {
     if( is_null() ) {
         return false;
     }
-    return ( type->phase == phase );
+    if( from_itype ) {
+        return type->phase == phase;
+    }
+    return current_phase == phase;
 }
 
 bool item::conductive() const
@@ -4238,6 +4247,21 @@ bool item::is_container_full( bool allow_bucket ) const
         return false;
     }
     return get_remaining_capacity_for_liquid( contents.front(), allow_bucket ) == 0;
+}
+
+bool item::can_unload_liquid() const
+{
+    if( contents.empty() ) {
+        return true;
+    }
+
+    const item &cts = contents.front();
+    if( is_container() && !is_non_resealable_container() &&
+        cts.made_of( LIQUID, true ) && cts.made_of( SOLID ) ) {
+        return false;
+    }
+
+    return true;
 }
 
 bool item::can_reload_with( const itype_id &ammo ) const
@@ -5326,8 +5350,13 @@ bool item::reload( player &u, item_location loc, long qty )
         ammo->charges -= qty;
 
     } else if( is_watertight_container() ) {
-        if( !ammo->made_of( LIQUID ) ) {
+        if( !ammo->made_of( LIQUID, true ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
+            return false;
+        }
+        if( !ammo->made_of( LIQUID ) ) {
+            u.add_msg_if_player( m_bad, _( "The %s froze solid before you could finish." ),
+                                 ammo->tname().c_str() );
             return false;
         }
         if( container ) {
@@ -5674,6 +5703,57 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
+int item::get_static_temp_counter() const
+{
+    int counters = item_counter;
+    if( item_tags.count( "FROZEN" ) ) {
+        counters = -1200 - counters;
+    } else if( item_tags.count( "COLD" ) ) {
+        counters = -600 - counters;
+    } else if( item_tags.count( "HOT" ) ) {
+        counters += 600;
+    } else if( !item_tags.count( "WARM" ) ) { // if not warm, then ticking for cold
+        counters = -counters;
+    }
+    return counters;
+}
+
+void item::set_temp_from_static( const int counters )
+{
+    item_tags.erase( "COLD" );
+    item_tags.erase( "HOT" );
+
+    if( counters < -1200 ) {
+        item_tags.insert( "FROZEN" );
+        item_counter = -counters - 1200;
+        if( current_phase == LIQUID ) {
+            current_phase = SOLID;
+        }
+    } else if( counters < -600 ) {
+        item_tags.insert( "COLD" );
+        item_counter = -counters - 600;
+        apply_freezerburn();
+    } else if( counters < 0 ) {
+        item_counter = -counters;
+        apply_freezerburn();
+    } else if( counters > 600 ) {
+        item_counter = counters - 600;
+        item_tags.insert( "HOT" );
+        // item is limited to how much heat it can retain by its mass
+        const int limit = clamp( to_gram( weight() ), 100, 600 );
+        item_counter = std::min( limit, item_counter );
+        apply_freezerburn();
+        return;
+    } else {
+        item_tags.insert( "WARM" );
+        item_counter = counters;
+        apply_freezerburn();
+    }
+    // it shouldn't be possible to be outside these bounds, but just as a
+    // safety precaution in case the math goes weird
+    item_counter = clamp( item_counter, 0, 600 );
+}
+
 void item::fill_with( item &liquid, long amount )
 {
     amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
@@ -5690,7 +5770,17 @@ void item::fill_with( item &liquid, long amount )
         }
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
     } else if( !is_container_empty() ) {
-        contents.front().mod_charges( amount );
+        // if container already has liquid we need to average temperature
+        item &cts = contents.front();
+        const int lhs_counters = cts.get_static_temp_counter() * cts.charges;
+        const int rhs_counters = liquid.get_static_temp_counter() * amount;
+        const int avg_counters = ( lhs_counters + rhs_counters ) /
+                                 ( cts.charges + amount );
+        cts.set_temp_from_static( avg_counters );
+        // use maximum rot between the two
+        cts.set_relative_rot( std::max( cts.get_relative_rot(),
+                                        liquid.get_relative_rot() ) );
+        cts.mod_charges( amount );
     } else {
         item liquid_copy( liquid );
         liquid_copy.charges = amount;
@@ -5987,6 +6077,7 @@ void item::apply_freezerburn()
         return;
     }
     item_tags.erase( "FROZEN" );
+    current_phase = type->phase;
 
     if( !has_flag( "FREEZERBURN" ) ) {
         return;
@@ -6066,7 +6157,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             if( item_counter <= 0 ) {
                 item_tags.erase( "HOT" );
                 item_tags.insert( "WARM" );
-                item_counter = 1;
+                item_counter = 600;
                 is_warm = true;
                 is_hot = false;
             } else if( item_counter > max_heat ) {
@@ -6089,7 +6180,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                     return;
                 }
                 is_warm = false;
-            } else if( item_counter >= 600 ) {
+            } else if( item_counter > 600 ) {
                 item_tags.erase( "WARM" );
                 item_tags.insert( "HOT" );
                 is_warm = false;
@@ -6103,6 +6194,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                         // if temp is colder than freeze point start ticking frozen
                         item_tags.erase( "COLD" );
                         item_tags.insert( "FROZEN" );
+                        current_phase = SOLID;
                         item_counter = 1;
                         is_cold = false;
                         is_frozen = true;
@@ -6893,6 +6985,13 @@ bool item::is_filthy() const
 
 bool item::on_drop( const tripoint &pos )
 {
+    // dropping liquids, even currently frozen ones, on the ground makes them
+    // dirty
+    if( made_of( LIQUID, true ) && !g->m.has_flag_furn( "LIQUIDCONT", pos ) &&
+        !item_tags.count( "DIRTY" ) ) {
+
+        item_tags.insert( "DIRTY" );
+    }
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
 

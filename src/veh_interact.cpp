@@ -459,8 +459,8 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 's': // siphon mode
         valid_target = false;
-        for( auto & e : veh->fuels_left() ) {
-            if( item::find_type( e.first )->phase == LIQUID ) {
+        for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+            if( veh->parts[vp.part_index()].base.contents.front().made_of( LIQUID ) ) {
                 valid_target = true;
                 break;
             }
@@ -1049,10 +1049,10 @@ bool veh_interact::do_refill( std::string &msg )
         auto validate = [&]( const item &obj ) {
             if( pt.is_tank() ) {
                 if( obj.is_watertight_container() && !obj.contents.empty() ) {
-                    return pt.can_reload( obj.contents.front().typeId() );
+                    return pt.can_reload( obj.contents.front() );
                 }
             } else if( pt.is_fuel_store() ) {
-                bool can_reload = pt.can_reload( obj.typeId() );
+                bool can_reload = pt.can_reload( obj );
                 if( obj.typeId() == fuel_type_battery && can_reload ) {
                     msg = _( "You cannot recharge a vehicle battery with handheld batteries" );
                     return false;
@@ -1171,9 +1171,21 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( pt.is_tank() && pt.is_available() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
-                    auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
-                    right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 string_format( "%s  %5.1fL", item::nname( pt.ammo_current() ),
+                    std::string specials;
+                    const item &it = pt.base.contents.front();
+                    // a space isn't actually needed in front of the tags here,
+                    // but item::display_name tags use a space so this prevents
+                    // needing *second* translation for the same thing with a
+                    // space in front of it
+                    if( it.item_tags.count( "FROZEN" ) ) {
+                        specials += _( " (frozen)" );
+                    } else if( it.rotten() ) {
+                        specials += _( " (rotten)" );
+                    }
+                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
+                    right_print( w, y, 1, pt_ammo_cur->color,
+                                 string_format( "%s %s %5.1fL", specials, pt_ammo_cur->nname( 1 ),
                                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 }
             };
@@ -1521,8 +1533,8 @@ bool veh_interact::do_siphon( std::string &msg )
     set_title( _( "Select part to siphon: " ) );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && ( pt.ammo_remaining() > 0 ) &&
-                item::find_type( pt.ammo_current() )->phase == LIQUID );
+        return( pt.is_tank() && pt.ammo_remaining() > 0 &&
+                pt.base.contents.front().made_of( LIQUID ) );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -2421,22 +2433,22 @@ item consume_vpart_item( const vpart_id &vpid )
 
 void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
-    for( auto & e : veh->fuels_left() ) {
-        const itype *type = item::find_type( e.first );
-        if( type->phase != LIQUID ) {
-            // This skips battery and plutonium cells
-            continue;
+    bool has_liquid = false;
+    for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+        if( veh->parts[vp.part_index()].get_base().contents.front().made_of( LIQUID ) ) {
+            has_liquid = true;
+            break;
         }
-        fuels.push_back( e.first );
     }
-    if( fuels.empty() ) {
+    if( !has_liquid ) {
         add_msg(m_info, _("The vehicle has no liquid fuel left to siphon."));
         return;
     }
 
     std::string title = string_format( _( "Select tank to siphon:" ) );
     auto sel = []( const vehicle_part &pt ) {
-        return pt.is_tank() && pt.ammo_remaining() > 0;
+        return pt.is_tank() && pt.ammo_remaining() > 0 &&
+               pt.get_base().contents.front().made_of( LIQUID );
     };
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {
@@ -2620,10 +2632,9 @@ void veh_interact::complete_vehicle()
         }
 
         auto &src = g->u.activity.targets.front();
-
-        auto &pt = veh->parts[ vehicle_part ];
-        auto &contents = src->contents;
-        if( pt.is_tank() && src->is_watertight_container() && contents.empty() ) {
+        struct vehicle_part &pt = veh->parts[ vehicle_part ];
+        std::list<item> &contents = src->contents;
+        if( pt.is_tank() && src->is_watertight_container() && !contents.empty() ) {
 
             pt.base.fill_with( contents.front() );
 

@@ -566,7 +566,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
         }
 
         // Check that we can pick it up.
-        if( !temp_item->made_of( LIQUID ) ) {
+        if( !temp_item->made_of( LIQUID, true ) ) {
             g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( g->u, { *temp_item }, destination );
@@ -751,7 +751,7 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     }
 
     // Check that we can pick it up.
-    if( !it.made_of( LIQUID ) ) {
+    if( !it.made_of( LIQUID, true ) ) {
         g->u.mod_moves( -move_cost( it, src, dest ) );
         drop_on_map( g->u, { it }, dest );
         // Remove from map.
@@ -814,7 +814,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
         auto items = std::vector<item *>();
         for( auto &it : g->m.i_at( src_loc ) ) {
-            if( !it.made_of( LIQUID ) ) { // skip unpickable liquid
+            if( !it.made_of( LIQUID, true ) ) { // skip unpickable liquid
                 items.push_back( &it );
             }
         }

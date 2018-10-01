@@ -465,7 +465,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.made_of( LIQUID ) ) {
+    } else if( newit.made_of( LIQUID, true ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {

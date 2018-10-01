@@ -1158,8 +1158,22 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-void Character::drop_inventory_overflow()
+void Character::drop_invalid_inventory()
 {
+    bool dropped_liquid = false;
+    for( const std::list<item> *stack : inv.const_slice() ) {
+        const item &it = stack->front();
+        if( it.made_of( LIQUID ) ) {
+            dropped_liquid = true;
+            g->m.add_item_or_charges( pos(), it );
+            // must be last
+            i_rem( &it );
+        }
+    }
+    if( dropped_liquid ) {
+        add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
+    }
+
     if( volume_carried() > volume_capacity() ) {
         for( auto &item_to_drop :
              inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
@@ -2422,7 +2436,7 @@ bool Character::pour_into( item &container, item &liquid )
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
     auto sel = [&]( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+        return pt.is_tank() && pt.can_reload( liquid );
     };
 
     auto stack = units::legacy_volume_factor / liquid.type->stack_size;
