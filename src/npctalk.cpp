@@ -92,9 +92,6 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 #define SUCCESS_ACTION(func)  ret.back().success.set_effect( func )
 #define FAILURE_ACTION(func)  ret.back().failure.set_effect( func )
 
-#define SUCCESS_ACTION_CONSEQUENCE(func, con)  ret.back().success.set_effect_consequence( func, con )
-#define FAILURE_ACTION_CONSEQUENCE(func, con)  ret.back().failure.set_effect_consequence( func, con )
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 int topic_category( const talk_topic &topic );
@@ -808,7 +805,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                     break;
             }
         }
-
     } else if( topic == "TALK_MISSION_SUCCESS" ) {
         int mission_value = 0;
         if( miss == nullptr ) {
