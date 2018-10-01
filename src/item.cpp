@@ -1558,7 +1558,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           get_encumber(), true, "", false, true ) );
             }
             if( !type->rigid ) {
-                const auto encumbrance_when_full = get_encumber_when_containing(get_container_capacity());
+                const auto encumbrance_when_full = get_encumber_when_containing( get_container_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
                                           encumbrance_when_full, true, "", false, true ) );
             }
@@ -2170,13 +2170,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "DESCRIPTION", temp1.str() );
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
-            const auto& contents_item = contents.front();
+            const auto &contents_item = contents.front();
             if( !contents_item.type->mod ) {
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", _( "<bold>Content of this item</bold>:" ) );
                 auto const description = _( contents_item.type->description.c_str() );
 
-                if( contents_item.made_of(LIQUID) ) {
+                if( contents_item.made_of( LIQUID ) ) {
                     auto contents_volume = contents_item.volume() * batch;
                     int converted_volume_scale = 0;
                     const double converted_volume = round_up( convert_volume( contents_volume.value(),
@@ -2185,7 +2185,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                        string_format( "<num> %s", volume_units_abbr() ),
                                        converted_volume, converted_volume_scale == 0, "", false );
                 } else {
-                  info.emplace_back( "DESCRIPTION", description );
+                    info.emplace_back( "DESCRIPTION", description );
                 }
             }
         }
@@ -3436,14 +3436,14 @@ bool item::is_power_armor() const
 
 int item::get_encumber() const
 {
-    units::volume contents_volume(0);
+    units::volume contents_volume( 0 );
     for( const auto &e : contents ) {
         contents_volume += e.volume();
     }
-    return get_encumber_when_containing(contents_volume);
+    return get_encumber_when_containing( contents_volume );
 }
 
-int item::get_encumber_when_containing(units::volume contents_volume) const
+int item::get_encumber_when_containing( units::volume contents_volume ) const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
