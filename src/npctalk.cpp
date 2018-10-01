@@ -2602,50 +2602,6 @@ talk_data talk_response::create_option_line( const dialogue &d, char const lette
     return results;
 }
 
-talk_topic talk_response::effect_t::apply( dialogue &d ) const
-{
-    effect( *d.beta );
-    d.beta->op_of_u += opinion;
-    if( d.beta->turned_hostile() ) {
-        d.beta->make_angry();
-        return talk_topic( "TALK_DONE" );
-    }
-
-    // TODO: this is a hack, it should be in clear_mission or so, but those functions have
-    // no access to the dialogue object.
-    auto &ma = d.missions_assigned;
-    ma.clear();
-    // Update the missions we can talk about (must only be current, non-complete ones)
-    for( auto &mission : d.beta->chatbin.missions_assigned ) {
-        if( mission->get_assigned_player_id() == d.alpha->getID() ) {
-            ma.push_back( mission );
-        }
-    }
-
-    return next_topic;
-}
-
-void talk_response::effect_t::set_effect_consequence( std::function<void ( npc & )> fun,
-        dialogue_consequence con )
-{
-    effect = fun;
-    guaranteed_consequence = con;
-}
-
-void talk_response::effect_t::set_effect( dialogue_fun_ptr ptr )
-{
-    effect = ptr;
-    // Kinda hacky
-    if( ptr == &talk_function::hostile ) {
-        guaranteed_consequence = dialogue_consequence::hostile;
-    } else if( ptr == &talk_function::player_weapon_drop || ptr == &talk_function::player_weapon_away ||
-               ptr == &talk_function::start_mugging ) {
-        guaranteed_consequence = dialogue_consequence::helpless;
-    } else {
-        guaranteed_consequence = dialogue_consequence::none;
-    }
-}
-
 std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &d ) const
 {
     int chance = trial.calc_chance( d );
@@ -2808,6 +2764,185 @@ talk_topic load_inline_topic( JsonObject jo )
     return talk_topic( id );
 }
 
+talk_response::effect_fun_t::effect_fun_t( talkfunction_ptr ptr )
+{
+    function = [ptr]( const dialogue &d ) {
+        npc &p = *d.beta;
+        ptr( p );
+    };
+}
+
+talk_response::effect_fun_t::effect_fun_t( std::function<void( npc &p )> ptr )
+{
+    function = [ptr]( const dialogue &d ) {
+        npc &p = *d.beta;
+        ptr( p );
+    };
+}
+
+void talk_response::effect_fun_t::set_companion_mission( std::string &role_id )
+{
+    function = [role_id]( const dialogue &d ) {
+        npc &p = *d.beta;
+        p.companion_mission_role_id = role_id;
+        talk_function::companion_mission( p );
+    };
+}
+
+void talk_response::effect_fun_t::set_u_add_effect( std::string &new_effect, std::string &duration_str )
+{
+    function = [new_effect, duration_str]( const dialogue &d ) {
+        player &u = *d.alpha;
+        bool permanent = false;
+        int duration = 0;
+        if( duration_str == "PERMANENT" ) {
+            permanent = true;
+        } else {
+            duration = std::stoi( duration_str );
+        }
+        u.add_effect( efftype_id( new_effect ), time_duration::from_turns( duration ), num_bp, permanent );
+    };
+}
+
+void talk_response::effect_fun_t::set_npc_add_effect( std::string &new_effect, std::string &duration_str )
+{
+    function = [new_effect, duration_str]( const dialogue &d ) {
+        npc &p = *d.beta;
+        bool permanent = false;
+        int duration = 0;
+        if( duration_str == "PERMANENT" ) {
+            permanent = true;
+        } else {
+            duration = std::stoi( duration_str );
+        }
+        p.add_effect( efftype_id( new_effect ), time_duration::from_turns( duration ), num_bp, permanent );
+    };
+}
+
+void talk_response::effect_fun_t::set_u_add_trait( std::string &new_trait )
+{
+    function = [new_trait]( const dialogue &d ) {
+        player &u = *d.alpha;
+        u.set_mutation( trait_id( new_trait ) );
+    };
+}
+
+void talk_response::effect_fun_t::set_npc_add_trait( std::string &new_trait )
+{
+    function = [new_trait]( const dialogue &d ) {
+        npc &p = *d.beta;
+        p.set_mutation( trait_id( new_trait ) );
+    };
+}
+
+void talk_response::effect_fun_t::set_u_buy_item( std::string &item_name, int cost, int count, std::string &container_name )
+{
+    function = [item_name, cost, count, container_name]( const dialogue &d ) {
+        npc &p = *d.beta;
+        player &u = *d.alpha;
+        if( container_name.empty() ) {
+            item new_item = item( item_name, calendar::turn, count );
+            u.i_add( new_item );
+            if( count == 1 ) {
+                //~ %1%s is the NPC name, %2$s is an item
+                popup( _( "%1$s gives you a %2$s" ), p.name.c_str(), new_item.tname().c_str() );
+            } else {
+                //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                popup( _( "%1$s gives you %2$d %3$s" ), p.name.c_str(), count, new_item.tname().c_str() );
+            }
+        } else {
+            item container( container_name, calendar::turn );
+            container.emplace_back( item_name, calendar::turn, count );
+            //~ %1%s is the NPC name, %2$s is an item
+            popup( _( "%1$s gives you a %2$s" ), p.name.c_str(), container.tname().c_str() );
+        }
+        u.cash -= cost;
+    };
+}
+
+void talk_response::effect_fun_t::set_u_spend_cash( int amount )
+{
+    function = [amount]( const dialogue &d ) {
+        player &u = *d.alpha;
+        u.cash -= amount;
+    };
+}
+
+void talk_response::effect_fun_t::set_npc_change_faction( std::string &faction_name )
+{
+    function = [faction_name]( const dialogue &d ) {
+        npc &p = *d.beta;
+        p.my_fac = g->faction_manager_ptr->get( faction_id( faction_name ) );
+    };
+}
+
+void talk_response::effect_fun_t::set_change_faction_rep( int rep_change )
+{
+    function = [rep_change]( const dialogue &d ) {
+        npc &p = *d.beta;
+        p.my_fac->likes_u += rep_change;
+        p.my_fac->respects_u += rep_change;
+    };
+}
+
+void talk_response::effect_t::set_effect_consequence( effect_fun_t fun, dialogue_consequence con )
+{
+    effects.push_back( fun );
+    guaranteed_consequence = std::max( guaranteed_consequence, con );
+}
+
+void talk_response::effect_t::set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con )
+{
+    effect_fun_t npctalk_setter( ptr );
+    set_effect_consequence( npctalk_setter, con );
+}
+
+void talk_response::effect_t::set_effect( effect_fun_t fun )
+{
+    effects.push_back( fun );
+    guaranteed_consequence = std::max( guaranteed_consequence, dialogue_consequence::none );
+}
+
+void talk_response::effect_t::set_effect( talkfunction_ptr ptr )
+{
+    effect_fun_t npctalk_setter( ptr );
+    dialogue_consequence response;
+    if( ptr == &talk_function::hostile ) {
+        response = dialogue_consequence::hostile;
+    } else if( ptr == &talk_function::player_weapon_drop || ptr == &talk_function::player_weapon_away ||
+               ptr == &talk_function::start_mugging ) {
+        response = dialogue_consequence::helpless;
+    } else {
+        response = dialogue_consequence::none;
+    }
+    set_effect_consequence( npctalk_setter, response );
+}
+
+talk_topic talk_response::effect_t::apply( dialogue &d ) const
+{
+    for( auto effect: effects ) {
+        effect( d );
+    }
+    d.beta->op_of_u += opinion;
+    if( d.beta->turned_hostile() ) {
+        d.beta->make_angry();
+        return talk_topic( "TALK_DONE" );
+    }
+
+    // TODO: this is a hack, it should be in clear_mission or so, but those functions have
+    // no access to the dialogue object.
+    auto &ma = d.missions_assigned;
+    ma.clear();
+    // Update the missions we can talk about (must only be current, non-complete ones)
+    for( auto &mission : d.beta->chatbin.missions_assigned ) {
+        if( mission->get_assigned_player_id() == d.alpha->getID() ) {
+            ma.push_back( mission );
+        }
+    }
+
+    return next_topic;
+}
+
 talk_response::effect_t::effect_t( JsonObject jo )
 {
     load_effect( jo );
@@ -2823,6 +2958,62 @@ talk_response::effect_t::effect_t( JsonObject jo )
     }
 }
 
+void talk_response::effect_t::parse_sub_effect( JsonObject jo )
+{
+    effect_fun_t subeffect_fun;
+    if( jo.has_string( "companion_mission" ) ) {
+        std::string role_id = jo.get_string( "companion_mission" );
+        subeffect_fun.set_companion_mission( role_id );
+    } else if( jo.has_string( "u_add_effect" ) ) {
+        std::string new_effect = jo.get_string( "u_add_effect" );
+        std::string duration;
+        if( jo.has_string( "duration" ) ) {
+            duration = jo.get_string( "duration" );
+        }
+        subeffect_fun.set_u_add_effect( new_effect, duration );
+    } else if( jo.has_string( "npc_add_effect" ) ) {
+        std::string new_effect = jo.get_string( "npc_add_effect" );
+        std::string duration;
+        if( jo.has_string( "duration" ) ) {
+            duration = jo.get_string( "duration" );
+        }
+        subeffect_fun.set_npc_add_effect( new_effect, duration );
+    } else if( jo.has_string( "u_add_trait" ) ) {
+        std::string new_trait = jo.get_string( "npc_add_trait" );
+        subeffect_fun.set_u_add_trait( new_trait );
+    } else if( jo.has_string( "npc_add_trait" ) ) {
+        std::string new_trait = jo.get_string( "npc_add_trait" );
+        subeffect_fun.set_npc_add_trait( new_trait );
+    } else if( jo.has_string( "u_buy_item" ) ) {
+        std::string item_name = jo.get_string( "u_buy_item" );
+        int cost = 0;
+        if( jo.has_int( "cost" ) ) {
+            cost = jo.get_int( "cost" );
+        }
+        int count = 1;
+        if( jo.has_int( "count" ) ) {
+            count = jo.get_int( "count" );
+        }
+        std::string container_name;
+        if( jo.has_string( "container" ) ) {
+            container_name = jo.get_string( "container" );
+        }
+        subeffect_fun.set_u_buy_item( item_name, cost, count, container_name );
+    } else if( jo.has_int( "u_spend_cash" ) ) {
+        int cash_change = jo.get_int( "u_spend_cash" );
+        subeffect_fun.set_u_spend_cash( cash_change );
+    } else if( jo.has_string( "npc_change_faction" ) ) {
+        std::string faction_name = jo.get_string( "npc_change_faction" );
+        subeffect_fun.set_npc_change_faction( faction_name );
+    } else if( jo.has_int( "u_faction_rep" ) ) {
+        int faction_rep = jo.get_int( "u_faction_rep" );
+        subeffect_fun.set_change_faction_rep( faction_rep );
+    } else {
+        jo.throw_error( "invalid sub effect syntax :" + jo.str() );
+    }
+    set_effect( subeffect_fun );
+}
+
 void talk_response::effect_t::load_effect( JsonObject &jo )
 {
     static const std::string member_name( "effect" );
@@ -2832,18 +3023,48 @@ void talk_response::effect_t::load_effect( JsonObject &jo )
         const std::string type = jo.get_string( member_name );
         static const std::unordered_map<std::string, void( * )( npc & )> static_functions_map = { {
 #define WRAP( function ) { #function, &talk_function::function }
+                WRAP( assign_mission ),
+                WRAP( mission_success ),
+                WRAP( mission_failure ),
+                WRAP( clear_mission ),
+                WRAP( mission_reward ),
                 WRAP( start_trade ),
-                WRAP( hostile ),
-                WRAP( leave ),
-                WRAP( flee ),
-                WRAP( follow ),
-                WRAP( stop_guard ),
+                WRAP( assign_base ),
                 WRAP( assign_guard ),
+                WRAP( stop_guard ),
+                WRAP( become_overseer ),
+                WRAP( remove_overseer ),
+                WRAP( wake_up ),
+                WRAP( reveal_stats ),
                 WRAP( end_conversation ),
                 WRAP( insult_combat ),
+                WRAP( give_equipment ),
+                WRAP( give_aid ),
+                WRAP( give_all_aid ),
+                WRAP( buy_haircut ),
+                WRAP( buy_shave ),
+                WRAP( buy_10_logs ),
+                WRAP( buy_100_logs ),
+                WRAP( bionic_install ),
+                WRAP( bionic_remove ),
+                WRAP( follow ),
+                WRAP( deny_follow ),
+                WRAP( deny_lead ),
+                WRAP( deny_equipment ),
+                WRAP( deny_train ),
+                WRAP( deny_personal_info ),
+                WRAP( hostile ),
+                WRAP( flee ),
+                WRAP( leave ),
+                WRAP( stranger_neutral ),
+                WRAP( start_mugging ),
+                WRAP( player_leaving ),
                 WRAP( drop_weapon ),
                 WRAP( player_weapon_away ),
-                WRAP( player_weapon_drop )
+                WRAP( player_weapon_drop ),
+                WRAP( lead_to_safety ),
+                WRAP( start_training ),
+                WRAP( nothing )
 #undef WRAP
             }
         };
@@ -2855,6 +3076,15 @@ void talk_response::effect_t::load_effect( JsonObject &jo )
         // more functions can be added here, they don't need to be in the map above.
         {
             jo.throw_error( "unknown effect type", member_name );
+        }
+    } else if( jo.has_object( member_name ) ) {
+        JsonObject sub_effect = jo.get_object( member_name );
+        parse_sub_effect( sub_effect );
+    } else if( jo.has_array( member_name ) ) {
+        JsonArray ja = jo.get_array( member_name );
+        while( ja.has_more() ) {
+            JsonObject sub_effect = ja.next_object();
+            parse_sub_effect( sub_effect );
         }
     } else {
         jo.throw_error( "invalid effect syntax", member_name );

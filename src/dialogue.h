@@ -42,7 +42,10 @@ enum dialogue_consequence : unsigned char {
     action
 };
 
+using talkfunction_ptr = std::add_pointer<void ( npc & )>::type;
 using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
+
+using trial_mod = std::pair<std::string, int>;
 
 /**
  * If not TALK_TRIAL_NONE, it defines how to decide whether the responses succeeds (e.g. the
@@ -97,6 +100,30 @@ struct talk_response {
         mission *mission_selected = nullptr;
         skill_id skill = skill_id::NULL_ID();
         matype_id style = matype_id::NULL_ID();
+        struct effect_fun_t {
+            private:
+                std::function<void( const dialogue &d )> function;
+
+            public:
+                effect_fun_t() = default;
+                effect_fun_t( talkfunction_ptr effect );
+                effect_fun_t( std::function<void( npc & )> effect );
+                void set_companion_mission( std::string &role_id );
+                void set_u_add_effect( std::string &new_effect, std::string &duration );
+                void set_npc_add_effect( std::string &new_effect, std::string &duration );
+                void set_u_add_trait( std::string &new_trait );
+                void set_npc_add_trait( std::string &new_trait );
+                void set_u_buy_item( std::string &new_trait, int cost, int count, std::string &container_name );
+                void set_u_spend_cash( int amount );
+                void set_npc_change_faction( std::string &faction_name );
+                void set_change_faction_rep( int amount );
+                void operator()( const dialogue &d ) const {
+                    if( !function ) {
+                        return;
+                    }
+                    return function( d );
+                }
+        };
         /**
          * Defines what happens when the trial succeeds or fails. If trial is
          * TALK_TRIAL_NONE it always succeeds.
@@ -117,22 +144,26 @@ struct talk_response {
                 /**
                  * Sets an effect and consequence based on function pointer.
                  */
-                void set_effect( dialogue_fun_ptr effect );
+                void set_effect( talkfunction_ptr effect );
+                void set_effect( effect_fun_t effect );
                 /**
-                 * Sets the effect to a function object and consequence to explicitly given one.
+                 * Sets an effect to a function object and consequence to explicitly given one.
                  */
-                void set_effect_consequence( std::function<void( npc & )> eff, dialogue_consequence con );
+                void set_effect_consequence( effect_fun_t eff, dialogue_consequence con );
+                void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
+
 
                 void load_effect( JsonObject &jo );
+                void parse_sub_effect( JsonObject jo );
 
                 effect_t() = default;
                 effect_t( JsonObject );
 
             private:
                 /**
-                 * Function that is called when the response is chosen.
+                 * Functions that are called when the response is chosen.
                  */
-                std::function<void( npc & )> effect = &talk_function::nothing;
+                std::vector<effect_fun_t> effects;
                 dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
         };
         effect_t success;
