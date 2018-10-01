@@ -106,8 +106,10 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
                                         translate_marker( "You fall asleep." ) );
     new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
+    static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
+    static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
-                                        translate_marker( "Crossed a threshold" ) );
+                                        "Crossed a threshold" );
     new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
                                       translate_marker( "Oh, yeah! That's the stuff!" ) );
 
