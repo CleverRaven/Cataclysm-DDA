@@ -185,7 +185,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
         }
     }
 
-    return std::pair<int, int>( fun, fun_max );
+    return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
 }
 
 std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
@@ -494,8 +494,7 @@ bool player::eat( item &food, bool force )
     if( !food.is_food() ) {
         return false;
     }
-    // Check if it's rotten before eating!
-    food.calc_rot( global_square_location() );
+
     const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
     if( !ret.success() ) {
         return false;

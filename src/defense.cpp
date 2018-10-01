@@ -971,7 +971,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                                     item_selected );
                 draw_caravan_borders( w, current_window );
             } else if( !items[category_selected].empty() ) { // Items
-                if( item_selected < ( int )items[category_selected].size() - 1 ) {
+                if( item_selected < static_cast<int>( items[category_selected].size() ) - 1 ) {
                     item_selected++;
                 } else {
                     item_selected = 0;
@@ -1306,7 +1306,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         mvwprintz( w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
     // THEN print it--if item_selected is valid
-    if( item_selected < ( int )items->size() ) {
+    if( item_selected < static_cast<int>( items->size() ) ) {
         item tmp( ( *items )[item_selected], 0 ); // Dummy item to get info
         fold_and_print( w, 12, 1, 38, c_white, tmp.info() );
     }
@@ -1315,7 +1315,8 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         mvwprintz( w, i, 40, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
     // Finally, print the item list on the right
-    for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < ( int )items->size(); i++ ) {
+    for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 &&
+         i < static_cast<int>( items->size() ); i++ ) {
         mvwprintz( w, i - offset + 1, 40, ( item_selected == i ? h_white : c_white ),
                    item::nname( ( *items )[i], ( *counts )[i] ).c_str() );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );

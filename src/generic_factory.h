@@ -181,6 +181,49 @@ class generic_factory
               alias_member_name( alias_member_name ),
               dummy_obj() {
         }
+
+        /**
+        * Perform JSON inheritance handling for `T def` and returns true if JsonObject is real.
+        *
+        * If the object contains a "copy-from" member the corresponding abstract gets copied if found.
+        *    If abstract is not found, object is added to deferred.
+        * If the object is abstract, it is loaded via `T::load` and added to `abstracts`
+        *
+        * @return true if `jo` is loaded and false if loading is deferred.
+        * @throws JsonError If `jo` is both abstract and real. (contains "abstract" and "id" members)
+        */
+        bool handle_inheritance( T &def, JsonObject &jo, const std::string &src ) {
+            static const std::string copy_from( "copy-from" );
+            if( jo.has_string( copy_from ) ) {
+                const std::string source = jo.get_string( copy_from );
+                auto base = map.find( string_id<T>( source ) );
+
+                if( base != map.end() ) {
+                    def = obj( base->second );
+                } else {
+                    auto ab = abstracts.find( source );
+
+                    if( ab != abstracts.end() ) {
+                        def = ab->second;
+                    } else {
+                        def.was_loaded = false;
+                        deferred.emplace_back( jo.str(), src );
+                        return false;
+                    }
+                }
+                def.was_loaded = true;
+            }
+
+            if( jo.has_string( "abstract" ) ) {
+                if( jo.has_string( "id" ) ) {
+                    jo.throw_error( "cannot specify both 'abstract' and 'id'" );
+                }
+                def.load( jo, src );
+                abstracts[jo.get_string( "abstract" )] = def;
+            }
+            return true;
+        }
+
         /**
          * Load an object of type T with the data from the given JSON object.
          *
@@ -195,27 +238,9 @@ class generic_factory
 
             T def;
 
-            static const std::string copy_from( "copy-from" );
-            if( jo.has_string( copy_from ) ) {
-                const std::string source = jo.get_string( copy_from );
-                auto base = map.find( string_id<T>( source ) );
-
-                if( base != map.end() ) {
-                    def = obj( base->second );
-                } else {
-                    auto ab = abstracts.find( source );
-
-                    if( ab != abstracts.end() ) {
-                        def = ab->second;
-                    } else {
-                        deferred.emplace_back( jo.str(), src );
-                        return;
-                    }
-                }
-
-                def.was_loaded = true;
+            if( !handle_inheritance( def, jo, src ) ) {
+                return;
             }
-
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
                 def.load( jo, src );
@@ -231,11 +256,7 @@ class generic_factory
                     }
                 }
 
-            } else if( jo.has_string( "abstract" ) ) {
-                def.load( jo, src );
-                abstracts[jo.get_string( "abstract" )] = def;
-
-            } else {
+            } else if( !jo.has_string( "abstract" ) ) {
                 jo.throw_error( "must specify either id or abstract" );
             }
         }

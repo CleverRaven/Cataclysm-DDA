@@ -8,7 +8,7 @@
         "starting_trait" : true,
         "changes_to" : ["FLEET2"],
         "category" : ["SPIDER", "MOUSE"],
-        "cancels" : ["SLOWRUNNER", "PONDEROUS1", "PONDEROUS2", "PONDEROUS3"]
+        "types" : ["RUNNING"]
     },{
         "type" : "mutation",
         "id" : "GOODHEARING",
@@ -93,7 +93,7 @@
         "points" : 2,
         "description" : "You heal faster when sleeping and will even recover small amount of HP when not sleeping.",
         "starting_trait" : true,
-        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3", "MET_RAT"],
+        "types" : ["HEALING"],
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
         "category" : ["MEDICAL"],
         "healing_awake" : 0.2,
@@ -105,7 +105,7 @@
         "points" : 2,
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
-        "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
+        "types" : ["METABOLISM"],
         "changes_to" : [ "GIZZARD", "COLDBLOOD" ],
         "category" : ["FISH", "BIRD", "INSECT", "TROGLOBITE"],
         "metabolism_modifier": -0.333
@@ -269,7 +269,7 @@
         "id" : "GOODMEMORY",
         "name" : "Good Memory",
         "points" : 3,
-        "description" : "You have a an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
+        "description" : "You have a an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["FORGETFUL"]
@@ -381,7 +381,7 @@
         "points" : 1,
         "description" : "You need less sleep than the average person.",
         "changes_to" : ["WAKEFUL2"],
-        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "types" : ["SLEEP"],
         "starting_trait" : true,
         "category" : ["ALPHA", "ELFA"],
         "fatigue_modifier": -0.15
@@ -445,7 +445,16 @@
         "valid" : false,
         "starting_trait" : true,
         "category" : ["MOUSE"],
-        "cancels" : ["MYOPIC"]
+        "cancels" : ["MYOPIC", "UNOBSERVANT"]
+    },{
+        "type" : "mutation",
+        "id" : "UNOBSERVANT",
+        "name" : "Topographagnosia",
+        "points" : -5,
+        "description" : "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
+        "valid" : false,
+        "starting_trait" : true,
+        "cancels" : ["EAGLEEYED"]
     },{
         "type" : "mutation",
         "id" : "CANNIBAL",
@@ -519,7 +528,7 @@
         "description" : "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
         "starting_trait" : true,
         "category" : ["ALPHA"],
-        "cancels" : ["SMELLY"]
+        "types" : ["SCENT"]
     },{
         "type" : "mutation",
         "id" : "LIAR",
@@ -576,7 +585,7 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER2", "SLOWHEALER3"],
+        "types" : ["HEALING"],
         "healing_resting" : -0.25
     },{
         "type" : "mutation",
@@ -587,7 +596,7 @@
         "starting_trait" : true,
         "valid": false,
         "purifiable": false,
-        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER", "SLOWHEALER3"],
+        "types" : ["HEALING"],
         "healing_resting" : -0.66
     },{
         "type" : "mutation",
@@ -598,7 +607,7 @@
         "starting_trait" : true,
         "valid": false,
         "purifiable": false,
-        "cancels" : ["FASTHEALER", "FASTHEALER2", "SLOWHEALER", "SLOWHEALER2"],
+        "types" : ["HEALING"],
         "healing_resting" : -0.9
     },{
         "type" : "mutation",
@@ -625,7 +634,7 @@
         "description" : "You need sleep more often, but still spend most of your time awake.",
         "changes_to" : ["SLEEPY2", "MET_RAT"],
         "starting_trait" : true,
-        "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
+        "types" : ["SLEEP"],
         "category" : ["BEAST", "CHIMERA", "MOUSE"],
         "fatigue_modifier": 0.333,
         "fatigue_regen_modifier": 0.333
@@ -808,7 +817,7 @@
         "id" : "FORGETFUL",
         "name" : "Forgetful",
         "points" : -3,
-        "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
+        "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
         "starting_trait" : true,
         "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT"],
         "cancels" : ["GOODMEMORY"]
@@ -847,7 +856,7 @@
         "description" : "Your scent is particularly strong.  It's not offensive to humans, but animals that track your scent will do so more easily.",
         "starting_trait" : true,
         "changes_to" : ["SMELLY2"],
-        "cancels" : ["WEAKSCENT"],
+        "types" : ["SCENT"],
         "category" : ["FELINE", "LUPINE", "MOUSE"]
     },{
         "type" : "mutation",
@@ -961,7 +970,7 @@
         "points" : -3,
         "description" : "You can't move as fast as most, resulting in a 15% speed penalty on flat ground.",
         "starting_trait" : true,
-        "cancels" : ["FLEET", "FLEET2"]
+        "types" : ["RUNNING"]
     },{
         "type" : "mutation",
         "id" : "WEAKSTOMACH",
@@ -1053,6 +1062,7 @@
         "visibility" : 2,
         "ugliness" : 1,
         "description" : "Your skin is slightly rough.  This has no gameplay effect.",
+        "types" : ["SKIN"],
         "changes_to" : ["SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN"],
         "category" : ["LIZARD"]
     },{
@@ -1217,7 +1227,7 @@
         "name" : "Very Fast Healer",
         "points" : 4,
         "description" : "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
-        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3"],
+        "types" : ["HEALING"],
         "prereqs" : ["FASTHEALER"],
         "changes_to" : ["REGEN"],
         "category" : ["PLANT"],
@@ -1229,7 +1239,7 @@
         "name" : "Regeneration",
         "points" : 6,
         "description" : "Your flesh regenerates from wounds incredibly quickly.",
-        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "types" : ["HEALING"],
         "prereqs" : ["FASTHEALER2"],
         "category" : ["SLIME", "TROGLOBITE"],
         "healing_awake" : 2.0,
@@ -1253,7 +1263,7 @@
         "points" : 3,
         "description" : "You don't sleep often.  But when you do, you need very little of it.",
         "valid" : false,
-        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "types" : ["SLEEP"],
         "prereqs" : ["WAKEFUL"],
         "changes_to" : ["WAKEFUL3"],
         "threshreq" : ["THRESH_ALPHA", "THRESH_ELFA"],
@@ -1267,7 +1277,7 @@
         "description" : "You defend the realm all night and all day.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["SLEEPY", "SLEEPY2"],
+        "types" : ["SLEEP"],
         "prereqs" : ["WAKEFUL2"],
         "threshreq" : ["THRESH_ELFA"],
         "category" : ["ELFA"],
@@ -1470,6 +1480,7 @@
         "ugliness" : 3,
         "description" : "A set of flexible green scales has grown to cover your body, acting as natural armor.  Somewhat reduces wet effects.",
         "category" : ["CHIMERA", "RAPTOR", "LIZARD"],
+        "types" : ["SKIN"],
         "prereqs" : ["SKIN_ROUGH"],
         "changes_to" : ["THICK_SCALES", "SLEEK_SCALES"],
         "wet_protection" : [
@@ -1494,10 +1505,10 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "A set of heavy green scales has grown to cover your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility, resulting in a -2 penalty to Dexterity.  Greatly reduces wet effects.",
+        "types" : ["SKIN"],
         "prereqs" : ["SCALES"],
         "threshreq" : ["THRESH_LIZARD"],
         "category" : ["LIZARD"],
-        "cancels" : ["SLEEK_SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 5 },
             { "part" : "LEG_L", "ignored" : 16 },
@@ -1519,8 +1530,8 @@
         "visibility" : 10,
         "ugliness" : 4,
         "description" : "A set of very flexible and slick scales has grown to cover your body.  These act as weak natural armor, improve your ability to swim, and make you difficult to grab.  Mostly reduces wet effects.",
+        "types" : ["SKIN"],
         "prereqs" : ["SCALES"],
-        "cancels" : ["THICK_SCALES", "FEATHERS"],
         "category" : ["FISH"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 7 },
@@ -1552,9 +1563,9 @@
         "ugliness" : 3,
         "bodytemp_modifiers" : [50, 100],
         "description" : "Iridescent feathers have grown to cover your entire body, providing a marginal protection against attacks and minor protection from cold.  They also provide a natural waterproofing.",
+        "types" : ["SKIN"],
         "leads_to" : ["DOWN"],
         "prereqs" : ["SKIN_ROUGH"],
-        "cancels" : ["THICK_SCALES", "SLEEK_SCALES"],
         "category" : ["BIRD"],
         "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
     },{
@@ -1567,6 +1578,7 @@
         "bodytemp_modifiers" : [300, 800],
         "bodytemp_sleep" : 250,
         "description" : "You shan't need to migrate south with your layer of down.  It's even better with no apes around to kill you for it!",
+        "types" : ["SKIN"],
         "prereqs" : ["FEATHERS"],
         "threshreq": ["THRESH_BIRD"],
         "category" : ["BIRD"]
@@ -1581,8 +1593,8 @@
         "bodytemp_sleep" : 100,
         "description" : "Light fur has grown to cover your entire body, providing slight protection from cold.",
         "category" : ["CHIMERA", "SPIDER", "MOUSE"],
+        "types" : ["SKIN"],
         "prereqs" : ["SKIN_ROUGH"],
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
         "changes_to" : ["FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR"]
     },{
         "type" : "mutation",
@@ -1594,7 +1606,7 @@
         "bodytemp_modifiers" : [750, 1500],
         "bodytemp_sleep" : 500,
         "description" : "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "types" : ["SKIN"],
         "changes_to" : ["URSINE_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["BEAST", "CATTLE", "RAT"],
@@ -1609,7 +1621,7 @@
         "bodytemp_modifiers" : [750, 1500],
         "bodytemp_sleep" : 500,
         "description" : "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "types" : ["SKIN"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["URSINE"],
         "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
@@ -1623,7 +1635,7 @@
         "bodytemp_modifiers" : [750, 1500],
         "bodytemp_sleep" : 500,
         "description" : "Dense gray fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "FUR", "CHITIN_FUR"],
+        "types" : ["SKIN"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["LUPINE"],
         "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
@@ -1637,7 +1649,7 @@
         "bodytemp_modifiers" : [500, 1000],
         "bodytemp_sleep" : 300,
         "description" : "You've grown sleek brown fur, providing some protection from cold.",
-        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FUR", "LUPINE_FUR", "CHITIN_FUR"],
+        "types" : ["SKIN"],
         "prereqs" : ["LIGHTFUR"],
         "leads_to" : ["LYNX_FUR"],
         "category" : ["BEAST", "FELINE", "MOUSE"]
@@ -1649,6 +1661,7 @@
         "visibility" : 8,
         "ugliness" : 1,
         "description" : "Your fur's grown out significantly around your cheeks and neck.  It provides minor protection against attacks.",
+        "types" : ["SKIN"],
         "prereqs" : ["FELINE_FUR"],
         "category" : ["FELINE"],
         "armor" : [ { "parts" : [ "HEAD", "MOUTH" ], "bash" : 1 } ]
@@ -1660,8 +1673,8 @@
         "visibility" : 3,
         "ugliness" : 2,
         "description" : "Your epidermis has turned into a thin, flexible layer of chitin.  It provides minor protection from cutting wounds.  Slightly reduces wet effects.",
+        "types" : ["SKIN"],
         "prereqs" : ["SKIN_ROUGH"],
-        "cancels" : ["SCALES", "FEATHERS", "LIGHTFUR", "PLANTSKIN"],
         "changes_to" : ["CHITIN2", "CHITIN_FUR"],
         "category" : ["SPIDER"],
         "wet_protection" : [
@@ -1686,6 +1699,7 @@
         "ugliness" : 3,
         "mixed_effect" : true,
         "description" : "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, but reduces your dexterity by 1.  Somewhat reduces wet effects.",
+        "types" : ["SKIN"],
         "prereqs" : ["CHITIN"],
         "changes_to" : ["CHITIN3"],
         "category" : ["INSECT"],
@@ -1710,6 +1724,7 @@
         "visibility" : 8,
         "ugliness" : 5,
         "description" : "You've grown a chitin exoskeleton made of thick, stiff plates.  It provides excellent physical protection, but reduces your dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
+        "types" : ["SKIN"],
         "prereqs" : ["CHITIN2", "CHITIN_FUR2"],
         "category" : ["SPIDER"],
         "changes_to" : ["CHITIN_FUR3"],
@@ -1749,6 +1764,7 @@
         "bodytemp_modifiers" : [100, 150],
         "bodytemp_sleep" : 50,
         "description" : "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
+        "types" : ["SKIN"],
         "prereqs" : ["CHITIN", "LIGHTFUR"],
         "category" : ["SPIDER"],
         "changes_to" : ["CHITIN_FUR2"],
@@ -1763,6 +1779,7 @@
         "bodytemp_modifiers" : [150, 250],
         "bodytemp_sleep" : 75,
         "description" : "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
+        "types" : ["SKIN"],
         "prereqs" : ["CHITIN_FUR"],
         "category" : ["SPIDER"],
         "changes_to" : ["CHITIN_FUR3", "CHITIN3"],
@@ -1789,6 +1806,7 @@
             [ "FOOT_L", 10 ],
             [ "FOOT_R", 10 ]
         ],
+        "types" : ["SKIN"],
         "prereqs" : ["CHITIN_FUR2", "CHITIN3"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["SPIDER"],
@@ -1831,7 +1849,7 @@
         "visibility" : 3,
         "ugliness" : 2,
         "description" : "Your skin is light green and has a slightly woody quality to it.  This provides a weak armor, and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
-        "cancels" : ["FEATHERS", "LIGHTFUR", "FUR", "CHITIN", "CHITIN2", "CHITIN3", "SCALES"],
+        "types" : ["SKIN"],
         "changes_to" : ["BARK"],
         "leads_to" : ["THORNS", "LEAVES"],
         "category": ["PLANT", "ELFA"],
@@ -1857,6 +1875,7 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
+        "types" : ["SKIN"],
         "prereqs" : ["PLANTSKIN"],
         "category" : ["PLANT"],
         "wet_protection" : [
@@ -2002,6 +2021,7 @@
         "points" : 1,
         "visibility" : 1,
         "description" : "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+        "types" : ["CLAWS"],
         "changes_to" : ["CLAWS", "TALONS"],
         "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["RAPTOR"]
@@ -2013,9 +2033,10 @@
         "visibility" : 3,
         "ugliness" : 2,
         "description" : "You have claws on the ends of your fingers.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+        "types" : ["CLAWS"],
         "prereqs" : ["NAILS"],
         "changes_to" : ["CLAWS_RETRACT", "CLAWS_RAT"],
-        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["BEAST", "RAT", "URSINE"]
     },{
         "type" : "mutation",
@@ -2025,9 +2046,10 @@
         "visibility" : 3,
         "ugliness" : 4,
         "description" : "Your claws have grown tougher and slightly gnarled.",
+        "types" : ["CLAWS"],
         "prereqs" : ["CLAWS"],
         "changes_to" : ["CLAWS_ST"],
-        "cancels" : ["TALONS", "CLAWS_RETRACT", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["RAT"]
     },{
         "type" : "mutation",
@@ -2039,10 +2061,11 @@
         "valid" : false,
         "purifiable" : false,
         "description" : "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.",
+        "types" : ["CLAWS"],
         "prereqs" : ["CLAWS_RAT"],
         "prereqs2" : ["PAWS"],
         "threshreq" : ["THRESH_RAT"],
-        "cancels" : ["TALONS", "CLAWS_RETRACT", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["RAT"]
     },{
         "type" : "mutation",
@@ -2051,8 +2074,9 @@
         "points" : 2,
         "ugliness" : 1,
         "description" : "You have claws on the ends of your fingers, and can extend or retract them as desired.  Gloves will still get in the way, though.",
+        "types" : ["CLAWS"],
         "prereqs" : ["CLAWS"],
-        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["FELINE"],
         "active"     :    true,
         "cost"       :    0
@@ -2083,8 +2107,9 @@
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "destroys_gear" : true,
         "description" : "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent you from wearing gloves.",
+        "types" : ["CLAWS"],
         "prereqs" : ["NAILS"],
-        "cancels" : ["CLAWS", "CLAWS_RETRACT", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "cancels" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["LIZARD", "BIRD", "CHIMERA"]
     },{
         "type" : "mutation",
@@ -2143,7 +2168,7 @@
         "points" : 2,
         "description" : "Your body produces low-level pheromones, identifying you as a friend to many species of insects.  Insects will attack you much less.",
         "prereqs" : ["SMELLY2"],
-        "cancels" : ["PHEROMONE_MAMMAL"],
+        "types" : ["SCENT"],
         "category" : ["INSECT"]
     },{
         "type" : "mutation",
@@ -2152,7 +2177,7 @@
         "points" : 2,
         "description" : "Your body produces low-level pheromones which puts mammals at ease.  They will be less likely to attack or flee from you.",
         "prereqs" : ["SMELLY2"],
-        "cancels" : ["PHEROMONE_INSECT"],
+        "types" : ["SCENT"],
         "category" : ["BEAST", "CATTLE"]
     },{
         "type" : "mutation",
@@ -2522,7 +2547,7 @@
         "points" : 15,
         "description" : "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.  Activate to skip prompt for overeating.",
         "prereqs" : ["HUNGER3"],
-        "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
+        "types" : ["METABOLISM"],
         "threshreq" : ["THRESH_CHIMERA"],
         "category" : ["CHIMERA"],
         "valid" : false,
@@ -2625,7 +2650,7 @@
         "points" : 3,
         "description" : "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
         "prereqs" : ["FLEET"],
-        "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3", "SLOWRUNNER"],
+        "types" : ["RUNNING"],
         "category" : ["BIRD"]
     },{
         "type" : "mutation",
@@ -3677,7 +3702,7 @@
         "type" : "mutation",
         "id" : "CRAFTY",
         "name" : "Crafty",
-        "points" : 5,
+        "points" : 4,
         "description" : "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
         "valid" : false,
         "purifiable" : false,
@@ -4039,7 +4064,7 @@
         "points" : -2,
         "description" : "You require more food than most people, but recover stamina slightly faster.",
         "starting_trait" : true,
-        "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
+        "types" : ["METABOLISM"],
         "changes_to" :["HUNGER2", "MET_RAT"],
         "category" : ["RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE"],
         "metabolism_modifier": 0.5,
@@ -4052,7 +4077,8 @@
         "valid" : false,
         "purifiable" : false,
         "description" : "You require more resources than most, but heal more rapidly as well.  Provides weak regeneration even when not asleep.",
-        "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "FASTHEALER", "FASTHEALER2", "REGEN", "ROT1", "ROT2", "ROT3", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
+        "types" : ["HEALING"],
+        "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "prereqs" : ["HUNGER"],
         "prereqs2" : ["SLEEPY"],
         "category" : ["RAT", "MOUSE"],
@@ -4069,7 +4095,7 @@
         "description" : "You need about twice as much food as the average human to maintain your expanded cardiovascular and respiratory systems.  On a plus side, it doesn't take you much time to recover from any strenuous activity.",
         "prereqs" : ["HUNGER"],
         "changes_to" :["HUNGER3"],
-        "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
+        "types" : ["METABOLISM"],
         "category" : ["BEAST", "SLIME", "RAPTOR"],
         "metabolism_modifier": 1.0,
         "stamina_regen_modifier": 0.3
@@ -4081,7 +4107,7 @@
         "description" : "You consume three times as much food as the average human to maintain your truly superhuman endurance.",
         "prereqs" : ["HUNGER2"],
         "leads_to" : ["EATHEALTH"],
-        "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
+        "types" : ["METABOLISM"],
         "category" : ["CHIMERA"],
         "metabolism_modifier": 2.0,
         "stamina_regen_modifier": 0.5
@@ -4142,7 +4168,7 @@
         "points" : -3,
         "description" : "You find yourself needing to sleep quite often.  You'll spend about half your time in or around bed.",
         "prereqs" : ["SLEEPY"],
-        "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
+        "types" : ["SLEEP"],
         "category" : ["FELINE"],
         "fatigue_modifier": 1.0
     },{
@@ -4152,9 +4178,8 @@
         "points" : -2,
         "bodytemp_modifiers" : [-250, -250],
         "description" : "You feel as though you are slowly weakening and your body heals slower.",
-        "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
+        "types" : ["HEALING"],
         "changes_to" : ["ROT2"],
-
         "category" : ["ELFA"],
         "healing_awake" : -0.002,
         "healing_resting" : -0.25
@@ -4165,7 +4190,7 @@
         "points" : -8,
         "bodytemp_modifiers" : [-750, -750],
         "description" : "Your body is very slowly wasting away.",
-        "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
+        "types" : ["HEALING"],
         "prereqs" : ["ROT1"],
         "changes_to" : ["ROT3"],
         "category" : ["CHIMERA"],
@@ -4177,7 +4202,7 @@
         "points" : -10,
         "bodytemp_modifiers" : [-1500, -1500],
         "description" : "Your body is slowly wasting away!",
-        "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
+        "types" : ["HEALING"],
         "prereqs" : ["ROT2"],
         "category": ["ALPHA"],
         "healing_awake" : -0.08
@@ -4260,8 +4285,9 @@
             [ "HAND_R", 10 ]
         ],
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
+        "types" : ["HANDS"],
         "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
-        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "cancels" : ["TALONS"],
         "changes_to" : ["PAWS_LARGE"],
         "category" : ["LUPINE", "RAT", "FELINE"]
     },{
@@ -4278,8 +4304,9 @@
             [ "HAND_R", 20 ]
         ],
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
+        "types" : ["HANDS"],
         "prereqs" : ["PAWS"],
-        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "cancels" : ["TALONS"],
         "category" : ["BEAST", "URSINE"]
     },{
         "type" : "mutation",
@@ -4503,7 +4530,7 @@
         "name" : "Ponderous",
         "points" : -3,
         "description" : "Your muscles are generally slow to move.  You move 10% slower.",
-        "cancels" : ["FLEET", "FLEET2"],
+        "types" : ["RUNNING"],
         "changes_to" : ["PONDEROUS2"],
         "category" : ["URSINE"]
     },{
@@ -4512,7 +4539,7 @@
         "name" : "Very Ponderous",
         "points" : -5,
         "description" : "Your muscles are quite slow to move.  You move 20% slower.",
-        "cancels" : ["FLEET", "FLEET2"],
+        "types" : ["RUNNING"],
         "prereqs" : ["PONDEROUS1"],
         "changes_to" : ["PONDEROUS3"],
         "category" : ["CATTLE"]
@@ -4522,7 +4549,7 @@
         "name" : "Extremely Ponderous",
         "points" : -6,
         "description" : "Your muscles are very slow to move.  You move 30% slower.",
-        "cancels" : ["FLEET", "FLEET2"],
+        "types" : ["RUNNING"],
         "prereqs" : ["PONDEROUS2"],
         "category" : ["PLANT"]
     },{
@@ -4677,7 +4704,7 @@
         "mixed_effect" : true,
         "description" : "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
         "changes_to" : ["COLDBLOOD2"],
-        "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
+        "types" : ["METABOLISM"],
         "category" : ["FISH", "CEPHALOPOD", "SPIDER"],
         "metabolism_modifier": -0.333
     },{
@@ -4689,7 +4716,7 @@
         "description" : "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your slow metabolism requires much less food.",
         "prereqs" : ["COLDBLOOD"],
         "changes_to" : ["COLDBLOOD3"],
-        "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
+        "types" : ["METABOLISM"],
         "category" : ["RAPTOR"],
         "metabolism_modifier": -0.5
     },{
@@ -4701,7 +4728,7 @@
         "description" : "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C), but only need to eat about half as much as before.",
         "prereqs" : ["COLDBLOOD2"],
         "changes_to" : ["COLDBLOOD4"],
-        "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
+        "types" : ["METABOLISM"],
         "category" : ["INSECT", "LIZARD"],
         "metabolism_modifier": -0.5
     },{
@@ -4714,7 +4741,7 @@
         "prereqs" : ["COLDBLOOD3"],
         "threshreq" : ["THRESH_LIZARD"],
         "purifiable" : false,
-        "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
+        "types" : ["METABOLISM"],
         "category" : ["LIZARD"],
         "metabolism_modifier": -0.5
     },{
@@ -4813,8 +4840,8 @@
             [ "ARM_L", 30 ],
             [ "ARM_R", 30 ]
         ],
+        "types" : ["HANDS"],
         "changes_to" : ["INSECT_ARMS_OK", "ARACHNID_ARMS"],
-        "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "prereqs" : ["CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "prereqs2" : ["ANTENNAE"],
         "threshreq" : ["THRESH_INSECT", "THRESH_SPIDER"],
@@ -4830,7 +4857,7 @@
         "description" : "It's good having all your arms.  Though they're too thin to block or punch, you can fold them inside human-shaped gear if need be.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "types" : ["HANDS"],
         "prereqs" : ["INSECT_ARMS"],
         "prereqs2" : ["ANTENNAE"],
         "threshreq" : ["THRESH_INSECT"],
@@ -4849,8 +4876,8 @@
             [ "ARM_L", 40 ],
             [ "ARM_R", 40 ]
         ],
+        "types" : ["HANDS"],
         "changes_to" : ["ARACHNID_ARMS_OK"],
-        "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "prereqs" : ["INSECT_ARMS"],
         "prereqs2" : ["CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "threshreq" : ["THRESH_SPIDER"],
@@ -4866,7 +4893,7 @@
         "description" : "You have four handsome limbs, and then those mutant 'hand' and 'foot' things.  They probably aren't worth concealing.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "types" : ["HANDS"],
         "prereqs" : ["ARACHNID_ARMS"],
         "prereqs2" : ["POISONOUS", "POISONOUS2", "WEB_RAPPEL"],
         "threshreq" : ["THRESH_SPIDER"],
@@ -4885,9 +4912,10 @@
             [ "HAND_R", 30 ]
         ],
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
+        "types" : ["HANDS"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_4"],
-        "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS", "WEBBED"],
+        "cancels" : ["NAILS", "CLAWS", "TALONS", "WEBBED"],
         "wet_protection" : [
             { "part" : "ARM_L", "neutral" : 19 },
             { "part" : "ARM_R", "neutral" : 19 },
@@ -4923,6 +4951,7 @@
             [ "HAND_R", 30 ]
         ],
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
+        "types" : ["HANDS"],
         "prereqs" : ["ARM_TENTACLES"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
@@ -4961,6 +4990,7 @@
             [ "HAND_R", 30 ]
         ],
         "restricts_gear" : [ "HAND_L", "HAND_R" ],
+        "types" : ["HANDS"],
         "prereqs" : ["ARM_TENTACLES_4"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "category" : ["CEPHALOPOD"],

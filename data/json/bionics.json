@@ -315,6 +315,16 @@
     "act_cost": 100
   },
   {
+    "type": "bionic",
+    "id": "bio_emp_armgun",
+    "name": "EMP Projector",
+    "description": "A ranged EMP generator system is implanted on the palm of your right hand and arm.  Fires super-concentrated electric pulses for a short distance.  Extremely effective against electronic targets but mostly useless otherwise.",
+    "occupied_bodyparts": [ [ "ARM_R", 10 ], [ "HAND_R", 5 ] ],
+    "act_cost": 20,
+    "fake_item": "bio_emp_gun",
+    "flags": [ "BIONIC_GUN" ]
+  },
+  {
     "id": "bio_ethanol",
     "type": "bionic",
     "name": "Ethanol Burner",
@@ -422,7 +432,7 @@
     "id": "bio_gills",
     "type": "bionic",
     "name": "Oxygenator",
-    "description": "A complex oxygen delivery system.  Improves the ability to extract oxygen from air and allows extracting it from water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.",
+    "description": "A complex oxygen delivery system.  Improves the ability to extract oxygen from air and allows extracting it from water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "TORSO", 8 ], [ "HEAD", 2 ], [ "MOUTH", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -932,6 +942,14 @@
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
+    "id": "bio_surgical_razor",
+    "type": "bionic",
+    "name": "Autonomous Surgical Scalpels",
+    "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts.  They can also be used as a high-quality butchering tool.",
+    "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "ARM_L", 1 ] ],
+    "fake_item": "bio_scalpel"
+  },
+  {
     "id": "bio_sunglasses",
     "type": "bionic",
     "name": "Anti-Glare Compensators",
@@ -1031,7 +1049,7 @@
     "id": "bio_voice",
     "type": "bionic",
     "name": "Voice Remodulator",
-    "description": "You will likely spend the rest of your days serving as a walking testament to why you don't hold loose parts in your mouth while installing a CBM.  Accidentally swallowing that remodulator unit has given you a creepy robot voice.",
+    "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package.'  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "MOUTH", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
@@ -1049,6 +1067,20 @@
     "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "HAND_R", 2 ] ],
     "act_cost": 50
+  },
+  {
+    "id": "bio_syringe",
+    "type": "bionic",
+    "name": "Intravenous Needletip",
+    "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
+    "occupied_bodyparts": [ [ "HAND_L", 1 ] ]
+  },
+  {
+    "id": "bio_weight",
+    "type": "bionic",
+    "name": "Titanium Skeletal Bracing",
+    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
+    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ]
   },
   {
     "id": "bio_shock_absorber",

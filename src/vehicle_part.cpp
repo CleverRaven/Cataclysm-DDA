@@ -156,6 +156,16 @@ bool vehicle_part::is_broken() const
     return base.damage() >= base.max_damage();
 }
 
+bool vehicle_part::is_unavailable( const bool carried ) const
+{
+    return is_broken() || ( has_flag( carried_flag ) && carried );
+}
+
+bool vehicle_part::is_available( const bool carried ) const
+{
+    return !is_unavailable( carried );
+}
+
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {

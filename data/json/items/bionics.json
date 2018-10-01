@@ -246,6 +246,15 @@
     "difficulty": 5
   },
   {
+    "id": "bio_emp_armgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "EMP Projector CBM",
+    "description": "A ranged EMP generator system is implanted on the palm of your right hand and arm.  Fires super-concentrated electric pulses for a short distance.  Extremely effective against electronic targets but mostly useless otherwise.",
+    "price": 220000,
+    "difficulty": 5
+  },
+  {
     "id": "bio_ethanol",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
@@ -734,6 +743,15 @@
     "difficulty": 11
   },
   {
+    "id": "bio_surgical_razor",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Autonomous Surgical Scalpels CBM",
+    "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts. They can also be used as a high-quality butchering tool.",
+    "price": 220000,
+    "difficulty": 4
+  },
+  {
     "id": "bio_sunglasses",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -822,6 +840,24 @@
     "description": "Nanotubes embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "price": 550000,
     "difficulty": 5
+  },
+  {
+    "id": "bio_syringe",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Intravenous Needletip CBM",
+    "description": "A small tube with a retractable needle, that terminates in a net of tiny hoses instead of a plunger.  Installed, it allows you to draw substances directly into your bloodstream through the needle without needing to carry a syringe.",
+    "price": 1000,
+    "difficulty": 1
+  },
+  {
+    "id": "bio_weight",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Titanium Skeletal Bracing CBM",
+    "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing you to carry more weight.",
+    "price": 50000,
+    "difficulty": 3
   },
   {
     "id": "bio_shock_absorber",

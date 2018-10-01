@@ -1,6 +1,13 @@
 --dofile("./class_definitions.lua")
 
-log = require("./lua/log")
+package.path = package.path .. ";./lua/?.lua" --Windows/Linux
+package.path = package.path .. ";/usr/share/cataclysm-dda/lua/?.lua" --Linux(via make install)
+package.path = package.path .. ";/storage/emulated/0/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android
+package.path = package.path .. ";/storage/sdcard/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card)
+package.path = package.path .. ";/storage/sdcard0/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card 0)
+package.path = package.path .. ";/storage/sdcard1/Android/data/com.cleverraven.cataclysmdda/files/lua/?.lua" --Android (SD Card 1)
+
+log = require("log")
 log.init("./config/lua-log.log")
 
 outdated_metatable = {
@@ -16,12 +23,14 @@ outdated_metatable = {
 -- table containing our mods
 mods = { }
 
-function mod_callback(callback_name)
+function mod_callback(callback_name, ...)
+    rval = nil
     for modname, mod_instance in pairs(mods) do
         if type(mod_instance[callback_name]) == "function" then
-            mod_instance[callback_name]()
+            rval = mod_instance[callback_name](...)
         end
     end
+    return rval
 end
 
 function resolve_name(name)

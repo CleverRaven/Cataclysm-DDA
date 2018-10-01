@@ -26,7 +26,7 @@ std::string invent_adj();
 
 constexpr inline unsigned long mfb( const int v )
 {
-    return static_cast<unsigned long>( 1 << v );
+    return 1ul << v;
 }
 
 faction_template::faction_template()

@@ -38,6 +38,7 @@
 #include "messages.h"
 #include "sounds.h"
 #include "item_action.h"
+#include "vpart_range.h"
 #include "mongroup.h"
 #include "morale.h"
 #include "morale_types.h"
@@ -144,6 +145,7 @@ const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_lack_sleep( "lack_sleep" );
+const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
@@ -171,6 +173,7 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_magnesium_supplements( "magnesium" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -218,11 +221,13 @@ static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bn_bio_solar( "bn_bio_solar" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
+static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_trip( "bio_trip" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_watch( "bio_watch" );
+static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -411,6 +416,7 @@ static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 static const trait_id trait_UGLY( "UGLY" );
+static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EARS( "URSINE_EARS" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -513,6 +519,7 @@ player::player() : Character()
     lastconsumed = itype_id( "null" );
     next_expected_position = tripoint_min;
     death_drops = true;
+    show_map_memory = true;
 
     empty_traits();
 
@@ -684,6 +691,12 @@ void player::reset_stats()
         mod_dex_bonus( dex_mod );
         mod_int_bonus( -get_thirst() / 200 );
         mod_per_bonus( -get_thirst() / 200 );
+    }
+    if( get_sleep_deprivation() >= SLEEP_DEPRIVATION_HARMLESS ) {
+        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
+    }
+    else if( has_effect( effect_sleep_deprived ) ) {
+        remove_effect( effect_sleep_deprived );
     }
 
     // Dodge-related effects
@@ -1025,7 +1038,7 @@ void player::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
-    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" ) || has_trait( trait_id( "M_SKIN2" ) );
+    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" ) || has_trait( trait_id( "M_SKIN2" ) ) || has_trait( trait_M_SKIN3 );
     const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
@@ -2386,7 +2399,7 @@ void player::disp_morale()
 
 bool player::has_conflicting_trait( const trait_id &flag ) const
 {
-    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) );
+    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) || has_same_type_trait ( flag ) );
 }
 
 bool player::has_opposite_trait( const trait_id &flag ) const
@@ -2413,6 +2426,16 @@ bool player::has_higher_trait( const trait_id &flag ) const
 {
     for( auto &i : flag->replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool player::has_same_type_trait( const trait_id &flag ) const
+{
+    for( auto &i : get_mutations_in_types( flag->types ) ) {
+        if( has_trait( i ) && flag != i ) {
             return true;
         }
     }
@@ -2509,7 +2532,7 @@ std::string player::get_category_dream( const std::string &cat,
         return "";
     }
     const dream &selected_dream = random_entry( valid_dreams );
-    return random_entry( selected_dream.messages );
+    return random_entry( selected_dream.messages() );
 }
 
 bool player::in_climate_control()
@@ -2723,12 +2746,21 @@ int player::overmap_sight_range( int light_level ) const
         return ( sight / ( SEEX / 2 ) );
     }
     sight = has_trait( trait_BIRD_EYE ) ? 15 : 10;
+
+    /** @EFFECT_PER determines overmap sight range */
+    sight += ( -4 + (int)( get_per() / 2 ) );
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
-    if( has_optic && has_trait( trait_EAGLEEYED ) ) {
+
+    if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
         sight += 15;
-    } else if( has_optic != has_trait( trait_EAGLEEYED ) ) {
+    } else if( has_trait( trait_EAGLEEYED ) != has_optic ) { //optic OR scout = +10
         sight += 10;
     }
+
+    if( has_trait( trait_UNOBSERVANT ) && sight > 3 ) {
+        sight = 3; //surprise! you can't see!
+    }
+
     return sight;
 }
 
@@ -2800,8 +2832,8 @@ bool player::has_alarm_clock() const
 {
     return ( has_item_with_flag( "ALARMCLOCK" ) ||
              (
-                 ( g->m.veh_at( pos() ) ) &&
-                 !g->m.veh_at( pos() )->vehicle().all_parts_with_feature( "ALARMCLOCK", true ).empty()
+                 g->m.veh_at( pos() ) &&
+                 !empty( g->m.veh_at( pos() )->vehicle().parts_with_feature( "ALARMCLOCK", true ) )
              ) ||
              has_bionic( bio_watch )
            );
@@ -2811,8 +2843,8 @@ bool player::has_watch() const
 {
     return ( has_item_with_flag( "WATCH" ) ||
              (
-                 ( g->m.veh_at( pos() ) ) &&
-                 !g->m.veh_at( pos() )->vehicle().all_parts_with_feature( "WATCH", true ).empty()
+                 g->m.veh_at( pos() ) &&
+                 !empty( g->m.veh_at( pos() )->vehicle().parts_with_feature( "WATCH", true ) )
              ) ||
              has_bionic( bio_watch )
            );
@@ -3157,6 +3189,11 @@ void player::on_dodge( Creature *source, float difficulty )
             melee_attack( *source, false, tec );
         }
     }
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( source );
+    lua_callback_args_info.emplace_back( difficulty );
+    lua_callback( "on_player_dodge", lua_callback_args_info );
 }
 
 void player::on_hit( Creature *source, body_part bp_hit,
@@ -3231,6 +3268,12 @@ void player::on_hit( Creature *source, body_part bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( source );
+    lua_callback_args_info.emplace_back( bp_hit );
+    //lua_callback_args_info.emplace_back( proj );
+    lua_callback( "on_player_hit", lua_callback_args_info );
 }
 
 void player::on_hurt( Creature *source, bool disturb /*= true*/ )
@@ -3241,12 +3284,12 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ), 
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ),
                                                     source->disp_name().c_str() ) );
             } else {
                 g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
@@ -3257,6 +3300,11 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
     if( is_dead_state() ) {
         set_killer( source );
     }
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( source );
+    lua_callback_args_info.emplace_back( disturb );
+    lua_callback( "on_player_hurt", lua_callback_args_info );
 }
 
 bool player::immune_to( body_part bp, damage_unit dam ) const
@@ -3549,7 +3597,7 @@ void player::react_to_felt_pain( int intensity )
         g->cancel_activity_or_ignore_query( distraction_type::pain,  _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
-    if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         int pain_thresh = rng( 3, 5 );
 
         if( has_trait( trait_HEAVYSLEEPER ) ) {
@@ -4162,7 +4210,7 @@ void player::check_needs_extremes()
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
             mod_fatigue(-10);
-            try_to_sleep();
+            fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
         } else if( calendar::once_every( 30_minutes ) ) {
@@ -4175,7 +4223,7 @@ void player::check_needs_extremes()
     if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
         if( get_fatigue() >= 700 ) {
             if( calendar::once_every( 30_minutes ) ) {
-                add_msg_if_player( m_warning, _("You're too tired to stop yawning.") );
+                add_msg_if_player( m_warning, _("You're too physically tired to stop yawning.") );
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
@@ -4197,6 +4245,74 @@ void player::check_needs_extremes()
             add_effect( effect_lack_sleep, 30_minutes + 1_turns );
         }
     }
+
+    // Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for long periods of time
+    int sleep_deprivation = get_sleep_deprivation();
+    float sleep_deprivation_pct = sleep_deprivation / static_cast<float>( SLEEP_DEPRIVATION_MASSIVE );
+
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS && !in_sleep_state() ) {
+        if( calendar::once_every( 60_minutes ) ) {
+            if( sleep_deprivation < SLEEP_DEPRIVATION_MINOR ) {
+                add_msg( m_warning, _( "Your mind feels tired. It's been a while since you've slept well." ) );
+                mod_fatigue( 1 );
+            }
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
+                add_msg( m_bad, _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
+                mod_fatigue( 5 );
+
+                if( one_in( 10 ) ) {
+                    mod_healthy_mod( -1, 0 );
+                }
+            }
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
+                add_msg( m_bad, _( "Your mind feels weary, and you dread every wakeful minute that passes. You crave sleep, and feel like you're about to collapse." ) );
+                mod_fatigue( 10 );
+
+                if( one_in( 5 ) ) {
+                    mod_healthy_mod( -2, 0 );
+                }
+            }
+            else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
+                add_msg( m_bad, _( "You haven't slept decently for so long that your whole body is screaming for mercy. It's a miracle that you're still awake, but it just feels like a curse now." ) );
+                mod_fatigue( 40 );
+
+                mod_healthy_mod( -5, 0 );
+            }
+            // else you pass out for 20 hours, guaranteed 
+
+            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
+            // Note: these can coexist with fatigue-related microsleeps
+            /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
+            if( one_in( (int)( sleep_deprivation_pct * 75 ) + int_cur ) ) {
+                fall_asleep( 5_turns );
+            }
+
+            // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
+            bool can_pass_out = ( stim < 30 && sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) || sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR;
+
+            if( can_pass_out && calendar::once_every( 10_minutes ) ) {
+                /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
+                if( one_in( (int)( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) || sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
+                    add_msg( m_bad, _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." ) );
+                    if( get_fatigue() < EXHAUSTED ) {
+                        set_fatigue( EXHAUSTED );
+                    }
+
+                    if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
+                        fall_asleep( 20_hours );
+                    } 
+                    else if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
+                        fall_asleep( 16_hours );
+                    }
+                    else {
+                        fall_asleep( 12_hours );
+                    }
+                }
+            }
+
+        }
+    }
+
 }
 
 void player::update_needs( int rate_multiplier )
@@ -4210,7 +4326,8 @@ void player::update_needs( int rate_multiplier )
     const bool foodless = debug_ls || npc_no_food;
     const bool has_recycler = has_bionic( bio_recycler );
     const bool asleep = !sleep.is_null();
-    const bool lying = asleep || has_effect( effect_lying_down );
+    const bool lying = asleep || has_effect( effect_lying_down ) ||
+                       activity.id() == "ACT_TRY_SLEEP";
     const bool hibernating = asleep && is_hibernating();
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
@@ -4279,9 +4396,24 @@ void player::update_needs( int rate_multiplier )
         fatigue_rate *= 1.0f + mutation_value( "fatigue_modifier" );
 
         if( fatigue_rate > 0.0f ) {
-            mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
+            int fatigue_roll = divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
+            mod_fatigue( fatigue_roll );
+
+            if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
+                // Synaptic regen bionic stops SD while awake and boosts it while sleeping
+                if( !has_active_bionic( bio_synaptic_regen ) ) {
+                    // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
+                    // but characters who need less sleep will also get less sleep deprived, and vice-versa.
+
+                    // Note: Since needs are updated in 5-minute increments, we have to multiply the roll again by
+                    // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
+                    mod_sleep_deprivation( fatigue_roll * 5 );
+                }
+            }
+
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
+                set_sleep_deprivation( 0 );
             }
         }
     } else if( asleep ) {
@@ -4296,16 +4428,54 @@ void player::update_needs( int rate_multiplier )
         }
 
         // Untreated pain causes a flat penalty to fatigue reduction
-        recovery_rate -= float(get_perceived_pain()) / 60;
+        recovery_rate -= float( get_perceived_pain() ) / 60;
 
         if( recovery_rate > 0.0f ) {
             int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
             if( get_fatigue() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
-                mod_fatigue(-25);
+                mod_fatigue( -25 );
             } else {
-                mod_fatigue(-recovered);
+                mod_fatigue( -recovered );
+                if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
+                    // Sleeping on the ground, no bionic = 1x rest_modifier
+                    // Sleeping on a bed, no bionic      = 2x rest_modifier
+                    // Sleeping on a comfy bed, no bionic= 3x rest_modifier
+
+                    // Sleeping on the ground, bionic    = 3x rest_modifier
+                    // Sleeping on a bed, bionic         = 6x rest_modifier
+                    // Sleeping on a comfy bed, bionic   = 9x rest_modifier
+                    float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
+                    // Magnesium supplements also add a flat bonus to recovery speed
+                    if( has_effect( effect_magnesium_supplements ) ) {
+                        rest_modifier += 1;
+                    }
+
+                    comfort_level comfort = base_comfort_value( pos() );
+
+                    if( comfort >= comfort_level::very_comfortable ) {
+                        rest_modifier *= 3;
+                    }
+                    else  if( comfort >= comfort_level::comfortable ) {
+                        rest_modifier *= 2.5;
+                    }
+                    else if( comfort >= comfort_level::slightly_comfortable ) {
+                        rest_modifier *= 2;
+                    }
+
+                    // If we're just tired, we'll get a decent boost to our sleep quality.
+                    // The opposite is true for very tired characters.
+                    if( get_fatigue() < DEAD_TIRED ) {
+                        rest_modifier += 2;
+                    }
+                    else if( get_fatigue() >= EXHAUSTED ) {
+                        rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
+                    }
+
+                    // Recovered is multiplied by 2 as well, since we spend 1/3 of the day sleeping
+                    mod_sleep_deprivation( -rest_modifier * ( recovered * 2 ) );
+                }
             }
         }
     }
@@ -4999,21 +5169,21 @@ void player::suffer()
             if (mdata.hunger){
                 mod_hunger(mdata.cost);
                 if (get_hunger() >= 700) { // Well into Famished
-                    add_msg_if_player(m_warning, _("You're too famished to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too famished to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
             if (mdata.thirst){
                 mod_thirst(mdata.cost);
                 if (get_thirst() >= 260) { // Well into Dehydrated
-                    add_msg_if_player(m_warning, _("You're too dehydrated to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too dehydrated to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
             if (mdata.fatigue){
                 mod_fatigue(mdata.cost);
                 if (get_fatigue() >= EXHAUSTED) { // Exhausted
-                    add_msg_if_player(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player( m_warning, _( "You're too exhausted to keep your %s going." ), mdata.name() );
                     tdata.powered = false;
                 }
             }
@@ -5468,16 +5638,21 @@ void player::suffer()
     if( has_trait( trait_ASTHMA ) && one_in( ( 3600 - stim * 50 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
         bool auto_use = has_charges( "inhaler", 1 );
+        bool oxygenator = has_bionic( bio_gills ) && power_level >= 3;
         if ( underwater ) {
             oxygen = oxygen / 2;
             auto_use = false;
         }
 
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
             map_inv.form_from_map( g->u.pos(), 2 );
-            // check if character has an inhaler
-            if ( auto_use ) {
+            // check if character has an oxygenator first
+            if( oxygenator ) {
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                charge_power( -3 );
+                add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, then go back to sleep." ) );
+            } else if ( auto_use ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 use_charges( "inhaler", 1 );
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
@@ -5490,7 +5665,11 @@ void player::suffer()
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
             } else {
                 add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-                wake_up();
+                if( has_effect( effect_sleep ) ) {
+                    wake_up();
+                } else {
+                    g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                }
             }
         } else if ( auto_use ) {
             use_charges( "inhaler", 1 );
@@ -5532,7 +5711,7 @@ void player::suffer()
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
             add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
-            if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
                 wake_up();
             }
             if( one_in(10) ) {
@@ -5553,7 +5732,7 @@ void player::suffer()
     if (has_trait( trait_SUNBURN ) && g->is_in_sunlight(pos()) && one_in(10)) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
             add_msg_if_player(m_bad, _("The sunlight burns your skin!"));
-        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
             wake_up();
         }
         mod_pain(1);
@@ -6005,6 +6184,91 @@ void player::suffer()
         if( calendar::once_every( 10_minutes ) ) {
             add_msg( m_warning, _( "You feel tired..." ) );
             mod_fatigue( rng( 1, 2 ) );
+        }
+    }
+
+    int sleep_deprivation = !in_sleep_state() ? get_sleep_deprivation() : 0;
+    // Stimulants can lessen the PERCEIVED effects of sleep deprivation, but
+    // they do nothing to cure it. As such, abuse is even more dangerous now.
+    if( stim > 0 ) {
+        // 100% of blacking out = 20160sd ; Max. stim modifier = 12500sd @ 250stim
+        // Note: Very high stim already has its own slew of bad effects,
+        // so the "useful" part of this bonus is actually lower.
+        sleep_deprivation -= stim * 50;
+    }
+
+    // Harmless warnings
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS ) {
+        if( one_in( 500 ) ) {
+            switch( dice(1, 4) ) {
+                default:
+                case 1:
+                    add_msg( m_warning, _( "You tiredly rub your eyes." ) );
+                    break;
+                case 2:
+                    add_msg( m_warning, _( "You let out a small yawn." ) );
+                    break;
+                case 3:
+                    add_msg( m_warning, _( "You stretch your back." ) );
+                    break;
+                case 4:
+                    add_msg( m_warning, _( "You feel mentally tired." ) );
+                    break;
+            }
+        }
+    }
+    // Minor discomfort
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
+        if( one_in( 750 ) ) {
+            add_msg( m_warning, _( "You feel lightheaded for a moment." ) );
+            moves -= 10;
+        }
+        if( one_in( 1000 ) ) {
+            add_msg( m_warning, _( "Your muscles spasm uncomfortably." ) );
+            mod_pain( 2 );
+        }
+        if( !has_effect( effect_visuals ) && one_in( 1500 ) ) {
+            add_msg( m_warning, _( "Your vision blurs a little." ) );
+            add_effect( effect_visuals, rng( 1_minutes, 5_minutes ) );
+        }
+    }
+    // Slight disability
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
+        if( one_in( 750 ) ) {
+            add_msg( m_bad, _( "Your mind lapses into unawareness briefly." ) );
+            moves -= rng( 20, 80 );
+        }
+        if( one_in( 1250 ) ) {
+            add_msg( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
+            mod_pain( rng( 2, 10 ) );
+        }
+        if( one_in( 3000 ) ) {
+            add_msg( m_bad, _( "You have a distractingly painful headache." ) );
+            mod_pain( rng( 10, 25 ) );
+        }
+    }
+    // Major disability, high chance of passing out also relevant
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
+        if( !has_effect( effect_nausea ) && one_in( 5000 ) ) {
+            add_msg( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
+            mod_pain( 5 );
+            add_effect( effect_nausea, rng( 5_minutes, 30_minutes ) );
+        }
+        if( one_in( 3000 ) ) {
+            add_msg( m_bad, _( "Your mind is so tired that you feel you can't trust your eyes anymore." ) );
+            add_effect( effect_hallu, rng( 5_minutes, 60_minutes ) );
+        }
+        if( !has_effect( effect_shakes ) && one_in( 4250 ) ) {
+            add_msg( m_bad, _( "Your muscles spasm uncontrollably, and you have trouble keeping your balance." ) );
+            add_effect( effect_shakes, 15_minutes );
+        }
+        else if( has_effect( effect_shakes ) && one_in( 75 ) ) {
+            moves -= 10;
+            add_msg( m_warning, _( "Your shaking legs make you stumble." ) );
+            if( !has_effect( effect_downed ) && one_in( 10 ) ) {
+                add_msg( m_bad, _( "You fall over!" ) );
+                add_effect( effect_downed, rng( 3_turns, 10_turns ) );
+            }
         }
     }
 }
@@ -6932,8 +7196,12 @@ bool player::consume_med( item &target )
 
     const itype_id tool_type = target.type->comestible->tool;
     const auto req_tool = item::find_type( tool_type );
+    bool tool_override = false;
+    if( tool_type == "syringe" && has_bionic( bio_syringe ) ) {
+        tool_override = true;
+    }
     if( req_tool->tool ) {
-        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
+        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) && !tool_override ) {
             add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ).c_str() );
             return false;
         }
@@ -7471,7 +7739,7 @@ ret_val<bool> player::can_wear( const item& it  ) const
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
                 return ret_val<bool>::make_failure( _( "Your %s mutation prevents you from wearing your %s." ),
-                             branch.name.c_str(), it.type_name().c_str() );
+                             branch.name(), it.type_name().c_str() );
             }
         }
         if( it.covers(bp_head) &&
@@ -7739,8 +8007,8 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
     }
 
     if( it.is_ammo_belt() ) {
-        auto linkage = it.type->magazine->linkage;
-        if( linkage != "NULL" && !has_charges( linkage, 1 ) ) {
+        const auto &linkage = it.type->magazine->linkage;
+        if( linkage && !has_charges( *linkage, 1 ) ) {
             return false;
         }
     }
@@ -7847,7 +8115,7 @@ void player::mend_item( item_location&& obj, bool interactive )
         uimenu menu( true, _( "Toggle which fault?" ) );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto& f : obj->faults_potential() ) {
-            opts.emplace_back( f, obj->faults.count( f ) );
+            opts.emplace_back( f, !!obj->faults.count( f ) );
             menu.addentry( -1, true, -1, string_format( "%s %s", opts.back().second ? _( "Mend" ) : _( "Break" ),
                                                         f.obj().name().c_str() ) );
         }
@@ -8589,11 +8857,10 @@ bool player::invoke_item( item* used, const tripoint &pt )
         return invoke_item( used, use_methods.begin()->first, pt );
     }
 
-    uimenu umenu;
+    uilist umenu;
 
     umenu.text = string_format( _( "What to do with your %s?" ), used->tname().c_str() );
     umenu.hilight_disabled = true;
-    umenu.return_invalid = true;
 
     for( const auto &e : use_methods ) {
         const auto res = e.second.can_call( *this, *used, false, pt );
@@ -9385,6 +9652,8 @@ void player::do_read( item &book )
 
             skill_level.readBook( min_ex, max_ex, reading->level );
 
+            std::string skill_name = skill.obj().name();
+
             if( skill_level != originalSkillLevel ) {
                 if( learner->is_player() ) {
                     add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name().c_str(),
@@ -9393,12 +9662,18 @@ void player::do_read( item &book )
                         //~ %s is skill name. %d is skill level
                         add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
                                           pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
-                                          skill_level.level(), skill->name() );
+                                          skill_level.level(), skill_name );
                     }
-                    lua_callback( "on_skill_increased" );
+                    const std::string skill_increase_source = "book";
+                    CallbackArgumentContainer lua_callback_args_info;
+                    lua_callback_args_info.emplace_back( getID() );
+                    lua_callback_args_info.emplace_back( skill_increase_source );
+                    lua_callback_args_info.emplace_back( skill.str() );
+                    lua_callback_args_info.emplace_back( originalSkillLevel + 1 );
+                    lua_callback( "on_player_skill_increased", lua_callback_args_info );
+                    lua_callback( "on_skill_increased" ); // Legacy callback
                 } else {
-                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name().c_str(),
-                             skill.obj().name().c_str() );
+                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name().c_str(), skill_name );
                 }
             } else {
                 //skill_level == originalSkillLevel
@@ -9406,8 +9681,7 @@ void player::do_read( item &book )
                     continuous = true;
                 }
                 if( learner->is_player() ) {
-                    add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill.obj().name().c_str(),
-                             skill_level.exercise() );
+                    add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill_name, skill_level.exercise() );
                 } else {
                     little_learned.insert( learner->disp_name() );
                 }
@@ -9568,7 +9842,7 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
     return res;
 }
 
-void player::try_to_sleep()
+void player::try_to_sleep( const time_duration &dur )
 {
     const optional_vpart_position vp = g->m.veh_at( pos() );
     const trap &trap_at_pos = g->m.tr_at(pos());
@@ -9648,17 +9922,145 @@ void player::try_to_sleep()
                  _("It's hard to get to sleep on this %s."),
                  ter_at_pos.obj().name().c_str() );
     }
-    add_effect( effect_lying_down, 30_minutes );
+    add_msg_if_player( _( "You start trying to fall asleep." ) );
+    assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
+}
+
+comfort_level player::base_comfort_value( const tripoint &p ) const
+{
+    // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
+    // As in the latter also checks for fatigue and other variables while this function
+    // only looks at the base comfyness of something. It's still subjective, in a sense,
+    // as arachnids who sleep in webs will find most places comfortable for instance.
+    int comfort = 0;
+
+    bool plantsleep = has_trait( trait_CHLOROMORPH );
+    bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
+    bool websleep = has_trait( trait_WEB_WALKER );
+    bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) || ( has_trait( trait_WEB_WEAVER ) ) );
+    bool in_shell = has_active_mutation( trait_SHELL2 );
+
+    const optional_vpart_position vp = g->m.veh_at( p );
+    const maptile tile = g->m.maptile_at( p );
+    const trap &trap_at_pos = tile.get_trap_t();
+    const ter_id ter_at_pos = tile.get_ter();
+    const furn_id furn_at_pos = tile.get_furn();
+
+    int web = g->m.get_field_strength( p, fd_web );
+
+    // Some mutants have different comfort needs
+    if( !plantsleep && !webforce ) {
+        if( in_shell ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+            // Note: shelled individuals can still use sleeping aids!
+        }
+        else if( vp ) {
+            if( vp.part_with_feature( "BED" ) ) {
+                comfort += 1 + (int)comfort_level::slightly_comfortable;
+            }
+            else if( vp.part_with_feature( "SEAT" ) ) {
+                comfort += 0 + (int)comfort_level::slightly_comfortable;
+            }
+            else {
+                // Sleeping elsewhere is uncomfortable
+                comfort -= g->m.move_cost( p );
+            }
+        }
+        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
+        else if( furn_at_pos == f_bed ) {
+            comfort += 0 + (int)comfort_level::comfortable;
+        }
+        else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
+                 furn_at_pos == f_sofa ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+        }
+        // Web sleepers can use their webs if better furniture isn't available
+        else if( websleep && web >= 3 ) {
+            comfort += 1 + (int)comfort_level::slightly_comfortable;
+        }
+        else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
+                 furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter ) {
+            comfort += 0 + (int)comfort_level::slightly_comfortable;
+        }
+        else if( furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami ) {
+            comfort += 2 + (int)comfort_level::neutral;
+        }
+        else if( furn_at_pos == f_chair || furn_at_pos == f_bench ||
+                 ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
+                 ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
+                 ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
+            comfort += 1 + (int)comfort_level::neutral;
+        }
+        else {
+         // Not a comfortable sleeping spot
+            comfort -= g->m.move_cost( p );
+        }
+
+        auto items = g->m.i_at( p );
+        for( auto &items_it : items ) {
+            if( items_it.has_flag( "SLEEP_AID" ) ) {
+                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                comfort += 1 + (int)comfort_level::slightly_comfortable;
+                break; // prevents using more than 1 sleep aid
+            }
+        }
+
+        if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+            comfort += (int)comfort_level::very_comfortable;
+        }
+    }
+    else if( plantsleep ) {
+        if( vp || furn_at_pos != f_null ) {
+            // Sleep ain't happening in a vehicle or on furniture
+            comfort = (int)comfort_level::uncomfortable;
+        }
+        else {
+            // It's very easy for Chloromorphs to get to sleep on soil!
+            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
+                ter_at_pos == t_pit_shallow ) {
+                comfort += (int)comfort_level::very_comfortable;
+            }
+            // Not as much if you have to dig through stuff first
+            else if( ter_at_pos == t_grass ) {
+                comfort += (int)comfort_level::comfortable;
+            }
+            // Sleep ain't happening
+            else {
+                comfort = (int)comfort_level::uncomfortable;
+            }
+        }
+    }
+    // Has webforce
+    else {
+        if( web >= 3 ) {
+            // Thick Web and you're good to go
+            comfort += (int)comfort_level::very_comfortable;
+        }
+        else {
+            comfort = (int)comfort_level::uncomfortable;
+        }
+    }
+
+    if( comfort >= (int)comfort_level::very_comfortable ) {
+        return comfort_level::very_comfortable;
+    }
+    else if( comfort >= (int)comfort_level::comfortable ) {
+        return comfort_level::comfortable;
+    }
+    else if( comfort >= (int)comfort_level::slightly_comfortable ) {
+        return comfort_level::slightly_comfortable;
+    }
+    else if( comfort >= (int)comfort_level::neutral ) {
+        return comfort_level::neutral;
+    }
+    else return comfort_level::uncomfortable;
 }
 
 int player::sleep_spot( const tripoint &p ) const
 {
-    int sleepy = 0;
-    bool plantsleep = false;
-    bool fungaloid_cosplay = false;
-    bool websleep = false;
-    bool webforce = false;
-    bool in_shell = false;
+    comfort_level base_level = base_comfort_value( p );
+    int sleepy = (int)base_level;
+
     if (has_addiction(ADD_SLEEP)) {
         sleepy -= 4;
     }
@@ -9675,105 +10077,7 @@ int player::sleep_spot( const tripoint &p ) const
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
     }
-    if (has_trait( trait_CHLOROMORPH )) {
-        plantsleep = true;
-    }
-    if (has_trait( trait_M_SKIN3 )) {
-        fungaloid_cosplay = true;
-    }
-    if (has_trait( trait_WEB_WALKER )) {
-        websleep = true;
-    }
-    // Not sure how one would get Arachnid w/o web-making, but Just In Case
-    if (has_trait( trait_THRESH_SPIDER ) && (has_trait( trait_WEB_SPINNER ) || (has_trait( trait_WEB_WEAVER ))) ) {
-        webforce = true;
-    }
-    if (has_active_mutation( trait_SHELL2 )) {
-        // Your shell's interior is a comfortable place to sleep.
-        in_shell = true;
-    }
-    const optional_vpart_position vp = g->m.veh_at( p );
-    const maptile tile = g->m.maptile_at( p );
-    const trap &trap_at_pos = tile.get_trap_t();
-    const ter_id ter_at_pos = tile.get_ter();
-    const furn_id furn_at_pos = tile.get_furn();
-    int web = g->m.get_field_strength( p, fd_web );
-    // Plant sleepers use a different method to determine how comfortable something is
-    // Web-spinning Arachnids do too
-    if( !plantsleep && !webforce ) {
-        // Shells are comfortable and get used anywhere
-        if( in_shell ) {
-            sleepy += 4;
-        // Else use the vehicle tile if we are in one
-        } else if( vp ) {
-            if( vp.part_with_feature( "BED" ) ) {
-                sleepy += 4;
-            } else if( vp.part_with_feature( "SEAT" ) ) {
-                sleepy += 3;
-            } else {
-                // Sleeping elsewhere is uncomfortable
-                sleepy -= g->m.move_cost( p );
-            }
-        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
-        } else if( furn_at_pos == f_bed ) {
-            sleepy += 5;
-        } else if( furn_at_pos == f_makeshift_bed || trap_at_pos.loadid == tr_cot ||
-                   furn_at_pos == f_sofa ) {
-            sleepy += 4;
-        } else if( websleep && web >= 3 ) {
-            sleepy += 4;
-        } else if( trap_at_pos.loadid == tr_rollmat || trap_at_pos.loadid == tr_fur_rollmat ||
-                   furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter ) {
-            sleepy += 3;
-        } else if( furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami ) {
-            sleepy += 2;
-        } else if( furn_at_pos == f_chair || furn_at_pos == f_bench ||
-                   ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
-                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
-                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
-            sleepy += 1;
-        } else {
-            // Not a comfortable sleeping spot
-            sleepy -= g->m.move_cost( p );
-        }
-        auto items = g->m.i_at( p );
-        for( auto &items_it : items ) {
-            if( items_it.has_flag( "SLEEP_AID" ) ) {
-                sleepy += 4;
-                break; // prevents using more then 1 sleep aid
-            }
-        }
-        if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( "FUNGUS" , pos() ) ) {
-            sleepy += 30;
-        }
-    // Has plantsleep
-    } else if( plantsleep ) {
-        if( vp || furn_at_pos != f_null ) {
-            // Sleep ain't happening in a vehicle or on furniture
-            sleepy -= 999;
-        } else {
-            // It's very easy for Chloromorphs to get to sleep on soil!
-            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
-                ter_at_pos == t_pit_shallow ) {
-                sleepy += 10;
-            // Not as much if you have to dig through stuff first
-            } else if( ter_at_pos == t_grass ) {
-                sleepy += 5;
-            // Sleep ain't happening
-            } else {
-                sleepy -= 999;
-            }
-        }
-    // Has webforce
-    } else {
-        if( web >= 3 ) {
-            // Thick Web and you're good to go
-            sleepy += 10;
-        }
-        else {
-            sleepy -= 999;
-        }
-    }
+
     if( get_fatigue() < TIRED + 1 ) {
         sleepy -= int( ( TIRED + 1 - get_fatigue() ) / 4 );
     } else {
@@ -9796,18 +10100,66 @@ bool player::can_sleep()
         // Sleep ain't happening until that meth wears off completely.
         return false;
     }
-    int sleepy = sleep_spot( pos() );
-    sleepy += rng( -8, 8 );
-    if( sleepy > 0 ) {
-        return true;
+
+    // Since there's a bit of randomness to falling asleep, we want to
+    // prevent exploiting this if can_sleep() gets called over and over.
+    // Only actually check if we can fall asleep no more frequently than
+    // every 30 minutes.  We're assuming that if we return true, we'll
+    // immediately be falling asleep after that.
+    //
+    // Also if player debug menu'd time backwards this breaks, just do the
+    // check anyway, this will reset the timer if 'dur' is negative.
+    const time_point now = calendar::turn;
+    const time_duration dur = now - last_sleep_check;
+    if( dur >= 30_minutes || dur < 0_turns ) {
+        last_sleep_check = now;
+        int sleepy = sleep_spot( pos() );
+        sleepy += rng( -8, 8 );
+        if( sleepy > 0 ) {
+            return true;
+        }
     }
     return false;
+}
+
+void player::fall_asleep()
+{
+    // Communicate to the player that he is using items on the floor
+    std::string item_name = is_snuggling();
+    if( item_name == "many" ) {
+        if( one_in( 15 ) ) {
+            add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
+        } else {
+            add_msg_if_player( _( "You use your pile of clothes for warmth." ) );
+        }
+    } else if( item_name != "nothing" ) {
+        if( one_in( 15 ) ) {
+            add_msg_if_player( _( "You snuggle your %s to keep warm." ), item_name.c_str() );
+        } else {
+            add_msg_if_player( _( "You use your %s to keep warm." ), item_name.c_str() );
+        }
+    }
+    if( has_active_mutation( trait_id( "HIBERNATE" ) ) && get_hunger() < -60 ) {
+        add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
+                          pgettext( "memorial_female", "Entered hibernation." ) );
+        // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
+        fall_asleep( 10_days );
+        // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+        // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+        // will last about 8 days.
+    }
+
+    fall_asleep( 10_hours ); // default max sleep time.
 }
 
 void player::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
-        cancel_activity();
+        if( activity.id() == "ACT_TRY_SLEEP" ) {
+            activity.set_to_null();
+        } else {
+            cancel_activity();
+        }
     }
     add_effect( effect_sleep, duration );
 }
@@ -9830,6 +10182,7 @@ void player::wake_up()
     remove_effect( effect_sleep );
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
+    recalc_sight_limits();
 }
 
 std::string player::is_snuggling() const
@@ -10497,6 +10850,7 @@ void player::practice( const skill_id &id, int amount, int cap )
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
+    std::string skill_name = skill.name();
 
     if( !level.can_train() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
@@ -10547,7 +10901,7 @@ void player::practice( const skill_id &id, int amount, int cap )
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
             int curLevel = get_skill_level( id );
             add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
-                    skill.name().c_str(), curLevel);
+                    skill_name, curLevel);
         }
     }
 
@@ -10556,13 +10910,20 @@ void player::practice( const skill_id &id, int amount, int cap )
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
         if (is_player() && newLevel > oldLevel) {
-            add_msg(m_good, _("Your skill in %s has increased to %d!"), skill.name().c_str(), newLevel);
-            lua_callback("on_skill_increased");
+            add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
+            const std::string skill_increase_source = "training";
+            CallbackArgumentContainer lua_callback_args_info;
+            lua_callback_args_info.emplace_back( getID() );
+            lua_callback_args_info.emplace_back( skill_increase_source );
+            lua_callback_args_info.emplace_back( id.str() );
+            lua_callback_args_info.emplace_back( newLevel );
+            lua_callback( "on_player_skill_increased", lua_callback_args_info );
+            lua_callback( "on_skill_increased" ); //Legacy callback
         }
         if(is_player() && newLevel > cap) {
             //inform player immediately that the current recipe can't be used to train further
-            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
-                    skill.name().c_str());
+            add_msg( m_info, _( "You feel that %s tasks of this level are becoming trivial." ),
+                     skill_name );
         }
 
         int chance_to_drop = focus_pool;
@@ -10972,18 +11333,37 @@ void player::set_destination(const std::vector<tripoint> &route, const player_ac
 {
     auto_move_route = route;
     this->destination_activity = destination_activity;
+    destination_point = g->m.getabs( route.back() );
 }
 
 void player::clear_destination()
 {
     auto_move_route.clear();
     destination_activity = player_activity();
+    destination_point = tripoint_min;
     next_expected_position = tripoint_min;
 }
 
 bool player::has_destination() const
 {
     return !auto_move_route.empty();
+}
+
+bool player::has_destination_activity() const
+{
+    tripoint dest = g->m.getlocal( destination_point );
+    return !destination_activity.is_null() && position == dest;
+}
+
+void player::start_destination_activity()
+{
+    if( !has_destination_activity() ) {
+        debugmsg( "Tried to start invalid destination activity" );
+        return;
+    }
+
+    assign_activity( destination_activity );
+    clear_destination();
 }
 
 std::vector<tripoint> &player::get_auto_move_route()
@@ -11000,19 +11380,12 @@ action_id player::get_next_auto_move_direction()
     if (next_expected_position != tripoint_min ) {
         if( pos() != next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
-            destination_activity = player_activity();
             return ACTION_NULL;
         }
     }
 
     next_expected_position = auto_move_route.front();
     auto_move_route.erase(auto_move_route.begin());
-
-    // if this is the last auto move to destination, set destination activity if there is any
-    if( !has_destination() && !destination_activity.is_null() ) {
-        assign_activity( destination_activity );
-        destination_activity = player_activity();
-    }
 
     tripoint dp = next_expected_position - pos();
 
@@ -11021,7 +11394,6 @@ action_id player::get_next_auto_move_direction()
     if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ||
         ( abs( dp.z ) != 0 && ( abs( dp.x ) != 0 || abs( dp.y ) != 0 ) ) ) {
         // Should never happen, but check just in case
-        destination_activity = player_activity();
         return ACTION_NULL;
     }
 
@@ -11039,6 +11411,19 @@ void player::shift_destination(int shiftx, int shifty)
         elem.x += shiftx;
         elem.y += shifty;
     }
+}
+
+void player::grab( object_type grab_type, const tripoint &grab_point )
+{
+    this->grab_type = grab_type;
+    this->grab_point = grab_point;
+
+    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
+}
+
+object_type player::get_grab_type() const
+{
+    return grab_type;
 }
 
 bool player::has_weapon() const
@@ -11170,6 +11555,177 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     }
 
     return A_NEUTRAL;
+}
+
+void player::toggle_map_memory()
+{
+    show_map_memory = !show_map_memory;
+}
+
+bool player::should_show_map_memory()
+{
+    return show_map_memory;
+}
+
+memorized_terrain_tile player::get_memorized_terrain( const tripoint &pos ) const
+{
+    return player_map_memory.get_memorized_terrain( pos );
+}
+
+void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation )
+{
+    player_map_memory.memorize_tile( pos, ter, subtile, rotation );
+}
+
+void player::finalize_tile_memory()
+{
+    player_map_memory.finalize_tile_memory( max_memorized_submaps() );
+}
+
+void player::memorize_terrain_curses( const tripoint &pos, const long symbol )
+{
+    player_map_memory.memorize_terrain_symbol( pos, symbol );
+}
+
+void player::finalize_terrain_memory_curses()
+{
+    player_map_memory.finalize_terrain_memory_curses( max_memorized_submaps() );
+}
+
+long player::get_memorized_terrain_curses( const tripoint &p ) const
+{
+    return player_map_memory.get_memorized_terrain_curses( p );
+}
+
+size_t player::max_memorized_submaps() const
+{
+    if( has_trait( trait_FORGETFUL ) ) {
+        return 200; // 50 overmap tiles
+    } else if( has_trait( trait_GOODMEMORY ) ) {
+        return 800; // 200 overmap tiles
+    }
+    return 400; // 100 overmap tiles
+
+}
+
+memorized_terrain_tile map_memory::get_memorized_terrain( const tripoint &pos ) const
+{
+    const tripoint p = g->m.getabs( pos );
+    if( memorized_terrain.find( p ) != memorized_terrain.end() ) {
+        return memorized_terrain.at( p );
+    }
+    return { "", 0, 0 };
+}
+
+void map_memory::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                                const int rotation )
+{
+    memorized_terrain_tmp[pos] = { ter, subtile, rotation };
+}
+
+void map_memory::finalize_tile_memory( size_t max_submaps )
+{
+    memorize_tiles( memorized_terrain_tmp, max_submaps );
+    memorized_terrain_tmp.clear();
+}
+
+void map_memory::memorize_tiles( const std::map<tripoint, memorized_terrain_tile> &tiles,
+                                 const size_t max_submaps )
+{
+    std::set<tripoint> submaps;
+    for( auto i : tiles ) {
+        const tripoint p = g->m.getabs( i.first );
+        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
+        memorized_terrain[p] = i.second;
+    }
+
+    update_submap_memory( submaps, max_submaps );
+}
+
+void map_memory::update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps )
+{
+    std::set<tripoint> erase;
+    for( auto i : submaps ) {
+        std::vector<tripoint>::iterator position = std::find( memorized_submaps.begin(),
+                memorized_submaps.end(), i );
+        if( position != memorized_submaps.end() ) {
+            memorized_submaps.erase( position );
+        }
+        memorized_submaps.push_back( i );
+    }
+
+    while( memorized_submaps.size() > max_submaps ) {
+        erase.insert( memorized_submaps.front() );
+        memorized_submaps.erase( memorized_submaps.begin() );
+    }
+
+    clear_submap_memory( erase );
+}
+
+void map_memory::clear_submap_memory( const std::set<tripoint> &erase )
+{
+    for( auto it = memorized_terrain.cbegin(); it != memorized_terrain.cend(); ) {
+        bool delete_this = false;
+        for( auto i : erase ) {
+            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
+                delete_this = true;
+                break;
+            }
+        }
+        if( delete_this ) {
+            memorized_terrain.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+    for( auto it = memorized_terrain_curses.cbegin(); it != memorized_terrain_curses.cend(); ) {
+        bool delete_this = false;
+        for( auto i : erase ) {
+            if( ( it->first.x / SEEX == i.x ) && ( it->first.y / SEEY == i.y ) && ( it->first.z == i.z ) ) {
+                delete_this = true;
+                break;
+            }
+        }
+        if( delete_this ) {
+            memorized_terrain_curses.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+}
+
+void map_memory::memorize_terrain_symbol( const tripoint &pos, const long symbol )
+{
+    memorized_terrain_curses_tmp[pos] = symbol;
+}
+
+void map_memory::finalize_terrain_memory_curses( const size_t max_submaps )
+{
+    memorize_terrain_symbols( memorized_terrain_curses_tmp, max_submaps );
+    memorized_terrain_curses_tmp.clear();
+}
+
+void map_memory::memorize_terrain_symbols( const std::map<tripoint, long> &tiles,
+        size_t max_submaps )
+{
+    std::set<tripoint> submaps;
+    for( auto i : tiles ) {
+        const tripoint p = g->m.getabs( i.first );
+        submaps.insert( { p.x / SEEX, p.y / SEEY, p.z } );
+        memorized_terrain_curses[p] = i.second;
+    }
+
+    update_submap_memory( submaps, max_submaps );
+}
+
+long map_memory::get_memorized_terrain_curses( const tripoint &pos ) const
+{
+    const tripoint p = g->m.getabs( pos );
+    if( memorized_terrain_curses.find( p ) != memorized_terrain_curses.end() ) {
+        return memorized_terrain_curses.at( p );
+    }
+    return 0;
 }
 
 bool player::sees( const tripoint &t, bool ) const
@@ -11595,26 +12151,47 @@ bool player::has_item_with_flag( const std::string &flag ) const
 void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( mid.str() );
+    lua_callback( "on_player_mutation_gain", lua_callback_args_info );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( mid.str() );
+    lua_callback( "on_player_mutation_loss", lua_callback_args_info );
 }
 
 void player::on_stat_change( const std::string &stat, int value )
 {
     morale->on_stat_change( stat, value );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( stat );
+    lua_callback_args_info.emplace_back( value );
+    lua_callback( "on_player_stat_change", lua_callback_args_info );
 }
 
 void player::on_item_wear( const item &it )
 {
     morale->on_item_wear( it );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( it );
+    lua_callback( "on_player_item_wear", lua_callback_args_info );
 }
 
 void player::on_item_takeoff( const item &it )
 {
     morale->on_item_takeoff( it );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( it );
+    lua_callback( "on_player_item_takeoff", lua_callback_args_info );
 }
 
 void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
@@ -11627,12 +12204,22 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
     }
 
     morale->on_effect_int_change( eid, intensity, bp );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( eid.str() );
+    lua_callback_args_info.emplace_back( intensity );
+    lua_callback_args_info.emplace_back( bp );
+    lua_callback( "on_player_effect_int_change", lua_callback_args_info );
 }
 
 void player::on_mission_assignment( mission &new_mission )
 {
     active_missions.push_back( &new_mission );
     set_active_mission( new_mission );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( new_mission.get_id() );
+    lua_callback( "on_player_mission_assignment", lua_callback_args_info );
 }
 
 void player::on_mission_finished( mission &cur_mission )
@@ -11657,6 +12244,10 @@ void player::on_mission_finished( mission &cur_mission )
             active_mission = active_missions.front();
         }
     }
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( getID() );
+    lua_callback_args_info.emplace_back( cur_mission.get_id() );
+    lua_callback( "on_player_mission_finished", lua_callback_args_info );
 }
 
 const targeting_data &player::get_targeting_data() {

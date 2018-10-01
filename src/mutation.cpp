@@ -309,7 +309,7 @@ void player::activate_mutation( const trait_id &mut )
         ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
-                           mdata.name.c_str() );
+                           mdata.name() );
         return;
     }
     if( tdata.powered && tdata.charge > 0 ) {
@@ -482,7 +482,7 @@ void player::activate_mutation( const trait_id &mut )
     } else if( !mdata.spawn_item.empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
-        add_msg_if_player( _( mdata.spawn_item_message.c_str() ) );
+        add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
     }
@@ -723,6 +723,22 @@ void player::mutate_category( const std::string &cat )
     }
 }
 
+static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
+{
+    std::vector<trait_id> ret;
+    for( auto it : id->prereqs ) {
+        ret.push_back( it );
+        std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
+        ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
+    }
+    for( auto it : id->prereqs2 ) {
+        ret.push_back( it );
+        std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );
+        ret.insert( ret.end(), these_prereqs.begin(), these_prereqs.end() );
+    }
+    return ret;
+}
+
 bool player::mutate_towards( const trait_id &mut )
 {
     if( has_child_flag( mut ) ) {
@@ -738,6 +754,16 @@ bool player::mutate_towards( const trait_id &mut )
     std::vector<trait_id> prereq = mdata.prereqs;
     std::vector<trait_id> prereqs2 = mdata.prereqs2;
     std::vector<trait_id> cancel = mdata.cancels;
+    std::vector<trait_id> same_type = get_mutations_in_types( mdata.types );
+    std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
+
+    // Check mutations of the same type - except for the ones we might need for pre-reqs
+    for( size_t i = 0; i < same_type.size(); ++i ) {
+        trait_id consider = same_type[i];
+        if( std::find( all_prereqs.begin(), all_prereqs.end(), consider ) == all_prereqs.end() ) {
+            cancel.push_back( consider );
+        }
+    }
 
     for( size_t i = 0; i < cancel.size(); i++ ) {
         if( !has_trait( cancel[i] ) ) {
@@ -869,10 +895,10 @@ bool player::mutate_towards( const trait_id &mut )
         add_msg_player_or_npc( rating,
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
-                               replace_mdata.name.c_str(), mdata.name.c_str() );
+                               replace_mdata.name(), mdata.name() );
         add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                           pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          replace_mdata.name.c_str(), mdata.name.c_str() );
+                          replace_mdata.name(), mdata.name() );
         unset_mutation( replacing );
         mutation_loss_effect( replacing );
         mutation_effect( mut );
@@ -892,10 +918,10 @@ bool player::mutate_towards( const trait_id &mut )
         add_msg_player_or_npc( rating,
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
-                               replace_mdata.name.c_str(), mdata.name.c_str() );
+                               replace_mdata.name(), mdata.name() );
         add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                           pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          replace_mdata.name.c_str(), mdata.name.c_str() );
+                          replace_mdata.name(), mdata.name() );
         unset_mutation( replacing2 );
         mutation_loss_effect( replacing2 );
         mutation_effect( mut );
@@ -918,10 +944,10 @@ bool player::mutate_towards( const trait_id &mut )
         add_msg_player_or_npc( rating,
                                _( "Your innate %1$s trait turns into %2$s!" ),
                                _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
-                               cancel_mdata.name.c_str(), mdata.name.c_str() );
+                               cancel_mdata.name(), mdata.name() );
         add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                           pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          cancel_mdata.name.c_str(), mdata.name.c_str() );
+                          cancel_mdata.name(), mdata.name() );
         unset_mutation( canceltrait[i] );
         mutation_loss_effect( canceltrait[i] );
         mutation_effect( mut );
@@ -941,10 +967,10 @@ bool player::mutate_towards( const trait_id &mut )
         add_msg_player_or_npc( rating,
                                _( "You gain a mutation called %s!" ),
                                _( "<npcname> gains a mutation called %s!" ),
-                               mdata.name.c_str() );
+                               mdata.name() );
         add_memorial_log( pgettext( "memorial_male", "Gained the mutation '%s'." ),
                           pgettext( "memorial_female", "Gained the mutation '%s'." ),
-                          mdata.name.c_str() );
+                          mdata.name() );
         mutation_effect( mut );
     }
 
@@ -1052,7 +1078,7 @@ void player::remove_mutation( const trait_id &mut )
         add_msg_player_or_npc( rating,
                                _( "Your %1$s mutation turns into %2$s." ),
                                _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                               mdata.name.c_str(), replace_mdata.name.c_str() );
+                               mdata.name(), replace_mdata.name() );
         set_mutation( replacing );
         mutation_loss_effect( mut );
         mutation_effect( replacing );
@@ -1072,7 +1098,7 @@ void player::remove_mutation( const trait_id &mut )
         add_msg_player_or_npc( rating,
                                _( "Your %1$s mutation turns into %2$s." ),
                                _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                               mdata.name.c_str(), replace_mdata.name.c_str() );
+                               mdata.name(), replace_mdata.name() );
         set_mutation( replacing2 );
         mutation_loss_effect( mut );
         mutation_effect( replacing2 );
@@ -1091,7 +1117,7 @@ void player::remove_mutation( const trait_id &mut )
         add_msg_player_or_npc( rating,
                                _( "You lose your %s mutation." ),
                                _( "<npcname> loses their %s mutation." ),
-                               mdata.name.c_str() );
+                               mdata.name() );
         mutation_loss_effect( mut );
     }
 
@@ -1247,8 +1273,8 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
             p.add_msg_if_player( m_good,
                                  _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
             p.set_mutation( mutation_thresh );
-            p.add_memorial_log( pgettext( "memorial_male", m_category.memorial_message.c_str() ),
-                                pgettext( "memorial_female", m_category.memorial_message.c_str() ) );
+            p.add_memorial_log( pgettext( "memorial_male", m_category.memorial_message() ),
+                                pgettext( "memorial_female", m_category.memorial_message() ) );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.

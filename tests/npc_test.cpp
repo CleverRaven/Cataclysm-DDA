@@ -7,6 +7,12 @@
 #include "game.h"
 #include "map.h"
 #include "text_snippets.h"
+#include "field.h"
+#include "overmapbuffer.h"
+#include "vehicle.h"
+#include "veh_type.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 #include <string>
 
@@ -183,4 +189,228 @@ TEST_CASE( "snippet-tag-test" )
     CHECK( SNIPPET.all_ids_from_category( "<yrwp>" ).empty() );
     CHECK( SNIPPET.all_ids_from_category( "<mywp>" ).empty() );
     CHECK( SNIPPET.all_ids_from_category( "<ammo>" ).empty() );
+}
+
+/* Test setup. Player should always be at top-left.
+ *
+ * U is the player, V is vehicle, # is wall, R is rubble & acid with NPC on it,
+ * A is acid with NPC on it, W/M is vehicle & acid with (follower/non-follower) NPC on it,
+ * B/C is acid with (follower/non-follower) NPC on it.
+ */
+constexpr int height = 5, width = 17;
+constexpr char setup[height][width + 1] = {
+    "U ###############",
+    "V #R#AAA#W# # #C#",
+    "  #A#A#A# #M#B# #",
+    "  ###AAA#########",
+    "    #####        ",
+};
+
+static void check_npc_movement( tripoint origin )
+{
+    const efftype_id effect_bouldering( "bouldering" );
+
+    INFO( "Should not crash from infinite recursion" );
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            switch( setup[y][x] ) {
+                case 'A':
+                case 'R':
+                case 'W':
+                case 'M':
+                case 'B':
+                case 'C':
+                    tripoint p = origin + point( x, y );
+                    npc *guy = g->critter_at<npc>( p );
+                    REQUIRE( guy != nullptr );
+                    guy->move();
+                    break;
+            }
+        }
+    }
+
+    INFO( "NPC on acid should not acquire unstable footing status" );
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            if( setup[y][x] == 'A' ) {
+                tripoint p = origin + point( x, y );
+                npc *guy = g->critter_at<npc>( p );
+                REQUIRE( guy != nullptr );
+                CHECK( !guy->has_effect( effect_bouldering ) );
+            }
+        }
+    }
+
+    INFO( "NPC on rubbles should not lose unstable footing status" );
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            if( setup[y][x] == 'R' ) {
+                tripoint p = origin + point( x, y );
+                npc *guy = g->critter_at<npc>( p );
+                REQUIRE( guy != nullptr );
+                CHECK( guy->has_effect( effect_bouldering ) );
+            }
+        }
+    }
+
+    INFO( "NPC in vehicle should not escape from dangerous terrain" );
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            switch( setup[y][x] ) {
+                case 'W':
+                case 'M':
+                    tripoint p = origin + point( x, y );
+                    npc *guy = g->critter_at<npc>( p );
+                    CHECK( guy != nullptr );
+                    break;
+            }
+        }
+    }
+
+    INFO( "NPC not in vehicle should escape from dangerous terrain" );
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            switch( setup[y][x] ) {
+                case 'B':
+                case 'C':
+                    tripoint p = origin + point( x, y );
+                    npc *guy = g->critter_at<npc>( p );
+                    CHECK( guy == nullptr );
+                    break;
+            }
+        }
+    }
+}
+
+TEST_CASE( "npc-movement" )
+{
+    const ter_id t_reinforced_glass( "t_reinforced_glass" );
+    const ter_id t_floor( "t_floor" );
+    const furn_id f_rubble( "f_rubble" );
+    const furn_id f_null( "f_null" );
+    const vpart_id vpart_frame_vertical( "frame_vertical" );
+    const vpart_id vpart_seat( "seat" );
+
+    g->place_player( tripoint( 60, 60, 0 ) );
+
+    // kill npcs before removing vehicles so they are correctly unboarded
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            const tripoint p = g->u.pos() + point( x, y );
+            Creature *cre = g->critter_at( p );
+            if( cre != nullptr && cre != &g->u ) {
+                npc *guy = dynamic_cast<npc *>( cre );
+                cre->die( nullptr );
+                if( guy ) {
+                    overmap_buffer.remove_npc( guy->getID() );
+                }
+            }
+        }
+    }
+    g->unload_npcs();
+    // remove existing vehicles
+    VehicleList vehs = g->m.get_vehicles( g->u.pos(), g->u.pos() + point( width - 1, height - 1 ) );
+    for( auto &veh : vehs ) {
+        g->m.detach_vehicle( veh.v );
+    }
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            const char type = setup[y][x];
+            const tripoint p = g->u.pos() + point( x, y );
+            // create walls
+            if( type == '#' ) {
+                g->m.ter_set( p, t_reinforced_glass );
+            } else {
+                g->m.ter_set( p, t_floor );
+            }
+            // spawn acid
+            // a copy is needed because we will remove elements from it
+            const field fs = g->m.field_at( p );
+            for( const auto &f : fs ) {
+                g->m.remove_field( p, f.first );
+            }
+            if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
+                || type == 'B' || type == 'C' ) {
+
+                g->m.add_field( p, fd_acid, MAX_FIELD_DENSITY );
+            }
+            // spawn rubbles
+            if( type == 'R' ) {
+                g->m.furn_set( p, f_rubble );
+            } else {
+                g->m.furn_set( p, f_null );
+            }
+            // create vehicles
+            if( type == 'V' || type == 'W' || type == 'M' ) {
+                vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+                REQUIRE( veh != nullptr );
+                veh->install_part( 0, 0, vpart_frame_vertical );
+                veh->install_part( 0, 0, vpart_seat );
+                g->m.add_vehicle_to_cache( veh );
+            }
+            // spawn npcs
+            if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
+                || type == 'B' || type == 'C' ) {
+
+                std::shared_ptr<npc> guy = std::make_shared<npc>();
+                guy->normalize();
+                guy->randomize();
+                guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
+                overmap_buffer.insert_npc( guy );
+                g->load_npcs();
+                guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );
+            }
+        }
+    }
+
+    // check preconditions
+    for( int y = 0; y < height; ++y ) {
+        for( int x = 0; x < width; ++x ) {
+            const char type = setup[y][x];
+            const tripoint p = g->u.pos() + point( x, y );
+            if( type == '#' ) {
+                REQUIRE( !g->m.passable( p ) );
+            } else {
+                REQUIRE( g->m.passable( p ) );
+            }
+            if( type == 'R' ) {
+                REQUIRE( g->m.has_flag( "UNSTABLE", p ) );
+            } else {
+                REQUIRE( !g->m.has_flag( "UNSTABLE", p ) );
+            }
+            if( type == 'V' || type == 'W' || type == 'M' ) {
+                REQUIRE( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE ).has_value() );
+            } else {
+                REQUIRE( !g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE ).has_value() );
+            }
+            npc *guy = g->critter_at<npc>( p );
+            if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
+                || type == 'B' || type == 'C' ) {
+
+                REQUIRE( guy != nullptr );
+                REQUIRE( guy->is_dangerous_fields( g->m.field_at( p ) ) );
+            } else {
+                REQUIRE( guy == nullptr );
+            }
+        }
+    }
+
+    SECTION( "NPCs escape dangerous terrain by pushing other NPCs" ) {
+        check_npc_movement( g->u.pos() );
+    }
+
+    SECTION( "Player in vehicle & NPCs escaping dangerous terrain" ) {
+        tripoint origin = g->u.pos();
+
+        for( int y = 0; y < height; ++y ) {
+            for( int x = 0; x < width; ++x ) {
+                if( setup[y][x] == 'V' ) {
+                    g->place_player( g->u.pos() + point( x, y ) );
+                    break;
+                }
+            }
+        }
+
+        check_npc_movement( origin );
+    }
 }

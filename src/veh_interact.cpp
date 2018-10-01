@@ -19,6 +19,8 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "ui.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 #include "itype.h"
 #include "cata_utility.h"
 #include "vehicle_selector.h"
@@ -43,7 +45,7 @@ static inline const char *status_color( bool status )
 }
 
 // cap JACK requirements to support arbitrarily large vehicles
-static double jack_qality( const vehicle &veh )
+static double jack_quality( const vehicle &veh )
 {
     const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(),
             JACK_LIMIT );
@@ -61,6 +63,7 @@ namespace
 const std::string repair_hotkeys( "r1234567890" );
 const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
+const quality_id SELF_JACK( "SELF_JACK" );
 const skill_id skill_mechanics( "mechanics" );
 static const itype_id fuel_type_battery( "battery" );
 } // namespace
@@ -104,8 +107,8 @@ player_activity veh_interact::serialize_activity()
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
     point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
-    res.values.push_back( veh->global_x() + q.x );    // values[0]
-    res.values.push_back( veh->global_y() + q.y );    // values[1]
+    res.values.push_back( veh->global_pos3().x + q.x );    // values[0]
+    res.values.push_back( veh->global_pos3().y + q.y );    // values[1]
     res.values.push_back( ddx );   // values[2]
     res.values.push_back( ddy );   // values[3]
     res.values.push_back( -ddx );   // values[4]
@@ -379,19 +382,25 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 );
 
-    max_lift = std::max( { g->u.max_quality( LIFT ),
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                           vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( LIFT ) } );
+    cache_tool_availability_update_lifting(g->u.pos());
 
     max_jack = std::max( { g->u.max_quality( JACK ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    const double qual = jack_qality( *veh );
+    const double qual = jack_quality( *veh );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
                vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual );
+}
+
+void veh_interact::cache_tool_availability_update_lifting( tripoint world_cursor_pos )
+{
+    max_lift = std::max( { g->u.max_quality( LIFT ),
+                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                           vehicle_selector( world_cursor_pos, 4, true, true ).max_quality( LIFT )
+                         } );
 }
 
 /**
@@ -527,6 +536,19 @@ bool veh_interact::is_drive_conflict()
     return has_conflict;
 }
 
+bool veh_interact::can_self_jack()
+{
+    int lvl = jack_quality( *veh );
+
+    std::vector<vehicle_part *> self_jacking_parts = veh->get_parts( "SELF_JACK", false );
+    for( auto jack : self_jacking_parts ) {
+        if( jack->base.has_quality( SELF_JACK, lvl ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool veh_interact::can_install_part() {
     if( sel_vpart_info == NULL ) {
         werase (w_msg);
@@ -567,7 +589,8 @@ bool veh_interact::can_install_part() {
     int engines = 0;
     int dif_eng = 0;
     if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
-        for( size_t p = 0; p < veh->parts.size(); p++ ) {
+        for( const vpart_reference vp : veh->get_parts() ) {
+            const size_t p = vp.part_index();
             if( veh->part_flag( p, "ENGINE" ) &&
                 veh->part_flag( p, "E_HIGHER_SKILL" ) ) {
                 engines++;
@@ -626,9 +649,9 @@ bool veh_interact::can_install_part() {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = jack_qality( *veh );
+        lvl = jack_quality( *veh );
         str = veh->lift_strength();
-        use_aid = max_jack >= lvl;
+        use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
@@ -1029,7 +1052,12 @@ bool veh_interact::do_refill( std::string &msg )
                     return pt.can_reload( obj.contents.front().typeId() );
                 }
             } else if( pt.is_fuel_store() ) {
-                return pt.can_reload( obj.typeId() );
+                bool can_reload = pt.can_reload( obj.typeId() );
+                if( obj.typeId() == fuel_type_battery && can_reload ) {
+                    msg = _( "You cannot recharge a vehicle battery with handheld batteries" );
+                    return false;
+                }
+                return can_reload;
             }
             return false;
         };
@@ -1113,7 +1141,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     char hotkey = 'a';
 
     for( auto &pt : veh->parts ) {
-        if( pt.is_engine() && !pt.is_broken() ) {
+        if( pt.is_engine() && pt.is_available() ) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
@@ -1140,7 +1168,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     }
 
     for( auto &pt : veh->parts ) {
-        if( pt.is_tank() && !pt.is_broken() ) {
+        if( pt.is_tank() && pt.is_available() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
                     auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
@@ -1165,7 +1193,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     }
 
     for( auto &pt : veh->parts ) {
-        if( pt.is_battery() && !pt.is_broken() ) {
+        if( pt.is_battery() && pt.is_available() ) {
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
@@ -1185,14 +1213,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     };
 
     for( auto &pt : veh->parts ) {
-        if( pt.is_reactor() && !pt.is_broken() ) {
+        if( pt.is_reactor() && pt.is_available() ) {
             opts.emplace_back( "REACTOR", &pt, action && enable &&
                                enable( pt ) ? next_hotkey( hotkey ) : '\0', details_ammo );
         }
     }
 
     for( auto &pt : veh->parts ) {
-        if( pt.is_turret() && !pt.is_broken() ) {
+        if( pt.is_turret() && pt.is_available() ) {
             opts.emplace_back( "TURRET", &pt, action && enable &&
                                enable( pt ) ? next_hotkey( hotkey ) : '\0', details_ammo );
         }
@@ -1205,7 +1233,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
             }
         };
-        if( pt.is_seat() && !pt.is_broken() ) {
+        if( pt.is_seat() && pt.is_available() ) {
             opts.emplace_back( "SEAT", &pt, action && enable &&
                                enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
         }
@@ -1378,9 +1406,9 @@ bool veh_interact::can_remove_part( int idx ) {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = jack_qality( *veh );
+        lvl = jack_quality( *veh );
         str = veh->lift_strength();
-        use_aid = max_jack >= lvl;
+        use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
@@ -1762,6 +1790,9 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
             }
         }
     }
+
+    /* Update the lifting quality to be the that is available for this newly selected tile */
+    cache_tool_availability_update_lifting(vehp);
 }
 
 void veh_interact::display_grid()
@@ -1866,8 +1897,8 @@ void veh_interact::display_veh ()
 
 static std::string wheel_state_description( const vehicle &veh )
 {
-    bool is_boat = !veh.all_parts_with_feature(VPFLAG_FLOATS).empty();
-    bool is_land = !veh.all_parts_with_feature(VPFLAG_WHEEL).empty();
+    bool is_boat = !empty( veh.parts_with_feature( VPFLAG_FLOATS ) );
+    bool is_land = !empty( veh.parts_with_feature( VPFLAG_WHEEL ) );
 
     bool suf_land = veh.sufficient_wheel_config( false );
     bool bal_land = veh.balanced_wheel_config( false );
@@ -1923,10 +1954,10 @@ void veh_interact::display_stats()
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
     int x[18], y[18], w[18]; // 3 columns * 6 rows = 18 slots max
 
-    std::vector<int> cargo_parts = veh->all_parts_with_feature("CARGO");
     units::volume total_cargo = 0;
     units::volume free_cargo = 0;
-    for( const auto &p : cargo_parts ) {
+    for( const vpart_reference vp : veh->parts_with_feature( "CARGO" ) ) {
+        const size_t p = vp.part_index();
         total_cargo += veh->max_volume(p);
         free_cargo += veh->free_volume(p);
     }
@@ -2010,7 +2041,7 @@ void veh_interact::display_stats()
         print_part( needsRepair, 7, most_repairable );
     }
 
-    bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool is_boat = !empty( veh->parts_with_feature( VPFLAG_FLOATS ) );
 
     fold_and_print(w_stats, y[8], x[8], w[8], c_light_gray,
                    _("K aerodynamics: <color_light_blue>%3d</color>%%"),
@@ -2532,8 +2563,8 @@ void veh_interact::complete_vehicle()
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;
-            g->u.view_offset.x = veh->global_x() + q.x - g->u.posx();
-            g->u.view_offset.y = veh->global_y() + q.y - g->u.posy();
+            g->u.view_offset.x = veh->global_pos3().x + q.x - g->u.posx();
+            g->u.view_offset.y = veh->global_pos3().y + q.y - g->u.posy();
             popup(_("Choose a facing direction for the new headlight.  Press space to continue."));
             tripoint headlight_target = g->look_around(); // Note: no way to cancel
             // Restore previous view offsets.
@@ -2544,8 +2575,8 @@ void veh_interact::complete_vehicle()
             if(headlight_target.x == INT_MIN) {
                 dir = 0;
             } else {
-                int delta_x = headlight_target.x - (veh->global_x() + q.x);
-                int delta_y = headlight_target.y - (veh->global_y() + q.y);
+                int delta_x = headlight_target.x - (veh->global_pos3().x + q.x);
+                int delta_y = headlight_target.y - (veh->global_pos3().y + q.y);
 
                 const double PI = 3.14159265358979f;
                 dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
@@ -2561,7 +2592,7 @@ void veh_interact::complete_vehicle()
             veh->parts[partnum].direction = dir;
         }
 
-        const tripoint vehp = { q.x + veh->global_x(), q.y + veh->global_y(), g->u.posz() };
+        const tripoint vehp = veh->global_pos3() + tripoint( q.x, q.y, 0 );
         //@todo: allow boarding for non-players as well.
         player * const pl = g->critter_at<player>( vehp );
         if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
@@ -2591,9 +2622,10 @@ void veh_interact::complete_vehicle()
         auto &src = g->u.activity.targets.front();
 
         auto &pt = veh->parts[ vehicle_part ];
-        if( pt.is_tank() && src->is_watertight_container() && !src->contents.empty() ) {
+        auto &contents = src->contents;
+        if( pt.is_tank() && src->is_watertight_container() && contents.empty() ) {
 
-            pt.base.fill_with( src->contents.front() );
+            pt.base.fill_with( contents.front() );
 
             if ( pt.ammo_remaining() != pt.ammo_capacity() ) {
                 //~ 1$s vehicle name, 2$s tank name
@@ -2605,8 +2637,8 @@ void veh_interact::complete_vehicle()
                          veh->name.c_str(), pt.name().c_str() );
             }
 
-            if( src->contents.front().charges == 0 ) {
-                src->contents.erase( src->contents.begin() );
+            if( contents.front().charges == 0 ) {
+                contents.erase( contents.begin() );
             } else {
                 add_msg( m_good, _( "There's some left over!" ) );
             }

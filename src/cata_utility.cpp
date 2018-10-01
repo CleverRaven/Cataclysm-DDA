@@ -68,7 +68,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
     }
 
     do {
-        iPos = filter.find( "," );
+        iPos = filter.find( ',' );
 
         std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
         const bool exclude = term.substr( 0, 1 ) == "-";
@@ -90,12 +90,6 @@ bool match_include_exclude( const std::string &text, std::string filter )
     } while( iPos != std::string::npos );
 
     return found;
-}
-
-bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
-                                   const std::pair<int, tripoint> &b ) const
-{
-    return a.first > b.first;
 }
 
 // --- Library functions ---

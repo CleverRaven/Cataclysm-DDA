@@ -87,6 +87,163 @@ cover the `field` overmap terrain.
 }
 ```
 
+## Forest Map Generation Settings
+
+The **forest_mapgen_settings** section defines the attributes used in generating forest (`forest`,
+`forest_thick`, `forest_water`) terrains, including their items, groundcover, terrain and
+furniture.
+
+### General Structure
+
+At the top level, the `forest_mapgen_settings` is a collection of named configurations where each
+entry has the name of the overmap terrain that it applies to, e.g. `forest`, `forest_thick`,
+`forest_water`. It is possible to define settings for overmap terrrains that are not rendered by
+the forest mapgen, but will be used when blending forest terrains with other terrain types.
+
+```json
+{
+	"forest_mapgen_settings": {
+		"forest": {},
+		"forest_thick": {},
+		"forest_water": {}
+	}
+}
+```
+
+Each terrain then has an independent set of configuration values that control the mapgen.
+
+### Fields
+
+|          Identifier           |                                 Description                                  |
+| ----------------------------- | ---------------------------------------------------------------------------- |
+| `sparseness_adjacency_factor` | Value relative to neighbors controls how sparse the overmap terrain will be. |
+| `item_group`                  | Item group used to place items randomly within the overmap terrain.          |
+| `item_group_chance`           | % chance, between 1 and 100, that an item will be placed.                    |
+| `item_spawn_iterations`       | Number of times that the item spawning will be called.                       |
+| `clear_groundcover`           | Clear all previously defined `groundcover` for this overmap terrain.         |
+| `groundcover`                 | Weighted list of terrains used for base groundcover.                         |
+| `clear_components`            | Clear all previously defined `components` for this overmap terrain.          |
+| `components`                  | Collection of components that make up the terrains and furniture placed.     |
+| `clear_terrain_furniture`     | Clear all previously defined `terrain_furniture` for this overmap terrain.   |
+| `terrain_furniture`           | Collection of furniture conditionally placed based on terrain.               |
+
+### Example
+
+```json
+{
+	"forest": {
+		"sparseness_adjacency_factor": 3,
+		"item_group": "forest",
+		"item_group_chance": 60,
+		"item_spawn_iterations": 1,
+		"clear_groundcover": false,
+		"groundcover": {
+			"t_grass": 3,
+			"t_dirt": 1
+		},
+		"clear_components": false,
+		"components": {},
+		"clear_terrain_furniture": false,
+		"terrain_furniture": {}
+	}
+}
+```
+
+### Components
+
+The components are a collection of named objects with a sequence, chance, and set of types that,
+during mapgen, are rolled in sequence to pick a feature to be placed at a given location. The names
+for the components are only relevant for the purposes of overriding them in region overlays.
+
+### Fields
+
+|  Identifier   |                             Description                              |
+| ------------- | -------------------------------------------------------------------- |
+| `sequence`    | Sequence in which components are processed.                          |
+| `chance`      | One in X chance that something from this component will be placed.   |
+| `clear_types` | Clear all previously defined `types` for this component.             |
+| `types`       | Weighted list of terrains and furniture that make up this component. |
+
+### Example
+
+```json
+{
+	"trees": {
+		"sequence": 0,
+		"chance": 12,
+		"clear_types": false,
+		"types": {
+			"t_tree_young": 128,
+			"t_tree": 32,
+			"t_tree_birch": 32,
+			"t_tree_pine": 32,
+			"t_tree_maple": 32,
+			"t_tree_willow": 32,
+			"t_tree_hickory": 32,
+			"t_tree_blackjack": 8,
+			"t_tree_coffee": 8,
+			"t_tree_apple": 2,
+			"t_tree_apricot": 2,
+			"t_tree_cherry": 2,
+			"t_tree_peach": 2,
+			"t_tree_pear": 2,
+			"t_tree_plum": 2,
+			"t_tree_deadpine": 1,
+			"t_tree_hickory_dead": 1,
+			"t_tree_dead": 1
+		}
+	},
+	"shrubs_and_flowers": {
+		"sequence": 1,
+		"chance": 10,
+		"clear_types": false,
+		"types": {
+			"t_underbrush": 8,
+			"t_shrub_blueberry": 1,
+			"t_shrub_strawberry": 1,
+			"t_shrub": 1,
+			"f_chamomile": 1,
+			"f_dandelion": 1,
+			"f_datura": 1,
+			"f_dahlia": 1,
+			"f_bluebell": 1,
+			"f_mutpoppy": 1
+		}
+	}
+}
+```
+
+### Terrain Furniture
+
+The terrain furniture are a collection of terrain ids with a chance of having furniture
+picked from a weighted list for that given terrain and placed on it during mapgen after
+the normal mapgen has completed. This is used, for example, to place cattails on fresh
+water in swamps. Cattails could be simply placed in the `components` section and placed 
+during the normal forest mapgen, but that would not guarantee their placement on fresh 
+water only, while this does.
+
+### Fields
+
+|    Identifier     |                            Description                             |
+| ----------------- | ------------------------------------------------------------------ |
+| `chance`          | One in X chance that furniture from this component will be placed. |
+| `clear_furniture` | Clear all previously defined `furniture` for this terrain.         |
+| `furniture`       | Weighted list of furniture that will be placed on this terrain.    |
+
+### Example
+
+```json
+{
+	"t_water_sh" : {
+		"chance": 2,
+		"clear_furniture": false,
+		"furniture": {
+			"f_cattails": 1
+		}
+	}
+}
+```
+
 ## City
 
 The **city** section defines the possible overmap terrains and specials that may be used as

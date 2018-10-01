@@ -22,6 +22,11 @@ enum class iteminfo_parts : size_t {
     BASE_AMOUNT,
     BASE_DEBUG,
 
+    MED_JOY,
+    MED_PORTIONS,
+    MED_STIMULATION,
+    MED_QUENCH,
+
     FOOD_NUTRITION,
     FOOD_QUENCH,
     FOOD_JOY,
@@ -182,6 +187,8 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_CONTENTS,
 
     DESCRIPTION_APPLICABLE_RECIPES,
+
+    DESCRIPTION_MED_ADDICTING,
 
     // element count tracker
     NUM_VALUES

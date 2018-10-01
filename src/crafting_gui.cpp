@@ -15,6 +15,8 @@
 #include "output.h"
 #include "json.h"
 #include "string_input_popup.h"
+#include "ui.h"
+#include "uistate.h"
 
 #include "debug.h"
 
@@ -33,6 +35,8 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
+static bool query_is_yes( const std::string &query );
+static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount );
 static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
                                       const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
@@ -40,6 +44,11 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
                                  const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
+
+std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
+int related_menu_fill( uilist &rmenu,
+                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                       const recipe_subset &available );
 
 std::string get_cat_name( const std::string &prefixed_name )
 {
@@ -185,6 +194,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     bool keepline = false;
     bool done = false;
     bool batch = false;
+    bool show_hidden = false;
     int batch_line = 0;
     int display_mode = 0;
     const recipe *chosen = NULL;
@@ -205,6 +215,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
+    ctxt.register_action( "RELATED_RECIPES" );
+    ctxt.register_action( "HIDE_SHOW_RECIPE" );
 
     const inventory &crafting_inv = g->u.crafting_inventory();
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
@@ -231,6 +243,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             draw_recipe_tabs( w_head, tab.cur(), m );
             draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m );
 
+            show_hidden = false;
             available.clear();
 
             if( batch ) {
@@ -240,54 +253,72 @@ const recipe *select_crafting_recipe( int &batch_size )
                     available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv, i ) );
                 }
             } else {
+                std::vector<const recipe *> picking;
                 if( filterstring.empty() ) {
-                    current = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
+                    picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 } else {
                     auto qry = trim( filterstring );
                     if( qry.size() > 2 && qry[1] == ':' ) {
                         switch( qry[0] ) {
                             case 't':
-                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::tool );
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::tool );
                                 break;
 
                             case 'c':
-                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::component );
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::component );
                                 break;
 
                             case 's':
-                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
                                 break;
 
                             case 'q':
-                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
                                 break;
 
                             case 'Q':
-                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
+                                picking = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
                                 break;
 
                             case 'm': {
                                 auto &learned = g->u.get_learned_recipes();
-                                current.clear();
-                                if( ( qry.substr( 2 ) == "yes" ) || ( qry.substr( 2 ) == "y" ) || ( qry.substr( 2 ) == "1" ) ||
-                                    ( qry.substr( 2 ) == "true" ) || ( qry.substr( 2 ) == "t" ) || ( qry.substr( 2 ) == "on" ) ) {
+                                if( query_is_yes( qry ) ) {
                                     std::set_intersection( available_recipes.begin(), available_recipes.end(), learned.begin(),
-                                                           learned.end(), std::back_inserter( current ) );
+                                                           learned.end(), std::back_inserter( picking ) );
                                 } else {
                                     std::set_difference( available_recipes.begin(), available_recipes.end(), learned.begin(),
                                                          learned.end(),
-                                                         std::back_inserter( current ) );
+                                                         std::back_inserter( picking ) );
                                 }
+                                break;
                             }
-                            break;
+
+                            case 'h': {
+                                std::copy( available_recipes.begin(), available_recipes.end(), std::back_inserter( picking ) );
+                                if( query_is_yes( qry ) ) {
+                                    show_hidden = true;
+                                }
+                                break;
+                            }
 
                             default:
                                 current.clear();
                         }
                     } else {
-                        current = available_recipes.search( qry );
+                        picking = available_recipes.search( qry );
                     }
                 }
+
+                current.clear();
+                for( auto i : picking ) {
+                    if( ( uistate.hidden_recipes.find( i->ident() ) != uistate.hidden_recipes.end() ) == show_hidden ) {
+                        current.push_back( i );
+                    }
+                }
+                if( !show_hidden ) {
+                    draw_hidden_amount( w_head, 0, picking.size() - current.size() );
+                }
+
                 available.reserve( current.size() );
                 // cache recipe availability on first display
                 for( const auto e : current ) {
@@ -314,7 +345,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( current.empty() ) {
                 line = 0;
             } else {
-                line = std::min( line, ( int )current.size() - 1 );
+                line = std::min( line, static_cast<int>( current.size() ) - 1 );
             }
         }
 
@@ -330,19 +361,21 @@ const recipe *select_crafting_recipe( int &batch_size )
                        _( "Press <ENTER> to attempt to craft object." ) );
             wprintz( w_data, c_white, "  " );
             if( !filterstring.empty() ) {
-                wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [R]eset, [m]ode, %s [?] keybindings" ),
+                wprintz( w_data, c_white,
+                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             } else {
-                wprintz( w_data, c_white, _( "[E]: Describe, [F]ind, [m]ode, %s [?] keybindings" ),
+                wprintz( w_data, c_white,
+                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, %s [?] keybindings" ),
                          ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
             }
         } else {
             if( !filterstring.empty() ) {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
             } else {
                 mvwprintz( w_data, dataLines + 1, 5, c_white,
-                           _( "[E]: Describe, [F]ind, [m]ode, [b]atch [?] keybindings" ) );
+                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [b]atch [?] keybindings" ) );
             }
             mvwprintz( w_data, dataLines + 2, 5, c_white,
                        _( "Press <ENTER> to attempt to craft object." ) );
@@ -414,9 +447,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             for( size_t i = 0; i < current.size() && i < ( size_t )dataHeight + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), ( int )i + 1, tmp_name.c_str() );
+                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name.c_str() );
                 }
-                if( ( int )i == line ) {
+                if( static_cast<int>( i ) == line ) {
                     mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dark_gray ),
                                utf8_truncate( tmp_name, 28 ).c_str() );
                 } else {
@@ -625,6 +658,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                              "Special prefixes for results:\n"
                              "  [Q] search qualities\n"
                              "Other:\n"
+                             "  [h] search for hidden\n"
                              "  [m] search for memorized or not\n"
                              "Examples:\n"
                              "  t:soldering iron\n"
@@ -632,6 +666,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                              "  q:metal sawing\n"
                              "  s:cooking\n"
                              "  Q:fine bolt turning\n"
+                             "  h:yes\n"
                              "  m:no"
                            ) )
             .edit( filterstring );
@@ -657,10 +692,37 @@ const recipe *select_crafting_recipe( int &batch_size )
                 keepline = true;
             }
             redraw = true;
+        } else if( action == "HIDE_SHOW_RECIPE" ) {
+            if( current.empty() ) {
+                popup( _( "Nothing selected!" ) );
+                redraw = true;
+                continue;
+            }
+            if( show_hidden ) {
+                uistate.hidden_recipes.erase( current[line]->ident() );
+            } else {
+                uistate.hidden_recipes.insert( current[line]->ident() );
+            }
+
+            redraw = true;
+        } else if( action == "RELATED_RECIPES" ) {
+            if( current.empty() ) {
+                popup( _( "Nothing selected!" ) );
+                redraw = true;
+                continue;
+            }
+            std::string recipe_name = peek_related_recipe( current[ line ], available_recipes );
+            if( recipe_name.empty() ) {
+                keepline = true;
+            } else {
+                filterstring = recipe_name;
+            }
+
+            redraw = true;
         }
         if( line < 0 ) {
             line = current.size() - 1;
-        } else if( line >= ( int )current.size() ) {
+        } else if( line >= static_cast<int>( current.size() ) ) {
             line = 0;
         }
     } while( !done );
@@ -668,6 +730,128 @@ const recipe *select_crafting_recipe( int &batch_size )
     return chosen;
 }
 
+std::string peek_related_recipe( const recipe *current, const recipe_subset &available )
+{
+    // current recipe components
+    std::vector<std::pair<itype_id, std::string>> related_components;
+    const requirement_data &req = current->requirements();
+    for( const std::vector<item_comp> &comp_list : req.get_components() ) {
+        for( const item_comp &a : comp_list ) {
+            related_components.push_back( { a.type, item::nname( a.type, 1 ) } );
+        }
+    }
+    // current recipe result
+    std::vector<std::pair<itype_id, std::string>> related_results;
+    item tmp = current->create_result();
+    itype_id tid;
+    if( tmp.contents.empty() ) { // use this item
+        tid = tmp.typeId();
+    } else { // use the contained item
+        tid = tmp.contents.front().typeId();
+    }
+    const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
+    for( const auto &b : known_recipes ) {
+        if( available.contains( b ) ) {
+            related_results.push_back( { b->result(), b->result_name() } );
+        }
+    }
+    std::stable_sort( related_results.begin(), related_results.end(),
+    []( const std::pair<std::string, std::string> &a, const std::pair<std::string, std::string> &b ) {
+        return a.second < b.second;
+    } );
+
+    uilist rel_menu;
+    int np_last = -1;
+    if( !related_components.empty() ) {
+        rel_menu.addentry( ++np_last, false, -1, _( "COMPONENTS" ) );
+    }
+    np_last = related_menu_fill( rel_menu, related_components, available );
+    if( !related_results.empty() ) {
+        rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
+    }
+    np_last = related_menu_fill( rel_menu, related_results, available );
+
+    rel_menu.settext( _( "Related recipes:" ) );
+    rel_menu.query();
+    if( rel_menu.ret != UIMENU_CANCEL ) {
+        return rel_menu.entries[ rel_menu.ret ].txt.substr( 2 ); // 2 = prefix length
+    }
+
+    return "";
+}
+
+int related_menu_fill( uilist &rmenu,
+                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                       const recipe_subset &available )
+{
+    const std::vector<uimenu_entry> &entries = rmenu.entries;
+    int np_last = entries.empty() ? -1 : entries.back().retval;
+
+    if( related_recipes.empty() ) {
+        return np_last;
+    }
+
+    std::string recipe_name_prev;
+    for( const std::pair<itype_id, std::string> &p : related_recipes ) {
+
+        // we have different recipes with the same names
+        // list only one of them as we show and filter by name only
+        std::string recipe_name = p.second;
+        if( recipe_name == recipe_name_prev ) {
+            continue;
+        }
+        recipe_name_prev = recipe_name;
+
+        std::vector<const recipe *> current_part = available.search_result( p.first );
+        if( !current_part.empty() ) {
+
+            bool defferent_recipes = false;
+
+            // 1st pass: check if we need to add group
+            for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+                if( current_part[ recipe_n ]->result_name() != recipe_name ) {
+                    // add group
+                    rmenu.addentry( ++np_last, false, -1, recipe_name );
+                    defferent_recipes = true;
+                    break;
+                } else if( recipe_n == current_part.size() - 1 ) {
+                    // only one result
+                    rmenu.addentry( ++np_last, true, -1, "─ " + recipe_name );
+                }
+            }
+
+            if( defferent_recipes ) {
+                std::string prev_item_name;
+                // 2nd pass: add defferent recipes
+                for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+                    std::string cur_item_name = current_part[ recipe_n ]->result_name();
+                    if( cur_item_name != prev_item_name ) {
+                        std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
+                        rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
+                    }
+                    prev_item_name = cur_item_name;
+                }
+            }
+        }
+    }
+
+    return np_last;
+}
+
+static bool query_is_yes( const std::string &query )
+{
+    const std::string subquery = query.substr( 2 );
+
+    return ( ( subquery == "yes" ) || ( subquery == "y" ) || ( subquery == "1" ) ||
+             ( subquery == "true" ) || ( subquery == "t" ) || ( subquery == "on" ) );
+}
+
+static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount )
+{
+    if( amount > 0 ) {
+        right_print( w, margin_y, 14, c_light_gray, string_format( _( "%s hidden" ), amount ) );
+    }
+}
 // Anchors top-right
 static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
                                       const recipe &rec )

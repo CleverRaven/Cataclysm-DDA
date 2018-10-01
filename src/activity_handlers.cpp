@@ -50,6 +50,7 @@ const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_milked( "milked" );
+const efftype_id effect_sleep( "sleep" );
 
 using namespace activity_handlers;
 
@@ -88,7 +89,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
-    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn }
+    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -125,6 +127,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT" ), wait_finish },
     { activity_id( "ACT_WAIT_WEATHER" ), wait_weather_finish },
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
+    { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
@@ -469,15 +472,11 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
                                const time_point &age, const std::function<int()> &roll_butchery, butcher_type action )
 {
     itype_id meat = corpse->get_meat_itype();
-    if( corpse->made_of( material_id( "bone" ) ) ) {
-        //For butchering yield purposes, we treat it as bones, not meat
-        meat = "null";
-    }
 
     int pieces = corpse->get_meat_chunks_count();
     int skins = 0;
     int bones = 0;
-    int fats = 0;
+    int fats = pieces / 5;
     int sinews = 0;
     int feathers = 0;
     int wool = 0;
@@ -490,43 +489,46 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
             bones = 1;
             fats = 1;
             sinews = 1;
-            feathers = 2;
+            feathers = 4;
             wool = 1;
             break;
         case MS_SMALL:
             skins = 2;
-            bones = 4;
-            fats = 2;
+            bones = 8;
             sinews = 4;
-            feathers = 6;
-            wool = 2;
-            break;
-        case MS_MEDIUM:
-            skins = 4;
-            bones = 9;
-            fats = 4;
-            sinews = 9;
-            feathers = 11;
+            feathers = 12;
             wool = 4;
             break;
-        case MS_LARGE:
-            skins = 8;
-            bones = 14;
-            fats = 8;
-            sinews = 14;
-            feathers = 17;
+        case MS_MEDIUM:
+            skins = 5;
+            bones = 18;
+            sinews = 9;
+            feathers = 22;
             wool = 8;
+            break;
+        case MS_LARGE:
+            skins = 10;
+            bones = 28;
+            sinews = 14;
+            feathers = 36;
+            wool = 16;
             max_practice = 5;
             break;
         case MS_HUGE:
-            skins = 16;
-            bones = 21;
-            fats = 16;
+            skins = 20;
+            bones = 42;
             sinews = 21;
-            feathers = 24;
-            wool = 16;
+            feathers = 48;
+            wool = 32;
             max_practice = 6;
             break;
+    }
+
+    if( corpse->made_of( material_id( "bone" ) ) ) {
+        //For butchering yield purposes, we treat it as bones, not meat
+        meat = "null";
+        bones += pieces / 4;
+        pieces = 0;
     }
 
     // Lose some meat, skins, etc if the rolls are low
@@ -540,7 +542,6 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
     stomach = roll_butchery() >= 0;
 
     // (QUICK) BUTCHERY
-    // in quick butchery you aim for meat and don't care about the rest
     if( action == BUTCHER && ( !corpse_item->has_flag( "FIELD_DRESS" ) ||
                                !corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) ) {
         pieces /= 4;
@@ -552,6 +553,8 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         sinews /= 4;
         // feathers unchanged
         wool /= 4;
+        stomach = false;
+    } else if( action == BUTCHER ) {
         stomach = roll_butchery() >= 0;
     }
 
@@ -569,7 +572,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
 
     // field dressing removed innards and bones from meatless limbs
     if( action == BUTCHER_FULL && corpse_item->has_flag( "FIELD_DRESS" ) ) {
-        stomach = 0;
+        stomach = false;
         bones = ( bones / 2 ) + rng( bones / 2, bones );
     }
     // unskillfull field dressing damaged the skin, meat, and other parts
@@ -580,7 +583,7 @@ void butchery_drops_hardcoded( item *corpse_item, const mtype *corpse, player *p
         fats = rng( 0, fats );
         feathers = rng( 0, feathers );
         wool = rng( 0, wool );
-        stomach = 0;
+        stomach = false;
     }
     if( corpse_item->has_flag( "QUARTERED" ) ) {
         pieces /= 4;
@@ -1973,19 +1976,24 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
+        std::string skill_name = skill.name();
         int new_skill_level = p->get_skill_level( sk ) + 1;
         p->set_skill_level( sk, new_skill_level );
-        add_msg( m_good, _( "You finish training %s to level %d." ),
-                 skill.name().c_str(),
-                 new_skill_level );
+        add_msg( m_good, _( "You finish training %s to level %d." ), skill_name, new_skill_level );
         if( new_skill_level % 4 == 0 ) {
             //~ %d is skill level %s is skill name
             p->add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
                                  pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
-                                 new_skill_level, skill.name().c_str() );
+                                 new_skill_level, skill_name );
         }
-
-        lua_callback( "on_skill_increased" );
+        const std::string skill_increase_source = "training";
+        CallbackArgumentContainer lua_callback_args_info;
+        lua_callback_args_info.emplace_back( p->getID() );
+        lua_callback_args_info.emplace_back( skill_increase_source );
+        lua_callback_args_info.emplace_back( sk.str() );
+        lua_callback_args_info.emplace_back( new_skill_level );
+        lua_callback( "on_player_skill_increased", lua_callback_args_info );
+        lua_callback( "on_skill_increased" ); // Legacy callback
         act->set_to_null();
         return;
     }
@@ -2223,9 +2231,8 @@ enum repeat_type : int {
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
-    uimenu rmenu;
+    uilist rmenu;
     rmenu.text = title;
-    rmenu.return_invalid = true;
 
     rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat as long as you can" ) );
@@ -2507,6 +2514,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname().c_str(),
                           tool.tname().c_str() );
+    mod.item_tags.insert( "IRREMOVABLE" );
     tool.contents.push_back( mod );
     act->targets[1].remove_item();
 }
@@ -2618,6 +2626,26 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
+    act->set_to_null();
+}
+
+void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
+{
+    if( !p->has_effect( effect_sleep ) ) {
+        if( p->can_sleep() ) {
+            act->set_to_null();
+            p->fall_asleep();
+        } else if( one_in( 1000 ) ) {
+            p->add_msg_if_player( _( "You toss and turn..." ) );
+        }
+    }
+}
+
+void activity_handlers::try_sleep_finish( player_activity *act, player *p )
+{
+    if( !p->has_effect( effect_sleep ) ) {
+        p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+    }
     act->set_to_null();
 }
 
@@ -2906,7 +2934,7 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-static std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
+std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos,
         const std::unordered_set<tripoint> &tiles )
 {
     auto cmp = [abspos]( tripoint a, tripoint b ) {
@@ -2916,10 +2944,10 @@ static std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint abspos
         return da < db;
     };
 
-    std::set<tripoint, decltype( cmp )> sorted( tiles.begin(), tiles.end(), cmp );
-    std::vector<tripoint> vector( sorted.begin(), sorted.end() );
+    std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
+    std::sort( sorted.begin(), sorted.end(), cmp );
 
-    return vector;
+    return sorted;
 }
 
 template<typename fn>

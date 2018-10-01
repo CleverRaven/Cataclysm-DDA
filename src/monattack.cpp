@@ -206,14 +206,8 @@ bool mattack::eat_crop( monster *z )
         if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
             g->m.ter_set( p, t_dirt );
             g->m.furn_set( p, f_null );
-
-            auto items = g->m.i_at( p );
-            for( auto i = items.begin(); i != items.end(); ) {
-                if( i->is_seed() ) {
-                    g->m.i_rem( p, i );
-                    return true;
-                }
-            }
+            g->m.i_clear( p );
+            return true;
         }
     }
     return true;
@@ -1442,7 +1436,7 @@ bool mattack::triffid_heartbeat( monster *z )
         return true;
     }
 
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false );
+    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false );
     if( rl_dist( z->pos(), g->u.pos() ) > 5 &&
         !g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
@@ -2124,7 +2118,7 @@ static bool blobify( monster &blob, monster &target )
             break;
         default:
             debugmsg( "Tried to blobify %s with invalid size: %d",
-                      target.disp_name().c_str(), ( int )target.get_size() );
+                      target.disp_name().c_str(), static_cast<int>( target.get_size() ) );
             return false;
     }
 
@@ -2821,10 +2815,10 @@ void mattack::rifle( monster *z, Creature *target )
 {
     const std::string ammo_type( "556" );
     // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 2000 ) {
+    if( z->ammo[ammo_type] > 3000 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::rifle", z->ammo[ammo_type],
                   z->name().c_str() );
-        z->ammo[ammo_type] = 2000;
+        z->ammo[ammo_type] = 3000;
     }
 
     npc tmp = make_fake_npc( z, 16, 10, 8, 12 );
@@ -2868,10 +2862,10 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 {
     const std::string ammo_type( "40mm_frag" );
     // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 100 ) {
+    if( z->ammo[ammo_type] > 200 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::frag", z->ammo[ammo_type],
                   z->name().c_str() );
-        z->ammo[ammo_type] = 100;
+        z->ammo[ammo_type] = 200;
     }
 
     if( target == &g->u ) {
@@ -3405,20 +3399,16 @@ bool mattack::multi_robot( monster *z )
     }
 
     int dist = rl_dist( z->pos(), target->pos() );
-    if( dist == 1 && one_in( 2 ) ) {
+    if( dist <= 15 ) {
         mode = 1;
-    } else if( dist <= 5 ) {
-        mode = 2;
-    } else if( dist <= 20 ) {
-        mode = 3;
     } else if( dist <= 30 ) {
-        mode = 4;
+        mode = 2;
     } else if( ( target == &g->u && g->u.in_vehicle ) ||
                z->friendly != 0 ||
                cap > 4 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if( dist >= 35 && dist < 50 ) {
+        if( dist >= 30 && dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
             cap = 5;
@@ -3434,28 +3424,13 @@ bool mattack::multi_robot( monster *z )
     }
     switch( mode ) {
         case 1:
-            if( dist <= 1 ) {
-                taze( z, target );
-            }
-            break;
-        case 2:
-            if( dist <= 5 ) {
-                flame( z, target );
-            }
-            break;
-        case 3:
-            if( dist <= 20 ) {
+            if( dist <= 15 ) {
                 rifle( z, target );
             }
             break;
-        case 4:
+        case 2:
             if( dist <= 30 ) {
                 frag( z, target );
-            }
-            break;
-        case 5:
-            if( dist <= 50 ) {
-                tankgun( z, target );
             }
             break;
         default:

@@ -58,7 +58,7 @@ struct MOD_INFORMATION {
         std::string version;
 
         /** What other mods must be loaded prior to this one? */
-        std::set<mod_id> dependencies;
+        std::vector<mod_id> dependencies;
 
         /** Core mods are loaded before any other mods */
         bool core = false;

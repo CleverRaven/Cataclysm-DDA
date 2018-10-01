@@ -14,6 +14,7 @@
 #include "damage.h"
 #include "translations.h"
 #include "calendar.h"
+#include "game_constants.h"
 
 #include <string>
 #include <vector>
@@ -112,7 +113,7 @@ class gunmod_location
 struct islot_tool {
     ammotype ammo_id = ammotype::NULL_ID();
 
-    itype_id revert_to = "null";
+    cata::optional<itype_id> revert_to;
     std::string revert_msg;
 
     std::string subtype;
@@ -160,6 +161,9 @@ struct islot_comestible {
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
     int parasites = 0;
+
+    /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
+    int freeze_point = temperatures::freezing;
 
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
@@ -552,7 +556,7 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-    itype_id linkage = "NULL";
+    cata::optional<itype_id> linkage;
 
     /** If false, ammo will cook off if this mag is affected by fire */
     bool protects_contents = false;
@@ -564,9 +568,9 @@ struct islot_ammo : common_ranged_data {
      */
     std::set<ammotype> type;
     /**
-     * Type id of casings, can be "null" for no casings at all.
+     * Type id of casings, if any.
      */
-    std::string casing = "null";
+    cata::optional<itype_id> casing;
     /**
      * Default charges.
      */
@@ -714,7 +718,8 @@ struct itype {
         std::string snippet_category;
         std::string description; // Flavor text
 
-        std::string default_container = "null"; // The container it comes in
+        // The container it comes in
+        cata::optional<itype_id> default_container;
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
@@ -804,6 +809,13 @@ struct itype {
 
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
         units::volume magazine_well = 0;
+
+        /**
+         * How much insulation this item provides, either as a container, or as
+         * a vehicle base part.  Larger means more insulation, less than 1 but
+         * greater than zero, transfers faster, cannot be less than zero.
+         */
+        float insulation_factor = 1;
 
         std::string get_item_type_string() const {
             if( tool ) {

@@ -6,6 +6,7 @@
     "symbol": "X",
     "broken_symbol": "*",
     "difficulty": 2,
+    "damage_modifier": 150,
     "description": "A reinforced ram.  Place at the edge of vehicle to reduce damage taken in collisions, and to increase damaged delivered in collisions, if the ram is the first vehicle part to collide.",
     "flags": [ "PROTRUSION", "OBSTACLE" ]
   },
@@ -17,12 +18,14 @@
     "item": "alloy_plate",
     "color": "dark_gray",
     "broken_color": "dark_gray",
+    "difficulty": 4,
     "durability": 900,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 14 }
   },
   {
     "id": "ram_hardsteel",
@@ -33,11 +36,13 @@
     "color": "cyan",
     "broken_color": "cyan",
     "durability": 2300,
+    "difficulty": 4,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 18 }
   },
   {
     "id": "ram_military_horizontal",
@@ -47,13 +52,15 @@
     "item": "mil_plate",
     "color": "green",
     "broken_color": "green",
-    "durability": 3250,
+    "durability": 2000,
+    "difficulty": 6,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "ceramic_armor", "count": [ 0, 4 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 18, "cut": 36, "stab": 60 }
   },
   {
     "id": "ram_spiked",
@@ -64,13 +71,15 @@
     "color": "red",
     "broken_color": "red",
     "durability": 900,
-    "damage_modifier": 150,
+    "difficulty": 3,
+    "damage_modifier": 200,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "spike", "count": [ 0, 2 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 8 }
   },
   {
     "id": "ram_steel",
@@ -81,7 +90,8 @@
     "color": "light_cyan",
     "broken_color": "light_cyan",
     "durability": 1000,
-    "breaks_into": "ig_vp_steel_plate"
+    "breaks_into": "ig_vp_steel_plate",
+    "damage_reduction": { "all": 10 }
   },
   {
     "id": "ram_wood",
@@ -92,7 +102,32 @@
     "color": "brown",
     "broken_color": "brown",
     "durability": 300,
-    "breaks_into": "ig_vp_wood_plate"
+    "extend": { "flags": [ "NAILABLE" ] },
+    "breaks_into": "ig_vp_wood_plate",
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "id": "ram_chitin",
+    "copy-from": "ram_blaze",
+    "type": "vehicle_part",
+    "name": "chitin ram",
+    "item": "chitin_plate",
+    "color": "yellow",
+    "broken_color": "light_gray",
+    "looks_like": "ram_wood",
+    "durability": 500,
+    "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "id": "ram_acidchitin",
+    "copy-from": "ram_chitin",
+    "type": "vehicle_part",
+    "name": "biosilicfied chitin ram",
+    "item": "acidchitin_plate",
+    "proportional": { "durability": 1.5 },
+    "breaks_into": [ { "item": "chitin_piece", "count": [ 6, 19 ] } ],
+    "damage_reduction": { "all": 14 }
   },
   {
     "id": "tearer",

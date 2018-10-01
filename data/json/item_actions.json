@@ -54,7 +54,7 @@
     },{
         "type" : "item_action",
         "id" : "HOTPLATE",
-        "name" : "Heat up food"
+        "name" : "Heat up food (with it)"
     },{
         "type" : "item_action",
         "id" : "MISC_REPAIR",
@@ -406,7 +406,7 @@
     },{
         "type" : "item_action",
         "id" : "HEAT_FOOD",
-        "name" : "Heat up food"
+        "name" : "Heat up food (in it)"
     },{
         "type" : "item_action",
         "id" : "HONEYCOMB",

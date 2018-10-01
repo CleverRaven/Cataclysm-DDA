@@ -9,6 +9,7 @@
 #include "projectile.h"
 #include "line.h"
 #include "debug.h"
+#include "vpart_range.h"
 #include "overmapbuffer.h"
 #include "ranged.h"
 #include "messages.h"
@@ -294,6 +295,7 @@ float npc::character_danger( const Character &uc ) const
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
     }
+    ret += u_weap_val;
 
     ret += hp_percentage() * get_hp_max( hp_torso ) / 100.0 / my_weap_val;
 
@@ -611,7 +613,8 @@ void npc::execute_action( npc_action action )
 
         case npc_follow_player:
             update_path( g->u.pos() );
-            if( ( int )path.size() <= follow_distance() && g->u.posz() == posz() ) { // We're close enough to u.
+            if( static_cast<int>( path.size() ) <= follow_distance() &&
+                g->u.posz() == posz() ) { // We're close enough to u.
                 move_pause();
             } else if( !path.empty() ) {
                 move_to_next();
@@ -644,11 +647,8 @@ void npc::execute_action( npc_action action )
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
-            for( size_t p2 = 0; p2 < veh->parts.size(); p2++ ) {
-                if( !veh->part_flag( p2, VPFLAG_BOARDABLE ) ) {
-                    continue;
-                }
-
+            for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_BOARDABLE ) ) {
+                const size_t p2 = vp.part_index();
                 const player *passenger = veh->get_passenger( p2 );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
@@ -717,7 +717,7 @@ void npc::execute_action( npc_action action )
 
                 const int cur_part = seats[i].second;
 
-                tripoint pp = veh->global_pos3() + veh->parts[cur_part].precalc[0];
+                tripoint pp = veh->global_part_pos3( cur_part );
                 update_path( pp, true );
                 if( !path.empty() ) {
                     // All is fine
@@ -1353,8 +1353,8 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
                                average_dispersion;
     double confident_range = even_chance_range * confidence_mult();
-    add_msg( m_debug, "confident_throw_range == %d", ( int )confident_range );
-    return ( int )confident_range;
+    add_msg( m_debug, "confident_throw_range == %d", static_cast<int>( confident_range ) );
+    return static_cast<int>( confident_range );
 }
 
 // Index defaults to -1, i.e., wielded weapon

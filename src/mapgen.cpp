@@ -10,6 +10,7 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
+#include "vpart_range.h"
 #include "ammo.h"
 #include "item_group.h"
 #include "mapgen_functions.h"
@@ -209,10 +210,18 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     }
 }
 
-void mapgen_function_builtin::generate( map *m, const oter_id &o, const mapgendata &mgd,
-                                        const time_point &i, float d )
+void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, const mapgendata &mgd,
+                                        const time_point &t, float d )
 {
-    ( *fptr )( m, o, mgd, i, d );
+    ( *fptr )( m, terrain_type, mgd, t, d );
+
+    const std::string mapgen_generator_type = "builtin";
+    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( mapgen_generator_type );
+    lua_callback_args_info.emplace_back( terrain_type.id().str() );
+    lua_callback_args_info.emplace_back( terrain_tripoint );
+    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -1313,12 +1322,16 @@ class jmapgen_nested : public jmapgen_piece
                 // To speed up the most common case: no checks
                 bool has_any = false;
                 std::array<std::set<oter_str_id>, om_direction::size> neighbors;
+                std::set<oter_str_id> above;
             public:
                 neighborhood_check( JsonObject jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
                         neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
                         has_any |= !neighbors[index].empty();
+
+                        above = jsi.get_tags<oter_str_id>( "above" );
+                        has_any |= !above.empty();
                     }
                 }
 
@@ -1342,6 +1355,15 @@ class jmapgen_nested : public jmapgen_piece
                         }
                         all_directions_match &= this_direction_matches;
                     }
+
+                    if( !above.empty() ) {
+                        bool above_matches = false;
+                        for( oter_str_id allowed_neighbor : above ) {
+                            above_matches |= is_ot_subtype( allowed_neighbor.c_str(), dat.above().id() );
+                        }
+                        all_directions_match &= above_matches;
+                    }
+
                     return all_directions_match;
                 }
         };
@@ -2080,6 +2102,14 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     if( terrain_type->is_rotatable() ) {
         mapgen_rotate( m, terrain_type, false );
     }
+
+    const std::string mapgen_generator_type = "json";
+    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( mapgen_generator_type );
+    lua_callback_args_info.emplace_back( terrain_type.id().str() );
+    lua_callback_args_info.emplace_back( terrain_tripoint );
+    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y,
@@ -2139,10 +2169,10 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
 // wip: need more bindings. Basic stuff works
 
 #ifndef LUA
-int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, const time_point &t, float d,
-                const std::string & )
+int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &mgd, const time_point &t,
+                float d, const std::string & )
 {
-    mapgen_crater( m, id, md, to_turn<int>( t ), d );
+    mapgen_crater( m, terrain_type, mgd, to_turn<int>( t ), d );
     mapf::formatted_set_simple( m, 0, 6,
                                 "\
     *   *  ***\n\
@@ -2161,10 +2191,18 @@ int lua_mapgen( map *m, const oter_id &id, const mapgendata &md, const time_poin
 }
 #endif
 
-void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &dat,
+void mapgen_function_lua::generate( map *m, const oter_id &terrain_type, const mapgendata &mgd,
                                     const time_point &t, float d )
 {
-    lua_mapgen( m, terrain_type, dat, t, d, scr );
+    lua_mapgen( m, terrain_type, mgd, t, d, scr );
+
+    const std::string mapgen_generator_type = "lua";
+    const tripoint terrain_tripoint = sm_to_omt_copy( m->get_abs_sub() );
+    CallbackArgumentContainer lua_callback_args_info;
+    lua_callback_args_info.emplace_back( mapgen_generator_type );
+    lua_callback_args_info.emplace_back( terrain_type.id().str() );
+    lua_callback_args_info.emplace_back( terrain_tripoint );
+    lua_callback( "on_mapgen_finished", lua_callback_args_info );
 }
 
 /////////////
@@ -2180,7 +2218,7 @@ void map::draw_map( const oter_id terrain_type, const oter_id t_north, const ote
                     const int zlevel, const regional_settings *rsettings )
 {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-    static const mongroup_id GROUP_TOWER_LAB( "GROUP_TOWER_LAB" );
+    static const mongroup_id GROUP_LAB( "GROUP_LAB" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
@@ -3080,33 +3118,37 @@ ___DEEE|.R.|...,,...|sss\n",
                         tripoint east_border( 23, 11, abs_sub.z );
                         if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                             // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
+                            ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                            ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                            ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
+                            ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
                             for( int i = 0; i <= 23; i++ ) {
-                                ter_set( 23, i, t_concrete_wall );
+                                ter_set( 23, i, rw_type );
                                 furn_set( 23, i, f_null );
                                 i_clear( tripoint( 23, i, get_abs_sub().z ) );
 
-                                ter_set( i, 23, t_concrete_wall );
+                                ter_set( i, 23, bw_type );
                                 furn_set( i, 23, f_null );
                                 i_clear( tripoint( i, 23, get_abs_sub().z ) );
 
                                 if( lw == 2 ) {
-                                    ter_set( 0, i, t_concrete_wall );
+                                    ter_set( 0, i, lw_type );
                                     furn_set( 0, i, f_null );
                                     i_clear( tripoint( 0, i, get_abs_sub().z ) );
                                 }
                                 if( tw == 2 ) {
-                                    ter_set( i, 0, t_concrete_wall );
+                                    ter_set( i, 0, tw_type );
                                     furn_set( i, 0, f_null );
                                     i_clear( tripoint( i, 0, get_abs_sub().z ) );
                                 }
-                                if( rw != 2 ) {
-                                    ter_set( 23, 11, t_door_metal_c );
-                                    ter_set( 23, 12, t_door_metal_c );
-                                }
-                                if( bw != 2 ) {
-                                    ter_set( 11, 23, t_door_metal_c );
-                                    ter_set( 12, 23, t_door_metal_c );
-                                }
+                            }
+                            if( rw != 2 ) {
+                                ter_set( 23, 11, t_door_metal_c );
+                                ter_set( 23, 12, t_door_metal_c );
+                            }
+                            if( bw != 2 ) {
+                                ter_set( 11, 23, t_door_metal_c );
+                                ter_set( 12, 23, t_door_metal_c );
                             }
                         }
 
@@ -3224,7 +3266,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( i < lw || i > SEEX * 2 - 1 - rw || i == SEEX - 4 || i == SEEX + 3 ) {
                                         ter_set( i, j, t_concrete_wall );
-                                    } else if( j < lw || j > SEEY * 2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3 ) {
+                                    } else if( j < tw || j > SEEY * 2 - 1 - bw || j == SEEY - 4 || j == SEEY + 3 ) {
                                         ter_set( i, j, t_concrete_wall );
                                     } else {
                                         ter_set( i, j, t_thconc_floor );
@@ -3357,8 +3399,8 @@ ___DEEE|.R.|...,,...|sss\n",
         }
 
         int light_odds = 0;
-        // central & tower labs are always fully lit, other labs have half chance of some lights.
-        if( central_lab || tower_lab ) {
+        // central labs are always fully lit, other labs have half chance of some lights.
+        if( central_lab ) {
             light_odds = 1;
         } else if( one_in( 2 ) ) {
             // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
@@ -3377,7 +3419,7 @@ ___DEEE|.R.|...,,...|sss\n",
         }
 
         if( tower_lab ) {
-            place_spawns( GROUP_TOWER_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
+            place_spawns( GROUP_LAB, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, abs_sub.z * 0.02f );
         }
 
         // Lab special effects.
@@ -3545,36 +3587,41 @@ ___DEEE|.R.|...,,...|sss\n",
 
                 // If the map template hasn't handled borders, handle them in code. Rotated maps cannot handle
                 // borders and have to be caught in code. We determine if a border isn't handled by checking
-                // the east-facing border space where the door normally is -- it should not be a floor.
-                if( ter( tripoint( 23, 11, abs_sub.z ) ) == t_thconc_floor ) {
+                // the east-facing border space where the door normally is -- it should be a wall or door.
+                tripoint east_border( 23, 11, abs_sub.z );
+                if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                     // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
+                    ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                    ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                    ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
+                    ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
                     for( int i = 0; i <= 23; i++ ) {
-                        ter_set( 23, i, t_concrete_wall );
+                        ter_set( 23, i, rw_type );
                         furn_set( 23, i, f_null );
                         i_clear( tripoint( 23, i, get_abs_sub().z ) );
 
-                        ter_set( i, 23, t_concrete_wall );
+                        ter_set( i, 23, bw_type );
                         furn_set( i, 23, f_null );
                         i_clear( tripoint( i, 23, get_abs_sub().z ) );
 
                         if( lw == 2 ) {
-                            ter_set( 0, i, t_concrete_wall );
+                            ter_set( 0, i, lw_type );
                             furn_set( 0, i, f_null );
                             i_clear( tripoint( 0, i, get_abs_sub().z ) );
                         }
                         if( tw == 2 ) {
-                            ter_set( i, 0, t_concrete_wall );
+                            ter_set( i, 0, tw_type );
                             furn_set( i, 0, f_null );
                             i_clear( tripoint( i, 0, get_abs_sub().z ) );
                         }
-                        if( rw != 2 ) {
-                            ter_set( 23, 11, t_door_metal_c );
-                            ter_set( 23, 12, t_door_metal_c );
-                        }
-                        if( bw != 2 ) {
-                            ter_set( 11, 23, t_door_metal_c );
-                            ter_set( 12, 23, t_door_metal_c );
-                        }
+                    }
+                    if( rw != 2 ) {
+                        ter_set( 23, 11, t_door_metal_c );
+                        ter_set( 23, 12, t_door_metal_c );
+                    }
+                    if( bw != 2 ) {
+                        ter_set( 11, 23, t_door_metal_c );
+                        ter_set( 12, 23, t_door_metal_c );
                     }
                 }
             } else { // then weighted roll was in the hardcoded section
@@ -3793,8 +3840,8 @@ ___DEEE|.R.|...,,...|sss\n",
         maybe_insert_stairs( terrain_type, t_stairs_down );
 
         int light_odds = 0;
-        // central & tower labs are always fully lit, other labs have half chance of some lights.
-        if( central_lab || tower_lab ) {
+        // central labs are always fully lit, other labs have half chance of some lights.
+        if( central_lab ) {
             light_odds = 1;
         } else if( one_in( 2 ) ) {
             // Create a spread of densities, from all possible lights on, to 1/3, ... to ~1 per segment.
@@ -6853,17 +6900,14 @@ vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    bool can_float = false;
-    if( veh->all_parts_with_feature( "FLOATS" ).size() > 2 ) {
-        can_float = true;
-    }
+    const bool can_float = size( veh->parts_with_feature( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const auto p = veh->global_pos3() + veh->parts[*part].precalc[0];
+        const auto p = veh->global_part_pos3( *part );
 
         //Don't spawn anything in water
         if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
@@ -7793,7 +7837,8 @@ void silo_rooms( map *m )
         }
     } while( okay );
 
-    m->ter_set( rooms[0].first.x, rooms[0].first.y, t_stairs_up );
+    const point &first_room_position = rooms[0].first;
+    m->ter_set( first_room_position.x, first_room_position.y, t_stairs_up );
     const auto &room = random_entry( rooms );
     m->ter_set( room.first.x + room.second.x, room.first.y + room.second.y, t_stairs_down );
     rooms.emplace_back( point( SEEX, SEEY ), point( 5, 5 ) ); // So the center circle gets connected
@@ -7802,14 +7847,17 @@ void silo_rooms( map *m )
         int best_dist = 999;
         int closest = 0;
         for( size_t i = 1; i < rooms.size(); i++ ) {
-            int dist = trig_dist( rooms[0].first.x, rooms[0].first.y, rooms[i].first.x, rooms[i].first.y );
+            int dist = trig_dist( first_room_position.x, first_room_position.y, rooms[i].first.x,
+                                  rooms[i].first.y );
             if( dist < best_dist ) {
                 best_dist = dist;
                 closest = i;
             }
         }
         // We chose the closest room; now draw a corridor there
-        point origin = rooms[0].first, origsize = rooms[0].second, dest = rooms[closest].first;
+        point origin = first_room_position;
+        point origsize = rooms[0].second;
+        point dest = rooms[closest].first;
         int x = origin.x + origsize.x;
         int y = origin.y + origsize.y;
         bool x_first = ( abs( origin.x - dest.x ) > abs( origin.y - dest.y ) );

@@ -332,11 +332,18 @@ void sounds::process_sound_markers( player *p )
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
             !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
-            if( p->get_effect( effect_alarm_clock ).get_duration() < 2_turns ) {
+            // if we don't have effect_sleep but we're in_sleep_state, either
+            // we were trying to fall asleep for so long our alarm is now going
+            // off or something disturbed us while trying to sleep
+            const bool trying_to_sleep = p->in_sleep_state();
+            if( p->get_effect( effect_alarm_clock ).get_duration() == 1_turns ) {
                 if( slept_through ) {
-                    p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
+                    p->add_msg_if_player( _( "Your alarm clock finally wakes you up." ) );
+                } else if( !trying_to_sleep ) {
+                    p->add_msg_if_player( _( "Your alarm clock wakes you up." ) );
                 } else {
-                    p->add_msg_if_player( _( "Your alarm-clock wakes you up." ) );
+                    p->add_msg_if_player( _( "Your alarm clock goes off and you haven't slept a wink." ) );
+                    p->activity.set_to_null();
                 }
                 p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
             }
