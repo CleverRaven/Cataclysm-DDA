@@ -2427,23 +2427,10 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
 void advanced_inv_area::set_container_position()
 {
     // update the offset of the container based on location
-    switch( uistate.adv_inv_container_location ) {
-        case AIM_DRAGGED:
-            off = g->u.grab_point;
-            break;
-        case AIM_SOUTHWEST:
-        case AIM_SOUTH:
-        case AIM_SOUTHEAST:
-        case AIM_WEST:
-        case AIM_EAST:
-        case AIM_NORTHWEST:
-        case AIM_NORTH:
-        case AIM_NORTHEAST:
-            off = aim_vector( ( aim_location )uistate.adv_inv_container_location );
-            break;
-        default:
-            off = tripoint( 0, 0, 0 );
-            break;
+    if( uistate.adv_inv_container_location == AIM_DRAGGED ) {
+        off = g->u.grab_point;
+    } else {
+        off = aim_vector( ( aim_location )uistate.adv_inv_container_location );
     }
     // update the absolute position
     pos = g->u.pos() + off;
