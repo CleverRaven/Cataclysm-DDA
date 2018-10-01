@@ -15,12 +15,19 @@
 //       |               v
 //       V 90          orthogonal dir right (+)
 //       Y
+//
+// note to future developers: tilerays can't be cached at the tileray level,
+// because tileray values depend on leftover, and thus tileray.advance(1)
+// changes depending on previous calls to advance.
+
 class tileray
 {
     private:
         int deltax;     // ray delta x
         int deltay;     // ray delta y
         int leftover;   // counter to shift coordinates
+        int ax;         // absolute value of deltax
+        int ay;         // absolute value of deltay
         int direction;  // ray direction
         int last_dx;    // dx of last advance
         int last_dy;    // dy of last advance
@@ -46,6 +53,7 @@ class tileray
         bool mostly_vertical() const;  // return if ray is mostly vertical
 
         void advance( int num = 1 ); // move to the next tile (calculate last dx, dy)
+        void clear_advance(); // clear steps, leftover, last_dx, and last_dy
         bool end();      // do we reach the end of (dx,dy) defined ray?
 };
 

@@ -315,6 +315,16 @@
     "act_cost": 100
   },
   {
+    "type": "bionic",
+    "id": "bio_emp_armgun",
+    "name": "EMP Projector",
+    "description": "A ranged EMP generator system is implanted on the palm of your right hand and arm.  Fires super-concentrated electric pulses for a short distance.  Extremely effective against electronic targets but mostly useless otherwise.",
+    "occupied_bodyparts": [ [ "ARM_R", 10 ], [ "HAND_R", 5 ] ],
+    "act_cost": 20,
+    "fake_item": "bio_emp_gun",
+    "flags": [ "BIONIC_GUN" ]
+  },
+  {
     "id": "bio_ethanol",
     "type": "bionic",
     "name": "Ethanol Burner",
@@ -581,9 +591,12 @@
     "id": "bio_memory",
     "type": "bionic",
     "name": "Enhanced Memory Banks",
-    "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power.",
+    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned, and the layout of terrain you've explored will remain in your memory for an incredibly long time.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": 10,
+    "react_cost": 1,
+    "time": 100
   },
   {
     "id": "bio_metabolics",
@@ -930,6 +943,14 @@
     "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_surgical_razor",
+    "type": "bionic",
+    "name": "Autonomous Surgical Scalpels",
+    "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts.  They can also be used as a high-quality butchering tool.",
+    "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "ARM_L", 1 ] ],
+    "fake_item": "bio_scalpel"
   },
   {
     "id": "bio_sunglasses",

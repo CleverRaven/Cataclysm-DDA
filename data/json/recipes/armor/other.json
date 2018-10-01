@@ -102,6 +102,23 @@
     ]
   },
   {
+    "result": "faux_fur_cat_tail",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 30000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "faux_fur", 4 ] ],
+      [ [ "string_36", 1 ] ],
+      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+    ]
+  },  
+  {
     "result": "fur_collar",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -117,6 +134,22 @@
       [ [ "scrap", 1 ] ]
     ]
   },
+  {
+    "result": "faux_fur_collar",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 20000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "using": [ [ "sewing_standard", 5 ] ],
+    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "faux_fur", 2 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },  
   {
     "result": "leather_cat_tail",
     "type": "recipe",

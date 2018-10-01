@@ -254,6 +254,8 @@ enum action_id : int {
     ACTION_ITEMACTION,
     /** Turn pixel minimap on/off */
     ACTION_TOGGLE_PIXEL_MINIMAP,
+    /** Reload current tileset */
+    ACTION_RELOAD_TILESET,
     /** Turn auto pulp or butcher on/off */
     ACTION_TOGGLE_AUTO_PULP_BUTCHER,
     /** Not an action, serves as count of enumerated actions */

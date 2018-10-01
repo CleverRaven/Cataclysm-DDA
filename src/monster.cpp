@@ -1403,7 +1403,7 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, body_part /*bp*/, int dam )
+void monster::apply_damage( Creature *source, body_part /*bp*/, int dam, const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
         return;

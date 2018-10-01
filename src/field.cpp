@@ -2458,7 +2458,7 @@ void map::monster_in_field( monster &z )
     }
 
     if( dam > 0 ) {
-        z.apply_damage( nullptr, bp_torso, dam );
+        z.apply_damage( nullptr, bp_torso, dam, true );
         z.check_dead_state();
     }
 }

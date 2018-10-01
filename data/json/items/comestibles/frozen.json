@@ -20,6 +20,7 @@
     "price": 250,
     "material": "milk",
     "phase": "liquid",
+    "charges": 2,
     "flags": [ "MELTS" ]
   },
   {
@@ -68,6 +69,7 @@
     "material": "milk",
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
+    "charges": 4,
     "flags": [ "MELTS" ]
   },
   {
@@ -91,6 +93,7 @@
     "fun": 20,
     "healthy": -3,
     "price": 300,
+    "charges": 1,
     "material": [ "milk", "junk" ]
   },
   {
@@ -104,6 +107,7 @@
     "calories": 156,
     "fun": 17,
     "price": 300,
+    "charges": 1,
     "material": [ "milk", "fruit" ]
   },
   {
@@ -141,6 +145,7 @@
     "quench": 8,
     "fun": 10,
     "price": 175,
+    "charges": 1,
     "material": [ "water", "fruit" ]
   },
   {
@@ -152,6 +157,7 @@
     "description": "Italian-style ice cream.  Less airy, and more dense, giving it a richer flavor and texture.",
     "calories": 174,
     "price": 300,
+    "charges": 2,
     "material": [ "milk" ]
   }
 ]

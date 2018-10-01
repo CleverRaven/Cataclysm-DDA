@@ -934,6 +934,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```COLD``` Item is cold (see EATEN_COLD).
 - ```FROZEN``` Item is frozen solid (used by freezer).
 - ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).

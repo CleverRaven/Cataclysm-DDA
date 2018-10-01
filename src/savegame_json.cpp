@@ -22,6 +22,7 @@
 #include "vitamin.h"
 #include "skill.h"
 #include "name.h"
+#include "vpart_reference.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "effect.h"
@@ -33,6 +34,7 @@
 #include "monfaction.h"
 #include "morale.h"
 #include "veh_type.h"
+#include "vpart_range.h"
 #include "vehicle.h"
 #include "mutation.h"
 #include "io.h"
@@ -269,6 +271,7 @@ void Character::load( JsonObject &data )
     data.read( "hunger", hunger );
     data.read( "starvation", starvation );
     data.read( "fatigue", fatigue );
+    data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stomach_food", stomach_food );
     data.read( "stomach_water", stomach_water );
 
@@ -370,6 +373,7 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "starvation", starvation );
     on_stat_change( "fatigue", fatigue );
+    on_stat_change( "sleep_deprivation", sleep_deprivation );
 }
 
 void Character::store( JsonOut &json ) const
@@ -400,6 +404,7 @@ void Character::store( JsonOut &json ) const
     json.member( "hunger", hunger );
     json.member( "starvation", starvation );
     json.member( "fatigue", fatigue );
+    json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
@@ -1600,6 +1605,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0L );
     charges = std::max( charges, 0L );
 
+    int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
@@ -1617,6 +1623,7 @@ void item::io( Archive &archive )
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
     archive.io( "last_temp_check", last_temp_check, calendar::time_of_cataclysm );
+    archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
@@ -1693,6 +1700,24 @@ void item::io( Archive &archive )
     // Migrate legacy toolmod flags
     if( is_tool() || is_toolmod() ) {
         migrate_toolmod( *this );
+    }
+
+    // Books without any chapters don't need to store a remaining-chapters
+    // counter, it will always be 0 and it prevents proper stacking.
+    if( get_chapters() == 0 ) {
+        for( auto it = item_vars.begin(); it != item_vars.end(); ) {
+            if( it->first.compare( 0, 19, "remaining-chapters-" ) == 0 ) {
+                item_vars.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
+    }
+
+    current_phase = static_cast<phase_id>( cur_phase );
+    // override phase if frozen, needed for legacy save
+    if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
+        current_phase = SOLID;
     }
 }
 
@@ -2017,7 +2042,8 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( auto cargo_index : all_parts_with_feature( VPFLAG_CARGO, true ) ) {
+    for( const vpart_reference vp : parts_with_feature( VPFLAG_CARGO, true ) ) {
+        const size_t cargo_index = vp.part_index();
         auto it = parts[cargo_index].items.begin();
         auto end = parts[cargo_index].items.end();
         for( ; it != end; ++it ) {

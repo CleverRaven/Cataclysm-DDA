@@ -573,6 +573,8 @@ void iexamine::toilet(player &p, const tripoint &examp)
 
     if( water == items.end() ) {
         add_msg(m_info, _("This toilet is empty."));
+    } else if( !water->made_of( LIQUID ) ) {
+        add_msg( m_info, _( "The toilet water is frozen solid!" ) );
     } else {
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in(3) ? 0 : rng(1, 3);

@@ -1140,14 +1140,15 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         } );
 
         if( !found ) {
-            if( opts.front().count <= 0 ) {
+            const tool_comp &tool_required = opts.front();
+            if( tool_required.count <= 0 ) {
                 return ret_val<bool>::make_failure( _( "You need %s." ),
-                                                    item::nname( opts.front().type ).c_str() );
+                                                    item::nname( tool_required.type ).c_str() );
             } else {
                 return ret_val<bool>::make_failure( ngettext( "You need a %s with %d charge.",
-                                                    "You need a %s with %d charges.", opts.front().count ),
-                                                    item::nname( opts.front().type ).c_str(),
-                                                    opts.front().count );
+                                                    "You need a %s with %d charges.", tool_required.count ),
+                                                    item::nname( tool_required.type ).c_str(),
+                                                    tool_required.count );
             }
         }
     }
