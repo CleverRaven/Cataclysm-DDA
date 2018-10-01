@@ -3,7 +3,7 @@ SETLOCAL
 
 cd ..\src\lua
 echo Generating lua bindings
-lua generate_bindings.lua
+lua53 generate_bindings.lua
 cd ..\..\msvc-full-features
 echo Done
 
