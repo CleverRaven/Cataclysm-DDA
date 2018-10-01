@@ -134,6 +134,9 @@ class inventory : public visitable<inventory>
         bool has_components( const itype_id &it, int quantity ) const;
         bool has_charges( const itype_id &it, long quantity ) const;
 
+        /** returns random tool containing max quality.*/
+        item *best_tool( const quality_id &qual );
+
         int leak_level( std::string flag ) const; // level of leaked bad stuff from items
 
         // NPC/AI functions

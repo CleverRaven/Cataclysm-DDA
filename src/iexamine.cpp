@@ -1020,13 +1020,14 @@ void iexamine::safe(player &p, const tripoint &examp)
  */
 void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
-    if( !( p.crafting_inventory().has_quality( quality_id( "PICK" ), 1 ) ) ){
+    if( !( p.inv.has_quality( quality_id( "PICK" ), 1 ) ) ){
+        add_msg( m_info, _( "You need a lockpick to open this gun safe." ) );
         return;
     } else if( !query_yn( _("Pick the gun safe?") ) ) {
         return;
     }
 
-    int pick_quality = p.crafting_inventory.max_quality( "PICK" );
+    int pick_quality = p.crafting_inventory().max_quality( quality_id( "PICK" ) );
 
     p.practice( skill_mechanics, 1);
     ///\EFFECT_DEX speeds up lock picking gun safe
@@ -1092,17 +1093,17 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
         return;
     }
 
-    bool has_lockpicks = p.crafting_inventory().has_quality( quality_id ( "PICK" ), 1 );
+    bool has_lockpicks = p.inv.has_quality( quality_id ( "PICK" ), 1 );
 
-    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
+    bool has_prying_tool = p.inv.has_quality( quality_id( "PRY" ), 1 );
     if ( !has_lockpicks && !has_prying_tool ) {
-        add_msg(m_info, _("If only you had a crowbar..."));
+        add_msg(m_info, _("It's locked..."));
         return;
     }
 
-    uimenu select_menu;
+    uilist select_menu;
 
-    select_menu.settext( _("The %s is locked..."), g->m.tername(examp).c_str() );
+    select_menu.text = ( _("The %s is locked..."), g->m.tername(examp).c_str()  );
     if( has_lockpicks ) {
         select_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Pick the lock." ) );
         select_menu.ret = 1;
@@ -1112,22 +1113,17 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
         select_menu.ret = 2;
     }
     select_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Leave it." ) );
-    if( has_lockpicks && has_prying_tool ) {
+    //only show menu if both are possible.
+    if( has_lockpicks && has_prying_tool ) {    
         select_menu.query();
     }
     
-    
-
     if( select_menu.ret == 0 ) {
         return;
     } else if( select_menu.ret == 1 ) {
-
-        // There should be a better way of getting the best tool
-        int best_quality = p.crafting_inventory().max_quality( quality_id( "PICK" ) );
-        auto to_use = p.crafting_inventory.items_with( quality_id( "PICK" ), best_quality );
-
+        item best_pick = *p.inv.best_tool( quality_id( "PICK" ) );
         pick_lock_actor pla;
-        pla.use( p, to_use[0], false, examp );
+        pla.use( p, best_pick, false, examp );
         return;
     } else if( select_menu.ret == 2 ) {
         // See crate prying for why a dummy item is used
@@ -1137,8 +1133,6 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
         dummy.crowbar( &p, &fakecrow, false, examp );
         return;;
     }
-
-    
 }
 
 void iexamine::bulletin_board(player &, const tripoint &examp)
