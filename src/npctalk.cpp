@@ -1823,10 +1823,6 @@ int topic_category( const talk_topic &the_topic )
 
 void talk_function::become_overseer( npc &p )
 {
-    if( query_yn( _("Would you like to review the faction camp description?") ) ){
-        faction_camp_tutorial();
-    }
-
     const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, p.posz() );
 

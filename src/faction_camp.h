@@ -130,8 +130,6 @@ bool om_min_level( const std::string &target, const std::string &bldg );
 int om_over_level( const std::string &target, const std::string &bldg );
 /// Called to close upgrade missions, @ref miss is the name of the mission id and @ref omt_pos is location to be upgraded
 bool upgrade_return( npc &p, const point &omt_pos, const std::string &miss );
-/// Popups to explain what is going on for anyone who is unsure, called only on the first camp designation for a character
-void faction_camp_tutorial();
 /// Called when a companion completes a gathering @ref task mission
 bool camp_gathering_return( npc &p, const std::string &task );
 /// Called on completion of recruiting, returns the new NPC.
