@@ -22,11 +22,11 @@
         "########################",
         "########################",
         "-----------------------|",
-        "|x.....................|",
+        "|x........^............|",
         "|......................|",
         "--Lg--Lg--Lg--Lg--Lg-..|",
         "|T..|T..|T..|T..|T..|..|",
-        "|S..|S..|S..|S..|S..|..|",
+        "|S.l|S.l|S.l|S.l|S.l|..|",
         "|...|...|...|...|...|..|",
         "|..b|h.b|..b|..b|..b|..|",
         "|z.b|z.b|..b|..b|..b|..|",
@@ -34,12 +34,20 @@
         "-ggg|ggg|g!g|ggg|ggg-L-|"
       ],
       "palettes": [ "lab_palette" ],
+      "terrain": {
+        "^": [ "t_thconc_floor_olight" ]
+      },
       "monster": {
         "z": { "monster": "mon_zombie" }
       },
       "mapping": {
         "b": { "items": [ { "item": "bed", "chance": 66 } ] },
-        "!": { "item": [ { "item": "glass_shard", "count": [3,6] } ] }
+        "!": { "item": [ { "item": "glass_shard", "count": [3,6] } ] },
+        "l": { "item": [
+          { "item": "bottle_plastic", "count": [1,2] },
+          { "item": "can_food_unsealed", "count": [1,2] },
+          { "item": "steel_chunk", "count": 1 }
+        ] }
       }
     }
   },
