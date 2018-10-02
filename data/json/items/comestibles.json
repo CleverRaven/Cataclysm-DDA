@@ -7777,9 +7777,9 @@
     "quench": 5,
     "healthy": 1,
     "calories": 330,
-    "description": "A very old type of pasta made with several layers of lasagne sheets alternated with sauces and meats.",
+    "description": "A very old type of pasta made with several layers of lasagne sheets alternated with cheese, sauces and meats.",
     "price": 1000,
-    "material": [ "flesh", "wheat" ],
+    "material": [ "flesh", "wheat", "milk" ],
     "volume": 12,
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
@@ -7791,8 +7791,8 @@
     "id": "luigilasagne",
     "copy-from": "lasagne",
     "name": "Luigi lasagne",
-    "description": "A very old type of pasta made with several layers of lasagne sheets alternated with sauces and meats.  Made better with human flesh.",
-    "material": [ "hflesh", "wheat" ]
+    "description": "A very old type of pasta made with several layers of lasagne sheets alternated with cheese, sauces and meats.  Made better with human flesh.",
+    "material": [ "hflesh", "wheat", "milk" ]
   },
   {
     "id": "mayonnaise",
