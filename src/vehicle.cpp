@@ -2093,19 +2093,6 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
     return false;
 }
 
-// All 4 functions below look identical except for flag type and consts
-template<typename Vehicle, typename Flag, typename Vector>
-void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled,
-                       bool return_broken_parts_too )
-{
-    for( auto &e : veh.parts ) {
-        if( !e.removed && ( !enabled || e.enabled ) && ( !e.is_broken() || return_broken_parts_too ) &&
-            e.info().has_flag( flag ) ) {
-            ret.emplace_back( &e );
-        }
-    }
-}
-
 std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::string &flag,
         bool enabled, bool include_broken_parts )
 {
