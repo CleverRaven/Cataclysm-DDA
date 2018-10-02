@@ -1124,6 +1124,25 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [ [ [ "chainsaw_off", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+  },{
+    "type": "recipe",
+    "result": "e_combatsaw_off",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "melee", 2 ],
+    "difficulty": 6,
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_mechanics", 4 ], [ "recipe_melee", 5 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "battery_compartment", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",

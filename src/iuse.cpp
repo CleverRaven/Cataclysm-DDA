@@ -2732,6 +2732,15 @@ int iuse::combatsaw_off( player *p, item *it, bool, const tripoint & )
                            _( "You yank the cord, but nothing happens." ) );
 }
 
+int iuse::e_combatsaw_off( player *p, item *it, bool, const tripoint & ) {
+    return toolweapon_off( *p, *it,
+                           true,
+                           !p->is_underwater(),
+                           30, _( "With a snarl, the electric combat chainsaw screams to life!" ),
+                           _( "You flip the switch, but nothing happens." ) );
+}
+
+
 int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
@@ -2813,6 +2822,12 @@ int iuse::combatsaw_on( player *p, item *it, bool t, const tripoint & )
     return toolweapon_on( *p, *it, t, _( "combat chainsaw" ),
                           false,
                           12, 18, _( "Your combat chainsaw growls." ) );
+}
+
+int iuse::e_combatsaw_on( player *p, item *it, bool t, const tripoint & ) {
+    return toolweapon_on( *p, *it, t, _( "electric combat chainsaw" ),
+                          false,
+                          12, 18, _( "Your electric combat chainsaw growls." ) );
 }
 
 int iuse::chainsaw_on( player *p, item *it, bool t, const tripoint & )
