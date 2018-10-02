@@ -200,50 +200,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\tests\bionics_test.cpp" />
-    <ClCompile Include="..\tests\catacharset_test.cpp" />
-    <ClCompile Include="..\tests\char_validity_check_test.cpp" />
-    <ClCompile Include="..\tests\crafting_test.cpp" />
-    <ClCompile Include="..\tests\creature_test.cpp" />
-    <ClCompile Include="..\tests\explosion_balance.cpp" />
-    <ClCompile Include="..\tests\fake_messages.cpp" />
-    <ClCompile Include="..\tests\fold_string_test.cpp" />
-    <ClCompile Include="..\tests\health_test.cpp" />
-    <ClCompile Include="..\tests\invlet_test.cpp" />
-    <ClCompile Include="..\tests\iuse_test.cpp" />
-    <ClCompile Include="..\tests\line_test.cpp" />
-    <ClCompile Include="..\tests\map_helpers.cpp" />
-    <ClCompile Include="..\tests\map_iterator_test.cpp" />
-    <ClCompile Include="..\tests\map_test.cpp" />
-    <ClCompile Include="..\tests\math_functions.cpp" />
-    <ClCompile Include="..\tests\melee_test.cpp" />
-    <ClCompile Include="..\tests\mod_test.cpp" />
-    <ClCompile Include="..\tests\mondefense_test.cpp" />
-    <ClCompile Include="..\tests\monster_test.cpp" />
-    <ClCompile Include="..\tests\morale_test.cpp" />
-    <ClCompile Include="..\tests\mutation_test.cpp" />
-    <ClCompile Include="..\tests\name_test.cpp" />
-    <ClCompile Include="..\tests\new_character_test.cpp" />
-    <ClCompile Include="..\tests\npc_test.cpp" />
-    <ClCompile Include="..\tests\overmap_test.cpp" />
-    <ClCompile Include="..\tests\player_helpers.cpp" />
-    <ClCompile Include="..\tests\player_test.cpp" />
-    <ClCompile Include="..\tests\ranged_balance.cpp" />
-    <ClCompile Include="..\tests\reloading_test.cpp" />
-    <ClCompile Include="..\tests\reload_magazine.cpp" />
-    <ClCompile Include="..\tests\reload_option.cpp" />
-    <ClCompile Include="..\tests\savegame_test.cpp" />
-    <ClCompile Include="..\tests\shadowcasting_test.cpp" />
-    <ClCompile Include="..\tests\string_formatter_test.cpp" />
-    <ClCompile Include="..\tests\test_main.cpp" />
-    <ClCompile Include="..\tests\throwing_test.cpp" />
-    <ClCompile Include="..\tests\vehicle_efficiency.cpp" />
-    <ClCompile Include="..\tests\vehicle_interact_test.cpp" />
-    <ClCompile Include="..\tests\vehicle_test.cpp" />
-    <ClCompile Include="..\tests\vehicle_turrets.cpp" />
-    <ClCompile Include="..\tests\visitable.cpp" />
-    <ClCompile Include="..\tests\visitable_remove.cpp" />
-    <ClCompile Include="..\tests\wield_times_test.cpp" />
+    <ClCompile Include="..\tests\*.cpp" Exclude="..\tests\rewrite_vsnprintf_test.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
