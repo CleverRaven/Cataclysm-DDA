@@ -3087,7 +3087,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     } else if( smash_furn ) {
         furn_set( p, bash->furn_set );
         for( item &it : i_at( p ) )  {
-            it.on_drop( p );
+            it.on_drop( p, *this );
         }
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
@@ -4121,7 +4121,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
         && valid_limits( pos ) ) {
-        if( obj.on_drop( pos ) ) {
+        // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
+        if( obj.on_drop( pos, *this ) ) {
             return null_item_reference();
         }
 
@@ -4137,7 +4138,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                 continue;
             }
 
-            if( obj.on_drop( e ) ) {
+            if( obj.on_drop( e, *this ) ) {
                 return null_item_reference();
             }
 
