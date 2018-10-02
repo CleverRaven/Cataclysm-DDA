@@ -905,6 +905,8 @@ void uimenu::query( bool loop, int timeout )
             } else {
                 break;
             }
+        } else if( action == "TIMEOUT" ) {
+            ret = UIMENU_TIMEOUT;
         } else {
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && ( new_interface ? allow_anykey : return_invalid ) ) {

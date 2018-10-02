@@ -22,6 +22,7 @@ const int UIMENU_ERROR = -1024;
 const int UIMENU_WAIT_INPUT = -1025;
 const int UIMENU_UNBOUND = -1026;
 const int UIMENU_CANCEL = -1027;
+const int UIMENU_TIMEOUT = -1028;
 const int MENU_ALIGN_LEFT = -1;
 const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
