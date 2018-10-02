@@ -4250,10 +4250,7 @@
     "price": 5000,
     "to_hit": -2,
     "bashing": 8,
-    "material": [
-      "steel",
-      "aluminum"
-    ],
+    "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
@@ -6519,10 +6516,7 @@
     "price": 1500,
     "to_hit": -1,
     "bashing": 6,
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
