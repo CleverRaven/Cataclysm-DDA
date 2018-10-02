@@ -2284,7 +2284,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
         const size_t possible_part = vp.part_index();
         if( parts[ possible_part ].is_unavailable() ||
             !part_info( possible_part ).has_flag( "MULTISQUARE" ) ||
-            parts[ possible_part ].removed || part_info( possible_part ).get_id() != part_id )  {
+            part_info( possible_part ).get_id() != part_id )  {
             continue;
         }
         if( parts[ possible_part ].mount.x == target.x ) {
@@ -4820,6 +4820,7 @@ bool vehicle_part_with_feature_range<std::string>::contained( const size_t part 
 {
     const vehicle_part &vp = this->vehicle().parts[part];
     return vp.info().has_flag( feature_ ) &&
+           !vp.removed &&
            ( !unbroken_ || !vp.is_broken() ) &&
            ( !enabled_ || vp.enabled );
 }
@@ -4829,6 +4830,7 @@ bool vehicle_part_with_feature_range<vpart_bitflags>::contained( const size_t pa
 {
     const vehicle_part &vp = this->vehicle().parts[part];
     return vp.info().has_flag( feature_ ) &&
+           !vp.removed &&
            ( !unbroken_ || !vp.is_broken() ) &&
            ( !enabled_ || vp.enabled );
 }

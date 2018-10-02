@@ -831,7 +831,7 @@ class vehicle
         int next_part_to_close( int p, bool outside = false ) const;
         /**
          * Yields a range of parts of this vehicle that each have the given feature
-         * and are (optionally) unbroken.
+         * and are (optionally) unbroken. `removed` parts are always excluded.
          * @param unbroken If `true`, only unbroken parts are considered, otherwise
          * even broken parts are in the range.
          */
