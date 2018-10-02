@@ -1561,15 +1561,23 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), "",
                                           get_encumber(), true, "", false, true ) );
             }
+            if( !type->rigid ) {
+                const auto encumbrance_when_full = get_encumber_when_containing( get_container_capacity() );
+                info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
+                                          encumbrance_when_full, true, "", false, true ) );
+            }
         }
 
         int converted_storage_scale = 0;
         const double converted_storage = round_up( convert_volume( get_storage().value(),
                                          &converted_storage_scale ), 2 );
-        if( parts->test( iteminfo_parts::ARMOR_STORAGE ) )
+        if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 )
             info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
                                       string_format( "<num> %s", volume_units_abbr() ),
                                       converted_storage, converted_storage_scale == 0 ) );
+
+        // Whatever the last entry was, we want a newline at this point
+        info.back().bNewLine = true;
 
         if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
             info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), true, "",
@@ -2166,10 +2174,23 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.emplace_back( "DESCRIPTION", temp1.str() );
                 info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
-            if( !contents.front().type->mod ) {
+            const auto &contents_item = contents.front();
+            if( !contents_item.type->mod ) {
                 insert_separation_line();
-                info.emplace_back( "DESCPIPTION", _( "<bold>Content of this item</bold>:" ) );
-                info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
+                info.emplace_back( "DESCRIPTION", _( "<bold>Content of this item</bold>:" ) );
+                auto const description = _( contents_item.type->description.c_str() );
+
+                if( contents_item.made_of( LIQUID ) ) {
+                    auto contents_volume = contents_item.volume() * batch;
+                    int converted_volume_scale = 0;
+                    const double converted_volume = round_up( convert_volume( contents_volume.value(),
+                                                    &converted_volume_scale ), 2 );
+                    info.emplace_back( "CONTAINER", description + space,
+                                       string_format( "<num> %s", volume_units_abbr() ),
+                                       converted_volume, converted_volume_scale == 0, "", false );
+                } else {
+                    info.emplace_back( "DESCRIPTION", description );
+                }
             }
         }
 
@@ -2581,7 +2602,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string maintext;
-    const item &contents_item = contents.front();
     if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
@@ -2600,10 +2620,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << "+";
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
-        if( contents_item.made_of( LIQUID ) ) {
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                      contents_item.tname( quantity, with_prefix ).c_str() );
-        } else if( contents_item.is_food() ) {
+        const item &contents_item = contents.front();
+        if( contents_item.made_of( LIQUID ) || contents_item.is_food() ) {
             const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
             maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
                                       contents_item.tname( contents_count, with_prefix ).c_str() );
@@ -3423,6 +3441,15 @@ bool item::is_power_armor() const
 
 int item::get_encumber() const
 {
+    units::volume contents_volume( 0 );
+    for( const auto &e : contents ) {
+        contents_volume += e.volume();
+    }
+    return get_encumber_when_containing( contents_volume );
+}
+
+int item::get_encumber_when_containing( units::volume contents_volume ) const
+{
     const auto t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (e.g. shoulder strap) as special case
@@ -3432,9 +3459,7 @@ int item::get_encumber() const
 
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
-        for( const auto &e : contents ) {
-            encumber += e.volume() / 250_ml;
-        }
+        encumber += contents_volume / 250_ml;
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
