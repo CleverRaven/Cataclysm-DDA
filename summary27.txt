@@ -1,0 +1,100 @@
+Bugfixes Remove grab when target is destroyed
+Bugfixes Text input window should ignore non-digits when in digit-only mode.
+Balance Converts church braziers from item to trap
+Balance Bash shouldn't give better items than deconstruct now
+Interface Swap game::zoom_in and game::zoom_out
+Bugfixes Added missing ammo capacity to SVS robodrum and added reload time
+Interface Explanation for the player when choosing the direction for the new headlight
+Infrastructure Encapsulate the WINDOW pointer in class game in unique_ptr
+Interface [RDY] Fix interference effect of radio messages in localized version
+Bugfixes Fix vehicle turret behavior and reorganize targeting code
+Balance Remove battery charges from the handpress
+Balance Sheath knives and fill quivers for rest of professions
+Balance Standardizes and alters mining construction
+Interface forbids filling of tanks with rotten liquids
+Build Add gcc instructions for macOS
+Mods Move user-default-mods.json to config folder
+Bugfixes Some fixes to the filter popup of pickup menu
+Bugfixes Fix switching language not affecting season names
+Interface Show "Time: ???" when underground and without watches
+Content Add non-incendiary variants to milspec rifle ammo itemgroup
+Bugfixes fix for #20923 relax gas aiming loop
+Interface Moves ethanol to after disinfectant in recipes
+Interface Add FIRE flag to lit oil lamp
+Bugfixes Don't repeat last ranch foreman mission
+Bugfixes Fix crash in profession::items alternative fix
+Interface Add Polish language
+Bugfixes Compare to mission type ID instead of mission name when dealing with 'Install Repeater Mod'
+Interface Fix message window overlapping border in advanced inventory UI
+Interface Fix revealing invisible monster when looking around
+Interface Fix season names not being detected by xgettext
+Interface Add error sound effect to main menu and use menu change sound effect for options
+Bugfixes [RDY] Fix flamethrower sound effects and add railgun sound effect
+Mods [RDY] Makeshift mod and bayonet update. (2nd)
+Bugfixes Fix side not cleared when taking off an item
+Bugfixes Fix unexpected popup when trying to sleep while E-ink PC music is on (#18033)
+Interface Some assorted scrollbar related fixes
+Mods Blazemod flamethrower parts update
+Balance Stops roadblocks from spawning live zeds
+Bugfixes Fix "get_option silently returns defaults if invoked on a world option"
+Build Make a functional travis.yml
+Build [READY] Add explicit instantiation of string_id::NULL_ID to make clang happy.
+Balance Remove gasoline and disel from explosive recipes.
+Balance Restore sum of errors based dispersion.
+Bugfixes Hotfix: remove remaining recycling calls from makefile
+Bugfixes Change harvest_by_season to new nulls
+Content Add PR-24 to Eskrima martial art
+Balance Buff RM451 Flamethrower item spawn chance
+Infrastructure Implement separate class for gun mod location:
+Bugfixes Fix debug storage not working in advanced inventory
+Balance Add canned meat and canned fish to meat aspic recipe
+Interface Don't cancel activity if electricity-immune player is struck by it
+Build Fixed clang again...
+Balance Nerf bullet explosion scaling
+Bugfixes Remove game::mission_npc hack
+Content [CR]Add Chili Pepper, Seed, and Chili Powder Recipe
+Infrastructure Convert string_id::NULL_ID to a static method
+Build [CR] Fix compilation errors with MinGW
+Mods Fix blazemod
+Content Disallow crafting with filthy clothing.
+Interface Road-Runner and Slow Footed cancel each other
+Bugfixes Properly fix debug storage
+Build Add missing includes
+Mods Battery compartment mod update.
+Bugfixes Use game:critter_at instead of getting the index separately
+Content Adds options to build and seal coffins
+Content Imports breeches and cavalry saber
+Balance Rebalances return of smashing foliage
+Bugfixes Add BELTED flag to missed arm guards
+Balance Debuff cloutie
+Bugfixes Fixup vehicle alarm disable check
+Bugfixes Correct dispersion at misses
+Bugfixes Places fire first in reversible recipes
+Bugfixes Fix logged notice when escaping out of throw menu
+Interface [CR] Enable to customize 16 ANSI color slots
+Bugfixes Debug menu fixes
+Bugfixes Fix another case of debug storage overflow
+Content Expands vehicle water purification, ad-hoc with funnels
+Interface Hide bionic slots for 0.D
+Balance Curry and curry with meat nutrition balance
+Bugfixes Added trait_id call around DEBUG_CBM_SLOTS to fix regression in #20370
+Content Add Food Processor tool
+Build [READY] Enable unit tests in Travis builds.
+Interface Fix reload failure message
+Interface Chesthole, 32, Fixes boarded up windows, broken down doors, adds the bitten effect
+Mods (Beta) National Guard Camp
+Bugfixes Properly fix debug storage 2
+Infrastructure Encapsulate data of worldfactory
+Bugfixes Fixes spawning in cabins and farms
+Content Add worthwile loot to the shipwreck
+Content Add detergent and allow it to be used in washboard
+Interface Info about conductivity now mentions item, not weapon
+Bugfixes Fix gdb unknown target exception on Windows
+Interface Sleep-through messages
+Bugfixes Sand/clay extraction re-do
+Mods Nat guard fix
+Interface Message Window Makeover
+Balance Alterations to steel spear and other polearms
+Bugfixes Fixes redundant use of char_forge in recipes
+Infrastructure Remove unused members of class game
+Build Make attack distribution test deterministic
