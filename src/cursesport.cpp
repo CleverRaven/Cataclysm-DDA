@@ -539,13 +539,15 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
         return;
     }
 
+    bool isBold = attrs.is_bold();
+    bool isBlink = attrs.is_blink();
     int pairNumber = attrs.to_color_pair_index();
     win->FG = cata_cursesport::colorpairs[pairNumber].FG;
     win->BG = cata_cursesport::colorpairs[pairNumber].BG;
-    if( attrs.is_bold() ) {
+    if (isBold) {
         win->FG = static_cast<base_color>( win->FG + 8 );
     }
-    if( attrs.is_blink() ) {
+    if (isBlink) {
         win->BG = static_cast<base_color>( win->BG + 8 );
     }
 }
