@@ -502,27 +502,23 @@ void uimenu::setup()
         }
     }
 
+    vmax = entries.size();
+    int additional_lines = 2 + text_separator_line + // add two for top & bottom borders
+                           static_cast<int>( textformatted.size() );
+    if( desc_enabled ) {
+        additional_lines += desc_lines + 1; // add one for description separator line
+    }
+
     if (h_auto) {
-        w_height = 2 + text_separator_line + textformatted.size() + entries.size();
-        if (desc_enabled) {
-            int w_height_final = w_height + desc_lines + 1; // add one for border
-            if (w_height_final > TERMY) {
-                desc_enabled = false; // give up
-                debugmsg("with description height would exceed terminal height (%d vs %d available)",
-                         w_height_final, TERMY);
-            } else {
-                w_height = w_height_final;
-            }
-        }
+        w_height = vmax + additional_lines;
     }
 
     if ( w_height > TERMY ) {
         w_height = TERMY;
     }
 
-    vmax = entries.size();
-    if( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
-        vmax = w_height - ( 2 + text_separator_line ) - textformatted.size();
+    if( vmax + additional_lines > w_height ) {
+        vmax = w_height - additional_lines;
         if( vmax < 1 ) {
             if( textformatted.empty() ) {
                 popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
