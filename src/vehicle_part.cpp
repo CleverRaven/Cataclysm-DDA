@@ -290,12 +290,12 @@ bool vehicle_part::can_reload( const item &obj ) const
         return false;
     }
 
-    const itype_id obj_type = obj.typeId();
-    if( is_reactor() ) {
-        return base.is_reloadable_with( obj_type );
-    }
-
     if( !obj.is_null() ) {
+        const itype_id obj_type = obj.typeId();
+        if( is_reactor() ) {
+            return base.is_reloadable_with( obj_type );
+        }
+
         // forbid filling tanks with solids or non-material things
         if( is_tank() && ( obj.made_of( SOLID ) || obj.made_of( PNULL ) ) ) {
             return false;
