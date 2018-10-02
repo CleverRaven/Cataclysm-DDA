@@ -4250,14 +4250,27 @@
     "price": 5000,
     "to_hit": -2,
     "bashing": 8,
-    "material": [ "steel", "aluminum" ],
+    "material": [
+      "steel",
+      "aluminum"
+    ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
     "initial_charges": 250,
     "max_charges": 500,
     "charges_per_use": 25,
-    "qualities": [ [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "SAW_M_FINE", 1 ], [ "SAW_M", 2 ], [ "WRENCH_FINE", 1 ], [ "WRENCH", 2 ], [ "SCREW_FINE", 1 ], [ "SCREW", 1 ], [ "CHISEL", 3 ] ],
+    "qualities": [
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER", 3 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "SAW_M", 2 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "CHISEL", 3 ]
+    ],
     "use_action": "GUN_REPAIR"
   },
   {
@@ -4783,7 +4796,11 @@
     "initial_charges": 100,
     "max_charges": 200,
     "charges_per_use": 50,
-    "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], ["HAMMER", 3 ] ],
+    "qualities": [
+      [ "CHISEL", 3 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER", 3 ]
+    ],
     "use_action": "MISC_REPAIR"
   },
   {
@@ -6502,14 +6519,27 @@
     "price": 1500,
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 300,
     "charges_per_use": 100,
-    "qualities": [ [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "SAW_M_FINE", 1 ], [ "SAW_M", 2 ], [ "WRENCH_FINE", 1 ], [ "WRENCH", 2 ], [ "SCREW_FINE", 1 ], [ "SCREW", 1 ], [ "CHISEL", 3 ] ],
+    "qualities": [
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER", 3 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "SAW_M", 2 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "CHISEL", 3 ]
+    ],
     "use_action": "GUN_REPAIR"
   },
   {
