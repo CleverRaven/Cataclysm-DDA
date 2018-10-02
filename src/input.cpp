@@ -742,10 +742,12 @@ const std::string &input_context::handle_input( const int timeout )
         inp_mngr.reset_timeout();
     }
     next_action.type = CATA_INPUT_ERROR;
+    const std::string *result = &CATA_ERROR;
     while( 1 ) {
         next_action = inp_mngr.get_input_event();
         if( next_action.type == CATA_INPUT_TIMEOUT ) {
-            return TIMEOUT;
+            result = &TIMEOUT;
+            break;
         }
 
         const std::string &action = input_to_action( next_action );
@@ -753,7 +755,8 @@ const std::string &input_context::handle_input( const int timeout )
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {
             display_menu();
-            return HELP_KEYBINDINGS;
+            result = &HELP_KEYBINDINGS;
+            break;
         }
 
         if( next_action.type == CATA_INPUT_MOUSE ) {
@@ -769,19 +772,22 @@ const std::string &input_context::handle_input( const int timeout )
         }
 
         if( action != CATA_ERROR ) {
-            return action;
+            result = &action;
+            break;
         }
 
         // If we registered to receive any input, return ANY_INPUT
         // to signify that an unregistered key was pressed.
         if( registered_any_input ) {
-            return ANY_INPUT;
+            result = &ANY_INPUT;
+            break;
         }
 
         // If it's an invalid key, just keep looping until the user
         // enters something proper.
     }
     inp_mngr.reset_timeout();
+    return *result;
 }
 
 void input_context::register_directions()
