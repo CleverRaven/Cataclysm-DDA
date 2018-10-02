@@ -459,7 +459,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 's': // siphon mode
         valid_target = false;
-        for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+        for( const vpart_reference vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
             if( veh->parts[vp.part_index()].base.contents_made_of( LIQUID ) ) {
                 valid_target = true;
                 break;
@@ -2433,7 +2433,7 @@ item consume_vpart_item( const vpart_id &vpid )
 void act_vehicle_siphon( vehicle *veh ) {
     std::vector<itype_id> fuels;
     bool has_liquid = false;
-    for( const vpart_reference vp : veh->parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+    for( const vpart_reference vp : veh->get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
         if( veh->parts[vp.part_index()].get_base().contents_made_of( LIQUID ) ) {
             has_liquid = true;
             break;

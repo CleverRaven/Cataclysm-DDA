@@ -4463,7 +4463,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                                     map::map_process_func processor, std::string const &signal )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
-    for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+    for( const vpart_reference vp : cur_veh.get_parts_including_broken( VPFLAG_FLUIDTANK ) ) {
         const size_t idx = vp.part_index();
         cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ), engine_heater_is_on );
     }
@@ -4531,7 +4531,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         // the list of cargo parts might have changed (imagine a part with
         // a low index has been removed by an explosion, all the other
         // parts would move up to fill the gap).
-        cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, false );
+        cargo_parts = cur_veh.get_parts_including_broken( VPFLAG_CARGO );
     }
 }
 
