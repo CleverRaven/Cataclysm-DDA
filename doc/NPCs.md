@@ -103,6 +103,16 @@ The dynamic line is chosen based on the gender of the player character, both ent
 }
 ```
 
+### Based on whether the player character is armed or unarmed
+The dynamic line is chosen based on whether the character has a weapon in hand or not.  Both entries must exit.  Both entries are parsed as `dynamic_line`.  `u` is the player character.
+
+```JSON
+{
+    "u_has_weapon": "Drop your weapon!",
+    "u_unarmed": "Put your hands in air!"
+}
+```
+
 ### Based on items worn by the player character
 The dynamic line is chosen based on whether the player character wears a specific item, both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. `u` is the player character. The `u_is_wearing` string should be a valid item id. The line from `yes` will be shown if the character wears the item, otherwise the line from `no`.
 
@@ -124,6 +134,49 @@ The dynamic line is chosen based on whether the player character has any of an a
     "no": "Hello."
 }
 ```
+
+### Based on effect possessed by the NPC
+The dynamic line is chosen based on whether the NPC is currently is under the efffect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown in the NPC has the effect, otherwise the line from `no`.
+
+```JSON
+{
+    "npc_has_effect": "infected",
+    "yes": "I need antibiotics.",
+    "no": "What's going on?"
+}
+```
+
+### Based on whether the NPC has missions available
+The dynamic line is chosen based on whether the NPC has any missions to give out.  All three entries are mandatory.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
+
+```JSON
+{
+    "npc_has_mission": true,
+    "many": "There are lots of things you could do to help.",
+    "one": "There's one thing you could do to help.",
+    "none": "You've cleaned this place up!"
+}
+```
+
+### Based on whether the player character is performing missions for the NPC
+The dynamic line is chosen based on whether the player character is performing any missions for the NPC.  All entries are mandatory.  The line from `many` if the player character is performing two or more missions for the NPC, the line from `one` will be shown if the player is performing one mission, and otherwise the line from `none` will be shown.
+
+```JSON
+{
+    "u_has_mission": true,
+    "many": "You're doing so much for this town!",
+    "one": "It looks like you have some spare time.",
+    "none": "Since you're not doing anything important, I have a favor to ask."
+}
+```
+
+### A randomly selected hint
+The dynamic line will be randomly chosen from the hints snippets.
+
+```JSON
+{
+    "give_hint": true
+}
 
 ---
 

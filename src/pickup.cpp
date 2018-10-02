@@ -75,30 +75,34 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     auto turret = veh->turret_query( pos );
 
-    const bool has_kitchen = ( veh->part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
-    const bool has_faucet = ( veh->part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
-    const bool has_weldrig = ( veh->part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
-    const bool has_chemlab = ( veh->part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
-    const bool has_purify = ( veh->part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
-    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) );
-    const bool has_electronics = ( ( veh->part_with_feature( veh_root_part,
+    const bool has_kitchen = ( veh->avail_part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
+    const bool has_faucet = ( veh->avail_part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
+    const bool has_weldrig = ( veh->avail_part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
+    const bool has_chemlab = ( veh->avail_part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
+    const bool has_purify = ( veh->avail_part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
+    const bool has_controls = ( ( veh->avail_part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) );
+    const bool has_electronics = ( ( veh->avail_part_with_feature( veh_root_part,
                                      "CTRL_ELECTRONIC" ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
-    const int washing_machine_part = veh->part_with_feature( veh_root_part, "WASHING_MACHINE" );
+    const int washing_machine_part = veh->avail_part_with_feature( veh_root_part, "WASHING_MACHINE" );
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
                               veh->parts[washing_machine_part].enabled;
-    const bool has_monster_capture = ( veh->part_with_feature( veh_root_part,
-                                       "CAPTURE_MONSTER_VEH" ) >= 0 );
-    const int monster_capture_part = veh->part_with_feature( veh_root_part, "CAPTURE_MONSTER_VEH" );
+    const int monster_capture_part = veh->avail_part_with_feature( veh_root_part,
+                                     "CAPTURE_MONSTER_VEH" );
+    const bool has_monster_capture = ( monster_capture_part >= 0 );
+    const int bike_rack_part = veh->avail_part_with_feature( veh_root_part, "BIKE_RACK_VEH" );
+    const bool has_bike_rack = ( bike_rack_part >= 0 );
+
 
     typedef enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
+        USE_BIKE_RACK
     } options;
     uimenu selectmenu;
 
@@ -167,6 +171,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     if( has_monster_capture ) {
         selectmenu.addentry( USE_MONSTER_CAPTURE, true, 'G', _( "Capture or release a creature" ) );
     }
+    if( has_bike_rack ) {
+        selectmenu.addentry( USE_BIKE_RACK, true, 'R', _( "Load or unload a vehicle" ) );
+    }
 
     int choice;
     if( selectmenu.entries.size() == 1 ) {
@@ -192,6 +199,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     };
 
     switch( static_cast<options>( choice ) ) {
+        case USE_BIKE_RACK: {
+            veh->use_bike_rack( bike_rack_part );
+            return DONE;
+        }
+
         case USE_MONSTER_CAPTURE: {
             veh->use_monster_capture( monster_capture_part, pos );
             return DONE;
@@ -453,7 +465,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.made_of( LIQUID ) ) {
+    } else if( newit.made_of( LIQUID, true ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {

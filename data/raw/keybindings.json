@@ -478,6 +478,13 @@
   },
   {
     "type": "keybinding",
+    "id": "HIDE_SHOW_RECIPE",
+    "category": "CRAFTING",
+    "name": "Hide/show recipe",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",
@@ -496,6 +503,13 @@
     "category": "CRAFTING",
     "name": "Scroll item info down",
     "bindings": [ { "input_method": "keyboard", "key": "NPAGE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RELATED_RECIPES",
+    "category": "CRAFTING",
+    "name": "Related recipes",
+    "bindings": [ { "input_method": "keyboard", "key": "L" } ]
   },
   {
     "type": "keybinding",
@@ -1272,6 +1286,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Map Memory",
+    "category": "DEFAULTMODE",
+    "id": "toggle_map_memory",
+    "bindings": [ { "input_method": "keyboard", "key": "{" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Center View",
     "category": "DEFAULTMODE",
     "id": "center",
@@ -1747,6 +1768,12 @@
     "category": "DEFAULTMODE",
     "id": "toggle_pixel_minimap",
     "bindings": [ { "input_method": "keyboard", "key": "N" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Reload Tileset",
+    "category": "DEFAULTMODE",
+    "id": "reload_tileset"
   },
   {
     "type": "keybinding",

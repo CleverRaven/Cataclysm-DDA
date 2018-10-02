@@ -259,6 +259,17 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         std::string desc_color = string_format( "<color_%1$s>",
                                                 string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 2 );
+        if( vp.has_flag( vehicle_part::carrying_flag ) ) {
+            possible_msg << "  Carrying a vehicle on a rack.\n";
+            new_lines += 1;
+        }
+        if( vp.has_flag( vehicle_part::carried_flag ) ) {
+            std::string carried_name = vp.carry_names.top();
+            possible_msg << string_format( "  Part of a %s carried on a rack.\n",
+                                           carried_name.substr( vehicle_part::name_offset ) );
+            new_lines += 1;
+        }
+
         possible_msg << "</color>\n";
         if( lines + new_lines <= max_y ) {
             msg << possible_msg.str();

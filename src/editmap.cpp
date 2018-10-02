@@ -1037,6 +1037,7 @@ int editmap::edit_ter()
             }
         }
     } while( action != "QUIT" );
+    g->draw_sidebar();
     return ret;
 }
 
@@ -1272,6 +1273,7 @@ int editmap::edit_trp()
 
     wrefresh( w_info );
 
+    g->draw_sidebar();
     return ret;
 }
 

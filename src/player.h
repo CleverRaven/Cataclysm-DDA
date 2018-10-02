@@ -11,6 +11,7 @@
 #include "ret_val.h"
 #include "damage.h"
 #include "calendar.h"
+#include "mapdata.h"
 
 #include <unordered_set>
 #include <memory>
@@ -99,6 +100,14 @@ enum class rechargeable_cbm {
     furnace
 };
 
+enum class comfort_level {
+    uncomfortable = -999,
+    neutral = 0,
+    slightly_comfortable = 3,
+    comfortable = 5,
+    very_comfortable = 10
+};
+
 struct special_attack {
     std::string text;
     damage_instance damage;
@@ -129,6 +138,45 @@ struct stat_mod {
     int perception = 0;
 
     int speed = 0;
+};
+
+struct memorized_terrain_tile {
+    std::string tile;
+    int subtile;
+    int rotation;
+};
+
+class map_memory
+{
+    public:
+        void store( JsonOut &jsout ) const;
+        void load( JsonObject &jsin );
+
+        /** Memorizes a given tile; finalize_tile_memory needs to be called after it */
+        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation );
+        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
+        void finalize_tile_memory( size_t max_submaps );
+        /** Memorizes several tiles at once */
+        void memorize_tiles( const std::map<tripoint, memorized_terrain_tile> &tiles, size_t max_submaps );
+        /** Adds new submaps to the memorized submap list, and pushes out the oldest ones */
+        void update_submap_memory( const std::set<tripoint> &submaps, const size_t max_submaps );
+        /** Erases specific submaps from memory */
+        void clear_submap_memory( const std::set<tripoint> &erase );
+
+        /** Returns last stored map tile in given location */
+        memorized_terrain_tile get_memorized_terrain( const tripoint &p ) const;
+
+        void memorize_terrain_symbol( const tripoint &pos, const long symbol );
+        void memorize_terrain_symbols( const std::map<tripoint, long> &tiles, size_t max_submaps );
+        void finalize_terrain_memory_curses( const size_t max_submaps );
+        long get_memorized_terrain_curses( const tripoint &p ) const;
+    private:
+        std::map<tripoint, memorized_terrain_tile> memorized_terrain_tmp;
+        std::map<tripoint, memorized_terrain_tile> memorized_terrain;
+        std::map<tripoint, long> memorized_terrain_curses_tmp;
+        std::map<tripoint, long> memorized_terrain_curses;
+        std::vector<tripoint> memorized_submaps;
 };
 
 class player : public Character
@@ -367,6 +415,24 @@ class player : public Character
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 
+        void toggle_map_memory();
+        bool should_show_map_memory();
+        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
+        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation );
+        /** Called after several calls of memorize_tile, processes all tiles set to memorize */
+        void finalize_tile_memory();
+        /** Returns last stored map tile in given location in tiles mode */
+        memorized_terrain_tile get_memorized_terrain( const tripoint &p ) const;
+        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
+        void memorize_terrain_curses( const tripoint &pos, const long symbol );
+        /** Returns last stored map tile in given location in curses mode */
+        long get_memorized_terrain_curses( const tripoint &p ) const;
+        /** Called after several calls of memorize_terrain_curses, processes all tiles set to memorize */
+        void finalize_terrain_memory_curses();
+        /** Returns the amount of submaps survivor can remember. Each submap is 12x12 and there are 4 of them in an overmap tile */
+        size_t max_memorized_submaps() const;
+
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false ) const override;
         // see Creature::sees
@@ -451,8 +517,6 @@ class player : public Character
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Returns true if the current martial art ignores the current weapon and uses unarmed attacks instead. */
-        bool unarmed_override() const;
         /** Always returns false, since players can't dig currently */
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
@@ -681,7 +745,8 @@ class player : public Character
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part bp, int amount ) override;
+        void apply_damage( Creature *source, body_part bp, int amount,
+                           const bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -1064,7 +1129,9 @@ class player : public Character
         bool has_identified( const std::string &item_id ) const;
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
-        /** Rate point's ability to serve as a bed. Takes mutations, fatigue and stimulants into account. */
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        comfort_level base_comfort_value( const tripoint &p ) const;
+        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
@@ -1760,6 +1827,8 @@ class player : public Character
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
 
+        map_memory player_map_memory;
+        bool show_map_memory;
 };
 
 #endif

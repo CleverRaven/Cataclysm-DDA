@@ -265,8 +265,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
             if( gun.ammo_type() == ammotype( "flammable" ) || gun.ammo_type() == ammotype( "66mm" ) ||
                 gun.ammo_type() == ammotype( "84x246mm" ) || gun.ammo_type() == ammotype( "m235" ) ) {
-                add_msg_if_player( m_good, string_format(
-                                       _( "You feel a surge of euphoria as flames roar out of the %s!" ), gun.tname().c_str() ) );
+                add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
+                                   gun.tname() );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
                 rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
@@ -1250,12 +1250,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 newtarget = t.size() - 1;
             }
             dst = t[newtarget]->pos();
+            pc.recoil = MAX_RECOIL;
         } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) + 1;
             if( newtarget == static_cast<int>( t.size() ) ) {
                 newtarget = 0;
             }
             dst = t[newtarget]->pos();
+            pc.recoil = MAX_RECOIL;
         } else if( ( action == "AIM" ) && target != -1 ) {
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.

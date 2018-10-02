@@ -326,9 +326,12 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 
     const int velocity_before = coll_velocity;
     const int sign_before = sgn( velocity_before );
-    std::vector<int> structural_indices = all_parts_at_location( part_location_structure );
-    for( size_t i = 0; i < structural_indices.size(); i++ ) {
-        const int p = structural_indices[i];
+    bool empty = true;
+    for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
+        if( part_info( p ).location != part_location_structure || parts[ p ].removed ) {
+            continue;
+        }
+        empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
@@ -355,7 +358,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         }
     }
 
-    if( structural_indices.empty() ) {
+    if( empty ) {
         // Hack for dirty vehicles that didn't yet get properly removed
         veh_collision fake_coll;
         fake_coll.type = veh_coll_other;

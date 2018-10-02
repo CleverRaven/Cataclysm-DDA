@@ -932,7 +932,7 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
                 ( 100 - int( chance_of_success ) ) ) ) {
             return false;
         }
@@ -954,8 +954,8 @@ bool player::uninstall_bionic( bionic_id const &b_id, player &installer, bool au
                               bionics[b_id].name.c_str() );
         }
         // until bionics can be flagged as non-removable
-        add_msg_player_or_npc( m_neutral, _( "You jiggle the parts back into their familiar places." ),
-                               _( "<npcname> jiggles the parts back into their familiar places." ) );
+        add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
+                               _( "<npcname>'s parts are jiggled back into their familiar places." ) );
         add_msg( m_good, _( "Successfully removed %s." ), bionics[b_id].name.c_str() );
         // remove power bank provided by bionic
         max_power_level -= bionics[b_id].capacity;
@@ -1022,7 +1022,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
                 ( 100 - int( chance_of_success ) ) ) ) {
             return false;
         }
@@ -1541,12 +1541,12 @@ void player::introduce_into_anesthesia( time_duration const &duration, player &i
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
 
-        add_effect( effect_narcosis, duration );
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
         add_msg_if_player( m_mixed,
                            _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. Mercifully, you pass out when the blades reach your line of sight." ) )
         ;
     }
+    add_effect( effect_narcosis, duration );
     fall_asleep( duration );
 }

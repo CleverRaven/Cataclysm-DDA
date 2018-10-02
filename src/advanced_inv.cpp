@@ -1644,6 +1644,7 @@ void advanced_inventory::display()
                     int moved = 0;
                     for( auto &elem : moving_items ) {
                         assert( !elem.is_null() );
+                        move_cost += Pickup::cost_to_move_item( g->u, elem );
                         items_left = add_item( destarea, elem );
                         if( items_left > 0 ) {
                             // chargeback the items if adding them failed
@@ -1667,7 +1668,7 @@ void advanced_inventory::display()
                 }
                 // add the item, and note any items that might be leftover
                 int items_left = add_item( destarea, new_item, ( by_charges ) ? 1 : amount_to_move );
-                move_cost = Pickup::cost_to_move_item( g->u, new_item );
+                move_cost = ( by_charges ? 1 : amount_to_move ) * Pickup::cost_to_move_item( g->u, new_item );
                 // only remove item or charges if the add succeeded
                 if( items_left == 0 ) {
                     if( by_charges ) {
@@ -2160,7 +2161,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.
-    if( it.made_of( LIQUID ) ) {
+    if( it.made_of( LIQUID, true ) ) {
         popup( _( "You can't pick up a liquid." ) );
         redraw = true;
         return false;

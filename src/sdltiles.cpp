@@ -159,8 +159,8 @@ public:
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color, cata_cursesport::font_style FS) = 0;
-    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG, cata_cursesport::font_style FS) const;
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
+    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window( const catacurses::window &win );
     bool draw_window( const catacurses::window &win, int offsetx, int offsety );
 
@@ -183,22 +183,20 @@ public:
     CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     ~CachedTTFFont() override = default;
 
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color, cata_cursesport::font_style FS) override;
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) override;
 protected:
-    TTF_Font *get_font(cata_cursesport::font_style FS);
-    SDL_Texture_Ptr create_glyph( const std::string &ch, int color, cata_cursesport::font_style FS );
+    SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
-    std::map<cata_cursesport::font_style, TTF_Font_Ptr> font_map;
+    TTF_Font_Ptr font;
     // Maps (character code, color) to SDL_Texture*
 
     struct key_t {
         std::string   codepoints;
         unsigned char color;
-        cata_cursesport::font_style FS;
 
         // Operator overload required to use in std::map.
         bool operator<(key_t const &rhs) const noexcept {
-            return (FS.to_ulong() == rhs.FS.to_ulong()) ? ((color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color) : FS.to_ulong() < rhs.FS.to_ulong();
+            return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
         }
     };
 
@@ -210,9 +208,6 @@ protected:
     std::map<key_t, cached_t> glyph_cache_map;
 
     const bool fontblending;
-    std::string typeface;
-    int fontsize;
-    int faceIndex;
 };
 
 /**
@@ -224,9 +219,9 @@ public:
     BitmapFont( int w, int h, const std::string &path );
     ~BitmapFont() override = default;
 
-    virtual void OutputChar(std::string ch, int x, int y, unsigned char color, cata_cursesport::font_style FS) override;
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) override;
     void OutputChar(long t, int x, int y, unsigned char color);
-  virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG, cata_cursesport::font_style FS) const override;
+    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const override;
 protected:
     std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
@@ -639,11 +634,10 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     FillRectDIB(rect, color);
 }
 
-SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color, cata_cursesport::font_style FS )
+SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
-    TTF_Font *_font = get_font(FS);
-    SDL_Surface_Ptr sglyph( function( _font, ch.c_str(), windowsPalette[color] ) );
+    SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
     if( !sglyph ) {
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return NULL;
@@ -696,14 +690,14 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
 }
 
-void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color, cata_cursesport::font_style FS)
+void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
 {
-    key_t key {std::move(ch), static_cast<unsigned char>(color & 0xf), FS};
+    key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
         cached_t new_entry {
-            create_glyph( key.codepoints, key.color, FS ),
+            create_glyph( key.codepoints, key.color ),
             static_cast<int>( fontwidth * utf8_wrapper( key.codepoints ).display_width() )
         };
         it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
@@ -728,9 +722,8 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
 #endif
 }
 
-void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color, cata_cursesport::font_style FS)
+void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color)
 {
-    (void) FS; // unused
     int len = ch.length();
     const char *s = ch.c_str();
     const long t = UTF8_getch(&s, &len);
@@ -902,9 +895,8 @@ void find_videodisplays() {
 
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
-void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG, cata_cursesport::font_style FS) const
+void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
 {
-    (void) FS; // unused
     switch (line_id) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
             HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
@@ -1111,7 +1103,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                map_font->OutputChar( text.substr_display( i, 1 ).str(), x, y, ft.color, win->FS );
+                map_font->OutputChar( text.substr_display( i, 1 ).str(), x, y, ft.color );
             }
 
             prev_coord = coord;
@@ -1290,7 +1282,6 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
             const int codepoint = UTF8_getch( &utf8str, &len );
             const catacurses::base_color FG = cell.FG;
             const catacurses::base_color BG = cell.BG;
-            const cata_cursesport::font_style FS = cell.FS;
             if( codepoint != UNKNOWN_UNICODE ) {
                 const int cw = utf8_width( cell.ch );
                 if( cw < 1 ) {
@@ -1298,10 +1289,10 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
                     continue;
                 }
                 FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
-                OutputChar( cell.ch, drawx, drawy, FG, FS );
+                OutputChar( cell.ch, drawx, drawy, FG );
             } else {
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, BG );
-                draw_ascii_lines( static_cast<unsigned char>( cell.ch[0] ), drawx, drawy, FG, FS );
+                draw_ascii_lines( static_cast<unsigned char>( cell.ch[0] ), drawx, drawy, FG );
             }
 
         }
@@ -3322,9 +3313,8 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
     }
 }
 
-void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG, cata_cursesport::font_style FS) const
+void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
 {
-    (void) FS; // unused
     BitmapFont *t = const_cast<BitmapFont*>(this);
     switch (line_id) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
@@ -3365,13 +3355,11 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
     }
 }
 
-CachedTTFFont::CachedTTFFont( const int w, const int h, std::string _typeface, int _fontsize, const bool _fontblending )
+CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, int fontsize, const bool fontblending )
 : Font( w, h )
-, fontblending( _fontblending )
-, typeface( _typeface )
-, fontsize( _fontsize )
-, faceIndex( 0 )
+, fontblending( fontblending )
 {
+    int faceIndex = 0;
     const std::string sysfnt = find_system_font(typeface, faceIndex);
     if (!sysfnt.empty()) {
         typeface = sysfnt;
@@ -3398,64 +3386,11 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string _typeface, i
         strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon") == 0 ) {
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
     }
-
-    // Preload normal styled font to force exception here
-    TTF_Font *font = get_font(cata_cursesport::font_style());
-    (void) font;
-}
-
-TTF_Font *CachedTTFFont::get_font(cata_cursesport::font_style FS)
-{
-    auto it = font_map.find(FS);
-    TTF_Font *_font = NULL;
-    if (it != font_map.end()) {
-        _font = it->second.get();
-        return _font;
+    font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );
+    if( !font ) {
+        throw std::runtime_error(TTF_GetError());
     }
-
-    int style = TTF_STYLE_NORMAL;
-    int shrink_to_fit_style = TTF_STYLE_NORMAL;
-    if ( FS[cata_cursesport::FS_BOLD] ) {
-        style |= TTF_STYLE_BOLD;
-        shrink_to_fit_style |= TTF_STYLE_BOLD;
-    }
-    if ( FS[cata_cursesport::FS_ITALIC] ) {
-        style |= TTF_STYLE_ITALIC;
-    }
-    if ( FS[cata_cursesport::FS_STRIKETHROUGH] ) {
-        style |= TTF_STYLE_STRIKETHROUGH;
-        shrink_to_fit_style |= TTF_STYLE_STRIKETHROUGH;
-    }
-    if ( FS[cata_cursesport::FS_UNDERLINE] ) {
-        style |= TTF_STYLE_UNDERLINE;
-        shrink_to_fit_style |= TTF_STYLE_UNDERLINE;
-    }
-
-    int _fontsize = fontsize;
-    while ( _fontsize > 0 ) {
-        _font = TTF_OpenFontIndex( typeface.c_str(), _fontsize, faceIndex );
-        if( !_font ) {
-            throw std::runtime_error(TTF_GetError());
-        }
-        TTF_SetFontStyle( _font, shrink_to_fit_style );
-        int width = 0;
-        int height = 0;
-        // @todo: Check all to get maximum?
-        TTF_SizeText( _font, "#", &width, &height );
-        if ( width <= fontwidth && height <= fontheight ) {
-            break;
-        }
-        TTF_CloseFont( _font );
-        _font = NULL;
-        _fontsize--;
-    }
-    if (!_font) {
-        throw std::runtime_error("No font size that satisfies the requirements found");
-    }
-    TTF_SetFontStyle( _font, style );
-    font_map.emplace( FS, TTF_Font_Ptr( _font ) );
-
-    return _font;
+    TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
 int map_font_width() {

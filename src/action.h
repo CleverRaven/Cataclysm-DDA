@@ -54,8 +54,10 @@ enum action_id : int {
     ACTION_TOGGLE_MOVE,
     /**@}*/
 
-    // Viewport movement actions
+    // Viewport movement actions and related
     /**@{*/
+    /** Toggle memorized tiles being shown */
+    ACTION_TOGGLE_MAP_MEMORY,
     /** Center the viewport on character */
     ACTION_CENTER,
     /** Move viewport north */
@@ -254,6 +256,8 @@ enum action_id : int {
     ACTION_ITEMACTION,
     /** Turn pixel minimap on/off */
     ACTION_TOGGLE_PIXEL_MINIMAP,
+    /** Reload current tileset */
+    ACTION_RELOAD_TILESET,
     /** Turn auto pulp or butcher on/off */
     ACTION_TOGGLE_AUTO_PULP_BUTCHER,
     /** Not an action, serves as count of enumerated actions */

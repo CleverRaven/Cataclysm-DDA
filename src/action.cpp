@@ -132,6 +132,8 @@ std::string action_ident( action_id act )
             return "LEVEL_DOWN";
         case ACTION_MOVE_UP:
             return "LEVEL_UP";
+        case ACTION_TOGGLE_MAP_MEMORY:
+            return "toggle_map_memory";
         case ACTION_CENTER:
             return "center";
         case ACTION_SHIFT_N:
@@ -292,6 +294,8 @@ std::string action_ident( action_id act )
             return "toggle_fullscreen";
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             return "toggle_pixel_minimap";
+        case ACTION_RELOAD_TILESET:
+            return "reload_tileset";
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
             return "toggle_auto_pulp_butcher";
         case ACTION_ACTIONMENU:
@@ -329,6 +333,7 @@ bool can_action_change_worldstate( const action_id act )
 {
     switch( act ) {
         // Shift view
+        case ACTION_TOGGLE_MAP_MEMORY:
         case ACTION_CENTER:
         case ACTION_SHIFT_N:
         case ACTION_SHIFT_NE:
@@ -371,6 +376,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
+        case ACTION_RELOAD_TILESET:
         case ACTION_TIMEOUT:
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
             return false;
@@ -712,6 +718,7 @@ action_id handle_action_menu()
 #endif
 #ifdef TILES
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
+            REGISTER_ACTION( ACTION_RELOAD_TILESET );
 #endif // TILES
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );

@@ -3841,7 +3841,7 @@
     "symbol": "%",
     "color": "green",
     "use_action": {
-      "target": "pickle",
+      "target": "pickled_egg",
       "msg": "You open the jar, exposing it to the atmosphere.",
       "container": "jar_glass",
       "target_charges": 6,
