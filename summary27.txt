@@ -18,7 +18,7 @@ Bugfixes Some fixes to the filter popup of pickup menu
 Bugfixes Fix switching language not affecting season names
 Interface Show "Time: ???" when underground and without watches
 Content Add non-incendiary variants to milspec rifle ammo itemgroup
-Bugfixes fix for #20923 relax gas aiming loop
+Bugfixes fix for #20923 relax gas aiming loop
 Interface Moves ethanol to after disinfectant in recipes
 Interface Add FIRE flag to lit oil lamp
 Bugfixes Don't repeat last ranch foreman mission
@@ -77,7 +77,7 @@ Bugfixes Fix another case of debug storage overflow
 Content Expands vehicle water purification, ad-hoc with funnels
 Interface Hide bionic slots for 0.D
 Balance Curry and curry with meat nutrition balance
-Bugfixes Added trait_id call around DEBUG_CBM_SLOTS to fix regression in #20370
+Bugfixes Added trait_id call around DEBUG_CBM_SLOTS to fix regression inÂ #20370
 Content Add Food Processor tool
 Build [READY] Enable unit tests in Travis builds.
 Interface Fix reload failure message
