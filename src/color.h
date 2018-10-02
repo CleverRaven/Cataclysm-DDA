@@ -369,9 +369,6 @@ class nc_color
         // Returns this attribute plus A_BLINK.
         nc_color blink() const;
         bool is_blink() const;
-        // Returns this attribute plus A_ITALIC.
-        nc_color italic() const;
-        bool is_italic() const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

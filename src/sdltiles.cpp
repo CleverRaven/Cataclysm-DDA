@@ -1103,7 +1103,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                map_font->OutputChar( text.substr_display( i, 1 ).str(), x, y, ft.color, win->FS );
+                map_font->OutputChar( text.substr_display( i, 1 ).str(), x, y, ft.color );
             }
 
             prev_coord = coord;

@@ -613,8 +613,7 @@ void catacurses::waddch( const window &win, const chtype ch )
 
 static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */
 static constexpr int A_BOLD = 0x00002000; /* Added characters are bold. */
-static constexpr int A_ITALIC = 0x00800000; /* Added characters are italic. */
-static constexpr int A_COLOR = 0x037e0000; /* Color bits */
+static constexpr int A_COLOR = 0x03fe0000; /* Color bits */
 
 nc_color nc_color::from_color_pair_index( const int index )
 {
@@ -644,16 +643,6 @@ nc_color nc_color::blink() const
 bool nc_color::is_blink() const
 {
     return attribute_value & A_BLINK;
-}
-
-nc_color nc_color::italic() const
-{
-    return nc_color( attribute_value | A_ITALIC );
-}
-
-bool nc_color::is_italic() const
-{
-    return attribute_value & A_ITALIC;
 }
 
 #endif
