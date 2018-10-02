@@ -931,7 +931,6 @@ void sfx::do_footstep()
         static std::set<ter_str_id> const grass = {
             ter_str_id( "t_grass" ),
             ter_str_id( "t_shrub" ),
-            ter_str_id( "t_shrub" ),
             ter_str_id( "t_shrub_peanut" ),
             ter_str_id( "t_shrub_peanut_harvested" ),
             ter_str_id( "t_shrub_blueberry" ),
