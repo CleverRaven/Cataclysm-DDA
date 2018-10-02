@@ -3495,7 +3495,7 @@ int item::get_encumber_when_containing( units::volume contents_volume ) const
     return encumber;
 }
 
-int item::get_layer() const
+layer_level item::get_layer() const
 {
     if( has_flag( "SKINTIGHT" ) ) {
         return UNDERWEAR;

@@ -1375,7 +1375,7 @@ class item : public visitable<item>
         /**
          * Returns clothing layer for item which will always be 0 for non-wearable items.
          */
-        int get_layer() const;
+        layer_level get_layer() const;
         /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
