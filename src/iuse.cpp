@@ -1480,6 +1480,14 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
         // Then monsters.
     } else if( monster *const mon_ptr = g->critter_at<monster>( dirp, true ) ) {
         monster &mon = *mon_ptr;
+
+        if( mon.is_hallucination() ) {
+            p.add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
+                                 mon.type->nname().c_str(), it.tname().c_str() );
+            mon.die( nullptr );
+            return 0;
+        }
+
         // This switch handles each petfood for each type of tameable monster.
         switch( animal_food_type ) {
             case DOGFOOD:
