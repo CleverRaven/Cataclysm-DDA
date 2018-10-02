@@ -6,7 +6,7 @@ Interface Swap game::zoom_in and game::zoom_out
 Bugfixes Added missing ammo capacity to SVS robodrum and added reload time
 Interface Explanation for the player when choosing the direction for the new headlight
 Infrastructure Encapsulate the WINDOW pointer in class game in unique_ptr
-Interface [RDY] Fix interference effect of radio messages in localized version
+I18N [RDY] Fix interference effect of radio messages in localized version
 Bugfixes Fix vehicle turret behavior and reorganize targeting code
 Balance Remove battery charges from the handpress
 Balance Sheath knives and fill quivers for rest of professions
@@ -23,7 +23,7 @@ Interface Moves ethanol to after disinfectant in recipes
 Interface Add FIRE flag to lit oil lamp
 Bugfixes Don't repeat last ranch foreman mission
 Bugfixes Fix crash in profession::items alternative fix
-Interface Add Polish language
+I18N Add Polish language
 Bugfixes Compare to mission type ID instead of mission name when dealing with 'Install Repeater Mod'
 Interface Fix message window overlapping border in advanced inventory UI
 Interface Fix revealing invisible monster when looking around
