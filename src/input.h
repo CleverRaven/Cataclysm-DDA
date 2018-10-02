@@ -442,6 +442,7 @@ class input_context
             next_action = other.next_action;
             iso_mode = other.iso_mode;
             action_name_overrides = other.action_name_overrides;
+            timeout = other.timeout;
             return *this;
         }
 
@@ -457,7 +458,8 @@ class input_context
                    handling_coordinate_input == other.handling_coordinate_input &&
                    next_action == other.next_action &&
                    iso_mode == other.iso_mode &&
-                   action_name_overrides == other.action_name_overrides;
+                   action_name_overrides == other.action_name_overrides &&
+                   timeout == other.timeout;
         }
         bool operator!=( const input_context &other ) const {
             return !( *this == other );
