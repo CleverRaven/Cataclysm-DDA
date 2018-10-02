@@ -567,7 +567,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
         // Check that we can pick it up.
         if( !temp_item->made_of( LIQUID, true ) ) {
-            g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) );
+            int distance = std::max( rl_dist( src, dest ), 1 );
+            g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) * distance );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( g->u, { *temp_item }, destination );
             } else {

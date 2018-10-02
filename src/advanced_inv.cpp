@@ -1392,6 +1392,30 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     return true;
 }
 
+static tripoint aim_vector( aim_location id )
+{
+    switch( id ) {
+        case AIM_SOUTHWEST:
+            return tripoint( -1, 1, 0 );
+        case AIM_SOUTH:
+            return tripoint( 0, 1, 0 );
+        case AIM_SOUTHEAST:
+            return tripoint( 1, 1, 0 );
+        case AIM_WEST:
+            return tripoint( -1, 0, 0 );
+        case AIM_EAST:
+            return tripoint( 1, 0, 0 );
+        case AIM_NORTHWEST:
+            return tripoint( -1, -1, 0 );
+        case AIM_NORTH:
+            return tripoint( 0, -1, 0 );
+        case AIM_NORTHEAST:
+            return tripoint( 1, -1, 0 );
+        default:
+            return tripoint( 0, 0, 0 );
+    }
+};
+
 void advanced_inventory::display()
 {
     init();
@@ -1558,6 +1582,7 @@ void advanced_inventory::display()
             }
             aim_location destarea = dpane.get_area();
             aim_location srcarea = sitem->area;
+            int distance = std::max( rl_dist( aim_vector( srcarea ), aim_vector( destarea ) ), 1 );
             bool restore_area = ( destarea == AIM_ALL );
             if( !query_destination( destarea ) ) {
                 continue;
@@ -1676,7 +1701,7 @@ void advanced_inventory::display()
                 }
             }
             // This is only reached when at least one item has been moved.
-            g->u.mod_moves( -move_cost );
+            g->u.mod_moves( -move_cost * distance );
             // Just in case the items have moved from/to the inventory
             g->u.inv.restack( g->u );
             // if dest was AIM_ALL then we used query_destination and should undo that
@@ -2403,37 +2428,10 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
 void advanced_inv_area::set_container_position()
 {
     // update the offset of the container based on location
-    switch( uistate.adv_inv_container_location ) {
-        case AIM_DRAGGED:
-            off = g->u.grab_point;
-            break;
-        case AIM_SOUTHWEST:
-            off = tripoint( -1, 1, 0 );
-            break;
-        case AIM_SOUTH:
-            off = tripoint( 0, 1, 0 );
-            break;
-        case AIM_SOUTHEAST:
-            off = tripoint( 1, 1, 0 );
-            break;
-        case AIM_WEST:
-            off = tripoint( -1, 0, 0 );
-            break;
-        case AIM_EAST:
-            off = tripoint( 1, 0, 0 );
-            break;
-        case AIM_NORTHWEST:
-            off = tripoint( -1, -1, 0 );
-            break;
-        case AIM_NORTH:
-            off = tripoint( 0, -1, 0 );
-            break;
-        case AIM_NORTHEAST:
-            off = tripoint( 1, -1, 0 );
-            break;
-        default:
-            off = tripoint( 0, 0, 0 );
-            break;
+    if( uistate.adv_inv_container_location == AIM_DRAGGED ) {
+        off = g->u.grab_point;
+    } else {
+        off = aim_vector( static_cast<aim_location>( uistate.adv_inv_container_location ) );
     }
     // update the absolute position
     pos = g->u.pos() + off;

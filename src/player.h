@@ -1414,6 +1414,11 @@ class player : public Character
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
 
+        // Hauling items on the ground
+        void start_hauling();
+        void stop_hauling();
+        bool is_hauling() const;
+
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
@@ -1455,6 +1460,7 @@ class player : public Character
         bool controlling_vehicle;  // Is currently in control of a vehicle
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
+        bool hauling;
         player_activity activity;
         std::list<player_activity> backlog;
         int volume;
