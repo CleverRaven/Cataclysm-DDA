@@ -1699,7 +1699,9 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
         int gpmenupos = gpmenu.selected;
         gpmenu.query( false, BLINK_SPEED * 3 );
 
-        if( gpmenu.ret != UIMENU_UNBOUND ) {
+        if( gpmenu.ret == UIMENU_TIMEOUT ) {
+            showpreview = !showpreview;
+        } else if( gpmenu.ret != UIMENU_UNBOUND ) {
             if( gpmenu.ret == 0 ) {
 
                 cleartmpmap( tmpmap );
