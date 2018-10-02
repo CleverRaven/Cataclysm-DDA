@@ -106,6 +106,8 @@ class iuse
         int circsaw_on( player *, item *, bool, const tripoint & );
         int combatsaw_off( player *, item *, bool, const tripoint & );
         int combatsaw_on( player *, item *, bool, const tripoint & );
+        int e_combatsaw_off( player *, item *, bool, const tripoint & );
+        int e_combatsaw_on( player *, item *, bool, const tripoint & );
         int jackhammer( player *, item *, bool, const tripoint & );
         int pickaxe( player *, item *, bool, const tripoint & );
         int geiger( player *, item *, bool, const tripoint & );
