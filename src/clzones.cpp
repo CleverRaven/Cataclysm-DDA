@@ -252,7 +252,7 @@ cata::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
     uilist as_m;
-    as_m.desc_enabled = true;
+    as_m.desc_enabled = TERMY > 45;
     as_m.text = _( "Select zone type:" );
 
     size_t i = 0;
