@@ -5234,6 +5234,7 @@
     "rot_spawn": "GROUP_CARRION"
   },
   {
+    "//": "Remove after 0.D.",
     "type": "COMESTIBLE",
     "id": "lasagne_cooked",
     "name": "boiled lasagne",
