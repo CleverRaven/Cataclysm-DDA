@@ -5234,27 +5234,6 @@
     "rot_spawn": "GROUP_CARRION"
   },
   {
-    "//": "Remove after 0.D.",
-    "type": "COMESTIBLE",
-    "id": "lasagne_cooked",
-    "name": "boiled lasagne",
-    "weight": 700,
-    "color": "yellow",
-    "spoils_in": 20,
-    "container": "box_small",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": 15,
-    "calories": 286,
-    "description": "Fresh wet lasagne.  Fairly bland, but fills you up.",
-    "price": 20,
-    "material": "wheat",
-    "volume": 8,
-    "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "rot_spawn": "GROUP_CARRION"
-  },
-  {
     "type": "COMESTIBLE",
     "id": "macaroni_raw",
     "name": "raw macaroni",
