@@ -1976,12 +1976,12 @@ void draw_quick_shortcuts() {
             text_x = ((i + 0.5f) * width - (font->fontwidth * text.length()) * text_scale * 0.5f) / text_scale;
         text_y = (WindowHeight - (height + font->fontheight * text_scale) * 0.5f) / text_scale;
         font->opacity = get_option<int>("ANDROID_SHORTCUT_OPACITY_SHADOW")*0.01f;
-        font->OutputChar( text, text_x+1, text_y+1, 0, cata_cursesport::font_style() );
+        font->OutputChar( text, text_x+1, text_y+1, 0 );
         font->opacity = get_option<int>("ANDROID_SHORTCUT_OPACITY_FG")*0.01f;
-        font->OutputChar( text, text_x, text_y, get_option<int>("ANDROID_SHORTCUT_COLOR"), cata_cursesport::font_style() );
+        font->OutputChar( text, text_x, text_y, get_option<int>("ANDROID_SHORTCUT_COLOR") );
         if (hovered) {
             // draw a second button hovering above the first one
-            font->OutputChar( text, text_x, text_y - (height*1.2f / text_scale), get_option<int>("ANDROID_SHORTCUT_COLOR"), cata_cursesport::font_style() );
+            font->OutputChar( text, text_x, text_y - (height*1.2f / text_scale), get_option<int>("ANDROID_SHORTCUT_COLOR") );
             if (show_hint) {
                 // draw hint text
                 text_scale = default_text_scale;
@@ -1995,9 +1995,9 @@ void draw_quick_shortcuts() {
                 font->opacity = get_option<int>("ANDROID_SHORTCUT_OPACITY_SHADOW")*0.01f;
                 text_x = (WindowWidth - ((font->fontwidth  * hint_length) * text_scale)) * 0.5f / text_scale;
                 text_y = (WindowHeight - font->fontheight * text_scale) * 0.5f / text_scale;
-                font->OutputChar( hint_text, text_x+1, text_y+1, 0, cata_cursesport::font_style() );
+                font->OutputChar( hint_text, text_x+1, text_y+1, 0 );
                 font->opacity = get_option<int>("ANDROID_SHORTCUT_OPACITY_FG")*0.01f;
-                font->OutputChar( hint_text, text_x, text_y, get_option<int>("ANDROID_SHORTCUT_COLOR"), cata_cursesport::font_style() );
+                font->OutputChar( hint_text, text_x, text_y, get_option<int>("ANDROID_SHORTCUT_COLOR") );
             }
         }
         font->opacity = 1.0f;
