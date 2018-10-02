@@ -26,11 +26,12 @@ typedef std::vector<name_value_pair_t> option_overrides_t;
 // If tag is found as a prefix of any argument in arg_vec, the argument is
 // removed from arg_vec and the argument suffix after tag is returned.
 // Otherwise, an empty string is returned and arg_vec is unchanged.
-std::string extract_argument( std::vector<const char *> &arg_vec, std::string tag ) {
+std::string extract_argument( std::vector<const char *> &arg_vec, std::string tag )
+{
     std::string arg_rest;
     for( auto iter = arg_vec.begin(); iter != arg_vec.end(); iter++ ) {
         if( strncmp( *iter, tag.c_str(), tag.length() ) == 0 ) {
-            arg_rest = std::string( &(*iter)[tag.length()] );
+            arg_rest = std::string( &( *iter )[tag.length()] );
             arg_vec.erase( iter );
             break;
         }
@@ -41,7 +42,7 @@ std::string extract_argument( std::vector<const char *> &arg_vec, std::string ta
 std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
 {
     std::vector<mod_id> ret;
-    std::string mod_string = extract_argument(arg_vec, "--mods=");
+    std::string mod_string = extract_argument( arg_vec, "--mods=" );
 
     const char delim = ',';
     size_t i = 0;
@@ -146,7 +147,8 @@ bool check_remove_flags( std::vector<const char *> &cont, const std::vector<cons
 
 // Split s on separator sep, returning parts as a pair. Returns empty string as
 // second value if no separator found.
-name_value_pair_t split_pair( std::string s, const char sep ) {
+name_value_pair_t split_pair( std::string s, const char sep )
+{
     size_t pos = s.find( sep );
     if( pos != std::string::npos ) {
         return name_value_pair_t( s.substr( 0, pos ), s.substr( pos + 1 ) );
@@ -155,7 +157,8 @@ name_value_pair_t split_pair( std::string s, const char sep ) {
     }
 }
 
-option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec ) {
+option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec )
+{
     option_overrides_t ret;
     std::string option_overrides_string = extract_argument( arg_vec, "--option_overrides=" );
     if( option_overrides_string.empty() ) {
@@ -198,7 +201,7 @@ int main( int argc, const char *argv[] )
         printf( "CataclysmDDA specific options:\n" );
         printf( "  --mods=<mod1,mod2,...>       Loads the list of mods before executing tests.\n" );
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
-        printf( "  --option_overrides=n:v[,...] Name-value pairs of game options for tests.\n");
+        printf( "  --option_overrides=n:v[,...] Name-value pairs of game options for tests.\n" );
         printf( "                               (overrides config/options.json values)\n" );
         return result;
     }
