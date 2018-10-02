@@ -100,8 +100,8 @@ cata::optional<int> cata::string_formatter::read_precision()
 
 void cata::string_formatter::throw_error( const std::string &msg ) const
 {
-    throw std::runtime_error( msg + " at: \"" + current_format.substr( 0,
-                              current_index_in_format ) + "|" + current_format.substr( current_index_in_format ) + "\"" );
+    throw std::runtime_error( msg + " at: \"" + format.substr( 0,
+                              current_index_in_format ) + "|" + format.substr( current_index_in_format ) + "\"" );
 }
 
 std::string cata::handle_string_format_error()
