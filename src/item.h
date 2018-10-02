@@ -1373,7 +1373,7 @@ class item : public visitable<item>
          */
         int get_thickness() const;
         /**
-         * Returns clothing layer for item which will always be 0 for non-wearable items.
+         * Returns clothing layer for item.
          */
         layer_level get_layer() const;
         /**
