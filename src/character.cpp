@@ -93,6 +93,7 @@ static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SMALL( "SMALL" );
 static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
@@ -1416,6 +1417,9 @@ void Character::reset_stats()
     }
     if( has_trait( trait_TAIL_FLUFFY ) ) {
         mod_dodge_bonus( 4 );
+    }
+    if( has_trait( trait_SMALL ) ) {
+        mod_dodge_bonus( 1 );
     }
     if( has_trait( trait_SMALL2 ) ) {
         mod_dodge_bonus( 2 );
