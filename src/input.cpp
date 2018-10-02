@@ -104,6 +104,7 @@ void input_manager::init()
     std::set<action_id> unbound_keymap;
     load_keyboard_settings( keymap, keymap_file_loaded_from, unbound_keymap );
     init_keycode_mapping();
+    reset_timeout();
 
     try {
         load( FILENAMES["keybindings"], false );
@@ -736,6 +737,7 @@ const std::string &input_context::handle_input()
 
 const std::string &input_context::handle_input( const int timeout )
 {
+    const auto old_timeout = inp_mngr.get_timeout();
     if( timeout >= 0 ) {
         inp_mngr.set_timeout( timeout );
     } else {
@@ -786,7 +788,7 @@ const std::string &input_context::handle_input( const int timeout )
         // If it's an invalid key, just keep looping until the user
         // enters something proper.
     }
-    inp_mngr.reset_timeout();
+    inp_mngr.set_timeout( old_timeout );
     return *result;
 }
 
