@@ -2,6 +2,9 @@
 #ifndef VPART_RANGE_H
 #define VPART_RANGE_H
 
+#include "vpart_reference.h"
+#include "optional.h"
+
 #include <functional>
 #include <cassert>
 #include <algorithm>
@@ -26,39 +29,52 @@ class vehicle_part_iterator
 {
     private:
         std::reference_wrapper<const range_type> range_;
-        size_t index_;
+        cata::optional<vpart_reference> vp_;
 
         const range_type &range() const {
             return range_.get();
         }
+        void skip_to_next_valid( size_t i ) {
+            while( i < range().part_count() && !range().contained( i ) ) {
+                ++i;
+            }
+            if( i < range().part_count() ) {
+                vp_.emplace( range().vehicle(), i );
+            } else {
+                vp_.reset();
+            }
+        }
 
     public:
-        vehicle_part_iterator( const range_type &r, const size_t i ) : range_( r ), index_( i ) {
-            assert( index_ <= range().part_count() );
-            while( index_ < range().part_count() && !range().contained( index_ ) ) {
-                ++index_;
-            }
+        vehicle_part_iterator( const range_type &r, size_t i ) : range_( r ), vp_() {
+            assert( i <= range().part_count() );
+            skip_to_next_valid( i );
         }
         vehicle_part_iterator( const vehicle_part_iterator & ) = default;
 
-        // Templated because see top of file.
-        template<typename R = vpart_reference>
-        R operator*() const {
-            assert( index_ < range().part_count() );
-            return R( range().vehicle(), index_ );
+        const vpart_reference &operator*() const {
+            assert( vp_ );
+            return *vp_;
         }
-        //@todo add a `operator->`, maybe.
+        const vpart_reference *operator->() const {
+            assert( vp_ );
+            return &*vp_;
+        }
 
         vehicle_part_iterator &operator++() {
-            assert( index_ <= range().part_count() );
-            do {
-                ++index_;
-            } while( index_ < range().part_count() && !range().contained( index_ ) );
+            assert( vp_ );
+            skip_to_next_valid( vp_->part_index() + 1 );
             return *this;
         }
 
         bool operator==( const vehicle_part_iterator &rhs ) const {
-            return &range().vehicle() == &rhs.range().vehicle() && index_ == rhs.index_;
+            if( vp_.has_value() != rhs.vp_.has_value() ) {
+                return false;
+            }
+            if( !vp_.has_value() ) {
+                return true;
+            }
+            return &vp_->vehicle() == &rhs.vp_->vehicle() && vp_->part_index() == rhs.vp_->part_index();
         }
         bool operator!=( const vehicle_part_iterator &rhs ) const {
             return !operator==( rhs );
