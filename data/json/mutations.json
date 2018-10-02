@@ -5497,7 +5497,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "You can clearly see that this is for dev purposes only.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_CLOAK",
@@ -5505,7 +5505,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "If you see this, you'd best be debugging something.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_LS",
@@ -5513,7 +5513,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Holds hunger, thirst, and fatigue stable.  You can debug all year long with this one!",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_NOSCENT",
@@ -5521,7 +5521,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Smell that bug?  Smell's certainly not coming from you!",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_SILENT",
@@ -5529,7 +5529,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Be vewwy vewwy quiet.  We're hunting bugs.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_NOTEMP",
@@ -5537,7 +5537,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Temperature and weather won't bug you.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_NODMG",
@@ -5545,7 +5545,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Bug repellent forcefield.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_HS",
@@ -5553,7 +5553,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
-        "threshold" : true
+        "debug" : true
     },{
       "type" : "mutation",
       "id" : "DEBUG_CBM_SLOTS",
@@ -5561,7 +5561,7 @@
       "points" : 99,
       "valid" : false,
       "description" : "Limitate the number of bionics which you're able to install in your body.",
-      "threshold" : true
+      "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_MIND_CONTROL",
@@ -5569,7 +5569,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Mind the bugs, would you kindly?",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_STORAGE",
@@ -5577,7 +5577,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Lets you carry 15 bugs worth of your body weight in your mandibles.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_BIONICS",
@@ -5585,7 +5585,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Lets you instantly install torsion ratchets for your eight legs.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_BIONIC_POWER",
@@ -5593,7 +5593,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
-        "threshold" : true,
+        "debug" : true,
         "active" : true
     },{
         "type" : "mutation",

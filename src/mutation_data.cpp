@@ -280,6 +280,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.bodytemp_sleep = jsobj.get_int( "bodytemp_sleep", 0 );
     new_mut.threshold = jsobj.get_bool( "threshold", false );
     new_mut.profession = jsobj.get_bool( "profession", false );
+    new_mut.debug = jsobj.get_bool( "debug", false );
 
     auto vr = jsobj.get_array( "vitamin_rates" );
     while( vr.has_more() ) {
@@ -461,6 +462,8 @@ nc_color mutation_branch::get_display_color() const
 {
     if( threshold || profession ) {
         return c_white;
+    } else if( debug ) {
+        return c_light_cyan;
     } else if( mixed_effect ) {
         return c_pink;
     } else if( points > 0 ) {

@@ -92,6 +92,8 @@ struct mutation_branch {
         bool threshold;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession;
+        //True if the mutation is obtained through the debug menu
+        bool debug;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
