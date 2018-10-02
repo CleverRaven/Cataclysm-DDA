@@ -110,7 +110,7 @@ void check_vehicle_damage( std::string explosive_id, std::string vehicle_id, int
         if( target_vehicle->parts[ i ].name() == "windshield" ||
             target_vehicle->parts[ i ].name() == "headlight" ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else {
+        } else if( target_vehicle->parts[ i ].name() != "clock" ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }
