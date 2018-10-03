@@ -1040,37 +1040,37 @@ bool vehicle::can_unmount( int const p, std::string &reason ) const
     int dy = parts[p].mount.y;
 
     // Can't remove an engine if there's still an alternator there
-    if( part_flag( p, VPFLAG_ENGINE ) && part_with_feature( p, VPFLAG_ALTERNATOR ) >= 0 ) {
+    if( part_flag( p, VPFLAG_ENGINE ) && part_with_feature( p, VPFLAG_ALTERNATOR, true ) >= 0 ) {
         reason = _( "Remove attached alternator first." );
         return false;
     }
 
     //Can't remove a seat if there's still a seatbelt there
-    if( part_flag( p, "BELTABLE" ) && part_with_feature( p, "SEATBELT" ) >= 0 ) {
+    if( part_flag( p, "BELTABLE" ) && part_with_feature( p, "SEATBELT", true ) >= 0 ) {
         reason = _( "Remove attached seatbelt first." );
         return false;
     }
 
     // Can't remove a window with curtains still on it
-    if( part_flag( p, "WINDOW" ) && part_with_feature( p, "CURTAIN" ) >= 0 ) {
+    if( part_flag( p, "WINDOW" ) && part_with_feature( p, "CURTAIN", true ) >= 0 ) {
         reason = _( "Remove attached curtains first." );
         return false;
     }
 
     //Can't remove controls if there's something attached
-    if( part_flag( p, "CONTROLS" ) && part_with_feature( p, "ON_CONTROLS" ) >= 0 ) {
+    if( part_flag( p, "CONTROLS" ) && part_with_feature( p, "ON_CONTROLS", true ) >= 0 ) {
         reason = _( "Remove attached part first." );
         return false;
     }
 
     //Can't remove a battery mount if there's still a battery there
-    if( part_flag( p, "BATTERY_MOUNT" ) && part_with_feature( p, "NEEDS_BATTERY_MOUNT" ) >= 0 ) {
+    if( part_flag( p, "BATTERY_MOUNT" ) && part_with_feature( p, "NEEDS_BATTERY_MOUNT", true ) >= 0 ) {
         reason = _( "Remove battery from mount first." );
         return false;
     }
 
     //Can't remove a turret mount if there's still a turret there
-    if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET" ) >= 0 ) {
+    if( part_flag( p, "TURRET_MOUNT" ) && part_with_feature( p, "TURRET", true ) >= 0 ) {
         reason = _( "Remove attached mounted weapon first." );
         return false;
     }
@@ -1753,7 +1753,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
 
 void vehicle::relocate_passengers( const std::vector<player *> &passengers )
 {
-    const auto boardables = parts_with_feature( "BOARDABLE" );
+    const auto boardables = parts_with_feature( "BOARDABLE", true );
     for( player *passenger : passengers ) {
         for( const vpart_reference vp : boardables ) {
             const size_t p = vp.part_index();
@@ -2677,7 +2677,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if( vp && &vp->vehicle() == this && player_controlling ) {
-            const int p = part_with_feature( vp->part_index(), VPFLAG_ENGINE );
+            const int p = part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
             if( p >= 0 && part_info( p ).fuel_type == fuel_type_muscle && is_part_on( p ) ) {
                 fl += 10;
             }
@@ -2998,7 +2998,7 @@ float vehicle::k_aerodynamics() const
     std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
     for( auto &structure_indice : structure_indices ) {
         int p = structure_indice;
-        int frame_size = part_with_feature( p, VPFLAG_OBSTACLE ) ? 30 : 10;
+        int frame_size = part_with_feature( p, VPFLAG_OBSTACLE, true ) ? 30 : 10;
         int pos = parts[p].mount.y + max_obst / 2;
         if( pos < 0 ) {
             pos = 0;
@@ -4160,7 +4160,7 @@ void vehicle::refresh_insides()
         }
         /* If there's no roof, or there is a roof but it's broken, it's outside.
          * (Use short-circuiting && so broken frames don't screw this up) */
-        if( !( part_with_feature( p, "ROOF" ) >= 0 && parts[ p ].is_available() ) ) {
+        if( !( part_with_feature( p, "ROOF", true ) >= 0 && parts[ p ].is_available() ) ) {
             parts[p].inside = false;
             continue;
         }
@@ -4265,7 +4265,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
 
     int damage_dealt;
 
-    int armor_part = part_with_feature( p, "ARMOR" );
+    int armor_part = part_with_feature( p, "ARMOR", true );
     if( armor_part < 0 ) {
         // Not covered by armor -- damage part
         damage_dealt = damage_direct( target_part, dmg, type );

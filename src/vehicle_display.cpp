@@ -120,7 +120,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     }
 
     //Invert colors for cargo parts with stuff in them
-    int cargo_part = part_with_feature( p, VPFLAG_CARGO );
+    int cargo_part = part_with_feature( p, VPFLAG_CARGO, true );
     if( cargo_part > 0 && !get_items( cargo_part ).empty() ) {
         return invert_color( col );
     } else {

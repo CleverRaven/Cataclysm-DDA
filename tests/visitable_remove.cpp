@@ -404,7 +404,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             return static_cast<bool>( g->m.veh_at( e ) );
         } ) == 1 );
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO" );
+        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();

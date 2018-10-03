@@ -1493,8 +1493,8 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED" ) );
-    const bool veh_seat =static_cast<bool>( vp.part_with_feature( "SEAT" ) );
+    const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED", true ) );
+    const bool veh_seat =static_cast<bool>( vp.part_with_feature( "SEAT", true ) );
 
     // Search the floor for bedding
     if( furn_at_pos == f_bed ) {
@@ -3851,14 +3851,14 @@ int player::impact( const int force, const tripoint &p )
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
-        if( vp.part_with_feature( "SHARP" ) ) {
+        if( vp.part_with_feature( "SHARP", true ) ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
 
         mod = slam ? 1.0f : fall_damage_mod();
         armor_eff = 0.25f; // Not much
-        if( !slam && vp->part_with_feature( "ROOF" ) ) {
+        if( !slam && vp->part_with_feature( "ROOF", true ) ) {
             // Roof offers better landing than frame or pavement
             effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
         }
@@ -9943,8 +9943,8 @@ void player::try_to_sleep( const time_duration &dur )
          furn_at_pos == f_sofa || furn_at_pos == f_autodoc_couch ||
          furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
-         vp.part_with_feature( "SEAT" ) ||
-         vp.part_with_feature( "BED" ) ) ) {
+         vp.part_with_feature( "SEAT", true ) ||
+         vp.part_with_feature( "BED", true ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay && !watersleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
@@ -9986,10 +9986,10 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             // Note: shelled individuals can still use sleeping aids!
         }
         else if( vp ) {
-            if( vp.part_with_feature( "BED" ) ) {
+            if( vp.part_with_feature( "BED", true ) ) {
                 comfort += 1 + (int)comfort_level::slightly_comfortable;
             }
-            else if( vp.part_with_feature( "SEAT" ) ) {
+            else if( vp.part_with_feature( "SEAT", true ) ) {
                 comfort += 0 + (int)comfort_level::slightly_comfortable;
             }
             else {

@@ -305,7 +305,8 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO" ) ) {
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+                true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 if( is_container_eligible_for_crafting( it, false ) ) {
                     conts.emplace_back( &it );
@@ -1472,7 +1473,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( "CARGO" );
+        const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( "CARGO", true );
 
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );

@@ -709,11 +709,11 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             continue;
         }
 
-        int parm1 = veh.part_with_feature( veh_veh_coll.part, VPFLAG_ARMOR );
+        int parm1 = veh.part_with_feature( veh_veh_coll.part, VPFLAG_ARMOR, true );
         if( parm1 < 0 ) {
             parm1 = veh_veh_coll.part;
         }
-        int parm2 = veh2.part_with_feature( veh_veh_coll.target_part, VPFLAG_ARMOR );
+        int parm2 = veh2.part_with_feature( veh_veh_coll.target_part, VPFLAG_ARMOR, true );
         if( parm2 < 0 ) {
             parm2 = veh_veh_coll.target_part;
         }
@@ -829,7 +829,8 @@ void map::board_vehicle( const tripoint &pos, player *p )
         return;
     }
 
-    const cata::optional<vpart_reference> vp = veh_at( pos ).part_with_feature( VPFLAG_BOARDABLE );
+    const cata::optional<vpart_reference> vp = veh_at( pos ).part_with_feature( VPFLAG_BOARDABLE,
+            true );
     if( !vp ) {
         if( p->grab_point.x == 0 && p->grab_point.y == 0 ) {
             debugmsg( "map::board_vehicle: vehicle not found" );
@@ -1468,7 +1469,7 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
         const vpart_position vp( const_cast<vehicle &>( *veh ), vpart );
         if( vp.obstacle_at_part() ) {
             return 0;
-        } else if( vp.part_with_feature( VPFLAG_AISLE ) ) {
+        } else if( vp.part_with_feature( VPFLAG_AISLE, true ) ) {
             return 2;
         } else {
             return 8;
@@ -2103,7 +2104,7 @@ bool map::can_put_items( const tripoint &p ) const
         return true;
     }
     const optional_vpart_position vp = veh_at( p );
-    return static_cast<bool>( vp.part_with_feature( "CARGO" ) );
+    return static_cast<bool>( vp.part_with_feature( "CARGO", true ) );
 }
 
 bool map::can_put_items_ter_furn( const tripoint &p ) const
@@ -4353,7 +4354,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         }
     }
 
-    if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE ) >= 0 &&
+    if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true ) >= 0 &&
         cur_veh.has_part( "RECHARGE", true ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
             static const std::string recharge_s( "RECHARGE" );
@@ -4602,7 +4603,7 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
         return ret;
     }
 
-    if( const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( "CARGO" ) ) {
+    if( const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( "CARGO", true ) ) {
         std::list<item> tmp = use_amount_stack( vp->vehicle().get_items( vp->part_index() ), type,
                                                 quantity );
         ret.splice( ret.end(), tmp );
@@ -4757,13 +4758,13 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             continue;
         }
 
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET" );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG" );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG" );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE" );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN" );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB" );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO" );
+        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
+        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( kpart ) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
@@ -7507,7 +7508,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
             }
 
             if( v.v->part_flag( part, VPFLAG_OPAQUE ) && !v.v->parts[part].is_broken() ) {
-                int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
+                int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE, true );
                 if( dpart < 0 || !v.v->parts[dpart].open ) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 }
