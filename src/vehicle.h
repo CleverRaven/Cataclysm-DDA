@@ -173,14 +173,15 @@ struct vehicle_part {
         float consume_energy( const itype_id &ftype, float energy );
 
         /* @retun true if part in current state be reloaded optionally with specific itype_id */
-        bool can_reload( const itype_id &obj = "" ) const;
+        bool can_reload( const item &obj = item() ) const;
 
         /**
          * If this part is capable of wholly containing something, process the
          * items in there.
          * @param pos Position of this part for item::process
+         * @param e_heater Engine has a heater and is on
          */
-        void process_contents( const tripoint &pos );
+        void process_contents( const tripoint &pos, const bool e_heater );
 
         /**
          *  Try adding @param liquid to tank optionally limited by @param qty
@@ -706,11 +707,17 @@ class vehicle
         void remove_carried_flag();
         // remove a vehicle specified by a list of part indices
         bool remove_carried_vehicle( std::vector<int> carried_vehicle );
+        // split the current vehicle into up to four vehicles if they have no connection other
+        // than the structure part at exclude
+        bool find_and_split_vehicles( int exclude );
+        // relocate passengers to the same part on a new vehicle
+        void relocate_passengers( std::vector<player *> passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
         bool split_vehicles( std::vector<std::vector <int>> new_vehs, std::vector<vehicle *> new_vehicles,
                              std::vector<std::vector <point>> new_mounts );
+        bool split_vehicles( std::vector<std::vector <int>> new_veh );
 
         /** Get handle for base item of part */
         item_location part_base( int p );

@@ -1273,8 +1273,8 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
             p.add_msg_if_player( m_good,
                                  _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
             p.set_mutation( mutation_thresh );
-            p.add_memorial_log( pgettext( "memorial_male", m_category.memorial_message() ),
-                                pgettext( "memorial_female", m_category.memorial_message() ) );
+            p.add_memorial_log( m_category.memorial_message_male(),
+                                m_category.memorial_message_female() );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.

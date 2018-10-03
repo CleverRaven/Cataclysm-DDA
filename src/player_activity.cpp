@@ -139,7 +139,7 @@ void player_activity::do_turn( player &p )
 
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
-        p.drop_inventory_overflow();
+        p.drop_invalid_inventory();
     }
 }
 
