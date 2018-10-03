@@ -1135,8 +1135,8 @@ void player::hardcoded_effects( effect &it )
             } else if( has_active_mutation( trait_id( "SEESLEEP" ) ) ) {
                 Creature *hostile_critter = g->is_hostile_very_close();
                 if( hostile_critter != nullptr ) {
-                    add_msg_if_player(  _( "You see %s approaching!" ),
-                                                      hostile_critter->disp_name().c_str() );
+                    add_msg_if_player( _( "You see %s approaching!" ),
+                                       hostile_critter->disp_name().c_str() );
                     it.set_duration( 0 );
                     woke_up = true;
                 }
