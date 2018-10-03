@@ -1119,7 +1119,7 @@ bool vehicle::is_open( int part_index ) const
 
 void vehicle::open_all_at( int p )
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    std::vector<int> parts_here = parts_at_relative( parts[p].mount.x, parts[p].mount.y, true );
     for( auto &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) ) {
             // Note that this will open multi-square and non-multipart parts in the tile. This
@@ -1244,7 +1244,7 @@ void vehicle::use_bike_rack( int part )
             }
             for( int i = 0; i < 4; i++ ) {
                 point near_loc = parts[ rack_part ].mount + vehicles::cardinal_d[ i ];
-                std::vector<int> near_parts = parts_at_relative( near_loc.x, near_loc.y );
+                std::vector<int> near_parts = parts_at_relative( near_loc.x, near_loc.y, true );
                 if( near_parts.empty() ) {
                     continue;
                 }

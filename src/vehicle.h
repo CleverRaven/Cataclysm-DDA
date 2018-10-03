@@ -742,7 +742,7 @@ class vehicle
         vehicle_part_range get_parts() const;
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
-        std::vector<int> parts_at_relative( int dx, int dy, bool use_cache = true ) const;
+        std::vector<int> parts_at_relative( int dx, int dy, bool use_cache ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
         int part_with_feature( int p, const std::string &f, bool unbroken = true ) const;
