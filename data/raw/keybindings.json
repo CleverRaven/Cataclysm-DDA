@@ -601,6 +601,13 @@
   },
   {
     "type": "keybinding",
+    "id": "VIEW_MOD_DESCRIPTION",
+    "category": "MODMANAGER_DIALOG",
+    "name": "View full mod description",
+    "bindings": [ { "input_method": "keyboard", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_MOD",
     "category": "MODMANAGER_DIALOG",
     "name": "Move selected mod up",
