@@ -2043,7 +2043,7 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( const vpart_reference vp : parts_with_feature( VPFLAG_CARGO, true ) ) {
+    for( const vpart_reference vp : get_parts( VPFLAG_CARGO ) ) {
         const size_t cargo_index = vp.part_index();
         auto it = parts[cargo_index].items.begin();
         auto end = parts[cargo_index].items.end();

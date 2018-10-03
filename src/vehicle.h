@@ -740,6 +740,15 @@ class vehicle
         // @todo maybe not include broken ones? Have a separate function for that?
         // @todo rename to just `parts()` and rename the data member to `parts_`.
         vehicle_part_range get_parts() const;
+        /**
+         * Yields a range of parts of this vehicle that each have the given feature
+         * and are not broken. Removed parts are also excluded. The enabled status
+         * of the part is ignored.
+         */
+        /**@{*/
+        vehicle_part_with_feature_range<std::string> get_parts( std::string feature ) const;
+        vehicle_part_with_feature_range<vpart_bitflags> get_parts( vpart_bitflags f ) const;
+        /**@}*/
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
         std::vector<int> parts_at_relative( int dx, int dy, bool use_cache ) const;

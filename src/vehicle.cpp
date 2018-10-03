@@ -152,7 +152,7 @@ bool vehicle::remote_controlled( player const &p ) const
         return false;
     }
 
-    for( const vpart_reference vp : parts_with_feature( "REMOTE_CONTROLS", true ) ) {
+    for( const vpart_reference vp : get_parts( "REMOTE_CONTROLS" ) ) {
         const size_t part = vp.part_index();
         if( rl_dist( p.pos(), global_part_pos3( part ) ) <= 40 ) {
             return true;
@@ -317,7 +317,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
-        if( veh_fuel_mult > 0 && !empty( parts_with_feature( "ENGINE" ) ) &&
+        if( veh_fuel_mult > 0 && !empty( get_parts( "ENGINE" ) ) &&
             one_in( 8 ) && !destroyEngine && !has_no_key && has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
         }
@@ -1753,7 +1753,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
 
 void vehicle::relocate_passengers( const std::vector<player *> &passengers )
 {
-    const auto boardables = parts_with_feature( "BOARDABLE", true );
+    const auto boardables = get_parts( "BOARDABLE" );
     for( player *passenger : passengers ) {
         for( const vpart_reference vp : boardables ) {
             const size_t p = vp.part_index();
@@ -2230,6 +2230,19 @@ int vehicle::next_part_to_open( int p, bool outside ) const
     return -1;
 }
 
+vehicle_part_with_feature_range<std::string> vehicle::get_parts( std::string feature ) const
+{
+    return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
+            std::move( feature ), true, false );
+}
+
+vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_parts( const vpart_bitflags feature )
+const
+{
+    return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
+            true, false );
+}
+
 vehicle_part_with_feature_range<std::string> vehicle::parts_with_feature( std::string feature,
         const bool unbroken ) const
 {
@@ -2271,7 +2284,7 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
  */
 std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std::string flag )
 {
-    const auto possible_parts = parts_with_feature( flag );
+    const auto possible_parts = get_parts( flag );
     std::vector<std::vector<int>> ret_parts;
     if( empty( possible_parts ) ) {
         return ret_parts;
@@ -3077,12 +3090,12 @@ float vehicle::strain() const
 
 bool vehicle::sufficient_wheel_config( bool boat ) const
 {
-    const auto floats = parts_with_feature( VPFLAG_FLOATS );
+    const auto floats = get_parts( VPFLAG_FLOATS );
     // @todo: Remove the limitations that boats can't move on land
     if( boat || !empty( floats ) ) {
         return boat && size( floats ) > 2;
     }
-    const auto wheels = parts_with_feature( VPFLAG_WHEEL );
+    const auto wheels = get_parts( VPFLAG_WHEEL );
     if( empty( wheels ) ) {
         // No wheels!
         return false;
@@ -3370,11 +3383,13 @@ void vehicle::power_parts()
 
     if( battery_deficit != 0 ) {
         // Scoops need a special case since they consume power during actual use
-        for( auto *pt : get_parts( "SCOOP", false, false ) ) {
+        for( const vpart_reference vp : get_parts( "SCOOP" ) ) {
+            vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
             pt->enabled = false;
         }
         // Rechargers need special case since they consume power on demand
-        for( auto *pt : get_parts( "RECHARGE", false, false ) ) {
+        for( const vpart_reference vp : get_parts( "RECHARGE" ) ) {
+            vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
             pt->enabled = false;
         }
 

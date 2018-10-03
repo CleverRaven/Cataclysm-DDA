@@ -4468,7 +4468,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ), engine_heater_is_on );
     }
 
-    auto cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, true );
+    auto cargo_parts = cur_veh.get_parts( VPFLAG_CARGO );
     for( const vpart_reference vp : cargo_parts ) {
         process_vehicle_items( cur_veh, vp.part_index() );
     }
@@ -7985,15 +7985,15 @@ void map::scent_blockers( std::array<std::array<bool, SEEX *MAPSIZE>, SEEY *MAPS
     auto vehs = get_vehicles();
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
-        for( const vpart_reference vp : veh.parts_with_feature( VPFLAG_OBSTACLE, true ) ) {
-            const tripoint part_pos = veh.global_part_pos3( vp.part_index() );
+        for( const vpart_reference vp : veh.get_parts( VPFLAG_OBSTACLE ) ) {
+            const tripoint part_pos = vp.vehicle().global_part_pos3( vp.part_index() );
             if( local_bounds( part_pos ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
 
         // Doors, but only the closed ones
-        for( const vpart_reference vp : veh.parts_with_feature( VPFLAG_OPENABLE, true ) ) {
+        for( const vpart_reference vp : veh.get_parts( VPFLAG_OPENABLE ) ) {
             const size_t p = vp.part_index();
             if( veh.parts[p].open ) {
                 continue;

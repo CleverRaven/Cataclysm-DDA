@@ -380,7 +380,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( empty( veh->parts_with_feature( "REMOTE_CONTROLS", true ) ) ) {
+        if( empty( veh->get_parts( "REMOTE_CONTROLS" ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
             return;
         }

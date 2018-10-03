@@ -1908,8 +1908,8 @@ void veh_interact::display_veh ()
 
 static std::string wheel_state_description( const vehicle &veh )
 {
-    bool is_boat = !empty( veh.parts_with_feature( VPFLAG_FLOATS ) );
-    bool is_land = !empty( veh.parts_with_feature( VPFLAG_WHEEL ) );
+    bool is_boat = !empty( veh.get_parts( VPFLAG_FLOATS ) );
+    bool is_land = !empty( veh.get_parts( VPFLAG_WHEEL ) );
 
     bool suf_land = veh.sufficient_wheel_config( false );
     bool bal_land = veh.balanced_wheel_config( false );
@@ -1967,7 +1967,7 @@ void veh_interact::display_stats()
 
     units::volume total_cargo = 0;
     units::volume free_cargo = 0;
-    for( const vpart_reference vp : veh->parts_with_feature( "CARGO" ) ) {
+    for( const vpart_reference vp : veh->get_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
         total_cargo += veh->max_volume(p);
         free_cargo += veh->free_volume(p);
@@ -2052,7 +2052,7 @@ void veh_interact::display_stats()
         print_part( needsRepair, 7, most_repairable );
     }
 
-    bool is_boat = !empty( veh->parts_with_feature( VPFLAG_FLOATS ) );
+    bool is_boat = !empty( veh->get_parts( VPFLAG_FLOATS ) );
 
     fold_and_print(w_stats, y[8], x[8], w[8], c_light_gray,
                    _("K aerodynamics: <color_light_blue>%3d</color>%%"),

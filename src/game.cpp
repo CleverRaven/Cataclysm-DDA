@@ -10336,8 +10336,8 @@ bool game::plmove( int dx, int dy, int dz )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( "SWIMMABLE", u.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, u.pos() );
-    bool fromBoat = veh0 != nullptr && !empty( veh0->parts_with_feature( VPFLAG_FLOATS ) );
-    bool toBoat = veh1 != nullptr && !empty( veh1->parts_with_feature( VPFLAG_FLOATS ) );
+    bool fromBoat = veh0 != nullptr && !empty( veh0->get_parts( VPFLAG_FLOATS ) );
+    bool toBoat = veh1 != nullptr && !empty( veh1->get_parts( VPFLAG_FLOATS ) );
 
     if( toSwimmable && toDeepWater && !toBoat ) { // Dive into water!
         // Requires confirmation if we were on dry land previously
