@@ -827,7 +827,7 @@ bool uimenu::scrollby( const int scrollby )
  * Handle input and update display
  *
  */
-void uimenu::query(bool loop)
+void uimenu::query( bool loop, int timeout )
 {
     bool new_interface = dynamic_cast<uilist *>( this ) != nullptr;
     keypress = 0;
@@ -867,7 +867,7 @@ void uimenu::query(bool loop)
 #endif
 
     do {
-        const auto action = ctxt.handle_input();
+        const auto action = ctxt.handle_input( timeout );
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
@@ -901,7 +901,9 @@ void uimenu::query(bool loop)
             } else {
                 break;
             }
-        } else if( action != "TIMEOUT" ) {
+        } else if( action == "TIMEOUT" ) {
+            ret = UIMENU_TIMEOUT;
+        } else {
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && ( new_interface ? allow_anykey : return_invalid ) ) {
                 ret = new_interface ? UIMENU_UNBOUND : -1;
