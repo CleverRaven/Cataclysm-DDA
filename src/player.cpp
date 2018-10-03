@@ -8398,7 +8398,14 @@ bool player::wear_item( const item &to_wear, bool interactive )
     const bool was_deaf = is_deaf();
     const bool supertinymouse = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     last_item = to_wear.typeId();
-    worn.push_back(to_wear);
+
+    // By default we put this item on after the last item on the same or any
+    // lower layer.
+    auto position = std::find_if(
+        worn.rbegin(), worn.rend(),
+        [&](const item& w) { return w.get_layer() <= to_wear.get_layer(); }
+    );
+    item &new_item = *worn.insert( position.base(), to_wear );
 
     if( interactive ) {
         add_msg_player_or_npc(
@@ -8428,7 +8435,6 @@ bool player::wear_item( const item &to_wear, bool interactive )
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
     }
 
-    item &new_item = worn.back();
     new_item.on_wear( *this );
 
     inv.update_invlet( new_item );
