@@ -3,6 +3,7 @@
 #include "gates.h"
 #include "action.h"
 #include "input.h"
+#include "vpart_range.h"
 #include "output.h"
 #include "player.h"
 #include "messages.h"
@@ -152,7 +153,7 @@ input_context game::get_player_input( std::string &action )
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        inp_mngr.set_timeout( 125 );
+        ctxt.set_timeout( 125 );
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview( ctxt, action ) || uquit == QUIT_WATCH ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
@@ -176,7 +177,7 @@ input_context game::get_player_input( std::string &action )
                         const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
                         const lit_level lighting = visibility_cache[location.x][location.y];
                         wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                        if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                        if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
                                       u.pos() + u.view_offset,
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
@@ -216,7 +217,7 @@ input_context game::get_player_input( std::string &action )
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                                if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                                if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
                                               u.pos() + u.view_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
@@ -285,15 +286,15 @@ input_context game::get_player_input( std::string &action )
             //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
             draw_pixel_minimap();
         }
-        inp_mngr.reset_timeout();
+        ctxt.reset_timeout();
     } else {
-        inp_mngr.set_timeout( 125 );
+        ctxt.set_timeout( 125 );
         while( handle_mouseview( ctxt, action ) ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
                 break;
             }
         }
-        inp_mngr.reset_timeout();
+        ctxt.reset_timeout();
     }
 
     return ctxt;
@@ -381,7 +382,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).empty() ) {
+        if( empty( veh->parts_with_feature( "REMOTE_CONTROLS", true ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
             return;
         }
@@ -534,6 +535,29 @@ static void grab()
     }
 }
 
+static void haul()
+{
+    player &u = g->u;
+    map &m = g->m;
+
+    if( u.is_hauling() ) {
+        u.stop_hauling();
+    } else {
+        if( m.veh_at( u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul inside vehicles." ) );
+        } else if( m.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul while in deep water." ) );
+        } else if( !m.can_put_items( u.pos() ) ) {
+            add_msg( m_info, _( "You cannot haul items here." ) );
+        } else if( !m.has_items( u.pos() ) ) {
+            add_msg( m_info, _( "There are no items to haul here." ) );
+        } else {
+            u.start_hauling();
+        }
+    }
+}
+
+
 static void smash()
 {
     player &u = g->u;
@@ -622,7 +646,7 @@ static void smash()
 static void wait()
 {
     std::map<int, int> durations;
-    uimenu as_m;
+    uilist as_m;
 
     const bool has_watch = g->u.has_watch();
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
@@ -663,15 +687,12 @@ static void wait()
         add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
     }
 
-    add_menu_item( 12, 'q', _( "Exit" ) );
-
     as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += _( "Wait for how long?" );
-    as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    if( as_m.ret == 12 || durations.count( as_m.ret ) == 0 ) {
+    if( durations.count( as_m.ret ) == 0 ) {
         return;
     }
 
@@ -686,8 +707,7 @@ static void sleep()
 {
     player &u = g->u;
 
-    uimenu as_m;
-    as_m.return_invalid = true;
+    uilist as_m;
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
     as_m.entries.emplace_back( uimenu_entry( 0, true,
@@ -727,7 +747,7 @@ static void sleep()
     for( auto &mut : u.get_mutations() ) {
         const auto &mdata = mut.obj();
         if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
-            active.push_back( mdata.name );
+            active.push_back( mdata.name() );
         }
     }
     std::stringstream data;
@@ -757,7 +777,6 @@ static void sleep()
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.return_invalid = true;
         as_m.text = can_hibernate ?
                     _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
                     _( "You have an alarm clock. Set an alarm?" );
@@ -820,7 +839,7 @@ static void loot()
     }
 
     if( !just_one( flags ) ) {
-        uimenu menu;
+        uilist menu;
         menu.text = _( "Pick action:" );
         menu.desc_enabled = true;
 
@@ -841,8 +860,6 @@ static void loot()
                                 !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
                                 _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
         }
-
-        menu.addentry( None, true, 'q',  _( "Cancel" ) );
 
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1171,6 +1188,10 @@ bool game::handle_action()
     // These actions are allowed while deathcam is active.
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch( act ) {
+            case ACTION_TOGGLE_MAP_MEMORY:
+                u.toggle_map_memory();
+                break;
+
             case ACTION_CENTER:
                 u.view_offset.x = driving_view_offset.x;
                 u.view_offset.y = driving_view_offset.y;
@@ -1402,6 +1423,14 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
                 } else {
                     grab();
+                }
+                break;
+
+            case ACTION_HAUL:
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't haul things while you're in your shell." ) );
+                } else {
+                    haul();
                 }
                 break;
 
@@ -1778,13 +1807,17 @@ bool game::handle_action()
                 toggle_pixel_minimap();
                 break;
 
+            case ACTION_RELOAD_TILESET:
+                reload_tileset();
+                break;
+
             case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
                 get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
                 get_options().save();
                 //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
-                add_msg( string_format( _( "Auto %1$s is now %2$s." ),
-                                        get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(),
-                                        get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) ).c_str() );
+                add_msg( _( "Auto %1$s is now %2$s." ),
+                         get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(),
+                         get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) );
                 break;
 
             case ACTION_DISPLAY_SCENT:

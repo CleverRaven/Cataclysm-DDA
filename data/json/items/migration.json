@@ -465,5 +465,10 @@
     "id": "seed_mushroom_magic",
     "type": "MIGRATION",
     "replace": "seed_mushroom"
+  },
+  {
+    "id": "lasagne_cooked",
+    "type": "MIGRATION",
+    "replace": "spaghetti_cooked"
   }
 ]

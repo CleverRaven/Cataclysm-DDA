@@ -1,0 +1,43 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "mega_entrance",
+    "comment": "ground floor. entrance",
+    "weight": 10,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWW-gg++gg-++g++-WWWWW",
+        "WWWWW|......|.....|WWWWW",
+        "-ggg-|......g.....|ggggg",
+        "....%I......|mm-mmI.....",
+        "............g...........",
+        "............g...........",
+        "............g...........",
+        ".......vvvvv|...........",
+        "....vvvvvvvv|...........",
+        ".-----------|...........",
+        ".|eeeeeee...|6C..6C..6C.",
+        ".|.........D|.C...C...C.",
+        ".|EEEEEEE.cD|.r...r...r.",
+        ".|.........D|...........",
+        ".|eeeee.....|.6C..6C..6C",
+        ".|..........|..C...C...C",
+        ".--!-I--CCC--..r..Ir...r",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "rotation": 2,
+      "palettes": [ "megastore", "mega_goods_f" ],
+      "terrain": { "%": "t_atm", "m": "t_mdoor_frame" },
+      "items": { "e": { "item": "softdrugs", "chance": 40 }, "E": { "item": "harddrugs", "chance": 10 } },
+      "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
+    }
+  }
+]

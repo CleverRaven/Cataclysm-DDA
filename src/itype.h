@@ -113,7 +113,7 @@ class gunmod_location
 struct islot_tool {
     ammotype ammo_id = ammotype::NULL_ID();
 
-    itype_id revert_to = "null";
+    cata::optional<itype_id> revert_to;
     std::string revert_msg;
 
     std::string subtype;
@@ -556,7 +556,7 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-    itype_id linkage = "NULL";
+    cata::optional<itype_id> linkage;
 
     /** If false, ammo will cook off if this mag is affected by fire */
     bool protects_contents = false;
@@ -718,7 +718,8 @@ struct itype {
         std::string snippet_category;
         std::string description; // Flavor text
 
-        std::string default_container = "null"; // The container it comes in
+        // The container it comes in
+        cata::optional<itype_id> default_container;
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;

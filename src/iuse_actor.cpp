@@ -83,6 +83,8 @@ static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
@@ -593,8 +595,7 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // Output message.
-    p.add_msg_if_player( string_format( _( activation_message.c_str() ),
-                                        it.type_name( 1 ).c_str() ).c_str() );
+    p.add_msg_if_player( _( activation_message.c_str() ), it.type_name( 1 ) );
     // Consume charges.
     for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
          ++consumable ) {
@@ -1302,9 +1303,9 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     // Decided to split components evenly. Since salvage will likely change
     // soon after I write this, I'll go with the one that is cleaner.
     for( auto material : cut_material_components ) {
-        const material_type &mt = material.obj();
-        materials_salvaged[mt.salvaged_into()] = std::max( 0,
-                count / ( int )cut_material_components.size() );
+        if( const auto id = material->salvaged_into() ) {
+            materials_salvaged[*id] = std::max( 0, count / static_cast<int>( cut_material_components.size() ) );
+        }
     }
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ), cut.tname().c_str() );
@@ -2593,6 +2594,11 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return true;
     }
 
+    const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
+    if( ( small && !fix.has_flag( "UNDERSIZE" ) ) || ( !small && fix.has_flag( "UNDERSIZE" ) ) ) {
+        return true;
+    }
+
     if( fix.damage() > 0 ) {
         return true;
     }
@@ -2672,9 +2678,10 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REPAIR;
     }
 
-    if( ( fix.has_flag( "VARSIZE" ) && !fix.has_flag( "FIT" ) ) ||
-        ( smol && !fix.has_flag( "UNDERSIZE" ) )  ||
-        ( !smol && fix.has_flag( "UNDERSIZE" ) ) ) {
+    if( fix.has_flag( "VARSIZE" ) &&
+        ( ( ( !fix.has_flag( "FIT" ) ) ) ||
+          ( smol && !fix.has_flag( "UNDERSIZE" ) )  ||
+          ( !smol && fix.has_flag( "UNDERSIZE" ) ) ) ) {
         return RT_REFIT;
     }
 
@@ -2771,9 +2778,11 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
                               g->u.has_trait( trait_id( "SMALL_OK" ) );
-            pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
-                                  fix.tname().c_str() );
-            fix.item_tags.insert( "FIT" );
+            if( !fix.has_flag( "FIT" ) ) {
+                pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
+                                      fix.tname().c_str() );
+                fix.item_tags.insert( "FIT" );
+            }
             if( smol && !fix.has_flag( "UNDERSIZE" ) ) {
                 pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                       fix.tname().c_str() );
@@ -3662,7 +3671,7 @@ long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_morale( MORALE_MUTAGEN, 5, 50 );
     }
 
-    p.add_msg_if_player( m_category.mutagen_message.c_str() );
+    p.add_msg_if_player( m_category.mutagen_message() );
 
     if( one_in( 6 ) ) {
         p.add_msg_player_or_npc( m_bad,
@@ -3715,9 +3724,9 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
                 mutation_category );
 
     if( p.has_trait( trait_MUT_JUNKIE ) ) {
-        p.add_msg_if_player( m_category.junkie_message.c_str() );
+        p.add_msg_if_player( m_category.junkie_message() );
     } else {
-        p.add_msg_if_player( m_category.iv_message.c_str() );
+        p.add_msg_if_player( m_category.iv_message() );
     }
 
     // try to cross the threshold to be able to get post-threshold mutations this iv.
@@ -3727,7 +3736,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, m_category.iv_sound_message );
+        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, m_category.iv_sound_message() );
     }
 
     int mut_count = m_category.iv_min_mutations;
@@ -3755,7 +3764,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( m_category.iv_sleep && !one_in( 3 ) ) {
-        p.add_msg_if_player( m_bad, m_category.iv_sleep_message.c_str() );
+        p.add_msg_if_player( m_bad, m_category.iv_sleep_message() );
         /** @EFFECT_INT reduces sleep duration when using IV mutagen */
         p.fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p.int_cur * 5 ) );
     }

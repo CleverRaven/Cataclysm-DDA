@@ -22,7 +22,8 @@
       [ "duffelbag", 30 ],
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
-      [ "cell_phone", 50 ],
+      [ "cell_phone", 20 ],
+      [ "smart_phone", 30 ],
       [ "mp3", 50 ],
       [ "inhaler", 10 ]
     ]
@@ -89,13 +90,7 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 10, 19 ], "y": [ 0, 3 ], "repeat": [ 10, 14 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 20, 23 ], "y": [ 0, 1 ], "repeat": [ 2, 3 ] }
       ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench" }
     }
   },
@@ -134,13 +129,7 @@
         "   %   %   %   %   %   %"
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 1 ], "repeat": [ 12, 16 ] } ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench" },
       "place_items": [ { "item": "football_items", "x": [ 14, 23 ], "y": [ 11, 13 ], "chance": 60, "repeat": [ 1, 2 ] } ]
     }
@@ -180,13 +169,7 @@
         "   %   %   %   %   %   %"
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 1 ], "repeat": [ 12, 16 ] } ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench" },
       "place_items": [ { "item": "football_items", "x": [ 0, 23 ], "y": [ 11, 13 ], "chance": 80, "repeat": [ 1, 2 ] } ],
       "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 0, 23 ], "y": [ 11, 13 ], "chance": 1 } ],
@@ -228,13 +211,7 @@
         "   %   %   %   %   %   %"
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 1 ], "repeat": [ 12, 16 ] } ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench" },
       "place_items": [ { "item": "football_items", "x": [ 0, 8 ], "y": [ 11, 13 ], "chance": 60, "repeat": [ 1, 2 ] } ]
     }
@@ -285,14 +262,7 @@
         { "point": "terrain", "id": "t_dirt", "x": 19, "y": [ 0, 10 ], "repeat": [ 2, 4 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 20, 23 ], "y": [ 0, 23 ], "repeat": [ 24, 32 ] }
       ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "R": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "R": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench", "R": "f_trashcan" }
     }
   },
@@ -331,14 +301,7 @@
         "   p.p.p.p %       %   %"
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 0, 23 ], "repeat": [ 18, 24 ] } ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "o": "t_little_column",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "o": "t_little_column", "p": "t_pavement" },
       "furniture": { "H": "f_bench" }
     }
   },
@@ -490,14 +453,7 @@
         "   %       % p.p.p.p    "
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 20, 23 ], "y": [ 0, 23 ], "repeat": [ 24, 32 ] } ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "o": "t_little_column",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "o": "t_little_column", "p": "t_pavement" },
       "furniture": { "H": "f_bench" }
     }
   },
@@ -547,13 +503,7 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 10, 20 ], "y": [ 19, 23 ], "repeat": [ 13, 19 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 21, 23 ], "y": 23, "repeat": [ 0, 1 ] }
       ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench" }
     }
   },
@@ -592,13 +542,7 @@
         "                        "
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 6, 8 ] } ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench" },
       "place_items": [ { "item": "football_items", "x": [ 14, 23 ], "y": [ 9, 11 ], "chance": 60, "repeat": [ 1, 2 ] } ]
     }
@@ -638,13 +582,7 @@
         "                        "
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 6, 8 ] } ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench" },
       "place_items": [ { "item": "football_items", "x": [ 0, 23 ], "y": [ 9, 11 ], "chance": 80, "repeat": [ 1, 2 ] } ],
       "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 0, 23 ], "y": [ 9, 11 ], "chance": 1 } ],
@@ -686,13 +624,7 @@
         "                        "
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 6, 8 ] } ],
-      "terrain": {
-        "%": "t_grass_white",
-        ",": "t_dirt",
-        ".": "t_pavement_y",
-        "H": "t_dirt",
-        "p": "t_pavement"
-      },
+      "terrain": { "%": "t_grass_white", ",": "t_dirt", ".": "t_pavement_y", "H": "t_dirt", "p": "t_pavement" },
       "furniture": { "H": "f_bench" },
       "place_items": [ { "item": "football_items", "x": [ 0, 8 ], "y": [ 9, 11 ], "chance": 60, "repeat": [ 1, 2 ] } ]
     }
@@ -762,15 +694,9 @@
         "p": "t_pavement",
         "|": "t_wall"
       },
-      "furniture": {
-        "C": "f_counter",
-        "F": "f_fridge",
-        "H": "f_bench",
-        "I": "f_sink",
-        "R": "f_trashcan"
-      },
+      "furniture": { "C": "f_counter", "F": "f_fridge", "H": "f_bench", "I": "f_sink", "R": "f_trashcan" },
       "vendingmachines": { "V": { "item_group": "vending_drink" } },
-      "toilets": { ";": {} }
+      "toilets": { ";": {  } }
     }
   }
 ]

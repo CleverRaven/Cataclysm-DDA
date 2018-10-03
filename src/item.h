@@ -71,6 +71,7 @@ using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
+class map;
 
 enum damage_type : int;
 
@@ -530,6 +531,15 @@ class item : public visitable<item>
         bool on_drop( const tripoint &pos );
 
         /**
+         * Invokes item type's @ref itype::drop_action.
+         * This function can change the item.
+         * @param pos Where is the item being placed. Note: the item isn't there yet.
+         * @param map A map object associated with that position.
+         * @return true if the item was destroyed during placement.
+         */
+        bool on_drop( const tripoint &pos, map &m );
+
+        /**
          * Consume a specific amount of items of a specific type.
          * This includes this item, and any of its contents (recursively).
          * @see item::use_charges - this is similar for items, not charges.
@@ -714,11 +724,28 @@ class item : public visitable<item>
          */
         void calc_temp( const int temp, const float insulation, const time_duration &time );
 
+        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
+        int get_static_temp_counter() const;
+
+        /** Set temperature tags and counter according to a static counter */
+        void set_temp_from_static( const int counter );
+
         /** the last time the temperature was updated for this item */
         time_point last_temp_check = calendar::time_of_cataclysm;
+
+        /**
+         * Current phase state, inherits a default at room temperature from
+         * itype and can be changed through item processing.  This is a static
+         * cast to avoid importing the entire enums.h header here, zero is
+         * PNULL.
+         */
+        phase_id current_phase = static_cast<phase_id>( 0 );
     public:
         time_duration get_rot() const {
             return rot;
+        }
+        void mod_rot( const time_duration &val ) {
+            rot += val;
         }
 
         /** Time for this item to be fully fermented. */
@@ -794,8 +821,9 @@ class item : public visitable<item>
         bool made_of( const material_id &mat_ident ) const;
         /**
          * Are we solid, liquid, gas, plasma?
+         * @param from_itype If true grab phase from itype instead
          */
-        bool made_of( phase_id phase ) const;
+        bool made_of( phase_id phase, bool from_itype = false ) const;
         /**
          * Whether the items is conductive.
          */
@@ -992,7 +1020,6 @@ class item : public visitable<item>
 
         bool is_tool() const;
         bool is_tool_reversible() const;
-        bool is_var_veh_part() const;
         bool is_artifact() const;
         bool is_bucket() const;
         bool is_bucket_nonempty() const;
@@ -1041,6 +1068,8 @@ class item : public visitable<item>
         bool can_reload_with( const itype_id &ammo ) const;
         /** Returns true if this item can be reloaded with specified ammo type at this moment. */
         bool is_reloadable_with( const itype_id &ammo ) const;
+        /** Returns true if not empty if it's liquid, it's not currently frozen in resealable container */
+        bool can_unload_liquid() const;
     private:
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
@@ -1354,9 +1383,9 @@ class item : public visitable<item>
          */
         int get_thickness() const;
         /**
-         * Returns clothing layer for item which will always be 0 for non-wearable items.
+         * Returns clothing layer for item.
          */
-        int get_layer() const;
+        layer_level get_layer() const;
         /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
@@ -1364,6 +1393,12 @@ class item : public visitable<item>
          * damage from attacks.
          */
         int get_coverage() const;
+        /**
+         * Returns the encumbrance value that this item has when worn, when
+         * containing a particular volume of contents.
+         * Returns 0 if this is can not be worn at all.
+         */
+        int get_encumber_when_containing( units::volume contents_volume ) const;
         /**
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.

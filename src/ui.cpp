@@ -502,27 +502,23 @@ void uimenu::setup()
         }
     }
 
+    vmax = entries.size();
+    int additional_lines = 2 + text_separator_line + // add two for top & bottom borders
+                           static_cast<int>( textformatted.size() );
+    if( desc_enabled ) {
+        additional_lines += desc_lines + 1; // add one for description separator line
+    }
+
     if (h_auto) {
-        w_height = 2 + text_separator_line + textformatted.size() + entries.size();
-        if (desc_enabled) {
-            int w_height_final = w_height + desc_lines + 1; // add one for border
-            if (w_height_final > TERMY) {
-                desc_enabled = false; // give up
-                debugmsg("with description height would exceed terminal height (%d vs %d available)",
-                         w_height_final, TERMY);
-            } else {
-                w_height = w_height_final;
-            }
-        }
+        w_height = vmax + additional_lines;
     }
 
     if ( w_height > TERMY ) {
         w_height = TERMY;
     }
 
-    vmax = entries.size();
-    if( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
-        vmax = w_height - ( 2 + text_separator_line ) - textformatted.size();
+    if( vmax + additional_lines > w_height ) {
+        vmax = w_height - additional_lines;
         if( vmax < 1 ) {
             if( textformatted.empty() ) {
                 popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
@@ -831,7 +827,7 @@ bool uimenu::scrollby( const int scrollby )
  * Handle input and update display
  *
  */
-void uimenu::query(bool loop)
+void uimenu::query( bool loop, int timeout )
 {
     bool new_interface = dynamic_cast<uilist *>( this ) != nullptr;
     keypress = 0;
@@ -871,7 +867,7 @@ void uimenu::query(bool loop)
 #endif
 
     do {
-        const auto action = ctxt.handle_input();
+        const auto action = ctxt.handle_input( timeout );
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
@@ -905,7 +901,9 @@ void uimenu::query(bool loop)
             } else {
                 break;
             }
-        } else if( action != "TIMEOUT" ) {
+        } else if( action == "TIMEOUT" ) {
+            ret = UIMENU_TIMEOUT;
+        } else {
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && ( new_interface ? allow_anykey : return_invalid ) ) {
                 ret = new_interface ? UIMENU_UNBOUND : -1;

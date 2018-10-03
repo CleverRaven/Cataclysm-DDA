@@ -1,0 +1,21 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "robot_dispatch_first",
+    "name": "robot dispatch center",
+    "sym": 82,
+    "color": "i_pink",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robot_dispatch_second",
+    "name": "robot dispatch center",
+    "sym": 82,
+    "color": "i_pink",
+    "see_cost": 2,
+    "mondensity": 2
+  }
+]

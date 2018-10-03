@@ -337,6 +337,11 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     }
 
+    if( food.item_tags.count( "DIRTY" ) ) {
+        return ret_val<edible_rating>::make_failure(
+                   _( "This is full of dirt after being on the ground." ) );
+    }
+
     const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
     const bool edible    = eat_verb ||  comest->comesttype == "FOOD";
     const bool drinkable = !eat_verb && comest->comesttype == "DRINK";
@@ -494,8 +499,6 @@ bool player::eat( item &food, bool force )
     if( !food.is_food() ) {
         return false;
     }
-    // Force re-processing before eating!
-    food.process( this, global_square_location(), false );
 
     const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
     if( !ret.success() ) {
