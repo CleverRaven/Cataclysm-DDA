@@ -1628,7 +1628,7 @@
     "name": "gel spouter",
     "item": "spouterqueen",
     "location": "on_roof",
-    "looks_like": "razorqueen",
+    "looks_like": "clutter",
     "symbol": "t",
     "broken_symbol": "#",
     "color": "red",
