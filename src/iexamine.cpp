@@ -2260,9 +2260,8 @@ void iexamine::keg(player &p, const tripoint &examp)
         // Choose drink to store in keg from list
         int drink_index = 0;
         if( drink_types.size() > 1 ) {
-            drink_names.push_back( _( "Cancel" ) );
-            drink_index = menu_vec( false, _( "Store which drink?" ), drink_names ) - 1;
-            if( drink_index == (int)drink_names.size() - 1 ) {
+            drink_index = uilist( _( "Store which drink?" ), drink_names );
+            if( drink_index < 0 || static_cast<size_t>( drink_index ) >= drink_types.size() ) {
                 drink_index = -1;
             }
         } else { //Only one drink type was in inventory, so it's automatically used
@@ -2304,24 +2303,20 @@ void iexamine::keg(player &p, const tripoint &examp)
             HAVE_A_DRINK,
             REFILL,
             EXAMINE,
-            CANCEL,
         };
-        uimenu selectmenu;
+        uilist selectmenu;
         selectmenu.addentry( FILL_CONTAINER, true, MENU_AUTOASSIGN, _("Fill a container with %s"),
                             drink->tname().c_str() );
         selectmenu.addentry( HAVE_A_DRINK, drink->is_food(), MENU_AUTOASSIGN, _("Have a drink") );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _("Refill") );
         selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _("Examine") );
-        selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
 
-        selectmenu.return_invalid = true;
         selectmenu.text = _("Select an action");
-        selectmenu.selected = 0;
         selectmenu.query();
 
         const auto drink_name = drink->tname();
 
-        switch( static_cast<options>( selectmenu.ret ) ) {
+        switch( selectmenu.ret ) {
         case FILL_CONTAINER:
             if( g->handle_liquid_from_ground( drink, examp ) ) {
                 add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink_name.c_str(),
@@ -2369,7 +2364,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             return;
         }
 
-        case CANCEL:
+        default:
             return;
         }
     }
