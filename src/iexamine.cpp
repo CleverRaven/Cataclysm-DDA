@@ -2654,13 +2654,11 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
 {
     // choose what metal to recycle
     auto metals = materials::get_compactable();
-    uimenu choose_metal;
+    uilist choose_metal;
     choose_metal.text = _( "Recycle what metal?" );
     for( auto &m : metals ) {
         choose_metal.addentry( m.name() );
     }
-    choose_metal.entries.push_back( uimenu_entry( -1, true, 'c', _( "Cancel" ) ) );
-    choose_metal.selected = choose_metal.entries.size();
     choose_metal.query();
     int m_idx = choose_metal.ret;
     if( m_idx < 0 || m_idx >= static_cast<int>( metals.size() ) ) {
@@ -2703,7 +2701,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     const units::mass norm_recover_weight = sum_weight * norm_recover_factor;
 
     // choose output
-    uimenu choose_output;
+    uilist choose_output;
     //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
     choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
                                         convert_weight( sum_weight ), weight_units(), m.name().c_str() );
@@ -2714,8 +2712,6 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
         choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
                                                it.tname( amount ).c_str() ) );
     }
-    choose_output.entries.push_back( uimenu_entry( -1, true, 'c', _( "Cancel" ) ) );
-    choose_output.selected = choose_output.entries.size();
     choose_output.query();
     int o_idx = choose_output.ret;
     if( o_idx < 0 || o_idx >= static_cast<int>( m.compacts_into().size() ) ) {
