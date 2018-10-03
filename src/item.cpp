@@ -535,7 +535,7 @@ long item::charges_per_volume( const units::volume &vol ) const
     if( type->volume == 0 ) {
         return INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
     }
-    return count_by_charges() ? vol / type->volume : vol / volume();
+    return count_by_charges() ? vol * type->stack_size / type->volume : vol / volume();
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -2974,7 +2974,7 @@ units::volume item::base_volume() const
         return corpse_volume( corpse->size );
     }
 
-    return type->volume;
+    return count_by_charges() ? type->volume / type->stack_size : type->volume;
 }
 
 units::volume item::volume( bool integral ) const
@@ -2998,7 +2998,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret *= charges;
+        ret = ret * charges / type->stack_size;
     }
 
     // Non-rigid items add the volume of the content

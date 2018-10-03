@@ -179,11 +179,6 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.stackable && obj.stack_size == 0 ) {
         obj.stack_size = obj.charges_default();
     }
-    // JSON contains volume per complete stack, convert it to volume per single item
-    if( obj.count_by_charges() ) {
-        obj.volume = obj.volume / obj.stack_size;
-        obj.integral_volume = obj.integral_volume / obj.stack_size;
-    }
     // Items always should have some volume.
     // TODO: handle possible exception software?
     // TODO: make items with 0 volume an error during loading?
