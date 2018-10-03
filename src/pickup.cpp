@@ -75,27 +75,30 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     auto turret = veh->turret_query( pos );
 
-    const bool has_kitchen = ( veh->avail_part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
-    const bool has_faucet = ( veh->avail_part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
-    const bool has_weldrig = ( veh->avail_part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
-    const bool has_chemlab = ( veh->avail_part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
-    const bool has_purify = ( veh->avail_part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
-    const bool has_controls = ( ( veh->avail_part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) );
+    const bool has_kitchen = ( veh->avail_part_with_feature( veh_root_part, "KITCHEN", true ) >= 0 );
+    const bool has_faucet = ( veh->avail_part_with_feature( veh_root_part, "FAUCET", true ) >= 0 );
+    const bool has_weldrig = ( veh->avail_part_with_feature( veh_root_part, "WELDRIG", true ) >= 0 );
+    const bool has_chemlab = ( veh->avail_part_with_feature( veh_root_part, "CHEMLAB", true ) >= 0 );
+    const bool has_purify = ( veh->avail_part_with_feature( veh_root_part, "WATER_PURIFIER",
+                              true ) >= 0 );
+    const bool has_controls = ( ( veh->avail_part_with_feature( veh_root_part, "CONTROLS",
+                                  true ) >= 0 ) );
     const bool has_electronics = ( ( veh->avail_part_with_feature( veh_root_part,
-                                     "CTRL_ELECTRONIC" ) >= 0 ) );
+                                     "CTRL_ELECTRONIC", true ) >= 0 ) );
     const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
-    const int washing_machine_part = veh->avail_part_with_feature( veh_root_part, "WASHING_MACHINE" );
+    const int washing_machine_part = veh->avail_part_with_feature( veh_root_part, "WASHING_MACHINE",
+                                     true );
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
                               veh->parts[washing_machine_part].enabled;
     const int monster_capture_part = veh->avail_part_with_feature( veh_root_part,
-                                     "CAPTURE_MONSTER_VEH" );
+                                     "CAPTURE_MONSTER_VEH", true );
     const bool has_monster_capture = ( monster_capture_part >= 0 );
-    const int bike_rack_part = veh->avail_part_with_feature( veh_root_part, "BIKE_RACK_VEH" );
+    const int bike_rack_part = veh->avail_part_with_feature( veh_root_part, "BIKE_RACK_VEH", true );
     const bool has_bike_rack = ( bike_rack_part >= 0 );
 
 
