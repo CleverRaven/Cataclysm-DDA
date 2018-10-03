@@ -3563,15 +3563,16 @@ ___DEEE|.R.|...,,...|sss\n",
                 case 7: {
                     for( int i = 0; i < SEEX * 2 - 1; i++ ) {
                         for( int j = 0; j < SEEY * 2 - 1; j++ ) {
-                            // We spare some terrain to make it look better visually.
-                            if( !one_in( 10 ) && ( t_thconc_floor == ter( i, j ) || t_strconc_floor == ter( i, j ) ||
-                                                   t_thconc_floor_olight == ter( i, j ) ) ) {
+                            // Create a mostly spread fungal area throughout entire lab.
+                            if( !one_in( 5 ) && ( has_flag( "FLAT", i, j ) ) ) {
                                 ter_set( i, j, t_fungus_floor_in );
-                            } else if( has_flag_ter( "DOOR", i, j ) && !one_in( 4 ) ) {
+                                if( has_flag_furn( "ORGANIC", i, j ) ) {
+                                    furn_set( i, j, f_fungal_clump );
+                                }
+                            } else if( has_flag_ter( "DOOR", i, j ) && !one_in( 5 ) ) {
                                 ter_set( i, j, t_fungus_floor_in );
-                            }
-                            if( has_flag( "ORGANIC", i, j ) ) {
-                                furn_set( i, j, f_fungal_clump );
+                            } else if( has_flag_ter( "WALL", i, j ) && one_in( 3 ) ) {
+                                ter_set( i, j, t_fungus_wall );
                             }
                         }
                     }
@@ -3588,11 +3589,14 @@ ___DEEE|.R.|...,,...|sss\n",
                             ter_set( x, y, t_fungus_wall );
                         } else {
                             ter_set( x, y, t_fungus_floor_in );
-                            if( one_in( 5 ) ) {
+                            if( one_in( 3 ) ) {
                                 furn_set( x, y, f_flower_fungal );
+                            } else if( one_in( 10 ) ) {
+                                ter_set( x, y, t_marloss );
                             }
                         }
                     }, center.x, center.y, 3 );
+                    ter_set( center.x, center.y, t_fungus_floor_in );
                     furn_set( center.x, center.y, f_null );
                     trap_set( center, tr_portal );
 
