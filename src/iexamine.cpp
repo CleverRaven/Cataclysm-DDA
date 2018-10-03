@@ -3478,7 +3478,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     enum options {
         INSTALL_CBM,
         UNINSTALL_CBM,
-        CANCEL,
     };
 
     bool adjacent_couch = false;
@@ -3511,16 +3510,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     }
 
-    uimenu amenu;
-    amenu.selected = 0;
+    uilist amenu;
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
-    amenu.addentry( CANCEL, true, 'q', _( "Do nothing." ) );
 
     amenu.query();
 
-    switch( static_cast<options>( amenu.ret ) ) {
+    switch( amenu.ret ) {
         case INSTALL_CBM: {
             const item_location bionic = g->inv_map_splice( []( const item & e ) {
                 return e.is_bionic();
@@ -3611,8 +3608,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            int bionic_index = menu_vec( true, _( "Choose bionic to uninstall" ),
-                                         bionic_names ) - 1;
+            int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
             if( bionic_index < 0 ) {
                 return;
             }
@@ -3636,7 +3632,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             break;
         }
 
-        case CANCEL:
+        default:
             return;
     }
 }
