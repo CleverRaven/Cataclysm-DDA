@@ -326,7 +326,8 @@ void sounds::process_sound_markers( player *p )
             } else {
                 // Else print a direction as well
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
-                add_msg( m_warning, _( "From the %1$s you hear %2$s" ), _( direction.c_str() ), description.c_str() );
+                add_msg( m_warning, _( "From the %1$s you hear %2$s" ), _( direction.c_str() ),
+                         description.c_str() );
             }
         }
 

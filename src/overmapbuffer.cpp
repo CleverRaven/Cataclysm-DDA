@@ -990,7 +990,8 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
         if( sm_size >= 8 ) {
             // The city is big enough to have outskirts.
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name.c_str(), _( dir_name.c_str() ),
+            return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name.c_str(),
+                                  _( dir_name.c_str() ),
                                   closest_city.name.c_str() );
         } else {
             //~ First parameter is a terrain name, second parameter is a city name.
