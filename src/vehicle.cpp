@@ -2033,7 +2033,7 @@ int vehicle::part_with_feature_at_relative( const point &pt, const std::string &
 int vehicle::avail_part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
 {
     int part_a = part_with_feature( part, flag, unbroken );
-    if( ( part_a > 0 ) && parts[ part_a ].is_available() ) {
+    if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
     return -1;
@@ -2048,7 +2048,7 @@ int vehicle::avail_part_with_feature_at_relative( const point &pt, const std::st
         bool unbroken ) const
 {
     int part_a = part_with_feature_at_relative( pt, flag, unbroken );
-    if( ( part_a > 0 ) && parts[ part_a ].is_available() ) {
+    if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
     return -1;
