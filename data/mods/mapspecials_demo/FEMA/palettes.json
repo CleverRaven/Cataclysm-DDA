@@ -2,8 +2,26 @@
   {
     "type": "palette",
     "id": "FEMA_camp",
-    "terrain":{
-      ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
+    "terrain": {
+      ".": [
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_dirt",
+        "t_dirt",
+        "t_dirt",
+        "t_dirt",
+        "t_dirt",
+        "t_dirt"
+      ],
       "#": "t_pit_corpsed",
       "-": "t_wall",
       "|": "t_wall",
@@ -18,7 +36,7 @@
       "6": "t_console_broken",
       "7": "t_centrifuge"
     },
-    "furniture":{
+    "furniture": {
       "=": "f_canvas_wall",
       ",": "f_fema_groundsheet",
       "*": "f_canvas_door",
@@ -47,20 +65,18 @@
       "x": "f_crate_o",
       "X": "f_crate_c"
     },
-    "toilets": {
-      "&": { "amount": [ 0, 50 ] }
-    },
+    "toilets": { "&": { "amount": [ 0, 50 ] } },
     "items": {
       "b": { "item": "homebooks", "chance": 60 },
-      "B": { "item": "bed", "chance": 10, "count-min": 1 ,"count-max": 2 },
+      "B": { "item": "bed", "chance": 10, "count-min": 1, "count-max": 2 },
       "D": { "item": "radio", "chance": 60 },
       "l": { "item": "guns_milspec", "chance": 30 },
-      "o": { "item": "oven", "chance": 70, "count-min": 1 ,"count-max": 2 },
-      "R": { "item": "fridge", "chance": 80, "count-min": 1 ,"count-max": 3 },
+      "o": { "item": "oven", "chance": 70, "count-min": 1, "count-max": 2 },
+      "R": { "item": "fridge", "chance": 80, "count-min": 1, "count-max": 3 },
       "s": { "item": "cleaning", "chance": 15 },
       "S": { "item": "cleaning", "chance": 25 },
-      "t": { "item": "trash", "chance": 60, "count-min": 1 ,"count-max": 4 },
-      "U": { "item": "kitchen", "chance": 40, "count-min": 1 ,"count-max": 3 }
+      "t": { "item": "trash", "chance": 60, "count-min": 1, "count-max": 4 },
+      "U": { "item": "kitchen", "chance": 40, "count-min": 1, "count-max": 3 }
     }
   }
 ]
