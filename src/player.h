@@ -1647,6 +1647,10 @@ class player : public Character
          */
         void on_item_takeoff( const item &it ) override;
         /**
+         * Called when an item is washed
+         */
+        void on_worn_item_washed( const item &it ) override;
+        /**
          * Called when effect intensity has been changed
          */
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;

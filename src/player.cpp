@@ -4284,7 +4284,7 @@ void player::check_needs_extremes()
 
                 mod_healthy_mod( -5, 0 );
             }
-            // else you pass out for 20 hours, guaranteed 
+            // else you pass out for 20 hours, guaranteed
 
             // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
             // Note: these can coexist with fatigue-related microsleeps
@@ -4306,7 +4306,7 @@ void player::check_needs_extremes()
 
                     if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
                         fall_asleep( 20_hours );
-                    } 
+                    }
                     else if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
                         fall_asleep( 16_hours );
                     }
@@ -12239,6 +12239,13 @@ void player::on_item_takeoff( const item &it )
     lua_callback_args_info.emplace_back( getID() );
     lua_callback_args_info.emplace_back( it );
     lua_callback( "on_player_item_takeoff", lua_callback_args_info );
+}
+
+void player::on_worn_item_washed( const item &it )
+{
+    if( is_worn( it ) ) {
+        morale->on_worn_item_washed( it );
+    }
 }
 
 void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
