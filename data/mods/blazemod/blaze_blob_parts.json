@@ -1623,6 +1623,27 @@
     "flags": [ "TURRET_MOUNT", "FOLDABLE" ]
   },
   {
+    "id": "spouterqueen",
+    "type": "vehicle_part",
+    "name": "gel spouter",
+    "item": "spouterqueen",
+    "location": "on_roof",
+    "looks_like": "razorqueen",
+    "symbol": "t",
+    "broken_symbol": "#",
+    "color": "red",
+    "broken_color": "red",
+    "difficulty": 1,
+    "durability": 200,
+    "range": 60,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "queengrow" } ],
+    "description": "A living blob turned into a heavy vehicle weapon.",
+    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+  },
+  {
     "id": "razorqueen",
     "type": "vehicle_part",
     "name": "gel spiker",
