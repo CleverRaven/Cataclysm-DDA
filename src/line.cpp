@@ -411,33 +411,33 @@ std::string const &direction_name_impl( direction const dir, bool const short_na
         std::array < pair_t, size + 1 > result;
 
         //~ abbreviated direction names and long direction names
-        result[NORTH]          = pair_t {_( "N    " ), _( "north" )};
-        result[NORTHEAST]      = pair_t {_( "NE   " ), _( "northeast" )};
-        result[EAST]           = pair_t {_( "E    " ), _( "east" )};
-        result[SOUTHEAST]      = pair_t {_( "SE   " ), _( "southeast" )};
-        result[SOUTH]          = pair_t {_( "S    " ), _( "south" )};
-        result[SOUTHWEST]      = pair_t {_( "SW   " ), _( "southwest" )};
-        result[WEST]           = pair_t {_( "W    " ), _( "west" )};
-        result[NORTHWEST]      = pair_t {_( "NW   " ), _( "northwest" )};
-        result[ABOVENORTH]     = pair_t {_( "UP_N " ), _( "north and above" )};
-        result[ABOVENORTHEAST] = pair_t {_( "UP_NE" ), _( "northeast and above" )};
-        result[ABOVEEAST]      = pair_t {_( "UP_E " ), _( "east and above" )};
-        result[ABOVESOUTHEAST] = pair_t {_( "UP_SE" ), _( "southeast and above" )};
-        result[ABOVESOUTH]     = pair_t {_( "UP_S " ), _( "south and above" )};
-        result[ABOVESOUTHWEST] = pair_t {_( "UP_SW" ), _( "southwest and above" )};
-        result[ABOVEWEST]      = pair_t {_( "UP_W " ), _( "west and above" )};
-        result[ABOVENORTHWEST] = pair_t {_( "UP_NW" ), _( "northwest and above" )};
-        result[BELOWNORTH]     = pair_t {_( "DN_N " ), _( "north and below" )};
-        result[BELOWNORTHEAST] = pair_t {_( "DN_NE" ), _( "northeast and below" )};
-        result[BELOWEAST]      = pair_t {_( "DN_E " ), _( "east and below" )};
-        result[BELOWSOUTHEAST] = pair_t {_( "DN_SE" ), _( "southeast and below" )};
-        result[BELOWSOUTH]     = pair_t {_( "DN_S " ), _( "south and below" )};
-        result[BELOWSOUTHWEST] = pair_t {_( "DN_SW" ), _( "southwest and below" )};
-        result[BELOWWEST]      = pair_t {_( "DN_W " ), _( "west and below" )};
-        result[BELOWNORTHWEST] = pair_t {_( "DN_NW" ), _( "northwest and below" )};
-        result[ABOVECENTER]    = pair_t {_( "UP_CE" ), _( "above" )};
-        result[CENTER]         = pair_t {_( "CE   " ), _( "center" )};
-        result[BELOWCENTER]    = pair_t {_( "DN_CE" ), _( "below" )};
+        result[NORTH]          = pair_t {translate_marker( "N    " ), translate_marker( "north" )};
+        result[NORTHEAST]      = pair_t {translate_marker( "NE   " ), translate_marker( "northeast" )};
+        result[EAST]           = pair_t {translate_marker( "E    " ), translate_marker( "east" )};
+        result[SOUTHEAST]      = pair_t {translate_marker( "SE   " ), translate_marker( "southeast" )};
+        result[SOUTH]          = pair_t {translate_marker( "S    " ), translate_marker( "south" )};
+        result[SOUTHWEST]      = pair_t {translate_marker( "SW   " ), translate_marker( "southwest" )};
+        result[WEST]           = pair_t {translate_marker( "W    " ), translate_marker( "west" )};
+        result[NORTHWEST]      = pair_t {translate_marker( "NW   " ), translate_marker( "northwest" )};
+        result[ABOVENORTH]     = pair_t {translate_marker( "UP_N " ), translate_marker( "north and above" )};
+        result[ABOVENORTHEAST] = pair_t {translate_marker( "UP_NE" ), translate_marker( "northeast and above" )};
+        result[ABOVEEAST]      = pair_t {translate_marker( "UP_E " ), translate_marker( "east and above" )};
+        result[ABOVESOUTHEAST] = pair_t {translate_marker( "UP_SE" ), translate_marker( "southeast and above" )};
+        result[ABOVESOUTH]     = pair_t {translate_marker( "UP_S " ), translate_marker( "south and above" )};
+        result[ABOVESOUTHWEST] = pair_t {translate_marker( "UP_SW" ), translate_marker( "southwest and above" )};
+        result[ABOVEWEST]      = pair_t {translate_marker( "UP_W " ), translate_marker( "west and above" )};
+        result[ABOVENORTHWEST] = pair_t {translate_marker( "UP_NW" ), translate_marker( "northwest and above" )};
+        result[BELOWNORTH]     = pair_t {translate_marker( "DN_N " ), translate_marker( "north and below" )};
+        result[BELOWNORTHEAST] = pair_t {translate_marker( "DN_NE" ), translate_marker( "northeast and below" )};
+        result[BELOWEAST]      = pair_t {translate_marker( "DN_E " ), translate_marker( "east and below" )};
+        result[BELOWSOUTHEAST] = pair_t {translate_marker( "DN_SE" ), translate_marker( "southeast and below" )};
+        result[BELOWSOUTH]     = pair_t {translate_marker( "DN_S " ), translate_marker( "south and below" )};
+        result[BELOWSOUTHWEST] = pair_t {translate_marker( "DN_SW" ), translate_marker( "southwest and below" )};
+        result[BELOWWEST]      = pair_t {translate_marker( "DN_W " ), translate_marker( "west and below" )};
+        result[BELOWNORTHWEST] = pair_t {translate_marker( "DN_NW" ), translate_marker( "northwest and below" )};
+        result[ABOVECENTER]    = pair_t {translate_marker( "UP_CE" ), translate_marker( "above" )};
+        result[CENTER]         = pair_t {translate_marker( "CE   " ), translate_marker( "center" )};
+        result[BELOWCENTER]    = pair_t {translate_marker( "DN_CE" ), translate_marker( "below" )};
 
         result[size] = pair_t {"BUG. (line.cpp:direction_name)", "BUG. (line.cpp:direction_name)"};
         return result;
@@ -468,8 +468,8 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
     if( dist <= 0 ) {
         return std::string();
     }
-    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p,
-                          q ) ) ).c_str() );
+    return string_format( "%d%s", dist, trim( _( direction_name_short( direction_from( p,
+                          q ) ).c_str() ) ) );
 }
 
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.

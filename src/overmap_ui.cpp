@@ -988,7 +988,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 mvwprintz( w_search, 3, 1, c_light_blue, _( "Direction:" ) );
                 mvwprintz( w_search, 3, 14, c_white, "%*d %s",
                            5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
-                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str()
+                           _( direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str() )
                          );
 
                 mvwprintz( w_search, 6, 1, c_white, _( "'<' '>' Cycle targets." ) );
