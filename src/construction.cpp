@@ -306,7 +306,7 @@ void construction_menu()
                 std::copy_if( available.begin(), available.end(),
                               std::back_inserter( constructs ),
                 [&]( const std::string & a ) {
-                    return lcmatch( a, filter );
+                    return lcmatch( _( a.c_str() ), filter );
                 } );
             } else {
                 constructs = cat_available[category_name];
@@ -337,7 +337,7 @@ void construction_menu()
 
             trim_and_print( w_list, i, 0, w_list_width,
                             construction_color( con_name, highlight ),
-                            con_name );
+                            _( con_name.c_str() ) );
         }
 
         if( update_info ) {
@@ -376,7 +376,7 @@ void construction_menu()
                 std::string current_desc = constructs[select];
                 // Print construction name
                 trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
-                                current_desc );
+                                _( current_desc.c_str() ) );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -842,7 +842,7 @@ void complete_construction()
         }
     }
 
-    add_msg( m_info, _( "You finish your construction: %s." ), built.description.c_str() );
+    add_msg( m_info, _( "You finish your construction: %s." ), _( built.description.c_str() ) );
 
     // clear the activity
     u.activity.set_to_null();
