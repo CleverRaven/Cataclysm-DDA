@@ -90,7 +90,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
 void game_menus::inv::common( player &p )
 {
-    static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
+    static const std::set<int> allowed_selections = { { '\0', '=' } };
 
     p.inv.restack( p );
 
