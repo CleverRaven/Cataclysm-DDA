@@ -134,7 +134,7 @@ struct vehicle_part {
 
         static constexpr int name_offset = 7;
         /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
-        std::stack<std::string> carry_names;
+        std::pair<std::string, std::string> carry_names;
 
         /** Specific type of fuel, charges or ammunition currently contained by a part */
         itype_id ammo_current() const;
@@ -1514,5 +1514,7 @@ class vehicle
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
 };
+
+const std::string &get_carry_name( const std::pair<std::string, std::string> &carry_pair );
 
 #endif
