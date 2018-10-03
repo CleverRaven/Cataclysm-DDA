@@ -71,6 +71,7 @@ using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
+class map;
 
 enum damage_type : int;
 
@@ -528,6 +529,15 @@ class item : public visitable<item>
          * @return true if the item was destroyed during placement.
          */
         bool on_drop( const tripoint &pos );
+
+        /**
+         * Invokes item type's @ref itype::drop_action.
+         * This function can change the item.
+         * @param pos Where is the item being placed. Note: the item isn't there yet.
+         * @param map A map object associated with that position.
+         * @return true if the item was destroyed during placement.
+         */
+        bool on_drop( const tripoint &pos, map &m );
 
         /**
          * Consume a specific amount of items of a specific type.
