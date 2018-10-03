@@ -835,7 +835,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
             for( auto &i : p->all_items_with_flag( "ADV_UPS" ) ) {
                 qty = sum_no_wrap( qty, long( charges_of( i->typeId() ) / 0.6 ) );
             }
-        }        
+        } 
         if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
             qty = sum_no_wrap( qty, long( p->power_level ) );
         }
