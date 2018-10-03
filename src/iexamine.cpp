@@ -1120,16 +1120,16 @@ void iexamine::bulletin_board(player &, const tripoint &examp)
         options.push_back(_("Cancel"));
         // Causes a warning due to being unused, but don't want to delete
         // since it's clearly what's intended for future functionality.
-        //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
+        int choice = uilist( camp->board_name(), options );
+        static_cast<void>( choice );
     } else {
         bool create_camp = g->m.allow_camp( examp );
         std::vector<std::string> options;
         if (create_camp) {
             options.push_back(_("Create camp"));
         }
-        options.push_back(_("Cancel"));
         // @todo: Other Bulletin Boards
-        int choice = menu_vec(true, _("Bulletin Board"), options) - 1;
+        int choice = uilist( _( "Bulletin Board" ), options );
         if (choice >= 0 && size_t(choice) < options.size()) {
             if (options[choice] == _("Create camp")) {
                 // @todo: Allow text entry for name
