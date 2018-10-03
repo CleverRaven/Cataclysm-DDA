@@ -299,13 +299,22 @@
     "broken_color": "light_green",
     "difficulty": 1,
     "durability": 250,
-    "size": 10000,
+    "size": 5000,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": 20,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "gloople_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "gloople_tank",
+    "name": "gel tank (60L)",
+    "item": "gloople_tank_large",
+    "size": 60000,
+    "folded_volume": 240
   },
   {
     "id": "gloople_horizontal",
@@ -684,22 +693,31 @@
   {
     "id": "gray_tank",
     "type": "vehicle_part",
-    "name": "cocoon (25L)",
+    "name": "cocoon (30L)",
     "item": "gray_tank",
-    "location": "fuel_source",
+    "//location": "fuel_source",
     "symbol": "O",
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
     "difficulty": 1,
     "durability": 1000,
-    "size": 25000,
+    "size": 10000,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": 40,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "gray_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "gray_tank",
+    "name": "gray tank (100L)",
+    "item": "gray_tank_large",
+    "size": 100000,
+    "folded_volume": 400
   },
   {
     "id": "gray_horizontal",
@@ -1296,13 +1314,22 @@
     "broken_color": "green",
     "difficulty": 1,
     "durability": 500,
-    "size": 20000,
+    "size": 7500,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": 30,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+  },
+  {
+    "id": "oozle_tank_large",
+    "type": "vehicle_part",
+    "copy-from": "oozle_tank",
+    "name": "ooze tank (80L)",
+    "item": "oozle_tank_large",
+    "size": 8000,
+    "folded_volume": 320
   },
   {
     "id": "oozle_horizontal",

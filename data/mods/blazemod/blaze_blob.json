@@ -431,19 +431,28 @@
   {
     "id": "gloople_tank",
     "type": "CONTAINER",
-    "name": "gelatinous tank",
-    "name_plural": "gelatinous tanks",
+    "name": "gelatinous capsule",
+    "name_plural": "gelatinous capsules",
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
     "weight": 6662,
-    "volume": 10,
+    "volume": 20,
     "price": 100,
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
     "color": "light_green",
-    "contains": 30,
+    "contains": 40,
     "seals": true,
     "watertight": true
+  },
+  {
+    "id": "gloople_tank_large",
+    "type": "CONTAINER",
+    "name": "gelatinous tank",
+    "name_plural": "gelatinous tanks",
+    "copy-from": "gloople_tank",
+    "volume": 240,
+    "contains": 240
   },
   {
     "id": "gloople_wheel",
@@ -584,19 +593,28 @@
   {
     "id": "gray_tank",
     "type": "CONTAINER",
-    "name": "gray tank",
-    "name_plural": "gray tanks",
+    "name": "gray cocoon",
+    "name_plural": "gray cocoons",
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
     "weight": 19120,
-    "volume": 30,
+    "volume": 40,
     "price": 100,
     "to_hit": -2,
     "material": [ "flesh" ],
     "symbol": ";",
     "color": "light_gray",
-    "contains": 100,
+    "contains": 120,
     "seals": true,
     "watertight": true
+  },
+  {
+    "id": "gray_tank_large",
+    "type": "CONTAINER",
+    "name": "gray tank",
+    "name_plural": "gray tanks",
+    "copy-from": "gray_tank",
+    "volume": 400,
+    "contains": 400
   },
   {
     "id": "gray_wheel",
@@ -850,8 +868,8 @@
   {
     "id": "oozle_tank",
     "type": "CONTAINER",
-    "name": "oozing tank",
-    "name_plural": "oozing tanks",
+    "name": "oozing pod",
+    "name_plural": "oozing pods",
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
     "weight": 16262,
     "volume": 30,
@@ -860,9 +878,18 @@
     "material": [ "flesh" ],
     "symbol": ";",
     "color": "green",
-    "contains": 60,
+    "contains": 80,
     "seals": true,
     "watertight": true
+  },
+  {
+    "id": "oozle_tank_large",
+    "type": "CONTAINER",
+    "name": "oozing tank",
+    "name_plural": "oozing tanks",
+    "copy-from": "oozle_tank",
+    "volume": 320,
+    "contains": 320
   },
   {
     "id": "oozle_wheel",

@@ -235,6 +235,18 @@
     "components": [ [ [ "gloople", 1 ] ] ]
   },
   {
+    "result": "gloople_tank_large",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "gloople", 1 ] ] ]
+  },
+  {
     "result": "gloople_wheel",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -275,6 +287,18 @@
   },
   {
     "result": "gray_tank",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "gray", 1 ] ] ]
+  },
+  {
+    "result": "gray_tank_large",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -394,6 +418,18 @@
   },
   {
     "result": "oozle_tank",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "oozle", 1 ] ] ]
+  },
+  {
+    "result": "oozle_tank_large",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
