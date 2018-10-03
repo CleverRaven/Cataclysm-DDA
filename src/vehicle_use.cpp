@@ -80,7 +80,7 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
                                   const std::string &flag )
 {
     // fetch matching parts and abort early if none found
-    auto found = get_parts( flag );
+    auto found = get_parts( flag, false, false );
     if( found.empty() ) {
         return;
     }
@@ -472,10 +472,10 @@ void vehicle::use_controls( const tripoint &pos )
                 refresh();
             } );
         }
-        has_electronic_controls = !get_parts( pos, "CTRL_ELECTRONIC" ).empty();
+        has_electronic_controls = !get_parts( pos, "CTRL_ELECTRONIC", false, false ).empty();
     }
 
-    if( get_parts( pos, "CONTROLS" ).empty() && !has_electronic_controls ) {
+    if( get_parts( pos, "CONTROLS", false, false ).empty() && !has_electronic_controls ) {
         add_msg( m_info, _( "No controls there" ) );
         return;
     }
@@ -881,7 +881,7 @@ void vehicle::beeper_sound()
 
 void vehicle::play_music()
 {
-    for( auto e : get_parts( "STEREO", true ) ) {
+    for( auto e : get_parts( "STEREO", true, false ) ) {
         iuse::play_music( g->u, global_part_pos3( *e ), 15, 30 );
     }
 }
@@ -892,7 +892,7 @@ void vehicle::play_chimes()
         return;
     }
 
-    for( auto e : get_parts( "CHIMES", true ) ) {
+    for( auto e : get_parts( "CHIMES", true, false ) ) {
         sounds::sound( global_part_pos3( *e ), 40, _( "a simple melody blaring from the loudspeakers." ) );
     }
 }

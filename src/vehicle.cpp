@@ -349,15 +349,15 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             blood_inside = true;
         }
 
-        for( auto e : get_parts( "FRIDGE" ) ) {
+        for( auto e : get_parts( "FRIDGE", false, false ) ) {
             e->enabled = true;
         }
 
-        for( auto e : get_parts( "FREEZER" ) ) {
+        for( auto e : get_parts( "FREEZER", false, false ) ) {
             e->enabled = true;
         }
 
-        for( auto e : get_parts( "WATER_PURIFIER" ) ) {
+        for( auto e : get_parts( "WATER_PURIFIER", false, false ) ) {
             e->enabled = true;
         }
     }
@@ -2093,7 +2093,7 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
 // All 4 functions below look identical except for flag type and consts
 template<typename Vehicle, typename Flag, typename Vector>
 void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled,
-                       bool return_broken_parts_too = false )
+                       bool return_broken_parts_too )
 {
     for( auto &e : veh.parts ) {
         if( !e.removed && ( !enabled || e.enabled ) && ( !e.is_broken() || return_broken_parts_too ) &&
@@ -2103,17 +2103,19 @@ void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled
     }
 }
 
-std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled )
+std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled,
+        bool include_broken_parts )
 {
     std::vector<vehicle_part *> res;
-    get_parts_helper( *this, flag, res, enabled );
+    get_parts_helper( *this, flag, res, enabled, include_broken_parts );
     return res;
 }
 
-std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled ) const
+std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled,
+        bool include_broken_parts ) const
 {
     std::vector<const vehicle_part *> res;
-    get_parts_helper( *this, flag, res, enabled );
+    get_parts_helper( *this, flag, res, enabled, bool include_broken_parts );
     return res;
 }
 
@@ -3267,7 +3269,7 @@ void vehicle::power_parts()
 {
     int epower = 0;
 
-    for( const auto *pt : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER, true ) ) {
+    for( const auto *pt : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER, true, false ) ) {
         epower += pt->info().epower;
     }
 
@@ -3347,7 +3349,7 @@ void vehicle::power_parts()
 
         if( !reactor_working ) {
             // All reactors out of fuel or destroyed
-            for( auto pt : get_parts( "REACTOR" ) ) {
+            for( auto pt : get_parts( "REACTOR", false, false ) ) {
                 pt->enabled = false;
             }
             if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
@@ -3367,15 +3369,15 @@ void vehicle::power_parts()
 
     if( battery_deficit != 0 ) {
         // Scoops need a special case since they consume power during actual use
-        for( auto *pt : get_parts( "SCOOP" ) ) {
+        for( auto *pt : get_parts( "SCOOP", false, false ) ) {
             pt->enabled = false;
         }
         // Rechargers need special case since they consume power on demand
-        for( auto *pt : get_parts( "RECHARGE" ) ) {
+        for( auto *pt : get_parts( "RECHARGE", false, false ) ) {
             pt->enabled = false;
         }
 
-        for( auto *pt : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER, true ) ) {
+        for( auto *pt : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER, true, false ) ) {
             if( pt->info().epower < 0 ) {
                 pt->enabled = false;
             }
@@ -3569,7 +3571,7 @@ void vehicle::idle( bool on_map )
     }
 
     if( !warm_enough_to_plant() ) {
-        for( auto e : get_parts( "PLANTER", true ) ) {
+        for( auto e : get_parts( "PLANTER", true, false ) ) {
             if( g->u.sees( global_pos3() ) ) {
                 add_msg( _( "The %s's planter turns off due to low temperature." ), name.c_str() );
             }
@@ -3661,7 +3663,7 @@ void vehicle::make_active( item_location &loc )
     if( !target->needs_processing() ) {
         return;
     }
-    auto cargo_parts = get_parts( loc.position(), "CARGO" );
+    auto cargo_parts = get_parts( loc.position(), "CARGO", false, false );
     if( cargo_parts.empty() ) {
         return;
     }
