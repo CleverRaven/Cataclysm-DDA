@@ -3160,7 +3160,6 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     const int choose_pump = 2;
     const int hack = 3;
     const int refund = 4;
-    const int cancel = 5;
 
     if( p.has_trait( trait_ILLITERATE ) ) {
         popup( _( "You're illiterate, and can't read the screen." ) );
@@ -3197,7 +3196,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
                       ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24 ) ) );
 
-    uimenu amenu;
+    uilist amenu;
     amenu.selected = 1;
     amenu.text = str_to_illiterate_str( _( "Welcome to AutoGas!" ) );
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "What would you like to do?" ) ) );
@@ -3218,30 +3217,26 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         amenu.addentry( hack, true, 'h', _( "Hack console." ) );
     }
 
-    amenu.addentry( cancel, true, 'q', str_to_illiterate_str( _( "Cancel" ) ) );
-
     amenu.query();
     choice = amenu.ret;
 
     if( choose_pump == choice ) {
-        uimenu amenu;
-        amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
+        uilist amenu;
+        amenu.selected = uistate.ags_pay_gas_selected_pump;
         amenu.text = str_to_illiterate_str( _( "Please choose gas pump:" ) );
 
-        amenu.addentry( 0, true, static_cast<long>( 'q' ), str_to_illiterate_str( _( "Cancel" ) ) );
-
         for( int i = 0; i < pumpCount; i++ ) {
-            amenu.addentry( i + 1, true, -1,
+            amenu.addentry( i, true, -1,
                             str_to_illiterate_str( _( "Pump " ) ) + to_string( i + 1 ) );
         }
         amenu.query();
         choice = amenu.ret;
 
-        if( choice == 0 ) {
+        if( choice < 0 ) {
             return;
         }
 
-        uistate.ags_pay_gas_selected_pump = choice - 1;
+        uistate.ags_pay_gas_selected_pump = choice;
 
         turnOnSelectedPump( examp, uistate.ags_pay_gas_selected_pump );
 
