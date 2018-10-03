@@ -3835,9 +3835,8 @@ void smoker_load_food( player &p, const tripoint &examp, units::volume remaining
         return it.has_flag( "SMOKABLE" );
     } );
 
-    uimenu smenu;
+    uilist smenu;
     smenu.text = _( "Load smoking rack with what kind of food?" );
-    smenu.return_invalid = true;
     // count and ask for item to be placed ...
     int count = 0;
     std::list<std::string> names;
@@ -3866,11 +3865,10 @@ void smoker_load_food( player &p, const tripoint &examp, units::volume remaining
         return;
     }
 
-    smenu.addentry( -1, true, 'q', _( "Cancel" ) );
     smenu.query();
 
-    if( static_cast<size_t>( smenu.ret ) >= entries.size() || smenu.ret == -1 ) {
-        add_msg(m_info, _( "Never mind." ) );
+    if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= entries.size() ) {
+        add_msg( m_info, _( "Never mind." ) );
         return;
     }
     count = 0;
@@ -3998,9 +3996,8 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
 
-    uimenu smenu;
+    uilist smenu;
     smenu.text = _( "What to do with the smoking rack:" );
-    smenu.return_invalid = true;
     smenu.desc_enabled = true;
 
     smenu.addentry( 0, true, 'i', _( "Inspect smoking rack" ) );
@@ -4039,8 +4036,6 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                         active ? string_format( _( "Rake out %d excess charges of charcoal from smoking rack" ), coal_charges ) : 
                         string_format( _( "Remove %d charges of charcoal from smoking rack" ), coal_charges ) );
     }
-
-    smenu.addentry( 6, true, 'q', "%s", _( "Cancel" ) );
 
     smenu.query();
 
@@ -4119,7 +4114,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 }
             }
             break;
-        case 6:
+        default:
             add_msg( m_info, _( "Never mind." ) );
             break;
         case 7:
