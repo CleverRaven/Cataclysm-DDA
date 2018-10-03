@@ -80,8 +80,8 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
                                   const std::string &flag )
 {
     // fetch matching parts and abort early if none found
-    auto found = get_parts( flag, false, false );
-    if( found.empty() ) {
+    const auto found = get_parts( flag );
+    if( empty( found ) ) {
         return;
     }
 
@@ -89,14 +89,14 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
     bool allow = true;
 
     // determine target state - currently parts of similar type are all switched concurrently
-    bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part * e ) {
-        return e->enabled;
+    bool state = std::none_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
+        return vp.vehicle().parts[vp.part_index()].enabled;
     } );
 
     // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
     if( state ) {
-        allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part * e ) {
-            return can_enable( *e );
+        allow = std::any_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
+            return vp.vehicle().can_enable( vp.vehicle().parts[vp.part_index()] );
         } );
     }
 
@@ -104,8 +104,9 @@ void vehicle::add_toggle_to_opts( std::vector<uimenu_entry> &options,
     options.emplace_back( -1, allow, key, msg );
 
     actions.push_back( [ = ] {
-        for( vehicle_part *e : found )
+        for( const vpart_reference vp : found )
         {
+            vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             if( e->enabled != state ) {
                 add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
                 e->enabled = state;

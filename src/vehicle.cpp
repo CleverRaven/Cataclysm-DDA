@@ -349,15 +349,18 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             blood_inside = true;
         }
 
-        for( auto e : get_parts( "FRIDGE", false, false ) ) {
+        for( const vpart_reference vp : get_parts( "FRIDGE" ) ) {
+            vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             e->enabled = true;
         }
 
-        for( auto e : get_parts( "FREEZER", false, false ) ) {
+        for( const vpart_reference vp : get_parts( "FREEZER" ) ) {
+            vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             e->enabled = true;
         }
 
-        for( auto e : get_parts( "WATER_PURIFIER", false, false ) ) {
+        for( const vpart_reference vp : get_parts( "WATER_PURIFIER" ) ) {
+            vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
             e->enabled = true;
         }
     }
@@ -3363,7 +3366,8 @@ void vehicle::power_parts()
 
         if( !reactor_working ) {
             // All reactors out of fuel or destroyed
-            for( auto pt : get_parts( "REACTOR", false, false ) ) {
+            for( const vpart_reference vp : get_parts( "REACTOR" ) ) {
+                vehicle_part *const pt = &vp.vehicle().parts[vp.part_index()];
                 pt->enabled = false;
             }
             if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {

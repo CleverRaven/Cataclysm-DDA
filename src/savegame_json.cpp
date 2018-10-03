@@ -2054,7 +2054,8 @@ void vehicle::deserialize( JsonIn &jsin )
         }
     }
 
-    for( auto turret : get_parts( "TURRET", false, false ) ) {
+    for( const vpart_reference vp : get_parts( "TURRET" ) ) {
+        const vehicle_part *const turret = &vp.vehicle().parts[vp.part_index()];
         install_part( turret->mount.x, turret->mount.y, vpart_id( "turret_mount" ), false );
     }
 
@@ -2092,7 +2093,8 @@ void vehicle::deserialize( JsonIn &jsin )
     /** Legacy saved games did not store part enabled status within parts */
     auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
-            for( auto e : get_parts( flag, false, false ) ) {
+            for( const vpart_reference vp : get_parts( flag ) ) {
+                vehicle_part *const e = &vp.vehicle().parts[vp.part_index()];
                 e->enabled = true;
             }
         }

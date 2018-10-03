@@ -540,8 +540,8 @@ bool veh_interact::can_self_jack()
 {
     int lvl = jack_quality( *veh );
 
-    std::vector<vehicle_part *> self_jacking_parts = veh->get_parts( "SELF_JACK", false, false );
-    for( auto jack : self_jacking_parts ) {
+    for( const vpart_reference vp : veh->get_parts( "SELF_JACK" ) ) {
+        const vehicle_part *const jack = &vp.vehicle().parts[vp.part_index()];
         if( jack->base.has_quality( SELF_JACK, lvl ) ) {
             return true;
         }
