@@ -2046,15 +2046,24 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
+// @todo: Better place for it?
+std::string tag_colored_string( const std::string &s, nc_color color )
+{
+    // @todo: Make this tag generation a function, put it in good place
+    std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
+    std::string color_tag_close = "</color>";
+    return color_tag_open + s + color_tag_close;
+}
+
 hp_part Character::body_window( bool precise ) const
 {
-    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0, 0, 0 );
+    return body_window( disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
 }
 
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const
+                                float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -2088,21 +2097,27 @@ hp_part Character::body_window( const std::string &menu_header,
     };
 
     const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
-        if( hp <= 0 ) {
-            return "-----";
-        } else if( precise ) {
+        if( hp <= 0 )
+        {
+            return "==%==";
+        } else if( precise )
+        {
             return string_format( "%d", hp );
-        } else {
-            return string_format( "%-5s", get_hp_bar( hp, maximal_hp, false ).first );
+        } else
+        {
+            std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
+            nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
+
+            return string_format( "%s%s", tag_colored_string( h_bar, h_bar_col ),
+                                  tag_colored_string( std::string( 5 - h_bar.size(), '.' ), c_white ) );
         }
     };
 
     uilist bmenu;
-    bmenu.text = menu_header;
-
-    // Add a header line so player can see the color of all other lines.
+    bmenu.desc_enabled = true;
+    bmenu.text = string_format( _( "Select a body part for: %s" ), menu_header );
     bmenu.hilight_disabled = true;
-    bmenu.addentry( parts.size(), false, 0, _( "Select a body part:" ) );
+    bool is_valid_choice = false;
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const auto &e = parts[i];
@@ -2113,73 +2128,171 @@ hp_part Character::body_window( const std::string &menu_header,
         const int bonus = e.bonus;
         // This will c_light_gray if the part does not have any effects cured by the item
         // (e.g. it cures only bites, but the part does not have a bite effect)
-        const nc_color state_col = limb_color( bp, bleed, bite, infect );
+        const nc_color state_col = limb_color( bp, bleed > 0.0f ? true : false, bite > 0.0f ? true : false,
+                                               infect > 0.0f ? true : false );
         const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item!
         const nc_color all_state_col = limb_color( bp, true, true, true );
-        const bool has_any_effect = all_state_col != c_light_gray;
+        // const bool has_any_effect = all_state_col != c_light_gray;
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = current_hp == 0;
-        // This considers only the effects that can *not* be removed.
-        const nc_color new_state_col = limb_color( bp, !bleed, !bite, !infect );
 
         if( show_all ) {
             e.allowed = true;
         } else if( has_curable_effect ) {
             e.allowed = true;
         } else if( limb_is_broken ) {
-            continue;
-        } else if( current_hp < maximal_hp && ( e.bonus != 0 || is_bandage || is_disinfectant ) ) {
+            e.allowed = false;
+        } else if( current_hp < maximal_hp && ( e.bonus != 0 || bandage_power > 0.0f  ||
+                                                disinfectant_power > 0.0f ) ) {
             e.allowed = true;
         } else {
-            continue;
+            e.allowed = false;
         }
-
-        bool bandaged = has_effect( effect_bandaged, e.bp );
-        bool disinfected = has_effect( effect_disinfected, e.bp );
-
-        bool treated = true;
-        std::string treatment_str;
-        if( bandaged && disinfected ) {
-            treatment_str = string_format( _( "(bandaged [%d] & disinfected [%d])" ),
-                                           get_effect_int( effect_bandaged, e.bp ),
-                                           get_effect_int( effect_disinfected, e.bp ) );
-        } else if( bandaged ) {
-            treatment_str = string_format( _( "(bandaged [%d])" ),
-                                           get_effect_int( effect_bandaged, e.bp ) );
-        } else if( disinfected ) {
-            treatment_str = string_format( _( "(disinfected [%d])" ),
-                                           get_effect_int( effect_disinfected, e.bp ) );
-        } else {
-            treated = false;
-        }
-
-        const int new_hp = clamp( current_hp + bonus, 0, maximal_hp );
 
         std::stringstream msg;
+        std::stringstream desc;
+        const std::string arrow = " <color_yellow>-></color> ";
+        bool bleeding = has_effect( effect_bleed, e.bp );
+        bool bitten = has_effect( effect_bite, e.bp );
+        bool infected = has_effect( effect_infected, e.bp );
+        bool bandaged = has_effect( effect_bandaged, e.bp );
+        bool disinfected = has_effect( effect_disinfected, e.bp );
+        const int b_power = get_effect_int( effect_bandaged, e.bp );
+        const int d_power = get_effect_int( effect_disinfected, e.bp );
+        int new_b_power = int( std::floor( bandage_power ) );
+        if( bandaged ) {
+            const effect &eff = get_effect( effect_bandaged, e.bp );
+            if( new_b_power > eff.get_max_intensity() ) {
+                new_b_power = eff.get_max_intensity();
+            }
 
-        const nc_color old_hp_col = has_any_effect ? all_state_col :
-                                    limb_is_broken ? c_dark_gray : c_green;
+        }
+        int new_d_power = int( std::floor( disinfectant_power ) );
+        // this prevents false prediction of effects that overreach maximum limits
+        if( disinfected ) {
+            const effect &eff = get_effect( effect_disinfected, e.bp );
+            if( new_d_power > eff.get_max_intensity() ) {
+                new_d_power = eff.get_max_intensity();
+            }
+
+        }
+        const int new_hp = clamp( current_hp + bonus, 0, maximal_hp );
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg << string_format( "<color_%s>%s</color> <color_%s>%s</color>", 
+        msg << string_format( "<color_%s>%s</color> %s",
                               color_name( all_state_col ), aligned_name,
-                              color_name( old_hp_col ), hp_str( current_hp, maximal_hp ) );
+                              hp_str( current_hp, maximal_hp ) );
+        desc << string_format( "<color_%s>%s</color> %s",
+                               color_name( all_state_col ), e.name,
+                               hp_str( current_hp, maximal_hp ) );
         if( current_hp != new_hp || has_curable_effect ) {
-            const nc_color new_hp_col = has_any_effect ? new_state_col :
-                                        limb_is_broken ? c_dark_gray : c_green;
-            msg << string_format( " <color_dark_gray>-></color> <color_%s>%s</color>",
-                                  color_name( new_hp_col ), hp_str( new_hp, maximal_hp ) );
-        }
-        if( treated ) {
-            msg << string_format( " <color_%s>%s</color>",
-                                  color_name( all_state_col ), treatment_str );
+            msg << string_format( " <color_yellow>-></color> %s", hp_str( new_hp, maximal_hp ) );
+            desc << string_format( " <color_yellow>-></color> %s", hp_str( new_hp, maximal_hp ) ) << "\n";
+        } else {
+            desc << "\n";
         }
 
-        bmenu.addentry( i, true, MENU_AUTOASSIGN, msg.str() );
+        if( limb_is_broken ) {
+            desc << tag_colored_string( string_format(
+                                            _( "It is broken. It needs a splint or surgical attention." ) ), c_red ) << "\n";
+        }
+
+        // BLEEDING block
+        if( bleeding ) {
+            const int bleed_int = get_effect_int( effect_bleed, e.bp );
+            desc << "<color_red>" << string_format( "%s: ", get_effect( effect_bleed, e.bp ).get_speed_name() );
+            switch( bleed_int ) {
+                case 1:
+                    desc << string_format( _( "It is bleeding." ) );
+                    break;
+                case 2:
+                    desc << string_format( _( "It is bleeding considerably." ) );
+                    break;
+                case 3:
+                    desc << string_format( _( "It is bleeding heavily." ) );
+                    break;
+            }
+            desc << "</color>\n";
+            if( bleed > 0.0f ) {
+                desc << arrow << tag_colored_string( string_format( _( "Chance to stop: %d %%" ),
+                                                     int( bleed * 100 ) ), c_light_green ) << "\n";
+            }
+        }
+        // BANDAGE block
+        if( bandaged ) {
+            desc << string_format( _( "Bandaged [%s]" ),
+                                   texitify_healing_power( b_power ) ) << "\n";
+            if( new_b_power > b_power ) {
+                desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
+                                                     texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+            } else if( new_b_power > 0 ) {
+                desc << arrow << tag_colored_string( string_format(
+                        _( "You don't expect any improvement from using his item." ) ), c_yellow ) << "\n";
+        }
+        } else if( new_b_power > 0 && e.allowed ) {
+            desc << arrow << tag_colored_string( string_format( _( "Expected bandage quality: %s" ),
+                                                 texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+        }
+
+        // DISINFECTANT / BITTEN / INFECTED block
+        if( disinfected ) {
+            desc << string_format( _( "Disinfected [%s]" ),
+                                   texitify_healing_power( d_power ) ) << "\n";
+            if( new_d_power > d_power ) {
+                desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
+                                                     texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+            } else if( new_d_power > 0 ) {
+                desc << arrow << tag_colored_string( string_format(
+                        _( "You don't expect any improvement from using this item." ) ), c_yellow ) << "\n";
+            }
+        } else if( bitten ) {
+            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_bite,
+                                        e.bp ).get_speed_name() ), c_red );
+            desc << tag_colored_string( string_format( _( "It has a deep wound that needs cleaning." ) ),
+                                        c_red ) << "\n";
+            if( bite > 0 ) {
+                desc << arrow << tag_colored_string( string_format( _( "Chance to clean and disinfect: %d %%" ),
+                                                     int( bite * 100 ) ), c_light_green ) << "\n";
+                if( new_d_power > 0 ) {
+                    desc << arrow << tag_colored_string( string_format( _( "Expected disinfection quality: %s" ),
+                                                         texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+                }
+            }
+        } else if( infected ) {
+            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_infected,
+                                        e.bp ).get_speed_name() ), c_red );
+            desc << tag_colored_string( string_format( _( "It has a deep wound that looks infected." ) ),
+                                        c_red ) << ">\n";
+            if( infect > 0 ) {
+                desc << arrow << tag_colored_string( string_format( _( "Chance to heal infection: %d %%" ),
+                                                     int( infect * 100 ) ), c_light_green ) << "\n";
+                if( new_d_power > 0 ) {
+                    desc << arrow << tag_colored_string( string_format( _( "Expected disinfection quality: %s" ),
+                                                         texitify_healing_power( new_d_power ) ), c_light_green )  << "\n";
+                }
+            }
+        } else if( new_d_power > 0 && e.allowed ) {
+            desc << arrow << tag_colored_string( string_format( _( "Expected disinfection quality: %s" ),
+                                                 texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+        }
+        // END of block
+        if( !e.allowed && !limb_is_broken ) {
+            desc << tag_colored_string( string_format( _( "Healthy." ) ), c_green ) << "\n";
+        }
+        if( !e.allowed ) {
+            desc << arrow << tag_colored_string( string_format(
+                    _( "You don't expect any effect from using this item." ) ), c_yellow );
+        } else {
+            is_valid_choice = true;
+        }
+        bmenu.addentry_desc( i, e.allowed, MENU_AUTOASSIGN, msg.str(), desc.str() );
     }
 
-    if( bmenu.entries.size() == 1 ) { // Only the header was added
-        bmenu.entries[0].txt = _( "No healable part" );
+    if( !is_valid_choice ) { // no body part can be chosen for this item
+        bmenu.init();
+        bmenu.desc_enabled = false;
+        bmenu.text = string_format( _( "No healable part for: %s" ), menu_header );
+        bmenu.addentry( -1, true, 'q', "%s", _( "Cancel" ) );
     }
 
     // Force cursor to the header
@@ -2187,9 +2300,11 @@ hp_part Character::body_window( const std::string &menu_header,
     bmenu.fselected = bmenu.selected = 0;
 
     bmenu.query();
-    if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() && parts[bmenu.ret].allowed ) {
+    if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() &&
+        parts[bmenu.ret].allowed ) {
         return parts[bmenu.ret].hp;
     } else {
+        add_msg( m_info, _( "Never mind." ) );
         return num_hp_parts;
     }
 }
@@ -2598,14 +2713,6 @@ std::vector<body_part> Character::get_all_body_parts( bool main ) const
     };
 
     return main ? main_bps : all_bps;
-}
-
-// @todo: Better place for it?
-std::string tag_colored_string( const std::string &s, nc_color color )
-{
-    // @todo: Make this tag generation a function, put it in good place
-    std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
-    return color_tag_open + s;
 }
 
 std::string Character::extended_description() const

@@ -284,6 +284,9 @@ class effect
 void load_effect_type( JsonObject &jo );
 void reset_effect_types();
 
+std::string texitify_base_healing_power( const int power );
+std::string texitify_healing_power( const int power );
+
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON
 class effects_map : public

@@ -484,7 +484,11 @@ std::string effect::disp_name() const
         }
         ret << _( eff_type->name[0].c_str() );
         if( intensity > 1 ) {
-            ret << " [" << intensity << "]";
+            if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
+                ret << " [" << texitify_healing_power( intensity ) << "]";
+            } else {
+                ret << " [" << intensity << "]";
+            }
         }
     }
     if( bp != num_bp ) {
@@ -1287,4 +1291,50 @@ void effect::deserialize( JsonIn &jsin )
     intensity = jo.get_int( "intensity" );
     start_time = calendar::time_of_cataclysm;
     jo.read( "start_turn", start_time );
+}
+
+std::string texitify_base_healing_power( const int power )
+{
+    std::string ret;
+    if( power == 1 ) {
+        ret = string_format( _( "very poor" ) );
+    } else if( power == 2 ) {
+        ret = string_format( _( "poor" ) );
+    } else if( power == 3 ) {
+        ret = string_format( _( "decent" ) );
+    } else if( power == 4 ) {
+        ret = string_format( _( "good" ) );
+    } else if( power >= 5 ) {
+        ret = string_format( _( "great" ) );
+    }
+    if( power < 1 ) {
+        debugmsg( "Tried to convert zero or negative value." );
+    }
+    return ret;
+}
+
+std::string texitify_healing_power( const int power )
+{
+    std::string ret;
+    if( power >= 1 && power <= 2 ) {
+        ret = string_format( _( "poor" ) );
+    } else if( power >= 3 && power <= 4 ) {
+        ret = string_format( _( "decent" ) );
+    } else if( power >= 5 && power <= 6 ) {
+        ret = string_format( _( "average" ) );
+    } else if( power >= 7 && power <= 8 ) {
+        ret = string_format( _( "good" ) );
+    } else if( power >= 9 && power <= 10 ) {
+        ret = string_format( _( "very good" ) );
+    } else if( power >= 11 && power <= 12 ) {
+        ret = string_format( _( "great" ) );
+    } else if( power >= 13 && power <= 14 ) {
+        ret = string_format( _( "outstanding" ) );
+    } else if( power >= 15 ) {
+        ret = string_format( _( "perfect" ) );
+    }
+    if( power < 1 ) {
+        debugmsg( "Converted value out of bounds." );
+    }
+    return ret;
 }
