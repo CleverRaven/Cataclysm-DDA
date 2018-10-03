@@ -2879,14 +2879,14 @@ void iexamine::curtains(player &p, const tripoint &examp)
     }
 
     // Peek through the curtains, or tear them down.
-    int choice = menu( true, _("Do what with the curtains?"),
-                       _("Peek through the curtains."), _("Tear down the curtains."),
-                       _("Cancel"), NULL );
-    if( choice == 1 ) {
+    int choice = uilist( _( "Do what with the curtains?" ), {
+        _( "Peek through the curtains." ), _( "Tear down the curtains." ),
+    } );
+    if( choice == 0 ) {
         // Peek
         g->peek(examp );
         p.add_msg_if_player( _("You carefully peek through the curtains.") );
-    } else if( choice == 2 ) {
+    } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
         g->m.ter_set( examp, t_window_no_curtains );
         g->m.spawn_item( p.pos(), "nail", 1, 4, calendar::turn );
