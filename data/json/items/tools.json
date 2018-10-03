@@ -4793,11 +4793,7 @@
     "initial_charges": 100,
     "max_charges": 200,
     "charges_per_use": 50,
-    "qualities": [
-      [ "CHISEL", 3 ],
-      [ "HAMMER_FINE", 1 ],
-      [ "HAMMER", 3 ]
-    ],
+    "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ] ],
     "use_action": "MISC_REPAIR"
   },
   {
