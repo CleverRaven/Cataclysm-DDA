@@ -2523,21 +2523,17 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         ADD_CONTAINER,
         HARVEST_SAP,
         REMOVE_CONTAINER,
-        CANCEL,
     };
-    uimenu selectmenu;
+    uilist selectmenu;
     selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _("Remove tap") );
     selectmenu.addentry( ADD_CONTAINER, !has_container, MENU_AUTOASSIGN, _("Add a container to receive the %s"), maple_sap_name.c_str() );
     selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _("Harvest current %s (%d)"), maple_sap_name.c_str(), charges );
     selectmenu.addentry( REMOVE_CONTAINER, has_container, MENU_AUTOASSIGN, _("Remove container") );
-    selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
 
-    selectmenu.return_invalid = true;
     selectmenu.text = _("Select an action");
-    selectmenu.selected = 0;
     selectmenu.query();
 
-    switch( static_cast<options>( selectmenu.ret ) ) {
+    switch( selectmenu.ret ) {
         case REMOVE_TAP: {
             if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
@@ -2595,7 +2591,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
             return;
         }
 
-        case CANCEL:
+        default:
             return;
     }
 }
