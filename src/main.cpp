@@ -702,6 +702,8 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
 
 void exit_handler( int s )
 {
+    const int old_timeout = inp_mngr.get_timeout();
+    inp_mngr.reset_timeout();
     if( s != 2 || query_yn( _( "Really Quit? All unsaved changes will be lost." ) ) ) {
         catacurses::erase(); // Clear screen
 
@@ -716,4 +718,5 @@ void exit_handler( int s )
 
         exit( exit_status );
     }
+    inp_mngr.set_timeout( old_timeout );
 }
