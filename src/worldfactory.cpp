@@ -294,7 +294,7 @@ bool worldfactory::save_world( WORLDPTR world, bool is_conversion )
                     jout.member( "info", elem.second.getTooltip() );
                     jout.member( "default", elem.second.getDefaultText( false ) );
                     jout.member( "name", elem.first );
-                    jout.member( "value", elem.second.getValue() );
+                    jout.member( "value", elem.second.getValue( true ) );
 
                     jout.end_object();
                 }
