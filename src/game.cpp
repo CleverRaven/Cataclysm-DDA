@@ -107,6 +107,7 @@
 #include "monexamine.h"
 #include "loading_ui.h"
 #include "sidebar.h"
+#include "activity_handlers.h"
 
 #include <map>
 #include <set>
@@ -9680,10 +9681,10 @@ bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
     } else if( !u.can_pickVolume( it ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                  it.tname().c_str() );
-        g->m.add_item_or_charges( u.pos(), it );
+        put_into_vehicle_or_drop( u, { it } );
     } else if( !u.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
-        g->m.add_item_or_charges( u.pos(), it );
+        put_into_vehicle_or_drop( u, { it } );
     } else {
         auto &ni = u.i_add( it );
         add_msg( _( "You put the %s in your inventory." ), ni.tname().c_str() );

@@ -26,6 +26,7 @@
 #include "vpart_position.h"
 #include "vehicle.h"
 #include "crafting_gui.h"
+#include "activity_handlers.h"
 
 #include <algorithm> //std::min
 #include <iostream>
@@ -460,11 +461,11 @@ static void set_item_inventory( item &newit )
         if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                      newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
+            put_into_vehicle_or_drop( g->u, { newit } );
         } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
             add_msg( _( "The %s is too heavy to carry, so you drop it." ),
                      newit.tname().c_str() );
-            g->m.add_item_or_charges( g->u.pos(), newit );
+            put_into_vehicle_or_drop( g->u, { newit } );
         } else {
             newit = g->u.i_add( newit );
             add_msg( m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str() );
