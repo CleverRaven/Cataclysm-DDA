@@ -24,7 +24,7 @@
     "locations": [ "land", "swamp" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 1 ],
     "required": false,
     "flags": [ "CLASSIC", "UNIQUE" ]
   },
@@ -46,7 +46,7 @@
     "locations": [ "land", "swamp" ],
     "city_distance": [ 0, -1 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 1, 3 ],
+    "occurrences": [ 0, 3 ],
     "required": false,
     "flags": [ "CLASSIC" ]
   },
