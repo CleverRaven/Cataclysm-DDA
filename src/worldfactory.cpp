@@ -1080,7 +1080,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             }
         } else if( action == "VIEW_MOD_DESCRIPTION" ) {
             if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
-                popup( mman_ui->get_information( selmod ).c_str() );
+                popup( "%s", mman_ui->get_information( selmod ).c_str() );
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Redraw all the things!
