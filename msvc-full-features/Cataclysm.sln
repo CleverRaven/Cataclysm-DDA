@@ -13,9 +13,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm_lib", "Cataclysm_lib.vcxproj", "{6F6EACFC-B178-4E71-ABE2-805C1F4BF3D8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests.vcxproj", "{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6F6EACFC-B178-4E71-ABE2-805C1F4BF3D8} = {6F6EACFC-B178-4E71-ABE2-805C1F4BF3D8}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

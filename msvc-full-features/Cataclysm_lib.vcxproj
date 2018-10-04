@@ -76,25 +76,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
-    <TargetName>Cataclysm</TargetName>
-    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\Cataclysm_lib\</OutDir>
+    <TargetName>Cataclysm_lib</TargetName>
+    <IntDir>$(Platform)\$(Configuration)\Cataclysm_lib\</IntDir>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>Cataclysm</TargetName>
+    <TargetName>Cataclysm_lib</TargetName>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\Cataclysm_lib\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\Cataclysm_lib\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
-    <TargetName>Cataclysm</TargetName>
-    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\Cataclysm_lib\</OutDir>
+    <TargetName>Cataclysm_lib</TargetName>
+    <IntDir>$(Platform)\$(Configuration)\Cataclysm_lib\</IntDir>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>Cataclysm</TargetName>
+    <TargetName>Cataclysm_lib</TargetName>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\Cataclysm_lib\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\Cataclysm_lib\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
