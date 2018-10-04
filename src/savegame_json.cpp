@@ -1947,7 +1947,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "enabled", enabled );
     json.member( "flags", flags );
     if( !carry_names.empty() ) {
-        std::stack<std::string> carry_copy = carry_names;
+        std::stack<std::string, std::vector<std::string> > carry_copy = carry_names;
         json.member( "carry" );
         json.start_array();
         while( !carry_copy.empty() ) {
