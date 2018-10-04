@@ -68,6 +68,8 @@ enum monster_trigger : int {
     MTRIG_FRIEND_DIED, // A monster of the same type died
     MTRIG_FRIEND_ATTACKED, // A monster of the same type attacked
     MTRIG_SOUND,  // Heard a sound
+    MTRIG_PLAYER_NEAR_BABY, // Player/npc is near a baby monster of this type
+    MTRIG_MATING_SEASON, // It's the monster's mating season (defined by baby_flags)
     N_MONSTER_TRIGGERS
 };
 

@@ -366,6 +366,8 @@ void MonsterGenerator::init_trigger()
     trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
     trigger_map["FRIEND_ATTACKED"] = MTRIG_FRIEND_ATTACKED;// // A monster of the same type attacked
     trigger_map["SOUND"] = MTRIG_SOUND;//  // Heard a sound
+    trigger_map["PLAYER_NEAR_BABY"] = MTRIG_PLAYER_NEAR_BABY; // // Player/npc is near a baby monster of this type
+    trigger_map["MATING_SEASON"] = MTRIG_MATING_SEASON; // It's the monster's mating season (defined by baby_flags)
 }
 
 void MonsterGenerator::init_flags()
@@ -662,14 +664,16 @@ void mtype::load( JsonObject &jo, const std::string &src )
                   mtype_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
                   "null" );
-        if( jo.has_member( "baby_flags" ) ) {
-            baby_flags.clear();
-            JsonArray baby_tags = jo.get_array( "baby_flags" );
-            while( baby_tags.has_more() ) {
-                baby_flags.push_back( baby_tags.next_string() );
-            }
-        }
         reproduces = true;
+    }
+
+    if( jo.has_member( "baby_flags" ) ) {
+        // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
+        baby_flags.clear();
+        JsonArray baby_tags = jo.get_array( "baby_flags" );
+        while( baby_tags.has_more() ) {
+            baby_flags.push_back( baby_tags.next_string() );
+        }
     }
 
     if( jo.has_member( "biosignature" ) ) {
