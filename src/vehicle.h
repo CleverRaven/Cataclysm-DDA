@@ -6,6 +6,7 @@
 #include "tileray.h"
 #include "damage.h"
 #include "item.h"
+#include "item_group.h"
 #include "line.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
@@ -730,6 +731,13 @@ class vehicle
          * a vehicle part on both sides.
          */
         void remove_remote_part( int part_num );
+
+        /**
+         * Returns an ItemList of the pieces that should arise from breaking
+         * this part.
+         * @param p The index of the part to break.
+         */
+        item_group::ItemList pieces_for_broken_part( int p );
 
         void break_part_into_pieces( int p, int x, int y, bool scatter = false );
         /**

@@ -1906,6 +1906,16 @@ int vehicle::find_part( const item &it ) const
     return idx != parts.end() ? std::distance( parts.begin(), idx ) : INT_MIN;
 }
 
+item_group::ItemList vehicle::pieces_for_broken_part( int p )
+{
+    const std::string &group = part_info( p ).breaks_into_group;
+    if( group.empty() ) {
+        return {};
+    }
+
+    return item_group::items_from( group, calendar::turn );
+}
+
 /**
  * Breaks the specified part into the pieces defined by its breaks_into entry.
  * @param p The index of the part to break.
@@ -1915,11 +1925,7 @@ int vehicle::find_part( const item &it ) const
  */
 void vehicle::break_part_into_pieces( int p, int x, int y, bool scatter )
 {
-    const std::string &group = part_info( p ).breaks_into_group;
-    if( group.empty() ) {
-        return;
-    }
-    for( item &piece : item_group::items_from( group, calendar::turn ) ) {
+    for( item &piece : pieces_for_broken_part( p ) ) {
         // TODO: balance audit, ensure that less pieces are generated than one would need
         // to build the component (smash a vehicle box that took 10 lumps of steel,
         // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
