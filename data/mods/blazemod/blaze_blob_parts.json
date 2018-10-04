@@ -695,7 +695,7 @@
     "type": "vehicle_part",
     "name": "cocoon (30L)",
     "item": "gray_tank",
-    "//location": "fuel_source",
+    "location": "fuel_source",
     "symbol": "O",
     "broken_symbol": "#",
     "color": "light_gray",
