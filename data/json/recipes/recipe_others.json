@@ -880,12 +880,10 @@
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": 30000,
-    "reversible": true,
-    "decomp_learn": 3,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 3 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 10 ] ], [ [ "steel_chunk", 12 ], [ "scrap", 36 ] ], [ [ "wire", 3 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "pipe", 6 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "wire", 3 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
