@@ -1071,6 +1071,12 @@ units::mass Character::weight_capacity() const
     if( has_trait( trait_id( "SMALL_OK" ) ) ) {
         ret = ret * .70;
     }
+    if( has_trait( trait_id( "LARGE" ) ) || has_trait( trait_id( "LARGE_OK" ) ) ) {
+        ret = ret * 1.05;
+    }
+    if( has_trait( trait_id( "HUGE" ) ) || has_trait( trait_id( "HUGE_OK" ) ) ) {
+        ret = ret * 1.1;
+    }
     if( has_artifact_with( AEP_CARRY_MORE ) ) {
         ret += 22500_gram;
     }
@@ -2179,7 +2185,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color old_hp_col = has_any_effect ? all_state_col :
                                     limb_is_broken ? c_dark_gray : c_green;
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg << string_format( "<color_%s>%s</color> <color_%s>%s</color>", 
+        msg << string_format( "<color_%s>%s</color> <color_%s>%s</color>",
                               color_name( all_state_col ), aligned_name,
                               color_name( old_hp_col ), hp_str( current_hp, maximal_hp ) );
         if( current_hp != new_hp || has_curable_effect ) {
