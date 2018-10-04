@@ -28,6 +28,7 @@
 #include "npc.h"
 #include "string_input_popup.h"
 #include "veh_utils.h"
+#include "activity_handlers.h"
 
 #include <cmath>
 #include <list>
@@ -2689,12 +2690,13 @@ void veh_interact::complete_vehicle()
 
         g->u.invalidate_crafting_inventory();
 
-        // Dump contents of part at player's feet, if any.
+        // This will be a list of all the items which arise from this removal.
+        std::list<item> resulting_items;
+
+        // First we get all the contents of the part
         vehicle_stack contents = veh->get_items( vehicle_part );
-        for( auto iter = contents.begin(); iter != contents.end(); ) {
-            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), *iter );
-            iter = contents.erase( iter );
-        }
+        resulting_items.insert(resulting_items.end(), contents.begin(), contents.end());
+        contents.clear();
 
         // Power cables must remove parts from the target vehicle, too.
         if (veh->part_flag(vehicle_part, "POWER_TRANSFER")) {
@@ -2702,31 +2704,40 @@ void veh_interact::complete_vehicle()
         }
 
         bool broken = veh->parts[ vehicle_part ].is_broken();
+
+        if (broken) {
+            add_msg( _( "You remove the broken %1$s from the %2$s." ),
+                     veh->parts[ vehicle_part ].name().c_str(), veh->name.c_str() );
+        } else {
+            add_msg( _( "You remove the %1$s from the %2$s." ),
+                     veh->parts[ vehicle_part ].name().c_str(), veh->name.c_str() );
+        }
+
         if (!broken) {
-            g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
+            resulting_items.push_back( veh->parts[vehicle_part].properties_to_item() );
             for( const auto &sk : vpinfo.install_skills ) {
                 // removal is half as educational as installation
                 g->u.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) / 2 );
             }
 
         } else {
-            veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
+            auto pieces = veh->pieces_for_broken_part( vehicle_part );
+            resulting_items.insert(resulting_items.end(), pieces.begin(), pieces.end());
         }
+
         if (veh->parts.size() < 2) {
             add_msg (_("You completely dismantle the %s."), veh->name.c_str());
             g->u.activity.set_to_null();
             g->m.destroy_vehicle (veh);
         } else {
-            if (broken) {
-                add_msg( _( "You remove the broken %1$s from the %2$s." ),
-                         veh->parts[ vehicle_part ].name().c_str(), veh->name.c_str() );
-            } else {
-                add_msg( _( "You remove the %1$s from the %2$s." ),
-                         veh->parts[ vehicle_part ].name().c_str(), veh->name.c_str() );
-            }
             veh->remove_part (vehicle_part);
             veh->part_removal_cleanup();
         }
+
+        // Finally, put all the reults somewhere (we wanted to wait until this
+        // point because we don't want to put them back into the vehicle part
+        // that just got removed).
+        put_into_vehicle_or_drop( g->u, resulting_items, g->u.pos() );
         break;
     }
 
