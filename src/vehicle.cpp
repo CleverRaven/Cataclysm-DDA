@@ -2032,11 +2032,10 @@ int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbrok
 
 int vehicle::part_with_feature( int part, const std::string &flag, bool unbroken ) const
 {
-    return part_with_feature_at_relative( parts[part].mount, flag, unbroken );
+    return part_with_feature( parts[part].mount, flag, unbroken );
 }
 
-int vehicle::part_with_feature_at_relative( const point &pt, const std::string &flag,
-        bool unbroken ) const
+int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
 {
     std::vector<int> parts_here = parts_at_relative( pt.x, pt.y, false );
     for( auto &elem : parts_here ) {
@@ -2064,7 +2063,7 @@ int vehicle::avail_part_with_feature( int part, const std::string &flag, bool un
 int vehicle::avail_part_with_feature_at_relative( const point &pt, const std::string &flag,
         bool unbroken ) const
 {
-    int part_a = part_with_feature_at_relative( pt, flag, unbroken );
+    int part_a = part_with_feature( pt, flag, unbroken );
     if( ( part_a >= 0 ) && parts[ part_a ].is_available() ) {
         return part_a;
     }
@@ -3802,7 +3801,7 @@ void vehicle::place_spawn_items()
 
     for( const auto &pt : type->parts ) {
         if( pt.with_ammo ) {
-            int turret = part_with_feature_at_relative( pt.pos, "TURRET", true );
+            int turret = part_with_feature( pt.pos, "TURRET", true );
             if( turret >= 0 && x_in_y( pt.with_ammo, 100 ) ) {
                 parts[ turret ].ammo_set( random_entry( pt.ammo_types ), rng( pt.ammo_qty.first,
                                           pt.ammo_qty.second ) );
@@ -3812,7 +3811,7 @@ void vehicle::place_spawn_items()
 
     for( const auto &spawn : type.obj().item_spawns ) {
         if( rng( 1, 100 ) <= spawn.chance ) {
-            int part = part_with_feature_at_relative( spawn.pos, "CARGO", false );
+            int part = part_with_feature( spawn.pos, "CARGO", false );
             if( part < 0 ) {
                 debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name.c_str() );
 
