@@ -1886,16 +1886,9 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
     JsonArray ja = data.get_array( "carry" );
-    const size_t js_arr_size = ja.size();
-    // this is done kind of weird for a std::pair, but it used to be a
-    // std::stack, so we do it this way to maintain backward compatibility
-    if( js_arr_size == 2 ) {
-        carry_names.second = ja.get_string( 0 );
-        carry_names.first = ja.get_string( 1 );
-    } else if( js_arr_size == 1 ) {
-        carry_names.first = ja.get_string( 0 );
-    } else if( js_arr_size > 2 ) {
-        debugmsg( "'carry' json array is too big: %d", js_arr_size );
+    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
+    for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
+        carry_names.push( ja.get_string( index ) );
     }
     data.read( "crew_id", crew_id );
     data.read( "items", items );
@@ -1953,15 +1946,14 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
-    if( !carry_names.first.empty() ) {
+    if( !carry_names.empty() ) {
+        std::stack<std::string, std::vector<std::string> > carry_copy = carry_names;
         json.member( "carry" );
         json.start_array();
-        // this is done kind of weird for a std::pair, but it used to be a
-        // std::stack, so we do it this way to maintain backward compatibility
-        if( !carry_names.second.empty() ) {
-            json.write( carry_names.second );
+        while( !carry_copy.empty() ) {
+            json.write( carry_copy.top() );
+            carry_copy.pop();
         }
-        json.write( carry_names.first );
         json.end_array();
     }
     json.member( "passenger_id", passenger_id );

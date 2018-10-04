@@ -1398,12 +1398,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_
                 parts.push_back( carry_veh->parts[ carry_part ] );
                 vehicle_part &carried_part = parts.back();
                 carried_part.mount = carry_map.carry_mount;
-                auto &carry_pair = carried_part.carry_names;
-                if( carry_pair.first.empty() ) {
-                    carry_pair.first = unique_id;
-                } else {
-                    carry_pair.second = unique_id;
-                }
+                carried_part.carry_names.push( unique_id );
                 carried_part.enabled = 0;
                 carried_part.set_flag( vehicle_part::carried_flag );
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
@@ -1593,21 +1588,11 @@ void vehicle::part_removal_cleanup()
 void vehicle::remove_carried_flag()
 {
     for( vehicle_part &part : parts ) {
-        auto &carry_pair = part.carry_names;
-        if( !carry_pair.first.empty() ) {
-            if( carry_pair.second.empty() ) {
-                carry_pair.first.clear();
-                part.remove_flag( vehicle_part::carried_flag );
-            } else {
-                carry_pair.second.clear();
-            }
+        part.carry_names.pop();
+        if( part.carry_names.empty() ) {
+            part.remove_flag( vehicle_part::carried_flag );
         }
     }
-}
-
-const std::string &get_carry_name( const std::pair<std::string, std::string> &carry_pair )
-{
-    return carry_pair.second.empty() ? carry_pair.first : carry_pair.second;
 }
 
 bool vehicle::remove_carried_vehicle( std::vector<int> carried_parts )
@@ -1619,10 +1604,9 @@ bool vehicle::remove_carried_vehicle( std::vector<int> carried_parts )
     tripoint new_pos3;
     bool x_aligned = false;
     for( int carried_part : carried_parts ) {
-        const std::string &carry_name = get_carry_name( parts[ carried_part ].carry_names );
-        std::string id_string = carry_name.substr( 0, 1 );
+        std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
         if( id_string == "X" || id_string == "Y" ) {
-            veh_record = carry_name;
+            veh_record = parts[ carried_part ].carry_names.top();
             new_pos3 = global_part_pos3( carried_part );
             x_aligned = id_string == "X";
             break;
@@ -1651,7 +1635,7 @@ bool vehicle::remove_carried_vehicle( std::vector<int> carried_parts )
     std::vector<point> new_mounts;
     new_vehicle->name = veh_record.substr( vehicle_part::name_offset );
     for( auto carried_part : carried_parts ) {
-        std::string mount_str = get_carry_name( parts[ carried_part ].carry_names ).substr( 1, 3 );
+        std::string mount_str = parts[ carried_part ].carry_names.top().substr( 1, 3 );
         point new_mount;
         if( x_aligned ) {
             new_mount.x = std::stoi( mount_str );
