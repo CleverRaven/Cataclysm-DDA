@@ -884,6 +884,16 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         return nullptr;
     };
 
+    // Helper function to trigger full redraw on mod selection screen
+    auto const redraw_all = [&]() {
+        redraw_headers = true;
+        redraw_list = true;
+        redraw_active = true;
+        redraw_description = true;
+        draw_worldgen_tabs( win, 0 );
+        draw_modselection_borders( win, ctxt );
+    };
+
     while( tab_output == 0 ) {
         if( redraw_headers ) {
             for( size_t i = 0; i < headers.size(); ++i ) {
@@ -1081,14 +1091,10 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "VIEW_MOD_DESCRIPTION" ) {
             if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
                 popup( "%s", mman_ui->get_information( selmod ).c_str() );
+                redraw_all();
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
-            // Redraw all the things!
-            redraw_headers = true;
-            redraw_list = true;
-            redraw_active = true;
-            draw_worldgen_tabs( win, 0 );
-            draw_modselection_borders( win, ctxt );
+            redraw_all();
         } else if( action == "QUIT" ) {
             tab_output = -999;
         }
