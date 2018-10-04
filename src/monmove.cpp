@@ -292,8 +292,21 @@ void monster::plan( const mfactions &factions )
         if( rating <= 5 ) {
             anger += angers_hostile_near;
             morale -= fears_hostile_near;
-            if( season_of_year( calendar::turn ) == AUTUMN ) {
-                anger += angers_mating_season;
+            if( angers_mating_season > 0 ) {
+                bool mating_angry = false;
+                season_type season = season_of_year( calendar::turn );
+                for( auto &elem : type->baby_flags ) {
+                    if( ( season == SUMMER && elem == "SUMMER" ) ||
+                        ( season == WINTER && elem == "WINTER" ) ||
+                        ( season == SPRING && elem == "SPRING" ) ||
+                        ( season == AUTUMN && elem == "AUTUMN" ) ) {
+                        mating_angry = true;
+                        break;
+                    }
+                }
+                if( mating_angry ) {
+                    anger += angers_mating_season;
+                }
             }
         }
     }
