@@ -826,6 +826,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     ctxt.register_action( "ADD_MOD" );
     ctxt.register_action( "REMOVE_MOD" );
     ctxt.register_action( "SAVE_DEFAULT_MODS" );
+    ctxt.register_action( "VIEW_MOD_DESCRIPTION" );
 
     const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
     const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
@@ -867,6 +868,31 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     bool redraw_active = true;
     bool selection_changed = false;
     bool recalc_tabs = true;
+
+    // Helper function for determining the currently selected mod
+    auto const get_selected_mod = [&]() -> const MOD_INFORMATION* {
+        if( current_tab_mods.empty() )
+        {
+            return nullptr;
+        } else if( active_header == 0 )
+        {
+            return &current_tab_mods[cursel[0]].obj();
+        } else if( !active_mod_order.empty() )
+        {
+            return &active_mod_order[cursel[1]].obj();
+        }
+        return nullptr;
+    };
+
+    // Helper function to trigger full redraw on mod selection screen
+    auto const redraw_all = [&]() {
+        redraw_headers = true;
+        redraw_list = true;
+        redraw_active = true;
+        redraw_description = true;
+        draw_worldgen_tabs( win, 0 );
+        draw_modselection_borders( win, ctxt );
+    };
 
     while( tab_output == 0 ) {
         if( redraw_headers ) {
@@ -922,18 +948,20 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( redraw_description ) {
             werase( w_description );
 
-            const MOD_INFORMATION *selmod = nullptr;
-            if( current_tab_mods.empty() ) {
-                // Do nothing, leave selmod == nullptr
-            } else if( active_header == 0 ) {
-                selmod = &current_tab_mods[cursel[0]].obj();
-            } else if( !active_mod_order.empty() ) {
-                selmod = &active_mod_order[cursel[1]].obj();
-            }
-
-            if( selmod != nullptr ) {
-                fold_and_print( w_description, 0, 1, getmaxx( w_description ) - 1,
-                                c_white, mman_ui->get_information( selmod ) );
+            if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
+                int num_lines = fold_and_print( w_description, 0, 1, getmaxx( w_description ) - 1,
+                                                c_white, mman_ui->get_information( selmod ) );
+                auto window_height = catacurses::getmaxy( w_description );
+                auto window_width = catacurses::getmaxx( w_description );
+                if( num_lines > window_height ) {
+                    // The description didn't fit in the window, so provide a
+                    // hint for how to see the whole thing
+                    std::string message = string_format( _( "... %s = View full description " ),
+                                                         ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ).c_str() );
+                    nc_color color = c_green;
+                    print_colored_text( w_description, window_height - 1,
+                                        window_width - message.size(), color, color, message );
+                }
             }
 
             //redraw tabs
@@ -1060,13 +1088,13 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 redraw_description = true;
                 redraw_headers = true;
             }
+        } else if( action == "VIEW_MOD_DESCRIPTION" ) {
+            if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
+                popup( "%s", mman_ui->get_information( selmod ) );
+                redraw_all();
+            }
         } else if( action == "HELP_KEYBINDINGS" ) {
-            // Redraw all the things!
-            redraw_headers = true;
-            redraw_list = true;
-            redraw_active = true;
-            draw_worldgen_tabs( win, 0 );
-            draw_modselection_borders( win, ctxt );
+            redraw_all();
         } else if( action == "QUIT" ) {
             tab_output = -999;
         }
