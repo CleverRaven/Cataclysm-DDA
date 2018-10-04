@@ -2606,19 +2606,23 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
+        int amt = 0;
         ret.str( "" );
         ret << label( quantity );
         for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
             if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
-                ret << "+";
+                amt++;
             }
+        }
+        if( amt ) {
+            ret << string_format( "+%d", amt );
         }
         maintext = ret.str();
     } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
                item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
         ret.str( "" );
         ret << label( quantity );
-        ret << "+";
+        ret << "+1";
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
         const item &contents_item = contents.front();
