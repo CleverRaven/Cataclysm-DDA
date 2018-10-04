@@ -283,8 +283,6 @@ class dialog
         const nc_color bracket_color;
         const nc_color filter_help_color;
 
-        const char *time_fmt;
-
         // border_width padding_width         border_width
         //      v           v                     v
         //
