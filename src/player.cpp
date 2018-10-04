@@ -3273,7 +3273,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ), 
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, string_format( _( "You were attacked by %s!" ),
                                                     source->disp_name().c_str() ) );
             } else {
                 g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
@@ -4449,10 +4449,10 @@ void player::regen( int rate_multiplier )
 
     // regenerate max stamina
     if( rest > 0 ) {
-        float stamina_regen_mutations = 1 + mutation_value( "stamina_regen_modifier" ) +
-                                        mutation_value( "fatigue_regen_modifier" );
-        // Default characters stamina pool will recover by 0.25 per turn of sleeping
-        float stamina_max_regen = rest * 0.25 * MINUTES( 5 ) * stamina_regen_mutations;
+        float stamina_regen_mutations = 1 + mutation_value( "fatigue_regen_modifier" );
+        // Maximum stamina penalty (0.75 of max stamina) will disappear after 8 hours of sleeping
+        float stamina_regen_rate = 0.75f * get_stamina_max() / HOURS( 8 );
+        float stamina_max_regen = rest * stamina_regen_rate * MINUTES( 5 ) * stamina_regen_mutations;
         mod_stamina_max_penalty( - stamina_max_regen );
     }
 }
@@ -4493,6 +4493,8 @@ void player::update_stamina( int turns )
     }
 
     // Decrease stamina regeneration if tired
+    // Regeneration will be twice slower after 24 hours without sleep or stimulants and
+    // only 10% after 2 days without sleep
     float fatigue_mod = std::max( ( 1 - get_fatigue() / 500.0f ), 0.1f );
     stamina_recovery *= fatigue_mod;
 
@@ -4528,7 +4530,7 @@ void player::update_stamina( int turns )
     }
 
     // add info effect
-    float relative_stamina = ( float )stamina_max_penalty / get_stamina_max();
+    float relative_stamina = static_cast<float>( stamina_max_penalty ) / get_stamina_max();
     if( relative_stamina > 0.5 ) {
         add_effect( effect_stamina_penalty, 1_turns, num_bp, false, 3 );
     } else if( relative_stamina > 0.25 ) {

@@ -869,7 +869,6 @@ class game
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
-        void load_external_options(); // Load from game_balance.json
         void load_weather( std::istream &fin );
 #ifdef __ANDROID__
         void load_shortcuts( std::istream &fin );
