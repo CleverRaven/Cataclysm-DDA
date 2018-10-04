@@ -6,7 +6,7 @@ Interface Swap game::zoom_in and game::zoom_out
 Bugfixes Added missing ammo capacity to SVS robodrum and added reload time
 Interface Explanation for the player when choosing the direction for the new headlight
 Infrastructure Encapsulate the WINDOW pointer in class game in unique_ptr
-I18N [RDY] Fix interference effect of radio messages in localized version
+I18N Fix interference effect of radio messages in localized version
 Bugfixes Fix vehicle turret behavior and reorganize targeting code
 Balance Remove battery charges from the handpress
 Balance Sheath knives and fill quivers for rest of professions
@@ -29,8 +29,8 @@ Interface Fix message window overlapping border in advanced inventory UI
 Interface Fix revealing invisible monster when looking around
 Interface Fix season names not being detected by xgettext
 Interface Add error sound effect to main menu and use menu change sound effect for options
-Bugfixes [RDY] Fix flamethrower sound effects and add railgun sound effect
-Mods [RDY] Makeshift mod and bayonet update. (2nd)
+Bugfixes Fix flamethrower sound effects and add railgun sound effect
+Mods Makeshift mod and bayonet update. (2nd)
 Bugfixes Fix side not cleared when taking off an item
 Bugfixes Fix unexpected popup when trying to sleep while E-ink PC music is on (#18033)
 Interface Some assorted scrollbar related fixes
@@ -38,7 +38,7 @@ Mods Blazemod flamethrower parts update
 Balance Stops roadblocks from spawning live zeds
 Bugfixes Fix "get_option silently returns defaults if invoked on a world option"
 Build Make a functional travis.yml
-Build [READY] Add explicit instantiation of string_id::NULL_ID to make clang happy.
+Build Add explicit instantiation of string_id::NULL_ID to make clang happy.
 Balance Remove gasoline and disel from explosive recipes.
 Balance Restore sum of errors based dispersion.
 Bugfixes Hotfix: remove remaining recycling calls from makefile
@@ -52,9 +52,9 @@ Interface Don't cancel activity if electricity-immune player is struck by it
 Build Fixed clang again...
 Balance Nerf bullet explosion scaling
 Bugfixes Remove game::mission_npc hack
-Content [CR]Add Chili Pepper, Seed, and Chili Powder Recipe
+Content Add Chili Pepper, Seed, and Chili Powder Recipe
 Infrastructure Convert string_id::NULL_ID to a static method
-Build [CR] Fix compilation errors with MinGW
+Build Fix compilation errors with MinGW
 Mods Fix blazemod
 Content Disallow crafting with filthy clothing.
 Interface Road-Runner and Slow Footed cancel each other
@@ -71,7 +71,7 @@ Bugfixes Fixup vehicle alarm disable check
 Bugfixes Correct dispersion at misses
 Bugfixes Places fire first in reversible recipes
 Bugfixes Fix logged notice when escaping out of throw menu
-Interface [CR] Enable to customize 16 ANSI color slots
+Interface Enable to customize 16 ANSI color slots
 Bugfixes Debug menu fixes
 Bugfixes Fix another case of debug storage overflow
 Content Expands vehicle water purification, ad-hoc with funnels
@@ -79,7 +79,7 @@ Interface Hide bionic slots for 0.D
 Balance Curry and curry with meat nutrition balance
 Bugfixes Added trait_id call around DEBUG_CBM_SLOTS to fix regression in #20370
 Content Add Food Processor tool
-Build [READY] Enable unit tests in Travis builds.
+Build Enable unit tests in Travis builds.
 Interface Fix reload failure message
 Interface Chesthole, 32, Fixes boarded up windows, broken down doors, adds the bitten effect
 Mods (Beta) National Guard Camp
