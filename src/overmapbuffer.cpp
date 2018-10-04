@@ -484,7 +484,7 @@ void overmapbuffer::set_scent( const tripoint &loc, int strength )
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
 {
-    const point new_msp = veh->real_global_pos();
+    const point new_msp = g->m.getabs( veh->global_pos3().x, veh->global_pos3().y );
     point old_omt = ms_to_omt_copy( old_msp );
     point new_omt = ms_to_omt_copy( new_msp );
     overmap &old_om = get_om_global( old_omt.x, old_omt.y );
@@ -501,14 +501,14 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
 
 void overmapbuffer::remove_vehicle( const vehicle *veh )
 {
-    const point omt = ms_to_omt_copy( veh->real_global_pos() );
+    const point omt = ms_to_omt_copy( g->m.getabs( veh->global_pos3().x, veh->global_pos3().y ) );
     overmap &om = get_om_global( omt );
     om.vehicles.erase( veh->om_id );
 }
 
 void overmapbuffer::add_vehicle( vehicle *veh )
 {
-    point omt = ms_to_omt_copy( veh->real_global_pos() );
+    point omt = ms_to_omt_copy( g->m.getabs( veh->global_pos3().x, veh->global_pos3().y ) );
     overmap &om = get_om_global( omt.x, omt.y );
     int id = om.vehicles.size() + 1;
     // this *should* be unique but just in case

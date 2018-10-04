@@ -260,10 +260,9 @@ class input_manager
         bool translate_to_window_position();
 
         /**
-         * Sets input polling timeout as appropriate for the current interface system.
-         * Use this method to set timeouts when using input_manager, rather than calling
-         * the old timeout() method, as using this method will cause CATA_INPUT_TIMEOUT
-         * events to be generated correctly.
+         * Sets global input polling timeout as appropriate for the current interface system.
+         * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
+         * reset when entering a new input context.
          */
         void set_timeout( int delay );
         void reset_timeout() {
@@ -442,6 +441,7 @@ class input_context
             next_action = other.next_action;
             iso_mode = other.iso_mode;
             action_name_overrides = other.action_name_overrides;
+            timeout = other.timeout;
             return *this;
         }
 
@@ -457,7 +457,8 @@ class input_context
                    handling_coordinate_input == other.handling_coordinate_input &&
                    next_action == other.next_action &&
                    iso_mode == other.iso_mode &&
-                   action_name_overrides == other.action_name_overrides;
+                   action_name_overrides == other.action_name_overrides &&
+                   timeout == other.timeout;
         }
         bool operator!=( const input_context &other ) const {
             return !( *this == other );
@@ -615,6 +616,16 @@ class input_context
         std::string get_edittext();
 
         void set_iso( bool mode = true );
+
+        /**
+         * Sets input polling timeout as appropriate for the current interface system.
+         * Use this method to set timeouts when using input_context, rather than calling
+         * the old timeout() method or using input_manager::(re)set_timeout, as using
+         * this method will cause CATA_INPUT_TIMEOUT events to be generated correctly,
+         * and will reset timeout correctly when a new input context is entered.
+         */
+        void set_timeout( int timeout );
+        void reset_timeout();
     private:
 
         std::vector<std::string> registered_actions;
@@ -630,6 +641,7 @@ class input_context
         bool handling_coordinate_input;
         input_event next_action;
         bool iso_mode = false; // should this context follow the game's isometric settings?
+        int timeout = -1;
 
         /**
          * When registering for actions within an input_context, callers can

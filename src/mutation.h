@@ -46,7 +46,7 @@ struct dream {
         std::vector<std::string> raw_messages; // The messages that the dream will give
 
     public:
-        std::vector<char const *> messages() const;
+        std::vector<std::string> messages() const;
 
         std::string category; // The category that will trigger the dream
         int strength; // The category strength required for the dream
@@ -92,6 +92,8 @@ struct mutation_branch {
         bool threshold;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession;
+        //True if the mutation is obtained through the debug menu
+        bool debug;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
@@ -146,7 +148,7 @@ struct mutation_branch {
     private:
         std::string raw_spawn_item_message;
     public:
-        const char *spawn_item_message() const;
+        std::string spawn_item_message() const;
 
         /** Attacks granted by this mutation */
         std::vector<mut_attack> attacks_granted;
@@ -178,8 +180,8 @@ struct mutation_branch {
         std::string raw_name;
         std::string raw_desc;
     public:
-        const char *name() const;
-        const char *desc() const;
+        std::string name() const;
+        std::string desc() const;
 
         /**
          * Returns the color to display the mutation name with.
@@ -197,7 +199,7 @@ struct mutation_branch {
          * Shortcut for getting the name of a (translated) mutation, same as
          * @code get( mutation_id ).name @endcode
          */
-        static const char *get_name( const trait_id &mutation_id );
+        static std::string get_name( const trait_id &mutation_id );
         /**
          * All known mutations. Key is the mutation id, value is the mutation_branch that you would
          * also get by calling @ref get.
@@ -308,13 +310,14 @@ struct mutation_category_trait {
         std::string raw_memorial_message; //memorial message when you cross a threshold
 
     public:
-        const char *name() const;
-        const char *mutagen_message() const;
-        const char *iv_message() const;
-        const char *iv_sound_message() const;
-        const char *iv_sleep_message() const;
-        const char *junkie_message() const;
-        const char *memorial_message() const;
+        std::string name() const;
+        std::string mutagen_message() const;
+        std::string iv_message() const;
+        std::string iv_sound_message() const;
+        std::string iv_sleep_message() const;
+        std::string junkie_message() const;
+        std::string memorial_message_male() const;
+        std::string memorial_message_female() const;
 
         // Mutation category i.e "BIRD", "CHIMERA"
         std::string id;

@@ -475,7 +475,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Enhanced Memory Banks CBM",
-    "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power.",
+    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that you learn skills, and give you near-perfect memory of skills and terrain.",
     "price": 1000000,
     "difficulty": 9
   },

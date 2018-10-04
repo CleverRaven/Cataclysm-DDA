@@ -230,7 +230,7 @@
     },{
         "type" : "item_action",
         "id" : "CAMERA",
-        "name" : "Use"
+        "name" : "Use camera"
     },{
         "type" : "item_action",
         "id" : "CAN_GOO",

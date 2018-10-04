@@ -271,6 +271,7 @@ void Character::load( JsonObject &data )
     data.read( "hunger", hunger );
     data.read( "starvation", starvation );
     data.read( "fatigue", fatigue );
+    data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stomach_food", stomach_food );
     data.read( "stomach_water", stomach_water );
 
@@ -372,6 +373,7 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "starvation", starvation );
     on_stat_change( "fatigue", fatigue );
+    on_stat_change( "sleep_deprivation", sleep_deprivation );
 }
 
 void Character::store( JsonOut &json ) const
@@ -402,6 +404,7 @@ void Character::store( JsonOut &json ) const
     json.member( "hunger", hunger );
     json.member( "starvation", starvation );
     json.member( "fatigue", fatigue );
+    json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
@@ -1602,6 +1605,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0L );
     charges = std::max( charges, 0L );
 
+    int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
@@ -1619,6 +1623,7 @@ void item::io( Archive &archive )
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
     archive.io( "last_temp_check", last_temp_check, calendar::time_of_cataclysm );
+    archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
@@ -1707,6 +1712,12 @@ void item::io( Archive &archive )
                 ++it;
             }
         }
+    }
+
+    current_phase = static_cast<phase_id>( cur_phase );
+    // override phase if frozen, needed for legacy save
+    if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
+        current_phase = SOLID;
     }
 }
 

@@ -1480,6 +1480,14 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
         // Then monsters.
     } else if( monster *const mon_ptr = g->critter_at<monster>( dirp, true ) ) {
         monster &mon = *mon_ptr;
+
+        if( mon.is_hallucination() ) {
+            p.add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
+                                 mon.type->nname().c_str(), it.tname().c_str() );
+            mon.die( nullptr );
+            return 0;
+        }
+
         // This switch handles each petfood for each type of tameable monster.
         switch( animal_food_type ) {
             case DOGFOOD:
@@ -6857,8 +6865,7 @@ vehicle *pickveh( const tripoint &center, bool advanced )
 
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        const auto gp = v->global_pos();
-        if( rl_dist( center.x, center.y, gp.x, gp.y ) < 40 &&
+        if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( "battery", true ) > 0 &&
             ( !empty( v->parts_with_feature( advctrl, true ) ) ||
               ( !advanced && !empty( v->parts_with_feature( ctrl, true ) ) ) ) ) {
@@ -7395,13 +7402,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             point vcoords = veh_part_coordinates( *source_veh, source_vp->part_index() );
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
-            source_part.target.second = target_veh->real_global_pos3();
+            source_part.target.second = g->m.getabs( target_veh->global_pos3() );
             source_veh->install_part( vcoords.x, vcoords.y, source_part );
 
             vcoords = veh_part_coordinates( *target_veh, target_vp->part_index() );
             vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
-            target_part.target.second = source_veh->real_global_pos3();
+            target_part.target.second = g->m.getabs( source_veh->global_pos3() );
             target_veh->install_part( vcoords.x, vcoords.y, target_part );
 
             if( p != nullptr && p->has_item( *it ) ) {

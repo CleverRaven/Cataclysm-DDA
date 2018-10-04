@@ -717,7 +717,7 @@ void npc::execute_action( npc_action action )
 
                 const int cur_part = seats[i].second;
 
-                tripoint pp = veh->global_pos3() + veh->parts[cur_part].precalc[0];
+                tripoint pp = veh->global_part_pos3( cur_part );
                 update_path( pp, true );
                 if( !path.empty() ) {
                     // All is fine
@@ -1906,7 +1906,7 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
     ( const item & it, const tripoint & p ) {
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of( LIQUID, true ) ) {
             // Don't even consider liquids.
             return;
         }
@@ -2113,7 +2113,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of( LIQUID, true ) ) {
             iter++;
             continue;
         }
