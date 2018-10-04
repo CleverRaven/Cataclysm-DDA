@@ -193,6 +193,11 @@ void drop_on_map( const player &p, const std::list<item> &items, const tripoint 
     }
 }
 
+void put_into_vehicle_or_drop( player &p, const std::list<item> &items )
+{
+    return put_into_vehicle_or_drop( p, items, p.pos() );
+}
+
 void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
                                const tripoint &where )
 {

@@ -2737,7 +2737,7 @@ void veh_interact::complete_vehicle()
         // Finally, put all the reults somewhere (we wanted to wait until this
         // point because we don't want to put them back into the vehicle part
         // that just got removed).
-        put_into_vehicle_or_drop( g->u, resulting_items, g->u.pos() );
+        put_into_vehicle_or_drop( g->u, resulting_items );
         break;
     }
 
