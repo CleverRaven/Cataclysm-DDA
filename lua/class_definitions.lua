@@ -1949,7 +1949,6 @@ classes = {
     itype = {
         attributes = {
             color = { type = "nc_color", writable = true },
-            default_container = { type = "string", writable = true },
             description = { type = "string", writable = true },
             explode_in_fire = { type = "bool", writable = true },
             integral_volume = { type = "volume", writable = true },

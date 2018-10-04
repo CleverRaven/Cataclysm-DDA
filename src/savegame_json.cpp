@@ -22,6 +22,7 @@
 #include "vitamin.h"
 #include "skill.h"
 #include "name.h"
+#include "vpart_reference.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "effect.h"
@@ -33,6 +34,7 @@
 #include "monfaction.h"
 #include "morale.h"
 #include "veh_type.h"
+#include "vpart_range.h"
 #include "vehicle.h"
 #include "mutation.h"
 #include "io.h"
@@ -269,6 +271,7 @@ void Character::load( JsonObject &data )
     data.read( "hunger", hunger );
     data.read( "starvation", starvation );
     data.read( "fatigue", fatigue );
+    data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stomach_food", stomach_food );
     data.read( "stomach_water", stomach_water );
 
@@ -370,6 +373,7 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "starvation", starvation );
     on_stat_change( "fatigue", fatigue );
+    on_stat_change( "sleep_deprivation", sleep_deprivation );
 }
 
 void Character::store( JsonOut &json ) const
@@ -400,6 +404,7 @@ void Character::store( JsonOut &json ) const
     json.member( "hunger", hunger );
     json.member( "starvation", starvation );
     json.member( "fatigue", fatigue );
+    json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
@@ -1600,6 +1605,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0L );
     charges = std::max( charges, 0L );
 
+    int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
@@ -1617,6 +1623,7 @@ void item::io( Archive &archive )
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
     archive.io( "last_temp_check", last_temp_check, calendar::time_of_cataclysm );
+    archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
@@ -1693,6 +1700,24 @@ void item::io( Archive &archive )
     // Migrate legacy toolmod flags
     if( is_tool() || is_toolmod() ) {
         migrate_toolmod( *this );
+    }
+
+    // Books without any chapters don't need to store a remaining-chapters
+    // counter, it will always be 0 and it prevents proper stacking.
+    if( get_chapters() == 0 ) {
+        for( auto it = item_vars.begin(); it != item_vars.end(); ) {
+            if( it->first.compare( 0, 19, "remaining-chapters-" ) == 0 ) {
+                item_vars.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
+    }
+
+    current_phase = static_cast<phase_id>( cur_phase );
+    // override phase if frozen, needed for legacy save
+    if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
+        current_phase = SOLID;
     }
 }
 
@@ -1861,9 +1886,16 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
     JsonArray ja = data.get_array( "carry" );
-    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
-    for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
-        carry_names.push( ja.get_string( index ) );
+    const size_t js_arr_size = ja.size();
+    // this is done kind of weird for a std::pair, but it used to be a
+    // std::stack, so we do it this way to maintain backward compatibility
+    if( js_arr_size == 2 ) {
+        carry_names.second = ja.get_string( 0 );
+        carry_names.first = ja.get_string( 1 );
+    } else if( js_arr_size == 1 ) {
+        carry_names.first = ja.get_string( 0 );
+    } else if( js_arr_size > 2 ) {
+        debugmsg( "'carry' json array is too big: %d", js_arr_size );
     }
     data.read( "crew_id", crew_id );
     data.read( "items", items );
@@ -1921,14 +1953,15 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
-    if( !carry_names.empty() ) {
-        std::stack<std::string> carry_copy = carry_names;
+    if( !carry_names.first.empty() ) {
         json.member( "carry" );
         json.start_array();
-        while( !carry_copy.empty() ) {
-            json.write( carry_copy.top() );
-            carry_copy.pop();
+        // this is done kind of weird for a std::pair, but it used to be a
+        // std::stack, so we do it this way to maintain backward compatibility
+        if( !carry_names.second.empty() ) {
+            json.write( carry_names.second );
         }
+        json.write( carry_names.first );
         json.end_array();
     }
     json.member( "passenger_id", passenger_id );
@@ -2017,7 +2050,8 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_rotation[1] = pivot_rotation[0] = fdir;
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
-    for( auto cargo_index : all_parts_with_feature( VPFLAG_CARGO, true ) ) {
+    for( const vpart_reference vp : parts_with_feature( VPFLAG_CARGO, true ) ) {
+        const size_t cargo_index = vp.part_index();
         auto it = parts[cargo_index].items.begin();
         auto end = parts[cargo_index].items.end();
         for( ; it != end; ++it ) {

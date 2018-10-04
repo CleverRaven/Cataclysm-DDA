@@ -1377,6 +1377,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Haul items along the ground",
+    "category": "DEFAULTMODE",
+    "id": "haul",
+    "bindings": [ { "input_method": "keyboard", "key": "\\" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Zone activities",
     "category": "DEFAULTMODE",
     "id": "loot",
@@ -1761,6 +1768,12 @@
     "category": "DEFAULTMODE",
     "id": "toggle_pixel_minimap",
     "bindings": [ { "input_method": "keyboard", "key": "N" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Reload Tileset",
+    "category": "DEFAULTMODE",
+    "id": "reload_tileset"
   },
   {
     "type": "keybinding",

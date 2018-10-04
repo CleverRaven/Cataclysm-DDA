@@ -1856,6 +1856,17 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "coat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "coat_fur",
+    "name": "faux fur coat",
+    "description": "A garishly colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
+    "material": [ "faux_fur", "cotton" ],
+    "color": "pink",
+    "covers": [ "TORSO", "ARMS" ],
+    "warmth": 70
+  },
+  {
     "id": "coat_fur_sf",
     "type": "ARMOR",
     "name": "sable coat",
@@ -2853,6 +2864,16 @@
     "flags": [ "FANCY" ]
   },
   {
+    "id": "faux_fur_cat_ears",
+    "type": "ARMOR",
+    "copy-from": "fur_cat_ears",
+    "name": "pair of faux fur cat ears",
+    "name_plural": "pairs of faux fur cat ears",
+    "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
+    "material": [ "faux_fur" ],
+    "color": "pink"
+  },
+  {
     "id": "fur_cat_tail",
     "type": "ARMOR",
     "name": "fuzzy cat tail",
@@ -2867,6 +2888,15 @@
     "flags": [ "FANCY" ]
   },
   {
+    "id": "faux_fur_cat_tail",
+    "type": "ARMOR",
+    "copy-from": "fur_cat_tail",
+    "name": "faux fur cat tail",
+    "description": "A fuzzy garishly colored tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
+    "material": [ "faux_fur", "plastic" ],
+    "color": "pink"
+  },
+  {
     "id": "fur_collar",
     "type": "ARMOR",
     "name": "fur kitty collar",
@@ -2878,6 +2908,15 @@
     "symbol": "-",
     "color": "brown",
     "flags": [ "FANCY" ]
+  },
+  {
+    "id": "faux_fur_collar",
+    "type": "ARMOR",
+    "copy-from": "fur_collar",
+    "name": "faux fur kitty collar",
+    "description": "A decorative 'collar' made out of faux fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
+    "material": [ "faux_fur" ],
+    "color": "pink"
   },
   {
     "id": "gambeson",

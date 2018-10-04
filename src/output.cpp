@@ -1216,7 +1216,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
     if( ! bDisabled ) {
         mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
     } else {
-        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_dark_gray.italic() : c_dark_gray.italic(), sText );
+        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_dark_gray : c_dark_gray, sText );
     }
 
     if( bSelected ) {
@@ -1224,8 +1224,8 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
             mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
             mvwputch( w, 0, iOffsetXRight + bDecorate, h_light_gray, '>' );
         } else {
-            mvwputch( w, 0, iOffsetX - bDecorate,      h_dark_gray.italic(), '<' );
-            mvwputch( w, 0, iOffsetXRight + bDecorate, h_dark_gray.italic(), '>' );
+            mvwputch( w, 0, iOffsetX - bDecorate,      h_dark_gray, '<' );
+            mvwputch( w, 0, iOffsetXRight + bDecorate, h_dark_gray, '>' );
         }
 
         for( int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++ ) {

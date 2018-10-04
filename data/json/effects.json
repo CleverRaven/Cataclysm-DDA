@@ -1525,7 +1525,7 @@
         "id": "lack_sleep",
         "name": ["Lacking Sleep"],
         "desc": ["You haven't slept in a while, and it shows."],
-        "apply_message": "You are too tired to function well.",
+        "apply_message": "You are too physically tired to function well.",
         "rating": "bad",
         "miss_messages": [["You don't have energy to fight.", 1]],
         "base_mods": {

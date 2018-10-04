@@ -1696,12 +1696,12 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
         } else {
             update_view( false ); //wrefresh(g->w_terrain);
         }
-        inp_mngr.set_timeout( BLINK_SPEED * 3 );
         int gpmenupos = gpmenu.selected;
-        gpmenu.query( false );
+        gpmenu.query( false, BLINK_SPEED * 3 );
 
-        if( gpmenu.ret != UIMENU_UNBOUND ) {
-            inp_mngr.reset_timeout();
+        if( gpmenu.ret == UIMENU_TIMEOUT ) {
+            showpreview = !showpreview;
+        } else if( gpmenu.ret != UIMENU_UNBOUND ) {
             if( gpmenu.ret == 0 ) {
 
                 cleartmpmap( tmpmap );
@@ -1800,15 +1800,13 @@ int editmap::mapgen_preview( real_coords &tc, uilist &gmenu )
         } else if( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
                    gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
 
-            int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_LEFT ? 1 : -1 );
+            int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_RIGHT ? 1 : -1 );
             gmenu.scrollby( dir );
             gpmenu.selected = gpmenupos;
             gmenu.show();
             gmenu.refresh();
         }
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UIMENU_CANCEL );
-
-    inp_mngr.reset_timeout();
 
     update_view( true );
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter

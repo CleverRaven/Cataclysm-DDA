@@ -93,6 +93,7 @@ static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SMALL( "SMALL" );
 static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
@@ -140,6 +141,7 @@ Character::Character() : Creature(), visitable<Character>(), hp_cur( {
     starvation = 0;
     thirst = 0;
     fatigue = 0;
+    sleep_deprivation = 0;
     stomach_food = 0;
     stomach_water = 0;
 
@@ -1157,8 +1159,22 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-void Character::drop_inventory_overflow()
+void Character::drop_invalid_inventory()
 {
+    bool dropped_liquid = false;
+    for( const std::list<item> *stack : inv.const_slice() ) {
+        const item &it = stack->front();
+        if( it.made_of( LIQUID ) ) {
+            dropped_liquid = true;
+            g->m.add_item_or_charges( pos(), it );
+            // must be last
+            i_rem( &it );
+        }
+    }
+    if( dropped_liquid ) {
+        add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
+    }
+
     if( volume_carried() > volume_capacity() ) {
         for( auto &item_to_drop :
              inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
@@ -1415,6 +1431,9 @@ void Character::reset_stats()
     }
     if( has_trait( trait_TAIL_FLUFFY ) ) {
         mod_dodge_bonus( 4 );
+    }
+    if( has_trait( trait_SMALL ) ) {
+        mod_dodge_bonus( 1 );
     }
     if( has_trait( trait_SMALL2 ) ) {
         mod_dodge_bonus( 2 );
@@ -1952,6 +1971,11 @@ void Character::mod_fatigue( int nfatigue )
     set_fatigue( fatigue + nfatigue );
 }
 
+void Character::mod_sleep_deprivation( int nsleep_deprivation )
+{
+    set_sleep_deprivation( sleep_deprivation + nsleep_deprivation );
+}
+
 void Character::set_fatigue( int nfatigue )
 {
     nfatigue = std::max( nfatigue, -1000 );
@@ -1961,9 +1985,23 @@ void Character::set_fatigue( int nfatigue )
     }
 }
 
+void Character::set_sleep_deprivation( int nsleep_deprivation )
+{
+    sleep_deprivation = std::min(static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max(0, nsleep_deprivation));
+}
+
 int Character::get_fatigue() const
 {
     return fatigue;
+}
+
+int Character::get_sleep_deprivation() const
+{
+    if( !get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
+        return 0;
+    }
+
+    return sleep_deprivation;
 }
 
 void Character::reset_bonuses()
@@ -2036,12 +2074,6 @@ hp_part Character::body_window( const std::string &menu_header,
                                 int normal_bonus, int head_bonus, int torso_bonus,
                                 bool bleed, bool bite, bool infect, bool is_bandage, bool is_disinfectant ) const
 {
-    catacurses::window hp_window = catacurses::newwin( 10, 65, ( TERMY - 10 ) / 2, ( TERMX - 65 ) / 2 );
-    draw_border( hp_window );
-
-    trim_and_print( hp_window, 1, 1, getmaxx( hp_window ) - 2, c_light_red, menu_header.c_str() );
-    const int y_off = 2; // 1 for border, 1 for header
-
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
@@ -2063,6 +2095,32 @@ hp_part Character::body_window( const std::string &menu_header,
             { false, bp_leg_r, hp_leg_r, _( "Right Leg" ), normal_bonus },
         }
     };
+
+    int max_bp_name_len = 0;
+    for( const auto &e : parts ) {
+        max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
+    }
+
+    const auto color_name = []( const nc_color col ) {
+        return get_all_colors().get_name( col );
+    };
+
+    const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
+        if( hp <= 0 ) {
+            return "-----";
+        } else if( precise ) {
+            return string_format( "%d", hp );
+        } else {
+            return string_format( "%-5s", get_hp_bar( hp, maximal_hp, false ).first );
+        }
+    };
+
+    uilist bmenu;
+    bmenu.text = menu_header;
+
+    // Add a header line so player can see the color of all other lines.
+    bmenu.hilight_disabled = true;
+    bmenu.addentry( parts.size(), false, 0, _( "Select a body part:" ) );
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const auto &e = parts[i];
@@ -2095,90 +2153,63 @@ hp_part Character::body_window( const std::string &menu_header,
             continue;
         }
 
-        const int line = i + y_off;
-
-        mvwprintz( hp_window, line, 1, all_state_col, "%d: %s ", i + 1, e.name.c_str() );
-
         bool bandaged = has_effect( effect_bandaged, e.bp );
         bool disinfected = has_effect( effect_disinfected, e.bp );
 
+        bool treated = true;
+        std::string treatment_str;
         if( bandaged && disinfected ) {
-            mvwprintz( hp_window, line, 29, all_state_col, _( "(bandaged [%s] & disinfected [%s])" ),
-                       get_effect_int( effect_bandaged, e.bp ), get_effect_int( effect_disinfected, e.bp ) );
+            treatment_str = string_format( _( "(bandaged [%d] & disinfected [%d])" ),
+                                           get_effect_int( effect_bandaged, e.bp ),
+                                           get_effect_int( effect_disinfected, e.bp ) );
         } else if( bandaged ) {
-            mvwprintz( hp_window, line, 29, all_state_col, _( "(bandaged [%s])" ),
-                       get_effect_int( effect_bandaged, e.bp ) );
+            treatment_str = string_format( _( "(bandaged [%d])" ),
+                                           get_effect_int( effect_bandaged, e.bp ) );
         } else if( disinfected ) {
-            mvwprintz( hp_window, line, 29, all_state_col, _( "(disinfected [%s])" ),
-                       get_effect_int( effect_disinfected, e.bp ) );
-        }
-
-        const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
-            const auto bar = get_hp_bar( hp, maximal_hp, false );
-            if( hp == 0 ) {
-                mvwprintz( hp_window, line, x, col, "-----" );
-            } else if( precise ) {
-                mvwprintz( hp_window, line, x, col, "%5d", hp );
-            } else {
-                mvwprintz( hp_window, line, x, col, bar.first.c_str() );
-            }
-        };
-
-        if( !limb_is_broken ) {
-            // Drop the bar color, use the state color instead
-            const nc_color color = has_any_effect ? all_state_col : c_green;
-            print_hp( 15, color, current_hp );
+            treatment_str = string_format( _( "(disinfected [%d])" ),
+                                           get_effect_int( effect_disinfected, e.bp ) );
         } else {
-            // But still could be infected or bleeding
-            const nc_color color = has_any_effect ? all_state_col : c_dark_gray;
-            print_hp( 15, color, 0 );
+            treated = false;
         }
 
-        if( !limb_is_broken ) {
-            const int new_hp = std::max( 0, std::min( maximal_hp, current_hp + bonus ) );
+        const int new_hp = clamp( current_hp + bonus, 0, maximal_hp );
 
-            if( new_hp == current_hp && !has_curable_effect ) {
-                // Nothing would change
-                continue;
-            }
+        std::stringstream msg;
 
-            mvwprintz( hp_window, line, 20, c_dark_gray, " -> " );
-
-            const nc_color color = has_any_effect ? new_state_col : c_green;
-            print_hp( 24, color, new_hp );
-        } else {
-            const nc_color color = has_any_effect ? new_state_col : c_dark_gray;
-            mvwprintz( hp_window, line, 20, c_dark_gray, " -> " );
-            print_hp( 24, color, 0 );
+        const nc_color old_hp_col = has_any_effect ? all_state_col :
+                                    limb_is_broken ? c_dark_gray : c_green;
+        const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
+        msg << string_format( "<color_%s>%s</color> <color_%s>%s</color>", 
+                              color_name( all_state_col ), aligned_name,
+                              color_name( old_hp_col ), hp_str( current_hp, maximal_hp ) );
+        if( current_hp != new_hp || has_curable_effect ) {
+            const nc_color new_hp_col = has_any_effect ? new_state_col :
+                                        limb_is_broken ? c_dark_gray : c_green;
+            msg << string_format( " <color_dark_gray>-></color> <color_%s>%s</color>",
+                                  color_name( new_hp_col ), hp_str( new_hp, maximal_hp ) );
         }
+        if( treated ) {
+            msg << string_format( " <color_%s>%s</color>",
+                                  color_name( all_state_col ), treatment_str );
+        }
+
+        bmenu.addentry( i, true, MENU_AUTOASSIGN, msg.str() );
     }
-    mvwprintz( hp_window, parts.size() + y_off, 1, c_light_gray, _( "%d: Exit" ), parts.size() + 1 );
 
-#ifdef __ANDROID__
-    input_context ctxt( "CHARACTER_BODY_WINDOW" );
-    for( size_t i = 0; i < parts.size() + 1; i++ ) {
-        ctxt.register_manual_key( '1' + i );
+    if( bmenu.entries.size() == 1 ) { // Only the header was added
+        bmenu.entries[0].txt = _( "No healable part" );
     }
-#endif
 
-    wrefresh( hp_window );
-    char ch;
-    hp_part healed_part = num_hp_parts;
-    do {
-        // TODO: use input context
-        ch = inp_mngr.get_input_event().get_first_input();
-        const size_t index = ch - '1';
-        if( index < parts.size() && parts[index].allowed ) {
-            healed_part = parts[index].hp;
-            break;
-        } else if( index == parts.size() || ch == KEY_ESCAPE ) {
-            healed_part = num_hp_parts;
-            break;
-        }
-    } while( ch < '1' || ch > '7' );
-    catacurses::refresh();
+    // Force cursor to the header
+    bmenu.setup();
+    bmenu.fselected = bmenu.selected = 0;
 
-    return healed_part;
+    bmenu.query();
+    if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() && parts[bmenu.ret].allowed ) {
+        return parts[bmenu.ret].hp;
+    } else {
+        return num_hp_parts;
+    }
 }
 
 nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
@@ -2409,7 +2440,7 @@ bool Character::pour_into( item &container, item &liquid )
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
     auto sel = [&]( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+        return pt.is_tank() && pt.can_reload( liquid );
     };
 
     auto stack = units::legacy_volume_factor / liquid.type->stack_size;

@@ -206,6 +206,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "location", def.location );
     assign( jo, "durability", def.durability );
     assign( jo, "damage_modifier", def.dmg_mod );
+    assign( jo, "energy_consumption", def.energy_consumption );
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
@@ -564,7 +565,7 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
     class::item base( item );
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
-        long_descrip << description;
+        long_descrip << _( description.c_str() );
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
@@ -575,16 +576,16 @@ int vpart_info::format_description( std::ostringstream &msg, std::string format_
             if( ! long_descrip.str().empty() ) {
                 long_descrip << "  ";
             }
-            long_descrip << flag.info();
+            long_descrip << _( flag.info().c_str() );
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && ! has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip << "  " << nobelt.info();
+        long_descrip << "  " << _( nobelt.info().c_str() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip << "  " << nobelt.info();
+        long_descrip << "  " << _( nobelt.info().c_str() );
     }
     if( has_flag( "TURRET" ) ) {
         long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),

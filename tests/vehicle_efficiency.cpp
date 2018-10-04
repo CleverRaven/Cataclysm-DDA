@@ -5,6 +5,8 @@
 #include "map_iterator.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "vpart_range.h"
+#include "vpart_reference.h"
 #include "itype.h"
 #include "player.h"
 #include "cata_utility.h"
@@ -53,8 +55,8 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
     // First we need to find the fuels to set
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
         if( pt.is_engine() ) {
             actually_used.insert( pt.info().fuel_type );
             pt.enabled = true;
@@ -80,8 +82,8 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, float veh_fuel_mult )
     // Set fuel to a given percentage
     // Batteries are special cased because they aren't liquid fuel
     std::map<itype_id, long> ret;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
 
         if( pt.is_battery() ) {
             pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult );
@@ -115,8 +117,8 @@ float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_
 {
     std::map<itype_id, long> fuel_amount;
     std::set<itype_id> consumed_fuels;
-    for( size_t p = 0; p < v.parts.size(); p++ ) {
-        auto &pt = v.parts[ p ];
+    for( const vpart_reference vp : v.get_parts() ) {
+        auto &pt = v.parts[ vp.part_index() ];
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
             pt.ammo_current() != "null" ) {
@@ -173,9 +175,9 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     vehicle &veh = *veh_ptr;
 
     // Remove all items from cargo to normalize weight.
-    for( size_t p = 0; p < veh.parts.size(); p++ ) {
-        auto &pt = veh.parts[ p ];
-        while( veh.remove_item( p, 0 ) );
+    for( const vpart_reference vp : veh.get_parts() ) {
+        auto &pt = veh.parts[ vp.part_index() ];
+        while( veh.remove_item( vp.part_index(), 0 ) );
     }
     const auto &starting_fuel = set_vehicle_fuel( veh, fuel_level );
     // This is ugly, but improves accuracy: compare the result of fuel approx function

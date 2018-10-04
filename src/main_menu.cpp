@@ -158,15 +158,11 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
 
 std::string main_menu::handle_input_timeout( input_context &ctxt )
 {
-    inp_mngr.set_timeout( 125 );
-
-    std::string action = ctxt.handle_input();
+    std::string action = ctxt.handle_input( 125 );
 
     if( action == "TIMEOUT" ) {
         init_windows();
     }
-
-    inp_mngr.reset_timeout();
 
     return action;
 }

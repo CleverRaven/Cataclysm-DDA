@@ -81,7 +81,7 @@ Example:
 ]
 ```
 
-A complex `dynamic_line` usually contains several `dynamic_line` entry and some condition that determines which is used. They can be defined like this:
+A complex `dynamic_line` usually contains several `dynamic_line` entry and some condition that determines which is used.  If dynamic lines are not nested, they are processed in the order of the entries below.  The lines can be defined like this:
 
 ### Based on the gender of the NPC / NPC
 The dynamic line is chosen based on the gender of the NPC, both entries must exists. Both entries are parsed as `dynamic_line`.
@@ -100,6 +100,16 @@ The dynamic line is chosen based on the gender of the player character, both ent
 {
     "u_male": "You're a man.",
     "u_female": "You're a woman."
+}
+```
+
+### Based on whether the player character is armed or unarmed
+The dynamic line is chosen based on whether the character has a weapon in hand or not.  Both entries must exit.  Both entries are parsed as `dynamic_line`.  `u` is the player character.
+
+```JSON
+{
+    "u_has_weapon": "Drop your weapon!",
+    "u_unarmed": "Put your hands in air!"
 }
 ```
 
@@ -124,6 +134,49 @@ The dynamic line is chosen based on whether the player character has any of an a
     "no": "Hello."
 }
 ```
+
+### Based on effect possessed by the NPC
+The dynamic line is chosen based on whether the NPC is currently is under the efffect.  Both the yes and no entries are mandatory.  The line from `yes` will be shown in the NPC has the effect, otherwise the line from `no`.
+
+```JSON
+{
+    "npc_has_effect": "infected",
+    "yes": "I need antibiotics.",
+    "no": "What's going on?"
+}
+```
+
+### Based on whether the NPC has missions available
+The dynamic line is chosen based on whether the NPC has any missions to give out.  All three entries are mandatory.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
+
+```JSON
+{
+    "npc_has_mission": true,
+    "many": "There are lots of things you could do to help.",
+    "one": "There's one thing you could do to help.",
+    "none": "You've cleaned this place up!"
+}
+```
+
+### Based on whether the player character is performing missions for the NPC
+The dynamic line is chosen based on whether the player character is performing any missions for the NPC.  All entries are mandatory.  The line from `many` if the player character is performing two or more missions for the NPC, the line from `one` will be shown if the player is performing one mission, and otherwise the line from `none` will be shown.
+
+```JSON
+{
+    "u_has_mission": true,
+    "many": "You're doing so much for this town!",
+    "one": "It looks like you have some spare time.",
+    "none": "Since you're not doing anything important, I have a favor to ask."
+}
+```
+
+### A randomly selected hint
+The dynamic line will be randomly chosen from the hints snippets.
+
+```JSON
+{
+    "give_hint": true
+}
 
 ---
 
@@ -260,12 +313,137 @@ Makes the player character drop their weapon.
 ---
 
 ## response conditions
-Conditions can be a simple string.
+Conditions can be a simple string, a key and an int, a key and a string, a key and an array, or a key and an object. Arrays and objects can nest with each other and can contain any other condition.
 
-### "has_assigned_mission"
+The following keys and simple strings are available:
+
+### "and" (array)
+`true` if every condition in the array is true. Can be used to create complex condition tests, like "[INTELLIGENCE 10+][PERCEPTION 12+] Your jacket is torn. Did you leave that scrap of fabric behind?"
+
+### "or" (array)
+`true` if every condition in the array is true. Can be used to create complex condition tests, like
+"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."
+
+### "not" (object)
+`true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as "[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"
+
+### "u_has_any_trait" (array)
+`true` if the player character has any trait or mutation in the array. Used to check multiple traits.
+
+### "u_has_strength" (int)
+`true` if the player character's strength is at least the value of u_has_strength.
+
+### "u_has_dexterity" (int)
+`true` if the player character's dexterity is at least the value of u_has_dexterity.
+
+### "u_has_intelligence" (int)
+`true` if the player character's intelligence is at least the value of u_has_intelligence.
+
+### "u_has_perception" (int)
+`true` if the player character's perception is at least the value of u_has_perception.
+
+### "u_is_wearing" (string)
+`true` if the player character is wearing something with u_is_wearing's item_id.
+
+### "npc_has_effect" (string)
+`true` if the NPC is under the effect with npc_has_effect's effect_id.
+
+### "u_has_effect" (string)
+`true` if the player character is under the effect with u_has_effect's effect_id.
+
+### "u_has_mission" (string)
+`true` if the mission is assigned to the player character.
+
+### "npc_service" (int)
+`true` if the NPC does not have the "currently_busy" effect and the player character has at least
+npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to "and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]
+
+### "u_has_cash" (int)
+`true` if the player character has at least u_has_cash cash available.  Used to check if the PC can buy something.
+
+### "has_assigned_mission" (simple string)
 `true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job..."
 
-### "has_many_assigned_missions"
+### "has_many_assigned_missions" (simple string)
 `true` if the player character has several mission from the NPC (more than one). Can be used for texts like "About one of those jobs..." and to switch to the "TALK_MISSION_LIST_ASSIGNED" topic.
 
+### "has_no_available_mission" (simple string)
+`true` if the NPC has no jobs available for the player character.
+
+### "has_available_mission" (simple string)
+`true` if the NPC has one job available for the player character.
+
+### "has_many_available_missions" (simple string)
+`true` if the NPC has several jobs available for the player character.
+
+### "npc_available" (simple string)
+`true` if the NPC does not have effect "currently_busy".
+
+### "npc_following" (simple string)
+`true` if the NPC is following the player character.
+
+### "at_safe_space" (simple string)
+`true` if the NPC's currrent overmap location passes the is_safe() test.
+
+### "u_can_stow_weapon" (simple string)
+`true` if the player character is wielding a weapon and has enough space to put it away.
+
+### "u_has_weapon" (simple string)
+`true` if the player character is wielding a weapon.
+
+### "npc_has_weapon" (simple string)
+`true` if the NPC is wielding a weapon.
+
+#### Sample responses with conditions
+```JSON
+{
+  "text": "Understood.  I'll get those antibiotics.",
+  "topic": "TALK_NONE",
+  "condition": { "npc_has_effect": "infected" }
+},
+{
+  "text": "[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!",
+  "topic": "TALK_EVAC_MERCHANT_NO",
+  "condition": { "u_has_intelligence": 11 }
+},
+{
+  "text": "[STR 11] I punch things in face real good!",
+  "topic": "TALK_EVAC_MERCHANT_NO",
+  "condition": { "and": [ { "not": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 } ] }
+},
+{ "text": "[$2000, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition": 
+{ "npc_service": 2000 } },
+{ "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
+{
+  "text": "[$8] I'll take a beer",
+  "topic": "TALK_DONE",
+  "condition": { "u_has_cash": 800 },
+  "effect": { "u_buy_item": "beer", "container": "bottle_glass", "count": 2, "cost": 800 }
+},
+{
+  "text": "Okay.  Lead the way.",
+  "topic": "TALK_DONE",
+  "condition": { "not": "at_safe_space" },
+  "effect": "lead_to_safety"
+},
+{
+  "text": "About one of those missions...",
+  "topic": "TALK_MISSION_LIST_ASSIGNED",
+  "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
+},
+{
+  "text": "[MISSION] The captain sent me to get a frequency list from you.",
+  "topic": "TALK_OLD_GUARD_NEC_COMMO_FREQ",
+  "condition": {
+    "and": [
+      { "u_is_wearing": "badge_marshal" },
+      { "u_has_mission": "MISSION_OLD_GUARD_NEC_1" },
+      { "not": { "u_has_effect": "has_og_comm_freq" } }
+    ]
+  }
+}
+
+
+
+```
 
