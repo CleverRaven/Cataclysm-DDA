@@ -1007,8 +1007,8 @@ static void fire()
             }
         }
 
-        std::vector<std::string> options( 1, _( "Cancel" ) );
-        std::vector<std::function<void()>> actions( 1, [] {} );
+        std::vector<std::string> options;
+        std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
@@ -1027,8 +1027,11 @@ static void fire()
                 actions.emplace_back( [&] { u.wield( w ); } );
             }
         }
-        if( options.size() > 1 ) {
-            actions[( uimenu( false, _( "Draw what?" ), options ) ) - 1 ]();
+        if( !options.empty() ) {
+            int sel = uilist( _( "Draw what?" ), options );
+            if( sel >= 0 ) {
+                actions[sel]();
+            }
         }
     }
 
