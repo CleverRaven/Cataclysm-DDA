@@ -366,8 +366,10 @@ void MonsterGenerator::init_trigger()
     trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
     trigger_map["FRIEND_ATTACKED"] = MTRIG_FRIEND_ATTACKED;// // A monster of the same type attacked
     trigger_map["SOUND"] = MTRIG_SOUND;//  // Heard a sound
-    trigger_map["PLAYER_NEAR_BABY"] = MTRIG_PLAYER_NEAR_BABY; // // Player/npc is near a baby monster of this type
-    trigger_map["MATING_SEASON"] = MTRIG_MATING_SEASON; // It's the monster's mating season (defined by baby_flags)
+    trigger_map["PLAYER_NEAR_BABY"] =
+        MTRIG_PLAYER_NEAR_BABY; // // Player/npc is near a baby monster of this type
+    trigger_map["MATING_SEASON"] =
+        MTRIG_MATING_SEASON; // It's the monster's mating season (defined by baby_flags)
 }
 
 void MonsterGenerator::init_flags()

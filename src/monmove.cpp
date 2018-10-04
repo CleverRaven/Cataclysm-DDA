@@ -207,7 +207,8 @@ void monster::plan( const mfactions &factions )
     int angers_hostile_near =
         ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
     int angers_mating_season = ( type->anger.find( MTRIG_MATING_SEASON ) != type->anger.end() ) ? 3 : 0;
-    int angers_cub_threatened = ( type->anger.find( MTRIG_PLAYER_NEAR_BABY ) != type->anger.end() ) ? 8 : 0;
+    int angers_cub_threatened = ( type->anger.find( MTRIG_PLAYER_NEAR_BABY ) != type->anger.end() ) ?
+                                8 : 0;
     int fears_hostile_near = ( type->fear.find( MTRIG_HOSTILE_CLOSE ) != type->fear.end() ) ? 5 : 0;
     auto all_monsters = g->all_monsters();
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
