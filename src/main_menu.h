@@ -21,8 +21,8 @@ class main_menu
     private:
         // ASCII art that says "Cataclysm Dark Days Ahead"
         std::vector<std::string> mmenu_title;
-        std::vector<std::string> mmenu_motd;
-        std::vector<std::string> mmenu_credits;
+        std::string mmenu_motd;
+        std::string mmenu_credits;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector<std::string> vWorldSubItems;
         std::vector< std::vector<std::string> > vWorldHotkeys;
@@ -107,7 +107,7 @@ class main_menu
         void print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
                          int iMenuOffsetY, bool bShowDDA = true );
 
-        void display_credits();
+        void display_text( const std::string &text, const std::string &title, int &selected );
 
         void init_windows();
         std::string handle_input_timeout( input_context &ctxt );
