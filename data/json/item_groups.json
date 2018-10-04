@@ -393,6 +393,7 @@
       ["kernels", 35],
       ["pot", 25],
       ["pot_copper", 15],
+      ["pot_canning", 15],
       ["bowl_pewter", 25],
       ["teapot", 15],
       ["pan", 25],
@@ -761,7 +762,8 @@
       ["waffleiron", 25],
       ["teapot", 25],
       ["pot", 80],
-      ["pot_copper", 20]
+      ["pot_copper", 20],
+      ["pot_canning", 15]
     ]
   },{
     "type" : "item_group",
