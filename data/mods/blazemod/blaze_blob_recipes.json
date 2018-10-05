@@ -241,7 +241,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
-    "time": 15000,
+    "time": 30000,
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "gloople", 1 ] ] ]
@@ -304,7 +304,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
-    "time": 15000,
+    "time": 30000,
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "gray", 1 ] ] ]
@@ -435,7 +435,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 6,
-    "time": 15000,
+    "time": 30000,
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "oozle", 1 ] ] ]
