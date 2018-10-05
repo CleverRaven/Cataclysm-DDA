@@ -347,7 +347,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
 
     // @todo: This condition occurs way too often. Unify it.
     // update Sep. 26 2018: this apparently still occurs way too often. yay!
-    if( ( is_underwater() && !has_trait( trait_id( "WATERSLEEP" ) ) ) || drinkable ) {
+    if( is_underwater() && !has_trait( trait_id( "WATERSLEEP" ) ) ) {
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 
