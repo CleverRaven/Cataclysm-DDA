@@ -10,7 +10,7 @@
 #include "map_helpers.h"
 #include "player_helpers.h"
 
-static void test_repair( std::vector<item> tools, bool expect_craftable )
+static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
     clear_player();
     clear_map();

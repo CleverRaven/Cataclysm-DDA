@@ -40,7 +40,7 @@ std::ostream &operator<<( std::ostream &stream, const dispersion_sources &source
     return stream;
 }
 
-static void arm_shooter( npc &shooter, std::string gun_type, std::vector<std::string> mods = {} )
+static void arm_shooter( npc &shooter, const std::string &gun_type, const std::vector<std::string> &mods = {} )
 {
     shooter.remove_weapon();
 
@@ -68,7 +68,7 @@ static void arm_shooter( npc &shooter, std::string gun_type, std::vector<std::st
     shooter.wield( gun );
 }
 
-static void equip_shooter( npc &shooter, std::vector<std::string> apparel )
+static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     tripoint shooter_pos( 60, 60, 0 );
     shooter.setpos( shooter_pos );
@@ -292,7 +292,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     }
 }
 
-static void range_test( std::array<double, 5> test_thresholds )
+static void range_test( const std::array<double, 5> &test_thresholds )
 {
     int index = 0;
     for( index = 0; index < ( int )accuracy_levels.size(); ++index ) {

@@ -268,7 +268,7 @@ void print_efficiency( const std::string &type, const std::string &terrain, int 
     print_stats( find_inner( type, terrain, delay, smooth ) );
 }
 
-void find_efficiency( std::string type )
+void find_efficiency( const std::string &type )
 {
     SECTION( "finding efficiency of " + type ) {
         print_efficiency( type, "t_pavement", -1, false );
@@ -288,7 +288,7 @@ int average_from_stat( const efficiency_stat &st )
 }
 
 // Behold: power of laziness
-void print_test_strings( std::string type )
+void print_test_strings( const std::string &type )
 {
     std::ostringstream ss;
     ss << "test_vehicle( \"" << type << "\", ";
