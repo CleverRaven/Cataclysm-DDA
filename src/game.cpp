@@ -7123,7 +7123,7 @@ void game::zones_manager()
                     //Draw direction + distance
                     mvwprintz( w_zones, iNum - start_index, 32, colorLine, "%*d %s",
                                5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
-                               _( direction_name_short( direction_from( player_absolute_pos, center ) ).c_str() ) );
+                               direction_name_short( direction_from( player_absolute_pos, center ) ).c_str() );
                 }
                 iNum++;
             }
@@ -8070,7 +8070,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                         mvwprintz( w_items, iNum - iStartPos, width - 6 - numw,
                                    iNum == iActive ? c_light_green : c_light_gray,
                                    "%*d %s", numw, rl_dist( 0, 0, x, y ),
-                                   _( direction_name_short( direction_from( 0, 0, x, y ) ).c_str() ) );
+                                   direction_name_short( direction_from( 0, 0, x, y ) ).c_str() );
                         ++iter;
                     }
                 } else {
@@ -8343,7 +8343,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 mvwprintz( w_monsters, y, width - ( 6 + numw ), ( selected ? c_light_green : c_light_gray ),
                            "%*d %s",
                            numw, rl_dist( u.pos(), critter->pos() ),
-                           _( direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() ) );
+                           direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() );
             }
 
             mvwprintz( w_monsters_border, 0, ( width / 2 ) - numw - 2, c_light_green, " %*d", numw,
@@ -8566,7 +8566,7 @@ bool game::get_liquid_target( item &liquid, item *const source, const int radius
             continue;
         }
         const std::string dir = direction_name( direction_from( u.pos(), target_pos ) );
-        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), _( dir.c_str() ) );
+        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir.c_str() );
         actions.emplace_back( [ &, target_pos ]() {
             target.pos = target_pos;
             target.dest_opt = LD_KEG;
@@ -11410,7 +11410,7 @@ tripoint point_selection_menu( const std::vector<tripoint> &pts )
         const std::string &direction = direction_name( direction_from( upos.x, upos.y, pt.x, pt.y ) );
         // TODO: Inform player what is on said tile
         // But don't just print terrain name (in many cases it will be "open air")
-        pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s" ), _( direction.c_str() ) );
+        pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s" ), direction.c_str() );
     }
 
     pmenu.addentry( num, true, 'q', "%s", _( "Cancel" ) );

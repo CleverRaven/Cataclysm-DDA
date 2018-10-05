@@ -2224,7 +2224,7 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
     const auto player_pos = p->global_sm_location();
     direction angle = direction_from( player_pos.x, player_pos.y,
                                       tref.abs_sm_pos.x, tref.abs_sm_pos.y );
-    add_msg( _( "The signal seems strongest to the %s." ), _( direction_name( angle ).c_str() ) );
+    add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ).c_str() );
     return it->type->charges_to_use();
 }
 

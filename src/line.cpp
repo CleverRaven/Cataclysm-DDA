@@ -403,7 +403,7 @@ point direction_XY( direction const dir )
 
 namespace
 {
-std::string const &direction_name_impl( direction const dir, bool const short_name )
+std::string const direction_name_impl( direction const dir, bool const short_name )
 {
     enum : int { size = 3 * 3 * 3 };
     static auto const names = [] {
@@ -448,16 +448,16 @@ std::string const &direction_name_impl( direction const dir, bool const short_na
         i = size;
     }
 
-    return short_name ? names[i].first : names[i].second;
+    return short_name ? _( names[i].first.c_str() ) : _( names[i].second.c_str() );
 }
 } //namespace
 
-std::string const &direction_name( direction const dir )
+std::string const direction_name( direction const dir )
 {
     return direction_name_impl( dir, false );
 }
 
-std::string const &direction_name_short( direction const dir )
+std::string const direction_name_short( direction const dir )
 {
     return direction_name_impl( dir, true );
 }
@@ -468,8 +468,8 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
     if( dist <= 0 ) {
         return std::string();
     }
-    return string_format( "%d%s", dist, trim( _( direction_name_short( direction_from( p,
-                          q ) ).c_str() ) ) );
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p,
+                          q ) ) ).c_str() );
 }
 
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.
