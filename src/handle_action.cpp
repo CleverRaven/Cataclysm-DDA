@@ -1759,7 +1759,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_HELP:
-                display_help();
+                get_help().display_help();
                 refresh_all();
                 break;
 

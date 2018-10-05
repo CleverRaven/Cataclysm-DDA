@@ -81,6 +81,7 @@ void PATH_INFO::update_datadir()
     update_pathname( "motddir", FILENAMES["datadir"] + "motd/" );
     update_pathname( "creditsdir", FILENAMES["datadir"] + "credits/" );
     update_pathname( "data_sound", FILENAMES["datadir"] + "sound" );
+    update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
 
     // Shared files
     update_pathname( "autoexeclua", FILENAMES["luadir"] + "autoexec.lua" );
@@ -100,6 +101,7 @@ void PATH_INFO::update_datadir()
     update_pathname( "mods-dev-default", FILENAMES["moddir"] + "default.json" );
     update_pathname( "mods-replacements", FILENAMES["moddir"] + "replacements.json" );
     update_pathname( "defaultsounddir", FILENAMES["datadir"] + "sound" );
+    update_pathname( "help", FILENAMES["helpdir"] + "texts.json" );
 }
 
 void PATH_INFO::update_config_dir()
@@ -148,6 +150,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "creditsdir", FILENAMES["datadir"] + "credits/" );
     update_pathname( "color_templates", FILENAMES["rawdir"] + "color_templates/" );
     update_pathname( "data_sound", FILENAMES["datadir"] + "sound" );
+    update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
 
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
@@ -164,6 +167,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "mods-dev-default", FILENAMES["moddir"] + "default.json" );
     update_pathname( "mods-replacements", FILENAMES["moddir"] + "replacements.json" );
     update_pathname( "defaultsounddir", FILENAMES["datadir"] + "sound" );
+    update_pathname( "help", FILENAMES["helpdir"] + "texts.json" );
 
     update_pathname( "savedir", FILENAMES["user_dir"] + "save/" );
     update_pathname( "memorialdir", FILENAMES["user_dir"] + "memorial/" );

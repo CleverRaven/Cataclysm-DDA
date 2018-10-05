@@ -15,6 +15,7 @@
 #include "string_input_popup.h"
 #include "cursesdef.h"
 #include "popup.h"
+#include "help.h"
 
 #include <fstream>
 #include <sstream>
@@ -1184,6 +1185,7 @@ void input_context::display_menu()
     if( changed && query_yn( _( "Save changes?" ) ) ) {
         try {
             inp_mngr.save();
+            get_help().load();
         } catch( std::exception &err ) {
             popup( _( "saving keybindings failed: %s" ), err.what() );
         }

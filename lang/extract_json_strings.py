@@ -3,7 +3,7 @@
 
 import json
 import os
-import subprocess 
+import subprocess
 from optparse import OptionParser
 
 # Must parse command line arguments here
@@ -152,7 +152,8 @@ automatically_convertible = {
     "vehicle",
     "vehicle_part",
     "vitamin",
-    "WHEEL"
+    "WHEEL",
+    "help"
 }
 
 # for these objects a plural form is needed
@@ -681,7 +682,8 @@ directories = {
     "data/json",
     "data/mods",
     "data/core",
-    "data/legacy"
+    "data/legacy",
+    "data/help",
 }
 to_dir = "lang/json"
 
@@ -959,8 +961,8 @@ def add_fake_types():
 
 def prepare_git_file_list():
     command_str = "git ls-files"
-    res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True) 
-    output = res.stdout.readlines() 
+    res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+    output = res.stdout.readlines()
     res.communicate()
     if res.returncode != 0:
         print("'git ls-files' command exited with non-zero exit code: {}".format(res.returncode))
