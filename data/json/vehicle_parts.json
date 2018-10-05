@@ -668,7 +668,7 @@
     "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it'd get destroyed.",
     "durability": 400,
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
     "broken_symbol": "*",
     "broken_color": "dark_gray",    
     "flags": [ "NOINSTALL", "NO_REPAIR" ],
