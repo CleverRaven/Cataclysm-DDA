@@ -4581,7 +4581,7 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
 {
     mission_entry miss;
     miss.id = id;
-    if( name_display == "" ) {
+    if( name_display.empty() ) {
         miss.name_display = id;
     } else {
         miss.name_display = name_display;
@@ -4596,7 +4596,7 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
     if( !possible ) {
         mission_key_vectors[10].push_back( miss );
     }
-    if( dir == "" || dir == "[B]" ) {
+    if( dir.empty() || dir == "[B]" ) {
         mission_key_vectors[1].push_back( miss );
     }
     if( dir == "[N]" ) {
@@ -4750,7 +4750,7 @@ int talk_function::companion_skill_trainer( npc &comp, std::string skill_tested,
     int total = difficulty * checks;
     int i = 0;
 
-    if( skill_tested == "" || skill_tested == "gathering" ) {
+    if( skill_tested.empty() || skill_tested == "gathering" ) {
         weighted_int_list<skill_id> gathering_practice;
         gathering_practice.add( skill_survival, 80 );
         gathering_practice.add( skill_traps, 5 );

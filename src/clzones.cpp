@@ -174,9 +174,9 @@ plot_options::query_seed_result plot_options::query_seed()
             return successful;
         }
     } else if( seed_index == 0 ) { // No seeds
-        if( seed != "" || mark != "" ) {
-            seed = "";
-            mark = "";
+        if( !seed.empty || !mark.empty() ) {
+            seed.clear();
+            mark.clear();
             return changed;
         } else {
             return successful;
@@ -198,7 +198,7 @@ bool plot_options::query()
 
 std::string plot_options::get_zone_name_suggestion() const
 {
-    if( seed != "" ) {
+    if( !seed.empty() ) {
         auto type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
@@ -215,7 +215,7 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
     options.emplace_back( std::make_pair( _( "Plant seed: " ),
-                                          seed != "" ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
+                                          !seed.empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
 
     return options;
 }

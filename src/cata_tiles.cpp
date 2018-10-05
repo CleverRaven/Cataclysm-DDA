@@ -2300,7 +2300,7 @@ bool cata_tiles::draw_terrain_from_memory( const tripoint &p, int &height_3d )
         return false;
     }
     const memorized_terrain_tile t = g->u.get_memorized_terrain( p );
-    if( t.tile == "" ) {
+    if( t.tile.empty() ) {
         return false;
     }
 
@@ -2533,7 +2533,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
     if( zone && zone->has_options() ) {
         auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
 
-        if( option && option->get_mark() != "" ) {
+        if( option && !option->get_mark().empty() ) {
             return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,
                                         nv_goggles_activated, height_3d );
         }

@@ -33,7 +33,6 @@ TEST_CASE( "default_overmap_generation_always_succeeds" )
         }
         overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
         overmap_buffer.create_custom_overmap( candidate_addr.x, candidate_addr.y, test_specials );
-        std::stringstream remaining_specials;
         for( const auto &special_placement : test_specials ) {
             auto special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct

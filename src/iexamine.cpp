@@ -3805,9 +3805,9 @@ void smoker_finalize(player &, const tripoint &examp)
         } else if( item_it.typeId() == "human_flesh" ) {
             product = "human_smoked";
         } else {
-            product = "";
+            product.clear();
         }
-        if( product != "" ) {
+        if( !product.empty() ) {
             item result( product, calendar::turn );
             result.charges = item_it.charges;
             //g->m.add_item( examp, result );
