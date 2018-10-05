@@ -53,6 +53,7 @@ struct construction {
         int print_time( const catacurses::window &w, int ypos, int xpos, int width, nc_color col ) const;
         std::vector<std::string> get_folded_time_string( int width ) const;
         float time_scale() const; //result of construction scaling option
+        const std::string desc() const;
     private:
         std::string get_time_string() const;
 };
