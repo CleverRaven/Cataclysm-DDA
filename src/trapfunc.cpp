@@ -105,7 +105,7 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
         damage_instance d;
         d.add_damage( DT_BASH, 12 );
         d.add_damage( DT_CUT, 18 );
-        c->deal_damage( nullptr, hit, d);
+        c->deal_damage( nullptr, hit, d );
         
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
