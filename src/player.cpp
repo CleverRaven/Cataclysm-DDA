@@ -423,6 +423,7 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEBBED( "WEBBED" );
@@ -9876,6 +9877,7 @@ void player::try_to_sleep( const time_duration &dur )
     bool webforce = false;
     bool websleeping = false;
     bool in_shell = false;
+    bool watersleep = false;
     if (has_trait( trait_CHLOROMORPH )) {
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
@@ -9930,6 +9932,15 @@ void player::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
+    if( has_trait( trait_WATERSLEEP ) ) {
+        if( underwater ) {
+            add_msg_if_player( m_good, _( "You lay beneath the waves' embrace, gazing up through the water's surface..." ) );
+            watersleep = true;
+        } else if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse..." ) );
+            watersleep = true;
+        }
+    }
     if(!plantsleep && (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos.loadid == tr_cot || trap_at_pos.loadid == tr_rollmat ||
          trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_armchair ||
@@ -9938,7 +9949,7 @@ void player::try_to_sleep( const time_duration &dur )
          vp.part_with_feature( "SEAT" ) ||
          vp.part_with_feature( "BED" ) ) ) {
         add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
-    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay) {
+    } else if (ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay && !watersleep) {
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
@@ -9961,6 +9972,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
     bool websleep = has_trait( trait_WEB_WALKER );
     bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) || ( has_trait( trait_WEB_WEAVER ) ) );
     bool in_shell = has_active_mutation( trait_SHELL2 );
+    bool watersleep = has_trait( trait_WATERSLEEP );
 
     const optional_vpart_position vp = g->m.veh_at( p );
     const maptile tile = g->m.maptile_at( p );
@@ -10051,9 +10063,13 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
                 comfort = (int)comfort_level::uncomfortable;
             }
         }
-    }
+    //Has watersleep
+    } else if( watersleep ) {
+        if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+            comfort += (int)comfort_level::very_comfortable;
+        }
     // Has webforce
-    else {
+    } else {
         if( web >= 3 ) {
             // Thick Web and you're good to go
             comfort += (int)comfort_level::very_comfortable;

@@ -1292,7 +1292,7 @@
         "ugliness" : 2,
         "description" : "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
         "types" : ["TEETH"],
-        "changes_to" : ["SABER_TEETH"],
+        "changes_to" : ["SABER_TEETH", "SHARKTEETH"],
         "category" : ["LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA"],
         "attacks" : [
             {
@@ -1357,7 +1357,7 @@
         "points" : 1,
         "visibility" : 1,
         "ugliness" : 2,
-        "description" : "You have a second set of clear eyelids which lower while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
+        "description" : "You have a set of clear lenses which lower over your eyes while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
         "prereqs" : ["EYEBULGE"],
         "category" : ["LIZARD", "FISH"],
         "wet_protection" : [
@@ -5329,6 +5329,86 @@
         "starting_trait" : true,
         "points" : -2,
         "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so."
+    },{
+        "type" : "mutation",
+        "id" : "AMPHIBIAN",
+        "name" : "Amphibious",
+        "points" : 5,
+        "description" : "You're as comfortable in water as on land, and your body has adapated around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"],
+        "purifiable": false
+    },{
+        "type" : "mutation",
+        "id" : "SEESLEEP",
+        "name" : "Lidless Eyes",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 4,
+        "description" : "Like a true fish, your eyes lack eyelids, and are are instead covered by a translucent, protective membrane that blocks irritants and water, and provides minor armor.  It also allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"],
+        "armor" : [ { "parts" : "EYES", "cut" : 3, "bash" : 1 } ],
+        "active" : true
+    },{
+        "type" : "mutation",
+        "id" : "WATERSLEEP",
+        "name" : "Aqueous Repose",
+        "points" : 1,
+        "description" : "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
+        "prereqs" : ["SEESLEEP"],
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"]
+    },{
+        "type" : "mutation",
+        "id" : "TOXICFLESH",
+        "name" : "Toxic Flesh",
+        "points" : 1,
+        "description" : "Your flesh is highly poisonous, and creatures that bite you will receive a nasty surprise.",
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"],
+        "purifiable" : false
+    },{
+        "type" : "mutation",
+        "id" : "FRESHWATEROSMOSIS",
+        "name" : "Freshwater Osmosis",
+        "points" : 4,
+        "description" : "Your gills and skin are highly permeable to moisture, and you can hydrate your body through osmosis.  While submerged in fresh water, any thirst you might have will be slaked.",
+        "prereqs" : ["GILLS"],
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"]
+    },{
+        "type" : "mutation",
+        "id" : "ELECTRORECEPTORS",
+        "name" : "Electroreceptors",
+        "points" : 2,
+        "description" : "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
+        "category" : ["FISH"],
+        "mixed_effect" : true
+    },{
+        "type" : "mutation",
+        "id" : "SHARKTEETH",
+        "name" : "Shark Teeth",
+        "points" : 3,
+        "visibility" : 10,
+        "ugliness" : 8,
+        "description" : "Your teeth have grown incredibly sharp and are formed of very dense calcium material.  In addition to making you eat much faster, you can use them as a lethal natural weapon, as long as your anatomy favors it.  They also grow very fast, and you harmlessly shed them more or less at random.",
+        "prereqs" : ["FANGS"],
+        "types" : ["TEETH"],
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"],
+        "social_modifiers" : {
+            "intimidate" : 15
+        },
+        "attacks" : {
+            "attack_text_u" : "You tear into %s with your teeth",
+            "attack_text_npc" : "%1$s tears into %2$s with their teeth",
+            "body_part" : "MOUTH",
+            "blocker_mutations" : [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+            "chance" : 20,
+            "base_damage" : { "damage_type" : "stab", "amount" : 25 }
+        },
+        "purifiable" : false
     },{
         "type" : "mutation",
         "id" : "PROF_POLICE",

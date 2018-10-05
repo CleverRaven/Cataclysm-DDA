@@ -91,6 +91,7 @@ static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SMALL( "SMALL" );
@@ -543,7 +544,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() || in_sleep_state() || has_effect( effect_narcosis ) ) {
+    if( is_blind() || ( in_sleep_state() && !has_trait( trait_SEESLEEP ) ) || has_effect( effect_narcosis ) ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) {
         sight_max = 1;
