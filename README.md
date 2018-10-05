@@ -39,7 +39,7 @@ GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA
 
 IRC:
-irc.freenode.net ; #CataclysmDDA
+`irc.freenode.net` ; `#CataclysmDDA`
 http://webchat.freenode.net/?channels=#CataclysmDDA
 
 ## Frequently Asked Questions
