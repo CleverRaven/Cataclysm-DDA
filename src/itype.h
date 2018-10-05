@@ -876,6 +876,8 @@ struct itype {
             return 1;
         }
 
+        long charges_per_volume( const units::volume &vol ) const;
+
         bool has_use() const;
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
