@@ -2472,7 +2472,7 @@ void item::on_wield( player &p, int mv )
             d /= std::max( p.get_skill_level( melee_skill() ), 1 );
         }
 
-        int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;
+        int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
         p.moves -= penalty;
         mv += penalty;
     }
