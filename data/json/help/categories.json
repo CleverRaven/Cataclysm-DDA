@@ -1,0 +1,18 @@
+[
+    { "type": "help_category", "pos": "0", "id": "introduction", "name": "Introduction", "hotkey": "a" },
+    { "type": "help_category", "pos": "1", "id": "movement", "name": "Movement", "hotkey": "b" },
+    { "type": "help_category", "pos": "2", "id": "viewing", "name": "Viewing", "hotkey": "c" },
+    { "type": "help_category", "pos": "3", "id": "hunger", "name": "Hunger, thirst, and sleep", "hotkey": "d" },
+    { "type": "help_category", "pos": "4", "id": "pain_stim", "name": "Pain and stimulants", "hotkey": "e" },
+    { "type": "help_category", "pos": "5", "id": "addiction", "name": "Addiction", "hotkey": "f" },
+    { "type": "help_category", "pos": "6", "id": "morale_learn", "name": "Morale and learning", "hotkey": "g" },
+    { "type": "help_category", "pos": "7", "id": "mutation", "name": "Radioactivity and mutation", "hotkey": "h" },
+    { "type": "help_category", "pos": "8", "id": "bionics", "name": "Bionics", "hotkey": "i" },
+    { "type": "help_category", "pos": "9", "id": "crafting", "name": "Crafting", "hotkey": "j" },
+    { "type": "help_category", "pos": "10", "id": "traps", "name": "Traps", "hotkey": "k" },
+    { "type": "help_category", "pos": "11", "id": "items", "name": "Items overview", "hotkey": "l" },
+    { "type": "help_category", "pos": "12", "id": "combat", "name": "Combat", "hotkey": "m" },
+    { "type": "help_category", "pos": "13", "id": "unarmed", "name": "Unarmed styles", "hotkey": "n" },
+    { "type": "help_category", "pos": "14", "id": "survival", "name": "Survival tips", "hotkey": "o" },
+    { "type": "help_category", "pos": "15", "id": "driving", "name": "Driving", "hotkey": "p" }
+]

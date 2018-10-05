@@ -67,6 +67,7 @@
 #include "loading_ui.h"
 #include "recipe_groups.h"
 #include "mod_tileset.h"
+#include "help.h"
 
 #include <assert.h>
 #include <string>
@@ -360,6 +361,9 @@ void DynamicDataLoader::initialize()
 #else
     // Dummy function
     add( "mod_tileset", []( JsonObject &, const std::string & ) { } );
+
+    add( "help_category", &load_help_category );
+    add( "help_text", &load_help_text );
 #endif
 }
 

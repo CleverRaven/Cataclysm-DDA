@@ -9,8 +9,25 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
+#include "json.h"
 #include <cmath>  // max in help_main
 #include <vector>
+
+std::set<std::string, help_category> help_categories;
+std::set<int, std::string> help_pos;
+std::map<std::string, std::vector<std::string>> help_texts;
+
+void load_help_texts( JsonObject &jsobj )
+{
+    help_texts[jsobj.get_string( "category" )].push_back( jsobj.get_string( "text" ) );
+}
+
+void load_help_category( JsonObject &jsobj )
+{
+    help_pos[jsobj.get_int( "pos" )] = jsobj.get_string( "id" );
+    help_categories[jsobj.get_string( "id" )] = help_category( jsobj.get_string( "name" ),
+            jsobj.get_string( "hotkey" ) );
+}
 
 void help_draw_dir( const catacurses::window &win, int line_y )
 {
