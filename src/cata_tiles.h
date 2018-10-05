@@ -21,6 +21,7 @@
 #include <string>
 #include <unordered_map>
 
+class cata_tiles;
 class Creature;
 class player;
 class JsonObject;
@@ -246,6 +247,7 @@ class tileset
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
+        std::vector<texture> memory_tile_values;
 
         std::unordered_map<std::string, tile_type> tile_ids;
 
@@ -282,6 +284,9 @@ class tileset
         const texture *get_overexposed_tile( const size_t index ) const {
             return get_if_available( index, overexposed_tile_values );
         }
+        const texture *get_memory_tile( const size_t index ) const {
+            return get_if_available( index, memory_tile_values );
+        }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
@@ -300,6 +305,7 @@ class tileset_loader
         int sprite_height;
 
         int offset = 0;
+        int sprite_id_offset = 0;
         int size = 0;
 
         struct {
@@ -351,6 +357,12 @@ class tileset_loader
          * @throw std::exception On any error.
          */
         void load_tilejson_from_file( JsonObject &config );
+        /**
+         * Helper function called by load.
+         * @throw std::exception On any error.
+         */
+        void load_internal( JsonObject &config, const std::string &tileset_root,
+                            const std::string &img_path );
     public:
         tileset_loader( tileset &ts, SDL_Renderer *const r ) : ts( ts ), renderer( r ) {
         }
@@ -404,6 +416,7 @@ class cata_tiles
 
         const tile_type *find_tile_with_season( std::string &id );
         const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
+        bool find_overlay_looks_like( const bool male, const std::string &overlay, std::string &draw_id );
 
         bool draw_from_id_string( std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                   bool apply_night_vision_goggles );
@@ -439,6 +452,7 @@ class cata_tiles
                                const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
@@ -480,6 +494,10 @@ class cata_tiles
         void draw_line();
         void void_line();
 
+        void init_draw_cursor( const tripoint &p );
+        void draw_cursor();
+        void void_cursor();
+
         void init_draw_weather( weather_printable weather, std::string name );
         void draw_weather_frame();
         void void_weather();
@@ -500,9 +518,10 @@ class cata_tiles
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
          * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param force If true, forces loading the tileset even if it is already loaded.
          * @throw std::exception On any error.
          */
-        void load_tileset( const std::string &tileset_id, bool precheck = false );
+        void load_tileset( const std::string &tileset_id, bool precheck = false, bool force = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
@@ -564,6 +583,7 @@ class cata_tiles
         bool do_draw_bullet;
         bool do_draw_hit;
         bool do_draw_line;
+        bool do_draw_cursor;
         bool do_draw_weather;
         bool do_draw_sct;
         bool do_draw_zones;
@@ -583,6 +603,8 @@ class cata_tiles
         bool is_target_line;
         std::vector<tripoint> line_trajectory;
         std::string line_endpoint_id;
+
+        std::vector<tripoint> cursors;
 
         weather_printable anim_weather;
         std::string weather_name;

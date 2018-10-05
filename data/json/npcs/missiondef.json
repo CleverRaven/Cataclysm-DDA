@@ -1656,7 +1656,7 @@
     "followup": "MISSION_RANCH_SCAVENGER_3",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five head torches for them?  Keeping both hands free greatly helps during combat.",
+      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five headlamps for them?  Keeping both hands free greatly helps during combat.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "You should be able to make them with the most basic of skills.",
@@ -1857,5 +1857,119 @@
     "start": "reveal_refugee_center",
     "origins": [ "ORIGIN_COMPUTER" ],
     "destination": "evac_center"
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_1",
+    "type": "mission_definition",
+    "name": "Analyze Zombie Blood",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_blood_data",
+    "start": "reveal_hospital",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_SCIENCE_REP_2",
+    "dialogue": {
+      "describe": "It could be very informative to perform an analysis of zombie blood...",
+      "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
+      "accepted": "Excellent.  Take this blood draw kit; once you've found a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
+      "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
+      "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
+      "inquire": "Well, do you have the data yet?",
+      "success": "Excellent!  This may be the key to removing the infection.",
+      "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
+      "failure": "What a shame, that data could have proved invaluable..."
+    }
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_2",
+    "type": "mission_definition",
+    "name": "Download Workstation Data",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_lab_data",
+    "start": "create_lab_console",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_SCIENCE_REP_3",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.",
+      "accepted": "Great!  I've mapped out a route to the address.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "If the laboratory is locked, maybe you can find an id card from employees who died in the evacuation.  Also brush up on your computer skills, any computers will have some security on them.  Bring back anything you find on a USB drive.",
+      "inquire": "Have you completed your mission?",
+      "success": "Thanks!  This data looks damaged, but maybe I can make something out of it.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_3",
+    "type": "mission_definition",
+    "name": "Download Encryption Codes",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_lab_data",
+    "start": "create_hidden_lab_console",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_SCIENCE_REP_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Unfortunately the data you got was incomplete and mostly encrypted.  There may be a way to get encryption codes, though.  I found a complaint by the infosec team that they were unable to deliver critical security updates to one research site.  It was some kind of more restricted secondary site hidden beneath a town, they weren't allowed in.  That means it should have unsecured computers we can get the codes from.",
+      "accepted": "Great!  I've mapped out a route, it should look like a normal house.  Bring back anything you find on a USB drive.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "Expect the lab to be locked as usual.",
+      "inquire": "Have you completed your mission?",
+      "success": "Wonderful!  Now I just need to get an undamaged, complete archive, and we can really figure out what happened.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_4",
+    "type": "mission_definition",
+    "name": "Download Research Archives",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_lab_data",
+    "start": "create_ice_lab_console",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_SCIENCE_REP_5",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did found communications from a lab that had some kind of freezing portal open during the cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
+      "accepted": "Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you go and it looks like the archives were on the fourth basement level.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "That lab is going to start freezing and just get colder the deeper you go.  You'll really need special equipment to survive that far down.  Bring back anything you find on a USB drive.",
+      "inquire": "Have you completed your mission?",
+      "success": "Thanks!  This is a lot of data to go through.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_SCIENCE_REP_5",
+    "type": "mission_definition",
+    "name": "Find Lab Tunnels",
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "software_train_data",
+    "start": "reveal_lab_train_depot",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
+      "accepted": "So glad for your help.",
+      "rejected": "Can't blame you, but come back if you change your mind.",
+      "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Bring back anything you find on a USB drive.",
+      "inquire": "Have you completed your mission?",
+      "success": "Fantastic!  I should be able to reconstruct what cargo moved between which labs.  I wonder what was really going on down there.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
   }
 ]

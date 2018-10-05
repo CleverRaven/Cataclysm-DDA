@@ -187,6 +187,23 @@
     "watertight": true
   },
   {
+    "id": "bottle_twoliter",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "large plastic bottle",
+    "description": "It's a two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
+    "weight": 13,
+    "volume": 8,
+    "price": 25,
+    "price_postapoc": 500,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "cyan",
+    "contains": 8,
+    "seals": true,
+    "watertight": true
+  },
+  {
     "id": "bowl_clay",
     "type": "CONTAINER",
     "category": "other",
@@ -393,6 +410,24 @@
       "material_thickness": 2
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "thermos",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "thermos",
+    "name_plural": "thermoses",
+    "description": "A Thermos brand vacuum flask.  Built for temperature retention, helps keep things hot or cold.  Contains 1L of liquid.",
+    "weight": 530,
+    "price": 1595,
+    "volume": 5,
+    "contains": 4,
+    "material": "steel",
+    "symbol": "I",
+    "color": "green",
+    "seals": true,
+    "watertight": true,
+    "insulation": 10
   },
   {
     "id": "ceramic_bowl",
@@ -946,26 +981,11 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "basket_laundry",
-    "type": "CONTAINER",
-    "category": "other",
-    "name": "laundry basket",
-    "name_plural": "laundry baskets",
-    "description": "A pastic basket meant for storing and hauling clothing.",
-    "weight": 410,
-    "volume": 140,
-    "price": 100,
-    "material": "plastic",
-    "symbol": ")",
-    "color": "light_gray",
-    "contains": 190
-  },
-  {
     "id": "styrofoam_cup",
     "type": "CONTAINER",
     "category": "other",
     "name": "styrofoam cup",
-    "description": "A cheap disposable cup with a plastic lid and straw.",
+    "description": "A cheap, disposable cup with a plastic lid and straw.",
     "weight": 50,
     "volume": 2,
     "price": 0,
@@ -984,11 +1004,12 @@
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "weight": 1360,
     "volume": 16,
-    "price": 0,
+    "price": 10,
+    "price_postapoc": 100,
     "material": "plastic",
     "symbol": ")",
     "color": "white",
-    "contains": 16,
+    "contains": 17,
     "seals": true,
     "watertight": true
   }

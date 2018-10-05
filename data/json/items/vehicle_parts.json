@@ -341,6 +341,19 @@
         "price" : 2000
     },
     {
+        "type": "GENERIC",
+        "id": "motor_tiny",
+        "name": "tiny electric motor",
+        "description": "A tiny electric motor.  Useful for crafting.",
+        "weight": 800,
+        "color": "light_cyan",
+        "symbol": ",",
+        "material": [ "steel", "plastic"],
+        "volume": 2,
+        "category": "veh_parts",
+        "price": 2000
+    },
+    {
         "type":"GENERIC",
         "id" : "foot_crank",
         "name" : "foot crank",
@@ -499,7 +512,7 @@
         "type": "GENERIC",
         "id": "minifridge",
         "name": "minifridge",
-        "description": "A very small fridge for keeping food cool.",
+        "description": "A very small fridge for keeping food cool.  Provides some insulation from outside weather.",
         "weight": 31752,
         "to_hit": -8,
         "color": "light_blue",
@@ -508,13 +521,14 @@
         "volume": 20,
         "bashing": 8,
         "category" : "veh_parts",
-        "price": 60000
+        "price": 60000,
+        "insulation": 2
     },
     {
         "type": "GENERIC",
         "id": "minifreezer",
         "name": "minifreezer",
-        "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.",
+        "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
         "weight": 31752,
         "to_hit": -8,
         "color": "light_blue",
@@ -523,7 +537,8 @@
         "volume": 20,
         "bashing": 8,
         "category" : "veh_parts",
-        "price": 70000
+        "price": 70000,
+        "insulation": 4
     },
     {
         "type": "GENERIC",
@@ -560,7 +575,8 @@
         "id" : "sheet_metal",
         "name" : "sheet metal",
         "description" : "A thin sheet of metal.",
-        "weight" : 1000,
+        "//" : "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
+        "weight" : 6000,
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : "]",
@@ -575,7 +591,7 @@
         "id" : "sheet_metal_lit",
         "name" : "wired sheet metal",
         "description" : "Sheet metal that has had light housing wired into it.",
-        "weight" : 1200,
+        "weight" : 6200, 
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : "]",
@@ -814,6 +830,21 @@
       "properties": [ [ "monster_size_capacity", "MEDIUM" ] ],
       "use_action": "CAPTURE_MONSTER_VEH",
       "flags": [ "TRADER_AVOID", "USE_PART_ITEM" ]
+    },
+    {
+      "id": "bike_rack",
+      "type": "GENERIC",
+      "name": "bike rack",
+      "description": "A collection of pipes, cams, and straps, mounted on the edge of a vehicle and used to support another vehicle for transport.  It must be mounted on a vehicle to be used.",
+      "weight": 4000,
+      "volume": 25,
+      "price": 16000,
+      "category": "veh_parts",
+      "material": [ "steel", "plastic" ],
+      "symbol": "]",
+      "color": "light_gray",
+      "looks_like": "foldframe",
+      "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -1151,5 +1182,23 @@
         "weight": 10000,
         "volume": 10,
         "price": 5500
-    }
+  },
+  {
+    "id": "fuel_bunker",
+    "type": "MAGAZINE",
+    "name": "fuel bunker",
+    "description": "A bin for holding solid fuel.",
+    "symbol": "]",
+    "color": "white",
+    "looks_like": "cargo_rack",
+    "material": "steel",
+    "category": "veh_parts",
+    "weight": 80000,
+    "volume": 220,
+    "capacity": 2000,
+    "reliability": 10,
+    "//": "mods will need to expand",
+    "ammo_type": "charcoal",
+    "price": 3000
+  }
 ]

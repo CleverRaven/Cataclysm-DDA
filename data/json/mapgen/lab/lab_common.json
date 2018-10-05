@@ -131,7 +131,9 @@
         { "else_chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 11, "neighbors": { "east": ["lab"] } },
         { "else_chunks": [ "sub_t_concrete_wall" ], "x": 23, "y": 12, "neighbors": { "east": ["lab"] } },
         { "else_chunks": [ "lab_north_wall" ], "x": 0, "y": 0, "neighbors": { "north": ["lab"] } },
-        { "else_chunks": [ "lab_west_wall" ], "x": 0, "y": 0, "neighbors": { "west": ["lab"] } }
+        { "else_chunks": [ "lab_west_wall" ], "x": 0, "y": 0, "neighbors": { "west": ["lab"] } },
+        { "chunks": [ "lab_glass_east_wall" ], "x": 0, "y": 0, "neighbors": { "east": "open_air" } },
+        { "chunks": [ "lab_glass_south_wall" ], "x": 0, "y": 0, "neighbors": { "south": "open_air" } }
       ]
     }
   },
@@ -166,6 +168,9 @@
         { "ter": "t_concrete_wall", "x": 21, "y": 0 },
         { "ter": "t_concrete_wall", "x": 22, "y": 0 },
         { "ter": "t_concrete_wall", "x": 23, "y": 0 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_glass_north_wall" ], "x":0, "y": 0, "neighbors": { "north": "open_air" } }
       ]
     }
   },
@@ -200,6 +205,57 @@
         { "ter": "t_concrete_wall", "x": 0, "y": 21 },
         { "ter": "t_concrete_wall", "x": 0, "y": 22 },
         { "ter": "t_concrete_wall", "x": 0, "y": 23 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_glass_west_wall" ], "x":0, "y": 0, "neighbors": { "west": "open_air" } }
+      ]
+    }
+  },
+  {
+    "//": "Override for tower lab borders, use a glass wall to let light in.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_glass_north_wall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "line": "terrain", "id": "t_reinforced_glass", "x": 0, "x2": 22, "y": 0, "y2": 0 }
+      ]
+    }
+  },
+  {
+    "//": "Override for tower lab borders, use a glass wall to let light in.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_glass_west_wall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "line": "terrain", "id": "t_reinforced_glass", "x": 0, "x2": 0, "y": 0, "y2": 22 }
+      ]
+    }
+  },
+  {
+    "//": "Override for tower lab borders, use a glass wall to let light in.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_glass_east_wall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "line": "terrain", "id": "t_reinforced_glass", "x": 23, "x2": 23, "y": 1, "y2": 22 }
+      ]
+    }
+  },
+  {
+    "//": "Override for tower lab borders, use a glass wall to let light in.",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_glass_south_wall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "line": "terrain", "id": "t_reinforced_glass", "x": 1, "x2": 22, "y": 23, "y2": 23 }
       ]
     }
   },

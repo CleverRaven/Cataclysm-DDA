@@ -1,6 +1,7 @@
-0.D (806a38a87f5169ab9aa00b708cbe7a3e59c3d108)
+# 0.D (806a38a87f5169ab9aa00b708cbe7a3e59c3d108)
 
-Features:
+## Features:
+
 Power transmission between vehicles.
 Books need to be read to know what they contain.
 Extend Stamina burn.
@@ -18,7 +19,8 @@ NPC interactions: Carrying gear, healing with items, re-layering clothes.
 Hordes re-absorb monsters, this allows them to return to moving after spawning.
 Hordes can wander toward cities to keep them populated.
 
-Content:
+## Content:
+
 Minefield signs
 Lots of improvised tools (stone hand tools, forge, cooking furniture, clay and pottery).
 Extensive wilderness foraging.
@@ -44,7 +46,8 @@ Wearable tools.
 Mutant roaches.
 Items can have a side (left v right).
 
-Interface:
+## Interface:
+
 Bionics menu tabbed for better visibility.
 Streamlined reload menu.
 Bundled a square font.
@@ -69,7 +72,8 @@ Cancel out of crafting menu during component selection.
 Move times displayed adjusted to be cumulative instead of "most recent cost".
 Added pixel minimap in SDL builds.
 
-Mods:
+## Mods:
+
 More Survival Tools
 Tanks Mod
 Mshock Modded Tileset.
@@ -77,7 +81,8 @@ ChestHole tileset covering all entities.
 Double monster HP mod.
 Mods dynamically enabled/disabled if they require lua and lua is present/absent.
 
-Balance:
+## Balance:
+
 Unify crafting and construction xp gain.
 Removed flaming eye annihilation beam.
 Overhauled encumbrance system for finer degrees of encumbrance.
@@ -89,7 +94,8 @@ Necromancer revive cooldown adjusted based on target toughness.
 Adjusted frequency of sickness.
 Variable draw costs for dedicated inventory containers (holsters).
 
-Bugfixes:
+## Bugfixes:
+
 Fix inability to repair modified clothing.
 Fix charge consumption when invoking tools.
 Fix grenades not exploding.
@@ -117,7 +123,8 @@ Rebalanced vehicle collisions.
 Fixed crash when target dies between successive automatic attacks.
 Fixed deafening noise from collapsing buildings.
 
-Performance:
+## Performance:
+
 Optimized mapgen when generating homogeneous tiles (empty air or all rock).
 Shadowcasting optimizations for ~10% performance speedup.
 
@@ -141,28 +148,33 @@ Removed a lot of redundant default json entries.
 Allowed arbitrary items to have artifact properties.
 Migrated worldoptions, autopickup to json.
 
-Build:
+## Build:
+
 Support for finding alternate versions of build tools.
 Lots of forward declaration and #include cleanup to speed up compilation.
 Addition of many unit tests.
 string_id, a typesafe and efficient wrapper for string identifiers.
 Makefile supports various standard environment values.
 
-I18N and A11Y:
+## I18N and A11Y:
+
 Localizable HP bars.
 Textual vehicle facing indicator.
 
-Statistics:
+## Statistics:
+
 2488 files changed, 2324607 insertions(+), 1681578 deletions(-)
 ~25,000 commits
 ~400 contributors
 
-0.C
+======
 
-Features:
+# 0.C
+
+## Features:
+
 Infighting! Monsters now have factions assigned and will attack other monsters from opposing factions.
-Meteorology! Featuring all-new thermometer, barometer, and hygrometer, as well as an all-inclusive weather station.
- Now we can finally talk about the weather, as we've always wanted. (disclaimer, you can't chat about the weather with NPCs)
+Meteorology! Featuring all-new thermometer, barometer, and hygrometer, as well as an all-inclusive weather station. Now we can finally talk about the weather, as we've always wanted. (disclaimer, you can't chat about the weather with NPCs)
 You can warm yourself up from a nearby fire.
 Change car batteries without any tools, truck batteries with just a wrench, or install swappable storage battery cases and add/remove storage batteries to your heart's content. Electric cars come with cases for their storage batteries by default now.
 Many vehicle parts are now foldable, enabling you to have a more complete folding bicycle (or wheelchair).
@@ -177,7 +189,8 @@ Cameras mountable on vehicles to extend view area.
 New drive-by-wireless system for cars, remote-control full-sized cars!
 Clothing modifications (pockets, padding, and reinforcing).
 
-Content:
+## Content:
+
 An abandoned farmhouse may spawn in the forest from time to time, with a sad story behind it.
 Tanning with trees! Blackjack oaks now spawn, and can provide tanbark.
 Electric chainsaws and jackhammers now exist in the world.
@@ -203,7 +216,8 @@ Craftable canned food and recipes.
 More farming content and recipes to make use of them.
 Even more houses!
 
-Interface:
+## Interface:
+
 Butchering can now be used to cut up items, too. Also, you can now salvage _all_ the things (in a tile) in one keypress.
 Item descriptions now tell you what you know you can craft with them. No more wondering what those stupid copper tubes are good for.
 You can now choose to ensure that items you pick up never get wielded, keeping your hands free -- useful when you want to be using a martial arts style that's primarily unarmed.
@@ -220,7 +234,8 @@ Item names now have HP bars displayed with them.
 Add V-menu (nearby items/monsters) to peek command.
 Add filters to advanced inventory.
 
-Balance:
+## Balance:
+
 Gun mods aren't just a free-for-all when reaching marksmanship level 1 anymore -- instead, they each have different skill requirements to install.
 Canes, cudgels, and umbrellas now work as improvised fencing weapons.
 Gunstores are all locked up.
@@ -236,7 +251,8 @@ Enabled trading with starting NPC at game start.
 Slowed tankbots down so you have a chance of running away from them.
 Zombie master special now picks from every zombie, not just a small list.
 
-Bugfixes:
+## Bugfixes:
+
 Doors and windows no longer hold up the roof! Hopefully preventing collapses from zombies breaking into your shop.
 Solar panels now _just work_ (as long as they're above-ground and it's sunny).
 Fixed dark temple finale by enhancing the dark wyrms that it spawns.
@@ -251,13 +267,15 @@ Fixed turrets shooting through doors.
 Fixed bug that was making gun recoil be too low.
 Fixed bashing corpses with blunt objects.
 
-Performance:
+## Performance:
+
 MASSIVE improvement in performance when there are large numbers (thousands) of items nearby.
 Added a clustering algorithm for monster hearing that improves performance when there are many (thousands) of monsters on-map and making noises.
 Iterate across map structures in cache-friendly way.
 Avoid saving/loading sections of map that aren't interesting (like solid rock).
 
-Infrastructure:
+## Infrastructure:
+
 Diseases are configurable from JSON and applied as relatively generic status effects.
 Pedal/wheelchairs/paddles united as a "fuel type".
 About half of the item types are now composable, for example you can easily make a "wearable gun", or "wearable tool" now.
@@ -273,9 +291,12 @@ Sound processing moved to a dedicated module. (in-game hearing, not the game mak
 Moved some shared logic from player to character.
 Streamlined obsolete mod handling.
 
-0.B
+======
 
-Features:
+# 0.B
+
+## Features:
+
 Random characters have professions applied.
 Brewing.
 Wearable tools.
@@ -295,10 +316,10 @@ Armor is assigned to a layer, and armor on different layers doesn't impose layer
 Destroyed vehicle parts get ripped off the vehicle.
 Player can start at various locations.
 Special support for mapsharing installs:
-  lock down debug menu
-  lock players to their username
-  more configurable file placement
-  locks around map files
+  - lock down debug menu;
+  - lock players to their username;
+  - more configurable file placement;
+  - locks around map files.
 Language switch is dynamic now.
 Guns such as revolvers no longer eject casings when fired, they're instead ejected on reload.
 Internal furnace and Battery System CBMs are toggleable so you're less likely to eat random objects by accident.
@@ -333,14 +354,15 @@ Hulks and Brutes now have a very damaging fling attack.
 Jumper cables can be used to link together electrical systems of vehicles, including vehicles outside the reality bubble.
 Crafting a large batch of items can apply a discount to the crafting time required.
 Overhaul of "cut up" system:
-  Cannot cut up an item if it includes a material that can't be cut up (e.g. shotgun).
-  Cutting up returns items from each material that makes up the item.
-  Cutting up most items should respect the total volume of the item.
+  - Cannot cut up an item if it includes a material that can't be cut up (e.g. shotgun);
+  - Cutting up returns items from each material that makes up the item;
+  - Cutting up most items should respect the total volume of the item.
 Most terrain can be smashed now, if you can hit it hard enough.
 Can turn individual vehicle engines on and off.
 Filling an item with water from e.g. a river is now an interruptible action.
 
-Infrastructure:
+## Infrastructure:
+
 Switched to SDL 2.0.
 Made paths configurable for packaging and installation support.
 Finished pushing martial art definitions out to json.
@@ -377,7 +399,8 @@ Monster blacklists are applied consistently to all spawn code.
 Different ammunition-bearing monsters (turrets, robots) have customized loadouts of their various ammo types.
 Obsolete mods can be marked as such, preventing debug spam if a save containing them is loaded.
 
-Balance:
+## Balance:
+
 Give most starting professions decent starting equipment.
 Nether spawns near corpse spawns.
 Capped skill gain from many activities, especially crafting.
@@ -394,7 +417,8 @@ Starting professions supplied with cold-weather gear to match the expected clima
 Standing in a fire less likely to ignite clothes.
 Lying in fire (when one or more legs is at 0HP) causes MUCH more damage.
 
-Content:
+## Content:
+
 New monster, Wraith.
 Hops, barley, and molasses as brewing ingredients.
 Yeast for fermenting brews and baking some bread foods.
@@ -460,7 +484,8 @@ Many new starting locations.
 Curing hides and tanning leather.
 Full coverage of tiles in Retrodays and MShock's tilesets!
 
-Interface:
+## Interface:
+
 Expanded armor layering window.
 Added way to swap panes in AIM.
 Animation and duration for smoking activity.
@@ -484,7 +509,8 @@ Perishable and rotting items colorized.
 UPS no longer activatable, now act as passive batteries.
 Prompt to continue studying a book until all recipes learned.
 
-Performance:
+## Performance:
+
 Greatly sped up construction menu.
 Overmap scrolling speed greatly improved.
 Turn number added to calendar since it's called a gajillion times.
@@ -493,7 +519,8 @@ SDL framebuffer cache.
 Extracted rain animation code from main drawing code.
 Tile lookup speedups.
 
-Bugfixes:
+## Bugfixes:
+
 No bleeding effect if your armor absorbs all the damage.
 Make game stop treating trees, walls, etc as hallucinatory with respect to vehicle collisions.
 Prevent dragging furniture from hoovering up items.
@@ -524,9 +551,12 @@ Lots of window refresh cleanup.
 Turrets and vehicle turrets now respect friendly status when burst firing.
 Fixed a bug where monsters could see further than they should in circular distance mode (they still used square dist).
 
-0.A
+======
 
-Highlights:
+# 0.A
+
+## Highlights:
+
 Module manager.
 Fullscreen mode.
 Many mutations, more refined mutation progression.
@@ -536,7 +566,8 @@ Mouse move and mouselook.
 Fishing.
 Working Refrigerators.
 
-Features:
+## Features:
+
 View item on mouse hover in SDL.
 Mouse move.
 Basic LUA support.
@@ -572,7 +603,8 @@ Automatic view shifting when driving (option).
 Zoom mode that dynamically resizes tiles (pretty slow when zoomed unfortunately).
 Search known recipes by output, tool or component.
 
-Infrastructure:
+## Infrastructure:
+
 Overmap tiles moved to json.
 Lots of warning cleanup.
 More development of internal json library.
@@ -585,7 +617,8 @@ Retrieve items from inventory based on location instead of invlet.
 Ammo types moved to json.
 Blacklist and whitelist for including/excluding content.
 
-Balance:
+## Balance:
+
 Sleep increases rate of fatigue recovery and healing over time.
 Remove automatic matches and pocketknife from player spawn.
 Add skintight flag for underwear-type clothing to negate layering penalties.
@@ -609,7 +642,8 @@ More interesting gun misfire/jam mechanics, guns can take damage now.
 Varied rate of projectile breakage with a flag, more differentiation between arrow types.
 Ammo with special effects (smoke, teargas, explosions) now go off when burned.
 
-Content:
+## Content:
+
 Atomic coffee, energy drink and hypospray, lawn darts, MOLLE pack, fingertip razors.
 Too many mutations to list, including mutagen types and recipes.
 Map types, ammo reloads, vehicle curtains, creepy doll, whiskey barrels.
@@ -624,7 +658,8 @@ Creatures fling around appropriate fluids and chunks when gibbed.
 Several content packs that allow enabling/disabling different categories of content.
 Shoggoth.
 
-Bugfixes:
+## Bugfixes:
+
 Prevent artifact swords from sticking all the time.
 Royal jelly and blood filter heal dermatik infections.
 Make active items (ticking bombs, rotting food) work in vehicle storage.
@@ -656,7 +691,8 @@ Sinkholes don't turn into pits after you step in them.
 Can no longer block attacks in your sleep.
 Translations build and ship with releases.
 
-Performance:
+## Performance:
+
 Many overmap generation performance improvements.
 Stop updating scent if player hasn't moved for a while, makes waiting and sleeping go much faster.
 Optimized bitflag methods for very frequently used flags.
@@ -667,10 +703,12 @@ Lots of caching of vehicle parts.
 Vision calculation speedups.
 Refactored map loading to chunk up map data into tiny (1KB or so) files, so save/load is nearly instantaneous.
 
-0.9
+======
 
-Highlights:
----
+# 0.9
+
+## Highlights:
+
 World Factory: Multiple worlds managed at once.
 New mutation categories.
 TsuTiles.
@@ -679,8 +717,8 @@ Vehicle construction system rework.
 Backward compatibility with 0.8 saves.
 Unbelievable amount of new content.
 
-Features:
----
+## Features:
+
 New mutation categories.
 Blob drops are semi-useful.
 World Factory: Multiple worlds managed at once.
@@ -732,8 +770,8 @@ RPG-7.
 Reworked and streamlined bionics failure chance and install UI.
 Streamlined continuous reading.
 
-Bugfixes:
----
+## Bugfixes:
+
 Monsters that don't take damage no longer leave blood trails.
 Broken gas tanks act broken.
 Highlighting lines in tiles mode.
@@ -760,11 +798,12 @@ Stabilized monster coordinates.
 Many fixes in defense mode.
 Charge rifle charging.
 
+======
 
-0.8
+# 0.8
 
-Highlights:
----
+## Highlights:
+
 Releasing with Russian, Chinese, and bla translations.
 Draggable vehicles, e.g. shopping carts.
 Memorial file listing player history.
@@ -774,8 +813,8 @@ Support for save backwards compatibility.
 Option to adjust city size, make a whole map metropolis!
 Option to adjust monster density, walls of zombies!
 
-Features:
----
+## Features:
+
 Intelligence dependent skill rust option.
 Uncanny Dodge CBM
 Weight management rework, weight now in grams.
@@ -834,8 +873,8 @@ Energy weapon special effects.
 Scrollbars in many list menus.
 Vehicles can spawn smashed into each other.
 
-Bugfixes:
----
+## Bugfixes:
+
 Mouse cursor hiding.
 Terminal text display fixes.
 Very significant performance improvements.
@@ -860,7 +899,7 @@ Light from items more consistent.
 
 ======
 
-0.7.1 (bugfix point release)
+# 0.7.1 (bugfix point release)
 
 Vehicle bed sleepiness fix.
 Made coughing from smoke wake you up.
@@ -873,17 +912,19 @@ Strip out references to a removed ammunition in spawn lists.
 Change in how Vehicle Examination window is displayed so it works in 12x12 View Screens
 Fix for weapon mods with no ammo types.
 
-0.7
+======
 
-Highlights:
----
+# 0.7
+
+## Highlights:
+
 Use ncursesw and gettext for i18n support and expanded character palette.
 Configurable Autopickup feature.
 Configurable item spawning lists, now with more configurable spawn frequencies.
 New advanced bionics.
 
-Features:
----
+## Features:
+
 Use ncursesw and gettext for i18n support and expanded character palette.
 Configurable Autopickup feature.
 Configurable item spawning lists, now with more configurable spawn frequencies.
@@ -919,8 +960,8 @@ Added wine and a new shirt.
 Towels.
 Fuzzy time display, and precise time with wristwatch item.
 
-Bugfixes:
----
+## Bugfixes:
+
 Multiple gates near one handle work correctly.
 Made wild Jabberwocks much more rare.
 Fix turrets shuffling around when off map.
@@ -942,10 +983,10 @@ Fix div0 on bad option setting.
 
 ======
 
-0.6
+# 0.6
 
-Highlights:
----
+## Highlights:
+
 * Zombies will revive after a time, if not butchered (or otherwise dealt with).
 * The Android trait now behaves the way that the description indicates.
 * Gasoline can be siphoned from vehicles. Requires a rubber hose for now - these are easier to acquire.
@@ -969,8 +1010,8 @@ Highlights:
 * Mostly remove limits on how many items fit in a tile of ground.
 * As usual, many bugfixes.
 
-Full list:
----
+## Full list:
+
 Purifier no longer removes traits available at chargen.
 Fix some calculations that wanted floating-point math, and were using integer math.
 Fix some vehicle collision craziness related to skids.
@@ -1116,13 +1157,12 @@ Hard Leg Guards and Metal Leg guards.
 Picking berry bushes trains survival (at low levels).
 Added skill support into professions.
 
-
 ======
 
-0.5
+# 0.5
 
-Highlights:
----
+## Highlights:
+
 * Many new details added to mapgen! New buildings, ruined vehicles on roads, and so on.
 * Much more modding-friendly: MANY bits of data have been moved into data files, rather than being hardcoded in the source.
 * A handful of recipes can be learned from sources other than just leveling your skills.
@@ -1136,9 +1176,8 @@ Highlights:
 * New content all around!
 * Numerous bugfixes.
 
-
-Full list:
----
+## Full list:
+ 
 Matches usable anywhere lighters could be used previously.
 Draw lit areas outside of LOS and normal sight radius the same as unlit areas
 Tell the player when their gear is damaged in combat
@@ -1273,7 +1312,8 @@ Nighttime lights are visible from reasonable distances now.
 
 ======
 
-0.4
+# 0.4
+
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself
 Knives can also cauterize wounds now. Requires a lighter.
 Soldering irons (and hotplates, why not) can be used to cauterize wounds, causing pain and removing any bleeding or uninfected bite effects.
@@ -1309,8 +1349,10 @@ Lightstrips, function as weak light providers. Craftable.
 Bandages and First Aid kits no longer show uninjured bodyparts in the menu.
 Some basic professions, more to be added later.
 
+======
 
-0.3
+# 0.3
+
 Many menus stretch with an enlarged viewport.
 An action to repeat the last craft has been added, default keybinding of -
 When crafting liquid items, the game asks you for a container first, then asks if you want to dump the item.
@@ -1354,13 +1396,19 @@ Added a digging stick. Can be used to dig shallow pits, and level construction e
 
 Got angry at other developers for not updating changelog.
 
-0.2
+======
+
+# 0.2
+
 Reworked spawning option which places zombies at world generation
 rather than generating them dynamically in play.
 Implementation of a context menu when examining inventory items.
 Machine added to hospitals to regrow limbs.
 
-0.1
+======
+
+# 0.1
+
 Palisade Walls and Gates - Pretty tough to bash down, and can be fired through
 Log Walls - Basically the same as wood walls, different construction methods.
 The ability to disassemble tshirts and tank tops by hand. - Handy for bleeding.

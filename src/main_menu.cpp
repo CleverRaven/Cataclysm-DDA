@@ -19,12 +19,28 @@
 #include "cata_utility.h"
 #include "auto_pickup.h"
 #include "safemode_ui.h"
+#include "text_snippets.h"
+#include "loading_ui.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 void main_menu::on_move() const
 {
     sfx::play_variant_sound( "menu_move", "default", 100 );
+}
+
+void main_menu::on_error()
+{
+    if( errflag ) {
+        return;
+    }
+    sfx::play_variant_sound( "menu_error", "default", 100 );
+    errflag = true;
+}
+
+void main_menu::clear_error()
+{
+    errflag = false;
 }
 
 void main_menu::print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems,
@@ -63,11 +79,15 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
 
     // Draw horizontal line
     for( int i = 1; i < window_width - 1; ++i ) {
-        mvwputch( w_open, window_height - 2, i, c_white, LINE_OXOX );
+        mvwputch( w_open, window_height - 4, i, c_white, LINE_OXOX );
     }
 
-    center_print( w_open, window_height - 1, c_red,
-                  _( "Please report bugs to kevin.granade@gmail.com or post on the forums." ) );
+    center_print( w_open, window_height - 2, c_red,
+                  _( "Bugs?  Suggestions?  Use links in MOTD to report them." ) );
+
+    center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
+                  vdaytip ) );
+
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
@@ -138,15 +158,11 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
 
 std::string main_menu::handle_input_timeout( input_context &ctxt )
 {
-    inp_mngr.set_timeout( 125 );
-
-    std::string action = ctxt.handle_input();
+    std::string action = ctxt.handle_input( 125 );
 
     if( action == "TIMEOUT" ) {
         init_windows();
     }
-
-    inp_mngr.reset_timeout();
 
     return action;
 }
@@ -190,39 +206,34 @@ void main_menu::init_strings()
     mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir", ".title", "title" ),
                              _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
-    mmenu_motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
-                            _( "No message today." ) );
+    auto motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
+                           _( "No message today." ) );
+
+    std::ostringstream buffer;
+    mmenu_motd.clear();
+    for( auto &line : motd ) {
+        buffer << ( line.empty() ? " " : line ) << std::endl;
+    }
+    mmenu_motd = "<color_light_red>" + buffer.str() + "</color>";
+
+    buffer.str( "" );
+
     // Credits
     mmenu_credits.clear();
-    std::vector<std::string> buffer;
     read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
-    "credits" ), [&buffer, this]( std::istream & stream ) {
+    "credits" ), [&buffer]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
-            if( line[0] == '#' ) {
-                continue;
-            } else {
-                buffer.push_back( line );
-            }
-            if( buffer.size() > 14 || line.empty() ) {
-                std::ostringstream ss;
-                for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
-                    ss << *it << std::endl;
-                }
-                mmenu_credits.push_back( ss.str() );
-                buffer.clear();
+            if( line[0] != '#' ) {
+                buffer << ( line.empty() ? " " : line ) << std::endl;
             }
         }
     } );
-    if( !buffer.empty() ) {
-        std::ostringstream ss;
-        for( std::vector<std::string>::iterator it = buffer.begin(); it != buffer.end(); ++it ) {
-            ss << *it << std::endl;
-        }
-        mmenu_credits.push_back( ss.str() );
-    }
+
+    mmenu_credits = buffer.str();
+
     if( mmenu_credits.empty() ) {
-        mmenu_credits.push_back( _( "No credits information found." ) );
+        mmenu_credits = _( "No credits information found." );
     }
 
     // fill menu with translated menu items
@@ -247,6 +258,7 @@ void main_menu::init_strings()
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -264,6 +276,10 @@ void main_menu::init_strings()
     for( auto item : vSettingsSubItems ) {
         vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
+
+    loading_ui ui( false );
+    g->load_core_data( ui );
+    vdaytip = SNIPPET.random_from_category( "tip" );
 }
 
 std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
@@ -285,20 +301,51 @@ std::vector<std::string> main_menu::get_hotkeys( const std::string &s )
     return hotkeys;
 }
 
-void main_menu::display_credits()
+void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
 {
-    // AStyle got this redundant indent
-    catacurses::window w_credits_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                          ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                          ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    catacurses::window w_credits = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                   1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
-                                   1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
-    draw_border( w_credits_border, BORDER_COLOR, _( " CREDITS " ) );
-    wrefresh( w_credits_border );
+    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                  ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                  ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+
+    catacurses::window w_text = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
+                                1 + ( int )( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
+
+    draw_border( w_border, BORDER_COLOR, title );
+
+    int width = FULL_SCREEN_WIDTH - 2;
+    int height = FULL_SCREEN_HEIGHT - 2;
+    const auto vFolded = foldstring( text, width );
+    int iLines = vFolded.size();
+
+    if( selected < 0 ) {
+        selected = 0;
+    } else if( iLines < height ) {
+        selected = 0;
+    } else if( selected >= iLines - height ) {
+        selected = iLines - height;
+    }
+
+    fold_and_print_from( w_text, 0, 0, width, selected, c_light_gray, text );
+
+    draw_scrollbar( w_border, selected, height, iLines, 1, 0, BORDER_COLOR, true );
+    wrefresh( w_border );
+    wrefresh( w_text );
     catacurses::refresh();
-    multipage( w_credits, mmenu_credits );
-    catacurses::refresh();
+}
+
+void main_menu::load_char_templates()
+{
+    templates.clear();
+
+    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
+            true ) ) {
+        path = native_to_utf8( path );
+        path.erase( path.find( ".template" ), std::string::npos );
+        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
+        templates.push_back( path );
+    }
+    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
 }
 
 bool main_menu::opening_screen()
@@ -333,24 +380,21 @@ bool main_menu::opening_screen()
         return false;
     }
 
-    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
-            true ) ) {
-        path = native_to_utf8( path );
-        path.erase( path.find( ".template" ), std::string::npos );
-        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
-        templates.push_back( path );
-    }
-    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+    load_char_templates();
 
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "DELETE_TEMPLATE" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
 
     g->u = player();
+
+    int sel_line = 0;
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->all_worldnames().empty() ) {
@@ -361,15 +405,11 @@ bool main_menu::opening_screen()
         print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
 
         if( layer == 1 ) {
-            if( sel1 == 0 ) { // Print the MOTD.
-                const int motdy = ( iMenuOffsetY - mmenu_motd.size() ) * 2 / 3;
-                const int motdx = 8 + extra_w / 2;
-                for( size_t i = 0; i < mmenu_motd.size(); i++ ) {
-                    mvwprintz( w_open, motdy + i, motdx, c_light_red, "%s", mmenu_motd[i].c_str() );
-                }
+            if( sel1 == 0 ) { // Print MOTD.
+                display_text( mmenu_motd, "MOTD", sel_line );
 
-                wrefresh( w_open );
-                catacurses::refresh();
+            } else if( sel1 == 7 ) { // Print Credits.
+                display_text( mmenu_credits, "Credits", sel_line );
             }
 
             std::string action = handle_input_timeout( ctxt );
@@ -391,6 +431,7 @@ bool main_menu::opening_screen()
                     action = "CONFIRM";
                 }
             } else if( action == "LEFT" ) {
+                sel_line = 0;
                 if( sel1 > 0 ) {
                     sel1--;
                 } else {
@@ -398,18 +439,24 @@ bool main_menu::opening_screen()
                 }
                 on_move();
             } else if( action == "RIGHT" ) {
+                sel_line = 0;
                 if( sel1 < 8 ) {
                     sel1++;
                 } else {
                     sel1 = 0;
                 }
                 on_move();
-            }
-            if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 ) {
+            } else if( ( sel1 == 0 || sel1 == 7 ) && ( action == "UP" || action == "DOWN" ||
+                       action == "PAGE_UP" || action == "PAGE_DOWN" ) ) {
+                if( action == "UP" || action == "PAGE_UP" ) {
+                    sel_line--;
+                } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+                    sel_line++;
+                }
+
+            } else if( ( action == "UP" || action == "CONFIRM" ) && sel1 != 0 && sel1 != 7 ) {
                 if( sel1 == 6 ) {
                     display_help();
-                } else if( sel1 == 7 ) {
-                    display_credits();
                 } else if( sel1 == 8 ) {
                     return false;
                 } else {
@@ -661,6 +708,7 @@ bool main_menu::new_character_tab()
                     }
                     if( !g->u.create( play_type ) ) {
                         g->u = player();
+                        load_char_templates();
                         werase( w_background );
                         wrefresh( w_background );
                         continue;
@@ -684,7 +732,7 @@ bool main_menu::new_character_tab()
             if( templates.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                            c_red, "%s", _( "No templates found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
                            c_white, "%s", _( "Press 'd' to delete a preset." ) );
@@ -697,23 +745,24 @@ bool main_menu::new_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( action == "DOWN" ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
+                sel1 = 1;
+                layer = 2;
+                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
+            } else if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     sel3--;
                 } else {
                     sel3 = templates.size() - 1;
                 }
-            } else if( templates.empty() && ( action == "UP" || action == "CONFIRM" ) ) {
-                sel1 = 1;
-                layer = 2;
-                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
             } else if( action == "UP" ) {
                 if( sel3 < ( int )templates.size() - 1 ) {
                     sel3++;
                 } else {
                     sel3 = 0;
                 }
-            } else if( action == "LEFT"  || action == "QUIT" || templates.empty() ) {
+            } else if( action == "LEFT"  || action == "QUIT" ) {
                 sel1 = 1;
                 layer = 2;
                 print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
@@ -746,6 +795,7 @@ bool main_menu::new_character_tab()
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                     g->u = player();
+                    load_char_templates();
                     werase( w_background );
                     wrefresh( w_background );
                     continue;
@@ -773,7 +823,7 @@ bool main_menu::load_character_tab()
             if( all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "No Worlds found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 for( int i = 0; i < ( int )all_worldnames.size(); ++i ) {
                     int line = iMenuOffsetY - 2 - i;
@@ -800,7 +850,8 @@ bool main_menu::load_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
                 layer = 1;
             } else if( action == "DOWN" ) {
                 if( sel2 > 0 ) {
@@ -841,11 +892,11 @@ bool main_menu::load_character_tab()
                 savegames.clear();
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "This world requires the game to be compiled with Lua." ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "No save games found!" ) );
-                sfx::play_variant_sound( "menu_error", "default", 100 );
+                on_error();
             } else {
                 int line = iMenuOffsetY - 2;
 
@@ -859,7 +910,8 @@ bool main_menu::load_character_tab()
             wrefresh( w_open );
             catacurses::refresh();
             std::string action = handle_input_timeout( ctxt );
-            if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
+            if( errflag && action != "TIMEOUT" ) {
+                clear_error();
                 layer = 2;
             } else if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
@@ -982,6 +1034,9 @@ void main_menu::world_tab()
                             query_yes = true;
                             do_delete = false;
                         }
+                    } else if( sel3 == 3 ) { // Copy World settings
+                        layer = 2;
+                        world_generator->make_new_world( true, all_worldnames[sel2 - 1] );
                     }
 
                     if( query_yes ) {

@@ -310,17 +310,12 @@ void sounds::process_sound_markers( player *p )
 
         const std::string &description = sound.description;
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
-            if( !p->activity.ignore_trivial ) {
+            if( !p->activity.is_distraction_ignored( distraction_type::noise ) ) {
                 const std::string query = description.empty()
                                           ? _( "Heard a noise!" )
                                           : string_format( _( "Heard %s!" ), description.c_str() );
 
-                if( g->cancel_activity_or_ignore_query( query ) ) {
-                    p->activity.ignore_trivial = true;
-                    for( auto activity : p->backlog ) {
-                        activity.ignore_trivial = true;
-                    }
-                }
+                g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }
         }
 
@@ -337,11 +332,18 @@ void sounds::process_sound_markers( player *p )
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
             !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
-            if( p->get_effect( effect_alarm_clock ).get_duration() < 2_turns ) {
+            // if we don't have effect_sleep but we're in_sleep_state, either
+            // we were trying to fall asleep for so long our alarm is now going
+            // off or something disturbed us while trying to sleep
+            const bool trying_to_sleep = p->in_sleep_state();
+            if( p->get_effect( effect_alarm_clock ).get_duration() == 1_turns ) {
                 if( slept_through ) {
-                    p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
+                    p->add_msg_if_player( _( "Your alarm clock finally wakes you up." ) );
+                } else if( !trying_to_sleep ) {
+                    p->add_msg_if_player( _( "Your alarm clock wakes you up." ) );
                 } else {
-                    p->add_msg_if_player( _( "Your alarm-clock wakes you up." ) );
+                    p->add_msg_if_player( _( "Your alarm clock goes off and you haven't slept a wink." ) );
+                    p->activity.set_to_null();
                 }
                 p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
             }

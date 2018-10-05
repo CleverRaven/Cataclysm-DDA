@@ -6,6 +6,11 @@
 #include "output.h"
 #include "ui.h"
 #include "compatibility.h"
+#ifdef __ANDROID__
+#include "SDL_keyboard.h"
+#include "options.h"
+#endif
+
 
 #include <cstdlib>
 
@@ -15,9 +20,6 @@ string_input_popup::~string_input_popup() = default;
 
 void string_input_popup::create_window()
 {
-    nc_color title_color = c_light_red;
-    nc_color desc_color = c_green;
-
     int titlesize = utf8_width( _title ); // Occupied horizontal space
     if( _max_length <= 0 ) {
         _max_length = _width;
@@ -73,12 +75,12 @@ void string_input_popup::create_window()
     draw_border( w );
 
     for( size_t i = 0; i < descformatted.size(); ++i ) {
-        trim_and_print( w, 1 + i, 1, w_width - 2, desc_color, descformatted[i] );
+        trim_and_print( w, 1 + i, 1, w_width - 2, _desc_color, descformatted[i] );
     }
     for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
-        mvwprintz( w, _starty++, i + 1, title_color, title_split[i] );
+        mvwprintz( w, _starty++, i + 1, _title_color, title_split[i] );
     }
-    right_print( w, _starty, w_width - titlesize - 1, title_color, title_split.back() );
+    right_print( w, _starty, w_width - titlesize - 1, _title_color, title_split.back() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
 }
 
@@ -143,11 +145,6 @@ void string_input_popup::add_to_history( const std::string &value ) const
 void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
                                const int shift ) const
 {
-    // Not static because color values are not constants, but function calls!
-    const nc_color string_color = c_magenta;
-    const nc_color cursor_color = h_light_gray;
-    const nc_color underscore_color = c_light_gray;
-
     const int scrmax = _endx - _startx;
     // remove the scrolled out of view part from the input string
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
@@ -155,7 +152,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     // Clear the line
     mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ).c_str() );
     // Print the whole input string in default color
-    mvwprintz( w, _starty, _startx, string_color, "%s", ds.c_str() );
+    mvwprintz( w, _starty, _startx, _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
     // Print the cursor in its own color
     if( _position < ( int )ret.length() ) {
@@ -168,14 +165,14 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             cursor = ret.substr( a, _position - a + 1 );
         }
         size_t left_over = ret.substr( 0, a ).display_width() - shift;
-        mvwprintz( w, _starty, _startx + left_over, cursor_color, "%s", cursor.c_str() );
+        mvwprintz( w, _starty, _startx + left_over, _cursor_color, "%s", cursor.c_str() );
         start_x_edit = _startx + left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
-        mvwprintz( w, _starty, _startx + sx, cursor_color, " " );
+        mvwprintz( w, _starty, _startx + sx, _cursor_color, " " );
         start_x_edit = _startx + sx;
         sx++; // don't override trailing ' '
     } else {
-        mvwprintz( w, _starty, _startx + sx, cursor_color, "_" );
+        mvwprintz( w, _starty, _startx + sx, _cursor_color, "_" );
         start_x_edit = _startx + sx;
         sx++; // don't override trailing '_'
     }
@@ -193,11 +190,11 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             }
         }
         if( l > 0 ) {
-            mvwprintz( w, _starty, _startx + sx, underscore_color, std::string( l, '_' ).c_str() );
+            mvwprintz( w, _starty, _startx + sx, _underscore_color, std::string( l, '_' ).c_str() );
         }
     }
     if( !edit.empty() ) {
-        mvwprintz( w, _starty, start_x_edit, cursor_color, "%s", edit.c_str() );
+        mvwprintz( w, _starty, start_x_edit, _cursor_color, "%s", edit.c_str() );
     }
 }
 
@@ -224,6 +221,11 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( !ctxt ) {
         create_context();
     }
+#ifdef __ANDROID__
+    if( !draw_only && loop && get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+        SDL_StartTextInput();
+    }
+#endif
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
@@ -236,6 +238,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
     int ch = 0;
 
+    _canceled = false;
+    _confirmed = false;
     do {
 
         if( _position < 0 ) {
@@ -294,11 +298,18 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         if( ch == KEY_ESCAPE ) {
+#ifdef __ANDROID__
+            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                SDL_StopTextInput();
+            }
+#endif
             _text.clear();
+            _position = -1;
             _canceled = true;
             return _text;
         } else if( ch == '\n' ) {
             add_to_history( ret.str() );
+            _confirmed = true;
             _text = ret.str();
             return _text;
         } else if( ch == KEY_UP ) {
@@ -418,4 +429,14 @@ void string_input_popup::edit( int &value )
     if( !canceled() ) {
         value = std::atoi( text().c_str() );
     }
+}
+
+string_input_popup &string_input_popup::text( std::string value )
+{
+    _text = value;
+    auto u8size = utf8_wrapper( _text ).size();
+    if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
+        _position = u8size;
+    }
+    return *this;
 }

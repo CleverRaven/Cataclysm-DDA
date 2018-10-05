@@ -19,7 +19,7 @@ void check_lethality( std::string explosive_id, int range, float lethality,
     int num_survivors = 0;
     int num_subjects = 0;
     int num_wounded = 0;
-    statistics lethality_ratios;
+    statistics<double> lethality_ratios;
     std::stringstream survivor_stats;
     int total_hp = 0;
     int average_hp = 0;
@@ -55,10 +55,10 @@ void check_lethality( std::string explosive_id, int range, float lethality,
             survivor_stats << std::endl;
             average_hp = total_hp / num_survivors;
         }
-        float survivor_ratio = ( float )num_survivors / num_subjects;
+        double survivor_ratio = static_cast<double>( num_survivors ) / num_subjects;
         lethality_ratio = 1.0 - survivor_ratio;
         lethality_ratios.add( lethality_ratio );
-        error = lethality_ratios.adj_wald_error();
+        error = lethality_ratios.margin_of_error();
     } while( lethality_ratios.n() < 5 ||
              ( lethality_ratios.avg() + error > lethality &&
                lethality_ratios.avg() - error < lethality ) );
@@ -110,7 +110,7 @@ void check_vehicle_damage( std::string explosive_id, std::string vehicle_id, int
         if( target_vehicle->parts[ i ].name() == "windshield" ||
             target_vehicle->parts[ i ].name() == "headlight" ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else {
+        } else if( target_vehicle->parts[ i ].name() != "clock" ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }

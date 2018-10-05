@@ -21,7 +21,7 @@
   "components" : [
      [ ["plastic_chunk", 6] ],
      [ ["blade", 2] ],
-     [ ["motor_small", 1] ],
+     [ ["motor_tiny", 1] ],
      [ ["power_supply", 1] ],
      [ [ "scrap", 1 ] ],
      [ [ "cable", 5 ] ]
@@ -83,7 +83,7 @@
   "components" : [
     [ ["plastic_chunk", 6] ],
     [ ["chain", 1] ],
-    [ ["motor_small", 1] ],
+    [ ["motor_micro", 1] ],
     [ ["metal_tank_little", 1] ],
     [ [ "scrap", 2 ] ],
     [ [ "cable", 4 ] ],
@@ -926,18 +926,21 @@
   "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
   "difficulty": 8,
   "time": 50000,
-  "reversible": true,
   "decomp_learn": 5,
   "autolearn": true,
   "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
   "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
   "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+  "byproducts": [
+    [ "sheet_metal_small", 8 ],
+    [ "scrap", 8 ]
+  ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
-    [ [ "solar_cell", 12 ], [ "solar_panel", 1 ] ],
+    [ [ "solar_panel", 1 ] ],
     [ [ "cable", 20 ] ],
-    [ [ "sheet_metal", 3 ] ],
+    [ [ "sheet_metal", 2 ] ],
     [ [ "rope_6", 1 ] ]
   ]
 },{
@@ -949,18 +952,21 @@
   "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
   "difficulty": 10,
   "time": 50000,
-  "reversible": true,
   "decomp_learn": 5,
   "autolearn": true,
   "book_learn": [ [ "recipe_augs" , 7 ], [ "recipe_lab_elec", 7 ], [ "advanced_electronics", 8 ] ],
   "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
   "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+  "byproducts": [
+    [ "sheet_metal_small", 8 ],
+    [ "scrap", 8 ]
+  ],
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "amplifier", 2 ] ],
     [ [ "cable", 20 ] ],
     [ [ "solar_panel_v3", 1 ] ],
-    [ [ "sheet_metal", 3 ] ],
+    [ [ "sheet_metal", 2 ] ],
     [ [ "rope_6", 1 ] ]
   ]
 },{
@@ -1411,6 +1417,57 @@
     [ [ "cable", 5 ] ]
   ]
 },{
+  "type": "recipe",
+  "result": "motor_micro",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "electronics",
+  "skills_required": [
+    "fabrication",
+    1
+  ],
+  "difficulty": 3,
+  "time": 21000,
+  "reversible": true,
+  "decomp_learn": 3,
+  "book_learn": [
+    [ "manual_electronics", 2 ],
+    [ "mag_electronics", 2 ]
+  ],
+  "using": [
+    [ "soldering_standard", 5 ]
+  ],
+  "qualities": [
+    { "id": "SCREW", "level": 1 }
+  ],
+  "components": [
+    [ [ "e_scrap", 1 ] ],
+    [ [ "scrap", 3 ] ],
+    [ [ "cable", 3 ] ]
+  ]
+},{
+  "type": "recipe",
+  "result": "motor_tiny",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+  "using": [ [ "soldering_standard", 5 ] ],
+  "qualities": [
+    { "id": "HAMMER", "level": 1 },
+    { "id": "SCREW_FINE", "level": 1 }
+  ],
+  "components": [ 
+    [ [ "plastic_chunk", 1 ] ],
+    [ [ "scrap", 1 ] ],
+    [ [ "cable", 3 ] ]
+  ]
+},{
   "type" : "recipe",
   "result": "motor_small",
   "category": "CC_ELECTRONIC",
@@ -1544,7 +1601,7 @@
   ],
   "components": [
     [ [ "vehicle_controls", 1 ] ],
-    [ [ "motor_small", 3 ] ],
+    [ [ "motor_tiny", 3 ] ],
     [ [ "receiver", 3 ] ],
     [ [ "processor", 3 ] ],
     [ [ "RAM", 3 ] ],
@@ -1629,7 +1686,7 @@
     {"id":"SAW_M","level":1}
   ],
   "components": [
-    [ [ "camera", 2 ], [ "camera_pro", 2 ], [ "broken_eyebot", 2 ] ],
+    [ [ "camera", 2 ], [ "camera_pro", 2 ], [ "broken_eyebot", 2 ], [ "smart_phone", 2 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "cable", 5 ] ]
   ]
@@ -1656,7 +1713,7 @@
       [ "plastic_chunk", 2 ]
     ],
     [
-      [ "motor_small", 1 ]
+      [ "motor_micro", 1 ]
     ],
     [
       [ "superglue", 2 ]
@@ -1714,7 +1771,7 @@
   ],
   "components" : [
     [ [ "razor_blade", 1 ] ],
-    [ [ "motor_small", 1 ] ],
+    [ [ "motor_micro", 1 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "plastic_chunk", 1 ] ]
   ]

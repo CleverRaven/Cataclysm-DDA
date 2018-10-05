@@ -78,18 +78,15 @@ Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string
 void trait_group::debug_spawn()
 {
     std::vector<Trait_group_tag> groups = mutation_branch::get_all_group_names();
-    uimenu menu;
-    menu.return_invalid = true;
+    uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.push_back( uimenu_entry( i, true, -2, groups[i].c_str() ) );
     }
-    //~ Spawn group menu: Menu entry to exit menu
-    menu.entries.push_back( uimenu_entry( menu.entries.size(), true, -2, _( "cancel" ) ) );
     while( true ) {
         menu.query();
         const int index = menu.ret;
-        if( index >= ( int )groups.size() || index < 0 ) {
+        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
         // Spawn traits from the group 100 times
@@ -105,8 +102,7 @@ void trait_group::debug_spawn()
         for( const auto &e : traitnames ) {
             traitnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
-        uimenu menu2;
-        menu2.return_invalid = true;
+        uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : traitnames2 ) {
             std::ostringstream buffer;

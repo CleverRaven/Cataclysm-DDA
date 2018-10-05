@@ -144,13 +144,21 @@ class vpart_info
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
 
-        // Electrical power (watts). Is positive for generation, negative for consumption
+        /**
+         * Electrical power, flat rate (watts); positive for generation, negative for consumption
+         * For motor consumption scaled with powertrain demand see @ref energy_consumption instead
+         */
         int epower = 0;
 
-        /*
-         * For engines this is maximum output
+        /**
+         * Energy consumed by engines and motors (TODO: units?) when delivering max @ref power
+         * Includes waste. Gets scaled based on powertrain demand.
+         */
+        int energy_consumption = 0;
+
+        /**
+         * For engines and motors this is maximum output (TODO: units?)
          * For alternators is engine power consumed (negative value)
-         * For solar panel/powered components (% of 1 fuel per turn, can be > 100)
          */
         int power = 0;
 

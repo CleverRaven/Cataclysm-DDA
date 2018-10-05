@@ -130,6 +130,7 @@ class veh_interact
         bool do_remove( std::string &msg );
         bool do_rename( std::string &msg );
         bool do_siphon( std::string &msg );
+        bool do_unload( std::string &msg );
         bool do_tirechange( std::string &msg );
         bool do_assign_crew( std::string &msg );
         bool do_relabel( std::string &msg );
@@ -210,6 +211,11 @@ class veh_interact
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();
+
+        void cache_tool_availability_update_lifting( tripoint world_cursor_pos );
+
+        /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
+        bool can_self_jack();
 };
 
 #endif

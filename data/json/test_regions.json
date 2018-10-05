@@ -21,6 +21,130 @@
           },
           "boosted_other_percent": 20.0,    "//": "...accounts for this % of plant coverage"
       },
+      "forest_mapgen_settings": {
+        "forest": {
+            "sparseness_adjacency_factor": 3,
+            "item_group": "forest",
+            "item_group_chance": 1,
+            "item_spawn_iterations": 1,
+            "clear_groundcover": false,
+            "groundcover": {
+            },
+            "clear_components": false,
+            "components": {
+                "trees": {
+                    "sequence": 0,
+                    "chance": 20,
+                    "clear_types": false,
+                    "types": {
+                        "t_tree_willow": 1,
+                        "t_tree_dead": 1,
+                        "f_mutcactus_test": 200
+                    }
+                },
+                "other": {
+                    "sequence": 1,
+                    "chance": 20,
+                    "clear_types": false,
+                    "types": {
+                        "t_shrub": 1
+                    }
+                },
+                "water": {
+                    "sequence": 2,
+                    "chance": 1,
+                    "clear_types": false,
+                    "types": {
+                    }
+                }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
+            }
+        },
+        "forest_thick": {
+            "sparseness_adjacency_factor": 4,
+            "item_group": "forest",
+            "item_group_chance": 1,
+            "item_spawn_iterations": 1,
+            "clear_groundcover": false,
+            "groundcover": {
+            },
+            "clear_components": false,
+            "components": {
+                "trees": {
+                    "sequence": 0,
+                    "chance": 20,
+                    "clear_types": false,
+                    "types": {
+                        "f_mutcactus_test": 4,
+                        "t_tree_dead": 1
+                    }
+                },
+                "other": {
+                    "sequence": 1,
+                    "chance": 10,
+                    "clear_types": false,
+                    "types": {
+                        "t_shrub": 16,
+                        "t_pit": 1
+                    }
+                },
+                "water": {
+                    "sequence": 2,
+                    "chance": 1,
+                    "clear_types": false,
+                    "types": {
+                    }
+                }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
+            }
+        },
+        "forest_water": {
+            "sparseness_adjacency_factor": 2,
+            "item_group": "forest",
+            "item_group_chance": 1,
+            "item_spawn_iterations": 1,
+            "clear_groundcover": false,
+            "groundcover": {
+            },
+            "clear_components": false,
+            "components": {
+                "trees": {
+                    "sequence": 0,
+                    "chance": 100,
+                    "clear_types": false,
+                    "types": {
+                        "t_tree_willow": 2,
+                        "t_tree_dead": 1
+                    }
+                },
+                "other": {
+                    "sequence": 1,
+                    "chance": 10,
+                    "clear_types": false,
+                    "types": {
+                        "t_grass": 2,
+                        "t_shrub": 2,
+                        "t_dirt": 1
+                    }
+                },
+                "water": {
+                    "sequence": 2,
+                    "chance": 20,
+                    "clear_types": false,
+                    "types": {
+                        "t_water_sh": 1
+                    }
+                }
+            },
+            "clear_terrain_furniture": false,
+            "terrain_furniture": {
+            }
+        }
+      },
       "num_forests": 2,                     "//": "# of forest chunks",
       "forest_size_min": 1,                 "//": "size range of forest chunk",
       "forest_size_max": 100,               "//": "note: 32400 tiles in omap, 250*minmax = 3750-10000 default_oters become forests",

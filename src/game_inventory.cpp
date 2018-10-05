@@ -93,7 +93,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
 void game_menus::inv::common( player &p )
 {
-    static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
+    static const std::set<int> allowed_selections = { { '\0', '=' } };
 
     p.inv.restack( p );
 
@@ -290,7 +290,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
-                if( loc->made_of( LIQUID ) ) {
+                if( loc->made_of( LIQUID, true ) ) {
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) ) {
                     return _( "Too big to pick up" );
@@ -364,8 +364,9 @@ class comestible_inventory_preset : public inventory_selector_preset
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
             append_cell( [ p, this ]( const item_location & loc ) {
-                return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) );
-            }, _( "NUTRITION" ) );
+                return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) *
+                                      islot_comestible::kcal_per_nutr );
+            }, _( "CALORIES" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).quench );
@@ -448,7 +449,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            if( loc->made_of( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
+            if( loc->made_of( LIQUID, true ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
@@ -773,6 +774,28 @@ class read_inventory_preset: public pickup_inventory_preset
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
+        }
+
+        std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
+        override {
+            auto base_filter = pickup_inventory_preset::get_filter( filter );
+
+            return [this, base_filter, filter]( const inventory_entry & e ) {
+                if( base_filter( e ) ) {
+                    return true;
+                }
+
+                if( !is_known( e.location ) ) {
+                    return false;
+                }
+
+                const auto &book = get_book( e.location );
+                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
+                    return lcmatch( book.skill->name(), filter );
+                }
+
+                return false;
+            };
         }
 
     private:

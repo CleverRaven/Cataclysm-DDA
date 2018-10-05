@@ -1052,6 +1052,17 @@ void display_help()
             catacurses::refresh();
             needs_refresh = false;
         };
+
+#ifdef __ANDROID__
+        input_context ctxt( "DISPLAY_HELP" );
+        for( long key = 'a'; key <= 'p'; ++key ) {
+            ctxt.register_manual_key( key );
+        }
+        for( long key = '1'; key <= '4'; ++key ) {
+            ctxt.register_manual_key( key );
+        }
+#endif
+
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
         switch( ch ) {

@@ -7,6 +7,7 @@
 
 #include "enums.h"
 #include "omdata.h"
+#include "recipe.h"
 
 #include <map>
 #include <vector>
@@ -86,6 +87,8 @@ class uistatedata
         const overmap_special *place_special = nullptr;
         om_direction::type omedit_rotation = om_direction::type::none;
 
+        std::set<recipe_id> hidden_recipes;
+
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
         */
@@ -144,6 +147,7 @@ class uistatedata
             json.member( "list_item_filter_active", list_item_filter_active );
             json.member( "list_item_downvote_active", list_item_downvote_active );
             json.member( "list_item_priority_active", list_item_priority_active );
+            json.member( "hidden_recipes", hidden_recipes );
 
             json.member( "input_history" );
             json.start_object();
@@ -226,6 +230,7 @@ class uistatedata
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_city_labels", overmap_show_city_labels );
             jo.read( "overmap_show_hordes", overmap_show_hordes );
+            jo.read( "hidden_recipes", hidden_recipes );
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,

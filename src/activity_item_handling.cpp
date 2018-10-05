@@ -26,6 +26,7 @@
 #include "debug.h"
 #include "pickup.h"
 #include "requirements.h"
+#include "map_iterator.h"
 #include "clzones.h"
 
 #include <list>
@@ -430,6 +431,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     for( const auto &ait : items ) {
         item *filthy_item = const_cast<item *>( ait.it );
         filthy_item->item_tags.erase( "FILTHY" );
+        p->on_worn_item_washed( *filthy_item );
     }
 
     std::vector<item_comp> comps;
@@ -565,8 +567,9 @@ static void move_items( const tripoint &src, bool from_vehicle,
         }
 
         // Check that we can pick it up.
-        if( !temp_item->made_of( LIQUID ) ) {
-            g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) );
+        if( !temp_item->made_of( LIQUID, true ) ) {
+            int distance = std::max( rl_dist( src, dest ), 1 );
+            g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) * distance );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( g->u, { *temp_item }, destination );
             } else {
@@ -719,7 +722,7 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
 
 static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
 {
-    if( g->u.grab_type == OBJECT_VEHICLE ) {
+    if( g->u.get_grab_type() == OBJECT_VEHICLE ) {
         tripoint cart_position = g->u.pos() + g->u.grab_point;
 
         if( const cata::optional<vpart_reference> vp = g->m.veh_at(
@@ -750,7 +753,7 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     }
 
     // Check that we can pick it up.
-    if( !it.made_of( LIQUID ) ) {
+    if( !it.made_of( LIQUID, true ) ) {
         g->u.mod_moves( -move_cost( it, src, dest ) );
         drop_on_map( g->u, { it }, dest );
         // Remove from map.
@@ -763,6 +766,30 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
     }
 }
 
+static std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
+{
+    auto passable_tiles = std::unordered_set<tripoint>();
+
+    for( const tripoint &tp : g->m.points_in_radius( dest, 1 ) ) {
+        if( tp != p.pos() && g->m.passable( tp ) ) {
+            passable_tiles.emplace( tp );
+        }
+    }
+
+    const auto &sorted = get_sorted_tiles_by_distance( p.pos(), passable_tiles );
+
+    const auto &avoid = p.get_path_avoid();
+    for( const tripoint &tp : sorted ) {
+        auto route = g->m.route( p.pos(), tp, p.get_pathfinding_settings(), avoid );
+
+        if( route.size() > 0 ) {
+            return route;
+        }
+    }
+
+    return std::vector<tripoint>();
+}
+
 void activity_on_turn_move_loot( player_activity &, player &p )
 {
     const auto &mgr = zone_manager::get_manager();
@@ -772,8 +799,12 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     // Nuke the current activity, leaving the backlog alone.
     p.activity = player_activity();
 
-    for( auto &src : src_set ) {
+    // sort source tiles by distance
+    const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+
+    for( auto &src : src_sorted ) {
         const auto &src_loc = g->m.getlocal( src );
+        bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
 
         // skip tiles in IGNORE zone and tiles on fire (to prevent taking out wood off the lit brazier)
         // and inaccessible furniture, like filled charcoal kiln
@@ -785,7 +816,9 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
         auto items = std::vector<item *>();
         for( auto &it : g->m.i_at( src_loc ) ) {
-            items.push_back( &it );
+            if( !it.made_of( LIQUID, true ) ) { // skip unpickable liquid
+                items.push_back( &it );
+            }
         }
 
         for( auto it : items ) {
@@ -805,7 +838,40 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                         continue;
                     }
 
+                    // check free space at destination tile
                     if( g->m.free_volume( dest_loc ) > it->volume() ) {
+                        // before we move any item, check if player is at or adjacent to the loot source tile
+                        if( !is_adjacent_or_closer ) {
+                            std::vector<tripoint> route;
+                            bool adjacent = false;
+
+                            // get either direct route or route to nearest adjacent tile if source tile is impassable
+                            if( g->m.passable( src_loc ) ) {
+                                route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(), p.get_path_avoid() );
+                            } else {
+                                // immpassable source tile (locker etc.), get route to nerest adjacent tile instead
+                                route = route_adjacent( p, src_loc );
+                                adjacent = true;
+                            }
+
+                            // check if we found path to source / adjacent tile
+                            if( route.size() == 0 ) {
+                                add_msg( m_info, _( "You can't reach the source tile. Try to sort out loot without a cart." ) );
+                                return;
+                            }
+
+                            // shorten the route to adjacent tile, if necessary
+                            if( !adjacent ) {
+                                route.pop_back();
+                            }
+
+                            // set the destination and restart activity after player arrives there
+                            // we don't need to check for safe mode, activity will be restarted only if
+                            // player arrives on destination tile
+                            p.set_destination( route, player_activity( activity_id( "ACT_MOVE_LOOT" ) ) );
+                            return;
+                        }
+
                         move_item( *it, it->count_by_charges() ? it->charges : 1, src_loc, dest_loc );
                         break;
                     }

@@ -257,7 +257,7 @@ class overmapbuffer
          * should be searched.
          */
         tripoint find_closest( const tripoint &origin, const std::string &type, int radius,
-                               bool must_be_seen );
+                               bool must_be_seen, bool allow_subtype_matches = false );
 
         /* These 4 functions return the overmap that contains the given
          * overmap terrain coordinate.
@@ -382,6 +382,7 @@ class overmapbuffer
          * This function may create a new overmap if needed.
          */
         bool check_ot_type( const std::string &otype, int x, int y, int z );
+        bool check_ot_subtype( const std::string &otype, int x, int y, int z );
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds

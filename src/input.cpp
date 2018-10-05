@@ -104,6 +104,7 @@ void input_manager::init()
     std::set<action_id> unbound_keymap;
     load_keyboard_settings( keymap, keymap_file_loaded_from, unbound_keymap );
     init_keycode_mapping();
+    reset_timeout();
 
     try {
         load( FILENAMES["keybindings"], false );
@@ -602,6 +603,32 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
+#ifdef __ANDROID__
+std::list<input_context *> input_context::input_context_stack;
+
+void input_context::register_manual_key( manual_key mk )
+{
+    // Prevent duplicates
+    for( const manual_key &manual_key : registered_manual_keys )
+        if( manual_key.key == mk.key ) {
+            return;
+        }
+
+    registered_manual_keys.push_back( mk );
+}
+
+void input_context::register_manual_key( long key, const std::string text )
+{
+    // Prevent duplicates
+    for( const manual_key &manual_key : registered_manual_keys )
+        if( manual_key.key == key ) {
+            return;
+        }
+
+    registered_manual_keys.push_back( manual_key( key, text ) );
+}
+#endif
+
 void input_context::register_action( const std::string &action_descriptor )
 {
     register_action( action_descriptor, "" );
@@ -703,29 +730,33 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
-const std::string &input_context::handle_input( const int timeout )
-{
-    inp_mngr.set_timeout( timeout );
-    const std::string &result = handle_input();
-    inp_mngr.reset_timeout();
-    return result;
-}
-
 const std::string &input_context::handle_input()
 {
+    return handle_input( timeout );
+}
+
+const std::string &input_context::handle_input( const int timeout )
+{
+    const auto old_timeout = inp_mngr.get_timeout();
+    inp_mngr.set_timeout( timeout );
     next_action.type = CATA_INPUT_ERROR;
+    const std::string *result = &CATA_ERROR;
     while( 1 ) {
         next_action = inp_mngr.get_input_event();
         if( next_action.type == CATA_INPUT_TIMEOUT ) {
-            return TIMEOUT;
+            result = &TIMEOUT;
+            break;
         }
 
         const std::string &action = input_to_action( next_action );
 
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {
+            inp_mngr.reset_timeout();
             display_menu();
-            return HELP_KEYBINDINGS;
+            inp_mngr.set_timeout( timeout );
+            result = &HELP_KEYBINDINGS;
+            break;
         }
 
         if( next_action.type == CATA_INPUT_MOUSE ) {
@@ -741,18 +772,22 @@ const std::string &input_context::handle_input()
         }
 
         if( action != CATA_ERROR ) {
-            return action;
+            result = &action;
+            break;
         }
 
         // If we registered to receive any input, return ANY_INPUT
         // to signify that an unregistered key was pressed.
         if( registered_any_input ) {
-            return ANY_INPUT;
+            result = &ANY_INPUT;
+            break;
         }
 
         // If it's an invalid key, just keep looping until the user
         // enters something proper.
     }
+    inp_mngr.set_timeout( old_timeout );
+    return *result;
 }
 
 void input_context::register_directions()
@@ -846,7 +881,6 @@ const std::string display_help_hotkeys =
 
 void input_context::display_menu()
 {
-    inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
 
     input_context ctxt( "HELP_KEYBINDINGS" );
@@ -870,7 +904,7 @@ void input_context::display_menu()
     int maxwidth = max( FULL_SCREEN_WIDTH, TERMX );
     int width = min( 80, maxwidth );
     int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
-    int height = min( maxheight, ( int ) hotkeys.size() + LEGEND_HEIGHT + BORDER_SPACE );
+    int height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
     catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2,
                                 maxwidth / 2 - width / 2 );
@@ -1122,6 +1156,9 @@ long input_manager::get_previously_pressed_key() const
 
 void input_manager::wait_for_any_key()
 {
+#ifdef __ANDROID__
+    input_context ctxt( "WAIT_FOR_ANY_KEY" );
+#endif
     while( true ) {
         switch( inp_mngr.get_input_event().type ) {
             case CATA_INPUT_KEYBOARD:
@@ -1263,3 +1300,12 @@ std::string input_context::get_edittext()
     return edittext;
 }
 
+void input_context::set_timeout( int val )
+{
+    timeout = val;
+}
+
+void input_context::reset_timeout()
+{
+    timeout = -1;
+}

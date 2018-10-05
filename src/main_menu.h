@@ -21,14 +21,15 @@ class main_menu
     private:
         // ASCII art that says "Cataclysm Dark Days Ahead"
         std::vector<std::string> mmenu_title;
-        std::vector<std::string> mmenu_motd;
-        std::vector<std::string> mmenu_credits;
+        std::string mmenu_motd;
+        std::string mmenu_credits;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector<std::string> vWorldSubItems;
         std::vector< std::vector<std::string> > vWorldHotkeys;
         std::vector<std::string> vSettingsSubItems;
         std::vector< std::vector<std::string> > vSettingsHotkeys;
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
+        std::string vdaytip; //tip of the day
 
         /**
          * Does what it sounds like, but this function also exists in order to gracefully handle
@@ -44,11 +45,24 @@ class main_menu
         // Play a sound whenever the user moves left or right in the main menu or its tabs
         void on_move() const;
 
+        // Flag to be set when first entering an error condition, cleared when leaving it
+        // Used to prevent error sound from playing repeatedly at input polling rate
+        bool errflag = false;
+        // Play a sound *once* when an error occurs in the main menu or its tabs; sets errflag
+        void on_error();
+        // Clears errflag
+        void clear_error();
+
         // Tab functions. They return whether a game was started or not. The ones that can never
         // start a game have a void return type.
         bool new_character_tab();
         bool load_character_tab();
         void world_tab();
+
+        /*
+         * Load character templates from template folder
+         */
+        void load_char_templates();
 
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
@@ -93,7 +107,7 @@ class main_menu
         void print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
                          int iMenuOffsetY, bool bShowDDA = true );
 
-        void display_credits();
+        void display_text( const std::string &text, const std::string &title, int &selected );
 
         void init_windows();
         std::string handle_input_timeout( input_context &ctxt );

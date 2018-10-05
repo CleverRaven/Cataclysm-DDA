@@ -478,6 +478,13 @@
   },
   {
     "type": "keybinding",
+    "id": "HIDE_SHOW_RECIPE",
+    "category": "CRAFTING",
+    "name": "Hide/show recipe",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",
@@ -496,6 +503,13 @@
     "category": "CRAFTING",
     "name": "Scroll item info down",
     "bindings": [ { "input_method": "keyboard", "key": "NPAGE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RELATED_RECIPES",
+    "category": "CRAFTING",
+    "name": "Related recipes",
+    "bindings": [ { "input_method": "keyboard", "key": "L" } ]
   },
   {
     "type": "keybinding",
@@ -584,6 +598,13 @@
     "category": "MODMANAGER_DIALOG",
     "name": "Save mods as default",
     "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "VIEW_MOD_DESCRIPTION",
+    "category": "MODMANAGER_DIALOG",
+    "name": "View full mod description",
+    "bindings": [ { "input_method": "keyboard", "key": "v" } ]
   },
   {
     "type": "keybinding",
@@ -984,6 +1005,13 @@
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
+     "type" : "keybinding",
+     "id": "UNLOAD",
+     "category": "VEH_INTERACT",
+     "name": "Unload fuel bunker",
+     "bindings":[ { "input_method":"keyboard", "key":"d" } ]
+  },
+  {
     "type": "keybinding",
     "id": "REMOVE",
     "category": "VEH_INTERACT",
@@ -1265,6 +1293,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Map Memory",
+    "category": "DEFAULTMODE",
+    "id": "toggle_map_memory",
+    "bindings": [ { "input_method": "keyboard", "key": "{" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Center View",
     "category": "DEFAULTMODE",
     "id": "center",
@@ -1346,6 +1381,13 @@
     "category": "DEFAULTMODE",
     "id": "grab",
     "bindings": [ { "input_method": "keyboard", "key": "G" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Haul items along the ground",
+    "category": "DEFAULTMODE",
+    "id": "haul",
+    "bindings": [ { "input_method": "keyboard", "key": "\\" } ]
   },
   {
     "type": "keybinding",
@@ -1736,6 +1778,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Reload Tileset",
+    "category": "DEFAULTMODE",
+    "id": "reload_tileset"
+  },
+  {
+    "type": "keybinding",
     "name": "Toggle Auto pulp or butcher",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_pulp_butcher"
@@ -2060,6 +2108,13 @@
     "category": "ZONES_MANAGER",
     "name": "Disable zone",
     "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SHOW_ALL_ZONES",
+    "category": "ZONES_MANAGER",
+    "name": "Show all zones / hide distant zones",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
   },
   {
     "type": "keybinding",
