@@ -9,7 +9,6 @@ Mods Arcana Mod: Gave thunder gauntlets encumberance to match base item
 Infrastructure Add separate flag for electronic systems control
 Bugfixes Apply stamina penalty for attacking more consistently
 Features Added a pixel-detail minimap option to tiles mode
-###lsurvivor gear
 Content Adds screecher zombie upgrade to shrieker zombie
 Features Added ability to carve names into objects
 Balance Adjust the way monster upgrade times are calculated
