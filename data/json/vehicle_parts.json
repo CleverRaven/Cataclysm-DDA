@@ -671,8 +671,9 @@
     "color": "light_gray",
     "broken_symbol": "*",
     "broken_color": "dark_gray",    
-    "flags": [ "NOINSTALL", "NO_REPAIR" ],
+    "flags": [ "NO_REPAIR" ],
     "requirements": {
+    "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
     "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] } },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 0, 2 ] },
