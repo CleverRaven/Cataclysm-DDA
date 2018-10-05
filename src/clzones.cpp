@@ -174,7 +174,7 @@ plot_options::query_seed_result plot_options::query_seed()
             return successful;
         }
     } else if( seed_index == 0 ) { // No seeds
-        if( !seed.empty || !mark.empty() ) {
+        if( !seed.empty() || !mark.empty() ) {
             seed.clear();
             mark.clear();
             return changed;
