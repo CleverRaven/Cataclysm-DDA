@@ -106,7 +106,7 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
         d.add_damage( DT_BASH, 12 );
         d.add_damage( DT_CUT, 18 );
         c->deal_damage( nullptr, hit, d );
-        
+
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
@@ -719,7 +719,7 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                 }
             }
         } else if( z != nullptr ) {
-            z->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT ,rng( 20, 50 ) ) );
+            z->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, rng( 20, 50 ) ) );
         }
         c->check_dead_state();
     }
