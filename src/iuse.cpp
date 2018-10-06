@@ -7147,15 +7147,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( mc_start == choice ) {
-            enum {
-                d_cancel
-            };
-
-            uimenu dmenu;
-            dmenu.selected = 0;
+            uilist dmenu;
             dmenu.text = _( "Choose desired meal:" );
-
-            dmenu.addentry( d_cancel, true, 'q', _( "Cancel" ) );
 
             std::vector<const recipe *> dishes;
 
@@ -7166,7 +7159,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             crafting_inv.push_back( item( "toolset", 0 ) ); //toolset with CUT and other qualities inside
             crafting_inv.push_back( item( "pot", 0 ) ); //good COOK, BOIL, CONTAIN qualities inside
 
-            int counter = 1;
+            int counter = 0;
 
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
@@ -7181,10 +7174,10 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             int choice = dmenu.ret;
 
-            if( d_cancel == choice ) {
+            if( choice < 0 ) {
                 return 0;
             } else {
-                const recipe *meal = dishes[choice - 1];
+                const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
                     mealtime = meal->time;
