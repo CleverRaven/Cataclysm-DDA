@@ -4897,20 +4897,21 @@ int iuse::hotplate( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int choice = 1;
+    int choice = 0;
     if( ( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ||
           p->has_trait( trait_MASOCHIST ) ||
           p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) && !p->is_underwater() ) {
         //Might want to cauterize
-        choice = menu( true, _( "Using hotplate:" ), _( "Heat food" ), _( "Cauterize wound" ),
-                       _( "Cancel" ), NULL );
+        choice = uilist( _( "Using hotplate:" ), {
+            _( "Heat food" ), _( "Cauterize wound" )
+        } );
     }
 
-    if( choice == 1 ) {
+    if( choice == 0 ) {
         if( heat_item( *p ) ) {
             return it->type->charges_to_use();
         }
-    } else if( choice == 2 ) {
+    } else if( choice == 1 ) {
         return cauterize_elec( *p, *it );
     }
     return 0;
