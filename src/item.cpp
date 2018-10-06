@@ -2594,7 +2594,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string burntext;
-    if( with_prefix && !made_of( LIQUID ) ) {
+    if( with_prefix && !made_of( LIQUID, true ) ) {
         if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if( burnt > 0 ) {
@@ -5520,6 +5520,10 @@ bool item::burn( fire_data &frd )
         if( burnt + burn_added > mt->hp ) {
             active = false;
         }
+    } else if( is_food() ) {
+        heat_up();
+    } else if( is_food_container() ) {
+        contents.front().heat_up();
     }
 
     burnt += roll_remainder( burn_added );
