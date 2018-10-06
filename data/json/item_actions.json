@@ -277,6 +277,14 @@
         "name" : "Turn off"
     },{
         "type" : "item_action",
+        "id" : "E_COMBATSAW_OFF",
+        "name" : "Turn on"
+    },{
+        "type" : "item_action",
+        "id" : "E_COMBATSAW_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
         "id" : "CONTACTS",
         "name" : "Apply"
     },{
