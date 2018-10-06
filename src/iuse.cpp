@@ -5819,7 +5819,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     } else if( !p->is_npc() ) {
 
         enum {
-            ei_cancel, ei_photo, ei_music, ei_recipe, ei_monsters, ei_download, ei_decrypt
+            ei_invalid, ei_photo, ei_music, ei_recipe, ei_monsters, ei_download, ei_decrypt
         };
 
         if( p->is_underwater() ) {
@@ -5836,11 +5836,9 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        uimenu amenu;
+        uilist amenu;
 
-        amenu.selected = 0;
         amenu.text = _( "Choose menu option:" );
-        amenu.addentry( ei_cancel, true, 'q', _( "Cancel" ) );
 
         const int photos = it->get_var( "EIPC_PHOTOS", 0 );
         if( photos > 0 ) {
@@ -5862,7 +5860,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         if( !it->get_var( "RECIPE" ).empty() ) {
             const item dummy( it->get_var( "RECIPE" ), 0 );
-            amenu.addentry( 0, false, -1, _( "Recipe: %s" ), dummy.tname().c_str() );
+            amenu.addentry( ei_invalid, false, -1, _( "Recipe: %s" ), dummy.tname().c_str() );
         }
 
         if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
@@ -5887,10 +5885,6 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         amenu.query();
 
         const int choice = amenu.ret;
-
-        if( ei_cancel == choice ) {
-            return 0;
-        }
 
         if( ei_photo == choice ) {
 
