@@ -29,27 +29,6 @@ std::shared_ptr<monster> Creature_tracker::find( const tripoint &pos ) const
     return nullptr;
 }
 
-int Creature_tracker::temporary_id( const monster &critter ) const
-{
-    const auto iter = std::find_if( monsters_list.begin(), monsters_list.end(),
-    [&]( const std::shared_ptr<monster> &ptr ) {
-        return ptr.get() == &critter;
-    } );
-    if( iter == monsters_list.end() ) {
-        return -1;
-    }
-    return iter - monsters_list.begin();
-}
-
-std::shared_ptr<monster> Creature_tracker::from_temporary_id( const int id )
-{
-    if( static_cast<size_t>( id ) < monsters_list.size() ) {
-        return monsters_list[id];
-    } else {
-        return nullptr;
-    }
-}
-
 bool Creature_tracker::add( monster &critter )
 {
     if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
