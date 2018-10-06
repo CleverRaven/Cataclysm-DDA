@@ -29,8 +29,8 @@ enum class item_drop_reason {
     tumbling
 };
 
-void put_into_vehicle_or_drop( player &p, item_drop_reason, const std::list<item> &items );
-void put_into_vehicle_or_drop( player &p, item_drop_reason, const std::list<item> &items,
+void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
                                const tripoint &where );
 
 // advanced_inv.cpp
