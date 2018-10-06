@@ -2986,22 +2986,23 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    int ch = menu( true, _( "Geiger counter:" ), _( "Scan yourself" ), _( "Scan the ground" ),
-                   _( "Turn continuous scan on" ), _( "Cancel" ), NULL );
+    int ch = uilist( _( "Geiger counter:" ), {
+        _( "Scan yourself" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
+    } );
     switch( ch ) {
-        case 1:
+        case 0:
             p->add_msg_if_player( m_info, _( "Your radiation level: %d (%d from items)" ), p->radiation,
                                   p->leak_level( "RADIOACTIVE" ) );
             break;
-        case 2:
+        case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d" ),
                                   g->m.get_radiation( p->pos() ) );
             break;
-        case 3:
+        case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
             it->convert( "geiger_on" ).active = true;
             break;
-        case 4:
+        default:
             return 0;
     }
     return it->type->charges_to_use();
