@@ -5459,12 +5459,14 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int choice = menu( true, _( "Welcome to hackPRO!:" ), _( "Override IFF protocols" ),
-                       _( "Set friendly robots to passive mode" ),
-                       _( "Set friendly robots to combat mode" ), _( "Cancel" ), NULL );
+    int choice = uilist( _( "Welcome to hackPRO!:" ), {
+        _( "Override IFF protocols" ),
+        _( "Set friendly robots to passive mode" ),
+        _( "Set friendly robots to combat mode" )
+    } );
     switch( choice ) {
-        case 1: { // attempt to make a robot friendly
-            uimenu pick_robot;
+        case 0: { // attempt to make a robot friendly
+            uilist pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
             // Build a list of all unfriendly robots in range.
             std::vector< monster * > mons; // @todo: change into vector<Creature*>
@@ -5491,13 +5493,12 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             }
             pointmenu_cb callback( locations );
             pick_robot.callback = &callback;
-            pick_robot.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             pick_robot.query();
-            const size_t mondex = pick_robot.ret;
-            if( mondex >= mons.size() ) {
+            if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
                 p->add_msg_if_player( m_info, _( "Never mind" ) );
                 return it->type->charges_to_use();
             }
+            const size_t mondex = pick_robot.ret;
             monster *z = mons[mondex];
             p->add_msg_if_player( _( "You start reprogramming the %s into an ally." ), z->name().c_str() );
             /** @EFFECT_INT speeds up robot reprogramming */
@@ -5535,7 +5536,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             p->practice( skill_computer, 10 );
             return it->type->charges_to_use();
         }
-        case 2: { //make all friendly robots stop their purposeless extermination of (un)life.
+        case 1: { //make all friendly robots stop their purposeless extermination of (un)life.
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
@@ -5552,7 +5553,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             }
             return it->type->charges_to_use();
         }
-        case 3: { //make all friendly robots terminate (un)life with extreme prejudice
+        case 2: { //make all friendly robots terminate (un)life with extreme prejudice
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
@@ -5569,7 +5570,6 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             }
             return it->type->charges_to_use();
         }
-
     }
     return 0;
 }
