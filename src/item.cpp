@@ -2594,7 +2594,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string burntext;
-    if( with_prefix && !made_of( LIQUID ) ) {
+    if( with_prefix && !made_of( LIQUID, true ) ) {
         if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if( burnt > 0 ) {
@@ -4281,13 +4281,12 @@ bool item::is_container_full( bool allow_bucket ) const
 
 bool item::can_unload_liquid() const
 {
-    if( contents.empty() ) {
+    if( is_container_empty() ) {
         return true;
     }
 
     const item &cts = contents.front();
-    if( is_container() && !is_non_resealable_container() &&
-        cts.made_of( LIQUID, true ) && cts.made_of( SOLID ) ) {
+    if( !is_bucket() && cts.made_of( LIQUID, true ) && cts.made_of( SOLID ) ) {
         return false;
     }
 
@@ -5520,6 +5519,10 @@ bool item::burn( fire_data &frd )
         if( burnt + burn_added > mt->hp ) {
             active = false;
         }
+    } else if( is_food() ) {
+        heat_up();
+    } else if( is_food_container() ) {
+        contents.front().heat_up();
     }
 
     burnt += roll_remainder( burn_added );
@@ -6314,7 +6317,9 @@ void item::heat_up()
     item_tags.erase( "COLD" );
     item_tags.erase( "FROZEN" );
     item_tags.erase( "WARM" );
-    item_tags.insert( "HOT" );
+    if( !item_tags.count( "HOT" ) ) {
+        item_tags.insert( "HOT" );
+    }
     // links the amount of heat an item can retain to its mass
     item_counter = clamp( to_gram( weight() ), 100, 600 );;
     reset_temp_check();
