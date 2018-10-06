@@ -13180,14 +13180,18 @@ bool game::non_dead_range<Creature>::iterator::valid()
 
 game::monster_range::monster_range( game &g )
 {
-    const auto &monsters = g.critter_tracker->get_monsters_list();
-    items.insert( items.end(), monsters.begin(), monsters.end() );
+    for( const std::pair<tripoint, std::shared_ptr<monster>> &creature_entry :
+         g.critter_tracker->get_monsters() ) {
+        items.push_back( creature_entry.second );
+    }
 }
 
 game::Creature_range::Creature_range( game &g ) : u( &g.u, []( player * ) { } )
 {
-    const auto &monsters = g.critter_tracker->get_monsters_list();
-    items.insert( items.end(), monsters.begin(), monsters.end() );
+    for( const std::pair<tripoint, std::shared_ptr<monster>> &creature_entry :
+         g.critter_tracker->get_monsters() ) {
+        items.push_back( creature_entry.second );
+    }
     items.insert( items.end(), g.active_npc.begin(), g.active_npc.end() );
     items.push_back( u );
 }

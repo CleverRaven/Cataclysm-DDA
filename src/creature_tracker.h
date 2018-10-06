@@ -40,8 +40,8 @@ class Creature_tracker
         /** Removes dead monsters from. Their pointers are invalidated. */
         void remove_dead();
 
-        const std::vector<std::shared_ptr<monster>> &get_monsters_list() const {
-            return monsters_list;
+        const std::unordered_map<tripoint, std::shared_ptr<monster>> &get_monsters() const {
+            return monsters_by_location;
         }
 
         void serialize( JsonOut &jsout ) const;
