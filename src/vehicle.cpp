@@ -1288,7 +1288,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
     return parts.size() - 1;
 }
 
-bool vehicle::find_rackable_vehicle( std::vector<std::vector<int>> list_of_racks )
+bool vehicle::find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks )
 {
     for( auto this_bike_rack : list_of_racks ) {
         std::vector<vehicle *> carry_vehs;
@@ -1318,7 +1318,7 @@ bool vehicle::find_rackable_vehicle( std::vector<std::vector<int>> list_of_racks
     return false;
 }
 
-bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, std::vector<int> rack_parts )
+bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts )
 {
     struct mapping {
         std::vector<int> carry_parts_here;
@@ -1595,7 +1595,7 @@ void vehicle::remove_carried_flag()
     }
 }
 
-bool vehicle::remove_carried_vehicle( std::vector<int> carried_parts )
+bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
 {
     if( carried_parts.empty() ) {
         return false;
@@ -1746,7 +1746,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
     return false;
 }
 
-void vehicle::relocate_passengers( std::vector<player *> passengers )
+void vehicle::relocate_passengers( const std::vector<player *> &passengers )
 {
     const auto boardables = parts_with_feature( "BOARDABLE" );
     for( player *passenger : passengers ) {
@@ -1770,9 +1770,9 @@ void vehicle::relocate_passengers( std::vector<player *> passengers )
 // @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
 // in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
 // at those mount points
-bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
-                              std::vector<vehicle *> new_vehicles,
-                              std::vector<std::vector <point>> new_mounts )
+bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
+                              const std::vector<vehicle *> &new_vehicles,
+                              const std::vector<std::vector <point>> &new_mounts )
 {
     bool did_split = false;
     size_t i = 0;
@@ -1883,7 +1883,7 @@ bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs,
     return did_split;
 }
 
-bool vehicle::split_vehicles( std::vector<std::vector <int>> new_vehs )
+bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs )
 {
     std::vector<vehicle *> null_vehicles;
     std::vector<std::vector <point>> null_mounts;
