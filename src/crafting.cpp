@@ -1433,6 +1433,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
     }
 
+    std::list<item> drop_items;
+
     for( const item &newit : components ) {
         const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
         if( dis.difficulty != 0 && !comp_success ) {
@@ -1469,18 +1471,14 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             }
         }
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( "CARGO" );
-
         if( act_item.made_of( LIQUID ) ) {
             g->handle_all_liquid( act_item, PICKUP_RANGE );
-        } else if( vp && vp->vehicle().add_item( vp->part_index(), act_item ) ) {
-            // add_item did put the items in the vehicle, nothing further to be done
         } else {
-            // TODO: For items counted by charges, add as much as we can to the vehicle, and
-            // the rest on the ground (see dropping code and @vehicle::add_charges)
-            g->m.add_item_or_charges( pos(), act_item );
+            drop_items.push_back( act_item );
         }
     }
+
+    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items );
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
         if( can_decomp_learn( dis ) ) {
