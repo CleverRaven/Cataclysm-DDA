@@ -1106,8 +1106,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int mutation_index = menu_vec( true, _( "Choose a mutation to purify" ),
-                                   valid_names ) - 1;
+    int mutation_index = uilist( _( "Choose a mutation to purify" ), valid_names );
     if( mutation_index < 0 ) {
         return 0;
     }
