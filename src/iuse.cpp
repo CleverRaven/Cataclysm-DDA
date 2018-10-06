@@ -6843,7 +6843,7 @@ vehicle *pickveh( const tripoint &center, bool advanced )
 {
     static const std::string ctrl = "CTRL_ELECTRONIC";
     static const std::string advctrl = "REMOTE_CONTROLS";
-    uimenu pmenu;
+    uilist pmenu;
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
 
@@ -6868,7 +6868,6 @@ vehicle *pickveh( const tripoint &center, bool advanced )
         return nullptr;
     }
 
-    pmenu.addentry( vehs.size(), true, 'q', _( "Cancel" ) );
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     pmenu.w_y = 0;
