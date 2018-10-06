@@ -2711,6 +2711,15 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
                            _( "You yank the cords, but nothing happens." ) );
 }
 
+int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
+{
+    return toolweapon_off( *p, *it,
+                           false,
+                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           40, _( "With a buzz, the chainsaws leap to life!" ),
+                           _( "You flip the on switch, but nothing happens." ) );
+}
+
 int iuse::carver_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
@@ -2793,6 +2802,16 @@ int iuse::cs_lajatang_on( player *p, item *it, bool t, const tripoint & )
     return toolweapon_on( *p, *it, t, _( "chainsaw lajatang" ),
                           false,
                           15, 12, _( "Your chainsaws rumble." ),
+                          true );
+    // The chainsaw lajatang drains 2 charges per turn, since
+    // there are two chainsaws.
+}
+
+int iuse::ecs_lajatang_on( player *p, item *it, bool t, const tripoint & )
+{
+    return toolweapon_on( *p, *it, t, _( "electric chainsaw lajatang" ),
+                          false,
+                          15, 12, _( "Your chainsaws buzz." ),
                           true );
     // The chainsaw lajatang drains 2 charges per turn, since
     // there are two chainsaws.

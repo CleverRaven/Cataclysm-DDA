@@ -2424,6 +2424,26 @@
   ]
 },{
   "type" : "recipe",
+  "result": "ecs_lajatang_off",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 15000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "q_staff", 1 ]
+    ],
+    [
+      [ "duct_tape", 200 ]
+    ],
+    [
+      [ "elec_chainsaw_off", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "fire_ax",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
