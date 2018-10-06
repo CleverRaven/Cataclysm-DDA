@@ -223,74 +223,6 @@ bool check_litcig( player &u )
     return false;
 }
 
-static bool item_inscription( player &/*p*/, item &cut, const std::string &verb,
-                              const std::string &gerund,
-                              bool carveable )
-{
-    if( !cut.made_of( SOLID ) ) {
-        std::string lower_verb = verb;
-        std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
-        add_msg( m_info, _( "You can't %s an item that's not solid!" ), lower_verb.c_str() );
-        return false;
-    }
-    if( carveable && !( cut.made_of( material_id( "wood" ) ) ||
-                        cut.made_of( material_id( "plastic" ) ) ||
-                        cut.made_of( material_id( "glass" ) ) || cut.made_of( material_id( "chitin" ) ) ||
-                        cut.made_of( material_id( "iron" ) ) || cut.made_of( material_id( "steel" ) ) ||
-                        cut.made_of( material_id( "silver" ) ) ) ) {
-        std::string lower_verb = verb;
-        std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
-        add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
-                 lower_verb.c_str(), cut.display_name().c_str() );
-        return false;
-    }
-
-    const bool hasnote = cut.has_var( "item_note" );
-    std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
-                                string_format( _( "%1$s on the %2$s is: " ),
-                                        gerund.c_str(), cut.type_name().c_str() );
-    string_input_popup popup;
-    popup.title( string_format( _( "%s what?" ), verb.c_str() ) )
-    .width( 64 )
-    .text( hasnote ? cut.get_var( "item_note" ) : "" )
-    .description( messageprefix )
-    .identifier( "inscribe_item" )
-    .max_length( 128 )
-    .query();
-
-    if( popup.canceled() ) {
-        return false;
-    }
-    const std::string message = popup.text();
-    if( hasnote && message == "." ) {
-        cut.erase_var( "item_note" );
-        cut.erase_var( "item_note_type" );
-        cut.erase_var( "item_note_typez" );
-    } else {
-        cut.set_var( "item_note", message );
-        cut.set_var( "item_note_type", gerund );
-    }
-    return true;
-}
-
-// Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
-
-static bool inscribe_item( player &p, const std::string &verb, const std::string &gerund,
-                           bool carveable )
-{
-    //Note: this part still strongly relies on English grammar.
-    //Although it can be easily worked around in language like Chinese,
-    //but might need to be reworked for some European languages that have more verb forms
-    int pos = g->inv_for_all( string_format( _( "%s on what?" ), verb.c_str() ) );
-    //@todo the above gives an index in inventory of g->u, but p can be a reference to anybody, maybe use g->u directly?
-    item &cut = p.i_at( pos );
-    if( cut.is_null() ) {
-        add_msg( m_info, _( "You do not have that item!" ) );
-        return false;
-    }
-    return item_inscription( p, cut, verb, gerund, carveable );
-}
-
 // For an explosion (which releases some kind of gas), this function
 // calculates the points around that explosion where to create those
 // gas fields.
@@ -4848,24 +4780,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
 int iuse::spray_can( player *p, item *it, bool, const tripoint & )
 {
-    bool ismarker = ( it->typeId() == "permanent_marker" || it->typeId() == "survival_marker" );
-    if( ismarker ) {
-        int ret = menu( true, _( "Write on what?" ), _( "The ground" ), _( "An item" ), _( "Cancel" ),
-                        NULL );
-
-        if( ret == 2 ) {
-            // inscribe_item returns false if the action fails or is canceled somehow.
-            bool canceled_inscription = !inscribe_item( *p, _( "Write" ), _( "Written" ), false );
-            if( canceled_inscription ) {
-                return 0;
-            }
-            return it->type->charges_to_use();
-        } else if( ret != 1 ) { // User chose cancel or some other undefined key.
-            return 0;
-        }
-    }
-
-    return handle_ground_graffiti( *p, it, ismarker ? _( "Write what?" ) : _( "Spray what?" ) );
+    return handle_ground_graffiti( *p, it, _( "Spray what?" ) );
 }
 
 int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix )
