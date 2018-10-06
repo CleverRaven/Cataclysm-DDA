@@ -231,8 +231,17 @@ class CommitRepository:
     def get_latest_commit(self):
         return self._latest_commit
 
-    def get_all_commits(self):
-        for commit in self.ref_by_commit_hash.values():
+    def get_all_commits(self, filter_by=None, sort_by=None):
+        """Return all Commits in Repository. No order is guaranteed."""
+        commit_list = self.ref_by_commit_hash.values()
+
+        if filter_by is not None:
+            commit_list = filter(filter_by, commit_list)
+
+        if sort_by is not None:
+            commit_list = sorted(commit_list, key=sort_by)
+
+        for commit in commit_list:
             yield commit
 
     def traverse_commits_by_first_parent(self, initial_hash=None):
@@ -286,26 +295,37 @@ class CDDAPullRequestRepository:
     """Groups Pull Requests for storage and common operations"""
 
     def __init__(self):
+        self.ref_by_pr_id = {}
         self.ref_by_merge_hash = {}
 
     def add(self, pull_request):
+        self.ref_by_pr_id[pull_request.id] = pull_request
         if pull_request.merge_hash is not None:
             self.ref_by_merge_hash[pull_request.merge_hash] = pull_request
 
     def add_multiple(self, pull_requests):
-        for pull_request in pull_requests:
-            self.add(pull_request)
+        for pr in pull_requests:
+            self.add(pr)
 
     def get_pr_by_merge_hash(self, merge_hash):
         return self.ref_by_merge_hash[merge_hash] if merge_hash in self.ref_by_merge_hash else None
 
-    def get_all_pr(self):
-        for pr in self.ref_by_merge_hash.values():
+    def get_all_pr(self, filter_by=None, sort_by=None):
+        """Return all Pull Requests in Repository. No order is guaranteed."""
+        pr_list = self.ref_by_pr_id.values()
+
+        if filter_by is not None:
+            pr_list = filter(filter_by, pr_list)
+
+        if sort_by is not None:
+            pr_list = sorted(pr_list, key=sort_by)
+
+        for pr in pr_list:
             yield pr
 
     def get_merged_pr_list_by_date(self, latest_dttm, oldest_dttm):
         """Return PullRequests merged between latest_dttm (including) and oldest_dttm (excluding)."""
-        for pr in (p for p in self.get_all_pr() if p.is_merged):
+        for pr in self.get_all_pr(filter_by=lambda x: x.is_merged, sort_by=lambda x: -x.merge_dttm.timestamp()):
             if latest_dttm >= pr.merge_dttm > oldest_dttm:
                 yield pr
 
@@ -337,8 +357,17 @@ class JenkinsBuildRepository:
                 return prev_build
         return None
 
-    def get_all_builds(self):
-        for build in self.ref_by_build_number.values():
+    def get_all_builds(self, filter_by=None, sort_by=None):
+        """Return all Builds in Repository. No order is guaranteed."""
+        build_list = self.ref_by_build_number.values()
+
+        if filter_by is not None:
+            build_list = filter(filter_by, build_list)
+
+        if sort_by is not None:
+            build_list = sorted(build_list, key=sort_by)
+
+        for build in build_list:
             yield build
 
     def purge_references(self):
@@ -864,7 +893,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
     pr_with_summary = collections.defaultdict(list)
     pr_with_invalid_summary = collections.defaultdict(list)
     pr_with_summary_none = collections.defaultdict(list)
-    for pr in pr_repo.get_all_pr():
+    for pr in pr_repo.get_merged_pr_list_by_date(datetime.utcnow(), target_dttm):
         if pr.has_valid_summary and pr.summ_type == SummaryType.NONE:
             pr_with_summary_none[pr.merge_date].append(pr)
         elif pr.has_valid_summary:
@@ -932,7 +961,7 @@ def main_by_build(target_dttm, token_file, output_file, include_summary_none):
 
 
 def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none):
-    for build in build_repo.get_all_builds():
+    for build in build_repo.get_all_builds(sort_by=lambda x: -x.build_dttm.timestamp()):
         try:
             prev_build = build_repo.get_previous_successful_build(build.number)
             if prev_build is None:
