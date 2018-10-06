@@ -74,18 +74,23 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
     const tripoint where = veh.global_part_pos3( part );
     const std::string ter_name = g->m.name( where );
     int fallen_count = 0;
+    int into_vehicle_count = 0;
 
     for( auto it : items ) { // cant use constant reference here because of the spill_contents()
         if( Pickup::handle_spillable_contents( p, it, g->m ) ) {
             continue;
         }
-        if( !veh.add_item( part, it ) ) {
+        if( veh.add_item( part, it ) ) {
+            into_vehicle_count += it.count();
+        } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
-                it.mod_charges( -veh.add_charges( part, it ) );
+                auto charges_added = veh.add_charges( part, it );
+                it.mod_charges( -charges_added );
+                into_vehicle_count += charges_added;
             }
             g->m.add_item_or_charges( where, it );
-            ++fallen_count;
+            fallen_count += it.count();
         }
     }
 
@@ -152,8 +157,21 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
     }
 
     if( fallen_count > 0 ) {
-        add_msg( m_warning, _( "The %s is full, so some items fell to the %s." ),
-                 part_name.c_str(), ter_name.c_str() );
+        if( into_vehicle_count > 0 ) {
+            add_msg(
+                m_warning,
+                ngettext( "The %s is full, so something fell to the %s.",
+                          "The %s is full, so some items fell to the %s.", fallen_count ),
+                part_name.c_str(), ter_name.c_str()
+            );
+        } else {
+            add_msg(
+                m_warning,
+                ngettext( "The %s is full, so it fell to the %s.",
+                          "The %s is full, so they fell to the %s.", fallen_count ),
+                part_name.c_str(), ter_name.c_str()
+            );
+        }
     }
 }
 
