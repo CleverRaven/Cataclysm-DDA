@@ -2266,13 +2266,15 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
         }
         sounds::ambient_sound( pos, 6, message );
     } else { // Activated
-        int ch = 2;
+        int ch = 1;
         if( it->ammo_remaining() > 0 ) {
-            ch = menu( true, _( "Radio:" ), _( "Scan" ), _( "Turn off" ), NULL );
+            ch = uilist( _( "Radio:" ), {
+                _( "Scan" ), _( "Turn off" )
+            } );
         }
 
         switch( ch ) {
-            case 1: {
+            case 0: {
                 const int old_frequency = it->frequency;
                 const radio_tower *lowest_tower = nullptr;
                 const radio_tower *lowest_larger_tower = nullptr;
@@ -2295,11 +2297,11 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
                 }
             }
             break;
-            case 2:
+            case 1:
                 p->add_msg_if_player( _( "The radio dies." ) );
                 it->convert( "radio" ).active = false;
                 break;
-            case 3:
+            default:
                 break;
         }
     }
