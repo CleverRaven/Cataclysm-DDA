@@ -250,19 +250,33 @@ class CommitRepository:
             yield commit
             commit = self.get_commit(commit.parents[0])
 
-    def get_commit_range_by_first_parent(self, initial_hash, oldest_hash):
+    def get_commit_range_by_hash(self, latest_hash, oldest_hash):
         """Return Commits between initial_hash (including) and oldest_hash (excluding) connected by the first Parent."""
-        commit = self.get_commit(initial_hash)
-        while True:
-            if commit is None:
-                raise MissingCommitException(
-                    "Can't generate commit list for specified range. "
-                    "There are missing Commits in CommitRepository."
-                )
+        for commit in self.traverse_commits_by_first_parent(latest_hash):
             if commit.hash == oldest_hash:
-                break
+                return
             yield commit
-            commit = self.get_commit(commit.parents[0])
+        ### consumed the whole commit list in the Repo and didn't find oldest_hash
+        ### so returned commit list is incomplete
+        raise MissingCommitException(
+            "Can't generate commit list for specified hash range."
+            " There are missing Commits in CommitRepository."
+        )
+
+    def get_commit_range_by_date(self, latest_dttm, oldest_dttm):
+        """Return Commits between latest_dttm (including) and oldest_dttm (excluding) connected by the first Parent."""
+        for commit in self.traverse_commits_by_first_parent():
+            ### assuming that traversing by first parent have chronological order (should be DESC BY commit_dttm)
+            if commit.commit_dttm <= oldest_dttm:
+                return
+            if latest_dttm >= commit.commit_dttm > oldest_dttm:
+                yield commit
+        ### consumed the whole commit list and didn't find a commit past our build.
+        ### so returned commit list *could be* incomplete
+        raise MissingCommitException(
+            "Can't generate commit list for specified date range."
+            " There are missing Commits in CommitRepository."
+        )
 
     def purge_references(self):
         self.ref_by_commit_hash.clear()
@@ -923,7 +937,7 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
             prev_build = build_repo.get_previous_successful_build(build.number)
             if prev_build is None:
                 break
-            commits = list(commit_repo.get_commit_range_by_first_parent(build.last_hash, prev_build.last_hash))
+            commits = list(commit_repo.get_commit_range_by_hash(build.last_hash, prev_build.last_hash))
         except MissingCommitException:
             ### we obtained half of the build's commit with our GitHub API request
             ### just avoid showing this build's partial data
