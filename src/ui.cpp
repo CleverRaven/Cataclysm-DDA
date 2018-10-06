@@ -21,7 +21,7 @@
 */
 
 ////////////////////////////////////
-int getfoldedwidth (std::vector<std::string> foldedstring)
+int getfoldedwidth (const std::vector<std::string> &foldedstring)
 {
     int ret = 0;
     for (auto &i : foldedstring) {
@@ -924,27 +924,27 @@ void uimenu::reset()
     init();
 }
 
-void uimenu::addentry(std::string str)
+void uimenu::addentry(const std::string &str)
 {
     entries.push_back(str);
 }
 
-void uimenu::addentry(int r, bool e, int k, std::string str)
+void uimenu::addentry(int r, bool e, int k, const std::string &str)
 {
     entries.push_back(uimenu_entry(r, e, k, str));
 }
 
-void uimenu::addentry_desc(std::string str, std::string desc)
+void uimenu::addentry_desc(const std::string &str, const std::string &desc)
 {
     entries.push_back(uimenu_entry(str, desc));
 }
 
-void uimenu::addentry_desc(int r, bool e, int k, std::string str, std::string desc)
+void uimenu::addentry_desc(int r, bool e, int k, const std::string &str, const std::string &desc)
 {
     entries.push_back(uimenu_entry(r, e, k, str, desc));
 }
 
-void uimenu::settext(std::string str)
+void uimenu::settext(const std::string &str)
 {
     text = str;
 }

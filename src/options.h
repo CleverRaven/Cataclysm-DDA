@@ -184,7 +184,7 @@ class options_manager
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   // first is option value, second is display name of that value
-                  std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
+                  const std::vector<std::pair<std::string, std::string>> &sItemsIn, std::string sDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add string input option

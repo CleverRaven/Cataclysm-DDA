@@ -273,10 +273,10 @@ int right_print( const catacurses::window &w, const int line, const int right_in
                  const nc_color FG, const std::string &mes );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
-void multipage( const catacurses::window &w, std::vector<std::string> text,
-                std::string caption = "", int begin_y = 0 );
-std::string name_and_value( std::string name, int value, int field_width );
-std::string name_and_value( std::string name, std::string value, int field_width );
+void multipage( const catacurses::window &w, const std::vector<std::string> &text,
+                const std::string &caption = "", int begin_y = 0 );
+std::string name_and_value( const std::string &name, int value, int field_width );
+std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 
 void wputch( const catacurses::window &w, nc_color FG, long ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
@@ -312,7 +312,7 @@ void draw_custom_border( const catacurses::window &w, catacurses::chtype ls = 1,
                          catacurses::chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0, int posx = 0,
                          int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
-                  std::string title = "", nc_color title_color = c_light_red );
+                  const std::string &title = "", nc_color title_color = c_light_red );
 void draw_tabs( const catacurses::window &w, int active_tab, ... );
 
 std::string word_rewrap( const std::string &ins, int width );

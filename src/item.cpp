@@ -3449,7 +3449,7 @@ int item::get_encumber() const
     return get_encumber_when_containing( contents_volume );
 }
 
-int item::get_encumber_when_containing( units::volume contents_volume ) const
+int item::get_encumber_when_containing( const units::volume &contents_volume ) const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {

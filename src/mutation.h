@@ -344,7 +344,7 @@ struct mutation_category_trait {
         int iv_sleep_dur = 0;
 
         static const std::map<std::string, mutation_category_trait> &get_all();
-        static const mutation_category_trait &get_category( std::string category_id );
+        static const mutation_category_trait &get_category( const std::string &category_id );
         static void reset();
         static void check_consistency();
 

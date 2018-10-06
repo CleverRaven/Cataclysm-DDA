@@ -1295,7 +1295,7 @@ class jmapgen_computer : public jmapgen_piece
         }
 };
 
-static void load_weighted_entries( JsonObject &jsi, std::string json_key,
+static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
     JsonArray jarr = jsi.get_array( json_key );
@@ -6772,7 +6772,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     return temp->getID();
 }
 
-std::vector<item *> map::place_items( const items_location loc, const int chance, const tripoint &f,
+std::vector<item *> map::place_items( const items_location &loc, const int chance, const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
@@ -6782,7 +6782,7 @@ std::vector<item *> map::place_items( const items_location loc, const int chance
 
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
-std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
+std::vector<item *> map::place_items( const items_location &loc, int chance, int x1, int y1,
                                       int x2, int y2, bool ongrass, const time_point &turn,
                                       int magazine, int ammo )
 {
@@ -6838,7 +6838,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
     return res;
 }
 
-std::vector<item *> map::put_items_from_loc( items_location loc, const tripoint &p,
+std::vector<item *> map::put_items_from_loc( const items_location &loc, const tripoint &p,
         const time_point &turn )
 {
     const auto items = item_group::items_from( loc, turn );

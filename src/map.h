@@ -837,7 +837,7 @@ class map
         void add_item( const int x, const int y, item new_item );
         void spawn_an_item( const int x, const int y, item new_item,
                             const long charges, const int damlevel );
-        std::vector<item *> place_items( items_location loc, const int chance, const int x1, const int y1,
+        std::vector<item *> place_items( const items_location &loc, const int chance, const int x1, const int y1,
                                          const int x2, const int y2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         void spawn_items( const int x, const int y, const std::vector<item> &new_items );
@@ -934,7 +934,7 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
-        std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
+        std::vector<item *> place_items( const items_location &loc, const int chance, const tripoint &f,
                                          const tripoint &t, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         /**
@@ -945,7 +945,7 @@ class map
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( items_location loc, const tripoint &p,
+        std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
                                                 const time_point &turn = calendar::time_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
