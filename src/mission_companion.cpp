@@ -4332,7 +4332,8 @@ std::vector<npc *> talk_function::companion_sort( std::vector<npc *> available,
     return available;
 }
 
-std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc *> &available, bool adj )
+std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc *> &available,
+        bool adj )
 {
     std::vector<comp_rank> raw;
     int max_combat = 0;
@@ -4647,7 +4648,8 @@ void talk_function::draw_camp_tabs( const catacurses::window &win, const camp_ta
     wrefresh( win );
 }
 
-std::string talk_function::name_mission_tabs( npc &p, const std::string &id, const std::string &cur_title,
+std::string talk_function::name_mission_tabs( npc &p, const std::string &id,
+        const std::string &cur_title,
         camp_tab_mode cur_tab )
 {
     if( id != "FACTION_CAMP" ) {
@@ -4877,7 +4879,8 @@ int talk_function::om_harvest_ter( npc &comp, point omt_tgt, ter_id t, float cha
     return harvested;
 }
 
-int talk_function::om_harvest_trees( npc &comp, const tripoint &omt_tgt, float chance, bool force_cut,
+int talk_function::om_harvest_trees( npc &comp, const tripoint &omt_tgt, float chance,
+                                     bool force_cut,
                                      bool force_cut_trunk )
 {
     tinymap target_bay;
@@ -5074,7 +5077,8 @@ void talk_function::om_line_mark( const tripoint &origin, const tripoint &dest, 
     }
 }
 
-time_duration talk_function::companion_travel_time_calc( const tripoint &omt_pos, const tripoint &omt_tgt,
+time_duration talk_function::companion_travel_time_calc( const tripoint &omt_pos,
+        const tripoint &omt_tgt,
         time_duration work, int trips )
 {
     std::vector<tripoint> journey = line_to( omt_pos, omt_tgt );
@@ -5160,7 +5164,8 @@ int talk_function::om_carry_weight_to_trips( npc &comp, const std::vector<item *
     return ( trips > trips_v ) ?  trips : trips_v;
 }
 
-bool talk_function::om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<item *> &itms,
+bool talk_function::om_set_hide_site( npc &comp, const tripoint &omt_tgt,
+                                      const std::vector<item *> &itms,
                                       const std::vector<item *> &itms_rem )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, comp.posz() );

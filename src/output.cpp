@@ -296,7 +296,8 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
     return textformatted.size();
 }
 
-void multipage( const catacurses::window &w, const std::vector<std::string> &text, const std::string &caption,
+void multipage( const catacurses::window &w, const std::vector<std::string> &text,
+                const std::string &caption,
                 int begin_y )
 {
     int height = getmaxy( w );
@@ -1277,7 +1278,8 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sTe
     }
 }
 
-void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected,
+void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
+                  bool bSelected,
                   bool bDecorate, bool bDisabled )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;

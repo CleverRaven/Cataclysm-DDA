@@ -40,7 +40,8 @@ std::ostream &operator<<( std::ostream &stream, const dispersion_sources &source
     return stream;
 }
 
-static void arm_shooter( npc &shooter, const std::string &gun_type, const std::vector<std::string> &mods = {} )
+static void arm_shooter( npc &shooter, const std::string &gun_type,
+                         const std::vector<std::string> &mods = {} )
 {
     shooter.remove_weapon();
 

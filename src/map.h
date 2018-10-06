@@ -837,7 +837,8 @@ class map
         void add_item( const int x, const int y, item new_item );
         void spawn_an_item( const int x, const int y, item new_item,
                             const long charges, const int damlevel );
-        std::vector<item *> place_items( const items_location &loc, const int chance, const int x1, const int y1,
+        std::vector<item *> place_items( const items_location &loc, const int chance, const int x1,
+                                         const int y1,
                                          const int x2, const int y2, bool ongrass, const time_point &turn,
                                          int magazine = 0, int ammo = 0 );
         void spawn_items( const int x, const int y, const std::vector<item> &new_items );

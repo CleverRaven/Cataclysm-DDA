@@ -715,7 +715,8 @@ class vehicle
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
-        bool split_vehicles( const std::vector<std::vector <int>> &new_vehs, const std::vector<vehicle *> &new_vehicles,
+        bool split_vehicles( const std::vector<std::vector <int>> &new_vehs,
+                             const std::vector<vehicle *> &new_vehicles,
                              const std::vector<std::vector <point>> &new_mounts );
         bool split_vehicles( const std::vector<std::vector <int>> &new_veh );
 

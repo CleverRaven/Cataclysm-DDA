@@ -6772,7 +6772,8 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     return temp->getID();
 }
 
-std::vector<item *> map::place_items( const items_location &loc, const int chance, const tripoint &f,
+std::vector<item *> map::place_items( const items_location &loc, const int chance,
+                                      const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
