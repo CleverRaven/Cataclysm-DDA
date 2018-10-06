@@ -225,8 +225,8 @@ class CommitRepository:
         for commit in commits:
             self.add(commit)
 
-    def get_commit(self, hash_id):
-        return self.ref_by_commit_hash[hash_id] if hash_id in self.ref_by_commit_hash else None
+    def get_commit(self, commit_hash):
+        return self.ref_by_commit_hash[commit_hash] if commit_hash in self.ref_by_commit_hash else None
 
     def get_latest_commit(self):
         return self._latest_commit
