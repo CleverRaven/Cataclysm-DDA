@@ -255,9 +255,9 @@ void drop_on_map( const player &p, item_drop_reason reason, const std::list<item
             case item_drop_reason::tumbling:
                 p.add_msg_if_player(
                     m_bad,
-                    ngettext( "Your %1$s tumbles to the ground.",
-                              "Your %1$s tumble to the ground.", dropcount ),
-                    it_name.c_str()
+                    ngettext( "Your %1$s tumbles to the %2$s.",
+                              "Your %1$s tumble to the %2$s.", dropcount ),
+                    it_name.c_str(), ter_name.c_str()
                 );
                 break;
         }
@@ -281,7 +281,7 @@ void drop_on_map( const player &p, item_drop_reason reason, const std::list<item
             case item_drop_reason::too_large:
             case item_drop_reason::too_heavy:
             case item_drop_reason::tumbling:
-                p.add_msg_if_player( m_bad, _( "Some items tumble to the ground." ) );
+                p.add_msg_if_player( m_bad, _( "Some items tumble to the %s." ), ter_name.c_str() );
                 break;
         }
     }
