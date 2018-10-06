@@ -430,7 +430,7 @@
         "|WWWWWWWWW",
         "|WWWWWWWWW"
       ],
-      "terrain": { "g": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
     }
   },
   {
