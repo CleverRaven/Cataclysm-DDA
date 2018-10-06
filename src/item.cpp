@@ -4281,13 +4281,12 @@ bool item::is_container_full( bool allow_bucket ) const
 
 bool item::can_unload_liquid() const
 {
-    if( contents.empty() ) {
+    if( is_container_empty() ) {
         return true;
     }
 
     const item &cts = contents.front();
-    if( is_container() && !is_non_resealable_container() &&
-        cts.made_of( LIQUID, true ) && cts.made_of( SOLID ) ) {
+    if( !is_bucket() && cts.made_of( LIQUID, true ) && cts.made_of( SOLID ) ) {
         return false;
     }
 
