@@ -2109,7 +2109,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "batteries",
-    "max_charges": 00,
+    "max_charges": 800,
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
