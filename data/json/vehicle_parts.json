@@ -662,6 +662,27 @@
   },
   {
     "type": "vehicle_part",
+    "id": "black_box",
+    "name": "military black box",
+    "item": "black_box",
+    "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it'd get destroyed.",
+    "durability": 400,
+    "symbol": ";",
+    "color": "light_gray",
+    "broken_symbol": "*",
+    "broken_color": "dark_gray",    
+    "flags": [ "NO_REPAIR" ],
+    "requirements": {
+    "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
+    "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] } },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 0, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "minireactor",
     "name": "minireactor",
     "symbol": "O",
