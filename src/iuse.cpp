@@ -6004,17 +6004,15 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         if( ei_monsters == choice ) {
 
-            uimenu pmenu;
+            uilist pmenu;
 
-            pmenu.selected = 0;
             pmenu.text = _( "Your collection of monsters:" );
-            pmenu.addentry( 0, true, 'q', _( "Cancel" ) );
 
             std::vector<mtype_id> monster_photos;
 
             std::istringstream f( it->get_var( "EINK_MONSTER_PHOTOS" ) );
             std::string s;
-            int k = 1;
+            int k = 0;
             while( getline( f, s, ',' ) ) {
                 if( s.empty() ) {
                     continue;
@@ -6035,11 +6033,11 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 pmenu.query();
                 choice = pmenu.ret;
 
-                if( 0 == choice ) {
+                if( choice < 0 ) {
                     break;
                 }
 
-                const monster dummy( monster_photos[choice - 1] );
+                const monster dummy( monster_photos[choice] );
                 popup( dummy.type->get_description().c_str() );
             } while( true );
             return it->type->charges_to_use();
