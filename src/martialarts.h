@@ -16,7 +16,7 @@ class JsonObject;
 class effect;
 class player;
 class item;
-class itype;
+struct itype;
 class martialart;
 using matype_id = string_id<martialart>;
 class ma_buff;
