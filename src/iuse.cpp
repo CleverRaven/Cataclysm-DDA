@@ -6492,17 +6492,19 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
     if( it->contents.empty() ) {
-        choice = menu( true, _( "Using RC car:" ), _( "Turn on" ),
-                       _( "Put a bomb to car" ), _( "Cancel" ), NULL );
+        choice = uilist( _( "Using RC car:" ), {
+            _( "Turn on" ), _( "Put a bomb to car" )
+        } );
     } else if( it->contents.size() == 1 ) {
-        choice = menu( true, _( "Using RC car:" ), _( "Turn on" ),
-                       it->contents.front().tname().c_str(), _( "Cancel" ), NULL );
+        choice = uilist( _( "Using RC car:" ), {
+            _( "Turn on" ), it->contents.front().tname().c_str()
+        } );
     }
-    if( choice == 3 ) {
+    if( choice < 0 ) {
         return 0;
     }
 
-    if( choice == 1 ) { //Turn car ON
+    if( choice == 0 ) { //Turn car ON
         if( !it->ammo_sufficient() ) {
             p->add_msg_if_player( _( "The RC car's batteries seem to be dead." ) );
             return 0;
@@ -6526,7 +6528,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( choice == 2 ) {
+    if( choice == 1 ) {
 
         if( it->contents.empty() ) { //arming car with bomb
             int inventory_index = g->inv_for_flag( "RADIOCARITEM", _( "Arm what?" ) );
@@ -6577,14 +6579,15 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    int choice = menu( true, _( "What to do with activated RC car?" ), _( "Turn off" ),
-                       _( "Cancel" ), NULL );
+    int choice = uilist( _( "What to do with activated RC car?" ), {
+        _( "Turn off" )
+    } );
 
-    if( choice == 2 ) {
+    if( choice < 0 ) {
         return it->type->charges_to_use();
     }
 
-    if( choice == 1 ) {
+    if( choice == 0 ) {
         item bomb;
 
         if( !it->contents.empty() ) {
