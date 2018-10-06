@@ -2094,7 +2094,8 @@
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_ON",
     "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
-  },{
+  },
+  {
     "id": "ecs_lajatang_off",
     "type": "TOOL",
     "name": "electric chainsaw lajatang (off)",
