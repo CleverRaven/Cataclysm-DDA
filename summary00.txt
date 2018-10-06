@@ -1,0 +1,116 @@
+Mods Arcana Mod: Altered the ramp placement in the floating platform section
+Mods Arcana Mod: Added vortexes to the floating platform spawnlist
+Mods Arcana Mod: Toned down book spawns in floating temple bookcases
+Mods Arcana Mod: Altered the bedroom area of floating temple
+Mods Arcana Mod: Added variety of books to floating temple
+Mods Arcana Mod: Altered spawning of Apprentice Notes in the curious structure
+Mods Arcana Mod: Removed craters surrounding the impact site
+Mods Arcana Mod: Gave thunder gauntlets encumberance to match base item
+Infrastructure Add separate flag for electronic systems control
+Bugfixes Apply stamina penalty for attacking more consistently
+Features Added a pixel-detail minimap option to tiles mode
+Content Adds screecher zombie upgrade to shrieker zombie
+Features Added ability to carve names into objects
+Balance Adjust the way monster upgrade times are calculated
+Bugfixes Fix incorrectly calculated melee movecost
+Bugfixes Fixed zombies stumbling in biased directions
+Infrastructure Added zombie movement unit tests
+Features Add talk tags support to signage
+Balance Made armored cars less common
+Infrastructure Extend inv_map_splice to include items within radius
+Features Allow player to read books adjacent on the ground
+Build Add dmg distribution target to makefile
+Performance Fix memory leaks in cata_tiles
+Bugfixes Fixed sound volume overflow
+Balance Adjust spawning for coffee shop and arcade.
+Infrastructure Put the crafting gui code into it's own module.
+Interface Highlight useful information in item info text.
+Interface Split mod exclusion category into item and monster exclusion
+Interface Added handling for home and end key
+Balance Replace no pickup feature with move penalty
+Features Added the ability to use markers for labeling items
+Bugfixes Fix loading tilesets from several images
+Infrastructure Remove the use_container parameter from itemuse_amount
+Bugfixes Fixed endlessly self-replicating hordes.
+Interface Added dynamic loading of crafting gui categories.
+Infrastructure Separated utility functions into their own module
+Balance Bring repeating crossbow in line with the real Zhuge Nu
+Infrastructure Remove spurious uses of autotransform in item actions
+Balance Added encumberance to weapons worn with shoulder straps
+Bugfixes Make the advanced inventory header show the right item count.
+Build Tiles support on OpenBSD
+Bugfixes Fix eating from ground out of bounds crash
+Interface Sort by name in inventory instead of id.
+Balance Made torso armor nullify arachnid arms bonus
+Features Allows certain claw-based mutations to count as having a butchering quality
+Features Adds an item flag for certain clothing that allows making mutation natural attacks without said clothing getting in the way
+Features Allow storing crafted liquids in adjacent containers
+Features Start with book recipes of selected skills on char gen
+Interface Add quit action to new character window
+Balance Added batch crafting times to various comestibles
+Bugfixes Fix ammo string formatting in item display causing potential segfault
+Interface Extend blackspace window to cover minimap instead of using map legend window.
+Infrastructure Add pthread back for sound support
+Balance Made DEX prevent cuts from broken glass more often
+Interface Allow cancelling crafting from component/tool selection menus
+Interface Added MShock Modded Tileset Series 21
+Re-implements snares as mod content
+Infrastructure Fix is-worn function and remove redundant function
+Mods Arcana mod Added the l-sticks to the martial art overrides
+Infrastructure Changed small strings and long strings into ammunition, allowing them stack
+Infrastructure Moved from melee.json to ammo.json
+Tank Mod: Added military IDs to the military vehicles
+Tank Mod: Edits to bandit bulldozer
+Tank Mod: Edits to Military AFV
+Tank Mod: Altered the range of main guns
+Bugfixes Fix for flickering in SDL version
+Balance Make farming yield multiples of default charge of a plant item on gather
+Content Added Light stick
+Features Allow gathering wool staples from sheeps
+Bugfixes Fix techniques defined incorrectly as flags
+Content Added military id in military vehicles
+Content Added some military stuff in Military Cargo Truck
+Content Added fancy snacks in sports cars and luxury RV
+Content Added trash in shopping carts
+Content Added joints in motorcycle
+Infrastructure Move effect of climate control to the end of bodytemp calc
+Infrastructure Replace some manual iterator loops with range iterators.
+Bugfixes Made human broth actually spoil
+Infrastructure Add method to check if item can holster another
+Infrastructure Adds itemammo_capacity() and itemammo_remaining() to replace ammo charges
+Content Add a larger generator part and portable generator vehicle
+Features Allow vehicles to pivot around arbitrary points
+Content Add makeshift knapsack and recipe of it
+Interface Scrollable item info text in crafting menu
+Content Add human skin and stomachs
+Bugfixes Use same range for eligible container as crafting output
+Bugfixes Remove watertight requirement from source containers
+Features Added debug Overmap Editor
+Bugfixes Fix -1 charges being displayed
+Bugfixes Fix crash from accessing empty vector in iteminfo
+Interface Added Y/N query to attacking friendly NPCs
+Interface Remove pageUp/pageDown key bindings for next and previous tab
+Infrastructure Apartment Tower JSONification
+Interface Display item name in crafting component selection menu
+Balance Rebalance red dot sight and holo sight
+Bugfixes Fix "Repeat crafting using extra components"
+Bugfixes Fixed using ground water sources
+Bugfixes Avoid losing the vehicle in activities if there is no vehicle tile at the pivot point
+Bugfixes Fix shift_parts() to move the pivot point, not the vehicle position.
+Bugfixes Fix book known recipe highlighting.
+Bugfixes Fix low window width crafting window crash.
+Bugfixes Fix seg fault when faction is not found for NPC
+Bugfixes Fix segfault when vehicle unavailable for adv inv container
+Content Expands variety of items in NPC NC itemgroups
+Infrastructure Wipe out unused flags 'SMALL_BITES' & 'SMALL_BITER'
+Infrastructure Added list circularizer
+Interface Hint when reloading would be possible if item not full to capacity
+Features Last amigara horror to die always drops an artifact
+Content Add bone fishing hook and bone skewer
+Infrastructure Add soundpack support
+Infrastructure Added example jq scripts for JSON parsing
+Balance Rebalance nodachi (and variants) volume to match zweihander
+Infrastructure Updates gamereload to use itemammo_capacity and itemammo_remaining
+Features Add steerable wheels
+Build Add an easy makefile option to compile every localization file.
+Mods Added new guns and types of ammo to the mod's blacklist
