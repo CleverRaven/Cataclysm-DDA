@@ -6522,9 +6522,6 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
-    //if( precipitation && !g->is_sheltered( pos ) ) {
-    //    extinguish = true;
-    //}
     if( !extinguish ||
         ( in_inv && precipitation && carrier->weapon.has_flag( "RAIN_PROTECT" ) ) ) {
         return false; //nothing happens
