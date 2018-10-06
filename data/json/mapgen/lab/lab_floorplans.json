@@ -528,6 +528,75 @@
     }
   },
   {
+    "//": "medical wing, stemcell + centrifuge, monster in stemcell room",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 50,
+    "object": {
+      "rotation": [ 0, 1 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "....l|.......|---------|",
+        "....l|.......|         |",
+        "bb...+.......|         |",
+        "bb...+.......|         |",
+        "...ht|.......|         |",
+        "-----|..C6...+         |",
+        "....l|.......|         |",
+        "bb...+.......|         |",
+        "bb...+.......|         |",
+        "...ht|.......|         |",
+        "-----|.......|----?----|",
+        ".............M..........",
+        ".............M..........",
+        "-----|.......|----+----|",
+        "....l|.......|         |",
+        "bb...+.......|         |",
+        "bb...+.......|         |",
+        "...ht|.......|         |",
+        "-----|..Cx...?         |",
+        "...ht|.......|         |",
+        "bb...+.......|         |",
+        "bb...+.......|         |",
+        ".7..l|.......|         |",
+        "....l|.......----------|"
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": {
+        "C": "t_centrifuge",
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"],
+        "7": "t_console"
+      },
+      "items": {
+        "b": { "item": "hospital_bed", "chance": 33 },
+        "l": { "item": "surgery", "chance": 50 },
+        "t": { "item": "snacks", "chance": 15 }
+      },
+      "computers": {
+        "6": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
+        },
+        "7": {
+          "name": "Mr. Stem Cell",
+          "options": [ { "name": "Stem Cell Treatment", "action": "stemcell_treatment" } ],
+          "failures": [ { "action": "alarm" } ]
+        }
+      },
+      "place_monster": [
+        { "monster": [ "mon_broken_cyborg", "mon_zombie_electric", "mon_crawler" ], "x": [ 1, 4 ], "y": [ 19, 21 ], "chance": 90 }
+      ],
+      "place_nested": [
+        { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 13, "y": 1 },
+        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13 },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 13, "y": 10 },
+        { "chunks": [ "sub_t_concrete_wall" ], "x": 13, "y": 13 }
+      ]
+    }
+  },
+  {
     "//": "alien containment.",
     "type": "mapgen",
     "method": "json",
