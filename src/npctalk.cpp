@@ -172,7 +172,7 @@ void npc_chatbin::check_missions()
     ma.erase( last, ma.end() );
 }
 
-void npc::talk_to_u()
+void npc::talk_to_u( bool text_only )
 {
     if( g->u.is_dead_state() ) {
         set_attitude( NPCATT_NULL );
@@ -276,19 +276,12 @@ void npc::talk_to_u()
 
     decide_needs();
 
-    d.win = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-
+    dialogue_window d_win;
+    d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
-        draw_border( d.win );
-        mvwvline( d.win, 1, ( FULL_SCREEN_WIDTH / 2 ) + 1, LINE_XOXO, FULL_SCREEN_HEIGHT - 1 );
-        mvwputch( d.win, 0, ( FULL_SCREEN_WIDTH / 2 ) + 1, BORDER_COLOR, LINE_OXXX );
-        mvwputch( d.win, FULL_SCREEN_HEIGHT - 1, ( FULL_SCREEN_WIDTH / 2 ) + 1, BORDER_COLOR, LINE_XXOX );
-        mvwprintz( d.win, 1,  1, c_white, _( "Dialogue: %s" ), name.c_str() );
-        mvwprintz( d.win, 1, ( FULL_SCREEN_WIDTH / 2 ) + 3, c_white, _( "Your response:" ) );
-        const talk_topic next = d.opt( d.topic_stack.back() );
+        d_win.print_header( name );
+        const talk_topic next = d.opt( d_win, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
             do {
@@ -2562,128 +2555,6 @@ void parse_tags( std::string &phrase, const player &u, const player &me )
     } while( fa != std::string::npos && fb != std::string::npos );
 }
 
-void dialogue::clear_window_texts()
-{
-    // Note: don't erase the borders, therefore start and end one unit inwards.
-    // Note: start at second line because the first line contains the headers which are not
-    // reprinted.
-    // TODO: make this call werase and reprint the border & the header
-    for( int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
-        for( int j = 1; j < FULL_SCREEN_WIDTH - 1; j++ ) {
-            if( j != ( FULL_SCREEN_WIDTH / 2 ) + 1 ) {
-                mvwputch( win, i, j, c_black, ' ' );
-            }
-        }
-    }
-}
-
-size_t dialogue::add_to_history( const std::string &text )
-{
-    auto const folded = foldstring( text, FULL_SCREEN_WIDTH / 2 );
-    history.insert( history.end(), folded.begin(), folded.end() );
-    return folded.size();
-}
-
-void dialogue::print_history( size_t const hilight_lines )
-{
-    int curline = FULL_SCREEN_HEIGHT - 2;
-    int curindex = history.size() - 1;
-    // index of the first line that is highlighted
-    int newindex = history.size() - hilight_lines;
-    // Print at line 2 and below, line 1 contains the header, line 0 the border
-    while( curindex >= 0 && curline >= 2 ) {
-        // red for new text, gray for old, similar to coloring of messages
-        nc_color const col = ( curindex >= newindex ) ? c_red : c_dark_gray;
-        mvwprintz( win, curline, 1, col, history[curindex] );
-        curline--;
-        curindex--;
-    }
-}
-
-// Number of lines that can be used for the list of responses:
-// -2 for border, -2 for options that are always there, -1 for header
-static int RESPONSE_AREA_HEIGHT()
-{
-    return FULL_SCREEN_HEIGHT - 2 - 2 - 1;
-}
-
-bool dialogue::print_responses( int const yoffset )
-{
-    // Responses go on the right side of the window, add 2 for spacing
-    size_t const xoffset = FULL_SCREEN_WIDTH / 2 + 2;
-    // First line we can print to, +2 for borders, +1 for the header.
-    int const min_line = 2 + 1;
-    // Bottom most line we can print to
-    int const max_line = min_line + RESPONSE_AREA_HEIGHT() - 1;
-
-    int curline = min_line - ( int ) yoffset;
-    size_t i;
-    for( i = 0; i < responses.size() && curline <= max_line; i++ ) {
-        auto const &folded = responses[i].formatted_text;
-        auto const &color = responses[i].color;
-        for( size_t j = 0; j < folded.size(); j++, curline++ ) {
-            if( curline < min_line ) {
-                continue;
-            } else if( curline > max_line ) {
-                break;
-            }
-            int const off = ( j != 0 ) ? +3 : 0;
-            mvwprintz( win, curline, xoffset + off, color, folded[j] );
-        }
-    }
-    // Those are always available, their key bindings are fixed as well.
-    mvwprintz( win, curline + 1, xoffset, c_magenta, _( "Shift+L: Look at" ) );
-    mvwprintz( win, curline + 2, xoffset, c_magenta, _( "Shift+S: Size up stats" ) );
-    mvwprintz( win, curline + 3, xoffset, c_magenta, _( "Shift+Y: Yell" ) );
-    mvwprintz( win, curline + 4, xoffset, c_magenta, _( "Shift+O: Check opinion" ) );
-    return curline > max_line; // whether there is more to print.
-}
-
-int dialogue::choose_response( int const hilight_lines )
-{
-#ifdef __ANDROID__
-    input_context ctxt("DIALOGUE_CHOOSE_RESPONSE");
-    for( size_t i = 0; i < responses.size(); i++ )
-        ctxt.register_manual_key('a' + i);
-    ctxt.register_manual_key('L', "Look at");
-    ctxt.register_manual_key('S', "Size up stats");
-    ctxt.register_manual_key('Y', "Yell");
-    ctxt.register_manual_key('O', "Check opinion");
-#endif
-    int yoffset = 0;
-    while( true ) {
-        clear_window_texts();
-        print_history( hilight_lines );
-        bool const can_sroll_down = print_responses( yoffset );
-        bool const can_sroll_up = yoffset > 0;
-        if( can_sroll_up ) {
-            mvwprintz( win, 2, FULL_SCREEN_WIDTH - 2 - 2, c_green, "^^" );
-        }
-        if( can_sroll_down ) {
-            mvwprintz( win, FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2 - 2, c_green, "vv" );
-        }
-        wrefresh( win );
-        // TODO: input_context?
-        const long ch = inp_mngr.get_input_event().get_first_input();
-        switch( ch ) {
-            case KEY_DOWN:
-            case KEY_NPAGE:
-                if( can_sroll_down ) {
-                    yoffset += RESPONSE_AREA_HEIGHT();
-                }
-                break;
-            case KEY_UP:
-            case KEY_PPAGE:
-                if( can_sroll_up ) {
-                    yoffset = std::max( 0, yoffset - RESPONSE_AREA_HEIGHT() );
-                }
-                break;
-            default:
-                return ch;
-        }
-    }
-}
-
 void dialogue::add_topic( const std::string &topic_id )
 {
     topic_stack.push_back( talk_topic( topic_id ) );
@@ -2694,7 +2565,7 @@ void dialogue::add_topic( const talk_topic &topic )
     topic_stack.push_back( topic );
 }
 
-void talk_response::do_formatting( const dialogue &d, char const letter )
+talk_data talk_response::create_option_line( const dialogue &d, char const letter )
 {
     std::string ftext;
     if( trial != TALK_TRIAL_NONE ) { // dialogue w/ a % chance to work
@@ -2713,10 +2584,8 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
                              );
     }
     parse_tags( ftext, *d.alpha, *d.beta );
-    // Remaining width of the responses area, -2 for the border, -2 for indentation
-    int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
-    formatted_text = foldstring( ftext, fold_width );
 
+    nc_color color;
     std::set<dialogue_consequence> consequences = get_consequences( d );
     if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
         color = c_red;
@@ -2727,6 +2596,10 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
     } else {
         color = c_white;
     }
+    talk_data results;
+    results.first = color;
+    results.second = ftext;
+    return results;
 }
 
 talk_topic talk_response::effect_t::apply( dialogue &d ) const
@@ -2793,7 +2666,26 @@ dialogue_consequence talk_response::effect_t::get_consequence( const dialogue &d
     return guaranteed_consequence;
 }
 
-talk_topic dialogue::opt( const talk_topic &topic )
+const talk_topic &special_talk( char ch )
+{
+    static const std::map<char, talk_topic> key_map = {{
+            { 'L', talk_topic( "TALK_LOOK_AT" ) },
+            { 'S', talk_topic( "TALK_SIZE_UP" ) },
+            { 'O', talk_topic( "TALK_OPINION" ) },
+            { 'Y', talk_topic( "TALK_SHOUT" ) },
+        }
+    };
+
+    const auto iter = key_map.find( ch );
+    if( iter != key_map.end() ) {
+        return iter->second;
+    }
+
+    static const talk_topic no_topic = talk_topic( "TALK_NONE" );
+    return no_topic;
+}
+
+talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 {
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
@@ -2819,25 +2711,38 @@ talk_topic dialogue::opt( const talk_topic &topic )
                                    challenge.c_str() );
     }
 
-    history.push_back( "" ); // Empty line between lines of dialogue
+    d_win.add_history_separator();
 
     // Number of lines to highlight
-    size_t const hilight_lines = add_to_history( challenge );
+    size_t const hilight_lines = d_win.add_to_history( challenge );
+    std::vector<talk_data> response_lines;
     for( size_t i = 0; i < responses.size(); i++ ) {
-        responses[i].do_formatting( *this, 'a' + i );
+        response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
-    int ch;
+    long ch = ' ';
     bool okay;
     do {
+        d_win.refresh_response_display();
         do {
-            ch = choose_response( hilight_lines );
+            d_win.display_responses( hilight_lines, response_lines, ch );
+            ch = inp_mngr.get_input_event().get_first_input();
             auto st = special_talk( ch );
             if( st.id != "TALK_NONE" ) {
                 return st;
             }
-            ch -= 'a';
-        } while( ( ch < 0 || ch >= ( int )responses.size() ) );
+            switch( ch ) {
+                // send scroll control keys back to the display window
+                case KEY_DOWN:
+                case KEY_NPAGE:
+                case KEY_UP:
+                case KEY_PPAGE:
+                    continue;
+                 default:
+                    ch -= 'a';
+                    break;
+            }
+        } while( ( ch < 0 || ch >= static_cast<long>( responses.size() ) ) );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[ch].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
@@ -2846,13 +2751,13 @@ talk_topic dialogue::opt( const talk_topic &topic )
             okay = query_yn( _( "You'll be helpless! Proceed?" ) );
         }
     } while( !okay );
-    history.push_back( "" );
-
-    std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   responses[ch].text.c_str() );
-    add_to_history( response_printed );
+    d_win.add_history_separator();
 
     talk_response chosen = responses[ch];
+    std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
+                                   chosen.text.c_str() );
+    d_win.add_to_history( response_printed );
+
     if( chosen.mission_selected != nullptr ) {
         beta->chatbin.mission_selected = chosen.mission_selected;
     }
@@ -2872,24 +2777,6 @@ talk_topic dialogue::opt( const talk_topic &topic )
     return effects.apply( *this );
 }
 
-const talk_topic &special_talk( char ch )
-{
-    static const std::map<char, talk_topic> key_map = {{
-            { 'L', talk_topic( "TALK_LOOK_AT" ) },
-            { 'S', talk_topic( "TALK_SIZE_UP" ) },
-            { 'O', talk_topic( "TALK_OPINION" ) },
-            { 'Y', talk_topic( "TALK_SHOUT" ) },
-        }
-    };
-
-    const auto iter = key_map.find( ch );
-    if( iter != key_map.end() ) {
-        return iter->second;
-    }
-
-    static const talk_topic no_topic = talk_topic( "TALK_NONE" );
-    return no_topic;
-}
 talk_trial::talk_trial( JsonObject jo )
 {
     static const std::unordered_map<std::string, talk_trial_type> types_map = { {

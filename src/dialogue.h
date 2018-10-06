@@ -8,6 +8,7 @@
 #include "game.h"
 #include "map.h"
 #include "npctalk.h"
+#include "dialogue_win.h"
 
 #include <memory>
 #include <vector>
@@ -136,14 +137,8 @@ struct talk_response {
         };
         effect_t success;
         effect_t failure;
-        /**
-         * Text (already folded) and color that is used to display this response.
-         * This is set up in @ref do_formatting.
-         */
-        std::vector<std::string> formatted_text;
-        nc_color color = c_white;
 
-        void do_formatting( const dialogue &d, char letter );
+        talk_data create_option_line( const dialogue &d, char letter );
         std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
         talk_response() = default;
@@ -161,24 +156,16 @@ struct dialogue {
          * TODO: make it a reference, not a pointer.
          */
         npc *beta = nullptr;
-        catacurses::window win;
         /**
          * If true, we are done talking and the dialog ends.
          */
         bool done = false;
-        /**
-         * This contains the exchanged words, it is basically like the global message log.
-         * Each responses of the player character and the NPC are added as are information about
-         * what each of them does (e.g. the npc drops their weapon).
-         * This will be displayed in the dialog window and should already be translated.
-         */
-        std::vector<std::string> history;
         std::vector<talk_topic> topic_stack;
 
         /** Missions that have been assigned by this npc to the player they currently speak to. */
         std::vector<mission *> missions_assigned;
 
-        talk_topic opt( const talk_topic &topic );
+        talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
 
         dialogue() = default;
 
@@ -194,14 +181,6 @@ struct dialogue {
         void add_topic( const talk_topic &topic );
 
     private:
-        void clear_window_texts();
-        void print_history( size_t hilight_lines );
-        bool print_responses( int yoffset );
-        int choose_response( int hilight_lines );
-        /**
-         * Folds and adds the folded text to @ref history. Returns the number of added lines.
-         */
-        size_t add_to_history( const std::string &text );
         /**
          * Add a simple response that switches the topic to the new one.
          */
