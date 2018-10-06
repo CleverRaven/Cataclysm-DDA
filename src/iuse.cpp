@@ -4412,10 +4412,11 @@ int iuse::battletorch_lit( player *p, item *it, bool t, const tripoint &pos )
     } else if( !it->ammo_sufficient() ) {
         p->add_msg_if_player( _( "The %s winks out" ), it->tname().c_str() );
     } else { // Turning it off
-        int choice = menu( true, _( "Louisville Slaughterer (lit)" ), _( "extinguish" ),
-                           _( "light something" ), _( "cancel" ), NULL );
+        int choice = uilist( _( "Louisville Slaughterer (lit)" ), {
+            _( "extinguish" ), _( "light something" )
+        } );
         switch( choice ) {
-            case 1: {
+            case 0: {
                 p->add_msg_if_player( _( "The Louisville Slaughterer is extinguished." ) );
                 if( it->charges <= 1 ) {
                     it->charges = 0;
@@ -4427,7 +4428,7 @@ int iuse::battletorch_lit( player *p, item *it, bool t, const tripoint &pos )
                 return 0;
             }
             break;
-            case 2: {
+            case 1: {
                 tripoint temp = pos;
                 if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
                     p->moves -= 5;
