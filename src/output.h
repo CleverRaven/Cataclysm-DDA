@@ -590,8 +590,8 @@ std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred, boo
  */
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c );
 
-void draw_tab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected );
-void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, bool bSelected,
+void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected );
+void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected,
                   bool bDecorate = true, bool bDisabled = false );
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
