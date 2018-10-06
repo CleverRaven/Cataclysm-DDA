@@ -6356,18 +6356,16 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
-        uimenu pmenu;
+        uilist pmenu;
 
-        pmenu.selected = 0;
         pmenu.text = _( "Critter photos saved on camera:" );
-        pmenu.addentry( 0, true, 'q', _( "Cancel" ) );
 
         std::vector<mtype_id> monster_photos;
         std::vector<std::string> descriptions;
 
         std::istringstream f_mon( it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         std::string s;
-        int k = 1;
+        int k = 0;
         while( getline( f_mon, s, ',' ) ) {
 
             if( s.empty() ) {
@@ -6414,11 +6412,11 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             pmenu.query();
             choice = pmenu.ret;
 
-            if( 0 == choice ) {
+            if( choice < 0 ) {
                 break;
             }
 
-            popup( descriptions[choice - 1].c_str() );
+            popup( descriptions[choice].c_str() );
 
         } while( true );
 
