@@ -6150,11 +6150,10 @@ struct npc_photo_def : public JsonDeserializer, public JsonSerializer {
 
 int iuse::camera( player *p, item *it, bool, const tripoint & )
 {
-    enum {c_cancel, c_shot, c_photos, c_upload};
+    enum {c_shot, c_photos, c_upload};
 
-    uimenu amenu;
+    uilist amenu;
 
-    amenu.selected = 0;
     amenu.text = _( "What to do with camera?" );
     amenu.addentry( c_shot, true, 'p', _( "Take a photo" ) );
     if( !( it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() &&
@@ -6165,12 +6164,10 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         amenu.addentry( c_photos, false, 'l', _( "No photos in memory" ) );
     }
 
-    amenu.addentry( c_cancel, true, 'q', _( "Cancel" ) );
-
     amenu.query();
     const int choice = amenu.ret;
 
-    if( c_cancel == choice ) {
+    if( choice < 0 ) {
         return 0;
     }
 
