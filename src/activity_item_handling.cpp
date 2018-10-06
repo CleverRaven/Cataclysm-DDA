@@ -108,7 +108,7 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
                               "You put your %1$s in the %2$s's %3$s.", dropcount ),
                     ngettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
                               "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
-                    it_name.c_str(), veh.name.c_str(), part_name.c_str()
+                    it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::too_large:
@@ -117,14 +117,14 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
                         "There's no room in your inventory for the %s, so you drop it into the %s's %s.",
                         "There's no room in your inventory for the %s, so you drop them into the %s's %s.",
                         dropcount ),
-                    it_name.c_str(), veh.name.c_str(), part_name.c_str()
+                    it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::too_heavy:
                 p.add_msg_if_player(
                     ngettext( "The %s is too heavy to carry, so you drop it into the %s's %s.",
                               "The %s are too heavy to carry, so you drop them into the %s's %s.", dropcount ),
-                    it_name.c_str(), veh.name.c_str(), part_name.c_str()
+                    it_name, veh.name, part_name
                 );
                 break;
             case item_drop_reason::tumbling:
@@ -132,7 +132,7 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
                     m_bad,
                     ngettext( "Your %s tumbles into the %s's %s.",
                               "Your %s tumble into the %s's %s.", dropcount ),
-                    it_name.c_str(), veh.name.c_str(), part_name.c_str()
+                    it_name, veh.name, part_name
                 );
                 break;
         }
@@ -142,7 +142,7 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
                 p.add_msg_player_or_npc(
                     _( "You put several items in the %1$s's %2$s." ),
                     _( "<npcname> puts several items in the %1$s's %2$s." ),
-                    veh.name.c_str(), part_name.c_str()
+                    veh.name, part_name
                 );
                 break;
             case item_drop_reason::too_large:
@@ -150,7 +150,7 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
             case item_drop_reason::tumbling:
                 p.add_msg_if_player(
                     m_bad, _( "Some items tumble into the %1$s's %2$s." ),
-                    veh.name.c_str(), part_name.c_str()
+                    veh.name, part_name
                 );
                 break;
         }
@@ -162,14 +162,14 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
                 m_warning,
                 ngettext( "The %s is full, so something fell to the %s.",
                           "The %s is full, so some items fell to the %s.", fallen_count ),
-                part_name.c_str(), ter_name.c_str()
+                part_name, ter_name
             );
         } else {
             add_msg(
                 m_warning,
                 ngettext( "The %s is full, so it fell to the %s.",
                           "The %s is full, so they fell to the %s.", fallen_count ),
-                part_name.c_str(), ter_name.c_str()
+                part_name, ter_name
             );
         }
     }
@@ -190,11 +190,11 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
         pet.add_effect( effect_controlled, 5_turns );
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
-                     it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
+                     it.display_name(), g->m.name( pet.pos() ) );
             g->m.add_item_or_charges( pet.pos(), it );
         } else if( it.weight() > remaining_weight ) {
             add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ),
-                     it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
+                     it.display_name(), g->m.name( pet.pos() ) );
             g->m.add_item_or_charges( pet.pos(), it );
         } else {
             pet.add_item( it );
@@ -226,7 +226,7 @@ void drop_on_map( const player &p, item_drop_reason reason, const std::list<item
                                   "You drop your %1$s on the %2$s.", dropcount ),
                         ngettext( "<npcname> drops their %1$s on the %2$s.",
                                   "<npcname> drops their %1$s on the %2$s.", dropcount ),
-                        it_name.c_str(), ter_name.c_str()
+                        it_name, ter_name
                     );
                 } else {
                     p.add_msg_player_or_npc(
@@ -234,7 +234,7 @@ void drop_on_map( const player &p, item_drop_reason reason, const std::list<item
                                   "You put your %1$s in the %2$s.", dropcount ),
                         ngettext( "<npcname> puts their %1$s in the %2$s.",
                                   "<npcname> puts their %1$s in the %2$s.", dropcount ),
-                        it_name.c_str(), ter_name.c_str()
+                        it_name, ter_name
                     );
                 }
                 break;
@@ -242,14 +242,14 @@ void drop_on_map( const player &p, item_drop_reason reason, const std::list<item
                 p.add_msg_if_player(
                     ngettext( "There's no room in your inventory for the %s, so you drop it.",
                               "There's no room in your inventory for the %s, so you drop them.", dropcount ),
-                    it_name.c_str()
+                    it_name
                 );
                 break;
             case item_drop_reason::too_heavy:
                 p.add_msg_if_player(
                     ngettext( "The %s is too heavy to carry, so you drop it.",
                               "The %s is too heavy to carry, so you drop them.", dropcount ),
-                    it_name.c_str()
+                    it_name
                 );
                 break;
             case item_drop_reason::tumbling:
@@ -257,7 +257,7 @@ void drop_on_map( const player &p, item_drop_reason reason, const std::list<item
                     m_bad,
                     ngettext( "Your %1$s tumbles to the %2$s.",
                               "Your %1$s tumble to the %2$s.", dropcount ),
-                    it_name.c_str(), ter_name.c_str()
+                    it_name, ter_name
                 );
                 break;
         }
@@ -268,20 +268,20 @@ void drop_on_map( const player &p, item_drop_reason reason, const std::list<item
                     p.add_msg_player_or_npc(
                         _( "You drop several items on the %s." ),
                         _( "<npcname> drops several items on the %s." ),
-                        ter_name.c_str()
+                        ter_name
                     );
                 } else {
                     p.add_msg_player_or_npc(
                         _( "You put several items in the %s." ),
                         _( "<npcname> puts several items in the %s." ),
-                        ter_name.c_str()
+                        ter_name
                     );
                 }
                 break;
             case item_drop_reason::too_large:
             case item_drop_reason::too_heavy:
             case item_drop_reason::tumbling:
-                p.add_msg_if_player( m_bad, _( "Some items tumble to the %s." ), ter_name.c_str() );
+                p.add_msg_if_player( m_bad, _( "Some items tumble to the %s." ), ter_name );
                 break;
         }
     }
