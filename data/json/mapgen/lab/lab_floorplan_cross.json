@@ -92,6 +92,54 @@
     }
   },
   {
+    "//": "Cross floorplan with a wide open hallway, smaller rooms, and minor clutter.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_4side" ],
+    "weight": 50,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |l.....|       |",
+        "        |......|       |",
+        "        |......|       |",
+        "        |......|       |",
+        "        +......?       |",
+        "        |.....h|       |",
+        "        |.....t|       |",
+        "        |.....h|       |",
+        "----?---|......|---+---|",
+        "hth..............!....l|",
+        ".......................|",
+        ".......................M",
+        ".......................M",
+        ".......................|",
+        ".!....l...............!|",
+        "----+---|......|---?---|",
+        "        |h.....|       |",
+        "        |t.....|       |",
+        "        |h.....|       |",
+        "        ?......+       |",
+        "        |......|       |",
+        "        |......|       |",
+        "        |!....l|       |",
+        "-----------MM----------|"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "terrain": {
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
+        "!": [ "t_thconc_floor", "t_thconc_floor", "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken", "t_centrifuge" ]
+      },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_7x7" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
+        { "chunks": [ "lab_spawn_7x7" ], "x": 16, "y": [0,1], "neighbors": { "north": ["lab", "open_air"], "east": ["lab", "open_air"] } },
+        { "chunks": [ "lab_spawn_7x7" ], "x": [0,1], "y": 16, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
+        { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
+        { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
     "//": "Non-cross format amenable to quadrants being filled in with rocks/vaults when a side is empty.",
     "type": "mapgen",
     "method": "json",
