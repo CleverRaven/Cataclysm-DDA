@@ -1792,7 +1792,8 @@
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED" ]
-  },{
+  },
+  {
     "id": "e_combatsaw_off",
     "type": "TOOL",
     "category": "weapons",
