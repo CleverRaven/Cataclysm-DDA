@@ -292,7 +292,7 @@
       { "x": -5, "y": -1, "part": "board_horizontal" },
       { "x": 2, "y": -1, "part": "roof" },
       { "x": 2, "y": -1, "part": "dashboard" },
-      { "x": 2, "y": -1, "part": "controls" },  
+      { "x": 2, "y": -1, "part": "controls" },
       { "x": 2, "y": -1, "part": "seatbelt_heavyduty" },
       { "x": 2, "y": -1, "part": "plating_military" },
       { "x": -3, "y": -4, "part": "plating_military" },
