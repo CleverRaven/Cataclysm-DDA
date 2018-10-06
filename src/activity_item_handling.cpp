@@ -158,14 +158,14 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
 
     if( fallen_count > 0 ) {
         if( into_vehicle_count > 0 ) {
-            add_msg(
+            p.add_msg_if_player(
                 m_warning,
                 ngettext( "The %s is full, so something fell to the %s.",
                           "The %s is full, so some items fell to the %s.", fallen_count ),
                 part_name, ter_name
             );
         } else {
-            add_msg(
+            p.add_msg_if_player(
                 m_warning,
                 ngettext( "The %s is full, so it fell to the %s.",
                           "The %s is full, so they fell to the %s.", fallen_count ),
