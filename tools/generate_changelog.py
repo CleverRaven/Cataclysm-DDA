@@ -289,6 +289,12 @@ class CDDAPullRequestRepository:
         for pr in self.ref_by_merge_hash.values():
             yield pr
 
+    def get_merged_pr_list_by_date(self, latest_dttm, oldest_dttm):
+        """Return PullRequests merged between latest_dttm (including) and oldest_dttm (excluding)."""
+        for pr in (p for p in self.get_all_pr() if p.is_merged):
+            if latest_dttm >= pr.merge_dttm > oldest_dttm:
+                yield pr
+
     def purge_references(self):
         self.ref_by_merge_hash.clear()
 
