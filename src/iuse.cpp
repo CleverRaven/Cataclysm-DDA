@@ -7239,17 +7239,14 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         }
         p->moves -= 15;
     } else if( initial_state == "pay_out_cable" ) {
-        int choice = -1;
-        uimenu kmenu;
-        kmenu.selected = 0;
+        uilist kmenu;
         kmenu.text = _( "Using cable:" );
         kmenu.addentry( 0, true, -1, _( "Attach loose end of the cable" ) );
         kmenu.addentry( 1, true, -1, _( "Detach and re-spool the cable" ) );
-        kmenu.addentry( -1, true, 'q', _( "Cancel" ) );
         kmenu.query();
-        choice = kmenu.ret;
+        int choice = kmenu.ret;
 
-        if( choice == -1 ) {
+        if( choice < 0 ) {
             return 0; // we did nothing.
         } else if( choice == 1 ) {
             it->reset_cable( p );
