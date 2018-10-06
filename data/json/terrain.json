@@ -7173,11 +7173,29 @@
     "color": "brown",
     "move_cost": 0,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_blackjack_harvested",
     "examine_action": "harvest_ter",
-    "transforms_into": "t_tree",
     "harvest_by_season": [
       { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 1, 2 ] } ] }
     ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_blackjack_harvested",
+    "name": "blackjack oak",
+    "symbol": "7",
+    "color": "brown",
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_blackjack",
     "bash": {
       "str_min": 80,
       "str_max": 180,
