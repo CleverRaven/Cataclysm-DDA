@@ -2398,6 +2398,9 @@ nc_color item::color_in_inventory() const
                 u.get_skill_level( tmp.skill ) >= tmp.req &&
                 u.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
+            } else if( type->can_use( "MA_MANUAL" ) &&
+                       !u.has_martialart( martial_art_learned_from( *type ) ) ) {
+                ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        u.get_skill_level_object( tmp.skill ).can_train() &&
                        u.get_skill_level( tmp.skill ) < tmp.level ) {
