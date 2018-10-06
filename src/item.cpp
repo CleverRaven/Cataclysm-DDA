@@ -6317,7 +6317,9 @@ void item::heat_up()
     item_tags.erase( "COLD" );
     item_tags.erase( "FROZEN" );
     item_tags.erase( "WARM" );
-    item_tags.insert( "HOT" );
+    if( !item_tags.count( "HOT" ) ) {
+        item_tags.insert( "HOT" );
+    }
     // links the amount of heat an item can retain to its mass
     item_counter = clamp( to_gram( weight() ), 100, 600 );;
     reset_temp_check();
