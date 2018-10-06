@@ -5959,16 +5959,14 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         if( ei_recipe == choice ) {
             p->moves -= 50;
 
-            uimenu rmenu;
+            uilist rmenu;
 
-            rmenu.selected = 0;
             rmenu.text = _( "Choose recipe to view:" );
-            rmenu.addentry( 0, true, 'q', _( "Cancel" ) );
 
             std::vector<recipe_id> candidate_recipes;
             std::istringstream f( it->get_var( "EIPC_RECIPES" ) );
             std::string s;
-            int k = 1;
+            int k = 0;
             while( getline( f, s, ',' ) ) {
 
                 if( s.empty() ) {
@@ -5986,11 +5984,11 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             rmenu.query();
 
             const int rchoice = rmenu.ret;
-            if( 0 == rchoice ) {
+            if( rchoice < 0 ) {
                 return it->type->charges_to_use();
             } else {
                 it->item_tags.insert( "HAS_RECIPE" );
-                const auto rec_id = candidate_recipes[rchoice - 1];
+                const auto rec_id = candidate_recipes[rchoice];
                 it->set_var( "RECIPE", rec_id.str() );
 
                 const auto &recipe = *rec_id;
