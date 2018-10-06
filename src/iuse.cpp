@@ -7054,7 +7054,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
     } else {
         enum {
-            mc_cancel, mc_start, mc_stop, mc_take, mc_upgrade
+            mc_start, mc_stop, mc_take, mc_upgrade
         };
 
         if( p->is_underwater() ) {
@@ -7079,11 +7079,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        uimenu menu;
-        menu.selected = 0;
+        uilist menu;
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
-
-        menu.addentry( mc_cancel, true, 'q', _( "Cancel" ) );
 
         if( it->active ) {
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
@@ -7118,7 +7115,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         menu.query();
         int choice = menu.ret;
 
-        if( mc_cancel == choice ) {
+        if( choice < 0 ) {
             return 0;
         }
 
