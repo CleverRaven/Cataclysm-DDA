@@ -26,6 +26,17 @@ generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 }
 
+matype_id martial_art_learned_from( const itype &type )
+{
+    if( !type.can_use( "MA_MANUAL" ) ) {
+        return {};
+    }
+
+    // strip "manual_" from the start of the item id, add the rest to "style_"
+    // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
+    return matype_id( "style_" + type.get_id().substr( 7 ) );
+}
+
 void load_technique( JsonObject &jo, const std::string &src )
 {
     ma_techniques.load( jo, src );

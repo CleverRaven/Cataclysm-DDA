@@ -50,6 +50,7 @@
 #include "string_input_popup.h"
 #include "inventory.h"
 #include "json.h"
+#include "martialarts.h"
 
 #include <vector>
 #include <sstream>
@@ -2333,9 +2334,7 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
 {
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
 
-    // strip "manual_" from the start of the item id, add the rest to "style_"
-    // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
-    const matype_id style_to_learn( "style_" + it->typeId().substr( 7 ) );
+    const matype_id style_to_learn = martial_art_learned_from( *it->type );
 
     if( p->has_martialart( style_to_learn ) ) {
         p->add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );

@@ -16,6 +16,7 @@ class JsonObject;
 class effect;
 class player;
 class item;
+class itype;
 class martialart;
 using matype_id = string_id<martialart>;
 class ma_buff;
@@ -26,6 +27,8 @@ class effect_type;
 using efftype_id = string_id<effect_type>;
 class Skill;
 using skill_id = string_id<Skill>;
+
+matype_id martial_art_learned_from( const itype & );
 
 struct ma_requirements {
     bool was_loaded = false;
