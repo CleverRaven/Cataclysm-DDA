@@ -1184,14 +1184,13 @@ void Character::drop_invalid_inventory()
     }
 
     if( volume_carried() > volume_capacity() ) {
-        add_msg_if_player( m_bad, _( "Some items tumble to the ground." ) );
         auto items_to_drop = inv.remove_randomly_by_volume( volume_carried() - volume_capacity() );
         /// @todo For now this only supports dropping into vehicle for the
         /// player, not other characters, because put_into_vehicle_or_drop
         /// requires a player as an argument.  This could probably be
         /// generalized, but would require looking into.
         if ( auto p = dynamic_cast<player*>(this) ) {
-            put_into_vehicle_or_drop( *p, items_to_drop );
+            put_into_vehicle_or_drop( *p, item_drop_reason::tumbling, items_to_drop );
         } else {
             for( auto &item_to_drop : items_to_drop ) {
                 g->m.add_item_or_charges( pos(), item_to_drop );

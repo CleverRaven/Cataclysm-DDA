@@ -459,13 +459,9 @@ static void set_item_inventory( item &newit )
         g->u.inv.assign_empty_invlet( newit, g->u );
         // We might not have space for the item
         if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
-            add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
-                     newit.tname().c_str() );
-            put_into_vehicle_or_drop( g->u, { newit } );
+            put_into_vehicle_or_drop( g->u, item_drop_reason::too_large, { newit } );
         } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            add_msg( _( "The %s is too heavy to carry, so you drop it." ),
-                     newit.tname().c_str() );
-            put_into_vehicle_or_drop( g->u, { newit } );
+            put_into_vehicle_or_drop( g->u, item_drop_reason::too_heavy, { newit } );
         } else {
             newit = g->u.i_add( newit );
             add_msg( m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str() );

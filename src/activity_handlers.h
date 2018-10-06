@@ -21,8 +21,16 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 void try_refuel_fire( player &p );
-void put_into_vehicle_or_drop( player &p, const std::list<item> &items );
-void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
+
+enum class item_drop_reason {
+    deliberate,
+    too_large,
+    too_heavy,
+    tumbling
+};
+
+void put_into_vehicle_or_drop( player &p, item_drop_reason, const std::list<item> &items );
+void put_into_vehicle_or_drop( player &p, item_drop_reason, const std::list<item> &items,
                                const tripoint &where );
 
 // advanced_inv.cpp
