@@ -2759,7 +2759,8 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
                            _( "You yank the cords, but nothing happens." ) );
 }
 
-int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & ) {
+int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
+{
     return toolweapon_off( *p, *it,
                            false,
                            rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
@@ -2847,7 +2848,8 @@ int iuse::cs_lajatang_on( player *p, item *it, bool t, const tripoint & )
     // there are two chainsaws.
 }
 
-int iuse::ecs_lajatang_on( player *p, item *it, bool t, const tripoint & ) {
+int iuse::ecs_lajatang_on( player *p, item *it, bool t, const tripoint & )
+{
     return toolweapon_on( *p, *it, t, _( "electric chainsaw lajatang" ),
                           false,
                           15, 12, _( "Your chainsaws buzz." ),
