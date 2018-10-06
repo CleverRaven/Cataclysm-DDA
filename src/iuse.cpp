@@ -2343,7 +2343,9 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
 
     p->ma_styles.push_back( style_to_learn );
 
-    p->add_msg_if_player( m_good, _( "You learn the essential elements of the style." ) );
+    const martialart &ma = style_to_learn.obj();
+    p->add_msg_if_player( m_good, _( "You learn the essential elements of %s." ),
+                          _( ma.name.c_str() ) );
 
     return 1;
 }
