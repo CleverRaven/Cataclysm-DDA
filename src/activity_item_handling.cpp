@@ -152,7 +152,8 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
     }
 
     if( fallen_count > 0 ) {
-        add_msg( m_warning, _( "The trunk is full, so some items fell to the %s." ), ter_name.c_str() );
+        add_msg( m_warning, _( "The %s is full, so some items fell to the %s." ),
+                 part_name.c_str(), ter_name.c_str() );
     }
 }
 
