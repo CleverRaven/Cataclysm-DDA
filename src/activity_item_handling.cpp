@@ -93,7 +93,7 @@ void put_into_vehicle( player &p, item_drop_reason reason, const std::list<item>
 
     if( same_type( items ) ) {
         const item &it = items.front();
-        const int dropcount = items.size() * ( it.count_by_charges() ? it.charges : 1 );
+        const int dropcount = items.size() * it.count();
         const std::string it_name = it.tname( dropcount );
 
         switch( reason ) {
@@ -197,7 +197,7 @@ void drop_on_map( const player &p, item_drop_reason reason, const std::list<item
 
     if( same_type( items ) ) {
         const item &it = items.front();
-        const int dropcount = items.size() * ( it.count_by_charges() ? it.charges : 1 );
+        const int dropcount = items.size() * it.count();
         const std::string it_name = it.tname( dropcount );
 
         switch( reason ) {
@@ -370,8 +370,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
             } );
 
             if( iter == worn.end() ) {
-                worn.emplace_front( dit, dit->count_by_charges() ? dit->charges : 1,
-                                    100 ); // @todo: Use a calculated cost
+                worn.emplace_front( dit, dit->count(), 100 ); // @todo: Use a calculated cost
             }
         }
     }
@@ -957,7 +956,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             return;
                         }
 
-                        move_item( *it, it->count_by_charges() ? it->charges : 1, src_loc, dest_loc );
+                        move_item( *it, it->count(), src_loc, dest_loc );
                         break;
                     }
                 }

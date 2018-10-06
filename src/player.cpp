@@ -8592,7 +8592,7 @@ bool player::takeoff( int pos )
 void player::drop( int pos, const tripoint &where )
 {
     const item &it = i_at( pos );
-    const int count = it.count_by_charges() ? it.charges : 1;
+    const int count = it.count();
 
     drop( { std::make_pair( pos, count ) }, where );
 }

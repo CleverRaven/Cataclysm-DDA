@@ -10610,7 +10610,7 @@ bool game::walk_move( const tripoint &dest_loc )
         }
         int index = 0;
         for( auto it = items.begin(); it != items.end(); ++index, ++it ) {
-            int amount = it->count_by_charges() ? it->charges : 1;
+            int amount = it->count();
             u.activity.values.push_back( index );
             u.activity.values.push_back( amount );
         }

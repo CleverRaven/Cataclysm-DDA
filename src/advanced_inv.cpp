@@ -1296,7 +1296,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
                 if( !spane.is_filtered( it ) ) {
                     dropped.emplace_back( player::worn_position_to_index( index ),
-                                          it.count_by_charges() ? it.charges : 1 );
+                                          it.count() );
                 }
             }
         }
@@ -1352,7 +1352,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 filtered_any_bucket = true;
                 continue;
             }
-            int amount = item_it->count_by_charges() ? item_it->charges : 1;
+            int amount = item_it->count();
             g->u.activity.values.push_back( index );
             g->u.activity.values.push_back( amount );
         }
