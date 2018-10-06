@@ -1780,21 +1780,22 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    int choice = menu( true, _( "Which signal should activate the item?:" ), _( "\"Red\"" ),
-                       _( "\"Blue\"" ), _( "\"Green\"" ), _( "Cancel" ), nullptr );
+    int choice = uilist( _( "Which signal should activate the item?:" ), {
+        _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
+    } );
 
     std::string newtag;
     std::string colorname;
     switch( choice ) {
-        case 1:
+        case 0:
             newtag = "RADIOSIGNAL_1";
             colorname = _( "\"Red\"" );
             break;
-        case 2:
+        case 1:
             newtag = "RADIOSIGNAL_2";
             colorname = _( "\"Blue\"" );
             break;
-        case 3:
+        case 2:
             newtag = "RADIOSIGNAL_3";
             colorname = _( "\"Green\"" );
             break;
