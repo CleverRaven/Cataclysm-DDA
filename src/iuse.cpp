@@ -6904,15 +6904,16 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     }
 
     bool controlling = it->active && remote != nullptr;
-    int choice = menu( true, _( "What to do with remote vehicle control:" ), _( "Nothing" ),
-                       controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
-                       _( "Execute one vehicle action" ), NULL );
+    int choice = uilist( _( "What to do with remote vehicle control:" ), {
+        controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
+        _( "Execute one vehicle action" )
+    } );
 
-    if( choice < 2 || choice > 3 ) {
+    if( choice < 0 || choice > 1 ) {
         return 0;
     }
 
-    if( choice == 2 && controlling ) {
+    if( choice == 0 && controlling ) {
         it->active = false;
         g->setremoteveh( nullptr );
         return 0;
@@ -6921,7 +6922,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     int px = g->u.view_offset.x;
     int py = g->u.view_offset.y;
 
-    vehicle *veh = pickveh( pos, choice == 2 );
+    vehicle *veh = pickveh( pos, choice == 0 );
 
     if( veh == nullptr ) {
         return 0;
@@ -6931,14 +6932,14 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    if( choice == 2 ) {
+    if( choice == 0 ) {
         it->active = true;
         g->setremoteveh( veh );
         p->add_msg_if_player( m_good, _( "You take control of the vehicle." ) );
         if( !veh->engine_on ) {
             veh->start_engines();
         }
-    } else if( choice == 3 ) {
+    } else if( choice == 1 ) {
         veh->use_controls( pos );
     }
 
