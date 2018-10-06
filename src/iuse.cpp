@@ -3597,16 +3597,17 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
 
 int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
 {
-    int choice = menu( true, _( "tactical tonfa" ), _( "Zap something" ),
-                       _( "Turn on light" ), _( "Cancel" ), NULL );
+    int choice = uilist( _( "tactical tonfa" ), {
+        _( "Zap something" ), _( "Turn on light" )
+    } );
 
     switch( choice ) {
-        case 1: {
+        case 0: {
             return iuse::tazer2( p, it, t, pos );
         }
         break;
 
-        case 2: {
+        case 1: {
             if( !it->ammo_sufficient() ) {
                 p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
                 return 0;
@@ -3629,16 +3630,17 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
             it->convert( "shocktonfa_off" ).active = false;
         } else {
-            int choice = menu( true, _( "tactical tonfa" ), _( "Zap something" ),
-                               _( "Turn off light" ), _( "cancel" ), NULL );
+            int choice = uilist( _( "tactical tonfa" ), {
+                _( "Zap something" ), _( "Turn off light" )
+            } );
 
             switch( choice ) {
-                case 1: {
+                case 0: {
                     return iuse::tazer2( p, it, t, pos );
                 }
                 break;
 
-                case 2: {
+                case 1: {
                     p->add_msg_if_player( _( "You turn off the light." ) );
                     it->convert( "shocktonfa_off" ).active = false;
                 }
