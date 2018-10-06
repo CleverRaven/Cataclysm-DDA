@@ -235,16 +235,16 @@ class CommitRepository:
         for commit in self.ref_by_commit_hash.values():
             yield commit
 
-    def traverse_commits_by_first_parent(self, initial_commit=None):
+    def traverse_commits_by_first_parent(self, initial_hash=None):
         """Iterate through Commits connected by the first Parent, until a parent is not found in the Repository
 
         This is like using 'git log --first-parent $commit', which avoids Commits "inside" Pull Requests / Merges.
         But returns Merge Commits (which often can be related to a single PR) and Commits directly added to a Branch.
         """
-        if initial_commit is not None:
-            commit = initial_commit
+        if initial_hash is not None:
+            commit = self.get_commit(initial_hash)
         else:
-            commit = self._latest_commit
+            commit = self.get_latest_commit()
 
         while commit is not None:
             yield commit
