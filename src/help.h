@@ -3,24 +3,33 @@
 #define HELP_H
 
 #include <string>
+#include <map>
+#include <vector>
+#include "cursesdef.h"
+#include "input.h"
 
-class JsonObject;
+class JsonIn;
 
-struct help_category {
-    std::string name;
-    std::string hotkey;
+class help
+{
+    public:
+        help() {};
 
-    help_category( const std::string &p_name = "", const std::string &p_hotkey = "" ) {
-        name = p_name;
-        hotkey = p_hotkey;
-    }
+        void load();
+        void draw_menu( const catacurses::window &win );
+        void display_help();
+
+    private:
+        void deserialize( JsonIn &jsin );
+
+        std::map<int, std::pair<std::string, std::vector<std::string> > > help_texts;
+        std::vector< std::vector<std::string> > hotkeys;
+
+        input_context ctxt;
 };
 
-void load_help_category( JsonObject &jsobj );
-void load_help_text( JsonObject &jsobj );
+help &get_help();
 
-void display_help();
-
-std::string get_hint(); // return a random hint about the game
+std::string get_hint();
 
 #endif

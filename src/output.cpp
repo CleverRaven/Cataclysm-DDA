@@ -600,6 +600,25 @@ bool query_int( int &result, const std::string &text )
     return true;
 }
 
+std::vector<std::string> get_hotkeys( const std::string &s )
+{
+    std::vector<std::string> hotkeys;
+    size_t start = s.find_first_of( '<' );
+    size_t end = s.find_first_of( '>' );
+    if( start != std::string::npos && end != std::string::npos ) {
+        // hotkeys separated by '|' inside '<' and '>', for example "<e|E|?>"
+        size_t lastsep = start;
+        size_t sep = s.find_first_of( '|', start );
+        while( sep < end ) {
+            hotkeys.push_back( s.substr( lastsep + 1, sep - lastsep - 1 ) );
+            lastsep = sep;
+            sep = s.find_first_of( '|', sep + 1 );
+        }
+        hotkeys.push_back( s.substr( lastsep + 1, end - lastsep - 1 ) );
+    }
+    return hotkeys;
+}
+
 // compatibility stub for uimenu(cancelable, mes, options)
 int menu_vec( bool cancelable, const char *mes,
               const std::vector<std::string> options )

@@ -361,9 +361,6 @@ void DynamicDataLoader::initialize()
 #else
     // Dummy function
     add( "mod_tileset", []( JsonObject &, const std::string & ) { } );
-
-    add( "help_category", &load_help_category );
-    add( "help_text", &load_help_text );
 #endif
 }
 
