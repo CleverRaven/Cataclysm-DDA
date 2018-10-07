@@ -580,12 +580,14 @@ Press [%s] to select highlighted armor for reordering.\n\
 Use   [%s] / [%s] to scroll the right list.\n\
 Press [%s] to assign special inventory letters to clothing.\n\
 Press [%s] to change the side on which item is worn.\n\
-Use   [%s] to equip an armor item from the inventory.\n\
+Use   [%s] to equip a new item at the currently selected position.\n\
 Press [%s] to remove selected armor from oneself.\n\
  \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
-The second number is an additional encumbrance penalty caused by wearing multiple items on one of the bodypart's layers.\n\
+The second number is an additional encumbrance penalty caused by wearing multiple items \
+on one of the bodypart's layers or wearing items outside of other items they would \
+normally be work beneath (e.g. a shirt over a backpack).\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart." ),
                           ctxt.get_desc( "MOVE_ARMOR" ).c_str(),
                           ctxt.get_desc( "PREV_TAB" ).c_str(),
