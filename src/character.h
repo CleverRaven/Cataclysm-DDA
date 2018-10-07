@@ -571,7 +571,7 @@ class Character : public Creature, public visitable<Character>
          */
         bool is_armed() const;
 
-        void drop_inventory_overflow();
+        void drop_invalid_inventory();
 
         bool has_artifact_with( const art_effect_passive effect ) const;
 
@@ -710,10 +710,10 @@ class Character : public Creature, public visitable<Character>
         void on_stat_change( const std::string &, int ) override {};
         virtual void on_mutation_gain( const trait_id & ) {};
         virtual void on_mutation_loss( const trait_id & ) {};
-
     public:
         virtual void on_item_wear( const item & ) {};
         virtual void on_item_takeoff( const item & ) {};
+        virtual void on_worn_item_washed( const item & ) {};
 
     protected:
         Character();

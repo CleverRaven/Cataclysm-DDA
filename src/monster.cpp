@@ -876,11 +876,11 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
-        const string_id<monfaction> faction_bee( "bee" );
-        const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
-        const trait_id pheromone_insect( "PHEROMONE_INSECT" );
-        const trait_id mycus_thresh( "THRESH_MYCUS" );
-        const trait_id terrifying( "TERRIFYING" );
+        static const string_id<monfaction> faction_bee( "bee" );
+        static const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
+        static const trait_id pheromone_insect( "PHEROMONE_INSECT" );
+        static const trait_id mycus_thresh( "THRESH_MYCUS" );
+        static const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
@@ -1403,7 +1403,7 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, body_part /*bp*/, int dam )
+void monster::apply_damage( Creature *source, body_part /*bp*/, int dam, const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
         return;

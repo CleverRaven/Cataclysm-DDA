@@ -22,7 +22,14 @@
   {
     "id": "elecsto_persele",
     "type": "item_group",
-    "items": [ [ "portable_game", 65 ], [ "cell_phone", 60 ], [ "mp3", 65 ], [ "radio_car_box", 35 ], [ "vibrator", 1 ] ]
+    "items": [
+      [ "portable_game", 65 ],
+      [ "cell_phone", 30 ],
+      [ "smart_phone", 65 ],
+      [ "mp3", 65 ],
+      [ "radio_car_box", 35 ],
+      [ "vibrator", 1 ]
+    ]
   },
   {
     "id": "elecsto_homapl",

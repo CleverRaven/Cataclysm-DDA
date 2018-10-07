@@ -4581,7 +4581,11 @@ void talk_function::mission_key_push( std::vector<std::vector<mission_entry>> &m
 {
     mission_entry miss;
     miss.id = id;
-    miss.name_display = name_display;
+    if( name_display == "" ) {
+        miss.name_display = id;
+    } else {
+        miss.name_display = name_display;
+    }
     miss.dir = dir;
     miss.priority = priority;
     miss.possible = possible;

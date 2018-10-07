@@ -156,3 +156,6 @@ stage
 
 # Apple Xcode IDE
 Xcode/
+
+# gdb
+.gdb_history

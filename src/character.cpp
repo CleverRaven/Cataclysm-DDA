@@ -91,8 +91,10 @@ static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SMALL( "SMALL" );
 static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
@@ -542,7 +544,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if( is_blind() || in_sleep_state() || has_effect( effect_narcosis ) ) {
+    if( is_blind() || ( in_sleep_state() && !has_trait( trait_SEESLEEP ) ) || has_effect( effect_narcosis ) ) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) {
         sight_max = 1;
@@ -1070,6 +1072,12 @@ units::mass Character::weight_capacity() const
     if( has_trait( trait_id( "SMALL_OK" ) ) ) {
         ret = ret * .70;
     }
+    if( has_trait( trait_id( "LARGE" ) ) || has_trait( trait_id( "LARGE_OK" ) ) ) {
+        ret = ret * 1.05;
+    }
+    if( has_trait( trait_id( "HUGE" ) ) || has_trait( trait_id( "HUGE_OK" ) ) ) {
+        ret = ret * 1.1;
+    }
     if( has_artifact_with( AEP_CARRY_MORE ) ) {
         ret += 22500_gram;
     }
@@ -1158,8 +1166,22 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-void Character::drop_inventory_overflow()
+void Character::drop_invalid_inventory()
 {
+    bool dropped_liquid = false;
+    for( const std::list<item> *stack : inv.const_slice() ) {
+        const item &it = stack->front();
+        if( it.made_of( LIQUID ) ) {
+            dropped_liquid = true;
+            g->m.add_item_or_charges( pos(), it );
+            // must be last
+            i_rem( &it );
+        }
+    }
+    if( dropped_liquid ) {
+        add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
+    }
+
     if( volume_carried() > volume_capacity() ) {
         for( auto &item_to_drop :
              inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
@@ -1416,6 +1438,9 @@ void Character::reset_stats()
     }
     if( has_trait( trait_TAIL_FLUFFY ) ) {
         mod_dodge_bonus( 4 );
+    }
+    if( has_trait( trait_SMALL ) ) {
+        mod_dodge_bonus( 1 );
     }
     if( has_trait( trait_SMALL2 ) ) {
         mod_dodge_bonus( 2 );
@@ -2169,6 +2194,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const int new_hp = clamp( current_hp + bonus, 0, maximal_hp );
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         msg << string_format( "<color_%s>%s</color> %s",
+
                               color_name( all_state_col ), aligned_name,
                               hp_str( current_hp, maximal_hp ) );
         desc << string_format( "<color_%s>%s</color> %s",
@@ -2521,7 +2547,7 @@ bool Character::pour_into( item &container, item &liquid )
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
     auto sel = [&]( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+        return pt.is_tank() && pt.can_reload( liquid );
     };
 
     auto stack = units::legacy_volume_factor / liquid.type->stack_size;

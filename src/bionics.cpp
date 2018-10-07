@@ -1541,12 +1541,12 @@ void player::introduce_into_anesthesia( time_duration const &duration, player &i
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
 
-        add_effect( effect_narcosis, duration );
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
         add_msg_if_player( m_mixed,
                            _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you. Mercifully, you pass out when the blades reach your line of sight." ) )
         ;
     }
+    add_effect( effect_narcosis, duration );
     fall_asleep( duration );
 }

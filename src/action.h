@@ -92,6 +92,8 @@ enum action_id : int {
     ACTION_PICKUP,
     /** Grab or let go of an object */
     ACTION_GRAB,
+    /** Haul pile of items, or let go of them */
+    ACTION_HAUL,
     /** Butcher or disassemble objects in current square */
     ACTION_BUTCHER,
     /** Chat with something */

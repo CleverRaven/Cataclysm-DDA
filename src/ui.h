@@ -22,6 +22,7 @@ const int UIMENU_ERROR = -1024;
 const int UIMENU_WAIT_INPUT = -1025;
 const int UIMENU_UNBOUND = -1026;
 const int UIMENU_CANCEL = -1027;
+const int UIMENU_TIMEOUT = -1028;
 const int MENU_ALIGN_LEFT = -1;
 const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
@@ -219,7 +220,7 @@ class uimenu: public ui_container
         bool scrollby( int scrollby );
         int scroll_amount_from_key( const int key );
         int scroll_amount_from_action( const std::string &action );
-        void query( bool loop = true );
+        void query( bool loop = true, int timeout = -1 );
         void filterlist();
         void apply_scrollbar();
         std::string inputfilter();

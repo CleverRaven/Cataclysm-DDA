@@ -473,6 +473,9 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
+            if( static_cast<size_t>( coll.part ) > veh.parts.size() ) {
+                continue;
+            }
 
             const point &collision_point = veh.parts[coll.part].mount;
             const int coll_dmg = coll.imp;
@@ -962,12 +965,10 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         }
 
         if( psg->pos() != part_pos ) {
-            debugmsg( "Passenger/part position mismatch: passenger %d,%d,%d, part %d %d,%d,%d",
-                      g->u.posx(), g->u.posy(), g->u.posz(),
-                      prt,
-                      part_pos.x, part_pos.y, part_pos.z );
-            veh->parts[prt].remove_flag( vehicle_part::passenger_flag );
-            continue;
+            add_msg( m_debug, "Passenger/part position mismatch: passenger %d,%d,%d, part %d %d,%d,%d",
+                     g->u.posx(), g->u.posy(), g->u.posz(),
+                     prt,
+                     part_pos.x, part_pos.y, part_pos.z );
         }
 
         // Place passenger on the new part location
@@ -3085,6 +3086,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         soundfxvariant = "smash_cloth";
     } else if( smash_furn ) {
         furn_set( p, bash->furn_set );
+        for( item &it : i_at( p ) )  {
+            it.on_drop( p, *this );
+        }
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -4078,7 +4082,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         // Cannot drop liquids into tiles that are comprised of liquid
-        if( obj.made_of( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
+        if( obj.made_of( LIQUID, true ) && has_flag( "SWIMMABLE", e ) ) {
             return false;
         }
 
@@ -4117,7 +4121,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
         && valid_limits( pos ) ) {
-        if( obj.on_drop( pos ) ) {
+        // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
+        if( obj.on_drop( pos, *this ) ) {
             return null_item_reference();
         }
 
@@ -4133,7 +4138,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                 continue;
             }
 
-            if( obj.on_drop( e ) ) {
+            if( obj.on_drop( e, *this ) ) {
                 return null_item_reference();
             }
 
@@ -4452,23 +4457,17 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
 void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
                                     map::map_process_func processor, std::string const &signal )
 {
-    static time_point last_fluid_check = calendar::time_of_cataclysm;
-    const time_point now = calendar::turn;
-
-    // only check the fluid every 10 turns for freeze/rot
-    if( last_fluid_check - now > 10_turns ) {
-        last_fluid_check = now;
-        for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
-            const size_t idx = vp.part_index();
-            cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ) );
-        }
+    const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
+    for( const vpart_reference vp : cur_veh.parts_with_feature( VPFLAG_FLUIDTANK, false ) ) {
+        const size_t idx = vp.part_index();
+        cur_veh.parts[idx].process_contents( cur_veh.global_part_pos3( idx ), engine_heater_is_on );
     }
+
     auto cargo_parts = cur_veh.parts_with_feature( VPFLAG_CARGO, true );
     for( const vpart_reference vp : cargo_parts ) {
         process_vehicle_items( cur_veh, vp.part_index() );
     }
 
-    const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( auto &active_item : cur_veh.active_items.get() ) {
         if( empty( cargo_parts ) ) {
             return;

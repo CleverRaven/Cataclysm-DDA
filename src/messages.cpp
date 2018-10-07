@@ -283,17 +283,16 @@ class dialog
         const nc_color bracket_color;
         const nc_color filter_help_color;
 
-        const char *time_fmt;
-
-        // border_width                       border_width
-        //      v                                  v
+        // border_width padding_width         border_width
+        //      v           v                     v
         //
-        //      | 12 seconds  Never mind. x 2      |
+        //      | 12 seconds Never mind. x 2      |
         //
-        //       '-----v-----''---------v---------'
-        //        time_width        msg_width
+        //       '-----v---' '---------v---------'
+        //        time_width       msg_width
         static constexpr int border_width = 1;
-        int unit_width, time_width, msg_width;
+        static constexpr int padding_width = 1;
+        int time_width, msg_width;
 
         size_t max_lines; // Max number of lines the window can show at once
 
@@ -350,24 +349,18 @@ void Messages::dialog::init()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    // string_format does not handle alignment of utf8 strings correctly, so we have to hack it here
-    //~ Change '7' in %7s to the maximum display width of all time units in the target language.
-    const auto &unit_fmt = pgettext( "message log", "%7s" );
-    //~ Time format in the message log window, %3d is the time number, %s is the (already aligned) time unit.
-    time_fmt = pgettext( "message log", "%3d %s " );
+    // Calculate time string display width. The translated strings are expected to
+    // be aligned, so we choose an arbitrary duration here to calculate the width.
+    time_width = utf8_width( to_string_clipped( 1_turns, clipped_align::right ) );
 
-    // Use unit_fmt and time_fmt to determine time string width
-    unit_width = utf8_width( string_format( unit_fmt, "" ) );
-    time_width = utf8_width( string_format( time_fmt, 0, string_format( unit_fmt, "" ) ) );
-
-    if( border_width * 2 + time_width >= w_width ||
+    if( border_width * 2 + time_width + padding_width >= w_width ||
         border_width * 2 >= w_height ) {
 
         debugmsg( "No enough space for the message window" );
         errored = true;
         return;
     }
-    msg_width = w_width - border_width * 2 - time_width;
+    msg_width = w_width - border_width * 2 - time_width - padding_width;
     max_lines = static_cast<size_t>( w_height - border_width * 2 );
 
     // Initialize filter help text and window
@@ -447,46 +440,29 @@ void Messages::dialog::show()
         nc_color col = msgtype_to_color( msg.type, false );
 
         // Print current line
-        print_colored_text( w, border_width + line, border_width + time_width, col, col,
-                            folded_all[folded_filtered[folded_ind]].second );
+        print_colored_text( w, border_width + line, border_width + time_width + padding_width,
+                            col, col, folded_all[folded_filtered[folded_ind]].second );
 
         // Generate aligned time string
         const time_point msg_time = msg.timestamp_in_turns;
-        const auto &num_n_unit = to_num_and_unit( calendar::turn - msg_time );
-        const auto u8w = utf8_width( num_n_unit.second );
-        std::string time_str;
+        const std::string time_str = to_string_clipped( calendar::turn - msg_time, clipped_align::right );
 
-        if( num_n_unit.first.has_value() ) {
-            if( u8w < unit_width ) {
-                // string_format does not handle utf8 string width correctly, we have to insert our own padding
-                time_str = string_format( time_fmt, num_n_unit.first.value(),
-                                          std::string( unit_width - u8w, ' ' ) + num_n_unit.second );
-            } else {
-                time_str = string_format( time_fmt, num_n_unit.first.value(), num_n_unit.second );
-            }
-        } else {
-            // not likely, but just in case
-            if( u8w < time_width ) {
-                time_str = std::string( time_width - u8w, ' ' ) + num_n_unit.second;
-            } else {
-                time_str = num_n_unit.second;
-            }
-        }
         if( time_str != prev_time_str ) {
             // Time changed, print time string
             prev_time_str = time_str;
-            right_print( w, border_width + line, border_width + msg_width, time_color, time_str );
+            right_print( w, border_width + line, border_width + msg_width + padding_width,
+                         time_color, time_str );
             printing_range = false;
         } else {
             // Print line brackets to mark ranges of time
             if( printing_range ) {
                 const size_t last_line = log_from_top ? line - 1 : line + 1;
                 wattron( w, bracket_color );
-                mvwaddch( w, border_width + last_line, border_width + time_width - 2, LINE_XOXO );
+                mvwaddch( w, border_width + last_line, border_width + time_width - 1, LINE_XOXO );
                 wattroff( w, bracket_color );
             }
             wattron( w, bracket_color );
-            mvwaddch( w, border_width + line, border_width + time_width - 2,
+            mvwaddch( w, border_width + line, border_width + time_width - 1,
                       log_from_top ? LINE_XXOO : LINE_OXXO );
             wattroff( w, bracket_color );
             printing_range = true;

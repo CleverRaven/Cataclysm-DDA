@@ -1605,6 +1605,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0L );
     charges = std::max( charges, 0L );
 
+    int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
@@ -1622,6 +1623,7 @@ void item::io( Archive &archive )
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, calendar::time_of_cataclysm );
     archive.io( "last_temp_check", last_temp_check, calendar::time_of_cataclysm );
+    archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
@@ -1710,6 +1712,12 @@ void item::io( Archive &archive )
                 ++it;
             }
         }
+    }
+
+    current_phase = static_cast<phase_id>( cur_phase );
+    // override phase if frozen, needed for legacy save
+    if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
+        current_phase = SOLID;
     }
 }
 
@@ -1939,7 +1947,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "enabled", enabled );
     json.member( "flags", flags );
     if( !carry_names.empty() ) {
-        std::stack<std::string> carry_copy = carry_names;
+        std::stack<std::string, std::vector<std::string> > carry_copy = carry_names;
         json.member( "carry" );
         json.start_array();
         while( !carry_copy.empty() ) {

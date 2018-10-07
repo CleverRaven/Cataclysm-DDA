@@ -52,6 +52,9 @@ const std::vector<std::string> carnivore_blacklist {{
 const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
+// Defines the maximum volume that a internal furnace can consume
+const units::volume furnace_max_volume( 3000_ml ) ;
+
 // @todo: JSONize.
 const std::map<itype_id, int> plut_charges = {
     { "plut_cell",         PLUTONIUM_CHARGES * 10 },
@@ -327,19 +330,26 @@ morale_type player::allergy_type( const item &food ) const
 
 ret_val<edible_rating> player::can_eat( const item &food ) const
 {
-    // @todo: This condition occurs way too often. Unify it.
-    if( is_underwater() ) {
-        return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
-    }
 
     const auto &comest = food.type->comestible;
     if( !comest ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     }
 
+    if( food.item_tags.count( "DIRTY" ) ) {
+        return ret_val<edible_rating>::make_failure(
+                   _( "This is full of dirt after being on the ground." ) );
+    }
+
     const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
     const bool edible    = eat_verb ||  comest->comesttype == "FOOD";
     const bool drinkable = !eat_verb && comest->comesttype == "DRINK";
+
+    // @todo: This condition occurs way too often. Unify it.
+    // update Sep. 26 2018: this apparently still occurs way too often. yay!
+    if( is_underwater() && !has_trait( trait_id( "WATERSLEEP" ) ) ) {
+        return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
+    }
 
     if( edible || drinkable ) {
         for( const auto &elem : food.type->materials ) {
@@ -556,6 +566,9 @@ bool player::eat( item &food, bool force )
         if( has_trait( trait_id( "MOUTH_TENTACLES" ) )  || has_trait( trait_id( "MANDIBLES" ) ) ||
             has_trait( trait_id( "FANGS_SPIDER" ) ) ) {
             mealtime /= 2;
+        } else if( has_trait( trait_id( "SHARKTEETH" ) ) ) {
+            //SHARKBAIT! HOO HA HA!
+            mealtime /= 3;
         } else if( has_trait( trait_id( "GOURMAND" ) ) ) {
             // Don't stack those two - that would be 25 moves per item
             mealtime -= 100;
@@ -1056,6 +1069,10 @@ bool player::can_feed_furnace_with( const item &it ) const
     }
 
     if( !has_active_bionic( bio_furnace ) ) {
+        return false;
+    }
+
+    if( it.volume() >= furnace_max_volume ) {
         return false;
     }
 
