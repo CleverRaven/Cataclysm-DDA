@@ -21,6 +21,7 @@ class help
 
     private:
         void deserialize( JsonIn &jsin );
+        std::string get_note_colors();
 
         std::map<int, std::pair<std::string, std::vector<std::string> > > help_texts;
         std::vector< std::vector<std::string> > hotkeys;

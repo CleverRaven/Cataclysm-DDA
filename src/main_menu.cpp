@@ -447,7 +447,7 @@ bool main_menu::opening_screen()
             }
 
             if( ( sel1 == 0 || sel1 == 7 ) && ( action == "UP" || action == "DOWN" ||
-                       action == "PAGE_UP" || action == "PAGE_DOWN" ) ) {
+                                                action == "PAGE_UP" || action == "PAGE_DOWN" ) ) {
                 if( action == "UP" || action == "PAGE_UP" ) {
                     sel_line--;
                 } else if( action == "DOWN" || action == "PAGE_DOWN" ) {

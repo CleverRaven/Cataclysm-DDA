@@ -194,7 +194,29 @@
   {
     "pos": 17,
     "name": "<2>: Description of map symbols",
-    "text": [ "" ]
+    "text": [
+      "MAP SYMBOLS:",
+      "<color_brown>.</color>           Field - Empty grassland, occasional wild fruit.",
+      "<color_green>F</color>           Forest - May be dense or sparse. Slow moving; foragable food.",
+      "<color_dark_gray>│─└┌┐┘├┴┤┬┼</color> Road - Safe from burrowing animals.",
+      "<color_dark_gray>H=</color>          Highway - Like roads, but lined with guard rails.",
+      "<color_dark_gray>|-</color>          Bridge - Helps you cross rivers.",
+      "<color_blue>R</color>           River - Most creatures can not swim across them, but you may.",
+      "<color_dark_gray>O</color>           Parking lot - Empty lot, few items. Mostly useless.",
+      "<color_light_green>^>v<</color>        House - Filled with a variety of items. Good place to sleep.",
+      "<color_light_blue>^>v<</color>        Gas station - A good place to collect gasoline. Risk of explosion.",
+      "<color_light_red>^>v<</color>        Pharmacy - The best source for vital medications.",
+      "<color_green>^>v<</color>        Grocery store - A good source of canned food and other supplies.",
+      "<color_cyan>^>v<</color>        Hardware store - Home to tools, melee weapons and crafting goods.",
+      "<color_light_cyan>^>v<</color>        Sporting Goods store - Several survival tools and melee weapons.",
+      "<color_magenta>^>v<</color>        Liquor store - Alcohol is good for crafting Molotov cocktails.",
+      "<color_red>^>v<</color>        Gun store - Firearms and ammunition are very valuable.",
+      "<color_blue>^>v<</color>        Clothing store - High-capacity clothing, some light armor.",
+      "<color_brown>^>v<</color>        Library - Home to books, both entertaining and informative.",
+      "<color_white>^>v<</color>        Man-made buildings - The pointed side indicates the front door.",
+      "            There are many others out there... search for them!",
+      "<DRAW_NOTE_COLORS>"
+    ]
   },
   {
     "pos": 18,
