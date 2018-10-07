@@ -945,7 +945,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
         if curr_date in commits_with_no_pr:
             print(f"    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr[curr_date]:
-                print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash})", file=output_file)
+                print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash[:7]})", file=output_file)
             print(file=output_file)
         print(file=output_file)
 
