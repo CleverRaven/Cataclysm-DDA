@@ -20,8 +20,8 @@ mtype::mtype()
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
-    volume = 62500_ml;
-    weight = 81500_gram;
+    volume = 62499_ml;
+    weight = 81499_gram;
     mat = { material_id( "flesh" ) };
     phase = SOLID;
     def_chance = 0;

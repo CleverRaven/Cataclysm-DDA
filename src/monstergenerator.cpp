@@ -550,8 +550,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     assign( jo, "color", color );
     //const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
     //optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
-    assign( jo, "volume", volume, strict, 0 );
-    assign( jo, "weight", weight, strict, 0 );
+    assign( jo, "volume", volume, strict, 0_ml );
+    assign( jo, "weight", weight, strict, 0_gram );
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
     optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 

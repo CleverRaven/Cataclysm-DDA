@@ -217,8 +217,8 @@ struct mtype {
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
         m_size size;
-        units::volume volume = 0;
-        units::mass weight = 0;
+        units::volume volume;
+        units::mass weight;
         std::vector<material_id> mat;
         phase_id phase;
         std::set<m_flag> flags;
