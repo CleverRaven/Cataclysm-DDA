@@ -2294,8 +2294,7 @@ hp_part Character::body_window( const std::string &menu_header,
             desc << tag_colored_string( string_format( _( "Healthy." ) ), c_green ) << "\n";
         }
         if( !e.allowed ) {
-            desc << arrow << tag_colored_string( string_format(
-                    _( "You don't expect any effect from using this item." ) ), c_yellow );
+            desc << arrow << tag_colored_string( _( "You don't expect any effect from using this item." ), c_yellow );
         } else {
             is_valid_choice = true;
         }
