@@ -251,7 +251,7 @@ void player::sort_armor()
     int rightListSize;
     int rightListOffset = 0;
 
-    std::vector<item *> tmp_worn;
+    std::vector<std::list<item>::iterator> tmp_worn;
     std::array<std::string, 13> armor_cat = {{
             _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), _( "L. Arm" ), _( "R. Arm" ),
             _( "L. Hand" ), _( "R. Hand" ), _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ),
@@ -323,13 +323,14 @@ void player::sort_armor()
         // Create ptr list of items to display
         tmp_worn.clear();
         if( tabindex == 12 ) { // All
-            for( auto &elem : worn ) {
-                tmp_worn.push_back( &elem );
+            for( auto it = worn.begin(); it != worn.end(); ++it ) {
+                tmp_worn.push_back( it );
             }
         } else { // bp_*
-            for( auto &elem : worn ) {
-                if( elem.covers( static_cast<body_part>( tabindex ) ) ) {
-                    tmp_worn.push_back( &elem );
+            auto bp = static_cast<body_part>( tabindex );
+            for( auto it = worn.begin(); it != worn.end(); ++it ) {
+                if( it->covers( bp ) ) {
+                    tmp_worn.push_back( it );
                 }
             }
         }
@@ -377,7 +378,7 @@ void player::sort_armor()
         }
 
         mvwprintz( w_encumb, 0, 1, c_white, _( "Encumbrance and Warmth" ) );
-        print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? tmp_worn[leftListIndex] : nullptr );
+        print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         mvwprintz( w_sort_right, 0, 0, c_light_gray, _( "(Innermost)" ) );
@@ -432,6 +433,19 @@ void player::sort_armor()
             continue;
         }
 
+        // Helper function for moving items in the list
+        auto shift_selected_item = [&]() {
+            if( selected >= 0 ) {
+                auto to = tmp_worn[leftListIndex];
+                if( leftListIndex > selected ) {
+                    ++to;
+                }
+                worn.splice( to, worn, tmp_worn[selected] );
+                selected = leftListIndex;
+                reset_encumbrance();
+            }
+        };
+
         if( action == "UP" && leftListSize > 0 ) {
             leftListIndex--;
             if( leftListIndex < 0 ) {
@@ -446,19 +460,7 @@ void player::sort_armor()
                 leftListOffset = ( leftListOffset > 0 ) ? leftListOffset : 0;
             }
 
-            // move selected item
-            if( selected >= 0 ) {
-                if( leftListIndex < selected ) {
-                    std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
-                } else {
-                    for( std::size_t i = 0; i < tmp_worn.size() - 1; i++ ) {
-                        std::swap( *tmp_worn[i + 1], *tmp_worn[i] );
-                    }
-                }
-
-                selected = leftListIndex;
-                reset_encumbrance();
-            }
+            shift_selected_item();
         } else if( action == "DOWN" && leftListSize > 0 ) {
             leftListIndex = ( leftListIndex + 1 ) % tmp_worn.size();
 
@@ -469,19 +471,7 @@ void player::sort_armor()
                 leftListOffset = ( leftListOffset > 0 ) ? leftListOffset : 0;
             }
 
-            // move selected item
-            if( selected >= 0 ) {
-                if( leftListIndex > selected ) {
-                    std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
-                } else {
-                    for( std::size_t i = tmp_worn.size() - 1; i > 0; i-- ) {
-                        std::swap( *tmp_worn[i - 1], *tmp_worn[i] );
-                    }
-                }
-
-                selected = leftListIndex;
-                reset_encumbrance();
-            }
+            shift_selected_item();
         } else if( action == "LEFT" ) {
             tabindex--;
             if( tabindex < 0 ) {
@@ -523,8 +513,7 @@ void player::sort_armor()
             // only equip if something valid selected!
             if( loc ) {
                 // save iterator to cursor's position
-                auto cursor_it = worn.begin();
-                std::advance( cursor_it, leftListIndex );
+                auto cursor_it = tmp_worn[leftListIndex];
                 // wear the item
                 if( auto new_equip_it = wear( this->i_at( loc.obtain( *this ) ) ) ) {
                     // reorder `worn` vector to place new item at cursor
