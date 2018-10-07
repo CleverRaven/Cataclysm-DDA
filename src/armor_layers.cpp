@@ -205,13 +205,13 @@ void player::sort_armor()
     * + 3 - horizontal lines;
     * + 1 - caption line;
     * + 2 - innermost/outermost string lines;
-    * + 12 - sub-categories (torso, head, eyes, etc.);
+    * + num_bp - sub-categories (torso, head, eyes, etc.);
     * + 1 - gap;
     * number of lines required for displaying all items is calculated dynamically,
     * because some items can have multiple entries (i.e. cover a few parts of body).
     */
 
-    int req_right_h = 3 + 1 + 2 + 12 + 1;
+    int req_right_h = 3 + 1 + 2 + num_bp + 1;
     for( const body_part cover : all_body_parts ) {
         for( const item &elem : worn ) {
             if( elem.covers( cover ) ) {
@@ -322,7 +322,7 @@ void player::sort_armor()
 
         // Create ptr list of items to display
         tmp_worn.clear();
-        if( tabindex == 12 ) { // All
+        if( tabindex == num_bp ) { // All
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 tmp_worn.push_back( it );
             }
