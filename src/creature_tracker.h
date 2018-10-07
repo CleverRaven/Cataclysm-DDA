@@ -4,6 +4,7 @@
 
 #include "enums.h"
 
+#include <list>
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -48,10 +49,9 @@ class Creature_tracker
         void deserialize( JsonIn &jsin );
 
     private:
-        std::vector<std::shared_ptr<monster>> monsters_list;
+        bool check_location( const tripoint &pos );
         std::unordered_map<tripoint, std::shared_ptr<monster>> monsters_by_location;
-        /** Remove the monsters entry in @ref monsters_by_location */
-        void remove_from_location_map( const monster &critter );
+        std::list<std::shared_ptr<monster>> dead_monsters;
 };
 
 #endif

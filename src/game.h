@@ -1005,7 +1005,6 @@ class game
         void despawn_monster( monster &critter );
 
         void perhaps_add_random_npc();
-        void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
         void cleanup_dead();     // Delete any dead NPCs/monsters

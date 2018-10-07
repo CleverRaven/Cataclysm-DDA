@@ -1516,7 +1516,6 @@ void faction_manager::deserialize( JsonIn &jsin )
 
 void Creature_tracker::deserialize( JsonIn &jsin )
 {
-    monsters_list.clear();
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
@@ -1529,8 +1528,8 @@ void Creature_tracker::deserialize( JsonIn &jsin )
 void Creature_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
-    for( const auto &monster_ptr : monsters_list ) {
-        jsout.write( *monster_ptr );
+    for( const auto &monster_ptr : monsters_by_location ) {
+        jsout.write( *monster_ptr.second );
     }
     jsout.end_array();
 }
