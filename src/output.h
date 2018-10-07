@@ -143,10 +143,6 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = fa
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
 
-/*@{*/
-/**
- * Adds a color tag on the input string.
- */
 std::string tag_colored_string( const std::string &s, nc_color color );
 
 /*@{*/
