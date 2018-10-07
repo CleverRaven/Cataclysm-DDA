@@ -27,12 +27,16 @@ class MissingCommitException(Exception): pass
 class JenkinsBuild:
     """Representation of a Jenkins Build"""
 
-    def __init__(self, number, last_hash, build_dttm, is_building, build_result):
+    def __init__(self, number, last_hash, branch, build_dttm, is_building, build_result, block_ms, wait_ms, build_ms):
         self.number = number
         self.last_hash = last_hash
+        self.branch = branch
         self.build_dttm = build_dttm
         self.is_building = is_building
         self.build_result = build_result
+        self.wait_ms = wait_ms
+        self.build_ms = build_ms
+        self.block_ms = block_ms
 
     def was_successful(self):
         return not self.is_building and self.build_result == 'SUCCESS'
@@ -188,9 +192,9 @@ class CDDAPullRequest(PullRequest):
 class JenkinsBuildFactory:
     """Abstraction for instantiation of new Commit objects"""
 
-    def create(self, number, last_hash, build_dttm, is_building, build_result):
-        return JenkinsBuild(number, last_hash, build_dttm, is_building, build_result)
-
+    def create(self, number, last_hash, branch, build_dttm, is_building, build_result, block_ms, wait_ms, build_ms):
+        return JenkinsBuild(number, last_hash, branch, build_dttm, is_building,
+                            build_result, block_ms, wait_ms, build_ms)
 
 class CommitFactory:
     """Abstraction for instantiation of new Commit objects"""
@@ -379,17 +383,17 @@ class JenkinsApi:
     JENKINS_BUILD_LIST_API = r'http://gorgon.narc.ro:8080/job/Cataclysm-Matrix/api/xml'
 
     JENKINS_BUILD_LONG_LIST_PARAMS = {
-        'tree': r'allBuilds[number,timestamp,building,result,actions[lastBuiltRevision[branch[name,SHA1]]]]',
+        'tree': r'allBuilds[number,timestamp,building,result,actions[buildingDurationMillis,waitingDurationMillis,blockedDurationMillis,lastBuiltRevision[branch[name,SHA1]]]]',
         'xpath': r'//allBuild',
         'wrapper': r'allBuilds',
-        'exclude': r'//action[not(lastBuiltRevision/branch)]'
+        'exclude': r'//action[not(buildingDurationMillis|waitingDurationMillis|blockedDurationMillis|lastBuiltRevision/branch)]'
     }
 
     JENKINS_BUILD_SHORT_LIST_PARAMS = {
-        'tree': r'builds[number,timestamp,building,result,actions[lastBuiltRevision[branch[name,SHA1]]]]',
+        'tree': r'builds[number,timestamp,building,result,actions[buildingDurationMillis,waitingDurationMillis,blockedDurationMillis,lastBuiltRevision[branch[name,SHA1]]]]',
         'xpath': r'//build',
         'wrapper': r'builds',
-        'exclude': r'//action[not(lastBuiltRevision/branch)]'
+        'exclude': r'//action[not(buildingDurationMillis|waitingDurationMillis|blockedDurationMillis|lastBuiltRevision/branch)]'
     }
 
     def __init__(self, build_factory):
@@ -412,16 +416,24 @@ class JenkinsApi:
         jb_build_dttm = datetime.utcfromtimestamp(int(build_data.find('timestamp').text) // 1000)
         jb_is_building = build_data.find('building').text == 'true'
 
+        jb_block_ms = timedelta(0)
+        jb_wait_ms = timedelta(0)
+        jb_build_ms = timedelta(0)
         jb_build_result = None
         if not jb_is_building:
             jb_build_result = build_data.find('result').text
+            jb_block_ms = timedelta(milliseconds=int(build_data.find(r'.//action/blockedDurationMillis').text))
+            jb_wait_ms = timedelta(milliseconds=int(build_data.find(r'.//action/waitingDurationMillis').text))
+            jb_build_ms = timedelta(milliseconds=int(build_data.find(r'.//action/buildingDurationMillis').text))
 
         jb_last_hash = None
+        jb_branch = None
         if jb_build_result == 'SUCCESS':
-            jb_last_hash = build_data.find('action').find('lastBuiltRevision').find('branch').find('SHA1').text
-            #jb_branch_name = build.find('action').find('lastBuiltRevision').find('branch').find('name').text
+            jb_last_hash = build_data.find(r'.//action/lastBuiltRevision/branch/SHA1').text
+            jb_branch = build_data.find(r'.//action/lastBuiltRevision/branch/name').text
 
-        return self.build_factory.create(jb_number, jb_last_hash, jb_build_dttm, jb_is_building, jb_build_result)
+        return self.build_factory.create(jb_number, jb_last_hash, jb_branch, jb_build_dttm, jb_is_building,
+                                         jb_build_result, jb_block_ms, jb_wait_ms, jb_build_ms)
 
 
 class CommitApi:
