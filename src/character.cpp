@@ -2240,9 +2240,8 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
                                                      texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
             } else if( new_b_power > 0 ) {
-                desc << arrow << tag_colored_string( string_format(
-                        _( "You don't expect any improvement from using his item." ) ), c_yellow ) << "\n";
-        }
+                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using his item." ), c_yellow ) << "\n";
+            }
         } else if( new_b_power > 0 && e.allowed ) {
             desc << arrow << tag_colored_string( string_format( _( "Expected bandage quality: %s" ),
                                                  texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
@@ -2256,8 +2255,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( string_format( _( "Expected quality improvement: %s" ),
                                                      texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
             } else if( new_d_power > 0 ) {
-                desc << arrow << tag_colored_string( string_format(
-                        _( "You don't expect any improvement from using this item." ) ), c_yellow ) << "\n";
+                desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this item." ), c_yellow ) << "\n";
             }
         } else if( bitten ) {
             desc << tag_colored_string( string_format( "%s: ", get_effect( effect_bite,
@@ -2294,7 +2292,8 @@ hp_part Character::body_window( const std::string &menu_header,
             desc << tag_colored_string( string_format( _( "Healthy." ) ), c_green ) << "\n";
         }
         if( !e.allowed ) {
-            desc << arrow << tag_colored_string( _( "You don't expect any effect from using this item." ), c_yellow );
+            desc << arrow << tag_colored_string( _( "You don't expect any effect from using this item." ),
+                                                 c_yellow );
         } else {
             is_valid_choice = true;
         }
