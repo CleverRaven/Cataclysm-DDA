@@ -454,7 +454,8 @@ bool main_menu::opening_screen()
                     sel_line++;
                 }
 
-            } else if( ( action == "UP" || action == "CONFIRM" ) && sel1 != 0 && sel1 != 7 ) {
+            }
+            if( ( action == "UP" || action == "CONFIRM" ) && sel1 != 0 && sel1 != 7 ) {
                 if( sel1 == 6 ) {
                     display_help();
                 } else if( sel1 == 8 ) {
