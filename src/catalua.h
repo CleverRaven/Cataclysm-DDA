@@ -64,7 +64,9 @@ struct CallbackArgument {
         type( CallbackArgumentType::Enum_BodyPart ), value_body_part( arg_value ) {
     }
 #ifdef LUA
-    void Save();
+    // Saves value on lua stack and returns registry reference to it if the
+    // value's copy was stored in the registry. Returns LUA_NOREF if none was stored.
+    int Save();
 #endif //LUA
 };
 

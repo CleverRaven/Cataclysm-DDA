@@ -736,12 +736,18 @@ void update_globals( lua_State *L )
 {
     LuaReference<player>::push( L, g->u );
     luah_setglobal( L, "player", -1 );
+    // luah_setglobal pushes an extra copy of the global data before storing it,
+    // but here the original value isn't needed once the global data has been
+    // saved.
+    lua_pop( L, 1 );
 
     LuaReference<map>::push( L, g->m );
     luah_setglobal( L, "map", -1 );
+    lua_pop( L, 1 );
 
     LuaReference<game>::push( L, g );
     luah_setglobal( L, "g", -1 );
+    lua_pop( L, 1 );
 }
 
 class lua_iuse_wrapper : public iuse_actor
@@ -861,9 +867,10 @@ int call_lua( const std::string &tocall )
     return err;
 }
 
-void CallbackArgument::Save()
+int CallbackArgument::Save()
 {
     lua_State *const L = lua_state;
+    int saved_registry_ref = LUA_NOREF;
     switch( type ) {
         case CallbackArgumentType::Integer:
             lua_pushinteger( L, value_integer );
@@ -878,10 +885,10 @@ void CallbackArgument::Save()
             lua_pushstring( L, value_string.c_str() );
             break;
         case CallbackArgumentType::Tripoint:
-            LuaValue<tripoint>::push_reg( L, value_tripoint );
+            saved_registry_ref = LuaValue<tripoint>::push_reg( L, value_tripoint );
             break;
         case CallbackArgumentType::Item:
-            LuaValue<item>::push_reg( L, value_item );
+            saved_registry_ref = LuaValue<item>::push_reg( L, value_item );
             break;
         case CallbackArgumentType::Reference_Creature:
             LuaReference<Creature>::push( L, value_creature );
@@ -893,6 +900,7 @@ void CallbackArgument::Save()
             lua_pushnil( L );
             break;
     }
+    return saved_registry_ref;
 }
 
 void lua_callback_helper( const char *callback_name, const CallbackArgumentContainer &callback_args,
@@ -905,12 +913,23 @@ void lua_callback_helper( const char *callback_name, const CallbackArgumentConta
     update_globals( L );
     lua_getglobal( L, "mod_callback" );
     lua_pushstring( L, callback_name );
+    // CallbackArg::Save saves a copy of certain types in the global lua registry,
+    // which need to be freed after the call to avoid memory leaks.
+    std::vector<int> refs_to_clear( callback_args.size() );
+    int i = 0;
     for( auto callback_arg : callback_args ) {
-        callback_arg.Save();
+        refs_to_clear[i++] = callback_arg.Save();
     }
     int err = lua_pcall( L, callback_args.size() + 1, retsize, 0 );
     std::string err_function = "mod_callback(\"" + std::string( callback_name ) + "\")";
     lua_report_error( L, err, err_function.c_str(), true );
+
+    // Clean up any global refs from the saved CallbackArgs.
+    for( int ref_to_clear : refs_to_clear ) {
+        if( ref_to_clear != LUA_NOREF ) {
+            luaL_unref( L, LUA_REGISTRYINDEX, ref_to_clear );
+        }
+    }
 }
 
 void lua_callback( const char *callback_name, const CallbackArgumentContainer &callback_args )
