@@ -8399,13 +8399,8 @@ bool player::wear_item( const item &to_wear, bool interactive )
     const bool supertinymouse = g->u.has_trait( trait_id( "SMALL2" ) ) || g->u.has_trait( trait_id( "SMALL_OK" ) );
     last_item = to_wear.typeId();
 
-    // By default we put this item on after the last item on the same or any
-    // lower layer.
-    auto position = std::find_if(
-        worn.rbegin(), worn.rend(),
-        [&](const item& w) { return w.get_layer() <= to_wear.get_layer(); }
-    );
-    item &new_item = *worn.insert( position.base(), to_wear );
+    auto position = position_to_wear_new_item( to_wear );
+    item &new_item = *worn.insert( position, to_wear );
 
     if( interactive ) {
         add_msg_player_or_npc(

@@ -1615,6 +1615,16 @@ int layer_details::layer( const int encumbrance )
     return total - current;
 }
 
+std::list<item>::const_iterator Character::position_to_wear_new_item( const item& new_item ) const
+{
+    // By default we put this item on after the last item on the same or any
+    // lower layer.
+    return std::find_if(
+        worn.rbegin(), worn.rend(),
+        [&](const item& w) { return w.get_layer() <= new_item.get_layer(); }
+    ).base();
+}
+
 /*
  * Encumbrance logic:
  * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
