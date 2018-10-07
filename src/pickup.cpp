@@ -506,7 +506,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             picked_up = false;
             break;
         case WEAR:
-            picked_up = u.wear_item( newit );
+            picked_up = !!u.wear_item( newit );
             break;
         case WIELD:
             if( wield_check.success() ) {

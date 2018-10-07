@@ -1026,10 +1026,15 @@ class player : public Character
         int item_wear_cost( const item &to_wear ) const;
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        bool wear( int pos, bool interactive = true );
-        bool wear( item &to_wear, bool interactive = true );
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        bool wear_item( const item &to_wear, bool interactive = true );
+        cata::optional<std::list<item>::const_iterator>
+        wear( int pos, bool interactive = true );
+        cata::optional<std::list<item>::const_iterator>
+        wear( item &to_wear, bool interactive = true );
+        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * If interactive is false, don't alert the player or drain moves on completion.
+         */
+        cata::optional<std::list<item>::const_iterator>
+        wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
         bool change_side( int pos, bool interactive = true );

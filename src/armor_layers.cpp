@@ -522,18 +522,13 @@ void player::sort_armor()
 
             // only equip if something valid selected!
             if( loc ) {
+                // save iterator to cursor's position
+                auto cursor_it = worn.begin();
+                std::advance( cursor_it, leftListIndex );
                 // wear the item
-                if( wear( this->i_at( loc.obtain( *this ) ) ) ) {
+                if( auto new_equip_it = wear( this->i_at( loc.obtain( *this ) ) ) ) {
                     // reorder `worn` vector to place new item at cursor
-                    auto iter = worn.end();
-                    item new_equip  = *( --iter );
-                    // remove the item
-                    worn.erase( iter );
-                    iter = worn.begin();
-                    // advance the iterator to cursor's position
-                    std::advance( iter, leftListIndex );
-                    // inserts at position before iter (no b0f, phew)
-                    worn.insert( iter, new_equip );
+                    worn.splice( cursor_it, worn, *new_equip_it );
                 } else if( is_npc() ) {
                     // @todo: Pass the reason here
                     popup( _( "Can't put this on!" ) );
