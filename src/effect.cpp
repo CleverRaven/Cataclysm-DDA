@@ -1295,46 +1295,44 @@ void effect::deserialize( JsonIn &jsin )
 
 std::string texitify_base_healing_power( const int power )
 {
-    std::string ret;
     if( power == 1 ) {
-        ret = string_format( _( "very poor" ) );
+        return _( "very poor" );
     } else if( power == 2 ) {
-        ret = string_format( _( "poor" ) );
+        return _( "poor" );
     } else if( power == 3 ) {
-        ret = string_format( _( "decent" ) );
+        return _( "decent" );
     } else if( power == 4 ) {
-        ret = string_format( _( "good" ) );
+        return _( "good" );
     } else if( power >= 5 ) {
-        ret = string_format( _( "great" ) );
+        return _( "great" );
     }
     if( power < 1 ) {
         debugmsg( "Tried to convert zero or negative value." );
     }
-    return ret;
+    return "";
 }
 
 std::string texitify_healing_power( const int power )
 {
-    std::string ret;
     if( power >= 1 && power <= 2 ) {
-        ret = string_format( _( "poor" ) );
+        return _( "poor" );
     } else if( power >= 3 && power <= 4 ) {
-        ret = string_format( _( "decent" ) );
+        return _( "decent" );
     } else if( power >= 5 && power <= 6 ) {
-        ret = string_format( _( "average" ) );
+        return _( "average" );
     } else if( power >= 7 && power <= 8 ) {
-        ret = string_format( _( "good" ) );
+        return _( "good" );
     } else if( power >= 9 && power <= 10 ) {
-        ret = string_format( _( "very good" ) );
+        return _( "very good" );
     } else if( power >= 11 && power <= 12 ) {
-        ret = string_format( _( "great" ) );
+        return _( "great" );
     } else if( power >= 13 && power <= 14 ) {
-        ret = string_format( _( "outstanding" ) );
+        return _( "outstanding" );
     } else if( power >= 15 ) {
-        ret = string_format( _( "perfect" ) );
+        return _( "perfect" );
     }
     if( power < 1 ) {
         debugmsg( "Converted value out of bounds." );
     }
-    return ret;
+    return "";
 }

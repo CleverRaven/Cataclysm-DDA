@@ -2843,7 +2843,6 @@ std::string repair_item_actor::get_name() const
     return string_format( _( "Repair %s" ), mats.c_str() );
 }
 
-
 void heal_actor::load( JsonObject &obj )
 {
     // Mandatory
@@ -3196,6 +3195,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
                                         limb_power, head_bonus, torso_bonus,
                                         bleed, bite, infect, force, get_bandaged_level( healer ), get_disinfected_level( healer ) );
             if( healed == num_hp_parts ) {
+                add_msg( m_info, _( "Never mind." ) );
                 return num_hp_parts; // canceled
             }
         }

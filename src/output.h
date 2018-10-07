@@ -142,6 +142,13 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = fa
  * color tags. For example `utf8_width("<color_red>text</color>")` would return 23, but
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
+
+/*@{*/
+/**
+ * Adds a color tag on the input string.
+ */
+std::string tag_colored_string( const std::string &s, nc_color color );
+
 /*@{*/
 /**
  * Removes the color tags from the input string. This might be required when the string is to

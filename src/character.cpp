@@ -2046,15 +2046,6 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
-// @todo: Better place for it?
-std::string tag_colored_string( const std::string &s, nc_color color )
-{
-    // @todo: Make this tag generation a function, put it in good place
-    std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
-    std::string color_tag_close = "</color>";
-    return color_tag_open + s + color_tag_close;
-}
-
 hp_part Character::body_window( bool precise ) const
 {
     return body_window( disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
@@ -2108,8 +2099,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
             nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return string_format( "%s%s", tag_colored_string( h_bar, h_bar_col ),
-                                  tag_colored_string( std::string( 5 - h_bar.size(), '.' ), c_white ) );
+            return tag_colored_string( h_bar, h_bar_col ) + tag_colored_string( std::string( 5 - h_bar.size(), '.' ), c_white );
         }
     };
 
@@ -2133,7 +2123,6 @@ hp_part Character::body_window( const std::string &menu_header,
         const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item!
         const nc_color all_state_col = limb_color( bp, true, true, true );
-        // const bool has_any_effect = all_state_col != c_light_gray;
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = current_hp == 0;
 
@@ -2160,7 +2149,7 @@ hp_part Character::body_window( const std::string &menu_header,
         bool disinfected = has_effect( effect_disinfected, e.bp );
         const int b_power = get_effect_int( effect_bandaged, e.bp );
         const int d_power = get_effect_int( effect_disinfected, e.bp );
-        int new_b_power = int( std::floor( bandage_power ) );
+        int new_b_power = static_cast<int>( std::floor( bandage_power ) );
         if( bandaged ) {
             const effect &eff = get_effect( effect_bandaged, e.bp );
             if( new_b_power > eff.get_max_intensity() ) {
@@ -2168,7 +2157,7 @@ hp_part Character::body_window( const std::string &menu_header,
             }
 
         }
-        int new_d_power = int( std::floor( disinfectant_power ) );
+        int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
         // this prevents false prediction of effects that overreach maximum limits
         if( disinfected ) {
             const effect &eff = get_effect( effect_disinfected, e.bp );
@@ -2203,13 +2192,13 @@ hp_part Character::body_window( const std::string &menu_header,
             desc << "<color_red>" << string_format( "%s: ", get_effect( effect_bleed, e.bp ).get_speed_name() );
             switch( bleed_int ) {
                 case 1:
-                    desc << string_format( _( "It is bleeding." ) );
+                    desc << _( "It is bleeding." );
                     break;
                 case 2:
-                    desc << string_format( _( "It is bleeding considerably." ) );
+                    desc << _( "It is bleeding considerably." );
                     break;
                 case 3:
-                    desc << string_format( _( "It is bleeding heavily." ) );
+                    desc << _( "It is bleeding heavily." );
                     break;
             }
             desc << "</color>\n";
@@ -2292,19 +2281,14 @@ hp_part Character::body_window( const std::string &menu_header,
         bmenu.init();
         bmenu.desc_enabled = false;
         bmenu.text = string_format( _( "No healable part for: %s" ), menu_header );
-        bmenu.addentry( -1, true, 'q', "%s", _( "Cancel" ) );
+        bmenu.addentry( parts.size(), true, 'q', "%s", _( "Cancel" ) );
     }
-
-    // Force cursor to the header
-    bmenu.setup();
-    bmenu.fselected = bmenu.selected = 0;
 
     bmenu.query();
     if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() &&
         parts[bmenu.ret].allowed ) {
         return parts[bmenu.ret].hp;
     } else {
-        add_msg( m_info, _( "Never mind." ) );
         return num_hp_parts;
     }
 }
