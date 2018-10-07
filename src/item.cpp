@@ -2974,7 +2974,15 @@ units::volume item::base_volume() const
         return corpse_volume( corpse->size );
     }
 
-    return count_by_charges() ? type->volume / type->stack_size : type->volume;
+    if( count_by_charges() ) {
+        if( type->volume % type->stack_size == 0_ml ) {
+            return type->volume / type->stack_size;
+        } else {
+            return type->volume / type->stack_size + 1_ml;
+        }
+    }
+
+    return type->volume;
 }
 
 units::volume item::volume( bool integral ) const
@@ -2998,7 +3006,11 @@ units::volume item::volume( bool integral ) const
     }
 
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ret * charges / type->stack_size;
+        auto num = ret * charges;
+        ret = num / type->stack_size;
+        if( num % type->stack_size != 0_ml ) {
+            ret += 1_ml;
+        }
     }
 
     // Non-rigid items add the volume of the content
