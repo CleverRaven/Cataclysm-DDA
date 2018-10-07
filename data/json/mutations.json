@@ -269,7 +269,7 @@
         "id" : "GOODMEMORY",
         "name" : "Good Memory",
         "points" : 3,
-        "description" : "You have a an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
+        "description" : "You have a an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["FORGETFUL"]
@@ -445,7 +445,16 @@
         "valid" : false,
         "starting_trait" : true,
         "category" : ["MOUSE"],
-        "cancels" : ["MYOPIC"]
+        "cancels" : ["MYOPIC", "UNOBSERVANT"]
+    },{
+        "type" : "mutation",
+        "id" : "UNOBSERVANT",
+        "name" : "Topographagnosia",
+        "points" : -5,
+        "description" : "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
+        "valid" : false,
+        "starting_trait" : true,
+        "cancels" : ["EAGLEEYED"]
     },{
         "type" : "mutation",
         "id" : "CANNIBAL",
@@ -808,7 +817,7 @@
         "id" : "FORGETFUL",
         "name" : "Forgetful",
         "points" : -3,
-        "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
+        "description" : "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
         "starting_trait" : true,
         "category" : ["BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT"],
         "cancels" : ["GOODMEMORY"]
@@ -1282,8 +1291,8 @@
         "visibility" : 2,
         "ugliness" : 2,
         "description" : "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK"],
-        "changes_to" : ["SABER_TEETH"],
+        "types" : ["TEETH"],
+        "changes_to" : ["SABER_TEETH", "SHARKTEETH"],
         "category" : ["LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA"],
         "attacks" : [
             {
@@ -1327,7 +1336,7 @@
         "visibility" : 3,
         "ugliness" : 3,
         "description" : "Your big teeth have grown in.  Folks had best show some more respect.",
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "FANGS"],
+        "types" : ["TEETH"],
         "prereqs" : ["MUZZLE_RAT"],
         "threshreq" : ["THRESH_RAT"],
         "category" : ["RAT"],
@@ -1348,7 +1357,7 @@
         "points" : 1,
         "visibility" : 1,
         "ugliness" : 2,
-        "description" : "You have a second set of clear eyelids which lower while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
+        "description" : "You have a set of clear lenses which lower over your eyes while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
         "prereqs" : ["EYEBULGE"],
         "category" : ["LIZARD", "FISH"],
         "wet_protection" : [
@@ -1470,8 +1479,8 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "A set of flexible green scales has grown to cover your body, acting as natural armor.  Somewhat reduces wet effects.",
-        "category" : ["CHIMERA", "RAPTOR", "LIZARD"],
         "types" : ["SKIN"],
+        "category" : ["CHIMERA", "RAPTOR", "LIZARD"],
         "prereqs" : ["SKIN_ROUGH"],
         "changes_to" : ["THICK_SCALES", "SLEEK_SCALES"],
         "wet_protection" : [
@@ -2318,7 +2327,7 @@
         "points" : 1,
         "visibility" : 1,
         "description" : "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
-        "cancels" : ["HOOVES", "LEG_TENTACLES", "RAP_TALONS", "ROOTS1", "ROOTS2", "ROOTS3"],
+        "types" : ["LEGS"],
         "category" : ["BEAST", "URSINE", "FELINE", "LUPINE"]
     },{
         "type" : "mutation",
@@ -2330,7 +2339,7 @@
         "mixed_effect" : true,
         "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your movement.  Unfortunately, they do prevent you from wearing footgear.",
         "valid" : false,
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3"],
+        "types" : ["LEGS"],
         "category" : ["RAPTOR"],
         "restricts_gear" : [ "FOOT_L", "FOOT_R" ],
         "destroys_gear" : true,
@@ -2349,7 +2358,7 @@
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "Your feet have fused into hooves.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you can not wear shoes of any kind.  Reduces wet effects.",
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "RAP_TALONS", "ROOTS1", "ROOTS2", "ROOTS3"],
+        "types" : ["LEGS"],
         "category" : ["CATTLE", "CHIMERA"],
         "wet_protection":[
             { "part" : "FOOT_L", "neutral" : 10 },
@@ -2514,9 +2523,9 @@
         "ugliness" : 8,
         "mixed_effect" : true,
         "description" : "Your fangs have grown extremely large and incredibly sharp.  They make it impossible to wear mouthgear and difficult to eat...  but leave nasty wounds when you bite.",
+        "types" : ["TEETH"],
         "prereqs" : ["FANGS"],
         "threshreq" : ["THRESH_FELINE", "THRESH_CHIMERA"],
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MANDIBLES", "MUZZLE_LONG", "MUZZLE", "MINOTAUR"],
         "category" : ["FELINE", "CHIMERA"],
         "restricts_gear" : [ "MOUTH" ],
         "destroys_gear" : true,
@@ -2551,8 +2560,8 @@
         "visibility" : 3,
         "ugliness" : 1,
         "description" : "You have a pair of small horns on your head.  They allow you to make a weak piercing headbutt attack.",
+        "types" : ["HORNS"],
         "prereqs" : ["HEADBUMPS"],
-        "cancels" : ["ANTENNAE"],
         "changes_to" : ["HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
         "category" : ["CATTLE"],
         "attacks" : {
@@ -2573,8 +2582,8 @@
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "You have a pair of large curled horns, like those of a ram.  They allow you to make a strong bashing headbutt attack, but prevent you from wearing any headwear.",
+        "types" : ["HORNS"],
         "prereqs" : ["HORNS"],
-        "cancels" : ["ANTENNAE", "HORNS_POINTED", "ANTLERS"],
         "category" : ["CHIMERA"],
         "restricts_gear" : [ "HEAD" ],
         "attacks" : {
@@ -2592,8 +2601,8 @@
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "You have a pair of long, pointed horns, like those of an antelope.  They allow you to make a strong piercing headbutt attack, but prevent you from wearing any headwear the is not made of fabric.",
+        "types" : ["HORNS"],
         "prereqs" : ["HORNS"],
-        "cancels" : ["ANTENNAE", "HORNS_CURLED", "ANTLERS"],
         "restricts_gear" : [ "HEAD" ],
         "allow_soft_gear" : true,
         "attacks" : {
@@ -2611,8 +2620,8 @@
         "ugliness" : 3,
         "mixed_effect" : true,
         "description" : "You have a huge rack of antlers, like those of a moose.  They prevent you from hearing headwear that is not made of fabric, but provide a weak headbutt attack.",
+        "types" : ["HORNS"],
         "prereqs" : ["HORNS"],
-        "cancels" : ["ANTENNAE", "HORNS_CURLED", "HORNS_POINTED"],
         "restricts_gear" : [ "HEAD" ],
         "allow_soft_gear" : true,
         "attacks" : {
@@ -2629,8 +2638,8 @@
         "visibility" : 9,
         "ugliness" : 4,
         "description" : "You have a pair of antennae.  They allow you to detect the presence of monsters up to a few tiles away, even if you can't see or hear them, but prevent you from wearing headwear that is not made of fabric.",
+        "types" : ["HORNS"],
         "prereqs" : ["HEADBUMPS"],
-        "cancels" : ["HORNS", "HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
         "category" : ["INSECT"],
         "restricts_gear" : [ "HEAD" ],
         "allow_soft_gear" : true
@@ -2651,6 +2660,7 @@
         "visibility" : 1,
         "ugliness" : 2,
         "description" : "You have a short, stubby tail, like a rabbit's.  It serves no purpose.",
+        "types" : ["TAIL"],
         "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN", "TAIL_RAT", "TAIL_RAPTOR"],
         "category" : ["URSINE"]
     },{
@@ -2661,8 +2671,8 @@
         "visibility" : 4,
         "ugliness" : 2,
         "description" : "You have a fin-like tail.  It allows you to swim more quickly, but prevents wearing non-fabric pants.  Slightly increases wet benefits.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_THICK", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["FISH"],
         "wet_protection":[
             { "part" : "LEG_L", "good" : 3 },
@@ -2678,8 +2688,8 @@
         "visibility" : 6,
         "ugliness" : 2,
         "description" : "You have a long, graceful tail, like that of a big cat.  It improves your balance, making your ability to dodge higher, but prevents wearing non-fabric pants.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_FIN", "TAIL_THICK", "TAIL_RAPTOR"],
         "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"],
         "category" : ["FELINE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
@@ -2692,8 +2702,8 @@
         "visibility" : 6,
         "ugliness" : 2,
         "description" : "You have a long tail with a tuft on the end.  You find yourself instinctively swatting away flies with it, though it's not as effective at balancing you as you'd like.  Prevents wearing non-fabric pants.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_LONG"],
-        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR"],
         "category" : ["CATTLE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true
@@ -2705,8 +2715,8 @@
         "visibility" : 6,
         "ugliness" : 4,
         "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.  Prevents wearing non-fabric pants.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_LONG", "TAIL_STUB"],
-        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR", "TAIL_CATTLE"],
         "category" : ["RAT", "MOUSE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true
@@ -2718,8 +2728,8 @@
         "visibility" : 8,
         "ugliness" : 2,
         "description" : "You have a long, thick, lizardlike tail.  It helps you balance a bit but also makes a serviceable whip.  Prevents wearing non-fabric pants.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAPTOR", "TAIL_CATTLE", "TAIL_RAT"],
         "changes_to" : ["TAIL_CLUB"],
         "category" : ["LIZARD"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
@@ -2738,8 +2748,8 @@
         "visibility" : 8,
         "ugliness" : 2,
         "description" : "You have a long and semi-stiff lizardlike tail.  You can't effectively lash it in combat, but it significantly improves your balance.  Prevents wearing non-fabric pants.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAT", "TAIL_CATTLE", "TAIL_LONG"],
         "category" : ["RAPTOR"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true
@@ -2750,8 +2760,8 @@
         "points" : 1,
         "visibility" : 7,
         "description" : "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  Prevents wearing non-fabric pants.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_LONG"],
-        "cancels" : ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["BEAST", "LUPINE"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true,
@@ -2767,8 +2777,8 @@
         "visibility" : 6,
         "ugliness" : 3,
         "description" : "You have a long tail that ends in a vicious stinger, like that of a scorpion.  It does not improve your balance at all, but allows for a powerful piercing attack.  Prevents wearing non-fabric pants.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_LONG"],
-        "cancels" : ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["INSECT"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true,
@@ -2786,8 +2796,8 @@
         "visibility" : 7,
         "ugliness" : 2,
         "description" : "You have a long tail that ends in a heavy, bony club.  It does not improve your balance at all, but allows for a powerful bashing attack.  Prevents wearing non-fabric pants.",
+        "types" : ["TAIL"],
         "prereqs" : ["TAIL_THICK"],
-        "cancels" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
         "category" : ["CHIMERA"],
         "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true,
@@ -3035,8 +3045,8 @@
         "visibility" : 4,
         "ugliness" : 2,
         "description" : "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+        "types" : ["WINGS"],
         "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY"],
         "category" : ["BIRD"]
     },{
         "type" : "mutation",
@@ -3046,8 +3056,8 @@
         "visibility" : 4,
         "ugliness" : 4,
         "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
+        "types" : ["WINGS"],
         "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
         "category" : ["INSECT"],
         "active"     :    true,
         "cost"       :    20,
@@ -3078,9 +3088,10 @@
         "ugliness" : 6,
         "mixed_effect" : true,
         "description" : "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack, but prevent you from wearing mouthwear.  Slightly reduces wet effects.",
+        "types" : ["TEETH", "MUZZLE"],
         "prereqs" : ["MOUTH_FLAPS"],
         "changes_to" : ["FANGS_SPIDER"],
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES", "SABER_TEETH"],
+        "cancels" : ["MOUTH_TENTACLES"],
         "category" : ["INSECT", "SPIDER"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
@@ -3103,7 +3114,8 @@
         "visibility" : 6,
         "ugliness" : 6,
         "description" : "Your mandibles have developed extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
+        "types" : ["TEETH", "MUZZLE"],
+        "cancels" : ["MOUTH_TENTACLES"],
         "prereqs" : ["MANDIBLES"],
         "prereqs2" : ["POISONOUS", "POISONOUS2"],
         "threshreq" : ["THRESH_SPIDER"],
@@ -3127,9 +3139,9 @@
         "visibility" : 4,
         "ugliness" : 1,
         "description" : "Your ears have extended into long, pointed ones, like those of a canine.  They enhance your hearing, allowing you to hear at greater distances.",
+        "types" : ["EARS"],
         "category" : ["BEAST", "CATTLE", "CHIMERA"],
-        "changes_to" : ["LUPINE_EARS"],
-        "cancels" : ["FELINE_EARS", "URSINE_EARS", "ELFA_EARS", "MOUSE_EARS"]
+        "changes_to" : ["LUPINE_EARS"]
     },{
         "type" : "mutation",
         "id" : "LUPINE_EARS",
@@ -3138,8 +3150,8 @@
         "visibility" : 4,
         "ugliness" : 1,
         "description" : "Your hearing has evolved further and is now on par with wolves.  You can hear things significantly farther away.",
-        "category" : ["LUPINE"],
-        "cancels" : ["URSINE_EARS", "FELINE_EARS", "CANINE_EARS", "ELFA_EARS", "MOUSE_EARS"]
+        "types" : ["EARS"],
+        "category" : ["LUPINE"]
     },{
         "type" : "mutation",
         "id" : "FELINE_EARS",
@@ -3147,8 +3159,8 @@
         "points" : 1,
         "visibility" : 4,
         "description" : "Your ears have extended into long, pointed, velvety ones, like those of a feline.  You find it easier to tune in on sounds from afar.",
-        "category" : ["FELINE"],
-        "cancels" : ["LUPINE_EARS", "URSINE_EARS", "CANINE_EARS", "ELFA_EARS", "MOUSE_EARS"]
+        "types" : ["EARS"],
+        "category" : ["FELINE"]
     },{
         "type" : "mutation",
         "id" : "URSINE_EARS",
@@ -3157,8 +3169,8 @@
         "visibility" : 4,
         "ugliness" : 1,
         "description" : "Your ears have grown longer and rounder, much like those of a bear.  You can hear things a little farther away.",
-        "category" : ["URSINE"],
-        "cancels" : ["LUPINE_EARS", "FELINE_EARS", "CANINE_EARS", "ELFA_EARS", "MOUSE_EARS"]
+        "types" : ["EARS"],
+        "category" : ["URSINE"]
     },{
         "type" : "mutation",
         "id" : "ELFA_EARS",
@@ -3168,8 +3180,8 @@
         "ugliness" : 1,
         "description" : "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
         "valid" : false,
-        "category" : ["ELFA"],
-        "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
+        "types" : ["EARS"],
+        "category" : ["ELFA"]
     },{
         "type" : "mutation",
         "id" : "MOUSE_EARS",
@@ -3179,8 +3191,8 @@
         "ugliness" : 1,
         "description" : "Your ears are huge, round, and gray!  They're rather fascinating, and help you hear from a much greater distance.",
         "valid" : false,
-        "category" : ["MOUSE", "RAT"],
-        "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS", "ELFA_EARS"]
+        "types" : ["EARS"],
+        "category" : ["MOUSE", "RAT"]
     },{
         "type" : "mutation",
         "id" : "WEB_WALKER",
@@ -3246,6 +3258,7 @@
         "visibility" : 3,
         "ugliness" : 1,
         "description" : "You have a handsome set of feline whiskers around your mouth.  These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
+        "types" : ["WHISKERS"],
         "category" : ["FELINE"]
     },{
         "type" : "mutation",
@@ -3255,6 +3268,7 @@
         "visibility" : 3,
         "ugliness" : 1,
         "description" : "You have a set of prominent rodent-like whiskers around your mouth.  These make you more aware of vibrations in the air, and improve your ability to dodge slightly.",
+        "types" : ["WHISKERS"],
         "prereqs" : ["MUZZLE_RAT"],
         "category" : ["RAT", "MOUSE"]
     },{
@@ -3693,7 +3707,7 @@
         "type" : "mutation",
         "id" : "CRAFTY",
         "name" : "Crafty",
-        "points" : 5,
+        "points" : 4,
         "description" : "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
         "valid" : false,
         "purifiable" : false,
@@ -3774,8 +3788,8 @@
         "visibility" : 9,
         "ugliness" : 4,
         "description" : "You have a pair of large, leathery wings.  You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
-        "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BUTTERFLY"]
+        "types" : ["WINGS"],
+        "prereqs" : ["WINGS_STUB"]
     },{
         "type" : "mutation",
         "id" : "WINGS_BUTTERFLY",
@@ -3787,9 +3801,9 @@
         "valid" : false,
         "purifiable" : false,
         "encumbrance_always" : [[ "TORSO", 10 ]],
+        "types" : ["WINGS"],
         "prereqs" : ["WINGS_STUB"],
         "threshreq" : ["THRESH_INSECT"],
-        "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BAT"],
         "category" : ["INSECT"],
         "restricts_gear" : [ "TORSO" ],
         "social_modifiers" : {
@@ -3915,7 +3929,7 @@
         "ugliness" : 6,
         "mixed_effect" : true,
         "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT"],
+        "types" : ["MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["CATTLE"],
         "restricts_gear" : [ "MOUTH" ],
@@ -3931,7 +3945,7 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT"],
+        "types" : ["MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["BEAST", "LUPINE"],
         "restricts_gear" : [ "MOUTH" ],
@@ -3955,7 +3969,7 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT"],
+        "types" : ["MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["URSINE"],
         "restricts_gear" : [ "MOUTH" ],
@@ -3975,8 +3989,8 @@
         "visibility" : 6,
         "ugliness" : 4,
         "description" : "Your face and jaw have extended, giving you an alert and attentive appearance.",
+        "types" : ["MUZZLE"],
         "prereqs" : ["SNOUT"],
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
         "category" : ["RAT"],
         "restricts_gear" : [ "MOUTH" ]
     },{
@@ -3988,7 +4002,7 @@
         "ugliness" : 8,
         "mixed_effect" : true,
         "description" : "Your face and jaws are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_RAT"],
+        "types" : ["MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["LIZARD"],
         "restricts_gear" : [ "MOUTH" ],
@@ -4013,7 +4027,8 @@
         "description" : "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT", "MANDIBLES", "MOUTH_TENTACLES",  "FANGS", "SABER_TEETH"],
+        "types" : ["TEETH", "MUZZLE"],
+        "cancels" : ["MOUTH_TENTACLES"],
         "prereqs" : ["EYEBULGE", "COMPOUND_EYES"],
         "threshreq" : ["THRESH_INSECT"],
         "category" : ["INSECT"],
@@ -4308,7 +4323,7 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "You have a beak for a mouth.  You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
-        "cancels" : ["PROBOSCIS", "MINOTAUR", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT" , "MANDIBLES", "MOUTH_TENTACLES", "FANGS", "SABER_TEETH"],
+        "types" : ["TEETH", "MUZZLE"],
         "changes_to" : ["BEAK_HUM", "BEAK_PECK"],
         "category" : ["BIRD", "CEPHALOPOD"],
         "wet_protection" : [
@@ -4333,7 +4348,8 @@
         "description" : "Pecking at prey is part of your daily routine now.  Slightly reduces wet effects.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["BEAK_HUM", "PROBOSCIS", "MINOTAUR", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT" , "MANDIBLES", "MOUTH_TENTACLES", "FANGS", "SABER_TEETH"],
+        "types" : ["TEETH", "MUZZLE"],
+        "cancels" : ["MOUTH_TENTACLES"],
         "prereqs" : ["BEAK"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["BIRD"],
@@ -4361,7 +4377,8 @@
         "description" : "Though your beak's not suitable for pecking, those flowers out there are a good source of energy.  Examine them to feed.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT" , "MANDIBLES", "MOUTH_TENTACLES", "FANGS", "SABER_TEETH"],
+        "types" : ["TEETH", "MUZZLE"],
+        "cancels" : ["MOUTH_TENTACLES"],
         "prereqs" : ["BEAK"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["BIRD"],
@@ -4559,8 +4576,8 @@
         "visibility" : 8,
         "ugliness" : 5,
         "description" : "You have developed several vines sprouting from your shoulder area.  They're bulky and get in the way.",
+        "types" : ["WINGS"],
         "prereqs" : ["PLANTSKIN", "BARK"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "changes_to" : ["VINES2"],
         "category" : ["PLANT"],
         "encumbrance_always" : [
@@ -4574,9 +4591,9 @@
         "visibility" : 8,
         "ugliness" : 5,
         "description" : "You've developed the ability to control your vines; they make good lashes.  You can even rappel down sheer drops using them, but disconnecting HURTS.",
+        "types" : ["WINGS"],
         "prereqs" : ["PLANTSKIN", "BARK"],
         "prereqs2" : ["VINES1"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "changes_to" : ["VINES3"],
         "category" : ["PLANT"],
         "attacks": [
@@ -4598,10 +4615,10 @@
         "visibility" : 10,
         "ugliness" : 6,
         "description" : "You have full control of your vines, and can grow new ones and detach old ones more or less at will.",
+        "types" : ["WINGS"],
         "prereqs" : ["PLANTSKIN", "BARK"],
         "prereqs2" : ["VINES2"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "category" : ["PLANT"],
         "active"     :    true,
         "cost"       :    10,
@@ -4642,9 +4659,9 @@
         "ugliness" : 5,
         "//~" : "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task.  The handheld game does count.",
         "description" : "It's about time you started developing a root system.  When reading, fishing from, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil.",
+        "types" : ["LEGS"],
         "prereqs" : ["ROOTS1"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS"],
         "changes_to" : ["ROOTS3"],
         "category" : ["PLANT"],
         "encumbrance_covered" : [
@@ -4659,10 +4676,10 @@
         "visibility" : 5,
         "ugliness" : 5,
         "description" : "You find it difficult not to sink roots when able.  You extract nutrients and water whenever on diggable terrain, but move more slowly.",
+        "types" : ["LEGS"],
         "prereqs" : ["ROOTS2"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS"],
         "category" : ["PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
@@ -4678,10 +4695,11 @@
         "description" : "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.",
         "valid" : false,
         "purifiable" : false,
+        "types" : ["LEGS"],
         "prereqs" : ["ROOTS2", "ROOTS3"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "RAP_TALONS", "SMELLY", "SMELLY2"],
+        "cancels" : ["SMELLY", "SMELLY2"],
         "category" : ["PLANT"],
         "encumbrance_covered" : [
             [ "FOOT_L", 10 ],
@@ -5056,7 +5074,7 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed, and reduces wet penalties.",
-        "cancels" : ["PADDED_FEET", "HOOVES", "TOUGH_FEET"],
+        "types" : ["LEGS"],
         "leads_to" : ["LEG_TENT_BRACE"],
         "category" : ["CEPHALOPOD"],
         "wet_protection" : [
@@ -5313,6 +5331,86 @@
         "description" : "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so."
     },{
         "type" : "mutation",
+        "id" : "AMPHIBIAN",
+        "name" : "Amphibious",
+        "points" : 5,
+        "description" : "You're as comfortable in water as on land, and your body has adapated around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"],
+        "purifiable": false
+    },{
+        "type" : "mutation",
+        "id" : "SEESLEEP",
+        "name" : "Lidless Eyes",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 4,
+        "description" : "Like a true fish, your eyes lack eyelids, and are are instead covered by a translucent, protective membrane that blocks irritants and water, and provides minor armor.  It also allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"],
+        "armor" : [ { "parts" : "EYES", "cut" : 3, "bash" : 1 } ],
+        "active" : true
+    },{
+        "type" : "mutation",
+        "id" : "WATERSLEEP",
+        "name" : "Aqueous Repose",
+        "points" : 1,
+        "description" : "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
+        "prereqs" : ["SEESLEEP"],
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"]
+    },{
+        "type" : "mutation",
+        "id" : "TOXICFLESH",
+        "name" : "Toxic Flesh",
+        "points" : 1,
+        "description" : "Your flesh is highly poisonous, and creatures that bite you will receive a nasty surprise.",
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"],
+        "purifiable" : false
+    },{
+        "type" : "mutation",
+        "id" : "FRESHWATEROSMOSIS",
+        "name" : "Freshwater Osmosis",
+        "points" : 4,
+        "description" : "Your gills and skin are highly permeable to moisture, and you can hydrate your body through osmosis.  While submerged in fresh water, any thirst you might have will be slaked.",
+        "prereqs" : ["GILLS"],
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"]
+    },{
+        "type" : "mutation",
+        "id" : "ELECTRORECEPTORS",
+        "name" : "Electroreceptors",
+        "points" : 2,
+        "description" : "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
+        "category" : ["FISH"],
+        "mixed_effect" : true
+    },{
+        "type" : "mutation",
+        "id" : "SHARKTEETH",
+        "name" : "Shark Teeth",
+        "points" : 3,
+        "visibility" : 10,
+        "ugliness" : 8,
+        "description" : "Your teeth have grown incredibly sharp and are formed of very dense calcium material.  In addition to making you eat much faster, you can use them as a lethal natural weapon, as long as your anatomy favors it.  They also grow very fast, and you harmlessly shed them more or less at random.",
+        "prereqs" : ["FANGS"],
+        "types" : ["TEETH"],
+        "category" : ["FISH"],
+        "threshreq" : ["THRESH_FISH"],
+        "social_modifiers" : {
+            "intimidate" : 15
+        },
+        "attacks" : {
+            "attack_text_u" : "You tear into %s with your teeth",
+            "attack_text_npc" : "%1$s tears into %2$s with their teeth",
+            "body_part" : "MOUTH",
+            "blocker_mutations" : [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+            "chance" : 20,
+            "base_damage" : { "damage_type" : "stab", "amount" : 25 }
+        },
+        "purifiable" : false
+    },{
+        "type" : "mutation",
         "id" : "PROF_POLICE",
         "name" : "Police Officer",
         "points" : 0,
@@ -5488,7 +5586,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "You can clearly see that this is for dev purposes only.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_CLOAK",
@@ -5496,7 +5594,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "If you see this, you'd best be debugging something.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_LS",
@@ -5504,7 +5602,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Holds hunger, thirst, and fatigue stable.  You can debug all year long with this one!",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_NOSCENT",
@@ -5512,7 +5610,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Smell that bug?  Smell's certainly not coming from you!",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_SILENT",
@@ -5520,7 +5618,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Be vewwy vewwy quiet.  We're hunting bugs.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_NOTEMP",
@@ -5528,7 +5626,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Temperature and weather won't bug you.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_NODMG",
@@ -5536,7 +5634,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Bug repellent forcefield.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_HS",
@@ -5544,7 +5642,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
-        "threshold" : true
+        "debug" : true
     },{
       "type" : "mutation",
       "id" : "DEBUG_CBM_SLOTS",
@@ -5552,7 +5650,7 @@
       "points" : 99,
       "valid" : false,
       "description" : "Limitate the number of bionics which you're able to install in your body.",
-      "threshold" : true
+      "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_MIND_CONTROL",
@@ -5560,7 +5658,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Mind the bugs, would you kindly?",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_STORAGE",
@@ -5568,7 +5666,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Lets you carry 15 bugs worth of your body weight in your mandibles.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_BIONICS",
@@ -5576,7 +5674,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "Lets you instantly install torsion ratchets for your eight legs.",
-        "threshold" : true
+        "debug" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_BIONIC_POWER",
@@ -5584,7 +5682,7 @@
         "points" : 99,
         "valid" : false,
         "description" : "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
-        "threshold" : true,
+        "debug" : true,
         "active" : true
     },{
         "type" : "mutation",

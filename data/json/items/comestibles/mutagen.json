@@ -15,7 +15,8 @@
         "color" : "light_green",
         "healthy" : -2,
         "addiction_potential" : 2,
-        "addiction_type" : "mutagen"
+        "addiction_type" : "mutagen",
+        "freezing_point": 17
     },
     {
         "abstract" : "iv_mutagen_flavor",
@@ -150,7 +151,8 @@
         "copy-from" : "iv_mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "fish serum",
-        "color" : "cyan",
+        "description" : "A super-concentrated mutagen the color of the ocean, with white foam at the top.  You need a syringe to inject it...  if you really want to?",
+        "color" : "light_blue",
         "use_action" : {
           "type" : "mutagen_iv",
           "mutation_category" : "FISH"

@@ -112,15 +112,16 @@
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        ".......",
-        ".......",
-        ".......",
-        ".cccc6.",
-        ".......",
-        ".......",
-        "......."
+        ",,,,,,,",
+        ",,,,,,,",
+        ",,,,,,,",
+        ",cccc6,",
+        ",,,,,,,",
+        ",,,,,,,",
+        ",,,,,,,"
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
+      "terrain": { "c": [ "t_strconc_floor" ] },
       "place_monster": [ { "monster": "mon_turret", "x": [2, 3], "y": [ 3, 3 ] } ]
     }
   },
@@ -132,17 +133,18 @@
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        ".........",
-        "....c....",
-        "....c....",
-        "....c....",
-        "....c....",
-        "....c....",
-        "....c....",
-        "....6....",
-        "........."
+        ",,,,,,,,,",
+        ",,,,c,,,,",
+        ",,,,c,,,,",
+        ",,,,c,,,,",
+        ",,,,c,,,,",
+        ",,,,c,,,,",
+        ",,,,c,,,,",
+        ",,,,6,,,,",
+        ",,,,,,,,,"
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
+      "terrain": { "c": [ "t_strconc_floor" ] },
       "place_monster": [ { "monster": "mon_turret", "x": [4, 4], "y": [ 1, 4 ] } ]
     }
   },
@@ -438,7 +440,7 @@
       "palettes": [ "lab_palette" ],
       "terrain": { ",": "t_floor_blue" },
       "place_monster": [{
-          "monster": [ "mon_zombie_pig", "mon_zombear", "mon_zoose", "mon_zolf" ],
+          "monster": [ "mon_zombie_pig", "mon_zombear", "mon_zoose", "mon_zolf", "mon_zombie_dog" ],
           "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80
         }]
     }
@@ -447,7 +449,7 @@
     "//": "7x7 chem_storage",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_room_7x7",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
@@ -459,6 +461,26 @@
         "c.c.c.c",
         "c.c.c.c",
         "c.c.c.c"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ]
+    }
+  },
+  {
+    "//": "7x7 chem_storage",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [0, 3],
+      "rows": [
+        ".......",
+        ".c.c.c.",
+        ".c.c.c.",
+        ".c.c.c.",
+        ".c.c.c.",
+        ".c.c.c.",
+        "......."
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ]
     }
@@ -748,7 +770,7 @@
     "//": "7x7 vr mat, using safety glasses to suggest vr goggles",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
@@ -767,21 +789,21 @@
     }
   },
   {
-    "//": "7x7 bedrooms",
+    "//": "7x7 barracks",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "nested_mapgen_id": "lab_room_7x7",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rotation": [0, 3],
       "rows": [
-        "bb|.|ST",
-        "s.|.|..",
-        "-W-.-W-",
+        "s.....s",
+        "bb...bb",
         ".......",
-        "-W-.-W-",
-        "s.|.|.s",
-        "bb|.|bb"
+        ".......",
+        ".......",
+        "bb...bb",
+        "s.....s"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ]
     }
@@ -795,8 +817,8 @@
       "mapgensize": [ 9, 9 ],
       "rotation": [0, 3],
       "rows": [
-        "bb.|.|T.B",
-        "...|.W..B",
+        "b..|.|T.B",
+        "b..|.W..B",
         "..s|.|S..",
         "-W--.----",
         ".........",
@@ -810,28 +832,6 @@
     }
   },
   {
-    "//": "9x9 cubicles",
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_room_9x9_crossdoors",
-    "object": {
-      "mapgensize": [ 9, 9 ],
-      "rotation": [0, 3],
-      "rows": [
-        "d..|.|..d",
-        "ch.....hc",
-        "d.?|.|?.d",
-        "----.----",
-        ".........",
-        "----.----",
-        "d.?|.|?.d",
-        "ch.....hc",
-        "d..|.|..d"
-      ],
-      "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "furniture": { "?": ["f_null", "f_null", "f_indoor_plant"] }
-    }
-  },  {
     "//": "7x7 kennel",
     "type": "mapgen",
     "method": "json",
@@ -1008,6 +1008,72 @@
         "C": { "items": [ { "item": "kitchen", "chance": 80 } ] },
         "c": { "items": [ { "item": "kitchen", "chance": 50 } ] },
         "O": { "items": [ { "item": "oven", "chance": 70 } ] }
+      }
+    }
+  },
+  {
+    "//": "incinerated room - using crossdoors to ensure no extra space in the room not covered in ash",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa"
+      ],
+      "terrain": { "a": "t_thconc_floor" },
+      "item": {
+        "a": { "item": "ash", "chance": 90 }
+      },
+      "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [0,6], "y": [0,6], "repeat": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "//": "incinerated room - using crossdoors to ensure no extra space in the room not covered in ash",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_room_9x9_crossdoors",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa",
+        "aaaaaaaaa"
+      ],
+      "terrain": { "a": "t_thconc_floor" },
+      "item": {
+        "a": { "item": "ash", "chance": 90 }
+      },
+      "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [0,8], "y": [0,8], "repeat": [4, 6 ] } ]
+    }
+  },
+  {
+    "//": "big ash pile (shovel-needed) with a chance of science gear",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sub_f_ash",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "a" ],
+      "terrain": { "a": "t_thconc_floor" },
+      "furniture": { "a": "f_ash" },
+      "item": {
+        "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ]
+      },
+      "items": {
+        "a": { "item": "science", "chance": 10}
       }
     }
   },

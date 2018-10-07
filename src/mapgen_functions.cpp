@@ -22,6 +22,10 @@
 #include "field.h"
 #include <algorithm>
 #include <iterator>
+#include <random>
+#include <chrono>
+
+#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 const mtype_id mon_ant_larva( "mon_ant_larva" );
 const mtype_id mon_ant_queen( "mon_ant_queen" );
@@ -2445,7 +2449,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
         }
     }
 
-    place_stairs( m, terrain_type, dat, actual_house_height, lw, rw );
+    place_stairs( m, terrain_type, dat );
 
     if( one_in( 100 ) ) { // @todo: region data // Houses have a 1 in 100 chance of wasps!
         for( int i = 0; i < SEEX * 2; i++ ) {
@@ -3775,19 +3779,36 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
         m->draw_fill_background( current_biome_def.groundcover );
     }
 
-    // Loop through each location in this overmap terrain and attempt to place a feature.
+    // There is a chance of placing terrain dependent furniture, e.g. f_cattails on t_water_sh.
+    const auto set_terrain_dependent_furniture = [&current_biome_def, &m]( const ter_id tid,
+    const int x, const int y ) {
+        const auto terrain_dependent_furniture_it = current_biome_def.terrain_dependent_furniture.find(
+                    tid );
+        if( terrain_dependent_furniture_it == current_biome_def.terrain_dependent_furniture.end() ) {
+            // No terrain dependent furnitures for this terrain, so bail.
+            return;
+        }
+
+        const forest_biome_terrain_dependent_furniture tdf = terrain_dependent_furniture_it->second;
+        if( tdf.furniture.get_weight() <= 0 ) {
+            // We've got furnitures, but their weight is 0 or less, so bail.
+            return;
+        }
+
+        if( one_in( tdf.chance ) ) {
+            // Pick a furniture and set it on the map right now.
+            const auto fid = tdf.furniture.pick();
+            m->furn_set( x, y, *fid );
+        }
+    };
+
+    // Loop through each location in this overmap terrain and attempt to place a feature and
+    // terrain dependent furniture.
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             const ter_furn_id feature = get_blended_feature( x, y );
             ter_or_furn_set( m, x, y, feature );
-
-            // Special handling from the original map gen: a chance of spawning cattails on fresh water in swamp biomes.
-            // TODO: think of a good way to move this sort of dependent spawning into the biome def
-            if( terrain_type == "forest_water" && feature.ter == t_water_sh ) {
-                if( one_in( 2 ) ) {
-                    m->furn_set( x, y, f_cattails );
-                }
-            }
+            set_terrain_dependent_furniture( feature.ter, x, y );
         }
     }
 
@@ -3816,70 +3837,132 @@ void madd_field( map *m, int x, int y, field_id t, int density )
     m->add_field( actual_location, t, density, 0 );
 }
 
-void place_stairs( map *m, oter_id terrain_type, mapgendata dat,
-                   const int actual_house_height, const int lw, const int rw )
+bool is_suitable_for_stairs( const map *const m, const tripoint &p )
+{
+    const ter_t &p_ter = m->ter( p ).obj();
+
+    return
+        p_ter.has_flag( "INDOORS" ) &&
+        p_ter.has_flag( "FLAT" ) &&
+        m->furn( p ) == f_null;
+}
+
+void stairs_debug_log( const map *const m, const std::string &msg, const tripoint &p,
+                       DebugLevel level = D_INFO )
+{
+    const ter_t &p_ter = m->ter( p ).obj();
+
+    dbg( level )
+            << msg
+            << " tripoint: " << p
+            << " terrain: " << p_ter.name()
+            << " movecost: " << p_ter.movecost
+            << " furniture: " << m->furn( p )
+            << " indoors: " << p_ter.has_flag( "INDOORS" )
+            << " flat: " << p_ter.has_flag( "FLAT" )
+            ;
+}
+
+void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
 {
     if( !dat.has_basement() ) {
         return;
     }
 
     const bool force = get_option<bool>( "ALIGN_STAIRS" );
-    // Find the basement's stairs first
+
     const tripoint abs_sub_here = m->get_abs_sub();
+
     tinymap basement;
     basement.load( abs_sub_here.x, abs_sub_here.y, abs_sub_here.z - 1, false );
-    std::vector<tripoint> upstairs;
-    const tripoint from( 0, 0, abs_sub_here.z - 1 );
-    const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z - 1 );
-    for( const tripoint &p : m->points_in_rectangle( from, to ) ) {
-        if( basement.has_flag( TFLAG_GOES_UP, p ) ) {
-            upstairs.emplace_back( p );
+
+    const tripoint down( 0, 0, -1 );
+    const tripoint from( 0, 0, abs_sub_here.z );
+    const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z );
+    tripoint_range tr = m->points_in_rectangle( from, to );
+    std::vector<tripoint> stairs;
+    std::vector<tripoint> tripoints;
+
+    // Find the basement's stairs first.
+    for( auto &&p : tr ) {
+        if( basement.has_flag( TFLAG_GOES_UP, p + down ) ) {
+            const tripoint rotated = om_direction::rotate( p, terrain_type->get_dir() );
+            stairs.emplace_back( rotated );
+            stairs_debug_log( m, "basement stairs:", rotated );
+        }
+
+        if( is_suitable_for_stairs( m, p ) ) {
+            tripoints.emplace_back( p );
         }
     }
 
-    bool placed_any = false;
-    for( const tripoint &p : upstairs ) {
-        static const tripoint up = tripoint( 0, 0, 1 );
-        const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
-        // @todo: Less ugly check
-        // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
-        const ter_t &ter_here = m->ter( here ).obj();
-        if( ( force && ter_here.movecost > 0 ) ||
-            ( ter_here.has_flag( "INDOORS" ) && ter_here.has_flag( "FLAT" ) ) ) {
-            m->ter_set( here, t_stairs_down );
-            placed_any = true;
-        }
-        // Try to push away furniture
-        const furn_id furn_here = m->furn( here );
-        if( furn_here != f_null ) {
-            for( const tripoint &push_point : m->points_in_radius( here, 1 ) ) {
-                if( m->furn( push_point ) == f_null ) {
-                    m->furn_set( push_point, furn_here );
-                    break;
+    if( stairs.empty() ) {
+        dbg( D_INFO ) << "no stairs found downstairs";
+        return;
+    }
+
+    // Shuffle tripoints so that the stairs are not always similarly placed.
+    static auto eng = std::default_random_engine(
+                          std::chrono::system_clock::now().time_since_epoch().count() );
+    std::shuffle( std::begin( tripoints ), std::end( tripoints ), eng );
+
+    bool all_can_be_placed = false;
+    tripoint shift( 0, 0, 0 );
+    int match_count = 0;
+
+    // Find a tripoint where all the underground tripoints for stairs are on
+    // suitable locations aboveground.
+    for( auto &&p : tripoints ) {
+        int count = 1;
+        all_can_be_placed = true;
+        stairs_debug_log( m, "ok first:", p );
+
+        // First element can be ignored as p is already ok.
+        for( auto it = stairs.begin() + 1; it != stairs.end(); ++it ) {
+            // Align tripoint with the first underground tripoint.
+            const tripoint &stair = *it - stairs.front() + p;
+
+            if( !is_suitable_for_stairs( m, stair ) ) {
+                stairs_debug_log( m, "not ok:", stair );
+                all_can_be_placed = false;
+
+                if( match_count < count ) {
+                    match_count = count;
+                    shift = p - stairs.front();
+                    dbg( D_INFO ) << "partial match shift tripoint: " << shift;
                 }
-            }
-            m->furn_set( here, f_null );
-        }
-    }
 
-    // If not forcing alignment and didn't place any stairs, allow legacy stair placement
-    // Note: any, not all - legacy stairs wouldn't deal well with multiple random stairs
-    if( !placed_any && !force ) {
-        // Legacy stair spawning code - allows teleports
-        int attempts = 100;
-        int stairs_height = actual_house_height - 1;
-        do {
-            int rn = rng( lw + 1, rw - 1 );
-            // After 50 failed attempts, relax the placement limitations a bit
-            // Otherwise it will most likely fail the next 50 too
-            if( attempts < 50 ) {
-                stairs_height = rng( 1, SEEY );
-            }
-            attempts--;
-            if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
-                m->ter_set( rn, stairs_height, t_stairs_down );
                 break;
             }
-        } while( attempts > 0 );
+
+            stairs_debug_log( m, "ok:", stair );
+            ++count;
+        }
+
+        if( all_can_be_placed ) {
+            shift = p - stairs.front();
+            dbg( D_INFO ) << "full match shift tripoint: " << shift;
+            break;
+        }
+    }
+
+    if( !( all_can_be_placed || force ) ) {
+        dbg( D_WARNING ) << "no stairs were placed";
+        return;
+    }
+
+    if( !all_can_be_placed ) {
+        dbg( D_WARNING ) << "Some stairs can be placed to suitable locations "
+                         << "and the rest may end up in odd locations.";
+    }
+
+    for( auto &&p : stairs ) {
+        tripoint stair = p + shift;
+
+        if( m->ter_set( stair, t_stairs_down ) ) {
+            stairs_debug_log( m, "stairs placed:", stair );
+        } else {
+            stairs_debug_log( m, "stairs not placed:", stair, D_WARNING );
+        }
     }
 }

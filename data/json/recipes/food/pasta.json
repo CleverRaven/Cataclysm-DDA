@@ -70,6 +70,7 @@
       [ [ "lasagne_raw", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "seasoning_italian", 5 ], [ "sauce_red", 1 ], [ "tomato", 2 ], [ "irradiated_tomato", 2 ], [ "can_tomato", 2 ], [ "wild_herbs", 10 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "meat", 2 ], [ "meat_canned", 2 ], [ "can_chicken", 1 ], [ "rehydrated_meat", 2 ], [ "dry_meat", 2 ] ]
     ]
   },
@@ -91,6 +92,7 @@
       [ [ "lasagne_raw", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "seasoning_italian", 5 ], [ "sauce_red", 1 ], [ "tomato", 2 ], [ "irradiated_tomato", 2 ], [ "can_tomato", 2 ], [ "wild_herbs", 10 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "human_flesh", 2 ], [ "human_canned", 1 ], [ "rehydrated_hflesh", 2 ], [ "dry_hflesh", 2 ] ]
     ]
   },

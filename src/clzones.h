@@ -5,6 +5,7 @@
 #include "enums.h"
 #include "string_id.h"
 #include "item.h"
+#include "optional.h"
 
 #include <vector>
 #include <string>
@@ -20,9 +21,12 @@ class zone_type
 {
     private:
         std::string name_;
+        std::string desc_;
     public:
-        explicit zone_type( const std::string &name ) : name_( name ) {}
+        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
+            desc_( desc ) {}
         std::string name() const;
+        std::string desc() const;
 };
 using zone_type_id = string_id<zone_type>;
 
@@ -42,11 +46,17 @@ class zone_options
             return false;
         };
 
-        /* query only necessary options at zone creation, one by one */
-        virtual void query_at_creation() {};
+        /* query only necessary options at zone creation, one by one
+         * returns true if successful, returns false if fails or canceled */
+        virtual bool query_at_creation() {
+            return true;
+        };
 
-        /* query options, first uimenu should allow to pick an option to edit (if more than one) */
-        virtual void query() {};
+        /* query options, first uimenu should allow to pick an option to edit (if more than one)
+         * returns true if something is changed, otherwise returns false */
+        virtual bool query() {
+            return false;
+        };
 
         /* suggest a name for the zone, depending on options */
         virtual std::string get_zone_name_suggestion() const {
@@ -77,7 +87,13 @@ class plot_options : public zone_options, public mark_option
         std::string mark;
         std::string seed;
 
-        void query_seed();
+        enum query_seed_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_seed_result query_seed();
 
     public:
         std::string get_mark() const override {
@@ -91,8 +107,8 @@ class plot_options : public zone_options, public mark_option
             return true;
         };
 
-        void query_at_creation() override;
-        void query() override;
+        bool query_at_creation() override;
+        bool query() override;
 
         std::string get_zone_name_suggestion() const override;
 
@@ -137,14 +153,8 @@ class zone_manager
                         const tripoint &start, const tripoint &end,
                         std::shared_ptr<zone_options> options = nullptr );
 
-        bool remove( const size_t index ) {
-            if( index < zones.size() ) {
-                zones.erase( zones.begin() + index );
-                return true;
-            }
-
-            return false;
-        }
+        bool remove( const size_t index );
+        bool remove( zone_data &zone );
 
         unsigned int size() const {
             return zones.size();
@@ -162,8 +172,8 @@ class zone_manager
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
         const zone_data *get_top_zone( const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where ) const;
-        std::string query_name( std::string default_name = "" ) const;
-        zone_type_id query_type() const;
+        cata::optional<std::string> query_name( std::string default_name = "" ) const;
+        cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
 
         // 'direct' access to zone_manager::zones, giving direct access was nono
@@ -207,8 +217,8 @@ class zone_manager::zone_data
             }
         }
 
-        void set_name();
-        void set_type();
+        bool set_name(); // returns true if name is changed
+        bool set_type(); // returns true if type is changed
         void set_position( const std::pair<tripoint, tripoint> position );
         void set_enabled( const bool enabled );
 

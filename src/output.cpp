@@ -893,9 +893,10 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
         starty += 1 + fold_and_print( win, starty, 1, len, c_white, _( "Example: -pipe,-chunk,-steel" ) );
     }
 
-    starty += fold_and_print( win, starty, 1, len, c_white, _( "Search [c]ategory or [m]aterial:" ) );
+    starty += fold_and_print( win, starty, 1, len, c_white,
+                              _( "Search [c]ategory, [m]aterial, or [q]uality:" ) );
     //~ An example of how to filter items based on category or material.
-    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron" ) );
+    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron,q:hammering" ) );
     wrefresh( win );
 }
 
@@ -1284,7 +1285,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
     if( ! bDisabled ) {
         mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_light_gray : c_light_gray, sText );
     } else {
-        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_dark_gray.italic() : c_dark_gray.italic(), sText );
+        mvwprintz( w, 0, iOffsetX + 1, ( bSelected ) ? h_dark_gray : c_dark_gray, sText );
     }
 
     if( bSelected ) {
@@ -1292,8 +1293,8 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, std::string sText, 
             mvwputch( w, 0, iOffsetX - bDecorate,      h_light_gray, '<' );
             mvwputch( w, 0, iOffsetXRight + bDecorate, h_light_gray, '>' );
         } else {
-            mvwputch( w, 0, iOffsetX - bDecorate,      h_dark_gray.italic(), '<' );
-            mvwputch( w, 0, iOffsetXRight + bDecorate, h_dark_gray.italic(), '>' );
+            mvwputch( w, 0, iOffsetX - bDecorate,      h_dark_gray, '<' );
+            mvwputch( w, 0, iOffsetXRight + bDecorate, h_dark_gray, '>' );
         }
 
         for( int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++ ) {

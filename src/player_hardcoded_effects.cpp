@@ -990,33 +990,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
         if( can_sleep() ) {
-            add_msg_if_player( _( "You fall asleep." ) );
-            // Communicate to the player that he is using items on the floor
-            std::string item_name = is_snuggling();
-            if( item_name == "many" ) {
-                if( one_in( 15 ) ) {
-                    add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
-                } else {
-                    add_msg_if_player( _( "You use your pile of clothes for warmth." ) );
-                }
-            } else if( item_name != "nothing" ) {
-                if( one_in( 15 ) ) {
-                    add_msg_if_player( _( "You snuggle your %s to keep warm." ), item_name.c_str() );
-                } else {
-                    add_msg_if_player( _( "You use your %s to keep warm." ), item_name.c_str() );
-                }
-            }
-            if( has_active_mutation( trait_id( "HIBERNATE" ) ) && get_hunger() < -60 ) {
-                add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
-                                  pgettext( "memorial_female", "Entered hibernation." ) );
-                // some days worth of round-the-clock Snooze.  Cata seasons default to 14 days.
-                fall_asleep( 10_days );
-                // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
-                // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
-                // will last about 8 days.
-            }
-
-            fall_asleep( 10_hours ); // default max sleep time.
+            fall_asleep();
             // Set ourselves up for removal
             it.set_duration( 0 );
         }
@@ -1047,7 +1021,12 @@ void player::hardcoded_effects( effect &it )
 
         if( get_fatigue() <= 0 && get_fatigue() > -20 && !has_effect( effect_narcosis ) ) {
             mod_fatigue( -25 );
-            add_msg_if_player( m_good, _( "You feel well rested." ) );
+            if( get_sleep_deprivation() < SLEEP_DEPRIVATION_HARMLESS ) {
+                add_msg_if_player( m_good, _( "You feel well rested." ) );
+            } else {
+                add_msg_if_player( m_warning,
+                                   _( "You feel physically rested, but you haven't been able to catch up on your missed sleep yet." ) );
+            }
             it.set_duration( 1_turns * dice( 3, 100 ) );
         }
 
@@ -1057,7 +1036,7 @@ void player::hardcoded_effects( effect &it )
                                         || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
 
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
-                has_trait( trait_id( "M_SKIN3" ) ) ) &&
+                has_trait( trait_id( "M_SKIN3" ) ) || has_trait( trait_id( "WATERSLEEP" ) ) ) &&
             g->m.is_outside( pos() ) ) {
             if( has_trait( trait_id( "CHLOROMORPH" ) ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
@@ -1080,6 +1059,9 @@ void player::hardcoded_effects( effect &it )
                         spores(); // spawn some P O O F Y   B O I S
                     }
                 }
+            }
+            if( has_trait( trait_id( "WATERSLEEP" ) ) ) {
+                mod_fatigue( -3 ); // Fish sleep less in water
             }
         }
 
@@ -1123,30 +1105,41 @@ void player::hardcoded_effects( effect &it )
         bool woke_up = false;
         int tirednessVal = rng( 5, 200 ) + rng( 0, abs( get_fatigue() * 2 * 5 ) );
         if( !is_blind() && !has_effect( effect_narcosis ) ) {
-            if( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && !has_trait( trait_id( "HIBERNATE" ) ) ) {
-                // So you can too sleep through noon
-                if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                        one_in( get_fatigue() / 2 ) ) ) {
+            if( !has_trait(
+                    trait_id( "SEESLEEP" ) ) ) { // People who can see while sleeping are acclimated to the light.
+                if( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && !has_trait( trait_id( "HIBERNATE" ) ) ) {
+                    // So you can too sleep through noon
+                    if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                            one_in( get_fatigue() / 2 ) ) ) {
+                        add_msg_if_player( _( "It's too bright to sleep." ) );
+                        // Set ourselves up for removal
+                        it.set_duration( 0 );
+                        woke_up = true;
+                    }
+                    // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+                } else if( has_trait( trait_id( "HIBERNATE" ) ) ) {
+                    if( ( tirednessVal * 5 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                            one_in( get_fatigue() / 2 ) ) ) {
+                        add_msg_if_player( _( "It's too bright to sleep." ) );
+                        // Set ourselves up for removal
+                        it.set_duration( 0 );
+                        woke_up = true;
+                    }
+                } else if( tirednessVal < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                           one_in( get_fatigue() / 2 ) ) ) {
                     add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0 );
                     woke_up = true;
                 }
-                // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-            } else if( has_trait( trait_id( "HIBERNATE" ) ) ) {
-                if( ( tirednessVal * 5 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                        one_in( get_fatigue() / 2 ) ) ) {
-                    add_msg_if_player( _( "It's too bright to sleep." ) );
-                    // Set ourselves up for removal
+            } else if( has_active_mutation( trait_id( "SEESLEEP" ) ) ) {
+                Creature *hostile_critter = g->is_hostile_very_close();
+                if( hostile_critter != nullptr ) {
+                    add_msg_if_player( _( "You see %s approaching!" ),
+                                       hostile_critter->disp_name().c_str() );
                     it.set_duration( 0 );
                     woke_up = true;
                 }
-            } else if( tirednessVal < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                       one_in( get_fatigue() / 2 ) ) ) {
-                add_msg_if_player( _( "It's too bright to sleep." ) );
-                // Set ourselves up for removal
-                it.set_duration( 0 );
-                woke_up = true;
             }
         }
 
@@ -1212,7 +1205,9 @@ void player::hardcoded_effects( effect &it )
             if( calendar::turn - start > 2_hours ) {
                 print_health();
             }
-            if( has_effect( effect_slept_through_alarm ) ) {
+            if( has_effect( effect_alarm_clock ) ) {
+                add_msg_if_player( _( "It looks like you woke up before your alarm." ) );
+            } else if( has_effect( effect_slept_through_alarm ) ) {
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
                 } else {
@@ -1222,7 +1217,8 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_alarm_clock ) {
-        if( has_effect( effect_sleep ) ) {
+        if( in_sleep_state() ) {
+            const bool asleep = has_effect( effect_sleep );
             if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                 if( dur == 1_turns ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
@@ -1231,10 +1227,14 @@ void player::hardcoded_effects( effect &it )
                     // It's much harder to ignore an alarm inside your own skull,
                     // so this uses an effective volume of 20.
                     const int volume = 20;
-                    if( ( !( has_trait( trait_id( "HEAVYSLEEPER" ) ) || has_trait( trait_id( "HEAVYSLEEPER2" ) ) ) &&
-                          dice( 2, 15 ) < volume ) ||
-                        ( has_trait( trait_id( "HEAVYSLEEPER" ) ) && dice( 3, 15 ) < volume ) ||
-                        ( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && dice( 6, 15 ) < volume ) ) {
+                    if( !asleep ) {
+                        add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
+                        activity.set_to_null();
+                    } else if( ( !( has_trait( trait_id( "HEAVYSLEEPER" ) ) ||
+                                    has_trait( trait_id( "HEAVYSLEEPER2" ) ) ) &&
+                                 dice( 2, 15 ) < volume ) ||
+                               ( has_trait( trait_id( "HEAVYSLEEPER" ) ) && dice( 3, 15 ) < volume ) ||
+                               ( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && dice( 6, 15 ) < volume ) ) {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();
@@ -1252,15 +1252,15 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             } else {
-                if( dur == 1_turns ) {
+                if( asleep && dur == 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
                         add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
-                    sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
                     // let the sound code handle the wake-up part
+                    sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
                 }
             }
         }

@@ -225,6 +225,7 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_death()
 {
     death_map["NORMAL"] = &mdeath::normal;// Drop a body
+    death_map["SPLATTER"] = &mdeath::splatter;//Explodes in gibs and chunks
     death_map["ACID"] = &mdeath::acid;// Acid instead of a body
     death_map["BOOMER"] = &mdeath::boomer;// Explodes in vomit :3
     death_map["BOOMER_GLOW"] = &mdeath::boomer_glow;// Explodes in glowing vomit :3
@@ -465,6 +466,7 @@ void MonsterGenerator::init_flags()
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
     flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
     flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
+    flag_map["LOUDMOVES"] = MF_LOUDMOVES;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )

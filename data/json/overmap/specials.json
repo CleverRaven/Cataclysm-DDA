@@ -1702,9 +1702,9 @@
             { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [10, 200],
-        "city_sizes" : [1, 12],
-        "occurrences" : [ 0,2 ],
+        "city_distance" : [ 10, 200 ],
+        "city_sizes" : [ 1, 12 ],
+        "occurrences" : [ 0, 2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1717,9 +1717,9 @@
             { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [10, 200],
-        "city_sizes" : [1, 12],
-        "occurrences" : [ 0,2 ],
+        "city_distance" : [ 10, 200 ],
+        "city_sizes" : [ 1, 12 ],
+        "occurrences" : [ 0, 2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1732,9 +1732,9 @@
             { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [10, 200],
-        "city_sizes" : [1, 12],
-        "occurrences" : [ 0,2 ],
+        "city_distance" : [ 10, 200 ],
+        "city_sizes" : [ 1, 12 ],
+        "occurrences" : [ 0, 2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1751,9 +1751,9 @@
             { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "land" ],
-        "city_distance" : [1,4],
-        "city_sizes" : [4,12],
-        "occurrences" : [0,1],
+        "city_distance" : [ 1,4 ],
+        "city_sizes" : [ 4, 12 ],
+        "occurrences" : [ 0, 1 ],
         "flags" : ["CLASSIC"]
     },{
         "type" : "overmap_special",

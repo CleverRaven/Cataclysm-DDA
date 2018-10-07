@@ -318,6 +318,29 @@
   },
   {
     "type": "material",
+    "ident": "faux_fur",
+    "name": "Faux Fur",
+    "density": 8,
+    "soft": true,
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "acid_resist": 4,
+    "fire_resist": 1,
+    "elec_resist": 3,
+    "chip_resist": 7,
+    "repaired_with": "faux_fur",
+    "salvaged_into": "faux_fur",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "sliced",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750_ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
     "ident": "glass",
     "name": "Glass",
     "density": 14,
@@ -753,7 +776,7 @@
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 1 ] ],
     "compact_accepts": [ "budget_steel", "hardsteel", "iron" ],
-    "compacts_into": [ "steel_lump", "sheet_metal", "steel_chunk", "scrap" ]
+    "compacts_into": [ "sheet_metal", "steel_lump", "steel_chunk", "scrap" ]
   },
   {
     "type": "material",

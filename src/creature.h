@@ -233,7 +233,8 @@ class Creature
                                               body_part bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage( Creature *source, body_part bp, int amount ) = 0;
+        virtual void apply_damage( Creature *source, body_part bp, int amount,
+                                   const bool bypass_med = false ) = 0;
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.

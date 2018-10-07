@@ -1190,12 +1190,13 @@ float npc::vehicle_danger( int radius ) const
     int danger = 0;
 
     // TODO: check for most dangerous vehicle?
-    for( unsigned int i = 0; i < vehicles.size(); ++i )
-        if( vehicles[i].v->velocity > 0 ) {
-            float facing = vehicles[i].v->face.dir();
+    for( unsigned int i = 0; i < vehicles.size(); ++i ) {
+        const wrapped_vehicle &wrapped_veh = vehicles[i];
+        if( wrapped_veh.v->velocity > 0 ) {
+            float facing = wrapped_veh.v->face.dir();
 
-            int ax = vehicles[i].v->global_x();
-            int ay = vehicles[i].v->global_y();
+            int ax = wrapped_veh.v->global_pos3().x;
+            int ay = wrapped_veh.v->global_pos3().y;
             int bx = int( ax + cos( facing * M_PI / 180.0 ) * radius );
             int by = int( ay + sin( facing * M_PI / 180.0 ) * radius );
 
@@ -1203,7 +1204,7 @@ float npc::vehicle_danger( int radius ) const
             /* This will almost certainly give the wrong size/location on customized
              * vehicles. This should just count frames instead. Or actually find the
              * size. */
-            vehicle_part last_part = vehicles[i].v->parts.back();
+            vehicle_part last_part = wrapped_veh.v->parts.back();
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
             double normal = sqrt( ( float )( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
@@ -1213,7 +1214,7 @@ float npc::vehicle_danger( int radius ) const
                 danger = i;
             }
         }
-
+    }
     return danger;
 }
 
@@ -1795,7 +1796,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         // @todo: Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
-            return mut_branch.name;
+            return mut_branch.name();
         }
 
         return std::string();
