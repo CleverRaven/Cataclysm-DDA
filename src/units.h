@@ -201,7 +201,7 @@ operator*=( quantity<lvt, ut> &lhs, const st &factor )
 }
 
 // and the revers of the multiplication above:
-// quantity<foo, unit> / scalar == quantity<decltype(foo * scalar), unit>
+// quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
 template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
 inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
 operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
@@ -227,6 +227,43 @@ inline quantity<lvt, ut> &
 operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 {
     lhs = lhs / divisor;
+    return lhs;
+}
+
+// remainder:
+// quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
+template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
+inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
+{
+    return { lhs.value() % divisor, ut{} };
+}
+
+// scalar % quantity<foo, unit> is not supported
+template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
+inline void operator%( lvt, quantity<rvt, ut> ) = delete;
+
+// quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
+template<typename lvt, typename ut, typename rvt>
+inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+{
+    return { lhs.value() % rhs.value(), ut{} };
+}
+
+// operator %=
+template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
+inline quantity<lvt, ut> &
+operator%=( quantity<lvt, ut> &lhs, const st &divisor )
+{
+    lhs = lhs % divisor;
+    return lhs;
+}
+template<typename lvt, typename ut, typename rvt>
+inline quantity<lvt, ut> &
+operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+{
+    lhs = lhs % rhs;
     return lhs;
 }
 /**@}*/
