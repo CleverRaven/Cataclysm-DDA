@@ -174,6 +174,12 @@ enum layer_level {
     MAX_CLOTHING_LAYER
 };
 
+inline layer_level &operator++( layer_level &l )
+{
+    l = static_cast<layer_level>( l + 1 );
+    return l;
+}
+
 class item : public visitable<item>
 {
     public:

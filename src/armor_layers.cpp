@@ -457,6 +457,7 @@ void player::sort_armor()
                 }
 
                 selected = leftListIndex;
+                reset_encumbrance();
             }
         } else if( action == "DOWN" && leftListSize > 0 ) {
             leftListIndex = ( leftListIndex + 1 ) % tmp_worn.size();
@@ -479,6 +480,7 @@ void player::sort_armor()
                 }
 
                 selected = leftListIndex;
+                reset_encumbrance();
             }
         } else if( action == "LEFT" ) {
             tabindex--;
