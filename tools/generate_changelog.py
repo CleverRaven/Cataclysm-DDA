@@ -978,10 +978,13 @@ def main_by_build(target_dttm, token_file, output_file, include_summary_none):
 
 def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none):
     for build in build_repo.get_all_builds(sort_by=lambda x: -x.build_dttm.timestamp()):
+        ### we need the previous build a hash/date hash
+        ### to find commits / pull requests that got into the build
+        prev_build = build_repo.get_previous_successful_build(build.number)
+        if prev_build is None:
+            break
+
         try:
-            prev_build = build_repo.get_previous_successful_build(build.number)
-            if prev_build is None:
-                break
             commits = list(commit_repo.get_commit_range_by_hash(build.last_hash, prev_build.last_hash))
         except MissingCommitException:
             ### we obtained half of the build's commit with our GitHub API request
@@ -991,13 +994,30 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
         print(f'BUILD {build.number} / {build.build_dttm} / {build.last_hash[:7]}', file=output_file)
         if build.last_hash == prev_build.last_hash:
             print(f'  * No changes. Same code as BUILD {prev_build.number}.', file=output_file)
+            ### I could skip to next build here, but letting the go continue could help spot bugs in the logic
+            ### the code should not generate any output lines for these Builds.
+            #continue
 
-        ### group commits with no PR by date
-        commits_with_no_pr = (c for c in commits if not pr_repo.get_pr_by_merge_hash(c.hash))
+        ### I can get PRs by matching Build Commits to PRs by Merge Hash
+        ### This is precise, but may fail to associate some Commits to PRs leaving few "Summaries" out
+        # pull_requests = (pr_repo.get_pr_by_merge_hash(c.hash)
+        #                  for c in commits if pr_repo.get_pr_by_merge_hash(c.hash))
+        ### Another option is to find a proper Date range for the Build and find PRs by date
+        ### But I found some issues here:
+        ### * Jenkins Build Date don't end up matching the correct PRs because git fetch could be delayed like 15mins
+        ### * Using Build Commit Dates is better, but a few times it incorrectly match the PR one build later
+        ###   The worst ofender seem to be merges with message like "Merge remote-tracking branch 'origin/pr/25005'"
+        # build_commit = commit_repo.get_commit(build.last_hash)
+        # prev_build_commit = commit_repo.get_commit(prev_build.last_hash)
+        # pull_requests = pr_repo.get_merged_pr_list_by_date(build_commit.commit_dttm + timedelta(seconds=2),
+        #                                                    prev_build_commit.commit_dttm + timedelta(seconds=2))
+
+        ### I'll go with the safe method, this will show some COMMIT messages instead of the proper Summary from the PR.
         pull_requests = (pr_repo.get_pr_by_merge_hash(c.hash)
                          for c in commits if pr_repo.get_pr_by_merge_hash(c.hash))
 
-        ### group PRs by date
+        commits_with_no_pr = (c for c in commits if not pr_repo.get_pr_by_merge_hash(c.hash))
+
         pr_with_summary = list()
         pr_with_invalid_summary = list()
         pr_with_summary_none = list()
