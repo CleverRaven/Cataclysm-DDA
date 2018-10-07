@@ -613,6 +613,7 @@
     "default_faction": "mutant",
     "species": [ "FISH" ],
     "diff": 13,
+    "volume": "30000 ml",
     "weight": "40750",
     "hp": 20,
     "speed": 180,
