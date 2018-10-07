@@ -992,7 +992,7 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
             ### just avoid showing this build's partial data
             break
 
-        print(f'BUILD {build.number} / {build.build_dttm} / {build.last_hash[:7]}', file=output_file, end='\n\n')
+        print(f'BUILD {build.number} / {build.build_dttm} UTC+0 / {build.last_hash[:7]}', file=output_file, end='\n\n')
         if build.last_hash == prev_build.last_hash:
             print(f'  * No changes. Same code as BUILD {prev_build.number}.', file=output_file)
             ### I could skip to next build here, but letting the go continue could help spot bugs in the logic
