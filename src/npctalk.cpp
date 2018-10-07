@@ -2687,6 +2687,7 @@ const talk_topic &special_talk( char ch )
 
 talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 {
+    bool text_only = d_win.text_only;
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
@@ -2720,13 +2721,15 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
-    long ch = ' ';
+    long ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;
     do {
         d_win.refresh_response_display();
         do {
             d_win.display_responses( hilight_lines, response_lines, ch );
-            ch = inp_mngr.get_input_event().get_first_input();
+            if( !text_only ) {
+                ch = inp_mngr.get_input_event().get_first_input();
+            }
             auto st = special_talk( ch );
             if( st.id != "TALK_NONE" ) {
                 return st;

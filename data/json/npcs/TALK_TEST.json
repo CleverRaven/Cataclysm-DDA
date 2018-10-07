@@ -1,0 +1,167 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_START",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SIMPLE_STATS",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      { "text": "This is a strength test response.", "topic": "TALK_DONE", "condition": { "u_has_strength": 7 } },
+      { "text": "This is a dexterity test response.", "topic": "TALK_DONE", "condition": { "u_has_dexterity": 7 } },
+      {
+        "text": "This is an intelligence test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_intelligence": 7 }
+      },
+      { "text": "This is a perception test response.", "topic": "TALK_DONE", "condition": { "u_has_perception": 7 } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_NEGATED_STATS",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "This is a low strength test response.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_strength": 7 } }
+      },
+      {
+        "text": "This is a low dexterity test response.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_dexterity": 7 } }
+      },
+      {
+        "text": "This is a low intelligence test response.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_intelligence": 7 } }
+      },
+      {
+        "text": "This is a low perception test response.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_perception": 7 } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_WEARING_AND_TRAIT",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "This is a trait test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] }
+      },
+      {
+        "text": "This is a wearing test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_is_wearing": "badge_marshal" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_EFFECT",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "This is an npc effect test response.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_effect": "gave_quest_item" }
+      },
+      {
+        "text": "This is a player effect test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_effect": "gave_quest_item" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SERVICE",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      { "text": "This is a cash test response.", "topic": "TALK_DONE", "condition": { "u_has_cash": 500 } },
+      { "text": "This is an npc service test response.", "topic": "TALK_DONE", "condition": { "npc_service": 500 } },
+      { "text": "This is an npc available test response.", "topic": "TALK_DONE", "condition": "npc_available" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_OR",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "This is an or trait test response.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "or": [
+            { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] },
+            "npc_available",
+            { "u_has_cash": 500 }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_AND",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "This is an and cash, available, trait test response.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] },
+            "npc_available",
+            { "u_has_cash": 500 }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_NESTED",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "This is a complex nested test response.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "or": [ { "u_has_strength": 10 }, { "u_has_dexterity": 10 } ] } },
+            { "or": [ { "not": "npc_available" }, { "u_has_intelligence": 10 } ] },
+            { "u_has_cash": 500 }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "test_talker",
+    "//": "NPC in unit tests",
+    "name_suffix": "Tester",
+    "class": "NC_DOCTOR",
+    "attitude": 1,
+    "mission": 0,
+    "chat": "TALK_TEST_START",
+    "faction": "tacoma_commune"
+  }
+]

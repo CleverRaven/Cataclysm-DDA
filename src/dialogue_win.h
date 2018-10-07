@@ -15,6 +15,7 @@ class dialogue_window
         void open_dialogue( bool text_only = false );
         void print_header( const std::string &name );
 
+        bool text_only = false;
 
         void clear_window_texts();
         void display_responses( int hilight_lines, std::vector<talk_data> responses, const long &ch );
@@ -27,7 +28,6 @@ class dialogue_window
 
     private:
         catacurses::window d_win;
-        bool text_only = false;
         /**
          * This contains the exchanged words, it is basically like the global message log.
          * Each responses of the player character and the NPC are added as are information about
