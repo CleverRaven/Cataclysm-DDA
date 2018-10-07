@@ -2141,7 +2141,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
     for( size_t i = 0; i < items_here.size(); i++ ) {
         auto &it = items_here[i];
-        if( !it.made_of( LIQUID, true ) ) {
+        if( !it.made_of_from_type( LIQUID ) ) {
             add_msg( _("You remove %s from the vat."), it.tname().c_str() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
@@ -2224,7 +2224,7 @@ void iexamine::keg(player &p, const tripoint &examp)
     units::volume keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
     for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
-        if (!g->m.i_at(examp)[i].made_of( LIQUID, true ) || liquid_present) {
+        if (!g->m.i_at(examp)[i].made_of_from_type( LIQUID ) || liquid_present) {
             g->m.add_item_or_charges(examp, g->m.i_at(examp)[i]);
             g->m.i_rem( examp, i );
             i--;

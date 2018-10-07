@@ -819,14 +819,14 @@ class item : public visitable<item>
          */
         bool made_of( const material_id &mat_ident ) const;
         /**
-         *If contents nonempty, return true if item phase is same, else false
+         * If contents nonempty, return true if item phase is same, else false
          */
         bool contents_made_of( const phase_id phase ) const;
         /**
          * Are we solid, liquid, gas, plasma?
-         * @param from_itype If true grab phase from itype instead
          */
-        bool made_of( phase_id phase, bool from_itype = false ) const;
+        bool made_of( phase_id phase ) const;
+        bool made_of_from_type( phase_id phase ) const;
         /**
          * Whether the items is conductive.
          */

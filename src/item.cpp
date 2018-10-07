@@ -2594,7 +2594,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string burntext;
-    if( with_prefix && !made_of( LIQUID, true ) ) {
+    if( with_prefix && !made_of_from_type( LIQUID ) ) {
         if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if( burnt > 0 ) {
@@ -3995,15 +3995,20 @@ bool item::contents_made_of( const phase_id phase ) const
     return !contents.empty() && contents.front().made_of( phase );
 }
 
-bool item::made_of( phase_id phase, bool from_itype ) const
+bool item::made_of( phase_id phase ) const
 {
     if( is_null() ) {
         return false;
     }
-    if( from_itype ) {
-        return type->phase == phase;
-    }
     return current_phase == phase;
+}
+
+bool item::made_of_from_type( phase_id phase ) const
+{
+    if( is_null() ) {
+        return false;
+    }
+    return type->phase == phase;
 }
 
 bool item::conductive() const
@@ -4291,7 +4296,7 @@ bool item::can_unload_liquid() const
     }
 
     const item &cts = contents.front();
-    if( !is_bucket() && cts.made_of( LIQUID, true ) && cts.made_of( SOLID ) ) {
+    if( !is_bucket() && cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID ) ) {
         return false;
     }
 
@@ -5384,7 +5389,7 @@ bool item::reload( player &u, item_location loc, long qty )
         ammo->charges -= qty;
 
     } else if( is_watertight_container() ) {
-        if( !ammo->made_of( LIQUID, true ) ) {
+        if( !ammo->made_of_from_type( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
             return false;
         }
@@ -7029,7 +7034,7 @@ bool item::on_drop( const tripoint &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
-    if( made_of( LIQUID, true ) && !m.has_flag( "LIQUIDCONT", pos ) &&
+    if( made_of_from_type( LIQUID ) && !m.has_flag( "LIQUIDCONT", pos ) &&
         !item_tags.count( "DIRTY" ) ) {
         item_tags.insert( "DIRTY" );
     }
