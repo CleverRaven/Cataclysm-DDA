@@ -2194,7 +2194,6 @@ hp_part Character::body_window( const std::string &menu_header,
         const int new_hp = clamp( current_hp + bonus, 0, maximal_hp );
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         msg << string_format( "<color_%s>%s</color> %s",
-
                               color_name( all_state_col ), aligned_name,
                               hp_str( current_hp, maximal_hp ) );
         desc << string_format( "<color_%s>%s</color> %s",
