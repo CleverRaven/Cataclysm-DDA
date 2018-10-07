@@ -936,7 +936,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
         if curr_date in commits_with_no_pr:
             print(f"    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr[curr_date]:
-                print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash[:7]})", file=output_file)
+                print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
             print(file=output_file)
 
         if curr_date in pr_with_invalid_summary or (include_summary_none and curr_date in pr_with_summary_none):
@@ -1040,7 +1040,7 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
         if len(commits_with_no_pr) > 0:
             print(f"    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr:
-                print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash[:7]})", file=output_file)
+                print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
             print(file=output_file)
 
         if len(pr_with_invalid_summary) > 0 or (include_summary_none and len(pr_with_summary_none) > 0):
