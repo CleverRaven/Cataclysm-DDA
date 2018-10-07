@@ -1510,7 +1510,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Select Unarmed Style",
+    "name": "Select Martial Arts Style",
     "category": "DEFAULTMODE",
     "id": "pick_style",
     "bindings": [ { "input_method": "keyboard", "key": "_" } ]

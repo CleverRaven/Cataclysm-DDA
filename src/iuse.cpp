@@ -2346,7 +2346,8 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
     const martialart &ma = style_to_learn.obj();
     p->add_msg_if_player( m_good, _( "You learn the essential elements of %s." ),
                           _( ma.name.c_str() ) );
-    p->add_msg_if_player( m_info, _( "%s to select unarmed style." ), press_x( ACTION_PICK_STYLE ) );
+    p->add_msg_if_player( m_info, _( "%s to select martial arts style." ),
+                          press_x( ACTION_PICK_STYLE ) );
 
     return 1;
 }
