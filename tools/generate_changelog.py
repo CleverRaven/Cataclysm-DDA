@@ -1013,7 +1013,7 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
             print(f"  * {pr.summ_type} - {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
 
         for commit in commits_with_no_pr:
-            print(f"  * COMMIT - {commit.message} (by {pr.author} in Commit {commit.hash[:7]})", file=output_file)
+            print(f"  * COMMIT - {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
 
         for pr in pr_with_invalid_summary:
             print(f"  * PULL REQUEST - {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
