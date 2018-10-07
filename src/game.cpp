@@ -6244,7 +6244,7 @@ const std::string get_fire_fuel_string( tripoint examp )
                         return ss.str();
                     } else {
                         ss << string_format(
-                               _( "It's very well supplied and even without extra fuel might burn for at least s part of a day." ) );
+                               _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." ) );
                         return ss.str();
                     }
                 } else {
