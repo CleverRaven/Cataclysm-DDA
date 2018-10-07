@@ -924,13 +924,19 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
         if curr_date not in pr_with_summary and curr_date not in commits_with_no_pr:
             continue
 
-        print(f"{curr_date}", file=output_file)
+        print(f"{curr_date}", file=output_file, end='\n\n')
         sort_by_type = lambda pr: pr.summ_type
-        pr_list_by_date = sorted(pr_with_summary[curr_date], key=sort_by_type)
-        for pr_type, pr_list_by_category in itertools.groupby(pr_list_by_date, key=sort_by_type):
+        sorted_pr_list_by_category = sorted(pr_with_summary[curr_date], key=sort_by_type)
+        for pr_type, pr_list_by_category in itertools.groupby(sorted_pr_list_by_category, key=sort_by_type):
             print(f"    {pr_type}", file=output_file)
             for pr in pr_list_by_category:
                 print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
+            print(file=output_file)
+
+        if curr_date in commits_with_no_pr:
+            print(f"    MISC. COMMITS", file=output_file)
+            for commit in commits_with_no_pr[curr_date]:
+                print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash[:7]})", file=output_file)
             print(file=output_file)
 
         if curr_date in pr_with_invalid_summary or (include_summary_none and curr_date in pr_with_summary_none):
@@ -942,11 +948,6 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
                     print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
             print(file=output_file)
 
-        if curr_date in commits_with_no_pr:
-            print(f"    MISC. COMMITS", file=output_file)
-            for commit in commits_with_no_pr[curr_date]:
-                print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash[:7]})", file=output_file)
-            print(file=output_file)
         print(file=output_file)
 
 
@@ -991,7 +992,7 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
             ### just avoid showing this build's partial data
             break
 
-        print(f'BUILD {build.number} / {build.build_dttm} / {build.last_hash[:7]}', file=output_file)
+        print(f'BUILD {build.number} / {build.build_dttm} / {build.last_hash[:7]}', file=output_file, end='\n\n')
         if build.last_hash == prev_build.last_hash:
             print(f'  * No changes. Same code as BUILD {prev_build.number}.', file=output_file)
             ### I could skip to next build here, but letting the go continue could help spot bugs in the logic
@@ -1013,10 +1014,9 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
         #                                                    prev_build_commit.commit_dttm + timedelta(seconds=2))
 
         ### I'll go with the safe method, this will show some COMMIT messages instead of the proper Summary from the PR.
-        pull_requests = (pr_repo.get_pr_by_merge_hash(c.hash)
-                         for c in commits if pr_repo.get_pr_by_merge_hash(c.hash))
+        pull_requests = (pr_repo.get_pr_by_merge_hash(c.hash) for c in commits if pr_repo.get_pr_by_merge_hash(c.hash))
 
-        commits_with_no_pr = (c for c in commits if not pr_repo.get_pr_by_merge_hash(c.hash))
+        commits_with_no_pr = [c for c in commits if not pr_repo.get_pr_by_merge_hash(c.hash)]
 
         pr_with_summary = list()
         pr_with_invalid_summary = list()
@@ -1029,20 +1029,30 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
             elif not pr.has_valid_summary:
                 pr_with_invalid_summary.append(pr)
 
-        for pr in sorted(pr_with_summary, key=lambda x: x.summ_type):
-            print(f"  * {pr.summ_type} - {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
+        sort_by_type = lambda pr: pr.summ_type
+        sorted_pr_list_by_category = sorted(pr_with_summary, key=sort_by_type)
+        for pr_type, pr_list_by_category in itertools.groupby(sorted_pr_list_by_category, key=sort_by_type):
+            print(f"    {pr_type}", file=output_file)
+            for pr in pr_list_by_category:
+                print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
+            print(file=output_file)
 
-        for commit in commits_with_no_pr:
-            print(f"  * COMMIT - {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
+        if len(commits_with_no_pr) > 0:
+            print(f"    MISC. COMMITS", file=output_file)
+            for commit in commits_with_no_pr:
+                print(f"        * {commit.message} (by {pr.author} in Commit {commit.hash[:7]})", file=output_file)
+            print(file=output_file)
 
-        for pr in pr_with_invalid_summary:
-            print(f"  * PULL REQUEST - {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+        if len(pr_with_invalid_summary) > 0 or (include_summary_none and len(pr_with_summary_none) > 0):
+            print(f"    MISC. PULL REQUESTS", file=output_file)
+            for pr in pr_with_invalid_summary:
+                print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+            if include_summary_none:
+                for pr in pr_with_summary_none:
+                    print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+            print(file=output_file)
 
-        if include_summary_none:
-            for pr in pr_with_summary_none:
-                print(f"  * PULL REQUEST - [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
-
-        print('\n', file=output_file)
+        print(file=output_file)
 
 
 if __name__ == '__main__':
