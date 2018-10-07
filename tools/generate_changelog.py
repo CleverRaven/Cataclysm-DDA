@@ -627,8 +627,9 @@ class MultiThreadedGitHubApi:
 
 class GitHubApiRequestBuilder:
 
-    def __init__(self, api_token):
+    def __init__(self, api_token, timezone='Etc/UTC'):
         self.api_token = api_token
+        self.timezone = timezone
 
     def create_request(self, url, params=None):
         """Creates an API request based on provided URL and GET Parameters"""
@@ -640,8 +641,11 @@ class GitHubApiRequestBuilder:
         if self.api_token is None:
             api_request = urllib.request.Request(request_url)
         else:
-            auth_headers = {'Authorization': 'token ' + self.api_token}
-            api_request = urllib.request.Request(request_url, headers=auth_headers)
+            api_headers = {
+                'Authorization': 'token ' + self.api_token,
+                'Time-Zone': self.timezone,
+            }
+            api_request = urllib.request.Request(request_url, headers=api_headers)
 
         return api_request
 
@@ -651,8 +655,8 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
 
     GITHUB_API_LIST_COMMITS = r'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/commits'
 
-    def __init__(self, api_token, since_dttm=None, sha='master', initial_page=1, step=1):
-        super().__init__(api_token)
+    def __init__(self, api_token, since_dttm=None, sha='master', initial_page=1, step=1, timezone='Etc/UTC'):
+        super().__init__(api_token, timezone)
         self.sha = sha
         self.since_dttm = since_dttm
         self.page = initial_page
@@ -701,8 +705,8 @@ class PullRequestApiGenerator(GitHubApiRequestBuilder):
 
     GITHUB_API_LIST_PR = r'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/pulls'
 
-    def __init__(self, api_token, state='all', initial_page=1, step=1):
-        super().__init__(api_token)
+    def __init__(self, api_token, state='all', initial_page=1, step=1, timezone='Etc/UTC'):
+        super().__init__(api_token, timezone)
         self.page = initial_page
         self.step = step
         self.state = state
