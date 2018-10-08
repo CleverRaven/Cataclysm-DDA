@@ -25,6 +25,7 @@
 #include "text_snippets.h"
 #include "input.h"
 #include "map_iterator.h"
+#include "line.h"
 
 #include <string>
 #include <sstream>
@@ -1447,24 +1448,38 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
+    print_line( _( "\
+SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
+
+    const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
+    const std::vector<mission *> missions = g->u.get_active_missions();
+    tripoint mission_target = tripoint_zero;
+    if( !std::any_of( missions.begin(), missions.end(), [ &mission_type ]( mission * mission ) {
+    return mission->get_type().id == mission_type;
+    } ) ) {
+        const auto mission = mission::reserve_new( mission_type, -1 );
+        mission->assign( g->u );
+        mission_target = mission->get_target();
+    } else {
+        for( const auto &mission : missions ) {
+            if( mission->get_type().id == mission_type ) {
+                mission_target = mission->get_target();
+                break;
+            }
+        }
+    }
+
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
     print_line( _( "\
+\nREFUGEE CENTER FOUND! LOCATION: %d %s\n\n\
 IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
 THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n\
 THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n\
 4PM AT 555-0164.                                              \n\
 \n\
 IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
-TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
-
-    const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
-    const std::vector<mission *> missions = g->u.get_active_missions();
-    if( !std::any_of( missions.begin(), missions.end(), [ &mission_type ]( mission * mission ) {
-    return mission->get_type().id == mission_type;
-    } ) ) {
-        const auto mission = mission::reserve_new( mission_type, -1 );
-        mission->assign( g->u );
-    }
+TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_target ),
+                direction_name_short( direction_from( g->u.pos(), mission_target ) ) );
 
     query_any( _( "Press any key to continue..." ) );
 }
