@@ -1455,7 +1455,8 @@ SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
     const std::vector<mission *> missions = g->u.get_active_missions();
     tripoint mission_target;
 
-    const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type, &mission_target ]( mission * mission ) {
+    const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type,
+    &mission_target ]( mission * mission ) {
         if( mission->get_type().id == mission_type ) {
             mission_target = mission->get_target();
             return true;
