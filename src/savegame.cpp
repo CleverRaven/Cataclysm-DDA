@@ -1017,6 +1017,8 @@ void overmap::unserialize( std::istream &fin )
                         jsin.read( trigger.triggered );
                     } else if( member_name == "legacy_overmap_support" ) {
                         jsin.read( trigger.legacy_overmap_support );
+                    } else if( member_name == "permanent" ) {
+                        jsin.read( trigger.permanent );
                     }
                 }
                 map_extra_triggers.push_back( trigger );
@@ -1375,6 +1377,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.member("map_special", i.map_special);
         json.member("triggered", i.triggered);
         json.member("legacy_overmap_support", i.legacy_overmap_support);
+        json.member("permanent", i.permanent);
         json.end_object();
     }
     json.end_array();

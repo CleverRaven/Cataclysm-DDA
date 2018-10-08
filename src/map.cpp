@@ -6184,19 +6184,50 @@ void map::initialize_map_extras()
                 if( func != NULL ) {
                     int map_size = trigger->size * 2;
                     tinymap tiny( omt_to_sm_copy( trigger->omt_pos_1 ), map_size );
-                    if(!tiny.all_freshly_generated && trigger->legacy_overmap_support) {
+                    if( !tiny.all_freshly_generated && trigger->legacy_overmap_support ) {
                         trigger->triggered = true;
                         continue;
                     }
-                    func( tiny, *trigger );
-                    trigger->triggered = true;
-                    tiny.save();
-                    const auto overmap_coords = omt_to_om_copy(trigger->omt_pos_1);
-                    auto&& om = overmap_buffer.get_existing(overmap_coords.x, overmap_coords.y);
-                    if(om != nullptr) // It really should never be null...
-                    {
-                        const auto iter = om->map_extra_triggers.begin() + std::distance(om->map_extra_triggers.data(), trigger);
-                        om->map_extra_triggers.erase(iter);
+                    bool valid = true;
+                    const auto overmap_coords = omt_to_om_copy( trigger->omt_pos_1 );
+                    auto &&om = overmap_buffer.get_existing( overmap_coords.x, overmap_coords.y );
+                    for( int x = 0; x < trigger->size; x++ ) {
+                        for( int y = 0; y < trigger->size; y++ ) {
+                            map_extras other_ex = region_settings_map["default"].region_extras[om->ter(
+                                                      trigger->omt_pos_1.x + x, trigger->omt_pos_1.y + y, 0 )->get_extras()];
+                            auto res = std::find_if( other_ex.values.begin(),
+                            other_ex.values.end(), [&trigger]( weighted_object<int, std::string> s ) {
+                                return s.obj == trigger->map_special;
+                            } );
+                            if( res == other_ex.values.end() ) {
+                                valid = false;
+                            }
+                        }
+                    }
+                    if( valid || trigger->map_special == "mx_end_of_time" ) {
+                        func( tiny, *trigger );
+                        trigger->triggered = true;
+                        tiny.save();
+                        if( om != nullptr ) { // It really should never be null...
+                            const auto iter = om->map_extra_triggers.begin() + std::distance( om->map_extra_triggers.data(),
+                                              trigger );
+                            if(!trigger->permanent)
+                            {
+                                om->map_extra_triggers.erase( iter );
+                            }
+                            if(om->map_extra_triggers.size() == 0)
+                            {
+                                map_extra_trigger end_of_time;
+                                end_of_time.map_special = "mx_end_of_time";
+                                end_of_time.omt_pos_1.x = om->global_base_point().x + (OMAPX / 2);
+                                end_of_time.omt_pos_1.y = om->global_base_point().y + (OMAPY / 2);
+                                end_of_time.size = 1;
+                                end_of_time.triggered = false;
+                                end_of_time.legacy_overmap_support = false;
+                                end_of_time.permanent = true;
+                                om->map_extra_triggers.push_back(end_of_time);
+                            }
+                        }
                     }
                 }
             }

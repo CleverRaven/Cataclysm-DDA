@@ -568,7 +568,7 @@ void mx_supplydrop( map &m, const map_extra_trigger &trigger )
     const int map_size = m.getmapsize();
     const int map_tiles_width = SEEX * map_size;
     const int map_tiles_height = SEEY * map_size;
-    int num_crates = rng( 1, 8 );
+    int num_crates = std::min(rng( 2, 6 ), rng( 2, 6 ));
     for( int i = 0; i < num_crates; i++ ) {
         const int cx = rng( 4, map_tiles_width - 4 );
         const int cy = rng( 4, map_tiles_height - 4 );
@@ -930,6 +930,11 @@ void mx_clearcut( map &m, const map_extra_trigger &trigger )
     }
 }
 
+void mx_end_of_time( map &m, const map_extra_trigger &trigger )
+{
+    const tripoint abs_sub = omt_to_sm_copy( trigger.omt_pos_1 );
+}
+
 typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
@@ -951,7 +956,8 @@ FunctionMap builtin_functions = {
     { "mx_jabberwock", mx_jabberwock },
     { "mx_grove", mx_grove },
     { "mx_shrubbery", mx_shrubbery },
-    { "mx_clearcut", mx_clearcut }
+    { "mx_clearcut", mx_clearcut },
+    { "mx_end_of_time", mx_end_of_time }
 };
 
 typedef std::array<int, 2> IntPair;

@@ -408,6 +408,7 @@ struct map_extra_trigger
     std::string map_special;
     bool triggered;
     bool legacy_overmap_support = false;
+    bool permanent = false;
 };
 
 #endif

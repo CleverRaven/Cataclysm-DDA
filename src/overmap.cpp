@@ -3869,7 +3869,7 @@ void overmap::place_map_extras(bool legacy_overmap_support)
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             bool seen = false;
-            if( MAPBUFFER.lookup_submap(omt_to_sm_copy(tripoint(i, j, 0))) != nullptr ) {
+            if( legacy_overmap_support && MAPBUFFER.lookup_submap(omt_to_sm_copy(tripoint(i, j, 0))) != nullptr ) {
                 continue;
             }
             map_extras ex = region_settings_map["default"].region_extras[ter( i, j, 0 )->get_extras()];
@@ -3901,7 +3901,7 @@ void overmap::place_map_extras(bool legacy_overmap_support)
                             if( res == other_ex.values.end() ) {
                                 valid = false;
                             }
-                            if( MAPBUFFER.lookup_submap(omt_to_sm_copy(tripoint(i + x, j + y, 0))) != nullptr )
+                            if( legacy_overmap_support && MAPBUFFER.lookup_submap(omt_to_sm_copy(tripoint(i + x, j + y, 0))) != nullptr )
                             {
                                 valid = false;
                             }
