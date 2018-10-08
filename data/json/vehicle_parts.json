@@ -38,12 +38,6 @@
   },
   {
     "type": "item_group",
-    "id": "ig_vp_wood_plate",
-    "subtype": "collection",
-    "entries": [ { "item": "splinter", "count": [ 7, 9 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "ig_vp_cloth",
     "subtype": "collection",
     "entries": [ { "item": "rag", "count": [ 3, 6 ] } ]
@@ -56,16 +50,6 @@
       { "item": "steel_lump", "count": [ 3, 4 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 8, 10 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ig_vp_steel_plate",
-    "subtype": "collection",
-    "entries": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 5, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
   {
@@ -1473,122 +1457,6 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "plating_wood",
-    "name": "wooden armor",
-    "symbol": ")",
-    "color": "brown",
-    "broken_symbol": ")",
-    "broken_color": "brown",
-    "durability": 300,
-    "item": "wood_plate",
-    "difficulty": 2,
-    "location": "armor",
-    "flags": [ "ARMOR", "NAILABLE" ],
-    "breaks_into": "ig_vp_wood_plate",
-    "damage_reduction": { "all": 5 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "plating_steel",
-    "name": "steel plating",
-    "symbol": ")",
-    "color": "light_cyan",
-    "broken_symbol": ")",
-    "broken_color": "light_cyan",
-    "durability": 1000,
-    "item": "steel_plate",
-    "difficulty": 2,
-    "location": "armor",
-    "flags": [ "ARMOR" ],
-    "breaks_into": "ig_vp_steel_plate",
-    "damage_reduction": { "all": 10 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "plating_superalloy",
-    "name": "superalloy plating",
-    "symbol": ")",
-    "color": "dark_gray",
-    "broken_symbol": ")",
-    "broken_color": "dark_gray",
-    "durability": 900,
-    "item": "alloy_plate",
-    "difficulty": 4,
-    "location": "armor",
-    "flags": [ "ARMOR" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ],
-    "damage_reduction": { "all": 12 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "plating_spiked",
-    "name": "spiked plating",
-    "symbol": ")",
-    "color": "red",
-    "broken_symbol": ")",
-    "broken_color": "red",
-    "damage_modifier": 150,
-    "durability": 500,
-    "description": "A spiked plate that will increase the damage delivered to someone else in collisions.",
-    "item": "spiked_plate",
-    "difficulty": 3,
-    "location": "armor",
-    "flags": [ "ARMOR", "SHARP" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "spike", "count": [ 0, 2 ] }
-    ],
-    "damage_reduction": { "all": 7 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "plating_hard",
-    "name": "hard plating",
-    "symbol": ")",
-    "color": "cyan",
-    "broken_symbol": ")",
-    "broken_color": "cyan",
-    "durability": 1000,
-    "item": "hard_plate",
-    "difficulty": 4,
-    "location": "armor",
-    "flags": [ "ARMOR" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ],
-    "damage_reduction": { "all": 15 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "plating_military",
-    "name": "military composite armor plating",
-    "symbol": ")",
-    "color": "green",
-    "broken_symbol": ")",
-    "broken_color": "green",
-    "durability": 2000,
-    "item": "mil_plate",
-    "difficulty": 6,
-    "location": "armor",
-    "flags": [ "ARMOR" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "ceramic_armor", "count": [ 0, 4 ] }
-    ],
-    "damage_reduction": { "all": 15, "cut": 30, "stab": 50 }
   },
   {
     "type": "vehicle_part",

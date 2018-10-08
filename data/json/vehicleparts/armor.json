@@ -1,5 +1,21 @@
 [
   {
+    "type": "item_group",
+    "id": "ig_vp_wood_plate",
+    "subtype": "collection",
+    "entries": [ { "item": "splinter", "count": [ 7, 9 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ig_vp_steel_plate",
+    "subtype": "collection",
+    "entries": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 5, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] }
+    ]
+  },
+  {
     "id": "rebar_plate",
     "type": "vehicle_part",
     "name": "rebar reinforcement",
@@ -31,5 +47,525 @@
     "description": "A system of springs and pads, intended to cushion the effects of collisions on the interior of your vehicle.",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "spring", "count": [ 0, 4 ] } ],
     "flags": [ "ARMOR" ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_wood",
+    "name": "wooden armor",
+    "symbol": ")",
+    "color": "brown",
+    "broken_symbol": ")",
+    "broken_color": "brown",
+    "durability": 300,
+    "item": "wood_plate",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR", "NAILABLE" ],
+    "breaks_into": "ig_vp_wood_plate",
+    "damage_reduction": { "all": 5 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_wood_v2",
+    "name": "reinforced wooden armor",
+    "symbol": ")",
+    "color": "brown",
+    "broken_symbol": ")",
+    "broken_color": "brown",
+    "durability": 450,
+    "item": "wood_plate_v2",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR", "NAILABLE" ],
+    "breaks_into": [
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" }
+    ],
+    "damage_reduction": { "all": 7.5 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_wood_v3",
+    "name": "wooden slab armor",
+    "symbol": ")",
+    "color": "brown",
+    "broken_symbol": ")",
+    "broken_color": "brown",
+    "durability": 600,
+    "item": "wood_plate_v3",
+    "difficulty": 3,
+    "location": "armor",
+    "flags": [ "ARMOR", "NAILABLE" ],
+    "breaks_into": [
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" }
+    ],
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_wood_v4",
+    "name": "reinforced wooden slab armor",
+    "symbol": ")",
+    "color": "brown",
+    "broken_symbol": ")",
+    "broken_color": "brown",
+    "durability": 750,
+    "item": "wood_plate_v4",
+    "difficulty": 3,
+    "location": "armor",
+    "flags": [ "ARMOR", "NAILABLE" ],
+    "breaks_into": [
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" }
+    ],
+    "damage_reduction": { "all": 12.5 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_wood_v5",
+    "name": "heavy wooden slab armor",
+    "symbol": ")",
+    "color": "brown",
+    "broken_symbol": ")",
+    "broken_color": "brown",
+    "durability": 900,
+    "item": "wood_plate_v5",
+    "difficulty": 4,
+    "location": "armor",
+    "flags": [ "ARMOR", "NAILABLE" ],
+    "breaks_into": [
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" },
+      { "group": "ig_vp_wood_plate" }
+    ],
+    "damage_reduction": { "all": 15 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_steel",
+    "name": "steel plating",
+    "symbol": ")",
+    "color": "light_cyan",
+    "broken_symbol": ")",
+    "broken_color": "light_cyan",
+    "durability": 1000,
+    "item": "steel_plate",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": "ig_vp_steel_plate",
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_steel_v2",
+    "name": "reinforced steel plating",
+    "symbol": ")",
+    "color": "light_cyan",
+    "broken_symbol": ")",
+    "broken_color": "light_cyan",
+    "durability": 1500,
+    "item": "steel_plate_v2",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 15 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_steel_v3",
+    "name": "steel slab plating",
+    "symbol": ")",
+    "color": "light_cyan",
+    "broken_symbol": ")",
+    "broken_color": "light_cyan",
+    "durability": 2000,
+    "item": "steel_plate_v3",
+    "difficulty": 3,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 20 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_steel_v4",
+    "name": "reinforced steel slab plating",
+    "symbol": ")",
+    "color": "light_cyan",
+    "broken_symbol": ")",
+    "broken_color": "light_cyan",
+    "durability": 2500,
+    "item": "steel_plate_v4",
+    "difficulty": 3,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 25 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_steel_v5",
+    "name": "heavy steel slab plating",
+    "symbol": ")",
+    "color": "light_cyan",
+    "broken_symbol": ")",
+    "broken_color": "light_cyan",
+    "durability": 3000,
+    "item": "steel_plate_v5",
+    "difficulty": 4,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_superalloy",
+    "name": "superalloy plating",
+    "symbol": ")",
+    "color": "dark_gray",
+    "broken_symbol": ")",
+    "broken_color": "dark_gray",
+    "durability": 900,
+    "item": "alloy_plate",
+    "difficulty": 4,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": "ig_vp_steel_plate",
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_superalloy_v2",
+    "name": "reinforced superalloy plating",
+    "symbol": ")",
+    "color": "dark_gray",
+    "broken_symbol": ")",
+    "broken_color": "dark_gray",
+    "durability": 1350,
+    "item": "alloy_plate_v2",
+    "difficulty": 4,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 18 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_superalloy_v3",
+    "name": "superalloy slab plating",
+    "symbol": ")",
+    "color": "dark_gray",
+    "broken_symbol": ")",
+    "broken_color": "dark_gray",
+    "durability": 1800,
+    "item": "alloy_plate_v3",
+    "difficulty": 5,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 24 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_superalloy_v4",
+    "name": "reinforced superalloy slab plating",
+    "symbol": ")",
+    "color": "dark_gray",
+    "broken_symbol": ")",
+    "broken_color": "dark_gray",
+    "durability": 2250,
+    "item": "alloy_plate_v4",
+    "difficulty": 5,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_superalloy_v5",
+    "name": "heavy superalloy slab plating",
+    "symbol": ")",
+    "color": "dark_gray",
+    "broken_symbol": ")",
+    "broken_color": "dark_gray",
+    "durability": 2700,
+    "item": "alloy_plate_v5",
+    "difficulty": 6,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 36 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_spiked",
+    "name": "spiked plating",
+    "symbol": ")",
+    "color": "red",
+    "broken_symbol": ")",
+    "broken_color": "red",
+    "damage_modifier": 150,
+    "durability": 500,
+    "description": "A spiked plate that will increase the damage delivered to someone else in collisions.",
+    "item": "spiked_plate",
+    "difficulty": 3,
+    "location": "armor",
+    "flags": [ "ARMOR", "SHARP" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] },
+      { "item": "spike", "count": [ 0, 2 ] }
+    ],
+    "damage_reduction": { "all": 7 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_hard",
+    "name": "hard plating",
+    "symbol": ")",
+    "color": "cyan",
+    "broken_symbol": ")",
+    "broken_color": "cyan",
+    "durability": 1000,
+    "item": "hard_plate",
+    "difficulty": 4,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": "ig_vp_steel_plate",
+    "damage_reduction": { "all": 15 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_hard_v2",
+    "name": "reinforced hard plating",
+    "symbol": ")",
+    "color": "cyan",
+    "broken_symbol": ")",
+    "broken_color": "cyan",
+    "durability": 1500,
+    "item": "hard_plate_v2",
+    "difficulty": 4,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 22.5 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_hard_v3",
+    "name": "hard slab plating",
+    "symbol": ")",
+    "color": "cyan",
+    "broken_symbol": ")",
+    "broken_color": "cyan",
+    "durability": 2000,
+    "item": "hard_plate_v3",
+    "difficulty": 5,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_hard_v4",
+    "name": "reinforced hard slab plating",
+    "symbol": ")",
+    "color": "cyan",
+    "broken_symbol": ")",
+    "broken_color": "cyan",
+    "durability": 2500,
+    "item": "hard_plate_v4",
+    "difficulty": 5,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 37.5 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_hard_v5",
+    "name": "heavy hard slab plating",
+    "symbol": ")",
+    "color": "cyan",
+    "broken_symbol": ")",
+    "broken_color": "cyan",
+    "durability": 3000,
+    "item": "hard_plate_v5",
+    "difficulty": 6,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" },
+      { "group": "ig_vp_steel_plate" }
+    ],
+    "damage_reduction": { "all": 45 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_military",
+    "name": "military composite plating",
+    "symbol": ")",
+    "color": "green",
+    "broken_symbol": ")",
+    "broken_color": "green",
+    "durability": 2000,
+    "item": "mil_plate",
+    "difficulty": 6,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] },
+      { "item": "ceramic_armor", "count": [ 0, 4 ] }
+    ],
+    "damage_reduction": { "all": 15, "cut": 30, "stab": 50 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_military_v2",
+    "name": "reinforced military composite plating",
+    "symbol": ")",
+    "color": "green",
+    "broken_symbol": ")",
+    "broken_color": "green",
+    "durability": 3000,
+    "item": "mil_plate_v2",
+    "difficulty": 6,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 8, 12 ] },
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "ceramic_armor", "count": [ 4, 8 ] }
+    ],
+    "damage_reduction": { "all": 22, "cut": 45, "stab": 75 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_military_v3",
+    "name": "military composite slab plating",
+    "symbol": ")",
+    "color": "green",
+    "broken_symbol": ")",
+    "broken_color": "green",
+    "durability": 4000,
+    "item": "mil_plate_v3",
+    "difficulty": 7,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 12, 18 ] },
+      { "item": "steel_chunk", "count": [ 12, 18 ] },
+      { "item": "scrap", "count": [ 12, 18 ] },
+      { "item": "ceramic_armor", "count": [ 8, 12 ] }
+    ],
+    "damage_reduction": { "all": 30, "cut": 60, "stab": 100 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_military_v4",
+    "name": "reinforced military composite slab plating",
+    "symbol": ")",
+    "color": "green",
+    "broken_symbol": ")",
+    "broken_color": "green",
+    "durability": 5000,
+    "item": "mil_plate_v4",
+    "difficulty": 7,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 16, 24 ] },
+      { "item": "steel_chunk", "count": [ 16, 24 ] },
+      { "item": "scrap", "count": [ 16, 24 ] },
+      { "item": "ceramic_armor", "count": [ 12, 16 ] }
+    ],
+    "damage_reduction": { "all": 37, "cut": 75, "stab": 125 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_military_v5",
+    "name": "heavy military composite slab plating",
+    "symbol": ")",
+    "color": "green",
+    "broken_symbol": ")",
+    "broken_color": "green",
+    "durability": 6000,
+    "item": "mil_plate_v5",
+    "difficulty": 8,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 24, 32 ] },
+      { "item": "steel_chunk", "count": [ 24, 32 ] },
+      { "item": "scrap", "count": [ 24, 32 ] },
+      { "item": "ceramic_armor", "count": [ 16, 24 ] }
+    ],
+    "damage_reduction": { "all": 45, "cut": 90, "stab": 150 }
   }
 ]
