@@ -400,6 +400,7 @@ void player::sort_armor()
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
     ctxt.register_action( "ASSIGN_INVLETS" );
+    ctxt.register_action( "SORT_ARMOR" );
     ctxt.register_action( "EQUIP_ARMOR" );
     ctxt.register_action( "REMOVE_ARMOR" );
     ctxt.register_action( "USAGE_HELP" );
@@ -631,6 +632,17 @@ void player::sort_armor()
                     wrefresh( w_sort_armor );
                 }
             }
+        } else if( action == "SORT_ARMOR" ) {
+            // Copy to a vector because stable_sort requires random-access
+            // iterators
+            std::vector<item> worn_copy( worn.begin(), worn.end() );
+            std::stable_sort( worn_copy.begin(), worn_copy.end(),
+            []( const item & l, const item & r ) {
+                return l.get_layer() < r.get_layer();
+            }
+                            );
+            std::copy( worn_copy.begin(), worn_copy.end(), worn.begin() );
+            reset_encumbrance();
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this );
@@ -689,6 +701,7 @@ Press [%s] to select highlighted armor for reordering.\n\
 Use   [%s] / [%s] to scroll the right list.\n\
 Press [%s] to assign special inventory letters to clothing.\n\
 Press [%s] to change the side on which item is worn.\n\
+Press [%s] to sort armor into natural layer order.\n\
 Use   [%s] to equip a new item at the currently selected position.\n\
 Press [%s] to remove selected armor from oneself.\n\
  \n\
@@ -703,6 +716,7 @@ The sum of these values is the effective encumbrance value your character has fo
                           ctxt.get_desc( "NEXT_TAB" ).c_str(),
                           ctxt.get_desc( "ASSIGN_INVLETS" ).c_str(),
                           ctxt.get_desc( "CHANGE_SIDE" ).c_str(),
+                          ctxt.get_desc( "SORT_ARMOR" ).c_str(),
                           ctxt.get_desc( "EQUIP_ARMOR" ).c_str(),
                           ctxt.get_desc( "REMOVE_ARMOR" ).c_str()
                         );
