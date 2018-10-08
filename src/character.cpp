@@ -2124,13 +2124,19 @@ hp_part Character::body_window( const std::string &menu_header,
             std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
             nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return tag_colored_string( h_bar, h_bar_col ) + tag_colored_string( std::string( 5 - h_bar.size(), '.' ), c_white );
+            return tag_colored_string( h_bar, h_bar_col ) + tag_colored_string( std::string( 5 - h_bar.size(),
+                    '.' ), c_white );
         }
     };
 
     uilist bmenu;
     bmenu.desc_enabled = true;
-    bmenu.text = string_format( _( "Select a body part for: %s" ), menu_header );
+    if( menu_header != disp_name() ) {
+        bmenu.text = string_format( _( "Select a body part for: %s" ), menu_header );
+    } else {
+        bmenu.text = string_format( _( "Looking at body parts of %s" ), menu_header );
+    }
+
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
 
@@ -2167,6 +2173,7 @@ hp_part Character::body_window( const std::string &menu_header,
         std::stringstream msg;
         std::stringstream desc;
         const std::string arrow = " <color_yellow>-></color> ";
+        const std::string plus = " <color_light_green>[+]</color> ";
         bool bleeding = has_effect( effect_bleed, e.bp );
         bool bitten = has_effect( effect_bite, e.bp );
         bool infected = has_effect( effect_infected, e.bp );
@@ -2230,6 +2237,9 @@ hp_part Character::body_window( const std::string &menu_header,
             if( bleed > 0.0f ) {
                 desc << arrow << tag_colored_string( string_format( _( "Chance to stop: %d %%" ),
                                                      int( bleed * 100 ) ), c_light_green ) << "\n";
+            } else {
+                desc << arrow << tag_colored_string( _( "This item will not stop the bleeding." ),
+                                                     c_yellow ) << "\n";
             }
         }
         // BANDAGE block
@@ -2244,11 +2254,39 @@ hp_part Character::body_window( const std::string &menu_header,
                                                      c_yellow ) << "\n";
             }
         } else if( new_b_power > 0 && e.allowed ) {
-            desc << arrow << tag_colored_string( string_format( _( "Expected bandage quality: %s" ),
-                                                 texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
+            desc << plus << arrow << tag_colored_string( string_format( _( "Expected bandage quality: %s" ),
+                    texitify_healing_power( new_b_power ) ), c_light_green ) << "\n";
         }
-
-        // DISINFECTANT / BITTEN / INFECTED block
+        // BITTEN block
+        if( bitten ) {
+            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_bite,
+                                        e.bp ).get_speed_name() ), c_red );
+            desc << tag_colored_string( string_format( _( "It has a deep bite wound that needs cleaning." ) ),
+                                        c_red ) << "\n";
+            if( bite > 0 ) {
+                desc << arrow << tag_colored_string( string_format( _( "Chance to clean and disinfect: %d %%" ),
+                                                     int( bite * 100 ) ), c_light_green ) << "\n";
+            } else {
+                desc << arrow << tag_colored_string( _( "This item will not help in cleaning this wound." ),
+                                                     c_yellow ) << "\n";
+            }
+        }
+        // INFECTED block
+        if( infected ) {
+            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_infected,
+                                        e.bp ).get_speed_name() ), c_red );
+            desc << tag_colored_string( string_format(
+                                            _( "It has a deep wound that looks infected. You might require antibiotics." ) ),
+                                        c_red ) << "\n";
+            if( infect > 0 ) {
+                desc << arrow << tag_colored_string( string_format( _( "Chance to heal infection: %d %%" ),
+                                                     int( infect * 100 ) ), c_light_green ) << "\n";
+            } else {
+                desc << arrow << tag_colored_string( _( "This item will not help in healing infection." ),
+                                                     c_yellow ) << "\n";
+            }
+        }
+        // DISINFECTANT (general) block
         if( disinfected ) {
             desc << string_format( _( "Disinfected [%s]" ),
                                    texitify_healing_power( d_power ) ) << "\n";
@@ -2259,38 +2297,15 @@ hp_part Character::body_window( const std::string &menu_header,
                 desc << arrow << tag_colored_string( _( "You don't expect any improvement from using this item." ),
                                                      c_yellow ) << "\n";
             }
-        } else if( bitten ) {
-            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_bite,
-                                        e.bp ).get_speed_name() ), c_red );
-            desc << tag_colored_string( string_format( _( "It has a deep wound that needs cleaning." ) ),
-                                        c_red ) << "\n";
-            if( bite > 0 ) {
-                desc << arrow << tag_colored_string( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                     int( bite * 100 ) ), c_light_green ) << "\n";
-                if( new_d_power > 0 ) {
-                    desc << arrow << tag_colored_string( string_format( _( "Expected disinfection quality: %s" ),
-                                                         texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
-                }
-            }
-        } else if( infected ) {
-            desc << tag_colored_string( string_format( "%s: ", get_effect( effect_infected,
-                                        e.bp ).get_speed_name() ), c_red );
-            desc << tag_colored_string( string_format( _( "It has a deep wound that looks infected." ) ),
-                                        c_red ) << ">\n";
-            if( infect > 0 ) {
-                desc << arrow << tag_colored_string( string_format( _( "Chance to heal infection: %d %%" ),
-                                                     int( infect * 100 ) ), c_light_green ) << "\n";
-                if( new_d_power > 0 ) {
-                    desc << arrow << tag_colored_string( string_format( _( "Expected disinfection quality: %s" ),
-                                                         texitify_healing_power( new_d_power ) ), c_light_green )  << "\n";
-                }
-            }
         } else if( new_d_power > 0 && e.allowed ) {
-            desc << arrow << tag_colored_string( string_format( _( "Expected disinfection quality: %s" ),
-                                                 texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
+            desc << plus << arrow << tag_colored_string( string_format(
+                        _( "Expected disinfection quality: %s" ),
+                        texitify_healing_power( new_d_power ) ), c_light_green ) << "\n";
         }
-        // END of block
-        if( !e.allowed && !limb_is_broken ) {
+        // END of blocks
+
+        if( ( !e.allowed && !limb_is_broken ) || ( show_all && current_hp == maximal_hp &&
+                !limb_is_broken && !bitten && !infected && !bleeding ) ) {
             desc << tag_colored_string( string_format( _( "Healthy." ) ), c_green ) << "\n";
         }
         if( !e.allowed ) {
@@ -2305,7 +2320,7 @@ hp_part Character::body_window( const std::string &menu_header,
     if( !is_valid_choice ) { // no body part can be chosen for this item
         bmenu.init();
         bmenu.desc_enabled = false;
-        bmenu.text = string_format( _( "No healable part for: %s" ), menu_header );
+        bmenu.text = string_format( _( "No limb would benefit from using a %s." ), menu_header );
         bmenu.addentry( parts.size(), true, 'q', "%s", _( "Cancel" ) );
     }
 
