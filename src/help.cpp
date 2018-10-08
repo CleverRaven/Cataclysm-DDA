@@ -31,6 +31,7 @@ void help::deserialize( JsonIn &jsin )
     hotkeys.clear();
 
     std::string note_colors = get_note_colors();
+    std::string dir_grid = get_dir_grid();
 
     jsin.start_array();
     while( !jsin.end_array() ) {
@@ -40,15 +41,20 @@ void help::deserialize( JsonIn &jsin )
         jo.read( "text", text );
 
         for( auto &line : text ) {
-
-            line = string_replace( line, "<DRAW_NOTE_COLORS>", note_colors );
+            if( line == "<DRAW_NOTE_COLORS>" ) {
+                line = string_replace( line, "<DRAW_NOTE_COLORS>", note_colors );
+                continue;
+            } else if( line == "<HELP_DRAW_DIRECTIONS>" ) {
+                line = string_replace( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
+                continue;
+            }
 
             size_t pos = line.find( "<press_", 0, 7 );
             while( pos != std::string::npos ) {
                 size_t pos2 = line.find( ">", pos, 1 );
 
                 std::string action = line.substr( pos + 7, pos2 - pos - 7 );
-                auto replace = press_x( look_up_action( action ), "", "" );
+                auto replace = "<color_light_blue>" + press_x( look_up_action( action ), "", "" ) + "</color>";
 
                 if( replace.empty() ) {
                     debugmsg( "Help json: Unknown action: %s", action );
@@ -61,36 +67,36 @@ void help::deserialize( JsonIn &jsin )
         }
 
         help_texts[jo.get_int( "pos" )] = std::make_pair( _( jo.get_string( "name" ).c_str() ), text );
-
         hotkeys.push_back( get_hotkeys( jo.get_string( "name" ) ) );
     }
 }
 
-void help_draw_dir( const catacurses::window &win, int line_y )
+std::string help::get_dir_grid()
 {
-    std::array<action_id, 9> movearray = {{
+    static const std::array<action_id, 9> movearray = {{
             ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
             ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
         }
     };
-    mvwprintz( win, line_y + 1, 0, c_white, _( "\
-  \\ | /     \\ | /\n\
-   \\|/       \\|/ \n\
-  -- --     -- --  \n\
-   /|\\       /|\\ \n\
-  / | \\     / | \\" ) );
-    for( int acty = 0; acty < 3; acty++ ) {
-        for( int actx = 0; actx < 3; actx++ ) {
-            std::vector<char> keys = keys_bound_to( movearray[acty * 3 + actx] );
-            if( !keys.empty() ) {
-                mvwputch( win, acty * 3 + line_y, actx * 3 + 1, c_light_blue, keys[0] );
-                if( keys.size() > 1 ) {
-                    mvwputch( win, acty * 3 + line_y, actx * 3 + 11, c_light_blue, keys[1] );
-                }
-            }
-        }
+
+    std::string movement = "<LEFTUP_0>  <UP_0>  <RIGHTUP_0>   <LEFTUP_1>  <UP_1>  <RIGHTUP_1>\n"\
+        " \\ | /     \\ | /\n"\
+        "  \\|/       \\|/\n"\
+        "<LEFT_0>--<pause_0>--<RIGHT_0>   <LEFT_1>--<pause_1>--<RIGHT_1>\n"\
+        "  /|\\       /|\\\n"\
+        " / | \\     / | \\\n"\
+        "<LEFTDOWN_0>  <DOWN_0>  <RIGHTDOWN_0>   <LEFTDOWN_1>  <DOWN_1>  <RIGHTDOWN_1>";
+
+    for( auto dir : movearray ) {
+        std::vector<char> keys = keys_bound_to( dir );
+        movement = string_replace( movement, "<" + action_ident( dir ) + "_0>",
+                                   string_format("<color_light_blue>%s</color>", keys[0]) );
+        movement = string_replace( movement, "<" + action_ident( dir ) + "_1>",
+                                   string_format("<color_light_blue>%s</color>", keys[1]) );
     }
+
+    return movement;
 }
 
 void help::draw_menu( const catacurses::window &win )
@@ -109,8 +115,9 @@ Press ESC to return to the game." ) ) + 1;
         if( i < half_size ) {
             second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
         }
-        mvwprintz( win, y + i % half_size, ( i < half_size ? 1 : second_column ),
-                   c_white, cat_name.c_str() );
+
+        shortcut_print( win, y + i % half_size, ( i < half_size ? 1 : second_column ),
+                        c_white, c_light_blue, cat_name );
     }
 
     wrefresh( win );
@@ -156,18 +163,6 @@ void help::display_help()
             catacurses::refresh();
             needs_refresh = false;
         };
-
-        /*
-        #ifdef __ANDROID__
-        input_context ctxt( "DISPLAY_HELP" );
-        for( long key = 'a'; key <= 'p'; ++key ) {
-            ctxt.register_manual_key( key );
-        }
-        for( long key = '1'; key <= '4'; ++key ) {
-            ctxt.register_manual_key( key );
-        }
-        #endif
-        */
 
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;

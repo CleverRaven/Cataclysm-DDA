@@ -13,15 +13,14 @@ class JsonIn;
 class help
 {
     public:
-        help() {};
-
         void load();
-        void draw_menu( const catacurses::window &win );
         void display_help();
 
     private:
         void deserialize( JsonIn &jsin );
+        void draw_menu( const catacurses::window &win );
         std::string get_note_colors();
+        std::string get_dir_grid();
 
         std::map<int, std::pair<std::string, std::vector<std::string> > > help_texts;
         std::vector< std::vector<std::string> > hotkeys;
