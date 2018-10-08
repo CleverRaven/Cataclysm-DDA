@@ -7762,7 +7762,7 @@
     "material": [ "flesh", "wheat", "milk" ],
     "volume": 12,
     "charges": 8,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 15,
     "rot_spawn": "GROUP_CARRION"
   },
