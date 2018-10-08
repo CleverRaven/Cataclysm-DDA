@@ -1453,20 +1453,21 @@ SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     const std::vector<mission *> missions = g->u.get_active_missions();
-    tripoint mission_target = tripoint_zero;
-    if( !std::any_of( missions.begin(), missions.end(), [ &mission_type ]( mission * mission ) {
-    return mission->get_type().id == mission_type;
-    } ) ) {
+    tripoint mission_target;
+
+    const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type, &mission_target ]( mission * mission ) {
+        if( mission->get_type().id == mission_type ) {
+            mission_target = mission->get_target();
+            return true;
+        }
+
+        return false;
+    } );
+
+    if( !has_mission ) {
         const auto mission = mission::reserve_new( mission_type, -1 );
         mission->assign( g->u );
         mission_target = mission->get_target();
-    } else {
-        for( const auto &mission : missions ) {
-            if( mission->get_type().id == mission_type ) {
-                mission_target = mission->get_target();
-                break;
-            }
-        }
     }
 
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
