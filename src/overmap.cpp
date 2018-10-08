@@ -3864,11 +3864,12 @@ void overmap::place_radios()
     }
 }
 
-void overmap::place_map_extras()
+void overmap::place_map_extras(bool legacy_overmap_support)
 {
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            if( seen( i, j, 0 ) ) {
+            bool seen = false;
+            if( MAPBUFFER.lookup_submap(omt_to_sm_copy(tripoint(i, j, 0))) != nullptr ) {
                 continue;
             }
             map_extras ex = region_settings_map["default"].region_extras[ter( i, j, 0 )->get_extras()];
@@ -3879,11 +3880,11 @@ void overmap::place_map_extras()
                 } else {
                     map_extra_trigger trigger;
                     trigger.map_special = *( ex.values.pick() );
-                    trigger.omt_pos_1.x = i;
-                    trigger.omt_pos_1.y = j;
+                    trigger.omt_pos_1.x = i + global_base_point().x;
+                    trigger.omt_pos_1.y = j + global_base_point().y;
                     trigger.size = MapExtras::generate_special_size( trigger.map_special );
-                    trigger.trigger_distance = 7;
                     trigger.triggered = false;
+                    trigger.legacy_overmap_support = legacy_overmap_support;
                     // Check that all tiles that this extra falls on are valid
                     bool valid = true;
                     for( int x = 0; x < trigger.size; x++ ) {
@@ -3900,11 +3901,13 @@ void overmap::place_map_extras()
                             if( res == other_ex.values.end() ) {
                                 valid = false;
                             }
-                            if( seen( i + x, j + y, 0 ) ) {
+                            if( MAPBUFFER.lookup_submap(omt_to_sm_copy(tripoint(i + x, j + y, 0))) != nullptr )
+                            {
                                 valid = false;
                             }
                         }
                     }
+                    
                     if( valid ) {
                         map_extra_triggers.push_back( trigger );
                         overmap_buffer.add_note( global_base_point().x + i, global_base_point().y + j, trigger.omt_pos_1.z,
@@ -3925,7 +3928,7 @@ void overmap::open( overmap_special_batch &enabled_specials )
     if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
         read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
         if( map_extra_triggers.empty() ) {
-            place_map_extras();
+            place_map_extras(true);
         }
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;

@@ -6185,6 +6185,10 @@ void map::initialize_map_extras()
                 if( func != NULL ) {
                     int map_size = trigger->size * 2;
                     tinymap tiny( omt_to_sm_copy( trigger->omt_pos_1 ), map_size );
+                    if(!tiny.all_freshly_generated && trigger->legacy_overmap_support) {
+                        trigger->triggered = true;
+                        continue;
+                    }
                     func( tiny, *trigger );
                     trigger->triggered = true;
                     tiny.save();
@@ -6479,6 +6483,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
             tinymap tmp_map;
             tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
         }
+        
 
         // This is the same call to MAPBUFFER as above!
         tmpsub = MAPBUFFER.lookup_submap( absx, absy, gridz );
@@ -6486,6 +6491,12 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
             dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << abs_sub.z;
             debugmsg( "failed to generate a submap at %d,%d,%d", absx, absy, abs_sub.z );
             return;
+        }
+    } else {
+        tinymap* self = dynamic_cast<tinymap *>(this);
+        if(self && gridx % 2 == 0 && gridy % 2 == 0)
+        {
+            self->all_freshly_generated = false;
         }
     }
 

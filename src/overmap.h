@@ -550,7 +550,7 @@ class overmap
 
         void place_mongroups();
         void place_radios();
-        void place_map_extras();
+        void place_map_extras(bool legacy_overmap_support = false);
 
         void add_mon_group( const mongroup &group );
 

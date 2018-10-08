@@ -1590,6 +1590,8 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         tinymap( const tripoint &abs_sub, int mapsize = 2, bool zlevels = false );
+
+        bool all_freshly_generated = true;
 };
 
 #endif

@@ -1011,12 +1011,12 @@ void overmap::unserialize( std::istream &fin )
                         jsin.read( trigger.omt_pos_1 );
                     } else if( member_name == "size" ) {
                         jsin.read( trigger.size );
-                    } else if( member_name == "trigger_distance" ) {
-                        jsin.read( trigger.trigger_distance );
                     } else if( member_name == "map_special" ) {
                         jsin.read( trigger.map_special );
                     } else if( member_name == "triggered" ) {
                         jsin.read( trigger.triggered );
+                    } else if( member_name == "legacy_overmap_support" ) {
+                        jsin.read( trigger.legacy_overmap_support );
                     }
                 }
                 map_extra_triggers.push_back( trigger );
@@ -1372,9 +1372,9 @@ void overmap::serialize( std::ostream &fout ) const
         json.start_object();
         json.member("omt_pos_1", i.omt_pos_1);
         json.member("size", i.size);
-        json.member("trigger_distance", i.trigger_distance);
         json.member("map_special", i.map_special);
         json.member("triggered", i.triggered);
+        json.member("legacy_overmap_support", i.legacy_overmap_support);
         json.end_object();
     }
     json.end_array();
