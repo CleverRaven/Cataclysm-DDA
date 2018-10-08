@@ -7,7 +7,7 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 14,
-    "volume": "30000 ml", 
+    "volume": "30000 ml",
     "weight": "40750",
     "hp": 30,
     "speed": 100,
@@ -31,12 +31,7 @@
         "require_sunlight": true
       }
     ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 10 ],
-        [ "laserturret", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 10 ], [ "laserturret", 1 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
@@ -48,7 +43,7 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 30,
-    "volume": "62500 ml", 
+    "volume": "62500 ml",
     "weight": "81500",
     "hp": 40,
     "speed": 100,
@@ -82,12 +77,7 @@
         "no_ammo_sound": "a chk!"
       }
     ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 9 ],
-        [ "turret_bmg", 2 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 9 ], [ "turret_bmg", 2 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
@@ -99,7 +89,7 @@
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 20,
-    "volume": "30000 ml", 
+    "volume": "30000 ml",
     "weight": "40750",
     "hp": 40,
     "speed": 100,
@@ -122,18 +112,10 @@
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 8 ] ],
         "fake_dex": 10,
         "range": 18,
-        "ranges": [
-          [ 0, 8, "AUTO" ],
-          [ 9, 16, "DEFAULT" ]
-        ]
+        "ranges": [ [ 0, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ]
       }
     ],
-    "death_drops": {
-      "groups": [
-        [ "robots", 9 ],
-        [ "turret_rifle", 2 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 9 ], [ "turret_rifle", 2 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   }
