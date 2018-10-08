@@ -26,12 +26,30 @@ std::vector<std::string> clothing_flags_description( item const &worn_item );
 struct item_penalties {
     std::vector<body_part> body_parts_with_stacking_penalty;
     std::vector<body_part> body_parts_with_out_of_order_penalty;
+
+    int badness() const {
+        return !body_parts_with_stacking_penalty.empty() +
+               !body_parts_with_out_of_order_penalty.empty();
+    }
+
+    nc_color color_for_stacking_badness() const {
+        switch( badness() ) {
+            case 0:
+                return c_light_gray;
+            case 1:
+                return c_yellow;
+            case 2:
+                return c_light_red;
+        }
+        debugmsg( "Unexpected badness %d", badness() );
+        return c_light_gray;
+    }
 };
 
+// Figure out encumbrance penalties this clothing is involved in
 item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                                    const Character &c, int tabindex )
 {
-    // Report on encumbrance penalties this clothing is involved in
     auto layer = worn_item_it->get_layer();
 
     std::vector<body_part> body_parts_with_stacking_penalty;
@@ -248,12 +266,18 @@ std::vector<std::string> clothing_flags_description( item const &worn_item )
 } //namespace
 
 struct layering_item_info {
-    nc_color damage;
+    item_penalties penalties;
     int encumber;
     std::string name;
+
     // Operator overload required to leverage vector equality operator.
     bool operator ==( const layering_item_info &o ) const {
-        return this->damage == o.damage &&
+        // This is used to merge e.g. both arms into one entry when their items
+        // are equivalent.  For that purpose we don't care about the exact
+        // penalities because they will list different body parts; we just
+        // check that the badness is the same (which is all that matters for
+        // rendering the right-hand list).
+        return this->penalties.badness() == o.penalties.badness() &&
                this->encumber == o.encumber &&
                this->name == o.name;
     }
@@ -262,10 +286,13 @@ struct layering_item_info {
 static std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
 {
     std::vector<layering_item_info> s;
-    for( auto &elem : c.worn ) {
-        if( elem.covers( static_cast<body_part>( bp ) ) ) {
-            layering_item_info t = { elem.damage_color(), elem.get_encumber(), elem.type_name( 1 ) };
-            s.push_back( t );
+    for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
+        if( elem_it->covers( static_cast<body_part>( bp ) ) ) {
+            auto penalties = get_item_penalties( elem_it, c, bp );
+            layering_item_info t = { std::move( penalties ), elem_it->get_encumber(),
+                                     elem_it->tname()
+                                   };
+            s.push_back( std::move( t ) );
         }
     }
     return s;
@@ -441,10 +468,13 @@ void player::sort_armor()
                 mvwprintz( w_sort_left, drawindex + 1, 0, c_yellow, ">>" );
             }
 
+            std::string name = tmp_worn[itemindex]->tname();
+            auto const penalties =
+                get_item_penalties( tmp_worn[itemindex], *this, tabindex );
+
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
-                            tmp_worn[itemindex]->damage_color(),
-                            tmp_worn[itemindex]->type_name( 1 ).c_str() );
+                            penalties.color_for_stacking_badness(), name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
                          format_volume( tmp_worn[itemindex]->get_storage() ) );
         }
@@ -492,11 +522,13 @@ void player::sort_armor()
             }
             rightListSize++;
             for( auto &elem : items_cover_bp( *this, cover ) ) {
+                nc_color color = elem.penalties.color_for_stacking_badness();
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
-                    trim_and_print( w_sort_right, pos, 2, right_w - 4, elem.damage,
-                                    elem.name.c_str() );
-                    mvwprintz( w_sort_right, pos, right_w - 3, c_light_gray, "%3d",
-                               elem.encumber );
+                    trim_and_print( w_sort_right, pos, 2, right_w - 5, color,
+                                    elem.name );
+                    char plus = elem.penalties.badness() > 0 ? '+' : ' ';
+                    mvwprintz( w_sort_right, pos, right_w - 4, c_light_gray, "%3d%c",
+                               elem.encumber, plus );
                     pos++;
                 }
                 rightListSize++;
