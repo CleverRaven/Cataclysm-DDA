@@ -47,62 +47,34 @@
   {
     "type":"GENERIC",
     "id" : "wood_plate_v2",
+    "copy-from": "wood_plate",
     "name" : "reinforced wooden armor kit",
     "description" : "A large bundle of two by fours prepared to be used as vehicle armor.",
-    "weight" : 11200,
-    "to_hit" : -1,
-    "color" : "brown",
-    "symbol" : "]",
-    "material" : ["wood"],
-    "volume" : 24,
-    "bashing" : 15,
-    "category" : "veh_parts",
-    "price" : 24000
+    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
   {
     "type":"GENERIC",
     "id" : "wood_plate_v3",
+    "copy-from": "wood_plate",
     "name" : "wooden slab armor kit",
     "description" : "A huge slab of two by fours prepared to be used as vehicle armor.",
-    "weight" : 16800,
-    "to_hit" : -1,
-    "color" : "brown",
-    "symbol" : "]",
-    "material" : ["wood"],
-    "volume" : 36,
-    "bashing" : 20,
-    "category" : "veh_parts",
-    "price" : 36000
+    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
   {
     "type":"GENERIC",
     "id" : "wood_plate_v4",
+    "copy-from": "wood_plate",
     "name" : "reinforced wooden slab armor kit",
     "description" : "A huge, thick slab of two by fours prepared to be used as vehicle armor.",
-    "weight" : 22400,
-    "to_hit" : -1,
-    "color" : "brown",
-    "symbol" : "]",
-    "material" : ["wood"],
-    "volume" : 48,
-    "bashing" : 25,
-    "category" : "veh_parts",
-    "price" : 48000
+    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
   {
     "type":"GENERIC",
     "id" : "wood_plate_v5",
+    "copy-from": "wood_plate",
     "name" : "heavy wooden slab armor kit",
     "description" : "An immensely huge bundle of two by fours prepared to be used as vehicle armor.",
-    "weight" : 28000,
-    "to_hit" : -1,
-    "color" : "brown",
-    "symbol" : "]",
-    "material" : ["wood"],
-    "volume" : 60,
-    "bashing" : 30,
-    "category" : "veh_parts",
-    "price" : 60000
+    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
   {
     "type":"GENERIC",
@@ -122,62 +94,34 @@
   {
     "type":"GENERIC",
     "id" : "steel_plate_v2",
+    "copy-from": "steel_plate",
     "name" : "reinforced steel plating",
     "description" : "A thick sheet of armor plating made of steel.",
-    "weight" : 25760,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["steel"],
-    "volume" : 24,
-    "bashing" : 9,
-    "category" : "veh_parts",
-    "price" : 24000
+    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
   {
     "type":"GENERIC",
     "id" : "steel_plate_v3",
+    "copy-from": "steel_plate",
     "name" : "steel slab plating",
     "description" : "A slab of armor plating made of steel.",
-    "weight" : 38640,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["steel"],
-    "volume" : 36,
-    "bashing" : 12,
-    "category" : "veh_parts",
-    "price" : 36000
+    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
   {
     "type":"GENERIC",
     "id" : "steel_plate_v4",
+    "copy-from": "steel_plate",
     "name" : "reinforced steel slab plating",
     "description" : "A large slab of armor plating made of steel.",
-    "weight" : 51520,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["steel"],
-    "volume" : 48,
-    "bashing" : 15,
-    "category" : "veh_parts",
-    "price" : 48000
+    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
   {
     "type":"GENERIC",
     "id" : "steel_plate_v5",
+    "copy-from": "steel_plate",
     "name" : "heavy steel slab plating",
     "description" : "An immense slab of armor plating made of steel.",
-    "weight" : 64400,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["steel"],
-    "volume" : 60,
-    "bashing" : 18,
-    "category" : "veh_parts",
-    "price" : 60000
+    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
   {
     "type":"GENERIC",
@@ -197,62 +141,34 @@
   {
     "type":"GENERIC",
     "id" : "alloy_plate_v2",
+    "copy-from": "alloy_plate",
     "name" : "reinforced superalloy plating",
     "description" : "A thick sheet of armor plating made of sturdy superalloy.",
-    "weight" : 21600,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["superalloy"],
-    "volume" : 24,
-    "bashing" : 9,
-    "category" : "veh_parts",
-    "price" : 37000
+    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
   {
     "type":"GENERIC",
     "id" : "alloy_plate_v3",
+    "copy-from": "alloy_plate",
     "name" : "superalloy slab plating",
     "description" : "A slab of armor plating made of sturdy superalloy.",
-    "weight" : 32400,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["superalloy"],
-    "volume" : 36,
-    "bashing" : 12,
-    "category" : "veh_parts",
-    "price" : 55500
+    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
   {
     "type":"GENERIC",
     "id" : "alloy_plate_v4",
+    "copy-from": "alloy_plate",
     "name" : "reinforced superalloy slab plating",
     "description" : "A large slab of armor plating made of sturdy superalloy.",
-    "weight" : 43200,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["superalloy"],
-    "volume" : 48,
-    "bashing" : 15,
-    "category" : "veh_parts",
-    "price" : 74000
+    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
   {
     "type":"GENERIC",
     "id" : "alloy_plate_v5",
+    "copy-from": "alloy_plate",
     "name" : "heavy superalloy slab plating",
     "description" : "An immense slab of armor plating made of sturdy superalloy.",
-    "weight" : 54000,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["superalloy"],
-    "volume" : 60,
-    "bashing" : 18,
-    "category" : "veh_parts",
-    "price" : 92500
+    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
   {
     "type":"GENERIC",
@@ -303,62 +219,34 @@
   {
     "type":"GENERIC",
     "id" : "hard_plate_v2",
+    "copy-from": "hard_plate",
     "name" : "reinforced hard plating",
     "description" : "A thick sheet of armor plating made of hardened steel.",
-    "weight" : 65280,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["hardsteel"],
-    "volume" : 24,
-    "bashing" : 9,
-    "category" : "veh_parts",
-    "price" : 32000
+    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
   {
     "type":"GENERIC",
     "id" : "hard_plate_v3",
+    "copy-from": "hard_plate",
     "name" : "hard slab plating",
     "description" : "A slab of armor plating made of hardened steel.",
-    "weight" : 97920,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["hardsteel"],
-    "volume" : 36,
-    "bashing" : 12,
-    "category" : "veh_parts",
-    "price" : 48000
+    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
   {
     "type":"GENERIC",
     "id" : "hard_plate_v4",
+    "copy-from": "hard_plate",
     "name" : "reinforced hard slab plating",
     "description" : "A large slab of armor plating made of hardened steel.",
-    "weight" : 130560,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["hardsteel"],
-    "volume" : 48,
-    "bashing" : 15,
-    "category" : "veh_parts",
-    "price" : 64000
+    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
   {
     "type":"GENERIC",
     "id" : "hard_plate_v5",
+    "copy-from": "hard_plate",
     "name" : "heavy hard slab plating",
     "description" : "An immense slab of armor plating made of hardened steel.",
-    "weight" : 163200,
-    "to_hit" : -1,
-    "color" : "light_cyan",
-    "symbol" : "]",
-    "material" : ["hardsteel"],
-    "volume" : 60,
-    "bashing" : 18,
-    "category" : "veh_parts",
-    "price" : 80000
+    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
   {
     "type":"GENERIC",
@@ -378,61 +266,168 @@
   {
     "type":"GENERIC",
     "id" : "mil_plate_v2",
+    "copy-from": "mil_plate",
     "name" : "reinforced military composite plating",
     "description" : "A thick sheet of military grade armor.",
-    "weight" : 33000,
-    "to_hit" : -1,
-    "color" : "green",
-    "symbol" : "]",
-    "material" : ["hardsteel", "ceramic"],
-    "volume" : 24,
-    "bashing" : 12,
-    "category" : "veh_parts",
-    "price" : 32000
+    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
   {
     "type":"GENERIC",
     "id" : "mil_plate_v3",
+    "copy-from": "mil_plate",
     "name" : "military composite slab plating",
     "description" : "A slab of military grade armor.",
-    "weight" : 49500,
-    "to_hit" : -1,
-    "color" : "green",
-    "symbol" : "]",
-    "material" : ["hardsteel", "ceramic"],
-    "volume" : 36,
-    "bashing" : 16,
-    "category" : "veh_parts",
-    "price" : 48000
+    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
   {
     "type":"GENERIC",
     "id" : "mil_plate_v4",
+    "copy-from": "mil_plate",
     "name" : "reinforced military composite slab plating",
     "description" : "A large slab of military grade armor.",
-    "weight" : 66000,
-    "to_hit" : -1,
-    "color" : "green",
-    "symbol" : "]",
-    "material" : ["hardsteel", "ceramic"],
-    "volume" : 48,
-    "bashing" : 20,
-    "category" : "veh_parts",
-    "price" : 64000
+    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
   {
     "type":"GENERIC",
     "id" : "mil_plate_v5",
+    "copy-from": "mil_plate",
     "name" : "heavy military composite slab plating",
     "description" : "An immense slab of military grade armor.",
-    "weight" : 82500,
-    "to_hit" : -1,
-    "color" : "green",
-    "symbol" : "]",
-    "material" : ["hardsteel", "ceramic"],
-    "volume" : 60,
-    "bashing" : 24,
-    "category" : "veh_parts",
-    "price" : 80000
+    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "chitin_plate",
+    "symbol": "]",
+    "color": "yellow",
+    "name": "chitin armor kit",
+    "description": "Light chitin plating made for a vehicle.",
+    "price": 1200,
+    "material": ["chitin"],
+    "weight": 2000,
+    "volume": 22,
+    "bashing": 8,
+    "to_hit": -4,
+    "category": "veh_parts"
+  },
+  {
+    "type":"GENERIC",
+    "id": "chitin_plate_v2",
+    "copy-from": "chitin_plate",
+    "name": "chitin armor kit",
+    "description": "Light chitin plating made for a vehicle.",
+    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "chitin_plate_v3",
+    "copy-from": "chitin_plate",
+    "name": "chitin armor kit",
+    "description": "Light chitin plating made for a vehicle.",
+    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "chitin_plate_v4",
+    "copy-from": "chitin_plate",
+    "name": "chitin armor kit",
+    "description": "Light chitin plating made for a vehicle.",
+    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "chitin_plate_v5",
+    "copy-from": "chitin_plate",
+    "name": "chitin armor kit",
+    "description": "Light chitin plating made for a vehicle.",
+    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "acidchitin_plate",
+    "copy-from": "chitin_plate",
+    "name": "biosilicified chitin armor kit",
+    "description": "Durable silica-coated chitin plating made for a vehicle.",
+    "material": ["acidchitin"],
+    "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "acidchitin_plate_v2",
+    "copy-from": "acidchitin_plate",
+    "name": "biosilicified chitin armor kit",
+    "description": "Durable silica-coated chitin plating made for a vehicle.",
+    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "acidchitin_plate_v3",
+    "copy-from": "acidchitin_plate",
+    "name": "biosilicified chitin armor kit",
+    "description": "Durable silica-coated chitin plating made for a vehicle.",
+    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "acidchitin_plate_v4",
+    "copy-from": "acidchitin_plate",
+    "name": "biosilicified chitin armor kit",
+    "description": "Durable silica-coated chitin plating made for a vehicle.",
+    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "acidchitin_plate_v5",
+    "copy-from": "acidchitin_plate",
+    "name": "biosilicified chitin armor kit",
+    "description": "Durable silica-coated chitin plating made for a vehicle.",
+    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "bone_plate",
+    "symbol": "]",
+    "color": "white",
+    "name": "bone armor kit",
+    "description": "Bone plating made for a vehicle.",
+    "price": 1200,
+    "material": ["bone"],
+    "weight": 4000,
+    "volume": 38,
+    "bashing": 8,
+    "to_hit": -4,
+    "category": "veh_parts"
+  },
+  {
+    "type":"GENERIC",
+    "id": "bone_plate_v2",
+    "copy-from": "bone_plate",
+    "name": "bone armor kit",
+    "description": "Bone plating made for a vehicle.",
+    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "bone_plate_v2",
+    "copy-from": "bone_plate",
+    "name": "bone armor kit",
+    "description": "Bone plating made for a vehicle.",
+    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "bone_plate_v2",
+    "copy-from": "bone_plate",
+    "name": "bone armor kit",
+    "description": "Bone plating made for a vehicle.",
+    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
+  },
+  {
+    "type":"GENERIC",
+    "id": "bone_plate_v5",
+    "copy-from": "bone_plate",
+    "name": "bone armor kit",
+    "description": "Bone plating made for a vehicle.",
+    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   }
 ]
