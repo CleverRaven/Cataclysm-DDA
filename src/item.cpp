@@ -3990,6 +3990,11 @@ bool item::made_of( const material_id &mat_ident ) const
     return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
 }
 
+bool item::contents_made_of( const phase_id phase ) const
+{
+    return !contents.empty() && contents.front().made_of( phase );
+}
+
 bool item::made_of( phase_id phase, bool from_itype ) const
 {
     if( is_null() ) {
@@ -4431,7 +4436,7 @@ bool item::spill_contents( Character &c )
 
     while( !contents.empty() ) {
         on_contents_changed();
-        if( contents.front().made_of( LIQUID ) ) {
+        if( contents_made_of( LIQUID ) ) {
             if( !g->handle_liquid_from_container( *this, 1 ) ) {
                 return false;
             }
