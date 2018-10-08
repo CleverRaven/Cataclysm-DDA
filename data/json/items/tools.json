@@ -76,7 +76,7 @@
   },
   {
     "id": "UPS_off",
-    "type": "TOOL",
+    "type": "TOOL_ARMOR",
     "name": "UPS",
     "name_plural": "UPS's",
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.",
@@ -90,7 +90,33 @@
     "color": "light_gray",
     "ammo": "battery",
     "max_charges": 1000,
-    "flags": [ "NO_UNLOAD", "RECHARGE" ]
+    "covers": [ "TORSO" ],
+    "encumbrance": 9,
+    "coverage": 15,
+    "material_thickness": 4,
+    "flags": [ "NO_UNLOAD", "RECHARGE", "BELTED", "UPS", "OVERSIZE" ]
+  },
+  {
+    "id": "UPS_Engineer_off",
+    "type": "TOOL_ARMOR",
+    "name": "engineer's UPS",
+    "name_plural": "engineers' UPS's",
+    "description": "This is a unified power supply, or UPS. The Engineer's UPS is designed to power the hungriest of UPS devices.",
+    "weight": 62000,
+    "volume": 50,
+    "price": 560000,
+    "to_hit": -2,
+    "bashing": 18,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "max_charges": 14000,
+    "covers": [ "TORSO" ],
+    "encumbrance": 27,
+    "coverage": 40,
+    "material_thickness": 6,
+    "flags": [ "NO_UNLOAD", "RECHARGE", "BELTED", "UPS", "OVERSIZE" ]
   },
   {
     "id": "acidbomb",
@@ -111,7 +137,7 @@
   },
   {
     "id": "adv_UPS_off",
-    "type": "TOOL",
+    "type": "TOOL_ARMOR",
     "name": "advanced UPS",
     "name_plural": "advanced UPS's",
     "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
@@ -124,7 +150,12 @@
     "symbol": ";",
     "color": "light_green",
     "ammo": "plutonium",
-    "max_charges": 2500
+    "max_charges": 2500,
+    "covers": [ "TORSO" ],
+    "encumbrance": 14,
+    "coverage": 15,
+    "material_thickness": 8,
+    "flags": [ "BELTED", "ADV_UPS", "OVERSIZE" ]
   },
   {
     "id": "advanced_ecig",

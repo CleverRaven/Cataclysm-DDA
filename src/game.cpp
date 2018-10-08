@@ -8906,8 +8906,7 @@ bool game::plfire_check( const targeting_data &args )
             const int ups_drain = gun->get_gun_ups_drain();
             const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
 
-            if( !( u.has_charges( "UPS_off", ups_drain ) ||
-                   u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+            if( !( u.has_charges( "UPS", ups_drain ) ||
                    ( u.has_active_bionic( bionic_id( "bio_ups" ) ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
                          _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
