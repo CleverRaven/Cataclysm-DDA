@@ -92,8 +92,15 @@ std::string body_part_names( const std::vector<body_part> &parts )
 
     std::vector<std::string> names;
     names.reserve( parts.size() );
-    for( const body_part part : parts ) {
-        names.push_back( body_part_name_accusative( part ) );
+    for( size_t i = 0; i < parts.size(); ++i ) {
+        const body_part part = parts[i];
+        if( i + 1 < parts.size() && parts[i + 1] == body_part( bp_aiOther[part] ) ) {
+            // Can combine two body parts (e.g. arms)
+            names.push_back( body_part_name_accusative( part, 2 ) );
+            ++i;
+        } else {
+            names.push_back( body_part_name_accusative( part ) );
+        }
     }
 
     return enumerate_as_string( names );
