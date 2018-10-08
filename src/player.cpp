@@ -7582,8 +7582,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
             // don't try to unload frozen liquids
-            if( ammo->is_watertight_container() &&
-                ammo->contents.front().made_of( SOLID ) ) {
+            if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
             }
             auto id = ( ammo->is_ammo_container() || ammo->is_watertight_container() )
