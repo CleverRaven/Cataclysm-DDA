@@ -567,5 +567,47 @@
       { "item": "ceramic_armor", "count": [ 16, 24 ] }
     ],
     "damage_reduction": { "all": 45, "cut": 90, "stab": 150 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_chitin",
+    "name": "chitin plating",
+    "symbol": ")",
+    "color": "yellow",
+    "broken_symbol": ")",
+    "broken_color": "light_gray",
+    "durability": 500,
+    "item": "chitin_plate",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_acidchitin",
+    "copy-from": "plating_chitin",
+    "name": "biosilicified chitin plating",
+    "proportional": { "durability": 1.5 },
+    "item": "acidchitin_plate",
+    "breaks_into": [ { "item": "acidchitin_piece", "count": [ 6, 19 ] } ],
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_bone",
+    "name": "bone plating",
+    "symbol": ")",
+    "color": "white",
+    "broken_symbol": ")",
+    "broken_color": "light_gray",
+    "durability": 400,
+    "item": "bone_plate",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
+    "damage_reduction": { "all": 5 }
   }
 ]

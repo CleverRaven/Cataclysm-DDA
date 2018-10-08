@@ -49,6 +49,7 @@
     "id" : "wood_plate_v2",
     "copy-from": "wood_plate",
     "name" : "reinforced wooden armor kit",
+    "looks_like": "wood_plate",
     "description" : "A large bundle of two by fours prepared to be used as vehicle armor.",
     "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
@@ -57,6 +58,7 @@
     "id" : "wood_plate_v3",
     "copy-from": "wood_plate",
     "name" : "wooden slab armor kit",
+    "looks_like": "wood_plate",
     "description" : "A huge slab of two by fours prepared to be used as vehicle armor.",
     "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
@@ -65,6 +67,7 @@
     "id" : "wood_plate_v4",
     "copy-from": "wood_plate",
     "name" : "reinforced wooden slab armor kit",
+    "looks_like": "wood_plate",
     "description" : "A huge, thick slab of two by fours prepared to be used as vehicle armor.",
     "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
@@ -73,6 +76,7 @@
     "id" : "wood_plate_v5",
     "copy-from": "wood_plate",
     "name" : "heavy wooden slab armor kit",
+    "looks_like": "wood_plate",
     "description" : "An immensely huge bundle of two by fours prepared to be used as vehicle armor.",
     "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
@@ -96,6 +100,7 @@
     "id" : "steel_plate_v2",
     "copy-from": "steel_plate",
     "name" : "reinforced steel plating",
+    "looks_like": "steel_plate",
     "description" : "A thick sheet of armor plating made of steel.",
     "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
@@ -104,6 +109,7 @@
     "id" : "steel_plate_v3",
     "copy-from": "steel_plate",
     "name" : "steel slab plating",
+    "looks_like": "steel_plate",
     "description" : "A slab of armor plating made of steel.",
     "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
@@ -112,6 +118,7 @@
     "id" : "steel_plate_v4",
     "copy-from": "steel_plate",
     "name" : "reinforced steel slab plating",
+    "looks_like": "steel_plate",
     "description" : "A large slab of armor plating made of steel.",
     "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
@@ -120,6 +127,7 @@
     "id" : "steel_plate_v5",
     "copy-from": "steel_plate",
     "name" : "heavy steel slab plating",
+    "looks_like": "steel_plate",
     "description" : "An immense slab of armor plating made of steel.",
     "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
@@ -143,6 +151,7 @@
     "id" : "alloy_plate_v2",
     "copy-from": "alloy_plate",
     "name" : "reinforced superalloy plating",
+    "looks_like": "alloy_plate",
     "description" : "A thick sheet of armor plating made of sturdy superalloy.",
     "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
@@ -151,6 +160,7 @@
     "id" : "alloy_plate_v3",
     "copy-from": "alloy_plate",
     "name" : "superalloy slab plating",
+    "looks_like": "alloy_plate",
     "description" : "A slab of armor plating made of sturdy superalloy.",
     "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
@@ -159,6 +169,7 @@
     "id" : "alloy_plate_v4",
     "copy-from": "alloy_plate",
     "name" : "reinforced superalloy slab plating",
+    "looks_like": "alloy_plate",
     "description" : "A large slab of armor plating made of sturdy superalloy.",
     "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
@@ -167,6 +178,7 @@
     "id" : "alloy_plate_v5",
     "copy-from": "alloy_plate",
     "name" : "heavy superalloy slab plating",
+    "looks_like": "alloy_plate",
     "description" : "An immense slab of armor plating made of sturdy superalloy.",
     "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
@@ -221,6 +233,7 @@
     "id" : "hard_plate_v2",
     "copy-from": "hard_plate",
     "name" : "reinforced hard plating",
+    "looks_like": "hard_plate",
     "description" : "A thick sheet of armor plating made of hardened steel.",
     "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
@@ -229,6 +242,7 @@
     "id" : "hard_plate_v3",
     "copy-from": "hard_plate",
     "name" : "hard slab plating",
+    "looks_like": "hard_plate",
     "description" : "A slab of armor plating made of hardened steel.",
     "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
@@ -237,6 +251,7 @@
     "id" : "hard_plate_v4",
     "copy-from": "hard_plate",
     "name" : "reinforced hard slab plating",
+    "looks_like": "hard_plate",
     "description" : "A large slab of armor plating made of hardened steel.",
     "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
@@ -245,6 +260,7 @@
     "id" : "hard_plate_v5",
     "copy-from": "hard_plate",
     "name" : "heavy hard slab plating",
+    "looks_like": "hard_plate",
     "description" : "An immense slab of armor plating made of hardened steel.",
     "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
@@ -268,6 +284,7 @@
     "id" : "mil_plate_v2",
     "copy-from": "mil_plate",
     "name" : "reinforced military composite plating",
+    "looks_like": "mil_plate",
     "description" : "A thick sheet of military grade armor.",
     "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
   },
@@ -276,6 +293,7 @@
     "id" : "mil_plate_v3",
     "copy-from": "mil_plate",
     "name" : "military composite slab plating",
+    "looks_like": "mil_plate",
     "description" : "A slab of military grade armor.",
     "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
   },
@@ -284,6 +302,7 @@
     "id" : "mil_plate_v4",
     "copy-from": "mil_plate",
     "name" : "reinforced military composite slab plating",
+    "looks_like": "mil_plate",
     "description" : "A large slab of military grade armor.",
     "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
   },
@@ -292,6 +311,7 @@
     "id" : "mil_plate_v5",
     "copy-from": "mil_plate",
     "name" : "heavy military composite slab plating",
+    "looks_like": "mil_plate",
     "description" : "An immense slab of military grade armor.",
     "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
@@ -312,76 +332,12 @@
   },
   {
     "type":"GENERIC",
-    "id": "chitin_plate_v2",
-    "copy-from": "chitin_plate",
-    "name": "chitin armor kit",
-    "description": "Light chitin plating made for a vehicle.",
-    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "chitin_plate_v3",
-    "copy-from": "chitin_plate",
-    "name": "chitin armor kit",
-    "description": "Light chitin plating made for a vehicle.",
-    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "chitin_plate_v4",
-    "copy-from": "chitin_plate",
-    "name": "chitin armor kit",
-    "description": "Light chitin plating made for a vehicle.",
-    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "chitin_plate_v5",
-    "copy-from": "chitin_plate",
-    "name": "chitin armor kit",
-    "description": "Light chitin plating made for a vehicle.",
-    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
-  },
-  {
-    "type":"GENERIC",
     "id": "acidchitin_plate",
     "copy-from": "chitin_plate",
     "name": "biosilicified chitin armor kit",
     "description": "Durable silica-coated chitin plating made for a vehicle.",
     "material": ["acidchitin"],
     "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "acidchitin_plate_v2",
-    "copy-from": "acidchitin_plate",
-    "name": "biosilicified chitin armor kit",
-    "description": "Durable silica-coated chitin plating made for a vehicle.",
-    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "acidchitin_plate_v3",
-    "copy-from": "acidchitin_plate",
-    "name": "biosilicified chitin armor kit",
-    "description": "Durable silica-coated chitin plating made for a vehicle.",
-    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "acidchitin_plate_v4",
-    "copy-from": "acidchitin_plate",
-    "name": "biosilicified chitin armor kit",
-    "description": "Durable silica-coated chitin plating made for a vehicle.",
-    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "acidchitin_plate_v5",
-    "copy-from": "acidchitin_plate",
-    "name": "biosilicified chitin armor kit",
-    "description": "Durable silica-coated chitin plating made for a vehicle.",
-    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
   },
   {
     "type":"GENERIC",
@@ -398,36 +354,4 @@
     "to_hit": -4,
     "category": "veh_parts"
   },
-  {
-    "type":"GENERIC",
-    "id": "bone_plate_v2",
-    "copy-from": "bone_plate",
-    "name": "bone armor kit",
-    "description": "Bone plating made for a vehicle.",
-    "proportional": { "price": 2, "weight": 2, "volume": 2, "bashing": 2 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "bone_plate_v2",
-    "copy-from": "bone_plate",
-    "name": "bone armor kit",
-    "description": "Bone plating made for a vehicle.",
-    "proportional": { "price": 3, "weight": 3, "volume": 3, "bashing": 3 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "bone_plate_v2",
-    "copy-from": "bone_plate",
-    "name": "bone armor kit",
-    "description": "Bone plating made for a vehicle.",
-    "proportional": { "price": 4, "weight": 4, "volume": 4, "bashing": 4 }
-  },
-  {
-    "type":"GENERIC",
-    "id": "bone_plate_v5",
-    "copy-from": "bone_plate",
-    "name": "bone armor kit",
-    "description": "Bone plating made for a vehicle.",
-    "proportional": { "price": 5, "weight": 5, "volume": 5, "bashing": 5 }
-  }
 ]

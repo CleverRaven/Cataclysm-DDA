@@ -316,5 +316,44 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 8 ] ],
     "components": [ [ [ "mil_plate", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chitin_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 40000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "acidchitin_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 55000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "acidchitin_piece", 25 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "adhesive", 4, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bone_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 40000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "bone", 25 ], [ "bone_human", 25 ], [ "bone_tainted", 50 ] ],
+      [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ], [ "adhesive", 4, "LIST" ] ]
+    ]
   }
 ]
