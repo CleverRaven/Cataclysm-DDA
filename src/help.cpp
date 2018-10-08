@@ -81,19 +81,19 @@ std::string help::get_dir_grid()
     };
 
     std::string movement = "<LEFTUP_0>  <UP_0>  <RIGHTUP_0>   <LEFTUP_1>  <UP_1>  <RIGHTUP_1>\n"\
-        " \\ | /     \\ | /\n"\
-        "  \\|/       \\|/\n"\
-        "<LEFT_0>--<pause_0>--<RIGHT_0>   <LEFT_1>--<pause_1>--<RIGHT_1>\n"\
-        "  /|\\       /|\\\n"\
-        " / | \\     / | \\\n"\
-        "<LEFTDOWN_0>  <DOWN_0>  <RIGHTDOWN_0>   <LEFTDOWN_1>  <DOWN_1>  <RIGHTDOWN_1>";
+                           " \\ | /     \\ | /\n"\
+                           "  \\|/       \\|/\n"\
+                           "<LEFT_0>--<pause_0>--<RIGHT_0>   <LEFT_1>--<pause_1>--<RIGHT_1>\n"\
+                           "  /|\\       /|\\\n"\
+                           " / | \\     / | \\\n"\
+                           "<LEFTDOWN_0>  <DOWN_0>  <RIGHTDOWN_0>   <LEFTDOWN_1>  <DOWN_1>  <RIGHTDOWN_1>";
 
     for( auto dir : movearray ) {
         std::vector<char> keys = keys_bound_to( dir );
         movement = string_replace( movement, "<" + action_ident( dir ) + "_0>",
-                                   string_format("<color_light_blue>%s</color>", keys[0]) );
+                                   string_format( "<color_light_blue>%s</color>", keys[0] ) );
         movement = string_replace( movement, "<" + action_ident( dir ) + "_1>",
-                                   string_format("<color_light_blue>%s</color>", keys[1]) );
+                                   string_format( "<color_light_blue>%s</color>", keys[1] ) );
     }
 
     return movement;
