@@ -14,6 +14,7 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 
 namespace
 {
@@ -22,19 +23,79 @@ std::vector<std::string> clothing_properties( item const &worn_item, int width )
 std::vector<std::string> clothing_protection( item const &worn_item, int width );
 std::vector<std::string> clothing_flags_description( item const &worn_item );
 
-void draw_mid_pane( const catacurses::window &w_sort_middle, item const &worn_item )
+struct item_penalties {
+    std::vector<body_part> body_parts_with_stacking_penalty;
+    std::vector<body_part> body_parts_with_out_of_order_penalty;
+};
+
+item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
+                                   const Character &c, int tabindex )
+{
+    // Report on encumbrance penalties this clothing is involved in
+    auto layer = worn_item_it->get_layer();
+
+    std::vector<body_part> body_parts_with_stacking_penalty;
+    std::vector<body_part> body_parts_with_out_of_order_penalty;
+
+    for( auto bp : all_body_parts ) {
+        if( bp != tabindex && num_bp != tabindex ) {
+            continue;
+        }
+        if( !worn_item_it->covers( bp ) ) {
+            continue;
+        }
+        auto num_items = std::count_if( c.worn.begin(), c.worn.end(),
+        [layer, bp]( const item & i ) {
+            return i.get_layer() == layer && i.covers( bp );
+        } );
+        if( num_items > 1 ) {
+            body_parts_with_stacking_penalty.push_back( bp );
+        }
+
+        auto num_bad_items_within = std::count_if( c.worn.begin(), worn_item_it,
+        [&]( const item & i ) {
+            return i.get_layer() > layer && i.covers( bp );
+        } );
+        if( num_bad_items_within > 0 ) {
+            body_parts_with_out_of_order_penalty.push_back( bp );
+        }
+    }
+
+    return { std::move( body_parts_with_stacking_penalty ),
+             std::move( body_parts_with_out_of_order_penalty ) };
+}
+
+std::string body_part_names( const std::vector<body_part> &parts )
+{
+    if( parts.empty() ) {
+        debugmsg( "Asked for names of empty list" );
+        return {};
+    }
+
+    std::vector<std::string> names;
+    names.reserve( parts.size() );
+    for( const body_part part : parts ) {
+        names.push_back( body_part_name_accusative( part ) );
+    }
+
+    return enumerate_as_string( names );
+}
+
+void draw_mid_pane( const catacurses::window &w_sort_middle,
+                    std::list<item>::const_iterator const worn_item_it,
+                    const Character &c, int tabindex )
 {
     const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = ( size_t )getmaxy( w_sort_middle );
     size_t i = fold_and_print( w_sort_middle, 0, 1, win_width - 1, c_white,
-                               worn_item.type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( worn_item, win_width - 3 );
+                               worn_item_it->type_name( 1 ) ) - 1;
+    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3 );
     nc_color color = c_light_gray;
     for( auto &iter : props ) {
         print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
     }
 
-    std::vector<std::string> prot = clothing_protection( worn_item, win_width - 3 );
+    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3 );
     if( i + prot.size() < win_height ) {
         for( auto &iter : prot ) {
             print_colored_text( w_sort_middle, ++i, 2, color, c_light_gray, iter.c_str() );
@@ -44,19 +105,51 @@ void draw_mid_pane( const catacurses::window &w_sort_middle, item const &worn_it
     }
 
     i++;
-    std::vector<std::string> layer_desc = foldstring( clothing_layer( worn_item ), win_width );
-    if( i + layer_desc.size() < win_height && !clothing_layer( worn_item ).empty() ) {
+    std::vector<std::string> layer_desc = foldstring( clothing_layer( *worn_item_it ), win_width );
+    if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item_it ).empty() ) {
         for( auto &iter : layer_desc ) {
             mvwprintz( w_sort_middle, ++i, 0, c_light_blue, iter.c_str() );
         }
     }
 
     i++;
-    std::vector<std::string> desc = clothing_flags_description( worn_item );
+    std::vector<std::string> desc = clothing_flags_description( *worn_item_it );
     if( !desc.empty() ) {
         for( size_t j = 0; j < desc.size() && i + j < win_height; ++j ) {
-            i += -1 + fold_and_print( w_sort_middle, i + j, 0, win_width, c_light_blue, desc[j] );
+            i += fold_and_print( w_sort_middle, i, 0, win_width, c_light_blue, desc[j] );
         }
+    }
+
+    const item_penalties penalties = get_item_penalties( worn_item_it, c, tabindex );
+
+    if( !penalties.body_parts_with_stacking_penalty.empty() ) {
+        std::string body_parts =
+            body_part_names( penalties.body_parts_with_stacking_penalty );
+        std::string message =
+            string_format(
+                ngettext( "Wearing multiple items in this layer is adding "
+                          "encumbrance to your %s.",
+                          "Wearing multiple items in this layer is adding "
+                          "encumbrance to your %s.",
+                          penalties.body_parts_with_stacking_penalty.size() ),
+                body_parts
+            );
+        i += fold_and_print( w_sort_middle, i, 0, win_width, c_yellow, message );
+    }
+
+    if( !penalties.body_parts_with_out_of_order_penalty.empty() ) {
+        std::string body_parts =
+            body_part_names( penalties.body_parts_with_out_of_order_penalty );
+        std::string message =
+            string_format(
+                ngettext( "Wearing this outside items it would normally be beneath "
+                          "is adding encumbrance to your %s.",
+                          "Wearing this outside items it would normally be beneath "
+                          "is adding encumbrance to your %s.",
+                          penalties.body_parts_with_out_of_order_penalty.size() ),
+                body_parts
+            );
+        i += fold_and_print( w_sort_middle, i, 0, win_width, c_yellow, message );
     }
 }
 
@@ -224,10 +317,10 @@ void player::sort_armor()
     * + 3 - horizontal lines;
     * + 1 - caption line;
     * + 8 - general properties
-    * + 7 - ASSUMPTION: max possible number of flags @ item
-    * + 13 - warmth & enc block
+    * + 13 - ASSUMPTION: max possible number of flags @ item
+    * + num_bp+1 - warmth & enc block
     */
-    const int req_mid_h = 3 + 1 + 8 + 7 + 13;
+    const int req_mid_h = 3 + 1 + 8 + 13 + num_bp + 1;
 
     const int win_h = std::min( TERMY, std::max( FULL_SCREEN_HEIGHT,
                                 std::max( req_right_h, req_mid_h ) ) );
@@ -371,7 +464,7 @@ void player::sort_armor()
 
         // Items stats
         if( leftListSize > 0 ) {
-            draw_mid_pane( w_sort_middle, *tmp_worn[leftListIndex] );
+            draw_mid_pane( w_sort_middle, tmp_worn[leftListIndex], *this, tabindex );
         } else {
             fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
                             _( "Nothing to see here!" ) );
