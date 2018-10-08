@@ -325,7 +325,6 @@ class item : public visitable<item>
          * properties of the @ref itype (if they are visible to the player). The returned string
          * is already translated and can be *very* long.
          * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * the vector can be used to compare them to properties of another item.
          */
         std::string info( bool showtext = false ) const;
 
