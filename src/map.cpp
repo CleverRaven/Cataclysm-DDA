@@ -6179,8 +6179,7 @@ void map::initialize_map_extras()
         const tripoint player_pos = g->u.global_omt_location();
         for( auto &&
              trigger : overmap_buffer.get_map_extra_triggers_near( omt_to_sm_copy( player_pos ), 15 ) ) {
-            if( !trigger->triggered &&
-                square_dist( player_pos, trigger->omt_pos_1 ) < trigger->trigger_distance ) {
+            if( !trigger->triggered ) {
                 auto func = MapExtras::get_function( trigger->map_special );
                 if( func != NULL ) {
                     int map_size = trigger->size * 2;
@@ -6192,6 +6191,13 @@ void map::initialize_map_extras()
                     func( tiny, *trigger );
                     trigger->triggered = true;
                     tiny.save();
+                    const auto overmap_coords = omt_to_om_copy(trigger->omt_pos_1);
+                    auto&& om = overmap_buffer.get_existing(overmap_coords.x, overmap_coords.y);
+                    if(om != nullptr) // It really should never be null...
+                    {
+                        const auto iter = om->map_extra_triggers.begin() + std::distance(om->map_extra_triggers.data(), trigger);
+                        om->map_extra_triggers.erase(iter);
+                    }
                 }
             }
         }
