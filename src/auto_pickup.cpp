@@ -526,7 +526,7 @@ bool auto_pickup::empty() const
 bool auto_pickup::check_special_rule( const std::vector<material_id> &materials,
                                       const std::string &rule ) const
 {
-    char type;
+    char type = ' ';
     std::vector<std::string> filter;
     if( rule[1] == ':' ) {
         type = rule[0];
