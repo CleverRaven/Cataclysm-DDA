@@ -14,6 +14,8 @@
 #include "options.h"
 #include "itype.h"
 #include "string_input_popup.h"
+#include "string_id.h"
+#include "material.h"
 
 #include <stdlib.h>
 #include <sstream>
@@ -43,7 +45,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
     const int iTotalCols = 2;
 
-    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
+    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ),
                                 FULL_SCREEN_WIDTH * 3 / 4,
                                 7 + iOffsetY + ( FULL_SCREEN_HEIGHT / 2 ) / 2, iOffsetX + 19 / 2 );
 
@@ -277,13 +279,15 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 fold_and_print( w_help, 1, 1, 999, c_white,
                                 _(
                                     "* is used as a Wildcard. A few Examples:\n"
-                                    "\n"
+                                    " \n"
                                     "wooden arrow    matches the itemname exactly\n"
                                     "wooden ar*      matches items beginning with wood ar\n"
                                     "*rrow           matches items ending with rrow\n"
                                     "*avy fle*fi*arrow     multiple * are allowed\n"
                                     "heAVY*woOD*arrOW      case insensitive search\n"
-                                    "" )
+                                    " \n"
+                                    "Material based pickup:\n"
+                                    "m:iron m:paper m:kevlar etc." )
                               );
 
                 draw_border( w_help );
@@ -382,10 +386,12 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( const itype *e : item_controller->all() ) {
         sItemName = e->nname( 1 );
-        if( vRules[iTab][iRow].bActive &&
-            wildcard_match( sItemName, vRules[iTab][iRow].sRule ) ) {
-            vMatchingItems.push_back( sItemName );
+        if( !check_special_rule( e->materials, vRules[iTab][iRow].sRule ) &&
+            !wildcard_match( sItemName, vRules[iTab][iRow].sRule ) ) {
+            continue;
         }
+
+        vMatchingItems.push_back( sItemName );
     }
 
     const int iOffsetX = 15 + ( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
@@ -469,20 +475,21 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     }
 }
 
-bool auto_pickup::has_rule( const std::string &sRule )
+bool auto_pickup::has_rule( const item *it )
 {
+    const std::string &name = it->tname( 1 );
     for( auto &elem : vRules[CHARACTER_TAB] ) {
-        if( sRule.length() == elem.sRule.length() && ci_find_substr( sRule, elem.sRule ) != -1 ) {
+        if( name.length() == elem.sRule.length() && ci_find_substr( name, elem.sRule ) != -1 ) {
             return true;
         }
     }
     return false;
 }
 
-void auto_pickup::add_rule( const std::string &sRule )
+void auto_pickup::add_rule( const item *it )
 {
-    vRules[CHARACTER_TAB].push_back( cRules( sRule, true, false ) );
-    create_rule( sRule );
+    vRules[CHARACTER_TAB].push_back( cRules( it->tname( 1, false ), true, false ) );
+    create_rule( it );
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
         query_yn( _( "Autopickup is not enabled in the options. Enable it now?" ) ) ) {
@@ -491,8 +498,9 @@ void auto_pickup::add_rule( const std::string &sRule )
     }
 }
 
-void auto_pickup::remove_rule( const std::string &sRule )
+void auto_pickup::remove_rule( const item *it )
 {
+    const std::string sRule = it->tname( 1, false );
     for( auto it = vRules[CHARACTER_TAB].begin();
          it != vRules[CHARACTER_TAB].end(); ++it ) {
         if( sRule.length() == it->sRule.length() &&
@@ -515,19 +523,59 @@ bool auto_pickup::empty() const
     return true;
 }
 
+bool auto_pickup::check_special_rule( const std::vector<material_id> &materials,
+                                      const std::string &rule ) const
+{
+    std::string type;
+    std::string filter;
+    size_t colon;
+    if( ( colon = rule.find( ':' ) ) != std::string::npos ) {
+        if( colon >= 1 ) {
+            type = rule[colon - 1];
+            filter = rule.substr( colon + 1 );
+        }
+    }
+
+    if( type == "m" ) {
+        if( std::any_of( materials.begin(), materials.end(),
+        [&filter]( const material_id & mat ) {
+        return lcmatch( mat->name(), filter );
+        } ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//Special case. Required for NPC harvest autopickup. Ignores material rules.
 void auto_pickup::create_rule( const std::string &to_match )
 {
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
-            if( !elem.bExclude ) {
-                if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_items[ to_match ] = RULE_WHITELISTED;
-                }
-            } else {
-                if( elem.bActive && wildcard_match( to_match, elem.sRule ) ) {
-                    map_items[ to_match ] = RULE_BLACKLISTED;
-                }
+            if( !elem.bActive || !wildcard_match( to_match, elem.sRule ) ) {
+                continue;
             }
+
+            map_items[ to_match ] = elem.bExclude ? RULE_BLACKLISTED : RULE_WHITELISTED;
+        }
+    }
+}
+
+void auto_pickup::create_rule( const item *it )
+{
+    const std::string to_match = it->tname( 1, false );
+
+    for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
+        for( auto &elem : vRules[i] ) {
+            if( !elem.bActive ) {
+                continue;
+            } else if( !check_special_rule( it->made_of(), elem.sRule ) &&
+                       !wildcard_match( to_match, elem.sRule ) ) {
+                continue;
+            }
+
+            map_items[ to_match ] = elem.bExclude ? RULE_BLACKLISTED : RULE_WHITELISTED;
         }
     }
 }
@@ -535,29 +583,39 @@ void auto_pickup::create_rule( const std::string &to_match )
 void auto_pickup::refresh_map_items() const
 {
     map_items.clear();
+    std::unordered_map<std::string, const itype *> temp_items;
 
     //process include/exclude in order of rules, global first, then character specific
     //if a specific item is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all items also
     for( int i = GLOBAL_TAB; i < MAX_TAB; i++ ) {
         for( auto &elem : vRules[i] ) {
-            if( !elem.sRule.empty() ) {
-                if( !elem.bExclude ) {
-                    //Check include patterns against all itemfactory items
-                    for( const itype *e : item_controller->all() ) {
-                        const std::string &cur_item = e->nname( 1 );
-                        if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
-                            map_items[ cur_item ] = RULE_WHITELISTED;
-                        }
+            if( elem.sRule.empty() || !elem.bActive ) {
+                continue;
+            }
+
+            if( !elem.bExclude ) {
+                //Check include patterns against all itemfactory items
+                for( const itype *e : item_controller->all() ) {
+                    const std::string &cur_item = e->nname( 1 );
+
+                    if( !check_special_rule( e->materials, elem.sRule ) && !wildcard_match( cur_item, elem.sRule ) ) {
+                        continue;
                     }
-                } else {
-                    //only re-exclude items from the existing mapping for now
-                    //new exclusions will process during pickup attempts
-                    for( auto iter = map_items.begin(); iter != map_items.end(); ++iter ) {
-                        if( elem.bActive && wildcard_match( iter->first, elem.sRule ) ) {
-                            map_items[ iter->first ] = RULE_BLACKLISTED;
-                        }
+
+                    map_items[ cur_item ] = RULE_WHITELISTED;
+                    temp_items[ cur_item ] = e;
+                }
+            } else {
+                //only re-exclude items from the existing mapping for now
+                //new exclusions will process during pickup attempts
+                for( auto iter = map_items.begin(); iter != map_items.end(); ++iter ) {
+                    if( !check_special_rule( temp_items[ iter->first ]->materials, elem.sRule ) &&
+                        !wildcard_match( iter->first, elem.sRule ) ) {
+                        continue;
                     }
+
+                    map_items[ iter->first ] = RULE_BLACKLISTED;
                 }
             }
         }

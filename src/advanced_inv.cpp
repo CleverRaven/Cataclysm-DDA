@@ -766,7 +766,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , id( an_item->typeId() )
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
-    , autopickup( get_auto_pickup().has_rule( an_item->tname( 1, false ) ) )
+    , autopickup( get_auto_pickup().has_rule( an_item ) )
     , stacks( count )
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
@@ -785,7 +785,7 @@ advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int
     items( list ),
     name( list.front()->tname( list.size() ) ),
     name_without_prefix( list.front()->tname( 1, false ) ),
-    autopickup( get_auto_pickup().has_rule( list.front()->tname( 1, false ) ) ),
+    autopickup( get_auto_pickup().has_rule( list.front() ) ),
     stacks( list.size() ),
     volume( list.front()->volume() * stacks ),
     weight( list.front()->weight() * stacks ),
@@ -1750,10 +1750,10 @@ void advanced_inventory::display()
                 continue;
             }
             if( sitem->autopickup ) {
-                get_auto_pickup().remove_rule( sitem->items.front()->tname() );
+                get_auto_pickup().remove_rule( sitem->items.front() );
                 sitem->autopickup = false;
             } else {
-                get_auto_pickup().add_rule( sitem->items.front()->tname() );
+                get_auto_pickup().add_rule( sitem->items.front());
                 sitem->autopickup = true;
             }
             recalc = true;

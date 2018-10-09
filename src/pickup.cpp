@@ -349,7 +349,7 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                 } else if( get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                     //No prematched pickup rule found
                     //items with damage, (fits) or a container
-                    get_auto_pickup().create_rule( sItemName );
+                    get_auto_pickup().create_rule( &begin_iterator->_item );
 
                     if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
                         bPickup = true;
