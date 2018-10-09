@@ -1784,9 +1784,21 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Auto pulp or butcher",
+    "name": "Toggle Auto Features",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_features"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Pulp/Butcher",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_pulp_butcher"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Mining",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_mining"
   },
   {
     "type": "keybinding",

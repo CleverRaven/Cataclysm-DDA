@@ -2396,7 +2396,9 @@ input_context get_default_mode_input_context()
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
     ctxt.register_action( "reload_tileset" );
+    ctxt.register_action( "toggle_auto_features" );
     ctxt.register_action( "toggle_auto_pulp_butcher" );
+    ctxt.register_action( "toggle_auto_mining" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -10158,8 +10160,8 @@ bool game::plmove( int dx, int dy, int dz )
 
     if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
         int turns;
-        if( get_option<bool>( "AUTO_MINING" ) && m.has_flag( "MINEABLE", dest_loc ) &&
-            u.weapon.has_flag( "DIG_TOOL" ) ) {
+        if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 && get_option<bool>( "AUTO_MINING" ) &&
+            m.has_flag( "MINEABLE", dest_loc ) && u.weapon.has_flag( "DIG_TOOL" ) ) {
             if( u.weapon.has_flag( "POWERED" ) ) {
                 if( u.weapon.ammo_sufficient() ) {
                     turns = MINUTES( 30 );
@@ -10724,8 +10726,8 @@ void game::place_player( const tripoint &dest_loc )
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
 
     //Auto pulp or butcher
-    if( get_option<bool>( "AUTO_PULP_BUTCHER" ) && mostseen == 0 ) {
-        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER_ACTION" );
+    if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 ) {
+        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
         if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
             std::vector<int> corpses;
             auto items = m.i_at( u.pos() );

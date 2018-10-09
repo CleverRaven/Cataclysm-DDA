@@ -1814,13 +1814,31 @@ bool game::handle_action()
                 reload_tileset();
                 break;
 
+            case ACTION_TOGGLE_AUTO_FEATURES:
+                get_options().get_option( "AUTO_FEATURES" ).setNext();
+                get_options().save();
+                //~ Auto Features are now ON/OFF
+                 add_msg( _( "%s are now %s." ),
+                         get_options().get_option( "AUTO_FEATURES" ).getMenuText(),
+                         get_option<bool>( "AUTO_FEATURES" ) ? _( "ON" ) : _( "OFF" ) );
+                break;
+
             case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
                 get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
                 get_options().save();
-                //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
-                add_msg( _( "Auto %1$s is now %2$s." ),
-                         get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(),
-                         get_option<bool>( "AUTO_PULP_BUTCHER" ) ? _( "ON" ) : _( "OFF" ) );
+                //~ Auto Pulp/Pulp Adjacent/Butcher is now set to x
+                add_msg( _( "%s is now set to %s." ),
+                         get_options().get_option( "AUTO_PULP_BUTCHER" ).getMenuText(),
+                         get_options().get_option( "AUTO_PULP_BUTCHER" ).getValueName() );
+                break;
+
+            case ACTION_TOGGLE_AUTO_MINING:
+                get_options().get_option( "AUTO_MINING" ).setNext();
+                get_options().save();
+                //~ Auto Mining is now ON/OFF
+                add_msg( _( "%s is now %s." ),
+                         get_options().get_option( "AUTO_MINING" ).getMenuText(),
+                         get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
                 break;
 
             case ACTION_DISPLAY_SCENT:
