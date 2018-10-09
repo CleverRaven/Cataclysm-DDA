@@ -464,7 +464,8 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
 
     bool did_prompt = false;
     newit.charges = u.i_add_to_container( newit, false );
-    if( u.has_active_mutation( trait_THRILL_OF_THE_HUNT ) ) { // if we're using TotH, pickups are off-limits full stop
+    if( u.has_active_mutation(
+            trait_THRILL_OF_THE_HUNT ) ) { // if we're using TotH, pickups are off-limits full stop
         option = CANCEL;
     } else if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
