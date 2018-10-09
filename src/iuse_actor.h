@@ -42,6 +42,7 @@ using emit_id = string_id<emit>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 struct furn_t;
+struct itype;
 
 /**
  * Transform an item into a specific type.
@@ -692,6 +693,8 @@ class holster_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        units::volume max_stored_volume() const;
 };
 
 /**
@@ -709,6 +712,9 @@ class bandolier_actor : public iuse_actor
         /** Base cost of accessing/storing an item. Scales down to half of that with skills. */
         int draw_cost = INVENTORY_HANDLING_PENALTY;
 
+        /** Can this type of ammo ever be stored */
+        bool is_valid_ammo_type( const itype & ) const;
+
         /** Check if obj could be stored in the bandolier */
         bool can_store( const item &bandolier, const item &obj ) const;
 
@@ -722,6 +728,8 @@ class bandolier_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        units::volume max_stored_volume() const;
 };
 
 class ammobelt_actor : public iuse_actor

@@ -43,6 +43,7 @@
 #include "skill.h"
 #include "effect.h"
 #include "map_selector.h"
+#include "item_factory.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2173,6 +2174,11 @@ void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
+units::volume holster_actor::max_stored_volume() const
+{
+    return max_volume * multi;
+}
+
 iuse_actor *bandolier_actor::clone() const
 {
     return new bandolier_actor( *this );
@@ -2206,20 +2212,25 @@ void bandolier_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
+bool bandolier_actor::is_valid_ammo_type( const itype &t ) const
 {
-    if( !obj.is_ammo() ) {
+    if( !t.ammo ) {
         return false;
     }
+    return std::any_of( t.ammo->type.begin(), t.ammo->type.end(),
+    [&]( const ammotype & e ) {
+        return ammo.count( e );
+    } );
+}
+
+bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
+{
     if( !bandolier.contents.empty() && ( bandolier.contents.front().typeId() != obj.typeId() ||
                                          bandolier.contents.front().charges >= capacity ) ) {
         return false;
     }
 
-    return std::any_of( obj.type->ammo->type.begin(), obj.type->ammo->type.end(),
-    [&]( const ammotype & e ) {
-        return ammo.count( e );
-    } );
+    return is_valid_ammo_type( *obj.type );
 }
 
 bool bandolier_actor::reload( player &p, item &obj ) const
@@ -2316,6 +2327,24 @@ long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     return 0;
+}
+
+units::volume bandolier_actor::max_stored_volume() const
+{
+    // This is relevant only for bandoliers with the non-rigid flag.  There are
+    // no such items in the base game at time of writing, but I created some to
+    // test this and it does seem to work as expected.
+
+    // Find all valid ammo
+    auto ammo_types = Item_factory::find( [&]( const itype & t ) {
+        return is_valid_ammo_type( t );
+    } );
+    // Figure out which has the greateset volume and calculate on that basis
+    units::volume max_ammo_volume{};
+    for( auto const *ammo_type : ammo_types ) {
+        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume );
+    }
+    return max_ammo_volume * capacity;
 }
 
 iuse_actor *ammobelt_actor::clone() const

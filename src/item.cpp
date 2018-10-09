@@ -1563,7 +1563,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           get_encumber(), true, "", false, true ) );
             }
             if( !type->rigid ) {
-                const auto encumbrance_when_full = get_encumber_when_containing( get_container_capacity() );
+                const auto encumbrance_when_full = get_encumber_when_containing( get_total_capacity() );
                 info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
                                           encumbrance_when_full, true, "", false, true ) );
             }
@@ -4081,6 +4081,11 @@ bool item::is_bandolier() const
     return type->can_use( "bandolier" );
 }
 
+bool item::is_holster() const
+{
+    return type->can_use( "holster" );
+}
+
 bool item::is_ammo() const
 {
     return type->ammo.has_value();
@@ -5630,6 +5635,27 @@ units::volume item::get_container_capacity() const
         return 0;
     }
     return type->container->contains;
+}
+
+units::volume item::get_total_capacity() const
+{
+    auto result = get_container_capacity();
+
+    // Consider various iuse_actors which add containing capability
+    // Treating these two as special cases for now; if more appear in the
+    // future then this probably warrants a new method on use_function to
+    // access this information generically.
+    if( is_bandolier() ) {
+        result += dynamic_cast<const bandolier_actor *>
+                  ( type->get_use( "bandolier" )->get_actor_ptr() )->max_stored_volume();
+    }
+
+    if( is_holster() ) {
+        result += dynamic_cast<const holster_actor *>
+                  ( type->get_use( "holster" )->get_actor_ptr() )->max_stored_volume();
+    }
+
+    return result;
 }
 
 long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
