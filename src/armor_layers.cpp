@@ -413,14 +413,18 @@ void player::sort_armor()
     ctxt.register_action( "USAGE_HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
+    auto do_return_entry = []() {
+        g->u.assign_activity( activity_id( "ACT_ARMOR_LAYERS" ), 0 );
+        g->u.activity.auto_resume = true;
+        g->u.activity.moves_left = INT_MAX;
+    };
+
     bool exit = false;
     while( !exit ) {
         if( is_player() ) {
             // Totally hoisted this from advanced_inv
             if( g->u.moves < 0 ) {
-                g->u.assign_activity( activity_id( "ACT_ARMOR_LAYERS" ), 0 );
-                g->u.activity.auto_resume = true;
-                g->u.activity.moves_left = INT_MAX;
+                do_return_entry();
                 return;
             }
         } else {
@@ -463,6 +467,10 @@ void player::sort_armor()
             }
         }
         leftListSize = ( ( int )tmp_worn.size() < cont_h - 2 ) ? ( int )tmp_worn.size() : cont_h - 2;
+
+        // Ensure leftListIndex is in bounds
+        int new_index_upper_bound = std::max( 0, int( tmp_worn.size() ) - 1 );
+        leftListIndex = std::min( leftListIndex, new_index_upper_bound );
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_light_gray, _( "(Innermost)" ) );
@@ -672,12 +680,17 @@ void player::sort_armor()
             // query (for now)
             if( leftListIndex < ( int ) tmp_worn.size() ) {
                 if( g->u.query_yn( _( "Remove selected armor?" ) ) ) {
+                    do_return_entry();
                     // remove the item, asking to drop it if necessary
                     takeoff( *tmp_worn[leftListIndex] );
+                    if( !g->u.has_activity( activity_id( "ACT_ARMOR_LAYERS" ) ) ) {
+                        // An activity has been created to take off the item;
+                        // we must surrender control until it is done.
+                        return;
+                    }
+                    g->u.cancel_activity();
+                    draw_grid( w_sort_armor, left_w, middle_w );
                     wrefresh( w_sort_armor );
-                    // prevent out of bounds in subsequent tmp_worn[leftListIndex]
-                    int new_index_upper_bound = std::max( 0, ( ( int ) tmp_worn.size() ) - 2 );
-                    leftListIndex = std::min( leftListIndex, new_index_upper_bound );
                     selected = -1;
                 }
             }
